@@ -1,0 +1,23 @@
+/*
+ * $Id: use.src 891 2005-11-04 06:29:43Z muaddiblsd $
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+
+program useScroll(who, scroll)
+	var item_cfg := ReadConfigFile(":*:itemdesc");
+	item_cfg := item_cfg[scroll.objtype];
+	
+	var spell_id := item_cfg.SpellId;
+	
+	var script := Start_Script("spellStarter", {who, spell_id, scroll});
+	if ( script.errortext )
+		SendSysMessage(who, "Error - Could not start spell starter ->"+script.errortext);
+		return 0;
+	endif
+	
+	return 1;
+endprogram

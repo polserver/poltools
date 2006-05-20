@@ -1,0 +1,11 @@
+/*
+ * $Id$
+ *
+ */
+
+use uo;
+use os;
+
+program PlankWalkOn(who, plank)
+	return 1;
+endprogram

@@ -1,0 +1,36 @@
+/*
+ * $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":magery:spells";
+include "include/client";
+include "include/sounds";
+
+program SpellScript(params)
+	var who := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	var targ := MS_Target(who, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	//To-Do:
+	// Check for reflection here and if need-be, change the target.
+	
+	PlaySoundEffect(targ, SFX_WEAKEN);
+	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);	
+	
+	// Note: Stratics gives no duration formula - i'm assuming 60 seconds.	
+	TS_StartTimer(targ, "weaken", 60, who);
+	
+	return 1;
+endprogram

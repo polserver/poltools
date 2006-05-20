@@ -1,0 +1,24 @@
+use uo;
+use os;
+
+include "include/sound";
+include "include/tileEffects";
+include ":itemutils:objtype";
+
+
+program spell_pField(parms)
+	var castOn := parms.castOn;
+	var boss := parms.caster;
+	SetScriptController(boss);
+	SetObjProperty(castOn,"#pfield", 1);
+	PlayStationaryEffect( castOn.x, castOn.y, castOn.z, FX_CURSE_EFFECT, 10, 0xa, 0, castOn.realm );
+	PlaySoundEffect( castOn, SFX_SPELL_PARALYZE );
+	Detach();
+	castOn.paralyzed := 1;
+	sleep(15);
+	castOn.paralyzed := 0;
+	sleepms(500);
+	EraseObjProperty(castOn,"#pfield");
+
+	return;
+endprogram

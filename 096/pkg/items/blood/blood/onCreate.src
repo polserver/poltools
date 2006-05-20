@@ -1,0 +1,20 @@
+/*
+ * $Id
+ *
+ */
+
+use uo;
+use util;
+use cfgfile;
+
+program OnCreate(blood)
+	var blood_cfg := ReadConfigFile(":blood:config/settings");
+	var graphic_elem := blood_cfg["Graphics"];
+	var graphics := GetConfigStringArray(graphic_elem, "Graphic");
+	
+	if ( graphics.size() > 0 )
+		blood.graphic := CInt(graphics[RandomInt(graphics.size())+1]);
+	endif
+	
+	return 1;
+endprogram

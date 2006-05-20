@@ -1,0 +1,20 @@
+/* $Id: removeChars.src 1390 2006-05-13 10:16:45Z austin $
+ *
+ */
+use uo;
+use os;
+use util;
+
+
+program console_removeChars(cmd)
+
+	cmd := cmd;
+
+	print("System Message: Removing all online characters!");
+	foreach char in EnumerateOnlineCharacters()
+		DisconnectClient(char);
+		sleepms(2);
+	endforeach
+
+	return 1;
+endprogram

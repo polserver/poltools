@@ -1,0 +1,2989 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Config File Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">POL 
+Configuration Files </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">This is a list 
+of all the files that are read by or used by the Core. Any other files are used 
+by user scripts and are not listed here. </P>
+<P>In the following config file explanations, some punctuation is used to show 
+repetition, arbitrary values, and optional entries: 
+<UL>
+  <LI>No punctuation: text must be the same verbatim. 
+  <LI>enclosed in brackets [ ]: text is an optional entry. 
+  <LI>enclosed in parenthesis ( ): text is an arbitrary value. 
+  <LI>enclosed in curly braces { }: text is the default value. 
+  <LI>elipsis ... : repeat entries are allowed. </LI></UL>This means the 
+punctuation in these cases should NOT be in the actual config files used by POL, 
+they only appear here for information purposes. Exception: curly braces { } are 
+used to define an element in a config file. These must be present in the actual 
+file. 
+<P></P>
+<HR>
+<BR><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Last Modified: 
+6/18/2003<BR></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#animxlate.cfg>
+    <TH align=middle colSpan=2>animxlate.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the mappings for animation codes for standing and 
+      while on horseback.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>OnMount
+{
+    [(int normal animation) (int mounted animation)]...
+}
+</PRE></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#armrdesc.cfg>
+    <TH align=middle colSpan=2>armrdesc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes, d'oh!</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Obselete! Use itemdesc.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>[same as an 'Armor' entry in itemdesc.cfg]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Please don't use this.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg">itemdesc.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#armrzone.cfg>
+    <TH align=middle colSpan=2>armrzone.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines armor zones for character layers, and chance to hit 
+      each zone.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>ArmorZone
+{
+    Name    (string zone name)
+    Chance  (int chance to hit)
+    [Layer  (int UO client layer)]...
+}
+[ArmorZone...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Chance is a percent chance to hit this zone. I.e. 'Body' 
+      might be a 44 percent chance to hit, and 'Head' a 14 percent chance.</TD></TR>
+  <TR>
+    <TD colSpan=2>Layer is for the different equipped item layers the UO 
+      client uses. For example, items that are only equipped on the arms (like 
+      platemail arms) are layer 19. You may define multiple layers per 
+  zone.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#attributes.cfg>
+    <TH align=middle colSpan=2>attributes.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines Attribute names and aliases</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Attribute (Attribute_Name)
+{
+    [Alias                      (Alias_Name)]...
+    [GetIntrinsicModFunction    (script_name:exported_func_name)]
+}
+[Attribute...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Attribute_Name defines the UNIQUE name for this attribute, 
+      like 'Cooking', 'Tactics', 'Strength', etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>Aliases are optional and any number maybe be assigned for 
+      each attribute. This way 'STR' may be used in place of 'Strength'</TD></TR>
+  <TR>
+    <TD colSpan=2>At the LEAST, these attributes must be defined: 'Strength', 
+      'Intelligence', 'Dexterity', 'Parry', and 'Tactics' for use in internal 
+      calculations.</TD></TR>
+  <TR>
+    <TD colSpan=2>GetIntrinsicModFunction returns a value between -30000 and 
+      +30000 that is added to the Attribute "base" value to obtain the 
+      "effective" value for the attribute. The function is called when UO.EM 
+      RecalVitals is called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#uoclient.cfg">uoclient.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#vitals.cfg">vitals.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#auxsvc.cfg>
+    <TH align=middle colSpan=2>auxsvc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines an Auxilliary Interface Service script in the 
+      current package.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>AuxService
+{
+    Port (intger port)
+    Script (string script filename)
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Port is a different port than the gameserver uses. This will 
+      be the port your AUX interface external program uses to connect to the 
+      server.</TD></TR>
+  <TR>
+    <TD colSpan=2>Script is the script filename the core will call when it 
+      receives an AUX connection (the 'program' in the file will be 
+  called)</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#bannedips.cfg>
+    <TH align=middle colSpan=2>bannedips.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines IP address ranges that are not allowed to connect to 
+      the game server.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>BannedIP
+{
+    IPMatch (IPaddress)[/(netmask)]
+}
+[BannedIP...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If netmask is not defined, the default is 255.255.255.255 
+      (exact IP match).</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#boats.cfg>
+    <TH align=middle colSpan=2>boats.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the locations of all item components for each boat 
+      'facing' graphic.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Boat
+{
+    ObjType                     (int boat multi graphic)
+    TillerMan                   (int item graphic) (x offset) (y offset)
+    PortGangplankExtended       (int item graphic) (x offset) (y offset)
+    PortGangplankRetracted      (int item graphic) (x offset) (y offset)
+    StarboardGangplankExtended  (int item graphic) (x offset) (y offset)
+    StarboardGangplankRetracted (int item graphic) (x offset) (y offset)
+    Hold                        (int item graphic) (x offset) (y offset)
+}
+[Boat...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>ObjType should be &gt;= 0x4000.</TD></TR>
+  <TR>
+    <TD colSpan=2>All the x,y tile distance offsets are from the ship's mast. 
+      As normal on the map, positive X is east, positive Y is south. It doesn't 
+      matter what 'facing' of the boat this is for, parts of the boat that are 
+      east of the mast are defined with positive X values, parts south of the 
+      mast are defined with positive Y values, and vice 
+versa.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#circles.cfg>
+    <TH align=middle colSpan=2>circles.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures the 'spell circles', groups of increasing power 
+      spells.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Circle (int number)
+{
+    Mana        (int manacost)
+    Difficulty  (int spell difficulty)
+    PointValue  (int skill gain value)
+    Delay       (int second casting delay)
+}
+[Circle...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This file used to determine mana, skill gain, etc. for each 
+      group of spells, but it's probably obselete 
+now.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#cmds.cfg>
+    <TH align=middle colSpan=2>cmds.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures the command level heirarchy for the 
+  server.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>CmdLevel (cmdlevel name)
+{
+    DIR   (string path to this cmdlevel's textcmd directory)
+    [DIR...]
+    Alias (string alias name for this cmdlevel)
+    [Alias...]
+}
+[CmdLevel...] {each successive element is one level higher than the last}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Command levels are defined in increasing order of power. 
+      Command level 'numbers' will be assigned automatically from this 
+  file.</TD></TR>
+  <TR>
+    <TD colSpan=2>If you change the cmdlevel names from 
+      player/coun/seer/gm/admin/test, it is recommended you define 'Alias' lines 
+      to associate these basic cmdlevels with your custom cmdlevels. This way, 
+      package cmds.cfg files will place their commands into your command 
+      structure.</TD></TR>
+  <TR>
+    <TD colSpan=2>Additional DIR properties allow you to specify additional 
+      commands in packages, just set your path to i.e. /pkg/mypkg/textcmd/admin 
+    .</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#combat.cfg>
+    <TH align=middle colSpan=2>combat.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines some combat-specific options.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>[DisplayParrySuccessMessages (0/1)]
+[WarmodeInhibitsRegen        (0/1)]
+</PRE></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#console.cfg>
+    <TH align=middle colSpan=2>console.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures command characters that activate scripts when 
+      typed on the POL console.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Commands
+{
+    [CMD  (letter)  (script) [(description}]]
+    [CMD...]
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>'letter' is case sensative, so 'a' can run a different 
+      script than 'A'. And '^A' is activated with CTRL-A</TD></TR>
+  <TR>
+    <TD colSpan=2>'script' must be placed in /scripts/console.</TD></TR>
+  <TR>
+    <TD colSpan=2>'?' is the help command - it prints the descriptions of all 
+      the other console commands.</TD></TR>
+  <TR>
+    <TD colSpan=2>The number keys (0-9) are reserved for the shutdown scripts 
+      (after a certain delay)</TD></TR>
+  <TR>
+    <TD colSpan=2>'^C' (CTRL-C) is reserved for immediate core shutdown.</TD></TR>
+  <TR>
+    <TD colSpan=2>There are three special command script names: [lock] locks 
+      the console, no further console commands may be entered. [unlock] unlocks 
+      the console from the locked state, and [lock/unlock] toggles the lock 
+      status of the console.</TD></TR>
+  <TR>
+    <TD colSpan=2>Reloadable with ReloadConfiguration() (polsys.em) or SIGHUP 
+      under linux</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ecompile.cfg>
+    <TH align=middle colSpan=2>ecompile.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>same directory as ecompile.exe only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>ecompile</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures module, include, and package paths for 
+    compiling.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>ModuleDirectory (path to .em files)
+IncludeDirectory (path to parent dir of non-packaged includes)
+PolScriptRoot (path to non-packaged scripts)
+PackageRoot (path to package root)
+[PackageRoot...]
+[GenerateListing (0/1 {default 0})]
+[GenerateDebugInfo  (0/1 {default 0})]
+[GenerateDebugTextInfo (0/1 {default 0})]
+[DisplayWarnings (0/1 {default 0})]           //same as -w flag
+[CompileAspPages (0/1 {default 0})]           //same as -a flag
+[OnlyCompileUpdatedScripts (0/1 {default 0})] //same as -u flag
+[GenerateDependencyInfo (0/1 {default 0})]    //Generate .dep files whether or not updating
+[DisplayUpToDateScripts (0/1 {default 0})]    //Display the "xxx/script.ecl is up-to-date" message, or not.
+[AutoCompileByDefault (0/1 {default 0})]      //If set, and you don't pass any script names or -r or -A, 
+                                              //will perform an auto compile.
+[UpdateOnlyOnAutoCompile (0/1 {default 0})]   //If set, autocompile will only update modified scripts.
+[DisplaySummary (0/1 {default 0})]            //Displays overall totals after compilation, unless compilation 
+                                              //aborted due to a compile error.
+
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'generate' properties allow default behavior for 
+      generating listing or debug files.</TD></TR>
+  <TR>
+    <TD colSpan=2>If not found, ecompile will try to locate module and include 
+      directories from the system environment variables ECOMPILE_PATH_EM and 
+      ECOMPILE_PATH_INC.</TD></TR>
+  <TR>
+    <TD colSpan=2>use ECOMPILE_CFG_PATH environment variable to find 
+      ecompile.cfg. (note that normally it tries to look where the executable 
+      is. Some shells don't always pass this, particularly if you're using batch 
+      files or shell scripts - try putting the full path to ecompile in your 
+      batch file)</TD></TR>
+  <TR>
+    <TD colSpan=2>Using this file allows 'packaged includes' because now 
+      ecompile knows about the path to packages, allowing it to find include 
+      files using the normal package descriptor format 
+  ':pkgname:includename:'</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#equip.cfg>
+    <TH align=middle colSpan=2>equip.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core, on behalf of UO::EquipFromTemplate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines default outfit templates, usually for NPCs, using 
+      EquipFromTemplate(character,templatename).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Equipment (templatename)
+{
+    [Armor  (item name or objtype) [(color)]]
+    [Weapon (item name or objtype) [(color)]]
+    [Equip  (item name or objtype) [(color)]]
+}
+[Equipment...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Note 'Armor', 'Weapon', and 'Equip' are all equvilent, they 
+      no longer hold any seperate meaning.</TD></TR>
+  <TR>
+    <TD colSpan=2>Careful with comment lines in this file, they might cause 
+      problems.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#fileaccess.cfg>
+    <TH align=middle colSpan=2>fileaccess.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>per-package file.em access</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Specifies what packages have file read/write/append 
+    access.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>FileAccess
+{
+	[Package (string package name, or *)]...
+	[Directory (string directory name, or *)]...
+	[Extension (string file extension name, or *)]...
+	[AllowRead (0/1 {default 0})]
+	[AllowWrite (0/1 {default 0})]
+	[AllowAppend (0/1 {default 0})]
+	[AllowRemote (0/1 {default 0})]	
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>'*' above means it applies to all packages.</TD></TR>
+  <TR>
+    <TD colSpan=2>AllowRemote means the package has access to other files, not 
+      just files in its package directory.</TD></TR>
+  <TR>
+    <TD colSpan=2>Package matches the string name in a pkg.cfg. You can define 
+      multiple Package properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>Directory not implimented yet</TD></TR>
+  <TR>
+    <TD colSpan=2>Extension examples are '.cfg', '.htm', etc. You can define 
+      multiple Extension properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>This config is reloadable on-demand. Use 
+      ReloadConfiguration() (polsys.em) or SIGHUP under 
+linux.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#itemdesc.cfg>
+    <TH align=middle colSpan=2>itemdesc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config and/or any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2>CreateItem functions</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines Item descriptions, to be assigned to individual 
+      items on creation. Note each UObject class expects different properties to 
+      be present, so each will be listed below. An actual itemdesc.cfg file 
+      would not look exactly like this. Class Name must be one of: CONTAINER 
+      ITEM DOOR WEAPON ARMOR BOAT HOUSE MAP .</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>(Class Name)  (integer unique 'objtype')
+{
+    (PropertyName)      (value)
+    [PropertyName...]
+}
+
+Item (objtype)
+{
+    Name            (string unique object name)
+    [Name...]
+    Graphic         (int tile number)
+    [Color          (int color {default 0})]
+    [Facing         (int facing {default 0})]
+    [Desc           (string description {default empty})]
+    [Tooltip        (string tooltip {default empty})]
+    [WalkOnScript   (string scriptname)]
+    [Script         (string scriptname)]
+    [EquipScript    (string scriptname)]
+    [UnequipScript  (string scriptname)]
+    [ControlScript  (string scriptname)]
+    [CreateScript   (string scriptname)]
+    [DestroyScript  (string scriptname)]
+    [MethodScript   (string scriptname)]
+    [RequiresAttention  (0/1 {default 1})]
+    [Lockable       (0/1 {default 0})]
+    [VendorSellsFor (int gold {default 0})]
+    [VendorBuysFor  (int gold {default 0})]
+    [DecayTime      (int minutes {default servspecopt.cfg option})]
+    [Movable        (0/1)]
+    [DoubleClickRange   (int range {default servspecopt.cfg option})]
+    [UseRequiresLOS (0/1 {default 1})]
+    [GhostsCanUse   (0/1 {default 0})]
+    [CanUseWhileFrozen (0/1 {default 0})]
+    [CanUseWhileParalyzed (0/1 {default 0})]
+    [Newbie         (0/1 {default 0})]
+    [Invisible      (0/1 {default 0})]
+    [DecaysOnMultis (0/1 {default 0})]
+    [BlocksCastingIfInHand   (0/1 {default 0})]
+    [StrRequired    (int strength {default 0})]
+    [Weight         (int weight {default tiledata value})]
+    [OldObjtype     (int old objtype)]...
+    [StackingIgnoresCProps   (propname1) [(propname2)]... ]
+    [Resource       (string resource name) (int amount)]
+    [Resource...]
+}
+Container (objtype)
+{
+    {everything Item can have, plus: }
+    Gump            (int gump graphic)
+    MinX            (int gump pixel coordinate)
+    MaxX            (int gump pixel coordinate)
+    MinY            (int gump pixel coordinate)
+    MaxY            (int gump pixel coordinate)
+    [MaxWeight      (int weight {default to servspecopt.cfg})]
+    [MaxItems       (int number {default to servspecopt.cfg})]
+    [CanInsertScript    (string scriptname)]
+    [OnInsertScript     (string scriptname)]
+    [CanRemoveScript    (string scriptname)]
+    [OnRemoveScript     (string scriptname)]
+}
+Door (objtype)
+{    
+    {everything Item can have, plus: }
+    XMod            (int x modification when door toggled)
+    YMod            (int y modification when door toggled)
+}
+House (objtype)
+{
+    {everything Item can have, plus: }
+    MultiID         (int multiID number for this house)
+}
+Boat (objtype)
+{
+    {everything Item can have, plus: }
+    MultiID         (int multiID number for this house)
+}
+Map (objtype)
+{
+    {everything Item can have, plus: }
+    Editable        (0/1 {default 1})]
+}
+Weapon (objtype)
+{
+    {everything Item can have, plus: }
+    Speed            (int weapon attack speed)
+    Damage           (die-string value)
+    Attribute        (string attribute name for skill this weapon requires)
+    [Anim            (int animation ID number for attack {default 0x9})]
+    [MountedAnim     (int animationID on mount {defaults to value in animxlate.cfg})]
+    [HitSound        (int soundID)]
+    [MissSound       (int soundID)]
+    [HitScript       (string script name)]
+    
+    [Projectile      (0/1 {default 0})]
+    [ProjectileType  (int objtype of projectile)]
+    [ProjectileAnim  (int tile number of animation)]
+    [ProjectileSound (int soundID for projectile shoot)]
+    
+    [TwoHanded       (0/1 {default 0})]
+    [MinRange        (int minimum range to attack {default 2 if projectile weapon, 0 else})]
+    [MaxRange        (int maximum range to attack {default 20 if projectile weapon, 1 else})]
+    [Intrinsic       (0/1 {default 0})]
+}
+Armor (objtype)
+{
+    {everything Item can have, plus: }
+    AR               (int armor rating)
+    [OnHitScript     (string script name)]   
+    [Coverage        (string armor zone name {defaults to layer number zone})]
+    [Coverage...]
+}
+...and lots of any of these in the file...
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Note: if objtype &lt; 0x4000, the 'graphic' property is not 
+      required, it is assumed objtype=graphic in this case.</TD></TR>
+  <TR>
+    <TD colSpan=2>Valid ranges for custom items are 0x5000-0xEFFF 
+      (0xF000-0xFFFF reserved by core)</TD></TR>
+  <TR>
+    <TD colSpan=2>Properties having to do with equipping an item is only 
+      meaningful if the item is actualy equippable (determined by the graphic 
+      number's tiledata flags).</TD></TR>
+  <TR>
+    <TD colSpan=2>Item Create, Destroy, and Control scripts are in pkg format 
+      or in scripts/control. Method scripts must be packaged.</TD></TR>
+  <TR>
+    <TD colSpan=2>Container scripts are in pkg format, or in 
+  scripts/control</TD></TR>
+  <TR>
+    <TD colSpan=2>RequiresAttention 1 causes container gumps to close when you 
+      move, or to unhide you if the item is used.</TD></TR>
+  <TR>
+    <TD colSpan=2>StackingIgnoresCProps is a space-delimited list of 
+      case-sensative CProp names that are ignored when stacking 2 of this item 
+      objtype. See also stacking.cfg for a global list.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#stacking.cfg">stacking.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#justice.cfg>
+    <TH align=middle colSpan=2>justice.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the justice regions (protected by guards). See also 
+      regions.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [Guarded     (0/1 {default 0})]
+    [EnterText   (string message)]
+    [LeaveText   (string message)]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>This file is preferred over regions.cfg for the above 
+      properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#regions.cfg">regions.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#light.cfg>
+    <TH align=middle colSpan=2>light.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the light regions (light levels sent to clients). 
+      See also regions.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [Light       (int light level {default 0}]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>This file is preferred over regions.cfg for the above 
+      properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#regions.cfg">regions.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#menus.cfg>
+    <TH align=middle colSpan=2>menus.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2>SelectMenuItem2()</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures old-style static menus for client selection (i.e. 
+      tailoring, fletching, etc.)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>ItemMenu
+{
+    Name    (string unique name)
+    Title	(string title to show on menu)
+    Entry	(objtype number to show)   (string description)
+    [Entry...]
+    [SubMenu    (string menuname)	(objtype number to show)    (Description Of SubMenu)]
+    [SubMenu...]
+}
+[ItemMenu...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'Name' property must exactly match with the 'SubMenu' 
+      menuname for the submenu element.</TD></TR>
+  <TR>
+    <TD colSpan=2>Static menus in this file are used with 
+    UO::SelectMenuItem2()</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#movecost.cfg>
+    <TH align=middle colSpan=2>movecost.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the stamina cost to move based on percent maximum 
+      weight carried.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>MovementCost
+{
+    [(integer percent max carried)   (real multiplier for movement)]...
+    [Over                            (real multiplier for movement if over maximum)]
+}
+-or-
+Walking
+{
+    {same as above}
+}
+Running
+{
+    {same as above}
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>You can specify a number of percentage capacity lines, and 
+      values in between will be linearly interpolated. 'Over' defines cost if 
+      maximum carrying capacity was exceeded.</TD></TR>
+  <TR>
+    <TD colSpan=2>Maximum carrying capacity is determined as ((Strength * 7) / 
+      2) + 40. The multiplier used will be the current weight/max capacity. This 
+      multiplier is multiplied by 8 to find the amount of stamina 'hundreths' to 
+      consume per move. So a multiplier of 10 will consume 0.8 of a stamina 
+      'point' per move.</TD></TR>
+  <TR>
+    <TD colSpan=2>The 'MovementCost' section overrides both the 'Walking' and 
+      'Running' sections if present.</TD></TR>
+  <TR>
+    <TD colSpan=2>Used only of MovementUsesStamina=1 in 
+    servspecopt[.local].cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#servspecopt.cfg">servspecopt.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#multis.cfg>
+    <TH align=middle colSpan=2>multis.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Maps the UO 'MultiID' number with the graphic number for the 
+      multi.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>House (int multid)
+{
+    Graphic (int graphic)
+}
+[House...]
+
+Boat (int multid)
+{
+    (int graphic)
+}
+[Boat...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Use InsideUO to get the MultiIDs. Multi Graphics start at 
+      0x4000 and are equal to 0x4000 + MultiID.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#music.cfg>
+    <TH align=middle colSpan=2>music.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the music regions. See also 
+  regions.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [Midi        (int music number)]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>This file is preferred over regions.cfg for the above 
+      properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#regions.cfg">regions.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#nocast.cfg>
+    <TH align=middle colSpan=2>nocast.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the "no spell casting allowed" regions. See also 
+      regions.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [Nocast      (0/1 {default 0})]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>This file is preferred over regions.cfg for the above 
+      properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#regions.cfg">regions.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#npcdesc.cfg>
+    <TH align=middle colSpan=2>npcdesc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config and/or any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>at least 1 in /config, can be packaged.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2>CreateNpcFromTemplate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures NPC Templates for creating new NPCs and assigning 
+      properties to them.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>NpcTemplate (string unique templatename)
+{
+    Name                   (string paperdoll name)
+    ObjType                (integer body model type)
+    Script                 (string AI script)
+    Gender                 (0=male 1=female)
+    TrueColor              (int original body skin color)
+    Color                  (int current body skin color)
+    AR                     (die-string natural armor rating)
+    Alignment              ('good' 'neutral' or 'evil)
+
+    [(VitalName)           (die-string value)]
+    [VitalName...]
+    
+    [(AttributeName)       (die-string value)]
+    [AttributeName...]
+    
+    AttackDamage           (die-string damage for intrinsic weapon)
+    AttackAttribute        (string attribute name used for intrinsic weapon)
+    [AttackHitSound        (int sound ID for intrinsic weapon {default 0})]
+    [AttackMissSound       (int sound ID for intrinsic weapon {default 0})]
+    [AttackHitScript       (string script for intrinsic weapon hit)]
+    [AttackMinRange        (int intrinsic weapon minimum range {default 0})]
+    [AttackMaxRange        (int intrinsic weapon maximum range {default 0})]
+    [MaxHp                 (int maximum hitpoints for intrinsic weapon {default 1}]
+    
+    [MoveMode              (movemode string {default 'L'})]
+    [Privs                 (string privilage) [(more privs)]...]
+    [Settings              (string priv set 'on') [(more privs)]...]
+    
+    [SpeechColor           (int speech color {default 0x3B2})]
+    [SpeechFont            (int speech color {default 3})]
+    
+    [UseAdjustments        (0/1 {default 1})]
+    [RunSpeed              (int 0-250 {default dexterity})]
+}
+[NpcTemplate...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Movemode string is 'L' for land 'S' for sea, and 'A' for 
+      air. I.e. 'LS' would be good for a water elemental.</TD></TR>
+  <TR>
+    <TD colSpan=2>An 'intrinsic' weapon is used if the NPC does not have a 
+      weapon item equipped. It represents (usually), the Wrestling 'weapon' for 
+      the NPC. You can define sounds, damage etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>Vital and Attribute names can use the aliases defined in 
+      attributes.cfg and vitals.cfg, i.e. 'STR' instead of 'Strength'. A 
+      Die-string may be used for the value of any of these.</TD></TR>
+  <TR>
+    <TD colSpan=2>Privs and settings can be like 'invul losany' and any more 
+      seperated by spaces. Unless they also appear in 'Settings', the privilages 
+      are not active.</TD></TR>
+  <TR>
+    <TD colSpan=2>UseAdjustments 1 means the NPC will adjust its facing while 
+      moving to try to avoid small obsticles. If 0, the NPC will not move if it 
+      cannot move forward, and the move function will return 0.</TD></TR>
+  <TR>
+    <TD colSpan=2>RunSpeed is only useful from 0-250, the higher the number, 
+      the shorter delay between moves.</TD></TR>
+  <TR>
+    <TD colSpan=2>SpeechColor and Font are only used if NPC::Say() is 
+  used.</TD></TR>
+  <TR>
+    <TD colSpan=2>Alignment determines NPC's name color and their 
+      participation in the reputation system.</TD></TR>
+  <TR>
+    <TD colSpan=2>Of course, you may define other config properties and cprops 
+      in this file that are not used by the core. npcdesc.cfg may be accessed 
+      with the normal Config file access functions (ReadConfigFile, etc). Note 
+      CProps in this file will be assigned to each NPC created with that 
+      template. This takes extra memory than if you look up properties using the 
+      config file access functions.</TD></TR>
+  <TR>
+    <TD colSpan=2>If you have npcdes.cfg in a package, the NPC's template name 
+      becomes :packagename:templatename</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#resource.cfg">resource.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#pkg.cfg>
+    <TH align=middle colSpan=2>pkg.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1 per package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Package descriptor file. One is required for every package. 
+      It is read only on POL startup.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Enabled       (0/1)
+Name          (string package name)
+Requires      (string package name) [(int version)] ...
+Replaces      (string package name) ...
+Conflicts     (string package name) ...
+[Version      (string version number)]
+[CoreRequired (int core version without leading 0, or full version string)]
+[ProvidesSystemHomePage (0/1)]
+
+[Maintainer   (string name)]
+[Email        (string email)]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Maintainer and Email aren't read by the core, but you should 
+      still include them in your own packages.</TD></TR>
+  <TR>
+    <TD colSpan=2>Requires and Replaces refer to other package names that 
+      relate to this packet. If a package is defined that is 'required' and is 
+      not found, or is not a new enough version, an error will be printed.</TD></TR>
+  <TR>
+    <TD colSpan=2>Version is normal version syntax, i.e 1.0, 2.3, 0.1.1.2, 
+    etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>CoreVersion is the POL version that is required for the 
+      package to function. Values should be formed like 94 or 95, not 094 or 
+    095.</TD></TR>
+  <TR>
+    <TD colSpan=2>Enabled 0 causes none of the scripts or configs in this 
+      package to be read</TD></TR>
+  <TR>
+    <TD colSpan=2>CoreRequired can take a full version string like 
+      "POL095-2003-02-01"</TD></TR>
+  <TR>
+    <TD colSpan=2>ProvidesSystemHomePage lets a SINGLE pkg to act as directory 
+      the root for the web server</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#pkgroots.cfg>
+    <TH align=middle colSpan=2>pkgroots.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the local file system paths to the root directories 
+      for packages. /pol/pkg is automatically checked. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>PackageRoot
+{
+    dir (string fully qualified path)
+    [dir...]
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If my path was D:\beer\morepol, then subdirectories of that 
+      path would be searched for packages along with 
+/pol/pkg</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#pol.cfg>
+    <TH align=middle colSpan=2>pol.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>root directory only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Configures many critical options for the POL 
+  server.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>UoDataFileRoot=(path to UO MUL files)
+[ListenPort=(integer TCP port)]
+[ClientEncryptionVersion=(string {default 1.26.4})]
+[CheckIntegrity=(1/0 {default 1})]
+[CountResourceTiles=(1/0 {default 1}]
+[ClientVersion=(integer {default 37})] obselete
+[Multithread=(1/0 {default 0})]
+[WebServer=(1/0 {default 0})]
+[WebServerPort=(int port {default 8080})]
+[UseNewStaticsFile=(1/0 {default 0})]
+[IgnoreLoadErrors=(1/0 {default 0})]
+[DebugPort=(int port {default 0})]
+
+[Verbose=(1/0 {default 0})]
+[LogLevel=(int level {default 0})]
+[SelectTimeout=(int {default 10})]
+[WatchRpm=(1/0 {default 0})]
+[WatchSysLoad=(1/0 {default 0})]
+[LogSysLoad=(1/0 {default 0})]
+[InhibitSaves=(1/0 {default 0})]
+[LogScriptCycles=(1/0 {default 0})]
+[WebServerLocalOnly=(1/0 {default 1})]
+[WebServerDebug=(1/0 {default 0})]
+[WebServerPassword=(string {default empty})]
+[CacheInteractiveScripts=(1/0 {default 1})]
+[ShowSpeechColors=(1/0 {default 0})]
+[RequireSpellbooks=(1/0 {default 1})]
+[EnableSecureTrading=(1/0 {default 0})]
+[RunawayScriptThreshold=(long {default 5000})]
+[InactivityWarningTimeout=(int minutes {default 4})]
+[InactivityDisconnectTimeout=(int minutes {default 5})]
+[MinCmdlevelToLogin=(int level {default 0})]
+[MaxCallDepth=(int depth {default 100})]
+[EnableAssertions=(1/0 {default 1})]
+[DumpStackOnAssertionFailure=(1/0 {default 0})]
+[DisplayUnknownPackets=(1/0 {default 0})]
+[ExpLosChecksMap=(1/0 {default 1})]
+[EnableDebugLog=(1/0 {default 0})]
+[DebugPassword=(string {default empty})]
+[DebugLocalOnly=(1/0 {default 1})]
+[DebugLevel=(int level {default 0})]
+[ReportRunToCompletionScripts=(1/0 {default 1})]
+[ReportCriticalScripts=(1/0 {default 1})]
+[MaximumClients=(int {default 300})]
+[MaximumClientsBypassCmdLevel=(int cmdlevel {default 1})]
+[MiniDumpType=(string small/large {default small})]
+[RetainCleartextPasswords=(1/0 {default 1})]
+[AssertionFailureAction=(abort/continue/shutdown/shutdown-nosave {default abort})]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Your own pol.cfg should give descriptions on most of these. 
+      I'll describe them here if people want me to.</TD></TR>
+  <TR>
+    <TD colSpan=2>Clarification: for ClientEncryptionVersion, the allowable 
+      values are '1.26.4', '2.0.0', 'ignition', 'uorice', and 'none'. Here, 
+      'ignition', 'uorice', and 'none' all mean 'no encryption'.</TD></TR>
+  <TR>
+    <TD colSpan=2>ListenPort is now optional, use uoclient.cfg Listener 
+      sections to define listening ports.</TD></TR>
+  <TR>
+    <TD colSpan=2>AssertionFailureAction options: abort: (like old behavior) 
+      aborts immediately, without saving data. continue: allows execution to 
+      continue. shutdown: attempts graceful shutdown. shutdown-nosave: attempts 
+      graceful shutdown, without saving data. If the assertion occurred during 
+      execution of a script, either 'shutdown', 'shutdown-nosave', or 'continue' 
+      will abort that script, displaying the script name and 
+PC.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#regions.cfg>
+    <TH align=middle colSpan=2>regions.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the regions in the world and various settings on 
+      each. See Explanation about splitting up this file.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [Guarded     (0/1 {default 0})]
+    [EnterText   (string message)]
+    [LeaveText   (string message)]
+    [Midi        (int music number)]
+    [Nocast      (0/1 {default 0})]
+    [Light       (int light level {default 0}]
+    [WeatherType      (int type {default 0})]
+    [WeatherSeverity  (int severity {default 0})]
+    [WeatherAux       (int {default 0})]
+    [LightOverride    (int light level override {default 1})]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>'Guarded', 'EnterText', and 'LeaveText' are for 'justice' 
+      regions, and may be split into /regions/justice.cfg. guard.cfg will be the 
+      prefered location for these properties</TD></TR>
+  <TR>
+    <TD colSpan=2>'Midi' are for 'music' regions, and may be split into 
+      /regions/music.cfg, the prefered location for these regions.</TD></TR>
+  <TR>
+    <TD colSpan=2>'Nocast' are for 'nocast' regions and may be split into 
+      /regions/nocast.cfg, the prefered location for these regions.</TD></TR>
+  <TR>
+    <TD colSpan=2>'Light' are for 'light' regions and may be split into 
+      /regions/light.cfg, the prefered location for these regions.</TD></TR>
+  <TR>
+    <TD colSpan=2>'WeatherType', 'WeatherSeverity', 'WeatherAux', and 
+      'LightOverride' are for 'weather' regions and may be split into 
+      /regions/weather.cfg, the prefered location for these regions.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#repsys.cfg>
+    <TH align=middle colSpan=2>repsys.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines coloring and timeouts for the reputation 
+  system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>NameColoring
+{
+    Murderer        (int color 38 is red)
+    Criminal        (int color 905 is grey)
+    Attackable      (int color 905 is grey)
+    Innocent        (int color 90 is blue)
+    GuildAlly       (int color 68 is green)
+    GuildEnemy      (int color 44 is something)
+}
+
+General
+{
+    CriminalFlagInterval (int seconds)
+    AggressorFlagTimeout (int seconds)
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>NameColoring defines the single-click name colors for 
+      mobiles with various reputation states.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#resource.cfg>
+    <TH align=middle colSpan=2>resource.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the resource types in the world. Other .cfg files 
+      are then read for specific resource configurations.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>ResourceSystem
+{
+    ResourceType        (string resource type)
+    [ResourceType...]
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>If the resource type is 'ore', then 'ore.cfg' in the same 
+      directory will be read for resource region configurations for the ore 
+      resource.</TD></TR>
+  <TR>
+    <TD colSpan=2>Most of the configuration is done in these other files, so 
+      please see resourcetype.cfg (note not an actual file, just denotes files 
+      like ore.cfg)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#resourcetype.cfg">resourcetype.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#resourcetype.cfg>
+    <TH align=middle colSpan=2>resourcetype.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the configuration for the resource filename. Note: 
+      'resourcetype.cfg' does not exist, this only denotes files like 'ore.cfg' 
+      or 'wood.cfg'. See resource.cfg for how to define these resource 
+  types.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Global
+{
+    InitialUnits     (long number of resource units world has to start)
+    [LandTile        (int landtile ID)]...
+    [ObjType         (int arttile ID)]...
+}
+Region  (string regionname)
+{
+    Range               (x-west) (y-north) (x-east) (y-south)
+    UnitsPerArea        (int resource units per tile)
+    SecondsPerRegrow    (int seconds delay between regrows)
+    Capacity            (int unit capacity for this region)
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>Landtiles are the 'map' tiles, and 'ObjType' is for static 
+      art tiles. These numbers are used to know what tiles grow this type of 
+      resource. I.e. a static tree type for wood.</TD></TR>
+  <TR>
+    <TD colSpan=2>Example: this file is for wood resources, and UnitsPerArea 
+      is 15. This means I can get a maximum of 15 wood from a tree until the 
+      resources 'regrow'. I could define another region that has very plentiful, 
+      or fast growing trees and adjust the UnitsPerArea and SecondsPerRegrow 
+      accordingly.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#resource.cfg">resource.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#servers.cfg>
+    <TH align=middle colSpan=2>servers.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the Game Servers the login server will forward 
+      clients to. Normally the game server and login server are the same machine 
+      on a POL shard, but you could run a minimal POL server to act as a login 
+      server for one or more game servers.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>GameServer
+{
+    Name     (string name of server)
+    IP       (string ip address, or --ip-- or --lan--, see below)
+    Port     (int TCP port number)
+    [IPMatch (IPaddrr)/(netmask)]...
+}
+[GameServer...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>IP address must match the address in the clients' login.cfg 
+      files. This means if your game server is on a LAN not accessable from the 
+      internet (doing port forwarding from a router), you must define this game 
+      server IP as your router's internet IP address.</TD></TR>
+  <TR>
+    <TD colSpan=2>--ip-- attempts to find your non-LAN, non-localhost IP 
+      address. If you have a multihomed server, this may behave strangely.</TD></TR>
+  <TR>
+    <TD colSpan=2>--lan-- attempts to find you non-routable LAN IP address, if 
+      any (i.e. '192.168.*.*' or '10.*.*.*').</TD></TR>
+  <TR>
+    <TD colSpan=2>Example IPMatch value: 192.168.0.0/255.255.255.0 would 
+      prevent anyone with an IP address other than 192.168.0.* from seeing the 
+      gameserver.</TD></TR>
+  <TR>
+    <TD colSpan=2>Port is the listening port of the Game Server, not the login 
+      server (though they may be the same). See ListenPort in 
+  pol.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#movecost.cfg">movecost.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#pol.cfg">pol.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#servspecopt.cfg>
+    <TH align=middle colSpan=2>servspecopt.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>no</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines certain "Server Specific Options" that shard admins 
+      can set. If the file 'servspecopt.local.cfg' exists, the entries will be 
+      used in that file instead (to keep changes from being destroyed if a new 
+      servspecopt.cfg is installed from, say, the official 
+  distribution)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>[AllowSecureTradingInWarMode	(0/1)]
+[DefaultDecayTime	            (int minutes)]
+[DefaultDoubleclickRange        (int range)]
+[MovementUsesStamina            (0/1)]
+[TotalStatsAtCreation           (string see below)]
+[DefaultContainerMaxItems       (int 0-150)]
+[DefaultContainerMaxWeight      (int 0-65535)]
+[UOFeatureEnable                (int flags {default 0})]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>TotalStatsAtCreation takes a comma-delimited lists of values 
+      and/or ranges (default = '65,80'). Example: 
+      TotalStatsAtCreation=65,80,90-95,100-110</TD></TR>
+  <TR>
+    <TD colSpan=2>If MovementUsesStamina, stamina costs are defined in 
+      movecost.cfg</TD></TR>
+  <TR>
+    <TD colSpan=2>DefaultContainerMaxItems default is 125, 
+      DefaultContainerMaxWeight default is 250. itemdesc.cfg "MaxItems" and 
+      "MaxWeight" override these defaults.</TD></TR>
+  <TR>
+    <TD colSpan=2>UOFeatureEnable will be sent as the last DWORD flag in the 
+      0xA9 login message. See 095+ package for values and 
+warnings.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#movecost.cfg">movecost.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#skills.cfg>
+    <TH align=middle colSpan=2>skills.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config and/or any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the details for each UO skill.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Skill (int skillid)
+{
+    SkillID     (int skillid)
+    Name        (string name)
+    Delay       (int delay)
+    UnHides     (0/1)
+    Script      (string script name)
+    [StrAdv     (percent chance to advance) (die-string amount to advance)]
+    [IntAdv     (percent chance to advance) (die-string amount to advance)]
+    [DexAdv     (percent chance to advance) (die-string amount to advance)]
+}
+[Skill...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>NOTE, the distro doesn't use this file, it uses 
+      pkg/foundations/hooks/skillsdef.cfg instead, with the same 
+structure.</TD></TR>
+  <TR>
+    <TD colSpan=2>Script is only meaningful for skills that are directly 
+      useable like Hiding, but not for ones accessed from an item (like 
+      Blacksmithing)</TD></TR>
+  <TR>
+    <TD colSpan=2>Only one entry for each skillid is allowed. Skillid can not 
+      be higher than the maximum number of UO client skills.</TD></TR>
+  <TR>
+    <TD colSpan=2>Delay is number of seconds before the user can use another 
+      skill.</TD></TR>
+  <TR>
+    <TD colSpan=2>If UnHides is 1, using the skill unhides the character if 
+      hidden.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#uoskills.cfg">uoskills.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#spells.cfg>
+    <TH align=middle colSpan=2>spells.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config and/or any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>yes (can be empty)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2>SpeakPowerWords()</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>ConsumeReagents()</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2>StartSpellEffect()</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>GetSpellDifficulty()</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the spells used by the UO Client</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Spell (int spellid)
+{
+    SpellID	    (int spellid)
+    Name        (string name)
+    PowerWords  (string power words)
+    Script      (string script name)
+    Animation   (int casting animation ID)
+    [Circle     (int Circle number)]
+    [Reagent    (string item name)]...
+	
+    [Mana       (int manacost)]
+    [Difficulty (int difficulty)]
+    [PointValue (int skillbonus)]
+    [Delay      (int cast delay)]
+}
+[Spell...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Script is in current package or searches through 
+  /scripts</TD></TR>
+  <TR>
+    <TD colSpan=2>Animation is less or equal to 0x22</TD></TR>
+  <TR>
+    <TD colSpan=2>If the Circle property is found, Mana,Difficulty,PointValue, 
+      and Delay is gathered from circles.cfg.</TD></TR>
+  <TR>
+    <TD colSpan=2>Reagent name corresponds to the "Name" property for the 
+      reagent's itemdesc.cfg entry.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg">itemdesc.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#circles.cfg">circles.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#stacking.cfg>
+    <TH align=middle colSpan=2>stacking.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package and/or /config</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core Item Stacking</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Specifies CProp names to ignore when stacking two 
+  items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Stacking
+{
+    IgnoreCprops  [(propname1) [(propname2)]...]  //space delimited
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>propnames are space-delimited, and are case-sensative.</TD></TR>
+  <TR>
+    <TD colSpan=2>This config may be packaged, so it's a good idea to only 
+      specify the cprops in the package which "belong" to that 
+  package.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#startloc.cfg>
+    <TH align=middle colSpan=2>startloc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the starting locations for new clients. They must be 
+      in this order to match the character creation screens in the UO client: 
+      Yew, Minoc, Britain, Moonglow, Trinsic, Magincia, Jhelom, Skara Brae, 
+      Vesper</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>StartingLocation
+{
+    City		(string CityName)
+    Description	(string Description)
+    Coordinate	(int x),(int y),(int z)
+}
+[StartingLocation...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>CityName and Description are sent to the client! no larger 
+      than 30 characters please.</TD></TR>
+  <TR>
+    <TD colSpan=2>x,y,z is where the character will be placed after created. 
+      You could set all the locations to the same coordinate to force players to 
+      start in one town.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#syshook.cfg>
+    <TH align=middle colSpan=2>syshook.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>no</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the hook scripts to be called by the core at certain 
+      times.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>SystemHookScript (string script_name_with_ecl)
+{
+    (SyshookName) (string exported_func_name)
+}
+[SystemHookScript...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the script file and function to call for the core to 
+      call. The script should be in the same package as the syshook.cfg.</TD></TR>
+  <TR>
+    <TD colSpan=2>The script_name_with_ecl should define a 'program' which 
+      will be run on server start.</TD></TR>
+  <TR>
+    <TD colSpan=2>The exported_func_name should be defined with the 'exported' 
+      keyword.</TD></TR>
+  <TR>
+    <TD colSpan=2>The list of SyshookNames: CheckSkill, OpenSpellbook, 
+      GetBookPage, CombatAdvancement, ParryAdvancement, Attack, 
+  Pushthrough</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#uoclient.cfg>
+    <TH align=middle colSpan=2>uoclient.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Maps vital and attribute names onto UO Client idioms for 
+      character status.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>General
+{
+    Strength        (string Strength)
+    Intelligence    (string Intelligence)
+    Dexterity       (string Dexterity)
+
+    Hits            (string Life)
+    Mana            (string Mana)
+    Stamina         (string Stamina)
+    MaxSkillID      (integer maximum UO client skill ID)
+}
+Protocol
+{
+    #
+    # EnableFlowControlPackets: use the 0x33 (0x00 / 0x01) pause/restart packets.
+    # Though OSI seems to no longer send these packets, they seem to help with smoothness,
+    # particularly with boat movement.
+    # NOTE: causes clients 4.0.0e and newer to fail login
+    EnableFlowControlPackets    1   
+}
+Listener
+{
+    Port (int port number 1024..65535)
+    Encryption (string encryption type)
+}
+[Listener ...]
+
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The right-hand-side "Strength", "Intelligence", and 
+      "Dexterity" are Attribute names that MUST be defined in attributes.cfg. 
+  </TD></TR>
+  <TR>
+    <TD colSpan=2>The right-hand-side "Life", "Mana", and "Stamina" are Vital 
+      names that MUST be defined in vitals.cfg.</TD></TR>
+  <TR>
+    <TD colSpan=2>MaxSkillID allows you to use new client skills, but setting 
+      it too high can crash older clients. You must define skills.cfg entries 
+      for each skillID up to MaxSkillID (default 51).</TD></TR>
+  <TR>
+    <TD colSpan=2>The Protocol and Listener sections are optional.</TD></TR>
+  <TR>
+    <TD colSpan=2>Each Listener section allows you to listen for different 
+      client encryption types on different ports. This means you can listen for 
+      "1.26.4" clients on port 5003 and "ignition" clients on port 5555. Valid 
+      encryption types are found in the pol.cfg section. If you use Listeners 
+      set ListenPort in pol.cfg to 0.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#attributes.cfg">attributes.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#pol.cfg">pol.cfg</A></TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#skills.cfg">skills.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#vitals.cfg">vitals.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#uoskills.cfg>
+    <TH align=middle colSpan=2>uoskills.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Maps Attribute names onto the UO Skill ID 
+  numbers.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Skill (SkillID)
+{
+    Attribute   (Attribute_name)
+}
+Additional entries required up to maximum UO skill id
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Attribute_name defines the Attribute associated with this UO 
+      Skill. Only one attribute may be mapped to a skill id. Attribute_name must 
+      be found in attributes.cfg!</TD></TR>
+  <TR>
+    <TD colSpan=2>SkillID must be an integer between 0 and 500, though any 
+      entries past the maximum UO skill id will not be sent to the UO 
+  client.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#uoclient.cfg">uoclient.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#attributes.cfg">attributes.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#vitals.cfg>
+    <TH align=middle colSpan=2>vitals.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>Any Package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>any</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines Attribute names and aliases</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Vital (Vital_Name)
+{
+    RegenRateFunction   (string scriptname:exported_func_name)
+    MaximumFunction     (string scriptname:exported_func_name)
+    [Alias              (string Alias_Name)]...
+    [UnderflowFunction  (string scriptname:exported_func_name)]
+}
+[Vital...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Vital_Name defines the UNIQUE name for this vital, like 
+      'Mana', 'Stamina', etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>Aliases are optional and any number maybe be assigned for 
+      each vital. This way 'Hits' may be used in place of 'Life'</TD></TR>
+  <TR>
+    <TD colSpan=2>At the LEAST, these attributes must be defined: 'Life', 
+      'Stamina', 'Mana' for use in internal calculations.</TD></TR>
+  <TR>
+    <TD colSpan=2>RegenRateFunction should return value from -30000 to 30000. 
+      Regen rates are in 'hundredths of points per minute.' A current regen rate 
+      of 100 (1 point per 5 seconds) would therefore be 1200 (12 points per 
+      minute)</TD></TR>
+  <TR>
+    <TD colSpan=2>MaximumFunction should return the maximum value for this 
+      vital, an integer in 'hundreths' between 100 and 10000000 
+(1-100,000)</TD></TR>
+  <TR>
+    <TD colSpan=2>UnderflowFunction not implimented.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#uoclient.cfg">uoclient.cfg</A></TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD colSpan=2><A 
+      href="configfiles.html#attributes.cfg">attributes.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#watch.cfg>
+    <TH align=middle colSpan=2>watch.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Turns on certain spammy debugging messages.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>[Combat (0 or 1)]
+[ProfileScripts (0 or 1)]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If 'Combat 1' is in this file, information regarding combat 
+      damage, hits and misses, etc will be printed.</TD></TR>
+  <TR>
+    <TD colSpan=2>If 'ProfileScripts 1' is in this file, profiling information 
+      will be printed when any script exits.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#weather.cfg>
+    <TH align=middle colSpan=2>weather.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/regions only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>No</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Defines the weather regions. See also 
+  regions.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>Region (region name)
+{
+    Range        (x-west) (y-north) (x-east) (y-south)
+    [WeatherType      (int type {default 255})]
+    [WeatherSeverity  (int severity {default 0})]
+    [WeatherAux       (int {default 0})]
+    [LightOverride    (int light level override {default 1})]
+}
+[Region...]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Important: regions only override regions found earlier in 
+      the file. So the first region should cover the entire map, and further 
+      regions override portions of the world.</TD></TR>
+  <TR>
+    <TD colSpan=2>This file is preferred over regions.cfg for the above 
+      properties.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: Regions are limited to POL's internal 64x64 tile 
+      zones and will internally expand to fill all of these zones the Range is 
+      contained in. This sucks, we know.</TD></TR>
+  <TR>
+    <TD colSpan=2>type: 0 - light rain ("It starts to rain") 1 - rain/thunder 
+      ("A fierce storm approaches") 2 - snow ("It begins to snow") 3 - brewing 
+      storm - ("A storm is brewing") 255 - None (Turns sound effects off) 
+      severity:is set on a 0-70 scale, 70=torrential rain, 0=light drizzle. aux: 
+      nothing lightoverride: light level amount overrides current level. -1 
+      means no override.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#regions.cfg">regions.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#wepndesc.cfg>
+    <TH align=middle colSpan=2>wepndesc.cfg</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Location:</TH>
+    <TD align=left>/config only</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left>Number Allowed</TH>
+    <TD align=left>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>Required to Start?</TH>
+    <TD align=left>Yes, d'oh!</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Required/Used by</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2>Core</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Purpose</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Obselete! Use itemdesc.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Structure</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e5e5e5 colSpan=2><PRE>[same as an 'Weapon' entry in itemdesc.cfg]
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Please don't use this.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Files</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg">itemdesc.cfg</A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

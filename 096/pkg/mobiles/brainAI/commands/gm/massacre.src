@@ -1,0 +1,28 @@
+/* $Id: massacre.src 1383 2006-05-13 09:26:14Z austin $
+ *
+ */
+//Example: .massacre [radius] - Kills npcs within the radius.
+
+use uo;
+use os;
+
+include ":gumps:requestgump";
+
+program Massacre(who, range)
+	range := CInt(range);
+	if ( !range )
+		range := CInt(RequestGump(who, "Enter the radius to kill npcs.", "", 0));
+	endif
+	
+	var mobile_list := ListMobilesNearLocationEX(who.x, who.y, who.z, CInt(range), LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, who.realm);
+	
+	foreach mobile in (mobile_list)
+		if ( mobile.npctemplate )
+			SetObjProperty(mobile, "GuardKill", 1);
+			ApplyRawDamage(mobile, 6000);
+		endif
+		sleepms(2);
+	endforeach
+	
+	return 1;
+endprogram

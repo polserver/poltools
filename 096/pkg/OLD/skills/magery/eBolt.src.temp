@@ -1,0 +1,48 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include "include/spellAttack";
+include ":magery:reflect";
+include "include/magic";
+
+
+program spell_eBolt(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+
+	if (!castOn.container)
+		PlayMovingEffect( caster, castOn, FX_ENERGY_BOLT, 0xa, 0x1e );
+	endif
+	PlaySoundEffect( caster, SFX_SPELL_ENERGY_BOLT );
+	SetObjProperty(castOn, "LastHit", {caster.name, caster.serial, "ebolt" } );
+	if (spell_reflect(castOn))
+		castOn := caster;
+		PlayMovingEffect( caster, castOn, FX_ENERGY_BOLT, 0xa, 0x1e );
+		PlaySoundEffect( caster, SFX_SPELL_ENERGY_BOLT );
+	endif
+	var dmg := RandomDiceRoll("5d8");
+	if (spell_reflect(castOn))
+		PlayMovingEffect( castOn, caster, FX_ENERGY_BOLT, 0xa, 0x1e );
+		PlaySoundEffect( castOn, SFX_SPELL_ENERGY_BOLT );
+		castOn := caster;
+		if (GetObjProperty( caster, "mr") == "1")
+			EraseObjProperty(caster, "mr");
+			SendSysMessage(caster, "Your magic reflect spell saved you!");
+			return;
+		endif
+  	endif
+	if (castOn.isA(POLCLASS_NPC))
+		dmg := dmg * 2;
+	endif
+	ApplyRawDamage(castOn, Resisted(circle, caster, castOn, dmg));
+
+	return;
+endprogram

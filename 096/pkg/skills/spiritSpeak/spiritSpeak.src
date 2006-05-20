@@ -1,0 +1,111 @@
+// //$Id: spiritSpeak.src 916 2005-11-05 23:44:32Z austin $
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  name:    spiritSpeak.src - Skill Script
+//  version: 1.0
+//  author:  MuadDib
+//
+//  Purpose: Follows OSI methodology for the Spirit Speak skill. At GM Skill, you are given the priv
+//		to hear ghosts. This is always checked in logon/reconnect also to help keep them
+//		legit.
+//		As per newer OSI changes, you will also be able to use this skill as a Healing method.
+//		When corpses are within a short range to you, you can channel their spiritual residu
+//		to help heal a few HP per corpse. You can only channel their energy once per corpse,
+//		as you would use it up the first time. You can tell whenever a corpse has been used
+//		up by it's color.
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+use uo;
+use os;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include "include/OLD/sound";
+
+CONST SS_RANGE   :=  3;
+CONST SS_TIMER   := 30;
+
+var corpse_check :=  0;
+
+program skill_SpiritSpeak(who)
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	var my_skill  := CInt(AP_GetSkill(who, SPIRIT_SPEAK));
+
+	PlaySoundEffect(who, SFX_SKILL_SPIRITSPEAK);
+
+
+  	if(SkillCheck(who, SPIRIT_SPEAK, -1) > 0)
+		foreach corpse in ListItemsNearLocationOfType( who.x, who.y, who.z, SS_RANGE, 0x2006 )
+			channelFromCorpse(who, corpse, my_skill);
+		endforeach
+		if( corpse_check > 0 )
+			SendSysMessage(who, "You channel energy from a nearby corpse.");
+  	  	elseif( AP_GetVital(who, "Mana") > 10 )
+  	  		channelFromSelf(who);
+		endif
+		my_skill  := CInt(AP_GetSkill(who, SPIRIT_SPEAK));
+		if( my_skill >= 100 )
+			GrantPrivilege(who, "hearghosts");
+			who.enable("hearghosts");
+			return 1;
+		else
+			detach();
+			GrantPrivilege(who, "hearghosts");
+			who.enable("hearghosts");
+			sleep(SS_TIMER);
+			RevokePrivilege(who, "hearghosts");
+			return 1;
+		endif
+	else
+		SendSysMessage(who, "You fail your attempt at contacting the netherworld.");
+	endif
+
+endprogram
+
+
+function channelFromCorpse(who, corpse, my_skill)
+
+	if( CInt(corpse.color) == 1001)
+		return 0;
+	else
+		if( distance(who, corpse) > 3 )
+			return 0;
+		else
+			corpse_check := corpse_check + 1;
+  			var my_amount := RandomInt(my_skill / 20)+1;
+			corpse.color := 1001;
+
+			var my_damage := Cint(AP_GetVitalMaximumValue(who, "Hits") - AP_GetVital(who, "Hits"));
+			if(my_amount > my_damage)
+				my_amount := my_damage;
+			endif
+			HealDamage(who, my_amount);
+			return 1;
+		endif
+	endif
+
+  return 1;
+
+
+endfunction
+
+function channelFromSelf(who)
+
+	var my_energy := CInt(AP_GetVital(who, "Mana") / 100) + 4;
+	var my_emod   := CInt(my_energy / 2) + 1;
+	var my_amount := RandomDiceRoll(CStr(my_emod + "d" + (my_energy - my_emod)));
+	if( AP_ConsumeVital(who, "Mana", 10) )
+		HealDamage(who, my_amount);
+		SendSysMessage(who, "You channel your own energy to heal some damage.");
+		return 1;
+	endif
+
+	return 0;
+
+endfunction

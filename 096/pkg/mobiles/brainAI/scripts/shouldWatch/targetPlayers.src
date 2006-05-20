@@ -1,0 +1,27 @@
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainCriticalScript(params)
+	//var npc := params[1];
+	var mobile := params[2];
+	//var settings := params[3];
+	params := 0; // Not needed anymore
+	
+	if ( mobile.cmdlevel )
+		return 0;
+	elseif ( mobile.npctemplate )
+		return 0;
+	elseif ( mobile.connected )
+		// Only targets players actively ingame.
+		// If it should attack all players, just do mobile.IsA(POLCLASS_MOBILE)
+		// in the elseif statement above.
+		return 1;
+	else
+		return 1;
+	endif
+endprogram

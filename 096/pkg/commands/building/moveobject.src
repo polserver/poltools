@@ -1,0 +1,43 @@
+/* 
+ * $Id: moveObject.src 663 2005-10-27 02:43:27Z muaddiblsd $
+ *
+ * Purpose - Tests / Uses new uo.em function MoveObjectToLocation(object, x, y, z, flags, realm)
+ *
+ */
+
+use uo;
+
+program textcmd_MoveObject(who)
+	var targ := Target(who);
+	
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	elseif ( targ.multi )
+		SendSysMessage(who, "Changing "+targ+" to its multi "+targ.multi);
+		targ := targ.multi;
+	endif
+	
+	SendSysMessage(who, "Place where?");
+	var coords := TargetCoordinates(who);
+	if ( !coords )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	Set_Critical(1);
+	var movable := targ.movable;
+	if ( !targ.movable )
+		targ.movable := 1;
+	endif
+	
+	var result := MoveObjectToLocation(targ, coords.x, coords.y, coords.z, who.realm, MOVEITEM_FORCELOCATION);
+	
+	targ.movable := movable;
+	
+	Set_Critical(0);
+	
+	SendSysMessage(who, "Result: "+result);
+	
+	return 1;
+endprogram

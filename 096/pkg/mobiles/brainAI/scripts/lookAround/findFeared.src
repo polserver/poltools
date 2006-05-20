@@ -1,0 +1,54 @@
+/* $Id: findFeared.src 1262 2006-05-03 01:15:15Z austin $
+ *
+ */
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var settings	:= params[3];
+	var scripts	:= params[4];
+	params := 0;
+
+	while ( npc )
+		if ( !npc.opponent )
+			if ( NPC_LoadWatchList(npc).size() < 1 )
+				// No need to look around any longer. We're all alone :(
+				return;
+			else
+				FindFearedOpponent(npc, settings, scripts);
+			endif
+		endif
+
+		AI_ClearThoughts(npc, CLR_NERVE);
+		Sleep(5);
+	endwhile
+endprogram
+
+function FindFearedOpponent(npc, byref settings, byref scripts)
+	var run_list := array;
+	foreach mobile in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"]))
+		if ( NPC_ShouldWatch(npc, mobile, settings, scripts) )
+			run_list.Append(mobile);
+		endif
+		sleepms(2);
+	endforeach
+
+	if ( run_list.size() > 0 )
+		var feared_one := run_list[RandomInt(run_list.Size())+1];
+		for i := 1 to CInt(settings["AreaSize"])
+			if( feared_one in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"])) )
+				AI_Move(npc, feared_one, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, 1);
+			endif
+		endfor
+		return feared_one;
+	endif
+
+	return 0;
+endfunction

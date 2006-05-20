@@ -1,0 +1,27 @@
+/////////////////////////////////////////////////////
+//
+//  ".mtele" - multiple teleport
+//
+//     like .tele, but after teleporting, gives you
+//     another teleport cursor, until cancelled.
+//     can be used for fast transportation
+//
+/////////////////////////////////////////////////////
+use uo;
+
+
+program textcmd_tele( who )
+    SendSysMessage( who, "Where do you want to teleport?" );
+
+    while (1)
+        var where := TargetCoordinates( who );
+        if (where)
+            var result := MoveCharacterToLocation( who, where.x, where.y, where.z, MOVECHAR_FORCELOCATION );
+            if (!result)
+                SendSysMessage( who, result.errortext );
+            endif
+        else
+            break;
+        endif
+    endwhile
+endprogram

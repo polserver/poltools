@@ -1,0 +1,45 @@
+/*
+ * $Id$
+ *
+ * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points, 
+ * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each. 
+ * Lasts until cast again.
+ * 
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":magery:spells";
+include "include/client";
+include "include/sounds";
+include "include/damage";
+
+program SpellScript(params)
+	var who := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	if ( GetObjProperty(who, "ReactiveArmor") )
+		RemoveReactiveArmor(who);
+	else
+		ApplyReactiveArmor(who);
+	endif
+	
+	return 1;
+endprogram
+
+function ApplyReactiveArmor(who)
+	var resistances := GetResistance(who);
+	var inscription := (AP_GetSkill(who, INSCRIPTION) / 20) + 15;
+		
+	resistances[DMG_PHYSICAL] := inscription;
+	resistances[DMG_FIRE] := resistances[DMG_FIRE]-5;
+endfunction
+
+function RemoveReactiveArmor(who)
+	return 0;
+endfunction
+	

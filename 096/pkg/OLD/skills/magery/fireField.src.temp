@@ -1,0 +1,27 @@
+include ":itemutils:fields";
+include ":attributes:attributes";
+include "include/client";
+include "include/firewall";
+
+
+program spell_fireField(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var fields := {};
+	var x := castOn.x;
+	var y := castOn.y;
+	var z := castOn.z;
+	case (get_direction(caster))
+		"NS" : fields := CreateNorthSouthField(caster, UOBJ_FIREFIELD_NS, x, y, z, 5);
+		"EW" : fields := CreateEastWestField(caster, UOBJ_FIREFIELD_EW, x, y, z, 5);
+	endcase
+	PlaySoundEffect(caster, 0x20d);
+	Detach();
+	var duration := 20 + ( CInt(AP_GetSkill(caster, MAGERY) ) / 3 );
+	sleep(duration);
+	foreach fieldpart in fields
+		DestroyItem(fieldpart);
+	endforeach
+
+	return;
+endprogram

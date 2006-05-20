@@ -1,0 +1,7 @@
+#
+#  MULTIS.TXT: Ship and House data
+#
+#  Deleting this file will not properly wipe houses and ships,
+#  because doors, planks, and tillermen will be left in the world.
+#
+

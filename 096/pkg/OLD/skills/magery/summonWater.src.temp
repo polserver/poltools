@@ -1,0 +1,11 @@
+include "summon";
+
+
+program spell_summonWaterElemental(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+  
+	DoSummon(caster, 8, "waterelemental", castOn);
+
+	return;
+endprogram

@@ -1,0 +1,39 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_DOUBLECLICKED:
+					DoubleClickEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		sleepms(5);
+		event := wait_for_event(900000);
+	endwhile
+endprogram
+
+function DoubleClickEvent(npc, byref event)
+	AI_Speak(npc, "Eeeheee... that tickles!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	AI_Speak(npc, "*moves away from "+(event.source).name+"*");
+	AI_Move(npc, event.source, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, 1);
+
+	return 1;
+endfunction

@@ -1,0 +1,4 @@
+<b>.copylook</b>
+
+<u>Purpose</u>
+This command is used to make the first target, look like the second target. Looks that are copied, include gender, skin color, hair & color, clothing, etc.

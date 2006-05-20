@@ -1,0 +1,55 @@
+use util;
+
+include "summon";
+include ":attributes:attributes";
+
+
+program spell_summonCreature( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+  
+  var thecreature;
+  var critgroup;
+  var basemagery := CInt(AP_GetSkill(caster, MAGERY));
+  if (basemagery < 70)
+	critgroup := RandomInt(1);
+  elseif (basemagery < 80)
+	critgroup := RandomInt(1)+1;
+  elseif (basemagery < 90)
+	critgroup := RandomInt(1)+2;
+  else
+	critgroup := 3;
+  endif
+  var critter := RandomInt(19);
+	  case (critter)
+		0: thecreature := "chicken";
+		1: thecreature := "cat";
+		2: thecreature := "slime";
+		3: thecreature := "sheep";
+		4: thecreature := "pig";
+		5: thecreature := "dog";
+		6: thecreature := "grat";
+		7: thecreature := "eagle";
+		8: case(RandomInt(4))
+		     0: thecreature := "horse";
+		     1: thecreature := "horse2";
+		     2: thecreature := "horse3";
+		     3: thecreature := "horse4";
+		   endcase
+	    9: thecreature := "gorilla";
+	   10: thecreature := "panther";
+	   11: thecreature := "deer";
+	   12: thecreature := "bear";
+	   13: thecreature := "ghart";
+	   14: thecreature := "blackbear";
+	   15: thecreature := "alligator";
+	   16: thecreature := "giantspider";
+	   17: thecreature := "giant_serpent";
+	   18: thecreature := "polar";
+  endcase
+ 
+  DoSummon( caster, circle, thecreature, castOn );
+endprogram

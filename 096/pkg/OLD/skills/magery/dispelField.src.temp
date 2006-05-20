@@ -1,0 +1,22 @@
+use uo;
+use os;
+
+include ":attributes:attributes";
+include "include/sound";
+include "include/tileEffects";
+
+
+program dispelField( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var magery := AP_GetSkill(caster, MAGERY);
+  var therange := CInt(magery / 15 );
+  var items := ListItemsNearLocation(castOn.x, castOn.y, castOn.z, therange, caster.realm);
+  PlaySoundEffect( caster, SFX_SPELL_DISPEL );
+  foreach item in items
+	if (GetObjProperty(item, "f") == "1")
+	  PlayStationaryEffect( item.x, item.y, item.z, FX_SMOKE, 0xa, 0xa, 0, caster.realm );
+      DestroyItem(item);
+	endif
+  endforeach
+endprogram

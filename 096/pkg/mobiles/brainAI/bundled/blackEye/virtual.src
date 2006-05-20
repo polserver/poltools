@@ -1,0 +1,70 @@
+/*
+ * $Id: virtual.src 938 2005-11-07 06:22:45Z muaddiblsd $
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+use util;
+
+include ":attributes:attributes";
+include ":brainAI:npcCommands";
+include ":blood:blood";
+include "include/facings";
+include "include/client";
+
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	//var event	:= params[3];
+	var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		var hp := AP_GetVital(npc, HITS);
+		var max_hp := AP_GetVitalMaximumValue(npc, HITS);
+
+		if ( hp < max_hp )
+			var range := settings["AttackRange"];
+			if ( !range )
+				range := 5;
+			endif
+			
+			var attack_list := array{};
+			foreach mobile in ListMobilesNearLocationEX(npc.x, npc.y, npc.z, range, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN)
+				if ( (mobile.ip) && (!mobile.concealed) )
+					attack_list.append(mobile);
+				endif
+				sleepms(5);
+			endforeach
+			
+			var num_opponents := attack_list.size();
+			
+			if ( num_opponents > 0 )
+				var dmg := max_hp-hp;
+				//Divvy up the damage
+				dmg := CInt(dmg/num_opponents);
+				if ( dmg < 1 )
+					dmg := 1;
+				endif
+				
+				foreach opponent in attack_list
+					var temp := RandomInt(dmg)+1;
+					ApplyRawDamage(opponent, temp);
+					MakeBleed(opponent);
+					TurnObjectToward(npc, opponent.x, opponent.y);
+					PerformAction(npc, ANIM_FIDGET_2);
+					PlaySoundEffect(npc, 0x17C);
+					HealDamage(npc, temp);
+					sleepms(100);
+				endforeach
+			endif
+		endif
+		
+		AI_ClearThoughts(npc, CLR_NERVE);
+		sleep(5);
+	endwhile
+endprogram
