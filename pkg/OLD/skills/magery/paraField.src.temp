@@ -1,0 +1,38 @@
+use os;
+use uo;
+use util;
+
+include ":itemutils:fields";
+include ":itemutils:objtype";
+include "include/sound";
+include ":attributes:attributes";
+
+
+program spell_paraField(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var fields := {};
+	var x := castOn.x;
+	var y := castOn.y;
+	var z := castOn.z;
+	case (get_direction(caster))
+		"NS" : fields:= CreateNorthSouthField(caster, UOBJ_PARAFIELD_NS, x, y, z, 5);
+		"EW" : fields:= CreateEastWestField(caster, UOBJ_PARAFIELD_EW, x, y, z, 5);
+	endcase
+	Detach();
+	var duration := CInt(AP_GetSkill(caster, MAGERY) )/2;
+	if (duration < 20)
+		duration := 20;
+	endif
+	var i;
+	for (i := 1; i <= 5; i := i + 1)
+		SetObjProperty(fields[i], "f", 1);
+		PlaySoundEffect(fields[i], SFX_20C);
+		sleep(duration/4);
+	endfor
+	foreach fieldpart in fields
+		DestroyItem(fieldpart);
+	endforeach
+
+	return;
+endprogram

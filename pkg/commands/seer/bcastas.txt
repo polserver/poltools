@@ -1,0 +1,4 @@
+<b>.bcastas</b>
+
+<u>Purpose</u>
+This command is now depreciated and no longer used in the POL Distro. Please refer to .help bcast

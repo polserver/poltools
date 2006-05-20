@@ -1,0 +1,65 @@
+/* $Id$
+ *
+ * Purpose:
+ * Closes doors on startup.
+ *
+ */
+
+use uo;
+use os;
+
+include ":keys:key";
+include ":traps:traps";
+
+program useScript(mobile, door)
+	if ( DoorIsLocked(mobile, door) )
+		RunTraps(door, mobile);
+		return 0;
+	elseif ( door.IsOpen() )
+		var pid := CInt(GetObjProperty(door, "#ClosePid"));
+		GetProcess(pid).SendEvent("stop");
+	endif
+
+	door.Toggle();
+	
+	Detach();
+	
+	AutoClose(door);
+	
+	return 1;
+endprogram
+
+function DoorIsLocked(mobile, door)
+	if ( !door.locked )
+		// Nothing to worry about.
+		return 0;
+	elseif ( door.IsOpen() )
+		// Allow an open door to always be closed.
+		return 0;
+	elseif ( door.IsInside(mobile) )
+		SendSysMessage(mobile, "You open the door from the inside.");
+		return 0;
+	elseif ( KP_HasKeyForLock(mobile, door) )
+		SendSysMessage(mobile, "You use your key to open the door.");
+		return 0;
+	else
+		PrintTextAbovePrivate(door, "That is locked.", mobile);
+		return 1;
+	endif
+endfunction
+
+function AutoClose(door)
+	// Wait 10 seconds, and auto-close the door.
+	// If someone manually closes the door this instance of the use script
+	// will get an event from the new one and stop waiting to close it.
+	if ( door.IsOpen() )
+		SetObjProperty(door, "#ClosePid", GetPid());
+		var event := Wait_For_event(10);
+		if ( !event )
+			door.Close();
+		endif
+		EraseObjProperty(door, "#ClosePid");		
+	endif
+	
+	return 1;
+endfunction

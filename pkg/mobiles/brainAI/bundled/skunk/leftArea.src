@@ -1,0 +1,48 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_LEFTAREA:
+					LeftArea(npc, event);
+					break;
+				default:
+					break;
+			endcase
+			
+			event := 0;
+		endif
+		
+		sleepms(5);
+		event := wait_for_event(600);
+	endwhile
+endprogram
+
+function LeftArea(npc, byref event)
+	var source := event.source;
+
+	if ( source.npctemplate )
+		return 0;
+	elseif ( NPC_RemoveFromWatchList(npc, source) )
+		if ( NPC_LoadWatchList(npc).Size() == 0 ) 
+			// No one left in its area.
+			AI_Speak(npc, "*returns to standing on all fours*");
+		endif
+		return 1;
+	endif
+	
+	return 0;
+endfunction

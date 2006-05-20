@@ -1,0 +1,37 @@
+// $Id: updateStorage.src 386 2005-10-03 00:22:39Z muaddiblsd $
+
+use uo;
+use os;
+use polsys;
+
+include ":containers:storageAreas";
+
+unload_scripts("");
+
+program command_UpdateStorage(mobile)
+	SysLog("!! --- STARTING STORAGE AREA UPDATING & CLEANUP --- !!");
+	
+	UpdateBankBoxes();
+	
+	SendSysMessage(mobile, "Done!");
+	SysLog("!! --- FINISHED STORAGE AREA UPDATING & CLEANUP --- !!");
+endprogram
+
+function UpdateBankBoxes()
+	var storage := StorageAreas();
+	
+	foreach area in ( storage )
+		foreach container in ( area )
+			var name := container.desc;
+			if ( name["Bankbox of"] )
+				name["Bankbox of "] := "";
+				name := CInt(name);
+				name := CP_DEFAULT_PREFIX + "Owner="+Hex(name);
+				SetName(container, name);
+			endif
+			sleepms(2);
+		endforeach
+		sleepms(2);
+	endforeach
+	return 1;
+endfunction				

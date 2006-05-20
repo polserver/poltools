@@ -1,0 +1,34 @@
+use uo;
+use os;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:regions";
+include ":spawnsystem:spawnerUtil";
+
+program SpawnCycle(params)
+	var engine_name	:= params[1];
+	var realm_name	:= params[2];
+	var region_name	:= params[3];
+	var group_name	:= params[4];
+
+	var coords := SS_GetRegionCoordinates(region_name);
+	var group_entries := SS_GetEntriesInGroup(group_name).keys();
+	var num_entries := group_entries.size();
+	var group_settings := SS_GetGroupInRegion(region_name, group_name);
+
+	var max_amt := group_settings.max_amt;
+	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).size();
+
+	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
+		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
+		var spawn_object := group_entries[RandomInt(num_entries)];
+
+		var created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, spawn_coords.z, 0, realm_name);
+		if ( created )
+			SS_AddSpawnToRegion(region_name, group_name, created);
+		endif
+		sleepms(2);
+	endfor
+
+	return 1;
+endprogram

@@ -1,0 +1,9 @@
+/*
+ * $Id: start.src 1402 2006-05-13 22:39:27Z austin $
+ *
+ */
+
+program GlobalStartup()
+	Print("\n---------------------------\n");
+	return 1;
+endprogram

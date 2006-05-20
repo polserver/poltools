@@ -1,0 +1,64 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include "config";
+
+program corpseOnRemove(character, container, item, item_amount, movetype)
+	// Return if a script is removing items from a corpse, or if it's a staff member
+	if (!character or character.cmdlevel > 2)
+		return;
+	endif
+
+	// Depending on how your distro is setup, this might need to change.
+	// NPCs have the npctemplate property in the 095 distro.
+	if (GetObjProperty(container, "npctemplate"))
+		return;
+	endif
+
+	var serial := GetObjProperty(container, "serial");
+	var corpseOwner := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+
+	// Looting themselves?
+	if (character.serial == corpseOwner.serial)
+		return;
+
+	// Looting their agressor?
+	// NOTE: I couldn't get reportables to have anaything in it
+	//			 Perhaps the core does not currently handle agressors
+	elseif(corpseOwner.serial in character.reportables)
+		return;
+
+	// Looting a criminal/murderer?
+	elseif(corpseOwner.criminal or corpseOwner.murderer)
+		return;
+
+	// Looting fellow/rival guild member?
+	elseif(character.guild && corpseOwner.guild or
+					(character.guildid == corpseOwner.guildid) or
+					(character.guildid in (corpseOwner.guild).enemyguilds))
+		return;
+	else
+		var character_party := GetObjProperty(character, PARTY_PROP);
+
+		// Character is in a party, so let's check if corpseOwner is also in the party
+		if (character_party)
+			var ownerParty := GetObjProperty(corpseOwner, PARTY_PROP);
+
+			// Corpse owner and character are in the same part
+			if (TypeOf(ownerParty) == "Array" && character.serial in ownerParty)
+				// Does corpse owner have let party loot set to true
+				if (GetObjProperty(container, PARTY_LOOT_PROP) == 1)
+					return;
+				endif
+			endif
+		endif
+	endif
+
+	// Haven't returned yet so must be illegal!
+	character.setcriminal(1);
+	SendSysMessage(character, "You have been flagged as a criminal!");
+endprogram

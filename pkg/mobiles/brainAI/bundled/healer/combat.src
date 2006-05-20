@@ -1,0 +1,44 @@
+// $Id: combat.src 1005 2005-11-15 09:20:06Z muaddiblsd $
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		CheckForEvent(npc, event);
+	endwhile
+endprogram
+
+function CheckForEvent(npc, byref event)
+	if ( event )
+		var source := event.source;
+		case ( event.type )
+			SYSEVENT_ENGAGED:
+				AI_Speak(npc, "HELP! GUARDS!!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE);
+				ApplyRawDamage(source, AP_GetVitalMaximumValue(source, HITS));
+				break;
+			SYSEVENT_DAMAGED:
+				// Ignore 'damaged'.
+				break;
+			default:
+				break;
+		endcase
+		event := 0;
+	endif
+	
+	event := wait_for_event(100000);
+	
+
+	return 1;
+endfunction

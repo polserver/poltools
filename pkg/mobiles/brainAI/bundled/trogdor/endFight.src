@@ -1,0 +1,45 @@
+// $Id: endFight.src 714 2005-10-30 09:37:07Z austin $
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var opponent	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	AI_WarMode(npc, 0);
+	
+	if ( !opponent.dead )
+		return 0;
+	endif
+	
+	var corpse := opponent.GetCorpse();
+	do
+		var dist := Distance(npc, corpse);
+		AI_Move(npc, corpse, NEMOVE_TOWARD, NEMOVE_WALK, dist);
+		sleep(dist-1);
+	dowhile( ShouldApproach(npc, opponent, corpse) );
+	
+	AI_Speak(npc, "BWAAHAHAHA! Trogdor strikes again!");
+	AI_EndNerve(npc, nerve_name);
+endprogram
+
+function ShouldApproach(npc, opponent, corpse)
+	if ( !opponent )
+		return 0;
+	elseif ( !corpse )
+		return 0;
+	elseif ( Distance(npc, corpse) > 1 )
+		return 1;
+	endif
+	
+	return 0;
+endfunction

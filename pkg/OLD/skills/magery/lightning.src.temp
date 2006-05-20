@@ -1,0 +1,34 @@
+use uo;
+use util;
+use os;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":magery:reflect";
+
+
+program spell_lightning( parms )
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+	var dmg := RandomDiceRoll("3d7");
+
+	if (dmg < 1)
+		dmg := 1;
+	endif
+  PlaySoundEffect(castOn, SFX_SPELL_LIGHTNING);
+  PlayLightningBoltEffect( castOn);
+  SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "lightning bolt"});
+  if(spell_reflect(castOn))
+	castOn := caster;
+    PlaySoundEffect(castOn, SFX_SPELL_LIGHTNING);
+    PlayLightningBoltEffect( castOn);
+  endif
+  if(castOn.isA(POLCLASS_NPC))
+    dmg := dmg * 2;
+  endif
+  ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+endprogram

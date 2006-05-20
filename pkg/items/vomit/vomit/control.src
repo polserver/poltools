@@ -1,0 +1,7 @@
+use uo;
+use os;
+
+program cleanup_vomit(vomit)
+	sleep(60);
+	DestroyItem(vomit);
+endprogram

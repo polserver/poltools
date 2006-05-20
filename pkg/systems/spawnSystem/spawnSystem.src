@@ -1,0 +1,44 @@
+use uo;
+use os;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:realms";
+include ":spawnsystem:regions";
+include ":spawnsystem:report";
+
+program SpawnSystem()
+	SS_ReportText("---=[ SPAWNER HAS STARTED UP ]=---");
+	Initialize();
+	
+	while ( 1 )
+		// Go through all realms -> regions -> groups.
+		// Determine if it is time to spawn the group. If so, start its engine.
+		// Save when it needs to run again (polcore().systime)
+		
+		// Determine when this needs to run again (1 second for now cause im lazy)
+		sleep(1);
+	endwhile
+	
+	return 1;
+endprogram
+
+function Initialize()
+	// To-do: Make this use a datafile for tracking.
+	// Laziness prevails for now, so a global prop is used.
+	if ( !GetGlobalProperty("SpawnSystemInit") )
+		var script := Start_Script(":spawnsystem:initializer/firstRun");
+		if ( script.errortext )
+			SS_ReportText(script.errortext);
+			return 0;
+		else
+			while ( script.pid )
+				sleep(1);
+			endwhile
+		endif
+		
+		SetGlobalProperty("SpawnSystemInit", 1);
+		SS_ReportText("---=[ SPANER INITIALIZATION COMPLETE ]=---");
+	endif
+	
+	return 1;
+endfunction

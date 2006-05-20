@@ -1,0 +1,48 @@
+use uo;
+use cfgfile;
+
+include "include/eventID";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":timedscripts:poisonUtil";
+
+program archCure(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var npccfg := ReadConfigFile("::npcdesc");
+  PlaySoundEffect(caster, SFX_SPELL_ARCH_CURE);
+  var magery := AP_GetSkill(caster, MAGERY);
+  var potency := CInt(AP_GetSkill( caster, MAGERY ) /33)+1;
+  foreach castOn in ListMobilesNearLocation( castOn.x, castOn.y, castOn.z, CInt(magery/15), caster.realm );
+    if((CheckLineOfSight(castOn, caster)) and (castOn.cmdlevel < 2))
+	  PlayObjectCenteredEffect( castOn, FX_BLESS_EFFECT, 10,10);
+      if(castOn.isA(POLCLASS_NPC))
+        var element := npccfg[castOn.npctemplate].elemental;
+        if(element == "poison")
+          var ev := array;
+          ev.+ type;
+          ev.+ source;
+          ev.type := EVID_PEACEMADE;
+          SendEvent(castOn, ev);
+          ev.source := caster;
+          SendEvent(castOn, ev);
+          ev.type := EVID_ENGAGED;
+          SendEvent(castOn, ev);
+          ApplyRawDamage(castOn, potency);
+        endif
+      endif
+      if (TS_GetTimerNames(castOn, "P").size() > 0)
+        TS_CurePoison(castOn, 180, "P", potency);
+        if (TS_GetTimerNames(castOn, "P").size() > 0)
+          SendSysMessage(caster, "You cure some poison.");  
+          SendSysMessage(castOn, caster.name + " has partially cured you!");
+        else
+          SendSysMessage(caster, castOn.name + " cured.");
+          SendSysMessage(castOn, caster.name + " has cured you completely!");
+        endif
+      endif
+    endif
+  endforeach
+endprogram

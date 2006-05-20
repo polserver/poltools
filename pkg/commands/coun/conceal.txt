@@ -1,0 +1,5 @@
+<b>Syntax:</b>
+.conceal [me]
+
+<b>Purpose:</b>
+Let's you conceal yourself at various levels.

@@ -1,0 +1,23 @@
+use uo;
+use os;
+use util;
+
+include ":attributes:attributes";
+include "include/tileEffects";
+include "include/sound";
+
+
+program bladeSpirit(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var thecritter := CreateNpcFromTemplate("bladespirit", castOn.x, castOn.y, castOn.z, 0, caster.realm);
+  PlaySoundEffect(thecritter, SFX_SPELL_BLADE_SPIRITS);
+  SetObjProperty(thecritter, "summoned", 1);
+  SetObjProperty(thecritter, "master", caster.serial);
+  Detach();
+  sleep( (AP_GetSkill( caster, MAGERY ) ) );
+  PlaySoundEffect( thecritter, SFX_SPELL_MANA_VAMPIRE );
+  PlayStationaryEffect( thecritter.x, thecritter.y, thecritter.z, FX_SMOKE, 0xa, 0xa, 0, caster.realm );
+  MoveCharacterToLocation(thecritter,0,0,0,MOVECHAR_FORCELOCATION);
+  ApplyRawDamage(thecritter, AP_GetVital(thecritter, "Hits") + 3);
+endprogram

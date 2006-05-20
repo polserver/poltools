@@ -1,0 +1,4079 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Script Types Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">POL Script Types 
+</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">This is a list 
+of all the different script types used in the POL system. Some only pertain to 
+specific objects, and/or specifc events, as described. </P>
+<HR>
+<BR><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Last Modified: 
+6/19/2003<BR></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AIScript>
+    <TH align=middle colSpan=2>AIScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program AIscript()</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When an NPC is created (either new or from world save on 
+      startup)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+  /scripts/ai</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the NPC's npcdesc.cfg entry, the 'Script' property 
+      defines the location of the AI script. This is in package format 
+      ':pkgname:scriptname', or if just 'scriptname' in the same package, or 
+      /scripts/ai. Also, setting npc.script allows you to change the 
+  script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script acts as an NPC's control script, allowing it to 
+      move, fight, and react to events. This script should not exit until the 
+      NPC dies, or the NPC will become 'braindead'. Normally there exists a loop 
+      where events are processed and other actions are performed.</TD></TR>
+  <TR>
+    <TD colSpan=2>This is the only script type where NPC.EM functions are 
+      allowed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//Not a completely usable AI script, for example, doesn't close the distance to an opponent
+// or react to other sysevents.
+use uo;
+use npc;
+use os;
+include "include/sysEvent";
+var me;
+program my_example_aicript()
+    var me := Self();
+    var event;
+    EnableEvents(SYSEVENT_SPEECH,5);
+    EnableEvents(SYSEVENT_ENGAGED);
+    while(me)
+        event := wait_for_event(15);
+        if(event)
+            case(event.type)
+                SYSEVENT_SPEECH: Say( event.source.name + " said: " + event.text );
+                SYSEVENT_ENGAGED: SetOpponent( event.source );
+            endcase
+        endif
+        Wander();
+    endwhile
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#npcdesc.cfg"><B>npcdesc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AttackHitScript>
+    <TH align=middle colSpan=2>AttackHitScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program attackhitscript(attacker, defender, 
+      weapon, armor, basedamage, rawdamage )</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>attacker</VAR></TD>
+    <TD>Character Ref of player attacking with weapon</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>defender</VAR></TD>
+    <TD>Character Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>weapon</VAR></TD>
+    <TD>Weapon Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>armor</VAR></TD>
+    <TD>Armor Ref, or 0 if no armor was hit.</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>basedamage</VAR></TD>
+    <TD>Integer damage amount due to random weapon damage, strength, and 
+      tactics.</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>rawdamage</VAR></TD>
+    <TD>Integer damage amount due basedamage, minus amount absorbed by 
+    armor.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a weapon with a hit script defined successfully hits an 
+      opponent. (note not called automatically if Attack syshook is 
+  called)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/items</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the NPC's npcdesc.cfg entry, the 'AttackHitScript' 
+      property defines the location of the NPC's intrinsic weapon hit script. 
+      This is in package format ':pkgname:scriptname', or if just 'scriptname' 
+      in the same package, or /scripts/items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script acts the same as a HitScript, but it is for an 
+      NPC's "intrinsic weapon" which is a fake weapon for NPCs that attack with 
+      bare fists. See HitScript and npcdesc.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Weapon"><B>Weapon</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#npcdesc.cfg"><B>npcdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#HitScript"><B>HitScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AuxServiceScript>
+    <TH align=middle colSpan=2>AuxServiceScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program auxservice(connection)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>connection</VAR></TD>
+    <TD>Aux Connection Object</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored, exiting aux service script closes 
+      connection.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a network connection is created on the defined port in 
+      auxsvc.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Define the 'Script' property in auxsvc.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows a scripter to communicate with an 
+      external TCP/IP application, using the normal POL packed string format for 
+      communcation.</TD></TR>
+  <TR>
+    <TD colSpan=2>wait_for_event allows packet reads, with ev.type == "recv" 
+      and ev.value the unpacked data.</TD></TR>
+  <TR>
+    <TD colSpan=2>connection.transmit(unpacked object) is the interface for 
+      sending data to the external application.</TD></TR>
+  <TR>
+    <TD colSpan=2>If you save the service script PID to a global variable, 
+      other scripts may communicate with the external application via your 
+      service script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//auxsvc.cfg:
+AuxService
+{
+    Port 5009
+    Script aux1
+}
+//aux1.src:
+use uo;
+use os;
+program auxtest( connection )
+	var ev;
+	print( "aux service is running" );
+	while (connection)
+		ev := wait_for_event( 5 );
+		if (ev)
+			print(ev.value);
+		endif
+	endwhile
+	print( "aux connection closed" );
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#AuxConnection"><B>AuxConnection</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#auxsvc.cfg"><B>auxsvc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#boat.ecl>
+    <TH align=middle colSpan=2>boat.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program boatcontrol(boat)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>boat</VAR></TD>
+    <TD>Boat Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Immediately after the item is created (includes 
+  boot-up).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in the boat.src file, only in 
+  /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Always called when a boat is created/started.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script acts as a control script for a boat. Use it for 
+      navigation commands (e.g. the tillerman control script), boat decay, 
+    etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+use os;
+program my_example_boatscript(boat)
+    RegisterForSpeechEvents(boat.tillerman, 5);
+    var who;
+    while(boat) //exit loop if boat is destroyed
+        ev := wait_for_event(120);
+        if(ev)
+            who := ev.source;
+            PrintTextAbove(boat.tillerman, who.name + " is a scurvy dog for saying: " + ev.text);
+        endif
+    endwhile
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Boat"><B>Boat</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#ControlScript"><B>ControlScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CanInsertScript>
+    <TH align=middle colSpan=2>CanInsertScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program caninsertscript(character, container, 
+      movetype, inserttype, adding_item, existing_stack, 
+  amount_to_add)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>container</VAR></TD>
+    <TD>Container Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>movetype</VAR></TD>
+    <TD>integer</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>inserttype</VAR></TD>
+    <TD>integer</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>adding_item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>existing_stack</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>amt_to_add</VAR></TD>
+    <TD>integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If 1, item is allowed to be inserted into the container, 
+      else it is not inserted.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>While the item is being moved into (or created in) a 
+      container, by user dragging, script function, or the core.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'CanInsertScript' 
+      property defines the location of the can insert script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows control over what items may be inserted 
+      into a container by returning 1 or 0. This script is called fairly often, 
+      and is run critical, so try not to do too many calculations in it.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: the first parameter (character) MAY be passed as 
+      an uninitialized object if the item was not moved by character (i.e. by a 
+      script function or the core), so please check it before you use it.</TD></TR>
+  <TR>
+    <TD colSpan=2>inserttype will be INSERT_ADD_ITEM if a new item is being 
+      inserted into the container (existing_stack and amt_to_add are uninit), or 
+      INSERT_INCREASE_STACK if an existing item's amount is merely being 
+      increased (note 'adding_item' can be uninit if one of the CreateItem 
+      functions is merely adding to an existing stack, as opposed to a client 
+      action)</TD></TR>
+  <TR>
+    <TD colSpan=2>These are the times when canInsert scripts are called: 
+      Client drag/drop, vendor buy: when moving items to the player's backpack, 
+      vendor sell: when putting gold in the player's backpack, secure trade, 
+      when cancelling or confirming a trade, MoveItemToContainer, 
+      CreateItemInContainer, CreateItemInInventory, CreateItemInBackpack.</TD></TR>
+  <TR>
+    <TD colSpan=2>You should not destroy the adding_item in the CanInsert 
+      script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_caninsertscript(character, container, item)
+    if(character != error)
+        if(character.weight &gt; 400)
+            return 0;
+        else
+            return 1;
+        endif
+    else
+        return 1;
+endprogram</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToContainer().)
+Insert scripts only:
+const MOVETYPE_CORECREATE := 2; // created by core (eg, CreateItemInBackpack().)</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.em constants used with the 'inserttype' parameter:
+const INSERT_ADD_ITEM        := 1;
+const INSERT_INCREASE_STACK  := 2;</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Container"><B>Container</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnInsertScript"><B>OnInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanRemoveScript"><B>CanRemoveScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnRemoveScript"><B>OnRemoveScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CanRemoveScript>
+    <TH align=middle colSpan=2>CanRemoveScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program canremovescript(character, container, 
+      item, movetype)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>container</VAR></TD>
+    <TD>Container Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>movetype</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If 1, item is allowed to be removed from the container, else 
+      it is not removed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>While the item is being moved out of a container, by user 
+      dragging, script function, or the core.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'CanRemoveScript' 
+      property defines the location of the can remove script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows control over what items may be removed 
+      from a container by returning 1 or 0. This script is called fairly often, 
+      and is run critical, so try not to do too many calculations in it.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: the first parameter (character) MAY be passed as 
+      an uninitialized object if the item was not moved by character (i.e. by a 
+      script function or the core), so please check it before you use it.</TD></TR>
+  <TR>
+    <TD colSpan=2>You should not destroy the item in the CanRemove 
+  script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_canremovescript(character, container, item)
+    var cursed := GetObjPropert(item,"cursed");
+    if(cursed == 1)
+        return 0;
+    else
+        return 1;
+endprogram</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToLocation().)</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Container"><B>Container</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnInsertScript"><B>OnInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanInsertScript"><B>CanInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnRemoveScript"><B>OnRemoveScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#chrdeath.ecl>
+    <TH align=middle colSpan=2>chrdeath.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program chrdeath(corpse, ghost)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>corpse</VAR></TD>
+    <TD>Player corpse ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>ghost</VAR></TD>
+    <TD>Character Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When an Player Character is killed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in the chrdeath.src file, only in 
+      /scripts/misc (only one should exist in the system)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script is called for all Players.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of Player death, like unmounting players off their mount, allowing ghosts 
+      to report their murderer, Auto-Resurrect choices, etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_chrdeath(corpse,ghost)
+    Broadcast(ghost.name + "'s death cry is heard throughout the realm!");
+    //useful stuff here...
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Corpse"><B>Corpse</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#death.ecl"><B>death.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ConsoleScript>
+    <TH align=middle colSpan=2>ConsoleScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program consolescript(cmd)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>cmd</VAR></TD>
+    <TD>command string, i.e. 'B'</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a character is entered into the POL Console, i.e. 
+    'B'.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, only in 
+  /scripts/console</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Map a command character to a console script in 
+      /config/console.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows an administrator to activate POL scripts 
+      without needing to log into the game. The scripts could be used to shut 
+      down theserver after a time, or print a online character list, 
+  etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>There are four special command script names:
+[lock]              lock the console
+[unlock]            unlock the console
+[lock/unlock]       toggle the lock status of the console
+[threadstatus]      will display thread status and checkpoints</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>// Print number of toplevel items in the world.
+use uo;
+program consolescript( cmd )
+    print( "System Message: Current # of Toplevel Items - " + polcore().itemcount );
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#console.cfg"><B>console.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ControlScript>
+    <TH align=middle colSpan=2>ControlScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program controlscript(item)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Immediately after the item is created (includes 
+  boot-up).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'ControlScript' 
+      property defines the location of the control script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script is called when the item is created and stays 
+      attached to the item. Usually control scripts do not exit until the item 
+      is destroyed (note, you must handle this yourself). They generally use a 
+      loop to process events or do some housecleaning after some sleeping, or 
+      wait_for_event.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+use os;
+program my_example_controlscript(item)
+    RegisterForSpeechEvents(item, 5);
+    var who;
+    while(item) //exit loop if item is destroyed
+        ev := wait_for_event(120);
+        if(ev)
+            who := ev.source;
+            PrintTextAbove(item, who.name + " said: " + ev.text);
+        endif
+    endwhile
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#AIScript"><B>AIScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CreateScript>
+    <TH align=middle colSpan=2>CreateScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program createscript(item)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If 0, item is destroyed, else item is added to the 
+  world.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>While the item is being created (via uo.em create item 
+      functions, or by the core).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'CreateScript' 
+      property defines the location of the create script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script is called when the item is created. Return 1 to 
+      allow the item to be created, 0 to destroy the item.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_createscript(item)
+    if(item.x &gt;= 500 &amp;&amp; item.x &lt;= 600)
+        print("Item created in illegal location");
+        return 0;
+    endif
+    return 1;
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#DestroyScript"><B>DestroyScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#dblclickself.ecl>
+    <TH align=middle colSpan=2>dblclickself.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program dblclickself(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player character double clicks on himself or herself. 
+      Not called with the "open paperdoll" client macro.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in dblclickself.src file, only in 
+    /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically called on 
+      doubleclick.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows an alternate behavior other than the 
+      default 'open paperdoll' behavior. Useful for things like 
+  dismounting.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+include "include/client";
+program dblclickself( me )
+	var mount := GetEquipmentByLayer( me, LAYER_MOUNT );
+	if (!mount)
+		OpenPaperdoll( me, me );
+		return;
+	endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#death.ecl>
+    <TH align=middle colSpan=2>death.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program death(corpse)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>corpse</VAR></TD>
+    <TD>NPC corpse ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When an NPC is killed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in the death.src file, only in /scripts/misc 
+      (only one should exist in the system)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script is called for all NPCs.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of NPC death, like unmounting players off their dying mount, playing death 
+      sounds, etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>This script is common for all NPCs, and is called for 
+    each.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_death(corpse)
+    PrintTextAbove(corpse,"ARRRRGH");
+    PlaySoundEffect(SFX_VICTORY); //fake constant
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Corpse"><B>Corpse</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#npcdesc.cfg"><B>npcdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#chrdeath.ecl"><B>chrdeath.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#DestroyScript>
+    <TH align=middle colSpan=2>DestroyScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program destroyscript(item)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If 1, item is allowed to be destroyed, else it is not 
+      destroyed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>While the item is being destroyed (UO.EM::DestroyItem() or 
+      core decay).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'DestroyScript' 
+      property defines the location of the create script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script is called while the item is being destroyed. 
+      Return 1 to allow the item to be destroy, 0 to not allow 
+  destruction.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_destroyscript(item)
+    var gm_flag := GetObjProperty(item,"GM_FLAG");
+    if(gm_flag != error)
+        return 0;
+    else
+        return 1;
+    endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#EquipScript>
+    <TH align=middle colSpan=2>EquipScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program equipscript(character, item, 
+  startup)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>startup</VAR></TD>
+    <TD>Integer 0/1 if item is being equipped due to server 
+start</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if the item should be equipped, 0 to disallow 
+  equipping.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When the item is being equipped on character, either by 
+      client dragging or script function, after the equiptest.ecl check is 
+      passed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'EquipScript' property 
+      defines the location of the equip script. This is in package format 
+      ':pkgname:scriptname', or if just 'scriptname' in the same package, or 
+      /scripts/control. Also, setting item.unequipscript allows you to change 
+      the script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item being equipped on a character.</TD></TR>
+  <TR>
+    <TD colSpan=2>Also can be used to disallow equipping, by the return 
+    value.</TD></TR>
+  <TR>
+    <TD colSpan=2>Doesn't make sense for items that cannot be equipped, like 
+      walls or doors and such.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+const FOR_CLASS := "warrior";
+program my_example_equipscript(character, item, startup)
+    var class := GetObjProperty(character, "class");
+    if(class != FOR_CLASS)
+        if(!startup)
+            SendSysmessage(character,"Your class may not equip that item.");
+        endif
+        return 0;
+    else
+        return 1;
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#UnEquipScript"><B>UnEquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#equiptest.ecl"><B>equiptest.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#unequiptest.ecl"><B>unequiptest.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#equiptest.ecl>
+    <TH align=middle colSpan=2>equiptest.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program equiptest(character, item, 
+  startup)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>startup</VAR></TD>
+    <TD>Integer 0/1 if item is being equiped on startup</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if the item can be equipped, 0 to disallow 
+  equipping.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When the item is being equipped by character, either by 
+      client dragging or script function.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in the equiptest.src file, in a package or 
+      /scripts/misc (only one should exist in the system)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item being equipped by a character.</TD></TR>
+  <TR>
+    <TD colSpan=2>This script is common for all items, and is called for each. 
+      useful for equip checks that are the same for all items, so the code does 
+      not need to be replicated in all EquipScripts.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_equiptest(character, item, startup)
+    var firstletter := lower(character.name[1]);
+    if(firstletter == "t")
+        SendSysmessage(character,"Sorry, character name starting with 
+                       't' can't equip any items, for some reason.");
+        return 0;
+    else
+        return 1;
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#EquipScript"><B>EquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#UnEquipScript"><B>UnEquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#unequiptest.ecl"><B>unequiptest.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ExportedVitalsFunction>
+    <TH align=middle colSpan=2>ExportedVitalsFunction</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>exported function 
+  vitalsfunc(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer return used by core, see below</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Both exported functions on character create and when a 
+      script calls RecalcVitals()</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>As exported functions in a .src, as defined in 
+  vitals.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Define vitals functions in vitals.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>There exists 2 exported functions for vitals calculation: 
+      RegenRateFunction and MaximumFunction.</TD></TR>
+  <TR>
+    <TD colSpan=2>Each vital defined should have both of these functions. 
+      RegenRateFunction should return the regeneration rate for that vital for 
+      that character (see vitals.cfg for format)</TD></TR>
+  <TR>
+    <TD colSpan=2>MaximumFunction should return the maximum vital value for 
+      the character in hundreths of a point</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//In a .src file, like regen.src:
+//vitals.cfg defines MaximumFunction regen:GetLifeMaximumValueExported , etc.
+//Life vital funcs:
+use uo;
+exported function GetLifeMaximumValueExported(mob) 
+	return (GetAttribute(mob, ATTRIBUTEID_STRENGTH) * 100);
+endfunction</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#vitals.cfg"><B>vitals.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#help.ecl>
+    <TH align=middle colSpan=2>help.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program help(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player presses the "Help" button on the 
+  paperdoll.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in help.src file, only in 
+  /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Automatically called if file exists.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script type handles help button on the paperdoll. 
+      Useful for implimenting a help gump or staff paging system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program help( character )
+    SendSysmessage(character,"You're helpless.");
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#HitScript>
+    <TH align=middle colSpan=2>HitScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program hitscript(attacker, defender, weapon, 
+      armor, basedamage, rawdamage )</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>attacker</VAR></TD>
+    <TD>Character Ref of player attacking with weapon</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>defender</VAR></TD>
+    <TD>Character Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>weapon</VAR></TD>
+    <TD>Weapon Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>armor</VAR></TD>
+    <TD>Armor Ref, or 0 if no armor was hit.</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>basedamage</VAR></TD>
+    <TD>Integer damage amount due to random weapon damage, strength, and 
+      tactics.</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>rawdamage</VAR></TD>
+    <TD>Integer damage amount due basedamage, minus amount absorbed by 
+    armor.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a weapon with a hit script defined successfully hits an 
+      opponent. (note not called automatically if Attack syshook is 
+  called)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/items</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the weapon's itemdesc.cfg entry, the 'HitScript' property 
+      defines the location of the hit script. This is in package format 
+      ':pkgname:scriptname', or if just 'scriptname' in the same package, or 
+      /scripts/control. Also, setting weapon.hitscript allows you to change the 
+      script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to control damage dealt to a 
+      defender, equipment, and to trigger extra effects like poisoned 
+  weapons.</TD></TR>
+  <TR>
+    <TD colSpan=2>Only one core-called hitscript may be defined per 
+  weapon.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+use util;
+program my_example_hitscript(attacker, defender, weapon, armor, basedamage, rawdamage)
+    ApplyDamage(defender,rawdamage);
+    if(RandomInt(20) == 2)
+        armor.hp := armor.hp - 1;
+    endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Weapon"><B>Weapon</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnHitScript"><B>OnHitScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#logoff.ecl>
+    <TH align=middle colSpan=2>logoff.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program logoff(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>After the linger time expires after a client logs 
+  off.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in logoff.src file, in /scripts/misc or any 
+      package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to run cleanup code after a 
+      character exits the world. Useful for stuff like cleaning up summoned 
+      NPCs, etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program logoff( character )
+	Broadcast(character.name + " exited the world." );
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logon.ecl"><B>logon.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#reconnect.ecl"><B>reconnect.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logofftest.ecl"><B>logofftest.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#logofftest.ecl>
+    <TH align=middle colSpan=2>logofftest.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program logofftest(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer value returned is number of seconds to have the 
+      character 'linger' in the world.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a client logs out.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in logofftest.src file, only in 
+    /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to control how long the 
+      character lingers in the world after logoff.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program logofftest( character )
+	if(character.cmdlevel &gt; 0)
+	    return 0;
+	else
+	    return 300;
+	endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logon.ecl"><B>logon.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#reconnect.ecl"><B>reconnect.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logoff.ecl"><B>logoff.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#logon.ecl>
+    <TH align=middle colSpan=2>logon.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program logon(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a client logs into the game server.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in logon.src file, in /scripts/misc or any 
+      package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows code to run when the player logs in. Can 
+      be used for welcome messages, etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>This script runs critical, so be careful how much code you 
+      run!</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program logon( character )
+	SendSysmessage(character, "Welcome to POL.");
+	Broadcast( character.name + " has entered the world.");
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#reconnect.ecl"><B>reconnect.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logofftest.ecl"><B>logofftest.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logoff.ecl"><B>logoff.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#MethodScript>
+    <TH align=middle colSpan=2>MethodScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>exported function 
+  methodname(params,...)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>core ignores return value, except for Install() see 
+  below</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Install() Run To Completion, methods normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Install() critical, methods 1</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a script calls the method for the item, i.e. 
+      item.methodname()</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In a .src file, and MUST BE in a package.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'MethodScript' 
+      property defines the location of the create script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same 
+    package.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Method Scripts allow new object methods to be defined, and 
+      can override built-in methods. For example, you may define a method 
+      door.wackymethod() or override door.open().</TD></TR>
+  <TR>
+    <TD colSpan=2>To enable the exported functions in the script, the 
+      'program' in the file must return 1. This is the 'Install()' program that 
+      enables the exported methods.</TD></TR>
+  <TR>
+    <TD colSpan=2>The exported functions may take any number of 
+  parameters</TD></TR>
+  <TR>
+    <TD colSpan=2>To instead call the built-in methods for an object, preceed 
+      the name with an underscore '_'. So if you override door.close(), use 
+      door._close() to instead call the built-in version.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>// This simple example shows how to override the door.open() method
+pkg/.../door/itemdesc.cfg:
+Door 0x0675
+{
+    xmod -1
+    ymod +1
+    script door
+    doortype metal
+    MethodScript cdoor.ecl  //note .ecl extension
+}
+
+pkg/.../door/cdoor.src:
+exported function open( door )
+    print( "cdoor::open(" + door.serial + ")" );
+    return door._open();
+endfunction
+
+program install()
+    print( "installing cdoor" );
+    return 1;
+endprogram</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>// This example shows how to define your own methods
+//pkg/.../mypkg/itemdesc.cfg:
+Item 0xE000
+{
+    //normal itemdesc.cfg entries, graphic, etc.
+    Name widget
+    MethodScript widget_methods.ecl
+}
+
+// pkg/.../mypkg/widget_methods.src:
+program install()
+    print("installing widget");
+    return 1;
+endprogram
+
+exported function discombobulate(flag1, message) //pass by reference here is ok too!
+    if(flag1 &gt; 3)
+        print(message);
+        return 1;
+    endif
+    return 0;
+endfunction
+
+// So now, in another script, if 'widget' is a reference to 
+// item 0xE000, call like this:
+widget.discombobulate(4,"Meaningless message");</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#oncreate.ecl>
+    <TH align=middle colSpan=2>oncreate.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program oncreate(character, 
+  skillids)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>skillids</VAR></TD>
+    <TD>Array of the 3 integer skill IDs chosen.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a new player character is created.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in oncreate.src file, only in 
+  /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to run code when a new 
+      character is created. Useful for giving out starting equipment, 
+  etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+include "include/startEqp";
+program oncreate( character )
+	CreateStartingEquipment(character, skillids);
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#ondelete.ecl"><B>ondelete.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ondelete.ecl>
+    <TH align=middle colSpan=2>ondelete.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program ondelete(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player character is deleted.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in ondelete.src file, in /scripts/misc or any 
+      package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to run code when a character 
+      is deleted.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program ondelete( character )
+	Broadcast(character.name + " was deleted.");
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#oncreate.ecl"><B>oncreate.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#OnInsertScript>
+    <TH align=middle colSpan=2>OnInsertScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program oninsertscript(character, container, 
+      movetype, inserttype, adding_item, existing_stack, 
+  amount_to_add)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>container</VAR></TD>
+    <TD>Container Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>movetype</VAR></TD>
+    <TD>Integer</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>inserttype</VAR></TD>
+    <TD>Integer</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>adding_item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>existing_stack</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>amount_to_add</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run-To-Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>After the item is moved into (or created in) a container, by 
+      user dragging, script function, or the core.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'OnInsertScript' 
+      property defines the location of the on-insert script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item insertion.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: the first parameter (character) MAY be passed as 
+      an uninitialized object if the item was not moved by character (i.e. by a 
+      script function or the core), so please check it before you use it.</TD></TR>
+  <TR>
+    <TD colSpan=2>inserttype will be INSERT_ADD_ITEM if a new item is being 
+      inserted into the container (existing_stack and amt_to_add are uninit), or 
+      INSERT_INCREASE_STACK if an existing item's amount is merely being 
+      increased (and adding_item is uninit).</TD></TR>
+  <TR>
+    <TD colSpan=2>These are the times when onInsert scripts are called: Client 
+      drag/drop, vendor buy: when moving items to the player's backpack, vendor 
+      sell: when putting gold in the player's backpack, secure trade, when 
+      cancelling or confirming a trade, MoveItemToContainer, 
+      CreateItemInContainer, CreateItemInInventory, 
+  CreateItemInBackpack.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_oninsertscript(character, container, item, item_amount)
+    SendSysmessage(character,"You insert " + item_amount + " " 
+                   + item.desc + " into the container.");
+    PlaySoundEffectPrivate(character, SFX_BLAH, character);
+endprogram</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToContainer().)
+Insert scripts only:
+const MOVETYPE_CORECREATE := 2; // created by core (eg, CreateItemInBackpack().)</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.em constants used with the 'inserttype' parameter:
+const INSERT_ADD_ITEM        := 1;
+const INSERT_INCREASE_STACK  := 2;</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Container"><B>Container</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanInsertScript"><B>CanInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanRemoveScript"><B>CanRemoveScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnRemoveScript"><B>OnRemoveScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#OnRemoveScript>
+    <TH align=middle colSpan=2>OnRemoveScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program onremovescript(character, container, 
+      item, item_amount, movetype)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>container</VAR></TD>
+    <TD>Container Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item_amount</VAR></TD>
+    <TD>Integer</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>movetype</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run-To-Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>After the item is out of a container, by user dragging, 
+      script function, or the core.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'OnRemoveScript' 
+      property defines the location of the on-remove script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item removal.</TD></TR>
+  <TR>
+    <TD colSpan=2>IMPORTANT: the first parameter (character) MAY be passed as 
+      an uninitialized object if the item was not moved by character (i.e. by a 
+      script function or the core), so please check it before you use 
+  it.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_onremovescript(character, container, item, item_amount)
+    SendSysmessage(character,"You removed " + item_amount + " " 
+                   + item.desc + " from the container.");
+    PlaySoundEffectPrivate(character, SFX_REMOVE, character);
+endprogram</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToLocation().)</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Container"><B>Container</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanInsertScript"><B>CanInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#OnInsertScript"><B>OnInsertScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#CanRemoveScript"><B>CanRemoveScript</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#reconnect.ecl>
+    <TH align=middle colSpan=2>reconnect.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program reconnect(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a client re-logs into the game server before his/her 
+      character is removed from the world (5 minutes default).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in reconnect.src file, in /scripts/misc or any 
+      package</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows code to run when the player logs in after 
+      having recently logged off.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program reconnect( character )
+	Broadcast( character.name + " has reconnected.");
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logon.ecl"><B>logon.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logofftest.ecl"><B>logofftest.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#logoff.ecl"><B>logoff.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SkillScript>
+    <TH align=middle colSpan=2>SkillScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program skillscript(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a uses a "direct" skill like Hiding, Cartography, etc. 
+      (a blue 'crystal' appears next to the skill name on the default skill 
+      scroll gump) Also called with the client macros UseSkill, LastSkill, 
+    etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/skills</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Define a "Script" property in the skills.cfg entry for the 
+      appropriate skill number.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script type handles the directly-usable skills in UO. 
+      It is not used for skills used via an item (like blacksmithy).</TD></TR>
+  <TR>
+    <TD colSpan=2>The script is 'attached' to the character, and he/she cannot 
+      use another skill or use an item until this skill script exits or calls 
+      Detach().</TD></TR>
+  <TR>
+    <TD colSpan=2>The skills.cfg entry defines the time delay for starting 
+      subsequent skill scripts</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//example hide skill script   
+use uo;
+program hideskill( character )
+	if(character.cmdlevel &gt; 0)
+	    character.hidden := 1;
+	else
+	    //obviously some skill checks go here, etc.
+	endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#skills.cfg"><B>skills.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#skillwin.ecl>
+    <TH align=middle colSpan=2>skillwin.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program skillwin(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player character requests the skills scroll gump to 
+      be displayed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in skillwin.src file, only in 
+  /scripts/misc</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists it is automatically 
+  called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows an alternate behavior other than the 
+      default skills window behavior. Useful for implimenting your own skills 
+      gump for your custom shard.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program skillwin( character )
+	if(character.cmdlevel &gt; 0)
+	    SendSkillWindow( character, character );
+	else
+	    SendMySkillGump( character );
+	endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SpellScript>
+    <TH align=middle colSpan=2>SpellScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program spellscript(character)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Caster Character ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player casts a spell from the normal UO 
+  spellbook.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/spells</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Define a "Script" property in the spells.cfg entry for the 
+      appropriate spell number.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script type handles the 'cast spell #' action in UO, 
+      via a spellbook or client macro.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//example Lightning spell (#30), too simple to use directly!
+use uo;
+program lightning( character )
+	var tgt := Target(character, TGTOPT_HARMFUL);
+	if(tgt)
+	    if(tgt.isa(POLCLASS_MOBILE))
+	        PlayLightningBoltEffect(tgt);
+	        //some damage
+	    endif
+	endif
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#spells.cfg"><B>spells.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#start.ecl>
+    <TH align=middle colSpan=2>start.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>no prototype, exists as inline code at global 
+      scope</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Once, during server start.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>As inline code outside any function scope in start.src file, 
+      in any package and in /scripts</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>If the compiled file exists in /scripts or an enabled 
+      package it is automatically called.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows the scripter to run code when the server 
+      starts, for housekeeping or starting background scripts like NPC 
+    spawners.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+print("my package starting..");
+//etc, your startup code! I'm so bad at examples.</PRE></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SyshookScript>
+    <TH align=middle colSpan=2>SyshookScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>exported function syshookname(params vary, see 
+      below)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value usage varies, see below</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>At various times, depending on the syshook, see 
+  below.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>As exported functions in a .src, as defined in 
+    syshook.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Define a system hook script in a syshook.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The valid system hook names are: CheckSkill, OpenSpellbook, 
+      GetBookPage, CombatAdvancement, ParryAdvancement, Attack, 
+Pushthrough</TD></TR>
+  <TR>
+    <TD colSpan=2>CheckSkill: params: CharRef character, Int skillid, Int 
+      difficulty, Int pointvalue. When called: UO.EM::CheckSkill() is called. 
+      Return: true/false for skill use success.</TD></TR>
+  <TR>
+    <TD colSpan=2>OpenSpellbook: params: CharRef character. When called: A 
+      Character uses a spellbook object. Used to override normal spellbook 
+      behavior.</TD></TR>
+  <TR>
+    <TD colSpan=2>GetBookPage: not implimented</TD></TR>
+  <TR>
+    <TD colSpan=2>CombatAdvancement: params: CharRef character, WeaponRef 
+      weapon, CharRef opponent. When called: Whenever a character attacks 
+      another, before hit is determined. Used to override normal combat skill 
+      advancement.</TD></TR>
+  <TR>
+    <TD colSpan=2>ParryAdvancement: params: CharRef character, WeaponRef 
+      weapon, CharRef opponent, ItemRef opponent_shield. When called: A 
+      Character attacks another whom wields a shield, before parry success is 
+      determined. Used to override 'parry' skill advancement.</TD></TR>
+  <TR>
+    <TD colSpan=2>Attack: params: CharRef character, CharRef opponent. When 
+      called: A Character attacks another. IMPORTANT: completely overrides core 
+      handling of combat, including the above advancement hooks. You must handle 
+      all of combat yourself in a script if you use this hook (determining hits, 
+      applying damage, destroying ammo, skill advancement, etc). Since it is 
+      called every attack, this is a very CPU expensive hook to impliment.</TD></TR>
+  <TR>
+    <TD colSpan=2>Pushthrough: params: CharRef character, Array of CharRefs in 
+      destination tile. When called: on EVERY move of EVERY character. Return: 
+      true if walk ok, false to block walk. Used to override core behavior for 
+      walking through tiles with other mobiles on them. Since this critical 
+      script is called so often, it is a very CPU expensive one to 
+  impliment.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>//Pushthrough hook example    
+//syshook.cfg defines: 
+SystemHookScript pushhook.ecl
+{
+	Pushthrough Pushthrough
+}
+//in pushhook.src:
+use uo;
+program PushthroughHook()
+	return 1;
+endprogram
+
+exported function Pushthrough(walker, obstructors)
+	//print(walker.name);
+	//foreach mob in obstructors   //note, obstructors is an array of char refs
+	//	print(mob.name);
+	//endforeach
+	
+	if(GetVital(walker,"Stamina") &lt; GetVitalMaximumValue(walker,"Stamina"))
+		return 0;
+	else
+		return ConsumeVital(walker,"Stamina",1000);
+	endif
+endfunction</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#syshook.cfg"><B>syshook.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TextCommandScript>
+    <TH align=middle colSpan=2>TextCommandScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program textcommand(character, text, uc_text, 
+      langcode)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character ref activating this script</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>text</VAR></TD>
+    <TD>String after command name</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>a Unicode array of the text string typed after the command (exist if 
+      client used unicode speech)</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character string, representing the client's language code, i.e. 
+      'ENU', 'DEU', 'RUS', etc.(exist if client used unicode 
+  speech)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a player character 'speaks' a command string, i.e. 
+      '.online'</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a command level subdir of a 
+      package or /scripts/textcmd</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Place the script in a command level subdir or 
+      /scripts/textcmd, or a package after defining the command level path in 
+      cmds.cfg.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows a player to activate a script, according 
+      to their command level. I.e. 'admin' level can activate admin and below 
+      (gm, seer, etc), but a GM could not activate 'admin' commands.</TD></TR>
+  <TR>
+    <TD colSpan=2>Lots of things can be done with this script type, including 
+      creating objects, destroying them, showing gump menus, teleporting, or 
+      anything that the core functions allow!</TD></TR>
+  <TR>
+    <TD colSpan=2>'text' is all the text after the command name. I.e. 
+      '.createstack 0xEED 100' would make 'text' be '0xEED 100'. This is a great 
+      place to use SplitWords (note result is still a string, so use Cint() if 
+      expecting integers).</TD></TR>
+  <TR>
+    <TD colSpan=2>Only one text command script may be active on a player at a 
+      time.</TD></TR>
+  <TR>
+    <TD colSpan=2>Unicode array: array of integers representing unicode 
+      characters</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>// a teleport script. Should be entered with x y z numbers after the name.    
+use uo;
+program textcmd( character, text )
+    var arr := SplitWords( text );
+    MoveCharacterToLocation( character,Cint(arr[1]),Cint(arr[2]),Cint(arr[3]) );
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#cmds.cfg"><B>cmds.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#UnEquipScript>
+    <TH align=middle colSpan=2>UnEquipScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program unequipscript(character, 
+  item)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if the item should be unequipped, 0 to disallow 
+      unequipping.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When the item is being unequipped by character, either by 
+      client dragging or script function, after the unequiptest.ecl check is 
+      passed.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+      /scripts/control</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'UnEquipScript' 
+      property defines the location of the unequip script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/control. Also, setting item.unequipscript allows you to change 
+      the script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item being unequipped by a character.</TD></TR>
+  <TR>
+    <TD colSpan=2>Also can be used to disallow unequipping, by the return 
+      value.</TD></TR>
+  <TR>
+    <TD colSpan=2>Doesn't make sense for items that cannot be equipped, like 
+      walls or doors and such.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_equipscript(character, item, startup)
+    var cursed := GetObjProperty(item, "cursed");
+    if(cursed == 1)
+        SendSysmessage(character,"That item is cursed! Gwuahahahaha!!");
+        return 0;
+    else
+        return 1;
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#UnEquipScript"><B>UnEquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#equiptest.ecl"><B>equiptest.ecl</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#unequiptest.ecl"><B>unequiptest.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#unequiptest.ecl>
+    <TH align=middle colSpan=2>unequiptest.ecl</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program unequiptest(character, item, 
+  startup)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref, or uninitialized, see below</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>startup</VAR></TD>
+    <TD>always false</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if the item can be unequipped, 0 to disallow 
+    unequipping.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Run To Completion</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When the item is being unequipped by character, either by 
+      client dragging or script function.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in the unequiptest.src file, in a package or 
+      /scripts/misc (only one should exist in the system)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This script allows side effects to be triggered as a result 
+      of the item being unequipped by a character.</TD></TR>
+  <TR>
+    <TD colSpan=2>This script is common for all items, and is called for each. 
+      useful for unequip checks that are the same for all items, so the code 
+      does not need to be replicated in all UnEquipScripts.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+program my_example_unequiptest(character, item, startup)
+    var cursed := GetObjProperty(item, "cursed");
+    if(cursed == 1)
+        SendSysmessage(character,"That item is cursed! Gwuahahahaha!!");
+        return 0;
+    else
+        return 1;
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Script Types</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#EquipScript"><B>EquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#UnEquipScript"><B>UnEquipScript</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="scripttypes.html#equiptest.ecl"><B>equiptest.ecl</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#UseScript>
+    <TH align=middle colSpan=2>UseScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program usescript(character, 
+item)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a client double clicks on an item with a defined use 
+      script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/items</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'Script' property 
+      defines the location of the double-click script. This is in package format 
+      ':pkgname:scriptname', or if just 'scriptname' in the same package, or 
+      /scripts/items. Also item.usescript is writable in the same 
+  format.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This interactive script is called when a client double 
+      clicks on an item. This script is then attached to the character (meaning, 
+      no other script may be attached to the character until this script exits 
+      or calls Detach()). If the itemdesc.cfg entry also defines 
+      'RequiresAttention 1' then using that item will cause the player to 
+      unhide. </TD></TR>
+  <TR>
+    <TD colSpan=2>By default the player needs to have line-of-sight to the 
+      item. Use the 'UseRequiresLOS' property in the itemdesc.cfg entry to 
+      change this per-item template.</TD></TR>
+  <TR>
+    <TD colSpan=2>By default ghosts may not use items. Use the 'GhostsCanUse' 
+      property in the itemdesc.cfg entry to change this per-item template.</TD></TR>
+  <TR>
+    <TD colSpan=2>The default maximum distance away from the item to use it is 
+      2 or the defined 'DefaultDoubleclickRange' in servspecopt.cfg. To override 
+      this, use the 'DoubleclickRange' property in the itemdesc.cfg entry to 
+      change this per-item template.</TD></TR>
+  <TR>
+    <TD colSpan=2>Can be used to override the default double-click behaviors 
+      of Containers, Maps, etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>Doesn't work with Multis.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+use util;
+program my_example_usescript(character, item)
+    PrintTextAbove(item, character.name + " used me!");
+    item.color := RandomInt(50);
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#servspecopt.cfg"><B>servspecopt.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WalkOnScript>
+    <TH align=middle colSpan=2>WalkOnScript</TH></A></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TH align=middle colSpan=2>program walkonscript(character, item, lastx, 
+      lasty, lastz)</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Ref</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>lastx</VAR></TD>
+    <TD>Character's previous integer world coordinate</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>lasty</VAR></TD>
+    <TD>Character's previous integer world coordinate</TD></TR>
+  <TR bgColor=#e4e4e4>
+    <TD width="50%"><VAR>lastz</VAR></TD>
+    <TD>Character's previous integer world coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Return value ignored</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Scheduler Type</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Normal</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Default Priority</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When Is It Called?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>When a character moves onto this item.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Where Does It Live?</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The 'program' in a .src file, in a package or 
+    /scripts/items</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>To Define</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>In the item's itemdesc.cfg entry, the 'WalkOnScript' 
+      property defines the location of the walk-on script. This is in package 
+      format ':pkgname:scriptname', or if just 'scriptname' in the same package, 
+      or /scripts/items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>This interactive script is called when a client moves on an 
+      item (walk or teleports). This script is NOT attached to the 
+  character.</TD></TR>
+  <TR>
+    <TD colSpan=2>Doesn't work with Multis.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Examples</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><PRE>use uo;
+use util;
+program my_example_walkonscript(character, item, lastx, lasty, lastz)
+    PrintTextAbove(item, "Ouch! " + character.name + ", don't step on me!");
+    MoveItemToLocation( item, lastx, lasty, lastz );
+endprogram</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Objects</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Item"><B>Item</B></A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Config Files</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

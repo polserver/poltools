@@ -1,0 +1,27 @@
+/*
+ * $Id: ekill.src 862 2005-11-03 03:46:52Z austin $
+ *
+ */
+use uo;
+
+include ":attributes:attributes";
+
+program textcmd_eKill(who, text)
+	if ( !text )
+		SendSysMessage(who, "Syntax .ekill <tile number>");
+		return 0;
+	endif
+	
+	SendSysMessage(who, "Select a target to kill.");
+	var targ := Target(who);
+	
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	PlayMovingEffect(who, targ, CInt(text), 5, 1);
+	ApplyRawDamage(targ, CInt(AP_GetVitalMaximumValue(targ, "Hits")));
+	
+	return 1;
+endprogram

@@ -1,0 +1,194 @@
+use uo;
+
+include ":attributes:include/attributeConstants";
+include ":attributes:include/attributes";
+include ":gumps:include/gumps";
+include ":brainAI:npcUtil";
+
+program skill_animal_lore( who )
+
+        EraseObjProperty(who, "#IsMeditating");
+        EraseObjProperty(who, "#HealTimer");
+
+        SendSysMessage(who, "Which animal shall I examine?");
+        var creature := Target(who, TGTOPT_CHECK_LOS);
+        if( GetObjProperty(creature, "Blocked") || creature.frozen )
+                SendSysMessage(who, "The Reasoning Behind Your Analysis Is Flawed.");
+                return 0;
+        endif
+
+        if( creature.serial == who.serial )
+                SendSysMessage(who, "That is not a valid target.");
+                return 0;
+        endif
+
+        if( !creature.isA(POLCLASS_NPC) )
+                SendSysMessage(who, "That is not a valid target.");
+                return 0;
+        endif
+
+        if( (creature.graphic == 0x190) or (creature.graphic == 0x191) )
+                SendSysMessage(who, "That is not a valid target.");
+                return 0;
+        endif
+
+	if( SkillCheck(who, ANIMAL_LORE, -1) > 0 )
+                // If the player succeeds, send the gump.
+                // Create the Gump
+                var al_Gump := AL_LoadGump(who, creature);
+                GFSendGump(who, al_Gump);
+                return 0;
+        else
+                PrintTextAbovePrivate(creature, "You fail to understand anything about the animal.", who);
+        endif
+
+        return 0;
+
+endprogram
+
+// Get the Happiness level
+function Gethappy(percentage)
+
+	if(percentage >= 100)
+		return "Euphoric";
+	elseif(percentage >= 98)
+		return "Wonderfully Happy";
+	elseif(percentage >= 88)
+		return "Extremely Happy";
+	elseif(percentage >= 78)
+		return "Very Happy";
+	elseif(percentage >= 68)
+		return "Rather Happy";
+	elseif(percentage >= 58)
+		return "Happy";
+	elseif(percentage >= 48)
+		return "Content";
+	elseif(percentage >= 38)
+		return "Somewhat Content";
+	elseif(percentage >= 28)
+		return "Unhappy";
+	elseif(percentage >= 18)
+		return "Rather Unhappy";
+	elseif(percentage >= 8)
+		return "Extremely Unhappy";
+	else
+		return "Confused";
+	endif
+
+endfunction
+
+
+function AL_LoadGump(who, creature)
+
+	who := who;
+        // Declare the variables for use with the data array.
+        // There is BOUND to be a retardedly more simple way of doing this,
+        // I am just lazy and not going to try :P
+        var hits := ""+GetVital(creature, "Hits")/100+"/"+AP_GetVitalMaximumValue(creature, "Hits")+"";
+        var stamina := ""+GetVital(creature, "Stamina")/100+"/"+AP_GetVitalMaximumValue(creature, "Stamina")+"";
+        var mana := ""+GetVital(creature, "Mana")/100+"/"+AP_GetVitalMaximumValue(creature, "Mana")+"";
+        var str := ""+AP_GetStat(creature, STRENGTH)+"";
+        var dex := ""+AP_GetStat(creature, DEXTERITY)+"";
+        var int := ""+AP_GetStat(creature, INTELLIGENCE)+"";
+        var ar := ""+creature.ar+"";
+        var wrestStr := AP_GetSkill(creature, WRESTLING);
+        var tactStr := AP_GetSkill(creature, TACTICS);
+        var mrStr := CDbl(AP_GetSkill(creature, RESISTING_SPELLS));
+        var anatStr := AP_GetSkill(creature, ANATOMY);
+        var poisonStr := AP_GetSkill(creature, POISONING);
+        var mageryStr := AP_GetSkill(creature, MAGERY);
+        var eiStr := AP_GetSkill(creature, EVALUATING_INTELLIGENCE);
+        var medStr := AP_GetSkill(creature, MEDITATION);
+
+        var cTemplate := NPC_GetNPCConfig(creature.npctemplate);
+
+        var thepacktype := cTemplate.packinstinct;
+        if( TypeOf(thepacktype) != "String" )
+                thepacktype := "None";
+        endif
+
+        var foodtype := cTemplate.foodtype;
+        if( TypeOf(foodtype) != "String" )
+                foodtype := "None";
+        endif
+
+        var loyalty := "";
+        if(creature.script == "tamed")
+                loyalty := Gethappy(CInt(GetObjProperty(creature, "happiness")));
+        else
+                loyalty := "None";
+        endif
+
+        var gump := GFCreateGump();
+        GFGumpPic(gump, 100, 100, 2080);
+        GFGumpPic(gump, 118, 137, 2081);
+        GFGumpPic(gump, 118, 207, 2081);
+        GFGumpPic(gump, 118, 277, 2081);
+        GFGumpPic(gump, 118, 347, 2083);
+        GFHTMLArea(gump,  147, 108, 210, 18, "<center><i>"+CStr(creature.name)+"</i></center>");
+        GFAddButton(gump, 240, 77, 2093, 2093, GF_CLOSE_BTN, 2);
+        GFGumpPic(gump, 140, 138, 2091);
+        GFGumpPic(gump, 140, 335, 2091);
+
+        GFPage(gump, 1);
+        GFGumpPic(gump, 128, 152, 2086);
+        GFHTMLArea(gump, 147, 150, 160, 18, "<basefont color=#A52A2A>Attributes");
+        GFHTMLArea(gump, 153, 168, 160, 18, "<basefont color=#4A3929>Hits");
+        GFHTMLArea(gump, 280, 168,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(hits)+"</div>");
+        GFHTMLArea(gump, 153, 186, 160, 18, "<basefont color=#4A3929>Stamina");
+        GFHTMLArea(gump, 280, 186,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(stamina)+"</div>");
+        GFHTMLArea(gump, 153, 204, 160, 18, "<basefont color=#4A3929>Mana");
+        GFHTMLArea(gump, 280, 204,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(mana)+"</div>");
+        GFHTMLArea(gump, 153, 222, 160, 18, "<basefont color=#4A3929>Strength");
+        GFHTMLArea(gump, 280, 222,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(str)+"</div>");
+        GFHTMLArea(gump, 153, 240, 160, 18, "<basefont color=#4A3929>Dexterity");
+        GFHTMLArea(gump, 280, 240,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(dex)+"</div>");
+        GFHTMLArea(gump, 153, 258, 160, 18, "<basefont color=#4A3929>Intelligence");
+        GFHTMLArea(gump, 280, 258,  75, 18, "<basefont color=#4A3929><div align=right>"+CStr(int)+"</div>");
+        GFGumpPic(gump, 128, 278, 2086);
+        GFHTMLArea(gump, 147, 276, 160, 18, "<basefont color=#A52A2A>Loyalty Rating");
+        GFHTMLArea(gump, 153, 294, 160, 18, "<basefont color=#4A3929>"+loyalty);
+        GFAddButton(gump, 317, 358, 5603, 5607, GF_PAGE_BTN, 3);
+        GFAddButton(gump, 340, 358, 5601, 5605, GF_PAGE_BTN, 2);
+
+        GFPage(gump, 2);
+        GFGumpPic(gump, 128, 152, 2086);
+        GFHTMLArea(gump, 147, 150, 160, 18, "<basefont color=#A52A2A>Resistances");
+        GFHTMLArea(gump, 153, 168, 160, 18, "<basefont color=#4A3929>Armor Rating");
+        GFHTMLArea(gump, 320, 168,  35, 18, "<basefont color=#4A3929><div align=right>"+ar+"</div>");
+        GFHTMLArea(gump, 153, 186, 160, 18, "<basefont color=#4A3929>Magic Resistance");
+        GFHTMLArea(gump, 320, 186,  35, 18, "<basefont color=#4A3929><div align=right>"+mrStr+"</div>");
+        GFGumpPic(gump, 128, 207, 2086);
+        GFHTMLArea(gump, 147, 204, 160, 18, "<basefont color=#A52A2A>Lore & Knowledge");
+        GFHTMLArea(gump, 153, 222, 160, 18, "<basefont color=#4A3929>Magery");
+        GFHTMLArea(gump, 320, 222,  35, 18, "<basefont color=#4A3929><div align=right>"+mageryStr+"</div>");
+        GFHTMLArea(gump, 153, 240, 160, 18, "<basefont color=#4A3929>Evaluating Intelligence");
+        GFHTMLArea(gump, 320, 240,  35, 18, "<basefont color=#4A3929><div align=right>"+eiStr+"</div>");
+        GFHTMLArea(gump, 153, 258, 160, 18, "<basefont color=#4A3929>Meditation");
+        GFHTMLArea(gump, 320, 258,  35, 18, "<basefont color=#4A3929><div align=right>"+medStr+"</div>");
+        GFAddButton(gump, 317, 358, 5603, 5607, GF_PAGE_BTN, 1);
+        GFAddButton(gump, 340, 358, 5601, 5605, GF_PAGE_BTN, 3);
+
+        GFPage(gump, 3);
+        GFGumpPic(gump, 128, 152, 2086);
+        GFHTMLArea(gump, 147, 150, 160, 18, "<basefont color=#A52A2A>Combat Ratings");
+        GFHTMLArea(gump, 153, 168, 160, 18, "<basefont color=#4A3929>Wrestling");
+        GFHTMLArea(gump, 320, 168,  35, 18, "<basefont color=#4A3929><div align=right>"+wrestStr+"</div>");
+        GFHTMLArea(gump, 153, 186, 160, 18, "<basefont color=#4A3929>Tactics");
+        GFHTMLArea(gump, 320, 186,  35, 18, "<basefont color=#4A3929><div align=right>"+tactStr+"</div>");
+        GFHTMLArea(gump, 153, 204, 160, 18, "<basefont color=#4A3929>Anatomy");
+        GFHTMLArea(gump, 320, 204,  35, 18, "<basefont color=#4A3929><div align=right>"+anatStr+"</div>");
+        GFHTMLArea(gump, 153, 222, 160, 18, "<basefont color=#4A3929>Poisoning");
+        GFHTMLArea(gump, 320, 222,  35, 18, "<basefont color=#4A3929><div align=right>"+poisonStr+"</div>");
+        GFGumpPic(gump, 128, 243, 2086);
+        GFHTMLArea(gump, 147, 240, 160, 18, "<basefont color=#A52A2A>Preferred Foods");
+        GFHTMLArea(gump, 153, 258, 160, 18, "<basefont color=#4A3929>"+foodtype);
+        GFGumpPic(gump, 128, 297, 2086);
+        GFHTMLArea(gump, 147, 294, 160, 18, "<basefont color=#A52A2A>Pack Instinct");
+        GFHTMLArea(gump, 153, 312, 160, 18, "<basefont color=#4A3929>"+thepacktype);
+        GFAddButton(gump, 317, 358, 5603, 5607, GF_PAGE_BTN, 2);
+        GFAddButton(gump, 340, 358, 5601, 5605, GF_PAGE_BTN, 1);
+
+        return gump;
+
+endfunction

@@ -1,0 +1,22 @@
+/* $Id: charprofile.src 891 2005-11-04 06:29:43Z muaddiblsd $
+ *
+ */
+use os;
+
+program charprofile()
+	Print( "INSTALLING: Character Profile PH..." );
+	return 1;
+endprogram
+
+CONST PROFILE_UPDATE_MODE := 1;
+CONST PROFILE_REQUEST_MODE := 0;
+CONST OFFSET_MODE := 3;
+
+exported function HandleCharProfileRequest( character, byref packet )
+
+
+	start_script("parseCharProfile", { character, packet });
+
+	return 1;
+
+endfunction

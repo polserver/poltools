@@ -1,0 +1,138 @@
+/* $Id: repairDeed.src 927 2005-11-06 15:54:53Z muaddiblsd $
+ *
+ */
+use uo;
+use util;
+use cfgfile;
+
+include ":itemutils:canAccess";
+
+program usescript_repairDeed(who, deed)
+	if(!can_access(who, deed, "reserve"))
+		return 0;
+	endif
+	if( !(deed in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "The contract must be in your backpack to use it.");
+		return 0;
+	endif
+
+	if(NearNPC(who, (GetObjProperty(deed, "type"))))
+		if(RepairFromDeed(who, deed))
+			DestroyItem(deed);
+		endif
+	else
+		SendSysMessage(who, "You must be near a "+(GetObjProperty(deed, "type"))+" shop to use this contract.");
+		return 0;
+	endif
+endprogram
+
+function NearNPC(who, type)
+	var MOBS_Near := ListMobilesNearLocation(who.x, who.y, who.z, 10);
+	foreach mobile in MOBS_Near
+		if( lower(GetObjProperty(mobile, "MerchantType")) == type)
+			return 1;
+		endif
+	endforeach
+	return 0;
+endfunction
+
+function RepairFromDeed(who, deed)
+	var skillid := GetObjProperty(deed, "skillid");
+	var what := SelectiveRepair(who, skillid);
+	if(!what)
+		return 0;
+	endif
+	var maxhp := what.maxhp;
+	maxhp := CInt(maxhp * what.quality);
+	var thehp := what.hp;
+	var damaged := maxhp - thehp;
+	var hisskill := GetObjProperty(deed, "ramt");
+	var damageamount := 0.0;
+	damageamount := (125 -  hisskill)/3000.0;
+	if(what.hp == what.maxhp)
+		SendSysMessage(who, "That is already in full repair.");
+		return 0;
+	endif
+	if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
+		SendSysMessage(who, "You destroyed the item.");
+		DestroyItem(what);
+		return 1;
+	endif
+	if(what.quality <= damageamount)
+		SendSysMessage(who, "That item has been repaired many times, and will break if repairs are attempted again.");
+		return 0;
+	endif
+	if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
+		SendSysMessage(who, "You destroyed the item.");
+		DestroyItem(what);
+		return 1;
+	endif
+	var repaired_amount := CInt(((randomint(hisskill) + 1))/2);
+	print("repair: " + repaired_amount + " / " + (maxhp / 3));
+	if(repaired_amount < (maxhp / 3))
+		SendSysMessage(who, "You fail to repair the item and the repair contract is destroyed.");
+		return 1;
+	endif
+	if(damaged == 1)
+		repaired_amount := 1;
+	endif
+	what.quality := what.quality - damageamount;
+	if (thehp + repaired_amount > what.maxhp)
+		what.hp := what.maxhp;
+		EraseObjProperty(what, "swings");
+		SendSysMessage(who, "You repair the item.");
+	else
+		what.hp := thehp + repaired_amount;
+		SendSysMessage(who, "You repair the item");
+	endif
+
+	return 1;
+endfunction
+
+
+function SelectiveRepair(who, skillid)
+
+	SendSysMessage(who, "Select item to repair.");
+	var use_on := Target(who);
+	if(!can_access(who, use_on, "reserve"))
+		return 0;
+	endif
+	if((!Accessible(who, use_on)) || (distance(who, use_on) > 2))
+		SendSysMessage(who, "You cannot reach that");
+		return 0;
+	endif
+	if( !(use_on in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "The item must be in your backpack to repair it.");
+		return 0;
+	endif
+	if(is_repairable(who, use_on.objtype, skillid))
+		return use_on;
+	else
+		return 0;
+	endif
+endfunction
+
+function is_repairable(who, what, skillid)
+	var skill_cfg;
+	case(CInt(skillid))
+		7: skill_cfg := ReadConfigFile(":blacksmithy:blacksmithy");
+		8: skill_cfg := ReadConfigFile(":bowcraft:bowcraft");
+		11: skill_cfg := ReadConfigFile(":carpentry:carpentry");
+		34: skill_cfg := ReadConfigFile(":tailoring:tailoring");
+	endcase
+	var itemcfg := ReadConfigFile(":*:itemdesc");
+	var elem := FindConfigElem(itemcfg, what);
+	var skillref := FindConfigElem(skill_cfg, what);
+	var repairable := GetConfigInt(elem,"repairable");
+	if(skillref)
+		if(repairable == 1)
+			return 1;
+		else
+			SendSysMessage(who, "The item cannot be repaired");
+			return 0;
+		endif
+	else
+		SendSysMessage(who, "You cannot repair that item with this type of repair contract.");
+		return 0;
+	endif
+endfunction

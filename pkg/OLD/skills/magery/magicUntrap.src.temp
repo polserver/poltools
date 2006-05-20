@@ -1,0 +1,27 @@
+// $Id: magicUntrap.src.temp 897 2005-11-04 07:22:07Z muaddiblsd $
+
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/sound";
+include ":attributes:attributes";
+
+program spell_magicUntrap(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+
+	if (GetObjProperty(castOn, "trap_strength") > 25)
+		SendSysMessage(caster, "You couldn't disarm the trap.");
+	else
+		var oldscript := GetObjProperty(castOn, "oldscript");
+		PlaySoundEffect(caster, SFX_SPELL_MAGIC_UNTRAP);
+		PlayStationaryEffect(castOn.x, castOn.y, castOn.z, 0x376a, 30, 30,0 , caster.realm);
+		EraseObjProperty(castOn, "trap_type");
+		EraseObjProperty(castOn, "trap_strength");
+		castOn.usescript := oldscript;
+	endif
+
+	return;
+endprogram

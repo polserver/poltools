@@ -1,0 +1,15 @@
+/* $Id: NPCCount.src 693 2005-10-29 06:45:26Z muaddiblsd $
+ *
+ */
+use uo;
+
+program console_npccount(cmd)
+
+	cmd := cmd;
+	var npccount := polcore().mobilecount - len(EnumerateOnlineCharacters());
+
+	print("System Message: Current # of NPCS - " + npccount);
+
+	return 1;
+
+endprogram

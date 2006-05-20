@@ -1,0 +1,41 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include ":attributes:attributes";
+include "include/sound";
+include ":coords:findCity";
+
+
+program spell_magicTrap(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+
+	if ((castOn.isa(POLCLASS_DOOR)) || (castOn.objtype == 0xe79) || ((castOn.graphic<=0x9ab) &&(castOn.graphic>=0x9a8)) ||((castOn.graphic<=0xe43) &&(castOn.graphic>=0xe3c)) ||((castOn.graphic<=0xe80) &&(castOn.graphic>=0xe7c)))
+		var magery := AP_GetSkill(caster, MAGERY);
+		var trapstr := CInt(magery/5);
+		if (findcity(castOn) != "no city")
+			caster.setCriminal(1);
+		endif
+		if (findcity(caster) != "no city")
+			caster.setCriminal(1);
+		endif
+		if (trapstr < 1)
+			trapstr := 1;
+		endif
+		if (trapstr > 5)
+			trapstr:=5;
+		endif
+		PlaySoundEffect(caster, SFX_SPELL_MAGIC_TRAP);
+		PlayStationaryEffect(castOn.x, castOn.y, castOn.z, 0x376a, 30, 30, 0, caster.realm);
+		SetObjProperty(castOn, "trap_strength", trapstr);
+		SetObjProperty(castOn, "trap_type", 4);
+		SetObjProperty(castOn, "oldscript", castOn.usescript);
+		castOn.usescript := ":tinkering:tinkerTraps";
+	else
+		SendSysMessage(caster, "That cannot be magically trapped!");
+	endif
+
+	return;
+endprogram

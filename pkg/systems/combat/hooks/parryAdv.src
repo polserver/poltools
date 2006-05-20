@@ -1,0 +1,21 @@
+/*
+ * $Id: parryAdv.src 919 2005-11-06 09:23:16Z austin $
+ *
+ */
+use os;
+
+program hook_startup()
+	print("INSTALLING: Parry hook...");
+	return 1;
+endprogram
+
+exported function ParryAdvancement(attacker, weapon, defender, shield)
+	// Eliminates compiler warnings
+	attacker := attacker;
+	weapon := weapon;
+	defender := defender;
+	shield := shield;
+
+	return 0;
+endfunction
+

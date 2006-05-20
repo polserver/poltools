@@ -1,0 +1,17 @@
+/* $Id: onDelete.src 891 2005-11-04 06:29:43Z muaddiblsd $
+ *
+ */
+use datafile;
+
+include ":datafile:datafile";
+
+program charProfile_onDelete(who)
+
+	var cp_data_file  := DFOpenDataFile(":charprofile:CPFile", DF_NO_CREATE);
+	if( cp_data_file )
+		return cp_data_file.DeleteElement(who.serial);
+	endif
+
+	return 1;
+
+endprogram

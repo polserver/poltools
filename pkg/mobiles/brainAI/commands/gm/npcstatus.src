@@ -1,0 +1,52 @@
+/*
+ * 
+ */
+ 
+use uo;
+use os;
+use polsys;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcWatchList";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program textcmd_NPCStatus(who)
+	var targ := Target(who);
+	if ( !targ.IsA(POLCLASS_NPC) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	var gump := GFCreateGump();
+	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 400, 480);
+	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 370, 450);
+	GFTextMid(gump, 0, 15, 300, 2100, "Brain NPC Info");
+	
+	var text := "<B>NERVES</B><BR>";			
+	foreach nerve in (LoadNerves(targ))
+		var state := GetProcess(nerve.pid).state;
+		if ( !state )
+			state := "Killed";
+		endif
+		
+		text := text+"<U>"+_nerve_iter+"</U><BR>"+
+			"Pid: "+nerve.pid+"<BR>"+
+			"Flags: "+nerve.flags+"<BR>"+
+			"Status: "+state+"<BR>";
+			
+		sleepms(2);
+	endforeach
+	
+	text := text+"<BR><B>WATCH LIST</B><BR>";
+	foreach serial in ( NPC_LoadWatchList(targ).keys() )
+		var name := SystemFindObjectBySerial(CInt(serial)).name;
+		text := text+Hex(serial)+" "+name+"<BR>";
+		sleepms(2);
+	endforeach
+	
+	GFHTMLArea(gump, 25, 40, 357, 423, text, 0, 1);
+	
+	GFSendGump(who, gump);
+	return 1;
+endprogram

@@ -1,0 +1,1005 @@
+# $Id: spells.cfg.temp 897 2005-11-04 07:22:07Z muaddiblsd $
+#
+#
+##############
+#
+# SpellID : same as the config key val- the ID of the spell
+# Name : the spells's name
+# SpellScript : the spell's SpellScript
+# Circle : the circle of the spell
+# Delivery : the mode of delivering the spell.
+#   direct : target something
+#   indirect : target an area
+#   notarget : no target necessary
+# Noto : casting a harmful spell on a blue will flag you criminal;
+#   casting a beneficial spell on a red will do the same.
+# PowerWords : the words of power for the spell
+# Animation : define a different spellcasting animation
+# animReps : caster will perform the spellcasting animation this many times,
+#   with 750ms passing in between. Overrides the default value in circles.cfg
+# extraWait : after finishing the animations, wait this many ms before spell
+#   actually goes off.  Overrides the default value in circles.cfg
+# Reagent : what regs the spell requires.
+#
+################
+
+###
+# Madman's note:
+#  All spellcasting timing notes come from the LBR/AOS hint book for UO.
+#  The old versions of these values in this file included summoning spells
+#  taking a heck of a lot longer to cast than ordinary spells.
+#  Fortunately, you can tweak these on a by-spell basis, so feel free.
+#
+
+# First circle spells take 500ms to cast.
+
+Spell 1
+{
+    SpellId     1
+    Name        Clumsy
+    SpellScript      :magery:clumsy
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Uus Jux
+    Reagent     bloodmoss
+    Reagent     nightshade
+
+}
+
+Spell 2
+{
+    SpellId     2
+    Name        Create Food
+    SpellScript      :magery:createFood
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	notarget
+    Noto	helpful
+    PowerWords  In Mani Ylem
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     MandrakeRoot
+}
+
+Spell 3
+{
+    SpellId     3
+    Name        Feeblemind
+    SpellScript      :magery:feeblemind
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Rel Wis
+    Reagent     nightshade
+    Reagent     ginseng
+}
+
+Spell 4
+{
+    SpellId     4
+    Name        Heal
+    SpellScript      :magery:heal
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	helpful
+    PowerWords  In Mani
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     spidersilk
+}
+
+Spell  5
+{
+    SpellId     5
+    Name        Magic Arrow
+    SpellScript      :magery:magicArrow
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	harmful
+    PowerWords  In Por Ylem
+    Reagent     blackpearl
+    Reagent     nightshade
+}
+
+Spell 6
+{
+    SpellId     6
+    Name        Night Sight
+    SpellScript      :magery:nightSight
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	helpful
+    PowerWords  In Lor
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 7
+{
+    SpellId     7
+    Name        Reactive Armor
+    SpellScript      :magery:reactiveArmor
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Flam Sanct
+    Reagent     garlic
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 8
+{
+    SpellId     8
+    Name        Weaken
+    SpellScript      :magery:weaken
+    Script	:spellcasting:spellcast
+    Circle      1
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Des Mani
+    Reagent     garlic
+    Reagent     nightshade
+}
+
+# Second circle spells take 750ms to cast.
+
+Spell 9
+{
+    SpellId     9
+    Name        Agility
+    SpellScript      :magery:agility
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Ex Uus
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+}
+
+Spell 10
+{
+    SpellId     10
+    Name        Cunning
+    SpellScript      :magery:cunning
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Uus Wis
+    Reagent     Nightshade
+    Reagent     mandrakeroot
+}
+
+Spell 11
+{
+    SpellId     11
+    Name        Cure
+    SpellScript      :magery:cure
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	helpful
+    PowerWords  An Nox
+    Reagent     garlic
+    Reagent     ginseng
+}
+
+Spell 12
+{
+    SpellId     12
+    Name        Harm
+    SpellScript      :magery:harm
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	harmful
+    PowerWords  An Mani
+    Reagent     nightshade
+    Reagent     spidersilk
+}
+
+Spell 13
+{
+    SpellId     13
+    Name        Magic Trap
+    SpellScript      :magery:magicTrap
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	harmful
+    PowerWords  In Jux
+    Reagent     garlic
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 14
+{
+    SpellId     14
+    Name        Magic Untrap
+    SpellScript      :magery:magicUntrap
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	harmful
+    PowerWords  An Jux
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     SulphurousAsh
+}
+
+Spell 15
+{
+    SpellId     15
+    Name        Protection
+    SpellScript      :magery:protection
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Uus Sanct
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     SulphurousAsh
+}
+
+Spell 16
+{
+    SpellId     16
+    Name        Strength
+    SpellScript      :magery:strength
+    Script	:spellcasting:spellcast
+    Circle      2
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Uus Mani
+    Reagent     mandrakeroot
+    Reagent     nightshade
+}
+
+# Third circle spells take 1s to cast.
+
+Spell 17
+{
+    SpellId     17
+    Name        Bless
+    SpellScript      :magery:bless
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	direct
+    Noto	helpful
+    PowerWords  Rel Sanct
+    Reagent     garlic
+    Reagent     mandrakeroot
+}
+
+Spell 18
+{
+    SpellId     18
+    Name        Fireball
+    SpellScript      :magery:fireball
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Vas Flam
+    Reagent     blackpearl
+    Reagent     sulphurousash
+}
+
+Spell 19
+{
+    SpellId     19
+    Name        Magic Lock
+    SpellScript      :magery:magicLock
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	direct
+    Noto	neutral
+    PowerWords  An Por
+    Reagent     bloodmoss
+    Reagent     garlic
+    Reagent     SulphurousAsh
+}
+
+Spell 20
+{
+    SpellId     20
+    Name        Poison
+    SpellScript      :magery:poison
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	direct
+    Noto	harmful
+    PowerWords  In Nox
+    Reagent     nightshade
+}
+
+Spell 21
+{
+    SpellId     21
+    Name        Telekinesis
+    SpellScript      :magery:telekinesis
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery 	direct
+    Noto	harmful
+    PowerWords  Ort Por Ylem
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+}
+
+Spell 22
+{
+    SpellId     22
+    Name        Teleport
+    SpellScript      :magery:teleport
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  Rel Por
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+}
+
+Spell 23
+{
+    SpellId     23
+    Name        Unlock
+    SpellScript      :magery:unlock
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	direct
+    Noto	neutral
+    PowerWords  Ex Por
+    Reagent     bloodmoss
+    Reagent     garlic
+}
+
+Spell 24
+{
+    SpellId     24
+    Name        Wall of Stone
+    SpellScript      :magery:wallOfStone
+    Script	:spellcasting:spellcast
+    Circle      3
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  In Sanct Ylem
+    Reagent     bloodmoss
+    Reagent     garlic
+}
+
+# Fourth circle spells take 1250ms to cast
+
+Spell 25
+{
+    SpellId     25
+    Name        Arch Cure
+    SpellScript      :magery:archCure
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	indirect
+    Noto	helpful
+    PowerWords  Vas An Nox
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     MandrakeRoot
+}
+
+Spell 26
+{
+    SpellId     26
+    Name        Arch Protection
+    SpellScript      :magery:archProt
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	indirect
+    Noto	helpful
+    PowerWords  Vas Uus Sanct
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 27
+{
+    SpellId     27
+    Name        Curse
+    SpellScript      :magery:curse
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Des Sanct
+    Reagent     garlic
+    Reagent     nightshade
+    Reagent     SulphurousAsh
+}
+
+Spell 28
+{
+    SpellId     28
+    Name        Fire Field
+    SpellScript      :magery:fireField
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  In Flam Grav
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+    Reagent     blackpearl
+}
+
+Spell 29
+{
+    SpellId     29
+    Name        Greater Heal
+    SpellScript      :magery:gHeal
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	direct
+    Noto	helpful
+    PowerWords  In Vas Mani
+    Reagent     garlic
+    Reagent     ginseng
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 30
+{
+    SpellId     30
+    Name        Lightning
+    SpellScript      :magery:lightning
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Por Ort Grav
+    Reagent     blackpearl
+    Reagent     sulphurousash
+    Reagent 	MandrakeRoot
+}
+
+Spell 31
+{
+    SpellId     31
+    Name        Mana Drain
+    SpellScript      :magery:manaDrain
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Ort Rel
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 32
+{
+    SpellId     32
+    Name        Recall
+    SpellScript      :magery:recall
+    Script	:spellcasting:spellcast
+    Circle      4
+    Delivery	notarget
+    Noto	neutral
+    PowerWords  Kal Ort Por
+    Reagent     blackpearl
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+}
+
+# Fifth circle spells take 1500ms to cast
+
+Spell 33
+{
+    SpellId     33
+    Name        Blade Spirit
+    SpellScript      :magery:bladeSpirit
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  In Jux Hur Ylem
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     nightshade
+}
+
+Spell 34
+{
+    SpellId     34
+    Name        Dispel Field
+    SpellScript      :magery:dispelField
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	direct
+    Noto	neutral
+    PowerWords  An Grav
+    Reagent     blackpearl
+    Reagent     garlic
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 35
+{
+    SpellId     35
+    Name        Incognito
+    SpellScript      :magery:incognito
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	notarget
+    Noto	neutral
+    PowerWords  Kal In Ex
+    Reagent     bloodmoss
+    Reagent     garlic
+    Reagent     nightshade
+}
+
+Spell 36
+{
+    SpellId     36
+    Name        Magic Reflection
+    SpellScript      :magery:reflect
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	notarget
+    Noto	helpful
+    PowerWords  In Jux Sanct
+    Reagent     garlic
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 37
+{
+    SpellId     37
+    Name        Mind Blast
+    SpellScript      :magery:mindBlast
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Por Corp Wis
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     nightshade
+    Reagent     SulphurousAsh
+}
+
+Spell 38
+{
+    SpellId     38
+    Name        Paralyze
+    SpellScript      :magery:paralyze
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	direct
+    Noto	harmful
+    PowerWords  An Ex Por
+    Reagent     garlic
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 39
+{
+    SpellId     39
+    Name        Poison Field
+    SpellScript      :magery:poisonField
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  In Nox Grav
+    Reagent     blackpearl
+    Reagent     nightshade
+    Reagent     spidersilk
+}
+
+Spell 40
+{
+    SpellId     40
+    Name        SummonCreature
+    SpellScript      :magery:summonCreature
+    Script	:spellcasting:spellcast
+    Circle      5
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  Kal Xen
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+# Sixth circle spells take 1750ms to cast
+
+Spell 41
+{
+    SpellId     41
+    Name        Dispel
+    SpellScript      :magery:dispel
+    Script	:spellcasting:spellcast
+    Circle      6
+    PowerWords  An Ort
+    Reagent     garlic
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 42
+{
+    SpellId     42
+    Name        Energy Bolt
+    SpellScript      :magery:eBolt
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Corp Por
+    Reagent     blackpearl
+    Reagent     nightshade
+}
+
+Spell 43
+{
+    SpellId     43
+    Name        Explosion
+    SpellScript      :magery:explosion
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Vas Ort Flam
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 44
+{
+    SpellId     44
+    Name        Invisibility
+    SpellScript      :magery:invisibility
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	direct
+    Noto	helpful
+    PowerWords  An Lor Xen
+    Reagent     bloodmoss
+    Reagent     nightshade
+}
+
+Spell 45
+{
+    SpellId     45
+    Name        Mark
+    SpellScript      :magery:mark
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	notarget
+    Noto	neutral
+    PowerWords  Kal Por Ylem
+    Reagent     blackpearl
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+}
+
+Spell 46
+{
+    SpellId     46
+    Name        Mass Curse
+    SpellScript      :magery:massCurse
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  Vas Des Sanct
+    Reagent     garlic
+    Reagent     mandrakeroot
+    Reagent     nightshade
+    Reagent     SulphurousAsh
+}
+
+Spell 47
+{
+    SpellId     47
+    Name        Paralyze Field
+    SpellScript      :magery:paraField
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  In Ex Grav
+    Reagent     blackpearl
+    Reagent     ginseng
+    Reagent     spidersilk
+}
+
+Spell 48
+{
+    SpellId     48
+    Name        Reveal
+    SpellScript      :magery:reveal
+    Script	:spellcasting:spellcast
+    Circle      6
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  Wis  Quas
+    Reagent     bloodmoss
+    Reagent     SulphurousAsh
+}
+
+# Seventh circle spells take 2s to cast
+
+Spell 49
+{
+    SpellId     49
+    Name        Chain Lightning
+    SpellScript      :magery:chainLightning
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  Vas Ort Grav
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     blackpearl
+    Reagent     SulphurousAsh
+}
+
+Spell 50
+{
+    SpellId     50
+    Name        Energy Field
+    SpellScript      :magery:energyField
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  In Sanct Grav
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 51
+{
+    SpellId     51
+    Name        FlameStrike
+    SpellScript      :magery:flameStrike
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Kal Vas Flam
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 52
+{
+    SpellId     52
+    Name        Gate
+    SpellScript      :magery:gate
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	notarget
+    Noto	neutral
+    PowerWords  Vas Rel Por
+    Reagent     blackpearl
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 53
+{
+    SpellId     53
+    Name        Mana Vampire
+    SpellScript      :magery:manaVamp
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	direct
+    Noto	harmful
+    PowerWords  Ort Sanct
+    Reagent     blackpearl
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 54
+{
+    SpellId     54
+    Name        Mass Dispel
+    SpellScript      :magery:massDispel
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	indirect
+    Noto	neutral
+    PowerWords  Vas An Ort
+    Reagent     blackpearl
+    Reagent     garlic
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 55
+{
+    SpellId     55
+    Name        Meteor Swarm
+    SpellScript      :magery:meteorSwarm
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	indirect
+    Noto	harmful
+    PowerWords  Kal Des Flam Ylem
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     SpiderSilk
+    Reagent     SulphurousAsh
+}
+
+Spell 56
+{
+    SpellId     56
+    Name        Polymorph
+    SpellScript      :magery:polymorph
+    Script	:spellcasting:spellcast
+    Circle      7
+    Delivery	notarget
+    Noto	helpful
+    PowerWords  Vas Ylem Rel
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+# Eighth circle spells take 2250ms to cast
+
+Spell 57
+{
+    SpellId     57
+    Name        Earthquake
+    SpellScript      :magery:earthquake
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	notarget
+    Noto	neutral
+    PowerWords  In Vas Por
+    Reagent     bloodmoss
+    Reagent     ginseng
+    Reagent     mandrakeroot
+    Reagent     SulphurousAsh
+}
+
+Spell 58
+{
+    SpellId     58
+    Name        EnergyVortex
+    SpellScript      :magery:vortex
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	harmful
+    Animation   0x11
+    PowerWords  Vas Corp Por
+    Reagent     blackpearl
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     nightshade
+}
+
+Spell 59
+{
+    SpellId     59
+    Name        Resurrection
+    SpellScript      :magery:resurrect
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	direct
+    Noto	neutral
+    PowerWords  An Corp
+    Reagent     bloodmoss
+    Reagent     garlic
+    Reagent     ginseng
+}
+
+Spell 60
+{
+    SpellId     60
+    Name        Summon Air Elemental
+    SpellScript      :magery:summonAir
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	neutral
+    Animation   0x11
+    PowerWords  Kal Vas Xen Hur
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 61
+{
+    SpellId     61
+    Name        Summon Daemon
+    SpellScript      :magery:summonDaemon
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	neutral
+    Animation   0x11
+    PowerWords  Kal Vas Xen Corp
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 62
+{
+    SpellId     62
+    Name        Summon Earth Elemental
+    SpellScript      :magery:summonEarth
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	neutral
+    Animation   0x11
+    PowerWords  Kal Vas Xen Ylem
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}
+
+Spell 63
+{
+    SpellId     63
+    Name        Summon Fire Elemental
+    SpellScript      :magery:summonFire
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	neutral
+    Animation   0x11
+    PowerWords  Kal Vas Xen Flam
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+    Reagent     SulphurousAsh
+}
+
+Spell 64
+{
+    SpellId     64
+    Name        Summon Water Elemental
+    SpellScript      :magery:summonWater
+    Script	:spellcasting:spellcast
+    Circle      8
+    Delivery	indirect
+    Noto	neutral
+    Animation   0x11
+    PowerWords  Kal Vas Xen An Flam
+    Reagent     bloodmoss
+    Reagent     mandrakeroot
+    Reagent     spidersilk
+}

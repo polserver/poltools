@@ -1,0 +1,12 @@
+// $Id: use.src 1178 2006-02-10 12:32:59Z austin $
+
+use uo;
+
+program useBook(who,book)
+	if ( !ReserveItem(book) )
+		SendSysMessage(who, "Someone else is already reading this book.");
+		return 0;
+	endif
+
+	SendOpenBook(who, book);
+endprogram

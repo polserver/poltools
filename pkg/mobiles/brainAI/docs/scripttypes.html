@@ -1,0 +1,960 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>Script Types</h2>
+	</div>
+
+	<div id="content">
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" cellpadding="2">
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <font face="Tahoma" size="2"><br>
+          <b>The following scripts are used by the brain core.</b><br>
+&nbsp;</font></td>
+        </tr>
+      <tr>
+          <td width="100%" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; border-top-style: none; border-top-width: medium; border-bottom-style: solid; border-bottom-width: 1">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style: solid; border-left-width: 1; border-right-style: solid; border-right-width: 1; border-bottom-style: solid; border-bottom-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Combat<a name="Combat"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_ENGAGED and SYSEVENT_DAMAGED
+          </font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates while the NPC is in 
+          combat and should control all combat related activities.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'CombatScript'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/combat.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%" style="border-top-style: solid; border-top-width: 1">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">CycleScript<a name="Cycle"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, settings, 
+          scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Critical</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This script is run every time the brain 
+          core makes a tick (loop).</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">The cycle script is used if you want to 
+          have the NPC perform an action every time it ticks.<br>
+          Note that this script will not be run if the NPC is in sleep mode.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'CycleScript'<br>
+&nbsp;- This nerve type does not have any AISettings used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/cycleScript.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">DblClick<a name="DblClick"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_DOUBLECLICKED</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when the NPC has been 
+          double clicked by a player.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'DblClick'<br>
+&nbsp;- This nerve uses an 'AISetting' entry called 'DblClickRange'</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/DblClick.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Disengaged<a name="Disengaged"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_DISENGAGED</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when another mobile 
+          stops targetting the NPC for combat.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'Disengaged'<br>
+&nbsp;- This nerve type does not have any AISettings used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/disengaged.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">EnterArea<a name="EnterArea"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_ENTEREDAREA</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when another mobile 
+          has entered the NPC's area.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'EnterArea'<br>
+&nbsp;- This nerve uses an 'AISetting' entry called 'AreaSize'</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/enteredArea.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">GoneCriminal<a name="GoneCriminal"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_GONE_CRIMINAL</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when another mobile 
+          has become either a criminal or a murderer inside of the NPC's area.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword is 
+          'GoneCriminal'<br>
+&nbsp;- This nerve uses an 'AISetting' entry called 'AreaSize'</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/goneCriminal.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Init<a name="Init"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, settings, 
+          scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Critical</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Runs when the NPC is created.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This script is responsible for 
+          initializing an NPC. This includes the name, equipment, etc.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This script's 'AIScripts' keyword 
+          is 'Init'<br>
+&nbsp;- This script type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/init.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">ItemGiven<a name="ItemGiven"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_ITEM_GIVEN</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when a player has 
+          dragged an item onto the NPC.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'ItemGiven'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/itemGiven.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">LeftArea<a name="LeftArea"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_LEFTAREA</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when another mobile 
+          has left the NPC's area.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'LeftArea'<br>
+&nbsp;- This nerve uses an 'AISetting' entry called 'AreaSize'</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/leftArea.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">LookAround<a name="LookAround"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve begins running after the NPC's 
+          init script has run.<br>
+          The nerve is automatically started again when the NPC leaves sleep 
+          mode.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This script is used to maintain a list of 
+          mobiles / items that the NPC is watching.<br>
+          This nerve communicates with npcWatchList.inc.<br>
+          This nerve should handle all List*() POL core function calls.<br>
+          <br>
+          If this nerve is running, the NPC will not be allowed to enter sleep 
+          mode.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'LookAround'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/lookAround.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Listen<a name="Listen"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_SPEECH and SYSEVENT_GHOST_SPEECH</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates when another mobile 
+          has spoken.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'Listen'<br>
+&nbsp;- This nerve uses&nbsp; an 'AISettings' entry called 'HearSpeech'. If 
+          enabled it will accept normal speech events.<br>
+&nbsp;- This nerve uses&nbsp; an 'AISettings' entry called 'HearGhosts'. If 
+          enabled it will accept ghost speech events.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/listen.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Merchant<a name="Merchant"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">SYSEVENT_MERCHANT_BOUGHT and 
+          SYSEVENT_MERCHANT_SOLD</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates after the NPC has 
+          made a sale or purchase using the POL core Send(Sell/Buy)Window() 
+          function.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'Merchant'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/merchant.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Restart<a name="Restart"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, settings, 
+          scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Critical</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">POL startup<br>
+          POL core function Restart()</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This script is run on the NPC when POL 
+          starts up or the POL core function Restart() was used on the NPC.<br>
+          This script needs to be used with npcNerves.inc to stop all nerves.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This script's 'AIScripts' keyword 
+          is 'Restart'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/restart.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Sleep<a name="Sleep"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">No events have been received after a 
+          certain number of ticks (loops).</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This nerve operates if the NPC has gone 
+          over a certain number of ticks and has either:<br>
+          1. Not received any POL core SYSEVENT_* events.<br>
+          2. Not received any NPCEVENT_* that have WAKEUP set to true.</font><p>
+          <font face="Tahoma" size="2">This nerve will run until the above 
+          conditions have been met.<br>
+          It is the responsibility of the sleep script to stop other nerve 
+          scripts that no longer need to run.<br>
+          This nerve should loop and handle various things such as wandering 
+          with a high delay on the loop.<br>
+          This nerve should send minimal commands to the brain to reduce shard 
+          load.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This nerve's 'AIScripts' keyword 
+          is 'Sleep'<br>
+&nbsp;- This nerve uses&nbsp; an 'AISettings' entry called 'IdleTicks'.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/sleep.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">ShouldWatch<a name="ShouldWatch"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, mobile, 
+          settings</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Critical</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">When called in another brain script with 
+          NPC_ShouldWatch() in npcWatchList.inc</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">This script is not directly used by the 
+          brain.<br>
+          This script works as a hook to determine if a mobile should be added 
+          to the NPC's watch list and if its presence should bring the NPC out 
+          of sleep mode in its 'EnterArea' nerve.<br>
+          <br>
+          This script should return 1 if the NPC should watch the mobile and 0 
+          if not.<br>
+          If the NPC has no 'ShouldWatch' script then it is assumed the mobile 
+          should be watched.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This script's 'AIScripts' keyword 
+          is 'ShouldWatch'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/ShouldWatch.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%">&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="100%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma">Virtual<a name="Vitual"></a></font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" align="center">
+          <p align="center"><b><font face="Tahoma" size="2">npc, nerve_name, 
+          event, settings, scripts</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Script Type (Priority)</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">Nerve Script</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Trigger</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">The NPC has received an event that no 
+          other nerve types handle.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">The virtual nerve handles any events sent 
+          to the NPC that no other nerve types handle.<br>
+          This is used as an extension to the brain core's eventParser.inc file.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Config Settings</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">&nbsp;- This script's 'AIScripts' keyword 
+          is 'Virtual'<br>
+&nbsp;- This nerve type does not have any 'AISettings' used in the brain core.</font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2"><b>Example</b></font></td>
+        </tr>
+      <tr>
+          <td width="100%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1">
+          <font face="Tahoma" size="2">See '/complete/exampleNPC/virtual.src'</font></td>
+        </tr>
+      <tr>
+          <td width="100%"></td>
+        </tr>
+      <tr>
+        <td width="100%">&nbsp;</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: scripttypes.html 891 2005-11-04 06:29:43Z muaddiblsd $</p>
+	</div>
+</div>
+</body>

@@ -1,0 +1,21 @@
+use uo;
+use os;
+use util;
+
+include "include/statMod";
+include ":attributes:attributes";
+
+program agility( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  PlaySoundEffect(caster, 0x1e8);
+  PlayObjectCenteredEffect(caster, 0x373a, 7,7);
+  if(!CanMod(castOn, "dex"))
+    SendSysMessage(caster,"Another existing effect negates your spell!");
+    return;
+  endif
+  var magery := AP_GetSkill(caster, MAGERY);
+  var modAmount := GetModAmount( magery );
+  var duration := GetModDuration( magery );
+  DoTempMod(castOn, "dex", modAmount, duration);
+endprogram

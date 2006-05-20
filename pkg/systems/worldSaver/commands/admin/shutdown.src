@@ -1,0 +1,24 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":worldsaver:saver";
+include ":gumps:requestgump";
+
+program textcmd_shutDown(who, time)
+	
+	if ( !time )
+		time := RequestGump(who, "Number of minutes for shutdown timer.", "", 5, CANCEL_BTN_ON);
+		if ( !time )
+			SendSysMessage(who, "Cancelled.");
+			return 0;
+		endif
+	endif
+	
+	SendSysMessage(who, "Sending shutdown command to world saver.");
+	SVR_SendCommand(EVENT_START_SHUTDOWN, CInt(time));
+	
+	return 1;
+endprogram

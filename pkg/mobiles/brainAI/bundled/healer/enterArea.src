@@ -1,0 +1,53 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_ENTEREDAREA:
+					EnteredArea(npc, event, scripts);
+					break;
+				default:
+					break;
+			endcase
+			
+			event := 0;
+		endif
+		
+		sleepms(5);
+		event := wait_for_event(600);
+	endwhile
+endprogram
+
+function EnteredArea(npc, byref event, byref scripts)
+	var source := event.source;
+	
+	if ( !source.dead )
+		return 0;
+	elseif ( !CheckLineOfSight(npc, source) )
+		return 0;
+	elseif ( source.criminal )
+		AI_Speak(npc, "I will not aid a criminal.");
+	elseif ( !GetObjProperty(source, "#ResMenu") )
+		var script := Start_Script(scripts["ResMenu"], {source, npc});
+		if ( script.errortext )
+			SendSysMessage(source, "Error - Unable to start "+scripts["ResMenu"]+" ->"+script.errortext);
+			return 0;
+		endif
+		return 1;
+	endif
+	
+	return 0;
+endfunction

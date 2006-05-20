@@ -1,0 +1,97 @@
+/* $Id: scheduler.src 981 2005-11-14 01:58:17Z austin $
+ *
+ * Purpose
+ * This script is called by the main start script.
+ * It will start all other autostart scripts and optionally register their PIDs.
+ *
+ */
+use uo;
+use polsys;
+use cfgfile;
+use os;
+
+include ":logger:exception";
+include ":scheduler:scheduler";
+
+
+program StartScheduler()
+	var cfg;
+	var glob_desc := array{};
+
+	set_script_option(SCRIPTOPT_NO_RUNAWAY, 1);
+	SetGlobalProperty(TEMPPROP_SCHED_PID, GetPID());
+	print("Starting script scheduler...");
+	foreach pkg in ( Packages() )
+		cfg := ReadConfigFile(":" + pkg.name + ":config/autoLoad");
+		if ( cfg != error )
+			Process(pkg, cfg, glob_desc);
+		endif
+	endforeach
+	Sort(glob_desc);
+	Schedule(glob_desc);
+	SetGlobalProperty(PROP_PID, glob_desc);
+	print("All automatically loaded scripts running.");
+	EraseGlobalProperty(TEMPPROP_SCHED_PID);
+
+	return 1;
+endprogram
+
+function Process(byref pkg, byref cfg, byref glob_desc)
+	foreach entry in ( GetConfigStringKeys(cfg) )
+		var script;
+		var desc := struct;
+		var elem := FindConfigElem(cfg, entry);
+
+		print("Loading " + elem.Name + "...");
+		script := start_script(":" + pkg.name + ":" + elem.Script);
+		if ( !script )
+			Exception("Scheduler::Process(): Couldn't start auto script '" + pkg.Name + ":" + elem.Script + "'");
+		else
+			desc.+Name := elem.Name;
+			desc.+Script := elem.Script;
+			desc.+Resistent := elem.Resistent;
+			desc.+Priority := elem.Priority;
+			desc.+PID := script.pid;
+			glob_desc.Append(desc);
+		endif
+	endforeach
+
+	return 1;
+endfunction
+
+
+function Sort(byref scripts)
+	var i, j;
+
+	for ( i := 1; i <= scripts.Size(); i := i + 1 )
+		for ( j := scripts.Size(); j > i; j := j - 1 )
+			if ( scripts[j].Priority >= scripts[j - 1].Priority )
+				var temp := scripts[j];
+				scripts[j] := scripts[j - 1];
+				scripts[j - 1] := temp;
+			endif
+		endfor
+	endfor
+
+	return 1;
+endfunction
+
+
+function Schedule(byref scripts)
+	var start := 1;
+	while ( scripts.Size() >= start )
+		var script := scripts[start];
+
+		print("Starting " + script.Name + "...");
+		GetProcess(script.PID).sendevent(SCHED_LOAD);
+		if ( !script.Resistent )
+			Wait(SCHED_DONE);
+			scripts.Erase(start);
+		else
+			Wait(SCHED_LOOP);
+			start := start + 1;
+		endif
+	endwhile
+
+	return 1;
+endfunction
