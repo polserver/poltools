@@ -1,5 +1,11 @@
 -- POL096 --
-05-19 MuadDib : Removed support for wepndesc.cfg in the /config folder. Any shards still
+05-20 MuadDib
+      Removed : Requiring, and support, for armrdesc.cfg. Armor within this file is to be
+                moved to the itemdesc.cfg as intended. File has been obsolete for a while
+                now.
+                
+05-19 MuadDib : 
+      Removed : Requirement for wepndesc.cfg in the /config folder. Any shards still
                 using this obsolete file can use the itemdesc.cfg files for the weapons as
                 intended. Core will no longer require this file to load either.
                 
