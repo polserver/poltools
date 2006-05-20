@@ -1,0 +1,1025 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>npcCommands.inc</h2>
+	</div>
+
+	<div id="content">
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" cellpadding="2" height="3322">
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <br>
+          <b><font face="Tahoma" size="2">npcCommands.inc Functions</font></b><br>
+&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; " align="center" colspan="2">
+          &nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Attack</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, opponent, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">opponent</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Mobile the NPC will engage in combat 
+          with.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">This command will send an 
+          SYSEVENT_ENGAGED event to the NPC receiving the event.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_ClearThoughts</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, flags)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will have its event queue 
+          cleared.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">flags</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">CLR_* flag for what scripts should have 
+          their event queues cleared.<br>
+          CLR_BRAIN - Clears the brain's queue.<br>
+          CLR_NERVE - Clears the nerve's queue.<br>
+          CLR_BOTH - Clears the queue for both.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Clears the event queue for the script 
+          calling it and or the brain.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_EndNerve</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, nerve_name, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The key id name of the nerve to stop.<br>
+          Example: &quot;Combat&quot;, &quot;LookAround&quot;, &quot;Sleep&quot;</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Used to tell the brain to stop a nerve 
+          script.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_FowardEvent</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, nerve_name, mask, data, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Name of the nerve to forward an event to.<br>
+          Example: &quot;Combat&quot;, &quot;LookAround&quot;, &quot;Sleep&quot;</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mask</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The type of event the nerve should handle 
+          the forward as. <br>
+          Example: SYSEVENT_LEFTAREA, SYSEVENT_ENGAGED</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">data</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Data that the nerve will receive</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Used to send an event from one nerve to 
+          another.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Move</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, object, to_from:=NEMOVE_TOWARD, 
+          speed:=NEMOVE_RUN, no_wake:=WAKEUP, loop:=0)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">object</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Item or NPC the NPC will move away 
+          from/toward.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">to_from</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NEMOVE_TOWARD&nbsp; - Will make the NPC 
+          move toward the object.<br>
+          NEMOVE_AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Will make the NPC move 
+          away from the object.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">speed</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NEMOVE_RUN&nbsp;&nbsp; - NPC will run.<br>
+          NEMOVE_WALK - NPC will walk.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">loop</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Number of steps for the NPC to take 
+          toward/away from the object.<br>
+          Note: Loop can be interrupted and end prematurely.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands an NPC to move toward / away 
+          from an object (mobile or item).</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_MoveXY</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, x, y, to_from:=NEMOVE_TOWARD, 
+          speed:=NEMOVE_RUN, no_wake:=WAKEUP, loop:=0)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">x</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">X coordinate</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">y</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Y coordinate</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">to_from</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NEMOVE_TOWARD&nbsp; - Will make the NPC 
+          move toward the X Y coordinate.<br>
+          NEMOVE_AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Will make the NPC move 
+          away from the X Y coordinate.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">speed</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NEMOVE_RUN&nbsp;&nbsp; - NPC will run.<br>
+          NEMOVE_WALK - NPC will walk.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">loop</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Number of steps for the NPC to take 
+          toward/away from the object.<br>
+          Note: Loop can be interrupted and end prematurely.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands an NPC to move toward or away 
+          from an XY coordinate.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_SetOpponent</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, opponent, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">opponent</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC reference that will be considered an 
+          opponent.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Places the NPC into war mode and sets an 
+          opponent.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Sleep</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Instructs the NPC to go into sleep mode.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Speak</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, text, text_type:=SPEAK_TEXTTYPE_DEFAULT, 
+          do_event:=SPEAK_DOEVENT_DISABLE, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">text</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">text_type for NPC.em<br>
+          SPEAK_TEXTTYPE_DEFAULT<br>
+          SPEAK_TEXTTYPE_WHISPER<br>
+          SPEAK_TEXTTYPE_YELL</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">text_type</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Flags for sending a system event for 
+          speech to surrounding NPCs.<br>
+          SPEAK_DOEVENT_DISABLE<br>
+          SPEAK_DOEVENT_ENABLE</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">do_event</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands the NPC to speak.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_StartNerve</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, nerve_name, script_name, data, 
+          no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">String containing the name of the nerve 
+          (dictionary key).</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">script_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Path of the script to start.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">data</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Data to be sent to the nerve once it 
+          starts.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Used to start a custom nerve up from 
+          within a nerve..</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Turn</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, turn_to, direction:=NETURN_TOWARD, 
+          no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">object</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Item or moble reference to turn away from 
+          / toward.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">direction</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Direction the NPC will face:<br>
+          NETURN_TOWARD - Will make the NPC turn toward the object.<br>
+          NETURN_AWAY - Will make the NPC turn away from the object.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands the NPC to face away from / 
+          toward an object.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_TurnXY</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, x, y, direction:=NETURN_TOWARD, 
+          no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">x</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">X Coordinate</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">y</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Y Coordinate</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">direction</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Direction the NPC will face:<br>
+          NETURN_TOWARD - Will make the NPC turn toward the object.<br>
+          NETURN_AWAY - Will make the NPC turn away from the object.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands the NPC to face away from / 
+          toward a coordinate</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_WakeUp</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Sends an event to the NPC causing it to 
+          reset its idle ticks counter and leave sleep mode.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_Wander</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, no_wake:=WAKEUP, loop:=0)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">loop</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Number of times to attempt to wander.<br>
+          Note: Loop can be interrupted and end prematurely!</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Commands the NPC to wander one step in a 
+          random direction.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">AI_WarMode</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(npc, mode:=0, no_wake:=WAKEUP)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">npc</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The NPC that will receive the command.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mode</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">0 - Takes the NPC out of warmode and 
+          clears the opponent.<br>
+          1 - Places the NPC into warmode.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">no_wake</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">WAKEUP - Will reset the NPC's idle ticks 
+          counter. If it is in sleep mode, it will wake it up.<br>
+          NOWAKE - Will leave the NPC's idle counter and sleep status alone.&nbsp;
+          </font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Toggles warmode on the NPC. <br>
+          Setting to 0 also clears the opponent.<br>
+          Note: It is probably better to do npc.WarMode(0|1)</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: npcCommands.html 891 2005-11-04 06:29:43Z muaddiblsd $</p>
+	</div>
+</div>
+</body>

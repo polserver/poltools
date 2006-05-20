@@ -1,0 +1,104 @@
+use uo;
+
+program spyglass(who);
+
+	if (who.x > 5120)
+		var dungeontext := "The moons are not visible from your location.";
+		PrintTextAbovePrivate(who, dungeontext, who);
+		return;
+	endif
+
+	var wstuff := GetGlobalProperty("Weather");
+	var tphase := wstuff[2];
+	var fphase := wstuff[1];
+
+	var outputtext := "You gaze at the heavens, and note that Trammel ";
+
+	case (tphase)
+		0:
+		outputtext := outputtext + "is new, and Felucca ";
+
+		1:
+		outputtext := outputtext + "is in its first crescent, and Felucca ";
+
+		2:
+		outputtext := outputtext + "is in its first quarter, and Felucca ";
+
+		3:
+		outputtext := outputtext + "is waxing gibbous, while Felucca ";
+
+		4:
+		outputtext := outputtext + "is full, and Felucca ";
+
+		5:
+		outputtext := outputtext + "is waning gibbous, and Felucca ";
+
+		6:
+		outputtext := outputtext + "is in its last quarter, while Felucca ";
+
+		7:
+		outputtext := outputtext + "is a dying crescent, and Felucca ";
+	endcase
+
+	case (fphase)
+		0:
+		if (tphase == 0)
+			outputtext := "You gaze at the heavens, and see that both moons are new.";
+		else
+			outputtext := outputtext + "is new.";
+		endif
+
+		1:
+		if (tphase == 1)
+			outputtext := "You gaze at the heavens, and note that both moons are a first crescent.";
+		else
+			outputtext := outputtext + "is in its first crescent.";
+		endif
+
+		2:
+		if (tphase == 2)
+			outputtext := "You gaze at the heavens, and see that both moons are in their first quarter.";
+		else
+			outputtext := outputtext + "is in its first quarter.";
+		endif
+
+		3:
+		if (tphase == 3)
+			outputtext := "You gaze at the heavens, and both moons are waxing gibbous.";
+		else
+			outputtext := outputtext + "is a waxing gibbous.";
+		endif
+
+		4:
+		if (tphase == 4)
+			outputtext := "You gaze at the heavens, and see that both moons are dazzlingly full.";
+		else
+			outputtext := outputtext + "is full.";
+		endif
+
+		5:
+		if (tphase == 5)
+			outputtext := "You gaze at the heavens, and note that both moons are waning gibbous.";
+		else
+			outputtext := outputtext + "is waning gibbous.";
+		endif
+
+		6:
+		if (tphase == 6)
+			outputtext := "You gaze at the heavens, and see both moons are in their last quarter.";
+		else
+			outputtext := outputtext + "is in its last quarter.";
+		endif
+
+		7:
+		if (tphase == 7)
+			outputtext := "You gaze at the heavens, and see both moons are a faint last crescent.";
+		else
+			outputtext := outputtext + "is a dying crescent.";
+		endif
+
+	endcase
+
+	PrintTextAbovePrivate(who, outputtext, who);
+
+endprogram

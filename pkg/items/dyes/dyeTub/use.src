@@ -1,0 +1,30 @@
+use uo;
+use cfgfile;
+
+include ":dyes:dyes";
+
+program UseTub(mobile, dyetub)
+	if( !ReserveItem(dyetub) )
+		SendSysMessage(mobile, "That dye tub is aleady in use.");
+		return 0;
+	endif
+
+	SendSysMessage(mobile, "What do you want to use this dyetub on?");
+	var targ := target(mobile);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled");
+		return;
+	elseif( !ReserveItem(targ) )
+		SendSysMessage(mobile, "That is already in use.");
+		return 0;
+	endif
+
+	if ( CanDye(targ) || mobile.cmdlevel )
+		PlaySoundEffect(mobile, 0x23F);
+		targ.color := dyetub.color;
+	else
+		SendSysMessage(mobile, "You can not dye that.");
+	endif
+
+endprogram

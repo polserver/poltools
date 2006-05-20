@@ -1,0 +1,14 @@
+/* 
+ * $Id: control.src 1005 2005-11-15 09:20:06Z muaddiblsd $
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(cuthair)
+	//Sleep(90);
+	//DestroyItem(cuthair);
+	
+	return 1;
+endprogram

@@ -1,0 +1,52 @@
+/* $Id: control.src 1391 2006-05-13 10:25:34Z austin $
+ *
+ */
+use uo;
+use os;
+
+include ":datafile:datafile";
+include ":gumps:include/gumpprompt";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+include ":gumps:include/yesno";
+include ":control:include/icp-commands";
+include ":control:include/icp-generalinfo";
+include ":control:include/icp-gumps";
+include ":control:include/icp-index";
+include ":control:include/icp-itemdesc";
+include ":control:include/icp-pkgpanel";
+include ":control:include/icp-scripts";
+include ":control:include/icp-util";
+
+// Arbitrary button return (id) values.
+const START_ID		:= 0xA00000; // Anything above this value is a button.
+const BACK_BTN		:= 0xA00002;
+const UNCACHE_BTN	:= 0xA00003;
+const GENERAL_BTN	:= 0xA00004;
+const SCRIPTS_BTN	:= 0xA00005;
+const COMMANDS_BTN	:= 0xA00006;
+const ITEMDESC_BTN	:= 0xA00007;
+
+// Easier to use the datafile as a global.
+var pkg_info := DFOpenDataFile(":control:packages", DF_CREATE);
+var pkg_gumps := DFOpenDataFile(":control:gumps", DF_CREATE);
+
+program textcmd_ICPSystem(who, pkg_name)
+	while ( who.connected )
+		if ( pkg_name )
+			var input := ICP_PackagePanels(who, pkg_name);
+			if ( !input )
+				break;
+			endif
+		endif
+
+		//Show a list of all packages
+		pkg_name := ICP_PackageIndex(who);
+		if ( !pkg_name )
+			break;
+		endif
+	endwhile
+	SendSysMessage(who, "Done");
+	
+	return 1;
+endprogram

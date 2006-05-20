@@ -1,0 +1,266 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>Config Settings</h2>
+	</div>
+
+	<div id="content">
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" cellpadding="2">
+      <tr>
+        <td width="100%" bgcolor="#C0C0C0" align="center" colspan="2" style="border-style: solid; border-width: 1">
+          <br>
+          <b><font face="Tahoma" size="2">Brain NPCDesc.cfg Settings</font></b><br>
+&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="2%" style="border-bottom-style: solid; border-bottom-width: 1; border-top-style:solid; border-top-width:1">&nbsp;</td>
+        <td width="274%" style="border-bottom-style: solid; border-bottom-width: 1; border-top-style:solid; border-top-width:1">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="100%" bgcolor="#808080" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1" colspan="2">
+        <b><font face="Tahoma" size="2">'AISetting' Entries</font></b></td>
+      </tr>
+      <tr>
+        <td width="187%" bgcolor="#C0C0C0" style="border-style: solid; border-width: 1" colspan="2">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Settings 
+        used by the brain core nerves.<br>
+        Format for them is:<br>
+        AISetting &lt;SettingName&gt; &lt;Packed Value&gt;<br>
+        <br>
+        Example:<br>
+        AISetting	CycleWait	i10<br>
+        AISetting	SomeString	s4Beer<br>
+&nbsp;</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">CycleWait</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Amount of 
+        time the brain will wait for an event before moving on.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">SleepWait</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Amount of 
+        time the brain will wait for an event while in sleep mode before moving 
+        on.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">IdleTicks</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Number of 
+        idle ticks (loops) that must pass before entering sleep mode.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">NoSleep</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">If enabled, the NPC will not be allowed to enter sleep mode or run its sleep script.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">AreaSize</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Sets the 
+        distance for triggering SYSEVENT_ENTEREDAREA and SYSEVENT_LEFTAREA.<br>
+        Will also receive SYSEVENT_GONE_CRIMINAL inside of the area range.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">
+        DblClickRange</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Maximum 
+        distance the NPC will accept double click events from.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">
+        ListenRange</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Distance 
+        NPC will listen for SYSEVENT_SPEECH and SYSEVENT_GHOST_SPEECH</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">HearSpeech</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">If set to 
+        &quot;i1&quot;, the NPC will listen to speech events (If it has a 'Listen' nerve).</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:solid; border-bottom-width:1">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">HearGhosts</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:solid; border-bottom-width:1">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">If set to 
+        &quot;i1&quot;, the NPC will listen to ghost speech events (If it has a 'Listen' 
+        nerve).</font></strong></td>
+      </tr>
+      <tr>
+        <td width="13%" style="border-left-style:none; border-left-width:medium; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium" colspan="2">
+        &nbsp;</td>
+      </tr>
+      <tr>
+        <td width="13%" bgcolor="#808080" style="border-style: solid; border-width: 1" colspan="2">
+        <strong><span style="font-weight: 700"><font face="Tahoma" size="2">'AIScript' 
+        Entries</font></span></strong></td>
+      </tr>
+      <tr>
+        <td width="13%" bgcolor="#C0C0C0" style="border-style: solid; border-width: 1" colspan="2">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Script 
+        entries inform the brain which paths / scripts to use to handle events 
+        as they come in.<br>
+        SYSEVENT_* events will only be received if the appropriate nerve script 
+        is setup.<br>
+        <br>
+        Format for them is:<br>
+        AIScript &lt;Script ID&gt; &lt;Path&gt;<br>
+        <br>
+        Example:<br>
+        AIScript	Sleep	:pkg:nerves/sleep/goSleep<br>
+        AIScript	WonFight	:brainAI:nerves/wonFight/victoryDance<br>
+&nbsp;</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Combat</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_ENGAGED and SYSEVENT_DAMAGED<br>
+        Responsible for handling NPC movement and other combat related stuff.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Cycle</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs every 
+        time the brain ticks (loops) and is not in sleep mode.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">DblClick</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_DOUBLECLICKED</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Disengaged</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_DISENGAGED</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">EnterArea</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_ENTEREDAREA</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">
+        GoneCriminal</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_GONECRIMINAL</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Init</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs when 
+        the NPC is created.<br>
+        Used to setup the NPC's name, equipment, etc.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">ItemGiven</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_ITEM_GIVEN</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">LeftArea</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_LEFTAREA</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">LookAround</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs when 
+        the NPC is not in sleep mode. Used to track mobiles nearby so it will 
+        not go into sleep mod with potential targets around.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Listen</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_SPEECH and SYSEVENT_GHOST_SPEECH</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Merchant</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        SYSEVENT_MERCHANT_BOUGHT and SYSEVENT_MERCHANT_SOLD</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Restart</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs when 
+        POL starts up or Restart() has been used on the NPC.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Sleep</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs when 
+        the NPC is in sleep mode.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">
+        ShouldWatch</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Runs to 
+        determine if the NPC should watch something or not.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="2%" bgcolor="#C0C0C0" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:solid; border-bottom-width:1">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Virtual</font></strong></td>
+        <td width="274%" bgcolor="#C0C0C0" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:solid; border-bottom-width:1">
+        <strong style="font-weight: 400"><font face="Tahoma" size="2">Handles 
+        unknown event types.</font></strong></td>
+      </tr>
+      <tr>
+        <td width="13%">&nbsp;</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: configsettings.html 960 2005-11-13 12:54:36Z austin $</p>
+	</div>
+</div>
+</body>

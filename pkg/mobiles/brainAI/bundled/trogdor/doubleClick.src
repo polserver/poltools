@@ -1,0 +1,47 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_DOUBLECLICKED:
+					DoubleClickEvent(npc);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		sleepms(5);
+		event := wait_for_event(900000);
+	endwhile
+endprogram
+
+function DoubleClickEvent(npc)
+	AI_Speak(npc, "Trogdor was a man....");
+	sleepms(700);
+	AI_Speak(npc, "Err... he was a dragon man...");
+	sleepms(900);
+	AI_Speak(npc, "... he was a DRAGON!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	sleep(1);
+	AI_Speak(npc, ".... TROOOGGGDOOOORRRRR!!!!!!!!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	sleepms(1600);
+	AI_Speak(npc, "Burninating the country side!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	sleepms(500);
+	AI_Speak(npc, "Burninating the peasants!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	
+	return 1;
+endfunction

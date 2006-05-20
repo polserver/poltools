@@ -1,0 +1,200 @@
+/* $Id: fishing.src 917 2005-11-05 23:51:11Z austin $
+ *
+ */
+
+use uo;
+use os;
+use math;
+
+include "fishingFunctions";
+include ":itemutils:canAccess";
+include ":attributes:include/attributeConstants";
+include ":attributes:include/attributes";
+include ":crafting:toolWear";
+include ":itemutils:objtype";
+include "include/OLD/startEqp";
+include "include/sysEvent";
+
+program use_FishingPole(who, fishingpole)
+
+	if( !can_access(who, fishingpole) )
+		return 0;
+	endif
+	if( fishingpole.movable == 0 )
+		SendSysMessage(who, "You cannot use that.");
+		return 0;
+	endif
+	if( !ReserveItem(fishingpole) )
+		return 0;
+	endif
+	if( !IsFishingPoleEquipped(who, fishingpole) )
+		SendSysMessage(who, "You have to equip that to go fishing.");
+		return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	var targetsquare := TargetCoordinates(who);
+	if( !targetsquare )
+		return 0;
+	endif
+
+	var locinfo:= GetMapInfo( targetsquare.x, targetsquare.y, who.realm );
+	if(IsValidFishingSpot(who, targetsquare, locinfo))
+		var px := who.x, py := who.y;
+		PerformAction(who, 0x9);
+		var newsplash := CreateItemAtLocation(targetsquare.x, targetsquare.y, targetsquare.z,  0x352d, 1, who.realm);
+		newsplash.movable := 0;
+		PlaySoundEffect(who, 0x240);
+		sleepms(400);
+		set_critical(1);
+		DestroyItem(newsplash);
+		set_critical(0);
+		newsplash := CreateItemAtLocation(targetsquare.x, targetsquare.y, targetsquare.z,  0x352e, 1, who.realm);
+		newsplash.movable := 0;
+		sleepms(400);
+		set_critical(1);
+		DestroyItem(newsplash);
+		set_critical(0);
+		newsplash := CreateItemAtLocation(targetsquare.x, targetsquare.y, targetsquare.z,  0x352f, 1, who.realm);
+		newsplash.movable := 0;
+		sleepms(400);
+		set_critical(1);
+		DestroyItem(newsplash);
+		set_critical(0);
+		newsplash := CreateItemAtLocation(targetsquare.x, targetsquare.y, targetsquare.z,  0x3530, 1, who.realm);
+		newsplash.movable := 0;
+		sleepms(400);
+		set_critical(1);
+		DestroyItem(newsplash);
+		set_critical(0);
+		sleepms(1500);
+		if( (px != who.x) or (py != who.y) )
+			SendSysMessage(who,"You move and therefore stop fishing");
+			return 0;
+		endif
+
+		if( !isSOS(who, targetsquare) )
+			var difficulty;
+			if( targetsquare.objtype )
+				difficulty := GetHarvestDifficulty("fish", targetsquare.x, targetsquare.y, targetsquare.objtype, who.realm);
+			else
+				difficulty := GetHarvestDifficulty("fish", targetsquare.x, targetsquare.y, locinfo.landtile, who.realm);
+			endif
+			if( difficulty == error )
+				SendSysMessage(who, "There doesn't seem to be any fish here.");
+				return 0;
+			endif
+			if( SkillCheck(who, FISHING, difficulty) > 0)
+				var fishreturned := HarvestResource("fish", targetsquare.x, targetsquare.y, 1, 1, who.realm);
+				if( !fishreturned )
+					SendSysMessage(who, "Oops, you let that one get away!");
+					return 0;
+				endif
+				GetTheCatch(who, targetsquare, fishingpole);
+			else
+				if( RandomInt(100) == 0 )
+					CriticalFailure(who, targetsquare);
+				else
+					SendSysMessage(who, "They don't seem to be biting today.");
+				endif
+			endif
+		endif
+	endif
+
+	return 1;
+
+endprogram
+
+
+function GetTheCatch(who, targetsquare, fishingpole)
+
+	var fishtype;
+	var currentskill := AP_GetSkill(who, FISHING);
+	var thisone := RandomInt(100)+ 1;
+	if(thisone <= 94)
+		fishtype := RandomInt(UOBJ_FISH_END - UOBJ_FISH_START)+ UOBJ_FISH_START;
+		SendSysMessage(who, "You catch a nice fish!");
+	elseif(thisone <= 97)
+		if(RandomInt(currentskill) >= 50)
+			var bootarray := array(0x170b, 0x1711, 0x170f, 0x170d);
+			fishtype := bootarray[RandomInt(4)+ 1];
+			SendSysMessage(who, "You catch some soggy footwear!");
+		else
+			fishtype := RandomInt(UOBJ_FISH_END - UOBJ_FISH_START)+ UOBJ_FISH_START;
+			SendSysMessage(who, "You catch a nice fish!");
+		endif
+	elseif(thisone <= 99)
+		if(RandomInt(currentskill) >= 50)
+			fishtype := "level" +(RandomInt(2)+ 1)+ "map";
+			SendSysMessage(who, "You find an old tattered map!");
+		else
+			fishtype := RandomInt(UOBJ_FISH_END - UOBJ_FISH_START)+ UOBJ_FISH_START;
+			SendSysMessage(who, "You catch a nice fish!");
+		endif
+	else
+		if(currentskill >= 95)
+			fishtype := "sosbottle";
+			SendSysMessage(who, "You find a message in a bottle!");
+		else
+			fishtype := RandomInt(UOBJ_FISH_END - UOBJ_FISH_START)+ UOBJ_FISH_START;
+			SendSysMessage(who, "You catch a nice fish!");
+		endif
+	endif
+
+	if(fishtype == "sosbottle")
+		var serpent := CreateNpcFromTemplate( "seaserpent", targetsquare.x, targetsquare.y, targetsquare.z );
+		if(farout(who))
+			if( !serpent.backpack )
+				EquipFromTemplate( serpent, "backpack" );
+			endif
+			CreateItemInContainer(serpent.backpack, fishtype, 1);
+		endif
+	elseif( Find("level", fishtype, 0) )
+		var serpent := CreateNpcFromTemplate( "seaserpent", targetsquare.x, targetsquare.y, targetsquare.z );
+		if(farout(who))
+			if( !serpent.backpack )
+				EquipFromTemplate( serpent, "backpack" );
+			endif
+			CreateItemInContainer(serpent.backpack, fishtype, 1);
+		endif
+	else
+		if( CreateItemInContainer(who.backpack, fishtype, 1) )
+			CheckToolWear (who, fishingpole, FISHING);
+		endif
+        endif
+
+
+	return 1;
+
+endfunction
+
+
+function CriticalFailure(who, targetsquare)
+
+	var it := CreateNpcFromTemplate("seaserpent", targetsquare.x, targetsquare.y, targetsquare.z, 0, who.realm);
+	if(it)
+		SendSysMessage(who, "Oops, that's not a fish!");
+		var ev := {};
+		ev.+type := SYSEVENT_ENGAGED;
+		ev.+source := who;
+		SendEvent(it, ev);
+	endif
+
+endfunction
+
+
+function IsFishingPoleEquipped(who, fishingpole)
+
+	if((!Accessible(who, fishingpole)) || (Distance(who, fishingpole)> 1))
+		return 0;
+	endif
+
+	if( fishingpole in ListEquippedItems(who) )
+		return 1;
+	else
+		return EquipItem(who, fishingpole);
+	endif
+
+endfunction

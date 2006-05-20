@@ -1,0 +1,73 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//  name:    OpenDoor Action Hook
+//  version: 1.0
+//  author:  MuadDib
+//
+//  Purpose: The OpenDoor Client macro is never used on freeshards for lack of support. However,
+//           those familiar with OSI know and use this a lot. This hook was made to show the purpose
+//           of the macro and for learning a bit on packets.
+//
+//  Notes:   The script will check for doors the player can access. However, it will check them and
+//           open them only if the player is 1 tile away, and facing the door. As per the OSI method
+//
+//  To Do:   Integrate ability to use this to "close" the door also. To tired to do so now.
+//
+//  Const Settings:
+//  DOOR_TIMER = # The value in seconds, that the player must wait before the macro will work again.
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+use uo;
+use os;
+
+program openDoor()
+	Print( "INSTALLING: OpenDoor Action Macro PH..." );
+	return 1;
+endprogram
+
+CONST DOOR_TIMER := 5;
+
+exported function HandleOpenDoorMacro( character, byref packet )
+
+ 	// Done to stop the "unused variable" report in ecompile.
+ 	packet := packet;
+ 	// To stop mad spamming of the macro, we check a temp cprop for the timer. If the timer is not
+ 	// set to a time less than the current Game Clock, it exits now.
+ 	if(GetObjProperty(character, "#DoorMacro") > ReadGameClock())
+ 		return 0;
+ 	endif
+ 	// Set the Temp Cprop to the Game Clock + the timer for the wait period.
+ 	SetObjProperty(character, "#DoorMacro", ReadGameClock() + DOOR_TIMER);
+ 	// Record the player's direction. This is used to look ONLY in the direction the player is facing.
+ 	var direction := character.facing;
+ 	var item := 0;
+ 	// Facing is always 0-7 for a player, so let's just do this in a case.
+ 	// The only exception is while they are running, which who cares about
+ 	// those trying to run non-stop through a door eh? ;)
+ 	case(direction)
+ 		0: item := ListItemsNearLocationWithFlag((character.x),(character.y-1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		1: item := ListItemsNearLocationWithFlag((character.x+1),(character.y-1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		2: item := ListItemsNearLocationWithFlag((character.x+1),(character.y),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		3: item := ListItemsNearLocationWithFlag((character.x+1),(character.y+1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		4: item := ListItemsNearLocationWithFlag((character.x),(character.y+1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		5: item := ListItemsNearLocationWithFlag((character.x-1),(character.y+1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		6: item := ListItemsNearLocationWithFlag((character.x-1),(character.y),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 		7: item := ListItemsNearLocationWithFlag((character.x-1),(character.y-1),(character.z),0,TILEDATA_FLAG_DOOR); break;
+ 	endcase
+ 	// See if item found is a Door. Check if the player has Line Of Sight to the door. Make sure they
+ 	// Are ALIVE!
+ 	if(item[1].isA(POLCLASS_DOOR))
+ 		if(!CheckLineOfSight(character,item[1]))
+ 			return 1;
+ 		elseif(character.dead)
+ 			return 1;
+ 		endif
+ 		// THis needs to be upgraded to use a new command that will fire the script as though it was
+ 		// fired by the item it belongs to being double clicked. Was added in recent Test Cores.
+ 		UseItem(item[1], character);
+ 	endif
+
+  // Since the core ignores this packet, might as well block it from the core anyway.
+  return 1;
+
+endfunction

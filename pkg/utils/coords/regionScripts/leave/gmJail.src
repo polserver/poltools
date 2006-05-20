@@ -1,0 +1,19 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+program EnterRegionZone(mobile, region_name)
+	
+	if ( mobile.cmdlevel )
+		SendSysMessage(mobile, "Off to go check on the players. (Leaving "+region_name+")");
+		return 1;
+	else 
+		SendSysMessage(mobile, "Go on, get out of here and behave for once.");
+		mobile.Disable("invul");
+		return 1;
+	endif
+	
+        return 1;
+endprogram

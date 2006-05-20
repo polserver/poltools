@@ -1,0 +1,19 @@
+use uo;
+use os;
+
+include "include/equipment";
+
+program UnequipTest(mobile, item)
+	if ( mobile.cmdlevel ) 
+		return 1;
+	elseif ( (mobile.frozen) || (mobile.paralyzed))
+		SendSysMessage(mobile, "You are unable to move in order to unequip that.");
+		return 0;
+	elseif ( GetObjProperty(item, "cursed") )
+		return 0;
+	else
+		RemoveEquipmentMods(mobile, item);
+		EraseObjProperty(item, "#EquippedOn");
+		return 1;
+	endif
+endprogram

@@ -1,0 +1,42 @@
+use os;
+use uo;
+
+const SEARCH_RANGE := 10;
+const TRASH_BARREL := 0x7007;  // Should probably replace this with a find by name?
+
+program maketrash( who, deed )
+
+  ReserveItem(deed);
+  SendSysMessage( who, "Where would you like your trash can?");
+  var where := TargetCoordinates( who );
+  where.+realm := who.realm;
+  var place;
+  if(!where)
+    SendSysMessage( who, "Cancelled");
+    return;
+  else
+    if(!checkfortrashcans(where))
+      place := CreateItemAtLocation( where.x, where.y, where.z, TRASH_BARREL, 1, who.realm );
+    else
+      SendSysMessage( who, "You cannot place your trash can here.");
+      return;
+    endif
+  endif
+  if(!place)
+    SendSysMessage( who, "Your trash can has not been created.");
+    return;
+  else
+    SendSysMessage( who, "You have successfully created a trash can.");
+    DestroyItem(deed);
+  endif
+endprogram
+
+function checkfortrashcans(place)
+  var stuff := ListItemsNearLocation( place.x, place.y,place.z,SEARCH_RANGE,place.realm);
+  foreach item in stuff
+	if(item.objtype == TRASH_BARREL)
+	  return 1;
+	endif
+  endforeach
+  return 0;
+endfunction

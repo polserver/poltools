@@ -1,0 +1,9 @@
+// $Id: discord.src 702 2005-10-29 20:30:02Z muaddiblsd $
+
+
+program skill_Discordance(who)
+	who := who;
+	return 0;
+
+endprogram
+

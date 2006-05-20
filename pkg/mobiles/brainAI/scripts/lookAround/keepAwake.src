@@ -1,0 +1,31 @@
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	//var settings	:= params[3];
+	//var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( !npc.opponent )
+			if ( NPC_LoadWatchList(npc).size() < 1 )
+				// No need to look around any longer. We're all alone :(
+				return;
+			endif
+			// Keep running while the npc sees something
+			// to prevent it from going to sleep.
+			//
+			// Provides no interraction with those mobiles it is watching.
+		endif
+		
+		AI_ClearThoughts(npc, CLR_NERVE);
+		Sleep(5);
+	endwhile
+endprogram

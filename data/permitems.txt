@@ -1,0 +1,6 @@
+#
+#  PERMITEMS.TXT: Permanent item data
+#
+#  Contains items marked permanent
+#
+

@@ -1,0 +1,113 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use math;
+
+include ":worldsaver:saver";
+include ":worldsaver:settings";
+include ":worldsaver:report";
+
+
+program WorldSaver()
+	SVR_ReportText("---=[ WORLD SAVER HAS STARTED UP ]=---", SAVER_REPORT_SYSLOG);
+	SetGlobalProperty("#WorldSaverPid", GetPid());
+
+	var savetimes:=struct{"nextsave":=0, "lasttick":=0};
+	UpdateTimes(savetimes);
+
+	while ( 1 )
+		var event := Wait_For_Event(GetWaitTime(savetimes));
+		if ( event )
+			savetimes.lasttick := polcore().systime;
+			case ( event.type )
+				EVENT_SAVE_NOW:
+					DoTheSave();
+					break;
+				EVENT_START_SHUTDOWN:
+					DoShutDown(event.data);
+					break;
+			endcase
+		endif
+		
+		if ( ShouldSave(savetimes ) )
+			DoTheSave();
+			UpdateTimes(savetimes);
+		endif
+
+		sleepms(2);
+	endwhile
+
+	return 1;
+endprogram
+
+function DoTheSave()
+	var save_result := SaveWorldState();
+
+	if ( save_result == error )
+		SVR_ReportText("!!! Error saving world state. Restarting POL in 20 seconds !!!", SAVER_REPORT_ALL);
+		sleep(20);
+		ShutDown();
+	else
+		set_critical(1);
+		var save_time := save_result.ElapsedMilliseconds;
+		save_time := Cdbl(CDbl(save_time)/CDbl(1000));
+		save_time := FormatRealToString(save_time, 2);
+		set_critical(0);
+
+		SVR_ReportText("Finished world save. ("+save_time+")", SAVER_REPORT_ALL);
+		SVR_ReportText("Saver - CleanObjects["+save_result.CleanObjects+"] DirtyObjects["+save_result.DirtyObjects+"]", SAVER_REPORT_SYSLOG);
+	endif
+
+	return 1;
+endfunction
+
+function ShouldSave(byref savetimes)
+	if ( savetimes.nextsave <= polcore().systime )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function GetWaitTime(byref savetimes)
+	var wait_time := savetimes.nextsave - savetimes.lasttick;
+	//Print("WaitTime="+wait_time);
+	return wait_time;
+endfunction
+
+function UpdateTimes(byref savetimes)
+	var cfg_settings := SVR_GetSettingsCfgElem("Settings");
+
+	var wait := CInt(cfg_settings.SaveTime) * 60;
+	if ( !wait )
+		wait := 3600; // 1 hour if not set.
+		SVR_ReportText("Error - No SaveTime setting set in settings.cfg", SAVER_REPORT_SYSLOG);
+	endif
+	
+	savetimes.lasttick := polcore().systime; 	// Time time there was a save or event.
+	savetimes.nextsave := polcore().systime + wait;	// Time the next save will happen.
+	
+	return 1;
+endfunction
+
+function DoShutDown(countdown:=0)
+	countdown := CInt(countdown);
+	
+	for( countdown; countdown > 0; countdown:=countdown-1 )
+		var i := 2;
+		for (i:=2; i > 0; i:=i-1)
+			SVR_ReportText("System Message: POL restarting in "+countdown+" minutes.", SAVER_REPORT_ALL);
+			sleep(30);
+		endfor
+	endfor
+	
+	SVR_ReportText("Shutting down now!", SAVER_REPORT_ALL);
+	sleep(3);
+	
+	ShutDown();
+	
+	return 1;
+endfunction

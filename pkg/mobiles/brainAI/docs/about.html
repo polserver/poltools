@@ -1,0 +1,94 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>About</h2>
+	</div>
+
+	<div id="content">
+		<p>This text is included with Brain 5 for historical reference. Please note 
+		that the contents are mostly valid, however they were written for Brain 
+		4.x and its previous versions. The below text is pasted from the above 
+		URL on the <a href="http://www.polserver.com">http://www.polserver.com</a> forums.</p>
+		<p>The <a href="http://www.polserver.com/modules.php?name=Forums&file=viewtopic&t=508">text</a>,
+		made by Birdy, explains in an easy way what the brain is about and what the ideas behind it are.</p>
+
+		<hr>
+
+		<p>There is no real documentation outside of the package itself. However, 
+		the package itself, in the code, is pretty well documented. So it 
+		shouldn't be that hard to figure out what exactly is going on.</p>
+		<p>The AI_Brain package is basically a package 
+		that uses dictionaries for it's database of scripts, and messages to know 
+		which ones to call and to receive instruction from those scripts.</p>
+		<p>At it's heart, the brain.src script is your one true &quot;npc script&quot;.
+		It includes an include which includes npc.em, and it is the script which does all direct
+		communication with the npc reference. It is also generic enough that you should really
+		never have to touch it for the  most part. It basically receives events from the npc
+		object and uses those to determine which scripts it will start off. Those scripts are
+		started, and the events appropriate to that script are passed along to it by the brain. 
+		That script operates more or less independently, having received initially a 
+		structure with the npc reference in it, and the event that started it off. 
+		If you process events within that script, you will receive the events that 
+		the brain is forwarding along to your script. In order to &quot;command&quot; the npc 
+		to do things, your script usually includes npc_commands.inc. This is a set 
+		of functions which basically packages up an event for each type of standard 
+		npc.em function, and sends an event for each one off to the brain. The brain 
+		processes these events, and executes the appropriate npc.em functionality.</p>
+		<p>That is a basic understanding of what it is 
+		all about, and if you look at brain.src and the various include files when 
+		appropriate, you should be able to see all of this taking place and put it 
+		all together as to exactly how it is happening. The brain package is a 
+		little less efficient than typical AI, and it can also run into problems if 
+		the event queue's get clogged with messages. But it's true glory is in it's 
+		generic encapsulation. With it, you can have a bunch of npc's that are very 
+		similar except, perhaps, use different combat scripts, and all you have to 
+		do is write the individual combat scripts, rather than having to re-write an 
+		entirely new AI script. The old AI scripts could be approached similarly 
+		once you understood the various nested includes, but they were far more 
+		convoluted and difficult to follow than the brain's method. But also keep in 
+		mind that seperate scripts offers the flexibility(and complexity) of doing 
+		things relatively independently of having to worry about the main AI. So, 
+		for instance, the brain will send combat events to the combat script, and 
+		that is what will keep your npc fighting, following, etc, but it will still 
+		also send speech events to the listen script. So your npc can be fighting, 
+		and talking, at the same time, without having to include &quot;talking logic&quot; 
+		within the combat code. With the standard AI, you would either have an NPC 
+		that didn't speak while fighting, or one that had to have that code imbedded 
+		not only in the main AI loop, but also the combat loop. With the brain AI, 
+		the brain fires off events to the appropriate scripts, starting off the 
+		scripts if necessary, and those scripts run independantly of one 
+		another(unless you make them rely on each other for some reason, or in some 
+		manner).</p>
+		<p>While adding some overhead to AI in it's pre-processing of events and multiple
+		scripts to handle them, the brain package does provide quite a bit of easy flexibility
+		to make your npc a little easier to manage.</p>
+
+		<hr>
+
+		<p>brainAI is an &quot;AI system&quot; that is very different architecturally from 
+		the current distro AI. So far as I understand, it is the only other 
+		released AI system for POL, although undoubtably other people have 
+		written their own from ground up and just not released them.</p>
+		<p>It attempts, and often succeeds, at taking the highly convoluted and 
+		complex task of operating your NPC's and makes that task into a fairly 
+		modular approach. In doing so, it makes alot of things much easier and 
+		even simply doable.</p>
+		<p>You really have to probably pick it up for yourself however and try it out.
+		It can work fine right along side of the distro AI, so you can just create a new NPC
+		in npcdesc.cfg which uses the brainAI to control it. So give it a try is the best advice.</p>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: about.html 891 2005-11-04 06:29:43Z muaddiblsd $</p>
+	</div>
+</div>
+</body>

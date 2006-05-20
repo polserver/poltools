@@ -1,0 +1,59 @@
+/* $Id: copylook.src 652 2005-10-24 19:36:12Z muaddiblsd $
+ *
+ */
+
+use uo;
+
+program command_CopyLook(who)
+
+	SendSysMessage(who, "Select mobile to be changed.");
+	var newlook := Target(who);
+
+	if (!newlook.isA(POLCLASS_MOBILE))
+		SendSysMessage(who, "Aborted.");
+		return 0;
+	endif
+
+	SendSysMessage(who, "Select mobile to copy.");
+	var oldlook := Target(who);
+	if (!oldlook.isA(POLCLASS_MOBILE))
+		SendSysMessage(who, "Aborted.");
+		return 0;
+	endif
+
+	var mypack := GetEquipmentByLayer(newlook, 0x15);
+	if (!mypack)
+		mypack := CreateItemAtLocation(newlook.x, newlook.y, newlook.z, 0xe75, 1, newlook.realm);
+	else
+		MoveItemToLocation(mypack, newlook.x, newlook.y, newlook.z, MOVEITEM_FORCELOCATION);
+	endif
+
+	var itemlist := ListEquippedItems(newlook);
+	var y;
+
+	foreach x in itemlist
+		MoveItemToContainer(x, mypack);
+	endforeach
+
+	itemlist := ListEquippedItems(oldlook);
+	foreach x in itemlist
+		y := CreateItemInContainer(mypack, x.objtype);
+		y.color := x.color;
+		y.name := x.name;
+		y.desc := x.desc;
+		EquipItem(newlook, y);
+	endforeach
+
+	newlook.gender := oldlook.gender;
+	newlook.graphic := oldlook.graphic;
+	newlook.color := oldlook.color;
+	newlook.name := oldlook.name;
+
+	var newpack := GetEquipmentByLayer(newlook, 0x15);
+	if (newpack)
+		DestroyItem(newpack);
+	endif
+
+	EquipItem(newlook, mypack);
+
+endprogram

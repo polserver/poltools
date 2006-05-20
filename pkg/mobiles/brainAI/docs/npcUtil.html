@@ -1,0 +1,178 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>Changelog</h2>
+	</div>
+
+	<div id="content">
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" cellpadding="2">
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <br>
+          <b><font face="Tahoma" size="2">npcUtil.inc Functions</font></b><br>
+&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; " align="center" colspan="2">
+          &nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">NPC_GetAllTemplateNames</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">()</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">This function has no parameters.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Retrieves a list of all NPC templates in 
+          the shard's npcdesc.cfg files.<br>
+          This includes packaged NPCs.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns an array of strings.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">NPC_GetNPCConfig</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(template)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">template</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Template info from NPC_ParseTemplateName().</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Retrieves a config elem for an NPC 
+          template.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Config elem</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">NPC_ParseTemplateName</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(template_name)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">template_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Name of the npc template to load settings 
+          for.<br>
+          If an NPC reference is used it will also load custom script settings 
+          set on it.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Finds the appropriate npcdesc.cfg to 
+          load.<br>
+          <br>
+          This enables NPCs to be placed in packages and not just the ::npcdesc 
+          file.<br>
+          ReadConfigFile(&quot;:*:npcdesc&quot;) does not work in this case because 
+          packaged npcs have the package name at the begining of their .npctemplate 
+          member. <br>
+          Reading the correct config file also helps to avoid possible elem name 
+          collisions. E.g. &quot;rabbit&quot; in two packages.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns struct with the members: .package 
+          and .template</font></td>
+        </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: npcUtil.html 891 2005-11-04 06:29:43Z muaddiblsd $</p>
+	</div>
+</div>
+</body>

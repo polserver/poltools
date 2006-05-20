@@ -1,0 +1,470 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<meta http-equiv="Content-Language" content="en-us">
+	<title>brainAI Documentation</title>
+	<link rel="stylesheet" type="text/css" href="docs.css" />
+</head>
+<body>
+<div id="container">
+	<div id="header">
+		<h1>brainAI DOCUMENTATION</h1>
+		<p>Version 5, codename <b>"Krang"</b>, by <a href="mailto:AustinHeilman@Gmail.com">Austin Heilman</a>.</p>
+		<hr>
+		<h2>npcNerves.inc</h2>
+	</div>
+
+	<div id="content">
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1" cellpadding="2">
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <br>
+          <b><font face="Tahoma" size="2">npcNerves.inc Functions</font></b><br>
+&nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; " align="center" colspan="2">
+          &nbsp;</td>
+        </tr>
+      <tr>
+        <td width="100%" bgcolor="#808080" style="border-style: solid; border-width: 1" colspan="2">
+        <b><font face="Tahoma" size="2">Constants</font></b></td>
+      </tr>
+      <tr>
+        <td width="100%" bgcolor="#C0C0C0" style="border-style: solid; border-width: 1" colspan="2">
+        <font face="Tahoma" size="2">The following constants are inside 
+        npcInit.inc</font></td>
+      </tr>
+      <tr>
+        <td width="100%" bgcolor="#C0C0C0" style="border-style: solid; border-width: 1" colspan="2">
+        <font face="Tahoma" size="2"><b><br>
+        </b><font color="#336600">// Nerve flags<br>
+        </font>const NF_NO_FLAGS := 0x0;<br>
+        const NF_CONTINUE_ON_SLEEP := 0x1;<br>
+&nbsp;</font></td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style: none; border-left-width: medium; border-right-style: none; border-right-width: medium; " align="center" colspan="2">
+          &nbsp;</td>
+        </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">GetNerveFlags</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, nerve_name)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Name of the nerve to get the information 
+          for.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Retrieves the flag setting for a nerve.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1 or error.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">GetNerveNameByPid</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, pid)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">pid</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Process ID to search for.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Finds the name of a nerve by its pid.<br>
+          This function searches through all nerves by their key name until it 
+          finds one with a match.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns a string - key name of the nerve.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">GetNerveProcess</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, nerve_name)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Name of the nerve to get the information 
+          for.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Retrieves a reference to a running nerve 
+          script.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns a script reference or error.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">KillNerves</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC the nerves will be stopped on.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Forces all nerve scripts that are running 
+          on an npc to stop.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">LoadNerves</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Loads nerve information for an NPC.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns a dictionary.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">SaveNerves</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, nerve_dict)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_dict</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Dictionary containing nerve information.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Saves nerve information for an NPC.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1 or error.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">StartNerve</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, nerve_name, nerve_script, 
+          data:=array, flags:=NF_NO_FLAGS)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">nerve_name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The name the nerve script will be run 
+          under. <br>
+          Example: &quot;Combat&quot;, &quot;EnterReact&quot;, &quot;Beer&quot;.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">data</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Array of data to send to the nerve script 
+          when it starts.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">flags</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:none; border-top-width:medium; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">Can contain anything - but should use 
+          NF_* flags for bitwise checks.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Starts up a nerve script.<br>
+          <br>
+          Notes:<br>
+          * data[1] - Will contain the mobile argument.<br>
+          * data[2] - Will contain the nerve name argument.<br>
+          * If data is not an array, it will be placed at data[3].<br>
+          * If data is sent as an array, it will begin at the index of [3].</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns a script reference to the nerve 
+          script.</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+          <td width="1%" bordercolor="#000000" bgcolor="#C0C0C0" bordercolorlight="#000000" bordercolordark="#000000" style="border-style:solid; border-width:1; " align="center" colspan="2">
+          <p align="center"><b><font face="Tahoma">StopNerve</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:solid; border-right-width:1; border-bottom-style:solid; border-bottom-width:1" colspan="2">
+          <b><font face="Tahoma" size="2">Parameters</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">(mobile, nerve_name)</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1">
+          <font face="Tahoma" size="2">Name</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-top-style:solid; border-top-width:1; border-bottom-style:solid; border-bottom-width:1" height="17">
+          <font face="Tahoma" size="2">Type</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">NPC to get the nerve information from.</font></td>
+        </tr>
+      <tr>
+          <td width="25%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:solid; border-left-width:1; border-right-style:none; border-right-width:medium; border-bottom-style:none; border-bottom-width:medium">
+          <font face="Tahoma" size="2">mobile</font></td>
+          <td width="102%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-left-style:none; border-left-width:medium; border-right-style:solid; border-right-width:1; border-bottom-style:none; border-bottom-width:medium" height="18">
+          <font face="Tahoma" size="2">The name of the nerve script to stop.<br>
+          Example: &quot;Combat&quot;, &quot;EnterReact&quot;, &quot;Beer&quot;</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Explanation</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Stops a nerve script.</font></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#808080" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <b><font face="Tahoma" size="2">Return Values</font></b></td>
+        </tr>
+      <tr>
+          <td width="1%" bgcolor="#C0C0C0" bordercolor="#000000" bordercolorlight="#000000" bordercolordark="#000000" style="border-style: solid; border-width: 1" colspan="2">
+          <font face="Tahoma" size="2">Returns 1 or error</font></td>
+        </tr>
+      <tr>
+        <td width="1%" colspan="2">&nbsp;</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+	</div>
+
+	<div id="footer">
+		<p>Last Update: $Id: npcNerves.html 891 2005-11-04 06:29:43Z muaddiblsd $</p>
+	</div>
+</div>
+</body>

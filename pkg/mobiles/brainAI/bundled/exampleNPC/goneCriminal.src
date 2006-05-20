@@ -1,0 +1,48 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( event )
+			var source := event.source;
+			case ( event.type )
+				SYSEVENT_GONE_CRIMINAL:
+					GoneCriminal(npc, source);
+					break;
+				default:
+					break;
+			endcase
+			
+			event := 0;
+		endif
+		
+		sleepms(5);
+		event := wait_for_event(600);
+	endwhile
+endprogram
+
+function GoneCriminal(npc, source)
+	if ( source.npctemplate )
+		return 0;
+	elseif ( source.concealed )
+		return 0;
+	elseif ( source.acctname )
+		AI_WakeUp(npc);
+		AI_Speak(npc, "Oh no! "+source.name+" has become a criminal!");
+		
+		return 1;
+	endif
+	
+	return 0;
+endfunction
+

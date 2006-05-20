@@ -1,0 +1,13 @@
+/* $Id: save.src 1389 2006-05-13 10:12:13Z austin $
+ *
+ */
+use uo;
+use os;
+
+include ":worldsaver:saver";
+
+program console_Save()
+	SVR_SendCommand(EVENT_SAVE_NOW);
+	
+	return 1;
+endprogram

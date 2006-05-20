@@ -1,0 +1,20 @@
+/* $Id: oncreate.src 1345 2006-05-12 08:18:29Z austin $
+ *
+ * Purpose
+ * This script allows the scripter to run code when a new character is created.
+ * Useful for giving out starting equipment, etc.
+ *
+ */
+use uo;
+use os;
+
+program core_onCreate(who, skillids)
+	var script := Start_Script(":newcharacter:oncreate", {who, skillids});
+	
+	if ( script.errortext )
+		SysLog("Error - Unable to start :newcharacter:oncreate ->"+script.errortext);
+		return 0;
+	endif
+	
+	return 1;
+endprogram

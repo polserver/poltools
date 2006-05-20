@@ -1,0 +1,29 @@
+/* $Id: watchFeared.src 891 2005-11-04 06:29:43Z muaddiblsd $
+ *
+ */
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+include ":brainAI:npcUtil";
+
+program BrainCriticalScript(params)
+	var npc := params[1];
+	var mobile := params[2];
+	//var settings := params[3];
+	params := 0; // Not needed anymore
+
+	if ( mobile.npctemplate )
+		var hate_config := ReadConfigFile(":brainAI:config/hatelist");
+		var config_list := FindConfigElem(hate_config, NPC_ParseTemplateName(npc.npctemplate).template);
+		var my_fear_list := GetConfigStringArray(config_list, "Fears");
+		if( !(NPC_ParseTemplateName(mobile.npctemplate).template in my_fear_list) )
+			return 0;
+		else
+			return 1;
+		endif
+	elseif ( mobile.connected )
+		return 1;
+	else
+		return 0;
+	endif
+endprogram

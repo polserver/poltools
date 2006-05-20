@@ -1,0 +1,59 @@
+/* $Id: merchant.src 1170 2006-02-09 15:24:39Z austin $
+ *
+ */
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_MERCHANT_SOLD:
+					SoldEvent(npc, event);
+					break;
+				SYSEVENT_MERCHANT_BOUGHT:
+					BoughtEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		sleepms(5);
+		event := wait_for_event(900000);
+	endwhile
+endprogram
+
+function SoldEvent(npc, byref event)
+
+	// Used to fix unused var report by ecompile: event;
+	event := event;
+
+	AI_Speak(npc, "Thank you for shopping at the quick-e-mart. Come again!");
+
+	return 1;
+endfunction
+
+function BoughtEvent(npc, byref event)
+
+	// Used to fix unused var report by ecompile: event;
+	event := event;
+
+	AI_Speak(npc, "Ill buy low, and sell high!");
+
+	return 1;
+
+endfunction

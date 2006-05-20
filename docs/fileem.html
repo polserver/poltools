@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
+File.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+File Access functions<BR>Last Modified: 6/18/2003</P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AppendToFile>
+    <TH align=middle colSpan=2>AppendToFile( filename, morelines 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>string</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>morelines</VAR></TD>
+    <TD>array of strings</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Appends to a text file, adding newlines. Creates file if it 
+      does not exist.</TD></TR>
+  <TR>
+    <TD colSpan=2>By default, no package has any file access rights. To grant 
+      access, see config/fileaccess.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 or error</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error in filename descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"No parent path traversal please."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Access denied"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unable to open file: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error during write."</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Configs</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#fileaccess.cfg"><B>fileaccess.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#LogToFile>
+    <TH align=middle colSpan=2>LogToFile( filename, textline 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>string</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>textline</VAR></TD>
+    <TD>string</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Appends a single line to a text file, adds newlines, creates 
+      file if it does not exist.</TD></TR>
+  <TR>
+    <TD colSpan=2>By default, no package has any file access rights. To grant 
+      access, see config/fileaccess.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 or error</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error in filename descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"No parent path traversal please."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Access denied"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unable to open file: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error during write."</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Configs</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#fileaccess.cfg"><B>fileaccess.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ReadFile>
+    <TH align=middle colSpan=2>ReadFile( filename )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>string</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Reads a text file, returning the contents as an array of 
+      strings, removing newlines.</TD></TR>
+  <TR>
+    <TD colSpan=2>By default, no package has any file access rights. To grant 
+      access, see config/fileaccess.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>returns array of strings</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error in filename descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"No parent path traversal please."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Access denied"</TD></TR>
+  <TR>
+    <TD colSpan=2>"File not found: X"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Configs</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#fileaccess.cfg"><B>fileaccess.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WriteFile>
+    <TH align=middle colSpan=2>WriteFile( filename, textcontents 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>string</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>textcontents</VAR></TD>
+    <TD>array of strings</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Writes a new file to disk, appends newlines, creates file if 
+      it does not exist, renames existing file to filename.bak</TD></TR>
+  <TR>
+    <TD colSpan=2>By default, no package has any file access rights. To grant 
+      access, see config/fileaccess.cfg</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 or error</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error in filename descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"No parent path traversal please."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Access denied"</TD></TR>
+  <TR>
+    <TD colSpan=2>"File not found: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error during write."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unable to remove filenameX: reasonY</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unable to rename filenameX: to filenameZ: 
+  reasonY</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related Configs</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="configfiles.html#fileaccess.cfg"><B>fileaccess.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

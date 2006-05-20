@@ -1,0 +1,27 @@
+/* $Id: shutdown.src 1389 2006-05-13 10:12:13Z austin $
+ *
+ */
+use uo;
+use os;
+
+include ":worldsaver:saver";
+
+program console_ShutDown(cmd)
+	var basetime:=1;
+	case ( CInt(cmd) )
+		0:  basetime := 60; break;
+		1:  basetime := 6;  break;
+		2:  basetime := 12;  break;
+		3:  basetime := 18;  break;
+		4:  basetime := 24;  break;
+		5:  basetime := 30;  break;
+		6:  basetime := 36;  break;
+		7:  basetime := 42;  break;
+		8:  basetime := 48;  break;
+		9:  basetime := 54;  break;
+	endcase
+	
+	SVR_SendCommand(EVENT_START_SHUTDOWN, basetime);
+	
+	return 1;
+endprogram

@@ -1,0 +1,25 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include ":attributes:attributes";
+include "include/sound";
+include "include/tileEffects";
+
+
+program spell_heal(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var healed := CInt(AP_GetSkill(caster, MAGERY) / 20) + 5;
+  if(healed > 20)
+	healed := 20;
+  endif
+  if(castOn.isA(POLCLASS_NPC))
+    healed := healed * 2;
+  endif
+  HealDamage(castOn, healed);
+  PlayObjectCenteredEffect(castOn, FX_SPARK_EFFECT, 7, 0x10);
+  PlaySoundEffect(castOn, SFX_SPELL_HEAL);
+  SendSysMessage(caster, "You healed " + healed + " damage.");
+endprogram

@@ -1,0 +1,83 @@
+Last Updated - 6:34PM May-19-2006
+By Austin
+
+This file includes instructions for how to retrieve 
+the distro code while it is in development. 
+
+This guide is for users of Windows.
+
+-----------------------------------------------------------------------
+!!! NOTICE !!!
+
+Please be aware that this is a live deveopment environment.
+Things will change and at times a script may not compile.
+Do not use it for a live shard because of the above mentioned reasons.
+
+Any issues, comments, compliments:
+Post to the 'POL Distro Dev' board at http://www.polserver.com
+
+!!! NOTICE !!!
+-----------------------------------------------------------------------
+
+[ TORTOISE SVN ]
+* First you will need the TortoiseSVN client.
+  The purpose of this program is to keep the files up to date for you.
+
+* Download the latest ".msi (Windows installer)" file.
+  http://tortoisesvn.sourceforge.net/
+
+* Install the program to where you normally install stuff and reboot when it asks.
+
+* Create a folder called "Distro" and right click it.
+* Select "SVN Checkout" 
+
+* For the URL of the repository enter
+  svn://svn.berlios.de/poldistro/trunk
+  Click [okay]
+
+* It will begin downloading the files for the disto.
+
+* When it has completed retrieving the files, click [okay]
+
+* Inside the directory it will have made an 096 directory.
+
+* In the future you can right click here and select "SVN Update" to retrieve the latest files.
+
+[ 096 CORE ]
+* Download the latest POL 096 test core at: (.zip file, newest is usually at the bottom of the list)
+  http://releases.polserver.com/
+
+* Save it next to the "096" folder.
+  
+* Extract the following files from the zip file to the "096" folder:
+POL.EXE
+UOCONVERT.EXE
+UOCONVERT.CFG
+
+* Extract the following files from the zip file to the "096/scripts" folder:
+ECOMPILE.EXE
+
+* Extract the following files from the zip file to the "096/scripts/modules" folder:
+(*.EM FILES)
+BASIC.EM
+BASICIO.EM
+BOAT.EM
+CFGFILE.EM
+FILE.EM
+HTTP.EM
+MATH.EM
+NPC.EM
+OS.EM
+POLSYS.EM
+UNICODE.EM
+UO.EM
+UTIL.EM
+
+* Double click "StartHere.bat" and follow the menus.
+* Start with realms. 
+  - Copy the client files over.
+  - Run UO convert on them.
+ 
+* Compile all scripts
+
+* Start POL

@@ -1,0 +1,47 @@
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcWatchList";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var settings	:= params[3];
+	var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( !npc.opponent )
+			if ( NPC_LoadWatchList(npc).size() < 1 )
+				// No need to look around any longer. We're all alone :(
+				return 0;
+			else
+				FindOpponent(npc, settings, scripts);
+			endif
+		endif
+		
+		AI_ClearThoughts(npc, CLR_NERVE);
+		Sleep(5);
+	endwhile
+endprogram
+
+function FindOpponent(npc, byref settings, byref scripts)
+	var attack_list := array;
+	foreach mobile in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"]))
+		if ( NPC_ShouldWatch(npc, mobile, settings, scripts) )
+			attack_list.Append(mobile);
+		endif
+		sleepms(2);
+	endforeach
+	
+	if ( attack_list.size() > 0 )
+		var victim := attack_list[RandomInt(attack_list.Size())+1];
+		AI_Attack(npc, victim);
+		return victim;
+	endif
+	
+	return 0;
+endfunction

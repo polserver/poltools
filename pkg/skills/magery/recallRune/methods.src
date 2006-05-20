@@ -1,0 +1,43 @@
+/*
+ * $Id: methods.src 1009 2005-11-16 07:05:43Z muaddiblsd $
+ *
+ */
+
+use uo;
+use cfgfile;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsRecallRune(rune)
+	rune := rune;
+	return 1;
+endfunction
+
+exported function SetDestination(rune, x, y, z, realm)
+	var coords := struct;
+	coords.+x := CInt(x);
+	coords.+y := CInt(y);
+	coords.+z := CInt(z);
+	coords.+realm := CStr(realm);
+
+	var color_cfg := ReadConfigFile(":magery:config/runeColor");
+	var realm_elem := color_cfg[realm];
+	rune.color := CInt(realm_elem.RuneColor);
+
+	return SetObjProperty(rune, "Destination", coords);
+endfunction
+
+exported function GetDestination(rune)
+	return GetObjProperty(rune, "Destination");
+endfunction
+
+exported function SendToDestination(rune, object)
+	var dest := GetDestination(rune);
+	if ( !dest )
+		return error{"errortext":="Rune has no destination set."};
+	endif
+
+	return MoveObjectToLocation(object, dest.x, dest.y, dest.z, dest.realm, MOVEOBJECT_FORCELOCATION);
+endfunction

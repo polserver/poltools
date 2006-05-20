@@ -1,0 +1,36 @@
+use uo;
+use cfgfile;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":magery:reflect";
+include ":attributes:attributes";
+
+
+program spell_magicArrow( parms )
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+
+	PlayMovingEffect( caster, castOn, FX_MAGIC_ARROW, 5, 1 );
+	PlaySoundEffect( caster, SFX_SPELL_MAGIC_ARROW );
+	var dmg := RandomDiceRoll("1d8");
+	if (spell_reflect(castOn))
+		PlayMovingEffect( castOn, caster, FX_MAGIC_ARROW, 5, 1 );
+		PlaySoundEffect( castOn, SFX_SPELL_MAGIC_ARROW );
+		ApplyRawDamage( caster, Resisted(circle,caster,castOn,dmg) );
+	else
+		if (AP_GetVital(castOn, HITS) >= 1)
+			SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "magic arrow" });
+			if (castOn.isA(POLCLASS_NPC))
+				dmg := dmg * 2;
+			endif
+			ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+		endif
+	endif
+
+	return;
+endprogram

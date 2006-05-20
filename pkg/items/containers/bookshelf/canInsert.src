@@ -1,0 +1,21 @@
+// $Id: canInsert.src 386 2005-10-03 00:22:39Z muaddiblsd $
+
+use uo;
+use cfgfile;
+
+program CanInsert(mobile, container, movetype, insert_type, adding_item, existing_stack, amt_to_add)
+
+	amt_to_add := amt_to_add;
+	existing_stack := existing_stack;
+	insert_type := insert_type;
+	movetype := movetype;
+	container := container;
+
+	if ( adding_item.IsBook() )
+		return 1;
+	else
+		SendSysMessage(mobile, "That is not a book.");
+		return 0;
+	endif
+
+endprogram

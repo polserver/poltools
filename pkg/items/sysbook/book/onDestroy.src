@@ -1,0 +1,13 @@
+// $Id: onDestroy.src 1178 2006-02-10 12:32:59Z austin $
+
+include ":datafile:datafile";
+
+program DestroyBook(book)
+	var book_data_file := DFOpenDataFile(":sysbooks:books", DF_NO_CREATE);
+	book_data_file.DeleteElement(Hex(book.serial));
+	
+	var script_name := GetProcess(GetPid()).name;
+	LogToFile("::log/sysBook.log", "["+script_name+"]: "+"Deleting datafile elem for book " + Hex(book.serial), LOG_DATETIME);
+	
+	return 1;
+endprogram

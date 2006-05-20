@@ -1,0 +1,32 @@
+// {$Id}
+
+use uo;
+use os;
+
+include ":mounts:mounts";
+
+program command_Mount(who, type)
+	SendSysMessage(who, "Select a character to mount.");
+	var targ := Target(who);
+	if ( !targ.isa(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	elseif ( !type )
+		type := 0xCC;
+	endif
+
+	Set_Critical(1);
+	var graphic := MP_GetMountGraphic(type);
+	if ( graphic == error )
+		SendSysMessage(who, "Error:"+graphic.errortext);
+		return 0;
+	endif
+	
+	var item := CreateItemAtLocation(who.x, who.y, who.z, MOUNT_OBJTYPE, 1);
+	item.graphic := CInt(graphic);
+	
+	EquipItem(targ, item);
+	Set_Critical(0);
+	
+	SendSysMessage(who, "Done!");
+endprogram

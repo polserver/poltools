@@ -1,0 +1,8 @@
+use os;
+
+var script := start_script(":attributes:startup/attributeCache");
+if ( script.errortext )
+	SysLog(script.errortext);
+else
+	Print("Starting attributes setup... OK.");
+endif

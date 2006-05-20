@@ -1,0 +1,21 @@
+use uo;
+use os;
+
+include "include/tileEffects";
+
+
+program spell_reflect( parms )
+	var caster := parms.caster;
+
+	if (!(GetObjProperty(caster, "mr") == "1") )
+		PlaySoundEffect(caster, 0x1ea);
+		PlayObjectCenteredEffect(caster, FX_SPARK_EFFECT, 10,10);
+		SetObjProperty(caster, "mr","1");
+	else
+		PlaySoundEffect(caster,0x005d);
+		PlayObjectCenteredEffect(caster, 0x3735,0x0a, 0x1e);
+		SendSysMessage(caster,"You are already protected.");
+	endif
+
+	return;
+endprogram
