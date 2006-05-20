@@ -32,7 +32,7 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 * Select "SVN Checkout" 
 
 * For the URL of the repository enter
-  svn://svn.berlios.de/poldistro/trunk
+  https://svn.sourceforge.net/svnroot/pol-distro
   Click [okay]
 
 * It will begin downloading the files for the disto.
