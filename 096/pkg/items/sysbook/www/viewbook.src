@@ -1,0 +1,45 @@
+use uo;
+use os;
+use http;
+
+set_priority(1);
+
+var book_serial := QueryParam("serial");
+
+program ViewBook()
+	if ( book_serial )
+		ShowBook();
+	else	
+		InputForm();
+	endif
+endprogram
+
+function InputForm()
+	WriteHTML("<FORM METHOD='GET'>");
+	WriteHTML("Serial: <INPUT TYPE='TEXT' NAME='serial'>");
+	WriteHTML("</FORM>");
+endfunction
+
+function ShowBook()
+	var book := SystemFindObjectBySerial(book_serial);
+	if ( !book.IsBook() )
+		WriteHTML("Error - Serial provided is not a book.");
+		return 0;
+	endif
+		
+	WriteHTML("Viewing Book:"+book_serial);
+	WriteHTML("<BR><HR SIZE='2' WIDTH='100%' NOSHADE>");
+	
+	WriteHTML("<P>Title: <B>"+(book.GetTitle())+"</B></P>");
+	
+	WriteHTML("<P>Author: <B>"+(book.GetAuthor())+"</B></P>");
+	
+	var contents := book.GetContents();
+	WriteHTML("<TABLE BORDER='0' CELLSPACING='4' CELLPADDING='0'>");
+	foreach line in contents
+		WriteHTML(line+"<BR>\n");
+		sleepms(10);
+	endforeach
+	WriteHTML("</TABLE>");
+endfunction
+	

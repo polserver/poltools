@@ -1,0 +1,68 @@
+use uo;
+use os;
+
+include ":magery:reflect";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include "include/statMod";
+include "include/magic";
+
+
+program spell_paralyze( parms )
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+
+	SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "paralyze" });
+	if (spell_reflect(castOn))
+		castOn := caster;
+	endif
+	var amt := 10 + RandomInt(CInt(AP_GetSkill(caster, MAGERY)/5));
+	var duration := ParaResist(2, caster, castOn, amt);
+	PlayStationaryEffect( castOn.x, castOn.y, castOn.z, FX_CURSE_EFFECT, 10, 0xa, 0, caster.realm );
+	PlaySoundEffect( castOn, SFX_SPELL_PARALYZE );
+	DoTempMod(castOn, "p", 1, duration);
+
+	return;
+endprogram
+
+
+function ParaResist(circle, caster, castOn, amt)
+  var magery := CInt(AP_GetSkill(caster, MAGERY));
+  var evalint := CInt(AP_GetSkill(caster, EVALUATING_INTELLIGENCE));
+  var resist := CInt(AP_GetSkill(castOn, RESISTING_SPELLS));
+  var chk1 := (resist / 5);
+  var chk2 := resist - (((magery - 20) / 5) + (circle * 5));
+  if(chk1 < 1)
+    chk1 := 1;
+  endif
+  if(chk2 < 1)
+    chk2 := 1;
+  endif
+  var diff := 0;
+  if(chk1 > chk2)
+    diff := chk1;
+  else
+    diff := chk2;
+  endif
+  //var points := getresistpoints(circle, castOn, RESISTING_SPELLS);
+  if(castOn.dead)
+    return 0;
+  endif
+  if((RandomInt(99) + 1) <= diff)
+	SendSysMessage(castOn, "You feel yourself resisting magical energy!");
+	PlaySoundEffect(castOn, SFX_SPELL_WEAKEN);
+	PlayObjectCenteredEffect(castOn, FX_CURSE_EFFECT, 5,5);
+	//AwardRawSkillPoints(castOn, RESISTING_SPELLS, points);
+	amt := 0;
+	return amt;
+  endif
+  var modamt := 1;
+  if(resist > evalint)
+    modamt := (1 + ((evalint - resist) / 200.0));
+  elseif(evalint > resist)
+    modamt := (1 + ((evalint - resist) / 500.0));
+  endif
+  amt := (amt * modamt);
+  return CInt(amt);
+endfunction

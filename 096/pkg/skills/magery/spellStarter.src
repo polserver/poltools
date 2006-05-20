@@ -1,0 +1,197 @@
+/*
+ * $Id: spellStarter.src 1062 2005-11-26 09:15:21Z austin $
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":containers:containers";
+include ":itemutils:itemdesc";
+include "include/client";
+include "include/sounds";
+
+program SpellStarter(params)
+	var who		:= params[1]; // Caster.
+	var spell_id	:= params[2]; // Id # of the spell.
+	var scroll	:= params[3]; // Scroll object being used.
+	var targ	:= params[4]; // NPC target
+	params := 0;	// No longer needed
+
+	if ( !Attach(who) )
+		SendSysMessage(who, "You are already doing something.");
+		return 0;
+	endif
+
+	var spell_elem := MS_GetSpellsCfgElem(spell_id);
+
+	// If spell is set to 'TestOnly 1', then it requires cmdlevel or #SpellTester CProp before it can be used.
+	if ( spell_elem.TestOnly && (!who.cmdlevel) )
+		// They need #SpellTester to cast it
+		if ( !GetObjProperty(who, "#SpellTester") )
+			FailSpell(who);
+			return 0;
+		endif
+	elseif ( spell_elem.NPCOnly && !who.npctemplate )
+		PrintTextAbove(who, "Unable to cast - NPC only spell.");
+		return 0;
+	endif
+
+	if ( GetObjProperty(who, "#medding") )
+		SendSysMessage(who, "You can not cast right now.");
+		return 0;
+	else
+		SetObjProperty(who, "#medding", 1);
+		who.frozen := 1;
+	endif
+
+	if ( !who.squelched )
+		who.hidden := 0;
+		SpeakPowerWords(who, spell_id);
+	endif
+	if ( who.squelched && !who.npctemplate )
+		SendSysMessage(who, "Something prevents you from casting.");
+		FailSpell(who);
+		return 0;
+	elseif ( !EquipmentCheck(who) )
+		FailSpell(who);
+		return 0;
+	elseif ( !AP_ConsumeVital(who, MANA, spell_elem.ManaCost) )
+		SendSysMessage(who, "You are too tired to cast.");
+		FailSpell(who);
+		return 0;
+	elseif ( !CheckReagents(who, spell_elem, scroll) )
+		FailSpell(who);
+		return 0;
+	elseif ( !CheckDelay(who, spell_elem) )
+		FailSpell(who);
+		return 0;
+	else
+		var attribute := spell_elem.Attribute;
+		if ( !attribute )
+			attribute := MAGERY;
+		endif
+
+		var difficulty := spell_elem.Difficulty;
+		if ( !difficulty )
+			difficulty := -1;
+		endif
+		var skill_check := SkillCheck(who, attribute, difficulty);
+		who.frozen := 0;
+		if ( skill_check > 0 )
+			var info := struct;
+			info.+script		:= spell_elem.script;
+			info.+attribute		:= attribute;
+			info.+skill_check	:= skill_check;
+			info.+targ		:= targ;
+			info.+pid		:= GetPid();
+			info.+spellId		:= spell_id;
+
+			var script := start_script(spell_elem.SpellScript, {who, info});
+			if ( script.errortext )
+				SendSysMessage(who, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
+			endif
+
+			var ev;
+			while( script.pid && !ev )
+				ev := wait_for_event(1);
+			endwhile
+		else
+			SendSysMessage(who, "You are unable to build the concentration needed to cast.");
+		endif
+	endif
+
+	MS_SpellDebug(who, "Spell starter completed..");
+	EraseObjProperty(who, "#medding");
+
+	return 1;
+endprogram
+
+function CheckDelay(who, spell_elem)
+
+	SendSysMessage(who, "You begin building the concentration needed to cast.");
+
+	//var script := start_script("movementCheck", {who, GetPid()});
+	//
+	var delay := spell_elem.Delay;
+	//MS_SpellDebug(who, "Cast delay ->"+delay);
+	sleepms(delay);
+	//
+	//script.kill();
+	if ( Events_Waiting() > 0 )
+		SendSysMessage(who, "Your concentration has been broken.");
+		return 0;
+	else
+		return 1;
+	endif
+endfunction
+
+function EquipmentCheck(who)
+	var hand_1 := GetEquipmentByLayer(who, LAYER_HAND1);
+	if ( hand_1 )
+		if ( !hand_1.IsA(POLCLASS_SPELLBOOK) )
+			return 0;
+		endif
+	endif
+	var hand_2 := GetEquipmentByLayer(who, LAYER_HAND2);
+	if ( hand_2 )
+		if ( !hand_2.IsA(POLCLASS_SPELLBOOK) )
+			return 0;
+		endif
+	endif
+
+	return 1;
+endfunction
+
+
+function CheckReagents(who, byref spell_elem, scroll)
+	if ( who.npctemplate )
+		// NPCs don't need reagents to cast.
+		return 1;
+	elseif ( scroll.isA(POLCLASS_ITEM) )
+		return SubtractAmount(scroll, 1);
+	elseif ( scroll == 1 )
+		// Added scroll/1 check for passing 1 to override reg
+		// and scroll check. IE: runebooks, wands, etc.
+		return 1;
+	endif
+
+	var reagent_costs := GetConfigStringDictionary(spell_elem, "RegCost");
+
+	// Before consuming, verify that there is enough of everything.
+	foreach amount in ( reagent_costs )
+		amount := CInt(amount);
+		if ( !amount )
+			amount := 1;
+		endif
+		var objtype := GetObjTypeByName(_amount_iter);
+
+		if ( AmountInContainer(who.backpack, objtype) < amount )
+			SendSysMessage(who, "You do not have enough "+GetObjTypeDesc(objtype, (amount>1)));
+			return 0;
+		endif
+		sleepms(2);
+	endforeach
+	// Consume reagents - CInt() and < 1 checks already done in previous loop.
+	// Foreach is a pointer!
+	foreach amount in ( reagent_costs )
+		ConsumeSubstance(who.backpack, GetObjTypeByName(_amount_iter), amount);
+		sleepms(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function FailSpell(who)
+	// Simple function for handling effects when a caster
+	// fails the casting.
+	who.frozen := 0;
+	EraseObjProperty(who, "#medding");
+	PlayObjectCenteredEffect(who, GFX_FIZZLE, 5, 50);
+	PlaySoundEffect(who, SFX_SPELL_FAIL);
+
+	return 1;
+endfunction

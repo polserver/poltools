@@ -1,0 +1,77 @@
+/* $Id: magicFish.src 915 2005-11-05 23:39:07Z austin $
+ *
+ */
+
+use uo;
+use cfgfile;
+use os;
+use util;
+
+include "include/OLD/statMod";
+include ":itemutils:canAccess";
+include ":timedscripts:timedScripts";
+include ":timedscripts:poisonUtil";
+
+program use_MagicFish(who, fish)
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	if( !can_access(who, fish) )
+		return 0;
+	endif
+	if( fish.movable == 0 )
+		SendSysMessage(who, "You cannot use that.");
+		return 0;
+	endif
+	if( !ReserveItem(fish) )
+		return 0;
+	endif
+	if( !(fish in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+	var spellnum    := GetObjProperty( fish, "spellnum" );
+	var spellsound  := GetObjProperty( fish, "spellsound" );
+	var spelleffect := GetObjProperty( fish, "spelleffect" );
+	var miscprop1 := GetObjProperty( fish, "miscprop1" );
+	var miscprop2 := GetObjProperty( fish, "miscprop2" );
+	if( DestroyItem(fish) )
+		if(spellnum > 0)
+			PlaySoundEffect( who, spellsound );
+			PlayObjectCenteredEffect( who, spelleffect, 10,10);
+			case (spellnum)
+				4: HealDamage( who, miscprop1);
+				6: who.setlightlevel( miscprop1, miscprop2 );
+				9: if (CanMod(who, "dex"))
+					DoTempMod(who, "dex", miscprop1, miscprop2);
+				   endif
+				10: if (CanMod(who, "int"))
+					DoTempMod(who, "int", miscprop1, miscprop2);
+				    endif
+				11:  if (TS_GetTimerNames(who, "P").size() > 0 )
+					TS_CurePoison(who, 120, "P", CInt(miscprop1));
+				     endif
+				16: if (CanMod(who, "str"))
+					DoTempMod(who, "str", miscprop1, miscprop2);
+				    endif
+				17: if (CanMod(who, "str"))
+					DoTempMod(who, "str", miscprop1, miscprop2);
+				    endif
+				    if (CanMod(who, "dex"))
+					DoTempMod(who, "dex", miscprop1, miscprop2);
+				    endif
+				    if (CanMod(who, "int"))
+					DoTempMod(who, "int", miscprop1, miscprop2);
+				    endif
+				44: who.hidden := 1;
+			endcase
+		else
+			SendSysMessage(who, "Yech, that was a rotten fish!");
+		endif
+	endif
+
+	return 1;
+
+endprogram

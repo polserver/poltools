@@ -1,0 +1,14 @@
+/* $Id: destroyboard.src 259 2005-09-26 08:25:45Z panosl $
+ *
+ */
+use uo;
+
+include ":datafile:datafile";
+
+
+program DestroyBoard(board)
+	var board_data_file := DFOpenDataFile("MessageBoards", DF_NO_CREATE);
+	board_data_file.DeleteElement(Hex(board.serial));
+	
+	return 1;
+endprogram

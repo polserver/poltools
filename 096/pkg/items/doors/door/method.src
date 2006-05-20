@@ -1,0 +1,134 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+use os;
+use cfgfile;
+
+include "include/sounds";
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsDoor(door)
+	// object.IsA(POLCLASS_DOOR) is more ideal but this allows for custom doors.
+	door := door;
+	return 1;
+endfunction
+
+exported function Toggle(door)
+	if ( IsOpen(door) )
+		Close(door);
+	else
+		Open(door);
+	endif
+	
+	return 1;
+endfunction
+
+exported function Open(door)
+	if ( IsOpen(door) )
+		return error{"errortext":="Door is already open."};
+	endif
+	
+	ChangeDoor(door);
+	
+	SetObjProperty(door, "Open", 1);	
+	
+	case ( Lower(ConfigInfo(door).DoorType) )
+		"metal" : PlaySoundEffect(door, SFX_METAL_DOOR_OPEN);
+		"wooden" : PlaySoundEffect(door, SFX_WOODEN_DOOR_OPEN);
+	endcase
+	
+	return 1;
+endfunction
+
+exported function Close(door)
+	if ( !IsOpen(door) )
+		return error{"errortext":="Door is already closed."};
+	endif
+	
+	ChangeDoor(door);
+	
+	EraseObjProperty(door, "Open");
+	
+	case ( lower(ConfigInfo(door).DoorType) )
+		"metal" : PlaySoundEffect(door, SFX_METAL_DOOR_CLOSE);
+		"wooden" : PlaySoundEffect(door, SFX_WOODEN_DOOR_CLOSE);
+	endcase
+	
+	return 1;
+endfunction
+
+exported function IsOpen(door)
+	if ( door.isopen )
+		return 1;
+	else
+		return CInt(GetObjProperty(door, "Open"));
+	endif
+endfunction
+
+exported function IsInside(door, object)
+	//Purpose is to make doors on a multi be unlocked from the inside.
+	if ( !door.multi )
+		return error{"errortext":="Door is not on a multi."};
+	elseif ( IsOpen(door) )
+		return error{"errortext":="Door is already open."};
+	endif
+		
+	var door_info := ConfigInfo(door);
+	var new_x := door.x+CInt(door_info.xmod);
+	var new_y := door.y+CInt(door_info.ymod);
+	
+	var cur_dist := CoordinateDistance(object.x, object.y, door.x, door.y);
+	var new_dist := CoordinateDistance(object.x, object.y, new_x, new_y);
+	
+	if ( new_dist > cur_dist )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+/***********
+ *
+ * Private functions
+ *
+ **********/
+ 
+ function Occupied(x, y, z)
+	// Used to prevent a door slamming closed if a character is in the way.
+	return ListMobilesNearLocationEX(x, y, z, 0, LISTEX_FLAG_HIDDEN+LISTEX_FLAG_NORMAL);
+endfunction
+
+function ChangeDoor(door)
+	if ( door.container )
+		return 0;
+	endif
+		
+	var move_state := door.movable;
+	var door_info := ConfigInfo(door);
+		
+	Set_Critical(1);	
+	
+	door.movable := 1;
+	door.graphic := door_info.ChangeTo;
+	
+	var result := MoveObjectToLocation(door, door.x+CInt(door_info.xmod), door.y+CInt(door_info.ymod), door.z, door.realm, MOVEOBJECT_FORCELOCATION);
+	if ( result.errortext )
+		PrintTextAbove(door, "Error moving door -"+result.errortext);
+	endif
+		
+	door.movable := move_state;
+	
+	Set_Critical(0);
+	
+	return 1;
+endfunction
+
+function ConfigInfo(door)
+	var config := ReadConfigFile(":*:itemdesc");
+	return config[Hex(door.graphic)];
+endfunction

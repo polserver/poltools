@@ -1,0 +1,37 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				NPCEVENT_DONE:
+					break;
+				default:
+					VirtualEvent(npc, event);
+					break;
+			endcase
+						
+			event := 0;
+		endif
+		
+		event := wait_for_event(900000);
+	endwhile
+endprogram
+
+function VirtualEvent(npc, event)
+	AI_Speak(npc, "So yeah.. I just got this event and I don't know what to do with it... its virtual time, baby.", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	AI_Speak(npc, "The event structure is... "+event, SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
+	
+	return 1;
+endfunction

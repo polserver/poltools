@@ -1,0 +1,24 @@
+/* $Id: walkOn.src 999 2005-11-14 20:13:45Z muaddiblsd $
+ *
+ */
+use uo;
+
+include ":acid:acid";
+
+program acid_WalkOn(mobile, acid)
+	if( TypeOf(mobile) == "Array" )
+		acid := mobile[2];
+		mobile := mobile[1];
+	endif
+	if ( mobile.cmdlevel )
+		return 0;
+	elseif ( mobile.dead )
+		return 0;
+	endif
+
+	SendSysMessage(mobile, "*You step into a pool of acid*");
+	if( !DealAcidDamage(acid, mobile, acid) )
+		DealAcidDamage(acid, mobile, acid, "5d2");
+	endif
+	return 1;
+endprogram

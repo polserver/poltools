@@ -1,0 +1,96 @@
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":containers:merchantUtil";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+			
+			event := 0;
+		endif
+		
+		sleepms(5);
+		event := wait_for_event(900000);
+	endwhile
+endprogram
+
+function SpeechEvent(npc, byref event)
+	if ( event.text["restock"] )
+		Restock(npc, event.text);
+		return 1;
+	elseif ( event.text["buy"] )
+		BuyStuff(npc, event.source);
+		return 1;
+	endif
+	
+	AI_Speak(npc, "I just heard "+(event.source).name+" say \""+event.text+"\"", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+	
+	// Doing 'SPEAK_DOEVENT_ENABLE' here with multiple npcs around, could cause an infinite loop - they would keep talking to each other!
+	case ( event.texttype )
+		SPEAK_TEXTTYPE_YELL:
+			AI_Speak(npc, "*yells* No need to yell!", event.texttype, SPEAK_DOEVENT_DISABLE, WAKEUP);
+			break;
+		SPEAK_TEXTTYPE_WHISPER:
+			AI_Speak(npc, "*whispers* Speak up next time. I could barely hear you.", event.texttype, SPEAK_DOEVENT_DISABLE, WAKEUP);
+			break;
+		default:
+			AI_Speak(npc, "You're fun to talk to, you know that?", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+			break;
+	endcase
+		
+	return 1;
+endfunction
+
+function Restock(npc, byref text)
+	text := SplitWords(text);
+	var item_name := text[2];
+	var amount := CInt(text[3]);
+	
+	var objtype := GetObjTypeByName(item_name);
+	if ( !objtype )
+		AI_Speak(npc, "I dont know what '"+item_name+"' is!");
+		return 1;
+	endif
+	if ( amount < 1 )
+		amount := 1;
+	endif
+	
+	var container := CPM_GetMerchantContainer(npc, CPM_FORSALE);
+	var item := CreateItemInContainer(container, objtype, amount);
+	AI_Speak(npc, "I have added "+(item.amount)+" "+item_name+" to my inventory.");
+	
+	return 1;
+endfunction
+
+function BuyStuff(npc, mobile)
+	
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE);
+	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART);
+	
+	AI_Turn(npc, mobile, NETURN_TOWARD);
+		
+	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart);
+	if ( !result )
+		PrintTextAbove(npc, "SendBuyWindow() error - "+result.errortext);
+	endif
+	
+	return 1;
+endfunction

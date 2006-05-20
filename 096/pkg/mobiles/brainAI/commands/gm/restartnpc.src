@@ -1,0 +1,14 @@
+/* $Id: restartnpc.src 1383 2006-05-13 09:26:14Z austin $
+ *
+ */
+ 
+use uo;
+
+program textcmd_fixAI(who)
+	var targ := target(who);
+	var result := RestartScript(targ);
+	
+	SendSysMessage(who, "Result of RestartScript("+targ.name+") ->"+result);
+	
+	return 1;
+endprogram

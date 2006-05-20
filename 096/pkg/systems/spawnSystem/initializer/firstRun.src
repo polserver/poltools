@@ -1,0 +1,153 @@
+use uo;
+use os;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:realms";
+include ":spawnsystem:regions";
+include ":spawnsystem:report";
+
+program FirstRun()
+	SS_ReportText("Setting up spawner for first time use...", SPAWN_REPORT_CONSOLE+SPAWN_REPORT_SYSLOG);
+	
+	var start_cfg := ReadConfigFile(":spawnsystem:config/firstrun");
+	if ( start_cfg.errortext )
+		SS_ReportText(start_cfg.errortext);
+		return 0;
+	endif
+
+	var realm_list := start_cfg["Realms"];
+	if ( realm_list.errortext)
+		SS_ReportText(start_cfg.errortext);
+		return 0;
+	endif
+
+	foreach realm_name in (GetConfigStringArray(realm_list, "Realm"))
+		SS_ReportText("Setting up spawner realm ("+realm_name+")");
+		var success := SetupRealm(realm_name, start_cfg);
+		
+		if ( success )
+			SS_ReportText("Spawn realm ("+realm_name+") setup... okay.");
+		else
+			SS_ReportText("Spawn realm ("+realm_name+") setup... failed!");
+		endif
+		
+		sleepms(2);
+	endforeach
+	
+	UnloadConfigFile(":spawnsystem:config/firstrun");
+
+	return 1;
+endprogram
+
+function SetupRealm(realm_name, start_cfg)
+	var realm_info := start_cfg[realm_name];
+	if ( realm_info.errortext )
+		SS_ReportText("No cfg elem for realm ("+realm_name+") -> "+realm_info.errortext);
+		return 0;
+	endif
+	
+	SS_AddRealm(realm_name);
+
+	foreach region_name in (GetConfigStringArray(realm_info, "Region"))
+		SS_ReportText("Setting up spawn region ("+region_name+")");
+		var success := SetupRegion(region_name, realm_name, start_cfg);
+		
+		if ( success )
+			SS_AddRegionToRealm(realm_name, region_name);
+		endif
+		
+		if ( success )
+			SS_ReportText("Spawn region ("+region_name+") setup... okay.");
+		else
+			SS_ReportText("Spawn region ("+region_name+") setup... failed!");
+		endif
+		
+		sleepms(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function SetupRegion(region_name, realm_name, start_cfg)
+	var region_info := start_cfg[region_name];
+	if ( region_info.errortext )
+		SS_ReportText("No cfg elem for region ("+region_name+") -> "+region_info.errortext);
+		return 0;
+	endif
+
+	
+	SS_AddRegion(region_name, realm_name);
+	var coords := SplitWords(region_info.Coordinates);
+	SS_SetRegionCoordinates(region_name, CInt(coords[1]), CInt(coords[2]), CInt(coords[3]), CInt(coords[4]));
+
+	foreach group_name in (GetConfigStringArray(region_info, "Group"))
+		group_name := SplitWords(group_name);
+		var max_amt := CInt(group_name[2]);
+		group_name := group_name[1];
+		
+		var success := SetupGroup(group_name, start_cfg);
+		
+		if ( success )
+			success := SS_AddGroupToRegion(region_name, group_name, max_amt, 1);
+		endif
+		if ( success )
+			SS_ReportText("Adding group ("+group_name+") to region ("+region_name+")... okay.");
+		else
+			SS_ReportText("Adding group ("+group_name+") to region ("+region_name+")... failed!");
+		endif
+		
+		sleepms(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function SetupGroup(group_name, start_cfg)
+	if ( SS_GetGroupDataElem(group_name) )
+		//Group has already been set up.
+		return 1;
+	endif
+	
+	SS_ReportText("Setting up spawner group ("+group_name+")");
+	
+	var group_info := start_cfg[group_name];
+	if ( group_info.errortext )
+		SS_ReportText("No cfg elem for group ("+group_name+") -> "+group_info.errortext);
+		return 0;
+	elseif ( !group_info.Engine )
+		SS_ReportText("No valid engine name was set for group ("+group_name+")");
+		return 0;
+	endif
+	
+	SS_AddGroup(group_name, group_info.Engine);
+	
+	foreach entry in (GetConfigStringArray(group_info, "Entry"))
+		SS_AddEntryToGroup(group_name, entry);
+		sleepms(2);
+	endforeach
+	
+	return 1;
+endfunction
+
+/*
+function Test_WipeSpawner()
+	foreach realm_name in SS_GetRealmNames()
+		Print("* Erasing Realm ("+realm_name+") ["+SS_RemoveRealm(realm_name)+"]");
+		sleepms(2);
+	endforeach
+	
+	foreach region_name in SS_GetRegionNames()
+		Print("* Erasing Region ("+region_name+") ["+SS_RemoveRegion(region_name)+"]");
+		sleepms(2);
+	endforeach
+	
+	foreach group_name in SS_GetGroupNames()
+		Print("* Erasing Group ("+group_name+") ["+SS_RemoveGroup(group_name)+"]");
+		sleepms(2);
+	endforeach
+	
+	sleep(1);
+	
+	return 1;
+endfunction
+*/

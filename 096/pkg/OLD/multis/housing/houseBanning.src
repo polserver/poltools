@@ -1,0 +1,26 @@
+use os;
+use uo;
+
+program walk_on_moongate(who, tile)
+  var hserial := GetObjProperty(tile, "house_serial");
+  var house := SystemFindObjectBySerial( CInt(hserial) );
+  var sign := SystemFindObjectBySerial(GetObjProperty(house,"signserial"));
+  if(!sign)
+    var signarray := {0x0bd1, 0x0bd2, 0x0bcf, 0x0bd0};
+    foreach thing in (house.components)
+      if(thing.objtype in signarray)
+        sign := thing;
+        SetObjProperty(house, "signserial", sign.serial);
+        break;
+      endif
+    endforeach
+  endif
+  var banlist := GetObjProperty(house, "banlist");
+  if(!banlist)
+    return;
+  endif
+  if(who.serial in banlist)
+    MoveCharacterToLocation( who, sign.x, sign.y, sign.z, MOVECHAR_FORCELOCATION );
+    SendSysMessage(who, "You are banned from that house and cannot enter it!");
+  endif
+endprogram

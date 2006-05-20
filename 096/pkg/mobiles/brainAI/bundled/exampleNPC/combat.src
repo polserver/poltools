@@ -1,0 +1,108 @@
+// $Id: combat.src 714 2005-10-30 09:37:07Z austin $
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var event	:= params[3];
+	var settings	:= params[4];
+	var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := AP_GetVitalMaximumValue(npc, "Hits") * (CDbl(settings["FleeLevel"])/100.0);
+
+	var opponent := event.source;
+	var flee_mode := 0;
+
+	AI_SetOpponent(npc, opponent);
+
+	while ( npc )
+		var dist := Distance(npc, opponent);
+		if ( ShouldFlee(npc, flee_level, flee_mode) )
+			flee_mode := 1;
+			AI_WarMode(npc, 0);
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
+		elseif ( DoneFighting(npc, opponent, dist) )
+			if ( scripts.Exists("EndFight") )
+				params := array{opponent, settings, scripts};
+				AI_StartNerve(npc, "EndFight", scripts["EndFight"].script, params);
+			else
+				AI_WarMode(npc, 0);
+			endif
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist > 1 )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
+		endif
+
+		sleepms(400);
+		While ( Events_Waiting() )
+			CheckForEvent(npc, event);
+		endwhile
+	endwhile
+endprogram
+
+function DoneFighting(npc, opponent, byref dist)
+	if ( opponent.dead )
+		AI_Speak(npc, "Killed ya, neener!");
+		return 1;
+	elseif ( !opponent )
+		AI_Speak(npc, "?!?!");
+		return 1;
+	elseif ( opponent.hidden )
+		AI_Speak(npc, "Where did you go?!");
+		return 1;
+	elseif ( opponent.concealed > npc.cmdlevel )
+		AI_Speak(npc, "Ooo so you're gonna FANCY hide on me now... wuss.");
+		return 1;
+	elseif ( dist > 20 )
+		AI_Speak(npc, "Darn... got away.");
+		return 1;
+	elseif ( dist > 10 && !CheckLineOfSight(npc, opponent) )
+		AI_Speak(npc, "Feh. I don't feel like beating you up anymore.");
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ShouldFlee(npc, byref flee_level, byref flee_mode)
+	if ( flee_mode )
+		return 1;
+	elseif ( AP_GetVital(npc, "Hits") < flee_level )
+		if ( !flee_mode )
+			AI_Speak(npc, "AAAAAIIIIIIIIEEEEEEEEEE!!!!!");
+		endif
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function CheckForEvent(npc, byref event)
+	event := wait_for_event(0);
+	if ( event )
+		var source := event.source;
+		case ( event.type )
+			SYSEVENT_ENGAGED:
+				if ( source != npc.opponent )
+					AI_Speak(npc, "Hey "+source.name+"! No fair ganging up on me! *pouts*");
+				endif
+				break;
+			SYSEVENT_DAMAGED:
+				AI_Speak(npc, "OWCH "+source.name+" that hurts.");
+				break;
+			default:
+				break;
+		endcase
+		event := 0;
+	endif
+
+	return 1;
+endfunction

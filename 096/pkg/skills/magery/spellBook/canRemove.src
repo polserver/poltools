@@ -1,0 +1,17 @@
+/* $Id: noRemove.src 1198 2006-02-11 18:24:45Z austin $
+ *
+ */
+
+use uo;
+use os;
+
+program canRemove(mobile, container, item, move_type)
+	if ( mobile.cmdlevel )
+		return 1;
+	elseif ( move_type == MOVETYPE_COREMOVE )
+		return 1;
+	else
+		PrintTextAbovePrivate(container, "That cannot be removed.", mobile);
+		return 0;
+	endif
+endprogram

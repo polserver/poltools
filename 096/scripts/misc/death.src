@@ -1,0 +1,20 @@
+/* $Id: death.src 409 2005-10-05 10:10:44Z austin $
+ *
+ * Purpose
+ * This script allows side effects to be triggered as a result of NPC death, like unmounting
+ *
+ */
+use uo;
+use os;
+
+program core_npcDeath(corpse)
+	var params := array{corpse}; // Not necessary, but done to future-proof it.
+	var script := Start_Script(":death:npcdeath", params);
+	
+	if ( script.errortext )
+		SysLog("Error::Start_Script(:death:npcdeath) - "+script.errortext);
+		return 0;
+	endif
+	
+	return 1;
+endprogram

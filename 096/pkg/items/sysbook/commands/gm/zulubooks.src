@@ -1,0 +1,76 @@
+// $Id: zulubooks.src 386 2005-10-03 00:22:39Z muaddiblsd $
+
+use uo;
+
+include ":sysbook:zuluBooks";
+include ":gumps:gumps_ex";
+
+program MakeZuluBook(mobile)
+	GumpList(mobile);
+endprogram
+
+function GumpList(mobile)
+	var zulu_cfg := SysBook_GetZuluCfgFile();
+	var elem_names := GetConfigStringKeys(zulu_cfg);
+	
+	var gump := GFCreateGump();
+	GFPage(gump, 0);
+	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 580, 480);
+	GFResizePic(gump, 10, 10, GFCfgConst("Defaults", "ForeGround"), 560, 460);
+	var y_pos := 40;
+	var counter := 1;
+	var page_num := 1;
+	GFTextMid(gump, 10, 15, 560, 2100, "Books from zuluBooks.cfg");
+	
+	GFPage(gump, 1);
+	foreach elem_name in (elem_names)
+		var elem_info := SysBook_GetZuluCfgElem(elem_name);
+		
+		GFAddButton(gump, 15, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, _elem_name_iter);
+		GFTextLine(gump, 40, y_pos, 2100, "["+elem_name+"]");
+		GFTextLine(gump, 95, y_pos, 2100, "Title: "+elem_info.Title);
+		GFTextLine(gump, 380, y_pos, 2100, "Author: "+elem_info.Author);
+				
+		y_pos := y_pos+20;
+		counter := counter+1;
+		
+		if ( counter > 20 )
+			counter := 1;
+			y_pos := 40;
+			GFAddButton(gump, 545, 445, 2648, 2649, GF_PAGE_BTN, page_num+1);
+			page_num := page_num+1;
+			GFPage(gump, page_num);
+			GFAddButton(gump, 545, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
+		endif
+		sleepms(2);
+	endforeach
+	
+	var input := GFSendGump(mobile, gump);
+	input := input[0];
+	if ( !input )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	input := elem_names[input];
+	var book_info := SysBook_ParseZuluCfgElem(input, zulu_cfg);
+	
+	var book := CreateItemInContainer(mobile.backpack, "Book2", 1);
+	if ( !book )
+		SendSysMessage(mobile, "Unable to create book ->"+book.errortext);
+	endif
+	
+	book.SetAuthor(book_info.Author);
+	book.SetTitle(book_info.Title);
+	foreach text_line in ( book_info.Contents )
+		book.SetLine(_text_line_iter, text_line);
+		sleepms(2);
+	endforeach
+	
+	book.ReadOnly(1);
+	book.SetNumPages(book_info.NumPages);
+	
+	SendSysMessage(mobile, "Done!");
+	
+	return 1;
+endfunction

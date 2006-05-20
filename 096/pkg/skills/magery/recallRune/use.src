@@ -1,0 +1,26 @@
+/*
+ * $Id: use.src 1005 2005-11-15 09:20:06Z muaddiblsd $
+ *
+ */
+ 
+use uo;
+
+include ":gumps:requestgump";
+
+program UseRune(who, rune)
+	if ( !rune.GetDestination() )
+		SendSysMessage(who, "This rune is not marked.");
+		return 0;
+	endif
+	
+	var desc := RequestGump(who, "Enter a new name for this rune.", "", rune.desc, CANCEL_BTN_ON);
+	if ( !desc )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	SetName(rune, desc);
+	SendSysMessage(who, "Rune has been renamed.");
+	
+	return 1;
+endprogram

@@ -1,0 +1,6 @@
+use uo;
+use npc;
+
+program ai_BucsBanker()
+	return 1;
+endprogram

@@ -1,0 +1,39 @@
+/* $Id: npcsleep.src 1383 2006-05-13 09:26:14Z austin $
+ *
+ */
+//Example: .npcsleep -> Forces all npcs to go to sleep.
+
+use uo;
+use os;
+use polsys;
+
+include ":gumps:requestgump";
+include ":brainAI:npcCommands";
+
+program textcmd_NPCSleep(who)
+	var realm_name := RequestGump(who, "Enter the realm name to put npcs to sleep on.", "", who.realm);
+	var realm_info := Realms()[realm_name];
+	if ( !realm_info )
+		SendSysMessage(who, "Invalid realm name.");
+		return 0;
+	endif
+	
+	//To do: Set X2 and Y2 to the realm's maximum values
+	var x1 := 1, y1 := 1, x2 := realm_info.width, y2 := realm_info.height;
+	var z1 := -120, z2 := 120;
+	
+	foreach mobile in ListObjectsInBox(x1, y1, z1, x2, y2, z2, realm_name)
+		if ( mobile.npctemplate )
+			AI_Sleep(mobile);
+		endif
+		
+		sleepms(5);
+		
+		//Clear out event responses the brain sends back to this command.
+		clear_event_queue();
+	endforeach
+	
+	SendSysMessage(who, "Done telling all npcs to sleep.");
+	
+	return 1;
+endprogram

@@ -1,0 +1,11 @@
+/* $Id: start.src 259 2005-09-26 08:25:45Z panosl $
+ *
+ */
+use os;
+
+var script := start_script("checkpackages");
+if ( script.errortext )
+	SysLog(script.errortext);
+else
+	Print("Starting ICP setup... OK.");
+endif

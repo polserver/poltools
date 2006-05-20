@@ -1,0 +1,30 @@
+/* $Id: attack.src 1383 2006-05-13 09:26:14Z austin $
+ *
+ */
+//Example: .attack -> Makes an npc attack another mobile.
+
+use uo;
+use os;
+
+include "include/sysEvent";
+
+program textcmd_attack(who)
+	SendSysMessage(who, "Select an npc (attacker).");
+	var targ := target(who);
+	if ( !targ.npctemplate ) 
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+	
+	SendSysMessage(who, "Select a mobile (defender).");
+	var targ2 := target(who);
+	if ( !targ2.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+	
+	var event := struct{"type":=SYSEVENT_ENGAGED, "source":=targ2};
+	SendEvent(targ, event);
+	
+	return 1;
+endprogram

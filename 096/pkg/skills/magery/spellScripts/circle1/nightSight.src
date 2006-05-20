@@ -1,0 +1,35 @@
+/*
+ * $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":magery:spells";
+include "include/client";
+include "include/sounds";
+
+program SpellScript(params)
+	var who := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	var targ := MS_Target(who, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+		
+	PlaySoundEffect(targ, SFX_BLESS);
+	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 10, 10);	
+	
+	// Stratics reports that if the TARGET has less than 10.0 skill, the spell will have no effect.
+	if ( AP_GetSkill(targ, MAGERY) > 10.0 )
+		targ.SetLightLevel(0, CInt(AP_GetSkill(who, MAGERY)) * 60);
+	endif
+	
+	return 1;
+endprogram

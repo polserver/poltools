@@ -1,0 +1,39 @@
+// $Id: attributeCache.src 1053 2005-11-24 05:54:35Z austin $
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+
+Program attributeCache()
+	var data_elem := AP_GetAttributeDataElem("Categories");
+	
+	// Clear out old cache
+	foreach prop_name in ( DFGetElemProps(data_elem) )
+		data_elem.EraseProp(prop_name);
+		sleepms(2);
+	endforeach
+	
+	var cfg_file := AP_GetAttributesCfgFile();
+	foreach elem_name in ( GetConfigStringKeys(cfg_file) )
+		var cfg_elem := AP_GetAttributeCfgElem(elem_name, cfg_file);
+		var type_name := Lower(cfg_elem.AttributeType);
+		if ( !type_name )
+			type_name := "unknown";
+		endif
+		
+		var type_list := data_elem.GetProp(type_name);
+		if ( !type_list )
+			type_list := array;
+		endif
+		
+		type_list.append(elem_name);
+		
+		data_elem.SetProp(type_name, type_list);
+	endforeach
+	
+	return 1;
+endprogram
+	
+

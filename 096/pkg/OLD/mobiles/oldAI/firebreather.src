@@ -1,0 +1,46 @@
+
+use npc;
+use os;
+use uo;
+use cfgfile;
+
+include "include/OLD/eventID";
+include ":attributes:attributes";
+include "include/sysEvent";
+include ":npcutils:names";
+include ":npcutils:NPCUtil";
+include ":itemutils:objtype";
+include ":npcutils:anchors";
+include ":oldAI:main/killPCsLoop";
+include ":oldAI:combat/fight";
+include ":oldAI:combat/fireCombatEvent";
+include ":oldAI:setup/setup";
+include ":oldAI:main/loot";
+include ":oldAI:main/sleepMode";
+
+const MOVING_EFFECT_FIREBALL  := 0x36d4;
+const HALT_THRESHOLD := 8; // how close before he attacks?
+var npccfgfile := ReadConfigFile( "::npcdesc" );
+var idlesnd1 := CInt(npccfgfile[me.npctemplate].idlesound1);
+var idlesnd2 := CInt(npccfgfile[me.npctemplate].idlesound2);
+var waittime := 0;
+var ev := 0;
+
+program KillPlayers()
+  SetWarMode( 0 );
+  main_AI_loop();
+endprogram
+
+function CloseDistance( opponent )
+  var sleepdelay := 300 - (CInt(AP_GetStat(me, "Dexterity")) * 1.5);
+  if (sleepdelay < 0)
+	sleepdelay := 0;
+  endif
+  case (Distance( me, opponent ))
+    1:
+    0:       return 1;
+    default: RunToward( opponent );
+	         sleepms(sleepdelay);
+             return 0;
+  endcase
+endfunction

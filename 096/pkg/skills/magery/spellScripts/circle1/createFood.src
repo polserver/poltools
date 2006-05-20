@@ -1,0 +1,31 @@
+/*
+ * $Id: createFood.src 1120 2006-01-09 13:27:40Z austin $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":food&drink:food";
+include "include/sounds";
+
+program SpellScript(params)
+	var who := params[1];
+	//var info := params[2];
+	params := 0; // No longer needed
+	
+	var food_item := RandomFoodObjType();
+	
+	PlaySoundEffect(who, SFX_CREATE_FOOD);
+	
+	var food := CreateItemInBackPack(who, food_item, 1);
+	food.movable := 1;
+	
+	if ( food.errortext )
+		SendSysMessage(who, "Error creating food ("+food_item+") ->"+food.errortext);
+	endif
+	
+	return 1;
+endprogram

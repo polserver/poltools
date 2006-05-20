@@ -1,0 +1,45 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use polsys;
+
+include ":partySystem:config";
+include ":partySystem:packetInfo";
+include ":partySystem:messages";
+
+const OFFSET_PARTY_ADD_SIZE := 6;
+const OFFSET_PARTY_ADD_PLAYERIDS := 7;
+
+program Reconnect(who)
+	var party := GetObjProperty(who, PARTY_PROP);
+
+	if ( party )
+		ReconnectParty(who, party);
+	endif
+
+	return 1;
+endprogram
+
+function ReconnectParty(who, party)
+	// Create and build the packet
+	var packet := CreatePacket(MSGTYPE_PARTY, MSGLEN_VARIABLE);
+
+	packet.SetInt16(OFFSET_PARTY_SUBCMD, SUBCMD_PARTY); // Set subcmd to Party
+	packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 1); // Set subsubcmd to Add
+	packet.SetInt8(OFFSET_PARTY_ADD_SIZE, party.size()); // Set party size
+
+	// Fill in the party member serials at the end of the packet
+	for i := 1 to (party.Size())
+		packet.SetInt32(OFFSET_PARTY_ADD_PLAYERIDS + ((i - 1) * 4), party[i]);
+		sleepms(2);
+	endfor
+
+	packet.SendPacket(who);
+	SendPartyMessage(party, who, "rejoined the party.");
+	SendSysMessage(who, "You have rejoined the party.");
+
+	return 1;
+endfunction

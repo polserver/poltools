@@ -1,0 +1,17 @@
+/*
+ * $Id: control.src 938 2005-11-07 06:22:45Z muaddiblsd $
+ *
+ */
+
+use uo;
+use os;
+
+program control(field)
+	while ( field )
+		sleep(1);
+		if ( field.IsExpired() )
+			DestroyItem(field);
+			return 1;
+		endif
+	endwhile
+endprogram

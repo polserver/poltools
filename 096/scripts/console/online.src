@@ -1,0 +1,24 @@
+/* $Id: online.src 1390 2006-05-13 10:16:45Z austin $
+ *
+ */
+use uo;
+use os;
+
+program console_online(cmd)
+	cmd := cmd;
+	//if ( cmd == "*" ) // Can assign some letter here just to see a number. Edit console.cfg then this line.
+	//	print ("Number of online players:"+EnumerateOnlineCharacters().size());
+	//else
+		var online := EnumerateOnlineCharacters();
+		if ( online.Size() > 0 )
+			foreach person in ( online )
+				Print ("("+_person_iter+") Account:" + person.acctname + " Character:" + person.name);
+				sleepms(2);
+			endforeach
+		else
+			Print("There is no one online.");
+		endif
+	//endif
+	
+	return 1;
+endprogram

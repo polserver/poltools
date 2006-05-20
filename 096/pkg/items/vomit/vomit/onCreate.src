@@ -1,0 +1,23 @@
+use uo;
+use util;
+use cfgfile;
+
+program OnCreate(vomit)
+	var setting_cfg := ReadConfigFile(":vomit:config/settings");
+	var graphic_elem := setting_cfg["Graphics"];
+	var graphics := GetConfigStringArray(graphic_elem, "Graphic");
+	
+	var color_elem := setting_cfg["Colors"];
+	var min_color := CInt(color_elem.MinColor);
+	var max_color := CInt(color_elem.MaxColor);
+	
+	if ( graphics.size() > 0 )
+		vomit.graphic := CInt(graphics[RandomInt(graphics.size())+1]);
+	endif
+	
+	var color := RandomInt(max_color - min_color);
+	color := color+min_color;
+	vomit.color := color;
+	
+	return 1;
+endprogram

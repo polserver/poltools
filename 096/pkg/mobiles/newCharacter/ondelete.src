@@ -1,0 +1,13 @@
+/*
+ * $Id: onDelete.src 1005 2005-11-15 09:20:06Z muaddiblsd $
+ *
+ */
+
+include ":newcharacter:newCharacter";
+
+program OnDelete(who)
+	var data_file := NC_GetDataFile();
+	data_file.DeleteElement(Hex(who.serial));
+	
+	return 1;
+endprogram

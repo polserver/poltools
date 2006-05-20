@@ -1,0 +1,36 @@
+use os;
+use uo;
+use cfgfile;
+
+include ":attributes:attributes";
+include "include/sound";
+include "include/tileEffects";
+include "include/spellAttack";
+include ":magery:reflect";
+include "include/magic";
+
+program spell_explosion(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+	var dmg;
+
+	SetObjProperty(castOn, "LastHit", ( {caster.name, caster.serial, "explosion" } ) );
+	if(spell_reflect(castOn))
+		castOn := caster;
+	endif
+  dmg := RandomDiceRoll("7d6");
+  Detach();
+  sleep(4);
+  send_attack(castOn,caster, 43);
+  PlaySoundEffect( castOn, SFX_SPELL_EXPLOSION );
+  PlayStationaryEffect( castOn.x,castOn.y,castOn.z, FX_EXPLODE_3, 7, 0x10, 0 , caster.realm );
+  if(AP_GetVital(castOn, HITS) >= 1)
+    if(castOn.npctemplate)
+      dmg := dmg * 2;
+    endif
+    ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+  endif
+endprogram

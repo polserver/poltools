@@ -1,0 +1,14 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":worldsaver:saver";
+
+program textcmd_SaveNow(who)
+	SendSysMessage(who, "Sending command to world saver.");
+	SVR_SendCommand(EVENT_SAVE_NOW);
+	
+	return 1;
+endprogram
