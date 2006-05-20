@@ -1,8 +1,0 @@
-use uo;
-
-program skill_stealing(who)
-
-        SendSysMessage(who, "That skill is not implemented.");
-        return;
-        
-endprogram
