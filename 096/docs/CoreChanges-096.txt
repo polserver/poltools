@@ -1,4 +1,12 @@
 -- POL096 --
+05-19 MuadDib : Removed support for wepndesc.cfg in the /config folder. Any shards still
+                using this obsolete file can use the itemdesc.cfg files for the weapons as
+                intended. Core will no longer require this file to load either.
+                
+05-13 MuadDib
+        Added : Targeting will now check the NoCombat zone for targeted players also,
+                and not just who is doing the targeting.
+
 05-10 MuadDib
         Fixed : Targeting should now check to make sure a mobile is visible to the targeter
                 before processing. This checks hidden and concealment both.
