@@ -8,6 +8,11 @@ program Install()
 	return 1;
 endprogram
 
+exported function IsCorpse(corpse)
+	corpse := corpse;
+	return 1;
+endfunction
+
 exported function GetOwner(corpse)
 	if ( corpse.ownerserial )
 		return SystemFindObjectBySerial(corpse.ownerserial);
