@@ -116,9 +116,18 @@ Other Formatting:
 	var math := 4 + 3 * 10; // 70 or 34? Use parethesis to control better.
 	var pemdas := ( ( 4 * 4 ) + ( 8 / ( 3 + 2 ) ) ) - ( 100 + some_var );
 	
+	// Strings dont have spaces around the + operator.
 	var string := "Hello there "+"Stephen."+" I am "+math+" years old.";
 
 	var value := SomeFunction(argument_1, argument_2);
 	var other_value := object.SomeMethodFunction(argument_1);
 
 	object.somepropery := some_value;
+
+Other Notes:
+All distro scripts that use gumps, must use the gumps package to build them.
+
+
+
+
+
