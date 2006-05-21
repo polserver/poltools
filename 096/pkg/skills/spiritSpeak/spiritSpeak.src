@@ -41,9 +41,11 @@ program skill_SpiritSpeak(who)
 	PlaySoundEffect(who, SFX_SPIRIT_SPEAK);
 
   	if( SkillCheck(who, SPIRIT_SPEAK, -1) > 0 )
-		foreach corpse in ( ListItemsNearLocationOfType(who.x, who.y, who.z, SS_RANGE, GetObjTypeByName("Corpse")) )
-			SendSysMessage(who, "You channel energy from a nearby corpse.");
-			ChannelFromCorpse(who, corpse, my_skill);
+		foreach item in ( ListItemsNearLocation(who.x, who.y, who.z, SS_RANGE, who.realm) )
+			if ( item.IsCorpse() )
+				SendSysMessage(who, "You channel energy from a nearby corpse.");
+				ChannelFromCorpse(who, item, my_skill);
+			endif
 			sleepms(2);
 		endforeach
 		
