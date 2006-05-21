@@ -69,6 +69,10 @@ Other Formatting:
 	if ( something )
 		Code here;
 	endif
+		
+	if ( this || that ) // Dont use 'or' spelled out.
+	if ( this && that ) // Dont use 'and' spelled out.
+	if ( this || ( one && two ) ) // Parenthesis are important for order of operations.
 
 	case ( something )
 	     	value:
