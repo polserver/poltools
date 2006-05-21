@@ -1,0 +1,67 @@
+/* $Id: guildButton 2006-05-21 4:51:53Z unreal $
+ *
+ *
+ *
+ */
+
+use uo;
+use polsys;
+
+const OFFSET_UNKOWN_A := 0x01;
+const OFFSET_PLAYER_SERIAL := 0x03;
+const OFFSET_UNKOWN_B := 0x08;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+
+program Install()
+
+	Print( "INSTALLING: Guild Button PH..." );
+	return 1;
+
+endprogram
+
+exported function buttonHook(who, byref packet)
+
+    Print("Button used by "+who.name);
+
+    if(GetObjProperty(who,"#guild_menu_open"))
+    return 1;
+    else
+    SetObjProperty(who,"#guild_menu_open",1);
+    endif
+
+    var Guild_Id := GetObjProperty(who, "guild_id");
+    var Guild := FindGuild(Guild_Id);
+
+    if(!Guild)
+        ShowCreateGuildGump(who);
+    endif
+
+endfunction
+
+function ShowCreateGuildGump(who)
+
+	var gump := GFCreateGump();
+	GFResizePic(gump, 150, 150, 9250, 300, 350);
+	//GFResizePic(gump, 15, 15, 0xED4, 310, 300);
+	GFAddButton(gump, 100, 250, 2128, 2129, GF_CLOSE_BTN, 1);
+	GFAddButton(gump, 100, 280, 2119, 2120, GF_CLOSE_BTN, 0);
+    var Result := GFSendGump(who, gump);
+
+    if(!Result)
+        EraseObjProperty(who,"#guild_menu_open");
+        SendSysMessage(who,"Result: "+Result);
+    endif
+
+endfunction
+
+function ShowGuildGump(who, guild)
+
+endfunction
+
+function ShowGuildMasterGump(who, guild)
+
+endfunction
