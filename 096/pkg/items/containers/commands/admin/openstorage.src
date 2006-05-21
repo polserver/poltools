@@ -6,8 +6,6 @@ use os;
 include ":gumps:requestgump";
 include ":containers:storageAreas";
 
-unload_scripts("");
-
 program command_OpenStorage(mobile)
 	var storage_area := RequestGump(mobile, "Storage Area Name", "", CP_DEFAULT_AREA);
 	if ( !storage_area )

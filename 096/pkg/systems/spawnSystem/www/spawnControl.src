@@ -7,8 +7,6 @@ include ":spawnsystem:realms";
 include ":spawnsystem:regions";
 include ":spawnsystem:report";
 
-unload_scripts("");
-
 program www_SpawnControl()
 	var realm_name := QueryParam("RealmName");
 	var region_name := QueryParam("RegionName");

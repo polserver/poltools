@@ -11,8 +11,6 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":gumps:gumpprompt";
 
-unload_scripts("");
-
 const CANCEL_BTN	:= 0xC00;
 const OKAY_BTN		:= 0xC01;
 const ACCT_TEXT_POS	:= 0xD01;
