@@ -8,8 +8,6 @@ use uo;
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
-unload_scripts("");
-
 program command_where(who, input)
 	if ( input /*=="quick"*/ ) // If any input, dont show a gump.
 		SendSysMessage(who, who.x + " " + who.y + " " + who.z + ", Realm: " + who.realm);
