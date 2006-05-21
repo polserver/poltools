@@ -6,6 +6,7 @@
  */
 
 use uo;
+use os;
 
 program textcmd_MoveObject(who)
 	var targ := Target(who);
