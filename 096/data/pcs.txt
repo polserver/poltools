@@ -14,10 +14,10 @@ Character
 	ObjType	0x190
 	Graphic	0x3db
 	Color	0x8026
-	X	1420
-	Y	1626
-	Z	21
-	Facing	1
+	X	1323
+	Y	1624
+	Z	55
+	Facing	6
 	Revision	0
 	Realm	britannia
 	CmdLevel	test
