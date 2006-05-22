@@ -1,4 +1,84 @@
 /* $Id$
  *
  *
-*/
+ */
+
+use uo;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+
+const GCGUMP_X := 125;
+const GCGUMP_Y := 200;
+const TXT_CLR_FG := 0;
+const TXT_CLR_BG := 1153;
+
+var background := GFCfgConst("Defaults", "BackGround");
+var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
+
+program Guild_Create(who)
+
+    var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
+    if ( regist_fee == 0 || !regist_fee )
+        return 0;
+    endif
+
+	var gump := GFCreateGump();
+
+	GFResizePic(gump, GCGUMP_X, GCGUMP_Y, background, 500, 300);
+
+    GFResizePic(gump, GCGUMP_X+25, GCGUMP_Y+20, foreground, 450, 25);
+    GFTextLine(gump, GCGUMP_X+200, GCGUMP_Y+20, TXT_CLR_FG, "Guild Creation");
+
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+100, TXT_CLR_BG, "fee.");
+
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+140, TXT_CLR_BG, "Registration Fee:");
+    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+140, foreground, 200, 25);
+    GFTextLine(gump, GCGUMP_X+160, GCGUMP_Y+140, TXT_CLR_FG, regist_fee);
+
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+165, TXT_CLR_BG, "Guild Name:");
+    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+165, foreground, 200, 25);
+    GFTextEntry(gump, GCGUMP_X+160, GCGUMP_Y+165, 200, 20, TXT_CLR_FG, "", 3);
+
+    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+190, TXT_CLR_BG, "Guild Abbreviation:");
+    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+190, foreground, 200, 25);
+    GFTextEntry(gump, GCGUMP_X+160, GCGUMP_Y+190, 200, 20, TXT_CLR_FG, "", 4);
+
+    GFAddButton(gump, GCGUMP_X+25, GCGUMP_Y+250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
+    GFAddButton(gump, GCGUMP_X+100, GCGUMP_Y+250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
+
+    var result := GFSendGump(who, gump);
+    if ( result[1] == 1 ) // clicked Okay
+        //if ( who.gold < regist_fee )
+        //    SendSysMessage(who, "You do not have enough gold.");
+        //    return;
+        //endif
+        var i, x;
+	    x := len(result[3]);
+	    i := result[3];
+	    var guild_name := i[4, (x-3)];
+        if ( !guild_name )
+            SendSysMessage(who, "You must enter a guild name.");
+            return;
+        endif
+	    x := len(result[4]);
+	    i := result[4];
+	    var guild_abbr := i[4, (x-3)];
+        if ( !guild_abbr )
+            SendSysMessage(who, "You must enter a guild abbreviation.");
+            return;
+        endif
+        return 1;
+    elseif ( result[2] == 1 ) // clicked Cancel
+        SendSysMessage(who, "Aborted.");
+        return;
+    else
+        SendSysMessage(who, "Aborted.");
+        return;
+    endif
+
+endprogram
