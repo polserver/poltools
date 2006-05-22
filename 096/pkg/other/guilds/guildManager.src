@@ -1,0 +1,83 @@
+/* $Id$
+ *    Author: Unreal
+ *    Created: Sunday, May 21 2006
+ *    Version: 0.01
+ */
+
+use os;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+include ":guilds:include/events";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+
+var proc := GetProcess(GetPid());
+var guilds;
+
+program GuildManager()
+
+    SetGlobalProperty("#Guild_Manager", GetPid());
+
+    guilds := ListGuilds();
+
+    if ( !guilds )
+        guilds := {};
+    endif
+
+    var ev;
+
+    while ( 1 )
+    ev := os::wait_for_event(120);
+        if ( ev )
+            case ( ev.type )
+                GUILD_CREATE:
+                    //AddGuild(ev);
+                GUILD_DISBAND:
+                    //RemoveGuild(ev);
+                GUILD_MESSAGE:
+                    //SendGuildMessage(ev);
+                GUILD_SET_CHARTER:
+                    //SetGuildCharter(ev);
+                GUILD_SET_WEBSITE:
+                    //SetGuildWebsite(ev);
+                GUILD_ADD_MEMBER:
+                    //AddGuildMember(ev);
+                GUILD_REMOVE_MEMBER:
+                    //RemoveGuildMember(ev);
+                GUILD_REQUEST_ALLY:
+                    //RequestGuildAlly(ev);
+                GUILD_REQUEST_WAR:
+                    //RequestGuildWar(ev);
+            endcase
+        endif
+    endwhile
+
+endprogram
+
+function AddGuild(ev)
+
+    var guild_gm := ev.creator;
+    var guild_name := ev.name;
+    var guild_abbr := ev.abbr;
+    var null_space := {"NONE"};
+    var guild    := CreateGuild();
+    var guild_id := guild.guildid;
+
+    guild.SetProp("GuildName", guild_name);
+    guild.SetProp("GuildAbbr",  guild_abbr);
+    guild.SetProp("GuildMaster", guild_gm.serial);
+
+    guild.AddMember(guild_gm);
+
+    SetObjProperty(guild_gm, "Guild_ID", guild_id);
+    SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
+
+    SendSysMessage(guild_gm, "Guild_Name: "+guild_name);
+    SendSysMessage(guild_gm, "Guild_Abbr: "+guild_abbr);
+
+endfunction
+
+function RemoveGuild(ev)
+
+endfunction
