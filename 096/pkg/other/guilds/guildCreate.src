@@ -1,19 +1,21 @@
 /* $Id$
- *
- *
+ *    Author: Unreal
+ *    Created: Sunday, May 21 2006
+ *    Version: 0.01
  */
 
 use uo;
 
 include ":guilds:include/report";
 include ":guilds:include/settings";
+include ":guilds:include/events";
 include ":gumps:include/gumps";
 include ":gumps:include/gumps_ex";
 
 const GCGUMP_X := 125;
 const GCGUMP_Y := 200;
 const TXT_CLR_FG := 0;
-const TXT_CLR_BG := 1153;
+const TXT_CLR_BG := 2100;
 
 var background := GFCfgConst("Defaults", "BackGround");
 var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
@@ -63,17 +65,24 @@ program Guild_Create(who)
 	    i := result[3];
 	    var guild_name := i[4, (x-3)];
         if ( !guild_name )
-            SendSysMessage(who, "You must enter a guild name.");
+            SendSysMessage(who, "You must provide a guild name.");
             return 0;
         endif
 	    x := Len(result[4]);
 	    i := result[4];
 	    var guild_abbr := i[4, (x-3)];
         if ( !guild_abbr )
-            SendSysMessage(who, "You must enter a guild abbreviation.");
+            SendSysMessage(who, "You must provide a guild abbreviation.");
             return 0;
         endif
         // More stuff todo, drr.
+        var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
+        var ev := struct;
+        ev.type := GUILD_CREATE;
+        ev.+creator := who;
+        ev.+name := guild_name;
+        ev.+abbr := guild_abbr;
+        guild_manager.SendEvent(ev);
         return 1;
     elseif ( result[2] == 1 ) // clicked Cancel
         SendSysMessage(who, "Aborted.");
