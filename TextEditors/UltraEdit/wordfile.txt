@@ -120,6 +120,7 @@ ApplyRawDamage
 AssignRectToWeatherRegion
 Attach
 BaseSkillToRawSkill
+Bin
 BoatFromItem
 Broadcast
 BroadcastUC
@@ -136,6 +137,8 @@ CheckLineOfSight
 CheckLosAt
 CheckSkill
 Clear_Event_Queue
+ConstE
+ConstPi
 ConsumeMana
 ConsumeReagents
 ConsumeSubstance
@@ -333,8 +336,8 @@ SendPacket
 SendQuestArrow
 SendSellWindow
 SendSkillWindow
-SendStringAsTipWindow
 SendStatus
+SendStringAsTipWindow
 SendSysMessage
 SendSysMessageUC
 SendTextEntryGump
