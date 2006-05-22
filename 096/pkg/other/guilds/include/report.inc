@@ -8,7 +8,7 @@ CONST GUILD_REPORT_SYSLOG	:= 0x2;
 CONST GUILD_REPORT_BROADCAST	:= 0x4;
 CONST GUILD_REPORT_ALL		:= 0x7;
 
-function SVR_ReportText(report_text:="?", flags:=GUILD_REPORT_DISABLE)
+function GUILD_ReportText(report_text:="?", flags:=GUILD_REPORT_DISABLE)
 	if ( !flags )
 		return 0;
 	endif
