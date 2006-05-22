@@ -129,9 +129,9 @@ Other Formatting:
 	object.somepropery := some_value;
 
 Other Notes:
-All distro scripts that use gumps, must use the gumps package to build them.
-
-
+* Do not use spaces for indents, use tabs.
+* All distro scripts that use gumps, must use the gumps package to build them.
+* Love UO like a fat kid loves cake.
 
 
 
