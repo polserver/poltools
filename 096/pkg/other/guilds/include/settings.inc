@@ -26,7 +26,7 @@ use cfgfile;
  * A config file reference.
  *
  */
-function GUILD_GetSettingsCfgFile()
+function Guild_GetSettingsCfgFile()
 	var cfg := ReadConfigFile(":guilds:config/settings");
 
 	if ( cfg.errortext )
@@ -50,7 +50,7 @@ endfunction
  * A config file elem reference.
  *
  */
-function GUILD_GetSettingsCfgElem(elem_name, byref cfg_file:=0)
+function Guild_GetSettingsCfgElem(elem_name, byref cfg_file:=0)
 	if ( !cfg_file )
 		cfg_file := Guild_GetSettingsCfgFile();
 	endif
