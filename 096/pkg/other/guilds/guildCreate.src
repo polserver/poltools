@@ -56,31 +56,31 @@ program Guild_Create(who)
     if ( result[1] == 1 ) // clicked Okay
         //if ( who.gold < regist_fee )
         //    SendSysMessage(who, "You do not have enough gold.");
-        //    return;
+        //    return 0;
         //endif
         var i, x;
-	    x := len(result[3]);
+	    x := Len(result[3]);
 	    i := result[3];
 	    var guild_name := i[4, (x-3)];
         if ( !guild_name )
             SendSysMessage(who, "You must enter a guild name.");
-            return;
+            return 0;
         endif
-	    x := len(result[4]);
+	    x := Len(result[4]);
 	    i := result[4];
 	    var guild_abbr := i[4, (x-3)];
         if ( !guild_abbr )
             SendSysMessage(who, "You must enter a guild abbreviation.");
-            return;
+            return 0;
         endif
         // More stuff todo, drr.
         return 1;
     elseif ( result[2] == 1 ) // clicked Cancel
         SendSysMessage(who, "Aborted.");
-        return;
+        return 0;
     else
         SendSysMessage(who, "Aborted.");
-        return;
+        return 0;
     endif
 
 endprogram
