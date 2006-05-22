@@ -28,7 +28,8 @@ program Guild_Create(who)
 	var gump := GFCreateGump();
 
 	GFResizePic(gump, GCGUMP_X, GCGUMP_Y, background, 500, 300);
-
+    // Yeah, the GCGUMP_X+25 stuff looks like crap, I'll do the math later when it's done
+    // so it looks nicer. =)
     GFResizePic(gump, GCGUMP_X+25, GCGUMP_Y+20, foreground, 450, 25);
     GFTextLine(gump, GCGUMP_X+200, GCGUMP_Y+20, TXT_CLR_FG, "Guild Creation");
 
@@ -72,6 +73,7 @@ program Guild_Create(who)
             SendSysMessage(who, "You must enter a guild abbreviation.");
             return;
         endif
+        // More stuff todo, drr.
         return 1;
     elseif ( result[2] == 1 ) // clicked Cancel
         SendSysMessage(who, "Aborted.");
