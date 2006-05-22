@@ -57,11 +57,3 @@ exported function ButtonHook(who, byref packet)
     return 0;
 
 endfunction
-
-/*
-	var gump := GFCreateGump();
-	GFResizePic(gump, 150, 150, 9250, 300, 350);
-	GFAddButton(gump, 100, 250, 2128, 2129, GF_CLOSE_BTN, 1);
-	GFAddButton(gump, 100, 280, 2119, 2120, GF_CLOSE_BTN, 0);
-    var Result := GFSendGump(who, gump);
-*/
