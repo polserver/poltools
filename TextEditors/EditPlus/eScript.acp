@@ -1,0 +1,45 @@
+#TITLE=eScript ACP
+;######################################
+;# eScript AutoCompletion for POL 96 Scripting
+;# Author: Danielle Elora, Nightscape Shard
+;# http://www.nightscapeonline.com
+;#
+;# Modifed: 05/01/2006
+;# Associate with .src, .inc, and .cfg
+;######################################
+
+#CASE=y
+
+#T=if
+if (^!)
+	
+endif
+#T=case
+case (^!)
+	:
+
+	default:
+
+endcase
+#T=while
+while (^!)
+	
+endwhile
+#T=do
+do
+	
+dowhile (^!);
+#T=repeat
+repeat
+	
+until (^!);
+#T=for
+var i;
+for (i := 1; i <= ^!; i := i + 1)
+	
+endfor
+#T=foreach
+foreach iterator in ^!
+	
+endforeach
+#
