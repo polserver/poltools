@@ -1,4 +1,4 @@
-/* $Id: guildButton 2006-05-21 4:51:53Z unreal $
+/* $Id$
  *
  *
  *
@@ -18,23 +18,26 @@ include ":gumps:include/gumps_ex";
 
 program Install()
 
-	Print( "INSTALLING: Guild Button PH..." );
+	Print("INSTALLING: Guild Button PH...");
 	return 1;
 
 endprogram
 
-exported function buttonHook(who, byref packet)
+exported function ButtonHook(who, byref packet)
 
-    var Guild_Id := GetObjProperty(who, "guild_id");
-    var Guild := FindGuild(Guild_Id);
+    var guild_id := GetObjProperty(who, "guild_id");
+    var guild := FindGuild(guild_id);
 
-    if(!Guild)
-        Start_Script(":guilds:guildCreate", {who});
+    if ( !guild )
+        Start_Script(":guilds:guildCreate", who);
+        return 1;
+    elseif ( guild )
+        Start_Script(":guilds:guildFunctions", {who, guild});
+        return 1;
     endif
 
 endfunction
-// Just a start fuckers! =D
-function ShowCreateGuildGump(who)
+
 /*
 	var gump := GFCreateGump();
 	GFResizePic(gump, 150, 150, 9250, 300, 350);
@@ -42,12 +45,3 @@ function ShowCreateGuildGump(who)
 	GFAddButton(gump, 100, 280, 2119, 2120, GF_CLOSE_BTN, 0);
     var Result := GFSendGump(who, gump);
 */
-endfunction
-
-function ShowGuildGump(who, guild)
-
-endfunction
-
-function ShowGuildMasterGump(who, guild)
-
-endfunction
