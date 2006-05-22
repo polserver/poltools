@@ -1,0 +1,11 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+
+include ":gumps:gumps";
+
+program use_OreVein(who, item)
+	return 1;
+endprogram

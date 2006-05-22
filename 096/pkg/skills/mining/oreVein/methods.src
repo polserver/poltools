@@ -1,0 +1,15 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsOreVein(item)
+	item := item; // avoid compiler warning
+	
+	return 1;
+endfunction
