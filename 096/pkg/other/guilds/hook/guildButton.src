@@ -31,15 +31,12 @@ exported function ButtonHook(who, byref packet)
         GUILD_BUTTON_PRESSED:
             var guild_id := GetObjProperty(who, "guild_id");
             var guild := FindGuild(guild_id);
-
             if ( !guild )
                 Start_Script(":guilds:guildCreate", who);
                 return 1;
-
             elseif ( guild )
-                Start_Script(":guilds:guildFunctions", {who, guild});
+                Start_Script(":guilds:guildMenu", {who, guild});
                 return 1;
-
             endif
             break;
 
