@@ -1,4 +1,4 @@
-/** $Id: string.inc 1433 2006-05-18 21:48:04Z austin $
+/** $Id$
  *
  * Purpose
  * Provide various functions for string handling.

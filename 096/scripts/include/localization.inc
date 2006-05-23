@@ -1,4 +1,4 @@
-/* $Id: localization.inc 642 2005-10-23 09:51:20Z panosl $
+/* $Id$
  *
  * Purpose
  * Provide localized messages

@@ -1,4 +1,4 @@
-/* $Id: death.src 409 2005-10-05 10:10:44Z austin $
+/* $Id$
  *
  * Purpose
  * This script allows side effects to be triggered as a result of NPC death, like unmounting

@@ -1,4 +1,4 @@
-/* $Id: messages.inc 900 2005-11-04 13:48:31Z panosl $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for system messages.
