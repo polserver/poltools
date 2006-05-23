@@ -31,21 +31,21 @@ include ":gumps:gumps_ex";
  *
  */
 function GumpPrompt(mobile, text, movable:=0)
-	var gump_prompt := GFCreateGump();
+	var gump_prompt := GFCreateGump(180, 100);
 	if ( !movable )
 		GFClosable(gump_prompt, 0);
 	endif
-	GFResizePic(gump_prompt, 180, 100, GFCfgConst("Defaults", "BackGround"), 300, 160);
-	GFResizePic(gump_prompt, 195, 115, GFCfgConst("Defaults", "ForeGround"), 270, 130);
+	GFResizePic(gump_prompt, 0, 0, GFCfgConst("Defaults", "BackGround"), 300, 160);
+	GFResizePic(gump_prompt, 15, 15, GFCfgConst("Defaults", "ForeGround"), 270, 130);
 		
-	var y_pos := 125;
+	var y_pos := 25;
 	foreach line in (GFWordWrap(text, 260))
-		GFTextLine(gump_prompt, 200, y_pos, 1153, line);
+		GFTextLine(gump_prompt, 20, y_pos, 1153, line);
 		y_pos := y_pos+20;
 		sleepms(2);
 	endforeach
 	
-	GFAddButton(gump_prompt, 300, 220, 2128, 2129, GF_CLOSE_BTN, 1);
+	GFAddButton(gump_prompt, 120, 120, 2128, 2129, GF_CLOSE_BTN, 1);
 	
 	var prompt_input := GFSendGump(mobile, gump_prompt);
 	return prompt_input[0];

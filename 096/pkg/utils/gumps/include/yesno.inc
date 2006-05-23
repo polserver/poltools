@@ -32,7 +32,7 @@ include ":gumps:gumps_ex";
  *
  */
 function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
-	var yn_gump := GFCreateGump();
+	var yn_gump := GFCreateGump(140, 100);
 	GFClosable(yn_gump, 0);
 	GFResizePic(yn_gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 400, 205);
 	GFResizePic(yn_gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 370, 175);
