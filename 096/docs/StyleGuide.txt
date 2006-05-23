@@ -127,6 +127,15 @@ Other Formatting:
 	var other_value := object.SomeMethodFunction(argument_1);
 
 	object.somepropery := some_value;
+	
+	// Dont make arrays like this
+	var a := {1, 2, 3};
+	var b := {};
+	// Proper way
+	var a := array{1, 2, 3};
+	// Either below is acceptable
+	var b := array{}; 
+	var b := array;
 
 Other Notes:
 * Do not use spaces for indents, use tabs.
