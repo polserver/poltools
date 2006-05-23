@@ -4,7 +4,6 @@ use math;
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
-include ":itemUtils:canAccess";
 include ":runebook:runebookFunctions";
 include ":runebook:customSpells";
 
@@ -13,9 +12,6 @@ program use_Runebook(who, book)
 	EraseObjProperty(who, "#IsMeditating");
 	EraseObjProperty(who, "#HealTimer");
 
-	if( !can_access(who, book, "unmovable") )
-		return 0;
-	endif
 	if( !ReserveItem(book) )
 		return 0;
 	endif
