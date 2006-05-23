@@ -1,0 +1,8 @@
+use os;
+
+var script := start_script("oreVein/regenVeins");
+if ( script.errortext )
+	SysLog("Error starting ore vein regen ->"+script.errortext);
+else
+	Print("Starting ore vein regeneration controller... OK.");
+endif
