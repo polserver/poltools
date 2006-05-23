@@ -1,0 +1,22 @@
+use os;
+use uo;
+
+const UOBJ_REG_START	:= 0xF78;
+const UOBJ_REG_END	:= 0xF91;
+
+program textcmd_MakeRegs(who, amount)
+	amount := CInt(amount);
+	if( !amount )
+		amount := 20;
+	endif
+  
+	var backpack := CreateItemInBackpack(who, "backpack", 1);
+  	backpack.color := 0x3;
+
+	foreach thing in ( array{0xF7A, 0xF7B, 0xF84, 0xF85, 0xF86, 0xF88, 0xF8C, 0xF8D} )
+		CreateItemInContainer(backpack, thing, amount);
+		sleepms(2);
+	endforeach
+	
+	return 1;
+endprogram
