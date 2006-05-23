@@ -6,19 +6,35 @@ use uo;
 use os;
 
 include ":attributes:attributes";
+include ":mining:settings";
 include "include/client";
 include "include/sounds";
 
 program use_PickAxe(who, pick)
-	
-	SendSysMessage(who, "Select a place to mine."):
+
+	SendSysMessage(who, "Select a place to mine.");
 	var targ := TargetCoordinates(who);
 	if ( !targ )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
+	elseif ( !IsMinable(who, targ) )
+		SendSysMessage(who, "You can not mine there.");
+		return 0;
 	endif
-	
+
 	return 1;
 endprogram
 
-	
+function IsMinable(who, targ)
+	var cfg_elem := MSP_GetSettingsCfgElem("MinableTiles");
+
+	var land_scape :=  GetMapInfo(targ.x, targ.y, who.realm).landtile;
+	if ( land_scape in (GetConfigStringArray(cfg_elem, "Landscape")) )
+		return 1;
+	elseif ( targ.objtype in (GetConfigStringArray(cfg_elem, "Static")) )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
