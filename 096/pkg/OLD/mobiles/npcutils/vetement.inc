@@ -1,4 +1,4 @@
-// //$Id: vetement.inc 287 2005-09-28 20:26:16Z muaddiblsd $
+// //$Id$
 
 use cfgfile;
 use os;

@@ -1,4 +1,4 @@
-/* $Id: goEdit.inc 646 2005-10-24 16:24:26Z muaddiblsd $
+/* $Id$
  *
  */
 

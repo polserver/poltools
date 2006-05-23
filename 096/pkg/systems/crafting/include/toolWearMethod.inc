@@ -1,4 +1,4 @@
-// //$Id: toolWearMethod.inc 386 2005-10-03 00:22:39Z muaddiblsd $
+// //$Id$
 
 include ":attributes:attributeConstants";
 include ":attributes:attributes";

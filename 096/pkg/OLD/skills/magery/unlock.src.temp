@@ -1,4 +1,4 @@
-// $Id: unlock.src.temp 897 2005-11-04 07:22:07Z muaddiblsd $
+// $Id$
 
 use os;
 use uo;

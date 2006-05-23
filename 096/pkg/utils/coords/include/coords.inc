@@ -1,4 +1,4 @@
-/* $Id: coords.inc 1002 2005-11-15 06:18:44Z muaddiblsd $
+/* $Id$
  *
  */
 use basic;

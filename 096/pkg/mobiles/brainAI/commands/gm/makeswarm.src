@@ -1,4 +1,4 @@
-/* $Id: makeswarm.src 1383 2006-05-13 09:26:14Z austin $
+/* $Id$
  *
  */
 //Example: .makeswarm [templateate] [radius] - Makes npcs on every tile in the radius around you.

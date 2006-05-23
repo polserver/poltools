@@ -1,4 +1,4 @@
-// $Id: herd.src 911 2005-11-05 23:20:56Z austin $
+// $Id$
 
 use os;
 use uo;

@@ -1,4 +1,4 @@
-// $Id: bardInstrument.inc 834 2005-11-02 14:09:50Z austin $
+// $Id$
 
 /*
  * findInstrument(character)

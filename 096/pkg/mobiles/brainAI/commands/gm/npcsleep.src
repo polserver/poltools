@@ -1,4 +1,4 @@
-/* $Id: npcsleep.src 1383 2006-05-13 09:26:14Z austin $
+/* $Id$
  *
  */
 //Example: .npcsleep -> Forces all npcs to go to sleep.

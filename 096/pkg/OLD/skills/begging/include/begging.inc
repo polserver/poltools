@@ -1,4 +1,4 @@
-/* $Id: begging.inc 664 2005-10-27 03:36:13Z muaddiblsd $
+/* $Id$
  *
  */
 

@@ -1,10 +1,14 @@
-// //$Id$
-
+/* $Id$
+ *
+ */
+use cfgfile;
 use uo;
 
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
+
+var mental_cfg := ReadConfigFile(":anatomy:config/physical");
 
 program skill_EvaluatingIntelligence(who)
 
@@ -12,8 +16,8 @@ program skill_EvaluatingIntelligence(who)
 	EraseObjProperty(who, "#HealTimer");
 
 	SendSysMessage(who, "What do you wish to evaluate?");
+
 	var subject := Target(who);
-	// target checks begin here
 	if(!subject)
 		return 0;
 	elseif(subject.serial == who.serial)
@@ -103,31 +107,27 @@ function getIntell(subject, graphic, gender)
 
 endfunction
 
+function HandleSubMana(subject, byref str_reply)
 
-function getMentalStrength(subject)
+	var sub_mana_level := CInt(CInt(AP_GetVital(subject, "Mana"))/CDbl(AP_GetVitalMaximumValue(subject, "Mana"))*100);
 
-	if(subject >= 100)
-		return "one-hundred percent";
-	elseif(subject >= 90)
-		return "ninety percent";
-	elseif(subject >= 80)
-		return "eighty percent";
-	elseif(subject >= 70)
-		return "seventy percent";
-	elseif(subject >= 60)
-		return "sixty percent";
-	elseif(subject >= 50)
-		return "fifty percent";
-	elseif(subject >= 40)
-		return "forty percent";
-	elseif(subject >= 30)
-		return "thirty percent";
-	elseif(subject >= 20)
-		return "twenty percent";
-	elseif(subject >= 10)
-		return "low";
-	else
-		return "very low";
+	var mana_elem := physical_cfg["Mana"];
+	if ( !mana_elem )
+		return mana_elem;
 	endif
+
+	var phrase_list := GetConfigStringArray(mana_elem, "Mana");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_mana_level < CDbl(p_array[1]) )
+			str_reply.sub_,ama := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find mana phrase for serial " + subject.serial};
 
 endfunction

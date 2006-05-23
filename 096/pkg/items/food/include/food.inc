@@ -1,5 +1,5 @@
 /*
- * $Id: food.inc 938 2005-11-07 06:22:45Z muaddiblsd $
+ * $Id$
  *
  */
 

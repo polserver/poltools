@@ -1,4 +1,4 @@
-/* $Id: attributeConstants.inc 834 2005-11-02 14:09:50Z austin $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for the attribute system.
