@@ -6,7 +6,6 @@ use os;
 
 include ":attributes:attributes";
 include ":magery:spells";
-include ":itemutils:objtype";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
 include ":containers:containers";

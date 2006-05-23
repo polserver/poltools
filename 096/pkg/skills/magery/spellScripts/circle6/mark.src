@@ -6,7 +6,6 @@ use os;
 
 include ":magery:spells";
 include ":magery:spellSounds";
-include ":itemutils:objtype";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
 include "include/tileEffects";
