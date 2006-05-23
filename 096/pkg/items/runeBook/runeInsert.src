@@ -4,7 +4,6 @@
 use uo;
 use os;
 
-include ":itemutils:canAccess";
 include ":runebook:runebookFunctions";
 
 program on_insert(who, book, movetype, inserttype, item, existing_stack, amt);
@@ -25,7 +24,7 @@ program on_insert(who, book, movetype, inserttype, item, existing_stack, amt);
 		SendSysMessage(who, "You cannot do that while the book is locked down.");
 		MoveItemToContainer(item, who.backpack);
 		return 0;
-	elseif( !can_access(who, book) || !can_access(who, item) )
+	elseif( !ReserveItem(book) || !ReserveItem(item) )
 		MoveItemToContainer(item, who.backpack);
 		SendSysMessage(who, "You can't add that when the book is in use.");
 		return 0;
