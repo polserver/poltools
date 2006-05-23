@@ -7,7 +7,7 @@ use uo;
 use os;
 
 /*
- * AmountInContainer(container, obj_type, params)
+ * AmountInContainer(container, properties)
  *
  * Purpose
  * Finds the amount of items with a certain objtype and 
@@ -15,29 +15,31 @@ use os;
  *
  * Parameters
  * container:	Container to search
- * obj_type:	Objtype to find
  * properties:	Optional - dictionary ( dict[property] = value )
+ *		Example: dict{"objtype"->0x1235}; // only objtype 0x1235
  *		Example: dict{"color"->0} // only count if uncolored
  *
  * Return value
  * Returns an integer
  *
  */
-function AmountInContainer(container, obj_type, properties:=0)
+function AmountInContainer(container, properties)
+	if ( Lower(TypeOf(properties)) != "dictionary" )
+		return error{"errortext":="Property list must be a dictionary."};
+	endif
+	
 	var amount := 0;
-	foreach item in EnumerateItemsInContainer(container)
-		if( item.objtype == obj_type )
-			if ( !properties )
-				amount := amount + item.amount;
-			else
-				foreach property in ( properties.keys() )
-					if ( item.Get_Member(property) == properties[property] )
-						amount := amount + item.amount;
-					endif
-					sleepms(2);
-				endforeach
+	
+	MAIN: foreach item in ( EnumerateItemsInContainer(container) )
+		foreach property in ( properties.Keys() )
+			if ( item.Get_Member(property) != properties[property] )
+				continue MAIN;
 			endif
-		endif
+			sleepms(2);
+		endforeach
+		
+		amount := amount + item.amount;
+		
 		sleepms(2);
 	endforeach
 	
@@ -61,7 +63,11 @@ endfunction
  * Returns an array of item refs.
  *
  */
-function FindMatchesInContainer(container, properties:=0)
+function FindMatchesInContainer(container, properties)
+	if ( Lower(TypeOf(properties)) != "dictionary" )
+		return error{"errortext":="Property list must be a dictionary."};
+	endif
+	
 	var item_list := array{};
 	
 	MAIN: foreach item in ( EnumerateItemsInContainer(container) )
@@ -69,7 +75,6 @@ function FindMatchesInContainer(container, properties:=0)
 			if ( item.Get_Member(property) != properties[property] )
 				continue MAIN;
 			endif
-			
 			sleepms(2);
 		endforeach
 		
