@@ -2,6 +2,7 @@
  *    Author: Unreal
  *    Created: Sunday, May 21 2006
  *    Version: 0.01
+ *    Status: Unfinished
  */
 
 use uo;
@@ -56,10 +57,6 @@ program Guild_Create(who)
 
     var result := GFSendGump(who, gump);
     if ( result[1] == 1 ) // clicked Okay
-        //if ( who.gold < regist_fee )
-        //    SendSysMessage(who, "You do not have enough gold.");
-        //    return 0;
-        //endif
         var i, x;
 	    x := Len(result[3]);
 	    i := result[3];
@@ -77,7 +74,7 @@ program Guild_Create(who)
         endif
         // More stuff todo, drr.
         var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
-        var ev := struct;
+        var ev := struct{};
         ev.type := GUILD_CREATE;
         ev.+creator := who;
         ev.+name := guild_name;
