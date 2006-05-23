@@ -1,4 +1,4 @@
-/* $Id: ondelete.src 1371 2006-05-12 23:55:57Z austin $
+/* $Id$
  *
  * Purpose
  * This script allows the scripter to run code when a character is deleted.

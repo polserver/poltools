@@ -1,4 +1,4 @@
-/* $Id: facings.inc 1310 2006-05-11 21:53:20Z austin $
+/* $Id$
  *
  */
 use uo;

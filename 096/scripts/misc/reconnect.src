@@ -1,4 +1,4 @@
-/* $Id: reconnect.src 1345 2006-05-12 08:18:29Z austin $
+/* $Id$
  *
  * Purpose
  * This script allows code to run when the player logs in after having recently logged off.

@@ -1,4 +1,4 @@
-/* $Id: properties.inc 892 2005-11-04 06:51:00Z muaddiblsd $
+/* $Id$
  *
  * Purpose
  * Provide property names and functions. Properties starting with "+" are to be protected.

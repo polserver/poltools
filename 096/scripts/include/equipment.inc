@@ -1,4 +1,4 @@
-/* $Id: equipment.inc 1038 2005-11-20 17:23:31Z austin $
+/* $Id$
  *
  * Purpose
  * Allows modifiers to be easily set and removed.

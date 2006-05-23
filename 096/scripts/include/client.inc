@@ -1,4 +1,4 @@
-/* $Id: client.inc 1343 2006-05-12 07:56:34Z austin $
+/* $Id$
  *
  * Purpose
  * This include file is designed to hold all the client lowlevel constants.

@@ -1,4 +1,4 @@
-/* $Id: logoff.src 1345 2006-05-12 08:18:29Z austin $
+/* $Id$
  *
  * Purpose
  * This script allows the scripter to run cleanup code after a character exits the world.

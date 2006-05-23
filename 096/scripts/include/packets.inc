@@ -1,4 +1,4 @@
-/* $Id: packets.inc 984 2005-11-14 09:02:34Z muaddiblsd $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for raw packets.
