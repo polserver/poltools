@@ -1,3 +1,6 @@
+/* $Id$
+ *
+ */
 use cfgfile;
 use uo;
 
@@ -5,27 +8,29 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 
-program skill_armslore(who)
+var arms_cfg := ReadConfigFile(":armslore:config/arms");
+
+program skill_Armslore(who)
 
 	EraseObjProperty(who, "#IsMeditating");
 	EraseObjProperty(who, "#HealTimer");
 
-	var quality_descr, damage_descr;
 	SendSysMessage(who, "Select an object to evaluate.");
+
 	var the_item := Target(who, TGTOPT_CHECK_LOS);
-	if (!the_item)
-		SendSysMessage(who, "Targetting cancelled.");
-		return;
+	if ( !the_item )
+		return 0;
 	endif
-	var cfg := ReadConfigFile(":combat:itemdesc");
-	var entry := cfg[the_item.objtype];
-	if (!entry)
+
+	if ( !(the_item.isA(POLCLASS_WEAPON)) && !(the_item.isA(POLCLASS_ARMOR)) )
 		SendSysMessage(who, "You can only use this skill on weapons or armor!");
-		return;
+		return 0;
 	endif
-	if(SkillCheck(who, ARMS_LORE, -1) > 0)
-		var item_max_hp := the_item.maxhp;
-		var max_hp := item_max_hp;
+
+	var item_desc := struct { quality, damage };
+
+	if ( SkillCheck(who, ARMS_LORE, -1) > 0 )
+		var max_hp := the_item.max_hp;
 		var hp := the_item.hp;
 		if (hp == 0)
 			hp := 1;
@@ -33,24 +38,13 @@ program skill_armslore(who)
 		if (max_hp == 0)
 			max_hp := 1;
 		endif
-		if (item_max_hp == 0)
-			item_max_hp := 1;
-		endif
 
-		var damage_real := (hp  * 100) / max_hp;
-		var damage_nbr := CInt(damage_real);
-		var quality_real :=  (the_item.quality  * 100);
-		var quality_nbr := CInt(quality_real);
+		var damage_nbr := CInt((hp  * 100) / max_hp);
+		var quality_nbr := CInt(the_item.quality  * 100);
 
-		if(damage_nbr > 90)
-			damage_descr := "good";
-		elseif (damage_nbr >= 60)
-			damage_descr := "acceptable";
-		elseif (damage_nbr >= 40)
-			damage_descr := "fair";
-		else
-			damage_descr := "poor";
-		endif
+		HandleSubDamage(damage_nbr, item_desc);
+		HandleSubQuality(quality_nbr, item_desc);
+
 
 		if (quality_nbr > 100)
 			quality_descr := "exceptional";
@@ -69,3 +63,49 @@ program skill_armslore(who)
 	endif
 
 endprogram
+
+function HandleSubDamage(damage_nbr, byref item_desc)
+
+	var damage_elem := arms_cfg["Damage"];
+	if ( !damage_elem )
+		return damage_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(damage_elem, "Damage");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( damage_nbr < CDbl(p_array[1]) )
+			item_desc.damage := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find damage phrase for level " + damage_nbr};
+
+endfunction
+
+function HandleSubQuality(quality_nbr, byref item_desc)
+
+	var quality_elem := arms_cfg["Quality"];
+	if ( !quality_elem )
+		return quality_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(quality_elem, "Quality");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( quality_nbr < CDbl(p_array[1]) )
+			item_desc.quality := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find quality phrase for level " + quality_nbr};
+
+endfunction

@@ -1,6 +1,7 @@
-/* $Id: anatomy.src 834 2005-11-02 14:09:50Z austin $
+/* $Id$
  *
  */
+use cfgfile;
 use uo;
 
 include ":attributes:attributeConstants";
