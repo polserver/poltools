@@ -134,14 +134,17 @@ function RemoveGuild(ev)
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
 		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
+		sleepms(2);
 	endforeach
 
 	foreach ally in (guild.allyguilds)
 		ally.RemoveAllyGuild(guild);
+		sleepms(2);
 	endforeach
 
 	foreach enemy in (guild.enemyguilds)
 		enemy.RemoveEnemyGuild(guild);
+		sleepms(2);
 	endforeach
 
 	DestroyGuild(guild);
