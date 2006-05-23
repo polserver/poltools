@@ -29,9 +29,9 @@ program	GuildManager()
 				GUILD_MESSAGE:
 					// TODO:
 				GUILD_INVITE_MEMBER:
-					// TODO:
-				GUILD_REMOVE_MEMBER:
-					// TODO:
+					InviteMember(ev);
+				GUILD_KICK_MEMBER:
+					KickMember(ev);
 				GUILD_PROMOTE_MEMBER:
 					// TODO:
 				GUILD_DEMOTE_MEMBER:
@@ -102,7 +102,7 @@ function AddGuild(ev)
 		return 0;
 	endif
 
-	if ( !YesNo(guild_gm, "Are you sure	you	want to	create a new guild?", "Yes.", "No") )
+	if ( !YesNo(guild_gm, "Are you sure	you	want to	create a new guild?", "Yes", "No") )
 		SendSysMessage(guild_gm, "Aborted.");
 		return 0;
 	else
@@ -122,11 +122,11 @@ function AddGuild(ev)
 		guild.SetProp("Name", guild_name);
 		guild.SetProp("Abbr",  guild_abbr);
 		guild.SetProp("Master",	guild_gm.serial);
-		guild.SetProp("Charter", "NONE");
-		guild.SetProp("Website", "NONE");
+		guild.SetProp("Charter", null_space);
+		guild.SetProp("Website", null_space);
 		guild.AddMember(guild_gm);
 		SetObjProperty(guild_gm, "Guild_ID", guild_id);
-		//SetObjProperty(guild_gm, "Guild_Rank", ""); // TODO: set settings.cfg for guild rank names.
+		//SetObjProperty(guild_gm, "Guild_Rank", 1); // TODO: set settings.cfg for guild rank names.
 		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
 		SendSysMessage(guild_gm, "Guild was successfully created.");
 		return 1;
@@ -146,6 +146,7 @@ function RemoveGuild(ev)
 	foreach member in (guild.members)
 		guild.RemoveMember(member);
 		EraseObjProperty(member, "Guild_ID");
+		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
 		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
@@ -166,6 +167,75 @@ function RemoveGuild(ev)
 
 endfunction
 
+function InviteMember(ev)
+
+	var recruiter := ev.source;
+	// TODO: Rank check to see if this person is allowed to invite new members.
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	SendSysMessage(recruiter, "Whom do you wish to invite into your guild?");
+
+	var new_member := Target( recruiter, TGTOPT_NOCHECK_LOS+TGTOPT_NEUTRAL );
+
+	if ( !new_member )
+		SendSysMessage(recruiter, "Aborted.");
+		return 0;
+	elseif ( new_member.IsA( POLCLASS_NPC ) )
+		SendSysMessage(recruiter, "Aborted. You must select a player.");
+		return 0;
+	elseif ( !new_member.IsA( POLCLASS_MOBILE ) )
+		SendSysMessage(recruiter, "Aborted. You must select a player.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_ID" ) )
+		SendSysMessage(recruiter, "Aborted. That player already belongs to a guild.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_Invites" ) == "OFF" )
+		SendSysMessage(recruiter, "Aborted. That player has choosen to ignore guild invites.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_Invites" ) == "ON" || !GetObjProperty(new_member, "Guild_Invites" ) )
+		SendSysMessage(recruiter, "You have sent an invite to that player.");
+		if ( !YesNo(new_member, recruiter.name+" would like you to join "+guild_name+", do you accept?", "Yes", "No") )
+			SendSysMessage(new_member, "Aborted.");
+			SendSysMessage(recruiter, "The player cancelled your invite.");
+			return 0;
+		else
+			guild.AddMember(new_member);
+			SetObjProperty(new_member, "Guild_ID", guild.guild_id);
+			//SetObjProperty(new_member, "Guild_Rank", 5); // TODO:
+			SetObjProperty(new_member, "Fealty", new_member.serial);
+			SendSysMessage(new_member, "You're now a member of "+guild_name+".");
+			SendSysMessage(recruiter, new_member.name+" has joined "+guild_name+".");
+			return 1;
+		endif
+	endif
+
+endfunction
+
+function KickMember(ev)
+
+	var player := ev.source;
+	// TODO: Rank check to see if this person is allowed to kick members.
+	var member := ev.player;
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	if ( !YesNo(player, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
+		SendSysMessage(player, "Aborted.");
+		return 0;
+	else
+		guild.RemoveMember(member);
+		EraseObjProperty(member, "Guild_ID");
+		//EraseObjProperty(member, "Guild_Rank"); // TODO:
+		EraseObjProperty(member, "Fealty");
+		member.title_guild := "";
+		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
+		SendSysMessage(player, member.name+" has been kicked from the guild.");
+		return 1;
+	endif
+
+endfunction
+
 function SetGuildCharter(ev)
 
 	var who := ev.source;
@@ -183,7 +253,7 @@ function SetGuildCharter(ev)
 			return 1;
 		endif
 	else
-		if ( !YesNo(who, "Are you sure	you	want to	create a new guild charter?", "Yes.", "No") )
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild charter?", "Yes", "No") )
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
@@ -218,7 +288,7 @@ function SetGuildWebsite(ev)
 			return 1;
 		endif
 	else
-		if ( !YesNo(who, "Are you sure	you	want to	create a new guild website?", "Yes.", "No") )
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild website?", "Yes", "No") )
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
