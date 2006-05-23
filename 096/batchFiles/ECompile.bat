@@ -16,7 +16,7 @@ ECHO Command        Purpose
 ECHO  [ a ] - Compile a specific script.
 ECHO  [ b ] - Compile a directory.
 ECHO  [ c ] - Compile all .src scripts.
-ECHO  [ d ] - Compile all scripts and output to POL\ecompile.log
+ECHO  [ d ] - Compile all scripts and output to ecompile.log
 ECHO.
 ECHO  [ x ] - Back
 
@@ -57,6 +57,8 @@ GOTO RETURN_TO_MENU()
 REM -- COMPILE_ALL_SCRIPTS_OPTXT() FUNCTION
 :COMPILE_ALL_SCRIPTS_OPTXT()
 %ECOMPILE_PATH% -A -b -f >ecompile.log
+ECHO.
+ECHO Compilation complete.
 GOTO RETURN_TO_MENU()
 
 REM -- QUIT FUNCTION
