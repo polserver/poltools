@@ -9,7 +9,7 @@ use polsys;
 
 const OFFSET_UNKOWN_A := 0x01;
 const OFFSET_PLAYER_SERIAL := 0x03;
-const OFFSET_UNKOWN_B := 0x08;
+const OFFSET_PACKET_TYPE := 0x08;
 const GUILD_BUTTON_PRESSED := 0x280A;
 const QUEST_BUTTON_PRESSED := 0x320A;
 
@@ -25,11 +25,11 @@ endprogram
 
 exported function ButtonHook(who, byref packet)
 
-    var packet_type := packet.GetInt16(OFFSET_UNKOWN_B);
+    var packet_type := packet.GetInt16(OFFSET_PACKET_TYPE);
 
     case ( packet_type )
         GUILD_BUTTON_PRESSED:
-            var guild_id := GetObjProperty(who, "guild_id");
+            var guild_id := GetObjProperty(who, "Guild_ID");
             var guild := FindGuild(guild_id);
             if ( !guild )
                 Start_Script(":guilds:guildCreate", who);
@@ -39,16 +39,13 @@ exported function ButtonHook(who, byref packet)
                 return 1;
             endif
             break;
-
         QUEST_BUTTON_PRESSED:
             SendSysMessage(who, "This feature is not currently implemented.");
             return 0;
             break;
-
         default:
             return 0;
             break;
-
     endcase
 
     return 0;
