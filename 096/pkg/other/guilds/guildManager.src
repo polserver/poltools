@@ -1,7 +1,7 @@
 /* $Id$
  *	  Author: Unreal
  *	  Created: Sunday, May 21 2006
- *	  Version: 0.02
+ *	  Version: 0.03
  */
 
 use	os;
@@ -27,19 +27,33 @@ program	GuildManager()
 				GUILD_DISBAND:
 					RemoveGuild(ev);
 				GUILD_MESSAGE:
-					//SendGuildMessage(ev);
-				GUILD_SET_CHARTER:
-					//SetGuildCharter(ev);
-				GUILD_SET_WEBSITE:
-					//SetGuildWebsite(ev);
-				GUILD_ADD_MEMBER:
-					//AddGuildMember(ev);
+					// TODO:
+				GUILD_INVITE_MEMBER:
+					// TODO:
 				GUILD_REMOVE_MEMBER:
-					//RemoveGuildMember(ev);
+					// TODO:
+				GUILD_PROMOTE_MEMBER:
+					// TODO:
+				GUILD_DEMOTE_MEMBER:
+					// TODO:
+				GUILD_SET_MEMBER_TITLE:
+					// TODO:
+				GUILD_TOGGLE_MEMBER_TITLE:
+					// TODO:
+				GUILD_VOTE_MEMBER:
+					// TODO:
+				GUILD_VIEW_MEMBER:
+					// TODO:
+				GUILD_VIEW_GUILD:
+					// TODO:
+				GUILD_SET_CHARTER:
+					SetGuildCharter(ev);
+				GUILD_SET_WEBSITE:
+					SetGuildWebsite(ev);
 				GUILD_REQUEST_ALLY:
-					//RequestGuildAlly(ev);
+					// TODO:
 				GUILD_REQUEST_WAR:
-					//RequestGuildWar(ev);
+					// TODO:
 			endcase
 		endif
 	endwhile
@@ -48,7 +62,7 @@ endprogram
 
 function AddGuild(ev)
 
-	var	guild_gm :=	ev.creator;
+	var	guild_gm :=	ev.source;
 	var	regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
 	if ( regist_fee	== 0 ||	!regist_fee	)
 		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
@@ -104,14 +118,15 @@ function AddGuild(ev)
 
     if ( guild )
 		var	guild_id :=	guild.guildid;
-		var	null_space := array{"NONE"};
+		var	null_space := "NONE";
 		guild.SetProp("Name", guild_name);
 		guild.SetProp("Abbr",  guild_abbr);
 		guild.SetProp("Master",	guild_gm.serial);
-		guild.SetProp("Charter", null_space);
-		guild.SetProp("Website", null_space);
+		guild.SetProp("Charter", "NONE");
+		guild.SetProp("Website", "NONE");
 		guild.AddMember(guild_gm);
 		SetObjProperty(guild_gm, "Guild_ID", guild_id);
+		//SetObjProperty(guild_gm, "Guild_Rank", ""); // TODO: set settings.cfg for guild rank names.
 		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
 		SendSysMessage(guild_gm, "Guild was successfully created.");
 		return 1;
@@ -148,5 +163,75 @@ function RemoveGuild(ev)
 	endforeach
 
 	DestroyGuild(guild);
+
+endfunction
+
+function SetGuildCharter(ev)
+
+	var who := ev.source;
+	var guild := ev.guild;
+	var guild_charter := guild.GetProp("Charter");
+
+	if ( guild_charter == "NONE" )
+		var new_charter := RequestInput( who, who.backpack, "Enter the new guild charter (50 characters max):" );
+		if ( !new_charter )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		elseif ( new_charter )
+			guild.SetProp("Charter", new_charter);
+			SendSysMessage(who, "You submit a new guild charter.");
+			return 1;
+		endif
+	else
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild charter?", "Yes.", "No") )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		else
+			var new_charter := RequestInput( who, who.backpack, "Enter the new guild charter (50 characters max):" );
+			if ( !new_charter )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			elseif ( new_charter )
+				guild.SetProp("Charter", new_charter);
+				SendSysMessage(who, "You submit a new guild charter.");
+				return 1;
+			endif
+		endif
+	endif
+
+endfunction
+
+function SetGuildWebsite(ev)
+
+	var who := ev.source;
+	var guild := ev.guild;
+	var guild_charter := guild.GetProp("Website");
+
+	if ( guild_charter == "NONE" )
+		var new_website := RequestInput( who, who.backpack, "Enter the new guild website (50 characters max):" );
+		if ( !new_website )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		elseif ( new_website )
+			guild.SetProp("website", new_website);
+			SendSysMessage(who, "You submit a new guild website.");
+			return 1;
+		endif
+	else
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild website?", "Yes.", "No") )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		else
+			var new_website := RequestInput( who, who.backpack, "Enter the new guild website (50 characters max):" );
+			if ( !new_website )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			elseif ( new_website )
+				guild.SetProp("Website", new_website);
+				SendSysMessage(who, "You submit a new guild website.");
+				return 1;
+			endif
+		endif
+	endif
 
 endfunction
