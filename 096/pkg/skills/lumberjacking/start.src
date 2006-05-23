@@ -4,5 +4,5 @@ var script := start_script("treeRegen/control");
 if ( script.errortext )
 	SysLog("Error starting tree regen ->"+script.errortext);
 else
-	Print("Starting tree regeneration controller... ok.");
+	Print("Starting tree regeneration controller... OK.");
 endif
