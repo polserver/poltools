@@ -1,4 +1,4 @@
-// $Id: attributeCache.src 1053 2005-11-24 05:54:35Z austin $
+// $Id$
 
 use uo;
 use os;

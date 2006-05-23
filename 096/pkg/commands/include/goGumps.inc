@@ -1,4 +1,4 @@
-/* $Id: goGumps.inc 646 2005-10-24 16:24:26Z muaddiblsd $
+/* $Id$
  *
  */
 // Gump backgrounds - Used in various functions - easier to use globally.

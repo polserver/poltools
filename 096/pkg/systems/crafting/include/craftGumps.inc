@@ -1,4 +1,4 @@
-// //$Id: craftGumps.inc 740 2005-10-31 06:28:43Z muaddiblsd $
+// //$Id$
 
 var craft_gumps := DFOpenDataFile(":crafting:CraftGumps", DF_CREATE);
 var menu_config := ReadConfigFile( ":crafting:config/craftConfig" );

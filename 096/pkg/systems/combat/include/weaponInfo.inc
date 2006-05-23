@@ -1,5 +1,5 @@
 /*
- * $Id: weaponInfo.inc 1041 2005-11-23 14:15:01Z austin $
+ * $Id$
  *
  */
 

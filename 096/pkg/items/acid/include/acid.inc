@@ -1,4 +1,4 @@
-/* $Id: acid.inc 1001 2005-11-14 21:06:03Z muaddiblsd $
+/* $Id$
  *
  */
 use uo;

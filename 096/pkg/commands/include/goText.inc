@@ -1,4 +1,4 @@
-/* $Id: goText.inc 1011 2005-11-16 07:20:21Z muaddiblsd $
+/* $Id$
  *
  */
 

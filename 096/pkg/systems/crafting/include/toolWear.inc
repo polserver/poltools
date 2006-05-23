@@ -1,4 +1,4 @@
-// //$Id: toolWear.inc 386 2005-10-03 00:22:39Z muaddiblsd $
+// //$Id$
 
 function CheckToolWear (who, tool, craft_skill)
 	var swings := GetObjProperty(tool,"swings");

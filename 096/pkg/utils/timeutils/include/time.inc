@@ -1,4 +1,4 @@
-/* $Id: time.inc 981 2005-11-14 01:58:17Z austin $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for time formats.

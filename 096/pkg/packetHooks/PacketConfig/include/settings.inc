@@ -1,4 +1,4 @@
-/* $Id: config.inc 896 2005-11-04 07:03:59Z muaddiblsd $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for the shard's behaviour.

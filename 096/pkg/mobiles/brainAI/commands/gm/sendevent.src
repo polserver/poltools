@@ -1,4 +1,4 @@
-/* $Id: sendevent.src 1383 2006-05-13 09:26:14Z austin $
+/* $Id$
  *
  */
 //Example: .sendevent [event] -> Sends an event to the targetted npc.

@@ -1,4 +1,4 @@
-/* $Id: goTemplate.inc 494 2005-10-09 22:07:41Z austin $
+/* $Id$
  *
  */
 

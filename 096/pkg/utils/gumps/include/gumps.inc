@@ -1,4 +1,4 @@
-/* $Id: gumps.inc 1067 2005-11-27 11:19:25Z austin $
+/* $Id$
  *
  * Purpose
  * TODO

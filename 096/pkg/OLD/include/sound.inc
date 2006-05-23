@@ -1,4 +1,4 @@
-/* $Id: sound.inc 898 2005-11-04 07:39:41Z muaddiblsd $
+/* $Id$
  *
  */
 

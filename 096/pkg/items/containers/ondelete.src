@@ -1,5 +1,5 @@
 /*
- * $Id: onDelete.src 1005 2005-11-15 09:20:06Z muaddiblsd $
+ * $Id$
  *
  * Purpose:
  * When a player character is deleted this will remove all of its storage areas. 

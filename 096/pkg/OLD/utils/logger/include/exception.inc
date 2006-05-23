@@ -1,4 +1,4 @@
-/* $Id: exception.inc 891 2005-11-04 06:29:43Z muaddiblsd $
+/* $Id$
  *
  * Purpose
  * Provides various functions and constants for exceptions.

@@ -1,4 +1,4 @@
-/* $Id: itemdesc.inc 903 2005-11-05 08:10:21Z muaddiblsd $
+/* $Id$
  *
  */
 use uo;

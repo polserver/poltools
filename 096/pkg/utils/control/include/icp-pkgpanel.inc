@@ -1,4 +1,4 @@
-/* $Id: icp-pkgpanel.inc 695 2005-10-29 18:59:30Z muaddiblsd $
+/* $Id$
  *
  */
 function ICP_PackagePanels(who, pkg_name)

@@ -1,4 +1,4 @@
-/* $Id: massacre.src 1383 2006-05-13 09:26:14Z austin $
+/* $Id$
  *
  */
 //Example: .massacre [radius] - Kills npcs within the radius.

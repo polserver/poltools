@@ -1,4 +1,4 @@
-/* $Id: icp-scripts.inc 694 2005-10-29 06:56:09Z muaddiblsd $
+/* $Id$
  *
  */
 function ICP_ScriptsGump(pkg_name)

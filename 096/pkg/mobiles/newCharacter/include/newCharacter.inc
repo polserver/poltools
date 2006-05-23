@@ -1,5 +1,5 @@
 /*
- * $Id: newCharacter.inc 1005 2005-11-15 09:20:06Z muaddiblsd $
+ * $Id$
  *
  */
 

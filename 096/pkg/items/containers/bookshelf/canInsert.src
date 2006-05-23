@@ -1,4 +1,4 @@
-// $Id: canInsert.src 386 2005-10-03 00:22:39Z muaddiblsd $
+// $Id$
 
 use uo;
 use cfgfile;

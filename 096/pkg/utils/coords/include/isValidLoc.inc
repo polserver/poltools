@@ -1,4 +1,4 @@
-/* $Id: isValidLoc.inc 1009 2005-11-16 07:05:43Z muaddiblsd $
+/* $Id$
  *
  */
 use uo;
