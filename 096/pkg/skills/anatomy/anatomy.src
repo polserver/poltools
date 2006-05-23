@@ -7,6 +7,7 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 
+var physical_cfg := ReadConfigFile(":anatomy:config/physical");
 
 program skill_Anatomy(who)
 
@@ -14,8 +15,8 @@ program skill_Anatomy(who)
 	EraseObjProperty(who, "#HealTimer");
 
 	SendSysMessage(who, "Whom shall I examine?");
+
 	var subject := Target(who);
-	// target checks begin here
 	if(!subject)
 		return 0;
 	elseif(subject.serial == who.serial)
@@ -29,152 +30,175 @@ program skill_Anatomy(who)
 		return 0;
 	endif
 
-	// variables for sys messages
-  	var streng := getStreng(AP_GetStat(subject, "Strength"), subject.graphic, subject.gender);
-	var dext := getDext(AP_GetStat(subject, "Dexterity"), subject.graphic, subject.gender);
-	var endur_percentage := CInt(CInt(AP_GetVital(subject, "Stamina"))/CDbl(AP_GetVitalMaximumValue(subject, "Stamina"))*100);
-	var endur := getEnd(endur_percentage);
+	var str_reply := struct { sub_name, sub_fail, sub_str, sub_dex, sub_endurance };
 
-	// adjust succeed and fail msgs here
-	var strMsg, strFail;
 	if(subject.graphic != 0x190 && subject.graphic != 0x191)
-		strMsg := "That creature";
-		strFail := "that creature's physical characteristics.";
+		str_reply.sub_name := "That creature";
+		str_reply.sub_fail := "that creature's physical characteristics.";
 	else
-		strMsg := subject.name;
+		str_reply.sub_name := subject.name;
 		if(upper(subject.name[len(subject.name)]) != "S" || lower(subject.name[len(subject.name)]) != "s" )
-			strFail := subject.name + "'s physical characteristics.";
+			str_reply.sub_fail := subject.name + "'s physical characteristics.";
 		else
-			strFail := subject.name + "' physical characteristics.";
+			str_reply.sub_fail := subject.name + "' physical characteristics.";
 		endif
 	endif
 
+	HandleSubStrength(subject, str_reply);
+	HandleSubDexterity(subject, str_reply);
+	HandleSubEndurance(subject, str_reply);
+
+	// Replaces the <strength>, <type>, and <gender> from config file results.
+	HandleSubParsing(subject, str_reply);
+
+	var anatomy_response  := str_reply.sub_name + " looks " + str_reply.sub_str + " and " + str_reply.sub_dex + ".";
+	var endurance_resonse := str_reply.sub_name + " is at " + str_reply.sub_endurance + " endurance.";
+
 	if( SkillCheck(who, ANATOMY, -1) > 0 )
-		PrintTextAbovePrivate(subject, strMsg + " looks " + streng + " and " + dext + ".", who);
+		PrintTextAbovePrivate(subject, anatomy_response, who);
 		// player's anatomy skill equal/greater than 65 can get endurance info
-		var skill := AP_GetSkill(who, ANATOMY);
-		if(skill >= 65)
-			PrintTextAbovePrivate(subject, strMsg + " is at " + endur + " endurance.", who);
+		if(AP_GetSkill(who, ANATOMY) >= 65)
+			PrintTextAbovePrivate(subject, endurance_resonse, who);
 		endif
 		return 1;
 	else
-		PrintTextAbovePrivate(subject, "You can not quite get a sense of " + strFail, who);
+		PrintTextAbovePrivate(subject, "You can not quite get a sense of " + str_reply.sub_fail, who);
 		return 0;
 	endif
 
 endprogram
 
 
-function getStreng(subject, graphic, gender)
+function HandleSubStrength(subject, byref str_reply)
 
-	var strSuper, strType, strGender;
-	if(graphic != 0x190 && graphic != 0x191)
-		strSuper := "supernaturally";
-		strType := "creatures";
-		strGender := "it";
-	else
-		strSuper := "superhumanly";
-		strType := "people";
-		if(gender == 0)
-			strGender := "he";
-		elseif(gender == 1)
-			strGender := "she";
+	var sub_muscle := AP_GetStat(subject, "Strength");
+
+	var strength_elem := physical_cfg["Strength"];
+	if ( !strength_elem )
+		return strength_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(strength_elem, "Str");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_muscle < CDbl(p_array[1]) )
+			str_reply.sub_str := p_array[2];
+			return 1;
 		endif
-	endif
-	if(subject >= 100)
-		return strSuper + " strong";
-	elseif(subject >= 99)
-		return "like one of the strongest " + strType + " you have ever seen";
-	elseif(subject >= 89)
-		return "strong as an ox";
-	elseif(subject >= 79)
-		return "extraordinarily strong";
-	elseif(subject >= 69)
-		return "extremely strong";
-	elseif(subject >= 59)
-		return "very strong";
-	elseif(subject >= 49)
-		return "somewhat strong";
-	elseif(subject >= 39)
-		return "to be of normal strength";
-	elseif(subject >= 29)
-		return "somewhat weak";
-	elseif(subject >= 19)
-		return "rather feeble";
-	else
-		return "like " + strGender + " would have trouble lifting small objects";
-	endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find strength phrase for serial " + subject.serial};
 
 endfunction
 
 
-function getDext(subject, graphic, gender)
+function HandleSubDexterity(subject, byref str_reply)
 
-	var strSuper, strType, strGender;
-	if(graphic != 0x190 && graphic != 0x191)
-		strSuper := "supernaturally";
-		strType := "creatures";
-		strGender := "it";
-	else
-		strSuper := "superhumanly";
-		strType := "people";
-		if(gender == 0)
-			strGender := "he";
-		elseif(gender == 1)
-			strGender := "she";
+	var sub_dexterity := AP_GetStat(subject, "Dexterity");
+
+	var dexterity_elem := physical_cfg["Dexterity"];
+	if ( !dexterity_elem )
+		return dexterity_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(dexterity_elem, "Dex");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_dexterity < CDbl(p_array[1]) )
+			str_reply.sub_dex := p_array[2];
+			return 1;
 		endif
-	endif
-	if(subject >= 100)
-		return "also looks " + strSuper + " agile";
-	elseif(subject >= 99)
-		return "like one of the fastest " + strType + " you have ever seen";
-	elseif(subject >= 89)
-		return "moves like quicksilver";
-	elseif(subject >= 79)
-		return "extraordinarily agile";
-	elseif(subject >= 69)
-		return "extremely agile";
-	elseif(subject >= 59)
-		return "very agile";
-	elseif(subject >= 49)
-		return "somewhat agile";
-	elseif(subject >= 39)
-		return "moderately dextrous";
-	elseif(subject >= 29)
-		return "somewhat uncoordinated";
-	elseif(subject >= 19)
-		return "very clumsy";
-	else
-		return "like " + strGender + " can barely manage to stay standing";
-	endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find dexterity phrase for serial " + subject.serial};
 
 endfunction
 
 
-function getEnd(subject)
+function HandleSubEndurance(subject, byref str_reply)
 
-	if(subject >= 100)
-		return "one-hundred percent";
-	elseif(subject >= 90)
-		return "ninety percent";
-	elseif(subject >= 80)
-		return "eighty percent";
-	elseif(subject >= 70)
-		return "seventy percent";
-	elseif(subject >= 60)
-		return "sixty percent";
-	elseif(subject >= 50)
-		return "fifty percent";
-	elseif(subject >= 40)
-		return "forty percent";
-	elseif(subject >= 30)
-		return "thirty percent";
-	elseif(subject >= 20)
-		return "twenty percent";
-	elseif(subject >= 10)
-		return "low";
-	else
-		return "very low";
+	var sub_endurance := CInt(CInt(AP_GetVital(subject, "Stamina"))/CDbl(AP_GetVitalMaximumValue(subject, "Stamina"))*100);
+
+	var endurance_elem := physical_cfg["Endurance"];
+	if ( !endurance_elem )
+		return endurance_elem;
 	endif
+
+	var phrase_list := GetConfigStringArray(endurance_elem, "End");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_endurance < CDbl(p_array[1]) )
+			str_reply.sub_endurance := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find endurance phrase for serial " + subject.serial};
+
+endfunction
+
+// I HATE THIS
+function HandleSubParsing(subject, byref str_reply)
+
+	var sub_strength := "superhumanly";
+	var sub_type     := "people";
+	var sub_gender   := "it";
+
+	case ( subject.graphic )
+		0x190: sub_gender := "he";
+		0x191: sub_gender := "she";
+		default: sub_strength := "supernaturally";
+			 sub_type     := "creatures";
+	endcase
+
+	while ( find( str_reply.sub_str, "<strength>", 1 ) != 0 )
+		str_reply.sub_str["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_str, "<type>", 1 ) != 0 )
+		str_reply.sub_str["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_str, "<gender>", 1 ) != 0 )
+		str_reply.sub_str["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	while ( find( str_reply.sub_dex, "<strength>", 1 ) != 0 )
+		str_reply.sub_dex["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_dex, "<type>", 1 ) != 0 )
+		str_reply.sub_dex["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_dex, "<gender>", 1 ) != 0 )
+		str_reply.sub_dex["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	while ( find( str_reply.sub_endurance, "<strength>", 1 ) != 0 )
+		str_reply.sub_endurance["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_endurance, "<type>", 1 ) != 0 )
+		str_reply.sub_endurance["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( find( str_reply.sub_endurance, "<gender>", 1 ) != 0 )
+		str_reply.sub_endurance["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	return 1;
 
 endfunction
