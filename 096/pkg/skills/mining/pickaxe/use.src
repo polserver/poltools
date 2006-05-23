@@ -1,0 +1,24 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include "include/client";
+include "include/sounds";
+
+program use_PickAxe(who, pick)
+	
+	SendSysMessage(who, "Select a place to mine."):
+	var targ := TargetCoordinates(who);
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	return 1;
+endprogram
+
+	
