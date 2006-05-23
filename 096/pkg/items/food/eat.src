@@ -5,18 +5,13 @@ use os;
 use util;
 use cfgfile;
 
-include ":itemutils:canAccess";
 include ":attributes:attributes";
 include ":timedscripts:timedScripts";
+include ":itemutils:itemdesc";
 include "include/client";
 
 program eat(who, food)
-	EraseObjProperty(who, "#IsMeditating");
-	EraseObjProperty(who, "#HealTimer");
-
-	if ( !can_access(who, food) )
-		return 0;
-	elseif ( food.movable == 0 )
+	if ( food.movable == 0 )
 		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	elseif ( !ReserveItem(food) )
@@ -24,10 +19,11 @@ program eat(who, food)
 		return 0;
 	endif
 
-	var foodcfg := ReadConfigFile(":*:itemdesc");
+	var cfg_elem := GetItemDescInfo(food.objtype);
 	var themsg;
-	var poison := CInt(GetObjProperty(food, "poison_level"));
-	var foodvalue := foodcfg[food.objtype].foodvalue;
+	var poison := CInt(GetObjProperty(food, "PoisonLevel"));
+	var foodvalue := CInt(cfg_elem.foodvalue);
+	
 	var hunger := AP_GetVital(who, "Hunger");
 	if ( !foodvalue )
 		foodvalue := 1;
@@ -36,15 +32,22 @@ program eat(who, food)
 		SendSysMessage(who, "You are too full to eat any more.");
 		return 0;
 	endif
+	
 	if ( SubtractAmount(food, 1) )
 		SendSysMessage(who, "Error - unable to subtract 1 from item.");
 		return 0;
 	endif
 
 	case ( RandomInt(3) + 1 )
-		1: PlaySoundEffect(who, 0x3b);
-		2: PlaySoundEffect(who, 0x3c);
-		3: PlaySoundEffect(who, 0x3d);
+		1: 
+			PlaySoundEffect(who, 0x3b);
+			break;
+		2: 
+			PlaySoundEffect(who, 0x3c);
+			break;
+		3: 
+			PlaySoundEffect(who, 0x3d);
+			break;
 	endcase
 
 	PerformAction(who, ANIM_EAT);
