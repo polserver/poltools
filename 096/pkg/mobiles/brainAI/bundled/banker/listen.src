@@ -79,7 +79,8 @@ function WithdrawlGold(npc, who, bank_box, byref text)
 endfunction
 
 function CheckGoldAmount(npc, bank_box, amount)
-	var total_gold := AmountInContainer(bank_box, GetObjTypeByName("GoldCoin"));
+	var properties := dictionary{"objtype"->GetObjTypeByName("GoldCoin")};
+	var total_gold := AmountInContainer(bank_box, properties);
 	if ( amount == 0 )
 		AI_Speak(npc, "Everyone has atleast zero gold!");
 		return 0;
