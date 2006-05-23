@@ -2,7 +2,7 @@
  *    Author: Unreal
  *    Created: Sunday, May 21 2006
  *    Version: 0.01
- *    Status: Unfinished
+ *    Status: Unfinished, Considering removing this and just putting it in the guild manager...hmm
  */
 
 use uo;
@@ -28,32 +28,30 @@ program Guild_Create(who)
         return 0;
     endif
 
-	var gump := GFCreateGump();
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 
-	GFResizePic(gump, GCGUMP_X, GCGUMP_Y, background, 500, 300);
-    // Yeah, the GCGUMP_X+25 stuff looks like crap, I'll do the math later when it's done
-    // so it looks nicer. =)
-    GFResizePic(gump, GCGUMP_X+25, GCGUMP_Y+20, foreground, 450, 25);
-    GFTextLine(gump, GCGUMP_X+200, GCGUMP_Y+20, TXT_CLR_FG, "Guild Creation");
+	GFResizePic(gump, 0, 0, background, 500, 300);
+    GFResizePic(gump, 25, 20, foreground, 450, 25);
+    GFTextLine(gump, 200, 20, TXT_CLR_FG, "Guild Creation");
 
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+100, TXT_CLR_BG, "fee.");
+    GFTextLine(gump, 25, 60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
+    GFTextLine(gump, 25, 80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
+    GFTextLine(gump, 25, 100, TXT_CLR_BG, "fee.");
 
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+140, TXT_CLR_BG, "Registration Fee:");
-    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+140, foreground, 200, 25);
-    GFTextLine(gump, GCGUMP_X+160, GCGUMP_Y+140, TXT_CLR_FG, regist_fee);
+    GFTextLine(gump, 25, 140, TXT_CLR_BG, "Registration Fee:");
+    GFResizePic(gump, 150, 140, foreground, 200, 25);
+    GFTextLine(gump, 160, 140, TXT_CLR_FG, regist_fee);
 
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+165, TXT_CLR_BG, "Guild Name:");
-    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+165, foreground, 200, 25);
-    GFTextEntry(gump, GCGUMP_X+160, GCGUMP_Y+165, 200, 20, TXT_CLR_FG, "", 3);
+    GFTextLine(gump, 25, 165, TXT_CLR_BG, "Guild Name:");
+    GFResizePic(gump, 150, 165, foreground, 200, 25);
+    GFTextEntry(gump, 160, 165, 200, 20, TXT_CLR_FG, "", 3);
 
-    GFTextLine(gump, GCGUMP_X+25, GCGUMP_Y+190, TXT_CLR_BG, "Guild Abbreviation:");
-    GFResizePic(gump, GCGUMP_X+150, GCGUMP_Y+190, foreground, 200, 25);
-    GFTextEntry(gump, GCGUMP_X+160, GCGUMP_Y+190, 200, 20, TXT_CLR_FG, "", 4);
+    GFTextLine(gump, 25, 190, TXT_CLR_BG, "Guild Abbreviation:");
+    GFResizePic(gump, 150, 190, foreground, 200, 25);
+    GFTextEntry(gump, 160, 190, 200, 20, TXT_CLR_FG, "", 4);
 
-    GFAddButton(gump, GCGUMP_X+25, GCGUMP_Y+250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
-    GFAddButton(gump, GCGUMP_X+100, GCGUMP_Y+250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
+    GFAddButton(gump, 25, 250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
+    GFAddButton(gump, 100, 250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
 
     var result := GFSendGump(who, gump);
     if ( result[1] == 1 ) // clicked Okay
