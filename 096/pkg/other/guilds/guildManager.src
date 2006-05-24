@@ -1,5 +1,5 @@
 /* $Id$
- *	  Author: Unreal
+ *	  Author: MontuZ
  *	  Created: Sunday, May 21 2006
  *	  Version: 0.03
  */
@@ -243,7 +243,7 @@ function SetGuildCharter(ev)
 	var guild_charter := guild.GetProp("Charter");
 
 	if ( guild_charter == "NONE" )
-		var new_charter := RequestInput( who, who.backpack, "Enter the new guild charter (50 characters max):" );
+		var new_charter := RequestInput(who, who.backpack, "Enter the new guild charter (50 characters max):");
 		if ( !new_charter )
 			SendSysMessage(who, "Aborted.");
 			return 0;
@@ -257,7 +257,7 @@ function SetGuildCharter(ev)
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
-			var new_charter := RequestInput( who, who.backpack, "Enter the new guild charter (50 characters max):" );
+			var new_charter := RequestInput(who, who.backpack, "Enter the new guild charter (50 characters max):");
 			if ( !new_charter )
 				SendSysMessage(who, "Aborted.");
 				return 0;
@@ -278,7 +278,7 @@ function SetGuildWebsite(ev)
 	var guild_charter := guild.GetProp("Website");
 
 	if ( guild_charter == "NONE" )
-		var new_website := RequestInput( who, who.backpack, "Enter the new guild website (50 characters max):" );
+		var new_website := RequestInput(who, who.backpack, "Enter the new guild website (50 characters max):");
 		if ( !new_website )
 			SendSysMessage(who, "Aborted.");
 			return 0;
@@ -292,7 +292,7 @@ function SetGuildWebsite(ev)
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
-			var new_website := RequestInput( who, who.backpack, "Enter the new guild website (50 characters max):" );
+			var new_website := RequestInput(who, who.backpack, "Enter the new guild website (50 characters max):");
 			if ( !new_website )
 				SendSysMessage(who, "Aborted.");
 				return 0;

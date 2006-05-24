@@ -1,6 +1,6 @@
 use os;
 
-	var script := start_script("guildManager");
+	var script := Start_Script("guildManager");
 
 	if ( script.errortext )
 		SysLog("Error starting guild manager ->"+script.errortext);
