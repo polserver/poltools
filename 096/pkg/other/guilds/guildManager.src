@@ -10,6 +10,7 @@ include	":guilds:include/report";
 include	":guilds:include/settings";
 include	":guilds:include/events";
 include	":guilds:include/validate";
+include	":guilds:include/ranks";
 include	":gumps:include/yesno";
 
 program	GuildManager()
@@ -112,6 +113,7 @@ function AddGuild(ev)
 			return 0;
 		endif
 	*/
+	SendSysMessage(guild_gm, "IMPORTANT: No gold was taken.");
 	endif
 
 	var	guild := CreateGuild();
@@ -126,7 +128,7 @@ function AddGuild(ev)
 		guild.SetProp("Website", null_space);
 		guild.AddMember(guild_gm);
 		SetObjProperty(guild_gm, "Guild_ID", guild_id);
-		//SetObjProperty(guild_gm, "Guild_Rank", 1); // TODO: set settings.cfg for guild rank names.
+		SetGuildRank(guild_gm, 5);
 		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
 		SendSysMessage(guild_gm, "Guild was successfully created.");
 		return 1;
@@ -170,7 +172,13 @@ endfunction
 function InviteMember(ev)
 
 	var recruiter := ev.source;
-	// TODO: Rank check to see if this person is allowed to invite new members.
+	var recruiter_rank := GetGuildRank(recruiter);
+
+	if ( recruiter_rank != 5 || recruiter_rank != 3 ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(recruiter, "Aborted. You are not allowed to invite.");
+		return 0;
+	endif
+
 	var	guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
@@ -202,7 +210,7 @@ function InviteMember(ev)
 		else
 			guild.AddMember(new_member);
 			SetObjProperty(new_member, "Guild_ID", guild.guild_id);
-			//SetObjProperty(new_member, "Guild_Rank", 5); // TODO:
+			SetGuildRank(new_member, 1);
 			SetObjProperty(new_member, "Fealty", new_member.serial);
 			SendSysMessage(new_member, "You're now a member of "+guild_name+".");
 			SendSysMessage(recruiter, new_member.name+" has joined "+guild_name+".");
@@ -214,23 +222,57 @@ endfunction
 
 function KickMember(ev)
 
-	var player := ev.source;
-	// TODO: Rank check to see if this person is allowed to kick members.
+	var character := ev.source;
+	var char_rank := GetGuildRank(character);
 	var member := ev.player;
+	var member_rank := GetGuildRank(member);
+
+	if ( char_rank < member_rank ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(character, "Aborted. You cannot kick this member.");
+		return 0;
+	endif
+
+	if ( char_rank == 2 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	elseif ( char_rank == 3 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 2 && member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	elseif ( char_rank == 4 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	endif
+
+	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	if ( !max_ranks || max_ranks.errortext )
+		return max_ranks;
+	endif
+
+	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	if ( !min_ranks || min_ranks.errortext )
+		return min_ranks;
+	endif
+
 	var	guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
-	if ( !YesNo(player, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
-		SendSysMessage(player, "Aborted.");
+	if ( !YesNo(character, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
+		SendSysMessage(character, "Aborted.");
 		return 0;
 	else
 		guild.RemoveMember(member);
 		EraseObjProperty(member, "Guild_ID");
-		//EraseObjProperty(member, "Guild_Rank"); // TODO:
+		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
 		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
-		SendSysMessage(player, member.name+" has been kicked from the guild.");
+		SendSysMessage(character, member.name+" has been kicked from the guild.");
 		return 1;
 	endif
 
@@ -239,6 +281,14 @@ endfunction
 function SetGuildCharter(ev)
 
 	var who := ev.source;
+
+	var who_rank := GetGuildRank(who);
+
+	if ( who_rank != 5 ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(who, "Aborted. You are not allowed to set the guild charter.");
+		return 0;
+	endif
+
 	var guild := ev.guild;
 	var guild_charter := guild.GetProp("Charter");
 
@@ -274,6 +324,14 @@ endfunction
 function SetGuildWebsite(ev)
 
 	var who := ev.source;
+
+	var who_rank := GetGuildRank(who);
+
+	if ( who_rank != 5 ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(who, "Aborted. You are not allowed to set the guild charter.");
+		return 0;
+	endif
+
 	var guild := ev.guild;
 	var guild_charter := guild.GetProp("Website");
 
