@@ -6,21 +6,17 @@ const DEBUG := 0;
 const DEBUG_SET_CRITICAL := 1;
 
 // Object property names. These can be changed.
-// Note the leading "#" denotes a property that is not saved during server shutdown
+// Note the leading "#" will cause the property to not be saved on server restart
 const PARTY_JOINING_PROP := "#JoiningParty";
 const PARTY_PROP := "#Party";
 const PARTY_LOOT_PROP	:= "#PartyLoot";
 
-// This can be NO MORE than 10, because of the client gump
+// This can be NO MORE than 10, because of the client gump, but you could possibly set it to something smaller
 const PARTY_MAX_SIZE := 10;
 
-// The number of seconds which a user has to accept
+// The number of seconds which a user has to accept party invitation
 const PARTY_INVITE_TIMEOUT := 10;
 
 // Characters must be at least this close to other party members to get stats update packets.
-// My client grey's out the other party member's status window after moving 19 tiles away.
+// For my client, the party status window is greyed out after 19 tiles
 const PARTY_STATUS_UPDATE_DISTANCE := 19;
-
-// This font and color are used for the SendSysMessage()s to the clients.
-const PARTY_FONT := 3; // normal
-const PARTY_FONT_COLOR := 68; // green
