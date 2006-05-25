@@ -250,7 +250,7 @@ function KickMember(ev)
 	endif
 
 	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
-	if ( !max_ranks || max_ranks.errortext )
+	if ( !max_ranks xor max_ranks.errortext )
 		return max_ranks;
 	endif
 

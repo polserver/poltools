@@ -1,4 +1,4 @@
-/* $Id: events.inc 95 2006-05-23 21:43:00Z montuz $
+/* $Id$
  *    Author: Unreal
  *    Created: Sunday, May 21 2006
  *    Version: 0.01
