@@ -108,45 +108,27 @@ function PromoteMember(who)
 
 endfunction
 
-function GetRankNameByID(who)
+function GetRankNameByID(rank)
 
-	var rank := GetGuildRank(who);
-	if ( !rank || rank.errortext )
-		return rank;
-	endif
+	rank := CInt(rank);
 
 	var rank_name;
 
 	case ( rank )
 	1:
 		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank1);
-		if ( !rank_name || rank_name.errortext )
-			return rank_name;
-		endif
 		return rank_name;
 	2:
 		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank2);
-		if ( !rank_name || rank_name.errortext )
-			return rank_name;
-		endif
 		return rank_name;
 	3:
 		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank3);
-		if ( !rank_name || rank_name.errortext )
-			return rank_name;
-		endif
 		return rank_name;
 	4:
 		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank4);
-		if ( !rank_name || rank_name.errortext )
-			return rank_name;
-		endif
 		return rank_name;
 	5:
 		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank5);
-		if ( !rank_name || rank_name.errortext )
-			return rank_name;
-		endif
 		return rank_name;
 	default:
 		rank_name := error{"errortext" := "Couldn't find a rank name."};
