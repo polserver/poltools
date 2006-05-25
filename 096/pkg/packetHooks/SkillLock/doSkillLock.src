@@ -28,20 +28,17 @@ const OFFSET_RECEIVE_SKILL	:= 3;
 const OFFSET_RECEIVE_MODE	:= 5;
 
 // Global - Has to do with how hooked scripts work.
-// Itll build this list once on POL start and keep it.
+// It'll build this list once on POL start and keep it.
 var num_skills := 0;
 
 program doSkillLock()
 	print("INSTALLING: Skill Lock PH...");
-	
 	num_skills := GetNumberOfSkills();
-	
 	return 1;
 endprogram
 
 exported function HandleSendSkillLock(character, byref packet)
 	var mode := packet.GetInt8(OFFSET_SEND_MODE);
-	
 	var state := 0;
 
 	if ( mode == MODE_FULL_LIST || mode == MODE_FULL_LIST_CAP )
@@ -61,9 +58,7 @@ exported function HandleSendSkillLock(character, byref packet)
 		endfor
 	elseif ( mode == MODE_SINGLE_SKILL || mode == MODE_SINGLE_SKILL_CAP )
 		var skill_id := packet.GetInt16(OFFSET_SEND_SKILL_ID);
-
-		state :=  SLPH_GetLockState(character, skill_id);
-		
+		state := SLPH_GetLockState(character, skill_id);
 		packet.SetInt8(OFFSET_SEND_SKILLLOCK, state);
 
 		// If it is requested, include cap information
@@ -81,7 +76,6 @@ endfunction
 exported function HandleReceiveSkillLock(character, byref packet)
 	var skill_id := packet.GetInt16(OFFSET_RECEIVE_SKILL);	// skill ID
 	var mode := packet.GetInt8(OFFSET_RECEIVE_MODE);	// lock state, 0=raise/1=lower/2=lock
-	
 	SLPH_SaveLockState(character, skill_id, mode);
 	
 	// POL skips this packet anyway
@@ -90,6 +84,5 @@ endfunction
 
 function GetNumberOfSkills()
 	var keys := GetConfigStringKeys(ReadConfigFile(":attributes:uoskills"));
-
 	return keys.Size();
 endfunction
