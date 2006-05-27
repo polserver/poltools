@@ -36,9 +36,9 @@ function GetCoordsInSquare(mid_x, mid_y, radius)
 			coord.x := x_row;
 			coord.y := y_col;
 			point_list.Append(coord);
-			sleepms(2);
+			SleepMS(2);
 		endfor
-		sleepms(2);
+		SleepMS(2);
 	endfor
 	
 	return point_list;
@@ -84,9 +84,9 @@ function GetCoordsInRect(x1, y1, x2, y2)
 			coord.x := Abs(sx);
 			coord.y := ABs(sy);
 			point_list.Append(coord);
-			sleepms(2);
+			SleepMS(2);
 		endfor
-		sleepms(2);
+		SleepMS(2);
 	endfor
 	
 	return point_list;

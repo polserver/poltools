@@ -59,7 +59,7 @@ function ParseText(text, byref online_list)
 				return GOTO_START+_player_iter;
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 0;
@@ -114,7 +114,7 @@ function GotoArray(who)
 		if ( person.concealed <= who.cmdlevel )
 			thearray.Append(person);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return thearray;

@@ -80,7 +80,7 @@ function HandleSubDamage(damage_nbr, byref item_desc)
 			item_desc.damage := p_array[2];
 			return 1;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return error{"errortext":="Could not find damage phrase for level " + damage_nbr};
@@ -103,7 +103,7 @@ function HandleSubQuality(quality_nbr, byref item_desc)
 			item_desc.quality := p_array[2];
 			return 1;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return error{"errortext":="Could not find quality phrase for level " + quality_nbr};

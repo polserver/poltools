@@ -16,7 +16,7 @@ program SpawnSystem()
 		// Save when it needs to run again (polcore().systime)
 		
 		// Determine when this needs to run again (1 second for now cause im lazy)
-		sleep(1);
+		Sleep(1);
 	endwhile
 	
 	return 1;
@@ -32,7 +32,7 @@ function Initialize()
 			return 0;
 		else
 			while ( script.pid )
-				sleep(1);
+				Sleep(1);
 			endwhile
 		endif
 		

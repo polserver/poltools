@@ -88,7 +88,7 @@ endfunction
 function DFPurgeFile(byref file_ref)
 	foreach elem_name in ( DFGetElemNames(file_ref) )
 		file_ref.DeleteElement(elem_name);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -258,10 +258,10 @@ function DFToCfg(df_name, cfg_name)
 		foreach prop_name in DFGetElemProps(elem)
 			prop_info.name := prop_name;
 			prop_info.value := Pack(DFGetProp(elem, prop_name));
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		AppendConfigFileElem(cfg_name, "Elem", elem_name, elem_info);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -314,7 +314,7 @@ function CfgToDF(cfg_name, df_name, propnames)
 				prop_value := array;
 				foreach line in GetConfigStringArray(elem, prop_name)
 					prop_value.Append(line);
-					sleepms(2);
+					SleepMS(2);
 				endforeach
 			else
 				prop_value := entries[1];
@@ -323,9 +323,9 @@ function CfgToDF(cfg_name, df_name, propnames)
 			if ( prop_value != error )
 				df_elem.SetProp(prop_name, prop_value);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

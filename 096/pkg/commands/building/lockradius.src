@@ -15,7 +15,7 @@ program textcmd_LockRadius(who, text)
 	var range := CInt(text);
 	foreach item in ListItemsNearLocation(who.x, who.y, who.z, range, who.realm)
 		item.movable := 0;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	SendSysMessage(who, "Done.");

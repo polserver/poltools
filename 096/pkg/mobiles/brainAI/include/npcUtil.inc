@@ -107,10 +107,10 @@ function NPC_GetAllTemplateNames()
 			var pkg_name := ":"+package.name+":";
 			foreach template_name in (GetConfigStringKeys(ReadConfigFile(pkg_name+"npcdesc")))
 				elem_names.Append(pkg_name+template_name);
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return elem_names;

@@ -1,6 +1,6 @@
 use os;
 
-var script := start_script("spawnSystem");
+var script := Start_Script("spawnSystem");
 if ( script.errortext )
 	SysLog("Error starting spawn system ->"+script.errortext);
 else

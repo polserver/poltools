@@ -147,7 +147,7 @@ function RunTraps(object, mobile)
 	foreach trap_info in ( trap_list )
 		var cfg_info := GetTrapInfo(trap_info.name);
 		
-		var result := start_script(cfg_info.Script, {mobile, object, trap_info, _trap_info_iter});
+		var result := Start_Script(cfg_info.Script, {mobile, object, trap_info, _trap_info_iter});
 		if ( result.errortext )
 			PrintTextAbove(object, result.errortext);
 			continue;
@@ -160,7 +160,7 @@ function RunTraps(object, mobile)
 				RemoveTrap(object, _trap_info_iter);
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

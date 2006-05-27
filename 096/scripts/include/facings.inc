@@ -119,7 +119,7 @@ function GetPointsByFacing(x_pos, y_pos, facing, dist)
 		coord.x := x_pos+(i*xmod);
 		coord.y := y_pos+(i*ymod);
 		coord_list.Append(coord);
-		sleepms(2);
+		SleepMS(2);
 	endfor	
 		
 	return coord_list;

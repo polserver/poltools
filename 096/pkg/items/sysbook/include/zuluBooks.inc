@@ -105,9 +105,9 @@ function SysBook_ParseZuluCfgElem(elem_name, byref cfg_file)
 					
 			(book_info.contents).Append(line_text);
 		
-			sleepms(2);
+			SleepMS(2);
 		endfor
-		sleepms(2);
+		SleepMS(2);
 	endfor
 	
 	return book_info;

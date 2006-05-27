@@ -12,7 +12,7 @@ program TimedScript_Skunk(params)
 	
 	while ( 1 )
 		PrintTextAbove(who, "*" + who.name + " smells like skunk*");
-		sleep(10);
+		Sleep(10);
 		if ( RandomInt(5) == 3 )
 			DoVomit(who);
 		endif				
@@ -27,14 +27,14 @@ function DoVomit(who)
 		if ( mobile.connected )
 			players.Append(mobile);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	if ( players.Size() > 0 )
 		var vomiter := players[RandomInt(players.size())+1];
 		SendSysMessage(vomiter, "The stench from "+who.name+" makes you feel extremely sick.");
 		PerformAction(vomiter, ANIM_BOW);
-		sleepms(60);
+		SleepMS(60);
 		CreateItemAtLocation(vomiter.x, vomiter.y, vomiter.z, "vomit", 1, vomiter.realm);
 	endif
 	

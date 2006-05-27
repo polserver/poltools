@@ -41,7 +41,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
 		endif
 
-		sleepms(400);
+		SleepMS(400);
 		While ( Events_Waiting() )
 			CheckForEvent(npc, event);
 		endwhile
@@ -86,7 +86,7 @@ function ShouldFlee(npc, byref flee_level, byref flee_mode)
 endfunction
 
 function CheckForEvent(npc, byref event)
-	event := wait_for_event(0);
+	event := Wait_For_Event(0);
 	if ( event )
 		var source := event.source;
 		case ( event.type )

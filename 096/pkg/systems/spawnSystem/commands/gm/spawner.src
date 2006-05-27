@@ -11,7 +11,7 @@ include ":spawnsystem:include/realms";
 include ":spawnsystem:include/regions";
 include ":spawnsystem:include/groups";
 
-unload_scripts("");
+Unload_Scripts("");
 
 // Used for button ranges
 const REALM_START	:= 0x1000;
@@ -150,7 +150,7 @@ function BuildRealmListGump(who)
 		GFTextLine(gump, 175, y_pos, 2100, realm_name);
 
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);
@@ -168,7 +168,7 @@ function BuildGroupsListGump(who)
 		GFTextLine(gump, 175, y_pos, 2100, group_name);
 
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);
@@ -186,7 +186,7 @@ function BuildRegionListGump(who, realm_name)
 		GFTextLine(gump, 175, y_pos, 2100, region_name);
 
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);
@@ -208,7 +208,7 @@ function BuildAddRealmGump(who)
 			GFTextLine(gump, 175, y_pos, 2100, realm_name);
 			y_pos := y_pos+20;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);
@@ -299,7 +299,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			endif
 			
 			y_pos := y_pos+20;
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 
@@ -381,7 +381,7 @@ function BuildGroupGump(who, group_name:="")
 			counter := 0;
 			y_pos := 100;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	GFPage(gump, 300);
 	GFAddButton(gump, 155, 82, 0xA96, 0xA97, GF_PAGE_BTN, 200);
@@ -399,7 +399,7 @@ function BuildGroupGump(who, group_name:="")
 		GFTextEntry(gump, 411, y_pos, 200, 20, 2100, SS_GetEntryByNumber(group_name, counter), ENTRY_START+counter);
 		counter := counter+1;
 		y_pos := y_pos+21;
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	var input := GFSendGump(who, gump);
@@ -418,7 +418,7 @@ function BuildGroupGump(who, group_name:="")
 					entries.Append(entry);
 				endif
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		if ( !engine_name )
 			GumpPrompt(who, "Error Creating Group [P] No engine selected.");
@@ -437,7 +437,7 @@ function BuildGroupGump(who, group_name:="")
 		if ( result != error )
 			foreach entry in entries
 				SS_AddEntryToGroup(group_name, entry);
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 			GumpPrompt(who, "Group setup complete.");
 		endif

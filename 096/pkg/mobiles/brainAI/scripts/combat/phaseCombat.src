@@ -49,7 +49,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
 		endif
 		
-		sleepms(400);
+		SleepMS(400);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram
@@ -96,7 +96,7 @@ function PhaseWarp(npc, opponent)
 		PlayStationaryEffect(npc.x, npc.y, npc.z, GFX_SMOKE, 5, 5, 0);
 		var z := GetWorldHeight(coord.x, coord.y, npc.realm);
 		MoveObjectToLocation(npc, coord.x, coord.y, z, npc.realm, MOVEOBJECT_NORMAL);
-		sleepms(20);
+		SleepMS(20);
 	endforeach
 	
 	return 1;

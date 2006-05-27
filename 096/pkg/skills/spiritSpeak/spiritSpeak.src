@@ -39,7 +39,7 @@ program skill_SpiritSpeak(who)
 			if ( item.IsCorpse() )
 				num_corpses := num_corpses + ChannelFromCorpse(who, item, my_skill);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		if ( AP_GetVital(who, "Mana") > 10 )

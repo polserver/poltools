@@ -34,7 +34,7 @@ function ReconnectParty(who, party)
 	// Fill in the party member serials at the end of the packet
 	for i := 1 to (party.Size())
 		packet.SetInt32(OFFSET_PARTY_ADD_PLAYERIDS + ((i - 1) * 4), party[i]);
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	packet.SendPacket(who);

@@ -222,7 +222,7 @@ function Craft_IndexGump(who, skill_name)
 		GFAddButton(gump, 15, (IndexY-3), 4005, 4007, GF_PAGE_BTN, PageNum);
 		while (MenuName["_"])
 			MenuName["_"] := " ";
-			sleepms(1);
+			SleepMS(1);
 		endwhile
 		GFHTMLArea(gump, 50, IndexY, 150, 18, ("<basefont color=#ffffff>"+MenuName));
 		// Now let's build the page for this Category
@@ -230,7 +230,7 @@ function Craft_IndexGump(who, skill_name)
 		GFCraftNewPage(gump, skill_config, MenuName);
 		// Cycle all the variables up accordingly
 		if( PageNum >= 15 )
-			syslog("Crafting: Max Amount of menus exceeded! Reduce amount of Groups in " + menu_file);
+			SysLog("Crafting: Max Amount of menus exceeded! Reduce amount of Groups in " + menu_file);
 			SendSysMessage(who, "Error! Max Amount of Menus Exceeded. Please report to shard staff.");
 			return 0;
 		endif
@@ -259,7 +259,7 @@ function GFCraftNewPage(byref gump, skill_config, MenuName)
 		if(TypeOf(itemdesc) == "Struct")
 			continue;
 		endif
-		itemdesc := lower(itemdesc);
+		itemdesc := Lower(itemdesc);
 
 		if(ItemY >= 243)
 			ItemY := 63;
@@ -278,7 +278,7 @@ function GFCraftNewPage(byref gump, skill_config, MenuName)
 			arcnt := arcnt + 1;
 		endif
 		ItemY := ItemY + 20;
-		sleepms(1);
+		SleepMS(1);
 	endforeach
 
 	return 1;
@@ -304,7 +304,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	var elem     := craft_config[objtype];
 	var graphic  := CInt(thisitem.graphic);
 	var itemdesc := TruncatePlural(objtype);
-	itemdesc := lower(itemdesc);
+	itemdesc := Lower(itemdesc);
 
 	if(!graphic || TypeOf(graphic) == "Struct")
 		graphic := CInt(objtype);
@@ -363,7 +363,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	endif
 
 	// Get the material type required to craft the item.
-	var matname   := lower(elem.type);
+	var matname   := Lower(elem.type);
 
 	if( TypeOf(elem.mtype) == "String" )
 		matname := elem.mtype;
@@ -386,8 +386,8 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		tmpmat := SplitWords(elem.parts);
 		matname  := "";
 		material := "";
-		if((len(tmpmat)/2) < 5)
-			for j := 1 to (len(tmpmat)/2)
+		if((Len(tmpmat)/2) < 5)
+			for j := 1 to (Len(tmpmat)/2)
 				tmatname := TruncatePlural(tmpmat[j]);
 				case(j)
 					1:
@@ -396,16 +396,16 @@ function GFCraftInfoPage(who, objtype, skill_config)
 					4: matname := matname + tmatname;
 					default: matname := matname + tmatname + "\n";
 				endcase
-				material := material + (tmpmat[j+(len(tmpmat)/2)]) + "\n";
+				material := material + (tmpmat[j+(Len(tmpmat)/2)]) + "\n";
 			endfor
 		else
 			material := 0;
-			for j := 1 to (len(tmpmat)/2)
+			for j := 1 to (Len(tmpmat)/2)
 				tmatname := TruncatePlural(tmpmat[j]);
-				if(j == (len(tmpmat)/2))
-					matname := matname + "& " + (tmpmat[j+(len(tmpmat)/2)]) + " " + tmatname + " required";
+				if(j == (Len(tmpmat)/2))
+					matname := matname + "& " + (tmpmat[j+(Len(tmpmat)/2)]) + " " + tmatname + " required";
 				else
-					matname := matname + (tmpmat[j+(len(tmpmat)/2)]) + " " + tmatname + ", ";
+					matname := matname + (tmpmat[j+(Len(tmpmat)/2)]) + " " + tmatname + ", ";
 				endif
 			endfor
 		endif
@@ -477,7 +477,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 
 	if((skillreqb > 0) && (skillreqb != error))
 		// Skill 2 name
-		GFHTMLArea(gump, 170, 152, 150, 20, ("<basefont color=#ffffff>"+lower(aid_skill)+" required"));
+		GFHTMLArea(gump, 170, 152, 150, 20, ("<basefont color=#ffffff>"+Lower(aid_skill)+" required"));
 		GFHTMLArea(gump, 430, 152, 150, 20, ("<basefont color=#ffffff>"+skillreqb));
 	endif
 

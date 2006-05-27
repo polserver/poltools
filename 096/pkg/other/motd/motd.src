@@ -22,7 +22,7 @@ program MessageOfTheDay(mobile)
 	var text := "";
 	foreach line in text_lines
 		text := text+line+"\n";
-		sleepms(5);
+		SleepMS(5);
 	endforeach
 
 	if ( !text )

@@ -25,22 +25,22 @@ program BrainNerve(params)
 			event := 0;
 		endif
 
-		sleepms(5);
-		event := wait_for_event(900000);
+		SleepMS(5);
+		event := Wait_For_Event(900000);
 	endwhile
 endprogram
 
 function DoubleClickEvent(npc)
 	AI_Speak(npc, "Trogdor was a man....");
-	sleepms(700);
+	SleepMS(700);
 	AI_Speak(npc, "Err... he was a dragon man...");
-	sleepms(900);
+	SleepMS(900);
 	AI_Speak(npc, "... he was a DRAGON!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
-	sleep(1);
+	Sleep(1);
 	AI_Speak(npc, ".... TROOOGGGDOOOORRRRR!!!!!!!!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
-	sleepms(1600);
+	SleepMS(1600);
 	AI_Speak(npc, "Burninating the country side!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
-	sleepms(500);
+	SleepMS(500);
 	AI_Speak(npc, "Burninating the peasants!", SPEAK_TEXTTYPE_YELL, SPEAK_DOEVENT_ENABLE, WAKEUP);
 	
 	return 1;

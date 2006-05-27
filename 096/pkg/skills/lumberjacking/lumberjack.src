@@ -35,7 +35,7 @@ program skill_LumberJack(who, tool)
 			break;
 		endif
 		// Wear down tool function call goes here.
-		sleep(3);
+		Sleep(3);
 	endfor
 
 	SendSysMessage(who, "You stop lumberjacking.");
@@ -50,7 +50,7 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 
 		PerformAction(who, ANIM_ATTACK_2HAND_WIDE);
 		PlaySoundEffect(who, SFX_HIT_10);
-		sleepms(1200);
+		SleepMS(1200);
 	endfor
 
 	var wood_type := LJ_GetWoodType(who.realm, targ.x, targ.y);

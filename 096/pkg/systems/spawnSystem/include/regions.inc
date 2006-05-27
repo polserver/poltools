@@ -120,7 +120,7 @@ function SS_GetRegionNames(realm_name:="")
 			if ( Lower(SS_GetRegionRealm(region_name)) == Lower(realm_name) )
 				region_names.Append(region_name);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

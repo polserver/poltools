@@ -135,7 +135,7 @@ function ACCT_GetCharacters(account)
 		if ( mobile )
 			mobile_list.Append(mobile);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	return mobile_list;
@@ -168,7 +168,7 @@ function ACCT_GetNumCharacters(account)
 		if ( account.GetCharacter(i) )
 			count := count+1;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	return count;
@@ -199,7 +199,7 @@ function ACCT_DeleteAllCharacters(account)
 	var count := 0;
 	for i:=1 to ACCT_MAX_CHARACTERS
 		account.DeleteCharacter(i);
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	return count;
@@ -231,7 +231,7 @@ function ACCT_DeleteAccount(account)
 
 	foreach package in ( POLCore().packages )
 		Run_Script_To_Completion(":"+package+":acctDelete/acctDelete", account);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	ACCT_DeleteAllCharacters(account);

@@ -21,7 +21,7 @@ function ICP_CommandsGump(pkg_name)
 			counter := counter+1;
 			y_pos := y_pos+20;
 			ICP_AddCmdLine(gump, script, btn_num, y_pos, counter, page_num);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no text commands listed for this package.");
@@ -61,14 +61,14 @@ function ICP_CommandName(path)
 			var slash_pos := Find(path, ":", 1);
 			path := path[slash_pos+1, Len(path)];
 
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 	else
 		while ( path["/"] )
 			var slash_pos := Find(path, "/", 1);
 			path := path[slash_pos+1, Len(path)];
 
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 	endif
 	return path;
@@ -83,7 +83,7 @@ function ICP_StartCommand(who, input, pkg_elem)
 		GumpPrompt(who, "Command level is not high enough to use command.");
 		return 0;
 	else
-		var script := start_script(temp.script_path, who);
+		var script := Start_Script(temp.script_path, who);
 		if ( script.errortext )
 			GumpPrompt(who, "Error starting script [P] "+script.errortext);
 		else

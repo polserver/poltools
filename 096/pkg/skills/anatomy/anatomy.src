@@ -38,7 +38,7 @@ program skill_Anatomy(who)
 		str_reply.sub_fail := "that creature's physical characteristics.";
 	else
 		str_reply.sub_name := subject.name;
-		if(upper(subject.name[len(subject.name)]) != "S" || lower(subject.name[len(subject.name)]) != "s" )
+		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
 			str_reply.sub_fail := subject.name + "'s physical characteristics.";
 		else
 			str_reply.sub_fail := subject.name + "' physical characteristics.";
@@ -161,41 +161,41 @@ function HandleSubParsing(subject, byref str_reply)
 			 sub_type     := "creatures";
 	endcase
 
-	while ( find( str_reply.sub_str, "<strength>", 1 ) != 0 )
+	while ( Find( str_reply.sub_str, "<strength>", 1 ) != 0 )
 		str_reply.sub_str["<strength>"] := sub_strength;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_str, "<type>", 1 ) != 0 )
+	while ( Find( str_reply.sub_str, "<type>", 1 ) != 0 )
 		str_reply.sub_str["<type>"] := sub_type;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_str, "<gender>", 1 ) != 0 )
+	while ( Find( str_reply.sub_str, "<gender>", 1 ) != 0 )
 		str_reply.sub_str["<gender>"] := sub_gender;
 		sleepms(2);
 	endwhile
 
-	while ( find( str_reply.sub_dex, "<strength>", 1 ) != 0 )
+	while ( Find( str_reply.sub_dex, "<strength>", 1 ) != 0 )
 		str_reply.sub_dex["<strength>"] := sub_strength;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_dex, "<type>", 1 ) != 0 )
+	while ( Find( str_reply.sub_dex, "<type>", 1 ) != 0 )
 		str_reply.sub_dex["<type>"] := sub_type;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_dex, "<gender>", 1 ) != 0 )
+	while ( Find( str_reply.sub_dex, "<gender>", 1 ) != 0 )
 		str_reply.sub_dex["<gender>"] := sub_gender;
 		sleepms(2);
 	endwhile
 
-	while ( find( str_reply.sub_endurance, "<strength>", 1 ) != 0 )
+	while ( Find( str_reply.sub_endurance, "<strength>", 1 ) != 0 )
 		str_reply.sub_endurance["<strength>"] := sub_strength;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_endurance, "<type>", 1 ) != 0 )
+	while ( Find( str_reply.sub_endurance, "<type>", 1 ) != 0 )
 		str_reply.sub_endurance["<type>"] := sub_type;
 		sleepms(2);
 	endwhile
-	while ( find( str_reply.sub_endurance, "<gender>", 1 ) != 0 )
+	while ( Find( str_reply.sub_endurance, "<gender>", 1 ) != 0 )
 		str_reply.sub_endurance["<gender>"] := sub_gender;
 		sleepms(2);
 	endwhile

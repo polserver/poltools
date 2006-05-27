@@ -78,7 +78,7 @@ function NPC_LoadTemplateSettings(source)
 	foreach setting_name in (setting_list.keys())
 		settings[setting_name] := UnPack(setting_list[setting_name]);
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	//
@@ -93,7 +93,7 @@ function NPC_LoadTemplateSettings(source)
 				settings[key] := cstm_settings[key];
 			endif
 				
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 	
@@ -135,7 +135,7 @@ function NPC_LoadScriptSettings(source)
 		endif
 
 		script_settings[script_type] := temp;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	//
@@ -146,7 +146,7 @@ function NPC_LoadScriptSettings(source)
 		var cstm_scripts := GetObjProperty(source, "AIScripts");
 		foreach key in (cstm_scripts.keys())
 			script_settings[key] := cstm_scripts[key];
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 	

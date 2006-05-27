@@ -46,8 +46,8 @@ program npcTip(params)
 			event := 0;
 		endif
 
-		sleepms(5);
-		event := wait_for_event(900000);
+		SleepMS(5);
+		event := Wait_For_Event(900000);
 	endwhile
 
 endprogram
@@ -57,7 +57,7 @@ function CowTipEvent(npc, byref event)
 	PrintTextAbove(event.source, "*push*");
 	PlaySoundEffect(npc, 0x7D);
 	PerformAction(npc, 0x8);
-	sleep(2);
+	Sleep(2);
 	AI_Move(npc, event.source, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, 1);
 
 	return 1;

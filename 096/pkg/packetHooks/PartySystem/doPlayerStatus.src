@@ -49,7 +49,7 @@ exported function handleUpdateStat(character, byref packet)
 					packet.SendPacket(member);
 				endif
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

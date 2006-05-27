@@ -34,7 +34,7 @@ function EnterSleepMode()
 				else
 					StopNerve(npc, _nerve_iter);
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		endif
 	

@@ -56,7 +56,7 @@ function MessageGump(who)
 			counter := 0;
 			y_pos := 40;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var input := GFSendGump(who, gump);
@@ -88,7 +88,7 @@ function GetNamesList(who)
 			the_list.Insert(person.name, person.serial);
 		endif
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return the_list;
@@ -137,7 +137,7 @@ function SendMessage(who, name_text, is_reply:=0)
 			endif
 		endif
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach		
 endfunction
 

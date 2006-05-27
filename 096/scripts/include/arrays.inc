@@ -46,7 +46,7 @@ function GetArrayRange(byref the_array, start, stop:=0)
 	var new_array := array{};
 	for ( start; start<=stop; start:=start+1 )
 		new_array.Append(the_array[start]);
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	return new_array;
@@ -82,7 +82,7 @@ function BreakArray(byref the_array, size:=1)
 			new_arrays.Append(GetArrayRange(the_array, start, stop));
 			start := stop+1;
 			stop := stop+size;
-			sleepms(2);
+			SleepMS(2);
 		endfor
 
 		return new_arrays;
@@ -115,7 +115,7 @@ function FindInArray(byref the_array, find_what)
 		if ( index == find_what )
 			return _index_iter;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 0;

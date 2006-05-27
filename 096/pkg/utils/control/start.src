@@ -3,7 +3,7 @@
  */
 use os;
 
-var script := start_script("checkpackages");
+var script := Start_Script("checkpackages");
 if ( script.errortext )
 	SysLog(script.errortext);
 else

@@ -15,7 +15,7 @@ CONST OFFSET_MODE := 3;
 exported function HandleCharProfileRequest( character, byref packet )
 
 
-	start_script("parseCharProfile", { character, packet });
+	Start_Script("parseCharProfile", { character, packet });
 
 	return 1;
 

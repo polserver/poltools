@@ -22,7 +22,7 @@ function Go_AddNewLocation(who, public:=1)
 
 	if( public )
 		go_prop_base := go_elem.GetProp("base_Distro");
-		if ( go_prop_base.Exists(lower(name)) )
+		if ( go_prop_base.Exists(Lower(name)) )
 			GumpPrompt(who, "You already have a public go location named ["+name+"]");
 			return 0;
 		endif
@@ -30,7 +30,7 @@ function Go_AddNewLocation(who, public:=1)
 		GumpPrompt(who, "New public go location added: ["+name+"]");
 	else
 		go_prop := go_elem.GetProp(who.acctname);
-		if ( go_prop.Exists(lower(name)) )
+		if ( go_prop.Exists(Lower(name)) )
 			GumpPrompt(who, "You already have a private go location named ["+name+"]");
 			return 0;
 		endif
@@ -69,14 +69,14 @@ function Go_CopyLocation(who, public:=1)
 	if( input )
 		var send_Location := 0;
 		if( public )
-			send_Location := go_prop_base[lower(go_keys_base[input])];
+			send_Location := go_prop_base[Lower(go_keys_base[input])];
 		else
-			send_Location := go_prop[lower(go_keys[input])];
+			send_Location := go_prop[Lower(go_keys[input])];
 		endif
 		if ( send_Location )
 			if( public )
 				go_prop_base := go_elem.GetProp("base_Distro");
-				if ( go_prop.Exists(lower(send_Location.Name)) )
+				if ( go_prop.Exists(Lower(send_Location.Name)) )
 					GumpPrompt(who, "You already have a private go location named ["+send_Location.Name+"]");
 					return 0;
 				endif
@@ -84,7 +84,7 @@ function Go_CopyLocation(who, public:=1)
 				GumpPrompt(who, "Copied [" + send_Location.Name + "] to your private menu.");
 			else
 				go_prop := go_elem.GetProp(who.acctname);
-				if ( go_prop_base.Exists(lower(send_Location.Name)) )
+				if ( go_prop_base.Exists(Lower(send_Location.Name)) )
 					GumpPrompt(who, "You already have a public go location named ["+send_Location.Name+"]");
 					return 0;
 				endif
@@ -116,15 +116,15 @@ function Go_SetLocation(gump_Type, who, name, realm, x, y, z)
 	z := GetMapInfo(x, y, realm).z;
 
 	var temp := struct;
-	temp.+Name := lower(name);
-	temp.+Realm := lower(realm);
+	temp.+Name := Lower(name);
+	temp.+Realm := Lower(realm);
 	temp.+X := x;
 	temp.+Y := y;
 	temp.+Z := z;
 	case(gump_Type)
-		"base_Distro": go_prop_base[lower(name)] := temp;
+		"base_Distro": go_prop_base[Lower(name)] := temp;
 			       go_elem.SetProp(gump_Type, go_prop_base);
-		default:       go_prop[lower(name)] := temp;
+		default:       go_prop[Lower(name)] := temp;
                                go_elem.SetProp(gump_Type, go_prop);
 	endcase
 	Go_RefreshMyGumps(who);
@@ -165,7 +165,7 @@ function Go_LocationCopyGump(public:=1)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		go_keys.sort();
@@ -185,7 +185,7 @@ function Go_LocationCopyGump(public:=1)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

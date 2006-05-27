@@ -42,11 +42,11 @@ program textcmd_ColorRect(who, text)
 					if ( item.objtype == objtype || !objtype )
 						item.color := color;
 					endif
-					sleepms(2);
+					SleepMS(2);
 				endforeach
-				sleepms(2);
+				SleepMS(2);
 			endfor
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 endprogram

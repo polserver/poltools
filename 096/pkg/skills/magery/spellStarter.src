@@ -90,14 +90,14 @@ program SpellStarter(params)
 			info.+pid		:= GetPid();
 			info.+spellId		:= spell_id;
 
-			var script := start_script(spell_elem.SpellScript, {who, info});
+			var script := Start_Script(spell_elem.SpellScript, {who, info});
 			if ( script.errortext )
 				SendSysMessage(who, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
 			endif
 
 			var ev;
 			while( script.pid && !ev )
-				ev := wait_for_event(1);
+				ev := Wait_For_Event(1);
 			endwhile
 		else
 			SendSysMessage(who, "You are unable to build the concentration needed to cast.");
@@ -114,11 +114,11 @@ function CheckDelay(who, spell_elem)
 
 	SendSysMessage(who, "You begin building the concentration needed to cast.");
 
-	//var script := start_script("movementCheck", {who, GetPid()});
+	//var script := Start_Script("movementCheck", {who, GetPid()});
 	//
 	var delay := spell_elem.Delay;
 	//MS_SpellDebug(who, "Cast delay ->"+delay);
-	sleepms(delay);
+	SleepMS(delay);
 	//
 	//script.kill();
 	if ( Events_Waiting() > 0 )
@@ -174,13 +174,13 @@ function CheckReagents(who, byref spell_elem, scroll)
 			SendSysMessage(who, "You do not have enough "+GetObjTypeDesc(objtype, (amount>1)));
 			return 0;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	// Consume reagents - CInt() and < 1 checks already done in previous loop.
 	// Foreach is a pointer!
 	foreach amount in ( reagent_costs )
 		ConsumeSubstance(who.backpack, GetObjTypeByName(_amount_iter), amount);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;

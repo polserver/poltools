@@ -40,7 +40,7 @@ function CraftCheckSkill(who, craft_skill, difficulty, points, report:=0)
     chance := 1000;
   endif
   if(report)
-    return Cdbl(chance/10.0);
+    return CDbl(chance/10.0);
   endif
   var temp_chance;
   temp_chance := (effective - difficulty) * 2.5 + 500;
@@ -93,7 +93,7 @@ function ExceptionalCraft(skill, reqd, aidskill:=0, report:=0);
     chance := 1000;
   endif
   if(report)
-    return Cdbl(chance/10.0);
+    return CDbl(chance/10.0);
   endif
   if(RandomInt(1000) < chance)
     return 1;

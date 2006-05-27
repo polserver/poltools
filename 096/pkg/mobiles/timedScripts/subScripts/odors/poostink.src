@@ -10,7 +10,7 @@ program TimedScript_PooStink(params)
 	
 	while ( 1 )
 		PrintTextAbove(who, "*" + who.name + " smells like poo!*");
-		sleep(6);
+		Sleep(6);
 	endwhile
 	
 	return 1;

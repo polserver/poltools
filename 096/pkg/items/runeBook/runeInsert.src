@@ -98,7 +98,7 @@ function addRune(who, book, rune)
 		MoveItemToContainer(rune, who.backpack);
 		return 0;
 	endif
-	set_critical(1);
+	Set_Critical(1);
 
 	var temp := GetObjProperty(rune, "Destination");
 	temp.+name := rune.name;
@@ -113,7 +113,7 @@ function addRune(who, book, rune)
 
 	SendSysMessage(who, "You add the rune to the runebook.");
 	DestroyItem(rune);
-	set_critical(0);
+	Set_Critical(0);
 
 	return 1;
 endfunction

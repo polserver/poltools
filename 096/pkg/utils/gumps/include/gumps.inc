@@ -686,7 +686,7 @@ function GFTextEntry(byref gump, x, y, width, height, txt_color, ini_text:="", t
 
 	(gump.layout).append("TextEntry " + CStr(CInt(x)) + " " + CStr(CInt(y)) + " "
 				+ CStr(CInt(width)) + " " + CStr(CInt(height)) + " "
-				+ Cstr(CInt(txt_color)) + " " + CStr(txt_id) + " " + CStr(index));
+				+ CStr(CInt(txt_color)) + " " + CStr(txt_id) + " " + CStr(index));
 
 	return (txt_id);
 endfunction

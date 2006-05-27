@@ -30,12 +30,12 @@ function Movement(ev)
 				NEMOVE_AWAY:
 					repeat
 						WalkAwayFrom(ev.source);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 				NEMOVE_TOWARD:
 					repeat
 						WalkToward(ev.source);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 			endcase	
 		NEMOVE_RUN:
@@ -43,12 +43,12 @@ function Movement(ev)
 				NEMOVE_AWAY:
 					repeat
 						RunAWayFrom(ev.source);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );	
 				NEMOVE_TOWARD:
 					repeat
 						RunToward(ev.source);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 			endcase
 	endcase
@@ -80,12 +80,12 @@ function MovementXY(ev)
 				NEMOVE_AWAY:
 					repeat
 						WalkAwayFromLocation(ev.x, ev.y);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 				NEMOVE_TOWARD:
 					repeat
 						WalkTowardLocation(ev.x, ev.y);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 			endcase	
 		NEMOVE_RUN:
@@ -93,12 +93,12 @@ function MovementXY(ev)
 				NEMOVE_AWAY:
 					repeat
 						RunAwayFromLocation(ev.x, ev.y);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );	
 				NEMOVE_TOWARD:
 					repeat
 						RunTowardLocation(ev.x, ev.y);
-						sleepms(3);
+						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
 			endcase
 	endcase
@@ -124,7 +124,7 @@ endfunction
 function MovementWander(ev)
 	repeat
 		Wander();
-		sleepms(3);
+		SleepMS(3);
 	until ( !MoveLoopCheck(ev) );
 endfunction
 

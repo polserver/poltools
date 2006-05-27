@@ -29,7 +29,7 @@
 //
 //  - you can call propedit from another script
 //    like this:
-//        start_script("::textcmd/gm/propedit", { who, thing });
+//        Start_Script("::textcmd/gm/propedit", { who, thing });
 //    where
 //        who   - person who gets sent the gump
 //        thing - thing to view/edit props on
@@ -154,12 +154,12 @@ program CpropEditor(parms1,parms2)
       who:=parms1[1];
       thing:=parms1[2];
     else
-      syslog("Invalid params in call_script : "+who);
+      SysLog("Invalid params in call_script : "+who);
       return;
     endif
   else
     who:=parms1;
-    parms2:=lower(parms2);
+    parms2:=Lower(parms2);
     if (parms2["multi"])
       if (!who.multi)
         sendsysmessage(who,"You must stand on the multi to edit it's cprops.");
@@ -181,7 +181,7 @@ program CpropEditor(parms1,parms2)
   endif
 
   while (SendCpropGump(who,thing))
-    sleepms(20);
+    SleepMS(20);
   endwhile
 
   if (!thing)
@@ -197,10 +197,10 @@ endprogram
 function SendCpropGump(who,thing)
   var propnames:=GetObjPropertyNames(thing);
   var num_pages;
-  if (!len(propnames))
+  if (!Len(propnames))
     num_pages:=1;
   else
-    num_pages:=1+Cint((len(propnames)-1)/TEXT_LINES);
+    num_pages:=1+Cint((Len(propnames)-1)/TEXT_LINES);
   endif
   if (num_pages>MAX_PAGES)
     num_pages:=MAX_PAGES;
@@ -218,7 +218,7 @@ function SendCpropGump(who,thing)
   foreach bit in add_layout
     this_layout.append(bit);
   endforeach
-  this_layout.append("textentry 200 92 200 20 0 500 "+len(this_data));
+  this_layout.append("textentry 200 92 200 20 0 500 "+Len(this_data));
   this_data.append("");
   
 // Del Prop Page  
@@ -242,7 +242,7 @@ function SendCpropGump(who,thing)
     return 1;
   elseif (retval[998])        // Add Cprop
     var add_prop_name:=GetGumpText(retval[500]);
-    if (!len(add_prop_name))
+    if (!Len(add_prop_name))
       sendsysmessage(who,"No Cprop name specified!");
       return 1;
     elseif (add_prop_name in propnames)
@@ -260,14 +260,14 @@ function SendCpropGump(who,thing)
     SetObjProperty(thing,add_prop_name,add_prop_val);
     return 1;
   elseif (retval[997])      // Delete Cprop
-    for (i:=1;i<=len(propnames);i:=i+1)
+    for (i:=1;i<=Len(propnames);i:=i+1)
       if (retval[700+i])
         EraseObjProperty(thing,propnames[i]);
       endif
     endfor
     return 1;
   elseif (retval[999])      // Apply changes to cprops
-    for (i:=1;i<=len(propnames);i:=i+1)
+    for (i:=1;i<=Len(propnames);i:=i+1)
       var this_prop:=GetObjProperty(thing,propnames[i]);
       var this_text:=retval[i+500];
       if (!this_text.errortext)
@@ -323,36 +323,36 @@ function ComposeMainGump(byref add_page,byref del_page,byref this_layout,byref t
 
     var start_j:=((i-1)*TEXT_LINES)+1;
     var end_j:=i*TEXT_LINES;
-    if (end_j>len(propnames))
-      end_j:=len(propnames);
+    if (end_j>Len(propnames))
+      end_j:=Len(propnames);
     endif
     
     for (j:=start_j; j<=end_j; j:=j+1)
       if (propnames[j])
         this_prop:=GetObjProperty(thing,propnames[j]);
         this_type:=TypeOf(this_prop);
-        this_prop:=Cstr(this_prop);
+        this_prop:=CStr(this_prop);
         var can_edit:=1;
-        if (len(this_prop)>MAX_CHARS)
+        if (Len(this_prop)>MAX_CHARS)
           this_prop:=this_prop[1,MAX_CHARS];
           can_edit:=0;
         endif
         y:=(j-start_j)*20+60;
-        this_layout.append("croppedtext 50 "+y+" 130 20 0 "+len(this_data));
+        this_layout.append("croppedtext 50 "+y+" 130 20 0 "+Len(this_data));
         this_data.append(propnames[j]);
 
-        this_layout.append("croppedtext 200 "+y+" 60 20 0 "+len(this_data));
+        this_layout.append("croppedtext 200 "+y+" 60 20 0 "+Len(this_data));
         this_data.append(this_type);
 
         if (this_prop.errortext)
-          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 34 "+len(this_data));
+          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 34 "+Len(this_data));
           this_data.append(this_prop.errortext);
         elseif ( (can_edit) and  ( this_type=="Integer") or (this_type=="Double") or (this_type=="String") )
           this_layout.append("gumppic 260 "+(y+3)+" 58");
-          this_layout.append("textentry 280 "+y+" "+(width-310)+" 20 0 "+(500+j)+" "+len(this_data));
+          this_layout.append("textentry 280 "+y+" "+(width-310)+" 20 0 "+(500+j)+" "+Len(this_data));
           this_data.append(ToggleHex(this_prop,this_type));
         else
-          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 0 "+len(this_data));
+          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 0 "+Len(this_data));
           this_data.append(this_prop);
         endif
         this_layout.append("checkbox 30 "+y+" 210 211 0 "+(j+700)); 
@@ -364,7 +364,7 @@ endfunction
 ////////////////////////////////////////////////////////
 
 function GetGumpText(text)
-  return text[Find(text,": ",1)+2,len(text)];
+  return text[Find(text,": ",1)+2,Len(text)];
 endfunction
 
 ////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ endfunction
 function SetPropType(text,type)
   case (type)
     "Integer" : return Cint(text);
-    "Double"  : return Cdbl(text);
+    "Double"  : return CDbl(text);
   endcase
   return text;
 endfunction
@@ -397,7 +397,7 @@ function ToggleHex(value,value_type:=0)
   if ((value_type=="Integer") and (show_in_hex))
     return Hex(value);
   else
-    return Cstr(value);
+    return CStr(value);
   endif
 endfunction
 

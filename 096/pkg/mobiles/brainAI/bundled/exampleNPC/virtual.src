@@ -25,7 +25,7 @@ program BrainNerve(params)
 			event := 0;
 		endif
 		
-		event := wait_for_event(900000);
+		event := Wait_For_Event(900000);
 	endwhile
 endprogram
 

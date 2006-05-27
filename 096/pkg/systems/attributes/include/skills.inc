@@ -172,7 +172,7 @@ function AP_GetSkillStats(attribute_name)
 	var stat_entries := GetConfigStringDictionary(cfg_elem, "StatCheck");
 	foreach textline in (stat_entries)
 		textline := SplitWords(textline);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return stat_entries;
@@ -233,7 +233,7 @@ function AP_CheckSkillCap(mobile, skill_name:="")
 		var total := 0.0;
 		foreach attribute_name in ( AP_ListAttributesByType("Skill") )
 			total := total + AP_GetTrueSkill(mobile, attribute_name);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 
 		var cap_val := GetConfigReal(cfg_elem, "TotalCap");
@@ -264,7 +264,7 @@ function AP_CheckSkillsTotal(mobile)
 	var total := 0.0;
 	foreach attribute_name in ( AP_ListAttributesByType("Skill") )
 		total := total + AP_GetTrueSkill(mobile, attribute_name);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return total;

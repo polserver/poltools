@@ -36,7 +36,7 @@ function SendPartymessage(targ, source, message, self_send := 0)
 						packet.SendPacket(member);
 					endif
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		else
 			packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 3); // Set subsubcmd to private
@@ -53,7 +53,7 @@ function SendPartymessage(targ, source, message, self_send := 0)
 						SendSysMessageUC(member, CAscZ("["+source.name+"]: ")+message, member.uclang, 3, 368);
 					endif
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		else
 			SendSysMessageUC(targ, CAscZ("["+source.name+"]: ")+message, targ.uclang, 3, 368);

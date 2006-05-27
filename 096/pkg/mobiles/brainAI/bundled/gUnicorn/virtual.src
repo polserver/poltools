@@ -28,7 +28,7 @@ program BrainNerve(params)
 			endif
 		endif
 		
-		event := wait_for_event(900000);
+		event := Wait_For_Event(900000);
 	endwhile
 endprogram
 
@@ -58,37 +58,37 @@ function RainbowStuff(npc)
 	npc.speech_color := 32;
 	npc.color := 32;
 	AI_Speak(npc, "RED!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 44;
 	npc.color := 44;
 	AI_Speak(npc, "ORANGE!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 53;
 	npc.color := 53;
 	AI_Speak(npc, "YELLOW!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 462;
 	npc.color := 462;
 	AI_Speak(npc, "GREEN!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 3;
 	npc.color := 3;
 	AI_Speak(npc, "BLUE!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 818;
 	npc.color := 818;
 	AI_Speak(npc, "INDIGO!");
-	sleepms(600);
+	SleepMS(600);
 
 	npc.speech_color := 223;
 	npc.color := 223;
 	AI_Speak(npc, "VIOLET!");
-	sleepms(700);
+	SleepMS(700);
 
 	npc.speech_color := speech_color;
 	npc.color := orig_color;
@@ -100,9 +100,9 @@ endfunction
 function FartFireworks(npc)
 	npc.frozen := 1;
 	AI_Speak(npc, "Oh .. god.. what did Rowan put in there?!");
-	sleep(1);
+	Sleep(1);
 	AI_Speak(npc, "*lifts its tail*");
-	sleep(1);
+	Sleep(1);
 	AI_Speak(npc, "*nnngggffffffff*");
 	
 	var behind := Abs((npc.facing+4)%8);
@@ -111,13 +111,13 @@ function FartFireworks(npc)
 	var coord_z := coords[coords.Size()]; // Last coordinate
 	
 	PlaySoundEffect(npc, 351);
-	sleepms(30);
+	SleepMS(30);
 	PlayMovingEffectXYZ(coord_a.x, coord_a.y, npc.z, coord_z.x, coord_z.y, npc.z+5, GFX_WAVY_FIREBALL, 10, 10, 0, npc.realm);
-	sleepms(400);
+	SleepMS(400);
 	PlayStationaryEffect(coord_z.x, coord_z.y, npc.z+5, GFX_EXPLODE_3, 10, 10, 0, npc.realm);
 	foreach coordinate in ( GetCoordsInSquare(coord_z.x, coord_z.y, FIREWORK_RANGE-2) )
 		PlayStationaryEffect(coordinate.x, coordinate.y, npc.z+5, RandomSparkle(), 15, 15, 0, npc.realm);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	npc.frozen := 0;
@@ -126,11 +126,11 @@ endfunction
 
 function SparkleEffect(npc)
 	PlayObjectCenteredEffect(npc, GFX_BLUE_SPARKLES, 10, 20);
-	sleepms(30);
+	SleepMS(30);
 	PlayObjectCenteredEffect(npc, GFX_BLUE_SPARKLE_SWIRL, 10, 20);
-	sleepms(30);
+	SleepMS(30);
 	PlayObjectCenteredEffect(npc, GFX_BLUE_SPARKLE_BORDER, 10, 20);
-	sleepms(30);
+	SleepMS(30);
 	PlayObjectCenteredEffect(npc, GFX_BLUE_SPARKLE_GROUND, 10, 20);
 
 	return 1;

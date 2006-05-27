@@ -44,7 +44,7 @@ program BrainNerve(params)
 			flee_mode := 1;
 		endif
 
-		sleepms(400);
+		SleepMS(400);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram

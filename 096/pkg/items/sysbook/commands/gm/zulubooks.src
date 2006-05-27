@@ -42,7 +42,7 @@ function GumpList(mobile)
 			GFPage(gump, page_num);
 			GFAddButton(gump, 545, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var input := GFSendGump(mobile, gump);
@@ -64,7 +64,7 @@ function GumpList(mobile)
 	book.SetTitle(book_info.Title);
 	foreach text_line in ( book_info.Contents )
 		book.SetLine(_text_line_iter, text_line);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	book.ReadOnly(1);

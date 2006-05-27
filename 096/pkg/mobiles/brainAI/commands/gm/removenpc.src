@@ -36,7 +36,7 @@ program textcmd_NPCWipe(who, template)
 			ApplyRawDamage(thing, 8000);
 			count := count + 1;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	SendSysMessage(who, "Killed " + count + " NPCs");
 	

@@ -5,6 +5,6 @@ use uo;
 use os;
 
 program ControlScript(acid)
-	sleep(5);
+	Sleep(5);
 	DestroyItem(acid);
 endprogram

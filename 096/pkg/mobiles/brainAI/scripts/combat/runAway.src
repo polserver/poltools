@@ -31,7 +31,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
 		endif
 		
-		sleepms(400);
+		SleepMS(400);
 		While ( Events_Waiting() )
 			CheckForEvent(npc, event);
 		endwhile
@@ -61,7 +61,7 @@ endfunction
 function CheckForEvent(npc, byref event)
 	// Temp added for stopping ecompile spam
 	npc := npc;
-	event := wait_for_event(0);
+	event := Wait_For_Event(0);
 	if ( event )
 		var source := event.source;
 		case ( event.type )

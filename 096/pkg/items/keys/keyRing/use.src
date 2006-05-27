@@ -41,7 +41,7 @@ function RemoveKeys(who, keyring)
 	
 	foreach item in ( contents )
 		MoveItemToContainer(item, who.backpack);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

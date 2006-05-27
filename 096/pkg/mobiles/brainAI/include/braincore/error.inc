@@ -22,7 +22,7 @@
  *
  */
 function FatalError(errmsg)
-	set_critical(1);
+	Set_Critical(1);
 	
 	PrintTextAbove(npc, errmsg, _DEFAULT_TEXT_FONT, 32);
 	
@@ -35,7 +35,7 @@ function FatalError(errmsg)
 	SetObjProperty(npc, "GuardKill", 1);
 	ApplyRawDamage(npc, GetVitalMaximumValue(npc, "Hits"));
 	
-	set_critical(0);
+	Set_Critical(0);
 	
 	return 1;
 endfunction

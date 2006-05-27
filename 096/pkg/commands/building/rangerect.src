@@ -66,7 +66,7 @@ program textcmd_RangeRect(who, parms)
 			item.decayat := ReadGameClock() + 2700; // 45 minutes
 			start_y := start_y + 1;
 
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 
 		start_y := temp_y;

@@ -59,7 +59,7 @@ program handlePartyAccept(params)
 	// Append party member's serials at the end of packet
 	for i := 1 to (party.Size())
 		packet.SetInt32(OFFSET_PARTY_ADD_PLAYERIDS + ((i - 1) * 4), party[i]);
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	// Set packet length

@@ -34,7 +34,7 @@ function FindOpponent(npc, byref settings, byref scripts)
 		if ( NPC_ShouldWatch(npc, mobile, settings, scripts) )
 			attack_list.Append(mobile);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	if ( attack_list.size() > 0 )

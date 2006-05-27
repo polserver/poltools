@@ -12,7 +12,7 @@ include ":control:report";
 // Run 255 lines before going to the next script.
 // Its as close as it gets to critical without the console whining about it.
 set_priority(255);
-set_script_option(SCRIPTOPT_NO_RUNAWAY, 1);
+Set_Script_Option(SCRIPTOPT_NO_RUNAWAY, 1);
 
 program CheckPackages()
 	ICP_ReportText("---=[ ICP SETUP HAS STARTED UP ]=---", ICP_REPORT_SYSLOG);
@@ -49,7 +49,7 @@ program CheckPackages()
 			var description := "";
 			foreach line in  GetConfigStringArray(icp_cfg, "Description")
 				description := description + line + " ";
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 			temp_info.+Description := description;
 			

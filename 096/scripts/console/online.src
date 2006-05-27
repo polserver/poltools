@@ -13,7 +13,7 @@ program console_online(cmd)
 		if ( online.Size() > 0 )
 			foreach person in ( online )
 				Print ("("+_person_iter+") Account:" + person.acctname + " Character:" + person.name);
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		else
 			Print("There is no one online.");

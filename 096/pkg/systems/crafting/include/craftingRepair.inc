@@ -23,7 +23,7 @@ include "include/sounds";
 function repair_item(character, what, craft_skill )
 	var maxhp;
 	maxhp := what.maxhp;
-	maxhp := cint(maxhp * what.quality);
+	maxhp := CInt(maxhp * what.quality);
 	var thehp := what.hp;
 	var damaged := maxhp - thehp;
 	var hisskill := AP_GetSkill(character, craft_skill);
@@ -49,8 +49,8 @@ function repair_item(character, what, craft_skill )
 		DestroyItem(what);
 		return;
 	endif
-	if (SkillCheck(character, craft_skill, cint(damaged / 3), 0))
-		var repaired_amount := cint( ((randomint(hisskill) + 1))/2);
+	if (SkillCheck(character, craft_skill, CInt(damaged / 3), 0))
+		var repaired_amount := CInt( ((randomint(hisskill) + 1))/2);
 		if (damaged == 1)
 			repaired_amount := 1;
 		endif
@@ -123,7 +123,7 @@ function CreateRepairDeed(who, scroll, craft_skill)
   elseif(ramt < 130 )
     title := "A repair service contract from a Legendary " + type;
   endif
-  type := lower(type);
+  type := Lower(type);
   var ret := GetItemDescriptor(0xee09);
   ret.Color := color;
   ret.CProps.insert("type", type);
@@ -272,7 +272,7 @@ function resmelt(who, the_attribute)
 				endif
 				if(ingot == -1)
 					foreach entry in cfgarray
-						if(lower(resource_config[entry].Type) == "metal")
+						if(Lower(resource_config[entry].Type) == "metal")
 							if(CInt(resource_config[entry].Color) == CInt(thing.color))
 								ingot := entry;
 							endif
@@ -284,7 +284,7 @@ function resmelt(who, the_attribute)
 					return 0;
 				endif
 				PlaySoundEffect(who, 0x2c);
-				sleep(1);
+				Sleep(1);
 				PlaySoundEffect(who, 0x22);
 				if(DestroyItem(thing))
 					if(SkillCheck(who, the_attribute, skill, 10))
@@ -294,7 +294,7 @@ function resmelt(who, the_attribute)
 					endif
 				endif
 			endif
-			sleepms(500);
+			SleepMS(500);
 		endforeach
 	else
 		if(!craft_config[use_on.objtype])
@@ -322,7 +322,7 @@ function resmelt(who, the_attribute)
 		endif
 		if(ingot == -1)
 			foreach entry in cfgarray
-				if(lower(resource_config[entry].Type) == "metal")
+				if(Lower(resource_config[entry].Type) == "metal")
 					if(CInt(resource_config[entry].Color) == CInt(use_on.color))
 						ingot := entry;
 					endif
@@ -334,7 +334,7 @@ function resmelt(who, the_attribute)
 			return 0;
 		endif
 		PlaySoundEffect(who, 0x2c);
-		sleep(1);
+		Sleep(1);
 		if( DestroyItem(use_on) )
 			PlaySoundEffect(who, 0x22);
 			if(SkillCheck(who, the_attribute, skill, 10))

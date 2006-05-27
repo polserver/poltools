@@ -4,7 +4,7 @@
 
 use os;
 
-var script := start_script("acctWatcher/acctWatcher");
+var script := Start_Script("acctWatcher/acctWatcher");
 if ( script.errortext )
 	SysLog("Error starting account watcher ->"+script.errortext);
 else

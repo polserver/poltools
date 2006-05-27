@@ -14,7 +14,7 @@ program control_Remains(remains)
 		decay_wait := 60;
 	endif
 		
-	sleep(decay_wait);
+	Sleep(decay_wait);
 	
 	foreach item in ( EnumerateItemsInContainer(remains) )
 		if ( item.container != remains )
@@ -22,7 +22,7 @@ program control_Remains(remains)
 		else
 			MoveObjectToLocation(item, remains.x, remains.y, remains.z, remains.realm, MOVEOBJECT_NORMAL);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	DestroyItem(remains);

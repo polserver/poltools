@@ -126,7 +126,7 @@ endfunction
  */
 function AP_ModifyStatMod(mobile, stat_name, points)
 	var orig_mod := AP_GetStatMod(mobile, stat_name);
-	var new_mod := CDbl(points)+Cdbl(orig_mod);
+	var new_mod := CDbl(points)+CDbl(orig_mod);
 	
 	AP_SetStatMod(mobile, stat_name, new_mod);
 	
@@ -180,7 +180,7 @@ function AP_CheckStatCap(mobile, stat_name:="")
 		var total := 0.0;
 		foreach attribute_name in ( AP_ListAttributesByType("Stat") )
 			total := total + AP_GetTrueStat(mobile, attribute_name);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		return ( total >= GetConfigReal(cfg_elem, "TotalCap") );

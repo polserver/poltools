@@ -4,7 +4,7 @@
 
 use os;
 
-var script := start_script("systemMoonGate/moongateInit");
+var script := Start_Script("systemMoonGate/moongateInit");
 if ( script.errortext )
 	SysLog("Error starting system moongate setup ->"+script.errortext);
 else

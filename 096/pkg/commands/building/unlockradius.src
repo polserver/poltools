@@ -15,7 +15,7 @@ program textcmd_UnlockRadius(who, text)
 		if ( object.objtype == objtype || !objtype )
 			object.movable := 1;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	SendSysMessage(who, "Everything in a radius of " + range + " is now movable." );

@@ -232,7 +232,7 @@ function LJ_PickWoodType(realm, x_pos, y_pos)
 		if ( wood_types.Size() >= 1 )
 			wood_found := wood_found+wood_types;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var selected_wood := wood_found[RandomInt(wood_found.Size())+1];

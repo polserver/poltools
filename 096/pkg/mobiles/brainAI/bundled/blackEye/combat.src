@@ -47,7 +47,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist-2);
 		endif
 				
-		sleepms(600);
+		SleepMS(600);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram

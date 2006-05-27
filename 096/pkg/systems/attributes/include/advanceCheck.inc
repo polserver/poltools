@@ -51,7 +51,7 @@ function CheckStatsForSkill(mobile, skill_name)
 			SkillDbgMsg(mobile, "("+roll+" > "+check_chance+"%) skipping stat check for "+stat_name);
 		endif
 		
-		sleepms(10);
+		SleepMS(10);
 	endforeach
 	
 	return 1;
@@ -114,7 +114,7 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 			// Kludge for an old core precision bug.
 			// Makes sure it always goes up atleast 0.1.
 			temp := temp+0.1;
-			sleepms(10);
+			SleepMS(10);
 		endwhile	
 
 		SkillDbgMsg(mobile, "Passed. Advance "+stat_name+": " + CStr(advance));
@@ -207,7 +207,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 			// Kludge for an old core precision bug.
 			// Makes sure it always goes up atleast 0.1.
 			temp := temp+0.1;
-			sleepms(10);
+			SleepMS(10);
 		endwhile
 		AP_SetTrueSkill(mobile, skill_name, temp);
 		

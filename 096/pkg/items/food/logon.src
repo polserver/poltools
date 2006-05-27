@@ -3,7 +3,7 @@ use os;
 
 program hunger_logon(who)
 
-   start_script("hunger", who);
+   Start_Script("hunger", who);
 
 endprogram
 

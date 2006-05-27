@@ -24,7 +24,7 @@ use basic;
 program music ( character , text )
 
     var music_id := (text);
-    var id_len := len(music_id);
+    var id_len := Len(music_id);
 
     if( id_len == 0 )
 	music_id := "00";

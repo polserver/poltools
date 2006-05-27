@@ -38,7 +38,7 @@ program PracticeDummy(who, dummy)
 	else
 		PlaySoundEffect(who, miss_sound);
 		ReleaseItem(dummy);
-		sleepms(3600);
+		SleepMS(3600);
 	endif	
 endprogram
 
@@ -46,13 +46,13 @@ function DummyRock(dummy)
 	case ( dummy.graphic )
 		4208:
 			dummy.graphic := 4209;
-			sleepms(3600);
+			SleepMS(3600);
 			dummy.graphic := 4208;
 			break;
 			
 		4212:
 			dummy.graphic := 4213;
-			sleepms(3600);
+			SleepMS(3600);
 			dummy.graphic := 4212;
 			break;
 	endcase

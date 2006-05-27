@@ -77,7 +77,7 @@ program HandlePartyRemove(params)
 						SendSysMessage(kicked_member, "You have disbanded the party.");
 					endif
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 		else
 			// Build newparty array
@@ -85,7 +85,7 @@ program HandlePartyRemove(params)
 				if ( party[i] != kicked_member.serial )
 					newparty.Append(party[i]);
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endfor
 
 			SendPartyMessage(newparty, kicked_member, "has left the party.", 1);
@@ -105,7 +105,7 @@ program HandlePartyRemove(params)
 						SendSysMessage(member, "Party disbanded.");
 					endif
 				endif
-				sleepms(2);
+				SleepMS(2);
 			endforeach
 			
 			if ( kicked_member.connected )
@@ -136,7 +136,7 @@ function SendRemovePacket(targ, kickedid, party := array{})
 		if ( party[i] != kickedid )
 			packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERIDS + ((i - 1) * 4), party[i]);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	packet.Set16(OFFSET_PARTY_MSGLEN, packet.GetSize()); // Set packet length

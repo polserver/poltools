@@ -74,7 +74,7 @@ program runScript_CharProfileRequest( params )
 		//uneditable location. This is why we reserved 2 bytes twice for the
 		//terminators. only one of the strings will be filled, the other will
 		//only include a 2-byte terminator.
-		var uneditable_profile_offset := OFFSET_TITLE_STR+len(title_str)+NULL_SIZE; //edit comes first
+		var uneditable_profile_offset := OFFSET_TITLE_STR+Len(title_str)+NULL_SIZE; //edit comes first
 		var editable_profile_offset;
 
 		if(chr.serial != who.serial)

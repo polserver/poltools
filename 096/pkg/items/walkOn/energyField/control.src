@@ -8,7 +8,7 @@ use os;
 
 program control(field)
 	while ( field )
-		sleep(1);
+		Sleep(1);
 		if ( field.IsExpired() )
 			DestroyItem(field);
 			return 1;

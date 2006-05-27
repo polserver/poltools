@@ -44,13 +44,13 @@ var g_scripts := dictionary; // "script type"->value{.flags, .script}
 
 program BrainAI()
 	//Run setup steps for the npc.
-	set_critical(1);
+	Set_Critical(1);
 	InitializeSettings();
 	InitializeEvents();
-	set_critical(1);
+	Set_Critical(1);
 	StartupScripts();
 	
-	sleep(1);
+	Sleep(1);
 	
 	while ( npc )
 		var ev;

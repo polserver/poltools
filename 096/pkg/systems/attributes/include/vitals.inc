@@ -195,7 +195,7 @@ function AP_RefreshVitals(mobile)
 	var vital_cfg := ReadConfigFile(":attributes:vitals");
 	foreach elem_name in GetConfigStringKeys(vital_cfg)
 		AP_SetVital(mobile, elem_name, AP_GetVitalMaximumValue(mobile, elem_name));
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;

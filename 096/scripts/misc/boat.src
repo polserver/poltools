@@ -13,7 +13,7 @@ use uo;
 use os;
 
 Program CoreScript_Boat(multi)
-	var result := start_script(":boat:multi/listener", multi);
+	var result := Start_Script(":boat:multi/listener", multi);
 	
 	if ( result.errortext )
 		PrintTextAbove(multi, "Error initializing control script");

@@ -80,7 +80,7 @@ program handlePartyAdd(who)
 
 	// Loop here for PARTY_INVITE_TIMEOUT seconds, checking if the user has accepted each second
 	for i := 1 to (PARTY_INVITE_TIMEOUT)
-		sleep(1);
+		Sleep(1);
 
 		// If targ is in a party, not considering joining a party, doesn't exist or is dead, return 0
 		if ( GetObjProperty(targ, PARTY_PROP) || !GetObjProperty(targ, PARTY_JOINING_PROP) || !targ || targ.dead )

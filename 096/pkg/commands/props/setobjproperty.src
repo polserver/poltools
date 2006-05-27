@@ -20,8 +20,8 @@ program textcmd_SetObjProperty(who, text)
 		return 0;
 	endif
 	
-	var pos := find(text, param[2], Len(param[1])+1);
-	var value := text[pos, len(text)];
+	var pos := Find(text, param[2], Len(param[1])+1);
+	var value := text[pos, Len(text)];
 	if ( value[1] in {"+","-"} )
 		// Make it an actual integer variable if it starts with +/-
 		// This makes a difference to the setting of a CProp (ie. how it's packed)

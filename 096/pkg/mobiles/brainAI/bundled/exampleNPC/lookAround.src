@@ -35,7 +35,7 @@ function FindOpponent(npc, byref settings, byref scripts)
 			PrintTextAbove(mobile, "Its possible I will attack "+mobile.name);
 			attack_list.Append(mobile);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	if ( attack_list.size() > 0 )

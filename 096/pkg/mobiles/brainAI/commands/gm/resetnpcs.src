@@ -27,7 +27,7 @@ program textcmd_resetAllNPCs(who)
 	foreach mobile in ListObjectsInBox( x1, y1, z1, x2, y2, z2)
 		if (mobile.npctemplate)
 			RestartScript(mobile);
-			sleepms(5);
+			SleepMS(5);
 			
 			//Clear out event responses the brain sends back to this command.
 			clear_event_queue();

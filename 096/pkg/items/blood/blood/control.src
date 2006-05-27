@@ -7,6 +7,6 @@ use uo;
 use os;
 
 program ControlScript(blood)
-	sleep(60);
+	Sleep(60);
 	DestroyItem(blood);
 endprogram

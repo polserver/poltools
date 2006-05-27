@@ -42,7 +42,7 @@ program textcmd_MakeSet(who, set_name)
 			//SendSysMessage(who, "Created " + item.desc + " at " + item.x + " " + item.y + " " + item.z);
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	SendSysMessage(who, "Done.");
@@ -76,7 +76,7 @@ function SetNamesGump(byref who, byref config)
 			GFAddButton(gump, 210, 20, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);

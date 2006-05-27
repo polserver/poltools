@@ -55,7 +55,7 @@ function inNoise(who, box, item)
                 var breakpoints := GetConfigStringArray( listing, "inLevel" );
                 foreach level in breakpoints
                 level := SplitWords(level);
-                        if ( item.amount >= cint(level[1]) )
+                        if ( item.amount >= CInt(level[1]) )
                                 noise := level[2];
                         else
                                 break;
@@ -98,7 +98,7 @@ function outNoise(who, box, item)
                 var breakpoints := GetConfigStringArray( listing, "outLevel" );
                 foreach level in breakpoints
                 level := SplitWords(level);
-                        if ( item.amount >= cint(level[1]) )
+                        if ( item.amount >= CInt(level[1]) )
                                 noise := level[2];
                         else
                                 break;
@@ -132,7 +132,7 @@ function makeNoise(who, noise, soundfile)
 
         // play it!  Well, if we know what it is...
         if (playnoise)
-                playnoise := cint(playnoise);
+                playnoise := CInt(playnoise);
                 PlaySoundEffect(who, playnoise);
         else
                 SendSysMessage(who, "noise " + noise + " not defined" );
