@@ -8,6 +8,9 @@ use os;
 
 include ":accounts:settings";
 
+// Max numbers of characters an account can have.
+CONST ACCT_MAX_CHARACTERS	:= 6;
+
 /*
  * CreateNewAccount(username, password, cmdlevel, expansion, email)
  *
@@ -127,7 +130,7 @@ function ACCT_GetCharacters(account)
 	endif
 
 	var mobile_list := array;
-	for i:=1 to 6
+	for i:=1 to ACCT_MAX_CHARACTERS
 		var mobile := account.GetCharacter(i);
 		if ( mobile )
 			mobile_list.Append(mobile);
@@ -161,10 +164,41 @@ function ACCT_GetNumCharacters(account)
 	endif
 
 	var count := 0;
-	for i:=1 to 6
+	for i:=1 to ACCT_MAX_CHARACTERS
 		if ( account.GetCharacter(i) )
 			count := count+1;
 		endif
+		sleepms(2);
+	endfor
+
+	return count;
+endfunction
+
+/*
+ * ACCT_DeleteAllCharacters(account)
+ *
+ * Purpose
+ * Removes all characters from an account.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ *
+ * Return value
+ * Returns an integer on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_DeleteAllCharacters(account)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	var count := 0;
+	for i:=1 to ACCT_MAX_CHARACTERS
+		account.DeleteCharacter(i);
 		sleepms(2);
 	endfor
 
