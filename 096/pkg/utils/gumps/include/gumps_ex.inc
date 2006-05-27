@@ -243,7 +243,7 @@ function GFTextWidth(gump_text)
 	"bcejotî(){}==="+	//  6
 	"adfpqrszIÑ~~~~"+	//  7
 	"ghnuvyÅ<>-----"+	//  8
-	"xJ578$?++++++"+	//  9
+	"xJ578$?++++++ "+	//  9
 	"kCE2369^/*****"+	// 10
 	"mwABDFOPéô40%%"+	// 11
 	"GLNQSZ@#######"+	// 12
