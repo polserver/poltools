@@ -11,6 +11,7 @@ include ":datafile:datafile";
 include ":lumberjacking:settings";
 include ":lumberjacking:lumberJack";
 include "include/client";
+include "include/sounds";
 include "include/facings";
 
 program skill_LumberJack(who, tool)
@@ -48,7 +49,7 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 		endif
 
 		PerformAction(who, ANIM_ATTACK_2HAND_WIDE);
-		//PlaySoundEffect(who, SFX_SKILL_LUMBERJACK); - Need to get sound constants in client.inc!
+		PlaySoundEffect(who, SFX_HIT_10);
 		sleepms(1200);
 	endfor
 
