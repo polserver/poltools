@@ -19,15 +19,8 @@ const CANCEL_BTN	:= 0xB000;
 const OKAY_BTN		:= 0xB001;
 
 program useScript(who, tile)
-	var dest := GetObjProperty(tile, "Destination");
-	if ( !dest )
-		dest := struct;
-		dest.+realm:=tile.realm;
-		dest.+x:=tile.x;
-		dest.+y:=tile.y;
-		dest.+z:=tile.z;
-	endif
-	
+	var dest := tile.GetDestination();
+		
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 450, 230);
 	GFResizePic(gump, 10, 10, GFCfgConst("Defaults", "ForeGround"), 430, 40);
@@ -59,12 +52,13 @@ program useScript(who, tile)
 	
 	var input := GFSendGump(who, gump);
 	if ( input[OKAY_BTN] )
-		dest.realm := CStr(GFExtractData(input, REALM_TEXT));
 		dest.x := CInt(GFExtractData(input, X_TEXT));
 		dest.y := CInt(GFExtractData(input, Y_TEXT));
 		dest.z := CInt(GFExtractData(input, Z_TEXT));
+		dest.realm := CStr(GFExtractData(input, REALM_TEXT));
+				
+		tile.SetDestination(dest.x, dest.y, dest.z, dest.realm);
 		
-		SetObjProperty(tile, "Destination", dest);
 		SendSysMessage(who, "Done.");
 		return 1;
 	else

@@ -7,16 +7,15 @@ use uo;
 use os;
 use polsys;
 
-program walkOn(who, tile)
-	if ( JustTeleported(who) )
+program walkOn(mobile, tile)
+	if ( JustTeleported(mobile) )
 		return 0;
 	endif
-		
-	var dest := GetObjProperty(tile, "Destination");
-	
-	TeleportMobile(who, dest);
-	if ( !who.npctemplate )
-		TeleTamedPets(who, dest);
+
+	SetObjProperty(mobile, "#Teleported", ReadMillisecondClock());
+	var result := tile.SendToDestination(mobile);
+	if ( result.errortext )
+		SendSysMessage(mobile, "Error teleporting ->"+result.errortext);
 	endif
 	
 	return 1;
@@ -32,32 +31,3 @@ function JustTeleported(mobile)
 		return 0;
 	endif
 endfunction
-
-function TeleportMobile(mobile, byref dest)
-	SetObjProperty(mobile, "#Teleported", ReadMillisecondClock());
-	
-	var moved := MoveObjectToLocation(mobile, dest.x, dest.y, dest.z, dest.realm, MOVECHAR_FORCELOCATION);
-	
-	if ( moved.errortext )
-		SendSysMessage(mobile, "Teleport Error: "+moved.errortext);
-		return 0;
-	endif
-	
-	return 1;
-endfunction
-
-function TeleTamedPets(who, byref dest)
-	foreach mobile in (ListMobilesNearLocationEX(dest.x, dest.y, dest.z, 8, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, dest.realm))
-		if ( (mobile.master).serial == who.serial )
-			if ( JustTeleported(mobile) )
-				continue;
-			else
-				TeleportMobile(mobile, dest);
-			endif
-		endif
-		sleepms(2);
-	endforeach
-endfunction
-
-	
-	
