@@ -1,4 +1,23 @@
 -- POL096 --
+05-27 MuadDib
+        Update : Just FYI, as previously reported, SingleCombat does NOT use servspecopt.cfg
+                 but rather combat.cfg. Sorry about the typo when it was introduced.
+
+05-26 MuadDib
+        Fixed : Crash on checking targetted players when target is not logged in.
+        Fixed : ItemColorMask is now read properly during itemdesc load and during
+                POL startup.
+
+05-26 Shinigami
+        Fixed : Crash on call of scripts/misc/dblclickother if another script is running.
+        Fixed : removed an additional check for UOConvert's option ShowRoofAndPlatformWarning
+
+05-24 Shinigami
+        Added : uo::SendCharacterRaceChanger( character ) - to change Hair, Beard and Color
+
+05-23 Shinigami
+        Fixed : Crash inside Packet Hooks with SubCommands and without default Handler.
+
 05-20 MuadDib
       Removed : Requiring, and support, for armrdesc.cfg. Armor within this file is to be
                 moved to the itemdesc.cfg as intended. File has been obsolete for a while
@@ -43,7 +62,7 @@
                 it's a flag and defaults to 1 (shows a Warning if you use both Flags in same Tile).
 
 04-05 MuadDib
-        Changed: Added servspecopt.cfg flag SingleCombat. This is a 0/1 flag for allowing players to attack
+        Changed: Added combat.cfg flag SingleCombat. This is a 0/1 flag for allowing players to attack
                  themselves. 0 will disable it (default). Per request.
         Fixed: Crash involving invalid serial data sent with Target Cursor from client.
         Fixed: Bug blocking non-harmful targeting of Players in NoCombat zones.
