@@ -16,8 +16,9 @@ program textcmd_TileInfo(who)
 		return;
 	endif
 
-	SendSysMessage(who, "Graphic: "+targ.objtype);
-	SendSysMessage(who, "Objtype: "+Hex(targ.objtype));
-	SendSysMessage(who, "Color: "+targ.color);
-	SendSysMessage(who, "Landscape Tile: "+GetMapInfo(targ.x, targ.y, who.realm).landtile);
+	SendSysMessage(who, "Clicked Graphic: "+targ.objtype+" / "+Hex(targ.objtype));
+	var landtile := GetMapInfo(targ.x, targ.y, who.realm).landtile;
+	SendSysMessage(who, "Landscape Tile: "+landtile+" / "+Hex(landtile));
+	
+	return 1;
 endprogram
