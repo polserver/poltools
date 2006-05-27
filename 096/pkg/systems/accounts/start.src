@@ -1,0 +1,12 @@
+/* $Id$
+ *
+ */
+
+use os;
+
+var script := start_script("acctWatcher/acctWatcher");
+if ( script.errortext )
+	SysLog("Error starting account watcher ->"+script.errortext);
+else
+	Print("Starting accounts watcher... OK.");
+endif
