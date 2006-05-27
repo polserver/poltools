@@ -16,8 +16,8 @@ function Go_GumpHeader(public:=1)
 	else
 		GFHTMLArea(headerGump,  15, 20, 370, 20, "<basefont color=#7FFFD4><center>Go To Locations (Private)</center>");
 	endif
-        GFResizePic(headerGump, 15, 55, BKGND_DARK_STONE, 370, 380);
-        GFResizePic(headerGump, 15, 440, BKGND_DARK_STONE, 370, 35);
+	GFResizePic(headerGump, 15, 55, BKGND_DARK_STONE, 370, 380);
+	GFResizePic(headerGump, 15, 440, BKGND_DARK_STONE, 370, 35);
 
 	return headerGump;
 
@@ -26,91 +26,91 @@ endfunction
 
 function Go_LocationIndex(who, gump_Type:="base_Distro")
 
-        var gump := Go_RetrieveGump("LocationIndex", gump_Type);
-        if(gump_Type == "base_Distro")
-                num_keys := go_keys_base.size();
-        else
-                num_keys := go_keys.size();
-        endif
-        if  ( !gump )
-                if(gump_Type == "base_Distro")
-                        gump := Go_LocationIndexGump(1);
-                else
-                        gump := Go_LocationIndexGump(0);
-                endif
-                Go_SaveGump("LocationIndex", gump, gump_Type);
-        endif
+	var gump := Go_RetrieveGump("LocationIndex", gump_Type);
+	if(gump_Type == "base_Distro")
+		num_keys := go_keys_base.size();
+	else
+		num_keys := go_keys.size();
+	endif
+	if  ( !gump )
+		if(gump_Type == "base_Distro")
+			gump := Go_LocationIndexGump(1);
+		else
+			gump := Go_LocationIndexGump(0);
+		endif
+		Go_SaveGump("LocationIndex", gump, gump_Type);
+	endif
 
-        var input := GFSendGump(who, gump);
-        input := input[0];
+	var input := GFSendGump(who, gump);
+	input := input[0];
 
-        case(input)
-          0: SendSysMessage(who, "Closed");
-             return 0;
-          ADD_NEW_PUBLIC:     Go_AddNewLocation(who, 1);
-                              return 0;
-          ADD_NEW_PRIVATE:    Go_AddNewLocation(who, 0);
-                              return 0;
-          COPY_PUBLIC_ITEM:   Go_CopyLocation(who, 1);
-                              return 0;
-          COPY_PRIVATE_ITEM:  Go_CopyLocation(who, 0);
-                              return 0;
-          EDIT_PUBLIC_ITEM:   print("Edit Public"); Go_EditSendLocation(who, 1);
-                              return 0;
-          EDIT_PRIVATE_ITEM:  Go_EditSendLocation(who, 0);
-                              return 0;
-          SHOW_PUBLIC_INDEX:  SetObjProperty(who, "#Go_Gump", 1);
-                              Go_LocationIndex(who);
-                              return 0;
-          SHOW_PRIVATE_INDEX: SetObjProperty(who, "#Go_Gump", 2);
-                              Go_LocationIndex(who, who.acctname);
-                              return 0;
-          default:
-        endcase
+	case(input)
+		0:
+			SendSysMessage(who, "Closed");
+			return 0;
+		ADD_NEW_PUBLIC:
+			Go_AddNewLocation(who, 1);
+			return 0;
+		ADD_NEW_PRIVATE:
+			Go_AddNewLocation(who, 0);
+			return 0;
+		COPY_PUBLIC_ITEM:
+			Go_CopyLocation(who, 1);
+			return 0;
+		COPY_PRIVATE_ITEM:
+			Go_CopyLocation(who, 0);
+			return 0;
+		EDIT_PUBLIC_ITEM:
+			print("Edit Public"); Go_EditSendLocation(who, 1);
+			return 0;
+		EDIT_PRIVATE_ITEM:
+			Go_EditSendLocation(who, 0);
+			return 0;
+		SHOW_PUBLIC_INDEX:
+			SetObjProperty(who, "#Go_Gump", 1);
+			Go_LocationIndex(who);
+			return 0;
+		SHOW_PRIVATE_INDEX: SetObjProperty(who, "#Go_Gump", 2);
+			Go_LocationIndex(who, who.acctname);
+			return 0;
+		default:
+			break;
+	endcase
 
-        if(input)
-                var send_Location;
-                var moved := who;
-                if ( input <= num_keys )
-                        case(gump_Type)
-                          "base_Distro": send_Location := go_prop_base[lower(go_keys_base[input])];
-                          default:       send_Location := go_prop[lower(go_keys[input])];
-                        endcase
-                        SendSysMessage(who, "Who do you want to send to " + send_Location.Name);
-                        moved := target(who);
-                        if (!moved)
-                                return 0;
-                        endif
-                else
-                        input := input - num_keys;
-                        case(gump_Type)
-                          "base_Distro": send_Location  := go_prop_base[lower(go_keys_base[input])];
-                          default:       send_Location := go_prop[lower(go_keys[input])];
-                        endcase
-                endif
+	if( input )
+		var send_Location;
+		var moved := who;
+		if ( input <= num_keys )
+			case(gump_Type)
+				"base_Distro": send_Location := go_prop_base[lower(go_keys_base[input])]; break;
+				default:       send_Location := go_prop[lower(go_keys[input])]; break;
+			endcase
+			SendSysMessage(who, "Who do you want to send to " + send_Location.Name);
+			moved := target(who);
+			if ( !moved )
+				return 0;
+			endif
+		else
+			input := input - num_keys;
+			case( gump_Type )
+				"base_Distro": send_Location  := go_prop_base[lower(go_keys_base[input])]; break;
+				default:       send_Location := go_prop[lower(go_keys[input])]; break;
+			endcase
+		endif
 
-                if ( send_Location )
-                        var move;
-                        SendSysMessage(who, "Going to [" + send_Location.Name + "]");
-                        if( moved.realm == send_Location.Realm )
-                                if ( moved.IsA(POLCLASS_ITEM) )
-                                        move := MoveItemToLocation(moved, CInt(send_Location.X), CInt(send_Location.Y), CInt(send_Location.Z), MOVEITEM_FORCELOCATION);
-                                else
-                                        move := MoveCharacterToLocation(moved, CInt(send_Location.X), CInt(send_Location.Y), CInt(send_Location.Z), MOVECHAR_FORCELOCATION);
-                                endif
-                        else
-                                move := MoveObjectToRealm( who, send_Location.Realm, send_Location.X, send_Location.Y, send_Location.Z, MOVECHAR_FORCELOCATION );
-                        endif
+		if ( send_Location )
+			SendSysMessage(who, "Going to [" + send_Location.Name + "]");
+			var result := MoveObjectToLocation(moved, CInt(send_location.X), CInt(send_location.Y), CInt(send_location.Z), send_location.Realm, MOVEOBJECT_FORCELOCATION);
 
-                        if ( TypeOf(move) != "Integer" )
-                                GumpPrompt(who, "Error moving: X[" + send_Location.X +"] Y[" + send_Location.Y + "] Z[" + send_Location.Z + "]");
-                        endif
-                else
-                        GumpPrompt(who, "Location [" + send_Location.Name + "] does not exist.");
-                endif
-        endif
+			if ( result.errortext )
+				GumpPrompt(who, "Error moving: X[" + send_Location.X +"] Y[" + send_Location.Y + "] Z[" + send_Location.Z + "]");
+			endif
+		else
+			GumpPrompt(who, "Location [" + send_Location.Name + "] does not exist.");
+		endif
+	endif
 
-        return 0;
+	return 0;
 
 endfunction
 
@@ -192,28 +192,28 @@ function Go_LocationIndexGump(public:=1)
 		endforeach
 	endif
 
-        return gump;
+	return gump;
 
 
 endfunction
 
 function Go_RetrieveGump(elem_name, prop_name:="base_Distro")
 
-        var elem := DFFindElement(go_data_gumps, elem_name);
-        return (elem.GetProp(prop_name));
+	var elem := DFFindElement(go_data_gumps, elem_name);
+	return (elem.GetProp(prop_name));
 
 endfunction
 
 function Go_SaveGump(elem_name, gump, prop_name:="base_Distro")
 
-        var elem := DFFindElement(go_data_gumps, elem_name, DF_CREATE);
-        return (elem.SetProp(prop_name, gump));
+	var elem := DFFindElement(go_data_gumps, elem_name, DF_CREATE);
+	return (elem.SetProp(prop_name, gump));
 
 endfunction
 
 function Go_RefreshGump(elem_name, prop_name:="base_Distro")
 
-        var elem := DFFindElement(go_data_gumps, elem_name);
-        return (elem.EraseProp(prop_name));
+	var elem := DFFindElement(go_data_gumps, elem_name);
+	return (elem.EraseProp(prop_name));
 
 endfunction
