@@ -13,7 +13,7 @@ program MovementChecker(params)
 			spell_starter.SendEvent("moved");
 			return 1;
 		endif
-		sleepms(50);
+		SleepMS(50);
 	endwhile
 	
 	return 1;

@@ -49,7 +49,7 @@ function SelectTemplateFromGump(who)
 	elseif ( input[UNCACHE_BTN] )
 		foreach elem_name in DFGetElemNames(g_datafile)
 			g_datafile.DeleteElement(elem_name);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		SendSysMessage(who, "All createnpc data uncached.");
@@ -68,7 +68,7 @@ function SelectTemplateFromGump(who)
 				UnloadConfigFile(":"+(package.name)+":npcdesc");
 				SendSysMessage(who, "Unloading :"+(package.name)+":npcdesc");
 			endif	
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	
 		SendSysMessage(who, "ReloadConfiguration() -> "+ReloadConfiguration());
@@ -167,7 +167,7 @@ function BuildIndexGump()
 			GFPage(gump, page_num);
 			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	var data_elem := DFFindElement(g_datafile, "Index", DF_CREATE);	
 	data_elem.SetProp("Gump", gump);
@@ -207,7 +207,7 @@ function BuildNPCGump(category_name)
 			GFPage(gump, page_num);
 			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var data_elem := DFFindElement(g_datafile, Lower(category_name), DF_CREATE);	
@@ -244,7 +244,7 @@ function SortNPCs()
 
 			categories[cfg_elem.category].append(template);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	// This function is time consuming.. so its results get saved.	

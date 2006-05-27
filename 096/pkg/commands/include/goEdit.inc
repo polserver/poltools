@@ -19,9 +19,9 @@ function Go_EditSendLocation(who, public:=1)
         if(input)
 		var send_Location;
 		if( public )
-			send_Location := go_prop_base[lower(go_keys_base[input])];
+			send_Location := go_prop_base[Lower(go_keys_base[input])];
 		else
-			send_Location := go_prop[lower(go_keys[input])];
+			send_Location := go_prop[Lower(go_keys[input])];
 		endif
                 if ( send_Location )
 			var edit_gump;
@@ -41,7 +41,7 @@ function Go_EditSendLocation(who, public:=1)
                                 if ( !edit_name )
                                         GumpPrompt(who, "Cancelled - No name entered");
                                         return 0;
-                                elseif ( lower(edit_name) != send_Location.Name )
+                                elseif ( Lower(edit_name) != send_Location.Name )
 					if( public )
 						if ( go_prop_base.Exists( Lower(edit_name) ) )
 							GumpPrompt(who, "Cancelled - location already exists with the name ["+edit_name+"]");
@@ -57,11 +57,11 @@ function Go_EditSendLocation(who, public:=1)
 
                                 var original_Realm := send_Location.Realm;
 				if( public )
-					go_prop_base.erase(lower(send_Location.Name));
+					go_prop_base.erase(Lower(send_Location.Name));
 					go_elem.SetProp("base_Distro", go_prop_base);
 					Go_SetLocation("base_Distro", who, edit_name, original_Realm, xg_pos, yg_pos, zg_pos);
 				else
-					go_prop.erase(lower(send_Location.Name));
+					go_prop.erase(Lower(send_Location.Name));
 					go_elem.SetProp(who.acctname, go_prop);
 					Go_SetLocation(who.acctname, who, edit_name, original_Realm, xg_pos, yg_pos, zg_pos);
 				endif
@@ -70,10 +70,10 @@ function Go_EditSendLocation(who, public:=1)
                         elseif ( edit_input[edit_delete] )
                                 SendSysMessage(who, "Deleted [" + send_Location.Name + "]");
 				if( public )
-					go_prop_base.erase(lower(send_Location.Name));
+					go_prop_base.erase(Lower(send_Location.Name));
 					go_elem.SetProp("base_Distro", go_prop_base);
 				else
-					go_prop.erase(lower(send_Location.Name));
+					go_prop.erase(Lower(send_Location.Name));
 					go_elem.SetProp(who.acctname, go_prop);
 				endif
                                 Go_RefreshMyGumps(who);
@@ -126,7 +126,7 @@ function Go_SelectEditGump(public)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		go_keys.sort();
@@ -146,7 +146,7 @@ function Go_SelectEditGump(public)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

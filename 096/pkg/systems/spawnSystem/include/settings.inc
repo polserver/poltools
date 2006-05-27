@@ -77,7 +77,7 @@ function SS_LoadSettings(cfg_elem)
 		var value := UnPack(line[2]);
 
 		settings[key] := value;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return settings;

@@ -1,6 +1,6 @@
 use os;
 
-var script := start_script("initializer/firstRun");
+var script := Start_Script("initializer/firstRun");
 if ( script.errortext )
 	SysLog("Error starting door initializer ->"+script.errortext);
 endif

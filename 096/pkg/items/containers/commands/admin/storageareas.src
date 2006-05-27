@@ -52,7 +52,7 @@ function AreaNamesGump(mobile)
 			GFPage(gump, page_num);
 			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var input := GFSendGump(mobile, gump);
@@ -85,7 +85,7 @@ function RootContainersGump(mobile, area_name)
 			GFPage(gump, page_num);
 			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var input := GFSendGump(mobile, gump);

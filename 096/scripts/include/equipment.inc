@@ -66,7 +66,7 @@ function GetEquipmentModifiers(item, flags:=EQUIP_CSTM_OR_ITEMDESC)
 		foreach modifier in ( cstm_mods )
 			modifier := modifier; // So the compiler does not issue a warning.
 			itemdesc_mods.Insert(_modifier_iter, modifier);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 	
@@ -184,7 +184,7 @@ function ApplyEquipmentMods(mobile, item, flags := EQUIP_CSTM_OR_ITEMDESC)
 		//SendSysMessage(mobile, "Attrib["+attrib+"] Amount["+new_val+"]");
 		AP_SetStatMod(mobile, attrib_name, new_val);
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -224,7 +224,7 @@ function RemoveEquipmentMods(mobile, item, flags:=EQUIP_CSTM_OR_ITEMDESC)
 		//SendSysMessage(mobile, "Attrib["+attrib+"] Amount["+amount+"]");
 		AP_SetStatMod(mobile, attrib_name, new_val);
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

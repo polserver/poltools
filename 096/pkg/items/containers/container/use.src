@@ -23,7 +23,7 @@ program useContainer(mobile, container)
 	
 	if ( (item_cfg.OpenGraphic) && (item_cfg.CloseGraphic) )
 		container.graphic := item_cfg.OpenGraphic;
-		sleep(2);
+		Sleep(2);
 		container.graphic := item_cfg.CloseGraphic;
 	endif
 endprogram

@@ -21,7 +21,7 @@ program OnCreate(params)
 	// Core currently sends them as skill IDs!
 	foreach skill in ( selected_skills )
 		skill := AP_SkillIdToAttributeName(skill);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	// Save the chosen skills.
@@ -31,7 +31,7 @@ program OnCreate(params)
 	GenerateItemsForSkill(who, "All", uniques);
 	foreach skill in ( selected_skills )
 		GenerateItemsForSkill(who, skill, uniques);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -50,7 +50,7 @@ function GenerateItemsForSkill(who, attribute, byref uniques)
 			uniques.Append(objtype);
 			CreateItemInContainer(who.backpack, entry.name, entry.amount);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	foreach entry in ( GetConfigStringArray(cfg_elem, "Random") )
@@ -59,7 +59,7 @@ function GenerateItemsForSkill(who, attribute, byref uniques)
 		var amount := CInt(entry[2]);
 		
 		CreateItemsInElem(tmp_elem, who.backpack, amount);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -71,14 +71,14 @@ function CreateItemsInElem(cfg_elem, container, amount)
 		foreach entry in ( GetConfigStringArray(cfg_elem, "Item") )
 			entry := ParseItemString(entry);
 			CreateItemInContainer(container, entry.name, entry.amount);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		for ( amount; amount>0; amount:=amount-1 )
 			var entry := items[RandomInt(items.Size())+1];
 			entry := ParseItemString(entry);
 			CreateItemInContainer(container, entry.name, entry.amount);
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 	

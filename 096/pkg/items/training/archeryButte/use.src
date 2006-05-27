@@ -42,7 +42,7 @@ program ArcheryButte(who, butte)
 
 	PerformAction(who, weapon_anim);
 
-	sleep(1);
+	Sleep(1);
 
 	var closest := butte;
 	foreach point in ( GetCoordsInLine(who.x, who.y, butte.x, butte.y) )
@@ -55,10 +55,10 @@ program ArcheryButte(who, butte)
 			if ( mobile != who )
 				closest := mobile;
 				break;
-				sleepms(2);
+				SleepMS(2);
 			endif
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	PlayMovingEffect(who, closest, projectile_anim, 10, 0, 0);
@@ -73,18 +73,18 @@ program ArcheryButte(who, butte)
 		else
 			PrintTextAbove(butte, DetermineHit(who, weapon_attrib));
 			if ( RandomInt(2) )
-				set_critical(1);
+				Set_Critical(1);
 				var ammo := CInt(GetObjProperty(butte, "Ammo-"+projectile_type));
 				ammo := ammo + 1;
 				SetObjProperty(butte, "Ammo-"+projectile_type, ammo);
-				set_critical(0);
+				Set_Critical(0);
 			endif
 		endif
 	else
 		PlaySoundEffect(who, miss_sound);
 	endif
 
-	sleep(3);
+	Sleep(3);
 endprogram
 
 function DetermineHit(who, weapon_attrib)
@@ -115,7 +115,7 @@ function RecoverAmmo(who, butte)
 
 				EraseObjProperty(butte, c_prop);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 
 		return 1;

@@ -34,7 +34,7 @@ program use_PickAxe(who, pick)
 			break;
 		endif
 		// Wear down tool function call goes here.
-		sleep(3);
+		Sleep(3);
 	endfor
 
 	SendSysMessage(who, "You stop mining.");
@@ -98,7 +98,7 @@ function CheckOreVeins(who)
 			vein_list.erase(_ore_vein_iter);
 		endif
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return found_ore;

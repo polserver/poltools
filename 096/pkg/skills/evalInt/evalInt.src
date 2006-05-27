@@ -43,7 +43,7 @@ program skill_EvaluatingIntelligence(who)
 		strFail := "that creature's mental abilities.";
 	else
 		strMsg := subject.name;
-		if(upper(subject.name[len(subject.name)]) != "S" || lower(subject.name[len(subject.name)]) != "s" )
+		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
 			strFail := subject.name + "'s mental abilities.";
 		else
 			strFail := subject.name + "' mental abilities.";

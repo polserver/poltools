@@ -20,17 +20,17 @@ function Loot_Generate(container, loot_index)
 
 	foreach line in GetConfigStringArray(index_elem, "Item")
 		Loot_CreateItem(container, line);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	foreach line in GetConfigStringArray(index_elem, "Stack")
 		Loot_CreateStack(container, line);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	foreach line in GetConfigStringArray(index_elem, "Random")
 		Loot_CreateRandom(container, line);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	foreach line in GetConfigStringArray(index_elem, "Group")
@@ -40,7 +40,7 @@ function Loot_Generate(container, loot_index)
 			// to avoid a potential endless loop!
 			Loot_Generate(container, line);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -56,7 +56,7 @@ function Loot_CreateItem(container, line)
 			if ( item.errortext )
 				return error{"errortext" := "Error - Could not create ["+parsed.name+"] ->"+item.errortext};
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 	
@@ -93,7 +93,7 @@ function Loot_CreateRandom(container, line)
 		var i;
 		for ( i:=1; i<=parsed.amount; i:=i+1 )
 			Loot_CreateItem(container, items[RandomInt(num_items)+1]);
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 	

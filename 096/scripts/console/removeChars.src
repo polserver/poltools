@@ -13,7 +13,7 @@ program console_removeChars(cmd)
 	print("System Message: Removing all online characters!");
 	foreach char in EnumerateOnlineCharacters()
 		DisconnectClient(char);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;

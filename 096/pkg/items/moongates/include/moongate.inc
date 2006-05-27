@@ -87,9 +87,9 @@ function MG_FindDestination(button_id)
 				return location;
 			endif
 			btn_id := btn_id+1;
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 endfunction

@@ -50,10 +50,10 @@ program textcmd_Create(who, params)
 			for( y := topleft.y; y <= botright.y; y := y + 1 )
 				var item := CreateItemAtLocation(x, y, zheight, objtype, 1, who.realm);
 				item.decayat := 0;
-				sleepms(2);
+				SleepMS(2);
 			endfor
 		endfor
-		sleepms(2);
+		SleepMS(2);
 	endif
 
 	SendSysMessage(who, "Done.");

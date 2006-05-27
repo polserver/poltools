@@ -41,7 +41,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	foreach line in (GFWordWrap(prompt, 360))
 		GFTextLine(yn_gump, 20, y_pos, 1153, line);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	y_pos := 90;
@@ -49,7 +49,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	foreach line in (GFWordWrap(yes_text, 355));
 		GFTextLine(yn_gump, 40, y_pos, 1153, line);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 		
 	y_pos := 140;
@@ -57,7 +57,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	foreach line in (GFWordWrap(no_text, 355))
 		GFTextLine(yn_gump, 40, y_pos, 1153, line);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var input := GFSendGump(mobile, yn_gump);

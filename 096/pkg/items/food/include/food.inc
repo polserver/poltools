@@ -37,7 +37,7 @@ function RandomFoodObjType(category:=0)
 			if ( temp_list.Size() > 0 )
 				food_list := food_list + temp_list;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 	

@@ -56,7 +56,7 @@ program BrainNerve(params)
 
 		SpecialAttack(npc, opponent, dist);
 
-		sleepms(400);
+		SleepMS(400);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram
@@ -107,7 +107,7 @@ function SpecialAttack(npc, opponent, byref dist)
 	npc.frozen := 1;
 
 	PerformAction(npc, 0x6);
-	sleepms(80);
+	SleepMS(80);
 	PrintTextAbove(npc, "*"+npc.name+" spits a ball of fire*");
 	PlayMovingEffect(npc, opponent, GFX_SMALL_FIREBALL, 10, 10, 1);
 
@@ -119,7 +119,7 @@ function SpecialAttack(npc, opponent, byref dist)
 		
 		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1);
 		field.SetDuration(2);
-		sleepms(105);
+		SleepMS(105);
 	endforeach
 
 	PlaySoundEffect(opponent, 0x208);
@@ -142,7 +142,7 @@ function SpecialAttack(npc, opponent, byref dist)
 		endcase
 		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1);
 		field.SetDuration(5);
-		sleepms(5);
+		SleepMS(5);
 	endforeach
 	
 	npc.frozen := 0;

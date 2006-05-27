@@ -22,7 +22,7 @@ foreach script in (polcore().running_scripts)
                    + "<td>" + script.consec_cycles + "</td>"
                    + "<td>" + script.PC + "</td>"
                  + "</tr>" );
-    sleepms(1);
+    SleepMS(1);
 endforeach
 
 WriteHtml( "</table></div>" );

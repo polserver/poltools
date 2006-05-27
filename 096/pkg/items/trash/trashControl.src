@@ -14,6 +14,6 @@ program trash(item)
       PrintTextAbove(item, "Destroying items in trash.");
     endif
     count := 0;
-    sleep(120);
+    Sleep(120);
   endwhile
 endprogram

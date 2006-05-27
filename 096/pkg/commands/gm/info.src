@@ -93,7 +93,7 @@ function BuildGump(targ, index_num)
 	foreach group in ( groups )
 		var group_elem := info_cfg[group];
 		BuildEntries(targ, gump, group_elem, y_pos);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return gump;
@@ -147,7 +147,7 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 				y_pos := y_pos+20;
 				break;
 		endcase
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	y_pos := y_pos+5;
 
@@ -202,7 +202,7 @@ function DisplayVitals(targ, byref gump, byref y_pos)
 		var max_value := AP_GetVitalMaximumValue(targ, vital_name);
 		GFTextRight(gump, 480, y_pos, 2100, value+" / "+max_value);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -255,7 +255,7 @@ function DisplayAttributes(targ, byref gump, byref entry, byref y_pos)
 			var mod_value := AP_GetSkillMod(targ, attrib_name);
 			GFTextRight(gump, 465, y_pos, 2100, value+" (+"+mod_value+")");
 			y_pos := y_pos+20;
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 
 		if ( _group_iter < num_groups )
@@ -264,7 +264,7 @@ function DisplayAttributes(targ, byref gump, byref entry, byref y_pos)
 			y_pos := START_Y;
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -289,7 +289,7 @@ function DisplayPrivileges(targ, byref gump, byref y_pos)
 
 		GFTextRight(gump, 480, y_pos, 2100, status);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -313,7 +313,7 @@ function DisplayStorageAreas(targ, byref gump, byref y_pos)
 
 		GFTextLine(gump, 175, y_pos, 2100, name);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -324,7 +324,7 @@ function DisplayReportables(targ, byref gump, byref y_pos)
 	var lines := "<CENTER><U>Reportables</U></CENTER><BR>";
 	foreach line in ( targ.reportables )
 		lines := "<B>o</B>"+lines+line+"<BR>";
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	GFHTMLArea(gump, 155, y_pos+7, 325, 186, lines, 0, 1);
 
@@ -350,7 +350,7 @@ endfunction
 function ParseEntryName(entry_name)
 	while ( entry_name["_"] )
 		entry_name["_"] := " ";
-		sleepms(2);
+		SleepMS(2);
 	endwhile
 	
 	return entry_name;
@@ -382,7 +382,7 @@ function ParseMembers(targ, members, new_val:=error)
 			result := temp;
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return result;
@@ -410,7 +410,7 @@ function ParseScriptName(path)
 		// Breaks it down to just the file name.
 		var pos := Find(path, "/", 1);
 		path[1, pos] := "";
-		sleepms(2);
+		SleepMS(2);
 	endwhile
 
 	return path;
@@ -439,7 +439,7 @@ function GumpTemplate(targ)
 		GFAddButton(gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, (MENU_BTN+_entry_iter));
 		GFTextLine(gump, 40, y_pos, 2100, entry);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	GFPage(gump, 1);
 

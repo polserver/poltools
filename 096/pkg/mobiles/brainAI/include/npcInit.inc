@@ -206,7 +206,7 @@ function NPC_SetupRandomEquipment(mobile, elem_name:=0, flags:=EQUIP_NOGENDER)
 				DestroyItem(item);
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 1;
@@ -252,7 +252,7 @@ function NPC_SetupName(mobile, name_elem:=0)
 	while ( my_name["<random>"] )
 		var replacement := name_list[RandomInt(name_list.Size())+1];
 		my_name["<random>"] := replacement;
-		sleepms(2);
+		SleepMS(2);
 	endwhile
 
 	SetName(mobile, my_name);

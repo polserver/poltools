@@ -117,7 +117,7 @@ function TS_StartController(mobile)
 		return error{"errortext":="Error::TS_StartController() - Controller is already running."};
 	endif
 
-	var script := start_script(":timedscripts:timerControl", mobile);
+	var script := Start_Script(":timedscripts:timerControl", mobile);
 	if ( script.errortext )
 		SysLog("Error::TS_StartController() ->"+script.errortext);
 	endif
@@ -191,7 +191,7 @@ function TS_GetTimerNames(mobile, type:="")
 		else
 			name_list.Append(timer_name);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return name_list;

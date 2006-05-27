@@ -2,7 +2,7 @@ use os;
 use uo;
 
 program textcmd_start(who, script_name)
-	var script := start_script(script_name);
+	var script := Start_Script(script_name);
 	
 	if ( script.errortext )
 		SendSysMessage(who, "Error -"+script.errortext);

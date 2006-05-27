@@ -35,12 +35,12 @@ function AmountInContainer(container, properties)
 			if ( item.Get_Member(property) != properties[property] )
 				continue MAIN;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		amount := amount + item.amount;
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return amount;
@@ -75,12 +75,12 @@ function FindMatchesInContainer(container, properties)
 			if ( item.Get_Member(property) != properties[property] )
 				continue MAIN;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		item_list.Append(item);
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return item_list;
@@ -106,7 +106,7 @@ function ListRootItemsInContainer(container)
 		if ( item.container == container )
 			item_list.Append(item);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return item_list;

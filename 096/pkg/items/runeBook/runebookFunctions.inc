@@ -178,7 +178,7 @@ function CreateRunebookGump(book)
 			pOX := 305;
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 //	GFOptimizeGump(book_gump);
@@ -265,7 +265,7 @@ endfunction
 function ConvertLatLong(x, y, pos)
 	var workit := ToSextant(x, y);
 	var j, newtemp := "";
-	for(j:=1; j<=len(workit); j:=j+1)
+	for(j:=1; j<=Len(workit); j:=j+1)
 		if(workit[j] == " ")
 			workit[j] := "_";
 		elseif(workit[j] == ",")
@@ -277,7 +277,7 @@ function ConvertLatLong(x, y, pos)
 	newtemp := SplitWords(workit);
 	if(pos == 1)
 		newtemp := newtemp[1];
-		for(j:=1; j<=len(newtemp); j:=j+1)
+		for(j:=1; j<=Len(newtemp); j:=j+1)
 			if(newtemp[j] == "_")
 				newtemp[j] := " ";
 			endif
@@ -285,7 +285,7 @@ function ConvertLatLong(x, y, pos)
 		return newtemp;
 	else
 		newtemp := newtemp[2];
-		for(j:=1; j<=len(newtemp); j:=j+1)
+		for(j:=1; j<=Len(newtemp); j:=j+1)
 			if(newtemp[j] == "_")
 				newtemp[j] := " ";
 			endif

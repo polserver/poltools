@@ -78,7 +78,7 @@ function makeBlacksmithItems(who, what, amt, tool)
 	endif
 
 	// Metal is sent for the ResourceList entry type.
-	var itemchk := MaterialSelection(who, craft_skill, lower("Metal"));
+	var itemchk := MaterialSelection(who, craft_skill, Lower("Metal"));
 	if(!itemchk)
 		return 0;
 	endif
@@ -103,7 +103,7 @@ function makeBlacksmithItems(who, what, amt, tool)
 			break;
 		endif
 
-		sleep(2);
+		Sleep(2);
 
 		if(GetAmount(use_on) >= material)
 			if(CraftCheckSkill(who, craft_skill, diff, pts))

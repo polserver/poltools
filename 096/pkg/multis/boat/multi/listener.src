@@ -38,7 +38,7 @@ program BoatController(boat)
 		endif
 				
 		var delay := (boat.tillerman).GetSpeed();
-		sleepms(delay);		
+		SleepMS(delay);		
 				
 		if ( ev.text )
 			
@@ -47,7 +47,7 @@ program BoatController(boat)
 					var cmd_list := ParseCommands(ev.text);
 					foreach command in ( cmd_list )
 						repeat_cmd := DoCommand(boat, command);
-						sleepms(2);
+						SleepMS(2);
 					endforeach
 				endif
 			endif
@@ -69,7 +69,7 @@ function Initialize(boat)
 	if ( !(boat.tillerman).GetOwner() )
 		SetName(boat.tillerman, "a tiller man [awaiting owner]");
 		while ( !(boat.tillerman).GetOwner() )
-			sleep(2);
+			Sleep(2);
 		endwhile
 		var name := (boat.tillerman).desc;
 		name[" [awaiting owner]"] := "";

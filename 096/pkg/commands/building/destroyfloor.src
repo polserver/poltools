@@ -35,9 +35,9 @@ program textcmd_MakeFloor(who, text)
 			else
 				DestroyItem(object);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

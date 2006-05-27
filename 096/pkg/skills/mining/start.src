@@ -1,6 +1,6 @@
 use os;
 
-var script := start_script("oreVein/regenVeins");
+var script := Start_Script("oreVein/regenVeins");
 if ( script.errortext )
 	SysLog("Error starting ore vein regen ->"+script.errortext);
 else

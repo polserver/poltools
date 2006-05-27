@@ -4,7 +4,7 @@
 
 use os;
 
-var script := start_script("worldSaver");
+var script := Start_Script("worldSaver");
 if ( script.errortext )
 	SysLog("Error starting world saver ->"+script.errortext);
 else

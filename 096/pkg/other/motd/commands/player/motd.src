@@ -5,7 +5,7 @@ include ":datafile:datafile";
 
 program MOTD(who, text)
 	if ( text )
-		text := lower(text);
+		text := Lower(text);
 		var data_file := DFOpenDataFile(":motd:settings", DF_CREATE);
 		var data_elem := DFFindElement(data_file, who.acctname, DF_CREATE);
 		

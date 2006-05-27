@@ -16,7 +16,7 @@ program textcmd_listTimers(who, type)
 
 	foreach timer_name in (TS_GetTimerNames(targ, type))
 		SendSysMessage(who, "->"+timer_name);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	SendSysMessage(who, "Done");

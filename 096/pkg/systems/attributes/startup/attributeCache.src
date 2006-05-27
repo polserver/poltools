@@ -12,7 +12,7 @@ Program attributeCache()
 	// Clear out old cache
 	foreach prop_name in ( DFGetElemProps(data_elem) )
 		data_elem.EraseProp(prop_name);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	var cfg_file := AP_GetAttributesCfgFile();

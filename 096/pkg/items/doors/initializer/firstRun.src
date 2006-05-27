@@ -42,10 +42,10 @@ program InitializeDoors(realm_list)
 			var cfg_elem := cfg_file[elem_name];
 			CreateDoorsForElem(cfg_elem, realm);
 			
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	DOOR_ReportText("---=[ DOOR INITIALIZER HAS FINISHED ]=---", DOOR_REPORT_SYSLOG);
@@ -68,7 +68,7 @@ function CreateDoorsForElem(byref cfg_elem, byref realm)
 				continue MAIN;
 			endif
 			
-			sleepms(2);
+			SleepMS(2);
 		endforeach				
 		
 		var door := CreateItemAtLocation(x, y, z, type, 1, realm);
@@ -76,7 +76,7 @@ function CreateDoorsForElem(byref cfg_elem, byref realm)
 			DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, DOOR_REPORT_SYSLOG);
 		endif
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;

@@ -38,7 +38,7 @@ writehtml("<p><font face=Verdana, Arial, Helvetica, sans-serif size=2><b>Shard S
 writehtml("</div>");
 writehtml("<blockquote><table border=1 cellspacing=0 cellpadding=10 bordercolor=#ff0000 width=400>");
 writehtml("    <div align=left>");
-writehtml("<tr><td><p><font face=Verdana, Arial, Helvetica, sans-serif size=2>Current number of accounts:  <td>" + len(ListAccounts()) + "<br></td></tr>");
+writehtml("<tr><td><p><font face=Verdana, Arial, Helvetica, sans-serif size=2>Current number of accounts:  <td>" + Len(ListAccounts()) + "<br></td></tr>");
 writehtml("<tr><td>Total NPCs in the world:  <td>" +  mobcount + "<br></td></tr>");
 writehtml("<tr><td>Total item count:  <td>" + itemcount + "<br></td></tr>");
 writehtml("<tr><td>Current Uptime since last restart :   <td>" + struptime + "<br></td></tr>");

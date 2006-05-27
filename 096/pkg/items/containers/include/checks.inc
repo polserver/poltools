@@ -35,7 +35,7 @@ function CP_RootContainerLocked(object)
 			// Move onto checking the next container.
 			temp := temp.container;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endwhile
 	
 	return 0;

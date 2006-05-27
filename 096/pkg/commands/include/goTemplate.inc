@@ -14,7 +14,7 @@ function Go_CheckInit(who)
                         // Open files and set veriables
                         var dest := oldlocs[i];
                         Go_SetLocation("base_Distro", who, dest.name, dest.realm, dest.x, dest.y, dest.z);
-                        sleepms(2);
+                        SleepMS(2);
                 endfor
 
                 go_prop_base := go_elem.GetProp("base_Distro");

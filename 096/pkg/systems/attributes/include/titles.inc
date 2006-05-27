@@ -24,7 +24,7 @@ include ":attributes:attributes";
  *
  */
 function AP_GetLevelTitle(skill_level)
-	skill_level := Cdbl(skill_level);
+	skill_level := CDbl(skill_level);
 	
 	if ( skill_level < 0.0 )
 		return "U SUK";
@@ -46,7 +46,7 @@ function AP_GetLevelTitle(skill_level)
 		if ( skill_level < CDbl(entry) )
 			return _entry_iter;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return error{"errortext":="Could not find skill title for that level."};

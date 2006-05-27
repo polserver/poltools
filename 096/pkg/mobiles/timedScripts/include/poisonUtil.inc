@@ -82,7 +82,7 @@ function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 				break;
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return num_cured;

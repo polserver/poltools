@@ -43,7 +43,7 @@ function CS_GetRandomArmorZone()
 		if ( roll > last_num && roll <= max_num  )
 			return cfg_elem.Name;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return error{"errortext":="Could not select a hit zone!"};
@@ -101,10 +101,10 @@ function CS_GetEquipmentInArmorZone(mobile, zone_name)
 				equip_list.Append(item);
 				break;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return equip_list;

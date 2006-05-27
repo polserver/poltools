@@ -38,7 +38,7 @@ function ICP_IndexGump()
 			counter := counter+1;
 		endif
 		
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return gump;

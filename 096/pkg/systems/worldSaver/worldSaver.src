@@ -37,7 +37,7 @@ program WorldSaver()
 			UpdateTimes(savetimes);
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endwhile
 
 	return 1;
@@ -48,14 +48,14 @@ function DoTheSave()
 
 	if ( save_result == error )
 		SVR_ReportText("!!! Error saving world state. Restarting POL in 20 seconds !!!", SAVER_REPORT_ALL);
-		sleep(20);
+		Sleep(20);
 		ShutDown();
 	else
-		set_critical(1);
+		Set_Critical(1);
 		var save_time := save_result.ElapsedMilliseconds;
-		save_time := Cdbl(CDbl(save_time)/CDbl(1000));
+		save_time := CDbl(CDbl(save_time)/CDbl(1000));
 		save_time := FormatRealToString(save_time, 2);
-		set_critical(0);
+		Set_Critical(0);
 
 		SVR_ReportText("Finished world save. ("+save_time+")", SAVER_REPORT_ALL);
 		SVR_ReportText("Saver - CleanObjects["+save_result.CleanObjects+"] DirtyObjects["+save_result.DirtyObjects+"]", SAVER_REPORT_SYSLOG);
@@ -100,12 +100,12 @@ function DoShutDown(countdown:=0)
 		var i := 2;
 		for (i:=2; i > 0; i:=i-1)
 			SVR_ReportText("System Message: POL restarting in "+countdown+" minutes.", SAVER_REPORT_ALL);
-			sleep(30);
+			Sleep(30);
 		endfor
 	endfor
 	
 	SVR_ReportText("Shutting down now!", SAVER_REPORT_ALL);
-	sleep(3);
+	Sleep(3);
 	
 	ShutDown();
 	

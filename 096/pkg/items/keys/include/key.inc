@@ -84,7 +84,7 @@ function KP_HasKeyForLock(container, lock_id)
 				return 1;
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 0;

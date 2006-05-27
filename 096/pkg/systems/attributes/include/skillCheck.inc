@@ -140,7 +140,7 @@ endfunction
 
 function DifficultyTooEasy(effective_skill, difficulty)
 	var settings := AP_GetSettingsCfgElem("Skills");
-	return ( (effective_skill + Cdbl(settings.TooEasy)) > difficulty );
+	return ( (effective_skill + CDbl(settings.TooEasy)) > difficulty );
 endfunction
 
 function DifficultyTooHard(effective_skill, difficulty)

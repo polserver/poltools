@@ -80,7 +80,7 @@ function GuardKillCheck(corpse)
 		if ( item.container == corpse )
 			DestroyItem(item);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	DestroyItem(corpse);
 	
@@ -105,7 +105,7 @@ function NoCorpseCheck(corpse, npc_cfg)
 		if ( item.container == corpse )
 			MoveItemToLocation(item, corpse.x, corpse.y, corpse.z, MOVEITEM_FORCELOCATION);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	DestroyItem(corpse);
 	

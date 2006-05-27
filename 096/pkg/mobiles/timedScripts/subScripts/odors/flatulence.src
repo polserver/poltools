@@ -10,7 +10,7 @@ program TimedScript_Flatulence(params)
 	SendSysMessage(who, "Your stomach feels bloated.");
 	
 	while ( 1 )
-		sleep(RandomDiceRoll("6d5"));
+		Sleep(RandomDiceRoll("6d5"));
 		
 		PlaySoundEffect(who, sounds[RandomInt(sounds.size())+1]);
 		
@@ -18,7 +18,7 @@ program TimedScript_Flatulence(params)
 		
 		foreach mobile in ( ListMobilesNearLocationEX(who.x, who.y, who.z, 10, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN) )
 			SendSysMessage(mobile, "You notice an indistinguishable stench in the air.");
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endwhile
 	

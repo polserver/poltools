@@ -204,7 +204,7 @@ function CP_GetStorageAreaNames()
 		// Used to fix unused var report by ecompile: storage_area;
 		storage_area := storage_area;
 		name_list.Append(_storage_area_iter);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return name_list;
@@ -226,7 +226,7 @@ function CP_GetRootContainersInStorageArea(storage_area_name)
 	var root_list := array;
 	foreach container in (storage[storage_area_name])
 		root_list.Append(container);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return root_list;

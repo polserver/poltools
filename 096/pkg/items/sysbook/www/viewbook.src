@@ -38,7 +38,7 @@ function ShowBook()
 	WriteHTML("<TABLE BORDER='0' CELLSPACING='4' CELLPADDING='0'>");
 	foreach line in contents
 		WriteHTML(line+"<BR>\n");
-		sleepms(10);
+		SleepMS(10);
 	endforeach
 	WriteHTML("</TABLE>");
 endfunction

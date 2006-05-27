@@ -63,7 +63,7 @@ var makermark := 1;
 // in the cprop, and is used to get it's "ResourceList" reference.
 function MaterialSelection(who, craft_skill, type, chk:=0)
 
-  SendSysMessage(who, "Select the "+lower(type)+" you would like to work with.");
+  SendSysMessage(who, "Select the "+Lower(type)+" you would like to work with.");
   var material := Target(who);
   if(!material)
     return 0;
@@ -91,7 +91,7 @@ function MaterialSelection(who, craft_skill, type, chk:=0)
     SendSysMessage(who, "You are not skilled enough to make anything out of that.");
     return 0;
   endif
-  var rtype := lower(resource_config[materialobjtype].Type);
+  var rtype := Lower(resource_config[materialobjtype].Type);
   var materialchk := 0;
   if(rtype == type)
     materialchk := 1;
@@ -140,8 +140,8 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 	var elem    := FindConfigElem(resource_config, use_onobjtype);
 	if(theitem)
 		var nme := (resource_config[use_onobjtype].Name) + " " + itemname;
-		if(find(nme, "plain ", 1))
-			nme[find(nme, "plain ", 1),6] := "";
+		if(Find(nme, "plain ", 1))
+			nme[Find(nme, "plain ", 1),6] := "";
 		endif
 		if((rcolor == 1) && (craft_config[objtype].retain == 1))
 			if(resource_config[use_onobjtype].Color)
@@ -283,7 +283,7 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 	// Get a list of the parts from the cfg entry. Format from config is listed in cfg
 	// header. Objtypes first, then amount for each objtype, in the same respective order.
 	// To match them together, we divid the length of the array by 2 then use that.
-	// Example : mod := len(array)/2;
+	// Example : mod := Len(array)/2;
 	// Example2: objtype := array[x]; amt := array[x+mod];
 	var parts_list := SplitWords(craft_config[objtype].parts);
 	if( TypeOf(parts_list) != "Array" || !parts_list )
@@ -327,10 +327,10 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 			endif
 		endforeach
 
-		sleep(1);
+		Sleep(1);
 		if(CraftCheckSkill(who, craft_skill, diff, pts))
 			playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
-			set_critical(1);
+			Set_Critical(1);
 			foreach material_objtype in (parts_list.keys())
 				var amount := parts_list[material_objtype];
 				if ( amount > 0 )
@@ -340,7 +340,7 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 					endif
 				endif
 			endforeach
-			set_critical(0);
+			Set_Critical(0);
 			theitem := CreateItemInBackpack(who, objtype, 1);
 			if(!theitem)
 				SendSysMessage(who, "You don't have enough room in your backpack!");
@@ -423,16 +423,16 @@ function TruncatePlural(obj_type, add_S := 0)
         elseif (config.name)
                 name := config.name;
         else
-                return error{"errortext":="Invalid Objtype : " + hex(obj_type) + "."};
+                return error{"errortext":="Invalid Objtype : " + Hex(obj_type) + "."};
         endif
 
         if ( !name["%"] )
                 if ( add_S == 0 )
                         return name;
                 endif
-                if ( name[len(name)] in {"s"} )
+                if ( name[Len(name)] in {"s"} )
                         return name;
-                elseif ( name[len(name)] in {"h","j","x","z"} )
+                elseif ( name[Len(name)] in {"h","j","x","z"} )
                         return name + "es";
                 endif
                 return name + "s";
@@ -445,13 +445,13 @@ function TruncatePlural(obj_type, add_S := 0)
         //      Lump%s% of Coal
         //      Loa%ves/f% of Bread
         //
-        var first := find(name, "%", 1);
-        var slash := find(name, "/", first);
-        var second := find(name, "%", first + 1);
+        var first := Find(name, "%", 1);
+        var slash := Find(name, "/", first);
+        var second := Find(name, "%", first + 1);
         if ( slash && !second )
                 // Force-append a % if a '/' exists!
                 name := name + "%";
-                second := len(name);
+                second := Len(name);
         elseif ( !slash )
                 slash := second;
         endif
@@ -469,8 +469,8 @@ function TruncatePlural(obj_type, add_S := 0)
         var s_first := name[1, first-1];
         var s_middle := s_plur;
         var s_last := "";
-        if ( len(name) > second )
-                s_last := name[second+1, len(name)-second];
+        if ( Len(name) > second )
+                s_last := name[second+1, Len(name)-second];
         endif
 
         if ( add_S == 0 )
@@ -540,11 +540,11 @@ function playCraftWork(who, craftSound, loops:=0, delay:=2, craftAction:=0)
         PerformAction( who, craftAction );
       endif
       PlaySoundEffect(who, craftSound);
-      sleep(delay);
+      Sleep(delay);
     endfor
   else
     PlaySoundEffect(who, craftSound);
-    sleep(delay);
+    Sleep(delay);
   endif
 
   return;

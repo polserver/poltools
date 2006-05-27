@@ -43,7 +43,7 @@ function GetCmdHelpText(path:="")
 	help_text := "";
 	foreach entry in ( GetConfigStringArray(cfg_elem, "Text") )
 		help_text := help_text + entry;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	// Cache the text for faster retrieval next time.
 	SetCmdHelpTextCache(path, help_text);

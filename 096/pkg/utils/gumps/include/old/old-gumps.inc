@@ -53,7 +53,7 @@
 //
 //==Revision v1.3==
 // Updated: 04-Feb-2000, Myrathi
-//	- Added a sleepms() in places to stop runaway scripts! Yay!
+//	- Added a SleepMS() in places to stop runaway scripts! Yay!
 //	- Added GFExtractData(): extracts string from TextEntry key
 //
 //==Revision v1.2==
@@ -642,15 +642,15 @@ endfunction
 function OldGFExtractData( keyid, keyarray )
 	var keystr := CStr(keyid)+": ";
 	var datstr := keyarray[CInt(keyid)];
-	var retval := datstr[len(keystr)+1,len(datstr)];
-	sleepms(2);
+	var retval := datstr[Len(keystr)+1,Len(datstr)];
+	SleepMS(2);
 	return retval;
 endfunction
 
 // Returns: Value of the next index to be used
 //
 function OldGFGetNextIndex( type )
-	sleepms(2);
+	SleepMS(2);
 	case ( type )
 		GFIDX_TEXT:
 			return GFdtidx;
@@ -675,7 +675,7 @@ endfunction
 function OldGFSetNextIndex( type, value )
 	var oldidx;
 	value := CInt(value);
-	sleepms(2);
+	SleepMS(2);
 	case ( type )
 		GFIDX_TEXT:
 			oldidx := GFdtidx;
@@ -866,7 +866,7 @@ function XGFRetVal( lytidx := -1, dtidx := -1, keyid := -1 )
 	if ( keyid > -1 )
 		rvsl.+keyid := keyid;
 	endif
-	sleepms(2);	// Will hopefully stop runaway script problem :/
+	SleepMS(2);	// Will hopefully stop runaway script problem :/
 
 	return rvsl;
 endfunction
@@ -914,7 +914,7 @@ Function XGFTextWidth(gumptext)
   var points:=0;
   var j;
 
-  For (j:=len(gumptext); j>0; j:=j-1)
+  For (j:=Len(gumptext); j>0; j:=j-1)
     var i:=Find(aGFTlength.charsf, gumptext[j], 1)-1;
     If (i>=0)
       points:=points+aGFTlength.width[CInt(i/14)+1];
@@ -958,18 +958,18 @@ function WordWrap(text, max_letters := 50)
 	var word_list := SplitWords(text);
 	
 	foreach word in word_list
-		if ( len(word) > max_letters )
+		if ( Len(word) > max_letters )
 			word := "";
 		endif
 		
 		while(cur_line["  "]) // Remove double spaces
 			cur_line["  "] := " ";
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 		
 		while (cur_line[1] == " ") // Remove leading spaces
 			cur_line[1] := "";
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 		//[P] is a line break
 		if (word["[P]"] || (line_length + XGFTextWidth(word)) >= max_letters)
@@ -981,18 +981,18 @@ function WordWrap(text, max_letters := 50)
 		
 		cur_line := cur_line + " " + word;
 		line_length := line_length + (XGFTextWidth(word) + WSS);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
-	if ( sentences[len(sentences)] != cur_line )
+	if ( sentences[Len(sentences)] != cur_line )
 		while(cur_line["  "]) // Remove double spaces
 			cur_line["  "] := " ";
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 				
 		while (cur_line[1] == " ") // Remove leading spaces
 			cur_line[1] := "";
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 			
 		sentences.append(cur_line);

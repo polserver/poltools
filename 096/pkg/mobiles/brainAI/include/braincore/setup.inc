@@ -128,7 +128,7 @@ function StartupScripts()
 		endif
 	endif
 	
-	sleepms(20);
+	SleepMS(20);
 		
 	if ( g_scripts.Exists("LookAround") )
 		StartNerve(npc, "LookAround", g_scripts["LookAround"].script, array{g_settings, g_scripts}, g_scripts["LookAround"].flags);
@@ -162,7 +162,7 @@ function InitializeEnterArea()
 				event.source := mobile;
 				SendEvent(npc, event);
 			endif
-			sleepms(10);
+			SleepMS(10);
 		endforeach
 	endif
 	

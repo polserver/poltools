@@ -82,7 +82,7 @@ function ShowRealmList()
 		var realm_link := MakeAHref(realm_name);
 		WriteHTML(realm_link+realm_name+"</A></TD>");
 		WriteHTML("</TR>");
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	WriteHTML("</FORM>");
 
@@ -119,7 +119,7 @@ function ShowGroupList()
 		var group_link := MakeAHref("", "", group_name);
 		WriteHTML(group_link+group_name+"</A></TD>");
 		WriteHTML("</TR>");
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	WriteHTML("<TR>");
@@ -157,7 +157,7 @@ function ShowRegionsInRealm(realm_name)
 		var region_link := MakeAHref(realm_name, region_name);
 		WriteHTML(region_link+region_name+"</A></TD>");
 		WriteHTML("</TR>");
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	WriteHTML("<TR>");
@@ -203,7 +203,7 @@ function ShowRegionInfo(realm_name, region_name)
 		var group_link := MakeAHref(realm_name, region_name, group_name);
 		WriteHTML(group_link+group_name+"</A></TD>");
 		WriteHTML("</TR>");
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	WriteHTML("<TR>");
@@ -241,7 +241,7 @@ function ShowGroupInfo(group_name)
 		WriteHTMLRaw("<TD CLASS='normal'>");
 		WriteHTML(entry+"</A></TD>");
 		WriteHTML("</TR>");
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	WriteHTML("<TR>");

@@ -56,7 +56,7 @@ program MakeSwarm(who, text)
 				Print(npc.errortext);
 			endif
 			
-			sleepms(3);
+			SleepMS(3);
 		endfor
 	endfor
 	

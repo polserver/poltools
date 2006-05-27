@@ -60,7 +60,7 @@ program command_newAccount(who)
 		GFRadioButton(gump, 20, y_pos, 210, 211, (key==default_exp), EXPANSION_START+_key_iter);
 		GFTextLine(gump, 45, y_pos, 2100, expansions[key]);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(who, gump);
@@ -76,7 +76,7 @@ program command_newAccount(who)
 				expansion := expansions.Keys()[key-EXPANSION_START];
 				break;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 		
 		var account := CreateNewAccount(acct_name, password, cmd_lvl, expansion, email);

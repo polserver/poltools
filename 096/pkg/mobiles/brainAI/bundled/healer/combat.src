@@ -37,7 +37,7 @@ function CheckForEvent(npc, byref event)
 		event := 0;
 	endif
 	
-	event := wait_for_event(100000);
+	event := Wait_For_Event(100000);
 	
 
 	return 1;

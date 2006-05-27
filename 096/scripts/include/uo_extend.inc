@@ -35,7 +35,7 @@ function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING)
 			dict[key] := array{};
 		endif
 		dict[key].Append(player);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	z_list := array{};
@@ -46,9 +46,9 @@ function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING)
 			else
 				z_list.Insert(1, player);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return z_list;
@@ -82,7 +82,7 @@ function EnumeratePhysicalItems(mobile)
 				equip_list.Append(item);
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endfor
 
 	return equip_list;
@@ -109,7 +109,7 @@ function BuildFakePlayerList(amount:=0)
 		player.z := CInt(GetMapInfo(player.x, player.y, player.realm).z);
 		
 		list.Append(player);
-		sleepms(2);
+		SleepMS(2);
 	endfor
 	
 	return list;

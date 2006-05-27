@@ -27,7 +27,7 @@ function SS_ReportText(report_text:="?", flags:=SPAWN_REPORT_DISABLE)
 			if ( mobile.cmdlevel )
 				SendSysMessage(mobile, ""+report_text);
 			endif
-			sleepms(5);
+			SleepMS(5);
 		endforeach
 	endif
 	

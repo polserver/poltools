@@ -33,7 +33,7 @@ function ICP_GeneralGump(pkg_name)
 	foreach line in (GFWordWrap(main_info.Description, 440))
 		GFTextLine(gump, 30, y_pos, 2100, line);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return gump;

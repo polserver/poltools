@@ -48,7 +48,7 @@ function BurnNearbyMobiles(field, dmg_dice)
 	foreach mobile in ( nearby )
 		BurnMobile(mobile, dmg_dice);
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return (nearby.size());

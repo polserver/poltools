@@ -82,8 +82,8 @@ function Go_LocationIndex(who, gump_Type:="base_Distro")
 		var moved := who;
 		if ( input <= num_keys )
 			case(gump_Type)
-				"base_Distro": send_Location := go_prop_base[lower(go_keys_base[input])]; break;
-				default:       send_Location := go_prop[lower(go_keys[input])]; break;
+				"base_Distro": send_Location := go_prop_base[Lower(go_keys_base[input])]; break;
+				default:       send_Location := go_prop[Lower(go_keys[input])]; break;
 			endcase
 			SendSysMessage(who, "Who do you want to send to " + send_Location.Name);
 			moved := target(who);
@@ -93,8 +93,8 @@ function Go_LocationIndex(who, gump_Type:="base_Distro")
 		else
 			input := input - num_keys;
 			case( gump_Type )
-				"base_Distro": send_Location  := go_prop_base[lower(go_keys_base[input])]; break;
-				default:       send_Location := go_prop[lower(go_keys[input])]; break;
+				"base_Distro": send_Location  := go_prop_base[Lower(go_keys_base[input])]; break;
+				default:       send_Location := go_prop[Lower(go_keys[input])]; break;
 			endcase
 		endif
 
@@ -167,7 +167,7 @@ function Go_LocationIndexGump(public:=1)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		go_keys.sort();
@@ -188,7 +188,7 @@ function Go_LocationIndexGump(public:=1)
 				y_loc := 85;
 				line_num := 0;
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

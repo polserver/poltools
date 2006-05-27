@@ -71,7 +71,7 @@ program TimedScript_DefaultPoison(params)
 			if( mobile.ip && mobile != who )
 				PrintTextAbovePrivate(who, viewermsg, mobile);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach		
 		
 		ApplyRawDamageEX(who, dmg, DMG_POISON, attacker);
@@ -85,7 +85,7 @@ program TimedScript_DefaultPoison(params)
 		endif
 		Set_Critical(0);
 		
-		sleep(time);
+		Sleep(time);
 	endwhile
 
 	return 1;

@@ -122,7 +122,7 @@ function GFOptimizeGump(byref gump)
 			endif
 		endif
 		gump_pages[cur_page].Append(entry);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	//Put the gump back together again.
@@ -132,9 +132,9 @@ function GFOptimizeGump(byref gump)
 		foreach entry in (page_array)
 			// Goes through the array containing layout data for that page.
 			(gump.layout).Append(entry);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -324,7 +324,7 @@ function GFWordWrap(text, pixels)
 			cur_length := cur_length+word_width+space_size;
 		endif
 						
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	//Make sure nothing got left behind.

@@ -28,6 +28,6 @@ program BrainNerve(params)
 		endif
 		
 		AI_ClearThoughts(npc, CLR_NERVE);
-		sleep(30);
+		Sleep(30);
 	endwhile
 endprogram

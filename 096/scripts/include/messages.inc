@@ -180,10 +180,10 @@ function FormatMessage(message, parms)
     var i, j;
     var num := 1;
 
-    for(i := 1; i <= len(message); i := i + 1)
+    for(i := 1; i <= Len(message); i := i + 1)
         if(message[i] == "~")
             var keyword := "";
-            for(j := i; j < len(message); j := j + 1)
+            for(j := i; j < Len(message); j := j + 1)
                 keyword := keyword + message[j];
                 if(message[j + 1] == "~")
                     keyword := keyword + message[j + 1];

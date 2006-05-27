@@ -20,7 +20,7 @@ program BrainNerve(params)
 		elseif ( _nerve_iter != nerve_name )
 			StopNerve(npc, _nerve_iter);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	while ( npc )
@@ -31,7 +31,7 @@ program BrainNerve(params)
 			PlaySoundEffect(npc, my_idle_sound);
 		endif
 
-		sleep(20+RandomInt(10));
+		Sleep(20+RandomInt(10));
 
 		npc.facing := RandomInt(8);
 		AI_Wander(npc, NOWAKE);

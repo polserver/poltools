@@ -111,27 +111,27 @@ function RemoveSpaces(text, flags:=CLR_LEADING_SPACES)
 	if ( flags & CLR_ALL_SPACES )
 		while ( text[" "] )
 			text[" "] := "";
-			sleepms(2);
+			SleepMS(2);
 		endwhile
 	else
 		if ( flags & CLR_LEADING_SPACES )
 			while ( text[1] == " " )
 				text[1] := "";
-				sleepms(2);
+				SleepMS(2);
 			endwhile
 		endif
 		
 		if ( flags & CLR_TRAILING_SPACES )
-			while ( text[len(text)] == " " )
-				text[len(text)] := "";
-				sleepms(2);
+			while ( text[Len(text)] == " " )
+				text[Len(text)] := "";
+				SleepMS(2);
 			endwhile
 		endif
 
 		if ( flags & CLR_DOUBLE_SPACES )
 			while ( text["  "] )
 				text["  "] := " ";
-				sleepms(2);
+				SleepMS(2);
 			endwhile
 		endif
 	endif

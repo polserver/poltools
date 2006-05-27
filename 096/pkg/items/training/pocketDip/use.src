@@ -21,7 +21,7 @@ program PocketDip(who, dummy)
 		PlaySoundEffect(who, SUCCESS_SOUND);
 		SendSysMessage(who, "You successfully slip your hand into the bag.");
 		ReleaseItem(dummy);
-		sleepms(3600);
+		SleepMS(3600);
 		return 1;
 	else
 		SendSysMessage(who, "You foolishly grip the bag.");
@@ -37,13 +37,13 @@ function DummyRock(dummy)
 	case ( dummy.graphic )
 		7872:
 			dummy.graphic := 7873;
-			sleepms(3600);
+			SleepMS(3600);
 			dummy.graphic := 7872;
 			break;
 			
 		7875:
 			dummy.graphic := 7876;
-			sleepms(3600);
+			SleepMS(3600);
 			dummy.graphic := 7875;
 			break;
 	endcase

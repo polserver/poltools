@@ -10,7 +10,7 @@ program trash(who, item)
         DestroyItem(trashitem);
       endif
     endforeach
-  sleep(300);
+  Sleep(300);
   endwhile
 
 endprogram

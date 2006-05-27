@@ -52,7 +52,7 @@ program BrainNerve(params)
 			SpecialAttacks(npc, opponent, dist);
 		endif
 
-		sleepms(400);
+		SleepMS(400);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram
@@ -108,15 +108,15 @@ function BlowFire(npc, opponent)
 	var facing := GetFacing(npc.x, npc.y, opponent.x, opponent.y);
 	var coordinates := GetPointsByFacing(npc.x, npc.y, facing, 4);
 	PerformAction(npc, 12);
-	sleepms(1100);
+	SleepMS(1100);
 	AI_Speak(npc, "*BURNINNATES*");
 	foreach coord in ( coordinates )
 		PlayStationaryEffect(coord.x, coord.y, npc.z+15, SelectRandomExplosion(), 15, 15, 0);
 		foreach player in ListMobilesNearLocationEX(coord.x, coord.y, coord.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, npc.realm)
 			ApplyRawDamageEX(player, RandomDiceRoll("5d15"), DMG_FIRE, npc);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -124,7 +124,7 @@ endfunction
 
 function SpitFireBall(npc, opponent)
 	PerformAction(npc, 0x6);
-	sleepms(80);
+	SleepMS(80);
 	PrintTextAbove(npc, "*"+npc.name+" spits a ball of fire*");
 	PlayMovingEffect(npc, opponent, GFX_SMALL_FIREBALL, 10, 10, 1);
 
@@ -136,7 +136,7 @@ function SpitFireBall(npc, opponent)
 		
 		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1);
 		field.SetDuration(2);
-		sleepms(105);
+		SleepMS(105);
 	endforeach
 
 	PlaySoundEffect(opponent, 0x208);
@@ -149,7 +149,7 @@ function SpitFireBall(npc, opponent)
 		PlayStationaryEffect(coord.x, coord.y, npc.z, SelectRandomExplosion(), 10, 10, 0);
 		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1);
 		field.SetDuration(5);
-		sleepms(5);
+		SleepMS(5);
 	endforeach
 	
 	return 1;

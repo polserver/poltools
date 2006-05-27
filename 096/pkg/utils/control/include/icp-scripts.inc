@@ -21,7 +21,7 @@ function ICP_ScriptsGump(pkg_name)
 			counter := counter+1;
 			y_pos := y_pos+20;
 			ICP_AddScriptLine(gump, script, btn_num, y_pos, counter, page_num);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	else
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no scripts listed for this package.");
@@ -63,7 +63,7 @@ function ICP_StartScript(who, input, pkg_elem)
 		GumpPrompt(who, "Command level is not high enough to start script.");
 		return 0;
 	else
-		var script := start_script(temp.script_path, who);
+		var script := Start_Script(temp.script_path, who);
 		if ( script.errortext )
 			GumpPrompt(who, "Error starting script [P] "+script.errortext);
 		else

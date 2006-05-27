@@ -43,7 +43,7 @@ function ICP_ItemDescGump(pkg_name)
 				GFPage(gump, page_num);
 				GFAddButton(gump, 460, 105, 0xA5A, 0xA5B, GF_PAGE_BTN, page_num-1);
 			endif
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 	endif
 

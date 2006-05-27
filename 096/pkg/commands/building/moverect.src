@@ -43,7 +43,7 @@ program textcmd_MoveRect( who, params )
 		if ( objtype == 0 || item.objtype == objtype )
 			MoveItemToLocation(item, (item.x+x_diff), (item.y+y_diff), (item.z+z_diff), MOVEITEM_FORCELOCATION);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	SendSysMessage(who, "Done.");
@@ -59,7 +59,7 @@ function FindIntArg(params, prefix)
 			return CInt(param);
 		endif
 
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return 0;

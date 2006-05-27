@@ -42,7 +42,7 @@ function GumpPrompt(mobile, text, movable:=0)
 	foreach line in (GFWordWrap(text, 260))
 		GFTextLine(gump_prompt, 20, y_pos, 1153, line);
 		y_pos := y_pos+20;
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	GFAddButton(gump_prompt, 120, 120, 2128, 2129, GF_CLOSE_BTN, 1);

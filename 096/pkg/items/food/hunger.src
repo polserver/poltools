@@ -50,6 +50,6 @@ program Hunger(chr)
 			10: SendSysMessage(chr, "You're absolutely famished!");
 		endcase
 
-		sleep(60 * 60);
+		Sleep(60 * 60);
 	endwhile
 endprogram

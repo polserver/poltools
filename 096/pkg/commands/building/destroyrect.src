@@ -44,11 +44,11 @@ program textcmd_DestroyRect(who, params)
 					if ( !objtype || item.objtype == objtype )
 						DestroyItem(item);
 					endif
-					sleepms(2);
+					SleepMS(2);
 				endforeach
-				sleepms(2);
+				SleepMS(2);
 			endfor
-			sleepms(2);
+			SleepMS(2);
 		endfor
 	endif
 

@@ -17,7 +17,7 @@ program control_Corpse(corpse)
 
 	// Script will handle decay time, not the core.
 	corpse.decayat := 0;
-	sleep(decay_wait);
+	Sleep(decay_wait);
 	corpse.MakeRemains();
 
 	return 1;

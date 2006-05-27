@@ -39,9 +39,9 @@ program textcmd_NPCWipe(who)
 			SetObjProperty(thing, "GuardKill", 1);
 			ApplyRawDamage(thing, 6000);
 			count := count + 1;
-			sleepms(4);
+			SleepMS(4);
 		endif
-		sleepms(5);
+		SleepMS(5);
 	endforeach
 	
 	SendSysMessage(who, "Killed " + count + " NPCs");

@@ -118,7 +118,7 @@ function GetNerveNameByPid(mobile, pid)
 		if ( nerve.pid == pid )
 			return _nerve_iter;
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 endfunction
 
@@ -177,7 +177,7 @@ function StartNerve(mobile, nerve_name, nerve_script, data:=array, flags:=NF_NO_
 	//Nerve name is always the second part of the data array.
 	data.Insert(2, nerve_name);
 
-	var process := start_script(nerve_script, data);
+	var process := Start_Script(nerve_script, data);
 
 	if ( process.errortext )
 		var errmsg := "Error::StartNerve() - ["+nerve_name+"] ["+nerve_script+"] failed to start! ->"+process.errortext;

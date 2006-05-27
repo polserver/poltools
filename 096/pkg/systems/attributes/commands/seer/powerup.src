@@ -18,7 +18,7 @@ program textcmd_PowerUp(who, level)
 		
 	foreach attrib_name in AP_ListAttributesByType()
 		AP_SetTrueSkill(who, attrib_name, level);
-		sleepms(10);
+		SleepMS(10);
 	endforeach
 	
 	AP_RefreshVitals(who);

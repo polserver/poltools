@@ -162,8 +162,8 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	var s_first := name[1, first-1];
 	var s_middle := s_plur;
 	var s_last := "";
-	if ( len(name) > second )
-		s_last := name[second+1, len(name)-second];
+	if ( Len(name) > second )
+		s_last := name[second+1, Len(name)-second];
 	endif
 
 	if ( plural == 0 )

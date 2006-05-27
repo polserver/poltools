@@ -166,7 +166,7 @@ program help(who2)
 endprogram
 
 function mainpagecoun(who)
-  if(len(onlinecounselors) == 0)
+  if(Len(onlinecounselors) == 0)
     SendSysMessage( who, "Sorry, there are no counselors online now, try again later.");
     return;
   endif
@@ -182,7 +182,7 @@ function mainpagecoun(who)
 endfunction
 
 function stuckpage(who)
-  if(len(onlinestaff) == 0)
+  if(Len(onlinestaff) == 0)
     SendSysMessage( who, "Sorry, there are no staff online, try again later.");
     return;
   endif
@@ -194,7 +194,7 @@ function stuckpage(who)
 endfunction
 
 function mainpagegm(who)
-  if(len(onlinestaff) == 0)
+  if(Len(onlinestaff) == 0)
     SendSysMessage( who, "Sorry, there are no GM's online now, try again later.");
     return;
   endif
@@ -215,7 +215,7 @@ function counpage(who, thepage)
   endif
   while(1)
     if (!Icanpage(who))
-      sleep(1);
+      Sleep(1);
     else
       break;
     endif
@@ -241,7 +241,7 @@ function gmpage(who, thepage)
   endif
   while(1)
     if (!Icanpage(who))
-      sleep(1);
+      Sleep(1);
     else
       break;
     endif

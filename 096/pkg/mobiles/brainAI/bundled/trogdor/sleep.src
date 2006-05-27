@@ -18,12 +18,12 @@ program BrainNerve(params)
 		elseif ( _nerve_iter != nerve_name )
 			StopNerve(npc, _nerve_iter);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	while ( npc )
 		AI_Speak(npc, "ZzzzzZzz", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, NOWAKE);
 		AI_ClearThoughts(npc, CLR_NERVE);
-		sleep(90);
+		Sleep(90);
 	endwhile
 endprogram

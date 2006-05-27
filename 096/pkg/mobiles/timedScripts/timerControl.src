@@ -27,9 +27,9 @@ program TimerControl(mobile)
 		 
 		var event;
 		if ( timer_list.size() > 0 )
-			event := wait_for_event(1);
+			event := Wait_For_Event(1);
 		else // sleep-mode
-			event := wait_for_event(900000);
+			event := Wait_For_Event(900000);
 		endif
 				
 		if( event.type == EVENT_ADD_TIMER )
@@ -83,7 +83,7 @@ function StartUp(mobile, byref timer_list, byref num_poisons)
 		event.+level := timer.level;
 
 		AddTimer(mobile, event, timer_list, num_poisons);
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
@@ -101,7 +101,7 @@ function LogOff(mobile, byref timer_list)
 		KillTimedScript(mobile, timer_list.pid, timer_list, _timer_iter);
 
 		if( elem_info.LogOffScript )
-			var script := start_script(elem_info.LogOffScript, {mobile, "LogOff"});
+			var script := Start_Script(elem_info.LogOffScript, {mobile, "LogOff"});
 			if( script.errortext )
 				Print("Error::LogOff() - ["+elem_info.LogOffScript+"] "+script.errortext);
 			endif
@@ -139,7 +139,7 @@ endfunction
 function AddNewTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
 	
-	var script := start_script(elem_info.Script, {mobile, event.attacker, event.level});
+	var script := Start_Script(elem_info.Script, {mobile, event.attacker, event.level});
 	if( script.errortext )
 		SysLog("Error::AddNewTimer() - Unable to start script ["+elem_info.Script+"] ->"+script.errortext);
 		return 0;
@@ -272,14 +272,14 @@ endfunction
 function NPCDeath(byref timer_list)
 	foreach timer in ( timer_list )
 		GetProcess(timer.pid).Kill();
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	
 	return 1;
 endfunction
 
 function PlayerDeath(mobile, byref timer_list, byref num_poisons)
-	set_critical(1);
+	Set_Critical(1);
 	foreach timer in ( timer_list )
 		timer := timer; // So the compiler does not issue warnings.
 		var elem_info := TS_GetCfgElem(_timer_iter);
@@ -293,7 +293,7 @@ function PlayerDeath(mobile, byref timer_list, byref num_poisons)
 		
 		LowerDuration(mobile, event, timer_list, num_poisons);
 	endforeach
-	set_critical(0);
+	Set_Critical(0);
 	
 	return 1;
 endfunction
@@ -310,7 +310,7 @@ function EndTimedScript(mobile, byref timer_name, byref num_poisons)
 	endif
 
 	if( elem_info.EndScript )
-		var script := start_script(elem_info.EndScript, mobile);
+		var script := Start_Script(elem_info.EndScript, mobile);
 		if( script.errortext )
 			SysLog("Error::EndTimedScript() - "+script.errortext);
 		endif

@@ -74,7 +74,7 @@ program textcmd_MakeSet(who , text)
 			iteminfo.value := CInt(item.objtype) + " " + item.graphic + " " + item.color + " " + (item.x-targ.x) + " " + (item.y-targ.y) + " " + (item.z-targ.z) + " \/\/" + item.desc;
 			
 			itemlist.Append(iteminfo);
-			sleepms(2);
+			SleepMS(2);
 		endif
 	endforeach
 	

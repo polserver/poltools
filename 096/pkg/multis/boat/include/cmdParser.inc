@@ -37,9 +37,9 @@ function ParseCommands(text)
 		while ( text[cmd] )
 			text[cmd] := "[["+CStr(pos)+"]] ";
 			match := 1;
-			sleepms(2);
+			SleepMS(2);
 		endwhile
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	if ( match == 0 )
 		return 0;
@@ -54,7 +54,7 @@ function ParseCommands(text)
 			cmd := cmd_list[CInt(cmd)];
 			cmd_order.Append(cmd);
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 	text := "";
 

@@ -32,7 +32,7 @@ program command_RemoveDoors(who)
 			endif
 		endif
 		
-		sleepms(5);
+		SleepMS(5);
 	endforeach
 	
 	SendSysMessage(who, "Removed "+count+" doors.");

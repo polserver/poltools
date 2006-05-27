@@ -54,7 +54,7 @@ program BrainNerve(params)
 
 		SpecialAttack(npc, opponent, settings, dist);
 
-		sleepms(400);
+		SleepMS(400);
 		AI_ClearThoughts(npc, CLR_NERVE);
 	endwhile
 endprogram
