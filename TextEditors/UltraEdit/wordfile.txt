@@ -10,6 +10,7 @@
 /Function String 1 = "%program [a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)$"
 /Function String 2 = "%function ^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^)$"
 /Function String 3 = "%exported function ^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^)$"
+/Function String 4 = "%^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^);$"
 /Indent Strings = "case" "else" "elseif" "enum" "for" "foreach" "function" "if" "program" "repeat" "while" "do"
 /Unindent Strings = "else" "elseif" "endif" "endfunction" "endprogram" "endwhile" "endcase" "endenum" "endfor" "endforeach" "until" "dowhile"
 /Open Brace Strings = "case" "else" "elseif" "enum" "for" "foreach" "function" "if" "program" "repeat" "while" "do" "{" "(" "["
@@ -806,6 +807,7 @@ _DEFAULT_UCFONT
 /Line Comment Alt = #
 /Escape Char = \
 /File Extensions = CFG
+/String Chars = 
 /Delimiters =	 
 /Function String = "%^(?++^)[^p^r^n]{"
 /Indent Strings = "{"
@@ -827,3 +829,11 @@ SpellBook
 SpellScroll
 weapon
 NPCTemplate
+
+/L20"Ultra Edit WordFile"
+/Nocase
+/Escape Char = \
+/File Names = wordfile.txt
+/String Chars = 
+/Delimiters = ~!@%^&*()-+=|/{}[]:;"' <>	,.?
+/Function String = "%/L[0-9]+"^([a-zA-Z0-9_ ]++^)""
