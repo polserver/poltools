@@ -41,6 +41,7 @@ program InitializeDoors(realm_list)
 			DOOR_ReportText("Setting up doors in config elem "+elem_name, DOOR_REPORT_SYSLOG);
 			var cfg_elem := cfg_file[elem_name];
 			CreateDoorsForElem(cfg_elem, realm);
+			
 			sleepms(2);
 		endforeach
 		
@@ -66,6 +67,8 @@ function CreateDoorsForElem(byref cfg_elem, byref realm)
 				DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", DOOR_REPORT_SYSLOG);
 				continue MAIN;
 			endif
+			
+			sleepms(2);
 		endforeach				
 		
 		var door := CreateItemAtLocation(x, y, z, type, 1, realm);
