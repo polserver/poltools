@@ -7,7 +7,7 @@ include ":spawnsystem:regions";
 include ":spawnsystem:report";
 
 program SpawnSystem()
-	SS_ReportText("---=[ SPAWNER HAS STARTED UP ]=---");
+	SS_ReportText("---=[ SPAWNER HAS STARTED UP ]=---", SPAWN_REPORT_SYSLOG);
 	Initialize();
 	
 	while ( 1 )
@@ -37,7 +37,7 @@ function Initialize()
 		endif
 		
 		SetGlobalProperty("SpawnSystemInit", 1);
-		SS_ReportText("---=[ SPANER INITIALIZATION COMPLETE ]=---");
+		SS_ReportText("---=[ SPANER INITIALIZATION COMPLETE ]=---", SPAWN_REPORT_SYSLOG);
 	endif
 	
 	return 1;
