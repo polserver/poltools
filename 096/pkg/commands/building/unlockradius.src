@@ -18,6 +18,6 @@ program textcmd_UnlockRadius(who, text)
 		SleepMS(2);
 	endforeach
 
-	SendSysMessage(who, "Everything in a radius of " + range + " is now movable." );
+	SendSysMessage(who, "Everything in a radius of "+range+" is now movable." );
 	return 1;
 endprogram

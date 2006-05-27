@@ -27,7 +27,7 @@ program textcmd_MakeFloor(who, input)
 
 	if ( dist > MAX_DISTANCE )
 		dist := MAX_DISTANCE;
-		SendSysMessage (who,"You have gone over " + MAX_DISTANCE + " tiles. Distance has been adjusted.");
+		SendSysMessage (who,"You have gone over "+MAX_DISTANCE+" tiles. Distance has been adjusted.");
 	endif
 
 	var coordinates := GetPointsByFacing(who.x, who.y, who.facing, dist);

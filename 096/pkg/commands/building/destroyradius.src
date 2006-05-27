@@ -20,14 +20,14 @@ program textcmd_DestroyRadius(who, text)
 
 	foreach thingie in ListItemsNearLocation(who.x, who.y, who.z, ranget, who.realm)
 		if ( show == "show" )
-			SendSysMessage(who, "Destroying " + thingie.desc);
+			SendSysMessage(who, "Destroying "+thingie.desc);
 		endif
 
 		DestroyItem( thingie );
 		num_destroyed := num_destroyed+1;
 	endforeach
 
-	SendSysMessage(who, "Destroyed " + num_destroyed + " items in a radius of " + ranget);
+	SendSysMessage(who, "Destroyed "+num_destroyed+" items in a radius of "+ranget);
 
 	return 1;
 endprogram

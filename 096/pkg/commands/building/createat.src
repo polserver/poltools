@@ -43,7 +43,7 @@ program textcmd_Create(who, text)
 		var created := CreateItemAtLocation(targ.x, targ.y, targ.z, item, 1, who.realm);
 
 		if ( !created )
-			SendSysMessage(who, "Error: Could not create " + Hex(item));
+			SendSysMessage(who, "Error: Could not create "+Hex(item));
 			return 0;
 		elseif ( !targ )
 			SendSysMessage(who, "Cancelled");

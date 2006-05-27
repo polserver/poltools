@@ -151,7 +151,7 @@ function RemoveGuild(ev)
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
-		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		SleepMS(2);
 	endforeach
 
@@ -271,7 +271,7 @@ function KickMember(ev)
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
-		SendSysMessage(member, "You are no longer a member of " + guild_name + ".");
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		SendSysMessage(character, member.name+" has been kicked from the guild.");
 		return 1;
 	endif

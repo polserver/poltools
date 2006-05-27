@@ -258,7 +258,7 @@ function gmpage(who, thepage)
   newarry.append(thepage);
   newarry.append(who.serial);
   gmpages.append(newarry);
-  SendSysMessage(who, "Your page is number " + gmpages.size() + " in the queue.");
+  SendSysMessage(who, "Your page is number "+gmpages.size()+" in the queue.");
   SetGlobalProperty("gmpages", gmpages);
 endfunction
 

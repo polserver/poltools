@@ -57,7 +57,7 @@ program skill_Armslore(who)
 		else
 			quality_descr := "low";
 		endif
-		SendSysMessage(who, "This item is of " + quality_descr + " quality, and is in " + damage_descr + " condition.");
+		SendSysMessage(who, "This item is of "+quality_descr+" quality, and is in "+damage_descr+" condition.");
 	else
 		SendSysMessage(who, "You can't quite tell . . .");
 	endif
@@ -83,7 +83,7 @@ function HandleSubDamage(damage_nbr, byref item_desc)
 		SleepMS(2);
 	endforeach
 
-	return error{"errortext":="Could not find damage phrase for level " + damage_nbr};
+	return error{"errortext":="Could not find damage phrase for level "+damage_nbr};
 
 endfunction
 
@@ -106,6 +106,6 @@ function HandleSubQuality(quality_nbr, byref item_desc)
 		SleepMS(2);
 	endforeach
 
-	return error{"errortext":="Could not find quality phrase for level " + quality_nbr};
+	return error{"errortext":="Could not find quality phrase for level "+quality_nbr};
 
 endfunction

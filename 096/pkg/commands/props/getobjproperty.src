@@ -9,7 +9,7 @@ program GetCProp(who, prop_name)
 	
 	var prop := GetObjProperty(targ, prop_name);
 	
-	SendSysMessage(who, prop_name +" = " + prop);
+	SendSysMessage(who, prop_name+" = "+prop);
 	
 	return 1;
 endprogram

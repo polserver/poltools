@@ -6,7 +6,7 @@ program textcmd_jump(who, text)
     return;
   endif
   var dir := Lower(text[1]);
-  SendSysMessage(who, "direction is: " + dir);
+  SendSysMessage(who, "direction is: "+dir);
   var x, y, z, where;
   case(dir)
     "n": x := who.x;
@@ -38,9 +38,9 @@ program textcmd_jump(who, text)
          endif
          where := MoveCharacterToLocation(who, x, y, z, MOVECHAR_FORCELOCATION);
   endcase
-  SendSysMessage(who, "x: " + x);
-  SendSysMessage(who, "y: " + y);
-  SendSysMessage(who, "z: " + z);
+  SendSysMessage(who, "x: "+x);
+  SendSysMessage(who, "y: "+y);
+  SendSysMessage(who, "z: "+z);
   SendSysMessage(who, where.errortext);
 endprogram
  

@@ -43,11 +43,11 @@ endenum
 function SetProperty(what, property, value, magic := 0)
     if(property[1] == "+")
         if(magic == SECURE_MAGIC)
-            Log(LOG_WARNING, "Overwrote secure property '" + property + "' with '" + CStr(value) + "' on '" +
-                GetLogInfo(what) + "'");
+            Log(LOG_WARNING, "Overwrote secure property '"+property+"' with '"+CStr(value)+"' on '"+
+                GetLogInfo(what)+"'");
         else
-            Log(LOG_ERROR, "Failed to overwrite secure property '" + property + "' with '" + CStr(value) + "' on '" +
-                GetLogInfo(what) + "'");
+            Log(LOG_ERROR, "Failed to overwrite secure property '"+property+"' with '"+CStr(value)+"' on '"+
+                GetLogInfo(what)+"'");
             return(error);
         endif
     endif
@@ -56,7 +56,7 @@ endfunction
 
 function GetProperty(what, property, magic := 0)
     if(property[1] == "+" && magic != SECURE_MAGIC)
-        Log(LOG_ERROR, "Refused to GetProperty on secure property '" + property + "' on '" + GetLogInfo(what) + "'");
+        Log(LOG_ERROR, "Refused to GetProperty on secure property '"+property+"' on '"+GetLogInfo(what)+"'");
         return(error);
     endif
     return(GetObjProperty(what, property));
@@ -64,7 +64,7 @@ endfunction
 
 function EraseProperty(what, property, magic := 0)
     if(property[1] == "+" && magic != SECURE_MAGIC)
-        Log(LOG_ERROR, "Refused to erase secure property '" + property + "' on '" + GetLogInfo(what) + "'");
+        Log(LOG_ERROR, "Refused to erase secure property '"+property+"' on '"+GetLogInfo(what)+"'");
         return(error);
     endif
     return(EraseObjProperty(what, property));

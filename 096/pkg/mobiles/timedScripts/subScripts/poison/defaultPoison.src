@@ -31,13 +31,13 @@ program TimedScript_DefaultPoison(params)
 			dmg := 3;
 		   endif
 		   poisonedmsg := "You feel a bit nauseous.";
-		   viewermsg := "* - " + who.name + " looks ill. - *";
+		   viewermsg := "* - "+who.name+" looks ill. - *";
 		2: dmg := Cint(AP_GetVitalMaximumValue(who, "Hits") / 32);
 		   if(dmg < 5)
 			dmg := 5;
   		   endif
 		   poisonedmsg := "You feel disoriented and nauseous.";
-		   viewermsg := "* - " + who.name + " looks extremely ill. - *";
+		   viewermsg := "* - "+who.name+" looks extremely ill. - *";
 		   time := 12;
 		3: dmg := Cint(AP_GetVitalMaximumValue(who, "Hits") / 16);
 		   if(dmg < 7)
@@ -45,7 +45,7 @@ program TimedScript_DefaultPoison(params)
 		   endif
 		   stam := Cint(AP_GetVitalMaximumValue(who, "Stamina") / 30);
 		   poisonedmsg := "You begin to feel pain throughout your body.";
-		   viewermsg := "* - " + who.name + " stumbles around in confusion and pain. - *";
+		   viewermsg := "* - "+who.name+" stumbles around in confusion and pain. - *";
 		   time := 10;
 		4: dmg := Cint(AP_GetVitalMaximumValue(who, "Hits") / 8);
 		   if(dmg < 6)
@@ -53,7 +53,7 @@ program TimedScript_DefaultPoison(params)
 		   endif
 		   stam := Cint(AP_GetVitalMaximumValue(who, "Stamina") / 20);
 		   poisonedmsg := "You feel extremely weak and are in severe pain!";
-		   viewermsg := "* - " + who.name + " is wracked with extreme pain! - *";
+		   viewermsg := "* - "+who.name+" is wracked with extreme pain! - *";
 		   time := 5;
 		5: dmg := Cint(AP_GetVitalMaximumValue(who, "Hits") / 4);
 		   if(dmg < 12)
@@ -61,7 +61,7 @@ program TimedScript_DefaultPoison(params)
 		   endif
 		   stam := Cint(AP_GetVitalMaximumValue(who, "Stamina") / 10);
 		   poisonedmsg := "You are in extreme pain, and require immediate aid!";
-		   viewermsg := "* - " + who.name + " begins to spasm uncontrollably! - *";
+		   viewermsg := "* - "+who.name+" begins to spasm uncontrollably! - *";
 		   time := 5;
 	endcase
 

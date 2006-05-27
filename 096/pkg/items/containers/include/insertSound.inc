@@ -135,7 +135,7 @@ function makeNoise(who, noise, soundfile)
                 playnoise := CInt(playnoise);
                 PlaySoundEffect(who, playnoise);
         else
-                SendSysMessage(who, "noise " + noise + " not defined" );
+                SendSysMessage(who, "noise "+noise+" not defined" );
         endif
         
         return;

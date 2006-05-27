@@ -48,7 +48,7 @@ program CheckPackages()
 			
 			var description := "";
 			foreach line in  GetConfigStringArray(icp_cfg, "Description")
-				description := description + line + " ";
+				description := description + line+" ";
 				SleepMS(2);
 			endforeach
 			temp_info.+Description := description;

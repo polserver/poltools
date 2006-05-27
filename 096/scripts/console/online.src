@@ -12,7 +12,7 @@ program console_online(cmd)
 		var online := EnumerateOnlineCharacters();
 		if ( online.Size() > 0 )
 			foreach person in ( online )
-				Print ("("+_person_iter+") Account:" + person.acctname + " Character:" + person.name);
+				Print ("("+_person_iter+") Account:"+person.acctname+" Character:"+person.name);
 				SleepMS(2);
 			endforeach
 		else

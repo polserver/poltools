@@ -8,7 +8,7 @@ program textcmd_equip( speaker )
         return;
     endif
 
-    SendSysMessage( speaker, "On whom shall " + what.desc + " be equipped?" );
+    SendSysMessage( speaker, "On whom shall "+what.desc+" be equipped?" );
     var who := Target( speaker );
     if (!who)
         return;
@@ -18,6 +18,6 @@ program textcmd_equip( speaker )
     if (res)
         SendSysMessage( speaker, "Done!" );
     else
-        SendSysMessage( speaker, "Unable to equip item: " + res.errortext );
+        SendSysMessage( speaker, "Unable to equip item: "+res.errortext );
     endif
 endprogram

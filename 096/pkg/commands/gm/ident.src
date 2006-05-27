@@ -6,6 +6,6 @@ program textcmd_ident( who )
 
     var what := Target( who, TGTOPT_NOCHECK_LOS );
     if (what)
-        SendSysMessage( who, "Serial " + Hex(what.serial) + ", ObjType " + Hex(what.objtype) );
+        SendSysMessage( who, "Serial "+Hex(what.serial)+", ObjType "+Hex(what.objtype) );
     endif
 endprogram

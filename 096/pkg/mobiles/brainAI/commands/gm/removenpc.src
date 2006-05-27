@@ -38,7 +38,7 @@ program textcmd_NPCWipe(who, template)
 		endif
 		SleepMS(2);
 	endforeach
-	SendSysMessage(who, "Killed " + count + " NPCs");
+	SendSysMessage(who, "Killed "+count+" NPCs");
 	
 	return 1;
 endprogram

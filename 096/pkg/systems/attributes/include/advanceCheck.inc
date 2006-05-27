@@ -117,7 +117,7 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 			SleepMS(10);
 		endwhile	
 
-		SkillDbgMsg(mobile, "Passed. Advance "+stat_name+": " + CStr(advance));
+		SkillDbgMsg(mobile, "Passed. Advance "+stat_name+": "+CStr(advance));
 		AP_SetTrueStat(mobile, stat_name, temp);
 		SetObjProperty(mobile, "#LastStatGain", ReadGameClock());
 		
@@ -168,7 +168,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 		SkillDbgMsg(mobile, "No challenge. No advance. True skill ("+true_skill+"-20) > "+award_diff);
 		return 0;
 	elseif ( adv_check <= pass_chance )
-		SkillDbgMsg(mobile, "Passed advance check: +"+(pass_chance - adv_check)+"%");
+		SkillDbgMsg(mobile, "Passed advance check:+"+(pass_chance - adv_check)+"%");
 	else
 		SkillDbgMsg(mobile, "Did not pass skill advance check.");
 		return 0;
@@ -200,7 +200,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 			advance := 0.1;
 		endif
 		
-		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": " + advance);
+		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": "+advance);
 		
 		var temp := true_skill+advance;
 		while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(mobile, skill_name)) )

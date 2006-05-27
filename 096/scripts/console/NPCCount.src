@@ -8,7 +8,7 @@ program console_npccount(cmd)
 	cmd := cmd;
 	var npccount := polcore().mobilecount - Len(EnumerateOnlineCharacters());
 
-	print("System Message: Current # of NPCS - " + npccount);
+	print("System Message: Current # of NPCS - "+npccount);
 
 	return 1;
 

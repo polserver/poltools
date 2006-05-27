@@ -14,7 +14,7 @@ program textcmd_MakeSet(who , text)
 		SendSysMessage(who, "Syntax: .addset [name]");
 		return;
 	else
-		if(!yesno(who, "Do you wish to name this set: " + text))
+		if(!yesno(who, "Do you wish to name this set: "+text))
 			return 0;
 		endif
 	endif
@@ -51,7 +51,7 @@ program textcmd_MakeSet(who , text)
 	
 	var config := readconfigfile("::sets");
 	if( config[text] )
-		SendSysMessage(who, "Error: There is already a set called " + text, 3, 40);
+		SendSysMessage(who, "Error: There is already a set called "+text, 3, 40);
 		return;
 	endif
 	
@@ -71,7 +71,7 @@ program textcmd_MakeSet(who , text)
 	foreach item in (ListObjectsInBox(startx, starty, -100, endx, endy, 100, who.realm))
 		if ( item.ISA(POLCLASS_ITEM) )
 			iteminfo.name := "item";
-			iteminfo.value := CInt(item.objtype) + " " + item.graphic + " " + item.color + " " + (item.x-targ.x) + " " + (item.y-targ.y) + " " + (item.z-targ.z) + " \/\/" + item.desc;
+			iteminfo.value := CInt(item.objtype)+" "+item.graphic+" "+item.color+" "+(item.x-targ.x)+" "+(item.y-targ.y)+" "+(item.z-targ.z)+" \/\/"+item.desc;
 			
 			itemlist.Append(iteminfo);
 			SleepMS(2);

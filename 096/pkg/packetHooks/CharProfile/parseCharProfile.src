@@ -96,7 +96,7 @@ program runScript_CharProfileRequest( params )
 		//whose profile this is.
 		outpkt.SendPacket(who);
 	else
-		SysLog("Unknown profile mode: " + mode);
+		SysLog("Unknown profile mode: "+mode);
 	endif
 
 	return 1;

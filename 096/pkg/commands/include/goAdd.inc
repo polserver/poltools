@@ -81,7 +81,7 @@ function Go_CopyLocation(who, public:=1)
 					return 0;
 				endif
 				Go_SetLocation(who.acctname, who, send_Location.Name, send_Location.Realm, send_Location.X, send_Location.Y, send_Location.Z);
-				GumpPrompt(who, "Copied [" + send_Location.Name + "] to your private menu.");
+				GumpPrompt(who, "Copied ["+send_Location.Name+"] to your private menu.");
 			else
 				go_prop := go_elem.GetProp(who.acctname);
 				if ( go_prop_base.Exists(Lower(send_Location.Name)) )
@@ -89,11 +89,11 @@ function Go_CopyLocation(who, public:=1)
 					return 0;
 				endif
 				Go_SetLocation("base_Distro", who, send_Location.Name, send_Location.Realm, send_Location.X, send_Location.Y, send_Location.Z);
-				GumpPrompt(who, "Copied [" + send_Location.Name + "] to the public menu.");
+				GumpPrompt(who, "Copied ["+send_Location.Name+"] to the public menu.");
 			endif
 			return 0;
 		else
-			GumpPrompt(who, "Location [" + send_Location.Name + "] does not exist.");
+			GumpPrompt(who, "Location ["+send_Location.Name+"] does not exist.");
 			Go_RefreshMyGumps(who);
 			return 0;
 		endif

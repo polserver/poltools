@@ -16,11 +16,11 @@ program handlePartyMessage(params)
 	var targid := params[2];
 	var msg := params[3];
 	
-	print("targid: " + targid + " who.serial: " + who.serial);
-	print("msg: " + msg);
+	print("targid: "+targid+" who.serial: "+who.serial);
+	print("msg: "+msg);
 	
 	if ( targid == who.serial )
-		SendSysMessage("Note to self: " + CAscZ(msg), who.uclang);
+		SendSysMessage("Note to self: "+CAscZ(msg), who.uclang);
 		return 1;
 	endif
 

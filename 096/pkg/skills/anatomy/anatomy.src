@@ -39,9 +39,9 @@ program skill_Anatomy(who)
 	else
 		str_reply.sub_name := subject.name;
 		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
-			str_reply.sub_fail := subject.name + "'s physical characteristics.";
+			str_reply.sub_fail := subject.name+"'s physical characteristics.";
 		else
-			str_reply.sub_fail := subject.name + "' physical characteristics.";
+			str_reply.sub_fail := subject.name+"' physical characteristics.";
 		endif
 	endif
 
@@ -52,8 +52,8 @@ program skill_Anatomy(who)
 	// Replaces the <strength>, <type>, and <gender> from config file results.
 	HandleSubParsing(subject, str_reply);
 
-	var anatomy_response  := str_reply.sub_name + " looks " + str_reply.sub_str + " and " + str_reply.sub_dex + ".";
-	var endurance_resonse := str_reply.sub_name + " is at " + str_reply.sub_endurance + " endurance.";
+	var anatomy_response  := str_reply.sub_name+" looks "+str_reply.sub_str+" and "+str_reply.sub_dex+".";
+	var endurance_resonse := str_reply.sub_name+" is at "+str_reply.sub_endurance+" endurance.";
 
 	if( SkillCheck(who, ANATOMY, -1) > 0 )
 		PrintTextAbovePrivate(subject, anatomy_response, who);
@@ -63,7 +63,7 @@ program skill_Anatomy(who)
 		endif
 		return 1;
 	else
-		PrintTextAbovePrivate(subject, "You can not quite get a sense of " + str_reply.sub_fail, who);
+		PrintTextAbovePrivate(subject, "You can not quite get a sense of "+str_reply.sub_fail, who);
 		return 0;
 	endif
 
@@ -91,7 +91,7 @@ function HandleSubStrength(subject, byref str_reply)
 		sleepms(2);
 	endforeach
 
-	return error{"errortext":="Could not find strength phrase for serial " + subject.serial};
+	return error{"errortext":="Could not find strength phrase for serial "+subject.serial};
 
 endfunction
 
@@ -117,7 +117,7 @@ function HandleSubDexterity(subject, byref str_reply)
 		sleepms(2);
 	endforeach
 
-	return error{"errortext":="Could not find dexterity phrase for serial " + subject.serial};
+	return error{"errortext":="Could not find dexterity phrase for serial "+subject.serial};
 
 endfunction
 
@@ -143,7 +143,7 @@ function HandleSubEndurance(subject, byref str_reply)
 		sleepms(2);
 	endforeach
 
-	return error{"errortext":="Could not find endurance phrase for serial " + subject.serial};
+	return error{"errortext":="Could not find endurance phrase for serial "+subject.serial};
 
 endfunction
 

@@ -68,7 +68,7 @@ function Go_EditSendLocation(who, public:=1)
                                 SendSysMessage(who, "Updated ["+edit_name+"]");
                                 Go_RefreshMyGumps(who);
                         elseif ( edit_input[edit_delete] )
-                                SendSysMessage(who, "Deleted [" + send_Location.Name + "]");
+                                SendSysMessage(who, "Deleted ["+send_Location.Name+"]");
 				if( public )
 					go_prop_base.erase(Lower(send_Location.Name));
 					go_elem.SetProp("base_Distro", go_prop_base);
@@ -81,7 +81,7 @@ function Go_EditSendLocation(who, public:=1)
                                 SendSysMessage(who, "Cancelled");
                         endif
                 else
-                        GumpPrompt(who, "Location [" + send_Location.Name + "] does not exist.");
+                        GumpPrompt(who, "Location ["+send_Location.Name+"] does not exist.");
                         return 0;
                 endif
         else

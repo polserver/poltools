@@ -64,7 +64,7 @@ program textcmd_sfx( who, input )
 
 
 
-    SendSysMessage( who, "Playing SFX: " + CStr( soundfx ) + " / " + Hex( soundfx ) );
+    SendSysMessage( who, "Playing SFX: "+CStr( soundfx )+" / "+Hex( soundfx ) );
 
 
 

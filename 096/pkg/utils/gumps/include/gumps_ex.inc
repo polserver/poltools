@@ -51,7 +51,7 @@ function GFCfgConst(elem_name, prop_name)
 	
 	var elem := cfg[elem_name];
 	if ( elem.errortext )
-		return XGFError("GFCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+ elem.errortext);
+		return XGFError("GFCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
 	endif
 	
 	var value := GetConfigInt(elem, prop_name);
@@ -243,7 +243,7 @@ function GFTextWidth(gump_text)
 	"bcejotî(){}==="+	//  6
 	"adfpqrszIÑ~~~~"+	//  7
 	"ghnuvyÅ<>-----"+	//  8
-	"xJ578$?++++++ "+	//  9
+	"xJ578$?++++++"+	//  9
 	"kCE2369^/*****"+	// 10
 	"mwABDFOPéô40%%"+	// 11
 	"GLNQSZ@#######"+	// 12
@@ -320,7 +320,7 @@ function GFWordWrap(text, pixels)
 			cur_length := 0;
 		endif
 		if ( word )
-			cur_line := cur_line + word + " ";
+			cur_line := cur_line + word+" ";
 			cur_length := cur_length+word_width+space_size;
 		endif
 						

@@ -21,7 +21,7 @@ program record_Bandwidth_used()
 		this_received := system.bytes_received;
 		this_sent := system.bytes_sent;
 		results.insert( 1, { this_received-last_received,this_sent-last_sent } );
-		// print( "results: " + results );
+		// print( "results: "+results );
 		results.erase( HISTORY_MINUTES+1 );
 		last_received := this_received;
 		last_sent := this_sent;
