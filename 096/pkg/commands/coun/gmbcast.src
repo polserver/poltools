@@ -1,10 +1,17 @@
-use uo;
+/* $Id$
+ *
+ */
 
-program textcmd_bcast( who, text )
-  var ppl := EnumerateOnlineCharacters();
-  foreach x in ppl
-    if (x.cmdlevel > 0)
-      SendSysMessage(x, "GM Broadcast from "+who.name+": "+text);
-    endif
-  endforeach
+use uo;
+use os;
+
+program command_GMBcast(who, text)
+	foreach player in ( EnumerateOnlineCharacters() )
+		if ( player.cmdlevel )
+			SendSysMessage(player, "GM Broadcast from "+who.name+": "+text, _DEFAULT_TEXT_FONT, 55);
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return 1;
 endprogram
