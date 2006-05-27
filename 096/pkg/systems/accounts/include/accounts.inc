@@ -1,5 +1,5 @@
 /* $Id$
- * 
+ *
  *
  */
 
@@ -8,7 +8,7 @@ use os;
 
 include ":accounts:settings";
 
-/* 
+/*
  * CreateNewAccount(username, password, cmdlevel, expansion, email)
  *
  * Purpose
@@ -31,18 +31,142 @@ function CreateNewAccount(username, password, cmdlevel:=0, expansion:="", email:
 	if ( account.errortext )
 		return account;
 	endif
-	
+
 	if ( cmdlevel )
 		account.SetDefaultCmdLevel(CInt(cmdlevel));
 	endif
-	
+
 	if ( expansion )
 		account.Set_UO_Expansion(expansion);
 	endif
-	
+
 	if ( email )
 		account.SetProp("EMail", email);
 	endif
-	
+
+	ACCT_SetLastLogin(account);
+
 	return account;
+endfunction
+
+/*
+ * ACCT_SetLastLogin(account, time)
+ *
+ * Purpose
+ * Sets the time the account was last used.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ * time:	The last time the account was used. If 0 is passed, POLCore().systime is used.
+ *
+ * Return value
+ * Returns 1 on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_SetLastLogin(account, time:=0)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	if ( !time )
+		time := POLCore().systime;
+	endif
+
+	return account.SetProp("LastLogin", time);
+endfunction
+
+/*
+ * ACCT_GetLastLogin(account)
+ *
+ * Purpose
+ * Gets the time the account was last used.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ *
+ * Return value
+ * Returns an integer on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_GetLastLogin(account)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	return CInt(account.GetProp("LastLogin"));
+endfunction
+
+/*
+ * ACCT_GetCharacters(account)
+ *
+ * Purpose
+ * Gets a list of the characters in an account.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ *
+ * Return value
+ * Returns an array of mobile references on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_GetCharacters(account)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	var mobile_list := array;
+	for i:=1 to 6
+		var mobile := account.GetCharacter(i);
+		if ( mobile )
+			mobile_list.Append(mobile);
+		endif
+		sleepms(2);
+	endfor
+
+	return mobile_list;
+endfunction
+
+/*
+ * ACCT_GetNumCharacters(account)
+ *
+ * Purpose
+ * Gets the number of characters on an account.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ *
+ * Return value
+ * Returns an integer on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_GetNumCharacters(account)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	var count := 0;
+	for i:=1 to 6
+		if ( account.GetCharacter(i) )
+			count := count+1;
+		endif
+		sleepms(2);
+	endfor
+
+	return count;
 endfunction
