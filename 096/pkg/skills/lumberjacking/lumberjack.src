@@ -90,7 +90,7 @@ function CanChop(who, axe, targ, orig_x, orig_y)
 	elseif ( CoordinateDistance(who.x, who.y, orig_x, orig_y) > 3 )
 		SendSysMessage(who, "You turn your attention away from lumberjacking.");
 		return 0;
-	elseif ( !IsFacing(who, orig_x, orig_y) > 3 )
+	elseif ( !IsFacing(who, targ.x, targ.y) )
 		SendSysMessage(who, "You turn your attention away from lumberjacking.");
 		return 0;
 	elseif ( !(axe in ListEquippedItems(who)) )
