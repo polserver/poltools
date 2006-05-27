@@ -19,7 +19,7 @@ function MSP_ReportText(report_text:="?", flags:=MSP_REPORT_DISABLE)
 	
 	if ( flags & MSP_REPORT_SYSLOG )
 		var script_name := GetProcess(GetPid()).name;
-		LogToFile("::log/lumberjacking.log", "["+script_name+"]: "+report_text, LOG_DATETIME);
+		LogToFile("::log/mining.log", "["+script_name+"]: "+report_text, LOG_DATETIME);
 	endif
 	
 	if ( flags & MSP_REPORT_BROADCAST )
