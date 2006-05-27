@@ -42,6 +42,10 @@ function CheckForDeletion(account, settings)
 	var max_idle_time := CInt(settings.MaxIdleTime);
 	if ( !max_idle_time )
 		return 0;
+	elseif ( settings.OnlyAutoDeleteEmpties )
+		if ( ACCT_GetNumCharacters(account) > 0 )
+			return 0;
+		endif
 	endif
 
 	var last_used := ACCT_GetLastLogin(account);
