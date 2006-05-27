@@ -66,7 +66,7 @@ function Go_CopyLocation(who, public:=1)
 	var input := GFSendGump(who, gump);
 	input := input[0];
 
-	if(input)
+	if( input )
 		var send_Location := 0;
 		if( public )
 			send_Location := go_prop_base[lower(go_keys_base[input])];
