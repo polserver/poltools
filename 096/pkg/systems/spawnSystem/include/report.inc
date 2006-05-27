@@ -1,13 +1,18 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use os;
 use file;
 
-CONST SPAWN_REPORT_DISABLE	:= 0;
-CONST SPAWN_REPORT_CONSOLE	:= 1;
-CONST SPAWN_REPORT_SYSLOG	:= 2;
-CONST SPAWN_REPORT_BROADCAST	:= 4;
+CONST SPAWN_REPORT_DISABLE	:= 0x0;
+CONST SPAWN_REPORT_CONSOLE	:= 0x1;
+CONST SPAWN_REPORT_SYSLOG	:= 0x2;
+CONST SPAWN_REPORT_BROADCAST	:= 0x4;
+CONST SPAWN_REPORT_ALL		:= 0x7;
 
-function SS_ReportText(report_text:="?", flags:=SPAWN_REPORT_SYSLOG)
+function SS_ReportText(report_text:="?", flags:=SPAWN_REPORT_DISABLE)
 	if ( flags & SPAWN_REPORT_CONSOLE )
 		Print(""+report_text);
 	endif
