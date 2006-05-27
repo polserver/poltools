@@ -12,28 +12,29 @@ include ":accounts:report";
 include ":timeutils:time";
 
 program GlobalControl()
+	SetGlobalProperty("#AcctWatcherPId", GetPid());
 	Set_Priority(1);
-	
+
 	ACCT_ReportText("---=[ ACCOUNT WATCHER HAS STARTED UP ]=---", ACCT_REPORT_SYSLOG);
 	
-	SetGlobalProperty("#AcctWatcherPId", GetPid());
+	Sleep(5);
 	
 	var settings := ACCT_GetSettingsCfgElem("Settings");
-	
+
 	while( 1 )
 		foreach acct_name in ( ListAccounts() )
 			var account := FindAccount(acct_name);
 			if ( CheckForDeletion(account, settings) )
 				continue;
 			endif
-			
+
 			CheckSuspension(account);
 			Sleep(1);
 		endforeach
-		
+
 		Sleep(SECONDS_IN_HOUR);
 	endwhile
-	
+
 	return 1;
 endprogram
 
@@ -42,16 +43,24 @@ function CheckForDeletion(account, settings)
 	if ( !max_idle_time )
 		return 0;
 	endif
-	
+
 	var last_used := ACCT_GetLastLogin(account);
-	var deletion_time := last_used + (max_idle_time * SECONDS_IN_DAY);
-		
-	if ( POLCore().systime > deletion_time )
-		ACCT_ReportText("Account ("+account.name+") has not been used in "+max_idle_time+" days. Account is being deleted.", ACCT_REPORT_SYSLOG);
-		account.Delete();
-		return 1;
+	if ( !last_used )
+		ACCT_ReportText("Account ("+account.name+") has no last login time... it has been set now though.", ACCT_REPORT_SYSLOG);
+		ACCT_SetLastLogin(account);
 	endif
 	
+	var deletion_time := POLCore().systime - (max_idle_time * SECONDS_IN_DAY);
+
+	if ( deletion_time > last_used )
+		ACCT_ReportText("Account ("+account.name+") has not been used in "+max_idle_time+" days. Account is being deleted.", ACCT_REPORT_SYSLOG);
+		
+		ACCT_DeleteAllCharacters(account);
+		account.Delete();
+		
+		return 1;
+	endif
+
 	return 0;
 endfunction
 
@@ -59,7 +68,7 @@ function CheckSuspension(account)
 	if ( account.enabled )
 		return 1;
 	endif
-	
+
 	var release_time := CInt(account.GetProp("ReleaseTime"));
 	if ( !release_time )
 		return 1;
@@ -69,6 +78,6 @@ function CheckSuspension(account)
 		ACCT_ReportText("Account ("+account.name+") has been unsuspended.", ACCT_REPORT_SYSLOG);
 		return 1;
 	endif
-	
+
 	return 0;
 endfunction
