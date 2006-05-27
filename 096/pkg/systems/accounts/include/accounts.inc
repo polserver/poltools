@@ -204,3 +204,37 @@ function ACCT_DeleteAllCharacters(account)
 
 	return count;
 endfunction
+
+/*
+ * ACCT_DeleteAccount(account)
+ *
+ * Purpose
+ * Runs acctDelete/acctDelete.ecl in all packages for any account cleanup.
+ * Removes all characters from the account.
+ * Removes the account.
+ *
+ * Parameters
+ * account:	Can be an account reference or a string for an account name.
+ *
+ * Return value
+ * Returns an integer on success.
+ * Returns error on failure.
+ *
+ */
+function ACCT_DeleteAccount(account)
+	if ( TypeOf(account) != "AccountRef" )
+		account := FindAccount(account);
+		if ( account.errortext )
+			return account;
+		endif
+	endif
+
+	foreach package in ( POLCore().packages )
+		Run_Script_To_Completion(":"+package+":acctDelete/acctDelete", account);
+		sleepms(2);
+	endforeach
+
+	ACCT_DeleteAllCharacters(account);
+
+	return account.Delete();
+endfunction

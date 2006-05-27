@@ -59,10 +59,14 @@ function CheckForDeletion(account, settings)
 	if ( deletion_time > last_used )
 		ACCT_ReportText("Account ("+account.name+") has not been used in "+max_idle_time+" days. Account is being deleted.", ACCT_REPORT_SYSLOG);
 		
-		ACCT_DeleteAllCharacters(account);
-		account.Delete();
-		
-		return 1;
+		var result := ACCT_DeleteAccount(account);
+		if ( result.errortext )
+			ACCT_ReportText("Unable to delete account ("+account.name+"). Error: "+result.errortext, ACCT_REPORT_SYSLOG);
+			return 0;
+		else
+			ACCT_ReportText("Account ("+account.name+") was successfully deleted.", ACCT_REPORT_SYSLOG);
+			return 1;
+		endif
 	endif
 
 	return 0;
