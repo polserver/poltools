@@ -7,8 +7,8 @@ program textcmd_getregionstring( who, text )
     if (rs)
         rstext := rs;
     else
-        rstext := "Error: " + rs.errortext;
+        rstext := "Error: "+rs.errortext;
     endif
 
-    SendSysMessage( who, "GetRegionString("+params[1]+","+who.x+","+who.y+","+params[2]+","+who.realm+")=" + rstext );
+    SendSysMessage( who, "GetRegionString("+params[1]+","+who.x+","+who.y+","+params[2]+","+who.realm+")="+rstext );
 endprogram

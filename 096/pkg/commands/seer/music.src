@@ -29,12 +29,12 @@ program music ( character , text )
     if( id_len == 0 )
 	music_id := "00";
     elseif( id_len == 1)
-	music_id := ("0" + music_id);
+	music_id := ("0"+music_id);
     elseif( id_len > 2)
 	return 0;
     endif
 
-    //print("musicid: " + music_id);
+    //print("musicid: "+music_id);
 
     PlayMusic( character, music_id );
 
@@ -42,8 +42,8 @@ endprogram
 
 function PlayMusic( character, music_id )
 
-    var packet_str :=  ( "6D00" + music_id );
-       print("packetstr: " + packet_str);
+    var packet_str :=  ( "6D00"+music_id );
+       print("packetstr: "+packet_str);
 
     SendPacket( character , packet_str );
 

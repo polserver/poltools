@@ -74,7 +74,7 @@ function recharge_book(who, book, scrolls)
 	PlaySoundEffect(who, 0x1F1);
 	PlayObjectCenteredEffect(who, 0x375A, 7, 0x10);
 	SetCharges(book, who, charges);
-	SendSysMessage(who, "There's now " + charges + " charges in this runebook.");
+	SendSysMessage(who, "There's now "+charges+" charges in this runebook.");
 	SetBookName(book, who, 1);
 
 	return 1;

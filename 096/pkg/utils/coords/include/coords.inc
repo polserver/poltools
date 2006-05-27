@@ -24,5 +24,5 @@ function ToSextant(x, y)
 	longitude_degrees := Abs(longitude_degrees);
 	latitude_minutes := CInt((CInt((latitude_degrees-Floor(latitude_degrees))*100)*60)/100);
 	longitude_minutes := CInt((CInt((longitude_degrees-Floor(longitude_degrees))*100)*60)/100);
-	return(Floor(latitude_degrees) + "o " + latitude_minutes + "'" + latitude_direction + ", " + Floor(longitude_degrees) + "o " + longitude_minutes + "'" + longitude_direction);
+	return(Floor(latitude_degrees)+"o "+latitude_minutes+"'"+latitude_direction+", "+Floor(longitude_degrees)+"o "+longitude_minutes+"'"+longitude_direction);
 endfunction

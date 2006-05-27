@@ -57,8 +57,8 @@ program textcmd_Skinner(who)
 		return 0;
 	endif
 
-	SendSysMessage(who, "Current Graphic is: " + orig_graphic);
-	SendSysMessage(who, "New Graphic is:     " + new_graphic);
+	SendSysMessage(who, "Current Graphic is: "+orig_graphic);
+	SendSysMessage(who, "New Graphic is:     "+new_graphic);
 
 	var change_list := array;
 	foreach thing in ListObjectsInBox(startx, starty, -100, endx, endy, 100, who.realm)

@@ -7,7 +7,7 @@ program textcmd_mapinfo( who )
 		if (mi)
 		    SendSysMessage( who, "GetMapInfo("+where.x+","+where.y+","+who.realm+"): z="+mi.z+", landtile="+Hex(mi.landtile) );
 		else
-			SendSysMessage( who, "Error in GetMapInfo: " + mi.errortext );
+			SendSysMessage( who, "Error in GetMapInfo: "+mi.errortext );
 		endif
 	endif
 endprogram

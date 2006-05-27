@@ -125,9 +125,9 @@ function GetObjTypeDesc(obj_type, plural:=0)
 		elseif ( name[Len(name)] in {"s"} )
 			return name;
 		elseif ( name[Len(name)] in {"h","j","x","z"} )
-			return name + "es";
+			return name+"es";
 		else
-			return name + "s";
+			return name+"s";
 		endif
 	endif
 
@@ -143,7 +143,7 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	
 	if ( slash && !second )
 		// Force-append a % if a '/' exists!
-		name := name + "%";
+		name := name+"%";
 		second := Len(name);
 	elseif ( !slash )
 		slash := second;

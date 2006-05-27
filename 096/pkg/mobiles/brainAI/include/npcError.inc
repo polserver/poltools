@@ -26,8 +26,8 @@ use os;
  */
 function NPC_ErrorSysLog(mobile, errmsg)
 	Set_Critical(1);
-	SysLog("NPC Template: " + mobile.npctemplate);
-	SysLog("NPC Name    : " + mobile.name);
+	SysLog("NPC Template: "+mobile.npctemplate);
+	SysLog("NPC Name    : "+mobile.name);
 	SysLog(errmsg);
 	SysLog("------------");
 	Set_Critical(0);

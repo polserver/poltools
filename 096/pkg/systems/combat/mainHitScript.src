@@ -183,8 +183,8 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 	foreach hitscript in weapon_scripts
 		var script := Start_Script(hitscript, {attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( !script || script.errortext )
-			SendSysMessage(attacker, "*Attacker* Weapon script error starting ["+hitscript+"] :" + script.errortext);
-			SendSysMessage(defender, "*Attacker* Weapon script error starting ["+hitscript+"] :" + script.errortext);
+			SendSysMessage(attacker, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
+			SendSysMessage(defender, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
 		endif
 		SleepMS(2);
 	endforeach
@@ -207,8 +207,8 @@ function ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamag
 	foreach hitscript in armor_scripts
 		var script := Start_Script(hitscript, {attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( script.errortext )
-			SendSysMessage(attacker, "*Defender* armor script error starting ["+hitscript+"] :" + script.errortext);
-			SendSysMessage(defender, "*Defender* armor script error starting ["+hitscript+"] :" + script.errortext);
+			SendSysMessage(attacker, "*Defender* armor script error starting ["+hitscript+"] :"+script.errortext);
+			SendSysMessage(defender, "*Defender* armor script error starting ["+hitscript+"] :"+script.errortext);
 		endif
 		SleepMS(2);
 	endforeach

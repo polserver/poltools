@@ -20,7 +20,7 @@ program textcmd_writequip( who, tag )
     // TODO: validate 'tag' doesn't already exist as a key in equip.cfg
    
     SendSysMessage( who, "Target the person to write the equipment of." );
-    SendSysMessage( who, "Equipment will be tagged '" + tag + "'" );
+    SendSysMessage( who, "Equipment will be tagged '"+tag+"'" );
     var whom := Target( who );
 
     if (whom)
@@ -35,10 +35,10 @@ program textcmd_writequip( who, tag )
 			prop.name := "Equip";
 			prop.value := Hex(eqitem.objtype);
 			if (eqitem.color)
-				prop.value := prop.value + " " + Hex( eqitem.color );
+				prop.value := prop.value+" "+Hex( eqitem.color );
 			endif
 			prop.value := PadStr( prop.value, 16 );
-			prop.value := prop.value + "// " + eqitem.desc;
+			prop.value := prop.value+"// "+eqitem.desc;
 
 			propcount := propcount + 1;
 			props[ propcount ] := prop;
@@ -49,12 +49,12 @@ program textcmd_writequip( who, tag )
 endprogram
 
 function PadStr( str, newlen )
-	print( "PadStr in: '" + str + "'" );
+	print( "PadStr in: '"+str+"'" );
     var addcount := newlen - Len(str);
 	while (addcount > 0)
-		str := str + " ";
+		str := str+" ";
 		addcount := addcount - 1;
 	endwhile
-	print( "PadStr out: '" + str + "'" );
+	print( "PadStr out: '"+str+"'" );
 	return str;
 endfunction

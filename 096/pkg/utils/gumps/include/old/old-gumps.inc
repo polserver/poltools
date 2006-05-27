@@ -95,7 +95,7 @@
 //	+ All functions take hex values and convert to integer
 //	  form, where necessary (gumps crash with hex values! Ugh!)
 //
-//	+ "Page 0" is the main background! It shows at ALL times!
+//	+"Page 0" is the main background! It shows at ALL times!
 //	  Anything you want on separate pages should be on page
 //	  1, 2, 3 and so on showing 0+1, 0+2, 0+3, 0+4, etc, etc.
 //
@@ -297,7 +297,7 @@ endfunction
 //
 function OldGFPage( page )
 	page := CInt(page);
-	GFlayout.append( "page " + CStr(page) );
+	GFlayout.append( "page "+CStr(page) );
 	return XGFRetVal( GFlayout.size(), -1, page );
 endfunction
 
@@ -361,9 +361,9 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFGumpPic( x, y, gumpid, hue:=0 )
-	var line := "gumppic " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(gumpid));
-	line := line + " hue="+CStr(CInt(hue));
+	var line := "gumppic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(gumpid));
+	line := line+" hue="+CStr(CInt(hue));
 	GFlayout.append( line );
 	return XGFRetVal( GFlayout.size() );
 endfunction
@@ -375,8 +375,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFResizePic( x, y, gumpid, w, h )
-	var line := "resizepic " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(gumpid)) + " " + CStr(CInt(w)) + " " + CStr(CInt(h));
+	var line := "resizepic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(gumpid))+" "+CStr(CInt(w))+" "+CStr(CInt(h));
 	GFlayout.append( line );
 	return XGFRetVal( GFlayout.size() );
 endfunction
@@ -410,8 +410,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFTilePic( x, y, tileid )
-	var line := "tilepic " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(tileid));
+	var line := "tilepic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(tileid));
 	GFlayout.append( line );
 	return XGFRetVal( GFlayout.size() );
 endfunction
@@ -424,8 +424,8 @@ endfunction
 //
 function OldGFTextLine(x, y, colour, text)
 	text := CStr(text);
-	var line := "text " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(colour)) + " " + CStr(GFdtidx);
+	var line := "text "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
 	GFlayout.append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
@@ -441,8 +441,8 @@ endfunction
 function OldGFTextMid(x, y, w, colour, text )
 	text := CStr(text);
 	x := XGFTextMid( text, CInt(x), w );
-	var line := "text " + CStr(GFref.x + x) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(colour)) + " " + CStr(GFdtidx);
+	var line := "text "+CStr(GFref.x + x)+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
 	GFlayout.append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
@@ -458,8 +458,8 @@ endfunction
 function OldGFTextRight( rx, y, colour, text )
 	text := CStr(text);
 	rx := XGFTextRight( text, CInt(rx) );
-	var line := "text " + CStr(GFref.x + rx) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(colour)) + " " + CStr(GFdtidx);
+	var line := "text "+CStr(GFref.x + rx)+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
 	GFlayout.append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
@@ -478,9 +478,9 @@ endfunction
 //
 function OldGFTextCrop( x, y, w, h, colour, text )
 	text := CStr(text);
-	var line := "croppedtext " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(w)) + " " + CStr(CInt(h)) + " " + CStr(CInt(colour));
-	line := line + " " + CStr(GFdtidx);
+	var line := "croppedtext "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(w))+" "+CStr(CInt(h))+" "+CStr(CInt(colour));
+	line := line+" "+CStr(GFdtidx);
 	GFlayout.append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
@@ -506,9 +506,9 @@ function OldGFTextEntry( x, y, w, h, colour, text := "" )
 		text := CStr(text);
 	endif
 	
-	var line := "textentry " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(w)) + " " + CStr(CInt(h)) + " " + CStr(CInt(colour));
-	line := line + " " + CStr(GFtxtid) + " " + CStr(GFdtidx);
+	var line := "textentry "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(w))+" "+CStr(CInt(h))+" "+CStr(CInt(colour));
+	line := line+" "+CStr(GFtxtid)+" "+CStr(GFdtidx);
 	GFlayout.append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
@@ -530,9 +530,9 @@ endfunction
 //
 function OldGFButtonPage( x, y, release, press, page )
 	// "button x y release press 0 page"
-	var line := "button " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(release)) + " " + CStr(CInt(press));
-	line := line + " 0 " + CStr(CInt(page));
+	var line := "button "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(release))+" "+CStr(CInt(press));
+	line := line+" 0 "+CStr(CInt(page));
 	GFlayout.append( line );
 	return XGFRetVal( GFlayout.size(), -1, page );
 endfunction
@@ -549,12 +549,12 @@ endfunction
 //
 function OldGFButtonID( x, y, release, press, close, id := 0 )
 	// "button x y release press close 0 key"
-	var line := "button " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(release)) + " " + CStr(CInt(press)) + " ";
+	var line := "button "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(release))+" "+CStr(CInt(press))+" ";
 	if ( close == 0 )
-		line := line + "0 0 ";
+		line := line+"0 0 ";
 	else
-		line := line + "1 0 ";
+		line := line+"1 0 ";
 	endif
 	id := CInt(id);		// Ensure it's an integer
 	if ( id < 1 )		// Catch errors (0) and invalid (negative) values
@@ -575,12 +575,12 @@ endfunction
 //	.keyid  = KeyID allocated to the checkbox (cbxid)
 //
 function OldGFCheckBox( x, y, off, on, state, id := 0)
-	var line := "checkbox " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(off)) + " " + CStr(CInt(on)) + " ";
+	var line := "checkbox "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(off))+" "+CStr(CInt(on))+" ";
 	if ( state == 0 )
-		line := line + "0 ";
+		line := line+"0 ";
 	else
-		line := line + "1 ";
+		line := line+"1 ";
 	endif
 	id := Cint(id);
 	if (id < 1)
@@ -605,12 +605,12 @@ function OldGFRadioButton( x, y, off, on, state, id := 0)
 	if (state == error)
 		state := 0;
 	endif
-	var line := "radio " + CStr(GFref.x + CInt(x)) + " " + CStr(GFref.y + CInt(y));
-	line := line + " " + CStr(CInt(off)) + " " + CStr(CInt(on)) + " ";
+	var line := "radio "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
+	line := line+" "+CStr(CInt(off))+" "+CStr(CInt(on))+" ";
 	if ( state == 0 )
-		line := line + "0 ";
+		line := line+"0 ";
 	else
-		line := line + "1 ";
+		line := line+"1 ";
 	endif
 	id := CInt(id);
 	if (id < 1)
@@ -631,7 +631,7 @@ endfunction
 //
 function OldGFSetRadioGroup( group )
 	group := CInt(group);
-	GFlayout.append( "group " + CStr(group) );
+	GFlayout.append( "group "+CStr(group) );
 	return XGFRetVal( GFlayout.size(), -1, group );
 endfunction
 
@@ -881,22 +881,22 @@ endfunction
 /////////////////////////////////////////////////////////////////
 var aGFTlength := struct;
        aGFTlength.+charsf:=   // Space as Filler is not allowed
-         "||||||||||||||"+ //  2
-         "`',.;:::::::::"+ //  3
-         "!!!!!!!!!!!!!!"+ //  4
-         "il1[]]]]]]]]]\""+ //  5
-         "bcejotî(){}==="+ //  6
-         "adfpqrszIÑ~~~~"+ //  7
-         "ghnuvyÅ <>----"+ //  8
-         "xJ578$?+++++++"+ //  9
-         "kCE2369^/**** "+ // 10
-         "mwABDFOPéô40%%"+ // 11
-         "GLNQSZ@#######"+ // 12
-         "HRT&__________"+ // 13
-         "KöUYYYYYYYYYYY"+ // 14
-         "XXXXXXXXXXXXXX"+ // 15
-         "VVVVVVVVVVVVVV"+ // 16
-         "MMMMMMMMMMMMMM"+ // 18
+         "||||||||||||||"+//  2
+         "`',.;:::::::::"+//  3
+         "!!!!!!!!!!!!!!"+//  4
+         "il1[]]]]]]]]]\""+//  5
+         "bcejotî(){}==="+//  6
+         "adfpqrszIÑ~~~~"+//  7
+         "ghnuvyÅ <>----"+//  8
+         "xJ578$?+++++++"+//  9
+         "kCE2369^/**** "+// 10
+         "mwABDFOPéô40%%"+// 11
+         "GLNQSZ@#######"+// 12
+         "HRT&__________"+// 13
+         "KöUYYYYYYYYYYY"+// 14
+         "XXXXXXXXXXXXXX"+// 15
+         "VVVVVVVVVVVVVV"+// 16
+         "MMMMMMMMMMMMMM"+// 18
          "WWWWWWWWWWWWWW"; // 21
        aGFTlength.+width:= array
        (
@@ -979,7 +979,7 @@ function WordWrap(text, max_letters := 50)
 			cur_line := "";
 		endif
 		
-		cur_line := cur_line + " " + word;
+		cur_line := cur_line+" "+word;
 		line_length := line_length + (XGFTextWidth(word) + WSS);
 		SleepMS(2);
 	endforeach

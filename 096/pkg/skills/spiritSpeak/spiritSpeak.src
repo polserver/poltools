@@ -85,7 +85,7 @@ endfunction
 function ChannelFromSelf(who)
 	var my_energy := CInt(AP_GetVital(who, "Mana") / 100) + 4;
 	var my_emod   := CInt(my_energy / 2) + 1;
-	var my_amount := RandomDiceRoll(CStr(my_emod + "d" + (my_energy - my_emod)));
+	var my_amount := RandomDiceRoll(CStr(my_emod+"d"+(my_energy - my_emod)));
 	
 	if( AP_ConsumeVital(who, "Mana", 10) )
 		HealDamage(who, my_amount);

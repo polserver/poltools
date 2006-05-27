@@ -21,7 +21,7 @@ program command_bcast(who, text)
 					sendAs := who.name;
 				endif
 			endif
-			Broadcast(sendAs + ": " + text, FONT_BOLD, 73);
+			Broadcast(sendAs+": "+text, FONT_BOLD, 73);
 		else
 			SendSysMessage(who, "Broadcasting Cancelled.");
 			return 0;
@@ -33,7 +33,7 @@ program command_bcast(who, text)
 				sendAs := who.name;
 			endif
 		endif
-		Broadcast(sendAs + ": " + text, FONT_BOLD, 73);
+		Broadcast(sendAs+": "+text, FONT_BOLD, 73);
 	endif
 
 	return 1;

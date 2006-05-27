@@ -3,11 +3,11 @@ use uo;
 program textcmd_setlight( who, text )
     var tparams := SplitWords( text );
 
-    print( "Region Name: " + tparams[1] );
-    print( "Light Level: " + tparams[2] );
+    print( "Region Name: "+tparams[1] );
+    print( "Light Level: "+tparams[2] );
 
     var res := SetRegionLightLevel( tparams[1], CInt(tparams[2]) );
     if (!res)
-        SendSysMessage( who, "Error setting light level: " + res.errortext );
+        SendSysMessage( who, "Error setting light level: "+res.errortext );
     endif
 endprogram

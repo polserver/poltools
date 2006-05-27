@@ -32,7 +32,7 @@ exported function handlePartyCommand(character, byref packet)
 	var param, param2;
 	
 	if ( DEBUG )
-		print( "handlePartyCommand - character: " + character.name + "	subcmd: " +  cmd + " packet: " + packet);
+		print( "handlePartyCommand - character: "+character.name+"	subcmd: "+cmd+" packet: "+packet);
 	endif
 
 	case ( cmd )

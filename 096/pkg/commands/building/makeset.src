@@ -20,11 +20,11 @@ program textcmd_MakeSet(who, set_name)
 			return 0;
 		endif
 	elseif ( !config[set_name] )
-		SendSysMessage(who, "Could not find set name " + set_name);
+		SendSysMessage(who, "Could not find set name "+set_name);
 		return 0;
 	endif
 
-	SendSysMessage(who, "Target where you want to place " + set_name);
+	SendSysMessage(who, "Target where you want to place "+set_name);
 	var targ := TargetCoordinates(who);
 
 	foreach line in GetConfigStringArray(config[set_name], "item")
@@ -37,9 +37,9 @@ program textcmd_MakeSet(who, set_name)
 		item.graphic := graphic;
 		item.movable := 0;
 		if ( !item )
-			SendSysMessage(who, "Error creating line! " + item.errortext);
+			SendSysMessage(who, "Error creating line! "+item.errortext);
 		else
-			//SendSysMessage(who, "Created " + item.desc + " at " + item.x + " " + item.y + " " + item.z);
+			//SendSysMessage(who, "Created "+item.desc+" at "+item.x+" "+item.y+" "+item.z);
 		endif
 
 		SleepMS(2);

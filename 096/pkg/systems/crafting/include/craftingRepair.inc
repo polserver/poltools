@@ -107,21 +107,21 @@ function CreateRepairDeed(who, scroll, craft_skill)
     return;
   endif
   if(ramt < 60 )
-    title := "A repair service contract from an Apprentice " + type;
+    title := "A repair service contract from an Apprentice "+type;
   elseif(ramt < 70 )
-    title := "A repair service contract from a Journeyman " + type;
+    title := "A repair service contract from a Journeyman "+type;
   elseif(ramt < 80 )
-    title := "A repair service contract from an Expert " + type;
+    title := "A repair service contract from an Expert "+type;
   elseif(ramt < 90 )
-    title := "A repair service contract from an Adept " + type;
+    title := "A repair service contract from an Adept "+type;
   elseif(ramt < 100 )
-    title := "A repair service contract from a Master " + type;
+    title := "A repair service contract from a Master "+type;
   elseif(ramt < 110 )
-    title := "A repair service contract from a Grandmaster " + type;
+    title := "A repair service contract from a Grandmaster "+type;
   elseif(ramt < 120 )
-    title := "A repair service contract from an Elder " + type;
+    title := "A repair service contract from an Elder "+type;
   elseif(ramt < 130 )
-    title := "A repair service contract from a Legendary " + type;
+    title := "A repair service contract from a Legendary "+type;
   endif
   type := Lower(type);
   var ret := GetItemDescriptor(0xee09);
@@ -343,7 +343,7 @@ function resmelt(who, the_attribute)
 				SendSysMessage(who, "You destroy the item.");
 			endif
 		else
-			SendSysMessage(who, "Couldn't destroy "+ use_on.name);
+			SendSysMessage(who, "Couldn't destroy "+use_on.name);
 		endif
 	endif
 

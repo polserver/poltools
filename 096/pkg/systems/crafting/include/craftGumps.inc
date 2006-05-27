@@ -107,7 +107,7 @@ function sendCraftGump(who, skill_name)
 		if(!atc || CInt(atc) < 1)
 			atc := 1;
 		elseif(atc > CInt(menu_config["Setup"].MaxAmount))
-			SendSysMessage(who, "You can only make between 1 and " + menu_config["Setup"].MaxAmount + " at a time.");
+			SendSysMessage(who, "You can only make between 1 and "+menu_config["Setup"].MaxAmount+" at a time.");
 			return 0;
 		endif
 		craft_settings[skill_name].amount := atc;
@@ -230,7 +230,7 @@ function Craft_IndexGump(who, skill_name)
 		GFCraftNewPage(gump, skill_config, MenuName);
 		// Cycle all the variables up accordingly
 		if( PageNum >= 15 )
-			SysLog("Crafting: Max Amount of menus exceeded! Reduce amount of Groups in " + menu_file);
+			SysLog("Crafting: Max Amount of menus exceeded! Reduce amount of Groups in "+menu_file);
 			SendSysMessage(who, "Error! Max Amount of Menus Exceeded. Please report to shard staff.");
 			return 0;
 		endif
@@ -374,8 +374,8 @@ function GFCraftInfoPage(who, objtype, skill_config)
 
 	if((elem.material2 > 0) && (elem.material2 != error))
 		// Material 2 name
-		matname := matname + "\n" + elem.material2obj;
-		material := material + "\n" + elem.material2;
+		matname := matname+"\n"+elem.material2obj;
+		material := material+"\n"+elem.material2;
 	endif
 
 	// Below added for checking for parts. If parts are present, then create the part list
@@ -392,20 +392,20 @@ function GFCraftInfoPage(who, objtype, skill_config)
 				case(j)
 					1:
 					2:
-					3: matname := matname + tmatname + "\n";
+					3: matname := matname + tmatname+"\n";
 					4: matname := matname + tmatname;
-					default: matname := matname + tmatname + "\n";
+					default: matname := matname + tmatname+"\n";
 				endcase
-				material := material + (tmpmat[j+(Len(tmpmat)/2)]) + "\n";
+				material := material + (tmpmat[j+(Len(tmpmat)/2)])+"\n";
 			endfor
 		else
 			material := 0;
 			for j := 1 to (Len(tmpmat)/2)
 				tmatname := TruncatePlural(tmpmat[j]);
 				if(j == (Len(tmpmat)/2))
-					matname := matname + "& " + (tmpmat[j+(Len(tmpmat)/2)]) + " " + tmatname + " required";
+					matname := matname+"& "+(tmpmat[j+(Len(tmpmat)/2)])+" "+tmatname+" required";
 				else
-					matname := matname + (tmpmat[j+(Len(tmpmat)/2)]) + " " + tmatname + ", ";
+					matname := matname + (tmpmat[j+(Len(tmpmat)/2)])+" "+tmatname+", ";
 				endif
 			endfor
 		endif
@@ -441,11 +441,11 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	GFAddButton(gump, 270, 387, 4005, 4007, GF_CLOSE_BTN, CInt(objtype));
 	GFHTMLArea(gump, 305, 390, 150, 18, "<basefont color=#ffffff>MAKE NOW");
 	GFTilePic(gump, 20, 50, CInt(graphic));
-	GFHTMLArea(gump, 430, 132, 150, 18, ("<basefont color=#ffffff>" + skillreq));
+	GFHTMLArea(gump, 430, 132, 150, 18, ("<basefont color=#ffffff>"+skillreq));
 
 	// Tooltip info from itemdesc.cfg appended in.
 	if(tooltip != 0)
-		GFHTMLArea(gump, 170, 300, 300, 40, ("<basefont color=#ffffff>" + tooltip));
+		GFHTMLArea(gump, 170, 300, 300, 40, ("<basefont color=#ffffff>"+tooltip));
 	endif
 	// Set up the text for if the item can retain the color of material
 	if(craft_config[objtype].retain == 1)
@@ -456,9 +456,9 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		GFTextLine(gump, 170, 355, 1153, "This item may hold its maker's mark");
 	endif
 	// Material Required
-	GFHTMLArea(gump, 170, 219, 300, 80, ("<basefont color=#ffffff>" + matname));
+	GFHTMLArea(gump, 170, 219, 300, 80, ("<basefont color=#ffffff>"+matname));
 	if(material != 0)
-		GFHTMLArea(gump, 430, 219, 20, 80, ("<basefont color=#ffffff>" + material));
+		GFHTMLArea(gump, 430, 219, 20, 80, ("<basefont color=#ffffff>"+material));
 	endif
 	// Success Chance % text
 	GFTextLine(gump, 170, 80, 1153, "Success Chance:");
@@ -473,7 +473,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	// Item Name
 	GFHTMLArea(gump, 330, 40, 150, 20, ("<basefont color=#ffffff>"+itemdesc));
 	// Skill name
-	GFHTMLArea(gump, 170, 132, 150, 20, ("<basefont color=#ffffff>"+display_skill + " required"));
+	GFHTMLArea(gump, 170, 132, 150, 20, ("<basefont color=#ffffff>"+display_skill+" required"));
 
 	if((skillreqb > 0) && (skillreqb != error))
 		// Skill 2 name

@@ -10,7 +10,7 @@ include ":gumps:gumps_ex";
 
 program command_where(who, input)
 	if ( input /*=="quick"*/ ) // If any input, dont show a gump.
-		SendSysMessage(who, who.x + " " + who.y + " " + who.z + ", Realm: " + who.realm);
+		SendSysMessage(who, who.x+" "+who.y+" "+who.z+", Realm: "+who.realm);
 		return 1;
 	endif
 	

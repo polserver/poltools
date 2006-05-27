@@ -85,7 +85,7 @@ function Go_LocationIndex(who, gump_Type:="base_Distro")
 				"base_Distro": send_Location := go_prop_base[Lower(go_keys_base[input])]; break;
 				default:       send_Location := go_prop[Lower(go_keys[input])]; break;
 			endcase
-			SendSysMessage(who, "Who do you want to send to " + send_Location.Name);
+			SendSysMessage(who, "Who do you want to send to "+send_Location.Name);
 			moved := target(who);
 			if ( !moved )
 				return 0;
@@ -99,14 +99,14 @@ function Go_LocationIndex(who, gump_Type:="base_Distro")
 		endif
 
 		if ( send_Location )
-			SendSysMessage(who, "Going to [" + send_Location.Name + "]");
+			SendSysMessage(who, "Going to ["+send_Location.Name+"]");
 			var result := MoveObjectToLocation(moved, CInt(send_location.X), CInt(send_location.Y), CInt(send_location.Z), send_location.Realm, MOVEOBJECT_FORCELOCATION);
 
 			if ( result.errortext )
-				GumpPrompt(who, "Error moving: X[" + send_Location.X +"] Y[" + send_Location.Y + "] Z[" + send_Location.Z + "]");
+				GumpPrompt(who, "Error moving: X["+send_Location.X+"] Y["+send_Location.Y+"] Z["+send_Location.Z+"]");
 			endif
 		else
-			GumpPrompt(who, "Location [" + send_Location.Name + "] does not exist.");
+			GumpPrompt(who, "Location ["+send_Location.Name+"] does not exist.");
 		endif
 	endif
 

@@ -10,6 +10,6 @@ SendSysMessage(who, "Select coordinates.");
 		SendSysMessage(who, "Invalid selection.");
 		return 0;
 	endif
-	SendSysMessage(who, "ObjType: " + CStr( Hex(targ.objtype) ) );
+	SendSysMessage(who, "ObjType: "+CStr( Hex(targ.objtype) ) );
 
 endprogram

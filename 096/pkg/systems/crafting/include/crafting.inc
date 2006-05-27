@@ -139,7 +139,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 	var theitem := CreateItemInBackpack(who, objtype, 1);
 	var elem    := FindConfigElem(resource_config, use_onobjtype);
 	if(theitem)
-		var nme := (resource_config[use_onobjtype].Name) + " " + itemname;
+		var nme := (resource_config[use_onobjtype].Name)+" "+itemname;
 		if(Find(nme, "plain ", 1))
 			nme[Find(nme, "plain ", 1),6] := "";
 		endif
@@ -181,12 +181,12 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 	//		endif
 			if((craft_config[objtype].Mark == 1))
 				if((makermark == 1) && (myskill >= 100))
-					nme := "an exceptional " + nme + " [Crafted by " + who.name + "]";
+					nme := "an exceptional "+nme+" [Crafted by "+who.name+"]";
 				else
-					nme := "an exceptional " + nme;
+					nme := "an exceptional "+nme;
 				endif
 			else
-				nme := "an exceptional " + nme;
+				nme := "an exceptional "+nme;
 			endif
 			if(theitem.isA(POLCLASS_WEAPON))
 				theitem.dmg_mod := CInt(temp[1])+(RandomInt(4));
@@ -228,7 +228,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 			else
 				word := "a ";
 			endif
-			nme := "" + word + nme;
+			nme := ""+word + nme;
 			nme := nme - "plain ";
 		endif
 		SetName(theitem, nme);
@@ -393,7 +393,7 @@ function CreateCraftedMap(who, craft_skill, use_on, objtype, amount, itemname, r
 		else
 			word := "a ";
 		endif
-		itemname := "" + word + itemname;
+		itemname := ""+word + itemname;
 		itemname := itemname - "plain ";
 		SetName(theitem, itemname);
 	else
@@ -423,7 +423,7 @@ function TruncatePlural(obj_type, add_S := 0)
         elseif (config.name)
                 name := config.name;
         else
-                return error{"errortext":="Invalid Objtype : " + Hex(obj_type) + "."};
+                return error{"errortext":="Invalid Objtype : "+Hex(obj_type)+"."};
         endif
 
         if ( !name["%"] )
@@ -433,9 +433,9 @@ function TruncatePlural(obj_type, add_S := 0)
                 if ( name[Len(name)] in {"s"} )
                         return name;
                 elseif ( name[Len(name)] in {"h","j","x","z"} )
-                        return name + "es";
+                        return name+"es";
                 endif
-                return name + "s";
+                return name+"s";
         endif
 
         // Will deal with:
@@ -450,7 +450,7 @@ function TruncatePlural(obj_type, add_S := 0)
         var second := Find(name, "%", first + 1);
         if ( slash && !second )
                 // Force-append a % if a '/' exists!
-                name := name + "%";
+                name := name+"%";
                 second := Len(name);
         elseif ( !slash )
                 slash := second;

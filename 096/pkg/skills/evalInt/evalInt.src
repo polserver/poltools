@@ -44,21 +44,21 @@ program skill_EvaluatingIntelligence(who)
 	else
 		strMsg := subject.name;
 		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
-			strFail := subject.name + "'s mental abilities.";
+			strFail := subject.name+"'s mental abilities.";
 		else
-			strFail := subject.name + "' mental abilities.";
+			strFail := subject.name+"' mental abilities.";
 		endif
 	endif
 	if(SkillCheck(who, EVALUATING_INTELLIGENCE, -1) > 0)
-		PrintTextAbovePrivate(subject, strMsg + " looks " + intell + ".", who);
+		PrintTextAbovePrivate(subject, strMsg+" looks "+intell+".", who);
 		// player's evalint skill equal/greater than 76 can get mental strength info
 		var skill := AP_GetSkill(who, EVALUATING_INTELLIGENCE);
 		if(skill >= 76)
-			PrintTextAbovePrivate(subject, strMsg + " is at " + mentalStrength + " mental strength.", who);
+			PrintTextAbovePrivate(subject, strMsg+" is at "+mentalStrength+" mental strength.", who);
 		endif
 		return 1;
 	else
-		PrintTextAbovePrivate(subject, "You cannot judge " + strFail, who);
+		PrintTextAbovePrivate(subject, "You cannot judge "+strFail, who);
 		return 0;
 	endif
 
@@ -80,7 +80,7 @@ function getIntell(subject, graphic, gender)
 		endif
 	endif
 	if(subject >= 100)
-		return strSuper + " intelligent in a manner you cannot comprehend";
+		return strSuper+" intelligent in a manner you cannot comprehend";
 	elseif(subject >= 99)
 		return "like a definite genius";
 	elseif(subject >= 89)
@@ -128,6 +128,6 @@ function HandleSubMana(subject, byref str_reply)
 		sleepms(2);
 	endforeach
 
-	return error{"errortext":="Could not find mana phrase for serial " + subject.serial};
+	return error{"errortext":="Could not find mana phrase for serial "+subject.serial};
 
 endfunction

@@ -40,10 +40,10 @@ exported function LoginHook(who, byref packet)
 	var password := Packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN);
 
 	if ( !username )
-		SysLog( "Account/GetString Error: " + username.errortext );
+		SysLog( "Account/GetString Error: "+username.errortext );
 		return 0;
 	elseif ( !password )
-		SysLog( "Password/GetString Error: " + password.errortext );
+		SysLog( "Password/GetString Error: "+password.errortext );
 		return 0;
 	endif
 
@@ -75,11 +75,11 @@ exported function LoginHook(who, byref packet)
 	// we don't have to worry, pol will do the right job for us and just say that account
 	// does not exist.
 	if ( account.errortext )
-		SysLog("CreateAccount() Error: " + account.errortext);
+		SysLog("CreateAccount() Error: "+account.errortext);
 		return 0;
 	endif
 		
-	SysLog( "AutoAccount Created: " + username );
+	SysLog( "AutoAccount Created: "+username );
 
 	return 0;
 

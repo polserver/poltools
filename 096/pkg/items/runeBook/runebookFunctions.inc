@@ -225,7 +225,7 @@ function SetBookName(book, who, auto:=0)
 	endif
 
 	SetObjProperty(book, "%Name%", name);
-	name := (name + " [charges: " + charges + "]");
+	name := (name+" [charges: "+charges+"]");
 	SetName(book, name);
 
 	return 1;
@@ -312,7 +312,7 @@ endfunction
 function SetDefault(book, who, rune_pos)
 	var rune_info := GetRuneDetails(book, rune_pos);
 	SetObjProperty(book, "Destination", rune_info);
-	SendSysMessage(who, "Default rune set to: " + rune_info.name);
+	SendSysMessage(who, "Default rune set to: "+rune_info.name);
 	return 1;
 endfunction
 
@@ -337,5 +337,5 @@ function ToSextant(x, y)
 	longitude_degrees := Abs(longitude_degrees);
 	latitude_minutes := CInt((CInt((latitude_degrees-Floor(latitude_degrees))*100)*60)/100);
 	longitude_minutes := CInt((CInt((longitude_degrees-Floor(longitude_degrees))*100)*60)/100);
-	return(Floor(latitude_degrees) + "o " + latitude_minutes + "'" + latitude_direction + ", " + Floor(longitude_degrees) + "o " + longitude_minutes + "'" + longitude_direction);
+	return(Floor(latitude_degrees)+"o "+latitude_minutes+"'"+latitude_direction+", "+Floor(longitude_degrees)+"o "+longitude_minutes+"'"+longitude_direction);
 endfunction

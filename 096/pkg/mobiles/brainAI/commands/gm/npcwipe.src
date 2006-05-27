@@ -30,8 +30,8 @@ program textcmd_NPCWipe(who)
 		return 0;
 	endif
 					
-	SendSysMessage(who, "Starting npc wiper [" + x1 + " " + y1 + " " + x2 + " " + y2 + "] on realm ["+realm_name+"]");
-	SysLog("Starting npc wiper [" + x1 + " " + y1 + " " + x2 + " " + y2 + "] on realm ["+realm_name+"]");
+	SendSysMessage(who, "Starting npc wiper ["+x1+" "+y1+" "+x2+" "+y2+"] on realm ["+realm_name+"]");
+	SysLog("Starting npc wiper ["+x1+" "+y1+" "+x2+" "+y2+"] on realm ["+realm_name+"]");
 	
 	var count := 0;
 	foreach thing in ListObjectsInBox(x1, y1, z1, x2, y2, z2, realm_name)
@@ -44,8 +44,8 @@ program textcmd_NPCWipe(who)
 		SleepMS(5);
 	endforeach
 	
-	SendSysMessage(who, "Killed " + count + " NPCs");
-	SysLog("Killed " + count + " NPCs");
+	SendSysMessage(who, "Killed "+count+" NPCs");
+	SysLog("Killed "+count+" NPCs");
 	
 	return 1;
 endprogram

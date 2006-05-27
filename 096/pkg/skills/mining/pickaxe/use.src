@@ -70,7 +70,7 @@ function CheckOreVeins(who)
 	var range := CInt(AP_GetSkill(who, MINING) / 20)+1;
 	var vein_list := ListVeinsNearMobile(who, range);
 	if ( who.cmdlevel )
-		SendSysMessage(who, "Number of veins found " + vein_list.Size());
+		SendSysMessage(who, "Number of veins found "+vein_list.Size());
 	endif
 	
 	foreach ore_vein in ( vein_list )

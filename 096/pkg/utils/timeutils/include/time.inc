@@ -62,7 +62,7 @@ function GetMonthName(month)
 	var mon_nam := {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
 	if( month > 12 || month <= 0 )
-		return error{"errortext":="Month '" + CStr(month) + "' out of range."};
+		return error{"errortext":="Month '"+CStr(month)+"' out of range."};
 	endif
 	return(mon_nam[month]);
 endfunction
@@ -86,7 +86,7 @@ function GetMonthLength(month, year := 0)
 	var mon_lens := {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	if( month > 12 || month <= 0 )
-		return error{"errortext":="Month '" + CStr(month) + "' out of range."};
+		return error{"errortext":="Month '"+CStr(month)+"' out of range."};
 	endif
 	if ( year && IsLeap(year) )
 		mon_lens[2] := 29;
@@ -232,19 +232,19 @@ function FormatTime(byref ts, format)
 	if(ts.hour > 9)
 		format["<HH>"] := CStr(ts.hour);
 	else
-		format["<HH>"] := "0" + CStr(ts.hour);
+		format["<HH>"] := "0"+CStr(ts.hour);
 	endif
 	
 	if(ts.minute > 9)
 		format["<MM>"] := CStr(ts.minute);
 	else
-		format["<MM>"] := "0" + CStr(ts.minute);
+		format["<MM>"] := "0"+CStr(ts.minute);
 	endif
 	
 	if(ts.second > 9)
 		format["<SS>"] := CStr(ts.second);
 	else
-		format["<SS>"] := "0" + CStr(ts.second);
+		format["<SS>"] := "0"+CStr(ts.second);
 	endif
 	
 	return format;

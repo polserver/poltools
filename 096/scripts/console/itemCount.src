@@ -6,7 +6,7 @@ use uo;
 program console_itemcount(cmd)
 
 	cmd := cmd;
-	print("System Message: Current # of Toplevel Items - " + polcore().itemcount);
+	print("System Message: Current # of Toplevel Items - "+polcore().itemcount);
 
 	return 1;
 

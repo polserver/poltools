@@ -7,7 +7,7 @@ program DestroyBook(book)
 	book_data_file.DeleteElement(Hex(book.serial));
 	
 	var script_name := GetProcess(GetPid()).name;
-	LogToFile("::log/sysBook.log", "["+script_name+"]: "+"Deleting datafile elem for book " + Hex(book.serial), LOG_DATETIME);
+	LogToFile("::log/sysBook.log", "["+script_name+"]: "+"Deleting datafile elem for book "+Hex(book.serial), LOG_DATETIME);
 	
 	return 1;
 endprogram

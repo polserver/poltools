@@ -5,6 +5,6 @@ use uo;
 program show_landtile( who )
     var where := TargetCoordinates( who );
     if (where)
-        SendSysMessage( who, "LandTile: " + Hex(GetMapInfo( where.x, where.y, who.realm ).landtile) );
+        SendSysMessage( who, "LandTile: "+Hex(GetMapInfo( where.x, where.y, who.realm ).landtile) );
     endif
 endprogram
