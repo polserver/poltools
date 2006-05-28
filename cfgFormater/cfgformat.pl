@@ -34,26 +34,28 @@ sub BuildFileHash()
 			my $name = $2;
 
 			#Config elem has begun.
-			#print $_;
 			if ( $name =~ /0x([a-zA-Z0-9]+)/i )
 			{
 				#Formats HEX strings to be all capitalized.
 				$line = "$type\t0x".uc($1);
 			}
 			$elem_key = $line;
-			#print "$line\n";
 		}
-		elsif ( $line =~ /\s+([a-zA-Z0-9]+)\s+(.+)/i )
+		elsif ( $line =~ /^\s+([a-zA-Z0-9]+)\s+(.+)/i && $elem_key )
 		{
 			my $property = $1;
 			my $value = $2;
 			my @value_list;
-			if ( exists($elem_hash{$elem_key}{$property}) )
+			if ( $elem_hash{$elem_key}{$property} )
 			{
 				@value_list = $elem_hash{$elem_key}{$property};
 			}
 			push(@value_list, $value);
 			$elem_hash{$elem_key}{$property} = @value_list;
+		}
+		elsif ( $line =~ /^\}/ )
+		{
+			$elem_key = 0;
 		}
 	}
 	close(CFGFILE);
@@ -61,10 +63,9 @@ sub BuildFileHash()
 
 	foreach my $elem ( keys(%elem_hash) )
 	{
-		#print "$elem\n";
-		foreach my $property ( $elem_hash{$elem} )
+		foreach my $property ( keys(%{elem_hash->{$elem}}) )
 		{
-			#print "$elem_hash{$elem}{$property}\n";
+			print $elem_hash{$elem}{$property};
 		}
 	}
 
