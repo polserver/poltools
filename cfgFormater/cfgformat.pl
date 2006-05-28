@@ -45,18 +45,13 @@ sub BuildFileHash()
 			}
 			
 			$elem_key = $line;
+			$elem_hash{$elem_key}{$property} = my @value_list;
 		}
 		elsif ( $line =~ /^\s+([a-zA-Z0-9]+)\s+(.+)/i && $elem_key )
 		{
 			my $property = $1;
 			my $prop_value = $2;
-			my @value_list;
-			if ( exists($elem_hash{$elem_key}{$property}) )
-			{
-				@value_list = $elem_hash{$elem_key}{$property};
-				print @value_list[0];
-				print "\n";
-			}
+			my @value_list = $elem_hash{$elem_key}{$property};
 			push(@value_list, $prop_value);
 			$elem_hash{$elem_key}{$property} = @value_list;
 		}
