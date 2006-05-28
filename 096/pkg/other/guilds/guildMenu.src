@@ -2,3 +2,99 @@
  *
  *
  */
+
+use uo;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+include ":guilds:include/events";
+include ":guilds:include/ranks";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+
+const GCGUMP_X := 125;
+const GCGUMP_Y := 200;
+const TXT_CLR_FG := 0;
+const TXT_CLR_BG := 2100;
+
+var background := GFCfgConst("Defaults", "BackGround");
+var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
+
+program Guild_Create(Params)
+
+	var who := Params[1];
+	var guild := Params[2];
+	var guild_name := guild.GetProp("Name");
+	var guild_abbr := guild.GetProp("Abbr");
+	var guild_charter := guild.GetProp("Charter");
+	var guild_website := guild.GetProp("Website");
+	var guild_faction := guild.GetProp("Faction");
+	var guild_allies := guild.allyguilds;
+	var guild_enemies := guild.enemyguilds;
+	var guilds := ListGuilds();
+	var guild_members := guild.members;
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+    GFResizePic(gump, 25, 20, foreground, 450, 25);
+
+    GFTextLine(gump, 35, 22, TXT_CLR_FG, guild_name+" ["+guild_abbr+"]" );
+
+	// Diplomacy
+    GFTextLine(gump, 25, 50, TXT_CLR_BG, "Diplomacy");
+    GFTextLine(gump, 45, 70, TXT_CLR_BG, "Allies");
+	GFAddButton(gump, 25, 72, 2117, 2118, GF_CLOSE_BTN, 1);
+    GFTextLine(gump, 45, 90, TXT_CLR_BG, "Ememies");
+	GFAddButton(gump, 25, 92, 2117, 2118, GF_CLOSE_BTN, 2);
+    GFTextLine(gump, 45, 110, TXT_CLR_BG, "Guilds");
+	GFAddButton(gump, 25, 112, 2117, 2118, GF_CLOSE_BTN, 3);
+
+	// Guild Manager
+    GFTextLine(gump, 125, 50, TXT_CLR_BG, "Guild Manager");
+    GFTextLine(gump, 145, 70, TXT_CLR_BG, "Members");
+	GFAddButton(gump, 125, 72, 2117, 2118, GF_CLOSE_BTN, 4);
+    GFTextLine(gump, 145, 90, TXT_CLR_BG, "Faction");
+	GFAddButton(gump, 125, 92, 2117, 2118, GF_CLOSE_BTN, 5);
+
+	// Guild Charter
+	if ( !guild_charter || guild_charter == "NONE" )
+	guild_charter := "No charter has been set.";
+	endif
+	GFAddButton(gump, 25, 137, 2117, 2118, GF_CLOSE_BTN, 6);
+	GFHTMLArea(gump, 45, 135, 425, 100, guild_charter, 1, 1);
+
+	// Guild Website
+	if ( guild_website && guild_website != "NONE" )
+	guild_website := "<a href="+guild_website+">Click here to visit.</a>";
+	else
+	guild_website := "No website has been set.";
+	endif
+	GFAddButton(gump, 25, 247, 2117, 2118, GF_CLOSE_BTN, 7);
+	GFHTMLArea(gump, 45, 245, 425, 25, guild_website, 1, 0);
+
+    var result := GFSendGump(who, gump);
+
+	case ( result[0] )
+		0:
+			SendSysMessage(who, "Done. 0");
+			Break;
+		1:
+			SendSysMessage(who, "Done. 1");
+			Break;
+		2:
+			SendSysMessage(who, "Done. 2");
+			Break;
+		3:
+			SendSysMessage(who, "Done. 3");
+			Break;
+		4:
+			SendSysMessage(who, "Done. 4");
+			Break;
+		5:
+			SendSysMessage(who, "Done. 5");
+			Break;
+
+	endcase
+
+endprogram
