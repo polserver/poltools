@@ -67,3 +67,33 @@ function PlayMovingEffectXYZHued(source, dest, effect, speed, loop:=0, explode:=
 	packet.SetInt32(32, translucent);
 	packet.SendAreaPacket(source.x, source.y, 16, source.realm);
 endfunction
+
+/*
+ * OpenBrowser(who, link)
+ *
+ * Purpose
+ * Open up a webpage though the client.
+ *
+ * Parameters
+ * who:         The character on which to open their web browser.
+ * link:		The website for their browser to open.
+ *
+ * Return value
+ * No return value
+ *
+ * TODO:
+ * Double check to make sure all offsets are correct.
+ *
+ */
+function OpenBrowser(who, link:="")
+
+	var packet;
+
+	packet := CreatePacket(0xA5, MSGLEN_VARIABLE);;
+	packet.SetString(0x03, link, 1);
+	packet.SetInt16(0x01, packet.GetSize());
+	packet.SendPacket(who);
+
+	return 1;
+
+endfunction
