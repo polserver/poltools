@@ -33,9 +33,18 @@
  *  Added     GetConfigMaxIntKey()
  *
  * -------------------------
- *  require_once("polcfg_inc.php");
+ *  require_once("polcfg.php");
  * -------------------------
  */
+
+/* -------------------------
+ *  CONSTANTS
+ * -------------------------
+ */
+// For class labels in elem names.
+Define("CLASS_LABELS_OFF", 0x0);
+Define("CLASS_LABELS_ON", 0x1);
+
 
 /*
  * ReadConfigFile($path)
@@ -68,6 +77,9 @@ function ReadConfigFile($path)
  *
  * Parameters
  * $cfg_file:	A config file array read in with ReadConfigFile()
+ * $class:	0 - Removes the class type from the elem name.
+ * 		1 - Keeps the class type on the elem name.
+ *		Example: Weapon 0xAB45 - 'Weapon' is the elem's class.
  *
  * Notes:
  * The simplest way to output the results is:
@@ -81,7 +93,7 @@ function ReadConfigFile($path)
  * Returns an array of strings.
  *
  */
-function GetConfigStringKeys(&$cfg_file)
+function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 {
 	$cfg_info = array();
 	foreach ( $cfg_file as $cfg_line )
@@ -97,8 +109,10 @@ function GetConfigStringKeys(&$cfg_file)
 		{
 			// An elem key was found.
 			// Remove the first word from the line and tuck it into an array.
-			$cfg_line = preg_replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
-			Array_Push($cfg_info, $cfg_line);
+			if ( !$class )
+				$cfg_line = Preg_Replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
+			
+			Array_Push($cfg_info, LTrim($cfg_line));
 		}
 	}
 	return $cfg_info;
@@ -112,6 +126,9 @@ function GetConfigStringKeys(&$cfg_file)
  *
  * Paramters
  * $cfg_file:	A config file array read in with ReadConfigFile()
+  * $class:	0 - Removes the class type from the elem name.
+ * 		1 - Keeps the class type on the elem name.
+ *		Example: Weapon 0xAB45 - 'Weapon' is the elem's class.
  *
  * Notes:
  * The simplest way to output the results is:
@@ -125,7 +142,7 @@ function GetConfigStringKeys(&$cfg_file)
  * Returns an array of integers.
  *
  */
-function GetConfigIntKeys(&$cfg_file)
+function GetConfigIntKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 {
 	$cfg_info = array();
 	foreach ( $cfg_file as $cfg_line )
@@ -142,11 +159,11 @@ function GetConfigIntKeys(&$cfg_file)
 			// An elem key was found.
 			// Remove the first word from the line and check if it is an Integer
 			// type element. If so, tuck it into an array.
-			$cfg_line = preg_replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
+			if ( !$class )
+				$cfg_line = Preg_Replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
+				
                 	if ( (Is_Numeric($cfg_line) ? IntVal($cfg_line) == $cfg_line : false) )
-                	{
                 		Array_Push($cfg_info, $cfg_line);
-                	}
 		}
 	}
 	return $cfg_info;
@@ -183,7 +200,7 @@ function GetConfigMaxIntKey(&$cfg_file)
 			//An elem key was found.
 			//Remove the first word from the line and check if it is an Integer
 			//type element. If so, tuck it into an array.
-			$cfg_line = preg_replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
+			$cfg_line = Preg_Replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
                		if ( (Is_Numeric($cfg_line) ? IntVal($cfg_line) == $cfg_line : false) )
                		{
                 		if ( $cfg_line > $high_num )
@@ -195,7 +212,7 @@ function GetConfigMaxIntKey(&$cfg_file)
 	return $high_num;
 }
 
-/* 
+/*
  * FindConfigElem($cfg_file, $elem_name)
  *
  * Purpose
@@ -225,16 +242,18 @@ function GetConfigMaxIntKey(&$cfg_file)
 function FindConfigElem(&$cfg_file, $elem_name)
 {
 	$cfg_info = array();
+	$inside = 0;
 	foreach ( $cfg_file as $cfg_line )
 	{
 		$cfg_line = RTrim($cfg_line);
+		$cfg_line = LTrim($cfg_line);
 		if ( !$cfg_line )
 			// Blank line
 			continue;
 		elseif ( Preg_Match("/^(\/\/|#)/", $cfg_line) )
 			//Comment line
 			continue;
-		elseif ( Preg_Match("/^[[:alnum:]]+\s+{$elem_name}/i", $cfg_line) )
+		elseif ( Preg_Match("/^([[:alnum:]]+\s+({$elem_name})|$elem_name)$/i", $cfg_line) )
 		{
 			//It is inside the elem that it has been told to read.
 			$inside = 1;
@@ -271,14 +290,14 @@ function FindConfigElem(&$cfg_file, $elem_name)
 			}
 		}
 	}
-	
+
 	if ( Count($cfg_info) < 1 )
 		return FALSE;
 	else
 		return $cfg_info;
 }
 
-/* 
+/*
  * GetConfigString($cfg_elem, $key)
  *
  * Purpose
@@ -301,7 +320,7 @@ function GetConfigString(&$cfg_elem, $key)
 		return FALSE;
 }
 
-/* 
+/*
  * GetConfigInt($cfg_elem, $key)
  *
  * Purpose
@@ -324,7 +343,7 @@ function GetConfigInt(&$cfg_elem, $key)
 		return FALSE;
 }
 
-/* 
+/*
  * GetConfigInt($cfg_elem, $key)
  *
  * Purpose
@@ -347,7 +366,7 @@ function GetConfigReal(&$cfg_elem, $key)
 		return FALSE;
 }
 
-/* 
+/*
  * GetConfigStringArray($cfg_elem, $key)
  *
  * Purpose
@@ -370,4 +389,25 @@ function GetConfigStringArray(&$cfg_elem, $key)
 		return FALSE;
 }
 
+/*
+ * GetElemPropertyNames($cfg_elem)
+ *
+ * Purpose
+ * Retrieves all of the property names in a config elem.
+ *
+ * Parameters
+ * $cfg_elem:	A config file elem read in with FindConfigElem()
+ *
+ * Return Value
+ * Returns an array of strings
+ *
+ */
+function GetElemPropertyNames(&$cfg_elem)
+{
+	$prop_names = array();
+	foreach ( $info as $key => $value_array )
+	{
+		Array_Push($prop_names, $key);
+	}
+}
 ?>
