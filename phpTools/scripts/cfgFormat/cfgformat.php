@@ -52,28 +52,35 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 	$cfg_elem = array_change_key_case($cfg_elem, CASE_LOWER);
 	
 	$new_elem = array();
-	foreach ( $template as $line )
+	$last_label = 0;
+	foreach ( $template as $indice => $line )
 	{
-		if ( Preg_Match("/\[Label=(.+)\]/i", $line, $matches) )
+		if ( Preg_Match("/\[Label=([[:alnum:]]+)\]/i", $line, $matches) )
 		{
-			// Check the next line to make sure it isnt also a label.
-			// If the next line is a label, dont print this one since it has no
-			// properties in its section that are used.
-			Print("{$matches[1]}\n");
-			Array_Push($new_elem, array("\n\n\t//{$matches[1]}"));
+			if ( $last_label )
+				UnSet($new_elem[$last_label]);
+				
+			$line = "//{$matches[1]}";
+			if ( $indice > 1 )
+				$line = "\n\n\t{$line}";
+			$last_label = $line;
+			$new_elem[$line] = array("");
 			continue;
 		}
-			
-		$property = StrToLower($line);
-		if ( $cfg_elem[$property] )
+		else
 		{
-			$new_elem[$line] = $cfg_elem[$property];
-			UnSet($cfg_elem[$property]);
+			$property = StrToLower($line);
+			if ( $cfg_elem[$property] )
+			{
+				$new_elem[$line] = $cfg_elem[$property];
+				UnSet($cfg_elem[$property]);
+				$last_label = 0;
+			}
 		}
 	}
 	if ( Count($cfg_elem) > 0 )
 	{
-		Array_Push($new_elem, array("\n\n\t//Custom Values"));
+		$new_elem["\n\n\t//Custom Values"] = array("");
 		// Lines not in the template go at the end as custom values
 		foreach ( $cfg_elem as $key => $value )
 			$new_elem[$key] = $value;
