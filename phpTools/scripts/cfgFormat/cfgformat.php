@@ -62,7 +62,7 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 				
 			$line = "//{$matches[1]}";
 			if ( $indice > 1 )
-				$line = "\n\n\t{$line}";
+				$line = "\n\t{$line}";
 			$last_label = $line;
 			$new_elem[$line] = array("");
 			continue;
@@ -80,7 +80,7 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 	}
 	if ( Count($cfg_elem) > 0 )
 	{
-		$new_elem["\n\n\t//Custom Values"] = array("");
+		$new_elem["\n\t//Custom Values"] = array("");
 		// Lines not in the template go at the end as custom values
 		foreach ( $cfg_elem as $key => $value )
 			$new_elem[$key] = $value;
@@ -91,7 +91,7 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 
 function WriteElemToFile(&$elem_name, &$elem_lines)
 {
-	$handle = FOpen("CleanedConfig.cfg", "w");
+	$handle = FOpen("CleanedConfig.cfg", "a");
 	FWrite($handle, "{$elem_name}\n");
 	FWrite($handle, "{\n");
 	foreach ( $elem_lines as $property => $values )
