@@ -85,7 +85,9 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 		foreach ( $cfg_elem as $key => $value )
 			$new_elem[$key] = $value;
 	}
-		
+	if ( $last_label )
+		UnSet($new_elem[$last_label]);
+	
 	return $new_elem;
 }
 
