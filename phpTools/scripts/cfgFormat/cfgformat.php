@@ -36,23 +36,55 @@ function CleanUpElems(&$file, &$template)
 	
 	foreach ( $elem_names as $elem_name )
 	{
-		CleanUpElem($elem_name, $cfg_file, $template);
+		$new_elem = CleanUpElem($elem_name, $cfg_file, $template);
+		WriteElemToFile($elem_name, $new_elem);
 	}
 }
 
 function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 {
+	Print("    Cleaning up elem '{$elem_name}'\n");
 	$cfg_elem = FindConfigElem($cfg_file, $elem_name);
 
 	// Fixes HEX strings to look like 0xABCDEF12345 rather than 0Xabc or 0xaf
 	if ( Preg_Match("/(0x)([a-fA-F0-9]+)/i", $elem_name, $matches) )
 		$elem_name = Preg_Replace("/(0x)([a-fA-F0-9]+)/i", "0x".StrToUpper($matches[2]), $elem_name);
 	
+	$cfg_elem = array_change_key_case($cfg_elem, CASE_LOWER);
+	
+	$new_elem = array();
 	foreach ( $template as $line )
 	{
-		if ( $cfg_elem[$line] )
-			Print("{$line}\n");
+		$property = StrToLower($line);
+		if ( $cfg_elem[$property] )
+		{
+			$new_elem[$line] = $cfg_elem[$property];
+			UnSet($cfg_elem[$property]);
+		}
 	}
+	// Lines not in the template go at the end as custom values
+	foreach ( $cfg_elem as $key => $value )
+	{
+		$new_elem[$key] = $value;
+	}
+		
+	return $new_elem;
+}
+
+function WriteElemToFile(&$elem_name, &$elem_lines)
+{
+	$handle = FOpen("CleanedConfig.cfg", "w+");
+	FWrite($handle, "{$elem_name}\n");
+	FWrite($handle, "{\n");
+	foreach ( $elem_lines as $property => $values )
+	{
+		foreach ( $values as $value )
+			FWrite($handle, "\t{$property}\t$value\n");
+	}
+	FWrite($handle, "}\n\n");
+	FClose($handle);
+	
+	return 1;
 }
 
 function DisplayElemHash(&$elem_hash)
