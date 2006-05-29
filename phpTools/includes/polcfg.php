@@ -105,12 +105,12 @@ function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 		elseif ( Preg_Match("/^(\/\/|#)/", $cfg_line) )
 			//Comment line
 			continue;
-		elseif ( Preg_Match("/^[[:alnum:]]+\s+{$elem_name}/i", $cfg_line) )
+		elseif ( Preg_Match("/^([[:alnum:]]+\s+)([[:alnum:]]+)$/i", $cfg_line, $matches) )
 		{
 			// An elem key was found.
 			// Remove the first word from the line and tuck it into an array.
 			if ( !$class )
-				$cfg_line = Preg_Replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
+				$cfg_line = $matches[2];
 			
 			Array_Push($cfg_info, LTrim($cfg_line));
 		}
@@ -154,16 +154,14 @@ function GetConfigIntKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 		elseif ( Preg_Match("/^(\/\/|#)/", $cfg_line) )
 			//Comment line
 			continue;
-		elseif ( Preg_Match("/^[[:alnum:]]+\s+{$elem_name}/i", $cfg_line) )
+		elseif ( Preg_Match("/^([[:alnum:]]+\s+)([[:digit:]]+)$/i", $cfg_line, $matches) )
 		{
 			// An elem key was found.
-			// Remove the first word from the line and check if it is an Integer
-			// type element. If so, tuck it into an array.
+			// Remove the first word from the line and tuck it into an array.
 			if ( !$class )
-				$cfg_line = Preg_Replace("/^[[:alnum:]]+\s+/", "", $cfg_line);
-				
-                	if ( (Is_Numeric($cfg_line) ? IntVal($cfg_line) == $cfg_line : false) )
-                		Array_Push($cfg_info, $cfg_line);
+				$cfg_line = $matches[2];
+			
+			Array_Push($cfg_info, LTrim($cfg_line));
 		}
 	}
 	return $cfg_info;
@@ -253,8 +251,9 @@ function FindConfigElem(&$cfg_file, $elem_name)
 		elseif ( Preg_Match("/^(\/\/|#)/", $cfg_line) )
 			//Comment line
 			continue;
-		elseif ( Preg_Match("/^([[:alnum:]]+\s+({$elem_name})|$elem_name)$/i", $cfg_line) )
+		elseif ( Preg_Match("/^(([[:alnum:]]+)\s+({$elem_name})|$elem_name)$/i", $cfg_line, $matches) )
 		{
+			//Print("Inside (0){$matches[0]} (1){$matches[1]} (2){$matches[2]} (3){$matches[3]}\n");
 			//It is inside the elem that it has been told to read.
 			$inside = 1;
 		}
