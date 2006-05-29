@@ -1,7 +1,7 @@
 <?
 
+Require_Once("../../includes/polcfg.php");
 Main($argv);
-
 
 function Main(&$argv)
 {
@@ -9,68 +9,50 @@ function Main(&$argv)
 	print "POL Config organizer by Austin\n";
 	print "----------\n";
 
-	if ( preg_match("/\.cfg/i", $argv[1]) )
+	if ( Preg_Match("/\.cfg/i", $argv[1]) )
 	{
-		$elem_hash = BuildFileHash($argv[1]);
 		$template = GetTemplate($argv[2]);
-		CleanUp($elem_hash, $template);
+		CleanUpElems($argv[1], $template);
 	}
 	else
 	{
-		print "Command: php cfgformat.php <file-to-clean> (template-file)\n\n";
+		Print("Command: php cfgformat.php <file-to-clean> (template-file)\n\n");
 	}
 	return 1;
 }
 
-function BuildFileHash(&$file)
+function CleanUpElems(&$file, &$template)
 {
-	Print(" * Building arrays for config file...\n");
-	$elem_hash = array();
-	$elem_key = "";
-
-	$handle = @FOpen($file, "r");
-	if ( !$handle )
+	Print(" * Loading config file...\n");
+	$cfg_file = ReadConfigFile($file);
+	if ( $cfg_file == FALSE )
 	{
 		Print("Cant open {$file} ({$php_errormsg}). Blame Stephen Donald.\n");
 		exit;
 	}
-
-	while ( !FEof($handle) )
+	Print(" * Finding elem names...");
+	$elem_names = GetConfigStringKeys($cfg_file, CLASS_LABELS_ON);
+	Print("(".Count($elem_names).")\n");
+	
+	foreach ( $elem_names as $elem_name )
 	{
-		$line = FGets($handle);
-
-		if ( preg_match("/^([a-zA-Z0-9]+)\s+([a-zA-Z0-9 ]+)/i", $line, $matches) )
-		{
-			$type = $matches[1];
-			$name = $matches[2];
-
-			// Config elem has begun!
-			if ( preg_match("/0x([a-zA-Z0-9]+)/i", $name, $matches) )
-				$line = "{$type}\t0x".StrToLower($matches[1]);
-
-			$elem_key = $line;
-			if ( !IsSet($elem_hash[$elem_key]) )
-				$elem_hash[$elem_key] = array();
-		}
-		elseif ( preg_match("/^\s+([a-zA-Z0-9]+)\s+(.+)/i", $line, $matches) && $elem_key )
-		{
-			$property = $matches[1];
-			$value = $matches[2];
-
-			if ( !IsSet($elem_hash[$elem_key][$property]) )
-				$elem_hash[$elem_key][$property] = array();
-
-			Array_Push($elem_hash[$elem_key][$property], $value);
-		}
-		elseif ( preg_match("/^\}/", $line) )
-		{
-			$elem_key = 0;
-		}
+		CleanUpElem($elem_name, $cfg_file, $template);
 	}
+}
 
-	FClose($handle);
+function CleanUpElem(&$elem_name, &$cfg_file, &$template)
+{
+	$cfg_elem = FindConfigElem($cfg_file, $elem_name);
 
-	return $elem_hash;
+	// Fixes HEX strings to look like 0xABCDEF12345 rather than 0Xabc or 0xaf
+	if ( Preg_Match("/(0x)([a-fA-F0-9]+)/i", $elem_name, $matches) )
+		$elem_name = Preg_Replace("/(0x)([a-fA-F0-9]+)/i", "0x".StrToUpper($matches[2]), $elem_name);
+	
+	foreach ( $template as $line )
+	{
+		if ( $cfg_elem[$line] )
+			Print("{$line}\n");
+	}
 }
 
 function DisplayElemHash(&$elem_hash)
@@ -83,32 +65,38 @@ function DisplayElemHash(&$elem_hash)
 		{
 			foreach ( $propvals as $value )
 			{
-				Print("\t{$propname}\t{$value}\n");
+				Print("Property - \t{$propname}\t{$value}\n");
 			}
 		}
 		Print("}\n\n");
 	}
 }
 
-function CleanUp(&$elem_hash, &$template)
-{
-	
-}
-
 function GetTemplate(&$file=0)
 {
 	Print(" * Loading template file...\n");
+	
 	if ( !$file )
-	{
 		$file = "template.cfg";
-	}
-
-	$template = @File($file);
-	if ( $template == FALSE )
+	$cfg_file = ReadConfigFile($file);
+	if ( $cfg_file == FALSE )
 	{
 		Print("Cant open template {$file} ({$php_errormsg}).\n");
 		exit;
 	}
-
-	return $template;
+	
+	$template = FindConfigElem($cfg_file, "Template");
+	if ( $template == FALSE )
+	{
+		Print("Cant find elem 'Template'.\n");
+		exit;
+	}
+	else
+	{
+		$order = array();
+		foreach ( $template as $key => $value )
+			Array_Push($order, $key);
+		
+		return $order;
+	}
 }
