@@ -22,7 +22,7 @@ program GlobalControl()
 	
 	SetGlobalProperty("#TreeRegenPId", GetPid());
 	
-	set_priority(1);
+	Set_Priority(1);
 	while( 1 )
 		Sleep(cycle_wait);
 		RegenWood(settings);
