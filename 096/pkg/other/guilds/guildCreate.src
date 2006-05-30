@@ -73,7 +73,7 @@ program Guild_Create(who)
         // More stuff todo, drr.
         var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
         var ev := struct{};
-        ev.type := GUILD_CREATE;
+        ev.+type := GUILD_CREATE;
         ev.+source := who;
         ev.+name := guild_name;
         ev.+abbr := guild_abbr;
