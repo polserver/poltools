@@ -19,7 +19,7 @@ program GlobalControl()
 	endif
 	cycle_wait := cycle_wait * 60;
 	
-	SetGlobalProperty("#GlobalOreRegenPId", GetPid());
+	SetGlobalProperty("#OreVeinRegenPId", GetPid());
 	
 	Set_Priority(1);
 	while( 1 )
