@@ -2,7 +2,7 @@ use uo;
 use os;
 use http;
 
-set_priority(1);
+Set_Priority(1);
 
 var book_serial := QueryParam("serial");
 

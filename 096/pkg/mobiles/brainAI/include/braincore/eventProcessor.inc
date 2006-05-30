@@ -9,7 +9,7 @@
 ===============================================================*/
 
 function ProcessEvent(byref event)
-	var old_priority := set_priority(25);
+	var old_priority := Set_Priority(25);
 
 	case( event.type )
 		//
@@ -295,5 +295,5 @@ function ProcessEvent(byref event)
 	//	(event.process).SendEvent(struct{"type":=NPCEVENT_DONE, "evsource":=event.type});
 	//endif
 	
-	set_priority(old_priority);
+	Set_Priority(old_priority);
 endfunction

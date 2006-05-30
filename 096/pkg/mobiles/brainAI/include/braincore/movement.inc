@@ -22,7 +22,7 @@
  *
  */
 function Movement(ev)
-	var old_pri := set_priority(50);
+	var old_pri := Set_Priority(50);
 	
 	case ( ev.speed )
 		NEMOVE_WALK:
@@ -53,7 +53,7 @@ function Movement(ev)
 			endcase
 	endcase
 	
-	set_priority(old_pri);
+	Set_Priority(old_pri);
 	
 	return 1;
 endfunction
@@ -72,7 +72,7 @@ endfunction
  *
  */
 function MovementXY(ev)
-	var old_pri := set_priority(50);
+	var old_pri := Set_Priority(50);
 	
 	case ( ev.speed )
 		NEMOVE_WALK:
@@ -103,7 +103,7 @@ function MovementXY(ev)
 			endcase
 	endcase
 	
-	set_priority(old_pri);
+	Set_Priority(old_pri);
 	
 	return 1;
 endfunction
