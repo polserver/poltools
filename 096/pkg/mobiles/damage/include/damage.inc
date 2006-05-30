@@ -10,6 +10,8 @@ use os;
 use math;
 use cfgfile;
 
+include ":damage:include/settings";
+include ":damage:include/report";
 include ":brainAI:npcUtil";
 include ":attributes:attributes";
 
@@ -243,35 +245,27 @@ function GetResistance(mobile, type:=0)
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
-
+	
 	if ( !type )
-		// Set minimum resistance based on resisting spells (does NOT stack with anything else)
+		var dmg_types := GetConfigStringDictionary(DMG_GetSettingsCfgElem("DamageTypes"), "Damage");
 		var base_resist := ResistancePercentToMult(((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2); // from uo.stratics
-		if ( resistances[DMG_PHYSICAL] < base_resist )
-			resistances[DMG_PHYSICAL] := base_resist;
-		endif
-		if ( resistances[DMG_FIRE] < base_resist )
-			resistances[DMG_FIRE] := base_resist;
-		endif
-		if ( resistances[DMG_COLD] < base_resist )
-			resistances[DMG_COLD] := base_resist;
-		endif
-		if ( resistances[DMG_POISON] < base_resist )
-			resistances[DMG_POISON] := base_resist;
-		endif
-		if ( resistances[DMG_ENERGY] < base_resist )
-			resistances[DMG_ENERGY] := base_resist;
-		endif
-
-		// Adjust resistances with resistance_mods
+		var max_resistances := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");
 		var resistance_mods := GetResistanceMods(mobile);
-		resistances[DMG_PHYSICAL] := resistances[DMG_PHYSICAL] + CDbl(resistance_mods[DMG_PHYSICAL]);
-		resistances[DMG_FIRE] := resistances[DMG_FIRE] + CDbl(resistance_mods[DMG_FIRE]);
-		resistances[DMG_COLD] := resistances[DMG_COLD] + CDbl(resistance_mods[DMG_COLD]);
-		resistances[DMG_ENERGY] := resistances[DMG_ENERGY] + CDbl(resistance_mods[DMG_ENERGY]);
-		
-		// The max resistance is 80, might want to move this to a config file somewhere
-		// TODO: once Austin is finished with his changes on this file, cap the resistances at 80%
+		foreach key in (dmg_types.Keys())
+			// Set minimum resistance based on resisting spells (does NOT stack with anything else)
+			if ( resistances[key] < base_resist )
+				resistances[key] := base_resist;
+			endif
+			
+			// Adjust resistances with resistance mods
+			resistances[key] := resistances[key] + CDbl(resistance_mods[key]);
+			
+			// Cap resistance maximum as defined in settings.cfg
+			if ( resistances[key] > max_resistances[key] )
+				resistances[key] := max_resistances[key];
+			endif
+		endforeach
+
 		return resistances;
 	elseif ( resistances.Exists(type) )
 		// Set minimum resistance based on magic resistances (does NOT stack with anything else)
@@ -284,8 +278,11 @@ function GetResistance(mobile, type:=0)
 		var resistance_mods := GetResistanceMods(mobile, type);
 		resistances[type] := resistances[type] + CDbl(resistance_mods[type]);
 
-		// The max resistance is 80, might want to move this to a config file somewhere
-		// TODO: once Austin is finished with his changes on this file, cap the resistances at 80%
+		var max_resistance := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");		
+		if ( resistances[type] > max_resistance[type] )
+			resistances[type] := max_resistance[type];
+		endif
+
 		return CDbl(resistances[type]);
 	elseif ( mobile.npctemplate )
 		// Looks for type-ResistMult in the NPCDESC.CFG
