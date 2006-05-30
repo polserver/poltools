@@ -11,6 +11,7 @@ use math;
 use cfgfile;
 
 include ":brainAI:npcUtil";
+include ":attributes:attributes";
 
 /*
  * http://uo.stratics.com/content/guides/resistance.shtml
@@ -223,7 +224,9 @@ endfunction
  * GetResistance(mobile, type)
  *
  * Purpose
- * Retrieves the resistances list for a mobile.
+ * Retrieves the resistances list for a mobile, taking into consideration
+ * the magic resist skill.
+ *
  *
  * Parameters
  * mobile:	Mobile to retrieve the resistances for.
@@ -240,11 +243,49 @@ function GetResistance(mobile, type:=0)
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
+
 	if ( !type )
+		// Set minimum resistance based on resisting spells (does NOT stack with anything else)
+		var base_resist := ResistancePercentToMult(((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2); // from uo.stratics
+		if ( resistances[DMG_PHYSICAL] < base_resist )
+			resistances[DMG_PHYSICAL] := base_resist;
+		endif
+		if ( resistances[DMG_FIRE] < base_resist )
+			resistances[DMG_FIRE] := base_resist;
+		endif
+		if ( resistances[DMG_COLD] < base_resist )
+			resistances[DMG_COLD] := base_resist;
+		endif
+		if ( resistances[DMG_POISON] < base_resist )
+			resistances[DMG_POISON] := base_resist;
+		endif
+		if ( resistances[DMG_ENERGY] < base_resist )
+			resistances[DMG_ENERGY] := base_resist;
+		endif
+
+		// Adjust resistances with resistance_mods
+		var resistance_mods := GetResistanceMods(mobile);
+		resistances[DMG_PHYSICAL] := resistances[DMG_PHYSICAL] + CDbl(resistance_mods[DMG_PHYSICAL]);
+		resistances[DMG_FIRE] := resistances[DMG_FIRE] + CDbl(resistance_mods[DMG_FIRE]);
+		resistances[DMG_COLD] := resistances[DMG_COLD] + CDbl(resistance_mods[DMG_COLD]);
+		resistances[DMG_ENERGY] := resistances[DMG_ENERGY] + CDbl(resistance_mods[DMG_ENERGY]);
+		
+		// The max resistance is 80, might want to move this to a config file somewhere
+		// TODO: once Austin is finished with his changes on this file, cap the resistances at 80%
 		return resistances;
 	elseif ( resistances.Exists(type) )
-		// Resistances CProp overrides the NPCDESC.CFG settings.
-		// Can also be used on players for their resistances.
+		// Set minimum resistance based on magic resistances (does NOT stack with anything else)
+		var base_resist := ResistancePercentToMult(((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2); // from uo.stratics
+		if ( resistances[type] < base_resist )
+			resistances[type] := base_resist;
+		endif
+
+		// Adjust resistance with resistance_mods
+		var resistance_mods := GetResistanceMods(mobile, type);
+		resistances[type] := resistances[type] + CDbl(resistance_mods[type]);
+
+		// The max resistance is 80, might want to move this to a config file somewhere
+		// TODO: once Austin is finished with his changes on this file, cap the resistances at 80%
 		return CDbl(resistances[type]);
 	elseif ( mobile.npctemplate )
 		// Looks for type-ResistMult in the NPCDESC.CFG
@@ -269,7 +310,7 @@ endfunction
  * value:	Multiplier for the resistance.
  *
  * Return value
- * Returns 1
+ * Returns result of SetObjProperty()
  *
  */
 function SetResistance(mobile, name, value)
@@ -293,7 +334,7 @@ endfunction
  * value:	Adjustment to the multiplier.
  *
  * Return value
- * Returns 1
+ * Returns result of SetObjProperty()
  *
  */
 function ModifyResistance(mobile, name, value)
@@ -308,4 +349,166 @@ function ModifyResistance(mobile, name, value)
 	resistances[name] := value;
 	
 	return SetObjProperty(mobile, "Resistances", resistances);
+endfunction
+
+/*
+ * GetResistanceMods(mobile, type)
+ *
+ * Purpose
+ * Retrieves the resistance mods list for a mobile. This prop is used
+ * to store resistance modifications that must be applied AFTER
+ * a mobile's base resist such as reactive armor and magic reflection
+ *
+ *
+ * Parameters
+ * mobile:	Mobile to retrieve the resistances for.
+ * type:	Optional argument.
+ *		If 0 or blank, will return a dictionary of all resistance mods.
+ *		If specified, will return a double for that value.
+ *
+ * Return value
+ * dictionary or double
+ * 
+ */
+function GetResistanceMods(mobile, type:=0)
+	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
+		resistance_mods := dictionary;
+	endif
+	
+	if ( !type )
+		return resistance_mods;
+	elseif ( resistance_mods.Exists(type) )
+		return CDbl(resistance_mods[type]);
+	else
+		return 1.0;
+	endif
+endfunction
+
+/*
+ * SetResistanceMods(mobile, name, value)
+ *
+ * Purpose
+ * Sets a resistance mod multiplier on a mobile.
+ *
+ * mobile:	Mobile to set the resistance mod multiplier for.
+ * name:	Name of the resistance mod type to set.
+ * value:	Multiplier for the resistance mod.
+ *
+ * Return value
+ * Returns result of SetObjProperty()
+ *
+ */
+function SetResistanceMod(mobile, name, value)
+	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
+		resistance_mods := dictionary;
+	endif
+	
+	resistance_mods[name] := CDbl(value);
+	
+	return SetObjProperty(mobile, "ResistanceMods", resistance_mods);
+endfunction
+
+/*
+ * ModifyResistance(mobile, name, value)
+ * Purpose
+ * Modifies a resistance mod multiplier on a mobile.
+ *
+ * mobile:	Mobile to set the resistance mod multiplier for.
+ * name:	Name of the resistance mod type to change.
+ * value:	Adjustment to the multiplier.
+ *
+ * Return value
+ * Returns result of SetObjProperty()
+ *
+ */
+function ModifyResistanceMod(mobile, name, value)
+	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
+		resistance_mods := dictionary;
+	endif
+	
+	var cur_value := CDbl(resistance_mods[name]);
+	value := cur_value + CDbl(value);
+	
+	resistance_mods[name] := value;
+	
+	return SetObjProperty(mobile, "ResistanceMods", resistance_mods);
+endfunction
+
+/*
+ * GetDamageTypes(mobile)
+ *
+ * Purpose
+ * Retrieves the DamageTypes prop from the mobile if NPC, from the mobile.weapon if not
+ * If no DamageTypes is found, returns all damage as physical
+ *
+ * mobile: mobile refrence
+ * 
+ * Return value:
+ * Dictionary with the type of damage and porcentage, eg.: "DMG_FIRE -> 0.5 DMG_COLD -> 0.5"
+*/
+
+function GetDamageTypes(mobile)
+	var damage_types := dictionary;
+
+	if ( mobile.npctemplate )
+		damage_types := GetObjProperty(mobile, "DamageTypes");
+	else
+		damage_types := GetObjProperty(mobile.weapon, "DamageTypes");
+	endif
+
+	if ( !damage_types )
+		damage_types := dictionary;
+		damage_types[DMG_PHYSICAL] := 1.0;
+	endif
+
+	return damage_types;
+endfunction
+
+/*
+ * ResistancePercentToMult(percent)
+ *
+ * Purpose
+ * Turns a percentage into a resistance multiplier.
+ *
+ * Parameters
+ * percent
+ *
+ * Return value
+ * Double resistance multiplier
+ * 
+ */
+function ResistancePercentToMult(percent)
+	if ( percent > 0 )
+		//print("% to mult: "+percent+" is: "+(CDbl(100 - percent) * 0.010));
+		return CDbl(100 - percent) * 0.010;
+	else
+		//print("% to mult: "+percent+" is: "+(CDbl(100 + percent) * 0.010));
+		return CDbl(100 + percent) * 0.010;
+	endif
+endfunction
+
+/*
+ * ResistancePercentToMult(percent)
+ *
+ * Purpose
+ * Turns a resistance multiplier into a percentage.
+ *
+ * Parameters
+ * mult
+ *
+ * Return value
+ * Int percentage
+ * 
+ */
+function ResistanceMultToPercent(mult)
+	if ( mult > 0 )
+		//print("mult to %: "+mult+" is: "+CInt(100 - (mult * 100)));
+		return CInt(100 - (mult * 100));
+	else
+		//print("mult to %: "+mult+" is: "+CInt(100 + (mult * 100)));
+		return CInt(100 + (mult * 100));
+	endif
 endfunction
