@@ -21,6 +21,7 @@ const TXT_CLR_BG := 2100;
 var background := GFCfgConst("Defaults", "BackGround");
 var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
 var permissions := Guild_GetSettingsCfgElem("Permissions");
+var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 
 program Guild_Create(Params)
 
@@ -62,15 +63,29 @@ program Guild_Create(Params)
 	GFAddButton(gump, 25, 113, 2117, 2118, GF_CLOSE_BTN, 3);
     GFTextLine(gump, 45, 130, TXT_CLR_BG, "Website");
 	GFAddButton(gump, 25, 133, 2117, 2118, GF_CLOSE_BTN, 4);
+    GFTextLine(gump, 45, 150, TXT_CLR_BG, "Recruit");
+	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, 5);
 
 	// Diplomacy
     GFTextLine(gump, 125, 50, TXT_CLR_BG, "Diplomacy");
     GFTextLine(gump, 145, 70, TXT_CLR_BG, "Allies");
-	GFAddButton(gump, 125, 73, 2117, 2118, GF_CLOSE_BTN, 5);
+	GFAddButton(gump, 125, 73, 2117, 2118, GF_CLOSE_BTN, 6);
     GFTextLine(gump, 145, 90, TXT_CLR_BG, "Ememies");
-	GFAddButton(gump, 125, 93, 2117, 2118, GF_CLOSE_BTN, 6);
+	GFAddButton(gump, 125, 93, 2117, 2118, GF_CLOSE_BTN, 7);
     GFTextLine(gump, 145, 110, TXT_CLR_BG, "Guilds");
-	GFAddButton(gump, 125, 113, 2117, 2118, GF_CLOSE_BTN, 7);
+	GFAddButton(gump, 125, 113, 2117, 2118, GF_CLOSE_BTN, 8);
+
+	// Personal
+    GFTextLine(gump, 225, 50, TXT_CLR_BG, "Personal");
+    GFTextLine(gump, 245, 70, TXT_CLR_BG, "Resign");
+	GFAddButton(gump, 225, 73, 2117, 2118, GF_CLOSE_BTN, 9);
+    GFTextLine(gump, 245, 90, TXT_CLR_BG, "Toggle Title");
+	GFAddButton(gump, 225, 93, 2117, 2118, GF_CLOSE_BTN, 10);
+
+	if ( who_rank == 5 )
+    GFTextLine(gump, 245, 110, TXT_CLR_BG, "Disband Guild");
+	GFAddButton(gump, 225, 113, 2117, 2118, GF_CLOSE_BTN, 11);
+	endif
 
     var result := GFSendGump(who, gump);
 
@@ -91,15 +106,34 @@ program Guild_Create(Params)
 			ShowWebsite(who);
 			break;
 		5:
+			if ( who_rank == 5 || who_rank == permissions.Invite )
+				var ev := struct{};
+				ev.type := GUILD_INVITE_MEMBER;
+				ev.+source := who;
+				ev.+guild := guild;
+				guild_manager.SendEvent(ev);
+				break;
+			else
+				SendSysMessage(who, "Aborted. You are not allowed to invite.");
+				break;
+			endif
+		6:
 			ShowAllies(who);
 			break;
-		6:
+		7:
 			ShowEnemies(who);
 			break;
-		7:
+		8:
 			ShowGuilds(who);
 			break;
-		8:
+		9:
+			var ev := struct{};
+			ev.type := GUILD_RESIGN_MEMBER;
+			ev.+source := who;
+			ev.+guild := guild;
+			guild_manager.SendEvent(ev);
+			break;
+		10:
 			break;
 	endcase
 
@@ -165,8 +199,6 @@ function ShowMembers(who)
 
     var result := GFSendGump(who, gump);
 
-	SendSysMessage(who, "Result: "+result[0]);
-
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
@@ -219,8 +251,6 @@ function ViewMember(who, member)
 
     var result := GFSendGump(who, gump);
 
-	SendSysMessage(who, "Result: "+result[0]);
-
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
@@ -264,7 +294,6 @@ function ShowCharter(who)
 			return 0;
 			break;
 		1:
-			var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 			var ev := struct{};
 			ev.type := GUILD_SET_CHARTER;
 			ev.+source := who;
@@ -320,7 +349,6 @@ function ShowWebsite(who)
 			return 1;
 			break;
 		2:
-			var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 			var ev := struct{};
 			ev.type := GUILD_SET_WEBSITE;
 			ev.+source := who;
@@ -395,8 +423,6 @@ function ShowAllies(who)
 
     var result := GFSendGump(who, gump);
 
-	SendSysMessage(who, "Result: "+result[0]);
-
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
@@ -467,8 +493,6 @@ function ShowEnemies(who)
 
     var result := GFSendGump(who, gump);
 
-	SendSysMessage(who, "Result: "+result[0]);
-
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
@@ -538,8 +562,6 @@ function ShowGuilds(who)
     endforeach
 
     var result := GFSendGump(who, gump);
-
-	SendSysMessage(who, "Result: "+result[0]);
 
 	if ( result[0] == 0 )
 		return 0;

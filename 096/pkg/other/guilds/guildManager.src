@@ -13,6 +13,8 @@ include	":guilds:include/validate";
 include	":guilds:include/ranks";
 include	":gumps:include/yesno";
 
+var permissions := Guild_GetSettingsCfgElem("Permissions");
+
 program	GuildManager()
 
 	SetGlobalProperty("#Guild_Manager",	GetPid());
@@ -39,13 +41,11 @@ program	GuildManager()
 					// TODO:
 				GUILD_SET_MEMBER_TITLE:
 					// TODO:
+				GUILD_RESIGN_MEMBER:
+					LeaveGuild(ev);
 				GUILD_TOGGLE_MEMBER_TITLE:
 					// TODO:
 				GUILD_VOTE_MEMBER:
-					// TODO:
-				GUILD_VIEW_MEMBER:
-					// TODO:
-				GUILD_VIEW_GUILD:
 					// TODO:
 				GUILD_SET_CHARTER:
 					SetGuildCharter(ev);
@@ -70,12 +70,10 @@ function AddGuild(ev)
 		return 0;
 	endif
 
-/*	Removed currently for easier testing.
 	if ( guild_gm.gold < regist_fee	)
-		SendSysMessage(guild_gm, "You do not have enough gold to cover the fee.");
+		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
 		return 0;
 	endif
-*/
 
 	var	guild_name := CStr(ev.name);
 
@@ -107,13 +105,10 @@ function AddGuild(ev)
 		SendSysMessage(guild_gm, "Aborted.");
 		return 0;
 	else
-	/*	Removed currently for easier testing.
 		if ( !guild_gm.SpendGold(regist_fee) )
 			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
 			return 0;
 		endif
-	*/
-	SendSysMessage(guild_gm, "IMPORTANT: No gold was taken.");
 	endif
 
 	var	guild := CreateGuild();
@@ -173,13 +168,6 @@ endfunction
 function InviteMember(ev)
 
 	var recruiter := ev.source;
-	var recruiter_rank := GetGuildRank(recruiter);
-
-	if ( recruiter_rank != 5 || recruiter_rank != 3 ) // TODO: Get req. rank from settings.cfg
-		SendSysMessage(recruiter, "Aborted. You are not allowed to invite.");
-		return 0;
-	endif
-
 	var	guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
@@ -274,6 +262,33 @@ function KickMember(ev)
 		member.title_guild := "";
 		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		SendSysMessage(character, member.name+" has been kicked from the guild.");
+		return 1;
+	endif
+
+endfunction
+
+function LeaveGuild(ev)
+
+	var member := ev.source;
+
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	if ( !YesNo(member, "Are you sure you would like to leave "+guild_name+"?", "Yes", "No") )
+		SendSysMessage(member, "Aborted.");
+		return 0;
+	else
+		guild.RemoveMember(member);
+		EraseObjProperty(member, "Guild_ID");
+		EraseObjProperty(member, "Guild_Rank");
+		EraseObjProperty(member, "Fealty");
+		member.title_guild := "";
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
+		if ( CInt(guild.GetProp("Master")) == CInt(member.serial) )
+			foreach xmember in (guild.members)
+			SendSysMessage(xmember, "You leader has left the guild.");
+			endforeach
+		endif
 		return 1;
 	endif
 
