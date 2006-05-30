@@ -1,0 +1,39 @@
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":magery:spellSounds";
+include ":magery:spells";
+include "include/client";
+include "include/sounds";
+include "include/damage";
+
+program SpellScript_Harm(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0; // no longer needed
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if (!MS_MobileCheck(mobile, targ))
+		return 0;
+	endif
+
+	PlaySoundEffect(mobile, SFX_SPELL_HARM);
+	PlayObjectCenteredEffect(mobile, GFX_RED_SPARKLES, 7, 16);
+
+	// Base damage = 5.2 - 6.6
+	var base_damage := (CDbl(RandomInt(14)) / 10.0) + 5.2;
+	var points := MS_GetSpellDamage(mobile, targ, base_damage);
+
+	// 1 tile = full damage, 2 tiles = half damage, >3 tiles = 1/4 damage
+	case ( Distance(mobile, targ) )
+		1: points := points;
+		2: points := CInt(points / 2);
+		default: points := CInt(points / 4);
+	endcase
+	
+	ApplyDamageEX(targ, points, DMG_COLD, mobile);
+
+	return 1;
+endprogram

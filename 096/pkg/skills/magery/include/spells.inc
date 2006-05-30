@@ -4,6 +4,7 @@ use util;
 use cfgfile;
 
 include ":attributes:attributes";
+include ":magery:include/settings";
 include "include/client";
 
 const MAX_RANGE	:= 16;
@@ -80,15 +81,6 @@ function MS_SpellDebug(who, text)
 	return 0;
 endfunction
 
-function MS_Reflection()
-	// Not sure what params it would need yet to be flexible.
-	// Lower targ's defense
-	// Apply some of spell_strength to target if reflected.
-	// Lower spell_strength by how much was not reflected.
-	// Start the spell again and point it at who from targ.
-
-endfunction
-
 /*
  * MS_Target(who, targ, prompt, flags)
  *
@@ -114,18 +106,21 @@ function MS_Target(byref who, byref targ:=0, byref prompt := "Select a target.",
 		return 0;
 	endif
 
-//	var orig_x := who.x;
-//	var orig_y := who.y;
+	var orig_x := who.x;
+	var orig_y := who.y;
 
 	SendSysMessage(who, prompt);
+
+	var elem := MS_GetSettingsCfgElem("Settings");
+	var max_range := elem.MaxRange;
 
 	targ := Target(who, flags);
 	if ( Distance(who, targ) > MAX_RANGE )
 		SendSysMessage(who, "That is too far away.");
 		return 0;
-//	elseif ( who.x != orig_x || who.y != orig_y )
-//		SendSysMessage(who, "You break your concentration.");
-//		return 0;
+	elseif ( who.x != orig_x || who.y != orig_y )
+		SendSysMessage(who, "You break your concentration.");
+		return 0;
 	else
 		return targ;
 	endif
@@ -189,6 +184,10 @@ endfunction
  * Return value
  * Integer - adjusted point
  *
+ * Notes:
+ * Magic resistance does not work like this since AoS. This function remains
+ * just in case someone should want to use it.
+ *
  */
 function MS_AdjustSpellPoints(mage, targ, points)
 	var mage_skill := AP_GetSkill(mage, MAGERY);
@@ -224,5 +223,61 @@ function ReleaseScript(pid)
 	var process := GetProcess(pid);
 	process.SendEvent("done");
 
+	return 1;
+endfunction
+
+/*
+ * MS_GetSpellDamage(character, targ, base_damage, dmg_type)
+ *
+ * Purpose
+ *   Calculates the damage of a spell using the following logic
+ *   Eval. Int. Bonus: ((EvalInt * 3) / 100) + 1
+ *   Intelligence Bonus: (INT / 10) (Drop decimals from result)
+ *   GM Inscription Bonus: 10% Damage Bonus
+ *   Spell Damage Increase: Int. Bonus + Inscr. Bonus + Spell Damage Increase Items
+ *   Total: round((Base Damage * Eval. Int. Bonus) * ((Spell Damage Increase / 100) + 1))
+ *
+ * Parameters
+ *   character:		character object refrence of spell caster
+ *   target:		npc object refrence of target
+ *   base_damage:	randomly determined base damage for the spell
+ *
+ * Note:
+ *   base_damage is a double
+ *
+ * Returns
+ *   integer of total damage
+ *
+ */
+function MS_GetSpellDamage(byref character, targ, base_damage)
+	var damage_increase := CInt(AP_GetStat(character, "Intelligence") / 10);
+    
+    if (AP_GetSkill(character, INSCRIPTION) == 100)
+      damage_increase := damage_increase + CInt((damage_increase / 10));
+    endif
+    
+    // Get SDI items percentage (capped at 15% for pvp)
+	// damage_increase := damage_increase + MS_GetSDIPercentage(character);
+	
+	var total_damage := CInt(base_damage * ((AP_GetSkill(character, EVALUATING_INTELLIGENCE) * 3) / 100 + 1) * ((damage_increase / 100) + 1));
+	return total_damage;
+endfunction
+
+/*
+ * MS_MobileCheck(character, targ)
+ *
+ * Purpose
+ *   Checks if the target is a mobile and provides a centralized location for failure messages.
+ *
+ * Returns
+ *   1 on success
+ *
+*/
+function MS_MobileCheck(byref character, byref targ)
+	if (!targ.IsA(POLCLASS_MOBILE))
+		SendSysMessage(character, "This spell won't work on that!");
+		return 0;
+	endif
+	
 	return 1;
 endfunction

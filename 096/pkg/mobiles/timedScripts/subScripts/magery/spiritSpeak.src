@@ -10,8 +10,7 @@ include ":attributes:attributes";
 
 program TimedScript_SpiritSpeak(params)
 	var mobile := params[1];
-	//var attacker := params[2];
-	params := 0; // Not needed anymore.
+	params := 0; // Not needed anymore
 	
 	mobile.GrantPrivilege("hearghosts");
 	mobile.Enable("hearghosts");

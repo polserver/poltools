@@ -22,15 +22,13 @@ program SpellScript(params)
 	if (!MS_MobileCheck(mobile, targ))
 		return 0;
 	endif
-		
-	PlaySoundEffect(targ, SFX_SPELL_NIGHT_SIGHT);
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 10, 10);	
 	
-	// Stratics reports that if the TARGET has less than 10.0 skill, the spell will have no effect.
-	// Technically the spell should last until next dawn or dusk
-	if ( AP_GetSkill(targ, MAGERY) > 10.0 )
-		targ.SetLightLevel(0, CInt(AP_GetSkill(mobile, MAGERY)) * 60);
-	endif
+	PlaySoundEffect(targ, SFX_SPELL_CUNNING);
+	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+	
+	// Duration: ((Eval / 5) + 1) * 6
+	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
+	TS_StartTimer(targ, "cunning", duration, 0, mobile);
 	
 	return 1;
 endprogram

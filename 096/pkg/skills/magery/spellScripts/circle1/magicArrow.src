@@ -9,37 +9,30 @@ use os;
 include ":attributes:attributes";
 include ":timedscripts:timedScripts";
 include ":magery:spells";
+include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
 include "include/damage";
 
 program SpellScript(params)
-	var who := params[1];
+	var mobile := params[1];
 	var info := params[2];
 	params := 0; // No longer needed
 
-	var targ := MS_Target(who, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
-	if ( !targ.IsA(POLCLASS_MOBILE) )
-		SendSysMessage(who, "Cancelled.");
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if (!MS_MobileCheck(mobile, targ))
 		return 0;
 	endif
 
-	PlayMovingEffect(who, targ, GFX_SMALL_FIREBALL, 5, 1);
-	PlaySoundEffect(who, SFX_MAGIC_ARROW);
+	PlayMovingEffect(mobile, targ, GFX_SMALL_FIREBALL, 5, 1);
+	PlaySoundEffect(mobile, SFX_SPELL_MAGIC_ARROW);
 
-	//To-Do:
-	// Check for reflection here.
-
-	/* From Statics
-	 * Causes up to 14 to 18 Fire damage on a character with no resists.
-	 * Damage depends on caster's Evaluate Intelligence and Inscription skill.
-	 * - UNFORTUNATELY NO SOLID FORMULA IS PROVIDED >:(
-	 */
-	var points := 14 + RandomDiceRoll("1d4");
+	// Base damage = 3.1 - 4.1
+	var base_damage := (CDbl(RandomInt(10)) / 10) + 3.1;
+	var total := MS_GetSpellDamage(mobile, targ, base_damage);
 	
-	// Figure out resistance here?
-	
-	ApplyDamageEX(targ, points, DMG_FIRE, who);
+	SendSysMessage(mobile, "base: "+base_damage+" total:"+total);
+	ApplyDamageEX(targ, total, DMG_FIRE, mobile);
 
 	return 1;
 endprogram
