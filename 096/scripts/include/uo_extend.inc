@@ -70,7 +70,8 @@ endfunction
 function EnumeratePhysicalItems(mobile)
 	var equip_list := array{};
 
-	var skip_layers := {11, 16, 21, 25};
+	// Hair, beard, backpack, mount
+	var skip_layers := array{11, 16, 21, 25};
 	var i;
 
 	for ( i:=0; i<=25; i:=i+1 )
