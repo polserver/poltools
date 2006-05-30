@@ -110,28 +110,26 @@ endfunction
 
 function GetRankNameByID(rank)
 
-	rank := CInt(rank);
-
 	var rank_name;
 
 	case ( rank )
 	1:
-		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank1);
+		rank_name := Guild_GetSettingsCfgElem("Ranks").Rank1;
 		return rank_name;
 	2:
-		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank2);
+		rank_name := Guild_GetSettingsCfgElem("Ranks").Rank2;
 		return rank_name;
 	3:
-		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank3);
+		rank_name := Guild_GetSettingsCfgElem("Ranks").Rank3;
 		return rank_name;
 	4:
-		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank4);
+		rank_name := Guild_GetSettingsCfgElem("Ranks").Rank4;
 		return rank_name;
 	5:
-		rank_name := CInt(Guild_GetSettingsCfgElem("Ranks").Rank5);
+		rank_name := Guild_GetSettingsCfgElem("Ranks").Rank5;
 		return rank_name;
 	default:
-		rank_name := error{"errortext" := "Couldn't find a rank name."};
+		rank_name := "";
 		return rank_name;
 	endcase
 

@@ -126,6 +126,7 @@ function AddGuild(ev)
 		guild.SetProp("Master",	guild_gm.serial);
 		guild.SetProp("Charter", null_space);
 		guild.SetProp("Website", null_space);
+		guild.SetProp("Faction", "Neutral");
 		guild.AddMember(guild_gm);
 		SetObjProperty(guild_gm, "Guild_ID", guild_id);
 		SetGuildRank(guild_gm, 5);
@@ -250,7 +251,7 @@ function KickMember(ev)
 	endif
 
 	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
-	if ( !max_ranks xor max_ranks.errortext )
+	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
@@ -283,11 +284,6 @@ function SetGuildCharter(ev)
 	var who := ev.source;
 
 	var who_rank := GetGuildRank(who);
-
-	if ( who_rank != 5 ) // TODO: Get req. rank from settings.cfg
-		SendSysMessage(who, "Aborted. You are not allowed to set the guild charter.");
-		return 0;
-	endif
 
 	var guild := ev.guild;
 	var guild_charter := guild.GetProp("Charter");
@@ -341,7 +337,7 @@ function SetGuildWebsite(ev)
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		elseif ( new_website )
-			guild.SetProp("website", new_website);
+			guild.SetProp("Website", new_website);
 			SendSysMessage(who, "You submit a new guild website.");
 			return 1;
 		endif
