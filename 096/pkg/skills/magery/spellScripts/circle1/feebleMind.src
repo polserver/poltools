@@ -9,28 +9,26 @@ use os;
 include ":attributes:attributes";
 include ":timedscripts:timedScripts";
 include ":magery:spells";
+include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
 
 program SpellScript(params)
-	var who := params[1];
+	var mobile := params[1];
 	var info := params[2];
 	params := 0; // No longer needed
 	
-	var targ := MS_Target(who, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
-	if ( !targ.IsA(POLCLASS_MOBILE) )
-		SendSysMessage(who, "Cancelled.");
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if (!MS_MobileCheck(mobile, targ))
 		return 0;
 	endif
-	
-	//To-Do:
-	// Check for reflection here and if need-be, change the target.
 	
 	PlaySoundEffect(targ, SFX_FEEBLE_MIND);
 	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);
 	
-	// Note: Stratics gives no duration formula - i'm assuming 60 seconds.	
-	TS_StartTimer(targ, "feebleMind", 60, who);
+	// Duration: ((Eval / 5) + 1) * 6
+	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
+	TS_StartTimer(targ, "feebleMind", duration, 0, mobile);
 	
 	return 1;
 endprogram

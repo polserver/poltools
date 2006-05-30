@@ -9,23 +9,24 @@ use os;
 include ":attributes:attributes";
 
 program TimedScript_Weaken(params)
-	var mobile := params[1];
+	var defender := params[1];
 	var attacker := params[2];
-	params := 0; // Not needed anymore.
+	params := 0; // Not needed anymore
 	
-	if ( GetObjProperty(mobile, "#WeakenMod") )
-		// Condition is met if the mobile logs out and back in.
-		// Prevents mod from being applied twice.
+	// Condition is met if the defender logs out and back in.
+	// Prevents mod from being applied twice.
+	if ( GetObjProperty(defender, "#WeakenMod") )
 		return 0;
 	endif
 	
-	// Stratics reports - ((8 + (Evaluate Intelligence)/10 - (Resist)/10)
-	var cast_points := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE)) / 10;
-	var defense := CInt(AP_GetSkill(mobile, RESISTING_SPELLS)) / 10;
-	var points := (8 + (cast_points - defense)) * -1;
+	// Strength decrease % = (Eval / 10) + 8) - (Resist / 10)
+	var eval := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE));
+	var resist := CInt(AP_GetSkill(defender, RESISTING_SPELLS));
+	var percent := CDbl((eval / 10) + 8) - (resist / 10);
+	var points := CInt(AP_GetStat(defender, STRENGTH) * (percent / 100));
 	
-	SetObjProperty(mobile, "#WeakenMod", points);
-	AP_ModifyStatMod(mobile, STRENGTH, points);
+	SetObjProperty(defender, "#WeakenMod", points);
+	AP_ModifyStatMod(defender, STRENGTH, -(points));
 	
 	return 1;
 endprogram

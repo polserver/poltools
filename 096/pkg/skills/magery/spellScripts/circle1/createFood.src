@@ -8,23 +8,23 @@ use os;
 
 include ":attributes:attributes";
 include ":magery:spells";
+include ":magery:spellSounds";
 include ":food&drink:food";
 include "include/sounds";
 
 program SpellScript(params)
-	var who := params[1];
-	//var info := params[2];
+	var mobile := params[1];
+	var info := params[2];
 	params := 0; // No longer needed
 	
-	var food_item := RandomFoodObjType();
-	
-	PlaySoundEffect(who, SFX_CREATE_FOOD);
-	
-	var food := CreateItemInBackPack(who, food_item, 1);
+	var food_item := RandomFoodObjType("createfood");
+	var food := CreateItemInBackPack(mobile, food_item, 1);
 	food.movable := 1;
 	
 	if ( food.errortext )
-		SendSysMessage(who, "Error creating food ("+food_item+") ->"+food.errortext);
+		SendSysMessage(mobile, "Error creating food ("+food_item+") ->"+food.errortext);
+	else
+		PlaySoundEffect(mobile, SFX_SPELL_CREATE_FOOD);
 	endif
 	
 	return 1;

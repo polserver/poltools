@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: clumsy.src 87 2006-05-23 19:04:43Z sroyalty $
  *
  */
  
@@ -8,25 +8,24 @@ use os;
 
 include ":attributes:attributes";
 
-program TimedScript_FeebleMind(params)
+program TimedScript_Cunning(params)
 	var defender := params[1];
 	var attacker := params[2];
 	params := 0; // Not needed anymore
 	
 	// Condition is met if the defender logs out and back in.
 	// Prevents mod from being applied twice.
-	if ( GetObjProperty(defender, "#FeebleMindMod") )
+	if ( GetObjProperty(defender, "#CunningMod") )
 		return 0;
 	endif
 	
-	// Int decrease % = (Eval / 10) + 8) - (Resist / 10)
+	// Dex increase % = (Eval / 10 + 1)
 	var eval := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE));
-	var resist := CInt(AP_GetSkill(defender, RESISTING_SPELLS));
-	var percent := CDbl((eval / 10) + 8) - (resist / 10);
+	var percent := CDbl(eval / 10) + 1;
 	var points := CInt(AP_GetStat(defender, INTELLIGENCE) * (percent / 100));
 	
-	SetObjProperty(defender, "#FeebleMindMod", points);
-	AP_ModifyStatMod(defender, INTELLIGENCE, -(points));
+	SetObjProperty(defender, "#CunningMod", points);
+	AP_ModifyStatMod(defender, INTELLIGENCE, points);
 	
 	return 1;
 endprogram

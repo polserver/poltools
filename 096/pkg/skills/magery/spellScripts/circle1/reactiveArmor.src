@@ -11,35 +11,45 @@ use uo;
 use os;
 
 include ":attributes:attributes";
-include ":timedscripts:timedScripts";
 include ":magery:spells";
+include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
 include "include/damage";
 
 program SpellScript(params)
-	var who := params[1];
+	var mobile := params[1];
 	var info := params[2];
 	params := 0; // No longer needed
 	
-	if ( GetObjProperty(who, "ReactiveArmor") )
-		RemoveReactiveArmor(who);
+	if ( GetObjProperty(mobile, "ReactiveArmor") )
+		RemoveReactiveArmor(mobile);
 	else
-		ApplyReactiveArmor(who);
+		ApplyReactiveArmor(mobile);
 	endif
 	
+	PlaySoundEffect(mobile, SFX_SPELL_REACTIVE_ARMOR);
+	PlayObjectCenteredEffect(mobile, GFX_RED_SPARKLES, 7, 16);
+
 	return 1;
 endprogram
 
-function ApplyReactiveArmor(who)
-	var resistances := GetResistance(who);
-	var inscription := (AP_GetSkill(who, INSCRIPTION) / 20) + 15;
-		
-	resistances[DMG_PHYSICAL] := inscription;
-	resistances[DMG_FIRE] := resistances[DMG_FIRE]-5;
+function ApplyReactiveArmor(mobile)
+	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+	ModifyResistance(mobile, DMG_PHYSICAL, points);
+	ModifyResistance(mobile, DMG_FIRE, -5);
+	ModifyResistance(mobile, DMG_COLD, -5);
+	ModifyResistance(mobile, DMG_POISON, -5);
+	ModifyResistance(mobile, DMG_ENERGY, -5);
+	SetObjProperty(mobile, "ReactiveArmor", 1);
 endfunction
 
-function RemoveReactiveArmor(who)
-	return 0;
+function RemoveReactiveArmor(mobile)
+	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
+	ModifyResistance(mobile, DMG_FIRE, 5);
+	ModifyResistance(mobile, DMG_COLD, 5);
+	ModifyResistance(mobile, DMG_POISON, 5);
+	ModifyResistance(mobile, DMG_ENERGY, 5);
+	EraseObjProperty(mobile, "ReactiveArmor");
 endfunction
-	

@@ -1,0 +1,6 @@
+end scripts for weaken, clumsy, etc... are not being called so mods never go away
+there need to be extra checks for locked down items and other weirdness
+i think there is a different type of message if a timed spell is already in affect
+finish sendstats packet modification to send resistances
+finish spell scripts and lots of testing :)
+
