@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: regenVeins.src 85 2006-05-23 18:41:38Z sroyalty $
  *
  */
 use uo;
@@ -10,7 +10,7 @@ include ":mining:settings";
 include ":mining:report";
 
 program GlobalControl()
-	MSP_ReportText("---=[ ORE VEIN REGENERATOR HAS STARTED UP ]=---", MSP_REPORT_SYSLOG);
+	MSP_ReportText("---=[ GLOBAL ORE REGENERATOR HAS STARTED UP ]=---", MSP_REPORT_SYSLOG);
 	
 	var settings := MSP_GetSettingsCfgElem("Settings");
 	var cycle_wait := CInt(settings.RegenWait);
@@ -29,15 +29,11 @@ program GlobalControl()
 endprogram
 
 function RegenVeins()
-	MSP_ReportText("Running ore vein regeneration cycle...", MSP_REPORT_SYSLOG);
-	var data_file := DFOpenDataFile("VeinInfo", DF_CREATE);
+	MSP_ReportText("Running global ore regeneration cycle...", MSP_REPORT_SYSLOG);
+	var data_file := DFOpenDataFile("OreSpots", DF_CREATE);
 	
 	foreach elem_name in DFGetElemNames(data_file)
-		var ore_vein := SystemFindObjectBySerial(elem_name);
-		var amount := ore_vein.GetRemainingOre();
-		amount := amount + 1;
-		
-		ore_vein.SetRemainingOre(amount);
+		// Regen ore here
 		
 		Sleep(1);
 	endforeach
