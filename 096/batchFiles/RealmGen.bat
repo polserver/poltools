@@ -3,6 +3,7 @@
 REM -- If a special path is needed to uoconvert.exe set it here
 SET UOCNVRT_PATH=uoconvert.exe
 REM ----------
+SET BUILD_ALL=0
 
 GOTO :MENU()
 
@@ -34,8 +35,8 @@ IF /i "%CMD%" == "a" GOTO :MULTIS.CFG()
 IF /i "%cMD%" == "b" GOTO :TILES.CFG()
 IF /i "%cMD%" == "c" GOTO :LANDTILES.CFG()
 IF /i "%cMD%" == "d" GOTO :ALLCONFIGS()
-IF /i "%CMD%" == "e" GOTO :REALM_BRITTANIA()
-IF /i "%CMD%" == "f" GOTO :REALM_BRITTANIA_ALT()
+IF /i "%CMD%" == "e" GOTO :REALM_BRITANNIA()
+IF /i "%CMD%" == "f" GOTO :REALM_BRITANNIA_ALT()
 IF /i "%CMD%" == "g" GOTO :REALM_ILSHENAR()
 IF /i "%CMD%" == "h" GOTO :REALM_MALAS()
 IF /i "%CMD%" == "i" GOTO :REALM_TOKUNO()
@@ -57,47 +58,47 @@ REM -- MULTIS.CFG FUNCTION
 :MULTIS.CFG()
 %UOCNVRT_PATH% multis
 MOVE multis.cfg config
+IF %BUILD_ALL% == 1 GOTO :TILES.CFG()
 GOTO :RETURN_TO_MENU()
 
 REM -- TILES.CFG FUNCTION
 :TILES.CFG()
 %UOCNVRT_PATH% tiles
 MOVE tiles.cfg config
+IF %BUILD_ALL% == 1 GOTO :LANDTILES.CFG()
 GOTO :RETURN_TO_MENU()
 
 REM -- LANDTILES.CFG FUNCTION
 :LANDTILES.CFG()
 %UOCNVRT_PATH% landtiles
 MOVE landtiles.cfg config
+IF %BUILD_ALL% == 1 SET BUILD_ALL=0
 GOTO :RETURN_TO_MENU()
 
 REM -- ALLCONFIGS FUNCTION
 :ALLCONFIGS()
-%UOCNVRT_PATH% multis
-MOVE multis.cfg config
-%UOCNVRT_PATH% tiles
-MOVE tiles.cfg config
-%UOCNVRT_PATH% landtiles
-MOVE landtiles.cfg config
-GOTO :RETURN_TO_MENU()
+SET BUILD_ALL=1
+GOTO :MULTIS.CFG()
 
-REM -- REALM_BRITTANIA()
-:REALM_BRITTANIA()
+REM -- REALM_BRITANNIA()
+:REALM_BRITANNIA()
 ECHO Command        Purpose
 ECHO  [ a ] - T2A - UOSE Britannia Map
 ECHO  [ b ] - Mondain's Legacy extended Britannia Map
 SET /p CMD=Command:
-IF /i NOT "%CMD%" == "b" %UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=6144 height=4096
-IF /i "%CMD%" == "b" %UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=7168 height=4096
+IF /i NOT "%CMD%" == "b" %UOCNVRT_PATH% map realm=britannia mapid=0 usedif=1 width=6144 height=4096
+IF /i "%CMD%" == "b" %UOCNVRT_PATH% map realm=britannia mapid=0 usedif=1 width=7168 height=4096
 %UOCNVRT_PATH% statics realm=britannia
 %UOCNVRT_PATH% maptile realm=britannia
+IF %BUILD_ALL% == 1 GOTO :REALM_BRITANNIA_ALT()
 GOTO :RETURN_TO_MENU()
 
-REM -- REALM_BRITTANIA_ALT() FUNCTION
-:REALM_BRITTANIA_ALT()
+REM -- REALM_BRITANNIA_ALT() FUNCTION
+:REALM_BRITANNIA_ALT()
 %UOCNVRT_PATH% map     realm=britannia_alt mapid=1 usedif=1 width=6144 height=4096
 %UOCNVRT_PATH% statics realm=britannia_alt
 %UOCNVRT_PATH% maptile realm=britannia_alt
+IF %BUILD_ALL% == 1  GOTO :REALM_ILSHENAR()
 GOTO :RETURN_TO_MENU()
 
 REM -- REALM_ILSHENAR FUNCTION
@@ -105,6 +106,7 @@ REM -- REALM_ILSHENAR FUNCTION
 %UOCNVRT_PATH% map     realm=ilshenar mapid=2 usedif=1 width=2304 height=1600
 %UOCNVRT_PATH% statics realm=ilshenar
 %UOCNVRT_PATH% maptile realm=ilshenar
+IF %BUILD_ALL% == 1 GOTO :REALM_MALAS()
 GOTO :RETURN_TO_MENU()
 
 REM -- REALM_MALAS FUNCTION
@@ -112,6 +114,7 @@ REM -- REALM_MALAS FUNCTION
 %UOCNVRT_PATH% map     realm=malas mapid=3 usedif=1 width=2560 height=2048
 %UOCNVRT_PATH% statics realm=malas
 %UOCNVRT_PATH% maptile realm=malas
+IF %BUILD_ALL% == 1 GOTO :REALM_TOKUNO()
 GOTO :RETURN_TO_MENU()
 
 REM -- REALM_TOKUNO FUNCTION
@@ -119,30 +122,14 @@ REM -- REALM_TOKUNO FUNCTION
 %UOCNVRT_PATH% map     realm=tokuno mapid=4 usedif=1 width=1448 height=1448
 %UOCNVRT_PATH% statics realm=tokuno
 %UOCNVRT_PATH% maptile realm=tokuno
+IF %BUILD_ALL% == 1 SET BUILD_ALL=0
 GOTO :RETURN_TO_MENU()
 
 REM -- BUILD_ALL_REALMS() FUNCTION
 :BUILD_ALL_REALMS()
-%UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=6144 height=4096
-%UOCNVRT_PATH% statics realm=britannia
-%UOCNVRT_PATH% maptile realm=britannia
-@ECHO ----
-%UOCNVRT_PATH% map     realm=britannia_alt mapid=1 usedif=1 width=6144 height=4096
-%UOCNVRT_PATH% statics realm=britannia_alt
-%UOCNVRT_PATH% maptile realm=britannia_alt
-@ECHO ----
-%UOCNVRT_PATH% map     realm=ilshenar mapid=2 usedif=1 width=2304 height=1600
-%UOCNVRT_PATH% statics realm=ilshenar
-%UOCNVRT_PATH% maptile realm=ilshenar
-@ECHO ----
-%UOCNVRT_PATH% map     realm=malas mapid=3 usedif=1 width=2560 height=2048
-%UOCNVRT_PATH% statics realm=malas
-%UOCNVRT_PATH% maptile realm=malas
-@ECHO ----
-%UOCNVRT_PATH% map     realm=tokuno mapid=4 usedif=1 width=1448 height=1448
-%UOCNVRT_PATH% statics realm=tokuno
-%UOCNVRT_PATH% maptile realm=tokuno
-GOTO :RETURN_TO_MENU()
+SET BUILD_ALL=1
+GOTO :REALM_BRITANNIA()
+
 
 REM -- COPY_CLIENT_FILES() FUNCTION
 :COPY_CLIENT_FILES()
