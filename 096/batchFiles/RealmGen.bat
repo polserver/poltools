@@ -83,7 +83,12 @@ GOTO :RETURN_TO_MENU()
 
 REM -- REALM_BRITTANIA()
 :REALM_BRITTANIA()
-%UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=6144 height=4096
+ECHO Command        Purpose
+ECHO  [ a ] - T2A - UOSE Britannia Map
+ECHO  [ b ] - Mondain's Legacy extended Britannia Map
+SET /p CMD=Command:
+IF /i NOT "%CMD%" == "b" %UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=6144 height=4096
+IF /i "%CMD%" == "b" %UOCNVRT_PATH% map     realm=britannia mapid=0 usedif=1 width=7168 height=4096
 %UOCNVRT_PATH% statics realm=britannia
 %UOCNVRT_PATH% maptile realm=britannia
 GOTO :RETURN_TO_MENU()
