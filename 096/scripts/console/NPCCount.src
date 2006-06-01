@@ -6,7 +6,7 @@ use uo;
 program console_npccount(cmd)
 
 	cmd := cmd;
-	var npccount := polcore().mobilecount - Len(EnumerateOnlineCharacters());
+	var npccount := POLCore().mobilecount - Len(EnumerateOnlineCharacters());
 
 	print("System Message: Current # of NPCS - "+npccount);
 

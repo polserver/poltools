@@ -242,7 +242,7 @@ function SuspendAccount(who, account)
 	else
 		if ( jail_time > 0 )
 			jail_time := jail_time * SECONDS_IN_DAY;
-			account.SetProp("ReleaseTime", polcore().systime+jail_time);
+			account.SetProp("ReleaseTime", POLCore().systime+jail_time);
 		endif
 		account.Disable();
 	endif
@@ -255,7 +255,7 @@ function GetNumJailDays(account)
 	if ( !seconds )
 		return 0;
 	endif
-	var num_days := CInt((seconds-polcore().systime) / SECONDS_IN_DAY)+1;
+	var num_days := CInt((seconds-POLCore().systime) / SECONDS_IN_DAY)+1;
 	return num_days;
 endfunction
 

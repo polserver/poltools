@@ -331,7 +331,7 @@ function SS_AddSpawnToRegion(region_name, group_name, object)
 	var spawn_list := SS_GetSpawnsInRegionGroup(region_name, group_name);
 	
 	var spawn_info := struct;
-	spawn_info.+time := polcore().systime;
+	spawn_info.+time := POLCore().systime;
 	spawn_info.+orig_coords := struct{"x":=object.x, "y":=object.y};
 	
 	spawn_list[object.serial] := spawn_info;

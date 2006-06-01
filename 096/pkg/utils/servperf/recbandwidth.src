@@ -10,7 +10,7 @@ CONST HISTORY_MINUTES := 10;
 program record_Bandwidth_used()
 
 	var results := { {0,0} };
-	var system := polcore();
+	var system := POLCore();
 	var last_received := system.bytes_received;
 	var last_sent := system.bytes_sent;
 	var this_received, this_sent;
