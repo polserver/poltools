@@ -185,7 +185,7 @@ endfunction
 function SetLastDamageInfo(mobile, amount, type, source)
 	var last_damage := struct;
 	last_damage.+serial	:= source.serial;
-	last_damage.+time	:= polcore().systime;
+	last_damage.+time	:= POLCore().systime;
 	last_damage.+amount	:= amount;
 	last_damage.+type	:= type;
 	

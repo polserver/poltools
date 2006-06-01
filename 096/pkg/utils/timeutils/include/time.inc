@@ -128,7 +128,7 @@ endfunction
  *
  */
 function GetTime()
-	return(polcore().systime);
+	return(POLCore().systime);
 endfunction
 
 

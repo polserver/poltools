@@ -14,7 +14,7 @@ WriteHtml( "<html><head><title>POL On-Line Characters</title></head>"+
 +"<td>Prog Counter</td>"
 +"</tr>"  );
 
-foreach script in (polcore().running_scripts)
+foreach script in (POLCore().running_scripts)
     WriteHtml( "<tr>"
 +"<td>"+script.name+"</td>"
 +"<td>"+script.instr_cycles+"</td>"

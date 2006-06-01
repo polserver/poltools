@@ -30,7 +30,7 @@ program CheckPackages()
 	// Run through each package -
 	// If it has an icp.cfg in its 'config' folder, get the settings we want from it.
 	// If not, it'll go on the gump as packagename [Not ICP compliant]
-	foreach package in (polcore().packages)
+	foreach package in (POLCore().packages)
 		var temp_info := struct;
 
 		var data_elem := DFFindElement(pkg_info, package, DF_CREATE);

@@ -90,7 +90,7 @@ function NPC_AddToWatchList(npc, mobile)
 	
 	var watch_dict := NPC_LoadWatchList(npc);
 	if ( !watch_dict.Exists(mobile) )
-		watch_dict.Insert(mobile, polcore().systime);
+		watch_dict.Insert(mobile, POLCore().systime);
 		NPC_SaveWatchList(npc, watch_dict);
 		
 		return 1;

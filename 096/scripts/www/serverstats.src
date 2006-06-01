@@ -1,9 +1,9 @@
 use http;
 use uo;
 
-var system := polcore();
-var itemcount := polcore().itemcount;
-var mobcount := polcore().mobilecount;
+var system := POLCore();
+var itemcount := POLCore().itemcount;
+var mobcount := POLCore().mobilecount;
 var load := system.sysload;
 var uptime := system.uptime;
 var struptime;

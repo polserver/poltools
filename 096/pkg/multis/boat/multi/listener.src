@@ -22,9 +22,9 @@ program BoatController(boat)
 		
 		if ( repeat_cmd == -1 && !Events_Waiting() )
 			while ( !ev )
-				if ( last_sound < polcore().systime-120 )
+				if ( last_sound < POLCore().systime-120 )
 					PlaySoundEffect(boat, 0x14);
-					last_sound := polcore().systime;
+					last_sound := POLCore().systime;
 				endif
 				// If there are no commands, and no incoming speech 
 				// then make the event wait really long so boats take up very

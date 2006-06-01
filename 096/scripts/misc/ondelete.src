@@ -11,7 +11,7 @@ include ":timeutils:time";
 
 program core_onDelete(who)
 	var create_time := who.createdat;
-	var age := polcore().systime - create_time;
+	var age := POLCore().systime - create_time;
 	
 	if ( who.cmdlevel )
 		return 1;

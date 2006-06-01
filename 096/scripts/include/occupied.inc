@@ -30,7 +30,7 @@ function IsOccupied(mobile, doing:=0)
 	
 	if ( timer == -1 ) // Timer doesn't expire.
 		return 1;
-	elseif ( timer < polcore().systime )
+	elseif ( timer < POLCore().systime )
 		return 1;
 	endif
 	

@@ -21,7 +21,7 @@ program WorldSaver()
 	while ( 1 )
 		var event := Wait_For_Event(GetWaitTime(savetimes));
 		if ( event )
-			savetimes.lasttick := polcore().systime;
+			savetimes.lasttick := POLCore().systime;
 			case ( event.type )
 				EVENT_SAVE_NOW:
 					DoTheSave();
@@ -65,7 +65,7 @@ function DoTheSave()
 endfunction
 
 function ShouldSave(byref savetimes)
-	if ( savetimes.nextsave <= polcore().systime )
+	if ( savetimes.nextsave <= POLCore().systime )
 		return 1;
 	endif
 
@@ -87,8 +87,8 @@ function UpdateTimes(byref savetimes)
 		SVR_ReportText("Error - No SaveTime setting set in settings.cfg", SAVER_REPORT_SYSLOG);
 	endif
 	
-	savetimes.lasttick := polcore().systime; 	// Time time there was a save or event.
-	savetimes.nextsave := polcore().systime + wait;	// Time the next save will happen.
+	savetimes.lasttick := POLCore().systime; 	// Time time there was a save or event.
+	savetimes.nextsave := POLCore().systime + wait;	// Time the next save will happen.
 	
 	return 1;
 endfunction

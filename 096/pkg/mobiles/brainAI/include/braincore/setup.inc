@@ -116,7 +116,7 @@ function StartupScripts()
 			KillNerves(npc);
 		endif
 	else
-		SetObjProperty(npc, "CreateTime", polcore().systime);
+		SetObjProperty(npc, "CreateTime", POLCore().systime);
 		InitializeEnterArea();
 		
 		if ( g_scripts.Exists("Init") )

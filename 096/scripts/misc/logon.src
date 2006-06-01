@@ -7,7 +7,7 @@ use uo;
  
 program Logon(who)
 
-	SetObjProperty(who, "ConnectTime", polcore().systime);
+	SetObjProperty(who, "ConnectTime", POLCore().systime);
 	
 	return 1;
 endprogram
