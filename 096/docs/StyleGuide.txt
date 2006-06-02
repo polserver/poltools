@@ -64,83 +64,103 @@ though, the can either follow the 'cameCasing' or 'PascalCasing'.
 
 
 
-Other Formatting:
+=== Other Formatting ===
 
-	if ( something )
-		Code here;
-	endif
+Return:
+// BAD
+return;
+// Proper
+return 0;
+
+Math:
+var math := 4 + 3 * 10; // 70 or 34? Use parethesis to control better.
+var pemdas := ( ( 4 * 4 ) + ( 8 / ( 3 + 2 ) ) ) - ( 100 + some_var );
+
+Strings:	
+// Strings dont have spaces around the + operator.
+var string := "Hello there "+"Stephen."+" I am "+math+" years old.";
+
+Function Usage:
+var value := SomeFunction(argument_1, argument_2);
+var other_value := object.SomeMethodFunction(argument_1);
+
+Properties:
+object.somepropery := some_value;
+
+Comments:
+// MuadDib wears his daughter's undies in this comment.
+
+/*
+ * In this comment...
+ * You learn he wears them on his head.
+ *
+ */
+
+If, While, etc. Stuff:
+	
+if ( something )
+	Code here;
+endif
 		
-	if ( this || that ) // Dont use 'or' spelled out.
-	if ( this && that ) // Dont use 'and' spelled out.
-	if ( this || ( one && two ) ) // Parenthesis are important for order of operations.
+if ( this || that ) // Dont use 'or' spelled out.
+if ( this && that ) // Dont use 'and' spelled out.
+if ( this || ( one && two ) ) // Parenthesis are important for order of operations.
 
-	case ( something )
-	     	value:
-		     	code;
-		     	break;
-     		default:
-     			code;
-     			break;
-     	endcase
+case ( something )
+     	value:
+	     	code;
+	     	break;
+    	default:
+    		code;
+  		break;
+endcase
 
-	while ( something )
-		code here;
-		sleepms(2);
-	endwhile
+while ( something )
+	code here;
+	sleepms(2);
+endwhile
 
-	do
-		codehere;
-		sleepms(2);
-	dowhile ( case );
+do
+	codehere;
+	sleepms(2);
+dowhile ( case );
 	
-	foreach iteration in ( iterated )
-		codehere;
-		sleepms(2);
-	endforeach
+foreach iteration in ( iterated )
+	codehere;
+	sleepms(2);
+endforeach
 
-	for ( i; i <= 4; i:=i+1 )
-		codehere;
-		sleepms(2);
-	endfor
+for ( i; i <= 4; i:=i+1 )
+	codehere;
+	sleepms(2);
+endfor
 
-	for ( ( i:=1 ) to ( value ) )
-		codehere;
-		sleepms(2);
-	endfor
+for i:=1 to value
+	codehere;
+	sleepms(2);
+endfor
 
-	// MuadDib wears his daughter's undies in this comment.
-
-	/*
-	 * In this comment...
-	 * You learn he wears them on his head.
-	 *
-	 */
-
-
-	var math := 4 + 3 * 10; // 70 or 34? Use parethesis to control better.
-	var pemdas := ( ( 4 * 4 ) + ( 8 / ( 3 + 2 ) ) ) - ( 100 + some_var );
+Declarations:
+// Dont make arrays like this
+var a := {1, 2, 3};
+var b := {};
+// Proper way
+var a := array{1, 2, 3};
+// Either below is acceptable
+var b := array{}; 
+var b := array;
 	
-	// Strings dont have spaces around the + operator.
-	var string := "Hello there "+"Stephen."+" I am "+math+" years old.";
-
-	var value := SomeFunction(argument_1, argument_2);
-	var other_value := object.SomeMethodFunction(argument_1);
-
-	object.somepropery := some_value;
+// Struct setup
+var my_var := struct;
+my_var.+member := something;
+my_var.+member2;
+// Or...
+var my_var := struct{"member":=something, "member2"};
 	
-	// Dont make arrays like this
-	var a := {1, 2, 3};
-	var b := {};
-	// Proper way
-	var a := array{1, 2, 3};
-	// Either below is acceptable
-	var b := array{}; 
-	var b := array;
+// Dictionary Setup
+var my_var := dictionary{"key"->value, "key2"->value};
 
 Other Notes:
 * Do not use spaces for indents, use tabs.
 * All distro scripts that use gumps, must use the gumps package to build them.
 * Love UO like a fat kid loves cake.
-
-
-
