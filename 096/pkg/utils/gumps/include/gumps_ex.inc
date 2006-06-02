@@ -293,7 +293,7 @@ endfunction
 function GFWordWrap(text, pixels)
 	var wrap_lines := array{};
 	var word_list := SplitWords(text);
-	//var num_words := word_list.size();
+	//var num_words := word_list.Size();
 	
 	var space_size := GFTextWidth(" ");
 	
@@ -315,7 +315,7 @@ function GFWordWrap(text, pixels)
 		
 		if ( start_new )
 			start_new := 0;
-			wrap_lines.append(cur_line);
+			wrap_lines.Append(cur_line);
 			cur_line := "";
 			cur_length := 0;
 		endif
@@ -328,8 +328,8 @@ function GFWordWrap(text, pixels)
 	endforeach
 	
 	//Make sure nothing got left behind.
-	if ( wrap_lines[wrap_lines.size()] != cur_line )
-		wrap_lines.append(cur_line);
+	if ( wrap_lines[wrap_lines.Size()] != cur_line )
+		wrap_lines.Append(cur_line);
 	endif
 	
 	return wrap_lines;	

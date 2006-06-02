@@ -7,7 +7,7 @@ use uo;
 
 program textcmd_SetObjProperty(who, text)
 	var param := SplitWords(text);
-	if ( param.size() < 2 )
+	if ( param.Size() < 2 )
 		SendSysMessage(who, "SYNTAX: .setobjproperty <prop> <value>");
 		return 0;
 	endif

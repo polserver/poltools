@@ -95,7 +95,7 @@ function CheckOreVeins(who)
 				found_ore := found_ore+1;
 			endif
 		else
-			vein_list.erase(_ore_vein_iter);
+			vein_list.Erase(_ore_vein_iter);
 		endif
 		
 		SleepMS(2);

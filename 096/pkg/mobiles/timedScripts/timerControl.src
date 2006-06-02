@@ -26,7 +26,7 @@ program TimerControl(mobile)
 		mobile.SetPoisoned((num_poisons > 0));	
 		 
 		var event;
-		if ( timer_list.size() > 0 )
+		if ( timer_list.Size() > 0 )
 			event := Wait_For_Event(1);
 		else // sleep-mode
 			event := Wait_For_Event(900000);

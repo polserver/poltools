@@ -83,7 +83,7 @@ endfunction
 
 function addRune(who, book, rune)
 	var rune_list := GetRuneList(book);
-	if( rune_list.size() > 15 )
+	if( rune_list.Size() > 15 )
 		SendSysMessage(who,"This book cannot hold any more runes.");
 		MoveItemToContainer(rune, who.backpack);
 		return 0;
@@ -107,7 +107,7 @@ function addRune(who, book, rune)
 	else
 		temp.+color := CInt(rune.color);
 	endif
-	rune_list.append(temp);
+	rune_list.Append(temp);
 
 	SetObjProperty(book, "%RuneList%", rune_list);
 

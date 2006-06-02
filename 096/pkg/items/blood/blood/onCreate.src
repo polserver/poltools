@@ -12,8 +12,8 @@ program OnCreate(blood)
 	var graphic_elem := blood_cfg["Graphics"];
 	var graphics := GetConfigStringArray(graphic_elem, "Graphic");
 	
-	if ( graphics.size() > 0 )
-		blood.graphic := CInt(graphics[RandomInt(graphics.size())+1]);
+	if ( graphics.Size() > 0 )
+		blood.graphic := CInt(graphics[RandomInt(graphics.Size())+1]);
 	endif
 	
 	return 1;

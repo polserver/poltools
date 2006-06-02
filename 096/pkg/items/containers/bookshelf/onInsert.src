@@ -18,13 +18,13 @@ program OnInsert(who, container, movetype, insert_type, adding_item, existing_st
 	var cfg := ReadConfigFile(":containers:config/bookshelf");
 	cfg := cfg[container.graphic];
 
-	var num_items := EnumerateItemsInContainer(container).size();
+	var num_items := EnumerateItemsInContainer(container).Size();
 	if ( num_items > 0 )
 		//Duh, we know it is >0 since its an onInsert script, but its good to be safe.
 		var graphics := GetConfigStringArray(cfg, "FilledGraphic");
 		//Change the book shelf to a random compatable filled graphic.
 		//Ooo special effects.
-		var graphic := CInt(graphics[RandomInt(graphics.size())+1]);
+		var graphic := CInt(graphics[RandomInt(graphics.Size())+1]);
 		container.graphic := graphic;
 	endif
 

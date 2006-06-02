@@ -15,7 +15,7 @@ program BrainNerve(params)
 	
 	while ( npc )
 		if ( !npc.opponent )
-			if ( NPC_LoadWatchList(npc).size() < 1 )
+			if ( NPC_LoadWatchList(npc).Size() < 1 )
 				// No need to look around any longer. We're all alone :(
 				return 0;
 			else
@@ -38,7 +38,7 @@ function FindOpponent(npc, byref settings, byref scripts)
 		SleepMS(2);
 	endforeach
 	
-	if ( attack_list.size() > 0 )
+	if ( attack_list.Size() > 0 )
 		var victim := attack_list[RandomInt(attack_list.Size())+1];
 		AI_Attack(npc, victim);
 		return victim;

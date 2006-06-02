@@ -117,10 +117,10 @@ function sendCraftGump(who, skill_name)
 
 		// Build the return array and give it to crafting.
 		var minfo := array;
-		minfo.append(the_objtype);
-		minfo.append(atc);
-		minfo.append((res[61451]));
-		minfo.append((res[61454]));
+		minfo.Append(the_objtype);
+		minfo.Append(atc);
+		minfo.Append((res[61451]));
+		minfo.Append((res[61454]));
 		return minfo;
 
 	endwhile
@@ -276,7 +276,7 @@ function GFCraftNewPage(byref gump, skill_config, MenuName)
 		GFAddButton(gump, ButtonX, (ItemY-3), 4005, 4007, GF_CLOSE_BTN, objtype);
 		if( menu_config["Setup"].Info == 1 )
 			GFAddButton(gump, ButtonX2, (ItemY-3), 4011, 4012, GF_CLOSE_BTN, arcnt);
-			arinfo.append(objtype);
+			arinfo.Append(objtype);
 			arcnt := arcnt + 1;
 		endif
 		ItemY := ItemY + 20;

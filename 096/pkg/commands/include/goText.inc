@@ -61,7 +61,7 @@ endfunction
 
 
 function Go_FindLocationByText(who, params)
-	case (Lower(params[params.size()]))
+	case (Lower(params[params.Size()]))
 		"private":
 			Go_ByPrivateLocation(who, params);
 			break;

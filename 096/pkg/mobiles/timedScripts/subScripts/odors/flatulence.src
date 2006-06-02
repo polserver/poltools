@@ -12,7 +12,7 @@ program TimedScript_Flatulence(params)
 	while ( 1 )
 		Sleep(RandomDiceRoll("6d5"));
 		
-		PlaySoundEffect(who, sounds[RandomInt(sounds.size())+1]);
+		PlaySoundEffect(who, sounds[RandomInt(sounds.Size())+1]);
 		
 		PrintTextAbove(who, "*breaks wind*");
 		

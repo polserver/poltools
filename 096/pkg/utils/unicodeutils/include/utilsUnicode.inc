@@ -26,7 +26,7 @@ function UC(strs)
       endif
       result := result + str;     // POL 2003-06-19 or later required for this operation
 /*      foreach elem in (str)
-        result.append(elem); 
+        result.Append(elem); 
       endforeach */
     endforeach
   endif

@@ -21,7 +21,7 @@ endfunction
 
 exported function Retract(plank)
 	if ( Extended(plank) )
-		if ( CInt(Occupied(plank).size()) < 1 )
+		if ( CInt(Occupied(plank).Size()) < 1 )
 			plank.graphic := ConfigInfo(plank).ChangeTo;
 			return 1;
 		else

@@ -7,7 +7,7 @@ use os;
 program console_online(cmd)
 	cmd := cmd;
 	//if ( cmd == "*" ) // Can assign some letter here just to see a number. Edit console.cfg then this line.
-	//	print ("Number of online players:"+EnumerateOnlineCharacters().size());
+	//	print ("Number of online players:"+EnumerateOnlineCharacters().Size());
 	//else
 		var online := EnumerateOnlineCharacters();
 		if ( online.Size() > 0 )

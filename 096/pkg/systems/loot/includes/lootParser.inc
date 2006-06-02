@@ -89,7 +89,7 @@ function Loot_CreateRandom(container, line)
 	
 	if ( Loot_ChanceCheck(parsed.chance) )
 		var items := GetConfigStringArray(groups_elem, "Item");
-		var num_items := items.size();
+		var num_items := items.Size();
 		var i;
 		for ( i:=1; i<=parsed.amount; i:=i+1 )
 			Loot_CreateItem(container, items[RandomInt(num_items)+1]);

@@ -297,8 +297,8 @@ endfunction
 //
 function OldGFPage( page )
 	page := CInt(page);
-	GFlayout.append( "page "+CStr(page) );
-	return XGFRetVal( GFlayout.size(), -1, page );
+	GFlayout.Append( "page "+CStr(page) );
+	return XGFRetVal( GFlayout.Size(), -1, page );
 endfunction
 
 // Won't let the gump be closed with a right-click
@@ -307,8 +307,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFNoClose()
-	GFlayout.append( "noclose" );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( "noclose" );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Won't let the gump be closed by clicking ESCAPE
@@ -317,8 +317,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFNoDispose()
-	GFlayout.append( "nodispose" );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( "nodispose" );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Disallows dragging of the gump.
@@ -327,8 +327,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFNoMove()
-	GFlayout.append( "nomove" );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( "nomove" );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Adds a generic line to the GFlayout array
@@ -337,8 +337,8 @@ endfunction
 //	.lytidx = Layout-array index changed
 //
 function OldGFUser1( l_line )
-	GFlayout.append( l_line );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( l_line );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Adds a generic line to the GFlayout array and
@@ -349,9 +349,9 @@ endfunction
 //	.dtidx  = Data-array index changed
 //
 function OldGFUser2( l_line, d_pos, d_line )
-	GFlayout.append( l_line );
+	GFlayout.Append( l_line );
 	GFdata[CInt(d_pos)] := d_line;
-	return XGFRetVal( GFlayout.size(), d_pos );
+	return XGFRetVal( GFlayout.Size(), d_pos );
 endfunction
 
 // Single "art gump"
@@ -364,8 +364,8 @@ function OldGFGumpPic( x, y, gumpid, hue:=0 )
 	var line := "gumppic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(gumpid));
 	line := line+" hue="+CStr(CInt(hue));
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Resized "gump" made up of art from 'gumpid' to 'gumpid+8'
@@ -377,8 +377,8 @@ endfunction
 function OldGFResizePic( x, y, gumpid, w, h )
 	var line := "resizepic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(gumpid))+" "+CStr(CInt(w))+" "+CStr(CInt(h));
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 //
@@ -395,12 +395,12 @@ function OldGFHTMLArea(x, y, width, height, background, scroll_bar, text:="")
 	line := line+" "+CStr(CInt(width))+" "+CStr(CInt(height));
 	line := line+" "+CStr(GFdtidx);
 	line := line+" "+CStr(CInt(background))+" "+CStr(CInt(scroll_bar));
-	GFlayout.append(line);
+	GFlayout.Append(line);
 	
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
 	
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1 );
 endfunction
 
 // Single "tile" graphic
@@ -412,8 +412,8 @@ endfunction
 function OldGFTilePic( x, y, tileid )
 	var line := "tilepic "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(tileid));
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size() );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size() );
 endfunction
 
 // Display a line of text on the gump
@@ -426,10 +426,10 @@ function OldGFTextLine(x, y, colour, text)
 	text := CStr(text);
 	var line := "text "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
-	GFlayout.append( line );
+	GFlayout.Append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1 );
 endfunction
 
 // Display a centred line of text on the gump
@@ -443,10 +443,10 @@ function OldGFTextMid(x, y, w, colour, text )
 	x := XGFTextMid( text, CInt(x), w );
 	var line := "text "+CStr(GFref.x + x)+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
-	GFlayout.append( line );
+	GFlayout.Append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1 );
 endfunction
 
 // Display a right-aligned line of text on the gump
@@ -460,10 +460,10 @@ function OldGFTextRight( rx, y, colour, text )
 	rx := XGFTextRight( text, CInt(rx) );
 	var line := "text "+CStr(GFref.x + rx)+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(colour))+" "+CStr(GFdtidx);
-	GFlayout.append( line );
+	GFlayout.Append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1 );
 endfunction
 
 // Display a line of text on the gump but restrict it to a bounding box
@@ -481,10 +481,10 @@ function OldGFTextCrop( x, y, w, h, colour, text )
 	var line := "croppedtext "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(w))+" "+CStr(CInt(h))+" "+CStr(CInt(colour));
 	line := line+" "+CStr(GFdtidx);
-	GFlayout.append( line );
+	GFlayout.Append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1 );
 endfunction
 
 // Display a text-entry control on the gump
@@ -509,11 +509,11 @@ function OldGFTextEntry( x, y, w, h, colour, text := "" )
 	var line := "textentry "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(w))+" "+CStr(CInt(h))+" "+CStr(CInt(colour));
 	line := line+" "+CStr(GFtxtid)+" "+CStr(GFdtidx);
-	GFlayout.append( line );
+	GFlayout.Append( line );
 	GFdtidx := GFdtidx + 1;		// Update index into GFdata[]
 	GFdata[GFdtidx] := text;	// arrays start at #1... id#0 goes into [1]!!
 	GFtxtid := GFtxtid + 1;		// Update KeyID (txtid)
-	return XGFRetVal( GFlayout.size(), GFdtidx - 1, GFtxtid - 1 );
+	return XGFRetVal( GFlayout.Size(), GFdtidx - 1, GFtxtid - 1 );
 endfunction
 
 // Standard "button" syntax:
@@ -533,8 +533,8 @@ function OldGFButtonPage( x, y, release, press, page )
 	var line := "button "+CStr(GFref.x + CInt(x))+" "+CStr(GFref.y + CInt(y));
 	line := line+" "+CStr(CInt(release))+" "+CStr(CInt(press));
 	line := line+" 0 "+CStr(CInt(page));
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size(), -1, page );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size(), -1, page );
 endfunction
 
 // Display an "action button" (returns a key value and can close gump)
@@ -562,8 +562,8 @@ function OldGFButtonID( x, y, release, press, close, id := 0 )
 		GFbutid := GFbutid + 1;		// Update KeyID (butid) (only if used)
 	endif
 	line := line + CStr(id);
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size(), -1, id );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size(), -1, id );
 endfunction
 
 // Displays a check-box (off/on)
@@ -589,8 +589,8 @@ function OldGFCheckBox( x, y, off, on, state, id := 0)
 	endif
 	line := line + CStr(id);
 
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size(), -1, id );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size(), -1, id );
 endfunction
 
 // Displays a radio button (off/on)
@@ -619,8 +619,8 @@ function OldGFRadioButton( x, y, off, on, state, id := 0)
 	endif
 	line := line + CStr(id);
 	
-	GFlayout.append( line );
-	return XGFRetVal( GFlayout.size(), -1, id );
+	GFlayout.Append( line );
+	return XGFRetVal( GFlayout.Size(), -1, id );
 endfunction
 
 // Groups radio button (I think)
@@ -631,8 +631,8 @@ endfunction
 //
 function OldGFSetRadioGroup( group )
 	group := CInt(group);
-	GFlayout.append( "group "+CStr(group) );
-	return XGFRetVal( GFlayout.size(), -1, group );
+	GFlayout.Append( "group "+CStr(group) );
+	return XGFRetVal( GFlayout.Size(), -1, group );
 endfunction
 
 // Extracts string from a TextEntry key
@@ -974,7 +974,7 @@ function WordWrap(text, max_letters := 50)
 		//[P] is a line break
 		if (word["[P]"] || (line_length + XGFTextWidth(word)) >= max_letters)
 			word["[P]"] := "";
-			sentences.append(cur_line);
+			sentences.Append(cur_line);
 			line_length := 0;
 			cur_line := "";
 		endif
@@ -995,7 +995,7 @@ function WordWrap(text, max_letters := 50)
 			SleepMS(2);
 		endwhile
 			
-		sentences.append(cur_line);
+		sentences.Append(cur_line);
 	endif
 	
 	return sentences;

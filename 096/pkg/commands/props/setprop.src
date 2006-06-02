@@ -10,7 +10,7 @@ program SetProperties(who, text)
 	SendSysMessage(who, "->"+ref.name);
 	
 	var param := SplitWords(text);
-	if ( param.size() < 2 )
+	if ( param.Size() < 2 )
 		SendSysMessage(who, "SYNTAX: .setprop <property name> <value>");
 		return 0;
 	endif

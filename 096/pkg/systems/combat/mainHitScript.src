@@ -45,7 +45,7 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 	//PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage);
 	
 	var hostiles := ListHostiles(defender, 1);
-	rawdamage := rawdamage+CInt(hostiles.size()/2);
+	rawdamage := rawdamage+CInt(hostiles.Size()/2);
 	hostiles := 0;
 	//
 	// Apply the damage to the defender

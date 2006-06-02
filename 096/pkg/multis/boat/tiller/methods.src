@@ -68,7 +68,7 @@ endfunction
 exported function RemoveCrewMate(tiller, index)
 	var crew_mates := GetCrewMates(tiller);
 	var crew_mate := crew_mates[index];
-	crew_mates.erase(index);
+	crew_mates.Erase(index);
 	SetCrewMates(tiller, crew_mates);
 	
 	return crew_mate;
@@ -90,7 +90,7 @@ endfunction
 exported function IsCrewMate(tiller, mobile)
 	var crew_mates := GetCrewMates(tiller);
 	var i;
-	for ( i:=1; i<=crew_mates.size(); i:=i+1 )
+	for ( i:=1; i<=crew_mates.Size(); i:=i+1 )
 		if ( crew_mates[i].name == mobile.name )
 			return i;
 		endif

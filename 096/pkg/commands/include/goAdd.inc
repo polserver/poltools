@@ -47,10 +47,10 @@ function Go_CopyLocation(who, public:=1)
 	var gump;
 	if( public )
 		gump := Go_RetrieveGump("CopyIndex", "base_Distro");
-		num_keys := go_keys_base.size();
+		num_keys := go_keys_base.Size();
 	else
 		gump := Go_RetrieveGump("CopyIndex", who.acctname);
-		num_keys := go_keys.size();
+		num_keys := go_keys.Size();
 	endif
 
 	if  ( !gump )
@@ -148,7 +148,7 @@ function Go_LocationCopyGump(public:=1)
 	var line_num := 0;
 
 	if( public )
-		go_keys_base.sort();
+		go_keys_base.Sort();
 		foreach place in ( go_keys_base )
 			GFTextLine(gump,  25, y_loc, 2100, go_prop_base[place].Name);
 			GFTextLine(gump, 175, y_loc, 2100, go_prop_base[place].Realm);
@@ -168,7 +168,7 @@ function Go_LocationCopyGump(public:=1)
 			SleepMS(2);
 		endforeach
 	else
-		go_keys.sort();
+		go_keys.Sort();
 		foreach place in ( go_keys )
 			GFTextLine(gump,  25, y_loc, 2100, go_prop[place].Name);
 			GFTextLine(gump, 175, y_loc, 2100, go_prop[place].Realm);

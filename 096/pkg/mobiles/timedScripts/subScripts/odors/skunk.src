@@ -31,7 +31,7 @@ function DoVomit(who)
 	endforeach
 	
 	if ( players.Size() > 0 )
-		var vomiter := players[RandomInt(players.size())+1];
+		var vomiter := players[RandomInt(players.Size())+1];
 		SendSysMessage(vomiter, "The stench from "+who.name+" makes you feel extremely sick.");
 		PerformAction(vomiter, ANIM_BOW);
 		SleepMS(60);

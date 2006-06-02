@@ -51,7 +51,7 @@ function ParalyzeNearbyMobiles(field, duration)
 		SleepMS(2);
 	endforeach
 
-	return (nearby.size());
+	return (nearby.Size());
 endfunction
 
 function ParalyzeMobile(mobile, duration)

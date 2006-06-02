@@ -71,7 +71,7 @@ function DealAcidDamage(npc, mobile, acid_pool, acid_damage:=0)
 	ApplyRawDamage(mobile, acid_damage);
 	var equipped_items := ListEquippedItems(mobile);
 	if( RandomInt(10) > 5 )
-		var acid_burned := equipped_items[RandomInt(equipped_items.size())+1];
+		var acid_burned := equipped_items[RandomInt(equipped_items.Size())+1];
 		if( acid_burned.isA(POLCLASS_WEAPON) || acid_burned.isA(POLCLASS_ARMOR) )
 			var armor_damage := RandomInt(4) + 1;
 			if( acid_burned.hp > armor_damage )

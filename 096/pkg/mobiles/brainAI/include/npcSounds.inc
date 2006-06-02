@@ -54,7 +54,7 @@ function NPC_GetIdleSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(idle_sound_list.size())+1;
+	return RandomInt(idle_sound_list.Size())+1;
 
 endfunction
 
@@ -81,7 +81,7 @@ function NPC_GetDamagedSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(damaged_sound_list.size())+1;
+	return RandomInt(damaged_sound_list.Size())+1;
 
 endfunction
 
@@ -108,7 +108,7 @@ function NPC_GetDeathSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(death_sound_list.size())+1;
+	return RandomInt(death_sound_list.Size())+1;
 
 endfunction
 
@@ -135,7 +135,7 @@ function NPC_GetMissSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(miss_sound_list.size())+1;
+	return RandomInt(miss_sound_list.Size())+1;
 
 endfunction
 
@@ -161,7 +161,7 @@ function NPC_GetHitSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(hit_sound_list.size())+1;
+	return RandomInt(hit_sound_list.Size())+1;
 
 endfunction
 
@@ -188,6 +188,6 @@ function NPC_GetBarkSound(mobile)
 		return 0;
 	endif
 
-	return RandomInt(bark_sound_list.size())+1;
+	return RandomInt(bark_sound_list.Size())+1;
 
 endfunction
