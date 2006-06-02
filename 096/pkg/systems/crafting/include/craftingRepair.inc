@@ -31,21 +31,21 @@ function repair_item(character, what, craft_skill )
 	damageamount := (125 -	hisskill)/3000.0;
 	if(what.hp == what.maxhp)
 		SendSysMessage(character, "That item is not damaged.");
-		return;
+		return 0;
 	elseif((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
-		return;
+		return 0;
 	elseif(what.quality <= damageamount)
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
-		return;
+		return 0;
 	endif
 	what.quality := what.quality - damageamount;
 	if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
-		return;
+		return 0;
 	elseif (SkillCheck(character, craft_skill, CInt(damaged / 3), 0))
 		var repaired_amount := CInt( ((randomint(hisskill) + 1))/2);
 		if (damaged == 1)
@@ -62,7 +62,7 @@ function repair_item(character, what, craft_skill )
 		if ((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
 			SendSysMessage(character, "The brittle material breaks when you handle it");
 			DestroyItem(what);
-			return;
+			return 0;
 		endif
 	else
 		var damage_amount := randomint(10);
@@ -84,7 +84,7 @@ function repair_item(character, what, craft_skill )
 		if ((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
 			SendSysMessage(character, "The brittle material breaks when you handle it");
 			DestroyItem(what);
-			return;
+			return 0;
 		endif
 	endif
 endfunction
@@ -101,7 +101,7 @@ function CreateRepairDeed(who, scroll, craft_skill)
 	var ramt := AP_GetSkill(who, craft_skill);
 	if(ramt < 50)
 		SendSysMessage(who, "You must be at least apprentice level to create a repair service contract.");
-		return;
+		return 0;
 	endif
 	if(ramt < 60 )
 		title := "A repair service contract from an Apprentice "+type;
@@ -131,7 +131,7 @@ function CreateRepairDeed(who, scroll, craft_skill)
 		SubtractAmount(scroll, 1);
 	endif
 	SetName(theitem, title);
-	return;
+	return 0;
 
 endfunction
 
@@ -140,10 +140,10 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 	var use_on := Target(who);
 	if(use_on.movable == 0)
 		SendSysMessage(who, "You cannot repair that.");
-		return;
+		return 0;
 	elseif((!Accessible(who, use_on)) or (distance(who, use_on) > 2))
 		SendSysMessage(who, "You cannot reach that.");
-		return;
+		return 0;
 	endif
 	if(CInt(use_on.objtype) == CInt(0xe34))
 		case(CInt(craft_skill))
@@ -152,7 +152,7 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 			 CARPENTRY:		CreateRepairDeed(who, use_on, craft_skill); break;
 			 TAILORING:		CreateRepairDeed(who, use_on, craft_skill); break;
 		endcase
-		return;
+		return 0;
 	endif
 	var forge := 0;
 	case(CInt(craft_skill))
@@ -170,16 +170,16 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 			foreach item in near_items
 				if ((item.objtype == 0xFAF) || (item.objtype == 0xFB0))
 					repair_item( who, use_on, craft_skill);
-					return;
+					return 0;
 				endif
 			endforeach
 			SendSysMessage( who, "You must be near an anvil to repair items!" );
-			return;
+			return 0;
 		else
 			SendSysMessage(who, "You cannot repair that");
 		endif
 	endif
-	return;
+	return 0;
 endfunction
 
 function is_weapon_armor(what)

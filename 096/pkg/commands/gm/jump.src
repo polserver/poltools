@@ -3,7 +3,7 @@ use os;
 
 program textcmd_jump(who, text)
   if(!text)
-    return;
+    return 0;
   endif
   var dir := Lower(text[1]);
   SendSysMessage(who, "direction is: "+dir);

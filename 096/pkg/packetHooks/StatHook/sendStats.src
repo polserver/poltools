@@ -78,7 +78,7 @@ function HandleStatPet(character, byref packet)
 	var packet_mode := packet.GetInt8(42);
 	var chk := 0;
 	case(packet_mode)
-		0: return;    // Base packet, so not needed
+		0: return 0;    // Base packet, so not needed
 		1: chk := 1;  // Ok, let's continue processing this
 		3: return 0;    // In case we messed up, do nothing
 		4: return 0;    // In case we messed up, do nothing

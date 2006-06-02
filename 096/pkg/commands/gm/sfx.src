@@ -38,7 +38,7 @@ program textcmd_sfx( who, input )
 
         SendSysMessage( who, "No argument supplied. Usage: .sfx [sound]." );
 
-        return;
+        return 0;
 
     endif
 
@@ -54,7 +54,7 @@ program textcmd_sfx( who, input )
 
         SendSysMessage( who, "Not a valid soundid." );
 
-        return;
+        return 0;
 
     endif
 

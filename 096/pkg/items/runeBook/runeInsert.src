@@ -18,7 +18,7 @@ program on_insert(who, book, movetype, inserttype, item, existing_stack, amt);
 	if( vendorserial )
 		SendSysMessage(who, "You cannot insert runes while that is on a vendor.");
 		MoveItemToContainer(item, who.backpack);
-		return;
+		return 0;
 	endif
 	if( book.movable == 0 )
 		SendSysMessage(who, "You cannot do that while the book is locked down.");
@@ -91,7 +91,7 @@ function addRune(who, book, rune)
 	if( !ReserveItem(rune) )
 		SendSysMessage(who,"cancelled");
 		MoveItemToContainer(rune, who.backpack);
-		return;
+		return 0;
 	endif
 	if( !GetObjProperty(rune, "Destination") )
 		SendSysMessage(who,"You can only add marked runes.");

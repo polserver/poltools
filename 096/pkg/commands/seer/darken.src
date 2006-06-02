@@ -6,7 +6,7 @@ program textcmd_darken(who)
 	var victim := Target(who);
 	if (!victim.ip)
 		SendSysMessage(who, "Aborted.");
-		return;
+		return 0;
 	endif
 
 	victim.setlightlevel( 30, 6000 );

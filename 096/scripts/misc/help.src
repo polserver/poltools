@@ -168,12 +168,12 @@ endprogram
 function mainpagecoun(who)
   if(Len(onlinecounselors) == 0)
     SendSysMessage( who, "Sorry, there are no counselors online now, try again later.");
-    return;
+    return 0;
   endif
   var thepage := CStr(RequestInput( who, who.backpack, "Write down your question:" ));
   if(thepage=="0")
     SendSysMessage(who, "Cancelled.");
-    return;
+    return 0;
   endif
   counpage(who, thepage);
   EraseObjProperty( who, "canpage" );
@@ -184,7 +184,7 @@ endfunction
 function stuckpage(who)
   if(Len(onlinestaff) == 0)
     SendSysMessage( who, "Sorry, there are no staff online, try again later.");
-    return;
+    return 0;
   endif
   var thepage := "I'm stuck and cannot move, please help.";
   gmpage(who, thepage);
@@ -196,12 +196,12 @@ endfunction
 function mainpagegm(who)
   if(Len(onlinestaff) == 0)
     SendSysMessage( who, "Sorry, there are no GM's online now, try again later.");
-    return;
+    return 0;
   endif
   var thepage := CStr(RequestInput( who, who.backpack, "Write down your problem:" ));
   if(thepage == "0")
     SendSysMessage(who, "Cancelled.");
-    return;
+    return 0;
   endif
   gmpage(who, thepage);
   EraseObjProperty( who, "canpage" );

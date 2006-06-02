@@ -14,7 +14,7 @@ program textcmd_Create(who, text)
 		item := RequestGump(who, "Item ObjType or Name");
 		if ( !item )
 			SendSysMessage(who, "Cancelled");
-			return;
+			return 0;
 		endif
 		amount := CInt(RequestGump(who, "Amount to create"));
 	else
@@ -35,7 +35,7 @@ program textcmd_Create(who, text)
 
 	if ( !item )
 		SendSysMessage(who, "Syntax: .createat <objtype> (amount)");
-		return;
+		return 0;
 	endif
 
 	for( amount; amount > 0; amount := amount-1 )

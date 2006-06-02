@@ -4,12 +4,12 @@ program teleto(who)
   SendSysMessage(who, "Move who?");
   var what := Target(who);
   if(!what)
-    return;
+    return 0;
   endif
   SendSysMessage(who, "Move where?");
   var where := TargetCoordinates(who);
   if(!where)
-    return;
+    return 0;
   endif
   MoveCharacterToLocation(what, where.x, where.y, where.z, MOVECHAR_FORCELOCATION);
 endprogram

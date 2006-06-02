@@ -14,7 +14,7 @@ use uo;
 program textcmd_writequip( who, tag )
     if (!tag)
         SendSysMessage( who, "Usage: .writequip [equiptag]" );
-        return;
+        return 0;
     endif
 
     // TODO: validate 'tag' doesn't already exist as a key in equip.cfg

@@ -665,7 +665,7 @@ function OldGFGetNextIndex( type )
 		default:
 			print( "GFGetNextIndex(): Bad type" );
 	endcase
-	return;
+	return 0;
 endfunction
 
 // Sets the next index to be used
@@ -694,7 +694,7 @@ function OldGFSetNextIndex( type, value )
 			GFradid := value;
 		default:
 			print( "GFSetNextIndex(): Bad type" );
-			return;
+			return 0;
 	endcase
 	return oldidx;
 endfunction
@@ -825,7 +825,7 @@ endfunction
 //
 function OldGFSendGumpV( who, gumpvar )
 	if ( !(gumpvar.layout) or !(gumpvar.data) )
-		return;
+		return 0;
 	endif
 	return SendDialogGump( who, gumpvar.layout, gumpvar.data );
 endfunction

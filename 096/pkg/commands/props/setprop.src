@@ -12,13 +12,13 @@ program SetProperties(who, text)
 	var param := SplitWords(text);
 	if ( param.size() < 2 )
 		SendSysMessage(who, "SYNTAX: .setprop <property name> <value>");
-		return;
+		return 0;
 	endif
 
 	var targ := target(who);
 	if ( !targ )
 		SendSysMessage(who, "Cancelled");
-		return;
+		return 0;
 	endif
 
 	var property := Lower(param[1]);

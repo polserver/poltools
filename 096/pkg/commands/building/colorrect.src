@@ -16,7 +16,7 @@ program textcmd_ColorRect(who, text)
 	
 	if ( !color )
 		SendSysMessage(who, "Syntax: .colorrect <color #> (zheight) (objtype)");
-		return;
+		return 0;
 	elseif ( !zheight )
 		zheight := who.z;
 	endif

@@ -313,7 +313,7 @@ function ChangeEmail(who, account)
 	var input := RequestGump(who, "What do you want to set the new email address for this account to?","", CStr(email), CANCEL_BTN_ON);
 	if ( input == error )
 		SendSysMessage(who, "Cancelled");
-		return;
+		return 0;
 	else
 		account.SetProp("Email", input);
 	endif
@@ -327,7 +327,7 @@ function ChangeAcctName(who, account)
 	var input := RequestGump(who, "What do you want to change this account's name to?", "", CStr(name), 1);
 	if ( input == error )
 		SendSysMessage(who, "Cancelled");
-		return;
+		return 0;
 	else
 		var res := account.SetName(input);
 		if ( res.errortext )

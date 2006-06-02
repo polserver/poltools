@@ -8,7 +8,7 @@ program textcmd_setusescript( who, text )
 
 	if (!targ.isA(POLCLASS_MOBILE))
 		SendSysMessage(who, "Aborted.");
-		return;
+		return 0;
 	endif
 
 	targ.script := text;
