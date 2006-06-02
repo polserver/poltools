@@ -15,7 +15,7 @@ function ICP_ScriptsGump(pkg_name)
 	var counter := 0;
 	var btn_num := 0;
 	var page_num := 1;
-	if ( script_list.size() > 0 )
+	if ( script_list.Size() > 0 )
 		foreach script in script_list
 			btn_num := btn_num+1;
 			counter := counter+1;

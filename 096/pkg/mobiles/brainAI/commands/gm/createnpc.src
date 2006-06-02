@@ -236,13 +236,13 @@ function SortNPCs()
 		template.+color :=GetNameColor(cfg_elem.alignment);
 
 		if ( !cfg_elem.category )
-			categories[DEFAULT_CATEGORY].append(template);
+			categories[DEFAULT_CATEGORY].Append(template);
 		else
 			if ( Lower(TypeOf(categories[cfg_elem.category])) != "array" )
 				categories[cfg_elem.category] := array{};
 			endif
 
-			categories[cfg_elem.category].append(template);
+			categories[cfg_elem.category].Append(template);
 		endif
 		SleepMS(2);
 	endforeach

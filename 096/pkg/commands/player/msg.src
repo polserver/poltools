@@ -35,7 +35,7 @@ function MessageGump(who)
 	GFTextLine(gump, 255, 20, 2100, "Send");
 	
 	var names_list := GetNamesList(who);
-	var num_players := names_list.size();
+	var num_players := names_list.Size();
 	var counter := 0;
 	var page_num := 1;
 	var y_pos := 45;

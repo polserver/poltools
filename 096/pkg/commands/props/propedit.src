@@ -214,17 +214,17 @@ function SendCpropGump(who,thing)
   ComposeMainGump(add_page,del_page,this_layout,this_data,thing);
   
 // Add Prop Page
-  this_layout.append("page "+add_page);
+  this_layout.Append("page "+add_page);
   foreach bit in add_layout
-    this_layout.append(bit);
+    this_layout.Append(bit);
   endforeach
-  this_layout.append("textentry 200 92 200 20 0 500 "+Len(this_data));
-  this_data.append("");
+  this_layout.Append("textentry 200 92 200 20 0 500 "+Len(this_data));
+  this_data.Append("");
   
 // Del Prop Page  
-  this_layout.append("page "+del_page);
+  this_layout.Append("page "+del_page);
   foreach bit in del_layout
-    this_layout.append(bit);
+    this_layout.Append(bit);
   endforeach
   
   var retval:=SendDialogGump(who,this_layout,this_data);
@@ -303,23 +303,23 @@ function ComposeMainGump(byref add_page,byref del_page,byref this_layout,byref t
   var i,j,y,this_prop,this_type;
 
   for (i:=1;i<add_page;i:=i+1)
-    this_layout.append("page "+i);
-    this_layout.append("button 380 267 2071 2072 1 0 995");// Cancel button
-    this_layout.append("button 200 267 239 240 1 0 999");  // Main apply button
+    this_layout.Append("page "+i);
+    this_layout.Append("button 380 267 2071 2072 1 0 995");// Cancel button
+    this_layout.Append("button 200 267 239 240 1 0 999");  // Main apply button
     if (i>1)
-      this_layout.append("button "+(width-60)+" 40 250 251 0 "+(i-1)); 
+      this_layout.Append("button "+(width-60)+" 40 250 251 0 "+(i-1)); 
     endif
     if (i<(add_page-1))
-      this_layout.append("button "+(width-60)+" 265 252 253 0 "+(i+1)); 
+      this_layout.Append("button "+(width-60)+" 265 252 253 0 "+(i+1)); 
     endif
     if (add_page>2)
-      this_layout.append("gumppic "+(width-108)+" 263 2644");
-      this_layout.append("gumppic "+(width-105)+" 266 "+(2224+i));
+      this_layout.Append("gumppic "+(width-108)+" 263 2644");
+      this_layout.Append("gumppic "+(width-105)+" 266 "+(2224+i));
     endif
-    this_layout.append("button 340 38 2224 2224 0 "+add_page);
-    this_layout.append("text 360 35 34 2");
-    this_layout.append("button 40 38 2224 2224 0 "+del_page);
-    this_layout.append("text 60 35 34 3");
+    this_layout.Append("button 340 38 2224 2224 0 "+add_page);
+    this_layout.Append("text 360 35 34 2");
+    this_layout.Append("button 40 38 2224 2224 0 "+del_page);
+    this_layout.Append("text 60 35 34 3");
 
     var start_j:=((i-1)*TEXT_LINES)+1;
     var end_j:=i*TEXT_LINES;
@@ -338,24 +338,24 @@ function ComposeMainGump(byref add_page,byref del_page,byref this_layout,byref t
           can_edit:=0;
         endif
         y:=(j-start_j)*20+60;
-        this_layout.append("croppedtext 50 "+y+" 130 20 0 "+Len(this_data));
-        this_data.append(propnames[j]);
+        this_layout.Append("croppedtext 50 "+y+" 130 20 0 "+Len(this_data));
+        this_data.Append(propnames[j]);
 
-        this_layout.append("croppedtext 200 "+y+" 60 20 0 "+Len(this_data));
-        this_data.append(this_type);
+        this_layout.Append("croppedtext 200 "+y+" 60 20 0 "+Len(this_data));
+        this_data.Append(this_type);
 
         if (this_prop.errortext)
-          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 34 "+Len(this_data));
-          this_data.append(this_prop.errortext);
+          this_layout.Append("croppedtext 280 "+y+" "+(width-310)+" 20 34 "+Len(this_data));
+          this_data.Append(this_prop.errortext);
         elseif ( (can_edit) and  ( this_type=="Integer") or (this_type=="Double") or (this_type=="String") )
-          this_layout.append("gumppic 260 "+(y+3)+" 58");
-          this_layout.append("textentry 280 "+y+" "+(width-310)+" 20 0 "+(500+j)+" "+Len(this_data));
-          this_data.append(ToggleHex(this_prop,this_type));
+          this_layout.Append("gumppic 260 "+(y+3)+" 58");
+          this_layout.Append("textentry 280 "+y+" "+(width-310)+" 20 0 "+(500+j)+" "+Len(this_data));
+          this_data.Append(ToggleHex(this_prop,this_type));
         else
-          this_layout.append("croppedtext 280 "+y+" "+(width-310)+" 20 0 "+Len(this_data));
-          this_data.append(this_prop);
+          this_layout.Append("croppedtext 280 "+y+" "+(width-310)+" 20 0 "+Len(this_data));
+          this_data.Append(this_prop);
         endif
-        this_layout.append("checkbox 30 "+y+" 210 211 0 "+(j+700)); 
+        this_layout.Append("checkbox 30 "+y+" 210 211 0 "+(j+700)); 
       endif
     endfor
   endfor

@@ -81,7 +81,7 @@ program runScript_CharProfileRequest( params )
 			//not me, set the string at the uneditable offset
 			outpkt.SetUnicodeString(uneditable_profile_offset,cp_profile,1);
 			//calculate the editable string offset
-			editable_profile_offset := uneditable_profile_offset + (cp_profile.size()*UCHAR_SIZE);
+			editable_profile_offset := uneditable_profile_offset + (cp_profile.Size()*UCHAR_SIZE);
 			//set just a double terminator at the editable offset
 			outpkt.SetInt16(editable_profile_offset,0);
 		else

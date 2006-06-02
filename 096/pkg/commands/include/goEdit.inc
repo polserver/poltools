@@ -7,10 +7,10 @@ function Go_EditSendLocation(who, public:=1)
 	var gump;
 	if( public )
 		gump := Go_SelectEditGump(1);
-		num_keys := go_keys_base.size();
+		num_keys := go_keys_base.Size();
 	else
 		gump := Go_SelectEditGump(0);
-		num_keys := go_keys.size();
+		num_keys := go_keys.Size();
 	endif
 
 	var input := GFSendGump(who, gump);
@@ -57,11 +57,11 @@ function Go_EditSendLocation(who, public:=1)
 
                                 var original_Realm := send_Location.Realm;
 				if( public )
-					go_prop_base.erase(Lower(send_Location.Name));
+					go_prop_base.Erase(Lower(send_Location.Name));
 					go_elem.SetProp("base_Distro", go_prop_base);
 					Go_SetLocation("base_Distro", who, edit_name, original_Realm, xg_pos, yg_pos, zg_pos);
 				else
-					go_prop.erase(Lower(send_Location.Name));
+					go_prop.Erase(Lower(send_Location.Name));
 					go_elem.SetProp(who.acctname, go_prop);
 					Go_SetLocation(who.acctname, who, edit_name, original_Realm, xg_pos, yg_pos, zg_pos);
 				endif
@@ -70,10 +70,10 @@ function Go_EditSendLocation(who, public:=1)
                         elseif ( edit_input[edit_delete] )
                                 SendSysMessage(who, "Deleted ["+send_Location.Name+"]");
 				if( public )
-					go_prop_base.erase(Lower(send_Location.Name));
+					go_prop_base.Erase(Lower(send_Location.Name));
 					go_elem.SetProp("base_Distro", go_prop_base);
 				else
-					go_prop.erase(Lower(send_Location.Name));
+					go_prop.Erase(Lower(send_Location.Name));
 					go_elem.SetProp(who.acctname, go_prop);
 				endif
                                 Go_RefreshMyGumps(who);
@@ -109,7 +109,7 @@ function Go_SelectEditGump(public)
         var line_num := 0;
 
 	if( public )
-		go_keys_base.sort();
+		go_keys_base.Sort();
 		foreach place in ( go_keys_base )
 			GFTextLine(gump,  25, y_loc, 2100, go_prop_base[place].Name);
 			GFTextLine(gump, 175, y_loc, 2100, go_prop_base[place].Realm);
@@ -129,7 +129,7 @@ function Go_SelectEditGump(public)
 			SleepMS(2);
 		endforeach
 	else
-		go_keys.sort();
+		go_keys.Sort();
 		foreach place in ( go_keys )
 			GFTextLine(gump,  25, y_loc, 2100, go_prop[place].Name);
 			GFTextLine(gump, 175, y_loc, 2100, go_prop[place].Realm);

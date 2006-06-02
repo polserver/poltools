@@ -291,8 +291,8 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 		return 0;
 	endif
 	var temp_list := dictionary;
-	for i := 1 to (parts_list.size()/2)
-		temp_list[CInt(parts_list[i])] := CInt(parts_list[i+(parts_list.size()/2)]);
+	for i := 1 to (parts_list.Size()/2)
+		temp_list[CInt(parts_list[i])] := CInt(parts_list[i+(parts_list.Size()/2)]);
 	endfor
 	parts_list := temp_list;
 

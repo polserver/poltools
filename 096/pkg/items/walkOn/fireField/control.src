@@ -51,7 +51,7 @@ function BurnNearbyMobiles(field, dmg_dice)
 		SleepMS(2);
 	endforeach
 
-	return (nearby.size());
+	return (nearby.Size());
 endfunction
 
 function BurnMobile(mobile, dmg_dice)

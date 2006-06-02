@@ -28,7 +28,7 @@ Program attributeCache()
 			type_list := array;
 		endif
 		
-		type_list.append(elem_name);
+		type_list.Append(elem_name);
 		
 		data_elem.SetProp(type_name, type_list);
 	endforeach

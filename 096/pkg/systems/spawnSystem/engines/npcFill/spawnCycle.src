@@ -13,11 +13,11 @@ program SpawnCycle(params)
 
 	var coords := SS_GetRegionCoordinates(region_name);
 	var group_entries := SS_GetEntriesInGroup(group_name).keys();
-	var num_entries := group_entries.size();
+	var num_entries := group_entries.Size();
 	var group_settings := SS_GetGroupInRegion(region_name, group_name);
 
 	var max_amt := group_settings.max_amt;
-	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).size();
+	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).Size();
 
 	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);

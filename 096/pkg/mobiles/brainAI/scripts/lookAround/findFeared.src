@@ -18,7 +18,7 @@ program BrainNerve(params)
 
 	while ( npc )
 		if ( !npc.opponent )
-			if ( NPC_LoadWatchList(npc).size() < 1 )
+			if ( NPC_LoadWatchList(npc).Size() < 1 )
 				// No need to look around any longer. We're all alone :(
 				return 0;
 			else
@@ -40,7 +40,7 @@ function FindFearedOpponent(npc, byref settings, byref scripts)
 		SleepMS(2);
 	endforeach
 
-	if ( run_list.size() > 0 )
+	if ( run_list.Size() > 0 )
 		var feared_one := run_list[RandomInt(run_list.Size())+1];
 		for i := 1 to CInt(settings["AreaSize"])
 			if( feared_one in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"])) )

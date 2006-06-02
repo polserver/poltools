@@ -290,7 +290,7 @@ endfunction
 //
 */
 function CfgToDF(cfg_name, df_name, propnames)
-	if ( propnames.size() < 1 )
+	if ( propnames.Size() < 1 )
 		var errmsg := error{"errortext":="Error::CfgToDF() - Size of propnames array is < 0"};
 		DF_OutPut(errmsg.errortext);
 		return errmsg;
@@ -310,7 +310,7 @@ function CfgToDF(cfg_name, df_name, propnames)
 			var entries := GetConfigStringArray(elem, prop_name);
 			var prop_value;
 
-			if ( entries.size() > 1 )
+			if ( entries.Size() > 1 )
 				prop_value := array;
 				foreach line in GetConfigStringArray(elem, prop_name)
 					prop_value.Append(line);

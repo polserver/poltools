@@ -36,12 +36,12 @@ program BrainNerve(params)
 			var attack_list := array{};
 			foreach mobile in ListMobilesNearLocationEX(npc.x, npc.y, npc.z, range, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN)
 				if ( (mobile.ip) && (!mobile.concealed) )
-					attack_list.append(mobile);
+					attack_list.Append(mobile);
 				endif
 				SleepMS(5);
 			endforeach
 			
-			var num_opponents := attack_list.size();
+			var num_opponents := attack_list.Size();
 			
 			if ( num_opponents > 0 )
 				var dmg := max_hp-hp;

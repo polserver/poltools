@@ -123,9 +123,9 @@ function CreateRepairDeed(who, scroll, craft_skill)
 	type := Lower(type);
 	var ret := GetItemDescriptor(0xee09);
 	ret.Color := color;
-	ret.CProps.insert("type", type);
-	ret.CProps.insert("skillid", craft_skill);
-	ret.CProps.insert("ramt", ramt);
+	ret.CProps.Insert("type", type);
+	ret.CProps.Insert("skillid", craft_skill);
+	ret.CProps.Insert("ramt", ramt);
 	var theitem := CreateItemInBackpack(who, ret, 1);
 	if(theitem)
 		SubtractAmount(scroll, 1);

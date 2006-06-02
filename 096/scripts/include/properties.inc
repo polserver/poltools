@@ -78,9 +78,9 @@ function GetPropertyNames(what, magic := 0)
     endif
 
     props := GetObjPropertyNames(what);
-    for(i := 1; i <= props.size(); i := i + 1)
+    for(i := 1; i <= props.Size(); i := i + 1)
         if(props[i][1] == "+")
-            props.erase(i);
+            props.Erase(i);
             i := i - 1;
         endif
     endfor

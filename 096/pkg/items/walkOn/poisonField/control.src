@@ -51,7 +51,7 @@ function PoisonNearbyMobiles(field, poison_level, creator)
 		SleepMS(2);
 	endforeach
 
-	return (nearby.size());
+	return (nearby.Size());
 endfunction
 
 function PoisonMobile(mobile, poison_level, creator)

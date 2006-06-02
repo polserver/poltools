@@ -228,10 +228,10 @@ function counpage(who, thepage)
     endif
   endforeach
   var newarry := {};
-  newarry.append(who.name);
-  newarry.append(thepage);
-  newarry.append(who.serial);
-  cnpages.append(newarry);
+  newarry.Append(who.name);
+  newarry.Append(thepage);
+  newarry.Append(who.serial);
+  cnpages.Append(newarry);
   SetGlobalProperty("counpages", cnpages);
 endfunction
 
@@ -254,11 +254,11 @@ function gmpage(who, thepage)
     endif
   endforeach
   var newarry := {};
-  newarry.append(who.name);
-  newarry.append(thepage);
-  newarry.append(who.serial);
-  gmpages.append(newarry);
-  SendSysMessage(who, "Your page is number "+gmpages.size()+" in the queue.");
+  newarry.Append(who.name);
+  newarry.Append(thepage);
+  newarry.Append(who.serial);
+  gmpages.Append(newarry);
+  SendSysMessage(who, "Your page is number "+gmpages.Size()+" in the queue.");
   SetGlobalProperty("gmpages", gmpages);
 endfunction
 
@@ -266,7 +266,7 @@ function RemoveElement(arry, position)
   var newarray := { };
   foreach thing in arry
     if(thing != position)
-      newarray.append(thing);
+      newarray.Append(thing);
     endif
   endforeach
   return newarray;

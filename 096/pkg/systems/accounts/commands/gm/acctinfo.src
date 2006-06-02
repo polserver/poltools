@@ -181,7 +181,7 @@ function NotesGump(account, byref gump)
 	GFResizePic(gump, 15, 50, 2620, 610, 380);
 	var acct_notes := account.GetProp("notes");
 	
-	var num_lines := acct_notes.size();
+	var num_lines := acct_notes.Size();
 	if ( num_lines < 19 )
 		//Makes sure that 'off the gump' notes dont get removed.
 		num_lines := 19;

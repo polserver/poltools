@@ -15,7 +15,7 @@ function ICP_CommandsGump(pkg_name)
 	var counter := 0;
 	var btn_num := 0;
 	var page_num := 1;
-	if ( cmd_list.size() > 0 )
+	if ( cmd_list.Size() > 0 )
 		foreach script in cmd_list
 			btn_num := btn_num+1;
 			counter := counter+1;
