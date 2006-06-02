@@ -2,19 +2,19 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//  name:    repair.inc
-//  version: 2.0
-//  author:  MuadDib
+//	name:		repair.inc
+//	version: 2.0
+//	author:	MuadDib
 //
-//  Purpose: Contains all the central Repair functions involving repairing items, using repair
-//           deeds, etc.
+//	Purpose: Contains all the central Repair functions involving repairing items, using repair
+//					 deeds, etc.
 //
-//  Changes: Sept 14, 2005 - Updated repair_item() for swing counter (new crafting ready)
-//                         - Added CreateRepairDeed() Function with support for the following skills:
-//                           Smithy, Bowcraft, Carpenter, Tailor (new crafting ready)
-//                         - Moved repair_this() function to the include (new crafting ready)
-//                         - Moved s_weapon_armor() to the include (new crafting ready)
-//                         - Moved resmelt() to include (New crafting ready)
+//	Changes: Sept 14, 2005 - Updated repair_item() for swing counter (new crafting ready)
+//		- Added CreateRepairDeed() Function with support for the following skills:
+//		Smithy, Bowcraft, Carpenter, Tailor (new crafting ready)
+//		- Moved repair_this() function to the include (new crafting ready)
+//		- Moved s_weapon_armor() to the include (new crafting ready)
+//		- Moved resmelt() to include (New crafting ready)
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,17 +28,15 @@ function repair_item(character, what, craft_skill )
 	var damaged := maxhp - thehp;
 	var hisskill := AP_GetSkill(character, craft_skill);
 	var damageamount := 0.0;
-	damageamount := (125 -  hisskill)/3000.0;
+	damageamount := (125 -	hisskill)/3000.0;
 	if(what.hp == what.maxhp)
 		SendSysMessage(character, "That item is not damaged.");
 		return;
-	endif
-	if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
+	elseif((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
 		return;
-	endif
-	if(what.quality <= damageamount)
+	elseif(what.quality <= damageamount)
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
 		return;
@@ -48,8 +46,7 @@ function repair_item(character, what, craft_skill )
 		SendSysMessage(character, "The brittle material breaks when you handle it");
 		DestroyItem(what);
 		return;
-	endif
-	if (SkillCheck(character, craft_skill, CInt(damaged / 3), 0))
+	elseif (SkillCheck(character, craft_skill, CInt(damaged / 3), 0))
 		var repaired_amount := CInt( ((randomint(hisskill) + 1))/2);
 		if (damaged == 1)
 			repaired_amount := 1;
@@ -57,7 +54,7 @@ function repair_item(character, what, craft_skill )
 		if (thehp + repaired_amount > what.maxhp)
 			what.hp := what.maxhp;
 			EraseObjProperty(what, "swings");
-			SendSysMessage(character, "You  repair the item completely");
+			SendSysMessage(character, "You	repair the item completely");
 		else
 			what.hp := thehp + repaired_amount;
 			SendSysMessage(character, "You successfully repair some of the damage");
@@ -94,110 +91,106 @@ endfunction
 
 function CreateRepairDeed(who, scroll, craft_skill)
 
-  var type, title, color;
-  case(CInt(craft_skill))
-     BLACKSMITHY: 		type := "Blacksmith"; color := CInt(2107);
-     BOWCRAFT_FLETCHING: 	type := "Bowyer"; color := CInt(2116);
-     CARPENTRY: 		type := "Carpenter"; color := CInt(2113);
-     TAILORING: 		type := "Tailor"; color := CInt(2128);
-  endcase
-  var ramt := AP_GetSkill(who, craft_skill);
-  if(ramt < 50)
-    SendSysMessage(who, "You must be at least apprentice level to create a repair service contract.");
-    return;
-  endif
-  if(ramt < 60 )
-    title := "A repair service contract from an Apprentice "+type;
-  elseif(ramt < 70 )
-    title := "A repair service contract from a Journeyman "+type;
-  elseif(ramt < 80 )
-    title := "A repair service contract from an Expert "+type;
-  elseif(ramt < 90 )
-    title := "A repair service contract from an Adept "+type;
-  elseif(ramt < 100 )
-    title := "A repair service contract from a Master "+type;
-  elseif(ramt < 110 )
-    title := "A repair service contract from a Grandmaster "+type;
-  elseif(ramt < 120 )
-    title := "A repair service contract from an Elder "+type;
-  elseif(ramt < 130 )
-    title := "A repair service contract from a Legendary "+type;
-  endif
-  type := Lower(type);
-  var ret := GetItemDescriptor(0xee09);
-  ret.Color := color;
-  ret.CProps.insert("type", type);
-  ret.CProps.insert("skillid", craft_skill);
-  ret.CProps.insert("ramt", ramt);
-  var theitem := CreateItemInBackpack(who, ret, 1);
-  if(theitem)
-    SubtractAmount(scroll, 1);
-  endif
-  SetName(theitem, title);
-  return;
+	var type, title, color;
+	case(CInt(craft_skill))
+		 BLACKSMITHY: 		type := "Blacksmith"; color := CInt(2107);
+		 BOWCRAFT_FLETCHING: 	type := "Bowyer"; color := CInt(2116);
+		 CARPENTRY: 		type := "Carpenter"; color := CInt(2113);
+		 TAILORING: 		type := "Tailor"; color := CInt(2128);
+	endcase
+	var ramt := AP_GetSkill(who, craft_skill);
+	if(ramt < 50)
+		SendSysMessage(who, "You must be at least apprentice level to create a repair service contract.");
+		return;
+	endif
+	if(ramt < 60 )
+		title := "A repair service contract from an Apprentice "+type;
+	elseif(ramt < 70 )
+		title := "A repair service contract from a Journeyman "+type;
+	elseif(ramt < 80 )
+		title := "A repair service contract from an Expert "+type;
+	elseif(ramt < 90 )
+		title := "A repair service contract from an Adept "+type;
+	elseif(ramt < 100 )
+		title := "A repair service contract from a Master "+type;
+	elseif(ramt < 110 )
+		title := "A repair service contract from a Grandmaster "+type;
+	elseif(ramt < 120 )
+		title := "A repair service contract from an Elder "+type;
+	elseif(ramt < 130 )
+		title := "A repair service contract from a Legendary "+type;
+	endif
+	type := Lower(type);
+	var ret := GetItemDescriptor(0xee09);
+	ret.Color := color;
+	ret.CProps.insert("type", type);
+	ret.CProps.insert("skillid", craft_skill);
+	ret.CProps.insert("ramt", ramt);
+	var theitem := CreateItemInBackpack(who, ret, 1);
+	if(theitem)
+		SubtractAmount(scroll, 1);
+	endif
+	SetName(theitem, title);
+	return;
 
 endfunction
 
 function repair_this(who, craft_skill := BLACKSMITHY)
-  SendSysMessage(who, "Select item to repair.");
-  var use_on := Target(who);
-  if(!can_access(who, use_on))
-    return;
-  endif
-  if(use_on.movable == 0)
-    SendSysMessage(who, "You cannot repair that.");
-    return;
-  endif
-  if((!Accessible(who, use_on)) or (distance(who, use_on) > 2))
-    SendSysMessage(who, "You cannot reach that.");
-    return;
-  endif
-  if(CInt(use_on.objtype) == CInt(0xe34))
-    case(CInt(craft_skill))
-       BLACKSMITHY:            CreateRepairDeed(who, use_on, craft_skill);
-       BOWCRAFT_FLETCHING:    CreateRepairDeed(who, use_on, craft_skill);
-       CARPENTRY:   		 CreateRepairDeed(who, use_on, craft_skill);
-       TAILORING:   		 CreateRepairDeed(who, use_on, craft_skill);
-    endcase
-    return;
-  endif
-  var forge := 0;
-  case(CInt(craft_skill))
-     BLACKSMITHY: forge := 1;
-  endcase
-  if(!forge)
-    if(is_weapon_armor(use_on.objtype))
-      repair_item( who, use_on, craft_skill);
-    else
-      SendSysMessage(who, "You cannot repair that.");
-    endif
-  else
-    if(is_weapon_armor(use_on.objtype))
-      var near_items := ListItemsNearLocation(who.x, who.y, who.z,3);
-      foreach item in near_items
-        if ((item.objtype == UOBJ_ANVIL1) || (item.objtype == UOBJ_ANVIL2))
-          repair_item( who, use_on, craft_skill);
-          return;
-        endif
-      endforeach
-      SendSysMessage( who, "You must be near an anvil to repair items!" );
-      return;
-    else
-      SendSysMessage(who, "You cannot repair that");
-    endif
-  endif
-  return;
+	SendSysMessage(who, "Select item to repair.");
+	var use_on := Target(who);
+	if(use_on.movable == 0)
+		SendSysMessage(who, "You cannot repair that.");
+		return;
+	elseif((!Accessible(who, use_on)) or (distance(who, use_on) > 2))
+		SendSysMessage(who, "You cannot reach that.");
+		return;
+	endif
+	if(CInt(use_on.objtype) == CInt(0xe34))
+		case(CInt(craft_skill))
+			 BLACKSMITHY:		CreateRepairDeed(who, use_on, craft_skill); break;
+			 BOWCRAFT_FLETCHING:	CreateRepairDeed(who, use_on, craft_skill); break;
+			 CARPENTRY:		CreateRepairDeed(who, use_on, craft_skill); break;
+			 TAILORING:		CreateRepairDeed(who, use_on, craft_skill); break;
+		endcase
+		return;
+	endif
+	var forge := 0;
+	case(CInt(craft_skill))
+		 BLACKSMITHY: forge := 1;
+	endcase
+	if(!forge)
+		if(is_weapon_armor(use_on.objtype))
+			repair_item( who, use_on, craft_skill);
+		else
+			SendSysMessage(who, "You cannot repair that.");
+		endif
+	else
+		if(is_weapon_armor(use_on.objtype))
+			var near_items := ListItemsNearLocation(who.x, who.y, who.z,3);
+			foreach item in near_items
+				if ((item.objtype == 0xFAF) || (item.objtype == 0xFB0))
+					repair_item( who, use_on, craft_skill);
+					return;
+				endif
+			endforeach
+			SendSysMessage( who, "You must be near an anvil to repair items!" );
+			return;
+		else
+			SendSysMessage(who, "You cannot repair that");
+		endif
+	endif
+	return;
 endfunction
 
 function is_weapon_armor(what)
-  var combatcfg := ReadConfigFile(":combat:itemdesc");
-  var elem := FindConfigElem(combatcfg, what);
-  var repairable := GetConfigInt(elem, "repairable");
-  if (repairable == 1)
-    return 1;
-  else
-    return 0;
-  endif
+	var combatcfg := ReadConfigFile(":combat:itemdesc");
+	var elem := FindConfigElem(combatcfg, what);
+	var repairable := GetConfigInt(elem, "repairable");
+	if (repairable == 1)
+		return 1;
+	else
+		return 0;
+	endif
 endfunction
 
 function resmelt(who, the_attribute)
@@ -217,7 +210,7 @@ function resmelt(who, the_attribute)
 
 	SendSysMessage(who, "Select the item you wish to melt.");
 	var use_on := Target(who, TGTOPT_CHECK_LOS);
-	if(!use_on || !can_access(who, use_on))
+	if(!use_on )
 		return 0;
 	endif
 	if(use_on.container.serial != who.backpack.serial)
