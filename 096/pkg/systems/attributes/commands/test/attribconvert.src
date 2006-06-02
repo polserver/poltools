@@ -7,7 +7,7 @@ include ":attributes:include/attributes_ex";
 program command_AttribConvert(who, input)
 	if ( !input )
 		SendSysMessage(who, "Error - no skillID or attribute name was sent.");
-		return;
+		return 0;
 	elseif ( Len(input) <= 2 )
 		SendSysMessage(who, "SkillID ["+input+"] points to attribute "+AP_SkillIdToAttributeName(input));
 	else

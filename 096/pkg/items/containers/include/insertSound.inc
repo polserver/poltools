@@ -66,7 +66,7 @@ function inNoise(who, box, item)
         // Once the noise is determined, we need to play it.
         makeNoise(who, noise, soundfile);
         
-        return;
+        return 0;
 endfunction
 
 function outNoise(who, box, item)
@@ -109,7 +109,7 @@ function outNoise(who, box, item)
         // Once the noise is determined, we need to play it.
         makeNoise(who, noise, soundfile);
         
-        return;
+        return 0;
         
 endfunction
 
@@ -138,5 +138,5 @@ function makeNoise(who, noise, soundfile)
                 SendSysMessage(who, "noise "+noise+" not defined" );
         endif
         
-        return;
+        return 0;
 endfunction

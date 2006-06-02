@@ -14,7 +14,7 @@ program UseTub(mobile, dyetub)
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled");
-		return;
+		return 0;
 	elseif( !ReserveItem(targ) )
 		SendSysMessage(mobile, "That is already in use.");
 		return 0;

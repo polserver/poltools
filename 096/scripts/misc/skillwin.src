@@ -15,5 +15,5 @@ use uo;
 program core_skillWin(who)
 	SendSkillWindow(who, who);
 
-	return;
+	return 0;
 endprogram

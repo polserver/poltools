@@ -17,7 +17,7 @@ program BrainNerve(params)
 		if ( !npc.opponent )
 			if ( NPC_LoadWatchList(npc).size() < 1 )
 				// No need to look around any longer. We're all alone :(
-				return;
+				return 0;
 			endif
 			// Keep running while the npc sees something
 			// to prevent it from going to sleep.

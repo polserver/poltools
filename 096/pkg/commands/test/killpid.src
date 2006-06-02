@@ -6,7 +6,7 @@ program textcmd_killpid(who, txt)
   who := who;
   var thepid := CInt(txt);
   if(!thepid)
-    return;
+    return 0;
   endif
   var proc := getprocess(thepid);
   proc.kill();

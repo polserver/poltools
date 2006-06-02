@@ -70,7 +70,7 @@ program GumpTest(who)
 	var input := GFSendGump(who, gump);
 	if ( input[0] <= 1 )
 		SendSysMessage(who, "Cancelled.");
-		return;
+		return 0;
 	elseif ( input[okay_btn] )
 		SendSysMessage(who, "*** OKAY button was pressed! ***");
 	elseif ( input[CANCEL_BTN] )

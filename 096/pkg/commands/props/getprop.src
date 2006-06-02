@@ -14,7 +14,7 @@ program propertyinfo(who, property)
 	var targ := target(who);
 	if ( !targ )
 		SendSysMessage(who, "Cancelled");
-		return;
+		return 0;
 	endif
 	SendSysMessage(who, "Property "+property+": "+targ.get_member(property));
 endprogram

@@ -52,7 +52,7 @@ function SendMessage(who, id, parms, type)
 		SendSysMessage(who, FormatMessage(id, parms));
 	endif
 
-	return;
+	return 0;
 endfunction
 
 
@@ -77,7 +77,7 @@ function SendAll(text, parms, type)
 		SleepMs(NO_RUNAWAY);
 	endforeach
 
-	return;
+	return 0;
 endfunction
 
 
@@ -103,7 +103,7 @@ function SendHTMLMessage(who, text)
 	GFHTMLArea(msgGump, 10, 10, 490, 210, text, 1, 1);
 	GFSendGump(who, msgGump);
 
-	return;
+	return 0;
 endfunction
 
 
@@ -158,7 +158,7 @@ function SendCliloc(who, num, params, type := SPEECH_REGULAR, origin := 0, hue :
 	packet.SetInt16(1, packet.GetSize());
 	packet.SendPacket(who);
 
-	return;
+	return 0;
 endfunction
 
 

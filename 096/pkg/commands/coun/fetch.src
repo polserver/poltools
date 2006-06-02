@@ -4,7 +4,7 @@ use uo;
 program textcmd_tele(who)
   if((who.cmdlevel < 3) && (who.multi))
     SendSysMessage(who, "You cannot move players into houses.");
-    return;
+    return 0;
   endif
   SendSysMessage(who, "Who do you want to fetch?");
   var where := Target(who, TGTOPT_NOCHECK_LOS);

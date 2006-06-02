@@ -13,7 +13,7 @@ program textcmd_TileInfo(who)
 
 	if ( !targ )
 		SendSysMessage(who, "Cancelled");
-		return;
+		return 0;
 	endif
 
 	SendSysMessage(who, "Clicked Graphic: "+targ.objtype+" / "+Hex(targ.objtype));

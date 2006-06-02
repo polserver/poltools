@@ -5,13 +5,13 @@ program textcmd_equip( speaker )
 
     var what := Target( speaker );
     if (!what)
-        return;
+        return 0;
     endif
 
     SendSysMessage( speaker, "On whom shall "+what.desc+" be equipped?" );
     var who := Target( speaker );
     if (!who)
-        return;
+        return 0;
     endif
 
     var res := EquipItem( who, what );

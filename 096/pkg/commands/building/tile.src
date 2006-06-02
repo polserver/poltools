@@ -17,7 +17,7 @@ use uo;
 program command_tile(who, params)
 	if (!params)
 		SendSysMessage( who, "No arguments supplied. Usage: .tile [item] ([z])." );
-		return;
+		return 0;
 	endif
 
 	var argarray := SplitWords( params ); // split the arguments.
@@ -42,13 +42,13 @@ program command_tile(who, params)
 
 	if( (!coordstructone) || (!coordstructtwo)) // check that we got two valid coordstructs.
 		SendSysMessage( who, "Missing coordinate. Aborting." );
-		return;
+		return 0;
 	endif
 
 	if (!zvalid) // if we are to use the coord #1 Z, check it out.
 		if (coordstructone.z < -127 || coordstructone.z > 128)
 			SendSysMessage(who, "Z is out of bounds. Aborting.");
-			return;
+			return 0;
 		endif
 	endif
 
@@ -91,5 +91,5 @@ program command_tile(who, params)
 
 	SendSysMessage(who, "Command completed.");
 
-	return;
+	return 0;
 endprogram

@@ -8,7 +8,7 @@ program textcmd_setusescript( who, text )
 
 	if (!targ)
 		SendSysMessage(who, "Aborted.");
-		return;
+		return 0;
 	endif
 
 	targ.equipscript := text;

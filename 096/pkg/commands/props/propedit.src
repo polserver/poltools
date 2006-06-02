@@ -155,7 +155,7 @@ program CpropEditor(parms1,parms2)
       thing:=parms1[2];
     else
       SysLog("Invalid params in call_script : "+who);
-      return;
+      return 0;
     endif
   else
     who:=parms1;
@@ -163,7 +163,7 @@ program CpropEditor(parms1,parms2)
     if (parms2["multi"])
       if (!who.multi)
         sendsysmessage(who,"You must stand on the multi to edit it's cprops.");
-        return;
+        return 0;
       else
         thing:=who.multi;
       endif
@@ -175,7 +175,7 @@ program CpropEditor(parms1,parms2)
 
   if (!thing)
     sendsysmessage(who,"Cancelled.");
-    return;
+    return 0;
   elseif (thing.isa(POLCLASS_ITEM))
     ReserveItem(thing);
   endif
