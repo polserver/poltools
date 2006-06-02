@@ -1,5 +1,7 @@
 @ECHO OFF
 
+REM - $Id$
+
 REM -- If a special path is needed to uoconvert.exe set it here
 SET UOCNVRT_PATH=uoconvert.exe
 REM ----------
@@ -10,8 +12,8 @@ GOTO :MENU()
 REM -- MENU FUNCTION
 :MENU()
 CLS
-ECHO RealmGen.bat by Austin
-ECHO ========================
+ECHO RealmGen.bat (v 1.0) by Austin
+ECHO ==============================
 ECHO Command        Purpose
 ECHO  [ a ] - Build multis.cfg
 ECHO  [ b ] - Build tiles.cfg

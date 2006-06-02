@@ -1,5 +1,7 @@
 @ECHO OFF
 
+REM - $Id$
+
 REM -- If a special path is needed to the batch files set it here
 SET BATCH_PATH=batchFiles\
 REM ----------
@@ -20,8 +22,8 @@ PAUSE
 REM -- MENU FUNCTION
 :MENU()
 CLS
-ECHO StartHere.bat by Austin
-ECHO ========================
+ECHO StartHere.bat (v 1.0) by Austin
+ECHO ===============================
 ECHO Command        Purpose
 ECHO  [ a ] - RealmGen menu        (Realm building tools)
 ECHO  [ b ] - Ecompiler menu       (Ecompile tools)
