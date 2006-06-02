@@ -9,21 +9,19 @@ include ":attributes:skillCheck";
 include ":crafting:crafting";
 include ":crafting:craftingRepair";
 include ":crafting:toolWear";
-include ":itemutils:canAccess";
 
 var item_config     := ReadConfigFile(":*:itemdesc");
 var craft_config    := ReadConfigFile(":blacksmithy:blacksmithy");
 
 program use_SmithTool(who, tool)
 
-	if(!can_access(who, tool))
+	if ( !ReserveItem(tool) )
+		SendSysMessage(who, "That is already in use.");
 		return 0;
-	endif
-	if((!tool.movable) or !ReserveItem(tool))
+	elseif( (!tool.movable) || !ReserveItem(tool) )
 		SendSysMessage(who, "You cannot use that");
 		return 0;
-	endif
-	if(!tool in ListEquippedItems(who))
+	elseif( !tool in ListEquippedItems(who) )
 		if( !(tool in EnumerateItemsInContainer(who.backpack)) )
 			SendSysMessage(who, "That item is not in your backpack nor equipped.");
 			return 0;
@@ -45,11 +43,10 @@ program use_SmithTool(who, tool)
 	var repairit    := rinfo[3];
 	var resmeltit   := rinfo[4];
 
-	if(repairit)
+	if( repairit )
 		repair_this(who, craft_skill);
 		return 0;
-	endif
-	if(resmeltit)
+	elseif( resmeltit )
 		resmelt(who, craft_skill);
 		return 0;
 	endif
@@ -60,26 +57,26 @@ endprogram
 
 function makeBlacksmithItems(who, what, amt, tool)
 
-	if(!what)
+	if( !what )
 		SendSysMessage(who, "Cancelled");
 		return 0;
 	endif
 
 	var anvil_near := 0;
-	foreach item in ListItemsNearLocation(who.x, who.y, who.z, 3)
-		if((item.objtype == 0x0faf) || (item.objtype == 0x0fb0))
+	foreach item in ( ListItemsNearLocation(who.x, who.y, who.z, 3) )
+		if( (item.objtype == 0xFAF) || (item.objtype == 0xFB0) )
 			anvil_near := 1;
 			break;
 		endif
 	endforeach
-	if(anvil_near == 0)
+	if( anvil_near == 0 )
 		SendSysMessage(who, "You must be near an anvil to smith items.");
 		return 0;
 	endif
 
 	// Metal is sent for the ResourceList entry type.
 	var itemchk := MaterialSelection(who, craft_skill, Lower("Metal"));
-	if(!itemchk)
+	if( !itemchk )
 		return 0;
 	endif
 	var use_on := itemchk[1];
@@ -94,19 +91,18 @@ function makeBlacksmithItems(who, what, amt, tool)
 	pts      := CInt(pts + ptmod);
 	var counter := 0, x := who.x, y := who.y;
 
-	while(counter < amt)
-		if((who.x != x) || (who.y != y))
+	while( counter < amt )
+		if( (who.x != x) || (who.y != y) )
 			SendSysMessage(who, "You stop smithing.");
 			break;
-		endif
-		if(!tool)
+		elseif( !tool )
 			break;
 		endif
 
 		Sleep(2);
 
-		if(GetAmount(use_on) >= material)
-			if(CraftCheckSkill(who, craft_skill, diff, pts))
+		if( GetAmount(use_on) >= material )
+			if( CraftCheckSkill(who, craft_skill, diff, pts) )
 				theitem := CreateCraftItem(who, craft_skill, use_on, use_on.objtype, what, material, itemname, reqd);
 				if( TypeOf(theitem) != "ItemRef" )
 					SubtractAmount(use_on, (material / 2));
