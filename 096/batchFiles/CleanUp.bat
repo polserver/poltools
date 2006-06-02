@@ -1,12 +1,14 @@
 @ECHO OFF
 
+REM - $Id$
+
 GOTO :MENU()
 
 REM -- MENU FUNCTION
 :MENU()
 CLS
-ECHO CleanUp.bat by Austin
-ECHO ========================
+ECHO CleanUp.bat (v 1.0) by Austin
+ECHO =============================
 ECHO Command        Purpose
 ECHO  [ a ] - Remove *.ecl files. (Will need to recompile scripts)
 ECHO  [ b ] - Remove *.bak files

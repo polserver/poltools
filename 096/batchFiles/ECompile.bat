@@ -1,5 +1,7 @@
 @ECHO OFF
 
+REM - $Id$
+
 REM -- If a special path is needed to ecompile.exe set it here
 REM -- Path is considered to be run from the root if started by starthere.bat
 SET ECOMPILE_PATH=scripts\ecompile.exe
@@ -10,8 +12,8 @@ GOTO :MENU()
 REM -- MENU FUNCTION
 :MENU()
 CLS
-ECHO Ecompile.bat by Austin
-ECHO ========================
+ECHO Ecompile.bat (V 1.0) by Austin
+ECHO ==============================
 ECHO Command        Purpose
 ECHO  [ a ] - Compile a specific script.
 ECHO  [ b ] - Compile a directory.
