@@ -3,7 +3,7 @@
 include ":datafile:datafile";
 
 program DestroyBook(book)
-	var book_data_file := DFOpenDataFile(":sysbooks:books", DF_NO_CREATE);
+	var book_data_file := DFOpenDataFile(":sysbook:books", DF_NO_CREATE);
 	book_data_file.DeleteElement(Hex(book.serial));
 	
 	var script_name := GetProcess(GetPid()).name;
