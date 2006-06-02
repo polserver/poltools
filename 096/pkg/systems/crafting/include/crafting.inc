@@ -2,34 +2,34 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//  name:    Main Crafting Backbone (include file)
-//  version: 1.0b3
-//  author:  MuadDib
+//	name:		Main Crafting Backbone (include file)
+//	version: 1.0b3
+//	author:	MuadDib
 //
-//  Purpose: Functions for creating crafting menus, info menus, item creation, resource selection,
-//           skill gain, etc.
+//	Purpose: Functions for creating crafting menus, info menus, item creation, resource selection,
+//					 skill gain, etc.
 //
-//  To-Do:   1.) Break this down even more. Such as "crafting_menu.inc", "crafting_skill.inc",
-//               "crafting_util.inc", and so on.
-//           2.) Centralize Crafting Package. Move the skills.cfg information BACK into the
-//               central skills.cfg in /config. Directory layout as follows:
-//               pkg -> Crafting -> Include
-//                               -> Repair
-//                               -> Util    -> textcmd/admin
-//                   -> Skills   -> Alchemy     -> mortar
-//                               -> Blacksmithy -> smithing
-//                               -> Etc etc.    -> usescripts, etc etc.
-//           3.) Finish up repair contracts and tool wear.
-//           4.) Create some cusotmized crafting includes for inscription, etc that require it.
-//           5.) Create textcmds for editing the Menu and item configs, to add new items ingame.
-//           6.) Create MethodScript system for Toolwear!
-//           7.) UPGRADE to use the new gumps package by Austin for the newest distro.
-//           8.) UPGRADE all buttons (except ones to make the item, which uses the button's objtype)
-//               to use the 0xF000 - 0xFFFF range. That range is CORE RESERVED for objtypes, thus,
-//               should NEVER contain custom items added by shard admins. Therefore anything in that
-//               range should not be craftable and thus, not in these menus.
-//           9.) Remove all sound and animation function calls from crafting. Change it to use a
-//               single function called as "playCraftWork(anim, sound, loop:=0;, delay:=0;)"
+//	To-Do:	 1.) Break this down even more. Such as "crafting_menu.inc", "crafting_skill.inc",
+//							 "crafting_util.inc", and so on.
+//					 2.) Centralize Crafting Package. Move the skills.cfg information BACK into the
+//							 central skills.cfg in /config. Directory layout as follows:
+//							 pkg -> Crafting -> Include
+//															 -> Repair
+//															 -> Util		-> textcmd/admin
+//									 -> Skills	 -> Alchemy		 -> mortar
+//															 -> Blacksmithy -> smithing
+//															 -> Etc etc.		-> usescripts, etc etc.
+//					 3.) Finish up repair contracts and tool wear.
+//					 4.) Create some cusotmized crafting includes for inscription, etc that require it.
+//					 5.) Create textcmds for editing the Menu and item configs, to add new items ingame.
+//					 6.) Create MethodScript system for Toolwear!
+//					 7.) UPGRADE to use the new gumps package by Austin for the newest distro.
+//					 8.) UPGRADE all buttons (except ones to make the item, which uses the button's objtype)
+//							 to use the 0xF000 - 0xFFFF range. That range is CORE RESERVED for objtypes, thus,
+//							 should NEVER contain custom items added by shard admins. Therefore anything in that
+//							 range should not be craftable and thus, not in these menus.
+//					 9.) Remove all sound and animation function calls from crafting. Change it to use a
+//							 single function called as "playCraftWork(anim, sound, loop:=0;, delay:=0;)"
 //
 // Strings to find and fix under new attributes:
 // AwardPoints(who, Cint(craft_config[objtype].skillID), 1);
@@ -40,18 +40,20 @@
 use polsys;
 use datafile;
 
-include ":keys:include/key";
-include ":crafting:include/craftGumps";
-include ":crafting:include/craftingSkill";
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
+include ":attributes:attributes";
+include ":datafile:datafile";
+include ":keys:key";
+include ":crafting:craftGumps";
+include ":crafting:craftingSkill";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
 
 var resource_config := ReadConfigFile(":crafting:config/resourceList");
 
 var craft_skill;
 var display_skill;
-var craftL    := 0;
-var rcolor    := 1;
+var craftL		:= 0;
+var rcolor		:= 1;
 var makermark := 1;
 
 // Function used to target material and check ability for crafting.
@@ -62,61 +64,59 @@ var makermark := 1;
 // was originally colored logs. The colored log objtype is stored
 // in the cprop, and is used to get it's "ResourceList" reference.
 function MaterialSelection(who, craft_skill, type, chk:=0)
+	
+	SendSysMessage(who, "Select the "+Lower(type)+" you would like to work with.");
+	var material := Target(who);
+	if( !material )
+		return 0;
+	elseif( !(material in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That is not in your backpack.");
+		return 0;
+	elseif( !Accessible(who, material) || (!material.movable == 0) )
+		SendSysMessage(who, "You cannot use that.");
+		return 0;
+	endif
+	
+	var materialobjtype := 0;
+	if( chk )
+		if(GetObjProperty(material, chk))
+			materialobjtype := GetObjProperty(material, chk);
+		else
+			materialobjtype := material.objtype;
+		endif
+	else
+		materialobjtype := material.objtype;
+	endif
+	if( !canUseMaterial(who, materialobjtype, craft_skill) )
+		SendSysMessage(who, "You are not skilled enough to make anything out of that.");
+		return 0;
+	endif
+	var rtype := Lower(resource_config[materialobjtype].Type);
+	var materialchk := 0;
+	if( rtype == type )
+		materialchk := 1;
+	endif
+	if( materialchk == 0 )
+		SendSysMessage(who, "That's not the proper material.");
+		return 0;
+	endif
+	if( ( material.objtype >= 0xF95) && (material.objtype <= 0xF9C) )
+		var totalcloth := material.amount * 50;
+		var cloth;
+		if( DestroyItem(material) )
+			cloth := CreateItemInBackpack(who, 0x1767, totalcloth);
+			if( !cloth )
+				cloth := CreateItemAtLocation(who.x, who.y, who.z, 0x1767, totalcloth);
+			endif
+		endif
+		material := cloth;
+	endif
 
-  SendSysMessage(who, "Select the "+Lower(type)+" you would like to work with.");
-  var material := Target(who);
-  if(!material)
-    return 0;
-  endif
-  if(material.container.serial != who.backpack.serial)
-    SendSysMessage(who, "That is not in your backpack.");
-    return 0;
-  endif
-  if((!can_access(who, material)) || (!Accessible(who, material)) || (Distance(who, material) > 2)
-       || (material.movable == 0) || (!ReserveItem(material)))
-    SendSysMessage(who, "You cannot use that.");
-    return 0;
-  endif
-  var materialobjtype := 0;
-  if(chk)
-    if(GetObjProperty(material, chk))
-      materialobjtype := GetObjProperty(material, chk);
-    else
-      materialobjtype := material.objtype;
-    endif
-  else
-    materialobjtype := material.objtype;
-  endif
-  if(!canUseMaterial(who, materialobjtype, craft_skill))
-    SendSysMessage(who, "You are not skilled enough to make anything out of that.");
-    return 0;
-  endif
-  var rtype := Lower(resource_config[materialobjtype].Type);
-  var materialchk := 0;
-  if(rtype == type)
-    materialchk := 1;
-  endif
-  if(materialchk == 0)
-    SendSysMessage(who, "That's not the proper material.");
-    return 0;
-  endif
-  if((material.objtype >= UOBJ_BOLT_START) && (material.objtype <= UOBJ_BOLT_END))
-    var totalcloth := material.amount * 50;
-    var cloth;
-    if(DestroyItem(material))
-      cloth := CreateItemInBackpack(who, 0x1767, totalcloth);
-      if(!cloth)
-        cloth := CreateItemAtLocation(who.x, who.y, who.z, 0x1767, totalcloth);
-      endif
-    endif
-    material := cloth;
-  endif
-
-  var retarray := array;
-  retarray.append(material);
-  retarray.append(materialobjtype);
-  retarray.append(resource_config[materialobjtype].Ptmod);
-  return retarray;
+	var retarray := array;
+	retarray.Append(material);
+	retarray.Append(materialobjtype);
+	retarray.Append(resource_config[materialobjtype].Ptmod);
+	return retarray;
 
 endfunction
 
@@ -130,28 +130,28 @@ endfunction
 // special resources for crafting here also.
 function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amount, itemname, reqd)
 
-	var craft_sound  := menu_config[craft_skill].CraftSound;
-	var craft_loops  := menu_config[craft_skill].CraftLoops;
-	var craft_delay  := menu_config[craft_skill].CraftDelay;
+	var craft_sound	:= menu_config[craft_skill].CraftSound;
+	var craft_loops	:= menu_config[craft_skill].CraftLoops;
+	var craft_delay	:= menu_config[craft_skill].CraftDelay;
 	var craft_action := menu_config[craft_skill].CraftAnim;
 	playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
 
 	var theitem := CreateItemInBackpack(who, objtype, 1);
-	var elem    := FindConfigElem(resource_config, use_onobjtype);
-	if(theitem)
+	var elem := FindConfigElem(resource_config, use_onobjtype);
+	if( theitem )
 		var nme := (resource_config[use_onobjtype].Name)+" "+itemname;
-		if(Find(nme, "plain ", 1))
+		if( Find(nme, "plain ", 1) )
 			nme[Find(nme, "plain ", 1),6] := "";
 		endif
-		if((rcolor == 1) && (craft_config[objtype].retain == 1))
-			if(resource_config[use_onobjtype].Color)
+		if( (rcolor == 1) && (craft_config[objtype].retain == 1) )
+			if( resource_config[use_onobjtype].Color )
 				theitem.color := resource_config[use_onobjtype].Color;
 			else
 				theitem.color := use_on.color;
 			endif
 		endif
 		SetObjProperty(theitem, "material", use_onobjtype);
-		if(!SubtractAmount(use_on, amount))
+		if( !SubtractAmount(use_on, amount) )
 			SendSysMessage(who, "You don't have enough materials in your backpack!");
 			DestroyItem(theitem);
 			return -1;
@@ -165,7 +165,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 		// of each of the settings.
 		var temp := GetConfigString(elem, "Quality");
 		temp := SplitWords(temp);
-		var power  := GetConfigString(elem, "Power");
+		var power	:= GetConfigString(elem, "Power");
 		if( (TypeOf(power) != "String") )
 			power := 0;
 		endif
@@ -173,7 +173,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 		if( (TypeOf(wpower) != "String") )
 			wpower := 0;
 		endif
-		if((craft_config[objtype].Exceptional == 1) && (ExceptionalCraft(myskill, reqd, aidskill)))
+		if( (craft_config[objtype].Exceptional == 1) && (ExceptionalCraft(myskill, reqd, aidskill)) )
 	//		AwardPoints(who, craft_skill, 1);
 			SetObjProperty(theitem, "Exceptional", 1);
 	//		if( TypeOf(craft_config[objtype].skillID) == "String" )
@@ -204,7 +204,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 				reqd := 3;
 			endif
 			if(rint < reqd)
-				SendSysMessage(who, "You were barely able to make this item.  Its quality is below average.");
+				SendSysMessage(who, "You were barely able to make this item.	Its quality is below average.");
 				if(theitem.isA(POLCLASS_WEAPON))
 					theitem.dmg_mod := CInt(temp[1])-(RandomInt(2)+1);
 				elseif(theitem.isA(POLCLASS_ARMOR))
@@ -232,18 +232,18 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 			nme := nme - "plain ";
 		endif
 		SetName(theitem, nme);
-		if(theitem.isA(POLCLASS_CONTAINER))
+		if( theitem.isA(POLCLASS_CONTAINER) )
 			SetObjProperty(theitem, "trappable", 1);
-		elseif(theitem.isA(POLCLASS_ITEM))
+		elseif( theitem.isA(POLCLASS_ITEM) )
 			SetToolDurability(who, theitem, craft_skill);
 		endif
-		if((power) && (theitem.isa(POLCLASS_ARMOR)))
+		if( (power) && (theitem.isa(POLCLASS_ARMOR)) )
 			SetObjProperty(theitem, "power", power);
 	//		theitem.equipscript := "equiparmor";
 	//		theitem.unequipscript := "unequiparmor";
-		elseif((wpower == "SILVER") && theitem.isA(POLCLASS_WEAPON))
+		elseif( (wpower == "SILVER") && theitem.isA(POLCLASS_WEAPON) )
 			SetObjProperty(theitem, "SilverHit", 1);
-		elseif(wpower && theitem.isA(POLCLASS_WEAPON))
+		elseif( wpower && theitem.isA(POLCLASS_WEAPON) )
 			SetObjProperty(theitem, "wpower", wpower);
 	//		theitem.equipscript := "equipweapon";
 	//		theitem.unequipscript := "unequipweapon";
@@ -262,20 +262,20 @@ endfunction
 // their amounts then checks the player's backpack for the items and works it.
 function CraftAssembly(who, craft_skill, tool, objtype, amt)
 
-	var craft_sound  := menu_config[craft_skill].CraftSound;
-	var craft_loops  := menu_config[craft_skill].CraftLoops;
-	var craft_delay  := menu_config[craft_skill].CraftDelay;
+	var craft_sound	:= menu_config[craft_skill].CraftSound;
+	var craft_loops	:= menu_config[craft_skill].CraftLoops;
+	var craft_delay	:= menu_config[craft_skill].CraftDelay;
 	var craft_action := menu_config[craft_skill].CraftAnim;
 
 	var skill := craft_config[objtype].skill;
 	var theitem;
 	var mainSkill := CInt(AP_GetSkill(who, craft_skill));
 	var modpts := 0;
-	if(mainSkill >= skill)
+	if( mainSkill >= skill )
 		modpts := (mainSkill - (skill - 10));
 	endif
 	var diff := Cint(craft_config[objtype].difficulty);
-	var pts  := Cint(craft_config[objtype].points);
+	var pts	:= Cint(craft_config[objtype].points);
 	pts := pts + modpts;
 	var counter := 0;
 	var chk := 0;
@@ -300,27 +300,26 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 	var x := who.x;
 	var y := who.y;
 
-	while(counter < amt)
+	while( counter < amt )
 		if((who.x != x) || (who.y != y))
 			break;
-		endif
-		if(chk == 1)
+		elseif(chk == 1)
 			break;
 		endif
 
 		chk := 0;
 
-		foreach thing in EnumerateItemsInContainer(who.backpack)
+		foreach thing in ( EnumerateItemsInContainer(who.backpack) )
 			// If thing.objtype is the same as the objtype in the part list array position....
 			var thing_objtype := CInt(thing.objtype);
-			if( thing_objtype in parts_list.keys() )
+			if( thing_objtype in parts_list.Keys() )
 				if( CInt(material_list[thing_objtype]) < CInt(parts_list[thing_objtype]) )
 					material_list[thing_objtype] := CInt(material_list[thing_objtype]) + thing.amount;
 				endif
 			endif
 		endforeach
 
-		foreach part in ( parts_list.keys() )
+		foreach part in ( parts_list.Keys() )
 			if( material_list[part] < parts_list[part] )
 				SendSysMessage(who, "You do not have the required materials to make that.");
 				return 0;
@@ -328,10 +327,10 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 		endforeach
 
 		Sleep(1);
-		if(CraftCheckSkill(who, craft_skill, diff, pts))
+		if( CraftCheckSkill(who, craft_skill, diff, pts) )
 			playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
 			Set_Critical(1);
-			foreach material_objtype in (parts_list.keys())
+			foreach material_objtype in ( parts_list.Keys() )
 				var amount := parts_list[material_objtype];
 				if ( amount > 0 )
 					if( !ConsumeSubstance(who.backpack, material_objtype, amount) )
@@ -342,14 +341,14 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 			endforeach
 			Set_Critical(0);
 			theitem := CreateItemInBackpack(who, objtype, 1);
-			if(!theitem)
+			if( !theitem )
 				SendSysMessage(who, "You don't have enough room in your backpack!");
 				return 0;
 			endif
 			CheckToolWear (who, tool, craft_skill);
 			theitem.movable := 1;
 			SendSysMessage(who, "You create the item and put it in your backpack.");
-			if(theitem.isA(POLCLASS_CONTAINER))
+			if( theitem.isA(POLCLASS_CONTAINER) )
 				SetObjProperty(theitem, "trappable", 1);
 			endif
 		endif
@@ -363,27 +362,27 @@ endfunction
 
 function CreateCraftedMap(who, craft_skill, use_on, objtype, amount, itemname, reqd)
 
-	var craft_sound  := menu_config[craft_skill].CraftSound;
-	var craft_loops  := menu_config[craft_skill].CraftLoops;
-	var craft_delay  := menu_config[craft_skill].CraftDelay;
+	var craft_sound	:= menu_config[craft_skill].CraftSound;
+	var craft_loops	:= menu_config[craft_skill].CraftLoops;
+	var craft_delay	:= menu_config[craft_skill].CraftDelay;
 	var craft_action := menu_config[craft_skill].CraftAnim;
 	playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
 
 	var theitem := CreateItemInBackpack(who, objtype, 1);
-	if(theitem)
+	if( theitem )
 		if( !SubtractAmount(use_on, amount) )
 			SendSysMessage(who, "You don't have enough materials in your backpack!");
 			DestroyItem(theitem);
 			return -1;
 		endif
 		var rint := randomint(AP_GetSkill(who, craft_skill));
-		if(reqd >= 23)
+		if( reqd >= 23 )
 			reqd := reqd - 20;
 		else
 			reqd := 3;
 		endif
-		if(rint < reqd)
-			SendSysMessage(who, "You were barely able to make this item.  Its quality is below average.");
+		if( rint < reqd )
+			SendSysMessage(who, "You were barely able to make this item.	Its quality is below average.");
 		else
 			SendSysMessage(who, "You create the item and put it in your backpack.");
 		endif
@@ -405,102 +404,16 @@ function CreateCraftedMap(who, craft_skill, use_on, objtype, amount, itemname, r
 
 endfunction
 
-
-//
-//  TruncatePlural()
-//
-//  * Returns the name for the item of the objtype passed.
-//
-function TruncatePlural(obj_type, add_S := 0)
-        obj_type := CInt(obj_type);
-
-        var config := ReadConfigFile(":*:itemdesc");
-        config := config[obj_type];
-
-        var name;
-        if (config.desc)
-                name := config.desc;
-        elseif (config.name)
-                name := config.name;
-        else
-                return error{"errortext":="Invalid Objtype : "+Hex(obj_type)+"."};
-        endif
-
-        if ( !name["%"] )
-                if ( add_S == 0 )
-                        return name;
-                endif
-                if ( name[Len(name)] in {"s"} )
-                        return name;
-                elseif ( name[Len(name)] in {"h","j","x","z"} )
-                        return name+"es";
-                endif
-                return name+"s";
-        endif
-
-        // Will deal with:
-        //
-        //      Bread Stick%s
-        //      Bread Loa%ves/f%
-        //      Lump%s% of Coal
-        //      Loa%ves/f% of Bread
-        //
-        var first := Find(name, "%", 1);
-        var slash := Find(name, "/", first);
-        var second := Find(name, "%", first + 1);
-        if ( slash && !second )
-                // Force-append a % if a '/' exists!
-                name := name+"%";
-                second := Len(name);
-        elseif ( !slash )
-                slash := second;
-        endif
-
-        // wwwww%xx[/yy]%[zzzzz]
-        // 12345678     9 01234
-        // 12345678 901 2 34567
-
-        var s_plur := name[first+1, slash-(first+1)];
-        var s_sing := "";
-        if ( slash != first )
-                s_sing := name[slash+1, second-(slash+1)];
-        endif
-
-        var s_first := name[1, first-1];
-        var s_middle := s_plur;
-        var s_last := "";
-        if ( Len(name) > second )
-                s_last := name[second+1, Len(name)-second];
-        endif
-
-        if ( add_S == 0 )
-                s_middle := s_sing;
-        endif
-
-        if ( !s_first )
-                s_first := "";
-        endif
-        if ( !s_middle )
-                s_middle := "";
-        endif
-        if ( !s_last )
-                s_last := "";
-        endif
-        return s_first + s_middle + s_last;
-
-endfunction
-
-
 // Used to check the skill of the character vs the
 // the skill of the resource_config (resources config) to
 // see if they can work with the material.
 function canUseMaterial(who, use_on, craft_skill)
 
-  if( AP_GetSkill(who, craft_skill) >= resource_config[use_on].Skill )
-    return 1;
-  else
-    return 0;
-  endif
+	if( AP_GetSkill(who, craft_skill) >= resource_config[use_on].Skill )
+		return 1;
+	else
+		return 0;
+	endif
 
 endfunction
 
@@ -514,13 +427,13 @@ endfunction
 // **** OLD AND OBSOLETE. NO LONGER USING CLILOCS IN THIS CRAFTING. LEFT
 // **** IN FOR REFERENCE AND KNOWLEDGE
 function ClilocObjtype(objtype)
+	return -1;
 
-  return -1;
-  if((objtype >= 0) && (objtype <= 16383) && objtype != error)
-    return CInt(objtype)+1020000;
-  else
-    return -1;
-  endif
+	if( (objtype >= 0) && (objtype <= 16383) && objtype != error )
+		return CInt(objtype)+1020000;
+	else
+		return -1;
+	endif
 
 endfunction
 
@@ -532,21 +445,18 @@ endfunction
 // (none) if none sent. Who is who the info is to be sent to.
 // All delays are in seconds.
 function playCraftWork(who, craftSound, loops:=0, delay:=2, craftAction:=0)
+	if( loops )
+		for i := 1 to loops
+			if( craftAction )
+				PerformAction( who, craftAction );
+			endif
+			PlaySoundEffect(who, craftSound);
+			Sleep(delay);
+		endfor
+	else
+		PlaySoundEffect(who, craftSound);
+		Sleep(delay);
+	endif
 
-
-  if(loops)
-    for i := 1 to loops
-      if(craftAction)
-        PerformAction( who, craftAction );
-      endif
-      PlaySoundEffect(who, craftSound);
-      Sleep(delay);
-    endfor
-  else
-    PlaySoundEffect(who, craftSound);
-    Sleep(delay);
-  endif
-
-  return;
-
+	return 0;
 endfunction

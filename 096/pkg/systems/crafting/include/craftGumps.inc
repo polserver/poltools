@@ -1,5 +1,7 @@
 // //$Id$
 
+include ":itemutils:itemdesc";
+
 var craft_gumps := DFOpenDataFile(":crafting:CraftGumps", DF_CREATE);
 var menu_config := ReadConfigFile( ":crafting:config/craftConfig" );
 var arinfo   := array;
@@ -254,7 +256,7 @@ function GFCraftNewPage(byref gump, skill_config, MenuName)
 		if(TypeOf(objtype) == "Struct")
 			continue;
 		endif
-		var itemdesc  := TruncatePlural(objtype);
+		var itemdesc  := GetObjTypeDesc(objtype);
 
 		if(TypeOf(itemdesc) == "Struct")
 			continue;
@@ -303,7 +305,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	endif
 	var elem     := craft_config[objtype];
 	var graphic  := CInt(thisitem.graphic);
-	var itemdesc := TruncatePlural(objtype);
+	var itemdesc := GetObjTypeDesc(objtype);
 	itemdesc := Lower(itemdesc);
 
 	if(!graphic || TypeOf(graphic) == "Struct")
@@ -388,7 +390,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		material := "";
 		if((Len(tmpmat)/2) < 5)
 			for j := 1 to (Len(tmpmat)/2)
-				tmatname := TruncatePlural(tmpmat[j]);
+				tmatname := GetObjTypeDesc(tmpmat[j]);
 				case(j)
 					1:
 					2:
@@ -401,7 +403,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		else
 			material := 0;
 			for j := 1 to (Len(tmpmat)/2)
-				tmatname := TruncatePlural(tmpmat[j]);
+				tmatname := GetObjTypeDesc(tmpmat[j]);
 				if(j == (Len(tmpmat)/2))
 					matname := matname+"& "+(tmpmat[j+(Len(tmpmat)/2)])+" "+tmatname+" required";
 				else
