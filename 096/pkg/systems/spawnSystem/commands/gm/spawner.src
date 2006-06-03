@@ -281,7 +281,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		GFTextLine(gump, 175, 220, 2100, "Goto region center.");
 
 		GFAddButton(gump, 155, 273, 2117, 2118, GF_CLOSE_BTN, DELETE_BTN);
-		GFTextLine(gump, 175, 270, 33, "Delete region.");
+		GFTextLine(gump, 175, 270, 32, "Delete region.");
 	
 		GFPage(gump, 200);
 		GFAddButton(gump, 185, 153, 2117, 2118, GF_PAGE_BTN, 1);
@@ -298,7 +298,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			var name := group_names[lines];
 			if ( group_names[lines] )
 				var group := group_list[name];
-				GFTextLine(gump, 225, y_pos, 2100, name);
+				GFTextLine(gump, 225, y_pos, 2100, "("+lines+") "+name);
 				GFTextEntry(gump, 470, y_pos, 40, 20, 2100, group.max_amt, GENER_TEXT_START+lines);
 				GFCheckBox(gump, 550, y_pos, 0xD2, 0xD3, (group.enabled), ENABLED_START+lines);
 			else
@@ -324,9 +324,10 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		else
 			foreach key in ( input.keys )
 				if ( key >= GENER_TEXT_START )
-					var group_name := group_names[_key_iter];
+					var position := key-GENER_TEXT_START;
+					var group_name := group_names[position];
 					var max_amt := GFExtractData(input, key);
-					var enabled := GFExtractData(input, ENABLED_START+_key_iter);
+					var enabled := GFExtractData(input, ENABLED_START+position);
 					SS_AddGroupToRegion(region_name, group_name, max_amt, enabled);
 				endif
 				SleepMS(2);
