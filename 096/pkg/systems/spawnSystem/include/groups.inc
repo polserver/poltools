@@ -92,22 +92,29 @@ function SS_RemoveGroup(group_name)
 endfunction
 
 /*
- * SS_GetGroupNames()
+ * SS_GetGroupNames(index)
  *
  * Purpose
  * Retrieves a list of group names listed in the spawner.
  *
  * Parameters
+ * index:	0 - Default
+ *		0 - Will return all names.
+ *		# - Will return a specific name in the list.
  * 
  * Return Value
  * An array of strings
  *
  */
-function SS_GetGroupNames()
+function SS_GetGroupNames(index:=0)
 	var data_file := SS_GetGroupDataFile();
 	var group_names := DFGetElemNames(data_file);
 	
-	return group_names;
+	if ( index )
+		return group_names[index];
+	else
+		return group_names;
+	endif
 endfunction
 
 /*

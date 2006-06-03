@@ -102,12 +102,15 @@ endfunction
  * Parameters
  * realm_name:	Optional parameter to list regions that belong to a specific realm.
  *		- Note its better to get them from SS_GetRegionsInRealm(realm_name) in realms.inc
+ * index:	0 - Default
+ *		0 - Will return all names.
+ *		# - Will return a specific name in the list.
  *
  * Return Value
  * An array of strings
  *
  */
-function SS_GetRegionNames(realm_name:="")
+function SS_GetRegionNames(realm_name:="", index:=0)
 	var data_file := SS_GetRegionDataFile();
 	
 	realm_name := Lower(realm_name);
@@ -124,7 +127,11 @@ function SS_GetRegionNames(realm_name:="")
 		endforeach
 	endif
 
-	return region_names;
+	if ( index )
+		return region_names[index];
+	else
+		return region_names;
+	endif
 endfunction
 
 /*

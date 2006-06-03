@@ -353,6 +353,13 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		var group_name := group_names[position];
 		if ( group_name )
 			SS_RemoveGroupFromRegion(region_name, group_name);
+		else
+			var group := BuildGroupsListGump(who);
+			if ( group >= GROUP_START && group < ENGINE_START )
+				group := group-GROUP_START;
+				group := SS_GetGroupNames(group);
+				SS_AddGroupToRegion(region_name, group, 0, 0);
+			endif
 		endif
 		
 		return SHOW_THIS_REGION;
