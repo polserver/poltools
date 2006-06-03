@@ -11,8 +11,6 @@ include ":spawnsystem:include/realms";
 include ":spawnsystem:include/regions";
 include ":spawnsystem:include/groups";
 
-Unload_Scripts("");
-
 // Used for input ranges
 const REALM_START	:= 0x1000;
 const REGION_START	:= 0x2000;
@@ -159,9 +157,9 @@ function BuildRealmListGump(who)
 	return input[0];
 endfunction
 
-function BuildGroupsListGump(who)
+function BuildGroupsListGump(who, realm_name:="")
 	var group_list := SS_GetGroupNames();
-	var gump := BuildGumpTemplate();
+	var gump := BuildGumpTemplate(realm_name);
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Groups List");
 	var y_pos := 50;
@@ -354,7 +352,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		if ( group_name )
 			SS_RemoveGroupFromRegion(region_name, group_name);
 		else
-			var group := BuildGroupsListGump(who);
+			var group := BuildGroupsListGump(who, realm_name);
 			if ( group >= GROUP_START && group < ENGINE_START )
 				group := group-GROUP_START;
 				group := SS_GetGroupNames(group);
