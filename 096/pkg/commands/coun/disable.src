@@ -11,6 +11,6 @@
 use uo;
 
 program disable( who, priv )
-    who.disable( priv );
+    who.Disable( priv );
     SendSysMessage( who, "Setting '"+priv+"' is disabled." );
 endprogram

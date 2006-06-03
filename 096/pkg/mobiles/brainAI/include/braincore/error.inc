@@ -31,7 +31,7 @@ function FatalError(errmsg)
 	npc.cmdlevel := 1;
 	npc.concealed := 1;
 	
-	npc.disable("invul");
+	npc.Disable("invul");
 	SetObjProperty(npc, "GuardKill", 1);
 	ApplyRawDamage(npc, GetVitalMaximumValue(npc, "Hits"));
 	

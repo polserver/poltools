@@ -230,6 +230,9 @@ endfunction
 function BuildRegionGump(who, realm_name, region_name:="")
 	var new_region := (region_name == "");
 	var gump := BuildGumpTemplate(realm_name);
+	
+	var group_list := SS_GetGroupsInRegion(region_name);
+	var group_names := group_list.Keys();
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Region Information ["+realm_name+"]");
 
@@ -289,10 +292,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		GFTextLine(gump, 450, 200, 2100, "Max Amount");
 		GFTextLine(gump, 540, 200, 2100, "Enabled");
 		var y_pos := 220;
-		var group_list := SS_GetGroupsInRegion(region_name);
-		var group_names := group_list.Keys();
-		var lines := 1;
-		
+		var lines := 1;		
 		for ( lines; lines <= 12; lines := lines+1 )
 			GFAddButton(gump, 170, y_pos+3, 2117, 2118, GF_CLOSE_BTN, GROUP_START+lines);
 			var name := group_names[lines];
@@ -321,6 +321,16 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			else
 				SS_AddRegionToRealm(realm_name, region_name);
 			endif
+		else
+			foreach key in ( input.keys )
+				if ( key >= GENER_TEXT_START )
+					var group_name := group_names[_key_iter];
+					var max_amt := GFExtractData(input, key);
+					var enabled := GFExtractData(input, ENABLED_START+_key_iter);
+					SS_AddGroupToRegion(region_name, group_name, max_amt, enabled);
+				endif
+				SleepMS(2);
+			endforeach
 		endif
 		var x1 := GFExtractData(input, X1_TEXT_POS);
 		var y1 := GFExtractData(input, Y1_TEXT_POS);
