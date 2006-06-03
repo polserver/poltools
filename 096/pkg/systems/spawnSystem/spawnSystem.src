@@ -1,3 +1,7 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use os;
 
@@ -9,7 +13,10 @@ include ":spawnsystem:report";
 
 program SpawnSystem()
 	SS_ReportText("---=[ SPAWNER HAS STARTED UP ]=---", SPAWN_REPORT_SYSLOG);
+	
 	Initialize();
+	
+	SetGlobalProperty("#SpawnSystemPid", GetPid());
 
 	while ( 1 )
 		// Go through all realms -> regions -> groups.
