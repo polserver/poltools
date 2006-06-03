@@ -1,0 +1,48 @@
+/* $Id
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include "include/client";
+
+program skill_Hiding(mobile)
+	var stealth := 0;
+	if ( Lower(TypeOf(mobile)) == "array" )
+		stealth := 1;
+		mobile := mobile[1];
+	endif
+	
+	if ( mobile.warmode )
+		mobile.SetWarMode(0);
+	endif
+	
+	if ( NearbyHostiles(mobile) )
+		PrintTextAbovePrivate(mobile, "You cannot hide as there are hostiles in view!", mobile);
+		return 0;
+	elseif ( SkillCheck(mobile, HIDING, -1) <= 0 )
+		if ( !stealth )
+			PrintTextAbovePrivate(mobile, "You can't seem to hide here.", mobile);
+		endif
+		
+		mobile.hidden := 0;
+		return 0;
+	else
+		if ( !stealth )
+			PrintTextAbovePrivate(mobile, "You have hidden yourself well.", mobile);
+		endif
+		
+		mobile.hidden := 1;
+		return 1;
+	endif
+endprogram
+
+function NearbyHostiles(mobile)
+	var skill := AP_GetSkill(mobile, HIDING);
+	// Ex: 100 -> 5, 60 -> 9, 23.7 -> 13
+	var range := 15 - CInt(skill/10);
+		
+	return ListHostiles(mobile, range, LH_FLAG_LOS).Size();
+endfunction
