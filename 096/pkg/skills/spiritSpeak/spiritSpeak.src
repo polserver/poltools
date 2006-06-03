@@ -51,7 +51,7 @@ program skill_SpiritSpeak(who)
 		if( my_skill >= 100 )
 			// Permanent hear ghosts?
 			GrantPrivilege(who, "hearghosts");
-			who.enable("hearghosts");
+			who.Enable("hearghosts");
 			return 1;
 		else
 			Detach();

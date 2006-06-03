@@ -599,12 +599,12 @@ function PrivEdit(who, targ, input_info)
 	who := who; // Stops compiler warning.
 	var priv_name := input_info.name;
 
-	if ( targ.enabled(priv_name) )
-		targ.disable(priv_name);
+	if ( targ.Enabled(priv_name) )
+		targ.Disable(priv_name);
 		RevokePrivilege(targ, priv_name);
 	else
 		GrantPrivilege(targ, priv_name);
-		targ.enable(priv_name);
+		targ.Enable(priv_name);
 	endif
 
 	return 1;

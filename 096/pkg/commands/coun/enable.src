@@ -12,7 +12,7 @@
 use uo;
 
 program enable( who, priv )
-    var res := who.enable( priv );
+    var res := who.Enable( priv );
     if (res)
         SendSysMessage( who, "Setting '"+priv+"' is enabled." );
     else
