@@ -423,3 +423,50 @@ function SS_SetRegionSpawnWait(region_name, seconds)
 	return 1;
 endfunction
 
+/* 
+ * SS_GetRegionSpawnTime(region_name)
+ *
+ * Purpose
+ * Retrieves the last time the region was spawned.
+ *
+ * Parameters
+ * region_name:	Name of the region to get the time from.
+ *
+ * Return Value
+ * Integer (seconds)
+ *
+ */
+function SS_GetRegionSpawnTime(region_name)
+	var region_elem := SS_GetRegionDataElem(Lower(region_name));
+	var wait := CInt(region_elem.GetProp("LastSpawn"));
+	if ( wait < 1 )
+		wait := 1;
+	endif
+	return wait;
+endfunction
+
+/* 
+ * SS_SetRegionSpawnTime(region_name, seconds)
+ *
+ * Purpose
+ * Sets the last time the region was spawned.
+ *
+ * Parameters
+ * region_name:	Name of the region to set the spawn time for.
+ * time:	Time the region was spawned. If 0, uses POLCore().systime.
+ *
+ * Return Value
+ * 1
+ *
+ */
+function SS_SetRegionSpawnTime(region_name, time:=0)
+	var region_elem := SS_GetRegionDataElem(Lower(region_name));
+	
+	time := CInt(time);
+	if ( !time )
+		time := POLCore().systime;
+	endif
+	
+	region_elem.SetProp("LastSpawn", time);
+	return 1;
+endfunction
