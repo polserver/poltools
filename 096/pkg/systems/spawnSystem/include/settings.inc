@@ -54,31 +54,3 @@ function SS_GetSettingsCfgElem(cfg_file, elem_name)
 
 	return elem;
 endfunction
-
-/*
- * SS_LoadSettings(cfg_elem)
- *
- * Purpose
- * Parses settings in an engine's or the main spawner's settings.cfg
- *
- * Parameters
- * cfg_elem:	An elem containing the "Settings" lines to be used.
- *
- * Return value
- * A dictionary containing mixed variable types.
- *
- */
-function SS_LoadSettings(cfg_elem)
-	var settings := dictionary;
-
-	foreach line in GetConfigStringArray(cfg_elem, "Setting")
-		line := SplitWords(line);
-		var key := line[1];
-		var value := UnPack(line[2]);
-
-		settings[key] := value;
-		SleepMS(2);
-	endforeach
-
-	return settings;
-endfunction
