@@ -89,22 +89,29 @@ function SS_RemoveRealm(realm_name)
 endfunction
 
 /*
- * SS_GetRealmNames()
+ * SS_GetRealmNames(index)
  *
  * Purpose
  * Retrieves a list of realm names listed in the spawner.
  *
  * Parameters
+ * index:	0 - Default
+ *		0 - Will return all names.
+ *		# - Will return a specific name in the list.
  * 
  * Return Value
  * An array of strings
  *
  */
-function SS_GetRealmNames()
+function SS_GetRealmNames(index:=0)
 	var data_file := SS_GetRealmDataFile();
 	var realm_names := DFGetElemNames(data_file);
 	
-	return realm_names;
+	if ( index )
+		return realm_names[index];
+	else
+		return realm_names;
+	endif
 endfunction
 
 /*
