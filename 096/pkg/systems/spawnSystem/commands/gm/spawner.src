@@ -292,7 +292,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			if ( group_names[lines] )
 				var group := group_list[name];
 				GFTextLine(gump, 225, y_pos, 2100, name);
-				GFTextLine(gump, 450, y_pos, 2100, group.max_amt);
+				GFTextEntry(gump, 470, y_pos, 40, 20, 2100, group.max_amt);
 				GFCheckBox(gump, 550, y_pos, 0xD2, 0xD3, (group.enabled), 1);
 			else
 				GFTextLine(gump, 225, y_pos, 2100, "----");
