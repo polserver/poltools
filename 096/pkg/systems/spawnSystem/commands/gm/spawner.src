@@ -298,7 +298,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			var name := group_names[lines];
 			if ( group_names[lines] )
 				var group := group_list[name];
-				GFTextLine(gump, 225, y_pos, 2100, "("+lines+") "+name);
+				GFTextLine(gump, 225, y_pos, 2100, name);
 				GFTextEntry(gump, 470, y_pos, 40, 20, 2100, group.max_amt, GENER_TEXT_START+lines);
 				GFCheckBox(gump, 550, y_pos, 0xD2, 0xD3, (group.enabled), ENABLED_START+lines);
 			else
@@ -348,8 +348,16 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			SS_RemoveRegionFromRealm(realm_name, region_name);
 			return SHOW_REGIONS_BTN;
 		endif
+	elseif ( input[0] >= GROUP_START && input[0] < ENGINE_START )
+		var position := input[0]-GROUP_START;
+		var group_name := group_names[position];
+		if ( group_name )
+			SS_RemoveGroupFromRegion(region_name, group_name);
+		endif
+		
+		return SHOW_THIS_REGION;
 	endif
-
+	
 	return input[0];
 endfunction
 
