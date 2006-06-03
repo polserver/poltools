@@ -1,4 +1,48 @@
 -- POL096 --
+06-01 MuadDib :
+        Hint : The pol.cfg setting "LogLevel" can be used to debug issues at startup of
+               POL and various other places (unloadall for example). By setting this 
+               higher than 1, up to 11 (just sounds good), it will force printing of
+               better information to help you find out problems during Loading and such.
+               Setting it for example, above 0, core will start spitting out "Checkpoint"
+               data during startup to say what it is about to load/process. Such as the
+               configuration, load realms, load multis, etc etc.
+               
+05-31 MuadDib
+        Fixed : Issue resolved with standard spellbook and no AOS+ Expansion enabled.
+        Hint : Recognized scroll objects now are: Magic: 0x1F2D - 0x1F6C, Necro 
+               0x2260 - 0x226F, Paladin: 0x2270 - 0x227C, Bushido: 0x238D - 0x2392,
+               Ninjitsu: 0x23A1 - 0x23A8, SpellWeaving: 0x2D51 - 0x2D60.
+               Remember, this IS hardcoded! >:)
+               For Bushido and Ninjitsu, there was never any scrolls made. So your
+               items for those are the Icons for the moves. Try setting their graphic
+               to a scroll and using it ;)
+        
+05-30 Shinigami
+        Hint : UOConvert will convert Mondain's Legacy extended Britannia Map.
+               Just set width to 7168 (e.g.):
+                 uoconvert map realm=britannia mapid=0 usedif=0 width=7168 height=4096
+                 uoconvert statics realm=britannia
+                 uoconvert maptile realm=britannia
+        Updated : uoconvert.txt (some comments and Mondain's Legacy hint)
+        Fixed : Bug with detection of Gump-Cancel in uo::SendCharacterRaceChanger()
+        Fixed : ShowRoofAndPlatformWarning has shown everything
+        Fixed : smaller mistype in Log created via TextCMD .startlog/stoplog
+        Fixed : set correct Time stamp in TextCMD .startlog/stoplog
+
+05-30 MuadDib
+        Added : Guild and Quest buttons added to the "known" list of subcommands in core.
+                Should fix some crashes when recieving these. Especially when using hooks
+                on packet 0xD7 (their parent packet ID).
+                
+05-29 MuadDib
+        Added : Added "SpellType" entries for "Bushido", "Ninjitsu", & "SpellWeaving" for
+                spellbook types in itemdesc.cfg. The list of spellids for
+                spells.cfg is now as follows: Magery = 1+, Necro = 101+,
+                Paladin = 201+, Bushido = 401+, Ninjitsu = 501+, SpellWeaving = 601+.
+                Hopefully this more completes our addition of the other
+                expansions for 096 where we lack in other areas.
+
 05-27 MuadDib
         Update : Just FYI, as previously reported, SingleCombat does NOT use servspecopt.cfg
                  but rather combat.cfg. Sorry about the typo when it was introduced.
