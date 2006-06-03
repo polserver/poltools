@@ -13,12 +13,13 @@ include ":spawnsystem:include/groups";
 
 Unload_Scripts("");
 
-// Used for button ranges
+// Used for input ranges
 const REALM_START	:= 0x1000;
 const REGION_START	:= 0x2000;
 const GROUP_START	:= 0x3000;
 const ENGINE_START	:= 0x4000;
 const ENTRY_START	:= 0x5000;
+const ENABLED_START	:= 0x6000;
 
 // Arbitrary buttons
 const CLOSE_BTN		:= 0xA4;
@@ -42,6 +43,7 @@ const X2_TEXT_POS	:= 0xF02;
 const Y2_TEXT_POS	:= 0xF03;
 const NAME_TEXT_POS	:= 0xF04;
 const WAIT_TEXT_POS	:= 0xF05;
+const GENER_TEXT_START	:= 0xF000;
 
 program SpawnerCMD(who)
 	var input := SHOW_REALMS_BTN;
@@ -267,16 +269,21 @@ function BuildRegionGump(who, realm_name, region_name:="")
 	
 	if ( !new_region )
 		GFPage(gump, 1);
-		GFAddButton(gump, 155, 203, 2117, 2118, GF_PAGE_BTN, 200);
-		GFTextLine(gump, 175, 200, 2100, "Manage region groups.");
+		GFAddButton(gump, 185, 153, 2117, 2118, GF_PAGE_BTN, 200);
+		GFTextLine(gump, 205, 150, 2100, "Group settings.");
+		
+		GFTextLine(gump, 175, 200, 2100, "Region Features:");
 
 		GFAddButton(gump, 155, 223, 2117, 2118, GF_CLOSE_BTN, VISIT_REGION_BTN);
 		GFTextLine(gump, 175, 220, 2100, "Goto region center.");
 
-		GFAddButton(gump, 155, 303, 2117, 2118, GF_CLOSE_BTN, DELETE_BTN);
-		GFTextLine(gump, 175, 300, 2100, "Delete region.");
+		GFAddButton(gump, 155, 273, 2117, 2118, GF_CLOSE_BTN, DELETE_BTN);
+		GFTextLine(gump, 175, 270, 33, "Delete region.");
 	
 		GFPage(gump, 200);
+		GFAddButton(gump, 185, 153, 2117, 2118, GF_PAGE_BTN, 1);
+		GFTextLine(gump, 205, 150, 2100, "Region features.");
+		
 		GFTextLine(gump, 155, 200, 2100, "Add/Del");
 		GFTextLine(gump, 225, 200, 2100, "Group Name");
 		GFTextLine(gump, 450, 200, 2100, "Max Amount");
@@ -292,8 +299,8 @@ function BuildRegionGump(who, realm_name, region_name:="")
 			if ( group_names[lines] )
 				var group := group_list[name];
 				GFTextLine(gump, 225, y_pos, 2100, name);
-				GFTextEntry(gump, 470, y_pos, 40, 20, 2100, group.max_amt);
-				GFCheckBox(gump, 550, y_pos, 0xD2, 0xD3, (group.enabled), 1);
+				GFTextEntry(gump, 470, y_pos, 40, 20, 2100, group.max_amt, GENER_TEXT_START+lines);
+				GFCheckBox(gump, 550, y_pos, 0xD2, 0xD3, (group.enabled), ENABLED_START+lines);
 			else
 				GFTextLine(gump, 225, y_pos, 2100, "----");
 			endif
