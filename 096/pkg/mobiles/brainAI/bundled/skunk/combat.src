@@ -26,11 +26,7 @@ program BrainNerve(params)
 
 	while ( npc )
 		var dist := Distance(npc, opponent);
-		if ( ShouldFlee(npc, flee_level, flee_mode) )
-			flee_mode := 1;
-			AI_WarMode(npc, 0);
-			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
-		elseif ( DoneFighting(npc, opponent, dist) )
+		if ( DoneFighting(npc, opponent, dist) )
 			if ( scripts.Exists("EndFight") )
 				params := array{opponent, settings, scripts};
 				AI_StartNerve(npc, "EndFight", scripts["EndFight"].script, params);
@@ -38,6 +34,10 @@ program BrainNerve(params)
 				AI_WarMode(npc, 0);
 			endif
 			AI_EndNerve(npc, nerve_name);
+		elseif ( ShouldFlee(npc, flee_level, flee_mode) )
+			flee_mode := 1;
+			AI_WarMode(npc, 0);
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
 		elseif ( dist <= 4 && CheckLineOfSight(npc, opponent) )
 			AI_Speak(npc, "*sprays at "+opponent.name+"*");
 			TS_StartTimer(opponent, "skunk", 180); // 3 minutes
@@ -68,11 +68,11 @@ function DoneFighting(npc, opponent, byref dist)
 endfunction
 
 function ShouldFlee(npc, byref flee_level, byref flee_mode)
-	if ( flee_mode )
+	if ( AP_GetVital(npc, "Hits") < flee_level )
+		flee_mode := 1;
 		return 1;
-	elseif ( AP_GetVital(npc, "Hits") < flee_level )
-		return 1;
+	else
+		flee_mode := 0;
+		return 0;
 	endif
-
-	return 0;
 endfunction

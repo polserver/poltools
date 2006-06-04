@@ -28,7 +28,6 @@ program BrainNerve(params)
 	while ( npc )
 		var dist := Distance(npc, opponent);
 		if ( ShouldFlee(npc, flee_level, flee_mode) )
-			flee_mode := 1;
 			AI_WarMode(npc, 0);
 			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
 		elseif ( DoneFighting(npc, opponent, dist) )
@@ -69,16 +68,16 @@ function DoneFighting(npc, opponent, byref dist)
 endfunction
 
 function ShouldFlee(npc, byref flee_level, byref flee_mode)
-	if ( flee_mode )
-		return 1;
-	elseif ( AP_GetVital(npc, "Hits") < flee_level )
+	if ( AP_GetVital(npc, "Hits") < flee_level )
 		if ( !flee_mode )
 			AI_Speak(npc, "Meez wuntz no moooore of dis!");
+			flee_mode := 1;
 		endif
 		return 1;
+	else
+		flee_mode := 0;
+		return 0;
 	endif
-
-	return 0;
 endfunction
 
 function ShitToss(npc, opponent, byref dist)
