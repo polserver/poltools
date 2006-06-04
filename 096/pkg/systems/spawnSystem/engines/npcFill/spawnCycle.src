@@ -1,9 +1,14 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use os;
 
 include ":spawnsystem:groups";
 include ":spawnsystem:regions";
 include ":spawnsystem:spawnerUtil";
+include ":spawnsystem:report";
 
 program SpawnCycle(params)
 	var engine_name	:= params[1];
@@ -11,14 +16,17 @@ program SpawnCycle(params)
 	var region_name	:= params[3];
 	var group_name	:= params[4];
 
+	Print("Starting spawn engine for region-"+region_name+" group-"+group_name);
+
 	var coords := SS_GetRegionCoordinates(region_name);
-	var group_entries := SS_GetEntriesInGroup(group_name).keys();
+	var group_entries := SS_GetEntriesInGroup(group_name).Keys();
 	var num_entries := group_entries.Size();
 	var group_settings := SS_GetGroupInRegion(region_name, group_name);
 
 	var max_amt := group_settings.max_amt;
 	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).Size();
 
+	Print("CurAmount="+cur_amount+" Max="+max_amt);
 	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
 		var spawn_object := group_entries[RandomInt(num_entries)];
