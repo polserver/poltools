@@ -13,9 +13,9 @@ include ":spawnsystem:report";
 
 program SpawnSystem()
 	SS_ReportText("---=[ SPAWNER HAS STARTED UP ]=---", SPAWN_REPORT_SYSLOG);
-	
+
 	Initialize();
-	
+
 	SetGlobalProperty("#SpawnSystemPid", GetPid());
 
 	while ( 1 )
@@ -25,7 +25,9 @@ program SpawnSystem()
 		SpawnTheRegions();
 
 		// Determine when this needs to run again.
-		Wait_For_Event(CalcNextTick());
+		var delay := CalcNextTick();
+		Print("Debug: delay time ("+delay+")");
+		Wait_For_Event(delay);
 	endwhile
 
 	return 1;
@@ -35,14 +37,18 @@ function SpawnTheRegions()
 	foreach region_name in ( SS_GetRegionNames() )
 		var next_run := CalcNextRunTime(region_name);
 		if ( POLCore().systime < next_run )
+			Print("Debug: Not ready to run region ("+region_name+") ("+next_run+")");
 			continue;
 		endif
 
+		Print("Debug: Spawning region ("+region_name+")");
 		foreach group_name in ( SS_GetGroupsInRegion(region_name).Keys() )
 			var realm_name := SS_GetRegionRealm(region_name);
 			var engine_name := SS_GetGroupEngine(group_name);
-			SS_StartSpawnEngine(engine_name, realm_name, region_name, group_name);
-
+			var script := SS_StartSpawnEngine(engine_name, realm_name, region_name, group_name);
+			if ( script.errortext )
+				SS_ReportText("Error: Unable to start engine ("+engine_name+") for group ("+group_name+") in region ("+region_name+"). ->"+script.errortext, SPAWN_REPORT_SYSLOG);
+			endif
 			SleepMS(2);
 		endforeach
 
