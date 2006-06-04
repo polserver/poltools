@@ -7,7 +7,7 @@ include ":magery:spellSounds";
 include ":magery:spells";
 include "include/client";
 include "include/sounds";
-include "include/damage";
+include ":damage:damage";
 
 program SpellScript_Harm(params)
 	var mobile := params[1];

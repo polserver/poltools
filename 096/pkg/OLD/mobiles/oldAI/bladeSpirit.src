@@ -13,7 +13,7 @@ include ":npcutils:anchors";
 include ":oldAI:main/setup";
 include ":oldAI:main/sleepMode";
 include ":npcutils:animal";
-include "include/damage";
+include ":damage:damage";
 
 const HALT_THRESHOLD := 10;
 var npccfgfile := ReadConfigFile("::npcdesc");

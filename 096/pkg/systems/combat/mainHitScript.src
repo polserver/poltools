@@ -13,7 +13,7 @@ include ":combat:settings";
 include ":timedscripts:timedScripts";
 include "include/client";
 include "include/facings";
-include "include/damage";
+include ":damage:damage";
 
 var item_cfg := ReadConfigFile(":*:itemdesc");
 

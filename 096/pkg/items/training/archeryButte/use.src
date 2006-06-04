@@ -7,7 +7,7 @@ include ":attributes:attributes";
 include ":combat:weaponInfo";
 include ":training:training";
 include "include/client";
-include "include/damage";
+include ":damage:damage";
 
 program ArcheryButte(who, butte)
 	if ( butte.container )

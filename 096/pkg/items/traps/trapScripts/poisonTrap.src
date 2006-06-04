@@ -6,7 +6,7 @@ use uo;
 use util;
 
 include "include/client";
-include "include/damage";
+include ":damage:damage";
 include ":timedscripts:timedScripts";
 
 program trapScript(params)

@@ -11,7 +11,7 @@ include "include/shapes";
 include "include/client";
 include "include/sounds";
 include "include/facings";
-include "include/damage";
+include ":damage:damage";
 
 program BrainNerve(params)
 	var npc		:= params[1];
