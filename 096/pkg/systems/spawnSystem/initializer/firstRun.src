@@ -87,6 +87,7 @@ function SetupRealm(realm_name)
 		SS_AddRegion(region_name);
 		var coords := SplitWords(elem_info.Coordinates);
 		SS_SetRegionCoordinates(region_name, CInt(coords[1]), CInt(coords[2]), CInt(coords[3]), CInt(coords[4]));
+		SS_SetRegionSpawnWait(region_name, elem_info.SpawnWait);
 		
 		SS_AddRegionToRealm(realm_name, region_name);
 		

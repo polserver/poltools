@@ -49,6 +49,8 @@ function SpawnTheRegions()
 			if ( script.errortext )
 				SS_ReportText("Error: Unable to start engine ("+engine_name+") for group ("+group_name+") in region ("+region_name+"). ->"+script.errortext, SPAWN_REPORT_SYSLOG);
 			endif
+			
+			SS_SetRegionSpawnTime(region_name, POLCore().systime);
 			SleepMS(2);
 		endforeach
 
@@ -59,14 +61,15 @@ function SpawnTheRegions()
 endfunction
 
 function CalcNextRunTime(region_name)
-	var last_run := SS_GetRegionSpawnTime(region_name);
-	var run_wait := SS_GetRegionSpawnWait(region_name);
-
-	return (last_run + run_wait);
+	var last_run := CInt(SS_GetRegionSpawnTime(region_name));
+	var run_wait := CInt(SS_GetRegionSpawnWait(region_name));
+	var next_run := CInt(last_run + run_wait);
+	
+	return next_run;
 endfunction
 
 function CalcNextTick()
-	var delay_time;
+	var delay_time := 0;
 	foreach region_name in ( SS_GetRegionNames() )
 		var next_run := CalcNextRunTime(region_name);
 		var time_left := next_run - POLCore().systime;
