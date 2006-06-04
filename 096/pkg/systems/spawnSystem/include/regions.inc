@@ -356,20 +356,20 @@ endfunction
  * Parameters
  * region_name:	Name of the region the object was created in.
  * group_name:	Name of the group the object is listed in.
- * object:	A reference to the object that is being removed.
+ * serial:	Serial of the object that is being removed.
  *
  * Return Value
  * 1 on success
  *
  */
-function SS_RemoveSpawnFromRegion(region_name, group_name, object)
+function SS_RemoveSpawnFromRegion(region_name, group_name, serial)
 	region_name := Lower(region_name);
 	group_name := Lower(group_name);
 	
 	var spawn_list := SS_GetSpawnsInRegionGroup(region_name, group_name);
 	
-	if ( spawn_list.Exists(object.serial) )
-		spawn_list.Erase(object.serial);
+	if ( spawn_list.Exists(serial) )
+		spawn_list.Erase(serial);
 		var region_elem := SS_GetRegionDataElem(region_name);
 		region_elem.SetProp("Spawns-"+group_name, spawn_list);
 		return 1;
