@@ -61,7 +61,8 @@ endfunction
  *
  */
 function SS_StartSpawnEngine(engine_name, realm_name, region_name, group_name)
-	var script := Start_Script(SS_GetEnginePath(engine_name), {engine_name, realm_name, region_name, group_name});
+	var params := array{engine_name, realm_name, region_name, group_name};
+	var script := Start_Script(SS_GetEnginePath(engine_name), params);
 
 	return script;
 endfunction
