@@ -27,9 +27,10 @@ program SpawnCycle(params)
 
 	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
-		var spawn_object := group_entries[RandomInt(num_entries)];
+		var z_pos := CInt(GetWorldHeight(spawn_coords.x, spawn_coords.y, realm_name));
+		var spawn_object := group_entries[RandomInt(num_entries)+1];
 
-		var created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, spawn_coords.z, 0, realm_name);
+		var created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, z_pos, 0, realm_name);
 		if ( created )
 			SS_AddSpawnToRegion(region_name, group_name, created);
 		elseif ( created.errortext )
@@ -37,6 +38,8 @@ program SpawnCycle(params)
 		endif
 		SleepMS(2);
 	endfor
+	
+	SS_ReportText("Completed spawning of group ("+group_name+") in region ("+region_name+").", SPAWN_REPORT_SYSLOG);
 
 	return 1;
 endprogram
