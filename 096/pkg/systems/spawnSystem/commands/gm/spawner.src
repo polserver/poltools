@@ -486,11 +486,11 @@ function VisitRegionCenter(who, region_name)
 	var coords := SS_GetRegionCoordinates(region_name);
 	var x := ((coords.x2 - coords.x1) / 2) + coords.x1;
 	var y := ((coords.y2 - coords.y1) / 2) + coords.y1;
-	var z := GetMapInfo(x, y, realm_name).z;
+	var z := CInt(GetMapInfo(x, y, realm_name).z);
 
 	var result := MoveObjectToLocation(who, x, y, z, realm_name, MOVECHAR_FORCELOCATION);
 	if ( result.errortext )
-		GumpPrompt(who, ""+result.errortext);
+		GumpPrompt(who, "["+region_name+"] ["+x+"] ["+y+"] ["+z+"] ["+realm_name+"] -> "+result.errortext);
 		return 0;
 	else
 		GumpPrompt(who, "Moved to "+realm_name+" [P] X("+x+") Y("+y+") Z("+z+")");

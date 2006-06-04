@@ -90,6 +90,7 @@ function SetupRealm(realm_name)
 		SS_SetRegionSpawnWait(region_name, elem_info.SpawnWait);
 		
 		SS_AddRegionToRealm(realm_name, region_name);
+		SS_SetRegionRealm(region_name, realm_name);
 		
 		foreach entry in ( GetConfigStringArray(elem_info, "Group") )
 			entry := SplitWords(entry);
