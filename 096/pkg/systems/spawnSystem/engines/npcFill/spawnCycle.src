@@ -11,11 +11,13 @@ include ":spawnsystem:spawnerUtil";
 include ":spawnsystem:report";
 
 program SpawnCycle(params)
-	var engine_name	:= params[1];
+	//var engine_name	:= params[1];
 	var realm_name	:= params[2];
 	var region_name	:= params[3];
 	var group_name	:= params[4];
 	params := 0; // Not needed anymore.
+
+	ValidateSpawns(region_name, group_name);
 
 	var coords := SS_GetRegionCoordinates(region_name);
 	var group_entries := SS_GetEntriesInGroup(group_name).Keys();
@@ -43,3 +45,16 @@ program SpawnCycle(params)
 
 	return 1;
 endprogram
+
+function ValidateSpawns(region_name, group_name)
+	var spawns := SS_GetSpawnsInRegionGroup(region_name, group_name);
+	foreach serial in ( spawns.Keys() )
+		var object := SystemFindObjectBySerial(serial);
+		if ( !object.IsA(POLCLASS_NPC) )
+			SS_RemoveSpawnFromRegion(region_name, group_name, serial);
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endfunction
