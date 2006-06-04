@@ -26,8 +26,12 @@ program SpawnSystem()
 
 		// Determine when this needs to run again.
 		var delay := CalcNextTick();
-		Print("Debug: delay time ("+delay+")");
-		Wait_For_Event(delay);
+		var event := Wait_For_Event(delay);
+		/* To-do:
+		   Take in events.
+		   - Update the next run timer
+		   - Other stuff?
+		 */
 	endwhile
 
 	return 1;
@@ -37,11 +41,9 @@ function SpawnTheRegions()
 	foreach region_name in ( SS_GetRegionNames() )
 		var next_run := CalcNextRunTime(region_name);
 		if ( POLCore().systime < next_run )
-			Print("Debug: Not ready to run region ("+region_name+") ("+next_run+")");
 			continue;
 		endif
 
-		Print("Debug: Spawning region ("+region_name+")");
 		foreach group_name in ( SS_GetGroupsInRegion(region_name).Keys() )
 			var realm_name := SS_GetRegionRealm(region_name);
 			var engine_name := SS_GetGroupEngine(group_name);
@@ -49,7 +51,7 @@ function SpawnTheRegions()
 			if ( script.errortext )
 				SS_ReportText("Error: Unable to start engine ("+engine_name+") for group ("+group_name+") in region ("+region_name+"). ->"+script.errortext, SPAWN_REPORT_SYSLOG);
 			endif
-			
+
 			SS_SetRegionSpawnTime(region_name, POLCore().systime);
 			SleepMS(2);
 		endforeach
@@ -64,7 +66,7 @@ function CalcNextRunTime(region_name)
 	var last_run := CInt(SS_GetRegionSpawnTime(region_name));
 	var run_wait := CInt(SS_GetRegionSpawnWait(region_name));
 	var next_run := CInt(last_run + run_wait);
-	
+
 	return next_run;
 endfunction
 
