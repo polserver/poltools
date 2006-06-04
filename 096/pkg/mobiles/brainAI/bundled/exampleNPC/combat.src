@@ -73,16 +73,16 @@ function DoneFighting(npc, opponent, byref dist)
 endfunction
 
 function ShouldFlee(npc, byref flee_level, byref flee_mode)
-	if ( flee_mode )
-		return 1;
-	elseif ( AP_GetVital(npc, "Hits") < flee_level )
+	if ( AP_GetVital(npc, "Hits") < flee_level )
 		if ( !flee_mode )
 			AI_Speak(npc, "AAAAAIIIIIIIIEEEEEEEEEE!!!!!");
+			flee_mode := 1;
 		endif
 		return 1;
+	else
+		flee_mode := 0;
+		return 0;
 	endif
-
-	return 0;
 endfunction
 
 function CheckForEvent(npc, byref event)

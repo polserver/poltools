@@ -26,8 +26,7 @@ program BrainNerve(params)
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
 
 	var opponent := event.source;
-	var flee_mode := 0;
-
+	
 	AI_SetOpponent(npc, opponent);
 
 	var min_range, max_range;
@@ -35,8 +34,7 @@ program BrainNerve(params)
 
 	while( npc )
 		var dist := Distance(npc, opponent);
-		if ( ShouldFlee(npc, flee_level, flee_mode) )
-			flee_mode := 1;
+		if ( ShouldFlee(npc, flee_level) )
 			AI_WarMode(npc, 0);
 			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
 		elseif ( DoneFighting(npc, opponent, dist) )
@@ -83,10 +81,8 @@ function DoneFighting(npc, opponent, byref dist)
 	return 0;
 endfunction
 
-function ShouldFlee(npc, byref flee_level, byref flee_mode)
-	if ( flee_mode )
-		return 1;
-	elseif ( AP_GetVital(npc, "Hits") < flee_level )
+function ShouldFlee(npc, byref flee_level)
+	if ( AP_GetVital(npc, "Hits") < flee_level )
 		return 1;
 	endif
 
