@@ -7,7 +7,7 @@ else
 	Print("Starting ore vein regeneration controller... OK.");
 endif
 
-var script := Start_Script("oreGlobal/regenOre");
+script := Start_Script("oreGlobal/regenOre");
 if ( script.errortext )
 	SysLog("Error starting global ore vein regen ->"+script.errortext);
 else
