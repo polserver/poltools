@@ -36,10 +36,10 @@ endprogram
 function SpawnTheRegions()
 	foreach region_name in ( SS_GetRegionNames() )
 		var next_run := CalcNextRunTime(region_name);
-		//if ( POLCore().systime < next_run )
-		//	Print("Debug: Not ready to run region ("+region_name+") ("+next_run+")");
-		//	continue;
-		//endif
+		if ( POLCore().systime < next_run )
+			Print("Debug: Not ready to run region ("+region_name+") ("+next_run+")");
+			continue;
+		endif
 
 		Print("Debug: Spawning region ("+region_name+")");
 		foreach group_name in ( SS_GetGroupsInRegion(region_name).Keys() )

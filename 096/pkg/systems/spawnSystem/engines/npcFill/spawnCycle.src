@@ -15,8 +15,7 @@ program SpawnCycle(params)
 	var realm_name	:= params[2];
 	var region_name	:= params[3];
 	var group_name	:= params[4];
-
-	Print("Starting spawn engine for region-"+region_name+" group-"+group_name);
+	params := 0; // Not needed anymore.
 
 	var coords := SS_GetRegionCoordinates(region_name);
 	var group_entries := SS_GetEntriesInGroup(group_name).Keys();
@@ -26,7 +25,6 @@ program SpawnCycle(params)
 	var max_amt := group_settings.max_amt;
 	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).Size();
 
-	Print("CurAmount="+cur_amount+" Max="+max_amt);
 	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
 		var spawn_object := group_entries[RandomInt(num_entries)];
@@ -34,6 +32,8 @@ program SpawnCycle(params)
 		var created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, spawn_coords.z, 0, realm_name);
 		if ( created )
 			SS_AddSpawnToRegion(region_name, group_name, created);
+		elseif ( created.errortext )
+			SS_ReportText("Error: Unable to create ("+spawn_object+") for group ("+group_name+") in region ("+region_name+"). ->"+created.errortext, SPAWN_REPORT_SYSLOG);
 		endif
 		SleepMS(2);
 	endfor
