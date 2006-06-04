@@ -12,7 +12,7 @@ include ":brainAI:commonFunctions";
 include ":attributes:attributes";
 include ":combat:weaponInfo";
 include "include/facings";
-include "include/damage";
+include ":damage:damage";
 
 program BrainNerve(params)
 	var npc		:= params[1];

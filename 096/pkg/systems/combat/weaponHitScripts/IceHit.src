@@ -1,7 +1,7 @@
 use uo;
 use util;
 
-include "include/damage";
+include ":damage:damage";
 include "include/client";
 include "include/sounds";
 

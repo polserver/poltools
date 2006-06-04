@@ -1,5 +1,5 @@
 include ":attributes:attributes";
-include "include/damage";
+include ":damage:damage";
 
 function process_combat_event(opponent)
   if((AP_GetVital(me, "Hits") * 100/AP_GetVitalMaximumValue(me, "Hits")) < flee_point)

@@ -9,7 +9,7 @@ use uo;
 use util;
 
 include "include/client";
-include "include/damage";
+include ":damage:damage";
 
 program trapScript(params)
 	var mobile := params[1];
