@@ -20,12 +20,12 @@ program www_SpawnControl()
 		realm_name := "";		
 	endif
 
-	Index(realm_name, region_name, group_name);
+	IndexPages(realm_name, region_name, group_name);
 		
 	return 1;
 endprogram
 
-function Index(realm_name, region_name, group_name)
+function IndexPages(realm_name, region_name, group_name)
 	WriteHTML("<HTML>");
 	WriteHTML("<HEAD>");
 	WriteHTML("<BODY>");
