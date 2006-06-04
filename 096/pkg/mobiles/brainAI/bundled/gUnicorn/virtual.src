@@ -143,7 +143,8 @@ function SaySomething(npc)
 		"Chicks dig my phallical unit!",
 		"On a scale of 1-10 for my flamboyance, I am Richard Simmons",
 		"Im so sparkly!",
-		"Unicorn power!"
+		"Unicorn power!",
+		"I love the worj!"
 	};
 	
 	var text := speech_entries[RandomInt(speech_entries.Size())+1];
