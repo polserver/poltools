@@ -71,6 +71,8 @@ function ShouldFlee(npc, byref flee_level, byref flee_mode)
 	if ( AP_GetVital(npc, "Hits") < flee_level )
 		flee_mode := 1;
 		return 1;
+	elseif ( flee_mode )
+		return 1;
 	else
 		flee_mode := 0;
 		return 0;
