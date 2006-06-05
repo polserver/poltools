@@ -47,7 +47,7 @@ include ":brainAI:npcError";
  */
 function NPC_GetIdleSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var idle_sound_list := GetConfigStringArray(mobile, "IdleSound");
+	var idle_sound_list := GetConfigStringArray(mobile_template, "IdleSound");
 
 	if( TypeOf(idle_sound_list) != "Array" )
 		//NPC_ErrorSysLog(mobile, "Invalid Idle Sound Setting");
@@ -74,7 +74,7 @@ endfunction
  */
 function NPC_GetDamagedSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var damaged_sound_list := GetConfigStringArray(mobile, "DamagedSound");
+	var damaged_sound_list := GetConfigStringArray(mobile_template, "DamagedSound");
 
 	if( TypeOf(damaged_sound_list) != "Array" )
 		//NPC_ErrorSysLog(mobile, "Invalid Damaged Sound Setting");
@@ -101,7 +101,7 @@ endfunction
  */
 function NPC_GetDeathSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var death_sound_list := GetConfigStringArray(mobile, "DeathSound");
+	var death_sound_list := GetConfigStringArray(mobile_template, "DeathSound");
 
 	if( TypeOf(death_sound_list) != "Array" )
 		//NPC_ErrorSysLog(mobile, "Invalid Death Sound Setting");
@@ -128,7 +128,7 @@ endfunction
  */
 function NPC_GetMissSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var miss_sound_list := GetConfigStringArray(mobile, "AttackMissSound");
+	var miss_sound_list := GetConfigStringArray(mobile_template, "AttackMissSound");
 
 	if( TypeOf(miss_sound_list) != "Array" )
 		//NPC_ErrorSysLog(mobile, "Invalid Miss Sound Setting");
@@ -154,7 +154,7 @@ endfunction
  */
 function NPC_GetHitSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var hit_sound_list := GetConfigStringArray(mobile, "AttackHitSound");
+	var hit_sound_list := GetConfigStringArray(mobile_template, "AttackHitSound");
 
 	if( TypeOf(hit_sound_list) != "Array" )
 		NPC_ErrorSysLog(mobile, "Invalid Hit Sound Setting");
@@ -181,7 +181,7 @@ endfunction
  */
 function NPC_GetBarkSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
-	var bark_sound_list := GetConfigStringArray(mobile, "BarkSound");
+	var bark_sound_list := GetConfigStringArray(mobile_template, "BarkSound");
 
 	if( TypeOf(bark_sound_list) != "Array" )
 		//NPC_ErrorSysLog(mobile, "Invalid Bark Sound Setting");
