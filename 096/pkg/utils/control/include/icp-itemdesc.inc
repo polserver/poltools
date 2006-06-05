@@ -1,3 +1,9 @@
+/* $Id$
+ *
+ */
+ 
+include ":itemutils:itemdesc";
+
 function ICP_ItemDescGump(pkg_name)
 	var gump := GFCreateGump();
 	ICP_GumpHeader(gump, ITEMDESC_BTN);
@@ -11,9 +17,9 @@ function ICP_ItemDescGump(pkg_name)
 		var x_count := 1;
 		var y_count := 1;
 		var page_num := 1;
-		foreach key in elem_names
+		foreach key in ( elem_names )
 			var cfg_elem := item_cfg[key];
-			var desc := cfg_elem.desc;
+			var desc := GetObjTypeDesc(key);
 			if ( !desc )
 				desc := cfg_elem.name;
 			endif
