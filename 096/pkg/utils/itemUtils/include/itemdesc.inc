@@ -122,9 +122,9 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	if ( !name["%"] ) // Plain desc line - easy enough to deal with.
 		if ( plural == 0 )
 			return name;
-		elseif ( name[Len(name)] in {"s"} )
+		elseif ( name[Len(name)] in array{"s"} )
 			return name;
-		elseif ( name[Len(name)] in {"h","j","x","z"} )
+		elseif ( name[Len(name)] in array{"h","j","x","z"} )
 			return name+"es";
 		else
 			return name+"s";
