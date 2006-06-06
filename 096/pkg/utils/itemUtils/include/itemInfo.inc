@@ -1,4 +1,4 @@
-/* $Id: itemdesc.inc 129 2006-05-27 18:08:54Z austinheilman $
+/* $Id$
  *
  */
 use uo;
