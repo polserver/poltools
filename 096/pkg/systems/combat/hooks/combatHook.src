@@ -59,14 +59,18 @@ exported function Attack(attacker, defender)
 	if ( SkillCheck(attacker, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
 		PlayHitSound(a_info, d_info);
 
-		var base_damage := CalcBaseDamage(attacker);
+		Print("*-------------------*");
+		var base_damage := CalcBaseDamage(a_info);
+		Print("BaseDmg="+base_damage);
 		var raw_damage := base_damage;
 		ParryChecks(attacker, defender, raw_damage);
-		
+				
 		var armor_hit := GetArmorHit(d_info);
-		ArmorChecks(d_info, raw_damage, armor_hit);
+		ArmorChecks(d_info, armor_hit, raw_damage);
 		
+		Print("RawDamage="+base_damage);
 		ApplyRawDamageEX(d_info.mobile, raw_damage);
+		Print("@-------------------@");
 	else
 		PlayMissSound(a_info);
 	endif
@@ -86,10 +90,15 @@ endfunction
 
 function DistanceChecks(byref a_info, byref d_info)
 	var cur_range := Distance(a_info.mobile, d_info.mobile);
-	if ( cur_range > GetConfigInt(a_info.cfginfo, a_info.prefix+"MaxRange") )
-		CombatMsg(a_info.mobile, "Opponent is too far away.", "Dist");
+	var max_range := GetConfigInt(a_info.cfginfo, a_info.prefix+"MaxRange");
+	if ( max_range == error )
+		max_range := 1;
+	endif
+	
+	if ( cur_range > max_range )
+		CombatMsg(a_info.mobile, "Opponent is too far away. ["+max_range+"]", "Dist");
 		return 0;
-	elseif ( cur_range < GetConfigInt(a_info.cfginfo, a_info.prefix+"MinRange") )
+	elseif ( cur_range < CInt(GetConfigInt(a_info.cfginfo, a_info.prefix+"MinRange")) )
 		CombatMsg(a_info.mobile, "Opponent is too close.", "Dist");
 		return 0;
 	else
@@ -140,7 +149,7 @@ endfunction
 function PlayHitSound(byref a_info, byref d_info)
 	var hit_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"HitSound");
 	hit_sound := hit_sound[RandomInt(hit_sound.Size())+1];
-	PlaySoundEffect(a_info.mobile, hit_sound);
+	PlaySoundEffect(a_info.mobile, CInt(hit_sound));
 
 	var damaged_sound;
 	if ( (d_info.mobile).npctemplate )
@@ -157,7 +166,7 @@ function PlayHitSound(byref a_info, byref d_info)
 	endif
 	damaged_sound := damaged_sound[RandomInt(damaged_sound.Size())+1];
 
-	PlaySoundEffect(d_info.mobile, damaged_sound);
+	PlaySoundEffect(d_info.mobile, CInt(damaged_sound));
 
 	return 1;
 endfunction
@@ -165,21 +174,24 @@ endfunction
 function PlayMissSound(byref a_info)
 	var miss_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"MissSound");
 	miss_sound := miss_sound[RandomInt(miss_sound.Size())+1];
-	PlaySoundEffect(a_info.mobile, miss_sound);
+	PlaySoundEffect(a_info.mobile, CInt(miss_sound));
 
 	return 1;
 endfunction
 
 function CalcBaseDamage(byref a_info)
 	var base_dmg := GetConfigString(a_info.cfginfo, a_info.prefix+"Damage");
+	Print("CalcBaseDamage(1) Dice = ["+a_info.prefix+"Damage"+"] "+base_dmg);
 	base_dmg := RandomDiceRoll(base_dmg);
+	Print("CalcBaseDamage(1) BaseDamage = "+base_dmg);
 
 	var dmg_mult := CDbl(AP_GetSkill(a_info.mobile, TACTICS))+50.0;
 	dmg_mult := dmg_mult + (CDbl(AP_GetStat(a_info.mobile, STRENGTH)) * 0.2);
 	dmg_mult := CDbl(dmg_mult) * 0.01;
 	base_dmg := base_dmg * dmg_mult;
+	Print("CalcBaseDamage(2) BaseDamage = "+base_dmg);
 
-	return base_dmg;
+	return CInt(base_dmg);
 endfunction
 
 function ParryChecks(byref a_info, byref d_info, byref raw_damage)
@@ -197,6 +209,7 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 		PerformAction(d_info.mobile, ANIM_TWIST_DODGE);
 		SendSysMessage(d_info.mobile, "You deflect some damage using your shield.");
 		raw_damage := raw_damage - RandomInt(shield.ar)+1;
+		Print("ParryChecks() RawDamage -"+raw_damage);
 
 		if ( raw_damage > CInt(0.15*shield.hp) )
 			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
@@ -232,15 +245,26 @@ function GetArmorHit(byref d_info)
 	return best_armor;
 endfunction
 
-function ArmorChecks(byref d_info, byref raw_damage, armor_hit)
-	var blocked := armor_hit.ar + (d_info.mobile).ar_mod;
-	blocked := blocked / 2;
-	blocked := RandomInt(blocked+1)+1;
-	
-	raw_damage := raw_damage - blocked;
+function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
+	Print("ArmorChecks(1) RawDamage = "+raw_damage);
+	var blocked := CInt(armor_hit.ar) + (d_info.mobile).ar_mod;
+	Print("ArmorChecks(1) Blocked -"+blocked);
+	var absorbed := blocked / 2;
+	Print("ArmorChecks(1) Absorbed = "+absorbed);
+	blocked := blocked - absorbed;
+	Print("ArmorChecks(2) Blocked = "+blocked);
+	absorbed := absorbed + RandomInt(blocked+1)+1;
+	Print("ArmorChecks(2) Absorbed = "+absorbed);
+	raw_damage := raw_damage - absorbed;
+	Print("ArmorChecks(2) RawDamage = "+raw_damage);
 	
 	if ( raw_damage >= 2.0 )
 		raw_damage := raw_damage * 0.5;
+	endif
+	Print("ArmorChecks(3) RawDamage = "+raw_damage);
+	
+	if ( !armor_hit.IsA(POLCLASS_ARMOR) )
+		return 1;
 	endif
 	
 	var armor_elem := g_settings_cfg["Armor"];
