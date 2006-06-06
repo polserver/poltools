@@ -1,0 +1,117 @@
+/* $Id$
+ *
+ * NOTES: 
+ *	Return 0 if you want the core to handle the
+ *	combat cycle. Return 1 to say that the cycle is over.
+ */
+ 
+use uo;
+use os;
+use polsys;
+use cfgfile;
+
+include ":brainai:npcUtil";
+include ":combat:settings";
+include ":damage:damage";
+include ":itemutils:itemdesc";
+include "include/client";
+
+/*
+ * Global variables
+ * With the way hooks work, these are only set only ONCE
+ * and stay the same in every instance the hook gets run.
+ */
+var item_cfg := ReadConfigFile(":*:itemdesc");
+var settings_cfg := CS_GetSettingsCfgFile();
+
+program Install()
+	print("INSTALLING: Combat hook... ");
+	return 1;
+endprogram
+
+exported function Attack(attacker, defender)
+	if ( !CanAttack(attacker, defender) )
+		return 1;
+	endif
+
+	var a_info, d_info;
+	SetupInfo(attacker, defender, a_info, d_info);
+	
+	if ( !DistanceChecks(a_info, d_info) )
+		return 1;
+	elseif ( !AmmoChecks(a_info, d_info) )
+		return 1;
+	endif
+	
+endfunction
+
+function CanAttack(attacker, defender)
+	if ( attacker == defender )
+		return 0;
+	elseif ( !CheckLineOfSight(attacker, defender) )
+		return 0;
+	endif
+	
+	return 1;
+endfunction
+
+function DistanceChecks(byref a_info, byref d_info)
+	var cur_range := Distance(a_info.mobile, d_info.mobile);
+	if ( cur_range > (a_info.cfginfo).MaxRange )
+		CombatMsg(a_info.mobile, "Opponent is too far away.", "Dist");
+		return 0;
+	elseif ( cur_range < (a_info.cfginfo).MinRange )
+		CombatMsg(a_info.mobile, "Opponent is too close.", "Dist");
+		return 0;
+	else
+		return 1;
+	endif
+endfunction
+
+function AmmoChecks(byref a_info, byref d_info)
+	if ( !(a_info.cfginfo).AmmoType )
+		return 1;
+	endif
+	
+	if ( ConsumeSubstance(attacker.backpack, wpn_a_elem.AmmoType, 1) )
+		PlayMovingEffect(attacker, defender, wpn_a_elem.ProjectileAnim, 10, 10);
+		return 1;
+	else
+		CombatMsg(attacker, "You do not have any "+GetName(wpn_a_elem.AmmoType, 1)+"!", "Ammo");
+		return 0;
+	endif
+endfunction
+
+function SetupInfo(attacker, defender, byref a_info, byref d_info)
+	a_info := struct;
+	a_info.+mobile := attacker;
+	if ( attacker.IsA(POLCLASS_NPC) && (attacker.weapon).intrinsic )
+		a_info.+cfginfo := NPC_GetNPCConfig(attacker.npctemplate);
+	else
+		a_info.+cfginfo := item_cfg[(attacker.weapon).objtype];
+	endif
+		
+	d_info := struct;
+	d_info.+mobile := defender;
+	if ( defender.IsA(POLCLASS_NPC) && (defender.weapon).intrinsic )
+		d_info.+cfginfo := NPC_GetNPCConfig(defender.npctemplate);
+	else
+		d_info.+cfginfo := item_cfg[(defender.weapon).objtype];
+	endif
+	var shield := GetEquipmentByLayer(defender, LAYER_HAND2);
+	if ( shield.ISA(POLCLASS_ARMOR) )
+		d_info.+shield := shield;
+	endif
+	
+	return 1;
+endfunction
+
+function CombatMsg(mobile, text, type:="")
+	// This is done just to prevent message spam on fast weapons.
+	if ( CInt(GetObjProperty(mobile, "#CH-Msg"+type)) < ReadMillisecondClock() )
+		SendSysMessage(mobile, text);
+		SetObjProperty(mobile, "#CH-Msg"+type, ReadMillisecondClock()+800);
+	endif
+	
+	return 1;
+endfunction
