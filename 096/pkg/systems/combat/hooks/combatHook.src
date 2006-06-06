@@ -21,8 +21,8 @@ include "include/client";
  * With the way hooks work, these are only set only ONCE
  * and stay the same in every instance the hook gets run.
  */
-var item_cfg := ReadConfigFile(":*:itemdesc");
-var settings_cfg := CS_GetSettingsCfgFile();
+var g_item_cfg := ReadConfigFile(":*:itemdesc");
+var g_settings_cfg := CS_GetSettingsCfgFile();
 
 program Install()
 	print("INSTALLING: Combat hook... ");
@@ -41,6 +41,13 @@ exported function Attack(attacker, defender)
 		return 1;
 	elseif ( !AmmoChecks(a_info, d_info) )
 		return 1;
+	else
+		AttackAnimation(a_info);
+	endif
+	
+	var difficulty := CalcHitDifficulty(a_info, d_info);
+	if ( SkillCheck(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
+		PlayHitSounds(a_info, d_info);
 	endif
 	
 endfunction
@@ -57,10 +64,10 @@ endfunction
 
 function DistanceChecks(byref a_info, byref d_info)
 	var cur_range := Distance(a_info.mobile, d_info.mobile);
-	if ( cur_range > (a_info.cfginfo).MaxRange )
+	if ( cur_range > GetConfigInt(a_info.cfginfo, a_info.prefix+"MaxRange") )
 		CombatMsg(a_info.mobile, "Opponent is too far away.", "Dist");
 		return 0;
-	elseif ( cur_range < (a_info.cfginfo).MinRange )
+	elseif ( cur_range < GetConfigInt(a_info.cfginfo, a_info.prefix+"MinRange") )
 		CombatMsg(a_info.mobile, "Opponent is too close.", "Dist");
 		return 0;
 	else
@@ -73,30 +80,80 @@ function AmmoChecks(byref a_info, byref d_info)
 		return 1;
 	endif
 	
-	if ( ConsumeSubstance(attacker.backpack, wpn_a_elem.AmmoType, 1) )
-		PlayMovingEffect(attacker, defender, wpn_a_elem.ProjectileAnim, 10, 10);
+	if ( ConsumeSubstance((a_info.mobile).backpack, (a_info.cfginfo).AmmoType, 1) )
+		PlayMovingEffect(a_info.mobile, d_info.mobile, (a_info.cfginfo).ProjectileAnim, 10, 10);
 		return 1;
 	else
-		CombatMsg(attacker, "You do not have any "+GetName(wpn_a_elem.AmmoType, 1)+"!", "Ammo");
+		CombatMsg(a_info.mobile, "You do not have any "+GetObjTypeDesc((a_info.cfginfo).AmmoType, 1)+"!", "Ammo");
 		return 0;
 	endif
+endfunction
+
+function AttackAnimation(byref a_info)
+	var attack_anim := 0x5; // Default attack anim for NPCs.
+	if ( (a_info.cfginfo).Anim )
+		// Normal weapons
+		var anim_list := GetConfigStringArray(a_info.cfginfo, "Anim");
+		attack_anim := anim_list[RandomInt(anim_list.size())+1];
+	elseif ( (a_info.cfginfo).AttackAnimation )
+		// NPC intrinsic weapons
+		var anim_list := GetConfigStringArray(a_info.cfginfo, "AttackAnimation");
+		attack_anim := anim_list[RandomInt(anim_list.size())+1];
+	endif
+	
+	PerformAction(a_info.mobile, CInt(attack_anim));
+	
+	return attack_anim;
+endfunction
+
+function CalcHitDifficulty(byref a_info, byref d_info)
+	return RandomInt(100);
+endfunction
+
+function PlayHitSounds(byref a_info, byref d_info)
+	var hit_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"HitSound");
+	hit_sound := hit_sound[RandomInt(hit_sound.Size())+1];
+	PlaySoundEffect(a_info.mobile, hit_sound);
+	
+	var damaged_sound;
+	if ( (d_info.mobile).npctemplate )
+		damaged_sound := GetConfigStringArray(d_info.cfginfo, "DamagedSound");
+	else
+		case ( (d_info.mobile).gender )
+			0:// Male
+				damaged_sound := array(341, 342, 343, 345, 346);
+				break;
+			1://Female
+				damaged_sound := array(332, 333, 334, 335, 336);
+				break;
+		endcase
+	endif
+	damaged_sound := damaged_sound[RandomInt(damaged_sound.Size())+1];
+	
+	PlaySoundEffect(d_info.mobile, damaged_sound);
+	
+	return 1;
 endfunction
 
 function SetupInfo(attacker, defender, byref a_info, byref d_info)
 	a_info := struct;
 	a_info.+mobile := attacker;
 	if ( attacker.IsA(POLCLASS_NPC) && (attacker.weapon).intrinsic )
+		a_info.+prefix := "Attack";
 		a_info.+cfginfo := NPC_GetNPCConfig(attacker.npctemplate);
 	else
-		a_info.+cfginfo := item_cfg[(attacker.weapon).objtype];
+		a_info.+prefix := "";
+		a_info.+cfginfo := g_item_cfg[(attacker.weapon).objtype];
 	endif
 		
 	d_info := struct;
 	d_info.+mobile := defender;
 	if ( defender.IsA(POLCLASS_NPC) && (defender.weapon).intrinsic )
+		d_info.+prefix := "Attack";
 		d_info.+cfginfo := NPC_GetNPCConfig(defender.npctemplate);
 	else
-		d_info.+cfginfo := item_cfg[(defender.weapon).objtype];
+		d_info.+prefix := "";
+		d_info.+cfginfo := g_item_cfg[(defender.weapon).objtype];
 	endif
 	var shield := GetEquipmentByLayer(defender, LAYER_HAND2);
 	if ( shield.ISA(POLCLASS_ARMOR) )
