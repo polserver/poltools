@@ -62,7 +62,7 @@ exported function Attack(attacker, defender)
 		ParryChecks(attacker, defender, raw_damage);
 		
 		var armor_hit := GetArmorHit(d_info);
-		ArmorChecks(d_info, raw_damage);
+		ArmorChecks(d_info, raw_damage, armor_hit);
 	else
 		PlayMissSound(a_info);
 	endif
@@ -226,9 +226,29 @@ function GetArmorHit(byref d_info)
 	return best_armor;
 endfunction
 
-function ArmorChecks(byref d_info, byref raw_damage)
+function ArmorChecks(byref d_info, byref raw_damage, armor_hit)
+	var blocked := armor_hit.ar + (d_info.mobile).ar_mod;
+	blocked := blocked / 2;
+	blocked := RandomInt(blocked+1)+1;
 	
+	raw_damage := raw_damage - blocked;
 	
+	if ( raw_damage >= 2.0 )
+		raw_damage := raw_damage * 0.5;
+	endif
+	
+	var armor_elem := g_settings_cfg["Armor"];
+	if ( RandomInt(100)+1 < armor_elem.WearChance )
+		SendSysMessage(d_info.mobile, armor_hit.desc+" takes some damage.");
+		armor_hit.hp := armor_hit.hp - 1;
+		
+		if ( armor_hit.hp <= 1 )
+			SendSysMessage(d_info.mobile, armor_hit.desc+" has been destroyed.");
+			DestroyItem(armor_hit);
+		endif
+	endif
+		
+	return 1;
 endfunction
 
 function SetupInfo(attacker, defender, byref a_info, byref d_info)
