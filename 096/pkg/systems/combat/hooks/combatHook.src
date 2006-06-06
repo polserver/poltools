@@ -12,6 +12,7 @@ use cfgfile;
 
 include ":attributes:attributes";
 include ":brainai:npcUtil";
+include ":combat:armorZones";
 include ":combat:settings";
 include ":damage:damage";
 include ":itemutils:itemdesc";
@@ -58,9 +59,10 @@ exported function Attack(attacker, defender)
 
 		var base_damage := CalcBaseDamage(attacker);
 		var raw_damage := base_damage;
-		ParryCheck(attacker, defender, raw_damage);
-
-
+		ParryChecks(attacker, defender, raw_damage);
+		
+		var armor_hit := GetArmorHit(d_info);
+		ArmorChecks(d_info, raw_damage);
 	else
 		PlayMissSound(a_info);
 	endif
@@ -126,7 +128,7 @@ function CalcHitDifficulty(byref a_info, byref d_info)
 	var a_skill := AP_GetSkill(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"));
 	var d_skill := AP_GetSkill(d_info.mobile, GetConfigString(d_info.cfginfo, d_info.prefix+"Attribute"));
 	
-	return ((a_skill + 50.0) / (2.0 * d_skill + 50));
+	return ((a_skill + 50.0) / (2.0 * d_skill + 50)) * 100;
 endfunction
 
 function PlayHitSound(byref a_info, byref d_info)
@@ -174,7 +176,7 @@ function CalcBaseDamage(byref a_info)
 	return base_dmg;
 endfunction
 
-function ParryCheck(byref a_info, byref d_info, byref raw_damage)
+function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 	var shield := d_info.shield;
 	if ( !shield )
 		return 0;
@@ -203,6 +205,30 @@ function ParryCheck(byref a_info, byref d_info, byref raw_damage)
 	endif
 
 	return 1;
+endfunction
+
+function GetArmorHit(byref d_info)
+	var hit_zone := CS_GetRandomArmorZone();
+	var armor_hit := CS_GetEquipmentInArmorZone(d_info.mobile, hit_zone);
+	
+	if ( armor_hit.Size() < 1 )
+		return 0;
+	endif
+	
+	var best_armor := 0;
+	foreach item in ( armor_hit )
+		if ( item.ar > best_armor.ar )
+			best_armor := item;
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return best_armor;
+endfunction
+
+function ArmorChecks(byref d_info, byref raw_damage)
+	
+	
 endfunction
 
 function SetupInfo(attacker, defender, byref a_info, byref d_info)
