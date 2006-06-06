@@ -33,7 +33,9 @@ program Install()
 endprogram
 
 exported function Attack(attacker, defender)
-	if ( !CanAttack(attacker, defender) )
+	if ( !g_settings_cfg["Settings"].EnableHook )
+		return 0;
+	elseif ( !CanAttack(attacker, defender) )
 		return 1;
 	endif
 
@@ -68,6 +70,8 @@ exported function Attack(attacker, defender)
 	else
 		PlayMissSound(a_info);
 	endif
+	
+	return 1;
 endfunction
 
 function CanAttack(attacker, defender)
