@@ -63,6 +63,8 @@ exported function Attack(attacker, defender)
 		
 		var armor_hit := GetArmorHit(d_info);
 		ArmorChecks(d_info, raw_damage, armor_hit);
+		
+		ApplyRawDamageEX(d_info.mobile, raw_damage);
 	else
 		PlayMissSound(a_info);
 	endif
