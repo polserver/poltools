@@ -42,14 +42,15 @@ exported function Attack(attacker, defender)
 	elseif ( !AmmoChecks(a_info, d_info) )
 		return 1;
 	else
-		AttackAnimation(a_info);
+		PlayAttackAnimation(a_info);
 	endif
 	
 	var difficulty := CalcHitDifficulty(a_info, d_info);
 	if ( SkillCheck(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
-		PlayHitSounds(a_info, d_info);
-	endif
-	
+		PlayHitSound(a_info, d_info);
+	else
+		PlayMissSound(a_info);
+	endif	
 endfunction
 
 function CanAttack(attacker, defender)
@@ -89,7 +90,7 @@ function AmmoChecks(byref a_info, byref d_info)
 	endif
 endfunction
 
-function AttackAnimation(byref a_info)
+function PlayAttackAnimation(byref a_info)
 	var attack_anim := 0x5; // Default attack anim for NPCs.
 	if ( (a_info.cfginfo).Anim )
 		// Normal weapons
@@ -110,7 +111,7 @@ function CalcHitDifficulty(byref a_info, byref d_info)
 	return RandomInt(100);
 endfunction
 
-function PlayHitSounds(byref a_info, byref d_info)
+function PlayHitSound(byref a_info, byref d_info)
 	var hit_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"HitSound");
 	hit_sound := hit_sound[RandomInt(hit_sound.Size())+1];
 	PlaySoundEffect(a_info.mobile, hit_sound);
@@ -131,6 +132,14 @@ function PlayHitSounds(byref a_info, byref d_info)
 	damaged_sound := damaged_sound[RandomInt(damaged_sound.Size())+1];
 	
 	PlaySoundEffect(d_info.mobile, damaged_sound);
+	
+	return 1;
+endfunction
+
+function PlayMissSound(byref a_info)
+	var miss_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"MissSound");
+	miss_sound := miss_sound[RandomInt(miss_sound.Size())+1];
+	PlaySoundEffect(a_info.mobile, miss_sound);
 	
 	return 1;
 endfunction
