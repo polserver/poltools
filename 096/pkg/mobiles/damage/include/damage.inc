@@ -1,4 +1,4 @@
-/* $Id: damage.inc 93 2006-05-23 20:23:29Z sroyalty $
+/* $Id$
  * 
  * Purpose
  * Handles damages and resistances to damage types
