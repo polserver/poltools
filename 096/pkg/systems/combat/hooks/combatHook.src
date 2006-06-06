@@ -1,20 +1,22 @@
 /* $Id$
  *
- * NOTES: 
+ * NOTES:
  *	Return 0 if you want the core to handle the
  *	combat cycle. Return 1 to say that the cycle is over.
  */
- 
+
 use uo;
 use os;
 use polsys;
 use cfgfile;
 
+include ":attributes:attributes";
 include ":brainai:npcUtil";
 include ":combat:settings";
 include ":damage:damage";
 include ":itemutils:itemdesc";
 include "include/client";
+include "include/facings";
 
 /*
  * Global variables
@@ -36,21 +38,32 @@ exported function Attack(attacker, defender)
 
 	var a_info, d_info;
 	SetupInfo(attacker, defender, a_info, d_info);
-	
+
 	if ( !DistanceChecks(a_info, d_info) )
 		return 1;
 	elseif ( !AmmoChecks(a_info, d_info) )
 		return 1;
 	else
+		if ( g_settings_cfg["General"].ForceFacing )
+			TurnObjectToward(attacker, defender.x, defender.y);
+			TurnObjectToward(defender, attacker.x, attacker.y);
+		endif
+
 		PlayAttackAnimation(a_info);
 	endif
-	
+
 	var difficulty := CalcHitDifficulty(a_info, d_info);
-	if ( SkillCheck(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
+	if ( SkillCheck(attacker, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
 		PlayHitSound(a_info, d_info);
+
+		var base_damage := CalcBaseDamage(attacker);
+		var raw_damage := base_damage;
+		ParryCheck(attacker, defender, raw_damage);
+
+
 	else
 		PlayMissSound(a_info);
-	endif	
+	endif
 endfunction
 
 function CanAttack(attacker, defender)
@@ -59,7 +72,7 @@ function CanAttack(attacker, defender)
 	elseif ( !CheckLineOfSight(attacker, defender) )
 		return 0;
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -80,7 +93,7 @@ function AmmoChecks(byref a_info, byref d_info)
 	if ( !(a_info.cfginfo).AmmoType )
 		return 1;
 	endif
-	
+
 	if ( ConsumeSubstance((a_info.mobile).backpack, (a_info.cfginfo).AmmoType, 1) )
 		PlayMovingEffect(a_info.mobile, d_info.mobile, (a_info.cfginfo).ProjectileAnim, 10, 10);
 		return 1;
@@ -91,48 +104,53 @@ function AmmoChecks(byref a_info, byref d_info)
 endfunction
 
 function PlayAttackAnimation(byref a_info)
-	var attack_anim := 0x5; // Default attack anim for NPCs.
+	var attack_anim := ANIM_FIDGET_1; // Default attack anim for NPCs.
 	if ( (a_info.cfginfo).Anim )
 		// Normal weapons
 		var anim_list := GetConfigStringArray(a_info.cfginfo, "Anim");
-		attack_anim := anim_list[RandomInt(anim_list.size())+1];
+		attack_anim := anim_list[RandomInt(anim_list.Size())+1];
 	elseif ( (a_info.cfginfo).AttackAnimation )
 		// NPC intrinsic weapons
 		var anim_list := GetConfigStringArray(a_info.cfginfo, "AttackAnimation");
-		attack_anim := anim_list[RandomInt(anim_list.size())+1];
+		attack_anim := anim_list[RandomInt(anim_list.Size())+1];
 	endif
-	
+
 	PerformAction(a_info.mobile, CInt(attack_anim));
-	
+
 	return attack_anim;
 endfunction
 
 function CalcHitDifficulty(byref a_info, byref d_info)
 	return RandomInt(100);
+	//hit_chance = (weapon_attribute + 50.0) / (2.0 * opponent_weapon_attribute + 50.0)
+	var a_skill := AP_GetSkill(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"));
+	var d_skill := AP_GetSkill(d_info.mobile, GetConfigString(d_info.cfginfo, d_info.prefix+"Attribute"));
+	
+	return ((a_skill + 50.0) / (2.0 * d_skill + 50));
 endfunction
 
 function PlayHitSound(byref a_info, byref d_info)
 	var hit_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"HitSound");
 	hit_sound := hit_sound[RandomInt(hit_sound.Size())+1];
 	PlaySoundEffect(a_info.mobile, hit_sound);
-	
+
 	var damaged_sound;
 	if ( (d_info.mobile).npctemplate )
 		damaged_sound := GetConfigStringArray(d_info.cfginfo, "DamagedSound");
 	else
 		case ( (d_info.mobile).gender )
 			0:// Male
-				damaged_sound := array(341, 342, 343, 345, 346);
+				damaged_sound := array{341, 342, 343, 345, 346};
 				break;
 			1://Female
-				damaged_sound := array(332, 333, 334, 335, 336);
+				damaged_sound := array{332, 333, 334, 335, 336};
 				break;
 		endcase
 	endif
 	damaged_sound := damaged_sound[RandomInt(damaged_sound.Size())+1];
-	
+
 	PlaySoundEffect(d_info.mobile, damaged_sound);
-	
+
 	return 1;
 endfunction
 
@@ -140,7 +158,50 @@ function PlayMissSound(byref a_info)
 	var miss_sound := GetConfigStringArray(a_info.cfginfo, a_info.prefix+"MissSound");
 	miss_sound := miss_sound[RandomInt(miss_sound.Size())+1];
 	PlaySoundEffect(a_info.mobile, miss_sound);
-	
+
+	return 1;
+endfunction
+
+function CalcBaseDamage(byref a_info)
+	var base_dmg := GetConfigString(a_info.cfginfo, a_info.prefix+"Damage");
+	base_dmg := RandomDiceRoll(base_dmg);
+
+	var dmg_mult := CDbl(AP_GetSkill(a_info.mobile, TACTICS))+50.0;
+	dmg_mult := dmg_mult + (CDbl(AP_GetStat(a_info.mobile, STRENGTH)) * 0.2);
+	dmg_mult := CDbl(dmg_mult) * 0.01;
+	base_dmg := base_dmg * dmg_mult;
+
+	return base_dmg;
+endfunction
+
+function ParryCheck(byref a_info, byref d_info, byref raw_damage)
+	var shield := d_info.shield;
+	if ( !shield )
+		return 0;
+	endif
+
+	var parry_elem := g_settings_cfg["Parry"];
+	var divisor := CDbl(parry_elem.ParryDivisor);
+	var roll := CDbl(parry_elem.ParryRoll);
+	var parry_chance := CDbl(AP_GetSkill(a_info.mobile, PARRY)) / divisor;
+
+	if ( RandomFloat(roll) < parry_chance )
+		PerformAction(d_info.mobile, ANIM_TWIST_DODGE);
+		SendSysMessage(d_info.mobile, "You deflect some damage using your shield.");
+		raw_damage := raw_damage - RandomInt(shield.ar)+1;
+
+		if ( raw_damage > CInt(0.15*shield.hp) )
+			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
+			shield.quality := shield.quality * CDbl(parry_elem.WearRate);
+			if ( shield.quality <= 0.1 )
+				SendSysMessage(d_info.mobile, shield.desc+" has been destroyed.");
+				DestroyItem(shield);
+			elseif ( shield.hp > shield.maxhp )
+				shield.hp := shield.maxhp;
+			endif
+		endif
+	endif
+
 	return 1;
 endfunction
 
@@ -154,7 +215,7 @@ function SetupInfo(attacker, defender, byref a_info, byref d_info)
 		a_info.+prefix := "";
 		a_info.+cfginfo := g_item_cfg[(attacker.weapon).objtype];
 	endif
-		
+
 	d_info := struct;
 	d_info.+mobile := defender;
 	if ( defender.IsA(POLCLASS_NPC) && (defender.weapon).intrinsic )
@@ -168,7 +229,7 @@ function SetupInfo(attacker, defender, byref a_info, byref d_info)
 	if ( shield.ISA(POLCLASS_ARMOR) )
 		d_info.+shield := shield;
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -178,6 +239,6 @@ function CombatMsg(mobile, text, type:="")
 		SendSysMessage(mobile, text);
 		SetObjProperty(mobile, "#CH-Msg"+type, ReadMillisecondClock()+800);
 	endif
-	
+
 	return 1;
 endfunction
