@@ -30,9 +30,14 @@ function CleanUpElems(&$file, &$template)
 		Print("Cant open {$file} ({$php_errormsg}). Blame Stephen Donald.\n");
 		exit;
 	}
+	Print(" * Purging CleanedConfig.cfg for new write...\n");
+	
 	Print(" * Finding elem names...");
 	$elem_names = GetConfigStringKeys($cfg_file, CLASS_LABELS_ON);
 	Print("(".Count($elem_names).")\n");
+	
+	$handle = FOpen("CleanedConfig.cfg", "w");
+	FClose($handle);
 	
 	foreach ( $elem_names as $elem_name )
 	{
