@@ -1,3 +1,7 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use os;
 use util;
@@ -28,7 +32,7 @@ program BrainNerve(params)
 		AI_Wander(npc, NOWAKE);
 
 		AI_ClearThoughts(npc, CLR_NERVE);
-		
+
 		Sleep(30+RandomInt(10));
 	endwhile
 endprogram

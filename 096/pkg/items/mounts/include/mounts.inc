@@ -104,6 +104,38 @@ function MP_GetMountGraphic(mobile)
 endfunction
 
 /*
+ * MP_GetMobileGraphic(mount)
+ *
+ * Purpose
+ * Finds what graphic a mobile must be set to in order to match an mount piece.
+ *
+ * Parameters
+ * mount:	An item (mount piece) to find an npc template from.
+ *		Can also be the graphic number of a mount piece.
+ *
+ * Return value
+ * Returns a graphic number.
+ * Returns error if no match can be found.
+ *
+ */
+function MP_GetMobileGraphic(mount)
+	if ( mount.IsA(POLCLASS_ITEM) )
+		mount := mount.graphic;
+	else
+		mount := CInt(mount);
+	endif
+	
+	var elem := MP_GetMountsCfgElem("MountToMobileGraphic");
+	var tile_graphic := GetConfigInt(elem, mount);
+	
+	if ( tile_graphic )
+		return tile_graphic;
+	else
+		return error{"errortext":="Error::MP_GetMobileGraphic() - No mobile tile graphic matches tile graphic '"+mount+"'"};
+	endif
+endfunction
+
+/*
  * MP_GetMountTemplate(mount)
  *
  * Purpose
@@ -131,7 +163,7 @@ function MP_GetMountTemplate(mount)
 		mount_graphic := Hex(CInt(mount));
 	endif
 	
-	var elem := MP_GetMountsCfgElem("MountToMobile");
+	var elem := MP_GetMountsCfgElem("MountToMobileTemplate");
 	template := GetConfigString(elem, mount_graphic);
 	
 	if ( template )
@@ -261,9 +293,9 @@ endfunction
 function MP_RestoreMountToAnimal(mobile, mount)
 	var orig_serial := CInt(GetObjProperty(mount, "serial"));
 	var animal := SystemFindObjectBySerial(orig_serial);
-	if ( animal )
+	if ( animal.IsA(POLCLASS_NPC) )
 		// Supports systems where the npc is moved to a storage area rather than killed.
-		MoveCharacterToLocation(animal, mobile.x, mobile.y, mobile.z, MOVECHAR_FORCELOCATION);
+		MoveObjectToLocation(animal, mobile.x, mobile.y, mobile.z, mobile.realm, MOVECHAR_FORCELOCATION);
 		animal.hidden := 0;
 	else
 		var template := MP_GetMountTemplate(mount);
@@ -276,6 +308,10 @@ function MP_RestoreMountToAnimal(mobile, mount)
 		animal.facing := mobile.facing;
 		animal.color := mount.color;
 		animal.name := mount.desc;
+		var mobile_graphic := MP_GetMobileGraphic(mount);
+		if ( mobile_graphic )
+			animal.graphic := mobile_graphic;
+		endif
 	endif
 	DestroyItem(mount);
 	
