@@ -135,7 +135,7 @@ function AmmoChecks(byref a_info, byref d_info)
 	if ( ConsumeSubstance((a_info.mobile).backpack, ammo_type, 1) )
 		var proj_anim := CInt((a_info.cfginfo).ProjectileAnim);
 		PlaySoundEffect(a_info.mobile, CInt((a_info.cfginfo).ProjectileSound));
-		PlayMovingEffect(a_info.mobile, d_info.mobile, proj_anim, 9, 0, 1);
+		PlayMovingEffect(a_info.mobile, d_info.mobile, proj_anim, 10, 10);
 		return 1;
 	else
 		CombatMsg(a_info.mobile, "You do not have any "+GetObjTypeDesc(ammo_type, 1)+"!", "Ammo");
