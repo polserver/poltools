@@ -27,14 +27,14 @@ endfunction
 
 
 function Go_GoXYZ(who, params)
-	var num_params := Len(params);
+	var num_params := params.Size();
 
 	case ( num_params )
 		1: 2:
 			SendSysMessage(who, "Error. Insufficient data supplied. \".go xyz x y [z] [string realm name]\"");
 			break;
 		3:
-			params[4] := GetWorldHeight(CInt(params[2]), CInt(params[3]), who.realm).z;
+			params[4] := GetWorldHeight(CInt(params[2]), CInt(params[3]), who.realm);
 			params[5] := who.realm;
 			break;
 		4:

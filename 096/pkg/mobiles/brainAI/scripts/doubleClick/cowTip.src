@@ -1,43 +1,27 @@
 /* $Id$
  *
  */
-///////////////////////////////////////////////
-// cowTip.src
-//
-// Created 7/26/2002 11:31AM
-// Updated 10/31/2005 11:25AM
-//
-// Creator: Austin Heilman
-// Last Update: MuadDib
-//
-///////////////////////////////////////////////
-//
-// This simply makes a double clicked cow tip over
-// when double clicked. It goes "mooo" in a whiny
-// sort of way too. Players from Wisconsin will
-// love it. Never tip a Californian cow though!
-// *ahem*
-//
-///////////////////////////////////////////////
+
 use uo;
 use os;
 
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include "include/client";
 
-program npcTip(params)
+program BrainNerve(params)
 	var npc		:= params[1];
 	//var nerve_name:= params[2];
 	var event	:= params[3];
 	//var settings	:= params[4];
 	//var scripts	:= params[5];
-	params := 0;
+	params := 0; // Not needed anymore.
 
 	while ( npc )
 		if ( event )
 			case ( event.type )
 				SYSEVENT_DOUBLECLICKED:
-					CowTipEvent(npc, event);
+					DblClickEvent(npc, event);
 					break;
 				default:
 					break;
@@ -52,11 +36,10 @@ program npcTip(params)
 
 endprogram
 
-
-function CowTipEvent(npc, byref event)
+function DblClickEvent(npc, byref event)
 	PrintTextAbove(event.source, "*push*");
 	PlaySoundEffect(npc, 0x7D);
-	PerformAction(npc, 0x8);
+	PerformAction(npc, ANIM_STAND_2HAND);
 	Sleep(2);
 	AI_Move(npc, event.source, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, 1);
 

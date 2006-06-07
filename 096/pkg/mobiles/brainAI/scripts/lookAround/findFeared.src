@@ -42,11 +42,9 @@ function FindFearedOpponent(npc, byref settings, byref scripts)
 
 	if ( run_list.Size() > 0 )
 		var feared_one := run_list[RandomInt(run_list.Size())+1];
-		for i := 1 to CInt(settings["AreaSize"])
-			if( feared_one in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"])) )
-				AI_Move(npc, feared_one, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, 1);
-			endif
-		endfor
+		
+		AI_Move(npc, feared_one, NEMOVE_AWAY, NEMOVE_WALK, WAKEUP, CInt(settings["AreaSize"]));
+		
 		return feared_one;
 	endif
 
