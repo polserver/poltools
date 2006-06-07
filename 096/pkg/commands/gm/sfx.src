@@ -1,71 +1,13 @@
-////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////
-
-//
-
-//  SFX.SRC - ingame command
-
-//
-
-//  Plays the supplied soundeffect, if it's valid.
-
-//
-
-//  Author: Ignatius 1999/01/26
-
-//
-
-//  Recent Modifications:
-
-//
-
-////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////
-
-
-
+/* $Id$
+ *
+ */
+ 
 use uo;
 
-
-
-program textcmd_sfx( who, input )
-
-
-
-    if ( ! input )
-
-        SendSysMessage( who, "No argument supplied. Usage: .sfx [sound]." );
-
-        return 0;
-
-    endif
-
-
-
-    var argarray := SplitWords( input ); // split the arguments.
-
-    var soundfx := CInt( argarray[ 1 ] );
-
-
-
-    if ( ! soundfx )
-
-        SendSysMessage( who, "Not a valid soundid." );
-
-        return 0;
-
-    endif
-
-
-
-    PlaySoundEffect( who, soundfx );
-
-
-
-    SendSysMessage( who, "Playing SFX: "+CStr( soundfx )+" / "+Hex( soundfx ) );
-
-
-
+program command_Sfx(who, sound)
+	sound := CInt(sound);
+	
+	PlaySoundEffect(who, sound);
+	
+	return 1;
 endprogram
