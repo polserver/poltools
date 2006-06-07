@@ -59,18 +59,17 @@ exported function Attack(attacker, defender)
 	if ( SkillCheck(attacker, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
 		PlayHitSound(a_info, d_info);
 
-		Print("*-------------------*");
 		var base_damage := CalcBaseDamage(a_info);
-		Print("BaseDmg="+base_damage);
 		var raw_damage := base_damage;
 		ParryChecks(attacker, defender, raw_damage);
 				
 		var armor_hit := GetArmorHit(d_info);
 		ArmorChecks(d_info, armor_hit, raw_damage);
 		
-		Print("RawDamage="+base_damage);
+		RunWeaponHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
+		RunArmorHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
+		
 		ApplyRawDamageEX(d_info.mobile, raw_damage);
-		Print("@-------------------@");
 	else
 		PlayMissSound(a_info);
 	endif
@@ -181,16 +180,13 @@ endfunction
 
 function CalcBaseDamage(byref a_info)
 	var base_dmg := GetConfigString(a_info.cfginfo, a_info.prefix+"Damage");
-	Print("CalcBaseDamage(1) Dice = ["+a_info.prefix+"Damage"+"] "+base_dmg);
 	base_dmg := RandomDiceRoll(base_dmg);
-	Print("CalcBaseDamage(1) BaseDamage = "+base_dmg);
-
+	
 	var dmg_mult := CDbl(AP_GetSkill(a_info.mobile, TACTICS))+50.0;
 	dmg_mult := dmg_mult + (CDbl(AP_GetStat(a_info.mobile, STRENGTH)) * 0.2);
 	dmg_mult := CDbl(dmg_mult) * 0.01;
 	base_dmg := base_dmg * dmg_mult;
-	Print("CalcBaseDamage(2) BaseDamage = "+base_dmg);
-
+	
 	return CInt(base_dmg);
 endfunction
 
@@ -209,8 +205,7 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 		PerformAction(d_info.mobile, ANIM_TWIST_DODGE);
 		SendSysMessage(d_info.mobile, "You deflect some damage using your shield.");
 		raw_damage := raw_damage - RandomInt(shield.ar)+1;
-		Print("ParryChecks() RawDamage -"+raw_damage);
-
+		
 		if ( raw_damage > CInt(0.15*shield.hp) )
 			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
 			shield.quality := shield.quality * CDbl(parry_elem.WearRate);
@@ -246,23 +241,17 @@ function GetArmorHit(byref d_info)
 endfunction
 
 function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
-	Print("ArmorChecks(1) RawDamage = "+raw_damage);
 	var blocked := CInt(armor_hit.ar) + (d_info.mobile).ar_mod;
-	Print("ArmorChecks(1) Blocked -"+blocked);
 	var absorbed := blocked / 2;
-	Print("ArmorChecks(1) Absorbed = "+absorbed);
 	blocked := blocked - absorbed;
-	Print("ArmorChecks(2) Blocked = "+blocked);
 	absorbed := absorbed + RandomInt(blocked+1)+1;
-	Print("ArmorChecks(2) Absorbed = "+absorbed);
 	raw_damage := raw_damage - absorbed;
-	Print("ArmorChecks(2) RawDamage = "+raw_damage);
-	
+		
 	if ( raw_damage >= 2.0 )
 		raw_damage := raw_damage * 0.5;
 	endif
-	Print("ArmorChecks(3) RawDamage = "+raw_damage);
-	
+	raw_damage := CInt(raw_damage);
+		
 	if ( !armor_hit.IsA(POLCLASS_ARMOR) )
 		return 1;
 	endif
@@ -278,6 +267,52 @@ function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
 		endif
 	endif
 		
+	return 1;
+endfunction
+
+function RunWeaponHitScripts(byref a_info, byref d_info, armor_hit, base_damage, raw_damage)
+	var weapon_scripts := array{};
+	if ( ((a_info.mobile).weapon).Intrinsic )
+		weapon_scripts := GetObjProperty(a_info.mobile, "HitScripts");
+	elseif ( ((a_info.mobile).weapon).IsA(POLCLASS_WEAPON) )
+		weapon_scripts := GetObjProperty((a_info.mobile).weapon, "HitScripts");
+	endif
+	
+	var params := array{a_info.mobile, d_info.mobile, (a_info.mobile).weapon, armor_hit, base_damage, raw_damage};
+	foreach hitscript in ( weapon_scripts )
+		var script := Start_Script(hitscript, params);
+		if ( !script || script.errortext )
+			SendSysMessage(a_info.mobile, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
+			SendSysMessage(d_info.mobile, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endfunction
+
+function RunArmorHitScripts(byref a_info, byref d_info, armor_hit, base_damage, raw_damage)
+	var body_scripts := GetObjProperty(d_info.mobile, "ArmorHitScripts");
+	var armor_scripts := GetObjProperty(armor_hit, "ArmorHitScripts");
+	if ( !body_scripts )
+		body_scripts := array{};
+	endif
+	if ( !armor_scripts )
+		armor_scripts := array{};
+	endif
+	
+	armor_scripts := armor_scripts + body_scripts;
+	
+	var params := array{a_info.mobile, d_info.mobile, (a_info.mobile).weapon, armor_hit, base_damage, raw_damage};
+	foreach hitscript in ( armor_scripts )
+		var script := Start_Script(hitscript, params);
+		if ( !script || script.errortext )
+			SendSysMessage(a_info.mobile, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
+			SendSysMessage(d_info.mobile, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
+		endif
+		SleepMS(2);
+	endforeach
+	
 	return 1;
 endfunction
 

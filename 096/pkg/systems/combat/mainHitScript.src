@@ -174,14 +174,14 @@ endfunction
 
 function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage)
 	var weapon_scripts := array;
-	if ( weapon.objtype == 0xF020 ) // Intrinsic fist
+	if ( weapon.intrinsic ) // Intrinsic fist
 		weapon_scripts := GetObjProperty(attacker, "HitScripts");
 	elseif ( weapon.IsA(POLCLASS_WEAPON) )
 		weapon_scripts := GetObjProperty(weapon, "HitScripts");
 	endif
 	
 	foreach hitscript in weapon_scripts
-		var script := Start_Script(hitscript, {attacker, defender, weapon, armor, basedamage, rawdamage});
+		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( !script || script.errortext )
 			SendSysMessage(attacker, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
 			SendSysMessage(defender, "*Attacker* Weapon script error starting ["+hitscript+"] :"+script.errortext);
@@ -205,7 +205,7 @@ function ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamag
 	armor_scripts := armor_scripts + body_scripts;
 	
 	foreach hitscript in armor_scripts
-		var script := Start_Script(hitscript, {attacker, defender, weapon, armor, basedamage, rawdamage});
+		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( script.errortext )
 			SendSysMessage(attacker, "*Defender* armor script error starting ["+hitscript+"] :"+script.errortext);
 			SendSysMessage(defender, "*Defender* armor script error starting ["+hitscript+"] :"+script.errortext);
