@@ -21,7 +21,7 @@ program BrainCriticalScript(params)
 		else
 			return 1;
 		endif
-	elseif ( mobile.connected )
+	elseif ( mobile.connected && !mobile.cmdlevel )
 		return 1;
 	else
 		return 0;
