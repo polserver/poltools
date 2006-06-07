@@ -46,17 +46,15 @@ exported function Attack(attacker, defender)
 		return 1;
 	elseif ( !AmmoChecks(a_info, d_info) )
 		return 1;
-	else
-		if ( g_settings_cfg["General"].ForceFacing )
-			TurnObjectToward(attacker, defender.x, defender.y);
-			TurnObjectToward(defender, attacker.x, attacker.y);
-		endif
-
-		PlayAttackAnimation(a_info);
 	endif
-
+	
+	FacingChecks(attacker, defender);
+	PlayAttackAnimation(a_info);
+	
 	var difficulty := CalcHitDifficulty(a_info, d_info);
-	if ( SkillCheck(attacker, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"), difficulty) > 0 )
+	var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
+	var gain_flag := GetCombatGainFlags(attacker, defender);
+	if ( SkillCheck(attacker, attribute, difficulty, difficulty, gain_flag) > 0 )
 		PlayHitSound(a_info, d_info);
 
 		var base_damage := CalcBaseDamage(a_info);
@@ -77,13 +75,36 @@ exported function Attack(attacker, defender)
 	return 1;
 endfunction
 
+function GetCombatGainFlags(attacker, defender)
+	if ( defender.npctemplate )
+		return ADV_ALL;
+	elseif ( attacker.npctemplate )
+		return ADV_ALL;
+	elseif ( g_settings_cfg["Settings"].PvPGains )
+		return ADV_ALL;
+	else
+		return ADV_DISABLE;
+	endif
+endfunction
+
 function CanAttack(attacker, defender)
 	if ( attacker == defender )
 		return 0;
 	elseif ( !CheckLineOfSight(attacker, defender) )
 		return 0;
+	elseif ( !attacker.warmode && !g_settings_cfg["Settings"].AutoDefend )
+		return 0;
 	endif
 
+	return 1;
+endfunction
+
+function FacingChecks(attacker, defender)
+	if ( g_settings_cfg["Settings"].ForceFacing )
+		TurnObjectToward(attacker, defender.x, defender.y);
+		TurnObjectToward(defender, attacker.x, attacker.y);
+	endif
+	
 	return 1;
 endfunction
 
@@ -106,15 +127,18 @@ function DistanceChecks(byref a_info, byref d_info)
 endfunction
 
 function AmmoChecks(byref a_info, byref d_info)
-	if ( !(a_info.cfginfo).AmmoType )
+	var ammo_type := CInt((a_info.cfginfo).ProjectileType);
+	if ( !ammo_type )
 		return 1;
 	endif
 
-	if ( ConsumeSubstance((a_info.mobile).backpack, (a_info.cfginfo).AmmoType, 1) )
-		PlayMovingEffect(a_info.mobile, d_info.mobile, (a_info.cfginfo).ProjectileAnim, 10, 10);
+	if ( ConsumeSubstance((a_info.mobile).backpack, ammo_type, 1) )
+		var proj_anim := CInt((a_info.cfginfo).ProjectileAnim);
+		PlaySoundEffect(a_info.mobile, CInt((a_info.cfginfo).ProjectileSound));
+		PlayMovingEffect(a_info.mobile, d_info.mobile, proj_anim, 9, 0, 1);
 		return 1;
 	else
-		CombatMsg(a_info.mobile, "You do not have any "+GetObjTypeDesc((a_info.cfginfo).AmmoType, 1)+"!", "Ammo");
+		CombatMsg(a_info.mobile, "You do not have any "+GetObjTypeDesc(ammo_type, 1)+"!", "Ammo");
 		return 0;
 	endif
 endfunction
@@ -210,6 +234,7 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
 			shield.quality := shield.quality * CDbl(parry_elem.WearRate);
 			if ( shield.quality <= 0.1 )
+				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
 				SendSysMessage(d_info.mobile, shield.desc+" has been destroyed.");
 				DestroyItem(shield);
 			elseif ( shield.hp > shield.maxhp )
@@ -257,11 +282,12 @@ function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
 	endif
 	
 	var armor_elem := g_settings_cfg["Armor"];
-	if ( RandomInt(100)+1 < armor_elem.WearChance )
+	if ( RandomInt(100)+1 <= armor_elem.WearChance )
 		SendSysMessage(d_info.mobile, armor_hit.desc+" takes some damage.");
 		armor_hit.hp := armor_hit.hp - 1;
 		
 		if ( armor_hit.hp <= 1 )
+			MoveObjectToLocation(armor_hit, 1, 1, 1, armor_hit.realm, MOVEOBJECT_FORCELOCATION);
 			SendSysMessage(d_info.mobile, armor_hit.desc+" has been destroyed.");
 			DestroyItem(armor_hit);
 		endif
