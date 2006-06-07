@@ -38,7 +38,7 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 	ArrowRecovery(defender, weapon);
 	ParryCheck(attacker, defender, rawdamage);
 	WearDownWeapon(attacker, weapon);
-	WearDownArmor(defender, armor, rawdamage);
+	WearDownArmor(defender, armor);
 	DamageInfo(attacker, defender, basedamage, rawdamage);
 	WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage);
 	ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage);
@@ -61,15 +61,13 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 endprogram
 
 function FacingChecks(attacker, defender)
-	if ( !CS_GetSettingsCfgElem("General").ForceFacing )
+	if ( !CS_GetSettingsCfgElem("Settings").ForceFacing )
 		return 0;
 	endif
 	
-	var facing := GetFacing(attacker.x, attacker.y, defender.x, defender.y);
-	if ( attacker.facing != facing )
-		attacker.facing := facing;
-	endif
-	
+	TurnObjectToward(attacker, defender.x, defender.y);
+	TurnObjectToward(defender, attacker.x, attacker.y);
+		
 	return 1;
 endfunction
 
@@ -115,23 +113,18 @@ function ArrowRecovery(defender, weapon)
 	endif
 endfunction
 
-function WearDownArmor(defender, armor, rawdamage)
+function WearDownArmor(defender, armor)
 	if ( armor )
-		var armr_elem := CS_GetSettingsCfgElem("Armor");
+		var armor_elem := CS_GetSettingsCfgElem("Armor");
+						
+		if ( RandomInt(100)+1 <= armor_elem.WearChance )
+			SendSysMessage(defender, armor.desc+" takes some damage.");
+			armor.hp := armor.hp - 1;
 		
-		// Turn into a percentage.
-		var dmg_to_wear := CDbl(CDbl(armr_elem.DmgToWear) * CDbl(armor.hp)) / 100.0;
-				
-		if ( CDbl(rawdamage) > dmg_to_wear )
-			if ( RandomDiceRoll("1d100") <= armr_elem.WearChance )
-				SendSysMessage(defender, armor.desc+" takes some damage.");
-				armor.quality := armor.quality * CDbl(armr_elem.WearRate);
-				if ( armor.quality <= 0.1 )
-					SendSysMessage(defender, armor.desc+" has been destroyed.");
-					DestroyItem(armor);
-				elseif ( armor.hp > armor.maxhp )
-					armor.hp := armor.maxhp;
-				endif
+			if ( armor.hp <= 1 )
+				MoveObjectToLocation(armor, 1, 1, 1, armor.realm, MOVEOBJECT_FORCELOCATION);
+				SendSysMessage(defender, armor.desc+" has been destroyed.");
+				DestroyItem(armor);
 			endif
 		endif
 	endif
