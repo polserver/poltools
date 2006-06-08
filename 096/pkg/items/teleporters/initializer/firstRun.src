@@ -1,0 +1,122 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+use polsys;
+
+include ":datafile:datafile";
+
+program InitializeTeleporters()
+	if ( GetGlobalProperty("TeleportersInitialized") )
+		return 0;
+	else
+		SetGlobalProperty("TeleportersInitialized", 1);
+	endif
+	
+	var realm_list := Realms().Keys();
+	var cfg_path := ":teleporters:config/";
+	var cfg_file := ReadConfigFile(cfg_path+"teleporters");
+	foreach realm in ( realm_list )
+		var cfg_elem := cfg_file[realm];
+		if ( cfg_elem.errortext )
+			continue;
+		endif
+
+		foreach entry in ( GetConfigStringArray(cfg_elem, "Config") )
+			BuildTeleporters(entry, cfg_path, realm);
+			SleepMS(2);
+		endforeach
+
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endprogram
+
+function BuildTeleporters(byref entry, byref cfg_path, realm)
+	var cfg_file := ReadConfigFile(cfg_path+entry);
+	if ( cfg_file.errortext )
+		return 0;
+	endif
+
+	foreach elem_name in ( GetConfigStringKeys(cfg_file) )
+		var cfg_elem := cfg_file[elem_name];
+		var location := cfg_elem.Location;
+		var destination := cfg_elem.Destination;
+
+		CreateTeleporter(location, destination, realm);
+
+		if ( cfg_elem.TwoWay )
+			CreateTeleporter(destination, location, realm);
+		endif
+
+		SleepMS(2);
+	endforeach
+endfunction
+
+function CreateTeleporter(location, destination, realm)
+	var create_at := MakeCoordinates(location, realm);
+	var item := CreateItemAtLocation(create_at.x, create_at.y, create_at.z, "TelePad", 1, create_at.realm);
+	if ( item.errortext )
+		return 0;
+	endif
+
+	var send_to := MakeCoordinates(destination, realm);
+	item.SetDestination(send_to.x, send_to.y, send_to.z, send_to.realm);
+
+	return 1;
+endfunction
+
+function MakeCoordinates(coord_string, realm)
+	var coordinate := struct{"x", "y", "z", "realm"};
+
+	coord_string := SplitWords(coord_string);
+	coordinate.x := CInt(coord_string[1]);
+	coordinate.y := CInt(coord_string[2]);
+
+	if ( coord_string[3] == error || coord_string[3] == -255 )
+		coordinate.z := GetWorldHeight(coordinate.x, coordinate.y);
+	else
+		coordinate.z := CInt(coord_string[3]);
+	endif
+
+	if ( !coord_string[4] )
+		coordinate.realm := realm;
+	else
+		coordinate.realm := coord_string[4];
+	endif
+
+	return coordinate;
+endfunction
+
+function CreateDoorsForElem(byref cfg_elem, byref realm)
+	MAIN: foreach entry in ( GetConfigStringArray(cfg_elem, "Door") )
+		entry := SplitWords(entry);
+		var x := CInt(entry[1]);
+		var y := CInt(entry[2]);
+		var z := CInt(entry[3]);
+		var type := CInt(entry[4]);
+
+		// First check to make sure the door isn't already there.
+		foreach object in ( ListObjectsInBox(x, y, z, x, y, z, realm) )
+			if ( object.IsA(POLCLASS_DOOR) )
+				DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", DOOR_REPORT_SYSLOG);
+				continue MAIN;
+			endif
+
+			SleepMS(2);
+		endforeach
+
+		var door := CreateItemAtLocation(x, y, z, type, 1, realm);
+		if ( door.errortext )
+			DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, DOOR_REPORT_SYSLOG);
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
