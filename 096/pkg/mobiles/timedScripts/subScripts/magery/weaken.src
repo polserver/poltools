@@ -11,9 +11,8 @@ include ":attributes:attributes";
 program TimedScript_Weaken(params)
 	var defender := params[1];
 	var attacker := params[2];
-	params := 0; // Not needed anymore
+	params := 0;
 	
-	// Condition is met if the defender logs out and back in.
 	// Prevents mod from being applied twice.
 	if ( GetObjProperty(defender, "#WeakenMod") )
 		return 0;

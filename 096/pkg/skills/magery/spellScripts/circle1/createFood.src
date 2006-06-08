@@ -12,10 +12,10 @@ include ":magery:spellSounds";
 include ":food&drink:food";
 include "include/sounds";
 
-program SpellScript(params)
+program SpellScript_CreateFood(params)
 	var mobile := params[1];
 	var info := params[2];
-	params := 0; // No longer needed
+	params := 0;
 	
 	var food_item := RandomFoodObjType("createfood");
 	var food := CreateItemInBackPack(mobile, food_item, 1);

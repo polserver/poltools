@@ -5,6 +5,8 @@ use cfgfile;
 
 include ":attributes:attributes";
 include ":magery:include/settings";
+include ":magery:include/spells_ex";
+include ":magery:include/report";
 include "include/client";
 
 const MAX_RANGE	:= 16;
@@ -25,7 +27,7 @@ function MS_GetSpellsCfgFile()
 	var cfg := ReadConfigFile(":magery:spells");
 
 	if ( cfg.errortext )
-		SysLog("Error::MS_GetSpellsCfgFile() - Unable to open [:magery:spells.cfg] ->"+cfg.errortext);
+		MS_ReportText("Error::MS_GetSpellsCfgFile() - Unable to open [:magery:spells.cfg] ->"+cfg.errortext, MS_REPORT_SYSLOG);
 	endif
 
 	return cfg;
@@ -53,42 +55,42 @@ function MS_GetSpellsCfgElem(elem_name, byref cfg_file:=0)
 	var elem := cfg_file[elem_name];
 
 	if ( elem.errortext )
-		SysLog("Error::MS_GetSpellsCfgElem() - Unable to find elem ["+elem_name+"] ->"+elem.errortext);
+		MS_ReportText("Error::MS_GetSpellsCfgElem() - Unable to find elem ["+elem_name+"] ->"+elem.errortext, MS_REPORT_SYSLOG);
 	endif
 
 	return elem;
 endfunction
 
 /*
- * MS_SpellDebug(who, text)
+ * MS_SpellDebug(mobile, text)
  *
  * Purpose
  * Sends debug information to mobiles with a command level.
  *
  * Parameters
- * who:		Mobile that will see the debug message.
+ * mobile:		Mobile that will see the debug message.
  * text:	Text to show.
  *
  * Return value
  * Returns 1 if the text was sent.
  * Returns 0 if the text was not sent.
  */
-function MS_SpellDebug(who, text)
-	if ( who.cmdlevel )
-		SendSysMessage(who, ""+text);
+function MS_SpellDebug(mobile, text)
+	if ( mobile.cmdlevel )
+		SendSysMessage(mobile, ""+text);
 		return 1;
 	endif
 	return 0;
 endfunction
 
 /*
- * MS_Target(who, targ, prompt, flags)
+ * MS_Target(mobile, targ, prompt, flags)
  *
  * Purpose
  * Used to handle targetting of other objects in spell scripts.
  *
  * Parameters
- * who:		Mobile that is doing the targetting
+ * mobile:		Mobile that is doing the targetting
  * targ:	Pre-selected target (for NPCs)
  * prompt:	Message the user receives when targeting.
  * flags:	uo.em targeting flags.
@@ -97,29 +99,29 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_Target(byref who, byref targ:=0, byref prompt := "Select a target.", byref flags:=TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
-	who.hidden := 0;
+function MS_Target(byref mobile, byref targ:=0, byref prompt := "Select a target.", byref flags:=TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
+	mobile.hidden := 0;
 
 	if ( targ.IsA(POLCLASS_UOBJECT) )
 		return targ;
-	elseif ( who.npctemplate )
+	elseif ( mobile.npctemplate )
 		return 0;
 	endif
 
-	var orig_x := who.x;
-	var orig_y := who.y;
+	var orig_x := mobile.x;
+	var orig_y := mobile.y;
 
-	SendSysMessage(who, prompt);
+	SendSysMessage(mobile, prompt);
 
 	var elem := MS_GetSettingsCfgElem("Settings");
 	var max_range := elem.MaxRange;
 
-	targ := Target(who, flags);
-	if ( Distance(who, targ) > MAX_RANGE )
-		SendSysMessage(who, "That is too far away.");
+	targ := Target(mobile, flags);
+	if ( Distance(mobile, targ) > MAX_RANGE )
+		SendSysMessage(mobile, "That is too far away.");
 		return 0;
-	elseif ( who.x != orig_x || who.y != orig_y )
-		SendSysMessage(who, "You break your concentration.");
+	elseif ( mobile.x != orig_x || mobile.y != orig_y )
+		SendSysMessage(mobile, "You break your concentration.");
 		return 0;
 	else
 		return targ;
@@ -127,13 +129,13 @@ function MS_Target(byref who, byref targ:=0, byref prompt := "Select a target.",
 endfunction
 
 /*
- * MS_TargetCoordinates(who, targ, prompt)
+ * MS_TargetCoordinates(mobile, targ, prompt)
  *
  * Purpose
  * Used to handle targetting of other objects in spell scripts.
  *
  * Parameters
- * who:		Mobile that is doing the targetting
+ * mobile:		Mobile that is doing the targetting
  * targ:	Pre-selected target (for NPCs)
  * prompt:	Message the user receives when targeting.
  *
@@ -141,29 +143,29 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_TargetCoordinates(byref who, byref targ:=0, byref prompt := "Select a target.")
-	who.hidden := 0;
+function MS_TargetCoordinates(byref mobile, byref targ:=0, byref prompt := "Select a target.")
+	mobile.hidden := 0;
 
 	if ( targ )
 		return targ;
-	elseif ( who.npctemplate )
+	elseif ( mobile.npctemplate )
 		return 0;
 	endif
 
-	var orig_x := who.x;
-	var orig_y := who.y;
+	var orig_x := mobile.x;
+	var orig_y := mobile.y;
 
-	SendSysMessage(who, prompt);
-	targ := TargetCoordinates(who);
+	SendSysMessage(mobile, prompt);
+	targ := TargetCoordinates(mobile);
 
 	if ( !targ )
-		SendSysMessage(who, "Cancelled.");
+		SendSysMessage(mobile, "Cancelled.");
 		return 0;
-	elseif ( CoordinateDistance(who.x, who.y, targ.x, targ.y) > MAX_RANGE )
-		SendSysMessage(who, "That is too far away.");
+	elseif ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > MAX_RANGE )
+		SendSysMessage(mobile, "That is too far away.");
 		return 0;
-	elseif ( who.x != orig_x || who.y != orig_y )
-		SendSysMessage(who, "You lose concentration.");
+	elseif ( mobile.x != orig_x || mobile.y != orig_y )
+		SendSysMessage(mobile, "You lose concentration.");
 		return 0;
 	else
 		return targ;
@@ -177,8 +179,8 @@ endfunction
  * Adjusts the effectiveness of a spell based on the target's magic resistance.
  *
  * Parameters
- * caster:	Who is casting the spells.
- * targ:	Who the spell is effecting.
+ * caster:	mobile is casting the spells.
+ * targ:	mobile the spell is effecting.
  * points:	Strength of the spell.
  *
  * Return value
@@ -190,6 +192,8 @@ endfunction
  *
  */
 function MS_AdjustSpellPoints(mage, targ, points)
+	// TODO: fix this function -> http://guide.uo.com/skill_26.html
+	
 	var mage_skill := AP_GetSkill(mage, MAGERY);
 	var defense := AP_GetSkill(targ, RESISTING_SPELLS);
 
@@ -227,10 +231,11 @@ function ReleaseScript(pid)
 endfunction
 
 /*
- * MS_GetSpellDamage(character, targ, base_damage, dmg_type)
+ * MS_GetSpellDamage(mobile, spell_id)
  *
  * Purpose
- *   Calculates the damage of a spell using the following logic
+ *   Calculates spell damage using base damage defined in spells.cfg and
+ *   formula provided by stratics.
  *   Eval. Int. Bonus: ((EvalInt * 3) / 100) + 1
  *   Intelligence Bonus: (INT / 10) (Drop decimals from result)
  *   GM Inscription Bonus: 10% Damage Bonus
@@ -238,46 +243,103 @@ endfunction
  *   Total: round((Base Damage * Eval. Int. Bonus) * ((Spell Damage Increase / 100) + 1))
  *
  * Parameters
- *   character:		character object refrence of spell caster
- *   target:		npc object refrence of target
- *   base_damage:	randomly determined base damage for the spell
- *
- * Note:
- *   base_damage is a double
+ *   mobile:		mobile refrence of caster
+ *   spelli_id:		id of spell
  *
  * Returns
- *   integer of total damage
+ *   dictionary of total damage and damage type
  *
  */
-function MS_GetSpellDamage(byref character, targ, base_damage)
-	var damage_increase := CInt(AP_GetStat(character, "Intelligence") / 10);
+function MS_GetSpellDamage(mobile, spell_id)
+	var info := MS_GetSpellInfo(spell_id);
+	
+	if ( info == error )
+		return info;
+	endif
+	
+	var random_damage := CDbl(RandomInt((info.max_damage - info.min_damage) * 10)) / 10;
+	var base_damage := info.min_damage + random_damage;
+
+	MS_SpellDebug(mobile, "min: "+info.min_damage+" max: "+info.max_damage+" rnd: "+random_damage);
+
+	var eval_int_bonus := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) * 3) / 100) + 1;
+	var intel_bonus := CInt(AP_GetStat(mobile, "Intelligence") / 10);
+
+	// TODO: Get SDI items percentage (capped at 15% for pvp)
+	var damage_increase := intel_bonus;
     
-    if (AP_GetSkill(character, INSCRIPTION) == 100)
-      damage_increase := damage_increase + CInt((damage_increase / 10));
+    if ( AP_GetSkill(mobile, INSCRIPTION) >= 100 )
+      damage_increase := damage_increase + 10;
     endif
     
-    // Get SDI items percentage (capped at 15% for pvp)
-	// damage_increase := damage_increase + MS_GetSDIPercentage(character);
-	
-	var total_damage := CInt(base_damage * ((AP_GetSkill(character, EVALUATING_INTELLIGENCE) * 3) / 100 + 1) * ((damage_increase / 100) + 1));
-	return total_damage;
+	var total_damage := CInt(base_damage * eval_int_bonus * ((damage_increase / 100) + 1));
+	return dictionary{"damage"->total_damage, "type"->info.type};
 endfunction
 
 /*
- * MS_MobileCheck(character, targ)
+ * MS_MobileCheck(mobile, targ)
  *
  * Purpose
- *   Checks if the target is a mobile and provides a centralized location for failure messages.
+ *   Checks if the target is a mobile and provides a central
+ *   location for failure messages.
  *
  * Returns
  *   1 on success
  *
 */
-function MS_MobileCheck(byref character, byref targ)
-	if (!targ.IsA(POLCLASS_MOBILE))
-		SendSysMessage(character, "This spell won't work on that!");
+function MS_MobileCheck(mobile, targ)
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(mobile, "This spell won't work on that!");
 		return 0;
 	endif
 	
 	return 1;
+endfunction
+
+/*
+ * MS_GetSpellInfo(mobile, targ)
+ *
+ * Purpose
+ *   Retrieves minimum and maximum damge and damage type from all spells.cfg
+ *
+ * Returns
+ *   Dictionary with minimum and maximum damage and damage type
+ *
+*/
+function MS_GetSpellInfo(spell_id)
+	var cfg_file := ReadConfigFile(":*:spells.cfg");
+	var elem := cfg_file[spell_id];
+
+	if ( elem == error )
+		MS_ReportText("Error: Could not find cfg elem for spell_id: "+spell_id+".");
+		return {"errortext":="Could not find cfg elem for spell_id: "+spell_id+"."};
+	endif
+	
+	var info := dictionary{"min_damage", "max_damage", "type"};
+	info.min_damage := GetConfigReal(elem, "MinBaseDamage");
+	info.max_damage := GetConfigReal(elem, "MaxBaseDamage");
+	info.type := GetConfigString(elem, "DamageType;");
+
+	if ( info.min_damage == error )
+		MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
+		info.min_damage := 0;
+	endif
+
+	if ( info.max_damage == error )
+		MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
+		info.max_damage := 1;
+	endif
+
+	if ( info.min_damage > info.max_damage )
+		MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
+		info.min_damage := 0;
+		info.max_damage := 0;
+	endif
+
+	if ( info.type == error )
+		MS_ReportText("Error: No damage type defined for spell_id: "+spell_id+".");
+		return error{"errortext":="No damage type defined for spell_id: "+spell_id+"."};
+	endif
+	
+	return info;
 endfunction

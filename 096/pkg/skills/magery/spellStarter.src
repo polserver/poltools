@@ -113,7 +113,6 @@ program SpellStarter(params)
 			endif
 			
 			if ( delay % 50 )
-				print("sleepms: "+(delay % 50));
 				SleepMS(delay % 50);
 				delay := delay - (delay % 50);
 			else
@@ -148,7 +147,7 @@ program SpellStarter(params)
 			info.+pid := GetPid();
 			info.+spellId := spell_id;
 
-			var script := Start_Script(spell_elem.SpellScript, {mobile, info});
+			var script := Start_Script(spell_elem.SpellScript, {mobile, info, spell_id});
 			if ( script.errortext )
 				SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
 			endif
