@@ -91,7 +91,7 @@ function MakeCoordinates(coord_string, realm)
 	coordinate.x := CInt(coord_string[1]);
 	coordinate.y := CInt(coord_string[2]);
 
-	if ( coord_string[3] == error || coord_string[3] == -255 )
+	if ( coord_string[3] == error || coord_string[3] == "-255" )
 		coordinate.z := GetWorldHeight(coordinate.x, coordinate.y);
 	else
 		coordinate.z := CInt(coord_string[3]);
@@ -104,33 +104,4 @@ function MakeCoordinates(coord_string, realm)
 	endif
 
 	return coordinate;
-endfunction
-
-function CreateDoorsForElem(byref cfg_elem, byref realm)
-	MAIN: foreach entry in ( GetConfigStringArray(cfg_elem, "Door") )
-		entry := SplitWords(entry);
-		var x := CInt(entry[1]);
-		var y := CInt(entry[2]);
-		var z := CInt(entry[3]);
-		var type := CInt(entry[4]);
-
-		// First check to make sure the door isn't already there.
-		foreach object in ( ListObjectsInBox(x, y, z, x, y, z, realm) )
-			if ( object.IsA(POLCLASS_DOOR) )
-				TELE_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", TELE_REPORT_SYSLOG);
-				continue MAIN;
-			endif
-
-			SleepMS(2);
-		endforeach
-
-		var door := CreateItemAtLocation(x, y, z, type, 1, realm);
-		if ( door.errortext )
-			TELE_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, TELE_REPORT_SYSLOG);
-		endif
-
-		SleepMS(2);
-	endforeach
-
-	return 1;
 endfunction
