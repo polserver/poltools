@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id: $
  *
  */
 
@@ -12,7 +12,7 @@ include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
 
-program SpellScript_Heal(params)
+program SpellScript_GreaterHeal(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
@@ -22,11 +22,11 @@ program SpellScript_Heal(params)
 		return 0;
 	endif
 	
-	// Amount healed: ((Magery / 10) + (1 to 3))
-	var points := (CInt(AP_GetSkill(mobile, MAGERY)) / 10) + RandomDiceRoll("1d3");
+	// Amount healed: 40% Magery + (1 to 10)
+	var points := CInt(AP_GetSkill(mobile, MAGERY) * 0.4) + RandomDiceRoll("1d10");
 	
 	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLE_SWIRL, 7, 16);
-	PlaySoundEffect(targ, SFX_SPELL_HEAL);
+	PlaySoundEffect(targ, SFX_SPELL_GREATER_HEAL);
 
 	HealDamage(targ, points);
 	

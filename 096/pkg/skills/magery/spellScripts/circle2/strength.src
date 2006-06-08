@@ -13,7 +13,7 @@ include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
 
-program SpellScript_Agility(params)
+program SpellScript_Strength(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0; // No longer needed
@@ -23,12 +23,12 @@ program SpellScript_Agility(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_AGILITY);
+	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
 	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
 	
-	// Duration: ((Eval / 5) + 1) * 6
-	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
-	TS_StartTimer(targ, "agility", duration, 0, mobile);
+	// Duration: 120% Magery seconds
+	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
+	TS_StartTimer(targ, "strength", duration, 0, mobile);
 	
 	return 1;
 endprogram

@@ -17,10 +17,10 @@ include "include/client";
 include "include/sounds";
 include ":damage:damage";
 
-program SpellScript(params)
+program SpellScript_ReactiveArmor(params)
 	var mobile := params[1];
 	var info := params[2];
-	params := 0; // No longer needed
+	params := 0;
 	
 	if ( GetObjProperty(mobile, "ReactiveArmor") )
 		RemoveReactiveArmor(mobile);
@@ -35,21 +35,23 @@ program SpellScript(params)
 endprogram
 
 function ApplyReactiveArmor(mobile)
-	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+	var points := ResistancePercentToMult((AP_GetSkill(mobile, INSCRIPTION) / 20) + 15);
+	var other_points := ResistancePercentToMult(-5);
 	ModifyResistance(mobile, DMG_PHYSICAL, points);
-	ModifyResistance(mobile, DMG_FIRE, -5);
-	ModifyResistance(mobile, DMG_COLD, -5);
-	ModifyResistance(mobile, DMG_POISON, -5);
-	ModifyResistance(mobile, DMG_ENERGY, -5);
+	ModifyResistance(mobile, DMG_FIRE, other_points);
+	ModifyResistance(mobile, DMG_COLD, other_points);
+	ModifyResistance(mobile, DMG_POISON, other_points);
+	ModifyResistance(mobile, DMG_ENERGY, other_points);
 	SetObjProperty(mobile, "ReactiveArmor", 1);
 endfunction
 
 function RemoveReactiveArmor(mobile)
-	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+	var points := ResistancePercentToMult((AP_GetSkill(mobile, INSCRIPTION) / 20) + 15);
+	var other_points := ResistancePercentToMult(5);
 	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
-	ModifyResistance(mobile, DMG_FIRE, 5);
-	ModifyResistance(mobile, DMG_COLD, 5);
-	ModifyResistance(mobile, DMG_POISON, 5);
-	ModifyResistance(mobile, DMG_ENERGY, 5);
+	ModifyResistance(mobile, DMG_FIRE, other_points);
+	ModifyResistance(mobile, DMG_COLD, other_points);
+	ModifyResistance(mobile, DMG_POISON, other_points);
+	ModifyResistance(mobile, DMG_ENERGY, other_points);
 	EraseObjProperty(mobile, "ReactiveArmor");
 endfunction
