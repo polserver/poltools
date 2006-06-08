@@ -14,11 +14,7 @@ use uo;
 use os;
 use cfgfile;
 
-//Arbitrary objtype in the core.
-const MOUNT_OBJTYPE := 0xF021;
-
 include "include/client";
-
 
 /*
  * MP_GetMountsCfgFile()
@@ -199,7 +195,7 @@ function MP_Mount(mobile, npc)
 		return mount_graphic;
 	endif
 	
-	mount_piece := CreateItemAtLocation(mobile.x, mobile.y, mobile.z, MOUNT_OBJTYPE, 1);
+	mount_piece := CreateItemAtLocation(mobile.x, mobile.y, mobile.z, "MountPiece", 1);
 	mount_piece.graphic := mount_graphic;
 	SetName(mount_piece, npc.name);
 	
@@ -267,7 +263,7 @@ function MP_DeathUnmount(corpse)
 	endif
 	
 	foreach item in ( EnumerateItemsInContainer(corpse) )
-		if ( item.objtype == MOUNT_OBJTYPE )
+		if ( item.IsMount() )
 			return MP_RestoreMountToAnimal(corpse, item);
 			break;
 		endif
