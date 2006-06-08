@@ -7,7 +7,7 @@ use os;
 use cfgfile;
 use polsys;
 
-include ":datafile:datafile";
+include ":teleporters:report";
 
 program InitializeTeleporters()
 	if ( GetGlobalProperty("TeleportersInitialized") )
@@ -16,57 +16,71 @@ program InitializeTeleporters()
 		SetGlobalProperty("TeleportersInitialized", 1);
 	endif
 	
+	TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS STARTED UP ]=---", TELE_REPORT_SYSLOG);
+	
 	var realm_list := Realms().Keys();
 	var cfg_path := ":teleporters:config/";
 	var cfg_file := ReadConfigFile(cfg_path+"teleporters");
 	foreach realm in ( realm_list )
 		var cfg_elem := cfg_file[realm];
 		if ( cfg_elem.errortext )
+			TELE_ReportText("No config file found for realm "+realm, TELE_REPORT_SYSLOG);
 			continue;
+		else
+			TELE_ReportText("Setting up teleporters for realm "+realm, TELE_REPORT_SYSLOG);
 		endif
 
 		foreach entry in ( GetConfigStringArray(cfg_elem, "Config") )
-			BuildTeleporters(entry, cfg_path, realm);
+			var tele_cfg_file := ReadConfigFile(cfg_path+entry);
+			if ( cfg_file.errortext )
+				TELE_ReportText("Error: Could not find config file '"+cfg_path+entry+"'", TELE_REPORT_SYSLOG);
+				continue;
+			endif
+			
+			TELE_ReportText("Setting up teleporters in config file '"+cfg_path+entry+"'", TELE_REPORT_SYSLOG);
+			BuildTeleporters(tele_cfg_file, realm);
 			SleepMS(2);
 		endforeach
 
 		SleepMS(2);
 	endforeach
+	
+	TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS FINISHED ]=---", TELE_REPORT_SYSLOG);
 
 	return 1;
 endprogram
 
-function BuildTeleporters(byref entry, byref cfg_path, realm)
-	var cfg_file := ReadConfigFile(cfg_path+entry);
-	if ( cfg_file.errortext )
-		return 0;
-	endif
-
+function BuildTeleporters(byref cfg_file, realm)
+	
 	foreach elem_name in ( GetConfigStringKeys(cfg_file) )
 		var cfg_elem := cfg_file[elem_name];
 		var location := cfg_elem.Location;
 		var destination := cfg_elem.Destination;
 
-		CreateTeleporter(location, destination, realm);
+		CreateTeleporter(elem_name, location, destination, realm);
 
 		if ( cfg_elem.TwoWay )
-			CreateTeleporter(destination, location, realm);
+			CreateTeleporter(elem_name, destination, location, realm);
 		endif
 
 		SleepMS(2);
 	endforeach
+	
+	return 1;
 endfunction
 
-function CreateTeleporter(location, destination, realm)
+function CreateTeleporter(elem_name, location, destination, realm)
 	var create_at := MakeCoordinates(location, realm);
 	var item := CreateItemAtLocation(create_at.x, create_at.y, create_at.z, "TelePad", 1, create_at.realm);
 	if ( item.errortext )
+		TELE_ReportText("Error: Cant create teleporter for '"+elem_name+"' ->"+item.errortext, TELE_REPORT_SYSLOG);
 		return 0;
 	endif
 
 	var send_to := MakeCoordinates(destination, realm);
 	item.SetDestination(send_to.x, send_to.y, send_to.z, send_to.realm);
-
+	SetName(item, "TelePad ["+elem_name+"]");
+	
 	return 1;
 endfunction
 
@@ -103,7 +117,7 @@ function CreateDoorsForElem(byref cfg_elem, byref realm)
 		// First check to make sure the door isn't already there.
 		foreach object in ( ListObjectsInBox(x, y, z, x, y, z, realm) )
 			if ( object.IsA(POLCLASS_DOOR) )
-				DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", DOOR_REPORT_SYSLOG);
+				TELE_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - Door already found on that position.", TELE_REPORT_SYSLOG);
 				continue MAIN;
 			endif
 
@@ -112,7 +126,7 @@ function CreateDoorsForElem(byref cfg_elem, byref realm)
 
 		var door := CreateItemAtLocation(x, y, z, type, 1, realm);
 		if ( door.errortext )
-			DOOR_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, DOOR_REPORT_SYSLOG);
+			TELE_ReportText("Unable to create "+x+" "+y+" "+z+" "+Hex(type)+" - "+door.errortext, TELE_REPORT_SYSLOG);
 		endif
 
 		SleepMS(2);
