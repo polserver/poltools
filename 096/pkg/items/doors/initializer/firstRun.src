@@ -30,7 +30,7 @@ program InitializeDoors(realm_list)
 	foreach realm in ( realm_list )
 		var cfg_file := ReadConfigFile(":doors:config/doors-"+realm);
 		if ( cfg_file.errortext )
-			DOOR_ReportText("No config file found for relam "+realm, DOOR_REPORT_SYSLOG);
+			DOOR_ReportText("No config file found for realm "+realm, DOOR_REPORT_SYSLOG);
 			continue;
 		else
 			DOOR_ReportText("Setting up doors for realm "+realm, DOOR_REPORT_SYSLOG);
