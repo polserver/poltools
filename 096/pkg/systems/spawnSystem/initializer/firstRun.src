@@ -61,6 +61,8 @@ function SetupDefaultGroups()
 
 		SleepMS(2);
 	endforeach
+	
+	UnloadConfigFile(":spawnsystem:config/defaultGroups");
 
 	return 1;
 endfunction
@@ -109,6 +111,8 @@ function SetupRealm(realm_name)
 		
 		SleepMS(2);
 	endforeach
+	
+	UnloadConfigFile(":spawnsystem:config/setup-"+realm_name);
 	
 	return 1; 
 endfunction

@@ -9,51 +9,79 @@ use polsys;
 
 include ":teleporters:report";
 
-program InitializeTeleporters()
-	if ( GetGlobalProperty("TeleportersInitialized") )
-		return 0;
+CONST cfg_path := ":teleporters:config/";
+
+program InitializeTeleporters(params)
+	if ( !params )
+		if ( GetGlobalProperty("TeleportersInitialized") )
+			return 1;
+		else
+			TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS STARTED UP ]=---", TELE_REPORT_SYSLOG);
+			SetGlobalProperty("TeleportersInitialized", 1);
+
+			BuildAllRealms();
+		endif
 	else
-		SetGlobalProperty("TeleportersInitialized", 1);
+		TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS STARTED UP ]=---", TELE_REPORT_SYSLOG);
+		var realm_name := params[1];
+		var cfg_name := params[2];
+		if ( cfg_name )
+			BuildTeleportersInCfg(cfg_name, realm_name);
+		elseif ( realm_name )
+			ProcessConfigsInRealm(realm_name);
+		else
+			BuildAllRealms();
+		endif
 	endif
 	
-	TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS STARTED UP ]=---", TELE_REPORT_SYSLOG);
-	
-	var realm_list := Realms().Keys();
-	var cfg_path := ":teleporters:config/";
-	var cfg_file := ReadConfigFile(cfg_path+"teleporters");
-	foreach realm in ( realm_list )
-		var cfg_elem := cfg_file[realm];
-		if ( cfg_elem.errortext )
-			TELE_ReportText("No config file found for realm "+realm, TELE_REPORT_SYSLOG);
-			continue;
-		else
-			TELE_ReportText("Setting up teleporters for realm "+realm, TELE_REPORT_SYSLOG);
-		endif
+	UnloadConfigFile(cfg_path+"teleporters");
 
-		foreach entry in ( GetConfigStringArray(cfg_elem, "Config") )
-			var tele_cfg_file := ReadConfigFile(cfg_path+entry);
-			if ( cfg_file.errortext )
-				TELE_ReportText("Error: Could not find config file '"+cfg_path+entry+"'", TELE_REPORT_SYSLOG);
-				continue;
-			endif
-			
-			TELE_ReportText("Setting up teleporters in config file '"+cfg_path+entry+"'", TELE_REPORT_SYSLOG);
-			BuildTeleporters(tele_cfg_file, realm);
-			SleepMS(2);
-		endforeach
-
-		SleepMS(2);
-	endforeach
-	
 	TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS FINISHED ]=---", TELE_REPORT_SYSLOG);
 
 	return 1;
 endprogram
 
-function BuildTeleporters(byref cfg_file, realm)
-	
-	foreach elem_name in ( GetConfigStringKeys(cfg_file) )
-		var cfg_elem := cfg_file[elem_name];
+function BuildAllRealms()
+	var realm_list := Realms().Keys();
+
+	foreach realm in ( realm_list )
+		ProcessConfigsInRealm(realm);
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function ProcessConfigsInRealm(realm)
+	var cfg_file := ReadConfigFile(cfg_path+"teleporters");
+	var cfg_elem := cfg_file[realm];
+	if ( cfg_elem.errortext )
+		TELE_ReportText("No config file found for realm "+realm, TELE_REPORT_SYSLOG);
+		return 0;
+	else
+		TELE_ReportText("Setting up teleporters for realm "+realm, TELE_REPORT_SYSLOG);
+	endif
+
+	foreach entry in ( GetConfigStringArray(cfg_elem, "Config") )
+		BuildTeleportersInCfg(entry, realm);
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function BuildTeleportersInCfg(cfg_name, realm)
+
+	var tele_cfg_file := ReadConfigFile(cfg_path+cfg_name);
+	if ( tele_cfg_file.errortext )
+		TELE_ReportText("Error: Could not find config file '"+cfg_path+cfg_name+"'", TELE_REPORT_SYSLOG);
+		return 0;
+	else
+		TELE_ReportText("Setting up teleporters in config file '"+cfg_path+cfg_name+"'", TELE_REPORT_SYSLOG);
+	endif
+
+	foreach elem_name in ( GetConfigStringKeys(tele_cfg_file) )
+		var cfg_elem := tele_cfg_file[elem_name];
 		var location := cfg_elem.Location;
 		var destination := cfg_elem.Destination;
 
@@ -65,12 +93,25 @@ function BuildTeleporters(byref cfg_file, realm)
 
 		SleepMS(2);
 	endforeach
-	
+
+	UnloadConfigFile(cfg_path+cfg_name);
+
 	return 1;
 endfunction
 
 function CreateTeleporter(elem_name, location, destination, realm)
 	var create_at := MakeCoordinates(location, realm);
+
+	// First check to make sure a teleporter isn't already there.
+	foreach object in ( ListItemsNearLocation(create_at.x, create_at.y, create_at.z, 0, realm) )
+		if ( object.IsTeleporter() )
+			TELE_ReportText("Unable to create '"+elem_name+"' - Teleporter already found on that position.", TELE_REPORT_SYSLOG);
+			return 0;
+		endif
+
+		SleepMS(2);
+	endforeach
+
 	var item := CreateItemAtLocation(create_at.x, create_at.y, create_at.z, "TelePad", 1, create_at.realm);
 	if ( item.errortext )
 		TELE_ReportText("Error: Cant create teleporter for '"+elem_name+"' ->"+item.errortext, TELE_REPORT_SYSLOG);
@@ -80,7 +121,7 @@ function CreateTeleporter(elem_name, location, destination, realm)
 	var send_to := MakeCoordinates(destination, realm);
 	item.SetDestination(send_to.x, send_to.y, send_to.z, send_to.realm);
 	SetName(item, "TelePad ["+elem_name+"]");
-	
+
 	return 1;
 endfunction
 

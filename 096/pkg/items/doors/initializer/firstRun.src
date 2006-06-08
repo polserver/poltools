@@ -45,9 +45,11 @@ program InitializeDoors(realm_list)
 			SleepMS(2);
 		endforeach
 		
+		UnloadConfigFile(":doors:config/doors-"+realm);
+		
 		SleepMS(2);
 	endforeach
-	
+		
 	DOOR_ReportText("---=[ DOOR INITIALIZER HAS FINISHED ]=---", DOOR_REPORT_SYSLOG);
 	
 	return 1;

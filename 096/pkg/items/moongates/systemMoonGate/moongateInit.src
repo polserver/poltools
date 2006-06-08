@@ -40,6 +40,12 @@ program CreateSystemMoonGates()
 
 		SleepMS(2);
 	endforeach
+	
+	UnloadConfigFile(":moongates:config/moongate");
+	
+	MG_ReportText("---=[ MOONGATE INIT SCRIPT HAS FINISHED ]=---", MG_REPORT_SYSLOG);
+	
+	return 1;
 endprogram
 
 function CreateMoongate(byref realm_name, byref town_name, byref entry)
