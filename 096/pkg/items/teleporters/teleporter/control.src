@@ -1,0 +1,38 @@
+/*
+ * $Id$
+ *
+ * Purpose
+ * Fixes old teleport tiles.
+ *
+ */
+
+use uo;
+
+program controlScript(tile)
+	if ( GetObjProperty(tile, "Destination") )
+		// Modern teleport tile
+		return 0;
+	endif
+	
+	if ( tile.graphic == 1 )
+		tile.graphic := 0x17E5;
+	endif
+	if ( tile.color != 1001 )
+		tile.color := 1001;
+	endif
+	
+	var dest := struct;
+	dest.+realm := tile.realm;
+	dest.+x := CInt(GetObjProperty(tile, "DestX"));
+	dest.+y := CInt(GetObjProperty(tile, "DestY"));
+	dest.+z := CInt(GetObjProperty(tile, "DestZ"));
+	
+	SetObjProperty(tile, "Destination", dest);
+	EraseObjProperty(tile, "DestX");
+	EraseObjProperty(tile, "DestY");
+	EraseObjProperty(tile, "DestZ");
+
+	return 1;
+endprogram
+	
+	
