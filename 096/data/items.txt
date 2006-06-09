@@ -18469,27 +18469,6 @@ Item
 
 Item
 {
-	Name	a lever
-	Serial	0x4f8d8706
-	ObjType	0x100f
-	Graphic	0x1095
-	X	679
-	Y	2234
-	Z	8
-	Revision	0
-	Realm	britannia
-	CProp	function stele
-	CProp	links a1:i1334675206
-	CProp	lockid i3760
-	CProp	status soff
-	CProp	tiled a9:i1382581706i1382581713i1382581712i1382581707i1382581714i1382581711i1382581708i1382581709i1382581710
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
-	DecayAt	16207421
-}
-
-Item
-{
 	Serial	0x52691fa5
 	ObjType	0x1296
 	Graphic	0x1296
@@ -18676,27 +18655,6 @@ Item
 	Z	-3
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	a lever
-	Serial	0x518d31a6
-	ObjType	0x100f
-	Graphic	0x108d
-	X	713
-	Y	2234
-	Z	8
-	Revision	0
-	Realm	britannia
-	CProp	function stele
-	CProp	links a1:i1368207782
-	CProp	lockid i4002
-	CProp	status soff
-	CProp	tiled a9:i1382613138i1382613139i1382613132i1382613137i1382613140i1382613133i1382613136i1382613135i1382613134
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
-	DecayAt	16207777
 }
 
 Item
@@ -21211,25 +21169,6 @@ Item
 
 Item
 {
-	Serial	0x511aeaa2
-	ObjType	0x210
-	Graphic	0x210
-	X	1184
-	Y	694
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360718498
-	CProp	partsarray a4:i1360904951i1360904952i1360904957i1360904958
-	CProp	speaker a3:i1186i690i5
-	CProp	status son
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
 	Serial	0x511aeaa6
 	ObjType	0x210
 	Graphic	0x210
@@ -21874,58 +21813,6 @@ Item
 
 Item
 {
-	Serial	0x511dc2f7
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1186
-	Y	689
-	Z	6
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc2f8
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1186
-	Y	690
-	Z	5
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc2fd
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1179
-	Y	696
-	Z	2
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc2fe
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1180
-	Y	696
-	Z	2
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x511e481b
 	ObjType	0xb3a
 	Graphic	0xb3a
@@ -21946,222 +21833,6 @@ Item
 	Color	0x1
 	X	1184
 	Y	699
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5363
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1196
-	Y	700
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5364
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1195
-	Y	701
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5367
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1186
-	Y	702
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5368
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1187
-	Y	701
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5369
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1192
-	Y	696
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e536a
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1191
-	Y	697
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e64df
-	ObjType	0xb45
-	Graphic	0xb45
-	X	1193
-	Y	703
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360946399
-	CProp	partsarray a4:i1360941923i1360941924i1360941926i1360941925
-	CProp	speaker a3:i1191i705i1
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
-	Serial	0x511e64e2
-	ObjType	0xb45
-	Graphic	0xb45
-	X	1185
-	Y	695
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360946402
-	CProp	partsarray a4:i1360960333i1360961025i1360963348i1360963794
-	CProp	speaker a3:uuu
-	CProp	status son
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
-	Serial	0x511e64e4
-	ObjType	0xb45
-	Graphic	0xb45
-	X	1187
-	Y	697
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360946404
-	CProp	partsarray a4:i1360941929i1360941930i1360941927i1360941928
-	CProp	speaker a3:i1187i701i1
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
-	Serial	0x511e7022
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1197
-	Y	701
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e7023
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1197
-	Y	702
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e9b4d
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1190
-	Y	695
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e9e01
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1191
-	Y	695
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511ea714
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1185
-	Y	700
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511ea8d2
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1185
-	Y	701
 	Z	1
 	Revision	0
 	Realm	britannia
@@ -22378,24 +22049,6 @@ Item
 
 Item
 {
-	Serial	0x511fbe7f
-	ObjType	0x6008
-	Graphic	0xf6c
-	Color	0x21
-	X	1179
-	Y	689
-	Z	-16
-	Facing	2
-	Revision	0
-	Realm	britannia
-	CProp	GateDestX i1184
-	CProp	GateDestY i684
-	CProp	GateDestZ i6
-	DecayAt	15490928
-}
-
-Item
-{
 	Serial	0x5132e114
 	ObjType	0xe40
 	Graphic	0xe40
@@ -22445,26 +22098,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Serial	0x5143a57e
-	ObjType	0x1781
-	Graphic	0x1781
-	X	1186
-	Y	696
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1363387774
-	CProp	partsarray a1:i1361034879
-	CProp	speaker a3:i1179i689i6
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -22777,25 +22410,6 @@ Item
 	Z	1
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511a3690
-	ObjType	0x210
-	Graphic	0x210
-	X	1198
-	Y	708
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360672400
-	CProp	partsarray a4:i1360904815i1360904828i1360904835i1360904837
-	CProp	speaker a3:i1196i713i1
-	CProp	status son
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -23268,136 +22882,12 @@ Item
 
 Item
 {
-	Serial	0x511dc26f
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1202
-	Y	706
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc27c
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1203
-	Y	706
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc283
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1196
-	Y	712
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511dc285
-	ObjType	0x216
-	Graphic	0x216
-	Color	0x21
-	X	1196
-	Y	713
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x511e534a
 	ObjType	0xb3a
 	Graphic	0xb3a
 	Color	0x1
 	X	1193
 	Y	708
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5365
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1191
-	Y	705
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e5366
-	ObjType	0x210
-	Graphic	0x210
-	Color	0x21
-	X	1190
-	Y	706
-	Z	-21
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e64e0
-	ObjType	0xb45
-	Graphic	0xb45
-	X	1195
-	Y	705
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1360946400
-	CProp	partsarray a4:i1360949304i1360949302i1360949282i1360949283
-	CProp	speaker a3:i1197i702i1
-	CProp	status son
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
-	Serial	0x511e7036
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1192
-	Y	707
-	Z	1
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x511e7038
-	ObjType	0x211
-	Graphic	0x211
-	Color	0x21
-	X	1191
-	Y	707
 	Z	1
 	Revision	0
 	Realm	britannia
@@ -23561,24 +23051,6 @@ Item
 
 Item
 {
-	Serial	0x511fbe65
-	ObjType	0x6008
-	Graphic	0xf6c
-	Color	0x21
-	X	1202
-	Y	712
-	Z	-21
-	Facing	2
-	Revision	0
-	Realm	britannia
-	CProp	GateDestX i1207
-	CProp	GateDestY i707
-	CProp	GateDestZ i1
-	DecayAt	15490916
-}
-
-Item
-{
 	Serial	0x5143a576
 	ObjType	0xa22
 	Graphic	0xa22
@@ -23589,26 +23061,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Serial	0x5143a580
-	ObjType	0x1781
-	Graphic	0x1781
-	X	1194
-	Y	704
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1363387776
-	CProp	partsarray a1:i1361034853
-	CProp	speaker a3:i1202i712i1
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -26272,26 +25724,6 @@ Item
 	Realm	britannia
 	CProp	change i2598
 	Movable	0
-}
-
-Item
-{
-	Serial	0x4de7820f
-	ObjType	0x1092
-	Graphic	0x1092
-	X	1396
-	Y	1623
-	Z	40
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a2:i1307017743i1307017037
-	CProp	partsarray a5:i1307023321i1307023322i1307023323i1307023324i1307023325
-	CProp	speaker a3:i1400i1625i28
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -38508,26 +37940,6 @@ Item
 
 Item
 {
-	Serial	0x4de77f4d
-	ObjType	0x108f
-	Graphic	0x1090
-	X	1408
-	Y	1617
-	Z	40
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a2:i1307017743i1307017037
-	CProp	partsarray a5:i1307023321i1307023322i1307023323i1307023324i1307023325
-	CProp	speaker a3:i1400i1625i28
-	CProp	status soff
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
 	Name	The First Bank of Britain
 	Serial	0x400000f0
 	ObjType	0xc0c
@@ -46113,92 +45525,6 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	23885060
-}
-
-Item
-{
-	Serial	0x400001f3
-	ObjType	0x6f5
-	Graphic	0x6f5
-	X	1522
-	Y	1454
-	Z	37
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x400001f4
-	ObjType	0x6f5
-	Graphic	0x6f5
-	X	1523
-	Y	1454
-	Z	37
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x400001f5
-	ObjType	0x6f5
-	Graphic	0x6f5
-	X	1524
-	Y	1454
-	Z	37
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x400001f6
-	ObjType	0x6f5
-	Graphic	0x6f5
-	X	1525
-	Y	1454
-	Z	37
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x40000211
-	ObjType	0x1eaa
-	Graphic	0x1eaa
-	X	1522
-	Y	1454
-	Z	35
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a2:i1073742353i1100696770
-	CProp	partsarray a4:i1073742323i1073742324i1073742325i1073742326
-	CProp	speaker a3:i1523i1454i15
-	CProp	status son
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
-}
-
-Item
-{
-	Serial	0x419b4cc2
-	ObjType	0x1eaa
-	Graphic	0x1eaa
-	X	1526
-	Y	1454
-	Z	35
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a2:i1073742353i1100696770
-	CProp	partsarray a4:i1073742323i1073742324i1073742325i1073742326
-	CProp	speaker a3:i1523i1454i15
-	CProp	status son
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -68129,34 +67455,6 @@ Item
 
 Item
 {
-	Serial	0x4e1d9591
-	ObjType	0xb20
-	Graphic	0xb20
-	X	1852
-	Y	2062
-	Z	0
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-}
-
-Item
-{
-	Serial	0x4e1d9598
-	ObjType	0xb20
-	Graphic	0xb20
-	X	1852
-	Y	2069
-	Z	0
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-}
-
-Item
-{
 	Name	Guard Post
 	Serial	0x40000731
 	ObjType	0xbd1
@@ -74839,52 +74137,6 @@ Item
 	Z	-1
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Serial	0x4e1d9583
-	ObjType	0xb20
-	Graphic	0xb20
-	X	1859
-	Y	2062
-	Z	0
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-}
-
-Item
-{
-	Serial	0x4e1d959f
-	ObjType	0xb20
-	Graphic	0xb20
-	X	1859
-	Y	2069
-	Z	0
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-}
-
-Item
-{
-	Serial	0x4e6db26c
-	ObjType	0x108c
-	Graphic	0x108e
-	X	1861
-	Y	2060
-	Z	0
-	Revision	0
-	Realm	britannia
-	CProp	function slights
-	CProp	links a1:i1315811948
-	CProp	partsarray a4:i1310561681i1310561688i1310561695i1310561667
-	CProp	status soff
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
 }
 
 Item
@@ -178417,113 +177669,6 @@ Item
 
 Item
 {
-	Serial	0x417f7fa6
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5289
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Serial	0x417f7fa7
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5290
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Serial	0x417f7fa8
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5291
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Serial	0x417f7fa9
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5292
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	CProp	sound s0x21f
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Serial	0x417f7faa
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5293
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Serial	0x417f7fab
-	ObjType	0x7cd
-	Graphic	0x7cd
-	X	5294
-	Y	675
-	Z	-22
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	24974706
-}
-
-Item
-{
-	Name	a lever
-	Serial	0x41610f3d
-	ObjType	0xfa9
-	Graphic	0x108c
-	X	5293
-	Y	672
-	Z	5
-	Revision	0
-	Realm	britannia
-	CProp	function spassage
-	CProp	links a1:i1096879933
-	CProp	partsarray a6:i1098874790i1098874791i1098874792i1098874793i1098874794i1098874795
-	CProp	sound s0x21f
-	CProp	speaker a3:i5292i675i0
-	CProp	status soff
-	CProp	usescript s
-	OnUseScript	:gmtools:lever
-	DecayAt	2683724
-}
-
-Item
-{
 	Serial	0x417f84b3
 	ObjType	0x11bc
 	Graphic	0x11bc
@@ -186790,26 +185935,6 @@ Item
 	Z	-2
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Serial	0x4fdbf567
-	ObjType	0x100f
-	Graphic	0x100f
-	X	5831
-	Y	1493
-	Z	0
-	Revision	0
-	Realm	britannia
-	CProp	ds a0:
-	CProp	function sdoor
-	CProp	links a1:i1339815271
-	CProp	status son
-	CProp	usescript s
-	Movable	0
-	OnUseScript	:gmtools:lever
-	DecayAt	14641109
 }
 
 Item
