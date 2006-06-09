@@ -39,7 +39,7 @@ endprogram
 function CheckForTrashCans(place)
 	var stuff := ListItemsNearLocation(place.x, place.y,place.z,SEARCH_RANGE,place.realm);
 	foreach item in ( stuff )
-		if(i tem.objtype == TRASH_BARREL )
+		if( item.objtype == TRASH_BARREL )
 			return 1;
 		endif
 		

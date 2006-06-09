@@ -22,7 +22,7 @@ program command_Mount(who, type)
 		return 0;
 	endif
 	
-	var item := CreateItemAtLocation(who.x, who.y, who.z, MOUNT_OBJTYPE, 1);
+	var item := CreateItemAtLocation(who.x, who.y, who.z, "MountPiece", 1);
 	item.graphic := CInt(graphic);
 	
 	EquipItem(targ, item);
