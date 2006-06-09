@@ -84,11 +84,12 @@ function BuildTeleportersInCfg(cfg_name, realm)
 		var cfg_elem := tele_cfg_file[elem_name];
 		var location := cfg_elem.Location;
 		var destination := cfg_elem.Destination;
+		var properties := GetConfigStringDictionary(cfg_elem, "Property");
 
-		CreateTeleporter(elem_name, location, destination, realm);
-
+		CreateTeleporter(elem_name, location, destination, properties, realm);
+		
 		if ( cfg_elem.TwoWay )
-			CreateTeleporter(elem_name, destination, location, realm);
+			CreateTeleporter(elem_name, destination, location, properties, realm);
 		endif
 
 		SleepMS(2);
@@ -99,7 +100,7 @@ function BuildTeleportersInCfg(cfg_name, realm)
 	return 1;
 endfunction
 
-function CreateTeleporter(elem_name, location, destination, realm)
+function CreateTeleporter(elem_name, location, destination, properties, realm)
 	var create_at := MakeCoordinates(location, realm);
 
 	// First check to make sure a teleporter isn't already there.
@@ -117,12 +118,27 @@ function CreateTeleporter(elem_name, location, destination, realm)
 		TELE_ReportText("Error: Cant create teleporter for '"+elem_name+"' ->"+item.errortext, TELE_REPORT_SYSLOG);
 		return 0;
 	endif
-
+	
 	var send_to := MakeCoordinates(destination, realm);
 	item.SetDestination(send_to.x, send_to.y, send_to.z, send_to.realm);
 	SetName(item, "TelePad ["+elem_name+"]");
-
-	return 1;
+	
+	foreach member in ( properties )
+		case ( Lower(TypeOf(item.Get_Member(_member_iter))) )
+			"integer"	: member := CInt(member); break;
+			"string"	: member := CStr(member); break;
+			"double"	: member := CDbl(member); break;
+			default:
+				TELE_ReportText("Error: Unable to set property '"+_member_iter+"' on teleporter '"+elem_name+"'", TELE_REPORT_SYSLOG);
+				break;
+		endcase
+		
+		item.Set_Member(_member_iter, member);
+		
+		SleepMS(2);
+	endforeach
+	
+	return item;
 endfunction
 
 function MakeCoordinates(coord_string, realm)
