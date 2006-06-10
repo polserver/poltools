@@ -25,8 +25,8 @@ Variables:
 		Constant variables are all capitalized and words are separated
 		using the underscore character '_'.
 
-		const MY_CONSTANT := 10.0;
-		const NUMBER_OF_GUARDS := 100;
+		CONST MY_CONSTANT := 10.0;
+		CONST NUMBER_OF_GUARDS := 100;
 
 	Properties:
 		object.someproperty := 100;
