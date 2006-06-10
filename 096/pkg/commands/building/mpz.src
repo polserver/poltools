@@ -23,7 +23,7 @@ program textcmd_MoveZ(who, howfar)
 			targ.movable := 1;
 		endif
 
-		MoveObjectToLocation(targ, targ.x, targ.y, targ.z+howfar, targ.realm, MOVEITEM_FORCELOCATION);
+		MoveObjectToLocation(targ, targ.x, targ.y, targ.z+howfar, targ.realm, MOVEOBJECT_FORCELOCATION);
 
 		targ.movable := 0;
 

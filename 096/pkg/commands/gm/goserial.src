@@ -11,7 +11,7 @@ program command_GoSerial(who, text)
 		return 0;
 	endif
 	
-	MoveObjectToLocation(who, a.x, a.y, a.z, a.realm, MOVECHAR_FORCELOCATION);
+	MoveObjectToLocation(who, a.x, a.y, a.z, a.realm, MOVEOBJECT_FORCELOCATION);
 	
 	return 1;
 endprogram

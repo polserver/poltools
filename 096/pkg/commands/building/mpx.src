@@ -23,7 +23,7 @@ program textcmd_MoveX(who, howfar)
 			targ.movable := 1;
 		endif
 
-		MoveObjectToLocation(targ, targ.x+howfar, targ.y, targ.z, targ.realm, MOVEITEM_FORCELOCATION);
+		MoveObjectToLocation(targ, targ.x+howfar, targ.y, targ.z, targ.realm, MOVEOBJECT_FORCELOCATION);
 
 		targ.movable := 0;
 

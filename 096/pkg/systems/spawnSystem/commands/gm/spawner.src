@@ -488,7 +488,7 @@ function VisitRegionCenter(who, region_name)
 	var y := ((coords.y2 - coords.y1) / 2) + coords.y1;
 	var z := CInt(GetMapInfo(x, y, realm_name).z);
 
-	var result := MoveObjectToLocation(who, x, y, z, realm_name, MOVECHAR_FORCELOCATION);
+	var result := MoveObjectToLocation(who, x, y, z, realm_name, MOVEOBJECT_FORCELOCATION);
 	if ( result.errortext )
 		GumpPrompt(who, "["+region_name+"] ["+x+"] ["+y+"] ["+z+"] ["+realm_name+"] -> "+result.errortext);
 		return 0;
