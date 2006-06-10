@@ -10,7 +10,7 @@ program UsePlank(who, plank)
 	if ( plank.Extended() )
 		if ( (who.multi).serial != (plank.multi).serial )
 			if ( Distance(who, plank) <= 2 )
-				MoveCharacterToLocation(who, plank.x, plank.y, plank.z+1, MOVECHAR_FORCELOCATION);
+				MoveObjectToLocation(who, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION);
 			endif
 		else
 			plank.Retract(who);
