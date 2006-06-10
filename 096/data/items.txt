@@ -15,7 +15,7 @@ Item
 	Z	-1
 	Revision	0
 	Realm	britannia
-	CProp	decay i10521092
+	Movable	0
 }
 
 Item
@@ -224,7 +224,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i12564246
+	Movable	0
 }
 
 Item
@@ -421,20 +421,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	Cave Entrance
-	Serial	0x40000436
-	ObjType	0x9fb
-	Graphic	0x9fb
-	X	501
-	Y	4
-	Z	1
-	Revision	0
-	Realm	britannia
-	CProp	change i2557
 }
 
 Item
@@ -1384,7 +1370,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i12329874
+	Movable	0
 }
 
 Item
@@ -2871,7 +2857,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16797666
+	Movable	0
 }
 
 Item
@@ -6105,7 +6091,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
-	CProp	decay i16523203
+	Movable	0
 }
 
 Item
@@ -7814,7 +7800,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i10522369
+	Movable	0
 }
 
 Item
@@ -8492,7 +8478,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16797696
+	Movable	0
 }
 
 Item
@@ -18382,36 +18368,6 @@ Item
 
 Item
 {
-	Serial	0x4455988e
-	ObjType	0xb3a
-	Graphic	0xb3a
-	X	961
-	Y	1930
-	Z	7
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1146407153
-	CProp	lockeddown i1
-	DecayAt	7377343
-}
-
-Item
-{
-	Serial	0x445598cd
-	ObjType	0xb3a
-	Graphic	0xb3a
-	X	961
-	Y	1930
-	Z	13
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1146407153
-	CProp	lockeddown i1
-	DecayAt	7628651
-}
-
-Item
-{
 	Name	Road to Yew
 	Serial	0x4c946b31
 	ObjType	0x1299
@@ -22814,8 +22770,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -22828,8 +22782,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -22842,9 +22794,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -22869,7 +22818,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
 }
 
 Item
@@ -24122,7 +24070,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i12244446
+	Movable	0
 }
 
 Item
@@ -24391,7 +24339,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -24469,7 +24416,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -24562,7 +24508,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -24603,7 +24548,7 @@ Item
 	Z	28
 	Revision	0
 	Realm	britannia
-	CProp	decay i15265324
+	Movable	0
 }
 
 Item
@@ -25294,7 +25239,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -25816,7 +25760,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16081136
+	Movable	0
 }
 
 Item
@@ -27324,7 +27268,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -27338,7 +27281,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -27481,7 +27423,6 @@ Item
 	Z	36
 	Revision	0
 	Realm	britannia
-	CProp	trapper i583420
 	Movable	0
 }
 
@@ -27510,9 +27451,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -27525,7 +27463,6 @@ Item
 	Z	36
 	Revision	0
 	Realm	britannia
-	CProp	trapper i583420
 	Movable	0
 }
 
@@ -27539,8 +27476,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -27974,7 +27909,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -28074,7 +28008,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -28088,7 +28021,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -28154,7 +28086,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2854
 }
 
 Item
@@ -28168,7 +28099,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2854
 }
 
 Item
@@ -28338,7 +28268,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -29005,7 +28934,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -29019,7 +28947,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -29033,7 +28960,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -29137,7 +29063,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29150,7 +29075,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29163,7 +29087,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29176,7 +29099,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29189,7 +29111,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29202,7 +29123,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -29334,9 +29254,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -29762,9 +29679,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -29778,9 +29692,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -29911,9 +29822,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -29927,9 +29835,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -29985,7 +29890,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -29999,7 +29903,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -30174,9 +30077,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -30190,9 +30090,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -30234,7 +30131,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -30286,7 +30182,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -31048,9 +30943,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31064,9 +30956,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31080,9 +30969,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31096,9 +30982,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31112,9 +30995,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31219,7 +31099,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -31233,7 +31112,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -31581,9 +31459,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31798,9 +31673,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -31894,7 +31766,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -31982,9 +31853,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -32076,7 +31944,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -32391,7 +32258,7 @@ Item
 {
 	Serial	0x4141a06d
 	ObjType	0xa9e
-	Graphic	0xa9c
+	Graphic	0xa99
 	X	1408
 	Y	1605
 	Z	50
@@ -32566,8 +32433,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
-	CProp	PoisonStamp i6417185
 	Movable	0
 }
 
@@ -32662,9 +32527,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -33569,7 +33431,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -33700,7 +33561,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -33905,9 +33765,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -33921,10 +33778,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -33938,8 +33791,6 @@ Item
 	Z	21
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
-	CProp	PoisonStamp i6325339
 	Movable	0
 }
 
@@ -34246,10 +34097,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6436301
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -34338,7 +34185,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -34557,10 +34403,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6417014
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -34574,10 +34416,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6417003
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -34591,9 +34429,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -34646,7 +34481,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -34727,37 +34561,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6417189
-}
-
-Item
-{
-	Serial	0x42694d15
-	ObjType	0xb1a
-	Graphic	0xb1a
-	X	1436
-	Y	1685
-	Z	6
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-	Movable	0
-}
-
-Item
-{
-	Serial	0x42694d16
-	ObjType	0xb1a
-	Graphic	0xb1a
-	X	1434
-	Y	1685
-	Z	6
-	Facing	29
-	Revision	0
-	Realm	britannia
-	CProp	switched i1
-	Movable	0
 }
 
 Item
@@ -34770,7 +34573,6 @@ Item
 	Z	10
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
 	Movable	0
 }
 
@@ -35393,7 +35195,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
 	Movable	0
 }
 
@@ -35408,7 +35209,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
 	Movable	0
 }
 
@@ -35493,7 +35293,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
-	CProp	decay i17156464
+	Movable	0
 }
 
 Item
@@ -35573,7 +35373,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -35587,7 +35386,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -35756,7 +35554,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -35771,9 +35568,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -35891,9 +35685,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -36096,9 +35887,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -36112,9 +35900,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -36128,9 +35913,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -36980,7 +36762,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i15551506
+	Movable	0
 }
 
 Item
@@ -40228,7 +40010,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -40270,7 +40051,6 @@ Item
 	Z	21
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416872
 	Movable	0
 }
 
@@ -40326,8 +40106,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -40566,7 +40344,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -40724,8 +40501,6 @@ Item
 	Facing	2
 	Revision	0
 	Realm	britannia
-	CProp	change i3629
-	CProp	originsnd i247
 	Movable	0
 }
 
@@ -40850,7 +40625,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -41141,7 +40915,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42395,10 +42168,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416879
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -42412,9 +42181,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -42428,9 +42194,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -42444,9 +42207,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -42460,9 +42220,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -42551,7 +42308,6 @@ Item
 	Z	14
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416916
 	Movable	0
 }
 
@@ -42646,7 +42402,6 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416886
 	Movable	0
 }
 
@@ -42749,7 +42504,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -42803,7 +42557,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42855,7 +42608,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42907,7 +42659,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42947,7 +42698,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42961,7 +42711,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -42988,7 +42737,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -43015,7 +42763,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -43094,7 +42841,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -43109,9 +42855,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43177,7 +42920,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -43256,7 +42998,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -43368,10 +43109,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416895
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43385,9 +43122,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43401,9 +43135,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43417,9 +43148,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43433,9 +43161,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43449,7 +43174,6 @@ Item
 	Z	45
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416910
 	Movable	0
 }
 
@@ -43464,9 +43188,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -43759,9 +43480,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44072,7 +43790,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -44086,7 +43803,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -44498,7 +44214,7 @@ Item
 	Z	5
 	Revision	0
 	Realm	britannia
-	CProp	decay i15665740
+	Movable	0
 }
 
 Item
@@ -44657,10 +44373,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	PoisonStamp i6416981
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44687,9 +44399,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44703,9 +44412,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44758,9 +44464,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44774,9 +44477,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44790,9 +44490,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -44874,7 +44571,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -44965,7 +44661,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -44978,7 +44673,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -45865,9 +45559,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -47055,7 +46746,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i11887805
+	Movable	0
 }
 
 Item
@@ -49119,9 +48810,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -49135,9 +48823,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -51040,9 +50725,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -51056,7 +50738,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -51489,7 +51170,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -51528,7 +51208,7 @@ Item
 	Z	35
 	Revision	0
 	Realm	britannia
-	CProp	decay i14799098
+	Movable	0
 }
 
 Item
@@ -51568,7 +51248,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -52388,9 +52067,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -52628,7 +52304,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -52738,7 +52413,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -52752,7 +52426,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -53039,7 +52712,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -53053,7 +52725,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -55841,37 +55512,6 @@ Item
 
 Item
 {
-	Serial	0x510cf62d
-	ObjType	0xb3a
-	Graphic	0xb3a
-	X	1561
-	Y	2053
-	Z	7
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1358217398
-	CProp	lockeddown i1
-	DecayAt	15368807
-}
-
-Item
-{
-	Serial	0x510d6876
-	ObjType	0xe80
-	Graphic	0xe80
-	X	1561
-	Y	2053
-	Z	13
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1358217398
-	CProp	lockeddown i1
-	Movable	0
-	DecayAt	15368821
-}
-
-Item
-{
 	Serial	0x42dd265b
 	ObjType	0xee01
 	Graphic	0x515
@@ -56230,7 +55870,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -58420,7 +58059,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
-	CProp	decay i9766180
+	Movable	0
 }
 
 Item
@@ -58987,7 +58626,7 @@ Item
 	Z	59
 	Revision	0
 	Realm	britannia
-	CProp	decay i10540595
+	Movable	0
 }
 
 Item
@@ -62963,7 +62602,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i13081230
+	Movable	0
 }
 
 Item
@@ -63587,7 +63226,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i7367929
+	Movable	0
 }
 
 Item
@@ -63653,7 +63292,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i13591355
+	Movable	0
 }
 
 Item
@@ -66314,7 +65953,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -66327,7 +65965,6 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -67823,7 +67460,7 @@ Item
 	Z	-1
 	Revision	0
 	Realm	britannia
-	CProp	decay i7215102
+	Movable	0
 }
 
 Item
@@ -68691,7 +68328,7 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	decay i16206605
+	Movable	0
 }
 
 Item
@@ -70095,24 +69732,6 @@ Item
 
 Item
 {
-	Serial	0x50b20fbc
-	ObjType	0x6008
-	Graphic	0xf6c
-	Color	0x4d
-	X	1959
-	Y	770
-	Z	-22
-	Facing	2
-	Revision	0
-	Realm	britannia
-	CProp	GateDestX i1957
-	CProp	GateDestY i776
-	CProp	GateDestZ i0
-	DecayAt	15142472
-}
-
-Item
-{
 	Serial	0x42705f79
 	ObjType	0xe42
 	Graphic	0xe42
@@ -70966,7 +70585,7 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
-	CProp	decay i12176687
+	Movable	0
 }
 
 Item
@@ -74360,8 +73979,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -76686,24 +76303,6 @@ Item
 
 Item
 {
-	Name	lantern
-	Serial	0x4aa27797
-	ObjType	0xa25
-	Graphic	0xa22
-	X	2025
-	Y	2874
-	Z	33
-	Facing	1
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1251969007
-	CProp	lockeddown i1
-	Movable	0
-	DecayAt	11471485
-}
-
-Item
-{
 	Name	The Trinsic Cut
 	Serial	0x40000761
 	ObjType	0xba9
@@ -76727,7 +76326,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16206532
+	Movable	0
 }
 
 Item
@@ -76741,7 +76340,6 @@ Item
 	Facing	19
 	Revision	0
 	Realm	britannia
-	CProp	Created sAdmin
 	DecayAt	25144660
 }
 
@@ -76785,23 +76383,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Name	painting [Recovered from a shipwreck]
-	Serial	0x49dc61e1
-	ObjType	0xea8
-	Graphic	0xea8
-	X	2061
-	Y	1276
-	Z	6
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1239083159
-	CProp	lockeddown i1
-	Movable	0
-	DecayAt	11773857
 }
 
 Item
@@ -80682,7 +80263,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i15408840
+	Movable	0
 }
 
 Item
@@ -89640,7 +89221,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16452874
+	Movable	0
 }
 
 Item
@@ -89654,7 +89235,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16805383
+	Movable	0
 }
 
 Item
@@ -91657,23 +91238,6 @@ Item
 
 Item
 {
-	Serial	0x4614f612
-	ObjType	0xe2d
-	Graphic	0xe2e
-	X	2597
-	Y	912
-	Z	13
-	Facing	2
-	Revision	0
-	Realm	britannia
-	CProp	houseserial i1330679451
-	CProp	lockeddown i1
-	Movable	0
-	DecayAt	14336342
-}
-
-Item
-{
 	Serial	0x4264953a
 	ObjType	0x7aa
 	Graphic	0x7aa
@@ -92340,7 +91904,7 @@ Item
 	Z	10
 	Revision	0
 	Realm	britannia
-	CProp	decay i12235049
+	Movable	0
 }
 
 Item
@@ -93962,7 +93526,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -94159,7 +93722,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -94235,7 +93797,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -94249,7 +93810,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -94518,7 +94078,6 @@ Item
 	Facing	30
 	Revision	0
 	Realm	britannia
-	CProp	change i2584
 	Movable	0
 }
 
@@ -94817,7 +94376,7 @@ Item
 	Z	25
 	Revision	0
 	Realm	britannia
-	CProp	decay i7949307
+	Movable	0
 	DecayAt	5733423
 }
 
@@ -96859,7 +96418,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -96873,7 +96431,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -96900,7 +96457,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97144,7 +96700,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97171,7 +96726,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97184,7 +96738,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	oldscript s
 	Movable	0
 }
 
@@ -97199,7 +96752,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97252,7 +96804,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97266,7 +96817,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97332,7 +96882,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97346,7 +96895,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2599
 }
 
 Item
@@ -97386,9 +96934,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -97402,9 +96947,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -97766,7 +97308,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -97920,7 +97461,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -97935,9 +97475,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -98027,7 +97564,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -98366,9 +97902,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -98382,9 +97915,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -98492,7 +98022,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -98583,7 +98112,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -98663,9 +98191,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -98718,7 +98243,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -98798,9 +98322,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99222,7 +98743,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -99237,7 +98757,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -99251,7 +98770,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -99391,9 +98909,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99407,9 +98922,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99493,7 +99005,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -99612,7 +99123,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -99675,9 +99185,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99691,9 +99198,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99760,9 +99264,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99776,9 +99277,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -99902,9 +99400,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -100123,7 +99618,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -100138,7 +99632,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -100266,7 +99759,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -100330,9 +99822,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -100346,9 +99835,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -100362,9 +99848,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -100454,7 +99937,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -101026,7 +100508,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -101041,7 +100522,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -101337,7 +100817,6 @@ Item
 	Z	10
 	Revision	0
 	Realm	britannia
-	CProp	furniture i1
 }
 
 Item
@@ -102065,33 +101544,6 @@ Item
 	X	2924
 	Y	668
 	Z	20
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x40188f21
-	ObjType	0x1811
-	Graphic	0x1811
-	X	2925
-	Y	669
-	Z	26
-	Revision	0
-	Realm	britannia
-	CProp	guardkill i1
-	Movable	0
-}
-
-Item
-{
-	Serial	0x40188f22
-	ObjType	0x1851
-	Graphic	0x1851
-	X	2925
-	Y	667
-	Z	26
 	Revision	0
 	Realm	britannia
 	Movable	0
@@ -102946,9 +102398,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -103253,7 +102702,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -103359,7 +102807,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -103590,7 +103037,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -103605,7 +103051,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -103863,9 +103308,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -103879,9 +103321,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -103936,9 +103375,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -103952,9 +103388,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104185,7 +103618,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -104213,7 +103645,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -104306,9 +103737,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104695,7 +104123,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -104724,9 +104151,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104740,9 +104164,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104756,9 +104177,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104823,7 +104241,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -104838,7 +104255,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -104968,9 +104384,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -104984,9 +104397,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -105000,7 +104410,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -105014,7 +104423,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -105028,7 +104436,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -105042,7 +104449,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -106327,9 +105733,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -106343,9 +105746,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -106559,7 +105959,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -106600,7 +105999,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -106615,9 +106013,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -107262,7 +106657,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
-	CProp	decay i7866369
+	Movable	0
 }
 
 Item
@@ -109022,7 +108417,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -109286,9 +108680,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -109302,7 +108693,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -109549,9 +108939,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -109565,9 +108952,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -109581,9 +108965,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -109597,7 +108978,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -109675,7 +109055,6 @@ Item
 	Facing	2
 	Revision	0
 	Realm	britannia
-	CProp	change i5168
 	Movable	0
 }
 
@@ -109846,9 +109225,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -109996,9 +109372,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -110148,7 +109521,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110278,7 +109650,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110573,7 +109944,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110588,7 +109958,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110603,7 +109972,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110744,9 +110112,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -110760,9 +110125,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -110776,9 +110138,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -110831,7 +110190,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -110953,9 +110311,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -110969,9 +110324,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111126,7 +110478,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -111206,7 +110557,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -111441,7 +110791,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2601
 }
 
 Item
@@ -111494,9 +110843,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111510,9 +110856,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111664,7 +111007,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -111757,7 +111099,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -111772,9 +111113,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111788,9 +111126,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111804,9 +111139,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2849
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -111908,9 +111240,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -113962,9 +113291,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -114137,7 +113463,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -114681,7 +114006,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i12246421
+	Movable	0
 }
 
 Item
@@ -114695,9 +114020,6 @@ Item
 	Facing	29
 	Revision	0
 	Realm	britannia
-	CProp	change i2853
-	CProp	originsnd i72
-	CProp	staff i1
 }
 
 Item
@@ -114850,7 +114172,6 @@ Item
 	Facing	1
 	Revision	0
 	Realm	britannia
-	CProp	change i2598
 	Movable	0
 }
 
@@ -115325,7 +114646,6 @@ Item
 	Z	24
 	Revision	0
 	Realm	britannia
-	CProp	change i2584
 	Movable	0
 }
 
@@ -115433,7 +114753,6 @@ Item
 	Z	19
 	Revision	0
 	Realm	britannia
-	CProp	change i2584
 	Movable	0
 }
 
@@ -130479,7 +129798,7 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-	CProp	decay i13752890
+	Movable	0
 }
 
 Item
@@ -134943,7 +134262,6 @@ Item
 	Z	6
 	Revision	0
 	Realm	britannia
-	CProp	IDed i1
 	Movable	0
 }
 
@@ -139561,7 +138879,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16133537
+	Movable	0
 }
 
 Item
@@ -139758,7 +139076,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	decay i16133609
+	Movable	0
 }
 
 Item
@@ -142447,8 +141765,6 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-	CProp	arrows i0
-	CProp	bolts i0
 }
 
 Item
@@ -161121,42 +160437,6 @@ Item
 
 Item
 {
-	Serial	0x41404e36
-	ObjType	0xe40
-	Graphic	0xe40
-	X	5309
-	Y	752
-	Z	-20
-	Revision	0
-	Realm	britannia
-	CProp	LockPickDiff i98
-	CProp	link i1075384868
-	CProp	lockid i61
-	Movable	0
-	DecayAt	30936
-	Locked	1
-}
-
-Item
-{
-	Serial	0x41404f2e
-	ObjType	0xe42
-	Graphic	0xe42
-	X	5309
-	Y	749
-	Z	-20
-	Revision	0
-	Realm	britannia
-	CProp	LockPickDiff i96
-	CProp	link i1075384868
-	CProp	lockid i62
-	Movable	0
-	DecayAt	30956
-	Locked	1
-}
-
-Item
-{
 	Serial	0x42614951
 	ObjType	0x241
 	Graphic	0x241
@@ -161767,7 +161047,7 @@ Item
 	Z	25
 	Revision	0
 	Realm	britannia
-	CProp	decay i7713059
+	Movable	0
 }
 
 Item
@@ -162459,42 +161739,6 @@ Item
 	Revision	0
 	Realm	britannia
 	DecayAt	16390802
-}
-
-Item
-{
-	Serial	0x41404e38
-	ObjType	0xe42
-	Graphic	0xe42
-	X	5320
-	Y	747
-	Z	-20
-	Revision	0
-	Realm	britannia
-	CProp	LockPickDiff i84
-	CProp	link i1075385048
-	CProp	lockid i61
-	Movable	0
-	DecayAt	30936
-	Locked	1
-}
-
-Item
-{
-	Serial	0x41404f2d
-	ObjType	0xe43
-	Graphic	0xe43
-	X	5318
-	Y	749
-	Z	-20
-	Revision	0
-	Realm	britannia
-	CProp	LockPickDiff i98
-	CProp	link i1075385048
-	CProp	lockid i62
-	Movable	0
-	DecayAt	30956
-	Locked	1
 }
 
 Item
@@ -172573,1665 +171817,6 @@ Item
 	Revision	0
 	Realm	britannia
 	DecayAt	9156367
-}
-
-Item
-{
-	Serial	0x49f685d2
-	ObjType	0x242
-	Graphic	0x241
-	Color	0x480
-	X	6064
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049146
-}
-
-Item
-{
-	Serial	0x49f685fe
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6065
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f68600
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6066
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f68602
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6067
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f68604
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6068
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f68606
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6069
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f68608
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6070
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f6860a
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6071
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f6860c
-	ObjType	0x241
-	Graphic	0x241
-	Color	0x480
-	X	6072
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049177
-}
-
-Item
-{
-	Serial	0x49f686a1
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a2
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a3
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a4
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a5
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a6
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a7
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a8
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6063
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f686a9
-	ObjType	0x242
-	Graphic	0x243
-	Color	0x480
-	X	6063
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049297
-}
-
-Item
-{
-	Serial	0x49f68702
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68703
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68704
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68705
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68706
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68707
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68708
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f68709
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	DecayAt	11049381
-}
-
-Item
-{
-	Serial	0x49f687a9
-	ObjType	0x3ef
-	Graphic	0x3ef
-	Color	0x480
-	X	6067
-	Y	1290
-	Z	35
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f687aa
-	ObjType	0x3ef
-	Graphic	0x3ef
-	Color	0x480
-	X	6067
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6913c
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6066
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f6913e
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6066
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f69142
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6066
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f69153
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6068
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f69158
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6068
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f6915a
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6068
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f691a4
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691a5
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691a6
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691a7
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691a8
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691a9
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691aa
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ab
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ac
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ad
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ae
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691af
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b0
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b1
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b2
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b3
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b4
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b5
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b6
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b7
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b8
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691b9
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ba
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691bb
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691bc
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691bd
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691be
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691bf
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c0
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c1
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c2
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c3
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c4
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c5
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c6
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c7
-	ObjType	0x53f
-	Graphic	0x541
-	Color	0x480
-	X	6069
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c8
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691c9
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691ca
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691cb
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691cc
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f691cd
-	ObjType	0x53f
-	Graphic	0x543
-	Color	0x480
-	X	6070
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049672
-}
-
-Item
-{
-	Serial	0x49f69b12
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049760
-}
-
-Item
-{
-	Serial	0x49f69b13
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049760
-}
-
-Item
-{
-	Serial	0x49f69b14
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6064
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049760
-}
-
-Item
-{
-	Serial	0x49f6a53e
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6066
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a6da
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a88d
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6065
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a8c4
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8c5
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8c6
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6069
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8c7
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8c8
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1290
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8c9
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6070
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-	DecayAt	11049836
-}
-
-Item
-{
-	Serial	0x49f6a8eb
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6071
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a8f0
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6072
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a8f6
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6071
-	Y	1296
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f6a91a
-	ObjType	0x242
-	Graphic	0x242
-	Color	0x480
-	X	6072
-	Y	1297
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f75fb3
-	ObjType	0x8e2
-	Graphic	0x8e2
-	Color	0x480
-	X	6067
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f75fd9
-	ObjType	0x8e3
-	Graphic	0x8e3
-	Color	0x480
-	X	6064
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f75ff7
-	ObjType	0x8e4
-	Graphic	0x8e4
-	Color	0x480
-	X	6070
-	Y	1289
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7600b
-	ObjType	0x8e5
-	Graphic	0x8e5
-	Color	0x480
-	X	6064
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7601c
-	ObjType	0x8e6
-	Graphic	0x8e6
-	Color	0x480
-	X	6070
-	Y	1299
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7602d
-	ObjType	0x8e7
-	Graphic	0x8e7
-	Color	0x480
-	X	6065
-	Y	1300
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7603b
-	ObjType	0x8e8
-	Graphic	0x8e8
-	Color	0x480
-	X	6069
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7604b
-	ObjType	0x8e9
-	Graphic	0x8e9
-	Color	0x480
-	X	6070
-	Y	1294
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7605e
-	ObjType	0x8ea
-	Graphic	0x8ea
-	Color	0x480
-	X	6065
-	Y	1293
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f7606e
-	ObjType	0x8e0
-	Graphic	0x8e0
-	Color	0x480
-	X	6066
-	Y	1292
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f76080
-	ObjType	0x8e1
-	Graphic	0x8e1
-	Color	0x480
-	X	6068
-	Y	1295
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f76116
-	ObjType	0x547
-	Graphic	0x547
-	X	6063
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f76138
-	ObjType	0x547
-	Graphic	0x547
-	Color	0x480
-	X	6064
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f77460
-	ObjType	0x542
-	Graphic	0x542
-	Color	0x480
-	X	6065
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f777e3
-	ObjType	0x543
-	Graphic	0x543
-	Color	0x480
-	X	6066
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f7782f
-	ObjType	0x547
-	Graphic	0x547
-	Color	0x480
-	X	6067
-	Y	1299
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f77879
-	ObjType	0x548
-	Graphic	0x545
-	Color	0x480
-	X	6068
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f7786b
-	ObjType	0x540
-	Graphic	0x540
-	Color	0x480
-	X	6068
-	Y	1299
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f782ae
-	ObjType	0x547
-	Graphic	0x547
-	Color	0x480
-	X	6071
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f782ba
-	ObjType	0x540
-	Graphic	0x540
-	Color	0x480
-	X	6072
-	Y	1298
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f80a8f
-	ObjType	0x244
-	Graphic	0x244
-	Color	0x480
-	X	6063
-	Y	1288
-	Z	30
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Serial	0x49f8dfa9
-	ObjType	0x6008
-	Graphic	0x53f
-	Color	0x480
-	X	6067
-	Y	1289
-	Z	42
-	Facing	2
-	Revision	0
-	Realm	britannia
-	CProp	GateDestX i1418
-	CProp	GateDestY i1670
-	CProp	GateDestZ i10
-	DecayAt	11056033
-}
-
-Item
-{
-	Serial	0x49f8dfb2
-	ObjType	0x3ef
-	Graphic	0x3ef
-	Color	0x480
-	X	6067
-	Y	1289
-	Z	40
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Serial	0x49f8ff7a
-	ObjType	0x53f
-	Graphic	0x53f
-	Color	0x480
-	X	6068
-	Y	1291
-	Z	30
-	Revision	0
-	Realm	britannia
-	Movable	0
 }
 
 Item
