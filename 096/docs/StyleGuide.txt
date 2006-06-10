@@ -163,4 +163,5 @@ var my_var := dictionary{"key"->value, "key2"->value};
 Other Notes:
 * Do not use spaces for indents, use tabs.
 * All distro scripts that use gumps, must use the gumps package to build them.
+* Gumps should be made for a 640x480 screen.
 * Love UO like a fat kid loves cake.
