@@ -135,7 +135,7 @@ exported function Gibbify(corpse, range)
 			endif
 		until ( CheckLosAt(corpse, newx, newy, corpse.z) );
 		
-		MoveItemToLocation(item, newx, newy, corpse.z, MOVEITEM_FORCELOCATION);
+		MoveObjectToLocation(item, newx, newy, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
 	endforeach
 	
 	DestroyItem(corpse);
