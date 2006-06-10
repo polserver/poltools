@@ -49,7 +49,7 @@ exported function Occupied(plank)
 endfunction
 
 exported function MoveOnto(plank, mobile)
-	MoveObjectToLocation(mobile, plank.x, plank.y, plank.z+1, plank.realm, MOVECHAR_FORCELOCATION);
+	MoveObjectToLocation(mobile, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION);
 endfunction
 
 //Private function

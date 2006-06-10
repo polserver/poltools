@@ -41,7 +41,7 @@ program textcmd_MoveRect( who, params )
 
 	foreach item in ( ListObjectsInBox(topleft.x, topleft.y, lowz, botright.x, botright.y, highz, who.realm) )
 		if ( objtype == 0 || item.objtype == objtype )
-			MoveObjectToLocation(item, (item.x+x_diff), (item.y+y_diff), (item.z+z_diff), item.realm, MOVEITEM_FORCELOCATION);
+			MoveObjectToLocation(item, (item.x+x_diff), (item.y+y_diff), (item.z+z_diff), item.realm, MOVEOBJECT_FORCELOCATION);
 		endif
 		SleepMS(2);
 	endforeach

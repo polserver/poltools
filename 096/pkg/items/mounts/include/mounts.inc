@@ -291,7 +291,7 @@ function MP_RestoreMountToAnimal(mobile, mount)
 	var animal := SystemFindObjectBySerial(orig_serial);
 	if ( animal.IsA(POLCLASS_NPC) )
 		// Supports systems where the npc is moved to a storage area rather than killed.
-		MoveObjectToLocation(animal, mobile.x, mobile.y, mobile.z, mobile.realm, MOVECHAR_FORCELOCATION);
+		MoveObjectToLocation(animal, mobile.x, mobile.y, mobile.z, mobile.realm, MOVEOBJECT_FORCELOCATION);
 		animal.hidden := 0;
 	else
 		var template := MP_GetMountTemplate(mount);
