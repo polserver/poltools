@@ -14,10 +14,10 @@ use uo;
 
 include ":containers:storageAreas";
 
-const CPM_FORSALE	:= "Merchant - ForSale";
-const CPM_BUYING	:= "Merchant - Buying";
-const CPM_SHOPPINGCART	:= "Merchant - ShoppingCart";
-const CPM_HOLDING	:= "Merchant - Holding";
+CONST CPM_FORSALE	:= "Merchant - ForSale";
+CONST CPM_BUYING	:= "Merchant - Buying";
+CONST CPM_SHOPPINGCART	:= "Merchant - ShoppingCart";
+CONST CPM_HOLDING	:= "Merchant - Holding";
 
 /*
  * NPC_MerchantForSaleContainer(npc)

@@ -12,36 +12,36 @@ include ":spawnsystem:include/regions";
 include ":spawnsystem:include/groups";
 
 // Used for input ranges
-const REALM_START	:= 0x1000;
-const REGION_START	:= 0x2000;
-const GROUP_START	:= 0x3000;
-const ENGINE_START	:= 0x4000;
-const ENTRY_START	:= 0x5000;
-const ENABLED_START	:= 0x6000;
+CONST REALM_START	:= 0x1000;
+CONST REGION_START	:= 0x2000;
+CONST GROUP_START	:= 0x3000;
+CONST ENGINE_START	:= 0x4000;
+CONST ENTRY_START	:= 0x5000;
+CONST ENABLED_START	:= 0x6000;
 
 // Arbitrary buttons
-const CLOSE_BTN		:= 0xA4;
-const ADD_REALM_BTN	:= 0xA5;
-const ADD_REGION_BTN	:= 0xA6;
-const ADD_GROUP_BTN	:= 0xA7;
-const DELETE_BTN	:= 0xA8;
-const SHOW_REALMS_BTN	:= 0xA9;
-const SHOW_REGIONS_BTN	:= 0xAA;
-const SHOW_THIS_REGION	:= 0xAB;
-const SHOW_GROUPS_BTN	:= 0xAC;
-const SHOW_THIS_GROUP	:= 0xAD;
-const SEARCH_BTN	:= 0xAE;
-const VISIT_REGION_BTN	:= 0xAF;
-const APPLY_BTN		:= 0xB0;
+CONST CLOSE_BTN		:= 0xA4;
+CONST ADD_REALM_BTN	:= 0xA5;
+CONST ADD_REGION_BTN	:= 0xA6;
+CONST ADD_GROUP_BTN	:= 0xA7;
+CONST DELETE_BTN	:= 0xA8;
+CONST SHOW_REALMS_BTN	:= 0xA9;
+CONST SHOW_REGIONS_BTN	:= 0xAA;
+CONST SHOW_THIS_REGION	:= 0xAB;
+CONST SHOW_GROUPS_BTN	:= 0xAC;
+CONST SHOW_THIS_GROUP	:= 0xAD;
+CONST SEARCH_BTN	:= 0xAE;
+CONST VISIT_REGION_BTN	:= 0xAF;
+CONST APPLY_BTN		:= 0xB0;
 
 // Text entry locations
-const X1_TEXT_POS	:= 0xF00;
-const Y1_TEXT_POS	:= 0xF01;
-const X2_TEXT_POS	:= 0xF02;
-const Y2_TEXT_POS	:= 0xF03;
-const NAME_TEXT_POS	:= 0xF04;
-const WAIT_TEXT_POS	:= 0xF05;
-const GENER_TEXT_START	:= 0xF000;
+CONST X1_TEXT_POS	:= 0xF00;
+CONST Y1_TEXT_POS	:= 0xF01;
+CONST X2_TEXT_POS	:= 0xF02;
+CONST Y2_TEXT_POS	:= 0xF03;
+CONST NAME_TEXT_POS	:= 0xF04;
+CONST WAIT_TEXT_POS	:= 0xF05;
+CONST GENER_TEXT_START	:= 0xF000;
 
 program SpawnerCMD(who)
 	var input := SHOW_REALMS_BTN;
@@ -106,8 +106,8 @@ program SpawnerCMD(who)
 endprogram
 
 function BuildGumpTemplate(realm_name:="")
-	var bkgnd_silvertrim := GFCfgConst("Defaults", "BackGround");
-	var bkgnd_dark_stone := GFCfgConst("Defaults", "ForeGround");
+	var bkgnd_silvertrim := GFCfgCONST("Defaults", "BackGround");
+	var bkgnd_dark_stone := GFCfgCONST("Defaults", "ForeGround");
 
 	var gump := GFCreateGump();
 	GFPage(gump, 0);
@@ -235,7 +235,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 	GFTextMid(gump, 145, 20, 485, 2100, "Region Information ["+realm_name+"]");
 
 	GFTextLine(gump, 155, 50, 2100, "Region Name");
-	GFResizePic(gump, 230, 46, GFCfgConst("Backgrounds", "GOLDTRIM"), 245, 28);
+	GFResizePic(gump, 230, 46, GFCfgCONST("Backgrounds", "GOLDTRIM"), 245, 28);
 	if ( new_region )
 		GFTextEntry(gump, 236, 50, 235, 20, 2100, "", NAME_TEXT_POS);
 	else
@@ -245,20 +245,20 @@ function BuildRegionGump(who, realm_name, region_name:="")
 	var coords := SS_GetRegionCoordinates(region_name);
 	GFTextLine(gump, 155, 80, 2100, "Coordinates");
 	GFTextLine(gump, 245, 80, 2100, "X1");
-	GFResizePic(gump, 230, 100, GFCfgConst("Backgrounds", "GOLDTRIM"), 45, 28);
+	GFResizePic(gump, 230, 100, GFCfgCONST("Backgrounds", "GOLDTRIM"), 45, 28);
 	GFTextEntry(gump, 236, 104, 35, 20, 2100, CInt(coords.x1), X1_TEXT_POS);
 	GFTextLine(gump, 285, 80, 2100, "Y1");
-	GFResizePic(gump, 270, 100, GFCfgConst("Backgrounds", "GOLDTRIM"), 45, 28);
+	GFResizePic(gump, 270, 100, GFCfgCONST("Backgrounds", "GOLDTRIM"), 45, 28);
 	GFTextEntry(gump, 276, 104, 35, 20, 2100, CInt(coords.y1), Y1_TEXT_POS);
 	GFTextLine(gump, 335, 80, 2100, "X2");
-	GFResizePic(gump, 320, 100, GFCfgConst("Backgrounds", "GOLDTRIM"), 45, 28);
+	GFResizePic(gump, 320, 100, GFCfgCONST("Backgrounds", "GOLDTRIM"), 45, 28);
 	GFTextEntry(gump, 326, 104, 35, 20, 2100, CInt(coords.x2), X2_TEXT_POS);
 	GFTextLine(gump, 375, 80, 2100, "Y2");
-	GFResizePic(gump, 360, 100, GFCfgConst("Backgrounds", "GOLDTRIM"), 45, 28);
+	GFResizePic(gump, 360, 100, GFCfgCONST("Backgrounds", "GOLDTRIM"), 45, 28);
 	GFTextEntry(gump, 366, 104, 35, 20, 2100, CInt(coords.y2), Y2_TEXT_POS);
 
 	GFTextLine(gump, 500, 80, 2100, "Spawn Wait (Sec.)");
-	GFResizePic(gump, 525, 100, GFCfgConst("Backgrounds", "GOLDTRIM"), 65, 28);
+	GFResizePic(gump, 525, 100, GFCfgCONST("Backgrounds", "GOLDTRIM"), 65, 28);
 	GFTextEntry(gump, 531, 104, 55, 20, 2100, CInt(SS_GetRegionSpawnWait(region_name)), WAIT_TEXT_POS);
 
 	GFAddButton(gump, 354, 174, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
@@ -373,7 +373,7 @@ function BuildGroupGump(who, group_name:="")
 	GFTextMid(gump, 145, 20, 485, 2100, "Group Information");
 
 	GFTextLine(gump, 155, 50, 2100, "Group Name");
-	GFResizePic(gump, 230, 46, GFCfgConst("Backgrounds", "GOLDTRIM"), 245, 28);
+	GFResizePic(gump, 230, 46, GFCfgCONST("Backgrounds", "GOLDTRIM"), 245, 28);
 	if ( !new_group )
 		GFTextLine(gump, 236, 50, 1000, group_name);
 	else
@@ -423,10 +423,10 @@ function BuildGroupGump(who, group_name:="")
 	var cur_entries := SS_GetEntriesInGroup(group_name);
 	cur_entries := cur_entries.Keys();
 	for ( lines; lines > 0; lines:=lines-1 )
-		GFResizePic(gump, 155, y_pos-4, GFCfgConst("Backgrounds", "GOLDTRIM"), 210, 28);
+		GFResizePic(gump, 155, y_pos-4, GFCfgCONST("Backgrounds", "GOLDTRIM"), 210, 28);
 		GFTextEntry(gump, 161, y_pos, 200, 20, 2100, SS_GetEntryByNumber(group_name, counter), ENTRY_START+counter);
 		counter := counter+1;
-		GFResizePic(gump, 405, y_pos-4, GFCfgConst("Backgrounds", "GOLDTRIM"), 210, 28);
+		GFResizePic(gump, 405, y_pos-4, GFCfgCONST("Backgrounds", "GOLDTRIM"), 210, 28);
 		GFTextEntry(gump, 411, y_pos, 200, 20, 2100, SS_GetEntryByNumber(group_name, counter), ENTRY_START+counter);
 		counter := counter+1;
 		y_pos := y_pos+21;

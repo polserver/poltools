@@ -6,10 +6,10 @@ use unicode;
 include ":partySystem:config";
 include ":partySystem:packetInfo";
 
-const OFFSET_PARTY_SOURCE_PLAYERID	:= 6;
-const OFFSET_PARTY_MESSAGE		:= 10;
+CONST OFFSET_PARTY_SOURCE_PLAYERID	:= 6;
+CONST OFFSET_PARTY_MESSAGE		:= 10;
 
-const USE_PACKETED_MESSAGES		:= 1;
+CONST USE_PACKETED_MESSAGES		:= 1;
 
 function SendPartymessage(targ, source, message, self_send := 0)
 	if ( TypeOf(message) != "Array" )

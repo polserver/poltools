@@ -6,7 +6,7 @@
 use uo;
 
 program UsePlank(who, plank)
-	detach();
+	Detach();
 	if ( plank.Extended() )
 		if ( (who.multi).serial != (plank.multi).serial )
 			if ( Distance(who, plank) <= 2 )

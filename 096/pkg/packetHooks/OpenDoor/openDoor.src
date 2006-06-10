@@ -13,7 +13,7 @@
 //
 //  To Do:   Integrate ability to use this to "close" the door also. To tired to do so now.
 //
-//  Const Settings:
+//  CONST Settings:
 //  DOOR_TIMER = # The value in seconds, that the player must wait before the macro will work again.
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////

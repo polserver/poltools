@@ -10,7 +10,7 @@
 //  Purpose: Handles the Stat Lock state change when the client clicks on the Stat Locks on the
 //           status bar in AOS and up clients.
 //
-// Const settings:
+// CONST settings:
 // OFFSET_STAT = 5 		DO NOT CHANGE
 // OFFSET_MODE = 6 		DO NOT CHANGE
 // CLEAR_STR_MASK = 0xCF 	DO NOT CHANGE

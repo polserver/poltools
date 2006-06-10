@@ -9,7 +9,7 @@ use math;
 include ":partySystem:config";
 include ":partySystem:packetInfo";
 
-const OFFSET_UPDATE_STAT_PLAYERID := 1;
+CONST OFFSET_UPDATE_STAT_PLAYERID := 1;
 
 var sending_stat := 0;
 

@@ -13,13 +13,13 @@ include ":guilds:include/events";
 include ":gumps:include/gumps";
 include ":gumps:include/gumps_ex";
 
-const GCGUMP_X := 125;
-const GCGUMP_Y := 200;
-const TXT_CLR_FG := 0;
-const TXT_CLR_BG := 2100;
+CONST GCGUMP_X := 125;
+CONST GCGUMP_Y := 200;
+CONST TXT_CLR_FG := 0;
+CONST TXT_CLR_BG := 2100;
 
-var background := GFCfgConst("Defaults", "BackGround");
-var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
+var background := GFCfgCONST("Defaults", "BackGround");
+var foreground := GFCfgCONST("BackGrounds", "WHITE_PAPER");
 
 program Guild_Create(who)
 

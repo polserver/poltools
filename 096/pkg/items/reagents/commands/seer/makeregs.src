@@ -1,8 +1,8 @@
 use os;
 use uo;
 
-const UOBJ_REG_START	:= 0xF78;
-const UOBJ_REG_END	:= 0xF91;
+CONST UOBJ_REG_START	:= 0xF78;
+CONST UOBJ_REG_END	:= 0xF91;
 
 program textcmd_MakeRegs(who, amount)
 	amount := CInt(amount);

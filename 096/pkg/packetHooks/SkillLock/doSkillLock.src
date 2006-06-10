@@ -14,18 +14,18 @@ include ":skilllock:skillLocks";
 include ":attributes:include/attributes_ex";
 include ":attributes:include/skills";
 
-const MODE_FULL_LIST		:= 0;
-const MODE_SINGLE_SKILL		:= 255;
-const MODE_FULL_LIST_CAP	:= 2;
-const MODE_SINGLE_SKILL_CAP	:= 223;
+CONST MODE_FULL_LIST		:= 0;
+CONST MODE_SINGLE_SKILL		:= 255;
+CONST MODE_FULL_LIST_CAP	:= 2;
+CONST MODE_SINGLE_SKILL_CAP	:= 223;
 
-const OFFSET_SEND_MODE		:= 3;
-const OFFSET_SEND_SKILL_ID	:= 4;
-const OFFSET_SEND_SKILLLOCK	:= 10;
-const OFFSET_SEND_CAP		:= 11;
+CONST OFFSET_SEND_MODE		:= 3;
+CONST OFFSET_SEND_SKILL_ID	:= 4;
+CONST OFFSET_SEND_SKILLLOCK	:= 10;
+CONST OFFSET_SEND_CAP		:= 11;
 
-const OFFSET_RECEIVE_SKILL	:= 3;
-const OFFSET_RECEIVE_MODE	:= 5;
+CONST OFFSET_RECEIVE_SKILL	:= 3;
+CONST OFFSET_RECEIVE_MODE	:= 5;
 
 // Global - Has to do with how hooked scripts work.
 // It'll build this list once on POL start and keep it.

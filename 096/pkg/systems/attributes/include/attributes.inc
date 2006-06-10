@@ -19,7 +19,7 @@ include ":attributes:settings";
 include ":attributes:skills";
 include ":attributes:stats";
 include ":attributes:vitals";
-include ":attributes:attributeConstants";
+include ":attributes:attributeCONSTants";
 include ":attributes:skillCheck";
 include ":attributes:advanceCheck";
 include ":datafile:datafile";

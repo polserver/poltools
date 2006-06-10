@@ -65,8 +65,8 @@ endfunction
 
 function BuildGumpForGate(gate, byref town_name, byref config)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 340, 330);
-	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 310, 300);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 340, 330);
+	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 310, 300);
 
 	GFTextMid(gump, 20, 20, 310, 2100, "Select a Destination");
 	GFAddButton(gump, 35, 250, 2128, 2129, GF_CLOSE_BTN, MG_OKAY_BTN);

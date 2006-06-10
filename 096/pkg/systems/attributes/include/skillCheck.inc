@@ -15,10 +15,10 @@ use os;
 use util;
 use cfgfile;
 
-const ADV_SKILL		:= 0x1;
-const ADV_STATS		:= 0x2;
-const ADV_ALL		:= ADV_SKILL+ADV_STATS; // 3
-const ADV_DISABLE	:= 0x4; // 4 - because the default is ADV_ALL.
+CONST ADV_SKILL		:= 0x1;
+CONST ADV_STATS		:= 0x2;
+CONST ADV_ALL		:= ADV_SKILL+ADV_STATS; // 3
+CONST ADV_DISABLE	:= 0x4; // 4 - because the default is ADV_ALL.
 
 var g_skill_debug	:= 0;
 

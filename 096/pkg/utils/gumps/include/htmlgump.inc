@@ -30,15 +30,15 @@ include ":gumps:gumps_ex";
  */
 function SendHTMLGump(mobile, title, text)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 360, 480);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 360, 480);
 
-	GFResizePic(gump, 15, 12, GFCfgConst("Defaults", "ForeGround"), 330, 30);
+	GFResizePic(gump, 15, 12, GFCfgCONST("Defaults", "ForeGround"), 330, 30);
 	GFTextMid(gump, 15, 17, 330, 2100, title);
 
-	GFResizePic(gump, 15, 45, GFCfgConst("Backgrounds", "GOLDTRIM"), 330, 390);
+	GFResizePic(gump, 15, 45, GFCfgCONST("Backgrounds", "GOLDTRIM"), 330, 390);
 	GFHTMLArea(gump, 22, 53, 322, 375, text, 0, 1);
 	
-	GFResizePic(gump, 15, 438, GFCfgConst("Defaults", "ForeGround"), 330, 30);
+	GFResizePic(gump, 15, 438, GFCfgCONST("Defaults", "ForeGround"), 330, 30);
 	GFAddButton(gump, 150, 443, 2128, 2129, GF_CLOSE_BTN);
 	
 	return GFSendGump(mobile, gump);

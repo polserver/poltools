@@ -10,9 +10,9 @@ include ":partySystem:config";
 include ":partySystem:packetInfo";
 include ":partySystem:messages";
 
-const OFFSET_PARTY_REMOVE_NEWSIZE := 6;
-const OFFSET_PARTY_REMOVE_PLAYERID := 7;
-const OFFSET_PARTY_REMOVE_PLAYERIDS := 11;
+CONST OFFSET_PARTY_REMOVE_NEWSIZE := 6;
+CONST OFFSET_PARTY_REMOVE_PLAYERID := 7;
+CONST OFFSET_PARTY_REMOVE_PLAYERIDS := 11;
 
 program HandlePartyRemove(params)
 	Set_Critical(DEBUG_SET_CRITICAL);

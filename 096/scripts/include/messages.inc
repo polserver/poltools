@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and constants for system messages.
+ * Provide various functions and CONSTants for system messages.
  *
  */
 use uo;
@@ -22,8 +22,8 @@ enum MSG_TYPE
 	MSG_SKILL	:= 4
 endenum
 
-var BKGND_SILVERTRIM := GFCfgConst("Defaults", "BackGround");
-var BKGND_DARK_STONE := GFCfgConst("Defaults", "ForeGround");
+var BKGND_SILVERTRIM := GFCfgCONST("Defaults", "BackGround");
+var BKGND_DARK_STONE := GFCfgCONST("Defaults", "ForeGround");
 
 /*
  * SendMessage(who, id, type)

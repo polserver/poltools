@@ -10,7 +10,7 @@ include ":partySystem:config";
 include ":partySystem:packetInfo";
 include ":partySystem:messages";
 
-const OFFSET_PARTY_INVITE_PLAYERID := 6;
+CONST OFFSET_PARTY_INVITE_PLAYERID := 6;
 
 program handlePartyAdd(who)
 	Set_Critical(DEBUG_SET_CRITICAL);

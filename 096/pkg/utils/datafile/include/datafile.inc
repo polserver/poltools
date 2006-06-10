@@ -16,9 +16,9 @@
  * DF_OutPut(text)
  *
  * Global Variables *
- * Datafile.em constants
- * const DF_KEYTYPE_STRING       := 0x00; // default
- * const DF_KEYTYPE_INTEGER      := 0x01;
+ * Datafile.em CONSTants
+ * CONST DF_KEYTYPE_STRING       := 0x00; // default
+ * CONST DF_KEYTYPE_INTEGER      := 0x01;
  *
  */
 use uo;
@@ -29,8 +29,8 @@ use cfgfile;
 use datafile;
 
 // Determines if a file or elem will be created when a read attempt is made.
-const DF_NO_CREATE	:= 0;
-const DF_CREATE		:= 1;
+CONST DF_NO_CREATE	:= 0;
+CONST DF_CREATE		:= 1;
 
 // Set to 0 in your script to turn off SysLog() calls.
 var DF_DEBUG_MODE	:= 1;

@@ -9,8 +9,8 @@ use cfgfile;
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
-const SELECT_START	:= 0xA00;
-const OKAY_BTN		:= 0x1;
+CONST SELECT_START	:= 0xA00;
+CONST OKAY_BTN		:= 0x1;
 
 program AddHitScript(who);
 	SendSysMessage(who, "Select a weapon to modify.");
@@ -25,8 +25,8 @@ program AddHitScript(who);
 	endif
 	
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 310, 480);
-	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 280, 450);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 310, 480);
+	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 280, 450);
 	GFAddButton(gump, 125, 435, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
 	
 	var config := ReadConfigFile(":combat:config/hitScripts");

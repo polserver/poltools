@@ -10,8 +10,8 @@ include ":partySystem:config";
 include ":partySystem:packetInfo";
 include ":partySystem:messages";
 
-const OFFSET_PARTY_ADD_SIZE := 6;
-const OFFSET_PARTY_ADD_PLAYERIDS := 7;
+CONST OFFSET_PARTY_ADD_SIZE := 6;
+CONST OFFSET_PARTY_ADD_PLAYERIDS := 7;
 
 program handlePartyAccept(params)
 	Set_Critical(DEBUG_SET_CRITICAL);
