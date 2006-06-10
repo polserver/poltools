@@ -29,6 +29,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -408,32 +409,6 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	23938983
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000885
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	405
-	Y	1224
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000895
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	479
-	Y	856
-	Z	0
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -2844,20 +2819,6 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	23902355
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000087c
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	560
-	Y	1209
-	Z	0
-	Revision	0
-	Realm	britannia
-	Movable	0
 }
 
 Item
@@ -6105,6 +6066,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -8469,20 +8431,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000872
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	608
-	Y	1189
-	Z	0
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
 	Serial	0x6766605f
 	ObjType	0xb98
 	Graphic	0xb98
@@ -8934,6 +8882,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -11681,6 +11630,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -16147,19 +16097,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000864
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	642
-	Y	944
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x67622ec3
 	ObjType	0xa9e
 	Graphic	0xa9a
@@ -16503,19 +16440,6 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	23893781
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000867
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	657
-	Y	1008
-	Z	0
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -17160,19 +17084,6 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	23896794
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000875
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	673
-	Y	1208
-	Z	0
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -22625,19 +22536,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x400003a7
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1169
-	Y	3648
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x4c89c5fd
 	ObjType	0x1362
 	Graphic	0x1362
@@ -24071,71 +23969,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000374
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1331
-	Y	3760
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000376
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	1320
-	Y	3749
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000378
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1315
-	Y	3736
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000037a
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1330
-	Y	3736
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000037e
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1330
-	Y	3712
-	Z	0
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -25843,6 +25676,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -26336,6 +26170,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -36831,6 +36666,7 @@ Item
 	Z	9
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -36931,37 +36767,11 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x4000036f
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1458
-	Y	3832
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Wooden Sign
 	Serial	0x40000370
 	ObjType	0xbcf
 	Graphic	0xbcf
 	X	1457
-	Y	3808
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000371
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1458
 	Y	3808
 	Z	0
 	Revision	0
@@ -61686,6 +61496,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -65114,19 +64925,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x400006e9
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	1855
-	Y	2837
-	Z	10
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x4267e85f
 	ObjType	0xb5d
 	Graphic	0xb5b
@@ -65877,6 +65675,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -66572,6 +66371,7 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -70612,6 +70412,7 @@ Item
 	Z	30
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -77358,6 +77159,7 @@ Item
 	Z	3
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -91877,6 +91679,7 @@ Item
 	Z	5
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -94354,19 +94157,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000287
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	2746
-	Y	2120
-	Z	-2
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Mainland
 	Serial	0x426495e9
 	ObjType	0xbd0
@@ -95143,19 +94933,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400002b4
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	2714
-	Y	2216
-	Z	-2
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -96366,6 +96143,7 @@ Item
 	Z	-2
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -99251,6 +99029,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -106026,6 +105805,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -111253,6 +111033,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -111279,6 +111060,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -113120,6 +112902,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -114772,19 +114555,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x4000052f
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3050
-	Y	3352
-	Z	15
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Guard Post
 	Serial	0x40000532
 	ObjType	0xbd1
@@ -114794,6 +114564,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -116351,32 +116122,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x400004fb
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3050
-	Y	3424
-	Z	15
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400004fd
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3037
-	Y	3432
-	Z	15
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Serpent Arms
 	Serial	0x400004ff
 	ObjType	0xbd9
@@ -117664,6 +117409,7 @@ Item
 	Z	15
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -117935,188 +117681,7 @@ Item
 	Z	18
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005b4
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3600
-	Y	1199
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005b5
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3600
-	Y	1204
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000058c
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3629
-	Y	1216
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000058f
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3632
-	Y	1231
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000592
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3628
-	Y	1248
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000595
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3624
-	Y	1255
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000598
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3624
-	Y	1263
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000059b
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3624
-	Y	1266
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000059e
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3612
-	Y	1264
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005a3
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3601
-	Y	1240
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005a6
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3600
-	Y	1225
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005ad
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3610
-	Y	1216
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005ae
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3601
-	Y	1216
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005af
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3594
-	Y	1216
-	Z	0
-	Revision	0
-	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -121991,253 +121556,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000605
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3664
-	Y	1073
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000608
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3661
-	Y	1064
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000060b
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3665
-	Y	1064
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000060c
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3680
-	Y	1079
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000060d
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3680
-	Y	1070
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000614
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3680
-	Y	1063
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005d8
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3693
-	Y	1136
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005df
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3676
-	Y	1136
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005e0
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3666
-	Y	1134
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005e5
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3656
-	Y	1140
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005e6
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3656
-	Y	1145
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005eb
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3654
-	Y	1116
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005ec
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3656
-	Y	1124
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005ef
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3659
-	Y	1104
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005f4
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3672
-	Y	1106
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005f5
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3672
-	Y	1102
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005fa
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3688
-	Y	1119
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005ff
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3696
-	Y	1110
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000602
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3688
-	Y	1099
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Customs
 	Serial	0x4000057f
 	ObjType	0xbd1
@@ -122247,6 +121565,7 @@ Item
 	Z	11
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -122273,6 +121592,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -122286,84 +121606,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005c6
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3653
-	Y	1176
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005c9
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3664
-	Y	1172
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005cc
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3656
-	Y	1163
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005d1
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3676
-	Y	1152
-	Z	13
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005d2
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	3672
-	Y	1159
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400005d5
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3695
-	Y	1168
-	Z	0
-	Revision	0
-	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -122377,6 +121620,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -122401,19 +121645,6 @@ Item
 	X	3670
 	Y	1330
 	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400003cf
-	ObjType	0xbd1
-	Graphic	0xbd1
-	X	3703
-	Y	2080
-	Z	5
 	Revision	0
 	Realm	britannia
 }
@@ -129454,19 +128685,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000584
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3720
-	Y	1224
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x51fd2ec0
 	ObjType	0x931
 	Graphic	0x931
@@ -129650,6 +128868,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -129677,19 +128896,7 @@ Item
 	Z	0
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400003ce
-	ObjType	0xbd1
-	Graphic	0xbd1
-	X	3719
-	Y	2096
-	Z	5
-	Revision	0
-	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -129703,6 +128910,7 @@ Item
 	Z	5
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -129730,19 +128938,7 @@ Item
 	Z	20
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400003cd
-	ObjType	0xbd2
-	Graphic	0xbd2
-	X	3760
-	Y	2115
-	Z	20
-	Revision	0
-	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -130545,19 +129741,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000575
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	3778
-	Y	1136
-	Z	20
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Name	Counselors' Guild
 	Serial	0x4000056b
 	ObjType	0xbd2
@@ -130608,6 +129791,7 @@ Item
 	Z	9
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -130797,19 +129981,6 @@ Item
 	X	4209
 	Y	564
 	Z	47
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x4000047a
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4280
-	Y	928
-	Z	0
 	Revision	0
 	Realm	britannia
 }
@@ -131487,71 +130658,6 @@ Item
 	Graphic	0x515
 	X	4273
 	Y	3697
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000475
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4306
-	Y	932
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000476
-	ObjType	0xbd0
-	Graphic	0xbd0
-	X	4309
-	Y	929
-	Z	20
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000477
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4315
-	Y	928
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000478
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4323
-	Y	928
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000479
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4288
-	Y	928
 	Z	0
 	Revision	0
 	Realm	britannia
@@ -141782,19 +140888,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x400004a3
-	ObjType	0xbcf
-	Graphic	0xbcf
-	X	4484
-	Y	1230
-	Z	0
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x60aab36a
 	ObjType	0x1858
 	Graphic	0x1858
@@ -143110,6 +142203,7 @@ Item
 	Z	23
 	Revision	0
 	Realm	britannia
+	Movable	0
 }
 
 Item
@@ -146439,19 +145533,6 @@ Item
 	Revision	0
 	Realm	britannia
 	Movable	0
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x400008fb
-	ObjType	0xbd1
-	Graphic	0xbd1
-	X	5180
-	Y	101
-	Z	5
-	Revision	0
-	Realm	britannia
 }
 
 Item
@@ -160073,19 +159154,6 @@ Item
 
 Item
 {
-	Name	For Sale
-	Serial	0x40000903
-	ObjType	0xbd2
-	Graphic	0xbd2
-	X	5272
-	Y	165
-	Z	15
-	Revision	0
-	Realm	britannia
-}
-
-Item
-{
 	Serial	0x40000904
 	ObjType	0xba2
 	Graphic	0xba2
@@ -160815,19 +159883,7 @@ Item
 	Z	40
 	Revision	0
 	Realm	britannia
-}
-
-Item
-{
-	Name	For Sale
-	Serial	0x40000906
-	ObjType	0xbd1
-	Graphic	0xbd1
-	X	5313
-	Y	119
-	Z	15
-	Revision	0
-	Realm	britannia
+	Movable	0
 }
 
 Item
