@@ -103,7 +103,7 @@ function NoCorpseCheck(corpse, npc_cfg)
 	// No corpse. Place backpack contents where the corpse is.
 	foreach item in (EnumerateItemsInContainer(corpse))
 		if ( item.container == corpse )
-			MoveItemToLocation(item, corpse.x, corpse.y, corpse.z, MOVEITEM_FORCELOCATION);
+			MoveObjectToLocation(item, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
 		endif
 		SleepMS(2);
 	endforeach

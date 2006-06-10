@@ -44,6 +44,6 @@ function ItemGivenEvent(npc, byref event)
 		else
 			AI_Speak(npc, "I was unable to put '"+item.desc+"' in my backpack. ["+result.errortext+"]", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_ENABLE, WAKEUP);
 		endif
-		MoveItemToLocation(item, npc.x, npc.y, npc.z);
+		MoveObjectToLocation(item, npc.x, npc.y, npc.z, npc.realm, MOVEOBJECT_FORCELOCATION);
 	endif
 endfunction
