@@ -48,8 +48,8 @@ program action(who, number)
 	if ( !number )
 		var gump := GFCreateGump();
 		
-		GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 500, 470);
-		GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 470, 440);
+		GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 500, 470);
+		GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 470, 440);
 		
 		var x_pos := 25;
 		var y_pos := 25;

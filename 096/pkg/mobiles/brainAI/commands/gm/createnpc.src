@@ -137,8 +137,8 @@ function BuildIndexGump()
 			
 	var gump := GFCreateGump();
 	GFPage(gump, 0);
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 300, 480);
-	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 270, 450);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 300, 480);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 450);
 	var y_pos := 40;
 	var counter := 1;
 	var page_num := 1;
@@ -186,8 +186,8 @@ function BuildNPCGump(category_name)
 
 	var gump := GFCreateGump();
 	GFPage(gump, 0);
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 300, 480);
-	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 270, 450);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 300, 480);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 450);
 	var y_pos := 40;
 	var counter := 1;
 	var page_num := 1;

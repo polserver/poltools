@@ -2,8 +2,8 @@
  *
  */
 // Gump backgrounds - Used in various functions - easier to use globally.
-var BKGND_SILVERTRIM := GFCfgCONST("Defaults", "BackGround");
-var BKGND_DARK_STONE := GFCfgCONST("Defaults", "ForeGround");
+var BKGND_SILVERTRIM := GetCfgConst("Defaults", "BackGround");
+var BKGND_DARK_STONE := GetCfgConst("Defaults", "ForeGround");
 
 
 function Go_GumpHeader(public:=1)

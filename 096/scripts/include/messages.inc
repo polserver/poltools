@@ -22,8 +22,8 @@ enum MSG_TYPE
 	MSG_SKILL	:= 4
 endenum
 
-var BKGND_SILVERTRIM := GFCfgCONST("Defaults", "BackGround");
-var BKGND_DARK_STONE := GFCfgCONST("Defaults", "ForeGround");
+var BKGND_SILVERTRIM := GetCfgConst("Defaults", "BackGround");
+var BKGND_DARK_STONE := GetCfgConst("Defaults", "ForeGround");
 
 /*
  * SendMessage(who, id, type)

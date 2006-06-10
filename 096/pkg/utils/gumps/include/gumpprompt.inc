@@ -35,8 +35,8 @@ function GumpPrompt(mobile, text, movable:=0)
 	if ( !movable )
 		GFClosable(gump_prompt, 0);
 	endif
-	GFResizePic(gump_prompt, 0, 0, GFCfgCONST("Defaults", "BackGround"), 300, 160);
-	GFResizePic(gump_prompt, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 270, 130);
+	GFResizePic(gump_prompt, 0, 0, GetCfgConst("Defaults", "BackGround"), 300, 160);
+	GFResizePic(gump_prompt, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 130);
 		
 	var y_pos := 25;
 	foreach line in (GFWordWrap(text, 260))

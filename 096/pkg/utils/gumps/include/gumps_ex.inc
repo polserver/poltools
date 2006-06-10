@@ -26,7 +26,7 @@ CONST ALIGN_RIGHT	:= 0x2;
 
 
 /*
- * GFCfgCONST(elem_name, prop_name)
+ * GetCfgConst(elem_name, prop_name)
  *
  * Purpose
  * Rather than have a lot of CONSTants at the top for
@@ -43,20 +43,20 @@ CONST ALIGN_RIGHT	:= 0x2;
  * An integer for the gump graphical number
  *
  */
-function GFCfgCONST(elem_name, prop_name)
+function GetCfgConst(elem_name, prop_name)
 	var cfg := ReadConfigFile(":gumps:config/GumpInfo");
 	if ( cfg.errortext )
-		return XGFError("GFCfgCONST():: Unable to open GumpInfo.cfg -> "+cfg.errortext);
+		return XGFError("GetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errortext);
 	endif
 	
 	var elem := cfg[elem_name];
 	if ( elem.errortext )
-		return XGFError("GFCfgCONST():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
+		return XGFError("GetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
 	endif
 	
 	var value := GetConfigInt(elem, prop_name);
 	if ( !value )
-		return XGFError("GFCfgCONST():: Unable to find property ["+prop_name+"] in elem ["+elem_name+"]");
+		return XGFError("GetCfgConst():: Unable to find property ["+prop_name+"] in elem ["+elem_name+"]");
 	endif
 	
 	return value;

@@ -28,7 +28,7 @@ function ICP_GeneralGump(pkg_name)
 	
 	GFPage(gump, 2);
 	GFAddButton(gump, 130, 180, 2711, 2710, GF_PAGE_BTN, 1);
-	GFResizePic(gump, 25, 205, GFCfgCONST("BackGrounds", "GOLDTRIM"), 450, 220);
+	GFResizePic(gump, 25, 205, GetCfgConst("BackGrounds", "GOLDTRIM"), 450, 220);
 	var y_pos := 210;
 	foreach line in (GFWordWrap(main_info.Description, 440))
 		GFTextLine(gump, 30, y_pos, 2100, line);

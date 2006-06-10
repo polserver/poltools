@@ -19,8 +19,8 @@ program textcmd_NPCStatus(who)
 	endif
 	
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 400, 480);
-	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 370, 450);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 400, 480);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 370, 450);
 	GFTextMid(gump, 0, 15, 300, 2100, "Brain NPC Info");
 	
 	var text := "<B>NERVES</B><BR>";			

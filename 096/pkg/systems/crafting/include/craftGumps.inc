@@ -10,7 +10,7 @@ var craft_settings;
 var atc := 1;
 var PageNum := 1;
 // Gump backgrounds - Used in various functions - easier to use globally.
-var BKGND_SILVERTRIM := GFCfgCONST("Defaults", "BackGround");
+var BKGND_SILVERTRIM := GetCfgConst("Defaults", "BackGround");
 
 // This function is the main backbone for building the Crafting Menu.
 function sendCraftGump(who, skill_name)

@@ -44,8 +44,8 @@ function RequestGump(mobile, question, option := "", pre_val := "", cancel_btn:=
 	
 	var r_gump := GFCreateGump(140, 100);
 	GFClosable(r_gump, 0);
-	GFResizePic(r_gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 400, 205);
-	GFResizePic(r_gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 370, 175);
+	GFResizePic(r_gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 400, 205);
+	GFResizePic(r_gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 370, 175);
 	
 	var y_pos := 20;
 	foreach line in (GFWordWrap(question, 370))
@@ -61,7 +61,7 @@ function RequestGump(mobile, question, option := "", pre_val := "", cancel_btn:=
 		SleepMS(2);
 	endforeach
 	
-	GFResizePic(r_gump, 20, 100, GFCfgCONST("BackGrounds", "GOLDTRIM"), 360, 30);
+	GFResizePic(r_gump, 20, 100, GetCfgConst("BackGrounds", "GOLDTRIM"), 360, 30);
 	var r_txt := GFTextEntry(r_gump, 30, 105, 335, 25, 1153, pre_val);
 	
 	if ( cancel_btn )

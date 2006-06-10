@@ -24,8 +24,8 @@ program textcmd_Realms(who)
 	var realm_list := Realms();
 	var gump := GFCreateGump();
 	
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 435, 420);
-	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 405, 390);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 435, 420);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 405, 390);
 	
 	GFTextLine(gump, 20, 20, 2100, "Realm Name");
 	GFTextLine(gump, 150, 20, 2100, "Height");
