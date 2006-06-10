@@ -11125,20 +11125,6 @@ Item
 
 Item
 {
-	Name	No macroing in or near bank. Violators will be banned.
-	Serial	0x42a23f8c
-	ObjType	0xeed
-	Graphic	0xbd1
-	X	593
-	Y	2152
-	Z	0
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
 	Name	Final Aegis
 	Serial	0x40000676
 	ObjType	0xbac
@@ -23155,20 +23141,6 @@ Item
 	Graphic	0xbd2
 	X	1293
 	Y	3718
-	Z	0
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Name	No macroing in the bank. Violators will be banned.
-	Serial	0x42a23e93
-	ObjType	0xeed
-	Graphic	0xbd1
-	X	1326
-	Y	3776
 	Z	0
 	Revision	0
 	Realm	britannia
@@ -97459,20 +97431,6 @@ Item
 
 Item
 {
-	Name	No macroing in or near the bank. Violators will be banned
-	Serial	0x42a2499b
-	ObjType	0xeed
-	Graphic	0xbd1
-	X	2879
-	Y	3464
-	Z	15
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
 	Serial	0x40188f5f
 	ObjType	0xb22
 	Graphic	0xb22
@@ -121927,20 +121885,6 @@ Item
 	Graphic	0xbdc
 	X	3658
 	Y	2536
-	Z	0
-	Revision	0
-	Realm	britannia
-	Movable	0
-}
-
-Item
-{
-	Name	No macroing in or near bank. Violators will be banned.
-	Serial	0x42a23f60
-	ObjType	0xeed
-	Graphic	0xbd1
-	X	3694
-	Y	2520
 	Z	0
 	Revision	0
 	Realm	britannia
