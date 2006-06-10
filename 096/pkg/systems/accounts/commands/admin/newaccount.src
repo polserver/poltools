@@ -22,8 +22,8 @@ CONST EXPANSION_START	:= 0xE00;
 program command_newAccount(who)
 	var gump := GFCreateGump(who);
 
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 360, 320);
-	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 330, 290);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 360, 320);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 330, 290);
 
 	GFTextMid(gump, 15, 20, 330, 2100, "New Account");
 	GFAddButton(gump, 50, 260, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
@@ -31,18 +31,18 @@ program command_newAccount(who)
 
 	GFPage(gump, 1);
 	GFTextLine(gump, 20, 53, 2100, "Account Name:");
-	GFResizePic(gump, 120, 50, GFCfgCONST("Backgrounds", "GOLDTRIM"), 145, 28);
+	GFResizePic(gump, 120, 50, GetCfgConst("Backgrounds", "GOLDTRIM"), 145, 28);
 	GFTextEntry(gump, 126, 54, 135, 20, 2100, "", ACCT_TEXT_POS);
 	GFTextLine(gump, 20, 73, 2100, "Password:");
-	GFResizePic(gump, 120, 70, GFCfgCONST("Backgrounds", "GOLDTRIM"), 145, 28);
+	GFResizePic(gump, 120, 70, GetCfgConst("Backgrounds", "GOLDTRIM"), 145, 28);
 	GFTextEntry(gump, 126, 74, 135, 20, 2100, "", PASS_TEXT_POS);
 
 	GFTextLine(gump, 20, 113, 2100, "E-Mail:");
-	GFResizePic(gump, 120, 110, GFCfgCONST("Backgrounds", "GOLDTRIM"), 145, 28);
+	GFResizePic(gump, 120, 110, GetCfgConst("Backgrounds", "GOLDTRIM"), 145, 28);
 	GFTextEntry(gump, 126, 114, 135, 20, 2100, "", EMAIL_TEXT_POS);
 
 	GFTextLine(gump, 20, 163, 2100, "Command Level:");
-	GFResizePic(gump, 120, 160, GFCfgCONST("Backgrounds", "GOLDTRIM"), 25, 28);
+	GFResizePic(gump, 120, 160, GetCfgConst("Backgrounds", "GOLDTRIM"), 25, 28);
 	GFTextEntry(gump, 126, 164, 20, 20, 2100, "0", CMD_TEXT_POS);
 
 	GFTextLine(gump, 20, 200, 2100, "Expansion:");

@@ -18,8 +18,8 @@ CONST GCGUMP_Y := 200;
 CONST TXT_CLR_FG := 0;
 CONST TXT_CLR_BG := 2100;
 
-var background := GFCfgCONST("Defaults", "BackGround");
-var foreground := GFCfgCONST("BackGrounds", "WHITE_PAPER");
+var background := GetCfgConst("Defaults", "BackGround");
+var foreground := GetCfgConst("BackGrounds", "WHITE_PAPER");
 
 program Guild_Create(who)
 

@@ -30,15 +30,15 @@ program MessageOfTheDay(mobile)
 	endif
 	
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 360, 480);
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 360, 480);
 
-	GFResizePic(gump, 15, 12, GFCfgCONST("Defaults", "ForeGround"), 330, 30);
+	GFResizePic(gump, 15, 12, GetCfgConst("Defaults", "ForeGround"), 330, 30);
 	GFTextLine(gump, 110, 17, 2100, "Messages of the Day");
 
-	GFResizePic(gump, 15, 45, GFCfgCONST("Backgrounds", "GOLDTRIM"), 330, 390);
+	GFResizePic(gump, 15, 45, GetCfgConst("Backgrounds", "GOLDTRIM"), 330, 390);
 	GFHTMLArea(gump, 22, 53, 322, 375, text, 0, 1);
 
-	GFResizePic(gump, 15, 438,GFCfgCONST("Defaults", "ForeGround"), 330, 30);
+	GFResizePic(gump, 15, 438,GetCfgConst("Defaults", "ForeGround"), 330, 30);
 	GFCheckBox(gump, 20, 443, 0x768, 0x767, (off == 0), ONOFF_BTN);
 	GFTextLine(gump, 45, 443, 2100, "Open on login");
 
