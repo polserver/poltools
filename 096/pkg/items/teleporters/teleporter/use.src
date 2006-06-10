@@ -18,19 +18,19 @@ CONST Z_TEXT		:= 0xA004;
 CONST CANCEL_BTN	:= 0xB000;
 CONST OKAY_BTN		:= 0xB001;
 
-program useScript(who, tile)
+program UseScript(who, tile)
 	var dest := tile.GetDestination();
 		
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 450, 230);
-	GFResizePic(gump, 10, 10, GetCfgConst("Defaults", "ForeGround"), 430, 40);
-	GFTextMid(gump, 10, 20, 430, 2100, "Teleporter Setup Menu");
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 450, 235);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 420, 35);
+	GFTextMid(gump, 15, 20, 430, 2100, "Teleporter Setup Menu");
 	
-	GFResizePic(gump, 10, 55, GetCfgConst("Defaults", "ForeGround"), 430, 50);
+	GFResizePic(gump, 15, 55, GetCfgConst("Defaults", "ForeGround"), 420, 50);
 	GFTextLine(gump, 20, 60, 2100, "Use the fields below to change the coordinates the");
 	GFTextLine(gump, 20, 80, 2100, "teleporter sends any mobiles to that walk over it.");
 	
-	GFResizePic(gump, 10, 110, GetCfgConst("Defaults", "ForeGround"), 430, 111);
+	GFResizePic(gump, 15, 110, GetCfgConst("Defaults", "ForeGround"), 420, 111);
 	GFTextLine(gump, 20, 120, 2100, "Realm");
 	GFResizePic(gump, 120, 115, GetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 	GFTextEntry(gump, 127, 120, 80, 20, 2100, dest.realm, REALM_TEXT);
