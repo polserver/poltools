@@ -17,9 +17,9 @@ use polsys;
 include ":accounts:settings";
 include ":accounts:accounts";
 
-const OFFSET_ACCOUNT_NAME	:= 0x01;
-const OFFSET_ACCOUNT_PASS	:= 0x1F;
-const INFO_LEN			:= 30;
+CONST OFFSET_ACCOUNT_NAME	:= 0x01;
+CONST OFFSET_ACCOUNT_PASS	:= 0x1F;
+CONST INFO_LEN			:= 30;
 
 enum THEFT_LEVELS
 	ACCT_NOT_EXIST		:= 0,

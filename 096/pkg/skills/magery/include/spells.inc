@@ -9,7 +9,7 @@ include ":magery:include/spells_ex";
 include ":magery:include/report";
 include "include/client";
 
-const MAX_RANGE	:= 16;
+CONST MAX_RANGE	:= 16;
 
 /*
  * MS_GetSpellsCfgFile()

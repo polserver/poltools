@@ -19,13 +19,13 @@ include ":control:include/icp-scripts";
 include ":control:include/icp-util";
 
 // Arbitrary button return (id) values.
-const START_ID		:= 0xA00000; // Anything above this value is a button.
-const BACK_BTN		:= 0xA00002;
-const UNCACHE_BTN	:= 0xA00003;
-const GENERAL_BTN	:= 0xA00004;
-const SCRIPTS_BTN	:= 0xA00005;
-const COMMANDS_BTN	:= 0xA00006;
-const ITEMDESC_BTN	:= 0xA00007;
+CONST START_ID		:= 0xA00000; // Anything above this value is a button.
+CONST BACK_BTN		:= 0xA00002;
+CONST UNCACHE_BTN	:= 0xA00003;
+CONST GENERAL_BTN	:= 0xA00004;
+CONST SCRIPTS_BTN	:= 0xA00005;
+CONST COMMANDS_BTN	:= 0xA00006;
+CONST ITEMDESC_BTN	:= 0xA00007;
 
 // Easier to use the datafile as a global.
 var pkg_info := DFOpenDataFile(":control:packages", DF_CREATE);

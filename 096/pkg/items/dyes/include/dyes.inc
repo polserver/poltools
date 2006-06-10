@@ -14,8 +14,8 @@ use uo;
 use util;
 use cfgfile;
 
-const MIN_COLOR := 2;
-const MAX_COLOR := 1001;
+CONST MIN_COLOR := 2;
+CONST MAX_COLOR := 1001;
 
 /*
  * CanDye(item)

@@ -15,8 +15,8 @@ function GumpList(mobile)
 	
 	var gump := GFCreateGump();
 	GFPage(gump, 0);
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 580, 480);
-	GFResizePic(gump, 10, 10, GFCfgConst("Defaults", "ForeGround"), 560, 460);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 580, 480);
+	GFResizePic(gump, 10, 10, GFCfgCONST("Defaults", "ForeGround"), 560, 460);
 	var y_pos := 40;
 	var counter := 1;
 	var page_num := 1;

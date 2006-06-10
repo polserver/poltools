@@ -8,7 +8,7 @@ use uo;
 
 include ":logger:log";
 
-const SECURE_MAGIC          := 0xBADC0DE;
+CONST SECURE_MAGIC          := 0xBADC0DE;
 
 enum MOB_PROPS
     PROP_STAFF_LEVEL        := "+StaffLevel",        // Text command access level

@@ -10,8 +10,8 @@ use polsys;
 
 // For: EnumerateOnlineCharactersABC()
 //
-const SORT_ASCENDING  := 0x0; // Default
-const SORT_DESCENDING := 0x1;
+CONST SORT_ASCENDING  := 0x0; // Default
+CONST SORT_DESCENDING := 0x1;
 
 /*
  * EnumerateOnlineCharactersABC(dir)

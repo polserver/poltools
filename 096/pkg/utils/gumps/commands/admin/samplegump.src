@@ -8,8 +8,8 @@ program GumpTest(who)
 	var temp := "";
 	var gump := GFCreateGump(0, 0, 640, 480);
 	GFDisposable(gump, 0);
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 640, 480);		//Background
-	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 610, 450);	//Foreground
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 640, 480);		//Background
+	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 610, 450);	//Foreground
 	
 	GFPage(gump, 10);
 	GFTextMid(gump, 15, 100, 610, 1153, "You have reached page 10!");
@@ -64,7 +64,7 @@ program GumpTest(who)
 	
 	
 	var okay_btn := GFAddButton(gump, 340, 430, 0x81C, 0x81B, GF_CLOSE_BTN);
-	const CANCEL_BTN := 0x5000;
+	CONST CANCEL_BTN := 0x5000;
 	GFAddButton(gump, 250, 430, 0x819, 0x818, GF_CLOSE_BTN, CANCEL_BTN);
 		
 	var input := GFSendGump(who, gump);

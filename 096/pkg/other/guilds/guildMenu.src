@@ -13,13 +13,13 @@ include ":gumps:include/gumps";
 include ":gumps:include/gumps_ex";
 include "include/packets";
 
-const GCGUMP_X := 75;
-const GCGUMP_Y := 150;
-const TXT_CLR_FG := 0;
-const TXT_CLR_BG := 2100;
+CONST GCGUMP_X := 75;
+CONST GCGUMP_Y := 150;
+CONST TXT_CLR_FG := 0;
+CONST TXT_CLR_BG := 2100;
 
-var background := GFCfgConst("Defaults", "BackGround");
-var foreground := GFCfgConst("BackGrounds", "WHITE_PAPER");
+var background := GFCfgCONST("Defaults", "BackGround");
+var foreground := GFCfgCONST("BackGrounds", "WHITE_PAPER");
 var permissions := Guild_GetSettingsCfgElem("Permissions");
 var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 

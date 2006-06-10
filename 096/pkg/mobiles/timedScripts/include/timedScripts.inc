@@ -8,15 +8,15 @@ use cfgfile;
 use os;
 
 // Event flags
-const EVENT_ADD_TIMER			:= 0x1;
-const EVENT_LOWER_TIMER			:= 0x2;
-const EVENT_PLAYER_DIED			:= 0x4;
-const EVENT_NPC_DIED			:= 0x8;
-const EVENT_LOGOFF			:= 0x10;
+CONST EVENT_ADD_TIMER			:= 0x1;
+CONST EVENT_LOWER_TIMER			:= 0x2;
+CONST EVENT_PLAYER_DIED			:= 0x4;
+CONST EVENT_NPC_DIED			:= 0x8;
+CONST EVENT_LOGOFF			:= 0x10;
 
-// Constants
-const NOSTART_CONTROLLER		:= 0x0;
-const START_CONTROLLER			:= 0x1;
+// CONSTants
+CONST NOSTART_CONTROLLER		:= 0x0;
+CONST START_CONTROLLER			:= 0x1;
 
 /*
  * TS_GetCfgFile()

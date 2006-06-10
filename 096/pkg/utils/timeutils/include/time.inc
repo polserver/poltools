@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and constants for time formats.
+ * Provide various functions and CONSTants for time formats.
  * 
  * Created by Folko
  *

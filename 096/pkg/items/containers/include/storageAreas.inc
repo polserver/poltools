@@ -22,11 +22,11 @@ use file;
 use polsys;
 
 // * Global Variables *
-const CP_NOCREATE	:= 0x0;
-const CP_CREATE		:= 0x1;
+CONST CP_NOCREATE	:= 0x0;
+CONST CP_CREATE		:= 0x1;
 
-const CP_DEFAULT_AREA	:= "World Bank";
-const CP_DEFAULT_PREFIX	:= "[Root Container] ";
+CONST CP_DEFAULT_AREA	:= "World Bank";
+CONST CP_DEFAULT_PREFIX	:= "[Root Container] ";
 
 /*
  * Set the 'box_type' variable to the object name of the container type

@@ -22,10 +22,10 @@
 // - Added word wrap function
 //==Revision v2.4b
 // Updated: 28-May-2002, Austin
-//  - Fixed the scroll constant.
-//  - Added an extra scroll constant.
+//  - Fixed the scroll CONSTant.
+//  - Added an extra scroll CONSTant.
 //==Revision v2.4
-// - Fixed character width constants.
+// - Fixed character width CONSTants.
 //==Revision v2.3
 // Updated: 26-Nov-2001, Austin
 // - Fixed a lot of the {} syntax into array() and struct.
@@ -42,7 +42,7 @@
 //
 //==Revision v2.1==
 // Updated: 24-Apr-2000, Myrathi
-//  - Added BKGND_???????? 'gumpid' constants for GFResizePic()
+//  - Added BKGND_???????? 'gumpid' CONSTants for GFResizePic()
 //  - Added some missing characters to Shini's align-functions
 //
 //==Revision v2.0==
@@ -77,7 +77,7 @@
 //	- Appropriate functions now return a structure containing
 //	  indexes to the changes in the layout array as well as
 //	  data-index and/or keyid values (see headers or help file)
-//	- Added constants for the index functions
+//	- Added CONSTants for the index functions
 //	- Added two internal helper-functions (XGFxxxxxxxx)
 //
 //==Revision v1.0==
@@ -101,7 +101,7 @@
 //
 // To do:
 //	+ Add the option of supplying the KeyIDs (is this wanted?)
-//	+ Update the const-list of commonly used ID's (GFX + colours)
+//	+ Update the CONST-list of commonly used ID's (GFX + colours)
 //  + Update "GFTextMid()" to cater for mid-x coord only (no 'w')
 //
 // Bugs:
@@ -119,52 +119,52 @@ use uo;
 use os;
 use basic;
 
-// Constants (for GF[Get|Set]NextIndex)
+// CONSTants (for GF[Get|Set]NextIndex)
 /////////////////////////////////////////////////////////////////
-const GFIDX_TEXT		:= 0x01;	// Static Text (TextLine)
-const GFIDX_TEXTENTRY		:= 0x02;	// Return Text (TextEntry)
-const GFIDX_BUTTON		:= 0x03;	// Action Buttons (ButtonID)
-const GFIDX_CHECKBOX		:= 0x04;	// Check-boxes
-const GFIDX_RADIO		:= 0x05;	// Radio Buttons
-/////////////////////////////////////////////////////////////////
-
-// Constants for index starting values (SHOULD be enough! Heh!)
-/////////////////////////////////////////////////////////////////
-const GFINIT_TEXT		:= 0x000;	// Static Text (GFdata[])
-const GFINIT_TEXTENTRY		:= 0x201;	// Return Text (GFdata[])
-const GFINIT_BUTTON		:= 0x401;	// Action Buttons (KeyIDs)
-const GFINIT_CHECKBOX		:= 0x601;	// Check-boxes (KeyIDs)
-const GFINIT_RADIO		:= 0x801;	// Radio Buttons (KeyIDs)
+CONST GFIDX_TEXT		:= 0x01;	// Static Text (TextLine)
+CONST GFIDX_TEXTENTRY		:= 0x02;	// Return Text (TextEntry)
+CONST GFIDX_BUTTON		:= 0x03;	// Action Buttons (ButtonID)
+CONST GFIDX_CHECKBOX		:= 0x04;	// Check-boxes
+CONST GFIDX_RADIO		:= 0x05;	// Radio Buttons
 /////////////////////////////////////////////////////////////////
 
-// 'gumpid' Constants for the GFResizePic() function
+// CONSTants for index starting values (SHOULD be enough! Heh!)
 /////////////////////////////////////////////////////////////////
-const BKGND_SILVERTRIM		:= 83;    // Fancy, dark-grey backing
-const BKGND_SCROLL		:= 2520;  // UO journal scroll
-const BKGND_OLD_JOURNAL_SCROLL	:= 5150;  // Old journal scroll
-const BKGND_GOLDTRIM		:= 2620;  // Gold-press, black backing
-const BKGND_PAPER               := 3000;  // Very thin edging
-const BKGND_PAPER_EX		:= 3500;  //  \_with fancy inner border
-const BKGND_BLUESLAB		:= 3600;  // Raised edge (blocky)
-const BKGND_SANDSTONE		:= 5054;  // Custom sandstone background
-const BKGND_STONESLAB		:= 5064;  // Gray stone slab background
-const BKGND_STONE		:= 5100;  // Marble stone, rounded edge
-const BKGND_DARK_STONE		:= 5120;  // Same as previous, but much darker
+CONST GFINIT_TEXT		:= 0x000;	// Static Text (GFdata[])
+CONST GFINIT_TEXTENTRY		:= 0x201;	// Return Text (GFdata[])
+CONST GFINIT_BUTTON		:= 0x401;	// Action Buttons (KeyIDs)
+CONST GFINIT_CHECKBOX		:= 0x601;	// Check-boxes (KeyIDs)
+CONST GFINIT_RADIO		:= 0x801;	// Radio Buttons (KeyIDs)
 /////////////////////////////////////////////////////////////////
-const GF_MAIN_BKGND		:= BKGND_BLUESLAB;
-const GF_MAIN_FRGND		:= BKGND_STONESLAB;
+
+// 'gumpid' CONSTants for the GFResizePic() function
+/////////////////////////////////////////////////////////////////
+CONST BKGND_SILVERTRIM		:= 83;    // Fancy, dark-grey backing
+CONST BKGND_SCROLL		:= 2520;  // UO journal scroll
+CONST BKGND_OLD_JOURNAL_SCROLL	:= 5150;  // Old journal scroll
+CONST BKGND_GOLDTRIM		:= 2620;  // Gold-press, black backing
+CONST BKGND_PAPER               := 3000;  // Very thin edging
+CONST BKGND_PAPER_EX		:= 3500;  //  \_with fancy inner border
+CONST BKGND_BLUESLAB		:= 3600;  // Raised edge (blocky)
+CONST BKGND_SANDSTONE		:= 5054;  // Custom sandstone background
+CONST BKGND_STONESLAB		:= 5064;  // Gray stone slab background
+CONST BKGND_STONE		:= 5100;  // Marble stone, rounded edge
+CONST BKGND_DARK_STONE		:= 5120;  // Same as previous, but much darker
+/////////////////////////////////////////////////////////////////
+CONST GF_MAIN_BKGND		:= BKGND_BLUESLAB;
+CONST GF_MAIN_FRGND		:= BKGND_STONESLAB;
 ////////////////////////////////////////////////////////////////
 
-const CHKBOX_GRAY_A		:= 5078;
-const CHKBOX_GRAY_B		:= 5079;
-const CHKBOX_SAND_A		:= 210;
-const CHKBOX_SAND_B		:= 211;
+CONST CHKBOX_GRAY_A		:= 5078;
+CONST CHKBOX_GRAY_B		:= 5079;
+CONST CHKBOX_SAND_A		:= 210;
+CONST CHKBOX_SAND_B		:= 211;
 
 //Standard text colors on TSSE
 /////////////////////////////////////////////////////////////////
-const GF_STDCOLOR		:= 1890;
-const GF_HDRCOLOR		:= 1890;
-const GF_SLCTDCOLOR		:= 1720;
+CONST GF_STDCOLOR		:= 1890;
+CONST GF_HDRCOLOR		:= 1890;
+CONST GF_SLCTDCOLOR		:= 1720;
 
 /////////////////////////////////////////////////////////////////
 // Function List
@@ -877,7 +877,7 @@ endfunction
 //  Modified:  Myrathi
 /////////////////////////////////////////////////////////////////
 
-// Constants
+// CONSTants
 /////////////////////////////////////////////////////////////////
 var aGFTlength := struct;
        aGFTlength.+charsf:=   // Space as Filler is not allowed
@@ -950,7 +950,7 @@ EndFunction
 //
 
 function WordWrap(text, max_letters := 50)
-	const WSS := 10; //White Space Size " "
+	CONST WSS := 10; //White Space Size " "
 	
 	var sentences := {};
 	var cur_line := "";

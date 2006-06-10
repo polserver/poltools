@@ -1,8 +1,8 @@
 /* $Id$
  *
  * Purpose
- * This include file is designed to hold all the client lowlevel constants.
- * Not all constants might be usable as of now, but in the future, they
+ * This include file is designed to hold all the client lowlevel CONSTants.
+ * Not all CONSTants might be usable as of now, but in the future, they
  * might be.
  *
  */

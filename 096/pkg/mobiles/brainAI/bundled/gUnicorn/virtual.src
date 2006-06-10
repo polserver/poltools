@@ -9,7 +9,7 @@ include "include/client";
 include "include/facings";
 include "include/shapes";
 
-const FIREWORK_RANGE	:= 4;
+CONST FIREWORK_RANGE	:= 4;
 
 program BrainNerve(params)
 	var npc		:= params[1];

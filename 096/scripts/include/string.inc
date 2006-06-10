@@ -8,11 +8,11 @@
 use uo;
 use os;
 
-// Constants for the RemoveSpaces() function.
-const CLR_LEADING_SPACES 	:= 0x1;
-const CLR_TRAILING_SPACES 	:= 0x2;
-const CLR_DOUBLE_SPACES		:= 0x4;
-const CLR_ALL_SPACES		:= 0x8;
+// CONSTants for the RemoveSpaces() function.
+CONST CLR_LEADING_SPACES 	:= 0x1;
+CONST CLR_TRAILING_SPACES 	:= 0x2;
+CONST CLR_DOUBLE_SPACES		:= 0x4;
+CONST CLR_ALL_SPACES		:= 0x8;
 
 /*
  * TruncateArticle(text)

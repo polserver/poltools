@@ -32,10 +32,10 @@ use uo;
 use os;
 use basic;
 
-// Constants for the GFAddButton() function
-const GF_PAGE_BTN	:= 0x0;
-const GF_CLOSE_BTN	:= 0x1;
-const GF_DUMMY_BTN	:= 0x2;
+// CONSTants for the GFAddButton() function
+CONST GF_PAGE_BTN	:= 0x0;
+CONST GF_CLOSE_BTN	:= 0x1;
+CONST GF_DUMMY_BTN	:= 0x2;
 
 
 /*

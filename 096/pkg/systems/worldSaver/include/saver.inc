@@ -6,9 +6,9 @@ use uo;
 use os;
 
 // SAVER EVENTS
-const EVENT_SAVE_NOW		:= 0x1;
-const EVENT_START_SHUTDOWN	:= 0x2;
-const EVENT_CANCEL_SHUTDOWN	:= 0x4;
+CONST EVENT_SAVE_NOW		:= 0x1;
+CONST EVENT_START_SHUTDOWN	:= 0x2;
+CONST EVENT_CANCEL_SHUTDOWN	:= 0x4;
 
 /*
  * SVR_SendCommand(event_id, data)
@@ -17,7 +17,7 @@ const EVENT_CANCEL_SHUTDOWN	:= 0x4;
  * Sends a command to the world saver. 
  *
  * Parameters
- * event_id:	An event constant ID#
+ * event_id:	An event CONSTant ID#
  * data:	Data to send with the event ID.
  *
  * Return Values

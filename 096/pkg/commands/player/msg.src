@@ -28,8 +28,8 @@ endprogram
 function MessageGump(who)
 	var gump := GFCreateGump();
 	
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 310, 420);
-	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 280, 390);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 310, 420);
+	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 280, 390);
 	
 	GFTextLine(gump, 25, 20, 2100, "Player Name");
 	GFTextLine(gump, 255, 20, 2100, "Send");

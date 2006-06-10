@@ -1,8 +1,8 @@
 use os;
 use uo;
 
-const SEARCH_RANGE := 10;
-const TRASH_BARREL := 0x7007;	// Should probably replace this with a find by name?
+CONST SEARCH_RANGE := 10;
+CONST TRASH_BARREL := 0x7007;	// Should probably replace this with a find by name?
 
 program useScript(who, deed)
 

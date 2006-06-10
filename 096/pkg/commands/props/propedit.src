@@ -53,7 +53,7 @@
 //
 //  0.4 - removed faulty array editing
 //
-//  0.1 to 0.3 - initial construction and testing
+//  0.1 to 0.3 - initial CONSTruction and testing
 //
 ////////////////////////////////////////////////////////
 //
@@ -72,11 +72,11 @@ use uo;
 use basic;
 
 ////////////////////////////////////////////////////////
-// Consts
+// CONSTs
 
-const TEXT_LINES        := 10;
-const MAX_PAGES         := 6;
-const MAX_CHARS         := 200;
+CONST TEXT_LINES        := 10;
+CONST MAX_PAGES         := 6;
+CONST MAX_CHARS         := 200;
 
 ////////////////////////////////////////////////////////
 // Global Variables

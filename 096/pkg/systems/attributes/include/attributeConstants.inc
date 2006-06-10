@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and constants for the attribute system.
+ * Provide various functions and CONSTants for the attribute system.
  *
  */
 use uo;

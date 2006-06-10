@@ -17,23 +17,23 @@ CONST B_REALM_TXT	:= 0xB005;
 CONST B_XCOORD_TXT	:= 0xB006;
 CONST B_YCOORD_TXT	:= 0xB007;
 CONST B_ZCOORD_TXT	:= 0xB008;
-const CANCEL_BTN	:= 0xE000;
+CONST CANCEL_BTN	:= 0xE000;
 CONST OKAY_BTN		:= 0xE001;
 
 program command_MakeTele(who)
 	var gump := GFCreateGump();
 
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 450, 460);
-	GFResizePic(gump, 10, 10, GFCfgConst("Defaults", "ForeGround"), 430, 40);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 450, 460);
+	GFResizePic(gump, 10, 10, GFCfgCONST("Defaults", "ForeGround"), 430, 40);
 	GFTextMid(gump, 10, 20, 430, 2100, "Teleport Create Menu");
 
-	GFResizePic(gump, 10, 55, GFCfgConst("Defaults", "ForeGround"), 430, 90);
+	GFResizePic(gump, 10, 55, GFCfgCONST("Defaults", "ForeGround"), 430, 90);
 	GFTextLine(gump, 20, 60, 2100, "Tele one will be placed where you are standing.");
 	GFTextLine(gump, 20, 80, 2100, "Tele two will be placed where tele one leads to.");
 	GFTextLine(gump, 20, 100, 2100, "If there is no tele two, then its a one way teleporter.");
 	GFTextLine(gump, 20, 120, 2100, "Make sure you have 'SeeInvisItems' on to see the tiles.");
 
-	GFResizePic(gump, 10, 150, GFCfgConst("Defaults", "ForeGround"), 430, 300);
+	GFResizePic(gump, 10, 150, GFCfgCONST("Defaults", "ForeGround"), 430, 300);
 
 	GFTextLine(gump, 20, 160, 2100, "Teleporter 1 Settings");
 	GFTextLine(gump, 20, 193, 2100, "Realm");

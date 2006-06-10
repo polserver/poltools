@@ -65,9 +65,9 @@ function BuildHairDyeGump(cur_color := 0)
 
 	GFPage(gump, 0);
 	//GFClosable(gump, 0);
-	GFResizePic(gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 400, 450);
-	GFResizePic(gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 120, 420);
-	GFResizePic(gump, 140, 15, GFCfgConst("Defaults", "ForeGround"), 245, 380);
+	GFResizePic(gump, 0, 0, GFCfgCONST("Defaults", "BackGround"), 400, 450);
+	GFResizePic(gump, 15, 15, GFCfgCONST("Defaults", "ForeGround"), 120, 420);
+	GFResizePic(gump, 140, 15, GFCfgCONST("Defaults", "ForeGround"), 245, 380);
 
 	GFAddButton(gump, 190, 405, 2128, 2129, GF_CLOSE_BTN, 1);
 	GFAddButton(gump, 265, 405, 2119, 2120, GF_CLOSE_BTN, 2);

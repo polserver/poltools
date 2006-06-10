@@ -15,7 +15,7 @@
 //            implemented into anything nor is the resists and luck. You can also change the global
 //            var STATCAP to be a variable if required for special rising stat cap systems.
 //
-// Const settings:
+// CONST settings:
 // BIT_MASK  = 0x00000003 DO NOT CHANGE!
 //
 // Global Variables:
@@ -25,7 +25,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 use polsys;
 
-include ":attributes:attributeConstants";
+include ":attributes:attributeCONSTants";
 include ":attributes:attributes";
 include ":packetconfig:settings";
 

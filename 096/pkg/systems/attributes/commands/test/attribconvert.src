@@ -1,7 +1,7 @@
 use uo;
 use os;
 
-include ":attributes:include/attributeConstants";
+include ":attributes:include/attributeCONSTants";
 include ":attributes:include/attributes_ex";
 
 program command_AttribConvert(who, input)

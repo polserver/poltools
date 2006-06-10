@@ -31,7 +31,7 @@ include ":brainAI:npcError";
 /////////////////////////////////////////////////////////////////
 // * Global Variables *
 //
-// Constants for NPC_SetupRandomEquipment()
+// CONSTants for NPC_SetupRandomEquipment()
 CONST EQUIP_NOGENDER	:= 0x0;	// Items suited for both genders
 CONST EQUIP_MALE	:= 0x1; // Use male-only items (do any exist?)
 CONST EQUIP_FEMALE	:= 0x2; // Use female-only items
