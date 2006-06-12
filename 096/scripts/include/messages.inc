@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and CONSTants for system messages.
+ * Provide various functions and constants for system messages.
  *
  */
 use uo;

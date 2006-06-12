@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and CONSTants for raw packets.
+ * Provide various functions and constants for raw packets.
  *
  */
 use polsys;

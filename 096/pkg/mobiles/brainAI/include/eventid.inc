@@ -31,7 +31,7 @@ CONST NPCEVENT_WAKEUP				:= 0xA00013;	// Tell the brain to wake up.
 CONST NPCEVENT_FWDNERVE				:= 0xA00014;	// Tell the brain to forward an event to a nerve.
 
 //
-// * NPCEVENT_MOVE helper CONSTants (.source = object)
+// * NPCEVENT_MOVE helper constants (.source = object)
 //
 CONST NEMOVE_WALK				:= 1;	// .speed (default)
 CONST NEMOVE_RUN				:= 2;	// .speed
@@ -58,13 +58,13 @@ CONST CLR_NERVE					:= 2;
 CONST CLR_BOTH					:= 3;
 
 //
-//* NPC.EM CONSTants (only brain can access npc.em)
+//* NPC.EM constants (only brain can access npc.em)
 //
-// CONSTants for texttype flags in the AI_Speak() function
+// Constants for texttype flags in the AI_Speak() function
 CONST SPEAK_TEXTTYPE_DEFAULT			:= "default";
 CONST SPEAK_TEXTTYPE_WHISPER			:= "whisper";
 CONST SPEAK_TEXTTYPE_YELL			:= "yell";
 
-// CONSTants for doevent flag in AI_Speak() function
+// Constants for doevent flag in AI_Speak() function
 CONST SPEAK_DOEVENT_DISABLE			:= 0x0;
 CONST SPEAK_DOEVENT_ENABLE			:= 0x1;

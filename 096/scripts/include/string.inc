@@ -8,7 +8,7 @@
 use uo;
 use os;
 
-// CONSTants for the RemoveSpaces() function.
+// Constants for the RemoveSpaces() function.
 CONST CLR_LEADING_SPACES 	:= 0x1;
 CONST CLR_TRAILING_SPACES 	:= 0x2;
 CONST CLR_DOUBLE_SPACES		:= 0x4;
