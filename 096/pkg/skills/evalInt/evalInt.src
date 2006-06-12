@@ -4,7 +4,7 @@
 use cfgfile;
 use uo;
 
-include ":attributes:attributeCONSTants";
+include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 

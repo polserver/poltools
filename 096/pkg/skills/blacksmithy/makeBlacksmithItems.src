@@ -3,7 +3,7 @@
 use cfgfile;
 use util;
 
-include ":attributes:attributeCONSTants";
+include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 include ":crafting:crafting";

@@ -288,7 +288,7 @@ function ProcessEvent(byref event)
 	endcase
 
 	// If the event has a .process member, reply to it by sending
-	// an event with .type being the NPCEVENT_DONE CONSTant
+	// an event with .type being the NPCEVENT_DONE constant
 	// and telling it what event it sent that has finished
 	// being processed.
 	//if ( event.process )

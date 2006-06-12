@@ -25,7 +25,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 use polsys;
 
-include ":attributes:attributeCONSTants";
+include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":packetconfig:settings";
 

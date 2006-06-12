@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Purpose
- * Provide various functions and CONSTants for the shard's behaviour.
+ * Provide various functions and constants for the shard's behaviour.
  *
  */
 use cfgfile;

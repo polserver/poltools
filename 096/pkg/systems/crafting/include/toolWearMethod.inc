@@ -1,6 +1,6 @@
 // //$Id$
 
-include ":attributes:attributeCONSTants";
+include ":attributes:attributeConstants";
 include ":attributes:attributes";
 
 exported function CheckToolWear (tool, who, craft_skill)
