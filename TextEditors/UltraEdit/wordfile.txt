@@ -138,6 +138,7 @@ CheckLineOfSight
 CheckLosAt
 CheckSkill
 Clear_Event_Queue
+CloseTradeWindow
 ConstE
 ConstPi
 ConsumeMana
@@ -373,6 +374,7 @@ Sqrt
 StartSpellEffect
 Start_Script
 StorageAreas
+StrFormatTime
 SubtractAmount
 SysLog
 SystemFindBoatBySerial
@@ -543,6 +545,7 @@ WriteHTMLRaw
 .title_race
 .title_suffix
 .toplevel_item_count
+.trading_with
 .truecolor
 .trueobjtype
 .type
@@ -807,8 +810,8 @@ _DEFAULT_UCFONT
 /Line Comment Alt = #
 /Escape Char = \
 /File Extensions = CFG
-/String Chars = 
-/Delimiters =	 
+/String Chars =
+/Delimiters =
 /Function String = "%^(?++^)[^p^r^n]{"
 /Indent Strings = "{"
 /Unindent Strings = "}"
@@ -834,6 +837,6 @@ NPCTemplate
 /Nocase
 /Escape Char = \
 /File Names = wordfile.txt
-/String Chars = 
+/String Chars =
 /Delimiters = ~!@%^&*()-+=|/{}[]:;"' <>	,.?
 /Function String = "%/L[0-9]+"^([a-zA-Z0-9_ ]++^)""
