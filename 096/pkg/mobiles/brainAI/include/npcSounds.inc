@@ -54,7 +54,7 @@ function NPC_GetIdleSound(mobile)
 		return 0;
 	endif
 
-	return idle_sound_list[RandomInt(idle_sound_list.Size())+1];
+	return CInt(idle_sound_list[RandomInt(idle_sound_list.Size())+1]);
 endfunction
 
 
@@ -80,7 +80,7 @@ function NPC_GetDamagedSound(mobile)
 		return 0;
 	endif
 
-	return damaged_sound_list[RandomInt(damaged_sound_list.Size())+1];
+	return CInt(damaged_sound_list[RandomInt(damaged_sound_list.Size())+1]);
 endfunction
 
 
@@ -106,7 +106,7 @@ function NPC_GetDeathSound(mobile)
 		return 0;
 	endif
 
-	return death_sound_list[RandomInt(death_sound_list.Size())+1];
+	return CInt(death_sound_list[RandomInt(death_sound_list.Size())+1]);
 endfunction
 
 
@@ -132,7 +132,7 @@ function NPC_GetMissSound(mobile)
 		return 0;
 	endif
 
-	return miss_sound_list[RandomInt(miss_sound_list.Size())+1];
+	return CInt(miss_sound_list[RandomInt(miss_sound_list.Size())+1]);
 endfunction
 
 /*
@@ -157,7 +157,7 @@ function NPC_GetHitSound(mobile)
 		return 0;
 	endif
 
-	return hit_sound_list[RandomInt(hit_sound_list.Size())+1];
+	return CInt(hit_sound_list[RandomInt(hit_sound_list.Size())+1]);
 endfunction
 
 
@@ -183,5 +183,5 @@ function NPC_GetBarkSound(mobile)
 		return 0;
 	endif
 
-	return bark_sound_list[RandomInt(bark_sound_list.Size())+1];
+	return CInt(bark_sound_list[RandomInt(bark_sound_list.Size())+1]);
 endfunction

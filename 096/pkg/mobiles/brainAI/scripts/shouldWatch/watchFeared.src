@@ -15,12 +15,17 @@ program BrainCriticalScript(params)
 	if ( mobile.npctemplate )
 		var hate_config := ReadConfigFile(":brainAI:config/hatelist");
 		var config_list := FindConfigElem(hate_config, NPC_ParseTemplateName(npc.npctemplate).template);
+		if ( config_list == error )
+			return 0;
+		endif
+		
 		var my_fear_list := GetConfigStringArray(config_list, "Fears");
 		if( !(NPC_ParseTemplateName(mobile.npctemplate).template in my_fear_list) )
 			return 0;
 		else
 			return 1;
 		endif
+		
 	elseif ( mobile.connected && !mobile.cmdlevel )
 		return 1;
 	else
