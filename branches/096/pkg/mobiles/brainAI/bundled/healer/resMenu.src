@@ -1,0 +1,27 @@
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":brainAI:npcCommands";
+include ":death:resurrection";
+
+program ResMenu(params)
+	var player := params[1];
+	var npc := params[2];
+	
+	params := 0; // Not needed anymore
+	
+	SetObjProperty(player, "#ResMenu", npc.serial);
+	
+	var result := ResurrectionGump(player);
+	if ( result )
+		if ( npc )
+			AI_Speak(npc, "Live again by the virtues!");
+		endif
+		
+		Resurrection(player);
+	endif
+	
+	EraseObjProperty(player, "#ResMenu");
+endprogram
+

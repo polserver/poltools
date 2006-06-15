@@ -1,0 +1,124 @@
+use npc;
+use os;
+use uo;
+use cfgfile;
+
+include "include/OLD/eventID";
+include ":attributes:attributes";
+include "include/sysEvent";
+include ":npcutils:names";
+include ":npcutils:vetement";
+include ":npcutils:NPCUtil";
+include ":itemutils:objtype";
+include ":npcutils:NPCCast";
+include ":npcutils:anchors";
+include "include/OLD/spellRestrictions";
+include ":oldAI:main/killPCsLoop";
+include ":oldAI:combat/fight";
+include ":oldAI:setup/spellSetup";
+include ":oldAI:main/loot";
+include ":oldAI:main/sleepMode";
+
+
+const HALT_THRESHOLD := 8; // how close before he attacks?
+var LAST_BREATH := ReadGameClock();
+
+var npcfgfile := ReadConfigFile( "::npcdesc" );
+var idlesnd1 := CInt(npcfgfile[me.npctemplate].idlesound1);
+var idlesnd2 := CInt(npcfgfile[me.npctemplate].idlesound2);
+var waittime := 0;
+var ev := 0;
+
+program KillPlayers()
+  if (GetObjProperty(me, "frozen"))
+	me.frozen := 1;
+  endif
+  SetWarMode( 0 );
+  main_AI_loop();
+endprogram
+
+function CloseDistance( opponent )
+  var sleepdelay := 400 - (CInt(AP_GetStat(me, "Dexterity")) * 1.5);
+  case (Distance( me, opponent ))
+    1:
+    0:       return 1;
+    default: RunToward( opponent );
+		     sleepms(sleepdelay);
+             return 0;
+  endcase
+endfunction
+
+function process_combat_event(opponent)
+  spellattack(opponent);
+  var plevel := Cint(GetObjProperty(me, "poison_level"));
+  var rint := RandomInt(8);
+  if((AP_GetVital(me, "Hits") < (AP_GetVitalMaximumValue(me, "Hits") / 2)) && (rint >= 5))
+    CastSpell(me, me, "gheal");
+  endif
+  if((plevel >= 1) && (rint >= 5))
+    CastSpell(me, me, "poison");
+  endif
+  if(((AP_GetVital(me, "Hits") * 100) / AP_GetVitalMaximumValue(me, "Hits")) < flee_point)
+    EraseObjProperty(me,"#flees");
+    flee(opponent);
+  endif
+endfunction
+
+function process_flee_event(opponent)
+  spellattack(opponent);
+  if((AP_GetVital(me, "Hits") < (AP_GetVitalMaximumValue(me, "Hits") / 2)) && (RandomInt(8) >= 3))
+    CastSpell(me, me, "gheal");
+    return 0;
+  endif
+  if((GetObjProperty(me, "poison_level") >= 1) && (RandomInt(8) >= 3))
+    CastSpell(me, me, "poison");
+    return 0;
+  endif
+  if(((AP_GetVital(me, "Hits") * 100) / AP_GetVitalMaximumValue(me, "Hits")) >= flee_point)
+    return 1;
+  endif
+endfunction
+
+function spellattack(opponent)
+  if(LAST_BREATH > ReadGameClock())
+    return;
+  endif
+  if((CheckLineOfSight(me, opponent)) and (Distance(me, opponent) <= 15))
+    cast_offensive_spell(me, opponent);
+    LAST_BREATH := Cint(ReadGameClock() + (RandomInt(4) + 4));
+  endif
+endfunction
+
+function prepare_for_fight(opponent)
+  opponent := opponent;
+  if(!CInt(GetObjProperty(me, "mr")))
+	CastSpell(me,me,"reflect");
+  endif
+  DisableMainEvents();
+  EnableCombatEvents();
+endfunction
+
+function post_combat()
+  if(AP_GetVital(me, "Hits") < (AP_GetStat(me, "Strength")-10))
+	CastSpell(me,me,"gheal");
+  endif
+  DisableCombatEvents();
+  EnableMainEvents();
+  SetWarMode(0);
+  SetOpponent(0);
+  summons := 1;
+  sleep(1);
+  look_around();
+endfunction
+
+function DoPoison(you)
+  if(Distance(me,you) < 2)
+    if((RandomInt(2) + 1) == 2)
+//      var poison_level := CInt(GetObjProperty(you, "poison_level"));
+      var passparms := { you, me, "poison elemental", 5 };
+      Detach();
+      start_script(":spells:poisonDamage", passparms);
+	  SetObjProperty(you, "LastHit", {me.name, me.serial, "poisoncloud"});
+    endif
+  endif
+endfunction

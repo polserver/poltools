@@ -1,0 +1,24 @@
+/*
+ * {$Id}
+ *
+ * Purpose
+ * Allows us to drop our command level to player and then turn it back on.
+ * May want to remove it after distro development is completed.
+ *
+ */
+
+use uo;
+
+program textcmd_CmdToggle(who)
+	if ( who.cmdlevel )
+		SetObjProperty(who, "cmdlevel", who.cmdlevel);
+		who.cmdlevel := 0;
+		SendSysMessage(who, "Off");
+	else
+		who.cmdlevel := CInt(GetObjProperty(who, "cmdlevel"));
+		EraseObjProperty(who, "cmdlevel");
+		SendSysMessage(who, "On");
+	endif
+	
+	return 1;
+endprogram

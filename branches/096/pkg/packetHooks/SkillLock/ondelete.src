@@ -1,0 +1,15 @@
+/* $Id$
+ *
+ */
+
+
+include ":datafile:datafile";
+include ":skilllock:skillLocks";
+
+program skillLock_onDelete(who)
+	var data_file  := SLPH_GetDataFile();
+	if( data_file )
+		return data_file.DeleteElement(Hex(who.serial));
+	endif
+	return 1;
+endprogram

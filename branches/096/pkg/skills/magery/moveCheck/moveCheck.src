@@ -1,0 +1,21 @@
+use uo;
+use os;
+
+program moveCheck(params)
+	var mobile := params[1];
+	var spell_starter := GetProcess(params[2]);
+	params := 0; // Not needed anymore
+		
+	var orig_x := mobile.x;
+	var orig_y := mobile.y;
+	
+	while ( spell_starter.pid )
+		if ( mobile.x != orig_x || mobile.y != orig_y )
+			spell_starter.SendEvent("moved");
+			return 1;
+		endif
+		SleepMS(50);
+	endwhile
+	
+	return 1;
+endprogram

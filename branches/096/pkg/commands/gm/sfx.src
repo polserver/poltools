@@ -1,0 +1,13 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+
+program command_Sfx(who, sound)
+	sound := CInt(sound);
+	
+	PlaySoundEffect(who, sound);
+	
+	return 1;
+endprogram

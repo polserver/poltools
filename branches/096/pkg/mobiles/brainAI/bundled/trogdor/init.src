@@ -1,0 +1,17 @@
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcInit";
+include ":brainAI:npcCommands";
+
+program BrainCriticalScript(params)
+	var npc		:= params[1];
+	//var settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+	
+	AI_Speak(npc, "AND THE DRAGON COMES IN THE NIIIIGHHHHHTTTTT!");
+	
+	return 1;
+endprogram

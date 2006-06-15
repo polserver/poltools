@@ -1,0 +1,205 @@
+/* $Id$
+ *
+ */
+use cfgfile;
+use uo;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+
+var physical_cfg := ReadConfigFile(":anatomy:config/physical");
+
+program skill_Anatomy(who)
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	SendSysMessage(who, "Whom shall I examine?");
+
+	var subject := Target(who);
+	if(!subject)
+		return 0;
+	elseif(subject.serial == who.serial)
+		PrintTextAbovePrivate(who, "You know yourself quite well enough already.", who);
+		return 0;
+	elseif(subject.graphic == 0x2006)
+		SendSysMessage(who, "Looks pretty dead to you.");
+		return 0;
+	elseif(!subject.isA(POLCLASS_MOBILE))
+		SendSysMessage(who, "That cannot be inspected.");
+		return 0;
+	endif
+
+	var str_reply := struct { sub_name, sub_fail, sub_str, sub_dex, sub_endurance };
+
+	if(subject.graphic != 0x190 && subject.graphic != 0x191)
+		str_reply.sub_name := "That creature";
+		str_reply.sub_fail := "that creature's physical characteristics.";
+	else
+		str_reply.sub_name := subject.name;
+		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
+			str_reply.sub_fail := subject.name+"'s physical characteristics.";
+		else
+			str_reply.sub_fail := subject.name+"' physical characteristics.";
+		endif
+	endif
+
+	HandleSubStrength(subject, str_reply);
+	HandleSubDexterity(subject, str_reply);
+	HandleSubEndurance(subject, str_reply);
+
+	// Replaces the <strength>, <type>, and <gender> from config file results.
+	HandleSubParsing(subject, str_reply);
+
+	var anatomy_response  := str_reply.sub_name+" looks "+str_reply.sub_str+" and "+str_reply.sub_dex+".";
+	var endurance_resonse := str_reply.sub_name+" is at "+str_reply.sub_endurance+" endurance.";
+
+	if( SkillCheck(who, ANATOMY, -1) > 0 )
+		PrintTextAbovePrivate(subject, anatomy_response, who);
+		// player's anatomy skill equal/greater than 65 can get endurance info
+		if(AP_GetSkill(who, ANATOMY) >= 65)
+			PrintTextAbovePrivate(subject, endurance_resonse, who);
+		endif
+		return 1;
+	else
+		PrintTextAbovePrivate(subject, "You can not quite get a sense of "+str_reply.sub_fail, who);
+		return 0;
+	endif
+
+endprogram
+
+
+function HandleSubStrength(subject, byref str_reply)
+
+	var sub_muscle := AP_GetStat(subject, "Strength");
+
+	var strength_elem := physical_cfg["Strength"];
+	if ( !strength_elem )
+		return strength_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(strength_elem, "Str");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_muscle < CDbl(p_array[1]) )
+			str_reply.sub_str := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find strength phrase for serial "+subject.serial};
+
+endfunction
+
+
+function HandleSubDexterity(subject, byref str_reply)
+
+	var sub_dexterity := AP_GetStat(subject, "Dexterity");
+
+	var dexterity_elem := physical_cfg["Dexterity"];
+	if ( !dexterity_elem )
+		return dexterity_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(dexterity_elem, "Dex");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_dexterity < CDbl(p_array[1]) )
+			str_reply.sub_dex := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find dexterity phrase for serial "+subject.serial};
+
+endfunction
+
+
+function HandleSubEndurance(subject, byref str_reply)
+
+	var sub_endurance := CInt(CInt(AP_GetVital(subject, "Stamina"))/CDbl(AP_GetVitalMaximumValue(subject, "Stamina"))*100);
+
+	var endurance_elem := physical_cfg["Endurance"];
+	if ( !endurance_elem )
+		return endurance_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(endurance_elem, "End");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_endurance < CDbl(p_array[1]) )
+			str_reply.sub_endurance := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find endurance phrase for serial "+subject.serial};
+
+endfunction
+
+// I HATE THIS
+function HandleSubParsing(subject, byref str_reply)
+
+	var sub_strength := "superhumanly";
+	var sub_type     := "people";
+	var sub_gender   := "it";
+
+	case ( subject.graphic )
+		0x190: sub_gender := "he";
+		0x191: sub_gender := "she";
+		default: sub_strength := "supernaturally";
+			 sub_type     := "creatures";
+	endcase
+
+	while ( Find( str_reply.sub_str, "<strength>", 1 ) != 0 )
+		str_reply.sub_str["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_str, "<type>", 1 ) != 0 )
+		str_reply.sub_str["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_str, "<gender>", 1 ) != 0 )
+		str_reply.sub_str["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	while ( Find( str_reply.sub_dex, "<strength>", 1 ) != 0 )
+		str_reply.sub_dex["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_dex, "<type>", 1 ) != 0 )
+		str_reply.sub_dex["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_dex, "<gender>", 1 ) != 0 )
+		str_reply.sub_dex["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	while ( Find( str_reply.sub_endurance, "<strength>", 1 ) != 0 )
+		str_reply.sub_endurance["<strength>"] := sub_strength;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_endurance, "<type>", 1 ) != 0 )
+		str_reply.sub_endurance["<type>"] := sub_type;
+		sleepms(2);
+	endwhile
+	while ( Find( str_reply.sub_endurance, "<gender>", 1 ) != 0 )
+		str_reply.sub_endurance["<gender>"] := sub_gender;
+		sleepms(2);
+	endwhile
+
+	return 1;
+
+endfunction

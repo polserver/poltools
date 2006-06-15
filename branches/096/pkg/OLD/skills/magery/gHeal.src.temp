@@ -1,0 +1,25 @@
+use uo;
+use os;
+use util;
+
+include ":attributes:attributes";
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+
+
+program spell_greaterHeal(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var healed := RandomDiceRoll("1d3");
+	healed := CInt(AP_GetSkill(caster, MAGERY)/2) + healed;
+	SendSysMessage(caster, "You healed " + healed + " damage.");
+	if (castOn.isA(POLCLASS_NPC))
+		healed := healed * 2;
+	endif
+	HealDamage(castOn, healed);
+	PlayObjectCenteredEffect( castOn, FX_SPARK_EFFECT, 7, 0x10 );
+	PlaySoundEffect( castOn, SFX_SPELL_GREATER_HEAL );
+
+	return;
+endprogram

@@ -1,0 +1,108 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/client";
+include ":itemutils:objtype";
+include ":coords:isValidLoc";
+
+
+program spell_recall(parms)
+  var caster := parms.caster;
+  var failure := 0;  
+  var castOn := Target(caster);
+  if((castOn.objtype != UOBJ_RUNE) && (castOn.objtype != 0x6100))
+    SendSysMessage(caster, "You can only cast that on a recall rune.");
+	return;
+  endif
+  if(!ReserveItem(castOn))
+    return;
+  endif
+  if(GetObjProperty(castOn, "Vendored"))
+    SendSysMessage(caster, "You cannot recall off of runes on a vendor.");
+    return;
+  endif
+  var tox := CInt(GetObjProperty( castOn, "x" ));
+  var toy := CInt(GetObjProperty( castOn, "y" ));
+  var toz := CInt(GetObjProperty( castOn, "z" ));
+  var torealm := GetObjProperty( castOn, "realm" );
+  if(!tox)
+    SendSysMessage(caster, "The rune must be marked.");
+    return;
+  endif
+  if(!torealm)
+  	torealm := "britannia";
+  endif
+  
+  if(!isValidLoc(tox,toy,torealm))
+    SendSysMessage(caster, "Invalid recall location.");
+    DestroyItem(castOn);
+    return;
+  endif
+  PlaySoundEffect(caster, 0x210);
+  Detach();
+  var chk := 0;
+  if((caster.x >= 5120) && (caster.x <= 5375) && (caster.y >= 0) && (caster.y <= 255))
+    SendSysMessage(caster, "Your spell fails and consumes the rune!");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  var multicheck := CreateItemAtLocation(1, 1, 0, 0xeed, 1, torealm);
+  multicheck.hidden := 1;
+  if(!MoveItemToLocation(multicheck, tox, toy, toz, MOVEITEM_NORMAL))
+    SendSysMessage(caster, "Something is blocking the location.");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  if(multicheck.multi)
+    SendSysMessage(caster,"Something is blocking the location.");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  DestroyItem(multicheck);
+  if(chk == 1)
+    return;
+  endif
+  if (failure == 0);
+  	if(torealm != caster.realm)
+  		MoveObjectToRealm(caster,torealm,1,1,0,MOVECHAR_FORCELOCATION);
+  	endif
+	MoveCharacterToLocation( caster, tox, toy, toz );
+  elseif (failure == 2)
+    SendSysMessage(caster, "Your spell fails and consumes the rune!");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    endif
+  endif
+  PlaySoundEffect(caster, 0x1fd);
+endprogram
+
+function removeentry(castOn)
+  var tox := CInt(GetObjProperty( castOn, "x" ));
+  var toy := CInt(GetObjProperty( castOn, "y" ));
+  var toz := CInt(GetObjProperty( castOn, "z" ));
+  var defs := GetObjProperty(castOn, "runedefs");
+  var holder := {};
+  foreach thing in defs
+    if((Cint(thing[2]) != tox) or (Cint(thing[3]) != toy) or (Cint(thing[4]) != toz))
+      holder.append(thing);
+    endif
+  endforeach
+  SetObjProperty(castOn, "runedefs", holder);
+  EraseObjProperty(castOn, "x");
+  EraseObjProperty(castOn, "y");
+  EraseObjProperty(castOn, "z");
+  return;
+endfunction

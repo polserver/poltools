@@ -1,0 +1,64 @@
+/* $Id$
+ *
+ * Purpose
+ * This script allows side effects to be triggered as a result of Player death,
+ * like unmounting players off their mount, allowing ghosts to report their murderer,
+ * Auto-Resurrect choices, etc.
+ *
+ */
+use uo;
+use os;
+use util;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":death:death";
+include ":mounts:mounts";
+
+program core_chrDeath(params)
+	var corpse := params[1];
+	var ghost := params[2];
+
+	TS_Death(ghost);
+
+	EraseObjProperty(ghost, "#IsMeditating");
+
+	DP_PlayDeathSound(ghost);
+	MP_DeathUnmount(corpse);
+
+	CheckForAutoRes(ghost, corpse);
+
+	if ( (ghost.reportables).Size() > 0)
+		//SendReportGump(ghost);
+	endif
+
+	return 1;
+endprogram
+
+function CheckForAutoRes(who, corpse)
+	var auto_res := CInt(GetObjProperty(who, "AutoRes"));
+	if ( auto_res )
+		Resurrect(who);
+		AP_RefreshVitals(who);
+
+		if ( !who.backpack )
+			return 1;
+		endif
+
+		foreach item in (EnumerateItemsInContainer(corpse))
+			if ( item.container == corpse )
+				if ( !EquipItem(who, item) )
+					MoveItemToContainer(item, who.backpack);
+				endif
+			endif
+		endforeach
+
+		if ( auto_res != -1 ) // -1 means infinite uses
+			auto_res := auto_res-1;
+			SetObjProperty(who, "AutoRes", auto_res);
+		endif
+		return 1;
+	endif
+	return 0;
+endfunction
+

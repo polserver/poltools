@@ -1,0 +1,44 @@
+/* $Id$
+ *
+ */
+//Example: .removenpc [npc template] -> Removes every npc of that type.
+
+use uo;
+use os;
+use polsys;
+
+include ":gumps:requestgump";
+
+program textcmd_NPCWipe(who, template)
+	if ( !template )
+		template := RequestGump(who, "Enter the npc template name to remove.");
+		if ( !template )
+			SendSysMessage(who, "Cancelled.");
+			return 0;
+		endif
+	endif
+	template := Lower(template);
+		
+	var realm_name := RequestGump(who, "Enter the realm name to perform the wipe on.", "", who.realm);
+	var realm_info := Realms()[realm_name];
+	if ( !realm_info )
+		SendSysMessage(who, "Invalid realm name.");
+		return 0;
+	endif
+	
+	var x1 := 1, y1 := 1, x2 := realm_info.width, y2 := realm_info.height;
+	var z1 := -120, z2 := 120;
+	
+	var count := 0;
+	foreach thing in ListObjectsInBox(x1, y1, z1, x2, y2, z2, realm_name)
+		if ( Lower(thing.npctemplate) == template )
+			SetObjProperty(thing, "GuardKill", 1);
+			ApplyRawDamage(thing, 8000);
+			count := count + 1;
+		endif
+		SleepMS(2);
+	endforeach
+	SendSysMessage(who, "Killed "+count+" NPCs");
+	
+	return 1;
+endprogram

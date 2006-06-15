@@ -1,0 +1,35 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include ":coords:isValidLoc";
+
+
+program spell_teleport( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  if (!isValidLoc(castOn.x, castOn.y))
+    SendSysMessage(caster, "You cannot teleport there.");
+    return;
+  endif
+  var sx := caster.x, sy := caster.y, sz := caster.z; 
+  var multicheck := CreateItemAtLocation(castOn.x, castOn.y, castOn.z, 0xeed, 1, caster.realm);
+  multicheck.hidden := 1;
+  if (multicheck.multi.serial != error)
+    SendSysMessage(caster,"You cannot teleport there.");
+    DestroyItem(multicheck);
+    return;
+  else
+    if((multicheck.x > 5120) && (multicheck.x < 6133) && (multicheck.y > 2063) && (multicheck.y < 2303))
+      DestroyItem(multicheck);
+      return;
+    endif
+    DestroyItem(multicheck);
+    MoveCharacterToLocation( caster, castOn.x, castOn.y, castOn.z );
+    PlayStationaryEffect( sx, sy, sz, FX_SMOKE, 0xa, 0xa, 0, caster.realm );
+    PlayStationaryEffect( caster.x, caster.y, caster.z, FX_SMOKE, 0xa, 0xa, 0, caster.realm );
+    PlaySoundEffect( caster, SFX_SPELL_TELEPORT );
+  endif
+endprogram

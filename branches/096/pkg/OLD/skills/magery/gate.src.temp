@@ -1,0 +1,130 @@
+use os;
+use uo;
+
+include ":coords:isValidLoc";
+include ":itemutils:objtype";
+include "include/client";
+include "include/sound";
+
+
+program spell_gate(parms)
+  var caster := parms.caster;
+  var castOn := Target(caster);
+  if((castOn.objtype != UOBJ_RUNE) && (castOn.objtype != 0x6100))
+    SendSysMessage(caster, "You can only cast that on a recall rune!");
+    return;
+  endif
+  var tox := CInt(GetObjProperty( castOn, "x" ));
+  var toy := CInt(GetObjProperty( castOn, "y" ));
+  var toz := CInt(GetObjProperty( castOn, "z" ));
+  var torealm := GetObjProperty( castOn, "realm" );
+  if(!tox)
+    SendSysMessage(caster, "The rune must be marked.");
+    return;
+  endif
+  if(!torealm)
+  	torealm := "britannia";
+  endif  
+  if(!ReserveItem(castOn))
+    return;
+  endif
+  if(GetObjProperty(castOn, "Vendored"))
+    SendSysMessage(caster, "You cannot gate off of runes on a vendor.");
+    return;
+  endif
+  if(!isValidLoc(tox,toy))
+    SendSysMessage(caster, "You may not gate into Green Acres.");
+    ReleaseItem(castOn);
+    DestroyItem(castOn);
+    return;
+  endif
+  PlaySoundEffect( caster, SFX_SPELL_GATE_TRAVEL );
+  var chk := 0;
+  if((caster.x >= 5120) && (caster.x <= 5375) && (caster.y >= 0) && (caster.y <= 255))
+    SendSysMessage(caster, "Your spell fails and consumes the rune!");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  var multicheck := CreateItemAtLocation(1, 1, 0, 0xeed, 1, torealm);
+  multicheck.hidden := 1;
+  if(!MoveItemToLocation(multicheck, tox, toy, toz, MOVEITEM_NORMAL))
+    SendSysMessage(caster, "Something is blocking the location.");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  if(multicheck.multi)
+    SendSysMessage(caster,"Something is blocking the location.");
+    if(castOn.objtype == UOBJ_RUNE)
+      DestroyItem(castOn);
+    elseif(castOn.objtype == 0x6100)
+      removeentry(castOn);
+    endif
+    chk := 1;
+  endif
+  DestroyItem(multicheck);
+  if(chk == 1)
+    return;
+  endif
+  var wx := caster.x;
+  var wy := caster.y;
+  var wz := caster.z;
+  PlayStationaryEffect( wx, wy, wz, 6899, 1, 30, 0, caster.realm );
+  PlayStationaryEffect( tox, toy, toz, 6899, 1, 30, 0, caster.realm );
+  sleepms(2800);
+  set_critical( 1 );
+  var gate1 := CreateItemAtLocation( wx, wy, wz, UOBJ_BLUE_MOONGATE, 1, caster.realm );
+  gate1.movable := 0;
+  var gate2 := CreateItemAtLocation( tox, toy, toz, UOBJ_BLUE_MOONGATE, 1, torealm );
+  gate2.movable := 0;
+  if(!gate1)
+    DestroyItem(gate2);
+    SendSysMessage(caster, "Something is interfering with the spell.");
+    return;
+  endif
+  if (!gate2)
+    DestroyItem(gate1);
+    SendSysMessage(caster, "Something is interfering with the spell.");
+    return;
+  endif
+  set_critical(0);
+  SetObjProperty( gate1, "GateDestX", gate2.x );
+  SetObjProperty( gate1, "GateDestY", gate2.y );
+  SetObjProperty( gate1, "GateDestZ", gate2.z );
+  SetObjProperty( gate1, "GateDestRealm", gate2.realm );
+  SetObjProperty( gate2, "GateDestX", gate1.x );
+  SetObjProperty( gate2, "GateDestY", gate1.y );
+  SetObjProperty( gate2, "GateDestZ", gate1.z );
+  SetObjProperty( gate2, "GateDestRealm", gate1.realm );
+  Detach();
+  sleep(30);
+  set_critical(1);
+  DestroyItem( gate1 );
+  DestroyItem( gate2 );
+  set_critical(0);
+endprogram
+
+function removeentry(castOn)
+  var tox := CInt(GetObjProperty( castOn, "x" ));
+  var toy := CInt(GetObjProperty( castOn, "y" ));
+  var toz := CInt(GetObjProperty( castOn, "z" ));
+  var defs := GetObjProperty(castOn, "runedefs");
+  var holder := {};
+  foreach thing in defs
+    if((Cint(thing[2]) != tox) or (Cint(thing[3]) != toy) or (Cint(thing[4]) != toz))
+      holder.append(thing);
+    endif
+  endforeach
+  SetObjProperty(castOn, "runedefs", holder);
+  EraseObjProperty(castOn, "x");
+  EraseObjProperty(castOn, "y");
+  EraseObjProperty(castOn, "z");
+  return;
+endfunction

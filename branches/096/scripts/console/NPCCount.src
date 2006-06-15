@@ -1,0 +1,15 @@
+/* $Id$
+ *
+ */
+use uo;
+
+program console_npccount(cmd)
+
+	cmd := cmd;
+	var npccount := POLCore().mobilecount - Len(EnumerateOnlineCharacters());
+
+	print("System Message: Current # of NPCS - "+npccount);
+
+	return 1;
+
+endprogram

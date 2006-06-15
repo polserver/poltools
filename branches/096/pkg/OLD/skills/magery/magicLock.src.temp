@@ -1,0 +1,45 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/sound";
+include ":attributes:attributes";
+include ":coords:findCity";
+include "util/key";
+
+
+program spell_magicLock( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  if((castOn.multi) ||(GetObjProperty(castOn,"houseserial")) ||(GetObjProperty(castOn,"house_serial")))
+    SendSysMessage(caster, "That cannot be magically locked!");
+    return;
+  endif
+  if(castOn.locked)
+    SendSysMessage(caster,"That is already locked!");
+    return;
+  endif
+  if((CheckForDoors(castOn)) && ((FindCity(castOn) != "no city") || (FindCity(caster) != "no city")))
+    SendSysMessage(caster, "That cannot be magically locked!");
+    return;
+  endif
+  if(((castOn.graphic<=0x9ab) &&(castOn.graphic>=0x9a8)) ||((castOn.graphic<=0xe43) &&(castOn.graphic>=0xe3c)) ||((castOn.graphic<=0xe80) &&(castOn.graphic>=0xe7c)) ||(checkfordoors(castOn)))
+    PlaySoundEffect(caster, SFX_SPELL_MAGIC_LOCK);
+    PrintTextAbovePrivate(castOn, "*Locked!*", caster);
+    var magery := CInt(AP_GetSkill(caster, MAGERY) / 4);
+    SetObjProperty(castOn, "MLockPickDiff", magery);
+    castOn.locked := 1;
+  else
+    SendSysMessage(caster, "That cannot be magically locked!");
+  endif
+endprogram
+
+
+function CheckForDoors(castOn)
+	if (((castOn.graphic<=0x1ffc) &&(castOn.graphic>=0x1fed)) ||((castOn.graphic<=0x6f4) &&(castOn.graphic>=0x675)))
+		return 1;
+	endif
+
+	return 0;
+endfunction

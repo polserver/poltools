@@ -1,0 +1,113 @@
+/* $Id$
+ *
+ * Purpose
+ * This script allows side effects to be triggered as a result of NPC death, like unmounting
+ * players off their dying mount, playing death sounds, etc. This script is common for all NPCs,
+ * and is called for each.
+ *
+ */
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include ":containers:merchantUtil";
+include ":timedscripts:timedScripts";
+include ":death:death";
+include ":mounts:mounts";
+
+program core_npcDeath(params)
+	var corpse := params[1];
+	
+	TS_Death(corpse); // Will still get the PID from the corpse.
+	
+	var template := GetObjProperty(corpse, "npctemplate"); // Set by the core.
+	var npc_cfg := NPC_GetNPCConfig(template);
+	var death_script := npc_cfg.DeathScript;
+	
+	if ( death_script )
+		params.Append(npc_cfg);
+		var result := Start_Script(death_script, params);
+		if ( result.errortext )
+			PrintTextAbove(corpse, "Error::Death Script -"+result.errortext);
+			SysLog("Error::Death Script Tmplt:["+template+"] Desc:["+corpse.desc+"] Ser:["+Hex(corpse.serial)+"] - "+result.errortext);
+		endif
+	endif
+		
+	DP_PlayDeathSound(corpse);
+	CPM_DeleteContainers(corpse);
+	
+	if ( GuardKillCheck(corpse) )
+		return 1;
+	elseif ( NoCorpseCheck(corpse, npc_cfg) )
+		return 1;
+	endif
+	
+	MP_DeathUnmount(corpse);
+endprogram
+
+function NotorietyChecks(corpse)
+	var killer := GetObjProperty(corpse, "LastHit");
+	if ( killer == error )
+		return 0;
+	endif
+	
+	var kwho := SystemFindObjectBySerial(killer[2]);
+	AdjustNoto(kwho, corpse);
+
+	// If killer was provoked, give noto to provoker.
+	var provoked := array;
+	provoked := GetObjProperty(kwho, "Provoked"); 
+	if ( provoked ) 
+		kwho := SystemFindObjectBySerial(provoked[2]);
+		AdjustNoto(kwho, corpse);
+		EraseObjProperty(killer[2], "Provoked");
+	endif
+endfunction
+
+function GuardKillCheck(corpse)
+	if ( GetObjProperty(corpse, "GuardKill") );
+		// Nothing
+	elseif ( GetObjProperty(corpse, "guardkill") ); 
+		// Nothing - Old CProp
+	else
+		return 0;
+	endif
+	
+	// No corpse. Don't drop backpack contents.
+	//PrintTextAbove(corpse, "*guardkilling*");
+	foreach item in (EnumerateItemsInContainer(corpse))
+		if ( item.container == corpse )
+			DestroyItem(item);
+		endif
+		SleepMS(2);
+	endforeach
+	DestroyItem(corpse);
+	
+	return 1;
+endfunction
+
+function NoCorpseCheck(corpse, npc_cfg)
+	if ( npc_cfg.NoCorpse );
+		// Nothing
+	elseif ( GetObjProperty(corpse, "NoCorpse") );
+		// Nothing
+	elseif ( GetObjProperty(corpse, "nocorpse") );
+		// Nothing - Old Cprop
+	elseif ( GetObjProperty(corpse, "summoned") );
+		// Nothing;
+	else
+		return 0;
+	endif
+	
+	// No corpse. Place backpack contents where the corpse is.
+	foreach item in (EnumerateItemsInContainer(corpse))
+		if ( item.container == corpse )
+			MoveObjectToLocation(item, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
+		endif
+		SleepMS(2);
+	endforeach
+	DestroyItem(corpse);
+	
+	return 1;
+endfunction

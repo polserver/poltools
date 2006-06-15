@@ -1,0 +1,10 @@
+/* $Id$
+ *
+ */
+use uo;
+use os;
+
+program ControlScript(acid)
+	Sleep(5);
+	DestroyItem(acid);
+endprogram

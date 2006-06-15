@@ -1,0 +1,24 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+
+
+program spell_vortex( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var thecritter := CreateNpcFromTemplate("vortex", castOn.x, castOn.y,castOn.z, 0, caster.realm);
+  PlaySoundEffect(thecritter,SFX_SPELL_ENERGY_VORTEX);
+  SetObjProperty(thecritter, "summoned",1);
+  SetObjProperty(thecritter, "master", caster.serial);
+  Detach();
+  sleep( (AP_GetSkill(caster, MAGERY) ) );
+  PlaySoundEffect( thecritter, SFX_SPELL_MANA_VAMPIRE );
+  PlayStationaryEffect( thecritter.x, thecritter.y, thecritter.z, FX_SMOKE, 0xa, 0xa, 0, caster.realm );
+  MoveCharacterToLocation(thecritter,0,0,0,MOVECHAR_FORCELOCATION);
+  ApplyRawDamage(thecritter, AP_GetVital(thecritter, HITS) + 3);
+endprogram
