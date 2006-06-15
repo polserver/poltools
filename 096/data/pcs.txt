@@ -20,7 +20,7 @@ Character
 	Facing	6
 	Revision	0
 	Realm	britannia
-	CmdLevel	test
+	CmdLevel	Dev
 	TrueColor	0x8026
 	TrueObjtype	0x190
 	Gender	0
