@@ -1,0 +1,57 @@
+/*
+ * $Id$
+ *
+ * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points, 
+ * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each. 
+ * Lasts until cast again.
+ * 
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+include ":damage:damage";
+
+program SpellScript_ReactiveArmor(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	if ( GetObjProperty(mobile, "ReactiveArmor") )
+		RemoveReactiveArmor(mobile);
+	else
+		ApplyReactiveArmor(mobile);
+	endif
+	
+	PlaySoundEffect(mobile, SFX_SPELL_REACTIVE_ARMOR);
+	PlayObjectCenteredEffect(mobile, GFX_RED_SPARKLES, 7, 16);
+
+	return 1;
+endprogram
+
+function ApplyReactiveArmor(mobile)
+	var points := ResistancePercentToMult((AP_GetSkill(mobile, INSCRIPTION) / 20) + 15);
+	var other_points := ResistancePercentToMult(-5);
+	ModifyResistance(mobile, DMG_PHYSICAL, points);
+	ModifyResistance(mobile, DMG_FIRE, other_points);
+	ModifyResistance(mobile, DMG_COLD, other_points);
+	ModifyResistance(mobile, DMG_POISON, other_points);
+	ModifyResistance(mobile, DMG_ENERGY, other_points);
+	SetObjProperty(mobile, "ReactiveArmor", 1);
+endfunction
+
+function RemoveReactiveArmor(mobile)
+	var points := ResistancePercentToMult((AP_GetSkill(mobile, INSCRIPTION) / 20) + 15);
+	var other_points := ResistancePercentToMult(5);
+	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
+	ModifyResistance(mobile, DMG_FIRE, other_points);
+	ModifyResistance(mobile, DMG_COLD, other_points);
+	ModifyResistance(mobile, DMG_POISON, other_points);
+	ModifyResistance(mobile, DMG_ENERGY, other_points);
+	EraseObjProperty(mobile, "ReactiveArmor");
+endfunction

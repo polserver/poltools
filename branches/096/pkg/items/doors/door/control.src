@@ -1,0 +1,18 @@
+/* $Id$
+ * 
+ * Purpose:
+ * Closes doors on startup.
+ *
+ */
+
+use uo;
+
+program controlScript(door)
+	if ( !door.locked )
+		if ( door.IsOpen() )
+			door.Close();
+		endif
+	endif
+	
+	return 1;
+endprogram

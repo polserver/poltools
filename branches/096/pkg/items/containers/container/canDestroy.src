@@ -1,0 +1,8 @@
+// $Id$
+
+program canDestroy(container)
+
+	container := container;
+	return 1;
+
+endprogram

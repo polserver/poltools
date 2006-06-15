@@ -1,0 +1,119 @@
+/* $Id$
+ *
+ */
+use uo;
+use os;
+
+include ":runebook:runebookFunctions";
+
+program on_insert(who, book, movetype, inserttype, item, existing_stack, amt);
+
+	// Next 4 lines used to fix the "unused variable" report
+	amt            := amt;
+	existing_stack := existing_stack;
+	movetype       := movetype;
+	inserttype     := inserttype;
+
+	var vendorserial := GetObjProperty(book,"Vendor");
+	if( vendorserial )
+		SendSysMessage(who, "You cannot insert runes while that is on a vendor.");
+		MoveItemToContainer(item, who.backpack);
+		return 0;
+	endif
+	if( book.movable == 0 )
+		SendSysMessage(who, "You cannot do that while the book is locked down.");
+		MoveItemToContainer(item, who.backpack);
+		return 0;
+	elseif( !ReserveItem(book) || !ReserveItem(item) )
+		MoveItemToContainer(item, who.backpack);
+		SendSysMessage(who, "You can't add that when the book is in use.");
+		return 0;
+	else
+		if( item.objtype == 0x1f14 )
+			return addRune(who, book, item);
+		elseif( item.objtype == 0x1f4c );
+			return recharge_book(who, book, item);
+		else
+			SendSysMessage(who, "You can't put that in a runebook.");
+			MoveItemToContainer(item, who.backpack);
+			return 0;
+		endif
+	endif
+
+	return 1;
+endprogram
+
+
+function recharge_book(who, book, scrolls)
+	var charge_prop := GetObjProperty(book, "%Charges%");
+	var charges := charge_prop["charges"];
+	if( !charges )
+		charges := 0;
+	endif
+	var max_charges := charge_prop["max_charges"];
+	if( !max_charges )
+		max_charges := 5;
+	endif
+	var max_amount  := CInt(max_charges - charges);
+	var amount      := CInt(scrolls.amount);
+	if( max_amount <= 0 )
+		SendSysMessage(who, "This runebook is fully charged.");
+		MoveItemToContainer(scrolls, who.backpack);
+		return 0;
+	elseif( amount >= max_amount )
+		var to_substract := max_amount;
+		if( SubtractAmount(scrolls, to_substract) )
+			charges := max_charges;
+		endif
+	elseif( DestroyItem(scrolls) )
+		charges := charges + amount;
+	endif
+	if(scrolls && scrolls.amount)
+		MoveItemToContainer(scrolls, who.backpack);
+	endif
+	PlaySoundEffect(who, 0x1F1);
+	PlayObjectCenteredEffect(who, 0x375A, 7, 0x10);
+	SetCharges(book, who, charges);
+	SendSysMessage(who, "There's now "+charges+" charges in this runebook.");
+	SetBookName(book, who, 1);
+
+	return 1;
+endfunction
+
+
+function addRune(who, book, rune)
+	var rune_list := GetRuneList(book);
+	if( rune_list.Size() > 15 )
+		SendSysMessage(who,"This book cannot hold any more runes.");
+		MoveItemToContainer(rune, who.backpack);
+		return 0;
+	endif
+	if( !ReserveItem(rune) )
+		SendSysMessage(who,"cancelled");
+		MoveItemToContainer(rune, who.backpack);
+		return 0;
+	endif
+	if( !GetObjProperty(rune, "Destination") )
+		SendSysMessage(who,"You can only add marked runes.");
+		MoveItemToContainer(rune, who.backpack);
+		return 0;
+	endif
+	Set_Critical(1);
+
+	var temp := GetObjProperty(rune, "Destination");
+	temp.+name := rune.name;
+	if( !rune.color )
+		temp.+color := 24;
+	else
+		temp.+color := CInt(rune.color);
+	endif
+	rune_list.Append(temp);
+
+	SetObjProperty(book, "%RuneList%", rune_list);
+
+	SendSysMessage(who, "You add the rune to the runebook.");
+	DestroyItem(rune);
+	Set_Critical(0);
+
+	return 1;
+endfunction

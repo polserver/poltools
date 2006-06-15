@@ -1,0 +1,11 @@
+<b>.bcast [text]</b>
+
+<u>Flags</u>
+text - Optional. Text you wish to broadcast to all clients.
+
+<u>Purpose</u>
+The command .bcast is used to broadcast messages to all connected clients at once. This can be used in several ways.
+
+By not giving any text to send, a gump will open asking you what you wish to broadcast. If you don't enter anything, it cancels the message.
+
+Before it sends any message, it will ask you if you wish to send this under a different name. If you select Yes, you will be asked what name to send this message as. The name is sent at the beginning of any broadcast message. [name]: [message]. If none is entered here, it defaults back to your name.

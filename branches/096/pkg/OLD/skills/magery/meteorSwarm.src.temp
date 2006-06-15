@@ -1,0 +1,41 @@
+use cfgfile;
+use uo;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":magery:reflect";
+include "include/spellAttack";
+
+
+program spell_meteorSwarm( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  Detach();
+  var dmg;
+  var victims := ListMobilesNearLocationEx( castOn.x, castOn.y, castOn.z, 3, 0x03, caster.realm);
+  foreach mobile in victims
+	PlaySoundEffect( mobile, SFX_SPELL_FIREBALL );
+	PlayMovingEffect( caster, mobile, FX_FIREBALL, 5, 1 );
+	SetObjProperty(mobile, "LastHit", {caster.name, caster.serial, "meteor swarm"});
+    if(spell_reflect(mobile))
+	  mobile := caster;
+	  PlaySoundEffect( mobile, SFX_SPELL_FIREBALL );
+	  PlayMovingEffect( caster, mobile, FX_FIREBALL, 5, 1 );
+    endif
+	dmg := RandomDiceRoll("6d8");
+	send_attack(mobile,caster, 55);
+    if(AP_GetVital(mobile, HITS) > 1)
+      if(castOn.npctemplate)
+        dmg := dmg * 2;
+      endif
+      ApplyRawDamage(mobile, Resisted(circle,caster,mobile,dmg));
+    endif
+	sleep(1);
+  endforeach
+endprogram

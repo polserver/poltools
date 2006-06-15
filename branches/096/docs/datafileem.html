@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+0053)fullfunc.html?xmlfile=datafileem -->
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<META content="MSHTML 6.00.2800.1126" name=GENERATOR>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
+Datafile.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+Functions to access generic data files.<BR>Last Modified: 5/1/2003</P>
+<P>File Constants: <PRE><UL>// OpenDataFile flags:<BR>// can specify only one of the following:<BR>const DF_KEYTYPE_STRING       := 0x00; // default<BR>const DF_KEYTYPE_INTEGER      := 0x01;<BR></UL></PRE>
+<P></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CreateDataFile>
+    <TH align=middle colSpan=2>CreateDataFile( filespec, flags := 
+      DF_KEYTYPE_STRING )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filespec</VAR></TD>
+    <TD>String</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>flags</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Creates a new data file.</TD></TR>
+  <TR>
+    <TD colSpan=2>filespec is in normal package descriptor format. 'filename' 
+      or '::filename' will create the new data file /data/ds/filename. 
+      ':pkgname:filename' will create /data/ds/pkgname/filename.</TD></TR>
+  <TR>
+    <TD colSpan=2>flags specifies if the keys of the new datafile are strings 
+      OR integers.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>DataFile Reference. See the DataFile object 
+  documentation.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Error in descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"An exception occurred"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Datafile"><B>Datafile</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#OpenDataFile>
+    <TH align=middle colSpan=2>OpenDataFile( filespec )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filespec</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Opens a datafile for access.</TD></TR>
+  <TR>
+    <TD colSpan=2>filespec is in normal package descriptor format. 'filename' 
+      or '::filename' will open the data file /data/ds/filename. 
+      ':pkgname:filename' will open /data/ds/pkgname/filename.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>DataFile Reference. See the DataFile object 
+  documentation.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Datafile does not exist"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Error in descriptor"</TD></TR>
+  <TR>
+    <TD colSpan=2>"An exception occurred"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Datafile"><B>Datafile</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#UnloadDataFile>
+    <TH align=middle colSpan=2>UnloadDataFile( filespec )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filespec</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Unloads a datafile</TD></TR>
+  <TR>
+    <TD colSpan=2>filespec is in normal package descriptor format. 'filename' 
+      or '::filename' will unload the data file /data/ds/filename. 
+      ':pkgname:filename' will unload /data/ds/pkgname/filename.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unable to find data store file"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Datafile"><B>Datafile</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

@@ -1,0 +1,87 @@
+Circle 1
+{
+    Mana        4
+    Difficulty  20
+    PointValue  20
+    animReps	1
+    extraWait	500
+}
+
+Circle 2
+{
+    Mana        6
+    Difficulty  30
+    PointValue  40
+    animReps	2 
+    extraWait	0
+}
+
+Circle 3
+{
+    Mana        9
+    Difficulty  40
+    PointValue  80
+    animReps	2
+    extraWait	250
+}
+
+Circle 4
+{
+    Mana        11
+    Difficulty  50
+    PointValue  100
+    animReps	2
+    extraWait	500
+}
+
+Circle 5
+{
+    Mana        14
+    Difficulty  60
+    PointValue  120
+    animReps	3
+    extraWait	0
+}
+
+Circle 6
+{
+    Mana        20
+    Difficulty  70
+    PointValue  140
+    animReps	3
+    extraWait	250
+}
+
+Circle 7
+{
+    Mana        40
+    Difficulty  80
+    PointValue  160
+    animReps	3
+    extraWait	500
+}
+
+Circle 8
+{
+    Mana        50
+    Difficulty  90
+    PointValue  180
+    animReps	4
+    extraWait	0
+}
+
+Circle 9
+{
+    Mana        75
+    Difficulty  100
+    PointValue  300
+    Delay       5000
+}
+
+Circle 10
+{
+    Mana        100
+    Difficulty  100
+    PointValue  300
+    Delay       7000
+}

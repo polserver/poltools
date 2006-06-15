@@ -1,0 +1,28 @@
+/* $Id$
+ *
+ */
+ 
+use os;
+use uo;
+
+include ":gumps:requestgump";
+
+program command_rename(who, text)
+	var targ := Target(who);
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	if ( !text )
+		text := RequestGump(who, "New Name", "", "", CANCEL_BTN_ON);
+		if ( !text || Len(text) < 1 )
+			SendSysMessage(who, "Cancelled.");
+			return 0;
+		endif
+	endif
+	
+	SetName(targ, text);
+	
+	return 1;
+endprogram

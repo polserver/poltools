@@ -1,0 +1,127 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":mining:settings";
+include ":mining:mining";
+include ":itemutils:itemdesc";
+include "include/client";
+include "include/sounds";
+include "include/facings";
+
+program use_PickAxe(who, pick)
+
+	SendSysMessage(who, "Select a place to mine.");
+	var targ := TargetCoordinates(who);
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	elseif ( !IsMinable(targ.x, targ.y, who.realm, targ.objtype) )
+		SendSysMessage(who, "You can not mine there.");
+		return 0;
+	endif
+	
+	var orig_x := who.x;
+	var orig_y := who.y;
+	
+	var num_loops := RandomDiceRoll("1d5");
+	for ( num_loops; num_loops>=0; num_loops:=num_loops-1 )
+		if ( !DoMining(who, pick, targ, orig_x, orig_y) )
+			break;
+		endif
+		// Wear down tool function call goes here.
+		Sleep(3);
+	endfor
+
+	SendSysMessage(who, "You stop mining.");
+
+	return 1;
+endprogram
+
+function DoMining(who, tool, targ, orig_x, orig_y)
+	var i:=1;//RandomDiceRoll("3d3");
+	for ( i; i>=0; i:=i-1 )
+		if ( !CanMine(who, tool, targ, orig_x, orig_y) )
+			return 0;
+		endif
+
+		PerformAction(who, ANIM_ATTACK_1HAND_DOWN);
+		PlaySoundEffect(who, SFX_HAMMER);
+		Sleep(1);
+	endfor
+	
+	var found_ore := CheckOreVeins(who);
+
+	if ( !found_ore )
+		SendSysMessage(who, "You are unable to find any ore here.");
+		return 0;
+	endif
+
+	return 1;
+endfunction
+
+function CheckOreVeins(who)
+	var found_ore := 0;
+	
+	var range := CInt(AP_GetSkill(who, MINING) / 20)+1;
+	var vein_list := ListVeinsNearMobile(who, range);
+	if ( who.cmdlevel )
+		SendSysMessage(who, "Number of veins found "+vein_list.Size());
+	endif
+	
+	foreach ore_vein in ( vein_list )
+		var remaining_ore := ore_vein.GetRemainingOre();
+		if ( remaining_ore > 0 )
+			if ( SkillCheck(who, MINING, ore_vein.GetDifficulty()) > 0 )
+				var yield := ore_vein.GetYield();
+				if ( remaining_ore < yield )
+					yield := remaining_ore;
+				endif
+				
+				var ore := CreateItemInBackpack(who, ore_vein.GetOreType(), yield);
+				if ( ore.errortext )
+					SendSysMessage(who, "Unable to create "+ore_vein.GetOreType()+"->"+ore.errortext);
+					continue;
+				endif
+				
+				SendSysMessage(who, "You mine some "+GetObjTypeDesc(ore.objtype)+".");
+				remaining_ore := remaining_ore-yield;
+				ore_vein.SetRemainingOre(remaining_ore);
+				
+				found_ore := found_ore+1;
+			endif
+		else
+			vein_list.Erase(_ore_vein_iter);
+		endif
+		
+		SleepMS(2);
+	endforeach
+	
+	return found_ore;
+endfunction
+
+function CanMine(who, tool, targ, orig_x, orig_y)
+	if ( who.hidden )
+		SendSysMessage(who, "You stop mining to remain hidden.");
+		return 0;
+	elseif ( CoordinateDistance(who.x, who.y, orig_x, orig_y) > 3 )
+		SendSysMessage(who, "You turn your attention away from mining.");
+		return 0;
+	elseif ( !IsFacing(who, targ.x, targ.y) )
+		SendSysMessage(who, "You turn your attention away from mining.");
+		return 0;
+	elseif ( !(tool in ListEquippedItems(who)) )
+		SendSysMessage(who, "You put the tool away and stop mining.");
+		return 0;
+	elseif ( GetEquipmentByLayer(who, LAYER_MOUNT) )
+		SendSysMessage(who, "You can't mine while mounted.");
+		return 0;
+	else
+		return 1;
+	endif
+endfunction
+

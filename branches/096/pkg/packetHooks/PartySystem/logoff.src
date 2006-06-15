@@ -1,0 +1,18 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":partySystem:config";
+
+program Logoff(who)
+	var party := GetObjProperty(who, PARTY_PROP);
+	
+	if ( party )
+		Start_Script("handlePartyRemove", array{who, who.serial, party});
+	endif
+
+	return 1;
+endprogram

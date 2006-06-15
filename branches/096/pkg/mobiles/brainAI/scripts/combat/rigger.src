@@ -1,0 +1,98 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:commonFunctions";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var event	:= params[3];
+	var settings	:= params[4];
+	var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
+	
+	var opponent := event.source;
+	var flee_mode := 0;
+
+	AI_SetOpponent(npc, opponent);
+
+	while ( npc )
+		var dist := Distance(npc, opponent);
+		if ( ShouldFlee(npc, flee_level, flee_mode) )
+			AI_WarMode(npc, 0);
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
+		elseif ( DoneFighting(npc, opponent, dist) )
+			if ( scripts.Exists("EndFight") )
+				params := array{opponent, settings, scripts};
+				AI_StartNerve(npc, "EndFight", scripts["EndFight"].script, params);
+			else
+				AI_WarMode(npc, 0);
+			endif
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist > 1 )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
+		endif
+		
+		ShitToss(npc, opponent, dist);
+
+		SleepMS(400);
+		AI_ClearThoughts(npc, CLR_NERVE);
+	endwhile
+endprogram
+
+function DoneFighting(npc, opponent, byref dist)
+	if ( opponent.dead )
+		return 1;
+	elseif ( !opponent )
+		return 1;
+	elseif ( opponent.hidden )
+		return 1;
+	elseif ( opponent.concealed > npc.cmdlevel )
+		return 1;
+	elseif ( dist > 20 )
+		return 1;
+	elseif ( dist > 10 && !CheckLineOfSight(npc, opponent) )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ShouldFlee(npc, byref flee_level, byref flee_mode)
+	if ( AP_GetVital(npc, "Hits") < flee_level )
+		if ( !flee_mode )
+			AI_Speak(npc, "Meez wuntz no moooore of dis!");
+			flee_mode := 1;
+		endif
+		return 1;
+	else
+		flee_mode := 0;
+		return 0;
+	endif
+endfunction
+
+function ShitToss(npc, opponent, byref dist)
+	if ( CInt( GetObjProperty(npc, "#NextShoot") ) < ReadGameClock() )
+		if ( RandomInt(10) == 1 )
+			if ( dist <= 8 )
+				if ( CheckLineOfSight(npc, opponent) )
+					AI_Speak(npc, "Take dat yuuz stinkar!!!", SPEAK_TEXTTYPE_YELL);
+					AI_Turn(npc, opponent, NETURN_TOWARD);
+					PlayMovingEffect(npc, opponent, 3900, 10, 10);
+					PrintTextAbove(opponent, "*SPLAT!*");
+					TS_StartTimer(opponent, "poostink", 30);
+					SetObjProperty(npc, "#NextShoot", ReadGameClock()+30);
+				endif
+			endif
+		endif
+	endif
+endfunction

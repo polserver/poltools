@@ -1,0 +1,37 @@
+use uo;
+use cfgfile;
+
+include ":dyes:dyes";
+
+program UseDyes(mobile, dyes)
+	if( !ReserveItem(dyes) )
+		SendSysMessage(mobile, "Those dyes are already in use.");
+		return 0;
+	elseif( !(dyes in EnumerateItemsInContainer(mobile.backpack)) )
+		SendSysMessage(mobile, "That item is not in your backpack.");
+		return 0;
+	endif
+
+	SendSysMessage(mobile, "What do you want to use these dyes on?");
+	var targ := target(mobile);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled");
+		return 0;
+	elseif( !ReserveItem(targ) )
+		SendSysMessage(mobile, "That is already in use.");
+		return 0;
+	endif
+
+	if ( (CanDye(targ)) || (mobile.cmdlevel) )
+		var color := SelectColor(mobile, targ);
+		if ( ValidDyeColor(mobile, color) )
+			PlaySoundEffect(mobile, 0x25);
+			targ.color := color;
+		endif
+		return 1;
+	else
+		SendSysMessage(mobile, "You can not dye that.");
+		return 0;
+	endif
+endprogram

@@ -1,0 +1,376 @@
+/* $Id$
+ *	  Author: MontuZ
+ *	  Created: Sunday, May 21 2006
+ *	  Version: 0.03
+ */
+
+use	os;
+
+include	":guilds:include/report";
+include	":guilds:include/settings";
+include	":guilds:include/events";
+include	":guilds:include/validate";
+include	":guilds:include/ranks";
+include	":gumps:include/yesno";
+
+var permissions := Guild_GetSettingsCfgElem("Permissions");
+
+program	GuildManager()
+
+	SetGlobalProperty("#Guild_Manager",	GetPid());
+
+	var	ev;
+
+	while (	1 )
+	ev := Wait_For_Event(120);
+		if ( ev	)
+			case ( ev.type )
+				GUILD_CREATE:
+					AddGuild(ev);
+				GUILD_DISBAND:
+					RemoveGuild(ev);
+				GUILD_MESSAGE:
+					// TODO:
+				GUILD_INVITE_MEMBER:
+					InviteMember(ev);
+				GUILD_KICK_MEMBER:
+					KickMember(ev);
+				GUILD_PROMOTE_MEMBER:
+					// TODO:
+				GUILD_DEMOTE_MEMBER:
+					// TODO:
+				GUILD_SET_MEMBER_TITLE:
+					// TODO:
+				GUILD_RESIGN_MEMBER:
+					LeaveGuild(ev);
+				GUILD_TOGGLE_MEMBER_TITLE:
+					// TODO:
+				GUILD_VOTE_MEMBER:
+					// TODO:
+				GUILD_SET_CHARTER:
+					SetGuildCharter(ev);
+				GUILD_SET_WEBSITE:
+					SetGuildWebsite(ev);
+				GUILD_REQUEST_ALLY:
+					// TODO:
+				GUILD_REQUEST_WAR:
+					// TODO:
+			endcase
+		endif
+	endwhile
+
+endprogram
+
+function AddGuild(ev)
+
+	var	guild_gm :=	ev.source;
+	var	regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
+	if ( regist_fee	== 0 ||	!regist_fee	)
+		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
+		return 0;
+	endif
+
+	if ( guild_gm.gold < regist_fee	)
+		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
+		return 0;
+	endif
+
+	var	guild_name := CStr(ev.name);
+
+	if ( Len(guild_name) > 20 ) // TODO: Add an option in settings.cfg
+		SendSysMessage(guild_gm, "Aborted. Guild name is too long.");
+		return 0;
+	elseif ( !ValidStr(guild_name) )
+		SendSysMessage(guild_gm, "Aborted. Guild name contains illegal characters.");
+		return 0;
+	elseif ( !ValidName(guild_name)	)
+		SendSysMessage(guild_gm, "Aborted. Guild name already exists.");
+		return 0;
+	endif
+
+	var	guild_abbr := CStr(ev.abbr);
+
+	if ( Len(guild_abbr) > 4 ) // TODO: Add an option in settings.cfg
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation is too long.");
+		return 0;
+	elseif ( !ValidStr(guild_abbr) )
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation contains illegal characters.");
+		return 0;
+	elseif ( !ValidName(guild_abbr)	)
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation already exists.");
+		return 0;
+	endif
+
+	if ( !YesNo(guild_gm, "Are you sure	you	want to	create a new guild?", "Yes", "No") )
+		SendSysMessage(guild_gm, "Aborted.");
+		return 0;
+	else
+		if ( !guild_gm.SpendGold(regist_fee) )
+			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
+			return 0;
+		endif
+	endif
+
+	var	guild := CreateGuild();
+
+    if ( guild )
+		var	guild_id :=	guild.guildid;
+		var	null_space := "NONE";
+		guild.SetProp("Name", guild_name);
+		guild.SetProp("Abbr",  guild_abbr);
+		guild.SetProp("Master",	guild_gm.serial);
+		guild.SetProp("Charter", null_space);
+		guild.SetProp("Website", null_space);
+		guild.SetProp("Faction", "Neutral");
+		guild.AddMember(guild_gm);
+		SetObjProperty(guild_gm, "Guild_ID", guild_id);
+		SetGuildRank(guild_gm, 5);
+		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
+		SendSysMessage(guild_gm, "Guild was successfully created.");
+		return 1;
+	elseif ( guild.errortext )
+		SendSysMessage(guild_gm, "Aborted. Guild creation failed.");
+		SysLog("Error creating guild ->"+guild.errortext);
+		return 0;
+	endif
+
+endfunction
+
+function RemoveGuild(ev)
+
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	foreach member in (guild.members)
+		guild.RemoveMember(member);
+		EraseObjProperty(member, "Guild_ID");
+		EraseObjProperty(member, "Guild_Rank");
+		EraseObjProperty(member, "Fealty");
+		member.title_guild := "";
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
+		SleepMS(2);
+	endforeach
+
+	foreach ally in (guild.allyguilds)
+		ally.RemoveAllyGuild(guild);
+		SleepMS(2);
+	endforeach
+
+	foreach enemy in (guild.enemyguilds)
+		enemy.RemoveEnemyGuild(guild);
+		SleepMS(2);
+	endforeach
+
+	DestroyGuild(guild);
+
+endfunction
+
+function InviteMember(ev)
+
+	var recruiter := ev.source;
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	SendSysMessage(recruiter, "Whom do you wish to invite into your guild?");
+
+	var new_member := Target( recruiter, TGTOPT_NOCHECK_LOS+TGTOPT_NEUTRAL );
+
+	if ( !new_member )
+		SendSysMessage(recruiter, "Aborted.");
+		return 0;
+	elseif ( new_member.IsA( POLCLASS_NPC ) )
+		SendSysMessage(recruiter, "Aborted. You must select a player.");
+		return 0;
+	elseif ( !new_member.IsA( POLCLASS_MOBILE ) )
+		SendSysMessage(recruiter, "Aborted. You must select a player.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_ID" ) )
+		SendSysMessage(recruiter, "Aborted. That player already belongs to a guild.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_Invites" ) == "OFF" )
+		SendSysMessage(recruiter, "Aborted. That player has choosen to ignore guild invites.");
+		return 0;
+	elseif ( GetObjProperty(new_member, "Guild_Invites" ) == "ON" || !GetObjProperty(new_member, "Guild_Invites" ) )
+		SendSysMessage(recruiter, "You have sent an invite to that player.");
+		if ( !YesNo(new_member, recruiter.name+" would like you to join "+guild_name+", do you accept?", "Yes", "No") )
+			SendSysMessage(new_member, "Aborted.");
+			SendSysMessage(recruiter, "The player cancelled your invite.");
+			return 0;
+		else
+			guild.AddMember(new_member);
+			SetObjProperty(new_member, "Guild_ID", guild.guild_id);
+			SetGuildRank(new_member, 1);
+			SetObjProperty(new_member, "Fealty", new_member.serial);
+			SendSysMessage(new_member, "You're now a member of "+guild_name+".");
+			SendSysMessage(recruiter, new_member.name+" has joined "+guild_name+".");
+			return 1;
+		endif
+	endif
+
+endfunction
+
+function KickMember(ev)
+
+	var character := ev.source;
+	var char_rank := GetGuildRank(character);
+	var member := ev.player;
+	var member_rank := GetGuildRank(member);
+
+	if ( char_rank < member_rank ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(character, "Aborted. You cannot kick this member.");
+		return 0;
+	endif
+
+	if ( char_rank == 2 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	elseif ( char_rank == 3 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 2 && member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	elseif ( char_rank == 4 ) // TODO: Get req. rank from settings.cfg
+		if ( member_rank != 1 )
+			SendSysMessage(character, "Aborted. You cannot kick this member.");
+			return 0;
+		endif
+	endif
+
+	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	if ( !max_ranks || max_ranks.errortext )
+		return max_ranks;
+	endif
+
+	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	if ( !min_ranks || min_ranks.errortext )
+		return min_ranks;
+	endif
+
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	if ( !YesNo(character, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
+		SendSysMessage(character, "Aborted.");
+		return 0;
+	else
+		guild.RemoveMember(member);
+		EraseObjProperty(member, "Guild_ID");
+		EraseObjProperty(member, "Guild_Rank");
+		EraseObjProperty(member, "Fealty");
+		member.title_guild := "";
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
+		SendSysMessage(character, member.name+" has been kicked from the guild.");
+		return 1;
+	endif
+
+endfunction
+
+function LeaveGuild(ev)
+
+	var member := ev.source;
+
+	var	guild := ev.guild;
+	var guild_name := guild.GetProp("Name");
+
+	if ( !YesNo(member, "Are you sure you would like to leave "+guild_name+"?", "Yes", "No") )
+		SendSysMessage(member, "Aborted.");
+		return 0;
+	else
+		guild.RemoveMember(member);
+		EraseObjProperty(member, "Guild_ID");
+		EraseObjProperty(member, "Guild_Rank");
+		EraseObjProperty(member, "Fealty");
+		member.title_guild := "";
+		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
+		if ( CInt(guild.GetProp("Master")) == CInt(member.serial) )
+			foreach xmember in (guild.members)
+			SendSysMessage(xmember, "You leader has left the guild.");
+			endforeach
+		endif
+		return 1;
+	endif
+
+endfunction
+
+function SetGuildCharter(ev)
+
+	var who := ev.source;
+
+	var who_rank := GetGuildRank(who);
+
+	var guild := ev.guild;
+	var guild_charter := guild.GetProp("Charter");
+
+	if ( guild_charter == "NONE" )
+		var new_charter := RequestInput(who, who.backpack, "Enter the new guild charter (50 characters max):");
+		if ( !new_charter )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		elseif ( new_charter )
+			guild.SetProp("Charter", new_charter);
+			SendSysMessage(who, "You submit a new guild charter.");
+			return 1;
+		endif
+	else
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild charter?", "Yes", "No") )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		else
+			var new_charter := RequestInput(who, who.backpack, "Enter the new guild charter (50 characters max):");
+			if ( !new_charter )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			elseif ( new_charter )
+				guild.SetProp("Charter", new_charter);
+				SendSysMessage(who, "You submit a new guild charter.");
+				return 1;
+			endif
+		endif
+	endif
+
+endfunction
+
+function SetGuildWebsite(ev)
+
+	var who := ev.source;
+
+	var who_rank := GetGuildRank(who);
+
+	if ( who_rank != 5 ) // TODO: Get req. rank from settings.cfg
+		SendSysMessage(who, "Aborted. You are not allowed to set the guild charter.");
+		return 0;
+	endif
+
+	var guild := ev.guild;
+	var guild_charter := guild.GetProp("Website");
+
+	if ( guild_charter == "NONE" )
+		var new_website := RequestInput(who, who.backpack, "Enter the new guild website (50 characters max):");
+		if ( !new_website )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		elseif ( new_website )
+			guild.SetProp("Website", new_website);
+			SendSysMessage(who, "You submit a new guild website.");
+			return 1;
+		endif
+	else
+		if ( !YesNo(who, "Are you sure	you	want to	create a new guild website?", "Yes", "No") )
+			SendSysMessage(who, "Aborted.");
+			return 0;
+		else
+			var new_website := RequestInput(who, who.backpack, "Enter the new guild website (50 characters max):");
+			if ( !new_website )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			elseif ( new_website )
+				guild.SetProp("Website", new_website);
+				SendSysMessage(who, "You submit a new guild website.");
+				return 1;
+			endif
+		endif
+	endif
+
+endfunction

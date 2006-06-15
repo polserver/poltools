@@ -1,0 +1,2156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Class Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0>
+<CENTER>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH align=middle>Class Hierarchy</TH>
+  <TR>
+    <TD><PRE>
+            <A href="objref.html#UObject">UObject</A>             <A href="objref.html#Account">Account</A>      <A href="objref.html#Polcore">PolCore()</A>       <A href="objref.html#DataFileElement">DataFileElement</A>
+               |
+               |                <A href="objref.html#Guild">Guild</A>        <A href="objref.html#Script">Script</A>          <A href="objref.html#Datastore">Datastore</A>
+     +---------+--------+
+     |                  |       <A href="objref.html#Array">Array</A>        <A href="objref.html#Dictionary">Dictionary</A>      <A href="objref.html#Datafile">Datafile</A>
+   <A href="objref.html#Character">Character</A>           <A href="objref.html#Item">Item</A>
+     |                  |       <A href="objref.html#AuxConnection">AuxConnection</A>   <A href="objref.html#Error">Error</A>        <A href="objref.html#String">String</A>
+    <A href="objref.html#NPC">NPC</A>                 |
+                        |                                    <A href="objref.html#Struct">Struct</A>
+     +------------------+--------------+-----------+
+     |                  |              |           |
+ <A href="objref.html#Equipment">Equipment</A>           <A href="objref.html#Lockable">Lockable</A>         <A href="objref.html#Map">Map</A>        <A href="objref.html#Multi">Multi</A>
+     |                  |                          |
+ +---+----+        +----+--------+            +----+----+
+ |        |        |             |            |         |
+<A href="objref.html#Armor">Armor</A>  <A href="objref.html#Weapon">Weapon</A>     <A href="objref.html#Door">Door</A>        <A href="objref.html#Container">Container</A>      <A href="objref.html#Boat">Boat</A>     <A href="objref.html#House">House</A>
+                                 |
+                            +----+----+
+                            |         |
+                         Spellbook   <A href="objref.html#Corpse">Corpse</A>
+</PRE></TD></TR></TBODY></TABLE></CENTER><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Last Modified: 
+6/12/2003<BR></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Account>
+    <TH align=middle colSpan=4>Account</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Object describing a player's game account</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">name</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">the name of the account</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">enabled</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if enabled</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">banned</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if banned</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">PasswordHash</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">MD5 password hash string</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">UsernamePasswordHash</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">MD5 username+password hash string</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>ban()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>bans the account</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>unban()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>unbans the account</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>enable()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>enables the account</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>disable()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>disables the account</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setpassword(string newpass)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>sets the account password to newpass</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>checkpassword(string pass)</TD>
+    <TD>boolean/error</TD>
+    <TD colSpan=2>returns true if 'pass' is the account's password</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setname(string newname, string newpass)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>sets the account name to newname, newpass optional</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>getcharacter(integer slot)</TD>
+    <TD>true/OfflineCharacterRef</TD>
+    <TD colSpan=2>gets an OfflineCharacterRef for the character in slot 
+      'slot'. returns error if not character in that slot (1..5)</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>deletecharacter(integer slot) </TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>Deletes character in slot 'slot'. returns error if not 
+      character in that slot (1..5)</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>getprop(string propname)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>GetObjProperty for account objects.</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setprop(string propname, propval)</TD>
+    <TD>true</TD>
+    <TD colSpan=2>SetObjProperty for account objects.</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>eraseprop(string propname)</TD>
+    <TD>true</TD>
+    <TD colSpan=2>EraseObjProperty for account objects.</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>propnames()</TD>
+    <TD>Array</TD>
+    <TD colSpan=2>returns an array of cprop names on this 
+account</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Armor>
+    <TH align=middle colSpan=4>Armor</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Equipment">Equipment</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Equipable items that protect against damage in 
+  combat</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">ar_mod</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Armor factor modifier</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">ar</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Modified armor factor</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">ar_base</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Base armor factor (as in itemdesc.cfg)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">onhitscript</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Script name that runs when armor is hit</TD>
+    <TD width="10%">r/w</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Array>
+    <TH align=middle colSpan=4>Array</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Data structure for linear storage, dynamically resizes to 
+      fit more elements. Declare with var a := array;</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>size()</TD>
+    <TD>int</TD>
+    <TD colSpan=2>number of elements in the array</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>erase(int index)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>erases the element at index</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>insert(int index, object)</TD>
+    <TD>void/error</TD>
+    <TD colSpan=2>inserts a new object into the array at index</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>shrink(index)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>erases index to end of array</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>append(object)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>inserts object in the end of the array</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>reverse()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>reverses the elements of the array</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>sort()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>sorts the elements of the array</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>+ array</TD>
+    <TD>array</TD>
+    <TD colSpan=2>concatinates 2 arrays</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AuxConnection>
+    <TH align=middle colSpan=4>AuxConnection</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>An object passed to an Aux Service Script that allows the 
+      script to transmit and recieve packed data over a TCP/IP port. use 
+      wait_for_event() in the service script to recieve data. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>transmit(object o)</TD>
+    <TD>error/0</TD>
+    <TD colSpan=2>Transmits the packable object 'o' over the Aux 
+  connection.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Boat>
+    <TH align=middle colSpan=4>Boat</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Multi">Multi</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A Multi object that moves in water.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">items</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of Item References on the deck of the boat</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">mobiles</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of Character References on the deck</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">has_offline_mobiles</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if players are logged out on the deck</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">tillerman</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">ItemRef to the tillerman item</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">portplank</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">ItemRef to the left-side plank item</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">starboardplank</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">ItemRef to the right-side plank item</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">hold</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">ItemRef to the hold container item</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>move_offline_mobiles(int x, int y, int z)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>moves offline mobiles on boat to 
+x,y,z</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Character>
+    <TH align=middle colSpan=4>Character</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#UObject">UObject</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#NPC">NPC</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A mobile object that exists in the world (NPC or player 
+      character)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">warmode</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">1 if in warmode</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">gender</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">0=male 1=female</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">trueobjtype</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">original objtype</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">truecolor</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">original color</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">ar_mod</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Armor factor modifier</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">hidden</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">1 = normal players cannot see</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">concealed</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">cmdlevel below this value cannot see</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">frozen</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">1 = player is frozen (by a GM)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">paralyzed</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">1 = player is paralyzed</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">poisoned</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">1 = player is poisoned</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">stealthsteps</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">number of walk steps left until player is revealed</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">squelched</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">1 = player cannot speak</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">dead</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">1 = player is dead</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">ar</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">total armor factor</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">backpack</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">Reference to character's pack (if any)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">weapon</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">Reference to character's weapon (if any)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">acctname</TD>
+    <TD width="10%">Account</TD>
+    <TD width="55%">Account name string (if not NPC)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">acct</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Account Reference (if not NPC)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">cmdlevel</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">command level of character</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">cmdlevelstr</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">string name of command level</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">criminal</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">1 = player is criminal (gray)</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">ip</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">IP Address string</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">gold</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Amount of gold in character's pack</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">title_prefix</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">String placed before name i.e. Lord Racalac</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">title_suffix</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">String placed after name i.e. Racalac the Brave</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">title_guild</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">String guild title i.e. [ROX, super d00d] Racalac</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">title_race</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">String race title after suffix in paperdoll</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">guildid</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">guild ID number</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">guild</TD>
+    <TD width="10%">Guild</TD>
+    <TD width="55%">guild object reference</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">murderer</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">1 = player flagged murderer (red)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">attached</TD>
+    <TD width="10%">Script</TD>
+    <TD width="55%">Script reference for attached script</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">reportables</TD>
+    <TD width="10%">Array</TD>
+    <TD width="55%">(reputation system) Array of Structs: { serial, killer, 
+      gameclock }, serial = killer's serial, killer = 'offline mobile reference' 
+      to the killer, gameclock = game time when the death occurred</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">clientversion</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">UO Client version string</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setpoisoned(bool)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>sets the character poisoned, controller of calling script is 
+      flagged as in repsystem</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>setparalyzed(bool)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>sets the character paralyzed, controller of calling script 
+      is flagged as in repsystem</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setcriminal(int level)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>sets the character criminal. level multiplies the 
+      CriminalFlagInterval as defined in repsys.cfg. level=0 clears criminal 
+      timer.</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>setlightlevel(int level, int duration)</TD>
+    <TD>true</TD>
+    <TD colSpan=2>sets the light level of the character to 'level' for 
+      'duration' seconds</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>squelch(int duration)</TD>
+    <TD>true</TD>
+    <TD colSpan=2>character cannot talk for 'duration' seconds. -1 means 
+      forever. 0 clears the squelch</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>enable(string setting)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>enables the 'granted' privilage to the character</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>disable(string setting)</TD>
+    <TD>true</TD>
+    <TD colSpan=2>disables the 'granted' privilage to the character</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>enabled(string setting)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>true if the privilage is enabled</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setcmdlevel(string cmdlevel)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>grants the command level to the char as defined in 
+    cmds.cfg</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>spendgold(int amount)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>if enough gold, removes it from the player's pack</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setmurderer(bool)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>flags the character as a murderer (red)</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>removereportable(int serial, int gameclock)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>removes the killer with 'serial' from the reportables list 
+      that was added at 'gameclock'</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>getgottenitem()</TD>
+    <TD>error/ItemRef</TD>
+    <TD colSpan=2>returns an ItemRef to the item held on the player's cursor, 
+      if any.</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>setwarmode(boolean)</TD>
+    <TD>integer/error</TD>
+    <TD colSpan=2>Sets the internal warmode flag and sends the update to the 
+      player. Returns the new warmode value.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Container>
+    <TH align=middle colSpan=4>Container</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Lockable">Lockable</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+    href="objref.html#Corpse">Corpse</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Items that can be locked, and have other items inside 
+  them</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Corpse>
+    <TH align=middle colSpan=4>Corpse</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Lockable">Lockable</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Objects that are created when character objects are 
+  killed</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">corpsetype</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">objtype of the character killed</TD>
+    <TD width="10%">r/o</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Datafile>
+    <TH align=middle colSpan=4>Datafile</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Object representing a data file in a data 
+store</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>CreateElement(key)</TD>
+    <TD>error/DataFileElemRef</TD>
+    <TD colSpan=2>key is int or string, depending on datafile flags</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>FindElement(key)</TD>
+    <TD>error/DataFileElemRef</TD>
+    <TD colSpan=2>see key notes above</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>DeleteElement(key)</TD>
+    <TD>error/true</TD>
+    <TD colSpan=2>see key notes above</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>Keys()</TD>
+    <TD>array</TD>
+    <TD colSpan=2>array of ints or strings, depending on datafile 
+  flags</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#DataFileElement>
+    <TH align=middle colSpan=4>DataFileElement</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A data element inside a datastore file</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>GetProp(string propname)</TD>
+    <TD>script object/error</TD>
+    <TD colSpan=2>Returns an unpacked script object (i.e. 
+    int,string,array,etc)</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>SetProp(string propname, object propvalue)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>Sets a packable object to a property</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>EraseProp(string propname)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>Erases the property named 'propname'</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>PropNames()</TD>
+    <TD>array</TD>
+    <TD colSpan=2>Returns an array of property name 
+strings</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Datastore>
+    <TH align=middle colSpan=4>Datastore</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Functions for manipulating a datastore. Not an actual 
+      object, but funcs found in datafile.em, presented here for 
+  completeness.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>CreateDataFile(string name, int flags)</TD>
+    <TD>DataFileRef/error</TD>
+    <TD colSpan=2>Creates a datafile</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>OpenDataFile(string name)</TD>
+    <TD>DataFileRef/error</TD>
+    <TD colSpan=2>Opens a datafile</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>UnloadDataFile(string name)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>Unloads a datafile</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Dictionary>
+    <TH align=middle colSpan=4>Dictionary</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Data structure for key-&gt;value pairs (i.e."associative 
+      array"). Keys may be intgers, strings, reals, mobrefs, or itemrefs. 
+      Declare with var d := dictionary;</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>size()</TD>
+    <TD>int</TD>
+    <TD colSpan=2>number of pairs in dictionary</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>erase(key)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>erases a pair from the dict</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>insert(key, value)</TD>
+    <TD>error/int</TD>
+    <TD colSpan=2>inserts a pair into the dict, returns new size</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>exists(key)</TD>
+    <TD>error/int</TD>
+    <TD colSpan=2>if exists, returns count of matching key</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>keys()</TD>
+    <TD>array</TD>
+    <TD colSpan=2>returns an array of the keys</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>[key]</TD>
+    <TD>value</TD>
+    <TD colSpan=2>gets value at key, or uninit if key doesn't 
+  exist</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Door>
+    <TH align=middle colSpan=4>Door</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Lockable">Lockable</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A door item that automatically closes.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">isopen </TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if the door is open</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>open()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>opens the door</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>close()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>closes the door</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>toggle()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>toggles the door to the other 
+state</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Equipment>
+    <TH align=middle colSpan=4>Equipment</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Item">Item</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+    href="objref.html#Weapon">Weapon</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Armor">Armor</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Class containing concrete subclasses which are equipable and 
+      have hit points</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">quality</TD>
+    <TD width="10%">float</TD>
+    <TD width="55%">1.0=Average</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">hp</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Hit points of item</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">maxhp_mod</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Maximum Hit Point modification</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">maxhp</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Maximum Hit Points of item</TD>
+    <TD width="10%">r/o</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Error>
+    <TH align=middle colSpan=4>Error</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>An object representing a script error. Comparing this object 
+      against the keyword 'error' allows the scripter to know if the result of a 
+      core function was an error.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">errortext</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Informational Error string</TD>
+    <TD width="10%">r/w</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Guild>
+    <TH align=middle colSpan=4>Guild</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Object representing a player guild association</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">members</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of Character Refs who are guild members</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">allyguilds</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of GuildRefs who are allied guilds</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">enemyguilds</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of GuildRefs who are enemy guilds</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">guildid</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Guild ID number</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>ismember(Character)</TD>
+    <TD>error/true</TD>
+    <TD colSpan=2>true if the character is a member of the guild</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>isallyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>true if the guild is an ally</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>isenemyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>true if the guild is an enemy</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>addmember(CharacterRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>adds a character to the guild</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>addallyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>adds an ally guild</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>addenemyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>adds an enemy guild</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>removemember(CharacterRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>removes a character member</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>removeallyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>removes an ally guild</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>removeenemyguild(GuildRef)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>removes an enemy guild</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#House>
+    <TH align=middle colSpan=4>House</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Multi">Multi</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A Multi object where players hoard items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">components </TD>
+    <TD width="10%">Array</TD>
+    <TD width="55%">Array of House components, i.e. sign, doors</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">items</TD>
+    <TD width="10%">Array</TD>
+    <TD width="55%">Array of Item References in the house</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">mobiles</TD>
+    <TD width="10%">Array</TD>
+    <TD width="55%">Array of Character References in the house</TD>
+    <TD width="10%">r/o</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Item>
+    <TH align=middle colSpan=4>Item</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#UObject">UObject</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Equipment">Equipment</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Lockable">Lockable</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A href="objref.html#Map">Map</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Multi">Multi</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Represents a physical item in the world.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">amount</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">stack size</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">layer</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">equipment layer</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">container</TD>
+    <TD width="10%">Item</TD>
+    <TD width="55%">item contained in</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">usescript</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">double-click action script. set to empty string for 
+      itemdesc.cfg default script.</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">equipscript</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">script run when item equipped on a character</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">unequipscript</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">script run when item unequipped</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">desc</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">single click description string</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">movable</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if player may move the item</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">invisible</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if the item is invisible</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">decayat</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">game clock value after which this item might decay</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">sellprice</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Amount of gold an NPC sells this item for. 0=not for sale, 
+      -1=itemdesc default.</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">buyprice</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Amount of gold an NPC buys this item for. 0=not for sale, 
+      -1=itemdesc default.</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">newbie</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if the item remains with the ghost when player 
+dies</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">item_count</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">number of items in container (or 1 if this item is not a 
+      container)</TD>
+    <TD width="10%">r/o</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Lockable>
+    <TH align=middle colSpan=4>Lockable</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Item">Item</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Door">Door</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Container">Container</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Class containing concrete subclasses which can 
+  'lock'</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">locked</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">true if the item is locked</TD>
+    <TD width="10%">r/w</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Map>
+    <TH align=middle colSpan=4>Map</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Item">Item</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A Map item that shows a a map image in a gump when double 
+      clicked.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">xeast</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">east gump edge (world coord)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">xwest</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">west gump edge (world coord)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">ynorth</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">north gump edge (world coord)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">ysouth</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">south gump edge (world coord)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">gumpwidth</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">width in pixels of map gump</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">gumpheight</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">height in pixels of map gump</TD>
+    <TD width="10%">r/w</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>getpins()</TD>
+    <TD>array</TD>
+    <TD colSpan=2>returns array of structs{x,y} of pins for the map</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>insertpin(int index, int x, int y)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>insert pin{x,y} before index</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>appendpin(int x, int y)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>append pin{x,y} to end of course</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>erasepin(int index)</TD>
+    <TD>true/error</TD>
+    <TD colSpan=2>erase pin at index</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Multi>
+    <TH align=middle colSpan=4>Multi</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Item">Item</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#House">House</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Boat">Boat</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Special items that display as many pieces of a large 
+      structure, as defined in multi.cfg</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#NPC>
+    <TH align=middle colSpan=4>NPC</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Character">Character</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>A Non-Player Character mobile object</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">npctemplate</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">NPC template name in npcdesc.cfg</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">master</TD>
+    <TD width="10%">Character</TD>
+    <TD width="55%">controlling player character, false if none</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">process</TD>
+    <TD width="10%">Script</TD>
+    <TD width="55%">Control script reference, error on none</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">eventmask</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">bitwise-ORd list of sysevents that have been enabled, 
+      error if no control script running</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">speech_color</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">NPC speech text color</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">speech_font</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">NPC speech text font</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">script</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">control script name</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">use_adjustments</TD>
+    <TD width="10%">boolean</TD>
+    <TD width="55%">Use movement adjustments to avoid single-tile obsticals</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">run_speed</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">NPC walk delay (maximum 250)</TD>
+    <TD width="10%">r/w</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>setmaster(CharacterRef master)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>Sets the master character for the NPC, if not passed, clears 
+      master.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Polcore>
+    <TH align=middle colSpan=4>Polcore</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Object containing server data</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">itemcount</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Total Item Count</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">mobilecount</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Total Mobile Count</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">uptime</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Uptime in seconds</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">sysload</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">System Load</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">sysload_severity</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">System Load Severity</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">bytes_sent</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Number of bytes sent</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">bytes_received</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Number of bytes received</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">version</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Version, i.e. 95</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">systime</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">UNIX time()</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">events_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Events per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">skill_checks_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Skill checks per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">combat_operations_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Combat operations per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">error_creations_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Script errors per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">tasks_ontime_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Tasks ontime per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">tasks_late_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Tasks late per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">tasks_late_ticks_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Tasks late ticks per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">instr_per_min</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Script instructions per minute</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">priority_divide</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Priority Divide</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">verstr</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Version String</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">compiledate</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Compile Date</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">compiletime</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Compile Time</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">packages</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of enabled package names</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">all_scripts</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of all cached script objects</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">script_profiles</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">Array of structs: struct have members name, instr, 
+      invocations, instr_per_invoc, instr_percent</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">iostats</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">struct of arrays of structs - iostats["sent"array-&gt;256 
+      elements of struct["count","bytes"],"received"array-&gt;256 elements of 
+      struct["count","bytes"]]</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">queued_iostats</TD>
+    <TD width="10%">array</TD>
+    <TD width="55%">structure same as iostats, but for queued I/O stats</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>log_profile(bool clear)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>Writes the script profile to the log, optionally clearing it 
+      after.</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>set_priority_divide(int divide)</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>Sets the priority divide to 'divide'</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>clear_script_profile_counters()</TD>
+    <TD>true/false</TD>
+    <TD colSpan=2>Clears the script profile 
+counters</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Script>
+    <TH align=middle colSpan=4>Script</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Object representing a script in the system</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">pid</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Process ID</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">name</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Script name</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">state</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Script state</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">instr_cycles</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Instruction Cycles</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">sleep_cycles</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Sleep Cycles</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">consec_cycles</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Consecutive Cycles</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">PC</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Program Counter</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">call_depth</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Call depth</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">num_globals</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Number of global variables</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">var_size</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Number of variables</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">globals</TD>
+    <TD width="10%">Dictionary</TD>
+    <TD width="55%">Dictionary of global variable name=&gt;value pairs</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>sendevent(obj event)</TD>
+    <TD>error/true</TD>
+    <TD colSpan=2>sends a event to this script (usually a struct)</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>kill()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>Kills this script</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>clear_event_queue()</TD>
+    <TD>true</TD>
+    <TD colSpan=2>clears the event queue of the 
+script</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#String>
+    <TH align=middle colSpan=4>String</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>An ordered collection of ascii (1-byte) characters. Declare 
+      with var s := "my string"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>[start,length]</TD>
+    <TD>string</TD>
+    <TD colSpan=2>'Substring': returns a new string from the character range 
+      between start and length, inclusive. Returns error if index out of range. 
+      Ex: var str := "yomama"; str[2,3] would return "oma".</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>[substr]</TD>
+    <TD>string/uninit</TD>
+    <TD colSpan=2>seaches the string for 'substr'. If found, returns the first 
+      character of the substring, else uninitialized object. </TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>[substr] := replace_str</TD>
+    <TD>string</TD>
+    <TD colSpan=2>finds the first occurance of 'substr' and replaces substr 
+      with 'replace_str'. returns the new string.</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>+ string</TD>
+    <TD>string</TD>
+    <TD colSpan=2>concatenates the strings, returns the new 
+  string.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Struct>
+    <TH align=middle colSpan=4>Struct</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Data structure with explicitly named members (keys). Keys 
+      may be only be strings. Declare with var s := struct; Pre-intialize with: 
+      var s := struct { a := 1, b :=2 }</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>.+member</TD>
+    <TD>n/a</TD>
+    <TD colSpan=2>struct.+member adds a member</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>.member</TD>
+    <TD>value</TD>
+    <TD colSpan=2>gets value of member</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>[member]</TD>
+    <TD>value</TD>
+    <TD colSpan=2>gets value of member ONLY when member is a string! no using 
+      integers here like an array.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#UObject>
+    <TH align=middle colSpan=4>UObject</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Children</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Character">Character</A></TD></TR>
+  <TR>
+    <TD colSpan=4><A 
+  href="objref.html#Item">Item</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>The base UO Object class</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">x</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">x coordinate</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">y</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">y coordinate</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">z</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">z coordinate</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">name</TD>
+    <TD width="10%">String</TD>
+    <TD width="55%">name string (for items use .desc for single-click text)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">objtype</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">object type as defined in itemdesc.cfg</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">graphic</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">art id number</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">serial</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">unique object identifier</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">color</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">color value (0 to 0xFFF)</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">facing</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">facing or the object (meaningful for mobiles and 
+      light-emitting items) range 0-127</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">height</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">height of the graphic as defined in tiledata.mul</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">weight</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">weight of the graphic as defined in tiledata.mul</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">multi</TD>
+    <TD width="10%">Multi</TD>
+    <TD width="55%">MultiRef for the Multi the object is on</TD>
+    <TD width="10%">r/o</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Methods</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD>Prototype</TD>
+    <TD>Returns</TD>
+    <TD colSpan=2>Desc</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>isa(POLCLASS_*)</TD>
+    <TD>boolean</TD>
+    <TD colSpan=2>True if the derived class is the same as the passed class 
+      type (see uo.em for all constants)</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD noWrap>set_member(string membername, obj value)</TD>
+    <TD>object, new value of member or error</TD>
+    <TD colSpan=2>Sets the built-in member 'membername' to 'value'. 
+      obj.set_member("name","u suck") is the same as obj.name := "u suck"</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD noWrap>get_member(string membername</TD>
+    <TD>object, value of member or error</TD>
+    <TD colSpan=2>Gets the value of the built-in member 'membername'. var 
+      objname := obj.get_member("name") is the same as var objname := 
+  obj.name</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Weapon>
+    <TH align=middle colSpan=4>Weapon</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Parent</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4><A 
+      href="objref.html#Equipment">Equipment</A></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=4>Equipable items that deal damage in combat</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=4>Members</TH></TR></TBODY>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <COLGROUP align=left>
+  <TBODY>
+  <TR>
+    <TD width="25%">Name</TD>
+    <TD width="10%">Type</TD>
+    <TD width="55%">Desc</TD>
+    <TD 
+  width="10%">Access</TD></TR></TBODY></COLGROUP></COLGROUP></COLGROUP></COLGROUP>
+  <TBODY>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">dmg_mod</TD>
+    <TD width="10%">integer</TD>
+    <TD width="55%">Damage Modifier</TD>
+    <TD width="10%">r/w</TD></TR>
+  <TR bgColor=#e5e5e5>
+    <TD width="25%">attribute</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Attribute name this weapon uses as a skill</TD>
+    <TD width="10%">r/o</TD></TR>
+  <TR bgColor=#f0f0f0>
+    <TD width="25%">hitscript</TD>
+    <TD width="10%">string</TD>
+    <TD width="55%">Script name that runs when weapon makes a hit</TD>
+    <TD width="10%">r/w</TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>
