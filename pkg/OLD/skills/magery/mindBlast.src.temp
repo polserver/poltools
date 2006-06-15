@@ -1,0 +1,42 @@
+use os;
+use uo;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":magery:reflect";
+include ":attributes:attributes";
+
+
+program spell_mindBlast( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  var myInt := CInt(AP_GetStat(caster, INTELLIGENCE));
+  var hisInt := CInt(AP_GetStat(castOn, INTELLIGENCE));
+  SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "mind blast" });
+  var modif := myInt - hisInt;
+  if(hisInt > myInt)
+    modif := hisInt - myInt;
+	castOn := caster;
+  elseif(hisInt == myInt)
+	return;
+  endif
+  if(modif > 20)
+    modif:= 20;
+  endif
+  if(spell_reflect(castOn))
+	castOn := caster;
+  endif
+  PlaySoundEffect(castOn, SFX_SPELL_MIND_BLAST);
+  PlayObjectCenteredEffect(castOn, FX_CURSE_EFFECT, 7,0x10);
+  var dmg := RandomDiceRoll("3d7");
+  var diff := Resisted(circle, caster, castOn, dmg);
+  if(castOn.isA(POLCLASS_NPC))
+    diff := diff * 2;
+  endif
+  ApplyRawDamage(castOn, diff);
+endprogram

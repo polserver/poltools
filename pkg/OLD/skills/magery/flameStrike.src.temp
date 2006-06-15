@@ -1,0 +1,31 @@
+use uo;
+use cfgfile;
+
+include ":magery:reflect";
+include "include/sound";
+include "include/magic";
+include "include/attributes";
+
+
+program spell_flameStrike(parms)
+	var caster := parms.caster;
+  	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+	var dmg := RandomDiceRoll("6d8");
+
+	SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "flame strike" });
+	if (Reflected(castOn))
+		castOn := caster;
+	endif
+	PlayObjectCenteredEffect(castOn, 0x3709, 0x0a, 0x1e );
+	PlaySoundEffect( caster, SFX_SPELL_FLAME_STRIKE );
+	if (GetHp(castOn) >= 1)
+		if (castOn.npctemplate)
+			dmg := dmg * 2;
+		endif
+		ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+	endif
+
+	return;
+endprogram

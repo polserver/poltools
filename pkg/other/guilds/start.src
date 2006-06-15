@@ -1,0 +1,14 @@
+/* $Id$
+ *
+ *
+ */
+
+use os;
+
+	var script := Start_Script("guildManager");
+
+	if ( script.errortext )
+		SysLog("Error starting guild manager ->"+script.errortext);
+	else
+		Print("Starting guild manager... OK.");
+	endif

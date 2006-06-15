@@ -1,0 +1,36 @@
+use os;
+use uo;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":magery:reflect";
+include "include/magic";
+
+
+program spell_harm(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+	var dmg := RandomDiceRoll("1d12");
+
+	SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "harm" });
+	if (spell_reflect(castOn))
+		castOn := caster;
+	endif
+	PlaySoundEffect(castOn, SFX_SPELL_HARM);
+	PlayObjectCenteredEffect( castOn, FX_GLOW_SPIKE, 0x0a,0x1e);
+	if(AP_GetVital(castOn, HITS) >= 1)
+		if(castOn.npctemplate)
+			dmg := dmg * 2;
+		endif
+		ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+	endif
+
+	return;
+endprogram

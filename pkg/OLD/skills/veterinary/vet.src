@@ -1,0 +1,201 @@
+use uo;
+use util;
+use cfgfile;
+use os;
+
+include "include/client";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":timedscripts:poisonUtil";
+
+var config;
+var elem;
+
+var clock := ReadGameClock();
+
+program use_bandages (parms)
+  var patient := parms[1];
+  var who := parms[2];
+  EraseObjProperty(who, "#IsMeditating");
+  //var sleeptime;
+  var anatomy:= AP_GetSkill(who, ANATOMY);
+  if(Distance(who, patient) > 2)
+    SendSysMessage(who, "Your patient is too far away.");
+    return;
+  elseif(!CheckLineOfSight(who,patient))
+	SendSysMessage(who,"You can't see your patient.");
+	return;
+  elseif((AP_GetVital(patient, HITS) >= AP_GetVitalMaximumValue(patient, HITS)) && (TS_GetTimerNames(patient, "P").size() == 0))
+	SendSysMessage(who,"Your patient is at full health!");
+	return;
+  endif
+  Detach();
+  SetObjProperty(who, "#HealTimer", clock);
+  if(TS_GetTimerNames(patient, "P").size() > 0)
+    if(!CheckLineOfSight(who,patient))
+      SendSysMessage(who,"You can't see your patient.");
+      return;
+    endif
+    if(Distance(who, patient) <= 2)
+      SendSysMessage(who,"You start to cure "+patient.name+".");
+      cure(who, patient);
+    else
+      SendSysMessage(who, "Your patient is too far away.");
+      return;
+    endif
+  else
+    if(!CheckLineOfSight(who,patient))
+	  SendSysMessage(who,"You can't see your patient.");
+      return;
+    endif
+    if(Distance(who, patient) <= 2)
+      SendSysMessage(who,"You start to heal "+patient.name + ".");
+      heal(who, patient);
+    else
+      SendSysMessage(who, "Your patient is too far.");
+      return;
+    endif
+  endif
+endprogram
+
+function heal(who, patient)
+  var wx:= who.x;
+  var wy:= who.y;
+  var chp;
+  var healing := (CInt(AP_GetSkill(who, VETERINARY)) / 2);
+  var anatomy := (CInt(AP_GetSkill(who, ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var counter := 0;
+  var cycles;
+  if(patient == who)
+    var dexcheck := (who.dex / 33);
+    cycles := (15 - dexcheck);
+  else
+    if(who.dex <= 33)
+      cycles := 5;
+    elseif(who.dex <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "#HealTimer"))
+      SendSysMessage(who, "You stop healing your patient.");
+      break;
+    elseif(clock != GetObjProperty(who, "#HealTimer"))
+      SendSysMessage(who, "You stop healing your patient to work on another.");
+      break;
+    endif
+    chp:=AP_GetVital(who, HITS);
+    sleep(1);
+    if(Distance(who, patient) > 2)
+      SendSysMessage(who,"Your patient isn't close enough.");
+      break;
+    endif
+    if(who.warmode)
+      SendSysMessage(who,"You stop healing your patient.");
+      break;
+    endif
+    if(AP_GetVital(who, HITS) < chp)
+      if((RandomInt(100)+1) > who.dex)
+        SendSysMessage( who, "Your fingers slip." );
+        healamt := (healamt / 2);
+      endif
+    endif
+    if(TS_GetTimerNames(patient,"P").size() > 0)
+      cure(who, patient);
+      break;
+    endif
+    if(counter >= cycles)
+      if(SkillCheck(who, VETERINARY, -1)>0)
+        if(healamt <= 10)
+          SendSysMessage(who,"You finish applying the bandages, but they barely help.");
+        endif
+        if((patient.str - AP_GetVital(patient, HITS)) > healamt)
+          HealDamage(patient, healamt);
+          //AwardRawSkillPoints(who, VETERINARY, (healamt * 2));
+        else
+          healamt := AP_GetVitalMaximumValue(patient, HITS) - AP_GetVital(patient, HITS);
+          HealDamage(patient, healamt);
+          //AwardRawSkillPoints(who, VETERINARY, (healamt * 2));
+        endif
+        if(AP_GetVital(patient, HITS) == AP_GetVital(patient, HITS))
+		  SendSysMessage(who, "You have healed your patient completely.");
+        else
+		  SendSysMessage(who, "You successfully heal " + patient.name+".");
+	    endif
+        break;
+      else
+        SendSysMessage( who, "You could not heal your patient." );
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+endfunction
+
+function cure(who, patient)
+  var wx:= who.x;
+  var wy:= who.y;
+  var chp;
+  var healing := (CInt(AP_GetSkill(who, VETERINARY)) / 2);
+  var anatomy := (CInt(AP_GetSkill(who, ANATOMY)) / 5);
+  var healamt := healing + anatomy + 10;
+  var counter := 0;
+  var cycles;
+  if(patient == who)
+    var dexcheck := (who.dex / 33);
+    cycles := (15 - dexcheck);
+  else
+    if(who.dex <= 33)
+      cycles := 5;
+    elseif(who.dex <= 67)
+      cycles := 4;
+    else
+      cycles := 3;
+    endif
+  endif
+  while(counter <= cycles)
+    if(!GetObjProperty(who, "#HealTimer"))
+      SendSysMessage(who, "You stop healing your patient.");
+      break;
+    elseif(clock != GetObjProperty(who, "#HealTimer"))
+      SendSysMessage(who, "You stop healing your patient to work on another.");
+      break;
+    endif
+    chp:=AP_GetVital(who, HITS);
+    sleep(1);
+    if(Distance(who, patient) > 1)
+      SendSysMessage(who,"Your patient isn't close enough.");
+      break;
+    endif
+    if(who.warmode)
+      SendSysMessage(who,"You stop healing your patient.");
+      break;
+    endif
+	if(AP_GetVital(who, HITS) < chp)
+      if((RandomInt(100)+1) > who.dex)
+	    SendSysMessage( who, "Your fingers slip." );
+        healamt := ((healamt * 3) / 4);
+      endif
+	endif
+    if(counter >= cycles)
+      if(SkillCheck(who, VETERINARY, 80) > 0 && (CInt(AP_GetSkill(who, ANATOMY)) >= 61))
+        if((RandomInt(100) + 1) < healamt);
+         TS_CurePoison(patient,(healamt/40),"P");
+          if (TS_GetTimerNames(patient, "P").size() > 0)
+            SendSysMessage(who, "You have partially cured your patient.");
+          else
+            SendSysMessage(who, "You have cured your patient completely.");
+          endif
+        else
+          SendSysMessage(who,"You finish applying the bandages, but they barely help.");
+        endif
+        break;
+      else
+        SendSysMessage( who, "You could not heal it." );
+      endif
+    endif
+    counter := counter + 1;
+  endwhile
+endfunction

@@ -1,0 +1,43 @@
+use uo;
+
+include ":attributes:attributes";
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+
+
+program reveal(parms)
+  var caster := parms.caster;
+  var range := ( AP_GetSkill( caster, MAGERY  )/10 ) - 5;
+  if (range < 1)
+	range := 1;
+  endif
+  var hiders := ListMobilesNearLocationEx( caster.x, caster.y, caster.z, range, LISTEX_FLAG_HIDDEN, caster.realm );
+  var numfound := 0;
+  PlaySoundEffect(caster, SFX_1FE);
+  if(len(hiders) > 0)
+	foreach mobile in hiders
+	  if( Found( caster,  mobile) )
+		numfound := 1;
+		mobile.hidden := 0;
+		PrintTextAbovePrivate( mobile, "You have been revealed!", mobile );
+		PrintTextAbovePrivate( mobile, "You have found someone!", caster );
+		PlaySoundEffect(mobile, SFX_1FE);
+	  endif
+	endforeach
+  endif
+  if (!numfound)
+    PrintTextAbovePrivate( caster, "You didn't find any anyone.", caster );
+  endif
+endprogram
+
+
+function Found(finder, hider)
+  var magic_skill := Resisted(6, finder, hider, AP_GetSkill( finder, MAGERY ));
+  var resist := (AP_GetSkill( finder,RESISTING_SPELLS)/1.5);
+  if ( magic_skill > resist )
+	return 1;
+  else
+	return 0;
+  endif
+endfunction

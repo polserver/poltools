@@ -1,0 +1,53 @@
+use uo;
+use cfgfile;
+
+include "include/eventID";
+include ":attributes:attributes";
+include "include/sound";
+include "include/tileEffects";
+include "include/spellAttack";
+include "include/magic";
+
+program dispel( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+  var npccfg := ReadConfigFile("::npcdesc");
+
+  var summoned := GetObjProperty( castOn, "summoned");
+  if(summoned == 1)
+    PlaySoundEffect( caster, 0x202 );
+    PlayStationaryEffect( castOn.x, castOn.y, castOn.z, FX_HEAL_EFFECT, 0xa, 0xa,0 , caster.realm );
+    var master := SystemFindObjectBySerial(CInt(GetObjProperty(castOn, "master")));
+    if(master)
+      var resist := AP_GetSkill(master, RESISTING_SPELLS);
+      if((RandomInt(99) + 1) < resist)
+        MoveCharacterToLocation(castOn,0,0,0,MOVECHAR_FORCELOCATION);
+        ApplyRawDamage(castOn, AP_GetVitalMaximumValue(caston, HITS) + 3);
+      endif
+      send_attack(caster, castOn, 41);
+    endif
+  else
+    if(castOn.isA(POLCLASS_NPC))
+      var element := npccfg[castOn.npctemplate].elemental;
+      if(element == "undead")
+        PlayStationaryEffect( castOn.x, castOn.y, castOn.z, FX_HEAL_EFFECT, 0xa, 0xa, 0, caster.realm );
+        var ev := array;
+        ev.+ type;
+        ev.+ source;
+        ev.type := EVID_PEACEMADE;
+        SendEvent(castOn, ev);
+        ev.source := caster;
+        SendEvent(castOn, ev);
+        ev.type := EVID_ENGAGED;
+        SendEvent(castOn, ev);
+        PlaySoundEffect(caster, 0x202);
+        PlayObjectCenteredEffect(castOn, 0x37b9, 0x03, 0x0a);
+        var dmg := CalcSpellDamage(circle, caster) + (RandomInt(20));
+        ApplyRawDamage(castOn, Resisted(circle, caster, castOn, dmg));
+      endif
+    endif
+  endif
+endprogram

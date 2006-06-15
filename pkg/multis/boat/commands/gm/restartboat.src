@@ -1,0 +1,34 @@
+/* $Id$
+ *
+ *
+ */
+
+use uo;
+use os;
+
+program RestartBoat(who)
+	SendSysMessage(who, "Target the tillerman.");
+	var targ := target(who);
+	
+	if ( !targ.IsTillerMan() )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+	
+	var process := GetProcess(GetObjProperty(targ, "#PID"));
+	process.Kill();
+	EraseObjProperty(targ, "#PID");
+	
+	var multi := targ.multi;
+	
+	var result := Start_Script(":boat:multi/listener", multi);
+	
+	if ( result.errortext )
+		PrintTextAbove(multi.tillerman, "Error initializing control script");
+		PrintTextAbove(multi.tillerman, ""+result.errortext);
+	else
+		SendSysMessage(who, "Done!");
+	endif
+	
+	return result;
+endprogram

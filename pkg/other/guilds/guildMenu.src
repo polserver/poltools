@@ -1,0 +1,571 @@
+/* $Id$
+ *
+ *
+ */
+
+use uo;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+include ":guilds:include/events";
+include ":guilds:include/ranks";
+include ":gumps:include/gumps";
+include ":gumps:include/gumps_ex";
+include "include/packets";
+
+CONST GCGUMP_X := 75;
+CONST GCGUMP_Y := 150;
+CONST TXT_CLR_FG := 0;
+CONST TXT_CLR_BG := 2100;
+
+var background := GetCfgConst("Defaults", "BackGround");
+var foreground := GetCfgConst("BackGrounds", "WHITE_PAPER");
+var permissions := Guild_GetSettingsCfgElem("Permissions");
+var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
+
+program Guild_Create(params)
+
+	var who := params[1];
+
+	if ( GetObjProperty(who, "#GuildMenu") > PolCore().systime )
+		SendSysMessage(who, "The guild menu is already open.");
+		return 0;
+	else
+		SetObjProperty(who, "#GuildMenu", PolCore().systime + 10);
+	endif
+
+	var who_rank := GetGuildRank(who);
+	var guild := params[2];
+	var guild_name := guild.GetProp("Name");
+	var guild_abbr := guild.GetProp("Abbr");
+	// Resurved for some unknown reason, just accept it.
+	//var guild_website := guild.GetProp("Website");
+	//var guild_faction := guild.GetProp("Faction");
+	//var guild_allies := guild.allyguilds;
+	//var guild_enemies := guild.enemyguilds;
+	//var guilds := ListGuilds();
+	//var guild_members := guild.members;
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, guild_name+" ["+guild_abbr+"]" );
+
+	// Guild Manager
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "Guild Menu");
+	GFTextLine(gump, 45, 70, TXT_CLR_BG, "Members");
+	GFAddButton(gump, 25, 73, 2117, 2118, GF_CLOSE_BTN, 1);
+	GFTextLine(gump, 45, 90, TXT_CLR_BG, "Faction");
+	GFAddButton(gump, 25, 93, 2117, 2118, GF_CLOSE_BTN, 2);
+	GFTextLine(gump, 45, 110, TXT_CLR_BG, "Charter");
+	GFAddButton(gump, 25, 113, 2117, 2118, GF_CLOSE_BTN, 3);
+	GFTextLine(gump, 45, 130, TXT_CLR_BG, "Website");
+	GFAddButton(gump, 25, 133, 2117, 2118, GF_CLOSE_BTN, 4);
+	GFTextLine(gump, 45, 150, TXT_CLR_BG, "Recruit");
+	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, 5);
+
+	// Diplomacy
+	GFTextLine(gump, 125, 50, TXT_CLR_BG, "Diplomacy");
+	GFTextLine(gump, 145, 70, TXT_CLR_BG, "Allies");
+	GFAddButton(gump, 125, 73, 2117, 2118, GF_CLOSE_BTN, 6);
+	GFTextLine(gump, 145, 90, TXT_CLR_BG, "Ememies");
+	GFAddButton(gump, 125, 93, 2117, 2118, GF_CLOSE_BTN, 7);
+	GFTextLine(gump, 145, 110, TXT_CLR_BG, "Guilds");
+	GFAddButton(gump, 125, 113, 2117, 2118, GF_CLOSE_BTN, 8);
+
+	// Personal
+	GFTextLine(gump, 225, 50, TXT_CLR_BG, "Personal");
+	GFTextLine(gump, 245, 70, TXT_CLR_BG, "Resign");
+	GFAddButton(gump, 225, 73, 2117, 2118, GF_CLOSE_BTN, 9);
+	GFTextLine(gump, 245, 90, TXT_CLR_BG, "Toggle Title");
+	GFAddButton(gump, 225, 93, 2117, 2118, GF_CLOSE_BTN, 10);
+
+	if ( who_rank == 5 )
+	GFTextLine(gump, 245, 110, TXT_CLR_BG, "Disband Guild");
+	GFAddButton(gump, 225, 113, 2117, 2118, GF_CLOSE_BTN, 11);
+	endif
+
+	var result := GFSendGump(who, gump);
+
+	case ( result[0] )
+		0:
+			SendSysMessage(who, "Done. 0");
+			break;
+		1:
+			ShowMembers(who);
+			break;
+		2:
+			SendSysMessage(who, "Done. 2");
+			break;
+		3:
+			ShowCharter(who);
+			break;
+		4:
+			ShowWebsite(who);
+			break;
+		5:
+			if ( who_rank == 5 || who_rank == permissions.Invite )
+				var ev := struct{};
+				ev.+type := GUILD_INVITE_MEMBER;
+				ev.+source := who;
+				ev.+guild := guild;
+				guild_manager.SendEvent(ev);
+				break;
+			else
+				SendSysMessage(who, "Aborted. You are not allowed to invite.");
+				break;
+			endif
+		6:
+			ShowAllies(who);
+			break;
+		7:
+			ShowEnemies(who);
+			break;
+		8:
+			ShowGuilds(who);
+			break;
+		9:
+			var ev := struct{};
+			ev.+type := GUILD_RESIGN_MEMBER;
+			ev.+source := who;
+			ev.+guild := guild;
+			guild_manager.SendEvent(ev);
+			break;
+		10:
+			break;
+	endcase
+
+	EraseObjProperty(who, "#GuildMenu");
+
+endprogram
+
+function ShowMembers(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guild_members := guild.members;
+	var who_rank := GetGuildRank(who);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Members" );
+
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
+	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Rank" );
+	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Status" );
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	GFPage(gump, page);
+
+	foreach member in (guild_members)
+		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, member.name);
+		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(member.serial + 1000));
+		var member_rank := GetGuildRank(member);
+		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, GetRankNameByID(member_rank));
+
+		if ( member.ip )
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Online");
+		elseif ( !member.ip )
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Offline");
+		endif
+
+		place := place + 1;
+		count := count + 1;
+		Y := Y + 20;
+
+		if ( count > 8 )
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
+			page := page + 1;
+			GFPage(gump, page);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			count := 0;
+			Y := 70;
+		endif
+		SleepMS( 2 );
+	endforeach
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		Start_Script(":guilds:guildMenu", array{who, guild});
+		return 1;
+	endif
+
+	var view_member := SystemFindObjectBySerial(result[0] - 1000, SYSFIND_SEARCH_OFFLINE_MOBILES);
+
+	if ( view_member )
+		ViewMember(who, view_member);
+		return 1;
+	endif
+
+endfunction
+
+function ViewMember(who, member)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var who_rank := GetGuildRank(who);
+	var member_rank := GetGuildRank(member);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Member Profile" );
+
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 105, 50, TXT_CLR_BG+1, member.name );
+
+	GFTextLine(gump, 25, 70, TXT_CLR_BG, "Rank" );
+	GFTextLine(gump, 105, 70, TXT_CLR_BG+1, GetRankNameByID(member_rank) );
+
+	GFTextLine(gump, 25, 90, TXT_CLR_BG, "Status" );
+	if ( member.ip )
+		GFTextLine(gump, 105, 90, TXT_CLR_BG+1, "Online");
+	elseif ( !member.ip )
+		GFTextLine(gump, 105, 90, TXT_CLR_BG+1, "Offline");
+	endif
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		ShowMembers(who);
+		return 1;
+	endif
+
+endfunction
+
+function ShowCharter(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guild_charter := guild.GetProp("Charter");
+	var who_rank := GetGuildRank(who);
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Charter" );
+
+	// Guild Charter
+	if ( !guild_charter || guild_charter == "NONE" )
+		guild_charter := "No charter has been set.";
+	endif
+
+	if ( who_rank == permissions.SetCharter )
+		GFTextLine(gump, 45, 160, TXT_CLR_BG, "Set Charter");
+		GFAddButton(gump, 25, 163, 2117, 2118, GF_CLOSE_BTN, 1);
+	endif
+
+	GFHTMLArea(gump, 25, 50, 448, 100, guild_charter, 1, 1);
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 3);
+
+	var result := GFSendGump(who, gump);
+
+	case ( result[0] )
+		0:
+			return 0;
+			break;
+		1:
+			var ev := struct{};
+			ev.+type := GUILD_SET_CHARTER;
+			ev.+source := who;
+			ev.+guild := guild;
+			guild_manager.SendEvent(ev);
+			return 1;
+			break;
+		3:
+			Start_Script(":guilds:guildMenu", array{who, guild});
+			return 1;
+			break;
+	endcase
+
+endfunction
+
+function ShowWebsite(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guild_website := guild.GetProp("Website");
+	var who_rank := GetGuildRank(who);
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Website" );
+
+	// Guild Website
+	if ( guild_website["NONE"] || !guild_website )
+		guild_website := "No website has been set.";
+	endif
+
+		GFTextLine(gump, 45, 60, TXT_CLR_BG+1, guild_website);
+		GFAddButton(gump, 25, 63, 2117, 2118, GF_CLOSE_BTN, 1);
+
+	if ( who_rank == permissions.SetWebsite )
+		GFTextLine(gump, 45, 80, TXT_CLR_BG, "Set Website");
+		GFAddButton(gump, 25, 83, 2117, 2118, GF_CLOSE_BTN, 2);
+	endif
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 3);
+
+	var result := GFSendGump(who, gump);
+
+	case ( result[0] )
+		0:
+			return 0;
+			break;
+		1:
+			OpenBrowser(who, guild_website);
+			ShowWebsite(who);
+			return 1;
+			break;
+		2:
+			var ev := struct{};
+			ev.+type := GUILD_SET_WEBSITE;
+			ev.+source := who;
+			ev.+guild := guild;
+			guild_manager.SendEvent(ev);
+			return 1;
+			break;
+		3:
+			Start_Script(":guilds:guildMenu", array{who, guild});
+			return 1;
+			break;
+	endcase
+
+endfunction
+
+function ShowAllies(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guild_allies := guild.allyguilds;
+	var who_rank := GetGuildRank(who);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Allies" );
+
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
+	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Leader" );
+	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Faction" );
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	GFPage(gump, page);
+
+	foreach ally in (guild_allies)
+		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, ally.GetProp("Name"));
+		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(ally.guildid + 1000));
+		var guild_master := SystemFindObjectBySerial(ally.GetProp("Master"));
+		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+
+		var guild_faction := ally.GetProp("Faction");
+		if ( guild_faction )
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+		else
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+		endif
+
+		place := place + 1;
+		count := count + 1;
+		Y := Y + 20;
+
+		if ( count > 8 )
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
+			page := page + 1;
+			GFPage(gump, page);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			count := 0;
+			Y := 70;
+		endif
+		SleepMS( 2 );
+	endforeach
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		Start_Script(":guilds:guildMenu", array{who, guild});
+		return 1;
+	endif
+
+	// TODO: Viewing a Guild's PROFILE.
+
+endfunction
+
+function ShowEnemies(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guild_enemies := guild.enemyguilds;
+	var who_rank := GetGuildRank(who);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Enemies" );
+
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
+	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Leader" );
+	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Faction" );
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	GFPage(gump, page);
+
+	foreach enemy in (guild_enemies)
+		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, enemy.GetProp("Name"));
+		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(enemy.guildid + 1000));
+		var guild_master := SystemFindObjectBySerial(enemy.GetProp("Master"));
+		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+
+		var guild_faction := enemy.GetProp("Faction");
+		if ( guild_faction )
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+		else
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+		endif
+
+		place := place + 1;
+		count := count + 1;
+		Y := Y + 20;
+
+		if ( count > 8 )
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
+			page := page + 1;
+			GFPage(gump, page);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			count := 0;
+			Y := 70;
+		endif
+		SleepMS( 2 );
+	endforeach
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		Start_Script(":guilds:guildMenu", array{who, guild});
+		return 1;
+	endif
+
+	// TODO: Viewing a Guild's PROFILE.
+
+endfunction
+
+function ShowGuilds(who)
+
+	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild := FindGuild(guild_id);
+	var guilds := ListGuilds();
+	var who_rank := GetGuildRank(who);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Enemies" );
+
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
+	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Leader" );
+	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Faction" );
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	GFPage(gump, page);
+
+	foreach guild in (guilds)
+		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, guild.GetProp("Name"));
+		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(guild.guildid + 1000));
+		var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
+		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+
+		var guild_faction := guild.GetProp("Faction");
+		if ( guild_faction )
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+		else
+			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+		endif
+
+		place := place + 1;
+		count := count + 1;
+		Y := Y + 20;
+
+		if ( count > 8 )
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
+			page := page + 1;
+			GFPage(gump, page);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			count := 0;
+			Y := 70;
+		endif
+		SleepMS( 2 );
+	endforeach
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		Start_Script(":guilds:guildMenu", array{who, guild});
+		return 1;
+	endif
+
+	// TODO: Viewing a Guild's PROFILE.
+
+endfunction

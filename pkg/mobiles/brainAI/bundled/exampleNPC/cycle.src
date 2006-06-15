@@ -1,0 +1,19 @@
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainCriticalScript(params)
+	//var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	//var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	//npc.color := RandomDiceRoll("1d1000");
+	
+	return 1;
+endprogram

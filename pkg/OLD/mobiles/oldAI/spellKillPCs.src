@@ -1,0 +1,39 @@
+use npc;
+use os;
+use uo;
+use cfgfile;
+
+include "include/client";
+include "include/OLD/eventID";
+include ":attributes:attributes";
+include "include/sysEvent";
+include ":npcutils:names";
+include ":npcutils:vetement";
+include ":npcutils:NPCUtil";
+include ":itemutils:objtype";
+include ":npcutils:NPCCast";
+include ":npcutils:anchors";
+include ":oldAI:main/killPCsLoop";
+include ":oldAI:combat/fight";
+include ":oldAI:combat/spellCombatEvent";
+include ":oldAI:setup/spellSetup";
+include ":oldAI:main/loot";
+include ":oldAI:main/sleepMode";
+include ":oldAI:main/closeDistance";
+
+const HALT_THRESHOLD := 15;
+var npccfgfile     := ReadConfigFile( "::npcdesc" );
+var LAST_BREATH    := ReadGameClock();
+var FLAME_STRENGTH := npccfgfile[me.npctemplate].flamestrength;
+var idlesnd1       := CInt(npccfgfile[me.npctemplate].idlesound1);
+var idlesnd2       := CInt(npccfgfile[me.npctemplate].idlesound2);
+var waittime := 0;
+var ev := 0;
+
+program KillPlayers()
+  if(GetObjProperty(me, "frozen"))
+	me.frozen := 1;
+  endif
+  SetWarMode( 0 );
+  main_AI_loop();
+endprogram

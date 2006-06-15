@@ -1,0 +1,40 @@
+// $Id$
+
+use os;
+use uo;
+
+include ":musicianship:bard";
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":itemutils:canAccess";
+
+var config;
+
+program skill_Musicianship(who, instrument)
+
+	EraseObjProperty(who, "#IsMeditating");
+
+	if( Cint(GetObjProperty(who, "#LastMusic")) > ReadGameClock() )
+		SendSysMessage(who, "You must wait a moment before playing again.");
+		return 0;
+	endif
+
+	if( instrument.container != who.backpack )
+		SendSysMessage( who, "That instrument is not in your backpack.");
+		return 0;
+	endif
+	if(!can_access(who, instrument))
+		return 0;
+	endif
+
+	if( !bardSkillCheck(who, instrument, MUSICIANSHIP, -1) )
+		SendSysMessage(who, "You fail in your attemp to play the instrument");
+	endif
+
+	SetObjProperty(who, "#LastMusic", Cint(ReadGameClock() + 3));
+
+	return 1;
+
+
+endprogram

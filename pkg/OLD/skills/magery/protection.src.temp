@@ -1,0 +1,33 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/statMod";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+
+program spell_protection(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  PlaySoundEffect(castOn, SFX_SPELL_PROTECTION);
+  PlayObjectCenteredEffect(castOn, FX_BLESS_EFFECT, 7,7);
+  if (!CanMod(castOn, "ar"))
+	SendSysMessage(caster,"Already under the influence!");
+	return;
+  endif
+  var magery := AP_GetSkill(caster, MAGERY);
+  var modAmount := (GetModAmount(magery) * 2);
+  var duration := GetModDuration(magery);
+  var itmcfg := ReadConfigFile(":*:itemdesc");
+  var arpoints := 0;
+  foreach thing in ListEquippedItems(castOn)
+    arpoints := arpoints + (CInt(itmcfg[thing.objtype].AR) / 12);
+  endforeach
+  if(modAmount > arpoints)
+    modAmount := modAmount - arpoints;
+  else
+    modAmount := 0;
+  endif
+  DoTempMod(castOn, "ar", modAmount, duration);
+endprogram
