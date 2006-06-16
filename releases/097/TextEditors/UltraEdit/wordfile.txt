@@ -629,6 +629,7 @@ WriteHTMLRaw
 .Move_Offline_Mobiles
 .Open
 .Print
+.Privileges
 .PropNames
 .RemoveAllyGuild
 .RemoveEnemyGuild
