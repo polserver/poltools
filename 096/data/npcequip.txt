@@ -1,5 +1,0 @@
-#
-#  NPCEQUIP.TXT: Nonplayer-Character Equipment Data
-#
-#  Delete this file along with NPCS.TXT to perform an NPC wipe
-#
