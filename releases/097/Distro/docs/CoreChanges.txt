@@ -1,0 +1,57 @@
+-- POL097 --
+
+06-15 Austin
+        Added : mobile.Privileges() - Returns a dictionary. 
+                The key is the privilege name. The value 0/1 is if it is enabled or not.
+        Removed: Built-in text commands (you'll need to script them):
+                 .eobjcount, .i_help, .log, .los, .objcount, .priv, .privs, .set, .turn, 
+                 .t_online, .unload, .unloadall, .wheretest
+                 
+06-14 MuadDib
+        Added : AOS style status bar is now generated correctly for AOS+ clients that ALSO
+                have the UOExpansion set to AOS or higher. Only thing populated by core is
+                the statcap entry. Rest can be done via packethooks.
+        Added : UOClient.cfg entry "StatCap" in General. This is used with AOS era
+                status bars to send the statcap in the packet. Default is 225. Can use
+                packethooks to override this outgoing to client.
+                
+06-14 Austin
+        Changed : All log files (pol.log, debug.log, start.log, etc.) will now be placed in pol/log/
+
+06-13 Austin
+        Changed : Config files in packages can now be in pkgname/config/cfgfile.cfg.
+                  If it is not present there, it will look in the package root (pkgname/cfgfile.cfg)
+                  pkg.cfg must still be at the root of the package.
+
+06-13 MuadDib
+        Changed : Handling of target request returns in core. Returns errors more efficiently
+                  when client already has an active target cursor.
+
+        
+06-12 Austin
+        Added : UO::CloseTradeWindow(mobile) - Will close the trade window for the mobile and the 
+                person it is trading with.
+        
+06-11 Austin
+        Added : mobile.trading_with - Returns a mobile reference if a secure trade is taking place.
+        Added : Util::StrFormatTime(format_string, time_stamp). 
+                Takes in the StrFTime() specifiers for the format string.
+                (http://www.cppreference.com/stddate/strftime.html)
+                If time_stamp is 0, it will use POLCore().systime.
+
+06-11 MuadDib
+        Changed : When a client already has a target cursor request, instead of core
+                  just returning that to the new requesting call, now returns an error
+                  code back to the calling cursor script.
+                
+06-10 MuadDib
+        Cleanup : Removed last of stat advancement code. While this was depreciated
+                  several versions ago, please remember stat advancement must be done
+                  via the scripts.
+                  
+06-09 MuadDib
+        Cleanup : Cleaned out some old code.
+        Removed : Removed depreciated UO.EM Function MoveCharacterToLocation(). Use
+                  MoveObjectToLocation() now.
+        Removed : Removed depreciated UO.EM Function MoveItemToLocation(). Use
+                  MoveObjectToLocation() now.
