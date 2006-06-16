@@ -67,21 +67,21 @@ UOCONVERT.CFG
 * Extract the following files from the zip file to the "Distro-<###>/distro/scripts" folder:
 ECOMPILE.EXE
 
-* Extract the following files from the zip file to the "Distro-<###>/distro/scripts/modules" folder:
-(*.EM FILES)
-BASIC.EM
-BASICIO.EM
-BOAT.EM
-CFGFILE.EM
-FILE.EM
-HTTP.EM
-MATH.EM
-NPC.EM
-OS.EM
-POLSYS.EM
-UNICODE.EM
-UO.EM
-UTIL.EM
+* Extract the .em files from the zip file to the "Distro-<###>/distro/scripts/modules" folder:
+   *.EM FILE EXAMPLES:
+    BASIC.EM
+    BASICIO.EM
+    BOAT.EM
+    CFGFILE.EM
+    FILE.EM
+    HTTP.EM
+    MATH.EM
+    NPC.EM
+    OS.EM
+    POLSYS.EM
+    UNICODE.EM
+    UO.EM
+    UTIL.EM
 
 * Double click "StartHere.bat" and follow the menus.
 * Start with realms. 
