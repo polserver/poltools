@@ -1,9 +1,0 @@
-use uo;
-use os;
-
-program openit(who)
-
-  var trg := Target(who);
-  SendViewContainer(who, trg);
-
-endprogram
