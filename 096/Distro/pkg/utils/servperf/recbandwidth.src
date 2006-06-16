@@ -1,0 +1,31 @@
+use os;
+use uo;
+
+// This program records the bandwidth used per minute
+// Samples are stored for the last HISTORY_MINUTES minutes
+// each element contains { bytes_received, bytes_sent } for that minute
+
+CONST HISTORY_MINUTES := 10;
+
+program record_Bandwidth_used()
+
+	var results := { {0,0} };
+	var system := POLCore();
+	var last_received := system.bytes_received;
+	var last_sent := system.bytes_sent;
+	var this_received, this_sent;
+
+	Set_Critical(1);
+	while (1)
+		Sleep( 60 );
+		this_received := system.bytes_received;
+		this_sent := system.bytes_sent;
+		results.Insert( 1, { this_received-last_received,this_sent-last_sent } );
+		// print( "results: "+results );
+		results.Erase( HISTORY_MINUTES+1 );
+		last_received := this_received;
+		last_sent := this_sent;
+		SetGlobalProperty( "#:servperf:bandwidth", results );
+	endwhile
+
+endprogram

@@ -1,0 +1,23 @@
+/*
+ * $Id: walkOn.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+include ":timedscripts:timedScripts";
+
+program WalkOn(mobile, spiderweb)
+	if ( mobile.cmdlevel )
+		return 0;
+	elseif ( mobile.dead )
+		return 0;
+	endif
+	
+	spiderweb := spiderweb; // So the compiler does no warn
+	
+	SendSysMessage(mobile, "You become caught in the sticky web.");
+	TS_StartTimer(mobile, "paralysis", 30);
+
+	return 1;
+endprogram

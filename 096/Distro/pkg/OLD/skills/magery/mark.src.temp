@@ -1,0 +1,46 @@
+use uo;
+use util;
+
+include ":itemutils:objtype";
+include "include/sound";
+include "include/tileEffects";
+
+
+program mark(parms)
+  var caster := parms.caster;
+  var castOn := Target(caster);
+  if (castOn.objtype != UOBJ_RUNE)
+    SendSysMessage(caster, "You can only cast that on a recall rune!");
+	return;
+  endif
+  if(caster.multi)
+    SendSysMessage(caster,"You cannot mark runes here.");
+    PlaySoundEffect(caster,0x005d);
+    PlayObjectCenteredEffect(caster, 0x3735,0x0a, 0x1e);
+    return;
+  endif
+  if(((caster.x >= 5120) && (caster.x <= 5375) && (caster.y >= 0) && (caster.y <= 255)) or (caster.multi))
+    SendSysMessage(caster, "You cannot mark runes here.");
+    return;
+  endif
+  if (!Accessible(caster, castOn))
+	SendSysMessage(caster, "You can't reach that!");
+  endif
+  if (castOn.objtype != UOBJ_RUNE)
+	SendSysMessage(caster, "You can only cast that on a recall rune!");
+	return;
+  endif
+  if(!ReserveItem(castOn))
+    SendSysMessage(caster,"Your spell fizzles.");
+    return;
+  endif
+  PlayObjectCenteredEffect(caster, FX_MARK_EFFECT, 10, 10);
+  PlaySoundEffect(caster, SFX_SPELL_MARK);
+  SetObjProperty(castOn, "x", caster.x);
+  SetObjProperty(castOn, "y", caster.y);
+  SetObjProperty(castOn, "z", caster.z);
+  SetObjProperty(castOn, "realm", caster.realm);
+  SetName(castOn, "a marked recall rune");
+
+	return;
+endprogram

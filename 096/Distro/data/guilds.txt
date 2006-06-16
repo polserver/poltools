@@ -1,0 +1,9 @@
+#
+#  GUILDS.TXT: Guild Data
+#
+
+General
+{
+	NextGuildId	1
+}
+

@@ -1,0 +1,40 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include ":magery:reflect";
+include "include/spellAttack";
+include "include/sound";
+include "include/tileEffects";
+include "include/magic";
+
+program chainLightning( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  var dmg;
+  var range := 2;
+  var victims := ListMobilesNearLocationEx( castOn.x, castOn.y, castOn.z, range, 0x03, caster.realm);
+  Detach();
+  foreach mobile in victims
+    if((CheckLineOfSight(mobile, caster)) and (mobile.cmdlevel < 2))
+      SetObjProperty(mobile, "LastHit", {caster.name, caster.serial, "chain lightning"});
+      if(spell_reflect(mobile))
+        mobile := caster;
+      endif
+      dmg := RandomDiceRoll("6d8");
+      send_attack(mobile,caster, 49);
+      PlayLightningBoltEffect( mobile );
+      PlaySoundEffect(mobile, SFX_SPELL_LIGHTNING);
+      if(mobile.isA(POLCLASS_NPC))
+        dmg := dmg * 2;
+      endif
+      ApplyRawDamage( mobile, Resisted(circle,caster,mobile,dmg) );
+      sleepms(600);
+    endif
+  endforeach
+endprogram

@@ -1,0 +1,33 @@
+// $Id: onInsert.src 187 2006-06-02 21:22:31Z austinheilman $
+
+use uo;
+use cfgfile;
+use util;
+use os;
+
+program OnInsert(who, container, movetype, insert_type, adding_item, existing_stack, amt_to_add)
+
+	amt_to_add := amt_to_add;
+	existing_stack := existing_stack;
+	amt_to_add := amt_to_add;
+	adding_item := adding_item;
+	insert_type := insert_type;
+	movetype := movetype;
+	who := who;
+
+	var cfg := ReadConfigFile(":containers:config/bookshelf");
+	cfg := cfg[container.graphic];
+
+	var num_items := EnumerateItemsInContainer(container).Size();
+	if ( num_items > 0 )
+		//Duh, we know it is >0 since its an onInsert script, but its good to be safe.
+		var graphics := GetConfigStringArray(cfg, "FilledGraphic");
+		//Change the book shelf to a random compatable filled graphic.
+		//Ooo special effects.
+		var graphic := CInt(graphics[RandomInt(graphics.Size())+1]);
+		container.graphic := graphic;
+	endif
+
+	return 1;
+
+endprogram

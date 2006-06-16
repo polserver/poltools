@@ -1,0 +1,133 @@
+/* $Id: evalInt.src 317 2006-06-12 18:46:27Z austinheilman $
+ *
+ */
+use cfgfile;
+use uo;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+
+var mental_cfg := ReadConfigFile(":anatomy:config/physical");
+
+program skill_EvaluatingIntelligence(who)
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	SendSysMessage(who, "What do you wish to evaluate?");
+
+	var subject := Target(who);
+	if(!subject)
+		return 0;
+	elseif(subject.serial == who.serial)
+		PrintTextAbovePrivate(who, "You know your mental capabilities quite well enough already.", who);
+		return 0;
+	elseif(subject.graphic == 0x2006)
+		SendSysMessage(who, "Looks pretty dead to you.");
+		return 0;
+	elseif(!subject.isA(POLCLASS_MOBILE))
+		SendSysMessage(who, "That cannot be evaluated.");
+		return 0;
+	endif
+
+	// variables for sys messages
+	var intell := getIntell(AP_GetStat(subject, "Intelligence"), subject.graphic, subject.gender);
+	var mental_percentage := CInt(CInt(AP_GetVital(subject, "Mana"))/CDbl(AP_GetVitalMaximumValue(subject, "Mana"))*100);
+	var mentalStrength := getMentalStrength(mental_percentage);
+
+	// adjust succeed and fail msgs here
+	var strMsg, strFail;
+	if(subject.graphic != 0x190 && subject.graphic != 0x191)
+		strMsg := "That creature";
+		strFail := "that creature's mental abilities.";
+	else
+		strMsg := subject.name;
+		if(upper(subject.name[Len(subject.name)]) != "S" || lower(subject.name[Len(subject.name)]) != "s" )
+			strFail := subject.name+"'s mental abilities.";
+		else
+			strFail := subject.name+"' mental abilities.";
+		endif
+	endif
+	if(SkillCheck(who, EVALUATING_INTELLIGENCE, -1) > 0)
+		PrintTextAbovePrivate(subject, strMsg+" looks "+intell+".", who);
+		// player's evalint skill equal/greater than 76 can get mental strength info
+		var skill := AP_GetSkill(who, EVALUATING_INTELLIGENCE);
+		if(skill >= 76)
+			PrintTextAbovePrivate(subject, strMsg+" is at "+mentalStrength+" mental strength.", who);
+		endif
+		return 1;
+	else
+		PrintTextAbovePrivate(subject, "You cannot judge "+strFail, who);
+		return 0;
+	endif
+
+endprogram
+
+
+function getIntell(subject, graphic, gender)
+
+	var strSuper, strGender;
+	if(graphic != 0x190 && graphic != 0x191)
+		strSuper := "supernaturally";
+		strGender := "it";
+	else
+		strSuper := "superhumanly";
+		if(gender == 0)
+			strGender := "he";
+		elseif(gender == 1)
+			strGender := "she";
+		endif
+	endif
+	if(subject >= 100)
+		return strSuper+" intelligent in a manner you cannot comprehend";
+	elseif(subject >= 99)
+		return "like a definite genius";
+	elseif(subject >= 89)
+		return "like a formidable intellect, well beyond even the extraordinary";
+	elseif(subject >= 79)
+		return "extraordinarily intelligent";
+	elseif(subject >= 69)
+		return "extremely intelligent";
+	elseif(subject >= 59)
+		return "very intelligent";
+	elseif(subject >= 49)
+		return "moderately intelligent";
+	elseif(subject >= 39)
+		return "about average";
+	elseif(subject >= 29)
+		return "not the brightest";
+	elseif(subject >= 19)
+		return "fairly stupid";
+	elseif(subject >= 9)
+		return "slightly less intelligent than a rock";
+	else
+		return "smarter than a rock, but dumber than a piece of wood";
+	endif
+
+endfunction
+
+function HandleSubMana(subject, byref str_reply)
+
+	var sub_mana_level := CInt(CInt(AP_GetVital(subject, "Mana"))/CDbl(AP_GetVitalMaximumValue(subject, "Mana"))*100);
+
+	var mana_elem := physical_cfg["Mana"];
+	if ( !mana_elem )
+		return mana_elem;
+	endif
+
+	var phrase_list := GetConfigStringArray(mana_elem, "Mana");
+
+	foreach entry in ( phrase_list )
+		// SplitWords the entry, using a tab as the delimiter.
+		var p_array := SplitWords(entry, "\t");
+		if ( sub_mana_level < CDbl(p_array[1]) )
+			str_reply.sub_,ama := p_array[2];
+			return 1;
+		endif
+		sleepms(2);
+	endforeach
+
+	return error{"errortext":="Could not find mana phrase for serial "+subject.serial};
+
+endfunction

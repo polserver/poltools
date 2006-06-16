@@ -1,0 +1,57 @@
+/* $Id: doPlayerStatus.src 306 2006-06-10 01:47:10Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use math;
+
+include ":partySystem:config";
+include ":partySystem:packetInfo";
+
+CONST OFFSET_UPDATE_STAT_PLAYERID := 1;
+
+var sending_stat := 0;
+
+program doPlayerStatus()
+	print("INSTALLING: Party Status Update PH...");
+	return 1;
+endprogram
+
+exported function handleUpdateStat(character, byref packet)
+	// Sending the stat packet will cause the core to want to handle THAT packet as well
+	// So if we are sending stat packets out, ignore the packet as it is probably being
+	// sent by this script.
+	if ( sending_stat )
+		sending_stat := 0;
+		return 0;
+	endif
+	
+	var id := packet.GetInt32(OFFSET_UPDATE_STAT_PLAYERID);
+	var party := GetObjProperty(character, PARTY_PROP);
+
+	if ( DEBUG )
+		print("handleUpdateStat - character: "+character.name+"	packet: "+packet);
+	endif
+
+	// Is the character in a party?
+	if ( TypeOf(party) == "Array" )
+		var member;
+
+		foreach memberid in (party)			
+			// Do not send modified packet to character since they are already getting one
+			if ( memberid != id )
+				member := SystemFindObjectBySerial(memberid);
+				
+				// Only send this packet if the party member is close enough to the character
+				if ( member && Distance(member, character) <= PARTY_STATUS_UPDATE_DISTANCE )
+					sending_stat := 1;
+					packet.SendPacket(member);
+				endif
+			endif
+			SleepMS(2);
+		endforeach
+	endif
+
+	return 0;
+endfunction

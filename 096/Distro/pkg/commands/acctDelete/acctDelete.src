@@ -1,0 +1,22 @@
+/* $Id: acctDelete.src 120 2006-05-27 14:43:36Z austinheilman $
+ *
+ */
+ 
+include ":datafile:datafile";
+include ":accounts:report";
+
+program DeleteAccount(account)
+	RemoveGoSettings(account);
+		
+	return 1;
+endprogram
+
+function RemoveGoSettings(account)
+	var data_file := DFOpenDataFile(":commands:GoFile");
+	var data_elem := DFFindElement(data_file, "GoList");
+	data_elem.EraseProp(account.name);
+	
+	ACCT_ReportText("Removed .go settings for account "+account.name, ACCT_REPORT_SYSLOG);
+	
+	return 1;
+endfunction

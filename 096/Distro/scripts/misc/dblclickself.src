@@ -1,0 +1,24 @@
+/* $Id: dblclickself.src 93 2006-05-23 20:23:29Z sroyalty $
+ *
+ * Purpose
+ * This script allows an alternate behavior other than the default 'open paperdoll' behavior.
+ * Useful for things like dismounting.
+ *
+ */
+use uo;
+use os;
+use npc;
+
+include "include/client";
+include ":mounts:mounts";
+
+program core_dblClickSelf(who)
+	var mount := GetEquipmentByLayer(who, LAYER_MOUNT);
+	if ( mount && !who.warmode )
+		return MP_Unmount(who);
+	endif
+	
+	return OpenPaperdoll(who, who);
+	
+	return 1;
+endprogram

@@ -1,0 +1,12 @@
+/* $Id: logoff.src 93 2006-05-23 20:23:29Z sroyalty $
+ *
+ * Purpose
+ * This script allows the scripter to run cleanup code after a character exits the world.
+ * Useful for stuff like cleaning up summoned NPCs, etc.
+ *
+ */
+
+program LogOff(who)
+	who := who; // Avoid compiler warnings.
+	return 1;
+endprogram

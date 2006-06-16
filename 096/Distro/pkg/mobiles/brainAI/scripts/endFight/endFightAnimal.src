@@ -1,0 +1,43 @@
+/* $Id: endFightAnimal.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":attributes:attributes";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var opponent	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	AI_WarMode(npc, 0);
+
+	var corpse := opponent.GetCorpse();
+	do
+		var dist := Distance(npc, corpse);
+		AI_Move(npc, corpse, NEMOVE_TOWARD, NEMOVE_WALK, dist);
+		Sleep(dist-1);
+	dowhile( ShouldApproach(npc, opponent, corpse) );
+
+	AI_EndNerve(npc, nerve_name);
+endprogram
+
+function ShouldApproach(npc, opponent, corpse)
+	if ( !opponent )
+		return 0;
+	elseif ( !corpse )
+		return 0;
+	endif
+
+	if ( Distance(npc, corpse) > 1 )
+		return 1;
+	endif
+
+	return 0;
+endfunction

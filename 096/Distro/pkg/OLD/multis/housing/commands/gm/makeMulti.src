@@ -1,0 +1,27 @@
+/*
+ * $Id: makeMulti.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+
+program textcmd_MakeMulti(who, text)
+	if ( !CInt(text) )
+		text := GetObjTypeByName(text);
+	endif
+	
+	var targ := TargetMultiPlacement(who, text);
+	
+	if ( targ == error )
+		SendSysMessage(who, "["+text+"] ->"+targ.errortext);
+		return 0;
+	endif
+	
+	var multi := CreateMultiAtLocation(targ.x, targ.y, targ.z, text, CRMULTI_IGNORE_ALL, who.realm);
+	if ( multi.errortext )
+		SendSysMessage(who, "Error:"+multi.errortext);
+	endif
+	
+	return multi;
+endprogram

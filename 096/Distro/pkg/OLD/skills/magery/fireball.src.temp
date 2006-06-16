@@ -1,0 +1,33 @@
+use uo;
+use cfgfile;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":magery:reflect";
+
+
+program spell_fireball(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  PlayMovingEffect(caster, castOn, FX_FIREBALL, 5, 1);
+  PlaySoundEffect(caster, 0x15f);
+  var dmg := RandomDiceRoll("3d6");
+  SetObjProperty(castOn, "LastHit", {caster.name, caster.serial, "fireball"});
+  if (spell_reflect(castOn))
+    PlayMovingEffect(castOn, caster, FX_FIREBALL, 5, 1);
+    PlaySoundEffect(castOn, 0x15f);
+    castOn := caster;
+  endif
+  if (AP_GetVital(castOn, HITS) >= 1)
+    if(castOn.npctemplate)
+      dmg := dmg * 2;
+    endif
+    ApplyRawDamage(castOn, Resisted(circle,caster,castOn, dmg));
+  endif
+endprogram

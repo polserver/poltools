@@ -1,0 +1,21 @@
+/* $Id: ondelete.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+use datafile;
+
+include ":datafile:datafile";
+
+program commands_onDelete(who)
+
+	if( who.cmdlevel > 1 )
+		var go_data_gumps := DFOpenDataFile(":commands:GoGumps", DF_NO_CREATE);
+		var go_data_file  := DFOpenDataFile(":commands:GoFile", DF_NO_CREATE);
+		var go_elem       := DFFindElement(go_data_file, "GoList", DF_NO_CREATE);
+		var go_gump_elem  := DFFindElement(go_data_gumps, "LocationIndex", DF_NO_CREATE);
+		go_elem.EraseProp(who.acctname);
+		go_gump_elem.EraseProp(who.acctname);
+	endif
+
+	return 1;
+
+endprogram

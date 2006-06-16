@@ -1,0 +1,23 @@
+/*
+ * $Id: lockradius.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_LockRadius(who, text)
+	if ( !text )
+		SendSysMessage(who, "Syntax: .lockradius <radius>");
+		return 0;
+	endif
+
+	var range := CInt(text);
+	foreach item in ListItemsNearLocation(who.x, who.y, who.z, range, who.realm)
+		item.movable := 0;
+		SleepMS(2);
+	endforeach
+
+	SendSysMessage(who, "Done.");
+	return 1;
+endprogram

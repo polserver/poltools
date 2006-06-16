@@ -1,0 +1,9 @@
+use uo;
+use os;
+
+
+program command_time(who)
+	SendSysMessage(who, "Time is now: "+ReadGameClock()+".");
+
+	return 0;
+endprogram
