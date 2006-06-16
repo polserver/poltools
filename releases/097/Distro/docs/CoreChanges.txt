@@ -1,5 +1,12 @@
 -- POL097 --
 
+06-16 Austin
+        Removed: Skills.cfg is no longer used. 
+                 Instead skill IDs will be read from uoskills.cfg and redirected to
+                 attributes.cfg. The attributes.cfg file now has support for the old entries.
+                skills.cfg entries supported now in attributes.cfg are:
+                DELAY, UNHIDES and SCRIPT
+
 06-15 Austin
         Added : mobile.Privileges() - Returns a dictionary. 
                 The key is the privilege name. The value 0/1 is if it is enabled or not.
