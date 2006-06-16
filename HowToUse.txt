@@ -86,7 +86,7 @@ ECOMPILE.EXE
 * Double click "StartHere.bat" and follow the menus.
 * Start with realms. 
   - Copy the client files over.
-  - Run UO convert on them.
+  - Run "UO convert" on them.
  
 * Compile all scripts
 
