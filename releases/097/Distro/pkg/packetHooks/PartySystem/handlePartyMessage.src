@@ -1,0 +1,38 @@
+/* $Id: handlePartyMessage.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use unicode;
+
+include ":partySystem:config";
+include ":partySystem:messages";
+
+program handlePartyMessage(params)
+	Set_Critical(DEBUG_SET_CRITICAL);
+
+	var who := params[1];
+	var targid := params[2];
+	var msg := params[3];
+	
+	print("targid: "+targid+" who.serial: "+who.serial);
+	print("msg: "+msg);
+	
+	if ( targid == who.serial )
+		SendSysMessage("Note to self: "+CAscZ(msg), who.uclang);
+		return 1;
+	endif
+
+	var member := SystemFindObjectBySerial(targid);
+	if ( member )
+		// One could probably just convert the unicode to a string and skip this hassle
+		// but not everyone uses english characters
+		//SendSysMessageUC(member, (CAscZ("[Private] "+who.name+": "))+msg, member.uclang);
+		//SendSysMessageUC(who, (CAscZ("[Private->"+member.name+"] "))+msg, member.uclang);
+		SendSysMessageUC(who, (CAscZ("[Private->"+member.name+"] "))+msg, member.uclang, 3, 1153);
+		SendPartyMessage(member, who, msg);
+	endif
+
+	return 1;
+endprogram

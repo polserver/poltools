@@ -1,0 +1,15 @@
+// $Id: canRemove.src 87 2006-05-23 19:04:43Z sroyalty $
+
+use uo;
+
+program canRemoveScript(mobile, container, item, move_type)
+
+	mobile := mobile;
+	container := container;
+	item := item;
+	move_type := move_type;
+
+	return 1;
+
+endprogram
+

@@ -1,0 +1,12 @@
+/* $Id$
+ *
+ */
+
+use os;
+use uo;
+
+program textcmd_UnloadAll(who, text)
+	SendSysMessage(who, "Number of scripts unloaded: "+Unload_Scripts(text));
+
+	return 1;
+endprogram

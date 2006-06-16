@@ -1,0 +1,11 @@
+include "summon";
+
+
+program spell_summonFireElemental(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+
+	DoSummon(caster, 8, "fireelemental", castOn);
+
+	return;
+endprogram

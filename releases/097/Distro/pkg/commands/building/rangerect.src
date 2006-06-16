@@ -1,0 +1,79 @@
+/*
+ * $Id: rangerect.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use util;
+
+program textcmd_RangeRect(who, parms)
+	if ( !parms )
+		SendSysMessage(who, "Useage: rangerect <tile1> <tile2> <z coord>");
+		return 0;
+	endif
+
+	var stuff := SplitWords(parms);
+	var lbound := CInt(stuff[1]);
+	var ubound := CInt(stuff[2]);
+	var z := CInt(stuff[3]);
+
+	if ( !z )
+		z := who.z;
+	endif
+
+	SendSysMessage(who, "Select coordinate #1");
+	var targ_a := TargetCoordinates(who);
+
+	SendSysMessage(who, "Select coordinate #2");
+	var targ_b := TargetCoordinates(who);
+
+	if ( ( !targ_a) || ( !targ_b) )
+		// check that we got two valid coordstructs.
+		SendSysMessage(who, "Missing coordinate. Aborting.");
+		return 0;
+	endif
+
+	// dummy variables, won't be needed after rewrite of command.
+	var start_x;
+	var start_y;
+	var end_x;
+	var end_y;
+
+	if ( targ_a.x <= targ_b.x )
+		start_x  := targ_a.x;
+		end_x    := targ_b.x;
+	else
+		start_x  := targ_b.x;
+		end_x    := targ_a.x;
+	endif
+
+	if ( targ_a.y <= targ_b.y )
+		start_y  := targ_a.y;
+		end_y    := targ_b.y;
+	else
+		start_y  := targ_b.y;
+		end_y    := targ_a.y;
+	endif
+
+	var temp_y := start_y; // store the original start_y for use after each iteration.
+
+	while ( start_x <= end_x )
+		// var tileitem := lbound  + randomint(ubound - lbound);
+		while ( start_y <= end_y )
+			var tileitem := lbound  + randomint(ubound - lbound);
+			var item := CreateItemAtLocation(start_x , start_y , z, tileItem , 1, who.realm);
+			item.decayat := ReadGameClock() + 2700; // 45 minutes
+			start_y := start_y + 1;
+
+			SleepMS(2);
+		endwhile
+
+		start_y := temp_y;
+		start_x := start_x + 1;
+	endwhile
+
+	SendSysMessage(who, "Done.");
+	return 1;
+
+ endprogram

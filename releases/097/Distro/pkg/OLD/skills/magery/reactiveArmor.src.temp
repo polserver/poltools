@@ -1,0 +1,30 @@
+use uo;
+use os;
+
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+
+
+program spell_reactiveArmor( parms )
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  PlaySoundEffect(castOn, SFX_SPELL_REACTIVE_ARMOR);
+  PlayObjectCenteredEffect( castOn, FX_SPARK_EFFECT, 7, 0x10 );
+  if(GetObjProperty(castOn, "ar"))
+	SendSysMessage(caster,"Already under the influence!");
+	return;
+  endif
+  var magery := AP_GetSkill(caster, MAGERY);
+  var modAmount := magery / 10;
+  var duration := CInt(RandomInt(10) + (magery / 2));
+  SetObjProperty(castOn, "ReactiveArmor", modAmount);
+  Detach();
+  sleep(duration);
+  if(GetObjProperty(castOn, "ReactiveArmor"))
+    PlaySoundEffect(castOn, 0x1eb);
+    EraseObjProperty(castOn,"ReactiveArmor");
+  endif
+
+	return;
+endprogram

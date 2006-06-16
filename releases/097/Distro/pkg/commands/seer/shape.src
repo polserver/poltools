@@ -1,0 +1,28 @@
+/* $Id: shape.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ * Purpose
+ *
+ */
+use uo;
+
+include "include/mobileID";
+
+program command_shape(who, params)
+	case (params)
+		"male":
+			who.graphic := MOB_HUMAN_MALE;
+			break;
+		"female":
+			who.graphic := MOB_HUMAN_FEMALE;
+			break;
+		"gm":
+			who.graphic := MOB_GM;
+			break;
+		default:
+			SendSysMessage(who, "Please see .help shape");
+			break;
+	endcase
+
+	return 1;
+endprogram
+

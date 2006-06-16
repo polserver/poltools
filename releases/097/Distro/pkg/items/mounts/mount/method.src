@@ -1,0 +1,17 @@
+/* $Id: method.src 319 2006-06-12 19:51:26Z austinheilman $
+ *
+ */
+
+use uo;
+use cfgfile;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsMount(item)
+	item := item; // To avoid compiler warnings.
+	return 1;
+endfunction
+
+

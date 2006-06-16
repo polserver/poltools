@@ -1,0 +1,144 @@
+/* $Id: handlePartyRemove.src 306 2006-06-10 01:47:10Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use polsys;
+
+include ":partySystem:config";
+include ":partySystem:packetInfo";
+include ":partySystem:messages";
+
+CONST OFFSET_PARTY_REMOVE_NEWSIZE := 6;
+CONST OFFSET_PARTY_REMOVE_PLAYERID := 7;
+CONST OFFSET_PARTY_REMOVE_PLAYERIDS := 11;
+
+program HandlePartyRemove(params)
+	Set_Critical(DEBUG_SET_CRITICAL);
+
+	var who := params[1];
+	var kicked_memberid := params[2];
+	var newparty := array{};
+	var kicked_member, party, member;
+	
+	// No kickid, so who must be using /rem client command
+	if ( !kicked_memberid )
+		SendSysMessage(who, "Who would you like to remove from your party?");
+		kicked_member := Target(who);
+		party := GetObjProperty(who, PARTY_PROP);
+		
+		if ( !kicked_member )
+			SendSysMessage(who, "Cancelled.");
+			return 0;
+		endif
+		
+		if ( !kicked_member.IsA(POLCLASS_MOBILE) || !kicked_member.acctname || !(kicked_member.serial in party) )
+			return 0;
+		endif
+	else
+		// param[3] is set to PARTY_PROP when called from logoff, so search offline mobiles as well
+		if ( !params[3] )
+			kicked_member := SystemFindObjectBySerial(kicked_memberid);
+			party := GetObjProperty(who, PARTY_PROP);
+		else
+			kicked_member := SystemFindObjectBySerial(kicked_memberid, SYSFIND_SEARCH_OFFLINE_MOBILES);
+			party := params[3];
+		endif
+	endif
+
+	if ( TypeOf(party) != "Array" || party.Size() < 1 || !party[1] )
+		EraseObjProperty(who, PARTY_PROP);
+		EraseObjProperty(who, PARTY_JOINING_PROP);
+		return 0;
+	endif
+
+	// kicked_member is removing themselves OR is removing someone in the party and is the leader
+	if ( kicked_member.serial == who.serial || (who.serial == party[1] && (kicked_member.serial in party)) ) 
+		// Remove PARTY_PROP from kicked_member's character
+		EraseObjProperty(kicked_member, PARTY_PROP);
+
+		// Send remove packet
+		SendRemovePacket(kicked_member, kicked_memberid);
+
+		// If kicked_member is not the party leader
+		if ( kicked_member.serial == party[1] )
+			// Send everyone the packet to disband
+			foreach memberid in (party)
+				member := SystemFindObjectBySerial(memberid, SYSFIND_SEARCH_OFFLINE_MOBILES);
+
+				SendRemovePacket(member, member.serial);
+				EraseObjProperty(member, PARTY_PROP);
+
+				if ( member.connected )
+					if ( memberid != kicked_member.serial )
+						SendSysMessage(member, "Party disbanded.");
+					else
+						SendSysMessage(kicked_member, "You have disbanded the party.");
+					endif
+				endif
+				SleepMS(2);
+			endforeach
+		else
+			// Build newparty array
+			for i := 1 to (party.Size())
+				if ( party[i] != kicked_member.serial )
+					newparty.Append(party[i]);
+				endif
+				SleepMS(2);
+			endfor
+
+			SendPartyMessage(newparty, kicked_member, "has left the party.", 1);
+			
+			// Send the same packet to everyone else, unless it's a 2-person party, then send a different packet
+			foreach memberid in (newparty)
+				member := SystemFindObjectBySerial(memberid, SYSFIND_SEARCH_OFFLINE_MOBILES);
+
+				if ( newparty.Size() > 1 )
+					SendRemovePacket(member, kicked_memberid);
+					SetObjProperty(member, PARTY_PROP, newparty);
+				else
+					SendRemovePacket(member, member.serial);
+					EraseObjProperty(member, PARTY_PROP);
+					
+					if ( member.connected )
+						SendSysMessage(member, "Party disbanded.");
+					endif
+				endif
+				SleepMS(2);
+			endforeach
+			
+			if ( kicked_member.connected )
+				SendSysMessage(kicked_member, "You have been removed from the party.");
+			endif
+
+		endif
+	else
+		SendSysMessage(who, "You must be the leader of the party to remove members.");
+	endif
+
+	return 1;
+endprogram
+
+function SendRemovePacket(targ, kickedid, party := array{})
+	if ( !targ.connected )
+		return 0;
+	endif
+
+	// Build the packet
+	var packet := CreatePacket(MSGTYPE_PARTY, MSGLEN_VARIABLE);
+	packet.SetInt16(OFFSET_PARTY_SUBCMD, SUBCMD_PARTY); // Set subcmd to Party
+	packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 2); // Set subsubcmd to Remove
+	packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERID, kickedid); // Set player's serial
+	packet.SetInt8(OFFSET_PARTY_REMOVE_NEWSIZE, party.Size()); // Set new party size
+
+	for i := 1 to (party.Size())
+		if ( party[i] != kickedid )
+			packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERIDS + ((i - 1) * 4), party[i]);
+		endif
+		SleepMS(2);
+	endfor
+
+	packet.Set16(OFFSET_PARTY_MSGLEN, packet.GetSize()); // Set packet length
+	packet.SendPacket(targ);
+endfunction

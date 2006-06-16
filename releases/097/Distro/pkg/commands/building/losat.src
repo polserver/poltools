@@ -1,0 +1,21 @@
+/*
+ * $Id: losat.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+program textcmd_LineOfSightAt(who)
+	var targ := TargetCoordinates(who);
+
+	if ( !targ )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	elseif ( CheckLosAt(who, targ.x, targ.y, targ.z) ) // Note: Core doesnt have realm support here, yet. 
+		SendSysMessage(who, "You have LOS to that spot.");
+		return 1;
+	else
+		SendSysMessage(who, "You dont have LOS to that spot.");
+		return 1;
+	endif
+endprogram

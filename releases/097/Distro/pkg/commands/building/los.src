@@ -1,0 +1,21 @@
+/*
+ * $Id: los.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+Program textcmd_LineOfSight(who)
+	var targ := target(who);
+
+	if ( !targ )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	elseif ( CheckLineOfSight(who, targ) )
+		SendSysMessage(who, "You have LOS to that.");
+		return 1;
+	else
+		SendSysMessage(who, "You dont have LOS to that.");
+		return 0;
+	endif
+endprogram

@@ -1,0 +1,24 @@
+/*
+ * $Id: tileinfo.src 185 2006-06-02 21:03:13Z austinheilman $
+ *
+ */
+
+use uo;
+
+
+program textcmd_TileInfo(who)
+	SendSysMessage(who, "Click a tile");
+
+	var targ := TargetCoordinates(who);
+
+	if ( !targ )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+
+	SendSysMessage(who, "Clicked Graphic: "+targ.objtype+" / "+Hex(targ.objtype));
+	var landtile := GetMapInfo(targ.x, targ.y, who.realm).landtile;
+	SendSysMessage(who, "Landscape Tile: "+landtile+" / "+Hex(landtile));
+	
+	return 1;
+endprogram

@@ -1,0 +1,13 @@
+/*
+ * $Id: logon.src 179 2006-06-01 15:16:47Z austinheilman $
+ *
+ */
+ 
+use uo;
+ 
+program Logon(who)
+
+	SetObjProperty(who, "ConnectTime", POLCore().systime);
+	
+	return 1;
+endprogram

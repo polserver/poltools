@@ -1,0 +1,31 @@
+/* $Id: remainsControl.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":containers:settings";
+
+program control_Remains(remains)
+	var settings := CP_GetSettingsCfgElem("Corpse");
+	var decay_wait := CInt(settings.RemainsDecay);
+	if ( !decay_wait )
+		decay_wait := 60;
+	endif
+		
+	Sleep(decay_wait);
+	
+	foreach item in ( EnumerateItemsInContainer(remains) )
+		if ( item.container != remains )
+			continue;
+		else
+			MoveObjectToLocation(item, remains.x, remains.y, remains.z, remains.realm, MOVEOBJECT_NORMAL);
+		endif
+		SleepMS(2);
+	endforeach
+	
+	DestroyItem(remains);
+	
+	return 1;
+endprogram

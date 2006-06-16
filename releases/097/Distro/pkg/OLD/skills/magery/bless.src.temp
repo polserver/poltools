@@ -1,0 +1,28 @@
+use uo;
+use os;
+use util;
+
+include "include/statMod";
+include ":attributes:attributes";
+include "include/sound";
+include "include/tileEffects";
+
+
+program bless(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  PlaySoundEffect(castOn, SFX_SPELL_BLESS);
+  PlayObjectCenteredEffect( castOn, FX_BLESS_EFFECT, 10,10);
+  var magery := AP_GetSkill(caster, MAGERY);
+  var modAmount := GetModAmount(magery);
+  var duration := GetModDuration(magery);
+  if(CanMod(castOn, "str"))
+	DoTempMod(castOn, "str", modAmount, duration);
+  endif
+  if(CanMod(castOn, "dex"))
+	DoTempMod(castOn, "dex", modAmount, duration);
+  endif
+  if(CanMod(castOn, "int"))
+	DoTempMod(castOn, "int", modAmount, duration);
+  endif
+endprogram

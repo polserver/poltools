@@ -1,0 +1,649 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL System Events Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">POL System 
+Events<BR></P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+</P>
+<P>This document describes all the "System Events" (Sysevents) that the POL core 
+uses. These are enabled in Control Scripts using the EnableEvents() function. 
+Only these events listed here should be used in the EnableEvents() function. You 
+may not define User Events with any of these values (or any of the reserved 
+values in sysEvent.inc). To use a user event in your script, you must not use 
+EnableEvents(), just send it using SendEvent() (or process_obj.sendevent()) and 
+look for it normally in the receiving script. Some of the Sysevents below are 
+ranged, meaning you may specify a world distance in EnableEvents() beyond which 
+the script will not receive the event. Use DisableEvents() to disable any of the 
+Sysevents. <BR><BR></P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Last Modified: 
+3/20/2003</P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_SPEECH>
+    <TH align=middle colSpan=2>SYSEVENT_SPEECH</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>This event comes in two types: Normal and Unicode. The 
+      latter is sent when the source is a client speaking in Unicode 
+  speech.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000001</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_SPEECH (0x00000001)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>text</VAR></TD>
+    <TD>string normal text (junk if unicode)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>texttype</VAR></TD>
+    <TD>type of speech: "yell", "whisper", "emote", or "default"</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>(Unicode only) a "Unicode array" of 2-byte "Big Endian" integers 
+      corresponding to the unicode characters sent. will be an 'error' type if 
+      the Unicode input is "bad". will be uninitialized if no Unicode text is 
+      available (ie, when a non-Unicode client types the command)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>(Unicode only) string 3-character, uppercase language code, i.e. 
+      "ENU", "DEU", etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>When a player speaks in range of an item listening point, or 
+      NPC that has enabled the event. Note Ghost speech is a seperate 
+  event.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Yes</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_ENGAGED>
+    <TH align=middle colSpan=2>SYSEVENT_ENGAGED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Combat Engaged event.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000002</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_ENGAGED (0x00000002)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>When an attack is initiated against an NPC. (set opponent, 
+      or Target with the Harmful flag set)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_DISENGAGED>
+    <TH align=middle colSpan=2>SYSEVENT_DISENGAGED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Combat Disengaged event.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000004</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_DISENGAGED (0x00000004)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>When an attack is stopped against an NPC. (set opponent 
+      null, attacker dies)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_DAMAGED>
+    <TH align=middle colSpan=2>SYSEVENT_DAMAGED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The NPC was damaged.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000008</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_DAMAGED (0x00000008)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference, or 0 if no character source</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>damage</VAR></TD>
+    <TD>integer damage amount</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The NPC recevied damage.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_ENTEREDAREA>
+    <TH align=middle colSpan=2>SYSEVENT_ENTEREDAREA</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>A character entered inside a range around the NPC. Note, 
+      ignores Z distance.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000010</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_ENTEREDAREA (0x00000010)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The mobile walked into the range, a new NPC was created 
+      inside the range, or a character un-hid inside the range.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Yes</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_LEFTAREA>
+    <TH align=middle colSpan=2>SYSEVENT_LEFTAREA</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>A character left the range around the NPC. Note, ignores Z 
+      distance.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000020</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_LEFTAREA (0x00000020)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The mobile walked out of the range. Not sent if mobile 
+      hides, dies, or deleted.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Yes</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_OPPONENT_MOVED>
+    <TH align=middle colSpan=2>SYSEVENT_OPPONENT_MOVED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The NPC's opponent moved.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000040</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_OPPONENT_MOVED (0x00000040)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>The NPC's current opponent moved. Inhibits the Enter/Leave 
+      events for the NPC's opponent.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_HOSTILE_MOVED>
+    <TH align=middle colSpan=2>SYSEVENT_HOSTILE_MOVED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Not Implimented.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000080</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Not Implimented</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_MERCHANT_BOUGHT>
+    <TH align=middle colSpan=2>SYSEVENT_MERCHANT_BOUGHT</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Only sent to the merchant NPC that bought the 
+  items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000100</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_MERCHANT_BOUGHT (0x00000100)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>amount</VAR></TD>
+    <TD>amount of gold items sold for</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>After an NPC merchant buys items from a 
+player.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_MERCHANT_SOLD>
+    <TH align=middle colSpan=2>SYSEVENT_MERCHANT_SOLD</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Only sent to the merchant NPC that sold the 
+  items.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000200</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_MERCHANT_SOLD (0x00000200)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>amount</VAR></TD>
+    <TD>amount of gold items sold for</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>After an NPC merchant sells items to a player.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_ITEM_GIVEN>
+    <TH align=middle colSpan=2>SYSEVENT_ITEM_GIVEN</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Item dropped on an NPC generates this event. Also sets the 
+      following cprops on the item: "GivenBy": PC's serial, "GivenTo":NPC's 
+      serial, "GivenTime":gameclock value when item was given.</TD></TR>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Important: The item is moved to a storage area until the 
+      script handling the event moves it to a real container. If the item is not 
+      before by the time the event object goes out of scope (including passed to 
+      a subroutine! use 'byref' to prevent the event from being destroyed before 
+      it can be passed to the handling subroutine), the item will automatically 
+      be moved back to its old container, and the aformentioned cprops are 
+      erased.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000400</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_ITEM_GIVEN (0x00000400)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>Item Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>A player drops an item on an NPC.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_DOUBLECLICKED>
+    <TH align=middle colSpan=2>SYSEVENT_DOUBLECLICKED</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Allows the NPC to receive double-click events (i.e. for 
+      mounting horses, pack llamas, etc.)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00000800</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>SYSEVENT_DOUBLECLICKED (0x00000800)</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>source</VAR></TD>
+    <TD>Character Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>A player double-clicked on an NPC.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>No</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SYSEVENT_GHOST_SPEECH>
+    <TH align=middle colSpan=2>SYSEVENT_GHOST_SPEECH</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Dead players generate this event when speaking, not 
+      SYSEVENT_SPEECH. Otherwise, see SYSEVENT_SPEECH for the struct 
+  members.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>0x00001000</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>A dead player speaks.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Yes</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name="#AUX Connection Receive Event">
+    <TH align=middle colSpan=2>AUX Connection Receive Event</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>This event is the method by which the AUX connection script 
+      received data from an external application. (Data may be sent with 
+      aux_connection.send())</TD></TR>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Note: ONLY received in AUX connection handler 
+  scripts.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left>ID#:</TH>
+    <TD align=left>n/a</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TH align=left colSpan=2>Struct Members:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>type</VAR></TD>
+    <TD>string "recv"</TD></TR>
+  <TR bgColor=#eeeeee>
+    <TD width="50%"><VAR>value</VAR></TD>
+    <TD>unpacked scripting object</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>When sent:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>When an external application connected to an AUX handler 
+      script sends packed data, wait_for_event() will return this 
+  struct.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Ranged?</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#dddddd>
+    <TD colSpan=2>Yes</TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

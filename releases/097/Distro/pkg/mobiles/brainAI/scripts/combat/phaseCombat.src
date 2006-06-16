@@ -1,0 +1,99 @@
+// $Id: phaseCombat.src 230 2006-06-04 22:12:22Z austinheilman $
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:commonFunctions";
+include ":attributes:attributes";
+include "include/shapes";
+include "include/client";
+include "include/sounds";
+include "include/facings";
+include ":damage:damage";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var event	:= params[3];
+	var settings	:= params[4];
+	var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := AP_GetVitalMaximumValue(npc, "Hits") * (CDbl(settings["FleeLevel"])/100.0);
+
+	var opponent := event.source;
+	
+	AI_SetOpponent(npc, opponent);
+
+	while ( npc )
+		var dist := Distance(npc, opponent);
+		if ( ShouldFlee(npc, flee_level) )
+			AI_WarMode(npc, 0);
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
+		elseif ( DoneFighting(npc, opponent, dist) )
+			if ( scripts.Exists("EndFight") )
+				params := array{opponent, settings, scripts};
+				AI_StartNerve(npc, "EndFight", scripts["EndFight"].script, params);
+			else
+				AI_WarMode(npc, 0);
+			endif
+			AI_EndNerve(npc, nerve_name);
+		elseif ( dist > 6 )
+			PhaseWarp(npc, opponent);
+		elseif ( dist > 1 )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
+		endif
+		
+		SleepMS(400);
+		AI_ClearThoughts(npc, CLR_NERVE);
+	endwhile
+endprogram
+
+function DoneFighting(npc, opponent, byref dist)
+	if ( opponent.dead )
+		return 1;
+	elseif ( !opponent )
+		return 1;
+	elseif ( opponent.hidden )
+		return 1;
+	elseif ( opponent.concealed > npc.cmdlevel )
+		return 1;
+	elseif ( dist > 20 )
+		AI_Speak(npc, "*snorts*");
+		return 1;
+	elseif ( dist > 20 && !CheckLineOfSight(npc, opponent) )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ShouldFlee(npc, byref flee_level)
+	if ( AP_GetVital(npc, "Hits") < flee_level )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function PhaseWarp(npc, opponent)
+	var phase_coords := GetCoordsInLine(npc.x, npc.y, opponent.x, opponent.y);
+	//Get rid of the last coordinate - so the npc doesnt tele on top of the player.
+	phase_coords.Erase(phase_coords.Size()); 
+	
+	TurnObjectToward(npc, opponent.x, opponent.y);
+	
+	PlaySoundEffect(npc, SFX_TELEPORT);
+	
+	foreach coord in phase_coords
+		PlayStationaryEffect(npc.x, npc.y, npc.z, GFX_SMOKE, 5, 5, 0);
+		var z := GetWorldHeight(coord.x, coord.y, npc.realm);
+		MoveObjectToLocation(npc, coord.x, coord.y, z, npc.realm, MOVEOBJECT_NORMAL);
+		SleepMS(20);
+	endforeach
+	
+	return 1;
+endfunction

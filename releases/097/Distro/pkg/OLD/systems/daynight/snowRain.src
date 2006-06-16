@@ -1,0 +1,19 @@
+use uo;
+use os;
+
+program SnowAndRain(sev)
+
+var wstuff := GetGlobalProperty("Weather");
+var weathercheck := wstuff[7];
+
+while(wstuff[7] == weathercheck)
+	if (wstuff[8] == 2)
+		SetRegionWeatherLevel( "Background", 2, sev, 0, -1);
+	else
+		SetRegionWeatherLevel( "Background", 1, sev, 0, -1);
+	endif
+	wstuff := GetGlobalProperty("Weather");
+	sleep(30);
+endwhile
+
+endprogram

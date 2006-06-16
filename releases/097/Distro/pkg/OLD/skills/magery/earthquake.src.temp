@@ -1,0 +1,40 @@
+use uo;
+use util;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include "include/spellAttack";
+include "include/magic";
+
+
+program spell_earthquake(parms)
+	var caster := parms.caster;
+	var spellid := parms.spellid;
+	var spellcfg := ReadConfigFile(":*:spells");
+	var circle := spellcfg[spellid].circle;
+	var range := 12;
+	var victims := ListMobilesNearLocationEx( caster.x, caster.y, caster.z, range, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN, caster.realm );
+	var dmg;
+
+	PlaySoundEffect( caster, SFX_220 );
+	foreach mobile in victims
+		if ((mobile.serial != caster.serial) and (mobile.cmdlevel < 2))
+			SetObjProperty(mobile, "LastHit", {caster.name,caster.serial, "earthquake" });
+			send_attack(mobile,caster, 57);
+			dmg := RandomDiceRoll("7d7");
+			PrintTextAbovePrivate( mobile,"You are tossed about as the earth trembles below your feet!", mobile );
+			PlaySoundEffect( mobile, SFX_SPELL_EARTHQUAKE );
+			PlayObjectCenteredEffect( mobile, FX_SMOKE, 7, 7);
+			if (mobile.isA(POLCLASS_NPC))
+				dmg := dmg * 2;
+			endif
+	  		ApplyRawDamage( mobile, Resisted(circle,caster,mobile,dmg) );
+		endif
+	endforeach
+	sleep(2);
+	PlaySoundEffect(caster, SFX_223);
+
+	return;
+endprogram

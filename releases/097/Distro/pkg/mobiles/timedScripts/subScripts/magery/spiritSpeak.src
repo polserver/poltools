@@ -1,0 +1,19 @@
+/*
+ * $Id: spiritSpeak.src 281 2006-06-08 16:30:18Z tekproxy $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_SpiritSpeak(params)
+	var mobile := params[1];
+	
+	mobile.GrantPrivilege("hearghosts");
+	mobile.Enable("hearghosts");
+	
+	return 1;
+endprogram
+

@@ -1,0 +1,13 @@
+/*
+ * $Id: destroy.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+
+program textcmd_Destroy(who)
+	SendSysMessage(who, "What do you want to destroy?");
+	
+	DestroyItem(target(who));
+endprogram

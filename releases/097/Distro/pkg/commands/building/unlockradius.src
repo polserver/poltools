@@ -1,0 +1,23 @@
+/*
+ * $Id: unlockradius.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_UnlockRadius(who, text)
+	text := SplitWords(text);
+	var range := CInt(text[1]);
+	var objtype := CInt(text[2]);
+
+	foreach object in ListItemsNearLocation(who.x, who.y, who.z, range, who.realm);
+		if ( object.objtype == objtype || !objtype )
+			object.movable := 1;
+		endif
+		SleepMS(2);
+	endforeach
+
+	SendSysMessage(who, "Everything in a radius of "+range+" is now movable." );
+	return 1;
+endprogram

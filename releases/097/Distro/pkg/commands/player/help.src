@@ -1,0 +1,22 @@
+/* $Id: help.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ * Purpose:
+ * Show help for a specific command.
+ *
+ */
+use uo;
+
+include ":gumps:htmlgump";
+
+program command_help(who, command)
+	var help;
+
+	help := GetCommandHelp(who, command);
+	if ( help )
+		SendHTMLGump(who, command+" Help Text", help);
+		return 1;
+	else
+		SendSysMessage(who, "No help available for that command.");
+		return 0;
+	endif
+endprogram

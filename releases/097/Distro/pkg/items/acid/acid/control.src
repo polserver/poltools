@@ -1,0 +1,10 @@
+/* $Id: control.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+use uo;
+use os;
+
+program ControlScript(acid)
+	Sleep(5);
+	DestroyItem(acid);
+endprogram

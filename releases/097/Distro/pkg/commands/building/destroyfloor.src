@@ -1,0 +1,44 @@
+/*
+ * $Id: destroyfloor.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use os;
+use uo;
+
+include "include/facings";
+
+CONST MAX_DISTANCE := 10;
+
+program textcmd_MakeFloor(who, text)
+	text := SplitWords(text);
+	var dist := CInt(text[1]);
+	var graphic := CInt(text[2]);
+	
+	if ( !dist )
+		SendSysMessage(who, ".destroyfloor <distance> (graphic) - graphic is optional.");
+		return 0;
+	endif
+	
+	if ( dist > MAX_DISTANCE )
+		dist := MAX_DISTANCE;
+		SendSysMessage (who,"You have exceeded "+MAX_DISTANCE+" tiles. Distance will be lowered.");
+	endif
+	
+	var coordinates := GetPointsByFacing(who.x, who.y, who.facing, dist);
+	foreach coord in ( coordinates )
+		foreach object in ListItemsNearLocation(coord.x, coord.y, who.z, 0, who.realm)
+			if ( graphic )
+				if ( object.graphic == graphic )
+					DestroyItem(object);
+				endif
+			else
+				DestroyItem(object);
+			endif
+			SleepMS(2);
+		endforeach
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endprogram

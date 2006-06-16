@@ -1,0 +1,9 @@
+/*
+ * $Id: start.src 93 2006-05-23 20:23:29Z sroyalty $
+ *
+ */
+
+program GlobalStartup()
+	Print("\n---------------------------\n");
+	return 1;
+endprogram
