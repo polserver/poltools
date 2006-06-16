@@ -3,18 +3,23 @@ Signature=UE Proj: v.1
 [Project Information]
 Use Relative Directory=1
 Relative to Project File=1
-Project Start=D60705000500130017001C003B00000068
+Project Start=D607060004000F0011002000360000005D
 Include Sub Directories=1
 Project Tagfile=
 Project Wordfile=wordfile.txt
 Filter=
 Create Tagfile=0
 Working Time=1
+Project Directory=E:\UOL\Distro\096\TextEditors\UltraEdit\
 [Folders]
 E:\UOL\Distro\096\=1
 ..\..\096\=1
-[Files]
-0=..\..\096\
+..\..\distro\=1
 [Open Files]
 Open File0=
 Active File Display Mode=-1
+[Group Filter]
+../../distro=*.src; *.inc; *.cfg; *.txt; *.em; *.log
+..\..\distro\=*.src; *.inc; *.em; *.cfg; *.log; *.txt
+[Files]
+0=..\..\distro\
