@@ -30,13 +30,19 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 
 * NOTE: <###> Refers to a version number. 
   Example: 095 096 097 098 (currently 096 and 097 are available)
+  
   To retrieve all distro versions, omit /releases/<###>
+  Example: https://svn.sourceforge.net/svnroot/pol-distro/
 
 * Create a folder called "Distro-<###>" and right click it.
+  Example: Distro-096
 * Select "SVN Checkout" 
 
 * For the URL of the repository enter
   https://svn.sourceforge.net/svnroot/pol-distro/releases/<###>
+  
+  Example: https://svn.sourceforge.net/svnroot/pol-distro/releases/096
+  
   Click [okay]
 
 * It will begin downloading the files for the disto.
@@ -51,17 +57,17 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 * Download the latest POL <###> core at:
   http://releases.polserver.com/
 
-* Save it next to the "<###>" folder.
+* Save it next to the "Distro-<###>" folder.
   
-* Extract the following files from the zip file to the "<###>/distro" folder:
+* Extract the following files from the zip file to the "Distro-<###>/distro" folder:
 POL.EXE
 UOCONVERT.EXE
 UOCONVERT.CFG
 
-* Extract the following files from the zip file to the "<###>/distro/scripts" folder:
+* Extract the following files from the zip file to the "Distro-<###>/distro/scripts" folder:
 ECOMPILE.EXE
 
-* Extract the following files from the zip file to the "<###>/distro/scripts/modules" folder:
+* Extract the following files from the zip file to the "Distro-<###>/distro/scripts/modules" folder:
 (*.EM FILES)
 BASIC.EM
 BASICIO.EM
