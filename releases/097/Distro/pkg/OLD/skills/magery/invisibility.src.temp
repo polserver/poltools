@@ -1,0 +1,20 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/sound";
+include ":attributes:attributes";
+
+
+program spell_invisibility(parms)
+	var caster := parms.caster;
+	var castOn := parms.castOn;
+
+	PlaySoundEffect(castOn, SFX_SPELL_INVISIBILITY);
+	castOn.hidden := 1;
+	Detach();
+	sleep(CInt(AP_GetSkill(caster, MAGERY)));
+	castOn.hidden := 0;
+
+	return;
+endprogram

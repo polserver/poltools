@@ -1,0 +1,144 @@
+use uo;
+use boat;
+use os;
+
+include "include/string";
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsTillerMan(tiller)
+	return 1;
+endfunction
+
+exported function GetMulti(tiller)
+	return SystemFindBoatBySerial((tiller.multi).serial);
+endfunction
+
+exported function IsOnBoat(tiller, boat, mobile)
+	if ( (mobile.multi).serial == boat.serial )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+exported function CanCommand(tiller, mobile)
+	if ( IsOwner(tiller, mobile) )
+		return 1;
+	elseif ( IsCrewMate(tiller, mobile) )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+exported function IsOwner(tiller, mobile)
+	if ( mobile.serial == GetOwner(tiller).serial )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
+exported function GetOwner(tiller)
+	return GetObjProperty(tiller, "Owner");
+endfunction
+
+exported function SetOwner(tiller, owner)
+	var info := struct;
+	info.+name := owner.name;
+	info.+serial := owner.serial;
+	info.+acctname := owner.acctname;
+	
+	return SetObjProperty(tiller, "Owner", info);
+endfunction
+
+exported function GetCrewMates(tiller)
+	var crew_mates := GetObjProperty(tiller, "CrewMates");
+	if ( crew_mates == error )
+		crew_mates := array;
+		SetCrewMates(tiller, crew_mates);
+	endif
+	
+	return crew_mates;
+endfunction
+
+exported function RemoveCrewMate(tiller, index)
+	var crew_mates := GetCrewMates(tiller);
+	var crew_mate := crew_mates[index];
+	crew_mates.Erase(index);
+	SetCrewMates(tiller, crew_mates);
+	
+	return crew_mate;
+endfunction
+
+exported function AddCrewMate(tiller, mobile, index)
+	var crew_mates := GetCrewMates(tiller);
+	
+	var info := struct;
+	info.+name := mobile.name;
+	info.+serial := mobile.serial;
+	info.+acctname := mobile.acctname;
+	
+	crew_mates[index] := info;
+	
+	SetCrewMates(tiller, crew_mates);
+endfunction
+
+exported function IsCrewMate(tiller, mobile)
+	var crew_mates := GetCrewMates(tiller);
+	var i;
+	for ( i:=1; i<=crew_mates.Size(); i:=i+1 )
+		if ( crew_mates[i].name == mobile.name )
+			return i;
+		endif
+	endfor
+	
+	return 0;
+endfunction
+
+exported function SetCrewMates(tiller, list)
+	SetObjProperty(tiller, "CrewMates", list);
+endfunction
+
+exported function GetCondition(tiller)
+	var condition := GetObjProperty(tiller, "Condition");
+	
+	return condition;
+endfunction
+
+exported function SetCondition(tiller, value)
+	SetObjProperty(tiller, "Condition", value);
+endfunction
+
+exported function GetSpeed(tiller)
+	var speed := GetObjProperty(tiller, "Speed");
+	if ( !speed )
+		SetSpeed(tiller, 350);
+	endif
+	
+	return CInt(speed);
+endfunction
+
+exported function SetSpeed(tiller, value)
+	SetObjProperty(tiller, "Speed", value);
+endfunction
+
+exported function SetAnchorStatus(tiller, value)
+	var tiller_name := tiller.desc;
+	if ( value )
+		SetObjProperty(tiller, "Anchored", 1);
+		SetName(tiller, tiller_name+" [Anchored]");
+	else
+		EraseObjProperty(tiller, "Anchored");
+		tiller_name[" [Anchored]"] := "";
+		tiller_name := RemoveSpaces(tiller_name, CLR_LEADING_SPACES+CLR_TRAILING_SPACES+CLR_DOUBLE_SPACES);
+		SetName(tiller, tiller_name);
+	endif
+endfunction
+
+exported function IsAnchored(tiller)
+	return GetObjProperty(tiller, "Anchored");
+endfunction

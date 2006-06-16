@@ -1,0 +1,41 @@
+/* $Id: bcast.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+use uo;
+
+include "include/client";
+include ":gumps:requestgump";
+include ":gumps:gumpprompt";
+include ":gumps:yesno";
+
+program command_bcast(who, text)
+
+	var sendAs := who.name;
+
+	if( !text )
+		text := RequestGump(who, "What do you want to broadcast to the players?");
+		if( TypeOf(text) == "String" )
+			if( YesNo(who, "Send broadcast under a different name?") )
+				sendAs := RequestGump(who, "What name do you wish to Broadcast this as?");
+				if( TypeOf(sendAs) != "String" )
+					sendAs := who.name;
+				endif
+			endif
+			Broadcast(sendAs+": "+text, FONT_BOLD, 73);
+		else
+			SendSysMessage(who, "Broadcasting Cancelled.");
+			return 0;
+		endif
+	else
+		if( YesNo(who, "Send broadcast under a different name?") )
+			sendAs := RequestGump(who, "What name do you wish to Broadcast this as?");
+			if( TypeOf(sendAs) != "String" )
+				sendAs := who.name;
+			endif
+		endif
+		Broadcast(sendAs+": "+text, FONT_BOLD, 73);
+	endif
+
+	return 1;
+
+endprogram

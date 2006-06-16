@@ -1,0 +1,17 @@
+/*
+ * $Id: reconnect.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":timedscripts:timedScripts";
+
+
+program reconnect(who)
+	TS_StartController(who);
+
+	return 1;
+endprogram
+

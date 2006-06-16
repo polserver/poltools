@@ -1,0 +1,47 @@
+use uo;
+
+include "include/client";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":magery:reflect";
+include "include/magic";
+
+
+program spell_telekinesis(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+  
+  PlaySoundEffect( caster, SFX_SPELL_TELEKINESIS );
+  if( castOn.npctemplate || castOn.acctname )
+    SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "telekinesis" });
+    if(spell_reflect(castOn))
+      castOn := caster;
+    endif
+    PlaySoundEffect(castOn, 0x144);
+    PlayObjectCenteredEffect(castOn, 0x37b9,0x03, 0x0a);
+    var dmg := RandomInt(AP_GetSkill(caster, MAGERY) / 10);
+    ApplyRawDamage(castOn, Resisted(circle,caster,castOn,dmg));
+    if((castOn.graphic  == 0x190) or (castOn.graphic == 0x191))
+      PerformAction(castOn, 20);
+    endif
+  elseif(castOn.multi.serial)
+    SendSysMessage(caster, "You cannot use that on items inside houses.");
+    return;
+  elseif(castOn.container.serial)
+    SendSysMessage(caster, "You cannot use that on items inside containers.");
+    return;
+  elseif((castOn.isa(POLCLASS_CONTAINER)) and (GetObjProperty(castOn, "trap_type")))
+    var parms := array(caster, castOn);
+    start_script(":tinkering:tinkerTraps", parms);
+  else
+    if(MoveItemToContainer( castOn, caster.backpack, x := -1, y := -1 ))
+      PrintTextAbovePrivate(caster, "You pick up the item with your mind.", caster);
+    else
+      PrintTextAbovePrivate(caster, "You cannot will it to move.", caster);
+    endif
+  endif
+endprogram

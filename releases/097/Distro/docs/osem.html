@@ -1,0 +1,690 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: OS.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: POL 
+System Environment Functions<BR>Last Modified: 2/11/2003</P>
+<P>File Constants: <PRE><UL>// set_script_option constants<BR>const SCRIPTOPT_NO_INTERRUPT := 1; // if 1, script runs until it sleeps<BR>const SCRIPTOPT_DEBUG        := 2; // if 1, prints any debug info included<BR>const SCRIPTOPT_NO_RUNAWAY   := 3; // if 1, doesn't warn about runaway conditions<BR>const SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES := 4;<BR></UL></PRE>
+<P></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Clear_Event_Queue>
+    <TH align=middle colSpan=2>Clear_Event_Queue()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Empties the current script's event queue</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Create_Debug_Context>
+    <TH align=middle colSpan=2>Create_Debug_Context()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>TBD</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>TBD</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Events_Waiting>
+    <TH align=middle colSpan=2>Events_Waiting()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns the number of events waiting in the event queue for 
+      this script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer number of events 
+waiting</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Getpid>
+    <TH align=middle colSpan=2>Getpid()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns the Process ID for this script.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer Process ID</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetProcess>
+    <TH align=middle colSpan=2>GetProcess(pid)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>pid</VAR></TD>
+    <TD>Integer process ID of a script</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets a script process object for the given script's 
+  PID.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Script object</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Process not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Script"><B>Script</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Is_Critical>
+    <TH align=middle colSpan=2>Is_Critical()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns true if the script is critical (by using 
+      set_critical())</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if critical, else 0.</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Run_Script_To_Completion>
+    <TH align=middle colSpan=2>Run_Script_To_Completion( script_name, param := 
+      0 )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>script_name</VAR></TD>
+    <TD>String name and path of script to run</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>param</VAR></TD>
+    <TD>object to pass to the script. Only one param may be passed. 
+    (optional)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Starts a new CRITICAL script. Runs until the script exits, 
+      returns the return value of the started script.</TD></TR>
+  <TR>
+    <TD colSpan=2>Tip: write your script to expect a struct or array as its 
+      only parameter, so you may pass multiple pieces of data through the struct 
+      or array.</TD></TR>
+  <TR>
+    <TD colSpan=2>Every 1000 instructions, "Script X running.." is printed to 
+      the console</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The return value of the started script, or 1 if no value was 
+      returned</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unable to read script"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Script exited with an error condition"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Script does not exist"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Script descriptor error"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Set_Critical>
+    <TH align=middle colSpan=2>Set_Critical( critical )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>critical</VAR></TD>
+    <TD>Boolean (0/1)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>critical scripts run if they are not blocked, without 
+      interruption.</TD></TR>
+  <TR>
+    <TD colSpan=2>An infinite loop in a critical script will hang the 
+  server</TD></TR>
+  <TR>
+    <TD colSpan=2>Use this in blocks by setting 'critical' to 1 before the 
+      critical code and to 0 after it.</TD></TR>
+  <TR>
+    <TD colSpan=2>Use this function sparingly, only in parts of code that must 
+      execute without interruption</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Set_Debug>
+    <TH align=middle colSpan=2>Set_Debug( debug )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>debug</VAR></TD>
+    <TD>Boolean (0/1)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>if debug=1, and the script was compiled with 'ecompile -i 
+      [script].src', each script source line will be printed as it is 
+    executed.</TD></TR>
+  <TR>
+    <TD colSpan=2>if debug=0, disables this output.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Set_Event_Queue_Size>
+    <TH align=middle colSpan=2>Set_Event_Queue_Size(size)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>size</VAR></TD>
+    <TD>Integer new size</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Changes the maximum number of events the current script will 
+      keep in the queue (additional events will be discarded).</TD></TR>
+  <TR>
+    <TD colSpan=2>If not called, the default size is 20 events.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer old queue size.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Set_Priority>
+    <TH align=middle colSpan=2>Set_Priority( priority )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>priority</VAR></TD>
+    <TD>Integer 1..255</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>the priority of a script is how many instructions it 
+      executes before switching to another script.</TD></TR>
+  <TR>
+    <TD colSpan=2>default script priority is 1.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer previous priority</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Set_Script_Option>
+    <TH align=middle colSpan=2>Set_Script_Option( optnum, optval 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>optnum</VAR></TD>
+    <TD>Integer constant</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>optval</VAR></TD>
+    <TD>boolean (0/1)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Sets one or more options on or off for this script</TD></TR>
+  <TR>
+    <TD colSpan=2>Constants for this function: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>const SCRIPTOPT_NO_INTERRUPT := 1;      // if 1, script runs until it sleeps
+const SCRIPTOPT_DEBUG        := 2;      // if 1, prints any debug info included
+const SCRIPTOPT_NO_RUNAWAY   := 3;      // if 1, doesn't warn about runaway conditions
+const SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES := 4;</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2>set_script_option(SCRIPTOPT_NO_INTERRUPT,1) is the same as 
+      set_critical(1)</TD></TR>
+  <TR>
+    <TD colSpan=2>set_script_option(SCRIPTOPT_DEBUG,1) is the same as 
+      set_debug(1)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unknown Script Option"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Sleep>
+    <TH align=middle colSpan=2>Sleep( num_seconds )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>num_seconds</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Puts the current script to sleep for num_seconds. No further 
+      instructions in this script will be processed in this script until the 
+      time expires.</TD></TR>
+  <TR>
+    <TD colSpan=2>DO NOT USE IN A CRITICAL BLOCK! Your server will freeze for 
+      the duration!</TD></TR>
+  <TR>
+    <TD colSpan=2>If this script is attached to a character (like a 
+      UseScript), calling detach() before the sleep will allow other scripts to 
+      run while this script sleeps.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>0 after sleep</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Sleepms>
+    <TH align=middle colSpan=2>Sleepms( num_milliseconds )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>num_milliseconds</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Puts the current script to sleep for num_milliseconds. No 
+      further instructions in this script will be processed in this script until 
+      the time expires.</TD></TR>
+  <TR>
+    <TD colSpan=2>DO NOT USE IN A CRITICAL BLOCK! Your server will freeze for 
+      the duration!</TD></TR>
+  <TR>
+    <TD colSpan=2>If this script is attached to a character (like a 
+      UseScript), calling detach() before the sleep will allow other scripts to 
+      run while this script sleeps.</TD></TR>
+  <TR>
+    <TD colSpan=2>You're not likely to get any faster resolution than 
+  10ms</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>0 after sleep</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Start_Script>
+    <TH align=middle colSpan=2>Start_Script( script_name, param := 0 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>script_name</VAR></TD>
+    <TD>String name and path of script to run</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>param</VAR></TD>
+    <TD>object to pass to the script. Only one param may be passed. 
+    (optional)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Starts a new script running.</TD></TR>
+  <TR>
+    <TD colSpan=2>Tip: write your script to expect a struct or array as its 
+      only parameter, so you may pass multiple pieces of data through the struct 
+      or array.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Script object for the started script on 
+  success.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Error in script name"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Script X does not exist."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unable to start script"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Script"><B>Script</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Syslog>
+    <TH align=middle colSpan=2>Syslog( text )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>text</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>write text to the console, and to the log file includes 
+      context (calling script name)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#System_RPM>
+    <TH align=middle colSpan=2>System_RPM()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>returns the system RPM, which is the number of "game loop 
+      rotations" completed in the last minute. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Last System RPM integer</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Unload_Scripts>
+    <TH align=middle colSpan=2>Unload_Scripts(scriptname := 
+  "")</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>scriptname</VAR></TD>
+    <TD>String filename of script without extension (optional)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>unload scripts from the script cache (they will be reloaded 
+      from disk on demand) currently running scripts will continue as 
+  normal.</TD></TR>
+  <TR>
+    <TD colSpan=2>Passing "" will unload all scripts.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Number of scripts unloaded</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Script"><B>Script</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Wait_For_Event>
+    <TH align=middle colSpan=2>Wait_For_Event( num_seconds_timeout 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>num_seconds_timeout</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The primary access to a script's event queue. If there is an 
+      event waiting, the function immediately returns with the event (could be a 
+      string, int, struct, etc).</TD></TR>
+  <TR>
+    <TD colSpan=2>If no event is waiting, the script sleeps for 
+      num_seconds_timeout or until a new event arrives. If the timeout is 
+      reached, the function returns 0.</TD></TR>
+  <TR>
+    <TD colSpan=2>if timeout is 0, returns immediately</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>object on event recv, 0 on 
+timeout</TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

@@ -1,0 +1,8 @@
+// $Id: canDestroy.src 87 2006-05-23 19:04:43Z sroyalty $
+
+program canDestroy(container)
+
+	container := container;
+	return 1;
+
+endprogram

@@ -1,0 +1,33 @@
+/* $Id: openpack.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_openPack(who)
+	SendSysMessage(who, "Select a container or mobile.");
+	var targ := Target(who);
+	
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	if ( targ.IsA(POLCLASS_MOBILE) )
+		if ( !targ.backpack )
+			Set_Critical(1);
+			var newpack := CreateItemAtLocation(targ.x, targ.y, targ.z, "backpack", 1, targ.realm);
+			if ( !EquipItem(targ, newpack) )
+				DestroyItem(newpack);
+				return 0;
+			endif
+		endif
+		
+		SendOpenSpecialContainer(who, targ.backpack);
+	elseif ( targ.IsA(POLCLASS_CONTAINER) )
+		SendViewContainer(who, targ);
+	endif
+	
+	return 1;
+endprogram

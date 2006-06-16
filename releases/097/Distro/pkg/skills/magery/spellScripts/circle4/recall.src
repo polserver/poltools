@@ -1,0 +1,45 @@
+/* $Id: recall.src 85 2006-05-23 18:41:38Z sroyalty $
+ *
+ */
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":coords:isValidLoc";
+include ":runebook:runebookFunctions";
+include ":containers:containers";
+include ":itemutils:itemdesc";
+include "include/sounds";
+
+program SpellScript(params)
+	var who := params[1];
+	var recall_rune := params[2];
+	//var info := params[2];
+	params := 0; // No longer needed
+
+	var prompt := "Select an object to recall from.";
+	recall_rune := MS_Target(who, recall_rune, prompt, TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
+	if( !recall_rune.IsRecallRune() )
+		SendSysMessage(who, "You can only cast that on a recall rune or runebook.");
+		return 0;
+	elseif( !ReserveItem(recall_rune) )
+		SendSysMessage(who, "That is already being used.");		
+		return 0;
+	elseif( GetObjProperty(recall_rune, "Vendored") )
+		SendSysMessage(who, "You cannot recall off of runes on a vendor.");
+		return 0;
+	endif
+	
+	var dest := recall_rune.GetDestination();
+	if ( !dest )
+		SendSysMessage(who, "That rune is not marked.");
+		return 0;
+	endif
+	/*
+	 * Check if destination is a multi here.
+	 *
+	 */
+	 
+	 recall_rune.SendToDestination(who);
+endprogram

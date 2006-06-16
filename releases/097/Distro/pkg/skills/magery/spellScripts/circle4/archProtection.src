@@ -1,0 +1,69 @@
+/*
+ * $Id: archProtection.src 319 2006-06-12 19:51:26Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+include ":damage:damage";
+
+program SpellScript_ArchProtection(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_ARCH_PROTECTION);
+	
+	// 2-tile effect, protection on all party members and caster
+	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 2)
+		var party := GetObjProperty(mobile, "#Party");
+		if ( targ.serial in party )
+			if ( !GetObjProperty(targ, "Protection") )
+				ApplyArchProtection(targ);
+			else
+				RemoveArchProtection(targ);
+			endif
+
+			PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+		endif
+	endforeach
+	
+	// Duration: 120% Magery
+	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
+	TS_StartTimer(targ, "curse", duration, 0, mobile);
+	
+	return 1;
+endprogram
+
+function ApplyArchProtection(mobile)
+	// Not sure if I should lower physical resist by 35 here because uo.com and uo.stratics don't say exactly
+	ModifyResistance(mobile, DMG_PHYSICAL, -(ResistancePercentToMult(35)));
+	AP_ModifySkillMod(mobile, RESISTING_SPELLS, -35);
+	
+	// At present there is no determined way to modify casting speed and other stats:
+	// ModifyMagicProperties(mobile, "FasterCastSpeed", -2);
+	
+	SetObjProperty(mobile, "Protection", 1);
+endfunction
+
+function RemoveArchProtection(mobile)
+	ModifyResistance(mobile, DMG_PHYSICAL, ResistancePercentToMult(35));
+	AP_ModifySkillMod(mobile, RESISTING_SPELLS, 35);
+	
+	// At present there is no determined way to modify casting speed and other stats:
+	// ModifyMagicProperties(mobile, "FasterCastSpeed", 2);
+	
+	EraseObjProperty(mobile, "Protection");
+endfunction

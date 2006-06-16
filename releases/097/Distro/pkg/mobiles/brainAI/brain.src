@@ -1,0 +1,79 @@
+/*===============================================================
+* Current Version
+* BRAIN.SRC - v5.0
+* Updated 9/11/2005 2:06AM
+*
+* NPC AI-Script to control all non-setup actions. Acts as the "brain"
+* and fires off external scripts that act as the "nerves" of the NPC.
+*
+* -- Revision v1.0 --
+* Austin:
+*  Created include file
+===============================================================*/
+
+use uo;
+use os;
+use npc;
+use cfgfile;
+use polsys;
+
+include "include/sysEvent";
+include ":brainAI:braincore/error";
+include ":brainAI:braincore/cycleScript";
+include ":brainAI:braincore/eventProcessor";
+include ":brainAI:braincore/movement";
+include ":brainAI:braincore/setup";
+include ":brainAI:braincore/sleep";
+include ":brainAI:eventid";
+include ":brainAI:npcCommands";
+include ":brainAI:npcNerves";
+include ":brainAI:npcSettings";
+include ":brainAI:npcUtil";
+
+//
+// * Global variables
+//
+var npc := Self();
+var idle_ticks := 0;
+var sleep_mode := 0;
+
+//Would be nice in future pol releases if these could be handled
+//as references rather than copies within the brain and nerves.
+var g_settings := dictionary; //"setting name"->value
+var g_scripts := dictionary; // "script type"->value{.flags, .script}
+
+program BrainAI()
+	//Run setup steps for the npc.
+	Set_Critical(1);
+	InitializeSettings();
+	InitializeEvents();
+	Set_Critical(1);
+	StartupScripts();
+	
+	Sleep(1);
+	
+	while ( npc )
+		var ev;
+		if ( !sleep_mode )
+			RunCycleScript();			
+			ev := Wait_For_Event(g_settings["CycleWait"]);
+		else
+			ev := Wait_For_Event(g_settings["SleepWait"]);
+		endif
+		
+		if ( ev )
+			if ( ev.WakeUp != NOWAKE )
+				LeaveSleepMode();
+			endif
+			
+			ProcessEvent(ev);
+		else
+			if ( !sleep_mode )
+				idle_ticks:=idle_ticks+1;
+				if ( ShouldSleep() )
+					EnterSleepMode();
+				endif
+			endif
+		endif
+	endwhile
+endprogram

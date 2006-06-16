@@ -1,0 +1,13 @@
+/* $Id: save.src 93 2006-05-23 20:23:29Z sroyalty $
+ *
+ */
+use uo;
+use os;
+
+include ":worldsaver:saver";
+
+program console_Save()
+	SVR_SendCommand(EVENT_SAVE_NOW);
+	
+	return 1;
+endprogram

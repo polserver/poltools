@@ -1,0 +1,63 @@
+use os;
+use uo;
+
+include "include/eventID";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include "include/client";
+include "include/resurrection";
+include "include/magic";
+
+
+program spell_resurrect(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var npccfg := ReadConfigFile("::npcdesc");
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+  if(Distance(caster, castOn) > 1)
+	SendSysMessage(caster,"That is too far away!");
+	return;
+  endif
+  PlaySoundEffect(caster, SFX_SPELL_RESSURECTION);
+  PlaySoundEffect(castOn, SFX_SPELL_RESSURECTION);
+  if(castOn.isA(POLCLASS_NPC))
+    var element := npccfg[castOn.npctemplate].elemental;
+    if(element == "undead")
+      PlayStationaryEffect( castOn.x, castOn.y, castOn.z, FX_HEAL_EFFECT, 0xa, 0xa,0, caster.realm );
+      var ev := array;
+      ev.+ type;
+      ev.+ source;
+      ev.type := EVID_PEACEMADE;
+      SendEvent(castOn, ev);
+      ev.source := caster;
+      SendEvent(castOn, ev);
+      ev.type := EVID_ENGAGED;
+      SendEvent(castOn, ev);
+      PlayObjectCenteredEffect(castOn, 0x37b9,0x03, 0x0a);
+      if( SkillCheck(castOn, RESISTING_SPELLS, 70) > 0 )
+        var dmg := CalcSpellDamage(circle,caster) + (RandomInt(20));
+        ApplyRawDamage(castOn, dmg);
+      else
+        ApplyRawDamage(castOn, AP_GetVital(castOn, HITS) +1);
+      endif
+    endif
+  else
+    if (!castOn.dead)
+	  SendSysMessage(caster,"That isn't dead!");
+	  return;
+    endif
+    if(castOn.criminal)
+      caster.setCriminal(1);
+    endif
+    detach();
+    if(ResNow(castOn)==1)
+      Resurrect(castOn);
+      MurdererStatLoss(caston);
+    endif
+  endif
+
+	return;
+endprogram

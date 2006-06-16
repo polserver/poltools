@@ -1,0 +1,34 @@
+/*
+ * $Id: destroyMulti.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+
+program textcmd_DestroyMulti(who, serial)
+	serial := CInt(serial);
+	var multi;
+	
+	if ( !serial )
+		SendSysMessage(who, "Target an item in the multi.");
+		var targ := target(who);
+	
+		if ( targ.multi )
+			multi := targ.multi;
+		else
+			PrintTextAbovePrivate(targ, "I dont have a multi property.", who);
+			return 0;
+		endif
+	else
+		multi := SystemFindObjectBySerial(serial);
+	endif
+	
+	var destroyed := DestroyMulti(multi);
+	
+	if ( destroyed.errortext )
+		SendSysMessage(who, "Error: "+destroyed.errortext);
+	endif
+	
+	return destroyed;
+endprogram

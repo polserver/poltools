@@ -1,0 +1,87 @@
+/*
+ * $Id: skinner.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+include ":gumps:yesno";
+include ":gumps:requestgump";
+
+program textcmd_Skinner(who)
+
+	SendSysMessage(who, "Select coordinate #1");
+	var targ_a := TargetCoordinates(who);
+	if( !targ_a )
+		SendSysMessage(who, "Missing coordinate. Aborting.");
+		return 0;
+	endif
+
+	SendSysMessage(who, "Select coordinate #2");
+	var targ_b := TargetCoordinates(who);
+	if( !targ_b )
+		SendSysMessage(who, "Missing coordinate. Aborting.");
+		return 0;
+	endif
+
+	var startx, starty, endx, endy;
+	if( targ_a.x <= targ_b.x )
+		startx := targ_a.x;
+		endx	 := targ_b.x;
+	else
+		startx := targ_b.x;
+		endx	 := targ_a.x;
+	endif
+
+	if(targ_a.y <= targ_b.y)
+		starty := targ_a.y;
+		endy	 := targ_b.y;
+	else
+		starty := targ_b.y;
+		endy	 := targ_a.y;
+	endif
+
+	SendSysMessage(who, "Target an item that has the graphic you wish to change.");
+	var targ_item := Target(who);
+	if ( !targ_item.IsA(POLCLASS_ITEM) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+
+	var orig_graphic := targ_item.graphic;
+
+	var new_graphic := Cint(RequestGump(who, "Enter the new graphic"));
+	if( new_graphic <= 1 )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+
+	SendSysMessage(who, "Current Graphic is: "+orig_graphic);
+	SendSysMessage(who, "New Graphic is:     "+new_graphic);
+
+	var change_list := array;
+	foreach thing in ListObjectsInBox(startx, starty, -100, endx, endy, 100, who.realm)
+		if( thing.graphic == orig_graphic )
+			thing.graphic := new_graphic;
+			change_list.Append(thing);
+		endif
+	endforeach
+
+	Sleep(2);
+
+	if( !YesNo(who, "Keep these changes?") )
+		foreach thing in change_list
+			thing.graphic := orig_graphic;
+			SleepMS(2);
+		endforeach
+	endif
+
+
+	SendSysMessage(who, "Done.");
+	return 1;
+endprogram
+
+
+
+

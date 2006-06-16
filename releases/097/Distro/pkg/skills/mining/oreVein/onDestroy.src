@@ -1,0 +1,13 @@
+/*$Id: onDestroy.src 85 2006-05-23 18:41:38Z sroyalty $
+ *  
+ */
+ 
+use uo;
+
+include ":datafile:datafile";
+
+program onDestroy(vein)
+	vein.DeleteVeinDataInfo();
+	
+	return 1;
+endprogram

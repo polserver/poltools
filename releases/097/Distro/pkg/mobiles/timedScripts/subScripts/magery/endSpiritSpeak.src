@@ -1,0 +1,17 @@
+/*
+ * $Id: endSpiritSpeak.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_EndSpiritSpeak(params)
+	var mobile := params[1];
+	
+	mobile.Disable("hearghosts");
+	
+	return 1;
+endprogram

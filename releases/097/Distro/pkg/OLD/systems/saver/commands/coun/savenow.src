@@ -1,0 +1,16 @@
+/* $Id: savenow.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ * Purpose:
+ * Save the world state.
+ *
+ */
+include ":logger:log";
+include ":saver:include/saver";
+
+
+program command_SaveNow(who)
+	Log(LOG_COMMAND, GetLogInfo(who) + " saving world state.");
+	SaveWorld();
+
+	return;
+endprogram

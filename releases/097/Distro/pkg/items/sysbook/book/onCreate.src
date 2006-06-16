@@ -1,0 +1,7 @@
+// $Id: onCreate.src 87 2006-05-23 19:04:43Z sroyalty $
+
+program OnCreate(book)
+	book := book;
+	
+	return 1;
+endprogram

@@ -1,0 +1,10 @@
+/*
+ *
+ */
+
+use uo;
+use os;
+
+program onInsert(character, container, movetype, insert_type, adding_item, existing_stack, amount_to_add)
+	return 1;
+endprogram

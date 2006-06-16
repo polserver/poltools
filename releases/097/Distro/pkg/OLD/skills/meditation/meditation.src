@@ -1,0 +1,112 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+const sfx_meditation := 0xfa;
+
+include "include/client";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program meditation( who )
+  EraseObjProperty(who, "#HealTimer");
+  var XXX:=who.x;
+  var YYY:=who.y;
+  var chp;
+  if (AP_GetVital(who, MANA) >= AP_GetVitalMaximumValue(who, MANA))
+   SendSysMessage( who, "Your mana is full." );
+   Detach();
+   return;
+  endif
+  if (TS_GetTimerNames(who, "P").size() > 0)
+    SendSysMessage( who, "You cannot meditate while poisoned." );
+   Detach();
+    return;
+  endif
+  if(who.warmode)
+    SendSysMessage(who, "You cannot meditate in war mode.");
+   Detach();
+    return;
+  endif
+  var loss := manaloss(who);
+  if(loss == "nomed")
+    SendSysMessage(who,"Regenerative forces cannot penetrate your armor.");
+    return;
+  endif
+  var diff := 100 - ((AP_GetVital(who, MANA) * 100) / AP_GetVitalMaximumValue(who, MANA));
+  diff := diff + CInt(loss / 100);
+  if(diff < 0)
+    diff := 0;
+  elseif(diff > 120)
+    diff := 120;
+  endif
+  var pts := diff * 2;
+  if( SkillCheck(who, MEDITATION, diff) > 0 )
+    SendSysMessage(who, "You start to meditate.");
+    PlaySoundEffect(who, sfx_meditation);
+    PrintTextAbove(who, "*Meditating*");;
+    if(GetObjProperty(who, "#IsMeditating"))
+      return;
+    endif
+    Detach();
+    SetObjProperty(who, "#IsMeditating", 1);
+    while((GetObjProperty(who,"#IsMeditating")) && (XXX==who.x) && (YYY==who.y) && (!who.warmode) && (!IsThingOnHand(who)) && (!who.hidden))
+      if(manaloss(who) == "nomed")
+        SendSysMessage(who,"Regenerative forces cannot penetrate your armor.");
+        EraseObjProperty(who, "#IsMeditating");
+        break;
+      elseif(TS_GetTimerNames(who, "P").size() > 0)
+        EraseObjProperty(who, "#IsMeditating");
+      break;
+      elseif(AP_GetVital(who, MANA) >= AP_GetVitalMaximumValue(who, MANA))
+        EraseObjProperty(who, "#IsMeditating");
+        AP_SetVital(who, MANA,  AP_GetVitalMaximumValue(who, MANA));
+      break;
+     elseif(AP_GetVital(who, HITS) < chp)
+        EraseObjProperty(who, "#IsMeditating");
+      break;
+     endif
+      sleep(1);
+      chp := AP_GetVital(who, HITS);
+    endwhile
+    SendSysMessage(who, "You lose your concentration.");
+    EraseObjProperty(who, "#IsMeditating");
+  else
+    SendSysMessage(who, "You can't focus your concentration.");
+    EraseObjProperty(who, "#IsMeditating");
+  endif
+endprogram
+
+function IsThingOnHand(who)
+  var hand1 := GetEquipmentByLayer(who, 1);
+  var hand2 := GetEquipmentByLayer(who, 2);
+  if(hand1)
+    if(hand1.graphic != 0x0efa)
+      SendSysMessage(who,"You can't meditate with things on hand.");
+      return 1;
+   endif
+  endif
+  if(hand2)
+    if(hand2.graphic != 0x0efa)
+      SendSysMessage(who,"You can't meditate with things on hand.");
+      return 1;
+   endif
+  endif
+  return 0;
+endfunction
+
+function manaloss(who)
+  var combatcfg := ReadConfigFile(":*:itemdesc");
+  var loss := 0;
+  var newloss := 0;
+  foreach thing in ListEquippedItems(who)
+    newloss := combatcfg[thing.objtype]."medloss";
+    if(newloss == "nomed")
+      return newloss;
+      break;
+    else
+      loss := loss + Cint(newloss);
+    endif
+  endforeach
+  return loss;
+endfunction
