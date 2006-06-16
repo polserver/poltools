@@ -1,0 +1,33 @@
+use os;
+use uo;
+use util;
+
+include "include/statMod";
+include "include/sound";
+include "include/tileEffects";
+include ":attributes:attributes";
+include ":magery:reflect";
+include "include/magic";
+
+
+program spell_weaken(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  SetObjProperty(castOn, "LastHit", {caster.name,caster.serial, "weaken" });
+  if(spell_reflect(castOn))
+	castOn := caster;
+  endif
+  PlaySoundEffect(castOn, SFX_SPELL_WEAKEN);
+  PlayObjectCenteredEffect( castOn, FX_CURSE_EFFECT, 7,7);
+  if(!CanMod(castOn, "str"))
+	return;
+  endif
+  var magery := AP_GetSkill(caster, MAGERY);
+  var modAmount := Resisted(circle,caster,castOn,(GetModAmount( magery )));
+  var duration := GetModDuration( magery );
+  DoTempMod(castOn, "str", 0 - modAmount, duration);
+endprogram

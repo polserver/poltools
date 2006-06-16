@@ -1,0 +1,26 @@
+/*
+ * $Id: canInsert.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+
+program OnInsert(who, keyring, movetype, insert_type, adding_item, existing_stack, amt_to_add)
+	if ( !adding_item.IsKey() )
+		SendSysMessage(who, "That is not a key.");
+		return 0;
+	endif
+	
+	SendSysMessage(who, "You put the key on the ring.");
+	
+	var numkeys := (EnumerateItemsInContainer(keyring).Size())+1;
+	if ( numkeys == 1 )
+		keyring.graphic := 5993;
+	elseif ( numkeys >= 2 && numkeys <= 4 )
+		keyring.graphic := 5994;
+	elseif ( numkeys >= 5 )
+		keyring.graphic := 5995;
+	endif
+	
+	return 1;
+endprogram

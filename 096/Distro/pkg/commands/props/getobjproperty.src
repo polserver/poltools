@@ -1,0 +1,15 @@
+/* $Id: getobjproperty.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+ 
+use uo;
+
+program GetCProp(who, prop_name)
+	var targ := Target(who);
+	
+	var prop := GetObjProperty(targ, prop_name);
+	
+	SendSysMessage(who, prop_name+" = "+prop);
+	
+	return 1;
+endprogram

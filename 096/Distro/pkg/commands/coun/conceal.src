@@ -1,0 +1,22 @@
+/* $Id: conceal.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ * Example: .conceal [level] - Conceals you
+ *
+ * Level is: <hide level> (default: 0 [unconceal])
+ *			** can't be higher than cmdlevel! **
+ *
+ */
+use uo;
+use polsys;
+
+program textcmd_Conceal(who, number)
+	number := CInt(number);
+	if ( number > who.cmdlevel )
+		number := who.cmdlevel;
+		SendSysMessage(who, "Conceal level too high; resetting to "+number+".");
+	endif
+		
+	SendSysMessage(who, "Concealed:"+number+" ["+GetCmdLevelName(number)+"]");
+	who.concealed := number;
+endprogram
+

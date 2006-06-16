@@ -1,0 +1,20 @@
+/*
+ * $Id: logon.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":timedscripts:timedScripts";
+
+
+program Logon(who)
+	var result := TS_StartController(who);
+	if ( result.errortext )
+		SendSysMessage(who, "->"+result.errortext);
+	endif
+
+	return 1;
+endprogram
+

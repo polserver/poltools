@@ -1,0 +1,29 @@
+/* $Id: props.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_Props( who )
+	SendSysMessage(who, "Target an object.");
+	var targ := Target(who);
+	
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	var prop_names := targ.PropNames();
+	if ( prop_names.Size() > 0 )
+		foreach prop_name in prop_names
+			SendSysMessage(who, prop_name+": "+Pack(targ.GetProp(prop_name)));
+        		SleepMS(2);
+	        endforeach
+	else
+		SendSysMessage(who, "No properties.");
+	endif
+	
+	return 1;
+
+endprogram

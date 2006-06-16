@@ -1,0 +1,19 @@
+/* $Id: remainsOnCreate.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+use util;
+use cfgfile;
+
+program OnCreate(remains)
+	var bonearray := array{0xED2, 0xED1, 0xED0, 0xECF, 0xECE, 0xECD, 0xECC, 0xECB, 0xECA};
+	
+	if ( bonearray.Size() < 1 )
+		return 1;
+	endif
+	
+	remains.graphic := bonearray[RandomInt(bonearray.Size())+1];
+	
+	return 1;
+endprogram

@@ -1,0 +1,141 @@
+use uo;
+use os;
+
+include ":gumps:include/old/old-gumps";
+include "include/client";
+
+var pid, proc, item, newtype, newamt, respawn, apply, cancel;
+
+program GuardNodeManager(who, itm)
+  detach();
+  item := itm;
+  pid  := GetObjProperty(item, "#Pid");
+  proc := GetProcess(pid);
+  if(!proc)
+    SendSysMessage(who, "That guard node is not responding.");
+    return;
+  endif
+  OldGFInitGump(0, 0);
+  OldGFPage(0);
+  OldGFResizePic(  0,   0, 5120, 440, 300);
+  OldGFResizePic( 10,  10, 5054, 420, 250);
+  OldGFTextLine(132, 17, 0, "Guard Node Interface");
+  OldGFTextLine(130, 15, 0x35, "Guard Node Interface");
+  var type := GetObjProperty(item, "Type");
+  if(!type)
+    type := "townguard";
+    SetObjProperty(item, "Type", "townguard");
+  endif
+  var amt := GetObjProperty(item, "Amount");
+  if(!amt)
+    amt := 1;
+    SetObjProperty(item, "Amount", 1);
+  endif
+  OldGFTextLine( 20,  50, 0, "Guard Set Type:");
+  OldGFTextLine( 20,  80, 0, "Guard Set Amount:");
+  OldGFTextLine(255,  80, 0, "Current:");
+  var npclist := GetObjProperty(item, "NpcList");
+  var current := 0;
+  var holder := array;
+  foreach thing in npclist
+    if(SystemFindObjectBySerial(thing))
+      current := current + 1;
+      holder.append(thing);
+    endif
+  endforeach
+  SetObjProperty(item, "NpcList", holder);
+  if(current == amt)
+    OldGFTextLine(350,  80, 0,   current+"/"+amt);
+  elseif(current == 0)
+    OldGFTextLine(350,  80, 0,    current+"/"+amt);
+  else
+    OldGFTextLine(350,  80, 0x35, current+"/"+amt);
+  endif
+  OldGFGumpPic(171, 50, 2440);
+  OldGFGumpPic(171, 80, 2444);
+  newtype     := OldGFTextEntry(178,  50, 200,  30, 0, type);
+  newamt      := OldGFTextEntry(178,  80, 200,  30, 0, amt);
+  apply   := OldGFButtonID( 20, 270, 2124, 2123, 1);
+  cancel  := OldGFButtonID(100, 270, 2121, 2120, 1);
+  GetStatus(item, respawn);
+  var retkey  := OldGFSendGump(who);
+  if((retkey[cancel.keyid]) or (retkey[0] == 0))
+    SendSysMessage(who, "Cancelled.");
+  elseif(retkey[apply.keyid])
+    ResetGuardNode(item, retkey);
+  endif
+endprogram
+
+function GetStatus(item, byref respawn)
+  var status := GetObjProperty(item, "Status");
+  var color, txt;
+    case(status)
+      "on":      color := 0; txt := "Guard Node Enabled";
+                 OldGFSetRadioGroup(1);
+                 OldGFRadioButton(20, 150, 210, 211, 1, 200);
+                 OldGFRadioButton(20, 175, 210, 211, 0, 201);
+      "off":     color := 0; txt := "Guard Node Disabled";
+                 OldGFSetRadioGroup(1);
+                 OldGFRadioButton(20, 150, 210, 211, 0, 200);
+                 OldGFRadioButton(20, 175, 210, 211, 1, 201);
+      default:   color := 0; txt := "Guard Node Enabled";
+                 SetObjProperty(item, "Status", "on");
+                 OldGFSetRadioGroup(1);
+                 OldGFRadioButton(20, 150, 210, 211, 1, 200);
+                 OldGFRadioButton(20, 175, 210, 211, 0, 201);
+    endcase
+  var cs := GetObjProperty(item, "#wait");
+  if(cs == 1)
+    color := 0x35;
+    txt := "Guard Node Is Waiting To Initialize";
+  elseif(cs == 2)
+    color := 0x35;
+    txt := "Guard Nodes Are Disabled Globally";
+  elseif(status != "off")
+    respawn := OldGFCheckBox(  20, 120, 208, 209, 0, 300);
+    OldGFTextLine( 50, 120, 0, "Respawn Guards");
+  endif
+  OldGFTextMid(150, 270, 300, color, txt);
+  OldGFTextLine(60, 150, 0, "Enable Node");
+  OldGFTextLine(60, 175, 0, "Disable Node");
+endfunction
+
+function ResetGuardNode(item, ret)
+  var rsp := 0;
+  newtype := SplitWords(ret[newtype.keyid])[2];
+  if(newtype != GetObjProperty(item, "Type"))
+    SetObjProperty(item, "Type", newtype);
+    rsp := 1;
+  endif
+  newamt := Cint(SplitWords(ret[newamt.keyid])[2]);
+  if(newamt != GetObjProperty(item, "Amount"))
+    SetObjProperty(item, "Amount", newamt);
+    rsp := 1;
+  endif
+  if((ret[200]) and (GetObjProperty(item, "Status") == "off"))
+    rsp := 1;
+    SetObjProperty(item, "Status", "on");
+  elseif(ret[201])
+    SetObjProperty(item, "Status", "off");
+    rsp := 1;
+  endif
+  if((ret[respawn.keyid]) or (rsp == 1))
+    if(ret[200])
+      SendRespawnEvent();
+    else
+      SendDespawnEvent();
+    endif
+  endif
+endfunction
+
+function SendRespawnEvent()
+  var ev := struct;
+  ev.+type := "Respawn";
+  proc.SendEvent(ev);
+endfunction
+
+function SendDespawnEvent()
+  var ev := struct;
+  ev.+type := "Despawn";
+  proc.SendEvent(ev);
+endfunction

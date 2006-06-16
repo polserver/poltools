@@ -1,0 +1,18 @@
+/* $Id: logoff.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+use os;
+
+include ":partySystem:config";
+
+program Logoff(who)
+	var party := GetObjProperty(who, PARTY_PROP);
+	
+	if ( party )
+		Start_Script("handlePartyRemove", array{who, who.serial, party});
+	endif
+
+	return 1;
+endprogram

@@ -1,0 +1,12 @@
+/* $Id: start.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use os;
+
+var script := Start_Script("acctWatcher/acctWatcher");
+if ( script.errortext )
+	SysLog("Error starting account watcher ->"+script.errortext);
+else
+	Print("Starting accounts watcher... OK.");
+endif

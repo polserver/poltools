@@ -1,0 +1,38 @@
+/*
+ * $Id: createstack.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+
+program textcmd_CreateStack(who, text)
+	text := SplitWords(text);
+	var item := text[1];
+	var amount := CInt(text[2]);
+	
+	if ( GetObjTypeByName(text[1]) )
+		item := GetObjTypeByName(text[1]);
+	else
+		item := CInt(item);
+	endif
+	
+	if ( amount < 1 )
+		amount := 1;
+	endif
+	
+	var created := CreateItemInBackPack(who, item, amount);
+	if ( !created )
+		if ( amount > 10 )
+			SendSysMessage(who, "Item is not stackable. No more than 10 will be created at a time.");
+			amount := 10;
+		endif
+		
+		for( amount; amount > 0; amount := amount-1 )
+			created := CreateItemInBackPack(who, item, 1);
+		endfor	
+	endif
+	
+	if ( !created )
+		SendSysMessage(who, "Error: Could not create "+Hex(item));
+	endif
+endprogram

@@ -1,0 +1,28 @@
+/* $Id: where.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ * Purpose
+ *
+ */
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program command_where(who, input)
+	if ( input /*=="quick"*/ ) // If any input, dont show a gump.
+		SendSysMessage(who, who.x+" "+who.y+" "+who.z+", Realm: "+who.realm);
+		return 1;
+	endif
+	
+	var gump := GFCreateGump(220, 140);
+	GFGumpPic(gump, 0, 0, 0xC8);
+	GFTextLine(gump, 15, 15, 2100, "X: "+who.x);
+	GFTextLine(gump, 15, 35, 2100, "Y: "+who.y);
+	GFTextLine(gump, 15, 55, 2100, "Z: "+who.z);
+	
+	GFTextLine(gump, 15, 85, 2100, "Realm: "+who.realm);
+	GFSendGump(who, gump);
+	
+	return 1;
+endprogram
+

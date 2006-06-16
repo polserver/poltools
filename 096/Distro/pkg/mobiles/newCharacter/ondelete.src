@@ -1,0 +1,13 @@
+/*
+ * $Id: ondelete.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+include ":newcharacter:newCharacter";
+
+program OnDelete(who)
+	var data_file := NC_GetDataFile();
+	data_file.DeleteElement(Hex(who.serial));
+	
+	return 1;
+endprogram

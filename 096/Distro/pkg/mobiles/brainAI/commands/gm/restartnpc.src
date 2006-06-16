@@ -1,0 +1,14 @@
+/* $Id: restartnpc.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+ 
+use uo;
+
+program textcmd_fixAI(who)
+	var targ := target(who);
+	var result := RestartScript(targ);
+	
+	SendSysMessage(who, "Result of RestartScript("+targ.name+") ->"+result);
+	
+	return 1;
+endprogram

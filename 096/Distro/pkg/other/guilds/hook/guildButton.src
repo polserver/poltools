@@ -1,0 +1,52 @@
+/* $Id: guildButton.src 306 2006-06-10 01:47:10Z austinheilman $
+ *
+ *
+ */
+
+use uo;
+use polsys;
+
+CONST OFFSET_UNKOWN_A := 0x01;
+CONST OFFSET_PLAYER_SERIAL := 0x03;
+CONST OFFSET_PACKET_TYPE := 0x08;
+CONST GUILD_BUTTON_PRESSED := 0x280A;
+CONST QUEST_BUTTON_PRESSED := 0x320A;
+
+include ":guilds:include/report";
+include ":guilds:include/settings";
+
+program Install()
+
+	Print("INSTALLING: Guild Button PH...");
+	return 1;
+
+endprogram
+
+exported function ButtonHook(who, byref packet)
+
+	var packet_type := packet.GetInt16(OFFSET_PACKET_TYPE);
+
+	case ( packet_type )
+		GUILD_BUTTON_PRESSED:
+			var guild_id := GetObjProperty(who, "Guild_ID");
+			var guild := FindGuild(guild_id);
+			if ( !guild )
+				Start_Script(":guilds:guildCreate", who);
+				return 1;
+			elseif ( guild )
+				Start_Script(":guilds:guildMenu", array{who, guild});
+				return 1;
+			endif
+			break;
+		QUEST_BUTTON_PRESSED:
+			SendSysMessage(who, "This feature is not currently implemented.");
+			return 0;
+			break;
+		default:
+			return 0;
+			break;
+	endcase
+
+	return 0;
+
+endfunction

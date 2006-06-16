@@ -1,0 +1,13 @@
+/* $Id: itemCount.src 179 2006-06-01 15:16:47Z austinheilman $
+ *
+ */
+use uo;
+
+program console_itemcount(cmd)
+
+	cmd := cmd;
+	print("System Message: Current # of Toplevel Items - "+POLCore().itemcount);
+
+	return 1;
+
+endprogram

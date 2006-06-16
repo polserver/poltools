@@ -1,0 +1,40 @@
+/*
+ * $Id: heal.src 281 2006-06-08 16:30:18Z tekproxy $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+
+program SpellScript_Heal(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	// Amount healed: ((Magery / 10) + (1 to 3))
+	var points := (CInt(AP_GetSkill(mobile, MAGERY)) / 10) + RandomDiceRoll("1d3");
+	
+	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLE_SWIRL, 7, 16);
+	PlaySoundEffect(targ, SFX_SPELL_HEAL);
+
+	HealDamage(targ, points);
+	
+	SendSysMessage(mobile, "You healed "+points+" hit points of damage.");
+	
+	if ( mobile.serial != targ.serial )
+		SendSysMessage(targ, "You have had "+points+" hit points of damage healed.");
+	endif
+	
+	return 1;
+endprogram

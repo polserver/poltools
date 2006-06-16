@@ -1,0 +1,44 @@
+use uo;
+
+include "include/magic";
+include "include/sound";
+include "include/tileEffects";
+include ":magery:reflect";
+include ":attributes:attributes";
+
+
+program spell_manaVamp(parms)
+  var caster := parms.caster;
+  var castOn := parms.castOn;
+  var spellid := parms.spellid;
+  var spellcfg := ReadConfigFile(":*:spells");
+  var circle := spellcfg[spellid].circle;
+
+  SetObjProperty(castOn, "LastHit", {caster.name, caster.serial, "mana vampire"});
+  if(spell_reflect(castOn))
+    castOn := caster;
+  endif
+  if(!castOn.isA(POLCLASS_MOBILE))
+    return;
+  endif
+  var dmg := Cint(GetAttribute(caster, "magery") / 3);
+  var diff := Resisted(circle, caster, castOn, dmg);
+  if(diff)
+    PlaySoundEffect(caster, SFX_SPELL_MANA_VAMPIRE);
+    PlayObjectCenteredEffect(castOn, FX_GLOW, 7,0x10);
+    var gain := 0;
+	if(diff > AP_GetVital(castOn, MANA))
+	  gain := AP_GetVital(castOn, MANA);
+	  AP_SetVital(castOn, MANA, 0);
+	else
+	  gain := diff;
+	  AP_SetVital(castOn, MANA, AP_GetVital(castOn, MANA) - diff);
+	endif
+	AP_SetVital(caster, MANA, AP_GetVital(caster, MANA) + gain);
+	if(AP_GetVital(caster, MANA) > AP_GetVitalMaximumValue(caster, MANA))
+	  AP_SetVital(caster, MANA, AP_GetVitalMaximumValue(caster, MANA));
+	endif
+  endif
+
+	return;
+endprogram

@@ -1,0 +1,18 @@
+/* $Id: candelete.src 114 2006-05-27 13:41:07Z austinheilman $
+ *
+ */
+ 
+use uo;
+use os;
+
+program core_CanDelete(character, method)
+	if ( method == DELETE_BY_SCRIPT )
+		return 1;
+	elseif ( method == DELETE_BY_PLAYER )
+		SysLog("Client deleting character "+character+" from account "+character.acctname);
+		return 1;
+	endif
+	
+	// Can't really get here - theres supposed to be only two possibilities.
+	return 1;
+endprogram

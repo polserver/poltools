@@ -1,0 +1,25 @@
+/* $Id: teleto.src 305 2006-06-10 01:45:01Z austinheilman $
+ *
+ */
+ 
+use uo;
+
+program command_TeleTo(who)
+	SendSysMessage(who, "Move who?");
+	var what := Target(who);
+	if( !what )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	SendSysMessage(who, "Move where?");
+	var where := TargetCoordinates(who);
+	if( !where )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+	
+	MoveObjectToLocation(what, where.x, where.y, where.z, what.realm, MOVEOBJECT_FORCELOCATION);
+	
+	return 1;
+endprogram

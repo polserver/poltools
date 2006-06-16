@@ -1,0 +1,56 @@
+/*
+ * $Id: destroyrect.src 128 2006-05-27 17:36:42Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_DestroyRect(who, params)
+	var objtype, zheight;
+
+	params := SplitWords(params);
+
+	objtype := params[1];
+	if ( CInt(objtype) )
+		objtype := CInt(objtype);
+	endif
+
+	if ( Len(params) >= 2 )
+		zheight := CInt( params[2] );
+	else
+		zheight := who.z;
+	endif
+
+	SendSysMessage(who, "Target the top-left corner");
+	var topleft := TargetCoordinates(who);
+	if ( !topleft )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+
+	SendSysMessage( who, "Target the bottom-left corner" );
+	var botright := TargetCoordinates(who);
+	if ( !botright )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	endif
+
+	if ( (topleft.x <= botright.x) && (topleft.y <= botright.y) )
+		var x, y;
+		for( x := topleft.x; x <= botright.x; x := x + 1 )
+			for( y := topleft.y; y <= botright.y; y := y + 1 )
+				foreach item in ListItemsNearLocation( x, y, zheight, 0, who.realm);
+					if ( !objtype || item.objtype == objtype )
+						DestroyItem(item);
+					endif
+					SleepMS(2);
+				endforeach
+				SleepMS(2);
+			endfor
+			SleepMS(2);
+		endfor
+	endif
+
+	return 1;
+endprogram

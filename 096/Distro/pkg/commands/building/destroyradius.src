@@ -1,0 +1,33 @@
+/*
+ * $Id: destroyradius.src 129 2006-05-27 18:08:54Z austinheilman $
+ *
+ */
+
+use uo;
+
+CONST MAX_RANGE := 5;
+
+program textcmd_DestroyRadius(who, text)
+	text := SplitWords(text);
+	var ranget := CInt(text[1]);
+	var show := CStr(text[2]);
+	var num_destroyed := 0;
+
+	if ( ranget > MAX_RANGE )
+		SendSysMessage(who, "Range has been set to the maximum distance of "+MAX_RANGE);
+		ranget := MAX_RANGE;
+	endif
+
+	foreach thingie in ListItemsNearLocation(who.x, who.y, who.z, ranget, who.realm)
+		if ( show == "show" )
+			SendSysMessage(who, "Destroying "+thingie.desc);
+		endif
+
+		DestroyItem( thingie );
+		num_destroyed := num_destroyed+1;
+	endforeach
+
+	SendSysMessage(who, "Destroyed "+num_destroyed+" items in a radius of "+ranget);
+
+	return 1;
+endprogram

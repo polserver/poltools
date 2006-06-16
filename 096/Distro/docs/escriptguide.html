@@ -1,0 +1,2749 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Racalac's EScript Guide</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 5.50.4919.2200" name=GENERATOR></HEAD>
+<BODY>
+<H2>Racalac's eScript Reference and Guide v0.6a</H2>
+<P>Any questions, suggestions, and changes should be sent to <A 
+href="mailto:racalac@burdell.org">racalac@burdell.org</A>.</P>
+<P><B>Foreword:</B><BR>This reference is targeted to be used and understood by 
+scripters who have at least a little experience in other procedural-type 
+languages. If you have never done any type of scripting or programming before, 
+I'd suggest that you look for a class on BASIC or Pascal in your school or 
+college. If you're not in college, think about buying a "dummies" book on 
+programming from your local book store. Any of these methods will make learning 
+and writing eScript easier and quicker for you. And on the other extreme, my 
+apologies if I explain some things in annoyingly simple terms.</P>
+<H3>Table of Contents</H3>
+<P><B><A href="http://pol.tumbolia.org/files/docs/EScript.html#chap1">Chapter 
+1:</A></B> 
+<UL>
+  <LI><A href="#chap1a">Variable 
+  Declaration and Assignment</A> 
+  <LI><A 
+  href="#chap1b">Arithmetic</A> 
+  <LI><A 
+  href="#chap1c">Comments</A></LI></UL>
+<P></P>
+<P><B><A href="#chap2">Chapter 2: 
+Data Structures</A></B> 
+<UL>
+  <LI><A 
+  href="#chap2a">Arrays</A> 
+  <LI><A 
+  href="#chap2b">Structures</A></LI></UL>
+<P></P>
+<P><B><A href="#chap3">Chapter 3: 
+Conditionals and Iteration</A></B> 
+<UL>
+  <LI><A 
+  href="#chap3a">If-statements</A> 
+
+  <LI><A href="#chap3b">Case 
+  (switch) statements</A> 
+  <LI><A 
+  href="#chap3c">Iteration</A></LI></UL>
+<P></P>
+<P><B><A href="#chap4">Chapter 
+4:</A></B> 
+<UL>
+  <LI><A href="#chap4a">Functions 
+  and Parameters</A> 
+  <LI><A href="#chap4b">Including 
+  Code from Other Files</A></LI></UL>
+<P></P>
+<P><B><A href="#chap5">Chapter 
+5:</A></B> 
+<UL>
+  <LI><A 
+  href="#chap5a">Scripts</A> 
+  <LI><A 
+  href="#chap5b">Compiling</A></LI></UL>
+<P></P>
+<P><B><A href="#chap6">Chapter 6: 
+Built-in Properties and the POL Object Reference</A></B></P>
+<P><B><A href="#chap7">Chapter 
+7:</A></B> 
+<UL>
+  <LI><A 
+  href="#chap7a">CProps</A> 
+  <LI><A href="#chap7b">CProps on 
+  Accounts</A></LI></UL>
+<P></P>
+<P><B><A href="#chap8">Chapter 8: 
+Config File Usage and Access</A></B></P>
+<P><B><A href="#chap9">Chapter 9: 
+Packages</A></B></P>
+<P><B><A href="#chap10">Chapter 
+10: Debugging</A></B></P>
+<P><B><A href="#chap11">Chapter 
+11: Advanced Data Types and Functions</A></B> 
+<UL>
+  <LI><A href="#chap11a">Global 
+  Properties</A> 
+  <LI><A 
+  href="#chap11b">Arrays</A> 
+  <LI><A 
+  href="#chap11c">Structs</A> 
+  <LI><A 
+  href="#chap11d">Dictionaries</A> 
+
+  <LI><A href="#chap11e">Function 
+  Calls by Reference</A></LI></UL>
+<P></P>
+<P><B><A href="#app1">Appendix A: 
+POL Object Reference Chart</A></B> 
+<UL>
+  <LI><A 
+  href="#app1a">UObject</A> 
+  <UL>
+    <LI><A 
+    href="#app1b">Mobile</A> 
+    <UL>
+      <LI><A 
+      href="#app1c">NPC</A></LI></UL></LI></UL>
+  <UL>
+    <LI><A href="#app1d">Item</A> 
+
+    <UL>
+      <LI><A 
+      href="#app1e">Equipment</A> 
+
+      <UL>
+        <LI><A 
+        href="#app1f">Armor</A> 
+        <LI><A 
+        href="#app1g">Weapon</A></LI></UL></LI></UL>
+    <UL>
+      <LI><A 
+      href="#app1h">Lockable</A> 
+      <UL>
+        <LI><A 
+        href="#app1i">Door</A> 
+        <LI><!--<a href="#app1j">-->Container<!--</a>--> 
+        <UL>
+          <LI><!--<a href="#app1k">-->Spellbook<!--</a>--> 
+          <LI><A 
+          href="#app1l">Corpse</A></LI></UL></LI></UL></LI></UL>
+    <LI><A href="#app1m">Map</A> 
+    <LI><A 
+    href="#app1n">Multi</A> 
+    <UL>
+      <LI><A 
+      href="#app1o">Boat</A> 
+      <LI><A 
+      href="#app1p">House</A></LI></UL></LI></UL>
+  <LI><A 
+  href="#app1q">Account</A> 
+  <LI><A 
+  href="#app1r">PolCore()</A></LI></UL>
+<P><B><A href="#app2">Appendix B: 
+Gump Tag Descriptions</A></B></P>
+<P><B><A href="#app0">Appendix X: 
+Revision History</A></B></P>
+<H3><A name=chap1>Chapter 1</A></H3>
+<P><B><A name=chap1a>Variable Declaration and Assignment; Arithmetic</A></B></P>
+<P>There are no strict variable types in eScript, but there are a few types you 
+can cast (convert) to: integer (whole number), real (float; integer with decimal 
+part), and string (text). It is simple to declare a new variable:</P>
+<P><CODE>var my_variable;</CODE></P>
+<P>Depending where you declare this in your program depends on when you can have 
+access to that variable. This is called the variable's scope. If you place the 
+above line outside a function block, it is visible to all functions in the 
+program (known as a 'global' variable). If you place that line inside a function 
+block, it is accessable no matter where you currently are in that function. If 
+you delcare it inside a code block (i.e. between if-endif, for-endfor, etc), it 
+is only usable inside that block. Note in older scripts you may see variable 
+declared with 'local' and 'global'. The first is the same as 'var' inside a 
+function and the second is the same as 'var' outside a function. You should 
+always use 'var' instead of these older keywords to declare your variables.</P>
+<P>Okay, now we have some variables, but now to put some data into them so we 
+can use them in the script. You can do this either at declaration-time or later 
+in the script. The syntax for this in eScript is:</P>
+<P><CODE>my_variable := 10;</CODE></P>
+<P>The ":=" (colon + equals) operator assigns the right-hand-value to the 
+left-hand variable. A lot of different expressions can be used on the 
+right-hand-side. Some of these include numbers (such as above), other variables, 
+mathematical expressions, function calls, and more. You can perform these at 
+declaration-time like: var number_of_pies := 15; </P>
+<P>To declare a "constant," or a variable that you can only read its value from, 
+you must do it at the top of the file, before any of the functions, much like 
+declaring a global variable since constants are global themselves. Whenever the 
+compiler sees a constant in an expression, the value of that constant is 
+substituted instead. The syntax for this is:</P>
+<P><CODE>Const MY_CONSTANT := 47;</CODE></P>
+<P>The use of constants is key in well-written, readable code. They remove the 
+ambiguity of having raw numbers thrown around in a script by giving a meaning to 
+them. It is a good idea to use the convention of declaring constants in ALL CAPS 
+since most programmers are used to it.</P>
+<P>Example snip of code (doesn't do much but show different ways of declaring 
+variables):</P>
+<P><CODE>Const SIZE_OF_TRAY := 15;<BR>var pies_in_tray := 
+SIZE_OF_TRAY;</CODE></P>
+<P><B><A name=chap1b>Arithmetic</A></B></P>
+<P>This stuff is easy, the expression on the left of the assignment operator is 
+evaluated and placed into the variable on the right side. The math operators in 
+eScript are:</P>
+<P>+ : addition<BR>- : subtraction<BR>* : multiplication<BR>/ : division</P>
+<P>The expressions are evaluated first inside parenthesis then from 
+left-to-right. Such as:</P>
+<P><CODE>var pies_left := number_of_trays * ( pies_in_tray – pies_used 
+);</CODE></P>
+<P>I should mention something about variable types in arithmetic, especially 
+division. If you divide two integers together such that the result would have a 
+decimal part, POL will only look at the whole number part. To make sure the 
+result is a real (integer+decimal part), make sure at least one of the operands 
+is a real. You can make sure of this by using a raw number with a decimal part 
+(such as 100.0), or "cast" it to a real (convert the type). There are a few 
+casting functions in eScript, CInt(), CStr(), CDbl().</P>
+<TABLE cellSpacing=0 cellPadding=1 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <P><CODE>CInt( 100.3 );<BR>CStr( 100 );<BR><BR>CDbl( 100 );</CODE></P></TD>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>
+      <P><CODE>//results in 100<BR>//results in a string of "100".<BR>//this now 
+      cannot be used in mathematical expressions.<BR>//rsults in 
+    100.0</CODE></P></TD></TR></TBODY></TABLE>
+<P><B><A name=chap1c>Bonus Topic: Comments</A></B></P>
+<P>Commenting your code is of utmost importance. Comments allow you to add 
+arbitrary text to explain whatever you need to without disrupting the script's 
+functionality. Comments are also used to remove code from execution without 
+actually deleting it (known as "commenting out code"). In eScript there are a 
+couple ways to comment your code:</P>
+<OL>
+  <LI>
+  <P>Any text after "//" will be considered a comment until the end of the line. 
+  The next line will not be considered a comment. To make it a comment, add 
+  another "//" before your comment. This is the best way to make short comments 
+  because it allows you to comment out large block of code using "/* */" 
+  (below).</P>
+  <LI>
+  <P>Any text after "/*" and before "*/" is considered a comment. Using this, 
+  you can comment out large blocks of code just by placing a /* at the beginning 
+  and / at the end of the code. You cannot "nest" this type of comment, as the 
+  next "*/" signals the end of the comment, even if another "*/" is found after 
+  the first. This is why we recommend you comment most things with "//" to avoid 
+  this.</P></LI></OL>
+<H3><A name=chap2>Chapter 2</A></H3>
+<P><B>Data Structures</B></P>
+<P>Okay, so we can make integer, real, or string variables. To do any sort of 
+useful scripting, we also need some data structures. I will discuss arrays and 
+structures in this chapter.</P><BR>
+<P><B><A name=chap2a>Arrays</A></B></P>
+<P>Arrays are one-based, random access collections of objects. That means you 
+can access any place in the array from 1 (the first element) up to X (the last 
+element). Let's first look how you can declare an array. </P>
+<P>To create an array variable, declare:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <P><CODE>var a := {};<BR>var b := { 5, 32, "hello", "world" };<BR>var c := 
+      { {1,2}, {3,4,5} };</CODE></P></TD>
+    <TD>&nbsp;&nbsp; </TD>
+    <TD>
+      <P><CODE>// empty array<BR>// initialized array<BR>// array containing 
+      arrays</CODE></P></TD></TR></TBODY></TABLE>
+<P>An array can be assigned to any other variable, even if that variable was not 
+declared an array:</P>
+<P><CODE>var a := { 2, 4, 6, 8 }; var b;<BR>b := a;</CODE></P>
+<P>Similarly, if a function returns an array (we will discuss this later), no 
+special declaration is needed:</P>
+<P><CODE>var a;<BR>a := function_that_returns_an_array();</CODE></P>
+<P>In some other programming languages, you cannot access (read or write) past 
+the end of the declared size of the array. In eScript, arrays grow automatically 
+without access errors:</P>
+<P><CODE>var a := {};<BR>a[1] := 4;<BR>a[4] := 7;</CODE></P>
+<P>Arrays elements can be any type of object, including another array:</P>
+<P><CODE>Var a := {};<BR>Var b := {};<BR>a[1] := 5;<BR>b[1] := a;<BR>b[2] := 
+6;</CODE></P>
+<P>The following are equivalent methods of looping through an array. The 
+'foreach' method is much more efficient, as well as being more convenient. Note 
+that we will discuss these kind of loops and more next chapter.</P>
+<P><CODE>Local a := { 2,4,6,8 };<BR><BR>Local i;<BR>for( i := 1; i &lt;= len(a); 
+i := i + 1 )<BR>print( a[i] );<BR>endfor<BR><BR>foreach i in a<BR>print( i 
+);<BR>endforeach</CODE></P>
+<P><B><A name=chap2b>Structures</A></B></P>
+<P>Structures are just arrays whose elements are named. Normally, structures are 
+only used when a function returns a structure. </P>
+<P>To access members, use the '.' operator:</P>
+<P><CODE>print( a.height );<BR>print( a.width );</CODE></P>
+<P>The syntax to create a structure is kind of weak, because it looks just like 
+you're declaring an array:</P>
+<P><CODE>var a:= {};</CODE></P>
+<P>To add members, use the '.+' operator:</P>
+<P><CODE>var a:= {};<BR>a.+height;<BR>a.+width;<BR><BR>a.height := 5;</CODE></P>
+<P>You can then use the structure for whatever you need, such as passing more 
+than one variable back to a function (functions explained later), or when a core 
+function requires it. Also, there are a few array-specific functions that are 
+explained later (such as array.insert() and others).</P>
+<H3><A name=chap3>Chapter 3</A></H3>
+<P><B>Conditionals and Iteration</B></P>
+<P>We'll cover two topics in this chapter: IF-statements and loops. </P>
+<P><B><A name=chap3a>If-statements</A></B></P>
+<P>If-statements are absolutely needed in every script so it's necessary you 
+understand them. If statements simply let your script make decisions based on 
+the criteria you give it. The general syntax is:</P>
+<P><CODE>if( statement )<BR>&nbsp;&nbsp;&nbsp;{code}<BR>elseif( statement 
+)<BR>&nbsp;&nbsp;&nbsp;{code}<BR>elseif( statement 
+)<BR>.<BR>.<BR>.<BR>else<BR>&nbsp;&nbsp;&nbsp;{code}<BR>endif</CODE></P>
+<P>Notice you can have any number of (optional)"elseif" statements between the 
+"if" and the (optional) "else". The key part in the syntax above is "statement". 
+When the script runs, it will check the first "statement" to see if it is true. 
+If it is not, it'll proceed to check the next "statement" until either it finds 
+one that is true, or hits the "else" statement (if any).</P>
+<P>The syntax for "statement" is</P>
+<P><CODE>variable1 {operator variable2} ...</CODE></P>
+<P>Some examples of evaluating to true expressions are:</P>
+<P><CODE>var var1 = 10;<BR>var var2 = 5;<BR><BR>if( var1 &gt; var2 ) 
+//TRUE<BR>if( (var1 – 5) = var2) //TRUE<BR>if( var2 &lt; var1 ) //TRUE<BR>if( 
+(var2+5) &gt;= var2 ) //TRUE<BR>if( var1 != var2) //TRUE</CODE></P>
+<P>The logical operators in eScript are (evaluated left-to-right)</P>
+<P>= equal-to<BR>!= not-equal-to<BR>&gt; greater-than<BR>&lt; less-than 
+<BR>&lt;= less-or-equal-to <BR>&gt;= greater-or-equal-to</P>
+<P>Also, you can use the Boolean operators:</P>
+<P>|| or "or"<BR>&amp;&amp; or "and"</P>
+<P>For example:</P>
+<P><CODE>if( (var1 &gt; var2) || (var1 = 5) ) <BR>//TRUE since at least one of 
+the individual expressions is true. This is inclusive OR so all expressions may 
+be true and the whole statement is true.<BR><BR>if( (var1 &gt; var2) or (var1 = 
+5) )<BR>//this is same as above, except using "or" in place of "||" for 
+readability.<BR><BR>if( (var1 &gt; var2) &amp;&amp; (var1 = 5) )<BR>//FALSE, 
+since not ALL expressions are true.<BR><BR>if( (var1 &gt; var2) and (var1 = 10) 
+)<BR>//TRUE, since both expressions are true. Uses "and" in place of 
+"&amp;&amp;"</CODE></P>
+<P>You will use If statements in all but the most simple scripts you write. You 
+should understand what you want to do before throwing a conditional statement 
+together, as it is possible to mess it up:</P>
+<P><CODE>if( score &lt; 60 )<BR>&nbsp;&nbsp;&nbsp;print("You got less than 
+60");<BR>elseif( score = 50 )<BR>&nbsp;&nbsp;&nbsp;print("You got 
+50!");<BR>endif</CODE></P>
+<P>This is poor scripting, as if your score was 50, the first statement would be 
+true (printing "You got less than 60"), and the elseif( score = 50 ) line would 
+never be printed, even though it is a more specific check than the previous 
+line. </P>
+<P>Also, in eScript anything that is zero is considered to be false, and 
+anything non-zero is true. So you can have an if-statement without any logical 
+operators:</P>
+<P><CODE>var valid = 1;<BR>if( valid )<BR>&nbsp;&nbsp;&nbsp;{ do stuff 
+}<BR>else<BR>&nbsp;&nbsp;&nbsp;{ do other stuff }<BR>endif</CODE></P>
+<P>Or:</P>
+<P><CODE>if( !valid ) //same as "if valid is non-zero, then 
+false"<BR>&nbsp;&nbsp;&nbsp;{ blah }<BR>endif</CODE></P>
+<P><B><A name=chap3b>Case (switch) statements</A></B></P>
+<P>It is a common occurance in scripting when you need to make a equality 
+decision based on a large number of possibilities (and the possibilities are 
+known at compile-time). To do this kind of choice with if-elseif statements 
+would be ugly at best and slow at worst. Luckily, eScript provides a cleaner way 
+to do this:</P>
+<P><CODE>// declarations:<BR>const BLUE := 1;<BR>const YELLOW := 2;<BR>const RED 
+:= 3;<BR>const MAUVE := 4;<BR><BR>// The Ugly if-elseif way:<BR><BR>function 
+function_one()<BR><BR>&nbsp;&nbsp;&nbsp;var answer := 
+WhatIsYourFavoriteColor();<BR>&nbsp;&nbsp;&nbsp;if( answer = BLUE 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do 
+stuff<BR>&nbsp;&nbsp;&nbsp;elseif( answer = YELLOW 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do 
+stuff<BR>&nbsp;&nbsp;&nbsp;elseif( answer = RED 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do 
+stuff<BR>&nbsp;&nbsp;&nbsp;elseif( answer = MAUVE 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do 
+stuff<BR>&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do 
+something else<BR>endfunction<BR><BR><BR>// The Clean case Way:<BR><BR>function 
+function_two()<BR><BR>&nbsp;&nbsp;&nbsp;var answer := 
+WhatIsYourFavoriteColor();<BR>&nbsp;&nbsp;&nbsp;case( answer 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BLUE:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//do 
+stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YELLOW:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//do 
+stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RED:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//do 
+stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAUVE:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//do stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //do something 
+else<BR>&nbsp;&nbsp;&nbsp;endcase<BR>endfunction</CODE></P>
+<P>The general structure of a case statement is:</P>
+<P>case( expression )<BR>&nbsp;comparison_value: 
+//code<BR>&nbsp;&nbsp;&nbsp;{break;}<BR>&nbsp;comparison_value: 
+//code<BR>&nbsp;&nbsp;&nbsp;{break;}<BR>&nbsp;... <BR>&nbsp;default: //code if 
+no match was found above (optional)<BR>endcase</CODE></P>
+<P>"expression" can be determined at run-time, but "comparison_value" cannot. 
+That means a case statement is really only good for making a decision based on 
+equality with any number of constant known values. "comparison_value" may not be 
+any type of expression that must be determined at run time, such as a 
+mathematical expression. Also, case statements cannot be used for non-equality 
+comparisons, such as greater-than, less-than, etc. The breaks are optional, 
+except under one circumstance- an empty case. If you have a comparison value 
+followed by no code (in other words, immediately followed by another comparison 
+value), and that comparison value is followed by code, then <I>both</I> of the 
+cases will execute that code. </P>
+<P>For example:</P><CODE><BR>function 
+function_three()<BR><BR>&nbsp;&nbsp;&nbsp;var answer := 
+WhatIsYourFavoriteColor();<BR>&nbsp;&nbsp;&nbsp;case( answer 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BLUE:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YELLOW:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//do 
+stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RED:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+//do other stuff<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //do something 
+else<BR>&nbsp;&nbsp;&nbsp;endcase<BR>endfunction</CODE>
+<P></P>
+<P>In this situation, the both BLUE and YELLOW will cause it to do stuff. RED 
+will make it do other stuff, and anything else will make it do something else. 
+If you meant BLUE to do nothing at all, you must put <CODE>break;</CODE> 
+statements in the sections which you wish to have do nothing- this will tell the 
+program to skip to the end of the case block.</P>
+<P>The behavior in the case of an empty block (like BLUE above) is known as 
+<B>fall through</B>.</P>
+<P><B><A name=chap3c>Iteration</A></B></P>
+<P>I mentioned "looping through an array" in the previous chapter. This is a 
+very common function is most scripts. There are two popular ways of doing this, 
+here are the code bits I used in the last chapter, one at a time:</P>
+<P><CODE>Local a := { 2,4,6,8 };<BR><BR>Local i;<BR>for( i := 1; i &lt;= len(a); 
+i := i + 1 )<BR>&nbsp;&nbsp;&nbsp;print( a[i] );<BR>endfor</CODE></P>
+<P>The "for" loop should be familiar to anyone who has done programming before. 
+The syntax of a for-loop is:</P>
+<P><CODE>for( initialization statement ; loop-if-true statement ; increment 
+)<BR>&nbsp;&nbsp;&nbsp;{code}<BR>endfor</CODE></P>
+<P>Though you can add any code you want in the initialization statement and the 
+increment statement, I've named them these because that is their most common 
+function. A for-loop normally is a count-checker. On each go around the loop, it 
+automatically performs the increment statement, and then checks the loop-if-true 
+statement to see if it should stop looping or go again. In the above example, 
+the variable "i" is declared. Before the first loop of the for-loop, i is 
+initialized to 1. If 'i' is less than or equal to the length of the array named 
+"a", the code in the for-block is executed. At the end of the for-loop block, 
+the increment statement is executed, adding 1 to 'i' and storing the new value 
+in 'i'. Then 'i' is again compared against the length of a (which is 4, using 
+the above example). 'i' is still less than that, so the code in the block is 
+executed again. This continues until 'i' is greater than the length of the 
+array. "endfor" signals the end of the for-loop block.</P>
+<P>The output of this code is:</P>
+<P><CODE>2<BR>4<BR>6<BR>8</CODE> 
+<P>Another, more convenient method is shown in this example:</P>
+<P>foreach i in a<BR>&nbsp;&nbsp;&nbsp;print( i );<BR>endforeach</CODE></P>
+<P>Here, we don't need to initialize 'i', as the "foreach" loop does it for us. 
+This loop performs the same function as the for loop above, but in a much more 
+succinct (and efficient) manner. The general syntax is:</P>
+<P><CODE>foreach counter_variable in 
+array_name<BR>&nbsp;&nbsp;&nbsp;{code}<BR>endforeach</CODE></P>
+<P>Another loop type that eScript supports is the "while" loop:</P>
+<P><CODE>while( expression )<BR>&nbsp;&nbsp;&nbsp;{code}<BR>endwhile</CODE></P>
+<P>Pretty easy; until the expression is false, {code} is executed. You will 
+probably be changing one or more of the variables in "expression" or you will 
+never exit (there are exceptions to this rule, below).</P>
+<P>Another loop type is the "repeat – until" loop. This is very similar to the 
+"while" loop, except that you are guaranteed for the code to be executed at 
+least once, since the conditional check is done at the bottom of the block:</P>
+<P><CODE>repeat<BR>&nbsp;&nbsp;&nbsp;{code}<BR>until expression </CODE></P>
+<P>There may be times you want to exit a loop before the exit condition is 
+satisfied. To do this, you would put the "break" statement in your {code} block 
+(this works in the "for", "while", and "repeat until" loops). Also, if you want 
+to stop the execution of the code block, but remain in the loop, use the 
+"continue" keyword. This will return make the loop start from the top of the 
+code block again after checking the "condition" statement.</P>
+<P><CODE>while( condition != 0 )<BR>&nbsp;&nbsp;&nbsp;if( condition = 42 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//oh geez! break 
+out!<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>&nbsp;&nbsp;&nbsp;elseif( 
+condition = 13 )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//don't do the code 
+below the 
+if-block<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<BR>&nbsp;&nbsp;&nbsp;endif<BR>&nbsp;&nbsp;&nbsp;condition 
+= condition * something;<BR>endwhile</CODE></P>
+<H3><A name=chap4>Chapter 4</A></H3>
+<P><B><A name=chap4a>Functions and Parameters</A></B></P>
+<P>So far, all I've shown here is code segments which cannot be used by 
+themselves. All code you write must be placed inside functions. If you are not 
+familiar with the concept of functions, they are one of the fundamental building 
+blocks of programming- potentially reusable sections of code. In eScript, there 
+are two types of functions: "function" and "program". If you have programmed 
+before, we can compare the "program" function to an application's "main" 
+function. This means when the script is executed, the entry-point (first 
+function run) is always the top of the function designated by the keyword 
+"program". Here's a general syntax for both:</P>
+<P><CODE>program Function_Name( parameter, ... )<BR>{your 
+code}<BR>endprogram<BR><BR>function Function_Name( parameter, ... 
+)<BR>&nbsp;&nbsp;&nbsp;{your code}<BR>endfunction</CODE></P>
+<P>The "endprogram" and "endfunction" keywords identify the end of that 
+function. These are absolutely necessary and you will get compiler errors if 
+they are not present (more on compiling later).</P>
+<P>Function_Name can be anything, as long as it is one word (you can use 
+underscores like I did to separate words for readability) and it starts with a 
+letter.</P>
+<P>The parameter list is a little more difficult to explain. These are variable 
+names that were passed to this function from whatever the calling function was. 
+You can have any variable type as a parameter, even arrays and structures. I'll 
+show you some examples below. Note what makes the "program" main function 
+special is that you do not choose what gets passed to it. Since the "system" 
+(the POL core in this case) calls the "program" function, it chooses what 
+parameters to pass to it. The actual parameter list differs depending on what 
+type of script it is in (more on that later). But for the sake of showing you 
+the syntax of the program, let's assume nothing is passed to the main function. 
+The parameter list may have zero or more parameters in it.</P>
+<P>Here's a simple example of how you can create your own functions:</P>
+<P><CODE>program Main()<BR>&nbsp;&nbsp;var var1 = "dudes";<BR>&nbsp;&nbsp;var 
+var2 = "oingo";<BR>&nbsp;&nbsp;var var3 = "boingo";<BR>&nbsp;&nbsp;var var4 = 
+"let's";<BR>&nbsp;&nbsp;var var5 = 42;<BR><BR>&nbsp;&nbsp;MyFunction( var1, var4 
+);<BR>&nbsp;&nbsp;MyFunction( var2, var3 );<BR>&nbsp;&nbsp;Myfunction( var5, 
+var1 );<BR>&nbsp;&nbsp;MyFunction( var3 
+);<BR>&nbsp;&nbsp;MyFunction();<BR><BR>endprogram<BR><BR>function MyFunction( a 
+:= "Yo yo", b := "hey hey" )<BR>&nbsp;&nbsp;print( a + " " + b 
+);<BR>endfunction</CODE></P>
+<P>Here is the output from the five calls to MyFunction:</P>
+<P><CODE>dudes let's<BR>oingo boingo<BR>42 dudes<BR>boingo hey hey<BR>Yo yo hey 
+hey</CODE></P>
+<P>Notice in the declaration of the MyFunction function, we have a couple 
+variable names and an assignment for each. What this does is if no variable is 
+passed for that parameter, the value on the right side of that assignment is 
+used instead, as can be seen the 4th and 5th lines of output.</P>
+<P>This is a very simple example, and does not really show why you should use 
+separate functions to do stuff rather in all one big function. It is good 
+programming style to split up tasks into separate functions, and it helps in the 
+areas of readability, code reuse and abstraction. </P>
+<P>Functions may return one value to the calling function before they exit. This 
+is done with the "return" key word. The calling function receives this value by 
+having a variable on the left side of an assignment operator and the function 
+call on the right:</P>
+<P><CODE>program Main()<BR>&nbsp;&nbsp;var hejaz;<BR>&nbsp;&nbsp;hejaz = 
+SmellsLike();<BR><BR>&nbsp;&nbsp;print( hejaz );<BR>endprogram<BR><BR>function 
+SmellsLike()<BR>&nbsp;&nbsp;var smell = "Teen Spirit";<BR>&nbsp;&nbsp;return 
+smell;<BR>endfunction</CODE></P>
+<P>Prints: <BR><CODE>Teen Spirit</CODE></P>
+<P>To return more than one value from a function, assign those values to an 
+array or structure in the function and then return the array or structure name 
+to the calling function.</P>
+<P><B><A name=chap4b>Including code from other files</A></B></P>
+<P>Up to this point, all the code we've been messing with has been in one file. 
+To import in code from other files (special files called "include files" whose 
+file extension is ".inc". They're special because they cannot contain a 
+"program" main function, only any number of normal functions), near the top of 
+your script, before any variable declarations or functions add the line:</P>
+<P><CODE>include "filename_without_.inc";</CODE></P>
+<P>Then you may call any function that is defined in that include file from your 
+script (.src) file. Note that any variables in the include files that are 
+declared at global scope also are at global scope in your script file. This 
+means you must be careful that you don't try to declare any variables with the 
+same names as those other global variables. If you do, it will result in 
+compiler errors that may be difficult to track down.</P>
+<P>The above line will work if the include file is in the same directory as the 
+source file that includes it. If you want to use some of the more standard 
+include files (found in /scripts/include), you'd use the syntax:</P>
+<P><CODE>include "include/filename";</CODE></P>
+<H3><A name=chap5>Chapter 5</A></H3>
+<P>REJOICE! Now for UO and POL stuff: *.em files and functions</P>
+<P>I'm glad you stuck through all that syntax discussion and didn't skip ahead 
+to here. If you did skip ahead, good luck, because I won't be reviewing any of 
+that syntax.</P>
+<P><B><A name=chap5a>Scripts</A></B></P>
+<P>Okay, this is where we start learning to write real scripts for the UO-POL 
+environment. Up to this point, you can write scripts that do stuff, but probably 
+not anything useful. To be able to write really useful scripts that do 
+something, you need to be able to access data about the game world. POL provides 
+this interface through a number of "core-functions" that are defined in the 
+".em" files that can be found in your /pol/scripts directory. </P>
+<P>But first, I need to talk about the types of scripts in the POL environment, 
+when they are executed and with what parameters. Here is a quick list ( note the 
+parameter names I use like 'clicker' are only an example, the actual parameter 
+names can be anything, but I'm trying to be descriptive. Only the order of the 
+parameters below is strictly enforced ):</P>
+<P>CharRef = Reference to character running the script<BR>MobRef = Reference to 
+a mobile object (NPC, character)<BR>ObjRef = Reference to an item</P>
+<P>Use Scripts: Run when the associated item is double clicked in the UO 
+window.<BR>&nbsp;&nbsp;Parameters: 1: CharRef clicker , 2: ObjRef 
+item_clicked</P>
+<P>Walk-on Scripts: Run when a player walks on the associated 
+item.<BR>&nbsp;&nbsp;Parameters: 1: CharRef walker , 2: ObjRef 
+item_walked_over</P>
+<P>Text Command Scripts: Run when the player uses the command ".scriptname" and 
+has the appropriate privileges.<BR>&nbsp;&nbsp;Parameters: 1: CharRef speaker , 
+2: Text after the command. i.e. ".command blah" typed would give the text as 
+"blah"</P>
+<P>Spell Scripts: Run when the player starts a spell from the 
+spellbook<BR>&nbsp;&nbsp;Parameters: 1: CharRef caster</P>
+<P>Control Scripts: Run on creation of the associated item and on server 
+reboot<BR>&nbsp;&nbsp;Parameters: 1: ObjRef item_under_control</P>
+<P>AI Scripts: Run on an NPC, controls behavior, should never 
+exit<BR>&nbsp;&nbsp;Parameters: 1: MobRef the_NPC</P>
+<P>Skill Scripts: Run when a player clicks on a skill gem in the skills scroll 
+gump<BR>&nbsp;&nbsp;Parameters: 1: CharRef player_performing_skill</P>
+<P>Let's start learning with Text Command scripts since they're the easiest to 
+get running. Text commands are only run if the player speaking the command has 
+the necessary command level. Make sure the player you're testing with has a 
+command level of "gm" or greater. We'll be placing all our scripts in the 
+/scripts/textcmd/gm directory.</P>
+<P>Okay, let's start with a simple script. Say you want to write a script that 
+will broadcast a message to all players on the server. Here is the script 
+"bcast.src", I will explain each line:</P>
+<P><CODE>/*1*/ use uo;<BR>/*2*/<BR>/*3*/ program MyBroadcast( speaker, text 
+)<BR>/*4*/ <BR>/*5*/&nbsp;&nbsp;var character;<BR>/*6*/&nbsp;&nbsp;foreach 
+character in 
+EnumerateOnlineCharacters()<BR>/*7*/&nbsp;&nbsp;&nbsp;&nbsp;SendSysmessage( 
+character, text 
+);<BR>/*8*/&nbsp;&nbsp;endforeach<BR>/*9*/<BR>/*10*/endprogram</CODE></P>
+<P>Line 1: the "use" keyword tells the compiler to look in the following .em 
+file for the definitions of any functions we may use out of that "module" ( look 
+there now, you'll see EnumerateOnlineCharacters and SendSysmessage).</P>
+<P>Line 3: Since this is a text command script, POL automatically passes a 
+reference to the character speaking the command, and the text after the command. 
+These are here as "speaker" and "text" respectively.</P>
+<P>Line 5: This variable will get the value of each element in the array 
+returned by EnumerateOnlineCharacters().</P>
+<P>Line 6: The EnumerateOnlineCharacters function returns an array of Character 
+References. for each character logged into the server. The foreach loop gets the 
+next data element from this returned array and sticks it in the "character" 
+variable. </P>
+<P>Line 7: The SendSysmessage function will send the "text" string to the lower 
+left hand corner of "character"'s UO window. </P>
+<P>Line 8: Signals the end of the foreach block</P>
+<P>Line 10: Signals the end of the function.</P>
+<P>Here's how it goes in a sample run:</P>
+<P>1. The GM player types in ".bcast Howdy Everyone!" (without the 
+quotes).<BR>2. POL looks in the bcast script for a "program" function and passes 
+a reference to the GM player as well as the text "Howdy Everyone!".<BR>3. 
+EnumerateOnlineCharacters returns an array of 3 character references.<BR>4. 
+SendSysmessage will send the text "Howdy Everyone!" to the lower-left-hand 
+corner of each of the 3 character's screens.</P>
+<P>But now the GM doesn't like the fact the he receives his own broadcast. You 
+can edit the script so this won't happen by checking to see if the character 
+reference stored in the "character" variable is the same as the "speaker" 
+reference passed to the function by POL:</P>
+<P><CODE>/*1*/ use uo;<BR>/*2*/<BR>/*3*/ program MyBroadcast( speaker, text 
+)<BR>/*4*/ <BR>/*5*/&nbsp;&nbsp;var character;<BR>/*6*/&nbsp;&nbsp;foreach 
+character in EnumerateOnlineCharacters()<BR>/*7*/&nbsp;&nbsp;&nbsp;&nbsp;if( 
+character != speaker 
+)<BR>/*8*/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SendSysmessage( character, text 
+);<BR>/*9*/&nbsp;&nbsp;&nbsp;&nbsp;endif<BR>/*10*/&nbsp;&nbsp;endforeach<BR>/*11*/<BR>/*12*/endprogram</CODE></P>
+<P>Now the message won't be sent to who sent it.</P>
+<P><B><A name=chap5b>Compiling</A></B></P>
+<P>Alright, it's now time to get an actual running script. POL cannot directly 
+read the source code you write, it must be compiled into a readable format 
+before it can be executed. The included program "ecompile" is used for just 
+this. I will assume you have experience in the command shell that your operating 
+system of choice uses. I will use the Windows command line for reference.</P>
+<P>First, take that code above and place it in a file called "bcast.src" and 
+place that file in the pol/scripts/textcmd/gm directory. Now go to your command 
+shell and change the directory to the /pol/scripts directory. Type "ecompile 
+/?". You should see:</P>
+<P>Usage:<BR>&nbsp;&nbsp;ECOMPILE [options] filespec [filespec 
+...]<BR>&nbsp;&nbsp;Output is : 
+filename.ecl<BR>&nbsp;&nbsp;Flags:<BR>&nbsp;&nbsp;&nbsp;&nbsp;-i&nbsp;&nbsp;&nbsp;&nbsp;include 
+debug info in .ecl 
+file<BR>&nbsp;&nbsp;&nbsp;&nbsp;-l&nbsp;&nbsp;&nbsp;&nbsp;generate 
+listfile<BR>&nbsp;&nbsp;&nbsp;&nbsp;-r dir&nbsp;&nbsp;&nbsp;&nbsp;recurse 
+directory<BR>&nbsp;&nbsp;&nbsp;&nbsp;-w&nbsp;&nbsp;&nbsp;&nbsp;display 
+warnings<BR>&nbsp;&nbsp;&nbsp;&nbsp;-W&nbsp;&nbsp;&nbsp;&nbsp;generate 
+wordfile<BR>&nbsp;&nbsp;&nbsp;&nbsp;-a&nbsp;&nbsp;&nbsp;&nbsp;compile *.asp 
+pages also<BR>&nbsp;&nbsp;&nbsp;&nbsp;-b&nbsp;&nbsp;&nbsp;&nbsp;keep building 
+other scripts after 
+errors<BR>&nbsp;&nbsp;&nbsp;&nbsp;-u&nbsp;&nbsp;&nbsp;&nbsp;compile only updated 
+scripts (.src newer than .ecl)</P>
+<P>We don't need any of these fancy flags, just the basic usage of ecompile: 
+"ecompile <FILENAME.SRC>"</P>
+<P>We need to tell ecompile where the file we want to compile is so at your 
+command line, type:</P>
+<P><CODE>ecompile txtcmd/gm/bcast.src</CODE></P>
+<P>Since that's where we put the file. You should see:</P>
+<P><CODE>EScript Compiler v0.1 Alpha<BR>Copyright (C) 1994-1999 Eric N. 
+Swanson<BR><BR>Compiling: D:\pol\scripts\textcmd\gm\bcast.src<BR>Writing: 
+D:\pol\scripts\textcmd\gm\bcast.ecl</CODE></P>
+<P>When ecompile tells you that it's writing a .ecl file, that means the 
+compiling was successful and the script can now be run. To run, make sure POL is 
+running and you're logged in with a GM character (or higher, like admin). Now 
+type .bcast <MESSAGE>. Now, if you did everything right up to here, you should 
+see nothing. That's because we made it so you wouldn't receive your own 
+broadcast. So to test, get a couple friends on your server and ask them if they 
+got the message. If they did, congrats, your very first script.</P>
+<H3><A name=chap6>Chapter 6</A></H3>
+<P><B>Built-in Properties and the POL Object Reference</B></P>
+<P>Everything in POL is an object: characters, accounts, items, corpses, NPCs, 
+etc. POL uses a class hierarchy to allow inherited properties between objects. 
+For example, in the UO world, everything in the world has an x, y, and z 
+coordinate property. This include both items on the ground, and mobiles (NPCs or 
+characters). You can see from the Object Reference Chart (Appendix A) that both 
+the Mobile object and Item object are children of the UObject Class. Notice in 
+the UObject class that there are a number of properties, including x y z, 
+serial, objtype, color, etc. These properties are inherited by all the other 
+class objects under UObject in the tree, thereby implicitly granting all these 
+basic properties to all objects in the UO world. </P>
+<P>Some Classes even have functions as members, an object-oriented type of 
+design, i.e. the Door class has the members door.open() and door.close() which 
+open and close the door, respectively. Notice how you access these members or 
+"built-in properties" with the dot "." operator. So depending on what type of 
+object you are working with, some members may not exist to access. For example, 
+a door object would not have the "quality" member an Equipment object would 
+have, but you could access both their x-coordinates with object.x. Note that 
+some properties are read-only and some are read-write. The read-only props only 
+allow you to retrieve the value for that property, and not to change it. 
+Read-write props grant you all access to the property. It is for security 
+purposes that some built-in props are read-only. It would mess things up if you 
+were able to write to character.dead or character.acct (account)!</P>
+<P>Please refer to the POL Object Reference Chart for all the details.</P>
+<H3><A name=chap7>Chapter 7</A></H3>
+<P><B><A name=chap7a>Much Ado about CProps and Stupid Chapter Names</A></B></P>
+<P>CProps (Custom Properties) are what makes scripting with eScript so flexible. 
+In addition to all the built-in properties in Appendix A, CProps let you store 
+arbitrary amounts of arbitrary data to any object. This data can be stored by 
+any script and recalled by any script that has a reference to that object. You 
+can store any type of data: string, integer, real, arrays. You should be able to 
+see that this ability to store and retrieve arbitrary data is a powerful one. 
+I'll go through an example of a couple scripts that use CProps and touch on 
+other aspects of scripting.</P>
+<P>Let's say you want to create a one-time use item that allows the player to 
+teleport back to their corpse after being resurrected. There are several things 
+that we need to do to make this happen: create the description for the custom 
+item that grants this ability, the script that controls the behavior of the 
+item, code to store the game coordinates of the player's corpse. First, a quick 
+lesson on creating a custom item:</P>
+<P>Open up any itemdesc.cfg file you find. This file contains the definitions 
+for all the items that do something in the world. We need to add our item to one 
+of these files. For now, we'll use the file /config/itemdesc.cfg. Here's the 
+definition of our item and the descriptions of each parameter:</P>
+<P><CODE>Item 0xABCD<BR>{<BR>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>Name</TD>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>ring_of_returning</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>Desc</TD>
+    <TD></TD>
+    <TD>Ring of Returning</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>Graphic</TD>
+    <TD></TD>
+    <TD>0x108A</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>Script</TD>
+    <TD></TD>
+    <TD>return_ring</TD></TR></TBODY></TABLE>}</CODE></P>
+<P>Item 0xABCD : <BR>Starts the definition of the new Item. The objtype number 
+is arbitrary, but must be unique. The range of numbers available for custom 
+items are 0x5000 to 0xFFFF.</P>
+<P>Name&nbsp;&nbsp;ring_of_returning : <BR>his is the internal name of the item, 
+so you could create one using the command ".create ring_of_returning" instead of 
+".create 0xABCD".</P>
+<P>Desc&nbsp;&nbsp;Ring of Returning<BR>This is the single-click description 
+shown when you click it.</P>
+<P>Graphic&nbsp;&nbsp;0x108A<BR>This is the objtype of the art item to use to 
+represent this item. I got this number by looking in the InsideUO program for 
+the ring graphic and using it's objtype number.</P>
+<P>Script&nbsp;&nbsp;return_ring<BR>This is the name of the script that will run 
+when you double-click the item.</P>
+<P>A short description of the CProp functions which we will be using all of, 
+found in the uo.em module header file:</P>
+<P><CODE>SetObjProperty( object, property_name_string, property_value 
+);</CODE></P>
+<P>Stores a CProp on "object" of name "property_name_string" and value 
+"property_value".</P>
+<P><CODE>GetObjProperty( object, property_name_string );</CODE></P>
+<P>Returns the value of the CProp "property_name_string" that is stored on 
+"object". If that CProp does not exist, returns an error.</P>
+<P><CODE>EraseObjProperty( object, property_name_string );</CODE></P>
+<P>Erases the CProp "property_name_string" that is stored on "object". If that 
+CProp was not found, returns an error.</P>
+<P>Now, let's write some code that will store the player's position after s/he 
+dies. The script that is run when a player dies is /scripts/misc/chrdeath.src. 
+Let's look a bit at that one. There is probably a bunch of code already in there 
+used for other purposes, but you can ignore that for now. We see that the 
+function parameters looks like this:</P>
+<P><CODE>program chrdeath(corpse,ghost)</CODE></P>
+<P>The 'corpse' parameter is an itemref to the corpse of the dead player. 
+Remember that an Item object inherits all the properties of the UObject class, 
+which includes the x,y,z coordinates. We access these by using the 'dot' 
+operator. We want to store the x,y,z coordinates of that corpse item on the 
+player so the ring item script we will create can read it. The "ghost" parameter 
+here is a mobileref to the character that just died. It doesn't matter that he's 
+a ghost, we can still access and store data as normal. In chrdeath.src, you 
+would add:</P>
+<P><CODE>SetObjProperty( ghost, "x_corpse", corpse.x );<BR>SetObjProperty( 
+ghost, "y_corpse", corpse.y );<BR>SetObjProperty( ghost, "z_corpse", corpse.z 
+);</CODE></P>
+<P>Okay, now everything is in place for us to write the ring of returning 
+script. We create a file named "return_ring.src" in the /scripts/items 
+directory. Here is the basic flow of the program:</P>
+<OL>
+  <LI>Check to see if those three cprops exist on the player using the ring. 
+  <UL>
+    <LI>if the cprops exist, store the values in three variables. 
+    <LI>if they don't exist, exit with an error message</LI></UL>
+  <LI>Move the player to those coordinates 
+  <LI>Erase the cprops on the player 
+  <LI>Destroy the ring item.</LI></OL>
+<P>Here's the code:</P>
+<P><CODE>use uo;<BR><BR>program return_ring( player, ring ) //remember this is a 
+usescript, and <BR>//these are the parameters passed <BR>//to the script by 
+POL<BR>&nbsp;&nbsp;var x,y,z;<BR><BR>&nbsp;&nbsp;x := GetObjProperty( player, 
+"x_corpse" );<BR>&nbsp;&nbsp;y := GetObjProperty( player, "y_corpse" 
+);<BR>&nbsp;&nbsp;z := GetObjProperty( player, "z_corpse" 
+);<BR><BR>&nbsp;&nbsp;if( (x = error) or (y = error) or (z = error) 
+)<BR>&nbsp;&nbsp;&nbsp;&nbsp;SendSysMessage( player, "Could not find your 
+corpse" );<BR>&nbsp;&nbsp;&nbsp;&nbsp;return; //exits the 
+script<BR>&nbsp;&nbsp;endif<BR><BR>&nbsp;&nbsp;MoveCharacterToLocation( player, 
+x, y, z );<BR><BR>&nbsp;&nbsp;EraseObjProperty( player, "x_corpse" 
+);<BR>&nbsp;&nbsp;EraseObjProperty( player, "y_corpse" 
+);<BR>&nbsp;&nbsp;EraseObjProperty( player, "z_corpse" 
+);<BR><BR>&nbsp;&nbsp;DestroyItem( ring );<BR>endprogram</CODE></P>
+<P>Easy stuff right? =) Now you'd just have to compile chrdeath.src and 
+return_ring.src, unload chrdeath if your server was already running (.unload 
+chrdeath), create the new item and test it all out. Now, you might be thinking, 
+"If the player was wearing this ring when he died, it would go on his corpse and 
+wouldn't help him getting back there." You'd be right, so there's a few things 
+you could do, if you wanted:</P>
+<OL>
+  <LI>Tell the player how stupid s/he is for not leaving it in his/her bank. 
+  Then again, he s/he found a wandering healer, alot the ring would do in the 
+  bank. 
+  <LI>Make the ring a "newbie" item (stays on the player's ghost, would be 
+  usable after he resurrected). 
+  <LI>Change the item to be something non-wearable, to hint to the player that 
+  it shouldn't be something to carry around.</LI></OL>
+<P>It is good to know how POL stored cprops on objects. If you use the ".props" 
+command on an object like our unfortunate player, you'd see something like: 
+<CODE><NOBR>cprop x_corpse i300</NOBR></CODE> the important part here is the 'i' 
+before the value. This denotes the type of the data stored. We will revisit this 
+next chapter.</P>
+<P><B><A name=chap7b>Cprops on accounts</A></B></P>
+<P>You can also apply properties to accounts themselves (rather than specific 
+characters in them), but you use a different syntax to do so. Rather than 
+SetObjProperty(account, "Propname", value), you use these commands to set and 
+read custom properties:</P>
+<P><CODE>account.setprop("PropName", 
+value);<BR>account.getprop("PropName");</CODE></P>
+<H3><A name=chap8>Chapter 8</A></H3>
+<P><B>Config File Usage and Access</B></P>
+<P>Configuration files (cfg files) in POL hold static data that is read at 
+run-time and may be edited on the fly without any restarting or recompiling. 
+Because of this, they are good places to put data that may be changed often, or 
+for the ease of customization as you wouldn't have to edit and recompile the 
+script that uses it. There are two types of cfg files in POL: ones used directly 
+by the core executable, and ones that are read in by scripts. The former we 
+won't go into, but some examples include the system configuration, pol.cfg; 
+spell configurations, spells.cfg; skill configurations, skills.cfg. There are 
+some cfg files that are used both by the core and other scripts, such as 
+itemdesc.cfg and npcdesc.cfg (both are read by their respective Create core 
+functions, but other scripts can access them for additional data, as we will 
+see).</P>Config files have several pieces to them which you should be familiar 
+with. A configuration file consists of zero or more elements, each element has a 
+type, a key, and zero or more properties. An example follows with the parts 
+labeled:
+<P></P>
+<P><CODE>BowcraftData 0x13B2<BR>{<BR>&nbsp;&nbsp;Name 
+Bow<BR>&nbsp;&nbsp;Material 16<BR>&nbsp;&nbsp;Difficulty 
+30<BR>&nbsp;&nbsp;PointValue 20<BR>}</CODE></P>
+<P>BowcraftData is the element type. It is not used by the system and only 
+serves to give the scripter an idea about what the element is related to.</P>
+<P>0x13B2 is the element key or simply key. This must be a nonnegative number 
+which is used to find the element of interest in a file with many elements like 
+the one shown above.</P>
+<P>Name Bow<BR>Material 16<BR>Difficulty 30<BR>PointValue 20 are all the 
+element's properties. This is where the data you are interested lives.</P>
+<P>So the steps to find a specific piece of data is as follows (must use 
+cfgfile.em):</P>
+<OL>
+  <LI>Read in the config file where the element is saved using 
+  ReadConfigFile(filename). 
+  <LI>Find the specific element where the data lives by matching its key using 
+  <BR>FindConfigElem(cfgfile,key). 
+  <LI>Read in the data much like you would a cprop using 
+  GetConfigXXXX(elem,propname), where <BR>XXXX depends if the data is integer, 
+  real, or string.</LI></OL>
+<P>As a quick example, let's suppose that element above is in a file called 
+"bowery.cfg" (in the /config directory) and we want the value of the "Material" 
+property of a normal bow.</P>
+<P><CODE>use cfgfile;<BR><BR>function get_material( item )<BR>// assume that 
+'item' is an itemref to a normal bow item<BR>&nbsp;&nbsp;var cfgfile, element, 
+propvalue;<BR>&nbsp;&nbsp;cfgfile := ReadConfigFile( "bowery" 
+);<BR>&nbsp;&nbsp;element := FindConfigElem( cfgfile, item.objtype 
+);<BR>&nbsp;&nbsp;propvalue := GetConfigInt( element, "material" 
+);<BR>endfunction</CODE></P>
+<P>What you put in a config file is up to you, but they are best suited for 
+large amounts of data that differs depending on the element key. The key is 
+often an objtype, or just sequentially numbered, or structured however you want. 
+</P>
+<P>For config files that are used by both the core and other scripts, there are 
+properties that are expected to exist for both parts. For example, in an NPC 
+description, the core expects the normal properties of an NPC, like stats, 
+color, graphic, etc. You can also add other properties that are not read by the 
+core, but perhaps are read by the AI script to direct it exactly how to behave 
+(for example, to run away from players or to attack). There is a third option, 
+you can add CProps to config files. Look at this example of an NPC template:</P>
+<P><CODE>NpcTemplate shade<BR>{<BR>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>Name</TD>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>a shade</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>script</TD>
+    <TD></TD>
+    <TD>killpcs</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>ObjType</TD>
+    <TD></TD>
+    <TD>0x1a</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>Color</TD>
+    <TD></TD>
+    <TD>0</TD></TR>
+  <TR>
+    <TD>.</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>.</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>.</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>lootgroup</TD>
+    <TD></TD>
+    <TD>29</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>Magicitemchance</TD>
+    <TD></TD>
+    <TD>1</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>provoke</TD>
+    <TD></TD>
+    <TD>67</TD></TR>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>CProp</TD>
+    <TD></TD>
+    <TD>Undead i1</TD></TR></TBODY></TABLE>}</CODE></P>
+<P>Please note:</P>
+<OL>
+  <LI>'shade' is the key for this element. If you have a mobileref to a shade, 
+  you could get its element in the npcdesc.cfg file by using shade.npctemplate 
+  to match the key. 
+  <LI>The first four properties are used by the core to create the npc. 
+  <LI>The next three properties are not used by the core, but other scripts. The 
+  first two are used by the loot creation script, the last by the provocation 
+  script. 
+  <LI>The last property is a CProp which is added to every instance of this NPC 
+  template.</LI></OL>
+<P>Number 4 is very important; if you define CProps in a config file like 
+npcdesc.cfg or itemdesc.cfg, that CProp is automatically set on every instance 
+of that item that is created. This brings up the age-old dilemma of "Space 
+versus Time". CProps in config files are set on every one of those items, which 
+takes up extra memory, but is faster to access. Reading the same data from a 
+config file takes more time to do, but the data is stored in only one place 
+instead of many. Using CProps in a file with those bowery entries, for example, 
+would not do anything, since no item is created from those elements.</P>
+<H3><A name=chap9>Chapter 9</A></H3>
+<P><B>Packages</B></P>
+<P>You'll notice that up until now we've been putting files in the 'standard' 
+places, like /scripts/items for itemuse scripts, /config for config files, etc. 
+That's considered poor practice as it makes upgrading very difficult. To try to 
+help that problem, POL uses a package system where all the files to do a 
+specific purpose can be placed in a directory named for that purpose. For 
+example, if you wrote a system for a new skill, you could place all the files 
+needed for that new skill in a package: all the script source files, the 
+compiled source files, support config files, readme files, etc. In POL, there 
+are two types of packages, the 'standard' packages which are enabled by default 
+(in /pkg/std/), which are normal skill systems, spawner, spells, etc. Then there 
+are the 'optional' packages which are off by default, but can be used if desired 
+(in /pkg/opt/). Normally, enabling an optional package requires some 
+instructions which are normally supplied with the package.</P>
+<P>Each package must include a package descriptor file, pkg.cfg, which has the 
+following format (note # denotes a comment):</P>
+<P><CODE># Example package definition file<BR><BR>Enabled 1<BR>&nbsp;&nbsp;# 
+Enabled 0/1&nbsp;&nbsp;&nbsp;&nbsp;Should this package be 
+enabled?<BR><BR>Name&nbsp;&nbsp;template<BR>&nbsp;&nbsp;# Name of package, must 
+match directory name<BR><BR><BR>Version 1.3<BR>&nbsp;&nbsp;# Version 
+v0.v1..vn&nbsp;&nbsp;&nbsp;&nbsp;Version number for this package<BR><BR>Requires 
+spawner 1.2<BR>&nbsp;&nbsp;# Requires pkgname 
+{version}<BR>&nbsp;&nbsp;#&nbsp;&nbsp;&nbsp;&nbsp;Other package(s) other than 
+this one are required <BR>&nbsp;&nbsp;#&nbsp;&nbsp;&nbsp;&nbsp;in order to 
+function<BR>&nbsp;&nbsp;#&nbsp;&nbsp;&nbsp;&nbsp;More than one of these can 
+occur.<BR>&nbsp;&nbsp;#&nbsp;&nbsp;&nbsp;&nbsp;Format: requires package-name 
+{version)<BR><BR>Conflicts some-package<BR>&nbsp;&nbsp;# Conflicts pkgname 
+<BR>&nbsp;&nbsp;# This package cannot co-exist with a specific 
+package.<BR>&nbsp;&nbsp;# Note that version cannot be specified<BR><BR>### 
+Everything below this line is currently ignored, but are a very<BR>### good idea 
+to include in your pkg.cfg for imformation to users<BR><BR>&nbsp;&nbsp;# 
+CoreRequired ver note no leading '0', which would indicate octal<BR>CoreRequired 
+76<BR>&nbsp;&nbsp;# Your name<BR>Maintainer John Q. Public<BR>&nbsp;&nbsp;# Your 
+email<BR>Email johnq@public.com</CODE></P>
+<P>The following special files can exist in a package directory:</P>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;&nbsp;</TD>
+    <TD>pkg.cfg</TD>
+    <TD>&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+    <TD>package descriptor file</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>itemdesc.cfg</TD>
+    <TD></TD>
+    <TD>item descriptor entries for items </TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>skills.cfg</TD>
+    <TD></TD>
+    <TD>skills defined in this package</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>start.ecl</TD>
+    <TD></TD>
+    <TD>script to be run on system startup</TD></TR></TBODY></TABLE>
+<P>In the previous examples that use the ReadConfigFile function, the addition 
+of packages complicate things somewhat. How can you know if you want to read the 
+itemdesc.cfg in a specific package, the standard one in /config, or all of the 
+files combined into one (for easy searching) ? This is handled in the filename 
+format you pass to the ReadConfigFile function. The formats are:</P>
+<P><CODE>ReadConfigFile( "cfgname" )<BR>&nbsp;&nbsp;&nbsp;- for a script not in 
+a package, looks for /config/[cfgname].cfg<BR>&nbsp;&nbsp;&nbsp; - for a script 
+in a package, looks for [cfgname].cfg in the same package<BR><BR>ReadConfigFile( 
+":pkgname:cfgname" )<BR>&nbsp;&nbsp;&nbsp; - looks for [pkgdir]/[cfgname].cfg 
+<BR><BR>ReadConfigFile( "::cfgname" )<BR>&nbsp;&nbsp;&nbsp; - always looks in 
+pol/config/[cfgname].cfg</CODE></P>
+<P>Note for the special files itemdesc.cfg, npcdesc.cfg, skills.cfg, and 
+spells.cfg, the first of the three formats will return the "composite" config 
+file that includes the concatenation of the contents of all the files in all 
+enabled packages and the standard file.</P>
+<P>There are a few other times this format is used, such as the start_script() 
+and the UnloadConfigFile functions. This is why the syntax for the .unloadcfg 
+command is ".unloadcfg :pkgname:cfgname". That brings up another point: config 
+files are cached by the system and must be unloaded for any online change to be 
+seen. Certain config files are read on server startup and cannot be unloaded, 
+the most annoying being itemdesc.cfg.</P>
+<H3><A name=chap10>Chapter 10</A></H3>
+<P><B>Debugging</B></P>
+<P>Many books have been written on the subject of finding and fixing software 
+errors and it would be wasteful to repeat their content. This chapter will show 
+some POL/eScript specific ways of finding bugs in your scripts. Let's first look 
+at compile-time scripts. Ecompile, the eScript compiler does well at giving you 
+good hints to where your script's syntax errors are. I say hints because of one 
+of the rules of programming: never trust the compiler's error messages. They are 
+often very useful, but often can lead you astray if you take their messages as 
+gospel. The error message will contain a line number around where the error is. 
+It may be above, on or below that line. The rest of the error message is usually 
+correct, if not sometimes somewhat vague. Here are some examples:</P>
+<P><CODE>Don't know what to do with Unknown Token: (280,8,'elseif') in 
+SmartParser::parseToken<BR>Error compiling statement at 
+D:\pd\pol\scripts\items\torch.src, Line 4</CODE><BR>- this error was from a 
+missing semicolon in an if-block on line 5</P>
+<P><CODE>Warning: Equals test result ignored. Did you mean := for 
+assign?<BR>near: item.graphic = 0xa12;<BR>File: 
+D:\pd\pol\scripts\items\torch.src, Line 5</CODE><BR>- ecompile guesses right 
+here: we used an equals test when we wanted an assign statement</P>
+<P><CODE>Warning! possible incorrect assignment.<BR>Near: if( item.graphic := 
+0x0f64 )</CODE><BR>- ecompile catches this too, normally you wouldn't want to do 
+an assignment in an if-condition. It is not an illegal statement, so ecompile 
+completes the compile but warns you about it.</P>
+<P><CODE>Unhandled reserved word: 'endprogram'<BR>Error compiling statement at 
+D:\pd\pol\scripts\items\torch.src, Line 7<BR>Error in IF statement starting at 
+File: D:\pd\pol\scripts\items\torch.src, Line 4</CODE><BR>- this error was we 
+forgot an 'endif' keyword. The compile ran into the 'endprogram' keyword before 
+'endif', which is a syntax error.</P>
+<P><CODE>Token 'item' cannot follow token ')'<BR>Error compiling statement at 
+D:\pd\pol\scripts\items\torch.src, Line 2</CODE><BR>- this error was from an 
+unmatched open-parenthesis in an if statement (on line 4)</P>
+<P><CODE>Error compiling statement at D:\pd\pol\scripts\items\torch.src, Line 
+2<BR>Error detected in program body.</CODE><BR>- this is a nasty one, because it 
+does not give you any idea what is wrong. I've only come across this error when 
+a variable is declared with the same name as a keyword, in this case, 'for'.</P>
+<P>Run-Time errors are much harder to find. These are errors that are 
+syntactically correct, but produce incorrect results. The compiler will not 
+catch these, nor will it help you find them. Your best bet for finding these 
+errors is to notice where and when the script behaves incorrectly and go to that 
+portion of the source code and poke around. To nail down the specific problem, 
+you have several ways to go about it:</P>
+<P>1. print() variables that you think are in doubt every now and then. Narrow 
+down the exact spot where the bug is.<BR>2. Many core functions return 'error' 
+if something went wrong (i.e. tried to create an NPC in an illegal location). If 
+you test the return value of these functions against 'error', you can catch them 
+(i.e. if( CreateNPCAtLocation = error)... )<BR>3. Some functions also return an 
+'.errortext' member that gives you additional information. Such as:</P>
+<P><CODE>var house := CreateMultiAtLocation(...);<BR>if( house = error 
+)<BR>&nbsp;&nbsp;&nbsp;print( house.errortext );<BR>endif</CODE></P>
+<P>4. If none of these work for you, you could build the script with debug 
+turned on. What this does is POL will print each line of code as it executes to 
+the console. This is not always helpful, because if many instances of that 
+script are running, they'll all print to the console. Best bet with this method 
+is to debug on a local server where a minimum of other scripts are running. To 
+turn on debug mode, make sure you 'use os;' before you add the line</P>
+<P><CODE>set_debug(1);</CODE></P>
+<P>under the 'use' lines at the top of your function. Then, you need to tell 
+ecompile to compile with debug on. Do this with the '-i' switch. I.e. &gt; 
+ecompile –i test.src .</P>
+<H3><A name=chap11>Chapter 11</A></H3>
+<P><B>Advanced Data Types and Functions</B></P>
+<P>On the variable side, in this chapter we'll go into more detail on structs, 
+describe dictionaries and error types, explain the concept of persistance, and 
+define global properties. On the functions side, we'll describe pass by 
+reference and use of the "parms" array to get past limitations on what can be 
+passed.</P>
+<P><B><A name=chap11a>Global Properties</A></B></P>
+<P>By now, you're familiar with CProps- custom properties. You're an old hand at 
+applying them to items, to people, heck, even to accounts. But, what if you 
+don't want to apply it to anything at all? Is there a way to save information 
+and let it just float in space, accessible from everywhere?</P>
+<P>Yes, you can, and to do so you use global properties, otherwise known as 
+GProps. You manipulate them in much the same way as you do CProps, except you 
+don't need to tell it where to go. These are the three fundamental functions 
+you'll need to use GProps:</P>
+<P><CODE>GetGlobalProperty("PropertyName");<BR>SetGlobalProperty("PropertyName", 
+"PropertyValue");<BR>EraseGlobalProperty("PropertyName");</CODE></P>
+<P>And as always, you can use variables to define the name or value of the 
+Global Property.</P>
+<P><CODE>var globname := "Prop1";<BR>SetGlobalProperty( globname , 
+"No");</CODE></P>
+<P>The above code would set the value "No" to the global property "Prop1". You 
+can also but more than just simple variables as the value, for both GProps and 
+CProps. Here's an example:</P>
+<P><CODE>var propname := "Property1";<BR>var propvalue := { 0 , 1 , "two" 
+};<BR>SetGlobalProperty( propname, propvalue );</CODE></P>
+<P>And viola, Property1 now has as its value an array containing 0, 1, and 
+"two". Later, if you were to do the following:</P>
+<P><CODE>var ourprop := GetGlobalProperty("Property1");<BR>print 
+outprop[1];</CODE></P>
+<P>the output would be "0". This also works for CProps.</P>
+<P>So now we have an interesting question- if simple variables and arrays can 
+both be stored in props, what else can? To answer that question, we'll take a 
+look at the concept of <B>persistance</B>.</P>
+<P>If a variable type can be stored in a prop, it is said to be Persistable. As 
+of POL090, there are no data types that cannot be persisted, so this section is 
+mostly so you'll know what was meant when you read old changes.txts and see 
+notices that certain things can now be persisted. In POL089, there was one type 
+of data that could not be persisted- the mysterious ERROR type. This was the 
+type you got if you tried to go something that should have returned a value but 
+failed- instead you got <ERROR>or <UNINITIALIZED OBJECT>or somesuch. This caused 
+a problem if you then tried to set the variable that just got assigned an error 
+as a CProp- it wouldn't stick. It wouldn't persist. Nowadays, error types do 
+persist, and they do so as though they were a struct.</P>
+<P>I'll go into a little more detail on data types you've already seen, now. 
+</P>
+<P><B><A name=chap11b>Arrays</A></B></P>
+<P>The prefered way to initialize an empty array is to use:</P>
+<P><CODE>var a := array;</CODE></P>
+<P>This works the same as </P>
+<P><CODE>var a := {};</CODE></P>
+<P>used to. If you wish to start the array off with some content, however,</P>
+<P><CODE>var a:= { "one", "two", 3 };</CODE></P>
+<P>is the way to go.</P>
+<P>Arrays have a couple of methods that go with them- functions you can use to 
+manipulate them directly. They are:</P>
+<P>array.size() - This returns the number of elements in the 
+array.<BR>array.insert( index , value ) - inserts a new element, value, at the 
+specified index.<BR>array.erase( index ) - deletes the element with the 
+specified index.<BR>array.shrink( nelems ) - erases all but the first nelems 
+elements in the array.<BR>array.append( value ) - adds this element to the end 
+of the array.<BR>array.reverse() - reverses the order of the 
+array.<BR>array.sort() - sorts the array.</P>
+<P>Here's an example:</P>
+<P><CODE>1&nbsp;&nbsp;var colours := array;<BR>2&nbsp;&nbsp;colours[1] := 
+"green";<BR>3&nbsp;&nbsp;colours[2] := "blue";<BR>4&nbsp;&nbsp;var csize := 
+colours.size();<BR>5&nbsp;&nbsp;colours[5] := "shiny";<BR>6&nbsp;&nbsp;csize := 
+colours.size();</CODE></P>
+<P>So, let's take this step by step. Line 1 defines the array. Lines 2 and 3 put 
+the first elements into it. At line 4, the variables look like this: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "green"<BR>colours[2] = "blue"<BR>csize = 
+      2</CODE></P></TD></TR></TBODY></TABLE></P>
+<P>Line 5 adds a new elements at position 5, which EScript handles just fine 
+because it's cool like that. So what do the variables look like as of line 6? 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "green"<BR>colours[2] = "blue"<BR>colours[3] = 
+      &lt;uninitialized object&gt;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--- this is one of 
+      those error types.<BR>colours[4] = &lt;uninitialized object&gt; 
+      <BR>colours[5] = "shiny"<BR>csize = 5 </CODE></P></TD></TR></TBODY></TABLE></P>
+<P>Note that when it counts how many things are in the array, it includes the 
+"empty" spaces! In other words, array.size() could more accurately be said to 
+return the last valid array index. I'll also point out that if you attempt to 
+look at an array position off the end of the array (colours[10], for instance) 
+it will also return &lt;uninitialized object&gt; on you.</P>
+<P>Now, let's continue the previous example.</P>
+<P><CODE>7 colours.insert(3, "bronze");<BR>8 csize := colours.size();</CODE></P>
+<P>What happens here? We're inserting the value "bronze" at position 3 in the 
+array. Here's what the array looks like after that: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "green"<BR>colours[2] = "blue"<BR>colours[3] = 
+      "bronze"<BR>colours[4] = &lt;uninitialized object&gt;<BR>colours[5] = 
+      &lt;uninitialized object&gt; <BR>colours[6] = "shiny"<BR>csize = 6 
+      </CODE></P></TD></TR></TBODY></TABLE></P>
+<P>Note that an insert pushes the remaining elements down one slot, EVEN IF it 
+is inserted into a position that was empty. If you don't want to push like that, 
+don't use insert, just use an assignment: colours[3] := "bronze".</P>
+<P><CODE>9 colours.erase(3);</CODE></P>
+<P>This will return the array to what it looked like before the insert.</P>
+<P><CODE>10 colours.erase(3);</CODE></P>
+<P>This removes one of the empty slots in the array. Using the erase method 
+pulls everything up one slot- just the opposite of insert. So after line 10, we 
+have: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "green"<BR>colours[2] = "blue"<BR>colours[3] = 
+      &lt;uninitialized object&gt; <BR>colours[4] = 
+  "shiny"</CODE></P></TD></TR></TBODY></TABLE></P>
+<P><CODE>11 colours.shrink(3);</CODE></P>
+<P>This will reduce the array to the first 3 elements- in this case, 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "green"<BR>colours[2] = "blue"<BR>colours[3] = 
+      &lt;uninitialized object&gt; </CODE></P></TD></TR></TBODY></TABLE></P>
+<P><CODE>12 colours.append("brown");<BR>13 colours.reverse();</CODE></P>
+<P>This will end up yielding: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = "brown"<BR>colours[2] = &lt;uninitialized 
+      object&gt;<BR>colours[3] = "blue"<BR>colours[4] = 
+    "green"</CODE></P></TD></TD></TR></TBODY></TABLE></P>
+<P><CODE>14 colours.shrink(2);<BR>15 colours.reverse();</CODE></P>
+<P>
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>colours[1] = &lt;uninitialized object&gt;<BR>colours[2] = 
+      "brown"</CODE></P></TD></TR></TBODY></TABLE></P>
+<P>Quite frankly, I'm not entirely sure how sort works. I'll provide two 
+examples from my testing and let people experiment with it on their own.</P>
+<P><CODE>a := array;<BR>a[1] := 4;<BR>a[2] := 7;<BR>a[3] := "show";<BR>a[4] := 
+"tunes";<BR>a.sort();</CODE></P>
+<P>printing out the array elements in order yielded: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>show tunes 4 7</CODE></P></TD></TR></TBODY></TABLE></P>
+<P>However...</P>
+<P><CODE>a := array;<BR>a[1] := 4;<BR>a[2] := 7;<BR>a[3] := "show";<BR>a[5] := 
+"tunes";<BR>a.sort();</CODE></P>
+<P>printing this out in order gave me: 
+<TABLE cellSpacing=10 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD>
+      <P><CODE>tunes &lt;uninitialized object&gt; show 4 
+  7</CODE></P></TD></TR></TBODY></TABLE></P>
+<P>Note also that an array element can be any data type- I can hold a number 
+there, or a struct, or an error, or another array. Try to sort an array of 
+arrays at your own risk.</P>
+<P><B><A name=chap11c>A Quick Review of Structs</A></B></P>
+<P>A struct is similar to an array in that it contains a collection of values 
+rather than just one. However, rather than an ordered list, structs are stored 
+in, well, a structure. To create one, first you have to initialize it:</P>
+<P><CODE>var a := struct;</CODE></P>
+<P>This lets the compiler know that it is going to be of data type struct and 
+treats it accordingly. The nice thing about structs is that they can be treated 
+like a lot of the internal objects. For instance, a player has certain elements, 
+like his position. These are accessed with the '.' - player.x, player.y, and 
+player.z, for instance. Similarly, we can assign the struct elements that are 
+accessed the same way. Here's an example:</P>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <P><CODE>var elevator := 
+      struct;<BR>elevator.+floor;<BR>elevator.+riders;<BR>elevator.+shaft;</CODE></P><BR></TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>
+      <P><CODE>elevator.floor := 1;<BR>elevator.riders := 
+      array;<BR><BR>elevator.shaft := 3; </CODE></P></TD>
+    <TD>// It's on the first floor.<BR>// We'll keep an array of the people on 
+      it, using<BR>// append and erase to keep track of them.<BR>// It's in the 
+      third shaft from the left.</TD></TR></TBODY></TABLE>
+<P>So, someone gets on and pushes 3.</P>
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <P><CODE>elevator.riders.append( "John" ); <BR><BR><BR>elevator.floor := 
+      3; <BR>elevator.riders.erase(1); </CODE></P></TD>
+    <TD>
+      <P><CODE>// Order of precidence on . is left to right, so <BR>// first it 
+      finds elevator.riders, sees that it is<BR>// an array, and then 
+      appends.<BR>// We've gone upstairs.<BR>// John gets off the 
+      elevator.</CODE></P></TD></TR></TBODY></TABLE>
+<P><B><A name=chap11d>Dictionaries</A></B></P>
+<P>Dictionaries are similar to both structs and arrays- they are, sort of, a 
+bridge between the two types. You create a dictionary, unsurprisingly enough, 
+with this syntax:</P>
+<P><CODE>var thing := dictionary;</CODE></P>
+<P>Then, you treat it like an array except, instead of just ordered numbers, a 
+dictionary can contains words or numbers as its keys.</P>
+<P><CODE>thing["green"] := "blue";<BR>thing["number"] := 4;<BR>thing[3] := { 1 , 
+3 };</CODE></P>
+<P>Internally, structs are actually dictionaries- so, basically, these do the 
+same thing:</P>
+<P><CODE>var thing1 := struct;<BR>thing.+first;<BR>thing.first := 
+"one";<BR><BR>var thing2 := dictionary;<BR>thing2["first"] := "one";</CODE></P>
+<P>In addition, it means that the dictionary methods work equally well on both. 
+These methods are:</P>
+<P>dictionary.size() - returns the number of elements.<BR>dictionary.erase( key 
+) - erases an element. 
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>dictionary.insert( key , value ) - </TD>
+    <TD>adds an element. Dictionaries are not really ordered, so it's not 
+      entirely accurate to say the item is "inserted".<BR>This is the same as 
+      doing dictionary["key"] := value;</TD></TR></TBODY></TABLE>dictionary.exists( 
+key ) - returns true if there that key exists.<BR>dictionary.keys() - returns a 
+list of all the keys.</P>
+<P>Functions, for the most part, return one value if any. Frequently, we want to 
+pass back more than one piece of data, we can return an array, or struct, or 
+dictionary.</P>
+<P>This also works the other way. The start_script <CODE>os</CODE> method only 
+takes two parameters- the name of the script, and one thing to pass it. What if 
+you want the script to take in multiple variables for information? You send it 
+an array, of course, and custom has it that this array ends up getting named 
+"parms".</P>
+<P>Here's an example. Let's say you have a script, called testscript. It wants 
+as parameters who called it as well as two items that the user has clicked on. 
+If you wanted to call it from another script, you could do the following:</P>
+<P><CODE>start_script( "testscript" , {who, target1, target2} );</CODE></P>
+<P>or, </P>
+<P><CODE>var parms := array;<BR>parms[1] := who;<BR>parms[2] := 
+target1;<BR>parms[3] := target2;<BR>start_script( "testscript" , parms 
+);</CODE></P>
+<P>Then, in testscript.src:</P>
+<P><CODE>program testscript( parms )<BR><BR>&nbsp;&nbsp;&nbsp;if (parms[2]) // 
+tests if it got passed an array<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char := 
+parms[1];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;firsttarget := 
+parms[2];<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secondtarget := 
+parms[3];<BR>&nbsp;&nbsp;&nbsp;else<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char 
+:= parms;<BR>&nbsp;&nbsp;&nbsp;endif<BR><BR>// do 
+stuff<BR><BR>endprogram</CODE></P>
+<P>The program knows how to react whether it was simply sent a scalar or if it 
+was sent an array.</P>
+<P><B><A name=chap11e>Function Calls by Reference</A></B></P>
+<P>The final section of this chapter will cover passing variables to functions 
+by reference rather than by value. What's the difference?</P>
+<P>Normally, we pass variables by value. Which is to say, it sends the contents 
+of the original variable to the new one, and the new one doesn't care anymore 
+about the old one. So, when we have:</P>
+<P><CODE>var first := "one";<BR>var second := 2;<BR>callfunction( first , 
+second);</CODE></P>
+<P>and...</P>
+<P><CODE>function callfunction (this, that)<BR>&nbsp;&nbsp;&nbsp;print 
+this;&nbsp;&nbsp;&nbsp;// will print "one"<BR>&nbsp;&nbsp;&nbsp;print 
+that;&nbsp;&nbsp;&nbsp;// will print "2"<BR>&nbsp;&nbsp;&nbsp;this := 
+"green";<BR>endfunction</CODE></P>
+<P>when all is said and done, the values of first and second do not change.</P>
+<P>However, if we pass by REFERENCE, what we are actually sending to the 
+function is the location in memory of the variable itself, rather than just 
+sending along its contents. You do this by prefixing the variable name with 
+"byref" in the function declaration. So for instance:</P>
+<P><CODE>var a := 4; <BR>var b := 6;<BR>var c := 9;<BR>foo (a , b , c 
+);<BR><BR>function foo( pa, byref pb , pc )<BR>&nbsp;&nbsp;&nbsp;pa := 
+3;<BR>&nbsp;&nbsp;&nbsp;pb := 5;<BR>&nbsp;&nbsp;&nbsp;pc := 
+8;<BR>endfunction</CODE></P>
+<P>After the call to function foo is completed, a and c are unchanged but the 
+value of b has become 5, because pb is a reference to the variable b itself, not 
+a copy of its contents. </P>
+<P>You have to be careful with this, as it is easy to change a variable you 
+didn't intend to, but it is very powerful. It is also more efficient than pass 
+by value, because it does not have to make and store a copy of the variable's 
+value, and then destroy it when the function is done.</P>
+<P>Todo:<BR>Chapters on the following subjects:<BR>Gumps<BR>Equip &amp; Unequip 
+Scripts<BR>Login &amp; Logout Scripts<BR>Hit Scripts<BR>AI Scripts</P>
+<HR>
+<H1>ALL INFO BELOW THIS LINE IS VERY OLD, go to <a href="objref.html">newer docs</a></H1>
+<H3><A name=app1>Appendix A: POL Object Reference Chart</A></H3><PRE>POL Object Reference
+
+Class Hierarchy
+
+            UObject             Account      PolCore()
+               |
+               |
+     +---------+--------+
+     |                  |
+   Mobile             Item
+     |                  |
+    NPC                 |
+                        |
+     +------------------+--------------+-----------+
+     |                  |              |           |
+ Equipment           Lockable         Map        Multi
+     |                  |                          |
+ +---+----+        +----+--------+            +----+----+
+ |        |        |             |            |         |
+Armor  Weapon     Door        Container      Boat     House
+                                 |
+                            +----+----+
+                            |         |
+                         Spellbook   Corpse
+
+</PRE>
+<P><B><A name=app1a>UObject</A></B></P>
+<P>Methods: None<BR>Properties:<BR>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>serial</TD>
+    <TD></TD>
+    <TD>serial number</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>objtype</TD>
+    <TD></TD>
+    <TD>object type</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>x</TD>
+    <TD></TD>
+    <TD>x-location</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>y</TD>
+    <TD></TD>
+    <TD>y-location</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>z</TD>
+    <TD></TD>
+    <TD>z-location</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>facing<SUP>2</SUP></TD>
+    <TD></TD>
+    <TD>direction facing</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>graphic<SUP>1</SUP></TD>
+    <TD></TD>
+    <TD>"model"</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>color</TD>
+    <TD></TD>
+    <TD>color</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>height</TD>
+    <TD></TD>
+    <TD>height of object</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>weight</TD>
+    <TD></TD>
+    <TD>weight of object</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>name</TD>
+    <TD></TD>
+    <TD>name if non-default</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>multi</TD>
+    <TD></TD>
+    <TD>multi underneath obj</TD>
+    <TD></TD>
+    <TD>multiref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P>Notes: 
+<OL>
+  <LI>The "graphic" member comes from different pools for mobiles and items - 
+  for example, mobile graphic 0x190 is a human male, while item graphic 0x190 is 
+  a wall. It is writable for everything except multis. 
+  <LI>The "facing" member will have one of 8 values: 0=North, 1=NE, 2=E, 3=SE, 
+  4=S, 5=SW, 6=W, 7=NW. If the object is a light source (i.e. a torch, candle, 
+  etc), then the facing member will have values from 0- 30 which denote the 
+  shape and size of the lighted area.</LI></OL>
+<P></P>
+<P><B><A name=app1b>Mobile</A></B></P>
+<P>Methods:</P>
+<P><CODE>mobile.setlightlevel( lightlevel, duration_in_seconds ); 
+<BR>&nbsp;&nbsp;&nbsp;// set temporary light override<BR>mobile.squelch( 
+duration_in_seconds );<BR>&nbsp;&nbsp;&nbsp;// shut a character up for a 
+while<BR>mobile.setstr( new_base_strength ); <BR>&nbsp;&nbsp;&nbsp;// set a 
+character's strength<BR>mobile.setint( new_base_intelligence ); 
+<BR>&nbsp;&nbsp;&nbsp;// set a character's intelligence<BR>mobile.setdex( 
+new_base_dexterity ); <BR>&nbsp;&nbsp;&nbsp;// set a character's 
+dexterity<BR>mobile.enable( privilege ); <BR>&nbsp;&nbsp;&nbsp;// activate a 
+privilege that the mobile has<BR>mobile.disable( privilege ); 
+<BR>&nbsp;&nbsp;&nbsp;// deactivate a privilege that the mobile 
+has<BR>mobile.enabled( privilege ); <BR>&nbsp;&nbsp;&nbsp;// true if a mobile 
+has a privilege and it is enabled.</CODE></P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>warmode</TD>
+    <TD></TD>
+    <TD>1=in war mode</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>gender</TD>
+    <TD></TD>
+    <TD>0=male 1=female</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>trueobjtype</TD>
+    <TD></TD>
+    <TD>original objtype</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>truecolor</TD>
+    <TD></TD>
+    <TD>original color</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>hp</TD>
+    <TD></TD>
+    <TD>current hp</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>maxhp</TD>
+    <TD></TD>
+    <TD>maximum hp</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>mana</TD>
+    <TD></TD>
+    <TD>current mana</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>maxmana</TD>
+    <TD></TD>
+    <TD>maximum mana</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>stamina</TD>
+    <TD></TD>
+    <TD>current stamina</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>maxstamina</TD>
+    <TD></TD>
+    <TD>maximum stamina</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>strength</TD>
+    <TD></TD>
+    <TD>unmodified</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>dexterity</TD>
+    <TD></TD>
+    <TD>unmodified</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>intelligence</TD>
+    <TD></TD>
+    <TD>unmodified</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>strength_mod</TD>
+    <TD></TD>
+    <TD>str modifier</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>intelligence_mod</TD>
+    <TD></TD>
+    <TD>int modifier</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>dexterity_mod</TD>
+    <TD></TD>
+    <TD>dex modifier</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>ar_mod</TD>
+    <TD></TD>
+    <TD>ar modifier</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>hidden</TD>
+    <TD></TD>
+    <TD>1=hidden</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>concealed</TD>
+    <TD></TD>
+    <TD>GM flag</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>frozen</TD>
+    <TD></TD>
+    <TD>GM flag</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>paralyzed</TD>
+    <TD></TD>
+    <TD>paralyzed flag</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>poisoned</TD>
+    <TD></TD>
+    <TD>poisoned flag</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>stealthsteps</TD>
+    <TD></TD>
+    <TD>stealth steps left</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>squelched</TD>
+    <TD></TD>
+    <TD>1=cannot talk</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>dead</TD>
+    <TD></TD>
+    <TD>1=dead</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>ar</TD>
+    <TD></TD>
+    <TD>armor rating</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>backpack</TD>
+    <TD></TD>
+    <TD>(only if exists)</TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>weapon</TD>
+    <TD></TD>
+    <TD>equipped weapon</TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>acctname</TD>
+    <TD></TD>
+    <TD>account name</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>acct</TD>
+    <TD></TD>
+    <TD>account obj</TD>
+    <TD></TD>
+    <TD>acctref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>cmdlevel</TD>
+    <TD></TD>
+    <TD>command level</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>criminal</TD>
+    <TD></TD>
+    <TD>criminal flag</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1c>NPC</A></B></P>
+<P>Methods:</P>
+<P><CODE>npc.setmaster( master );<BR>&nbsp;&nbsp;&nbsp;// sets the NPC's master. 
+If 0 is passed, clears the NPC master</CODE></P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>script</TD>
+    <TD></TD>
+    <TD>AI control script</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>npctemplate</TD>
+    <TD></TD>
+    <TD>NPC template name</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>master</TD>
+    <TD></TD>
+    <TD>controlling PC</TD>
+    <TD></TD>
+    <TD>mobileref</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P><B><A name=app1d>Item</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>amount</TD>
+    <TD></TD>
+    <TD>stack size</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>layer</TD>
+    <TD></TD>
+    <TD>equipment layer</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>container</TD>
+    <TD></TD>
+    <TD>item contained in</TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>usescript</TD>
+    <TD></TD>
+    <TD>dbl-click action script</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>equipscript</TD>
+    <TD></TD>
+    <TD>script to be executed to determine if this item can be equipped</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>unequipscript</TD>
+    <TD></TD>
+    <TD>script to be executed to determine if this item can be unequipped</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>desc</TD>
+    <TD></TD>
+    <TD>single-click description</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>movable</TD>
+    <TD></TD>
+    <TD>can the item be moved</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>decayat</TD>
+    <TD></TD>
+    <TD>gameclock when item should decay(0=never)</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>sellprice</TD>
+    <TD></TD>
+    <TD>price to sell item</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>newbie</TD>
+    <TD></TD>
+    <TD>1=item stays with ghost</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P>Notes: 
+<OL>
+  <LI>A possibly confusing aspect of Items: if an item's "name" member is empty, 
+  then data files are used to calculate the single-click description. If an 
+  item's "name" member is set, then that will be used for the single-click 
+  description instead.</LI></OL>
+<P></P>
+<P><B><A name=app1e>Equipment</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>quality</TD>
+    <TD></TD>
+    <TD>Quality,1.0 = average</TD>
+    <TD></TD>
+    <TD>real</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>hp</TD>
+    <TD></TD>
+    <TD>Hit Points</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>maxhp</TD>
+    <TD></TD>
+    <TD>Maximum Hit Points</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>maxhp_mod</TD>
+    <TD></TD>
+    <TD>modifier(to be added)</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P><B><A name=app1f>Armor</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>ar_mod</TD>
+    <TD></TD>
+    <TD>modification to AR</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>ar</TD>
+    <TD></TD>
+    <TD>modified AR</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>ar_base</TD>
+    <TD></TD>
+    <TD>unmodified AR</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1g>Weapon</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>skillid</TD>
+    <TD></TD>
+    <TD>skill number used when wielding weapon</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>dmg_mod</TD>
+    <TD></TD>
+    <TD>damage modifier</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>hitscript</TD>
+    <TD></TD>
+    <TD>script executed on successful hit</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P><B><A name=app1h>Lockable</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>locked</TD>
+    <TD></TD>
+    <TD>1=object is locked</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P><B><A name=app1i>Door</A></B></P>
+<P>Methods:</P>
+<P><CODE>door.open()<BR>&nbsp;&nbsp;&nbsp;//Opens the door, even if it is 
+locked<BR>door.close()<BR>&nbsp;&nbsp;&nbsp;//Closes the 
+door<BR>door.toggle()<BR>&nbsp;&nbsp;&nbsp;//If the door is closed, opens it 
+(even if it is locked), and vice versa</CODE></P>
+<P>Note: These methods are somewhat deprecated, in that the default doors 
+package no longer uses them.</P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>isopen</TD>
+    <TD></TD>
+    <TD>1=door is open</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P>Note: I do not believe that this member correctly shows whether or not the 
+door is open. A test that currently works on all doors (but might not, if you 
+make custom, weird doors) is: <CODE>if (door.graphic != door.objtype) // door is 
+open</CODE>. 
+<P><B><A name=app1l>Corpse</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>corpsetype</TD>
+    <TD></TD>
+    <TD>objtype of the creature killed</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1m>Map</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>xeast</TD>
+    <TD></TD>
+    <TD>extreme east x-coordinate the map shows</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>xwest</TD>
+    <TD></TD>
+    <TD>same for west-x</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>ynorth</TD>
+    <TD></TD>
+    <TD>same for north-y</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>ysouth</TD>
+    <TD></TD>
+    <TD>same for south-y</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>gumpwidth</TD>
+    <TD></TD>
+    <TD>screen display width in pixels</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR>
+  <TR>
+    <TD>gumpheight</TD>
+    <TD></TD>
+    <TD>screen display height in pixels</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-write</TD></TR></TBODY></TABLE>
+<P><B><A name=app1o>Boat</A></B></P>
+<P>Methods: </P>
+<P><CODE>boat.move_offline_mobiles(x,y,z)<BR>&nbsp;&nbsp;&nbsp;//Move any 
+offline mobiles on the boat to a new location</CODE></P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>tillerman</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>portplank</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>starboardplank</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>hold</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>itemref</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>items</TD>
+    <TD></TD>
+    <TD>items on deck</TD>
+    <TD></TD>
+    <TD>array of itemrefs</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>mobiles</TD>
+    <TD></TD>
+    <TD>mobiles on deck</TD>
+    <TD></TD>
+    <TD>array of mobilerefs</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>has_offline_mobiles</TD>
+    <TD></TD>
+    <TD>true if any offline mobiles on the deck</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1p>House</A></B></P>
+<P>Methods: None<BR>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>components</TD>
+    <TD></TD>
+    <TD>array of elements that are part of the house – doors, signs, forges, 
+      looms, etc.</TD>
+    <TD></TD>
+    <TD>array of itemrefs</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>items</TD>
+    <TD></TD>
+    <TD>array of non-component items supported by the house</TD>
+    <TD></TD>
+    <TD>array of itemrefs</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>mobiles</TD>
+    <TD></TD>
+    <TD>array of mobiles supported by the house</TD>
+    <TD></TD>
+    <TD>array of mobilerefs</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1q>Account</A></B></P>
+<P>Methods:</P>
+<P><CODE>account.ban()<BR>&nbsp;&nbsp;&nbsp;// bans the account, disconnects any 
+characters online in this <BR>&nbsp;&nbsp;&nbsp;// 
+account<BR>account.unban()<BR>&nbsp;&nbsp;&nbsp;// unbans the 
+sccount<BR>account.disable()<BR>&nbsp;&nbsp;&nbsp;// disables the 
+account<BR>account.enable()<BR>&nbsp;&nbsp;&nbsp;// enables the 
+account<BR>account.setname( newname )<BR>&nbsp;&nbsp;&nbsp;// Changes the 
+account name (takes a string)<BR>account.setpassword( newpassword 
+)<BR>&nbsp;&nbsp;&nbsp;// Changes the account password (takes a string). note 
+there is <BR>&nbsp;&nbsp;&nbsp;// no way to read an account password</CODE></P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>enabled</TD>
+    <TD></TD>
+    <TD>true if acct is enabled</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>banned</TD>
+    <TD></TD>
+    <TD>true if acct is banned</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>name</TD>
+    <TD></TD>
+    <TD>account name</TD>
+    <TD></TD>
+    <TD>string</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<P><B><A name=app1r>POLCore()</A></B></P>
+<P>The PolCore object gives access to POL internals. It can be accessed by 
+calling PolCore(), which is defined in the uo.em functionality module.</P>
+<P>Methods:</P>
+<P><CODE>polcore().log_profile( clear )<BR>&nbsp;&nbsp;&nbsp;//Logs script 
+profiles to pol.log. Clears the script profile <BR>&nbsp;&nbsp;&nbsp;//counters 
+if 'clear' is nonzero. Script profiles tell how many 
+<BR>&nbsp;&nbsp;&nbsp;//instructions each type of script has 
+executed<BR><BR>polcore().set_priority_divider( privdev 
+)<BR>&nbsp;&nbsp;&nbsp;//Sets the script priority divider. If this value is set 
+high,<BR>&nbsp;&nbsp;&nbsp;//this has the effect that each script will run for 
+less time<BR>&nbsp;&nbsp;&nbsp;//before being scheduled out to run the next 
+script. If system<BR>&nbsp;&nbsp;&nbsp;//load is high, this can decrease client 
+latency.<BR><BR>polcore().clear_script_profile_counters()<BR>&nbsp;&nbsp;&nbsp;//Clears 
+the script profile counters</CODE></P>
+<P>Properties:</P>
+<TABLE cellSpacing=0 cellPadding=1 border=1>
+  <TBODY>
+  <TR>
+    <TD><B>member</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>description</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>type</B></TD>
+    <TD>&nbsp;&nbsp;&nbsp;</TD>
+    <TD><B>access</B></TD></TR>
+  <TR>
+    <TD>bytes_sent</TD>
+    <TD></TD>
+    <TD>num of bytes sent to all clients, not including HTTP connections</TD>
+    <TD></TD>
+    <TD>integer</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>bytes_received</TD>
+    <TD></TD>
+    <TD>TBD</TD>
+    <TD></TD>
+    <TD>TBD</TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>compiledate</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>compiletime</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>events_per_min</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>instr_per_min</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>itemcount</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>mobile_count</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>packages</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>priority_divide</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>running_scripts</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>script_profiles</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>sysload</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>sysload_severity</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>systime</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>uptime</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>version</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR>
+  <TR>
+    <TD>verstr</TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD></TD>
+    <TD>read-only</TD></TR></TBODY></TABLE>
+<H1>ALL INFO ABOVE THIS LINE IS VERY OLD</H1>
+<p>    
+<H3><A name=app2>Appendix B: GUMP Tag Descriptions</A></H3>
+<TABLE cellSpacing=1 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD width="30%"><B>Tags</B></TD>
+    <TD width="30%"><B>Syntax/Description</B></TD>
+    <TD width="40%">&nbsp;</TD></TR>
+  <TR>
+    <TD>----</TD>
+    <TD>------------------</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>noclose</TD>
+    <TD>[NONE]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gump can't be closed by 
+      clicking the right mousebutton. Selection via an exit enabled button must 
+      be made.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>nomove</TD>
+    <TD>[NONE]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The gump can't be moved 
+      around the screen.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>nodispose</TD>
+    <TD>[NONE]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The gump can't be closed 
+      by hitting ESC. If this setting isn't specified and the user hits ESC, 
+      then the dialog is closed but no message is sent to the server. The server 
+      never thinks the player is done with the gump. Therefore ALL gump dialogs 
+      should specify 'nodispose'.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>tilepic</TD>
+    <TD>[X] [Y] [T]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Displays a tile on the 
+      gump.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[X] -&gt; X coord of the 
+      tile.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Y] -&gt; Y coord of the 
+      tile.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[T] -&gt; Tile ( see insideUO 
+      )</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>resizepic</TD>
+    <TD>[X1] [Y1] [G] [X2] [Y2]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colspsn="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defines the gump 
+      layout background.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[X1] -&gt; Start 
+      X coord of the gump.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Y1] -&gt; 
+      Start Y coord of the gump.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[G] 
+      -&gt; Graphics to be used as gump 
+      background.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Y1] -&gt; End X coord 
+      of the gump.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Y2] -&gt; End Y coord 
+      of the 
+      gump.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Be 
+      careful, not all gumps 'stretch' and have to be 
+      used<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with the correct 
+      sizing.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5100 = stretchable gray 
+      background gump.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>page</TD>
+    <TD>[N]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[N] -&gt; 
+      Pagenumber.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defines 
+      the page layout. Page 0 affects all 
+      following<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pages (items will not be 
+      removed when moving to<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;other 
+      pages), i.e. the 'background' that is always displayed. 
+      <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page 1 is what will be displayed 
+      when the gump first opens (on<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top 
+      of what is defined in page 0).</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>button</TD>
+    <TD>[X] [Y] [G1] [G2] [E] [P] [R]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X -&gt; X coord of the 
+      button.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y -&gt; Y coord of the 
+      button.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G1 -&gt; Normal 
+      graphics.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G2 -&gt; Clicked 
+      graphics.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E -&gt; Exit? ( 10 
+      )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P -&gt; Pagenumber ( jump to page 
+      )<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R -&gt; 
+      Returnvalue.<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EXIT] = button 
+      will make a menuexit and return a value. 
+      (01)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[PAGENUMBER] = button will 
+      change to page #. (#)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RETURNVALUE] 
+      = Returnvalue of button. (See EXIT) 
+      (#)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if you have radio buttons on 
+      the screen with return values, 
+      <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;those return values will be used 
+      instead.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>radio</TD>
+    <TD>[X],[Y],[GUMPGFX],[CLICKGUMPGFX],[PREVALUE],[RETURNVALUE]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Only one radio button 
+      can be selected on a page. RETURNVALUE 
+      <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;will be returned when the gump 
+      exits.<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(See also BUTTON).</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>tilepic</TD>
+    <TD>[X],[Y],[TILENUMBER]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display the selected 
+      tile (normal item art).</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>text</TD>
+    <TD>[X],[Y],[COLORCODE],[STRINGNUMBER]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display 
+      text<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The string numbering requires 
+      some thought however, UO <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;considers 
+      the first string passed to it as 0 (zero) but POL considers the first one 
+      in an array to be 1 (one) so this is the way to do 
+      it:<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text 0 0 32 0 &lt;---&gt; 
+      array[1] := "This I want printed".</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>gumppic</TD>
+    <TD>[X],[Y],[GUMPGFX]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display the selected 
+      gump.</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>textentry</TD>
+    <TD>[X] [Y] [WIDTH] [HEIGHT] [COLOR] [RETURNVALUE] [INITSTRINGNUMBER]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display an editable text 
+      entry line<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[RETURNVALUE] is the key 
+      to use to retrieve the 
+      string<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[INITSTRINGNUMBER] is the 
+      initial string to use, usual base 
+      <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&lt;&gt;1 stuff</TD></TR>
+  <TR>
+    <TD></TD>
+    <TD>&nbsp;</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD>checkbox</TD>
+    <TD>[X],[Y],[GUMPGFX],[CLICKGUMPGFX],[PREVALUE],[RETURNVALUE]</TD>
+    <TD></TD></TR>
+  <TR>
+    <TD colSpan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNVALUE of all the 
+      checked boxes can be found in result.keys[].</TD></TR></TBODY></TABLE>
+<H3><A name=app3>Appendix X: Revision History</A></H3>
+<P>v0.1: 6/27/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Initial preliminary 
+document<BR>v0.2: 7/19/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added 
+sections on Case, built-in props, Object Ref chart<BR>v0.3: 
+7/21/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added Gump Tag descriptions, 
+CProp Chapter, Package Chapter<BR>v0.4: 
+7/22/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added Debugging 
+Chapter<BR>v0.5: 7/25/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cleaned up, 
+added contact info, first public version.<BR>v0.6: 
+11/01/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turned into HTML. Corrected an 
+error in the CASE section. Added info about CProps and accounts. Added Chapter 
+11. -Madman<BR>v0.6a: 11/06/2000<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added 
+Table of Contents, cell borders on some tables. -Madman</P></BODY></HTML>

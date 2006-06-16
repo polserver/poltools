@@ -1,0 +1,74 @@
+/* $Id: canRemove.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+include ":containers:checks";
+include ":partysystem:config";
+
+program canRemove(mobile, corpse, item, move_type)
+	if ( mobile.cmdlevel )
+		// Game moderators can loot.
+		return 1;
+	elseif ( move_type == MOVETYPE_COREMOVE )
+		// Core has freedom to remove items at all times.
+		return 1;
+	elseif ( CP_RootContainerLocked(item) )
+		// Verify the locked status of containers.
+		SendSysMessage(mobile, "You can't remove items from locked containers.");
+		return 0;
+	endif
+	
+	var owner := corpse.GetOwner();
+	if ( !owner )
+		// No owner. Could be deleted or an NPC corpse.
+		return 1;
+	elseif ( owner == mobile )
+		// Owner is looting his/her own stuff.
+		return 1;
+	elseif ( owner.criminal || owner.murderer )
+		// Looting a criminal/murderer?
+		return 1;
+	elseif ( IsGuildMember(mobile, owner) )
+		return 1;
+	elseif ( IsEnemyGuild(mobile, owner) )
+		return 1;
+	elseif ( IsPartyMember(mobile, owner) )
+		return 1;
+	endif
+	
+	//If it got this far then it was an illegal looting.
+	mobile.SetCriminal(1);
+	SendSysMessage(mobile, "You have been flagged as a criminal!");
+	
+	//To-do
+	//Play sound effect now that item is being removed.
+	return 1;
+endprogram
+
+function IsGuildMember(mobile, owner)
+	// This should probably exist in a guilds include file.
+	if ( owner.guild == mobile.guild )
+		// Both are members of the same guild.
+		return 1;
+	endif
+	
+	return 0;
+endfunction
+
+function IsEnemyGuild(mobile, owner)
+	// This should probably exist in a guilds include file.
+	if ( mobile.guildid in (owner.guild).enemyguilds )
+		return 1;
+	endif
+	
+	return 0;
+endfunction
+
+function IsPartyMember(mobile, owner)
+	// This should probably exist in a party system include file.
+	var member_list := GetObjProperty(owner, PARTY_PROP);
+	
+	return ( mobile.serial in member_list );
+endfunction

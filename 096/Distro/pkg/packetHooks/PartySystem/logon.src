@@ -1,0 +1,14 @@
+/* $Id: logon.src 87 2006-05-23 19:04:43Z sroyalty $
+ *
+ */
+
+use uo;
+
+include ":partySystem:config";
+
+program Logon(who)
+	EraseObjProperty(who, PARTY_JOINING_PROP); 
+	EraseObjProperty(who, PARTY_PROP);
+	
+	return 1;
+endprogram

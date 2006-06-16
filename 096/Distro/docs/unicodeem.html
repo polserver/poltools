@@ -1,0 +1,429 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
+Unicode.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+Functions that allow messages to be sent to clients in any unicode language UO 
+supports.<BR>Last Modified: 1/22/2003</P>
+<P>File Constants: <PRE><UL>const _DEFAULT_UCFONT  := 3;<BR>const _DEFAULT_UCCOLOR := 0x3B2;<BR></UL></PRE>
+<P></P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#BroadcastUC>
+    <TH align=middle colSpan=2>BroadcastUC(uc_text, langcode, 
+      font:=_DEFAULT_UCFONT, color:=_DEFAULT_UCCOLOR)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>Array of 2-byte integers, where each integer is a Unicode 
+  character</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character 'Originating Language' string code e.g. ENU, CHT, DEU, 
+      RUS, KOR, etc.</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>font</VAR></TD>
+    <TD>Integer (optional) font code. Not the same as non-unicode font 
+  codes</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>color</VAR></TD>
+    <TD>Integer (optional) color code. Not the same color as the same value 
+      for non-unicode prints</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Broadcasts a unicode string to all players</TD></TR>
+  <TR>
+    <TD colSpan=2>uc_text MUST be an array of integers representing unicode 
+      characters.</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers must be "Big Endian" (0x1234) and not "Little 
+      Endian" (0x3412).</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers will be clipped internally to 2-bytes (value masked 
+      with 0xFFFF)</TD></TR>
+  <TR>
+    <TD colSpan=2>The Array must be terminated with zero. 
+  (0x0000)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unicode array exceeds maximum size." (200 characters)</TD></TR>
+  <TR>
+    <TD colSpan=2>"langcode must be a 3-character code."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid value in Unicode array."</TD></TR>
+  <TR>
+    <TD colSpan=2>"A parameter was invalid"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Array"><B>Array</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#PrintTextAbovePrivateUC>
+    <TH align=middle colSpan=2>PrintTextAbovePrivateUC(above_object, uc_text, 
+      langcode, character, font:=_DEFAULT_UCFONT, 
+  color:=_DEFAULT_UCCOLOR)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>above_object</VAR></TD>
+    <TD>UObject reference</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>Array of 2-byte integers, where each integer is a Unicode 
+  character</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character 'Originating Language' string code e.g. ENU, CHT, DEU, 
+      RUS, KOR, etc.</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character reference to receive the text</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>font</VAR></TD>
+    <TD>Integer (optional) font code. Not the same as non-unicode font 
+  codes</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>color</VAR></TD>
+    <TD>Integer (optional) color code. Not the same color as the same value 
+      for non-unicode prints</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Displays a unicode string above 'above_object' only to 
+      'character'</TD></TR>
+  <TR>
+    <TD colSpan=2>uc_text MUST be an array of integers representing unicode 
+      characters.</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers must be "Big Endian" (0x1234) and not "Little 
+      Endian" (0x3412).</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers will be clipped internally to 2-bytes (value masked 
+      with 0xFFFF)</TD></TR>
+  <TR>
+    <TD colSpan=2>The Array must be terminated with zero. 
+  (0x0000)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success, 0 on failure</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unicode array exceeds maximum size." (200 characters)</TD></TR>
+  <TR>
+    <TD colSpan=2>"langcode must be a 3-character code."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid value in Unicode array."</TD></TR>
+  <TR>
+    <TD colSpan=2>"A parameter was invalid"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Array"><B>Array</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#PrintTextAboveUC>
+    <TH align=middle colSpan=2>PrintTextAboveUC(above_object, uc_text, 
+      langcode, font:=_DEFAULT_UCFONT, 
+color:=_DEFAULT_UCCOLOR)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>above_object</VAR></TD>
+    <TD>UObject reference</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>Array of 2-byte integers, where each integer is a Unicode 
+  character</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character 'Originating Language' string code e.g. ENU, CHT, DEU, 
+      RUS, KOR, etc.</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>font</VAR></TD>
+    <TD>Integer (optional) font code. Not the same as non-unicode font 
+  codes</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>color</VAR></TD>
+    <TD>Integer (optional) color code. Not the same color as the same value 
+      for non-unicode prints</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Displays a unicode string above 'above_object'</TD></TR>
+  <TR>
+    <TD colSpan=2>uc_text MUST be an array of integers representing unicode 
+      characters.</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers must be "Big Endian" (0x1234) and not "Little 
+      Endian" (0x3412).</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers will be clipped internally to 2-bytes (value masked 
+      with 0xFFFF)</TD></TR>
+  <TR>
+    <TD colSpan=2>The Array must be terminated with zero. 
+  (0x0000)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success, 0 on failure</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unicode array exceeds maximum size." (200 characters)</TD></TR>
+  <TR>
+    <TD colSpan=2>"langcode must be a 3-character code."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid value in Unicode array."</TD></TR>
+  <TR>
+    <TD colSpan=2>"A parameter was invalid"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Array"><B>Array</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#RequestInputUC>
+    <TH align=middle colSpan=2>RequestInputUC(character, item, uc_prompt, 
+      langcode)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character reference to receive the text</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>item</VAR></TD>
+    <TD>placeholder, pass any valid item</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>uc_prompt</VAR></TD>
+    <TD>Array of 2-byte integers, where each integer is a Unicode character. 
+      The question to which the player types the response.</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character 'Originating Language' string code e.g. ENU, CHT, DEU, 
+      RUS, KOR, etc.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Displays a unicode system message prompt to 'character', the 
+      character can then enter unicode characters which will be returned to the 
+      script.</TD></TR>
+  <TR>
+    <TD colSpan=2>uc_prompt MUST be an array of integers representing unicode 
+      characters.</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers must be "Big Endian" (0x1234) and not "Little 
+      Endian" (0x3412).</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers will be clipped internally to 2-bytes (value masked 
+      with 0xFFFF)</TD></TR>
+  <TR>
+    <TD colSpan=2>The Array must be terminated with zero. 
+  (0x0000)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>a struct with members "lang" (3-character string), and 
+      "uc_text" (a "unicode array" of 2-byte integers representing unicode 
+      characters in the specified language) on success.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"No client attached"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Another script has an active prompt"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Unicode array exceeds maximum size." (200 characters)</TD></TR>
+  <TR>
+    <TD colSpan=2>"langcode must be a 3-character code."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid value in Unicode array."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid control characters in text entry"</TD></TR>
+  <TR>
+    <TD colSpan=2>"A parameter was invalid"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Array"><B>Array</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SendSysMessageUC>
+    <TH align=middle colSpan=2>SendSysMessageUC(character, uc_text, langcode, 
+      font:=_DEFAULT_UCFONT, color:=_DEFAULT_UCCOLOR)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>Character reference to receive the text</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>uc_text</VAR></TD>
+    <TD>Array of 2-byte integers, where each integer is a Unicode 
+  character</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>langcode</VAR></TD>
+    <TD>3-character 'Originating Language' string code e.g. ENU, CHT, DEU, 
+      RUS, KOR, etc.</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>font</VAR></TD>
+    <TD>Integer (optional) font code. Not the same as non-unicode font 
+  codes</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>color</VAR></TD>
+    <TD>Integer (optional) color code. Not the same color as the same value 
+      for non-unicode prints</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Displays a unicode system message to 'character'</TD></TR>
+  <TR>
+    <TD colSpan=2>uc_text MUST be an array of integers representing unicode 
+      characters.</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers must be "Big Endian" (0x1234) and not "Little 
+      Endian" (0x3412).</TD></TR>
+  <TR>
+    <TD colSpan=2>Integers will be clipped internally to 2-bytes (value masked 
+      with 0xFFFF)</TD></TR>
+  <TR>
+    <TD colSpan=2>The Array must be terminated with zero. 
+  (0x0000)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unicode array exceeds maximum size." (200 characters)</TD></TR>
+  <TR>
+    <TD colSpan=2>"langcode must be a 3-character code."</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid value in Unicode array."</TD></TR>
+  <TR>
+    <TD colSpan=2>"A parameter was invalid"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Array"><B>Array</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

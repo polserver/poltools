@@ -1,0 +1,10 @@
+/*
+ *
+ */
+
+use uo;
+use os;
+
+program onRemove(character, container, item, item_amount, move_type)
+	return 1;
+endprogram
