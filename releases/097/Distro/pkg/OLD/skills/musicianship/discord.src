@@ -1,9 +1,0 @@
-// $Id: discord.src 87 2006-05-23 19:04:43Z sroyalty $
-
-
-program skill_Discordance(who)
-	who := who;
-	return 0;
-
-endprogram
-
