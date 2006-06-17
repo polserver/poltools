@@ -1,4 +1,4 @@
-/* $Id: mining.inc 126 2006-05-27 17:01:22Z austinheilman $
+/* $Id$
  *
  */
 

@@ -1,4 +1,4 @@
-/* $Id: events.inc 306 2006-06-10 01:47:10Z austinheilman $
+/* $Id$
  *    Author: Unreal
  *    Created: Sunday, May 21 2006
  *    Version: 0.02

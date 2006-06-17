@@ -1,4 +1,4 @@
-/* $Id: resetnpcs.src 128 2006-05-27 17:36:42Z austinheilman $
+/* $Id$
  *
  */
 //Example: .resetnpcs -> Restarts the AI script of every npc on the shard.

@@ -1,4 +1,4 @@
-/* $Id: commonFunctions.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  * 
  * Description
  * Common code found in just about every nerve script.

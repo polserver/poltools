@@ -1,4 +1,4 @@
-/* $Id: icp-commands.inc 187 2006-06-02 21:22:31Z austinheilman $
+/* $Id$
  *
  */
 function ICP_CommandsGump(pkg_name)

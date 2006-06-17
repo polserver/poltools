@@ -1,4 +1,4 @@
-/* $Id: saver.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  *
  * Purpose
  * Provide functions related to world saving.

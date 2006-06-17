@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM - $Id: CleanUp.bat 314 2006-06-10 23:18:12Z austinheilman $
+REM - $Id$
 
 GOTO :MENU()
 

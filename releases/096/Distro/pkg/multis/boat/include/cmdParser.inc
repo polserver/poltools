@@ -1,5 +1,5 @@
 /*
- * $Id: cmdParser.inc 128 2006-05-27 17:36:42Z austinheilman $
+ * $Id$
  *
  */
 
