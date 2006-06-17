@@ -10,7 +10,7 @@ program OnRemove(who, container, item, item_amount, movetype)
 	item_amount := item_amount;
 	who := who;
 
-	var shelf_cfg := ReadConfigFile(":containers:config/bookshelf");
+	var shelf_cfg := ReadConfigFile(":containers:bookshelf");
 	shelf_cfg := shelf_cfg[container.graphic];
 
 	var num_items := EnumerateItemsInContainer(container).Size();

@@ -24,7 +24,7 @@ include ":magery:spells";
  */
   
 function MS_SpellNameToId(spell_name)
-	var spellex_cfg := ReadConfigFile(":magery:config/spells_ex");
+	var spellex_cfg := ReadConfigFile(":magery:spells_ex");
 	var cfg_elem := spellex_cfg["NameToId"];
 	
 	return GetConfigInt(cfg_elem, spell_name);

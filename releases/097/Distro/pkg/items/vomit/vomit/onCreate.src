@@ -3,7 +3,7 @@ use util;
 use cfgfile;
 
 program OnCreate(vomit)
-	var setting_cfg := ReadConfigFile(":vomit:config/settings");
+	var setting_cfg := ReadConfigFile(":vomit:settings");
 	var graphic_elem := setting_cfg["Graphics"];
 	var graphics := GetConfigStringArray(graphic_elem, "Graphic");
 	

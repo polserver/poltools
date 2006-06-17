@@ -35,7 +35,7 @@ program CheckPackages()
 
 		var data_elem := DFFindElement(pkg_info, package, DF_CREATE);
 
-		var icp_cfg := ReadConfigFile(":"+package+":config/icp");
+		var icp_cfg := ReadConfigFile(":"+package+":icp");
 		icp_cfg := icp_cfg["Register"];
 
 		if ( icp_cfg )
@@ -67,7 +67,7 @@ program CheckPackages()
 			data_elem.SetProp("Main", temp_info);
 		endif
 
-		UnloadConfigFile(":"+package+":config/icp");
+		UnloadConfigFile(":"+package+":icp");
 	endforeach
 
 	ICP_ReportText("ICP setup has completed.", ICP_REPORT_SYSLOG);

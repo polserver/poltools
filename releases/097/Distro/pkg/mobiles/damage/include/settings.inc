@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function DMG_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":damage:config/settings");
+	var cfg := ReadConfigFile(":damage:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::DMG_GetSettingsCfgFile() - Unable to open [:damage:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::DMG_GetSettingsCfgFile() - Unable to open [:damage:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

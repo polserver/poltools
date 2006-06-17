@@ -7,7 +7,7 @@ function Go_CheckInit(who)
 
         if ( !go_prop_base )
                 SendSysMessage(who, "Creating initial go list dictionary...");
-                var oldlocs := ReadConfigFile(":commands:config/golocs");
+                var oldlocs := ReadConfigFile(":commands:golocs");
                 var MaxLocs := GetConfigMaxIntKey(oldlocs);
                 go_prop_base := dictionary;
                 for i:=1 to MaxLocs

@@ -11,7 +11,7 @@ use cfgfile;
  * CS_GetSettingsCfgFile(engine_name)
  *
  * Purpose
- * Reads in :combat:config/settings.cfg
+ * Reads in :combat:settings.cfg
  *
  * Parameters
  *
@@ -20,10 +20,10 @@ use cfgfile;
  *
  */
 function CS_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":combat:config/settings");
+	var cfg := ReadConfigFile(":combat:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::CS_GetSettingsCfgFile() - Unable to open [:combat:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::CS_GetSettingsCfgFile() - Unable to open [:combat:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

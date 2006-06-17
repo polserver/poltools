@@ -18,7 +18,7 @@ use cfgfile;
  * MSP_GetSettingsCfgFile(engine_name)
  *
  * Purpose
- * Reads in :mining:config/settings.cfg
+ * Reads in :mining:settings.cfg
  *
  * Parameters
  *
@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function MSP_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":mining:config/settings");
+	var cfg := ReadConfigFile(":mining:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::MSP_GetSettingsCfgFile() - Unable to open [:mining:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::MSP_GetSettingsCfgFile() - Unable to open [:mining:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

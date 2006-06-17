@@ -71,7 +71,7 @@ function MG_FindDestination(button_id)
 	// Not too happy with how I designed this part. - Austin
 	// Should probably save a list in a datafile and directly access it by the 'select' variable.
 	
-	var config := ReadConfigFile(":moongates:config/moongate");
+	var config := ReadConfigFile(":moongates:moongate");
 	var btn_id := 1;
 	foreach realm in ( Realms() )
 		realm := realm; // To avoid a compiler warning.

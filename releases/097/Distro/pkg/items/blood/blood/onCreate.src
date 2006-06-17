@@ -8,7 +8,7 @@ use util;
 use cfgfile;
 
 program OnCreate(blood)
-	var blood_cfg := ReadConfigFile(":blood:config/settings");
+	var blood_cfg := ReadConfigFile(":blood:settings");
 	var graphic_elem := blood_cfg["Graphics"];
 	var graphics := GetConfigStringArray(graphic_elem, "Graphic");
 	

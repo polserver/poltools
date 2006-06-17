@@ -91,7 +91,7 @@ function Initialize(boat)
 endfunction
 
 function DoCommand(byref boat, byref cmd)
-	var cmd_cfg := ReadConfigFile(":boat:config/commands");
+	var cmd_cfg := ReadConfigFile(":boat:commands");
 	var cmd_elem := cmd_cfg[cmd];
 	
 	if ( cmd_elem.Anchor == 2 )

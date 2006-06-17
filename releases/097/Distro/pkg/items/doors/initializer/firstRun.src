@@ -28,7 +28,7 @@ program InitializeDoors(realm_list)
 	DOOR_ReportText("---=[ DOOR INITIALIZER HAS STARTED UP ]=---", DOOR_REPORT_SYSLOG);
 	
 	foreach realm in ( realm_list )
-		var cfg_file := ReadConfigFile(":doors:config/doors-"+realm);
+		var cfg_file := ReadConfigFile(":doors:doors-"+realm);
 		if ( cfg_file.errortext )
 			DOOR_ReportText("No config file found for realm "+realm, DOOR_REPORT_SYSLOG);
 			continue;
@@ -45,7 +45,7 @@ program InitializeDoors(realm_list)
 			SleepMS(2);
 		endforeach
 		
-		UnloadConfigFile(":doors:config/doors-"+realm);
+		UnloadConfigFile(":doors:doors-"+realm);
 		
 		SleepMS(2);
 	endforeach

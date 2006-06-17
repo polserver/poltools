@@ -8,7 +8,7 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 
-var arms_cfg := ReadConfigFile(":armslore:config/arms");
+var arms_cfg := ReadConfigFile(":armslore:arms");
 
 program skill_Armslore(who)
 

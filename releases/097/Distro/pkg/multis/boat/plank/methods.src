@@ -54,6 +54,6 @@ endfunction
 
 //Private function
 function ConfigInfo(plank)
-	var config := ReadConfigFile(":boat:config/planks");
+	var config := ReadConfigFile(":boat:planks");
 	return config[plank.graphic];
 endfunction

@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function SVR_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":worldsaver:config/settings");
+	var cfg := ReadConfigFile(":worldsaver:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::SVR_GetSettingsCfgFile() - Unable to open [:worldsaver:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::SVR_GetSettingsCfgFile() - Unable to open [:worldsaver:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

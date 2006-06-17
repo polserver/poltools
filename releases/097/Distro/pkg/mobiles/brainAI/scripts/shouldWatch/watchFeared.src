@@ -13,7 +13,7 @@ program BrainCriticalScript(params)
 	params := 0; // Not needed anymore
 
 	if ( mobile.npctemplate )
-		var hate_config := ReadConfigFile(":brainAI:config/hatelist");
+		var hate_config := ReadConfigFile(":brainAI:hatelist");
 		var config_list := FindConfigElem(hate_config, NPC_ParseTemplateName(npc.npctemplate).template);
 		if ( config_list == error )
 			return 0;

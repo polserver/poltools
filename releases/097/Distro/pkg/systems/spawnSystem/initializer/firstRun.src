@@ -30,7 +30,7 @@ program FirstRun()
 endprogram
 
 function SetupDefaultGroups()
-	var cfg_file := ReadConfigFile(":spawnsystem:config/defaultGroups");
+	var cfg_file := ReadConfigFile(":spawnsystem:defaultGroups");
 	if ( !cfg_file )
 		SS_ReportText("Error: Could not load defaultGroups.cfg ->"+cfg_file.errortext, SPAWN_REPORT_SYSLOG);
 		return 0;
@@ -62,13 +62,13 @@ function SetupDefaultGroups()
 		SleepMS(2);
 	endforeach
 	
-	UnloadConfigFile(":spawnsystem:config/defaultGroups");
+	UnloadConfigFile(":spawnsystem:defaultGroups");
 
 	return 1;
 endfunction
 
 function SetupRealm(realm_name)
-	var cfg_file := ReadConfigFile(":spawnsystem:config/setup-"+realm_name);
+	var cfg_file := ReadConfigFile(":spawnsystem:setup-"+realm_name);
 	if ( !cfg_file )
 		SS_ReportText("Skipping realm "+realm_name+". No config file.", SPAWN_REPORT_SYSLOG);
 		return 0;
@@ -112,7 +112,7 @@ function SetupRealm(realm_name)
 		SleepMS(2);
 	endforeach
 	
-	UnloadConfigFile(":spawnsystem:config/setup-"+realm_name);
+	UnloadConfigFile(":spawnsystem:setup-"+realm_name);
 	
 	return 1; 
 endfunction

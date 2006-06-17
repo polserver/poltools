@@ -29,7 +29,7 @@ program AddHitScript(who);
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 280, 450);
 	GFAddButton(gump, 125, 435, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
 	
-	var config := ReadConfigFile(":combat:config/hitScripts");
+	var config := ReadConfigFile(":combat:hitScripts");
 	var elem := config["WeaponHitScripts"];
 	var script_list := GetConfigStringDictionary(elem, "Script");
 	var script_keys := script_list.Keys();

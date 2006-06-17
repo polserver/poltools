@@ -18,7 +18,7 @@ use cfgfile;
  * LJ_GetSettingsCfgFile(engine_name)
  *
  * Purpose
- * Reads in :lumberjacking:config/settings.cfg
+ * Reads in :lumberjacking:settings.cfg
  *
  * Parameters
  *
@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function LJ_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":lumberjacking:config/settings");
+	var cfg := ReadConfigFile(":lumberjacking:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::LJ_GetSettingsCfgFile() - Unable to open [:lumberjacking:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::LJ_GetSettingsCfgFile() - Unable to open [:lumberjacking:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

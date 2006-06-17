@@ -32,10 +32,10 @@ CONST START_CONTROLLER			:= 0x1;
  *
  */
 function TS_GetCfgFile()
-	var cfg := ReadConfigFile(":timedscripts:config/timedScripts");
+	var cfg := ReadConfigFile(":timedscripts:timedScripts");
 
 	if ( cfg.errortext )
-		SysLog("Error::TS_GetSettingsCfgFile() - Unable to open [:timedscripts:config/timedScripts] ->"+cfg.errortext);
+		SysLog("Error::TS_GetSettingsCfgFile() - Unable to open [:timedscripts:timedScripts] ->"+cfg.errortext);
 	endif
 
 	return cfg;

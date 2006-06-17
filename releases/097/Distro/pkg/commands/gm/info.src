@@ -38,7 +38,7 @@ program textcmd_Info(who, serial)
 		who := who[1];
 	endif
 	
-	info_cfg := ReadConfigFile(":commands:config/info");
+	info_cfg := ReadConfigFile(":commands:info");
 	if ( !info_cfg )
 		SendSysMessage(who, "Error reading in info.cfg ->"+info_cfg);
 		return 0;
