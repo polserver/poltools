@@ -1,0 +1,13 @@
+// CheckLosAt: check los from current position to a map tile
+
+use uo;
+
+program test_CheckLineOfSight( who )
+
+    var tgt := Target( who );
+
+    var res := CheckLineOfSight( who, tgt );
+    SendSysMessage( who, "LOS: " + res );
+
+
+endprogram

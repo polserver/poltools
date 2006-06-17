@@ -1,4 +1,4 @@
-/* $Id: spells_ex.inc 85 2006-05-23 18:41:38Z sroyalty $
+/* $Id$
  *
  */
 

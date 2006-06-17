@@ -1,0 +1,31 @@
+use uo;
+use os;
+
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program cast_archprot( parms )
+  var circle := 4;
+  var delivery := "indirect";
+  var noto := "helpful";
+  var id := 26;
+  var result := maincast(parms, delivery, circle, noto, id);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(caster, SFX_SPELL_PROTECTION);
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var mod_amount := CInt(RandomInt(6) + 5);
+  var duration := GetModDuration( magery );
+  foreach cast_on in ListMobilesNearLocation( cast_on.x, cast_on.y, cast_on.z, CInt(magery/15) );
+    if((CheckLineOfSight(cast_on, caster)) and (cast_on.cmdlevel < 2))
+	  if(CanMod(cast_on, "ar"))
+	    PlayObjectCenteredEffect( cast_on, FX_BLESS_EFFECT, 7,7);
+	    DoTempMod(cast_on, "ar", mod_amount, duration);
+	  endif
+	endif
+  endforeach
+endprogram

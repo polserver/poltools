@@ -1,0 +1,42 @@
+use uo;
+use cfgfile;
+
+include "include/skillPoints";
+include "include/attributes";
+include "include/spellRestrictions";
+include "include/client";
+include "include/spellAttack";
+
+const EFFECT_SPARKLE := 0x373a;
+const SOUND_EFFECT_RES := 0x215;
+
+program mfirefield( character, item )
+  if((GetHp(character) < 1) || (character.cmdlevel > 2))
+    return;
+  endif
+  var npccfg := ReadConfigFile("::npcdesc");
+  var element;
+  var creater := GetObjProperty(item, "creater");
+  var fieldstrength;
+  var online := EnumerateOnlineCharacters();
+  var boss;
+  foreach char in online
+    if(creater == char.serial)
+      boss := char;
+      break;
+    endif
+  endforeach
+  if(!boss)
+    boss := SystemFindObjectBySerial(creater, SYSFIND_SEARCH_OFFLINE_MOBILES);
+  endif
+  SetScriptController(boss);
+  send_attack(character, boss, 46);
+  ApplyRawDamage(character, 1);
+  HealDamage(character, 1);
+  var dmg := CInt(GetEffectiveSkill(boss, 25)/10);
+  fieldstrength := RandomInt(dmg);
+  PlaySoundEffect(character, 0x209);
+  if(!character.dead)
+    ApplyRawDamage(character, Resisted( 2, boss, character, fieldstrength) );
+  endif
+endprogram

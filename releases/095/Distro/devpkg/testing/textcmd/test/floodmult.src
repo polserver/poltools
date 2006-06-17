@@ -1,0 +1,20 @@
+use uo;
+use os;
+
+program floodmult( who, text )
+    var counts := SplitWords( text );
+    //print( counts );
+    var threads := CInt(counts[1]);
+    var count := CInt(counts[2]);
+
+    //print( "flooding " + who.name + " threads=" + threads + " count=" + count );
+    set_critical(1);
+    for i := 1 to threads
+        //print( "Starting thread" );
+        var res := start_script( "floodthread", { who, count } );
+        //print( "Started thread: " + res);
+        if (!res) 
+            SendSysMessage( who, "can't start thread: " + res );
+        endif
+    endfor
+endprogram

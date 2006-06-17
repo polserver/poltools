@@ -1,0 +1,28 @@
+////////////////////////////////////////////////////////////
+// FORGIVE.SRC                                            //
+//                                                        //
+// Author: olor                                           //
+// Date: 22.04.2001                                       //
+//                                                        //
+// Description: Erase all crimes / murders of a PC        //
+////////////////////////////////////////////////////////////
+
+use uo;
+
+program textcmd_murder(me, val)
+  SendSysMessage(me, "Whom do you want to make a murderer?");
+  var who :=  Target(me, TGTOPT_NOCHECK_LOS );
+  if((!who) || (!who.acctname))
+	SendSysMessage( me, "Error: " + who.errortext );
+    return;
+  endif
+  if(CInt(val) == 1)
+    who.setMurderer(1);
+    who.alignment := "evil";
+    SendSysMessage(me, who.name + " is now red as hell.");
+  else
+    who.setMurderer(0);
+    who.alignment := "good";
+    SendSysMessage(me, who.name + " is now blue.");
+  endif
+endprogram

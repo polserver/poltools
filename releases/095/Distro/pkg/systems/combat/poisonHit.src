@@ -1,0 +1,53 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/attributes";
+
+program poisonhit(param)
+  var npccfg := ReadConfigFile("::npcdesc");
+  var attacker := param[1];
+  var defender := param[2];
+  var weapon := param[3];
+  var armor := param[4];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  SetObjProperty(defender, "TempDamage", rawdamage);
+  var duration := CInt(GetObjProperty(weapon, "d"));
+  if((duration < 1) || !duration)
+    var hitscript := GetObjProperty(weapon,"OnHit");
+    var holder := array;
+    foreach thing in hitscript
+      if(thing != ":combat:poisonHit")
+        holder.append(thing);
+      endif
+    endforeach
+    if(len(holder))
+      SetObjProperty(weapon,"OnHit", holder);
+    else
+      EraseObjProperty(weapon, "OnHit");
+    endif
+    EraseObjProperty(weapon,"poison_level");
+    EraseObjProperty(weapon,"d");
+    EraseObjProperty(weapon,"ps");
+    SetObjProperty(defender, "LastHit", {attacker.name, attacker.serial, weapon });
+    return;
+  else
+    duration := duration - 1;
+    SetObjProperty(weapon, "d", duration);
+    var level := GetObjProperty(weapon, "poison_level");
+    if(CheckSkill(attacker, SKILLID_POISONING, 20, 20))
+      foreach mobile in ListMobilesInLineOfSight(defender, 8)
+        if(mobile != defender)
+          PrintTextAbovePrivate(defender, defender.name + " has been poisoned!", mobile);
+        endif
+      endforeach
+      PrintTextAbovePrivate(defender, "You have been poisoned by " + attacker.name +"!", defender);
+      var passparms := { defender, attacker, "poisoned weapon", level};
+      SetObjProperty(defender, "LastHit", {attacker.name, attacker.serial, "poisoned weapon" });
+      start_script(":spells:poisonDamage", passparms);
+    endif
+  endif
+endprogram

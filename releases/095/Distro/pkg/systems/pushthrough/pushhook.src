@@ -1,0 +1,22 @@
+
+use uo;
+		
+program PushthroughHook()
+    return 0; //change to 1 to enable the hook
+endprogram
+		
+exported function Pushthrough(walker, obstructors) //note passed ARRAY of mobiles in destination tile
+	
+// DEBUGGING-	
+//    foreach mob in obstructors
+//       print(mob.name);
+//    endforeach
+			
+    obstructors := obstructors;
+    if(GetVital(walker,"Stamina") < GetVitalMaximumValue(walker,"Stamina"))
+       return 0;
+    else
+       return ConsumeVital(walker,"Stamina",1000);
+    endif
+			
+endfunction

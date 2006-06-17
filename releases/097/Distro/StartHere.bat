@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM - $Id: StartHere.bat 182 2006-06-02 04:51:36Z austinheilman $
+REM - $Id$
 
 REM -- If a special path is needed to the batch files set it here
 SET BATCH_PATH=batchFiles\

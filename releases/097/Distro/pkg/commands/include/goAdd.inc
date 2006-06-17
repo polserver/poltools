@@ -1,4 +1,4 @@
-/* $Id: goAdd.inc 187 2006-06-02 21:22:31Z austinheilman $
+/* $Id$
  *
  */
 

@@ -1,0 +1,9 @@
+Known Bugs
+==========
+
+0-height items (like gold coins) can become "invisible" when dropped on the floor of multi-houses.
+In fact they are still there, but the client draws the floor after the coins, hiding them.
+
+Logging into a weather region doesn't show the weather effect until the character teleports. Consider adding a MoveCharacterToLocation call in logon.src (or somewhere else) if you require this.
+
+Dropping an equippable item on a corpse doesn't always show as equipped.

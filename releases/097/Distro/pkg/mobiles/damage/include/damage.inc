@@ -1,4 +1,4 @@
-/* $Id: damage.inc 259 2006-06-06 23:53:48Z austinheilman $
+/* $Id$
  * 
  * Purpose
  * Handles damages and resistances to damage types

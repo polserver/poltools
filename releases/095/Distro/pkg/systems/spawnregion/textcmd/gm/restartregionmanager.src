@@ -1,0 +1,11 @@
+use os;
+use uo;
+
+program textcmd_RestartSpawnRegionManager(who, params)
+  unload_scripts("spawnregion");
+  var pid := GetGlobalProperty("#SpawnRegionManagerPID");
+  var proc := getprocess(pid);
+  proc.kill();
+  start_script("spawnRegionManager", params);
+  SendSysMessage(who, "SpawnRegionManager restarted.");
+endprogram

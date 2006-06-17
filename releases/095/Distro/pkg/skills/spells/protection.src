@@ -1,0 +1,38 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program cast_protection(parms)
+  var circle := 2;
+  var delivery := "direct";
+  var noto := "helpful";
+  var result := maincast(parms, delivery, circle, noto, 15);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(cast_on, SFX_SPELL_PROTECTION);
+  PlayObjectCenteredEffect(cast_on, FX_BLESS_EFFECT, 7,7);
+  if (!CanMod(cast_on, "ar"))
+	SendSysMessage(caster,"Already under the influence!");
+	return;
+  endif
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var mod_amount := (GetModAmount(magery) * 2);
+  var duration := GetModDuration(magery);
+  var itmcfg := ReadConfigFile(":*:itemdesc");
+  var arpoints := 0;
+  foreach thing in ListEquippedItems(cast_on)
+    arpoints := arpoints + (CInt(itmcfg[thing.objtype].AR) / 12);
+  endforeach
+  if(mod_amount > arpoints)
+    mod_amount := mod_amount - arpoints;
+  else
+    mod_amount := 0;
+  endif
+  DoTempMod(cast_on, "ar", mod_amount, duration);
+endprogram

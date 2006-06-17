@@ -1,0 +1,52 @@
+use uo;
+use os;
+
+set_critical( 1);
+
+include "include/clock";
+include "moonlight";
+
+const NIGHT_NUMERATOR := 1.0;
+const DENOMINATOR := 4;
+
+var length :=(CInt(GetDayLength()) * 60);
+var transtime :=( length *(0.25));
+
+program DNCycle()
+  print("Starting Day/Night cycle...");
+  var time;
+  var wstuff := GetGlobalProperty("Weather");
+  if(!wstuff)
+    SetGlobalProperty("Weather", {0, 0, 0, 0, 18, 0, 0, 0});
+  endif
+  while(1)
+    time := CInt(GetTime());
+    if((time >= 0) &&(time < transtime))
+      wstuff := GetGlobalProperty("Weather");
+      SetRegionLightLevel("Background", wstuff[5]);
+      wstuff[6] := wstuff[5];
+      wstuff[3] := 0;
+      SetGlobalProperty("Weather", wstuff);
+      sleep(transtime);
+      elseif((time >=(transtime)) &&(time <(length / 2)))
+      wstuff := GetGlobalProperty("Weather");
+      wstuff[3] := 2;
+      SetGlobalProperty("Weather", wstuff);
+      DawnTransition(wstuff);
+    elseif((time >=(length - transtime)) &&(time < length))
+      SetGlobalProperty("day", 2);
+      wstuff := GetGlobalProperty("Weather");
+      wstuff[3] := 2;
+      SetGlobalProperty("Weather", wstuff);
+      DuskTransition(wstuff);
+    else
+      wstuff := GetGlobalProperty("Weather");
+      DoMoons(wstuff);
+      ChangeMoonlightSet(wstuff);
+      SetRegionLightLevel( "Background", wstuff[4]);
+      wstuff[6] := wstuff[4];
+      SetGlobalProperty("Weather", wstuff);
+      sleep(transtime);
+    endif
+  endwhile
+endprogram

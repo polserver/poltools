@@ -1,0 +1,50 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/attributes";
+include "include/spellRestrictions";
+include "include/findCity";
+include "util/key";
+
+program cast_strength( parms )
+  var circle := 3;
+  var delivery := "direct";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 19);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  if((cast_on.multi) ||(GetObjProperty(cast_on,"houseserial")) ||(GetObjProperty(cast_on,"house_serial")))
+    SendSysMessage(caster, "That cannot be magic locked!");
+    PlayLightningBoltEffect(caster);
+    return;
+  endif
+  if(cast_on.locked)
+    SendSysMessage(caster,"That is already locked!");
+    return;
+  endif
+  if((checkfordoors(cast_on)) && ((FindCity(cast_on) != "no city") || (FindCity(caster) != "no city")))
+    SendSysMessage(caster, "That cannot be magic locked!");
+    return;
+  endif
+  if(((cast_on.graphic<=0x9ab) &&(cast_on.graphic>=0x9a8)) ||((cast_on.graphic<=0xe43) &&(cast_on.graphic>=0xe3c)) ||((cast_on.graphic<=0xe80) &&(cast_on.graphic>=0xe7c)) ||(checkfordoors(cast_on)))
+    PlaySoundEffect(caster, SFX_SPELL_MAGIC_LOCK);
+    PrintTextAbovePrivate(cast_on, "*Locked!*", caster);
+    var magery := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY) / 4);
+    SetObjProperty(cast_on, "MLockPickDiff", magery);
+    cast_on.locked := 1;
+  else
+    SendSysMessage(caster, "That cannot be magic locked!");
+  endif
+endprogram
+
+function checkfordoors(cast_on)
+  if(((cast_on.graphic<=0x1ffc) &&(cast_on.graphic>=0x1fed)) ||((cast_on.graphic<=0x6f4) &&(cast_on.graphic>=0x675)))
+    return 1;
+  endif
+  return 0;
+endfunction

@@ -1,0 +1,17 @@
+//
+// Destroy an item
+//
+
+use uo;
+
+program textcmd_destroy( who, range )
+
+    if (!range)
+        range := 1;
+    endif
+    range := CInt(range);
+    var tgt := ListItemsNearLocation(who.x, who.y, who.z, range );
+    foreach x in tgt
+            DestroyItem( x );
+    endforeach
+endprogram

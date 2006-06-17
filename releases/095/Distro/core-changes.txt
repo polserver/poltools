@@ -1,0 +1,3032 @@
+07-03 Syzygy
+    Added length validation for the 0xBD (client version) packet.
+    
+07-01 Syzygy
+    ecompile looks for ecompile.cfg in the current directory before looking where the binary is.
+    ecompile now flags the following as errors:
+        var s := "1234" + ;
+        var a := +;
+        var a := { 4, +, 6 };
+        
+06-30 Racalac
+    account.SetName() takes an optional second parameter for new account password. If you have RetainCleartextPasswords=0,
+        then you must pass a new account password, or you will get an error.
+    default WeatherType for a region is now 255 (no weather), not 0 (rain).
+
+06-30 Syzygy
+    Corrected a crash exception on character creation if a control character was included in the name.
+    Fixed a crash bug when displaying corpses in some circumstances.
+    
+06-25 Syzygy
+    Items which specify "SaveOnExit 0" will have serials allocated from the same range as normal items.
+      This also fixes a bug where duplicate serials could be allocated for nonsaved items.
+    
+06-24 Racalac
+    Changed MD5 hashing flags to work on a broader range of windows installations.
+    Instrinsic NPC weapons now are read-only for: hp, maxhp_mod, quality, dmg_mod.
+
+06-20 Syzygy
+    account.GetCharacter and account.DeleteCharacter will no longer accept an index of 0
+    Fixed a problem with character creation that could result in characters being written
+      with 'CharIdx -1' (these were all failed character creations)
+    Character creation will refuse to create a character with control characters in the name (newline, for example)  
+    
+06-19 Racalac
+    Added a 2 minute timeout for closing sockets POL has not received any data on. The client normally sends keep-alive
+        messages every 60 seconds. This may fix the "number of connections reported much higher than the number of clients"
+        bug.
+
+06-19 Syzygy
+    Fixed an access violation if a negative X or negative Y value was passed to various functions
+
+    canInsert / onInsert script rework, part 3: changing parameter order to make things more consistent:
+        adding an amount to existing stack:
+          canInsert( mob, container, movetype, INSERT_INCREASE_STACK, adding_item, existing_stack, amt_to_add )
+          onInsert( mob, container, movetype, INSERT_INCREASE_STACK, uninit, existing_stack, amt_to_add )
+          (NOTE: for canInsert, adding_item can be an uninit, if one of the CreateItem functions is merely adding to an existing stack.
+           By the time onInsert is called, adding_item is gone.)
+        adding new item:
+          canInsert( mob, container, movetype, INSERT_ADD_ITEM, adding_item )
+          onInsert( mob, container, movetype, INSERT_ADD_ITEM, adding_item )
+    
+    Fixed a race condition which could cause socket error 10038
+      
+06-18 Syzygy
+    escript: array + array will return a concatenation of the arrays:
+           { 3,2,6 } + {6,4}  returns {3,2,6,6,4}
+    AddMenuItem will once again accept 0 as a valid objtype
+    TargetMultiPlacement will once again accept objtype values between 0x4000 and 0x4fff
+
+    **** A VERY SPECIAL NOTE ****
+       It would be best if you defined all your your objtypes in the range 0x5000 to 0xEFFF.
+       See notes under POL092-2000-12-11 for how to specify OldObjType in itemdesc.cfg to convert objtypes at load time.
+    *** END VERY SPECIAL NOTE ***
+
+06-16 Syzygy
+    Fixed typo in RESURRECT_FORCELOCATION flag
+    The main listen thread will no longer be started if ListenPort=0
+    
+    All intrinsic weapons and storage area root items are now always marked inuse
+        - this way, DestroyItem, EquipItem, dragging etc won't work on these types of items    
+        (this was a cause of the dreaded 'itr != wc.items.end()' assertion failures)
+    
+    Fixed a memory leak in GetItemDescriptor()
+    Added sanity checking in GetItemDescriptor use in case you set descriptor.CProps to other than a dictionary,
+     or StackingIgnoresCProps to other than an array, to detect this rather than crash.
+     
+    canInsert / onInsert script rework, part 2:
+      old:
+        can/onInsert( owner, container, item, movetype )
+        can/onInsert( owner, container, item, movetype, amtadded ) (sometimes)
+      new:
+        adding an amount to existing stack:
+          canInsert( mob, container, movetype, INSERT_INCREASE_STACK, existing_item, amt_to_add, adding_item )
+          onInsert( mob, container, movetype, INSERT_INCREASE_STACK, existing_item, amt_to_add )
+          (NOTE: adding_item can be an uninit, if one of the CreateItem functions is merely adding to an existing stack.
+           By the time onInsert is called, adding_item is gone.)
+        adding new item:
+          canInsert( mob, container, movetype, INSERT_ADD_ITEM, new_item )
+          onInsert( mob, container, movetype, INSERT_ADD_ITEM, new_item )
+          
+      These are the times when canInsert / onInsert scripts are called:
+        Client drag/drop
+        vendor buy: when moving items to the player's backpack
+        vendor sell: when putting gold in the player's backpack
+        secure trade, when cancelling or confirming a trade
+        MoveItemToContainer
+        CreateItemInContainer
+        CreateItemInInventory
+        CreateItemInBackpack
+    
+    Since I didn't actually test the backtrace-on-assertion functionality under Linux, it didn't work.
+      Now it does.
+        
+    console.cfg is now reloadable (ReloadConfiguration, or SIGHUP)
+        
+    Added file.em module:
+        ReadFile( filename ): read a text file
+            reads a text file
+            returns contents as an array of strings
+            removing newlines
+        WriteFile( filename, contents ): write a text file
+            contents is an array of strings.
+            appends newlines.
+            creates file if it does not exist.
+            renames existing file to filename.bak
+        AppendToFile( filename, morelines ): append to a text file
+            morelines: an array of strings
+            appends newlines.
+            creates file if it does not exist.
+        LogToFile( filename, textline ): append a single line to a text file
+            appends newlines.
+            creates file if it does not exist.
+        By default, no package has any file access rights.
+        config/fileaccess.cfg: reloadable config file, grants access.  Example:
+            FileAccess
+            {
+	            AllowRead 1
+	            AllowRemote 1
+	            Package testfileaccess
+	            Extension .cfg
+	            Extension .src
+            }
+
+            FileAccess
+            {
+	            AllowWrite 1
+	            AllowRemote 0
+	            Package testfileaccess
+	            Extension .txt
+            }
+
+            FileAccess
+            {
+	            AllowAppend 1
+	            Package *
+	            Extension .log
+            }
+        
+        
+      
+06-15 Syzygy
+    new pol.cfg option: AssertionFailureAction = abort/continue/shutdown/shutdown-nosave
+        abort: (like old behavior) aborts immediately, without saving data.
+        continue: allows execution to continue.
+        shutdown: attempts graceful shutdown
+        shutdown-nosave: attempts graceful shutdown, without saving data.
+        
+        If the assertion occurred during execution of a script, either 'shutdown', 'shutdown-nosave', or 'continue'
+        will abort that script, displaying the script name and PC.
+
+    Added uo.em function: ListMultisInBox(x1,y1,z1, x2,y2,z2) lists multis that have at least one static within the volume specified.
+    Resurrect takes an optional parameter.  If you pass RESURRECT_FORCELOCATION, will not check for blocking objects.
+        Be sure you know what you're doing if you pass this flag.
+    
+    Just a note: if you're using Listener entries in uoclient.cfg, you should set ListenPort=0 in pol.cfg
+    
+    ecompile: uses ECOMPILE_CFG_PATH environment variable to find ecompile.cfg, if present.
+      (note that normally it tries to look where the executable is.  Some shells don't always pass this,
+       particularly if you're using batch files or shell scripts - try putting the full path to ecompile in your batch file)
+    Added a bewildering number of options to ecompile.cfg:
+        DisplayWarnings = 0/1               (same as -w flag)
+        CompileAspPages = 0/1               (same as -a flag)
+        OnlyCompileUpdatedScripts = 0/1     (same as -u flag)
+        GenerateDependencyInfo = 0/1        Generate .dep files whether or not updating
+        DisplayUpToDateScripts = 0/1        Display the "xxx/script.ecl is up-to-date" message, or not.
+        AutoCompileByDefault = 0/1          If set, and you don't pass any script names or -r or -A, will perform an auto compile.
+        UpdateOnlyOnAutoCompile = 0/1       If set, autocompile will only update modified scripts.
+        DisplaySummary = 0/1                Displays overall totals after compilation, unless compilation aborted due to a compile error.
+      These are the settings I like:
+        GenerateListing		    1
+        GenerateDebugInfo	    1
+        GenerateDebugTextInfo	1
+        DisplayWarnings         1
+        CompileAspPages         1
+        AutoCompileByDefault    1
+        UpdateOnlyOnAutoCompile 1
+        OnlyCompileUpdatedScripts   1
+        DisplaySummary          1
+        GenerateDependencyInfo  1
+        DisplayUpToDateScripts  0
+        This way, if I'm editing scripts, I just type 'ecompile' and it compiles everything that's
+        changed.  If I want to compile a particular file, I pass its .src name on the command line.
+   
+      
+06-13 Syzygy
+    mob.backpack.container now returns a mobileref to the owner.
+    bugfix: buyprice was sometimes being incorrectly read as 2147483647, after being
+            gratuitously written as 4294967295.  This value is now detected and ignored.
+    Resurrect() will return an error if the mobile's location would be blocked if the mob were alive (ie by a door)
+    LOS to an object is no longer blocked by the parts of other objects that share the same space with it.
+        For example, this means:
+            If two chests sit at the same place, neither blocks LOS to the other.
+            If one chest is at Z=1, and the other at Z=2, LOS to the first can be blocked by the second, if looking from above.
+            If a ghost is standing in a closed doorway, you can still have LOS to it. (but note the change to Resurrect above)
+    Fixed: When sending mana level, sometimes the "current value" would be sent in place of the "maximum value", making it look like the mob had 100% mana.
+    ondelete scripts are now passed an offline mobileref.
+    Minor overhaul for onInsert scripts:
+        MoveItemToContainer:
+             now calls onInsert script _after_ putting the item in the container.
+        CreateItemInContainer, CreateItemInInventory, CreateItemInBackpack:
+             now call the onInsert script _after_ putting the item in the container.
+             when adding to an existing stack, passes the "amount added" as noted in the POL092 changelog.
+               (it was passing the size of the existing stack)
+         !!
+           I have just noticed that when any of these adds to an existing stack, the canInsert
+           script is called with these parameters: canInsert( mobile, container, existing_stack_already_within_container, MOVETYPE_PLAYER )
+           This is no good.  More thought required.
+        When purchasing from a vendor:
+            onInsert called _after_ putting the item in the PC's backpack.
+            
+  
+06-12 Syzygy
+    escript changes:
+        Added (yet another) syntax for declaring initialized arrays:
+            var x := array { 4, 3, 2 };
+            this is more consistent with struct { x, y, z } initializer syntax.
+            array(8,3,2) looks too much like it's creating a multi-dimensional array, so I don't like it anymore.
+        Added syntax for declaring initialized dictionaries:
+            var x := dictionary { "abx" -> 72, "xyz" -> 32 }; // direct
+            var key := 5, value := "x";
+            var x := dictionary { key -> value };       // indirect
+            var x := dictionary { "abc", "cyz" }; // values start as uninit
+            var pfx := "X";
+            var v := 7;
+            var x := dictionary { pfx+"abx" -> 72, pfx+"xyz" -> 32+v }; // with expressions
+        These are the preferred forms for declarations (see how they match?)
+            var x := array;
+            var x := dictionary;
+            var x := array { 53, 76, 32 };
+            var x := struct { x, y, z };
+            var x := dictionary { "ABC" -> 62 };
+
+        Expressions like these will now be flagged as errors by the compiler:
+            var x := { 2, 6, };
+            var x := array { 2, 6, };
+            var x := array( 2, 4, };
+            var x := struct { a, y, };
+            var x := 4 array;
+        
+        bitwise operations are now optimizable:
+            int & int
+            int | int
+            int ^ int
+            ~ int
+
+    ecompile changes:
+        new ecompile option: -C <config file path>
+        new ecompile option: -A
+            "Auto compile", I guess - compiles scripts in your PolScriptRoot and all enabled packages under your PackageRoot directories.
+              (like -r, but knows where to go, using ecompile.cfg)
+        
+        Fixed two memory leaks.  ecompile is now much more svelte when it runs, especially on directory trees.
+              
+       
+          
+06-11 Syzygy
+    structs will again allow the obj[ keyname ] syntax, but only for strings.
+      if you pass a number, your script will abort.  If you pass another kind of object,
+      an error will be returned.  This is meant to help you quickly find cases where a script 
+      pretends that a struct is an array, which is not the case.
+    fixed a compiler bug where the following would compile:
+        var a, b, c;
+        a := b { c, b };
+    AppendConfigElem will either accept an array of arrays, as it does now,
+      or an array of struct { name, value }
+      
+
+06-10 Syzygy
+    linux: SIGUSR2 will now display a stack backtrace to console, and continue execution.
+    linux: properly set socket nonblocking options after accept()
+      (learned, first from intense googling, then ironically enough from 'man accept', that
+       linux can't be bothered to adhere to BSD norms in the "BSD sockets" interface, and
+       instead discards socket options on accept()'ed connections)
+       Note: there's a hole in the aux client interface obj.transmit() function, where it
+             can still block, but it shouldn't be a problem if you're just using it to feed
+             a local web server.
+
+06-10 Syzygy
+    It is once again possible to use mobrefs / itemrefs etc as keys to dictionaries.
+    structs are now totally different objects than dictionaries.  They can only contain named members,
+     and the [] operator no longer functions on them.
+     Also, struct names are now case-insensitive
+     For structs, you should use operations like this:
+       var a := struct { x, y, z };
+       a.x := 5;
+       var b := struct;
+       b.+g := 6;
+     For dictionaries, you should use operations like this:
+       var a := dictionary;
+       a[57] := 4;
+       a["XY"] := "Z";
+       a.erase( "XY" );
+       
+    
+06-09 Syzygy
+    removed 'SellPrice 4294967295' and 'BuyPrice 4294967295' spam from items.txt etc.
+    revised signal handling for linux.
+    
+06-08 Syzygy
+    Added dirty flag to all mobiles/items.  This should be set when anything on the object changes, and cleared on world save.
+    Fixed a crash bug when a container previously send with SendOpenSpecialContainer was deleted.
+    Fixed a crash bug on shutdown having to do with the thread registry.
+    SaveWorldState() now returns a structure on success:
+        struct { CleanObjects, DirtyObjects, ElapsedMilliseconds };
+    internal change: The following will now return a true 'struct', rather than an array bastardized with element names:
+        (If you access these with obj.elemname you will have no trouble; if you use obj[1] etc you will have to make changes)
+        object methods/properties:
+            mobile.reportables
+            polcore().script_profiles
+            polcore().iostats
+            polcore().queued_iostats
+        uo.em:
+            TargetCoordinates
+            SelectMenuItem
+            GetPosition
+            GetMapInfo
+            GetStandingHeight
+        npc.em:
+            Position()
+        events (all):
+            speech events
+            unicode speech events
+            damaged events
+            engage events
+            disengage events
+            item-given events
+    dictionary object methods now explictly check that key objects are either an integer, a real, or a string.
+        
+06-07 Racalac
+    Major Addition: You may now specify properties for an item during creation. Here are the mechanics:
+        polsys.em: GetItemDescriptor(objtype or name) returns a struct of all the itemdesc.cfg properties
+        for the specified objtype. You can use this to print the contents:
+            var ret := GetItemDescriptor(objtype);
+            foreach thing in ret
+                print(_thing_iter + ": " + thing);
+            endforeach
+        There are a couple special members. "CProps" is a dictionary of string->object pairs (object could be any
+          packable type). "StackingIgnoresCProps" is an array of strings. You may edit the values in this dict
+          but not all are assigned per-item (meaning it will do nothing). The item create functions accept this
+          dictionary in place of the objtype / objtypename parameter.
+	For example, to create a new item that will automatically stack with an existing stack with non-standard
+          color and cprops, it would look like:
+                var ret := GetItemDescriptor(objtype);
+                ret.Color := 0x10;
+                ret.CProps.insert("blah","1"); //assuming the existing stack have this color and cprop
+                ret.StackingIgnoresCProps.append("blingbling");
+                var item := CreateItemInBackpack(who,ret,10);
+
+06-07 Syzygy
+    SystemFindObjectBySerial now returns proper multirefs for multis
+    fixed a place that switched cout to hex formatting without switching it back
+    
+06-06 Syzygy
+    Added automatic lockup detection: thread status will automatically be displayed after 30 seconds.
+    Fixed a potential corruption error during queued data mode.
+     
+06-05 Racalac
+    Changed: pol.cfg EncryptPasswords to RetainCleartextPasswords (default 1). NOTE this is logically opposite
+        to the old EncryptPasswords option. We now ALWAYS MD5 hash passwords and ALWAYS store them. Make this
+        option 1 if you want to also retain normal passwords, 0 if you only want the hashed passwords stored.
+    Added: PasswordOnlyHash is written to accounts.txt. If the cleartext password is missing, it will be 
+        empty until the account successfully logs in.
+    Added: account.PasswordHash (password only hashed), and account.UsernamePasswordHash (username + password
+        hashed). account here is an account script object, i.e. character.acct.
+    Added: accounts.txt reading info, X elements in Y ms.
+
+06-05 Syzygy
+    The .NET build now uses STLport 4.5.3 instead of MS's crappy implementation.
+      It seems to be a bit faster now.
+      Some comparison sysload numbers, using Xandros' huge shard data:
+        .NET old: 100(33018), 100(16326), 100(62705), 100(64700), 100(66679), 100(67030), 100(67030), 93(53725), 5(0), idle
+        VC6 05-24: 98(33533), 100(18338), 25(1519), 0(0), idle
+        .NET now: 35(19292), 6(1), idle
+    win32: we now retrieve CPU time used from the OS.  This is reported as cputime, when sysload
+      is reported.  cputime is read once a minute, and the value displayed is the number of microseconds used.
+      So, if cpuload is 10,000,000 then 10 seconds of CPU time were used.
+      It doesn't look possible to get this on linux without considerable teeth-pulling.
+    pol.cfg: ListenPort is now optional.  If you don't set it, or set it to zero, it won't be used.
+    Added to polsys.em: SetSysTrayPopupText( text ) 
+      
+06-04 Syzygy
+    performance improvements:
+        ListMobilesNearLocation
+        ListMobilesNearLocationEx
+        ListGhostsNearLocation
+        Speech (sending events to NPCs)
+    
+06-03 Syzygy
+    escript: fixed a bug where the compiler could emit corrupt code if an IF statement was optimized away
+    equipment.quality is now stored as a double-precision float, so equality comparisons should work better now.
+    Added itemdesc.cfg flags.  These apply to everything, even your own backpack.
+        CanUseWhileFrozen = 0/1
+        CanUseWhileParalyzed = 0/1
+    Removed internal command: .t_setusescript
+    Renamed internal ".props" command to ".t_props".  This script should replace it:
+        use uo;
+
+        program dot_props( who )
+            var what := Target( who );
+            if (what)
+                var names := what.propnames();
+                if (names.size() != 0)
+                    foreach propname in names
+                        SendSysMessage( who, propname + ": " + what.getprop( propname ) );
+                    endforeach
+                else
+                    SendSysMessage( who, "No properties." );
+                endif
+            endif
+
+        endprogram
+
+06-02 Syzygy
+    Modified i/o handling to better deal with unexpected signals (EINTR - socket error 4)
+    escript: equality comparisons for floats will allow for small differences (0.00000001)
+    win32 .NET build: changed some compiler settings to improve performance
+    
+05-31 Syzygy
+    Backed out the 05/26 SetRegionWeatherLevel change which was causing a stack overflow 
+      (which then caused pol to exit without any message)
+    Corrected music, justice, and weather zone switch handling.  They were broken 
+      (would do no processing if you moved either into or out of a location entirely outside the regions)
+      Note: set the weather type to 255 to turn weather off.
+
+05-29 Syzygy
+    Target() will return a proper multiref if a multi is targetted (usable with DestroyMulti etc)
+      This does not apply to floors, etc - only ship masts and so forth.
+    Any function taking an objtype as a parameter will return an error if the objtype is not defined.
+      Note that all objtypes in the 0x0000-0x3fff range are implicitly defined.
+      (previous behavior was to throw an exception reporting that the objtype defined no graphic)
+      
+05-28 Syzygy
+    New console command [threadstatus] will display thread status and checkpoints
+    Thread status is now available on win32 as well as linux.
+    
+05-26 Racalac
+    Fixed: SetRegionWeatherLevel should work now!
+    Changed: Removed client 2.0.* weather packet disable. Let us know if there are still weather problems with
+        2.0.* clients.
+
+05-24 Syzygy
+    Fixed: a crash when an NPC killed itself in its script
+    Masked: crashes at shutdown due to leftover objects.  The objects will be leaked rather than attempt destruction.
+      (if we can find out _why_ we have leftovers, we won't get these crashes at all - this crash in particular is a symptom)
+      
+05-23 Syzygy
+    Fixed: NPC weapons will use the hitscript specified, not the wrestling hitscript
+    Fixed: Display issue (1.26.4 clients only) when dragging an item to a mob that is too far away.
+    Linux build: Added segfault handler - will dump a stack backtrace to stderr before aborting.
+      please forward these (they'll just be a set of numbers) to PCT, if you're running the latest linux build.
+    escript: added more convenient syntax for declaring structures:
+      var t := struct { a, b, c };                                  // basic
+      var t := struct { a := 4, b := "hey", m := foo(bar(4)) };     // initialized
+      var t := struct { a := 4, b := struct { g,h,i }, c };         // with nested structures
+    
+05-22 Syzygy
+    NPCs will be destroyed immediately when they die, rather than a little later.
+    It should now be impossible to "kill" an NPC twice, ending up with multiple corpses.
+       There may be cases where an NPC will be only partially killed.  We don't know why yet,
+       but there will now be log information to help us find out why.  If you find an NPC that can't be
+       killed, please check your logs for output containing: "Abnormal end after checkpoint" and post to PCT.
+    NPCs will use their intrinsic weapon templates again.  They were using human wrestling.
+    Log additions: character creation, deletion
+    
+05-20 Racalac
+    Fixed: boat planks were not cleaned up correctly
+    For debugging: leftovers.txt is written to the pol directory on shutdown, contains serial and name for
+        objects that survived cleanup somehow.
+
+05-17 Syzygy
+    pol.log will now roll over every day.  Old logfiles will have names of the form: pol-YYYY-MM-DD.log
+    
+05-17 Racalac
+    Added new pol.cfg option: EncryptPasswords=0/1 (default 0), if =1, the server will encrypt all passwords
+        and all plaintext passwords will be lost! YOU CANNOT GO BACK AT THIS POINT WITHOUT RESETTING ALL THE
+        PASSWORDS ON THE SERVER. So be careful about setting this option to 1! Don't make me have to repeat
+        myself! I mean it!
+
+05-17 Syzygy
+    Fixed a crash caused when a script accessed container.container on something in a mob's backpack.
+    
+05-16 Syzygy
+    item.setcolor( color ) will return an error if the specified color is > 0xFFF
+      (it will still mask off the high bits and use what's left, though)
+    Alt-Tab should no longer show a window called "Dialog" while POL is running.
+    Fixed an assertion failure on load if a mobile or container failed to create completely.
+     
+05-15 Racalac
+    Added: MD5 hashing of passwords. accounts.txt "Password" property is automatically converted, and saved
+        back to "PasswordHash". No passwords are stored in plaintext on disk or in memory anymore, so full
+        memory dumps should be safe from nosy people. MD5 strings cannot be reversed back to the original
+        plaintext password.
+
+05-15 Syzygy
+    HitScript will be read from itemdesc.cfg entries for weapons, and used.
+    OnHitScript will be read from itemdesc.cfg entries for armor, and used.
+    AttackMinRange and AttackMaxRange will be read from npcdesc.cfg
+    uoclient.cfg can now specify multiple ports to listen for clients on, and the encryption to use with each.
+      Here is an example:
+        Listener
+        {
+            Port 7011
+            Encryption ignition
+        }
+        Listener
+        {
+            Port 7012
+            Encryption 1.26.4
+        }
+      Note that the Port specified overrides the value from servers.cfg.
+        
+
+05-13 Syzygy
+    Changing an item's graphic will also set its height accordingly.
+    There's now a little system tray icon that will let you stop POL.  Maybe later it'll let
+      you look at the console output or logs.  We're accepting fan art for the icon :-)
+      You'll need to uninstall and reinstall the service (pol -u, then pol -i) for the tray icon
+      to be able to appear.
+    start.log will now be written properly when POL is run as a service.
+    
+05-11 Racalac
+    Changed: With the CreateItemInContainer/Backpack functions, a new stackable item will not be added to
+        an existing stack unless the existing item stack has color equal to its itemdesc.cfg color property
+        AND has equal CProps as its itemdesc.cfg entry (not counting locally and globally ignored cprops)
+
+05-11 Syzygy
+    process.kill() will immediately kill sleeping scripts, as well as scripts being debugged.
+      (previously, script process would not die until the script woke up, if it was sleeping.)
+    Mobiles will now break off an attack when an opponent changes from non-Innocent to Innocent.
+      (previously, this happened for PCs, but not for NPCs, particularly pets)
+    
+05-10 Racalac
+    Fixed another 4.0.0e client hang issue.
+
+05-09 Syzygy
+    Undid my brain-dead repsys timer change which was causing lockups.
+    
+05-08 Syzygy
+    POL can now run as a service:
+        1. Put the executable in your POL directory (as always...)
+        2. Run 'pol -i' to install.  'pol -u' will uninstall if needed.
+        3. Recommended: Use the service manager to change the login from 'LocalSystem' to some account.
+        4. Start the service
+
+05-07 Racalac
+    Added new pol.cfg option: "MiniDumpType", determines the type of crash dump created. "small" is the 
+        normal minidump (default), "large" is the full memory space for POL (creates large files, but much
+        more useful to the developers). Case-sensative.
+
+05-07 Syzygy
+    Corrected possible crash bug in repsys handling
+    Corrected repsys timeout logic (would sometimes timeout early, would sometimes never time out)
+    Corrected possible crash bug related to client reconnections and interactive scripts
+    
+04-25 Racalac
+    Fixed: CreateItemCopyAtLocation now copies cprops correctly.
+    Fixed: Dead NPC taking damage somehow is now killed.
+    Added: servspecopt.cfg property: UOFeatureEnable, used in the last dword of the 0xA9 login packet.
+           Probably has no effect (and possibly ill effects) until client messages like 0xBF 0x13 are
+           handled.
+
+04-18 Racalac
+    Fixed: Generic Gump textentry should work again for ANSI characters.
+    Added: Linux console command support
+
+04-13 Racalac
+    Fixed: Input is rejected for SendTextEntryGump if the string contains a control character (newline, etc)
+    Fixed: Generic Gump 'textentry' will strip out any control characters from user input.
+
+04-10 Racalac
+    Fixed: Moving a character during logout no longer throws an exception (introduced 3/27)
+
+04-09 Racalac
+    Fixed: MoveBoatXY did mot move items on deck properly.
+
+04-06 Racalac
+    Change: Call Attribute Intrinsic Modification exported functions before Vital Maximum and Regen.
+    Note: clients 4.0.0e and newer do not like the uoclient.cfg setting EnableControlFlowPackets enabled,
+        and causes login to fail. No way around this it seems.
+
+03-27 Racalac
+    Added: boat.em: MoveBoatXY(boatref,x,y)
+    Fixed: MoveCharacterToLocation with an offline character could cause an exception.
+    Fixed: who.multi was not returning a boat ref, when appropriate.
+
+03-25 Racalac
+    Fixed: 4.0.0e login issue (login tested with 4.0.0e (uorice), 4.0.0c (uorice), 3.0.8q (uorice),
+           2.0.0b, and 1.26.4b. (2.0.0g still doesn't work, oh well..)
+
+03-24 Racalac
+    Fixed: Login (A9) packet was the wrong length (might fix 4.0.0e login issue)
+    Fixed: Maps didn't work with set/get_member()
+    Fixed: Multi.isa wasn't working
+
+03-20 Myrathi
+    Fixed: ECOMPILE will no longer compile files with .src/.hsr/.asp/.inc
+        *anywhere* in the filename. These extensions must now be at the *end*
+        of the filenames for them to be compiled! (fixes 'file.src.bak' bug)
+    Found: Undocumented ECOMPILE option: -ri [dir]
+        Same as '-r' except it recursively compiles .INC files! Useful for
+        testing that your include files compile!
+    Fixed: ECOMPILE options bug: -r [dir] / -ri [dir]
+        These options will no longer 'eat up' options that follow them on the
+        command line ("-r -u" would incorrectly 'eat' the "-u" option!). Such
+        an option would be equivalent to "-r . -u" (recurse current folder).
+
+	NOTE: If you need to compile files AS WELL AS recursing the current folder
+	      you MUST add the '.' (no quotes) so it doesn't treat the files as a
+	      folder (WRONG one would try to recurse the FOLDER 'myscript.src'!)
+
+	      This is WRONG:  ECOMPILE.EXE -u -r myscript.src
+	      This is RIGHT:  ECOMPILE.EXE -u -r . myscript.src   <-- note the '.'
+
+03-19 Racalac
+    Changed the order of calling the Vital Maximum and Regenerate functions via RecalcVitals().
+        Order is: Maximum function, Regenerate function.
+    Important CFG change: Set Weapon 0xF020 to SaveOnExit 0. This will force the intrinsic NPC
+        wrestling weapon to a non-saved serial number.
+    Fixed 03-18 npctemplate oversight.
+
+03-19 Myrathi
+    Added: extra 'movetype' parameter to Can/OnInsert and Can/OnRemove scripts.
+        The values returned in this parameter are as follows (new constants in UO.EM)
+        - MOVETYPE_PLAYER     : physically moved (dragged) by a player
+        - MOVETYPE_COREMOVE   : moved by the core (eg, MoveItemToContainer().)
+        And in the *Insert scripts only...
+        - MOVETYPE_CORECREATE : created by core (eg, CreateItemInBackpack().)
+
+    Example:
+        use uo;
+        program caninsertscript(character, container, item, movetype)
+            if ( movetype != MOVETYPE_PLAYER )
+                // allow any movement/creation by core functions
+                return 1;
+            endif
+            // insertion by a player must be validated
+            // ...extra code here...
+        endprogram
+
+03-18 Racalac
+    Fixed: "npctemplate" was not initialized on start-up when the exported
+        vital functions were called.
+    Added: pol.cfg options:
+        ReportRunToCompletionScripts=0/1 (default=1)
+        ReportCriticalScripts=0/1 (default=1)
+        - Set to 0 to remove the "Script X running..." (RTC) and
+          "Critical Script X has run for X instructions..." console messages.
+
+03-16 Myrathi
+    Fixed RequestInputUC() input-validation issue (control-characters are now
+        correctly identified).
+        Returns:
+        - 0 (zero) if input is cancelled.
+        - a struct: 'uc_text' => Unicode Array, 'lang' => 3-char language code
+        - an error, when appropriate (see .errortext)
+
+03-16 Racalac
+    Added error message for thread exceptions, AUX service.
+    Fixed annoying garbled "Listening for HTTP requests on port" message.
+    Fixed up RequestInputUC().
+
+03-16 Myrathi
+    Added: UNICODE.EM function RequestInputUC(): works the same as UO.EM's
+        RequestInput() function except it takes 'unicode array' and 'language
+        code' parameters in place of the 'prompt' parameter. The 'item'
+        parameter is still simply a placeholder and a client cannot act upon
+        one of these functions if the other has already been called (you'll
+        get the "Another script has an active prompt" error).
+
+03-15 Racalac
+    Added uoclient.cfg property: MaxSkillID ("General" section,default 51 if not found). Use this depending on 
+        what client versions connect to your server. Newer clients can handle more skill IDs and older clients 
+        (which often crash being sent skillids above 48). You must have skills.cfg entires for each skillid up 
+        to MaxSkillID.
+
+03-14 Racalac
+    Added ClientEncryptionVersion "none" and "uorice" to help newbies. These are identical to "ignition".
+    Linux Build:
+        This is Rac's first linux build, and hopefully it's improved. Previously, linux builds were made
+        using STLport and NO compiler optimizations. This build was made with libstdc++ 5.0.2, glibc 2.3.2
+        (with linuxthreads 2.3.2), gcc 3.2.2, and kernel 2.4.20. Consider using the same version libs as these.
+        Also, optimizations are turned on in this build (they were turned off because of inexplicable segfaults.
+        Hopefully, new build lib versions help this).
+
+03-13 Racalac
+    Fixed linux ".unload" crash.
+    Fixed exception with Character serial 0x1.
+
+03-12 Myrathi
+    Fixed: RadToDeg() and DegToRad() in MATH.EM. They now work the right way around. :)
+
+03-10 Racalac
+    Save character and item serial counter to pol.txt.
+    Increased Maximum UO SkillID to 51 (skills.cfg requires an update).
+    Fixed 03-08 bug: new multis not found with SFOBS.
+
+03-08 Racalac
+    Implimented Serial Recycling:
+        When POL reaches the maximum serial for characters (0x3FFFFFFF) and items (0x7FFFFFFF), it will then
+        search from the minimum serial (1 for characters, 0x40000000 for items) for an unused serial to give.
+        Note, nothing is done about CProps which store serials referring to destroyed objects. Hopefully with
+        this system of reusing the "oldest" unused serial will avoid most of these problems.
+    Very Significant speed improvement for all SystemFindObjectBySerial calls (including internal ones)! Your
+        start-up times (with CheckIntegrity enabled) should be vasty improved.
+    Fixed build so minidumps should give more information.
+
+02-18 Racalac
+    Removed unecessary equip layer check (some items in client 4.0.0 were prevented from being equipped due to
+        a client bug).
+
+02-09 Racalac
+    Added: new servspecopt.cfg options: DefaultContainerMaxItems (default 125) and DefaultContainerMaxWeight
+        (default 250). These values will be used for containers that do not define "MaxItems" and "MaxWeight"
+        in their itemdesc.cfg entries.
+    Added: OS.EM function: is_critical(). Returns 1 if the calling script was set critical, else 0.
+    Fixed: client version string was being limited to 10 characters.
+
+02-09 Racalac
+    Changed: CheckIntegrity=1 in pol.cfg now also checks storage areas and offline character for duplicate serial
+	    items (This extends start up times).
+
+02-08 Syzygy
+    Sort-of fix for shards with data files with very high serial numbers:
+        if 0x4effffff <= serial <= 0x40000000, serial will be allocated as a normal serial
+        if 0x7fffffff <= serial <= 0x4f000000, serial will be allocated as a "nonsaved" serial.
+        The upper range for "saved" serials will not be raised at this time.
+    
+02-04 Racalac
+    Changed: PushthroughHook array of obstructors now includes hidden mobiles.
+    Changed: renaming a stackable item a specific name will now prepend the amount to the single-click description.
+        i.e. rename 2 items 'sucky item', then stack will produce a desc of '2 sucky items'.
+    Fixed: character.height was being assigned an incorrect value on start, causing LOS problems.
+
+02-03 Racalac
+    Fixed: offline boat travelers were not being processed correctly on startup, leaving them behind on the water.
+    Added: POL now supports Minidumps on Windows. If you are running POL on Windows XP, you do not need to do 
+        anything to enable this. Before Windows XP, you need a new "dbghelp.dll" with version 5.1 or greater in your
+        POL directory. I've uploaded a redistributable version on core-test, this will be available and/or included 
+	in the final 095 core package.
+
+        What Minidumps do: When(/if!) POL crashes, you will no longer see the cryptic dump of registers and call
+        stack. Instead, POL will log and print on console that it has created a ".dmp" file in your POL directory.
+        This file is much much more useful to us for debugging a crash than the simple text dump as before. This
+        File should be sent to the developers along with the usual "what I did to cause this crash" information.
+
+        If you run Linux, everything should work as before.
+    Added: Newly created NPCs send and receive SYSEVENT_ENTERED_AREA events with the NPCs around them.
+    Fixed by Syz: While on a moving boat, mobile's names no longer flash, and it's much easier to talk on a moving
+        boat. Only annoyance is now mobiles show the walk animation while the boat moves (but don't move anywhere)
+
+02-02 Syzygy
+    Added minidump support
+    
+02-01 Syzygy
+    CoreRequired in pkg.cfg can now be a full version string (ie "POL095-2003-02-01" )
+    (pkg)/uoclient.cfg can now contain a 'Protocol' element:
+        Protocol
+        {
+            #
+            # EnableFlowControlPackets: use the 0x33 (0x00 / 0x01) pause/restart packets.
+            # Though OSI seems to no longer send these packets, they seem to help with smoothness,
+            # particularly with boat movement.
+            EnableFlowControlPackets    1   
+        }
+
+01-30 Racalac
+    Fixed: "TrueObjtype" was not read correctly on startup.
+    Fixed: coordinate bounds checking for CreateNPCFromTemplate and CreateMultiAtLocation (still be careful with
+        this latter one, if some part of the multi overlaps beyond the map edge, it will cause problems)
+    Fixed: unequiptest and equiptest are now automatically reloaded after an .unload or .unloadall
+
+01-28 Racalac
+    Fixed a crash with destroying items in core-called run-to-completion scripts (like OnInsert) introduced 01-26
+
+01-26 Syzygy
+    foreach will no longer iterate over error objects
+    
+01-26 Racalac
+    Added better stacking control over CProps: You can now specify specific CProp names that will be ignored when
+        items are being stacked. There are two ways to do this:
+        -Template level: new Itemdesc.cfg property: StackingIgnoresCProps, a space-delimited list of case-sensative
+         cprop names to ignore only for stacking items of this objtype. i.e.:
+             StackingIgnoresCProps    propname1 propname2 etc.
+        -Global level: A new packagable config file stacking.cfg (can be in /config and/or any package) specifies 
+         lists of CProp names that are ignored for all stacking items (duplicate names ignored). Structure:
+             Stacking
+             {
+                 IgnoreCprops  propname1 propname2 etc.
+             }
+    Fixed: movecost.cfg entries were being interpolated in the wrong order.
+    Changed: MoveItemToLocation now calls UnEquipTest and UnEquip Scripts if the item was equipped on a char.
+    Changed: OnRemove and OnInsert are now Run-To-Completion (i.e. CRITICAL) scripts.
+
+01-24 Syzygy
+    The compiler will now put correct function names in listfiles.
+    
+01-22 Syzygy
+    Added ReadMillisecondClock() to polsys.em
+
+01-22 Racalac
+    Fixed moved some npc creation code around so now npc.npctemplate is initialized by the time the vital maximum
+        and regen rate exported functions are called. (so grabbing the HITS property from the npcdesc element is
+        successful)
+
+01-20 Racalac
+    Fixed resetting stealthsteps (broken 01-09)
+    Added control character stripping from sysbook text entry.
+
+01-18 Racalac
+    Removed 01-06 LOS combat initiation check. 
+    Fixed weirdness with merchant sell window and the .buy/sellprice changes.
+    Removed hardcoded death sounds for human characters.
+
+01-15 Racalac
+    Fixed: Errors on startup from corrupt items shouldn't crash the server. Also, file name & line numbers are
+        printed for ease of debugging.
+    Fixed: Buying stackable items from NPC merchants now call canInsert and onInsert for player's backpack.
+    Fixed: Setting .buyprice and .sellprice to 0 means the item's price is 0, not itemdesc default. (setting the
+        members to -1 will force them to default to itemdesc)
+    Fixed: Entered/Left regions weren't firing since 12-23.
+
+01-12 Syzygy
+    Fixed an assertion failure when assigning to a non-integer element of an array
+      test script: "var a := {}; var b; a[b] := 3;"
+
+01-12 Racalac
+    Fixed: Polsys::ReloadConfiguration() now really reloads npcdesc!
+    Fixed: item.multi should now return the correct MultiRef (items on tables and other 'blocked' locations
+        were not being processed correctly)
+    Removed hack fix for bug noted in 01-08 changes. Caused problem with boats.
+
+01-09 Racalac
+    Fixed: polcore().clear_script_profile_counters() shouldn't complain if you pass 0 parameters (the correct amount)
+    Fixed: PC Unhide generating ENTERED_AREA events shouldn't fire strange combat update functions anymore.
+
+01-08 Racalac
+    Hack fix for gold "dropping through" floors of multis. This would affect ant 0 height graphic.
+        **Please let me know if there are any weird effects with multis, LOS around/in/through multis,
+        **walking on multies, dropping items on multis, and so on!
+
+01-07 Syzygy
+    NPC Templates in packages will once again have ":packagename:" prepended to their template name
+      (npc.npctemplate, as well as what's written to npcs.txt)
+      
+01-06 Racalac
+    Fixed: You now need line-of-sight to initiate combat.
+
+01-05 Racalac
+    Fixed: run_speed and use_adjustments weren't written to the save file.
+
+01-04 Racalac
+    Added: obj.set_member(membername, value) and obj.get_member(membername) to replace the removed "." method.
+        This sets/gets a built-in member on the object which is named "membername". Returns an error if the
+        member was not found on that object (i.e. "dmg_mod" on a backpack).
+        
+01-03 Myrathi
+    Implimented new encryption routines as the basis for making future encryption updates
+    a LOT easier (and is the start of internal support for encryptions 2.0.3 upwards!)
+    NO NEW ENCRYPTIONS ARE WORKING AT THIS TIME.
+    
+01-02 Racalac
+    Added character and account name to "No handler for skill X" message.
+
+(sometime in the past) Syzygy
+    Deleting an element from the datastore will mark the associated file as dirty.
+
+01-01 Syzygy
+    Windows 95 is no longer supported.  Minimum (MS) OS required: Win98/NT4
+    Added to polsys.em: ReloadConfiguration().  Loads npcdesc.cfg and pol.cfg
+    Linux: HUP signal will cause ReloadConfiguration to be called.
+
+01-01 Racalac
+    Fixed: for real: EnumerateItemsInContainer crash (with "worn items container" who.backpack.container)
+
+03-01-01 Myrathi
+    Added: DefaultDecayTime=# in SERVSPECOPT(.LOCAL).CFG (default = 10) - unit: minutes
+        NOTE: Only newly created or "refreshed" items will use any new setting! Existing
+              items and items which remain "untouched" will retain the old value.
+    Fixed: Picking up an item, failing to place it somewhere else and having the
+        action "undone" (by the core) will no longer reset the decay timer if the
+        "time until decay" is greater than the default interval.
+    Fixed: CreateItemCopyAtLocation() now copies itemref.graphic to cloned item.
+
+12-29 Syzygy
+    accounts.txt will no longer be reloaded after a new version is written by pol itself
+    Failure to bind the listening socket will now cause startup to fail on windows.
+    New ecompile.cfg options:
+        GenerateListing [0,1]
+        GenerateDebugInfo [0,1]
+        GenerateDebugTextInfo [0,1]
+    Fix for ecompile under win32: use GetModuleFileName instead of argv[0] to determine
+      path to ecompile.cfg
+        
+12-29 Myrathi
+    Fixed: Shutdown no longer crashes when built with .NET (bonus points go to Syz!)
+    Fixed: Deprecation warnings now give filename of the operator/token as well as line number.
+
+12-28 Racalac
+    Added: IP & Account logging information for unexpected and out-of-sequence messages.
+
+12-28 Syzygy
+    Fixed a crash bug on exit in the VS.NET build (having to do with Token destruction)
+       (on the VS.NET build, some globals are destroyed in the opposite order.  We now manually clear
+        one particular container)
+        
+12-27 Racalac
+    ReFixed: Players cannot rename a mobile with an invalid string.
+    MaybeFixed: Crash in EnumerateItemsInContainer. A long-shot fix, please test who ever was 
+        experiencing this bug!
+
+12-25 Myrathi
+    Added: CFGFILE.EM function ListConfigElemProps(element): returns an array of the
+        element's property-names (as unique strings).
+
+12-24 Racalac
+    Fixed: Now updates the client correctly when another mobile's color changed.
+
+12-24 Myrathi
+    Fixed: unicode support problems under Linux (think I got 'em all)
+    Fixed: various bugs in various unicode routines. :P
+    Fixed: unicode spell invocation using: ~IN<spellid>
+    Added: "INVOKE: <info>" console spam now restricted to [pol.cfg]LogLevel=6 or higher.
+
+12-23 Myrathi
+    Fixed: Stat messages should now normalize properly to 1000 max-hp (0x11 packet)
+
+12-23 Racalac
+    Fixed: Exception if no regions were defined.
+    Fixed: CreateMultiAtLocation now returns a MultiRef, not an ItemRef ;)
+    
+12-22 Racalac
+    Fixed: When combining two stacks of the same objtype (either dragging one stack onto the other, or
+        onto the container containing the other stack), the CProp lists of each item must match EXACTLY
+        in order to be stacked. So, if Stack A has cprop myprop i5 and Stack B has cprop myprop i6, they
+        will not be stackable by dragging. Similarly, if either of the stacks are missing a cprop the 
+        other possesses, the items will not stack.
+        **Needs testing please**
+
+12-21 Racalac
+    Fixed: when a player buys an item from a merchant NPC, canInsert and OnInsert scripts are called 
+        for his/her backpack.
+    CRITICAL: You MUST add this to an itemdesc.cfg entry or you server will fail to start!
+        Container 0xFF02
+        {
+            Name        WornItemsContainer
+            graphic     0x1E5E
+            Gump        0x003C
+            MinX        0
+            MaxX        66
+            MinY        0
+            MaxY        33
+            Weight      0
+            MaxItems    65535
+            Maxweight   65535
+        }
+        Note the objtype is in the core-reserved range of 0xF000 - 0xFFFF. I hope no one has any
+            items defined in that range.. :)
+        Note this change just fixed a bug with backpack weight limits, and won't help "total"
+            character weight (including equipped items).
+    Fixed: using an item's x,y,z members in its own create script would throw an exception. 
+    Added: UO.EM function CreateItemCopyAtLocation(x, y, z, itemref): makes a clone of the item
+        referenced with "itemref" at location x,y,z. Copies member variables and CProps. Does
+        not work with Multi objects. Does not copy a container's contents.
+        **Needs testing please**
+    Fixed: Items split from a stack retain the CProps from the original stack.
+    Fixed: character.setwarmode() now works with NPC characters (no longer throws an exception)
+    Fixed: If the items sold TO an NPC merchant cost more than 60k gold, the core now creates seperate
+        stacks of 60k gold instead of one greater than 60k (invalid for the client). So if you have any
+        script code that handles this, you should probably remove it (or face creating twice the amount
+        of gold you should!).
+    Added: Unhiding AND Unconcealing generates a SYSEVENT_ENTEREDAREA event for nearby NPCs.
+    
+12-20 Racalac
+    Fixed: A Mobile's lifebar will no longer disappear when you (for example), poison it.
+    Fixed: An exploit that allowed players to drag items onto far away mobiles.
+
+12-19 Racalac
+    Fixed: a bug with system books where bad characters were written to the save files, causing errors
+        like "Item has no SERIAL property".
+    Fixed: If zero items were sold to an NPC, a gold coin was created in the player's pack with
+        amount == 0.
+
+12-17 Racalac
+    Fixed: a nasty bug where items would not decay in certain areas (specifically, in a zone with
+        a multi house). Also fixes the related "items don't decay near multis" bug.
+    Fixed: If an item is defined as no decay on multis (the default), its destroy script was 
+        mistakenly called when the item was not decayed. This is fixed.
+
+12-15 Syzygy
+    Correct crash bug in CanRemove and OnRemove script execution when there's no owning mobile
+    The originally defining package will be listed when multiple packages define an objtype
+    "attack timer" spam outputs only when DebugLevel >= 20
+    item.invisible will initialize based on itemdesc.cfg settings
+
+12-10 Myrathi  
+    Added array.exists( index ) - returns 1 if index <= array.size(), otherwise 0.
+    Added: sturdier parameter checking for object member-functions (no AV when too few params)
+    Fixed: corrected the size of the 0xBB 'messenger' packet (no longer "eats up" extra bytes)
+    Fixed: rename packet validation. Invalid content is truncated and a log message shown
+        for admin use (including an output dump of the invalid data).
+        Valid characters are spaces and upper- or lower-case letters (A-Z)
+        e.g.
+            Client #1 (account test) attempted an invalid rename (packet 0x75):
+            0000: 48 61 63 6b 54 65 73 74  0d 0a 09 43 6f 6c 6f 72   HackTest ...Color
+            0010: 20 30 78 34 38 30 0d 0a                             0x480.. ........
+
+    Fixed: core now sends correct number-of-chars to client at login (this should fix the UOTD
+        "can't create character" client issues)
+    Fixed: array member-functions (.erase(), .size(), etc) now enforce parameter-passing:
+        if you pass the wrong number of parameters (too few -or- too many) they'll return an
+        appropriate error (until now, passing too few caused an Access Violation! Argh!!!)
+    Fixed: arrays will no longer "resize" when you attempt to *retrieve* a value from an index
+        that doesn't exist. Setting a value in a non-existant index still resizes, as always.
+        Test array.size() or check array.exists(index) as appropriate.
+    - Example:
+          var arr := {1,2};          // create array with arr[1] and arr[2]
+          arr[4] := "test";          // auto-enlarges to 4 indices (arr[3] is uninitialized)
+          var foo := arr[23];        // arr.size() is still 4 and it returns:
+                                     //    error{ errortext = "Array index out of bounds" }
+          var bar := arr.exists(15); // bar holds 0 since arr[15] doesn't exist.
+          var zim := arr.exists(3);  // zim holds 1. arr[3] exists, even though it's uninit!
+
+    Removed: account.SetAcctName() member-function (deprecated since 089!)
+        - use instead: account.SetName(name)
+
+12-09 Myrathi
+    Added new uo.em function: SendQuestArrow(to_whom, x := -1, y := -1)
+    - 'to_whom' is the character the arrow shows to.
+    - Passing 'x' and 'y' within map bounds will set the Quest Arrow to point at that location.
+    - Passing -1 as 'x' and 'y' (ie. by just called SendQuestArrow(to_whom)) will remove it.
+
+12-09 Myrathi
+    Fixed: All UNICODE.EM commands now take arrays with integers the "right way round" (sorry!)
+        Integers must now be "Big Endian" (0x1234) and not "Little Endian" (0x3412).
+    Fixed: Text-commands typed by a unicode-enabled client are now "recognised" properly.
+
+    Added: Text-command scripts now receive 2 extra parameters when activated by
+        Unicode-enabled clients.
+    - Program blocks should now look like this, to take advantage of them:
+
+            program textcmd_mycmd( who, text, uc_text, langcode )
+
+    - 'uc_text' is a "Unicode array" of 2-byte "Big Endian" integers (see above) and
+                can be an empty array (uc_text.size() == 0).
+    - 'langcode' is a 3-character, uppercase language code.
+    - 'uc_text' will be an 'error' type if the Unicode input is "bad".
+    - 'uc_text' and 'langcode' will be uninitialized if no Unicode text is available
+                (ie, when a non-Unicode client types the command)
+
+    -Note- Text-commands should still be in an "English readable" character set!!
+           There is no guarantee that foreign character sets in script-names will work,
+           never mind Unicode character-sets, as the 'filename' is still matched against
+           the ASCII equivalent!
+
+    Added: NPCs now receive 2 *extra* event-parameters when they "hear" Unicode speech:
+    - 'uc_text' is a "Unicode array" of 2-byte "Big Endian" integers (as above)
+    - 'langcode' is a 3-character, uppercase language code.
+    - these 2 parameters do not exist when speech is received from a non-Unicode client.
+    - Example:
+
+        var ev := os::wait_for_event(120);
+        if ( ev )
+          case ( ev.type )
+            SYSEVENT_SPEECH:
+                PrintTextAbovePrivate(Self(), "You said...", ev.source);
+                if ( ev.uc_text )
+                    PrintTextAbovePrivateUC(Self(), ev.uc_text, ev.langcode, ev.source);
+                    PrintTextAbovePrivate(Self(), "...in Unicode", ev.source);
+                else
+                    PrintTextAbovePrivate(Self(), ev.text, ev.source);
+                    PrintTextAbovePrivate(Self(), "...in ASCII", ev.source);
+                endif
+          endcase
+        endif
+
+12-07 Syzygy
+    Fixed: compiler bug w/ switch statement containing variable declarations
+    Fixed: compiler bug allowing this  to compile:
+                Broadcast( "ff";
+    Fixed: itemdesc.cfg setting 'Invisible' not being used on item creation
+
+12-05 Racalac
+    Fixed a crash bug with cheaters sending an invalid packet.
+
+12-04 Racalac
+    Added Character Method: setwarmode( 0/1 ); Sets the internal warmode flag and sends the 
+        update to the player. Returns the new warmode value.
+    Added: MoveItemToContainer and MoveItemToLocation both call the item's parent container's
+        canRemove and onRemove scripts.
+    Fixed: Text command scripts now have their controller properly set. (character reference in
+        canInsert scripts where being passed as uninitialzed when the script was started via a
+        textcommand)
+
+12-02 Racalac
+    Fixed: Characters with the "freemove" privilages can now move with 0 stamina, frozen, 
+        or paralyzed.
+    Added: "You are too fatigued to move" message when trying to move with 0 stamina, or 
+        not enough stamina as defined in movecost.cfg. (Only if MovementUsesStamina=1 is
+        enabled in servspecopt.cfg)
+    Changed: MaximumClients in pol.cfg will be checked only after a character is selected to
+        play. Clients connected are only counted if they have attached characters (so a client
+        waiting to log in is not counted, and neither is a client that recently logged out).
+    Added: MaximumClientsBypassCmdLevel (default 1). This integer value (from 0 (player 
+        cmdlevel) to 5 ("test") defines the minimum character command level to bypass the 
+        maximum clients check. So if the option =1, counselors and above staff can log in if
+        the MaximumClients value is reached, but additional player cmdlevel characters cannot.
+
+12-01 Racalac
+    Improvements to pol.cfg MaximumClients: cmd_level>0 is checked, and clients without 
+        characters attached are not counted against the maximum.
+
+12-01 Myrathi
+    Fixed: Unicode ghost speech (no longer shows in chinese)
+    Fixed: Various buffer overflow exploits in various uo.em functions (eg PrintTextAbove())
+
+    New EModule: UNICODE.EM containing 2 new constants and 4 new functions.
+
+        _DEFAULT_UCFONT, _DEFAULT_UCCOLOR
+        BroadcastUC(), PrintTextAboveUC(), PrintTextAbovePrivateUC(), SendSysMessageUC()
+
+    - These functions act identically to their UO.EM predecessors except for the parameters.
+    - ** please note the "UC" function suffixes **
+    - Unicode "strings" are actually EScript Arrays of 2-byte integers, where each integer
+      is a unicode wide-character. (example uctest.src will be uploaded to CoreTest group)
+      These "integer codes" are always clipped (internally) to 2 bytes (value & 0xFFFF) and
+      a '0x0000' value will stop the end the string, regardless of the size of the array.
+    - Passing a non-array variable or an array with a non-integer value in it, as the
+      'uc_text' parameter, will throw an error. They MUST all be integers.
+    - The 'uc_text' array cannot exceed the current 'maximum speech length' of 200.
+    - LangCode's are 3-character identifiers for the language it's in: ENG, RUS, KOR, etc.
+      Passing a langcode string that's not 3 characters will throw an error.
+
+11-30 Myrathi
+    ECompile now displays "deprecation" warnings for certain operators and tokens and
+        although your scripts will still compile, these are now "last warnings":
+        - '=' is deprecated; use '=='
+        - 'local', 'global' and 'dim' are deprecated; use 'var'
+        - 'begin' and 'end' are deprecated.
+
+        ** Deprecated expressions will be removed from 096 **
+        **     so make sure you update your scripts!!!     **
+
+11-28 Racalac
+    Improved: canInsert script will be called when a stack of item is placed into the
+        backpack through the paperdoll icon
+    Fixed: .hp, .maxhp_mod, for weapon and armor items should be writable again.
+    Fixed: .buyprice and .sellprice were returning 0 if you didn't write to them first.
+        Now if they are not written to first, they will return the itemdesc value for
+        VendorBuysFor and VendorSellsFor.
+        
+11-27 Racalac
+    Added for Secure Trade Window: if a trade is cancelled, canInsert and onInsert scripts
+    will be called for the player's backpack. If the items cannot be inserted, they will fall
+    to the player's feet.
+
+11-25 Racalac
+    Fixed a bug with character.concealed being misread on server start as a boolean (0/1), not
+        an integer(0-255)
+    Fixed a bug in SystemFindObjectBySerial where items in the secure trade container were not
+        being found.
+    Fixed a crash introduced in the 11-21 test core concerning core-destroyed stacks of items.
+    Fixed a bug with the conceal system where if a character's concealed level was reduced to
+        a value still greater than 0, other characters of the same new concealed level did not
+        see the character.
+
+11-24 Racalac
+    Added new itemdesc.cfg property: UseRequiresLOS (defaults to 1 if not defined). If true,
+        Line-of-sight is needed to double-click the item. If false, a player can use the item
+        without LOS.
+        * Note DoubleClickRange is still checked.
+    Added new itemdesc.cfg property: GhostsCanUse (defaults to 0 if not defined). If true, dead
+        (ghost) characters may double-click this item.
+    Fixed a bug in SystemFindObjectBySerial where an item held on a character's cursor was not
+        found.
+    Added a new os.em function: set_event_queue_size(newsize) : Changes the maximum number of
+        events the current script will keep in the queue (additional events will be discarded).
+        If not called, the default size is 20 events. The function returns the old queue size.
+
+11-21 Syzygy
+    active trades will be cancelled on death
+    Fixed a problem with listening points that would cause big problems after
+        listener destruction (house doors, tillermen, wink wink, nudge nudge)
+    Containers will default to limits: 150 items, 250 stones
+
+11-20 Racalac
+    Added a new object method: script_process.clear_event_queue(). (script_process comes from 
+    NPC.process or uo.em's getprocess(pid))
+
+11-19 Racalac
+    You will no longer be able to initiate a secure trade with a ghost (if either party is dead).
+
+11-17 Racalac
+    These Item creation/movement/deletion functions now properly will update character's weight on
+        the status gump: ConsumeSubstance, DestroyItem, CreateItemInContainer, CreateItemInBackpack, 
+        MoveItemToContainer, MoveItemToLocation, SubtractAmount.
+    
+    CreateItemInContainer and -Backpack will call the container's canInsert and onInsert scripts. 
+        POL will attempt to find a character that owns this container. If one is not found (i.e. 
+        container is on the ground, the CharacterRef passed to the passed to the canInsert and 
+        onInsert scripts will be an uninitialized object (so, check to make sure it's valid before 
+        using it).
+    
+    Adding to a stack of items (manually and by a CreateItem script function) in a container will 
+        call the container's canInsert and onInsert scripts. Note if a script initiates this action 
+        (and the script has no character controller), the CharacterRef passed to the canInsert and 
+        onInsert scripts will be an uninitialized object (so, check to make sure it's valid before 
+        using it).
+    
+    The core will no longer play sounds effects for items being inserted into containers (thus, they 
+        aren't heard by everyone.). You can get the desired effects using the container's onInsert 
+        script. For example, to get the different gold drop sounds in addition to the default one, 
+        you might have in your container's onInsert:
+        
+        if(item.objtype == GetObjtypeByName("goldcoin"))
+            if(item.amount >= 100)
+                PlaySoundEffectPrivate( who, 0x38, who ); //lotsa gold
+            elseif(item.amount >= 30)
+                PlaySoundEffectPrivate( who, 0x37, who ); //some gold
+            else
+                PlaySoundEffectPrivate( who, 0x36, who ); //a few coins
+            endif
+        else
+            PlaySoundEffectPrivate( who, 0x49, who ); //default sound
+        endif
+
+11-17 Myrathi
+    Fixed Unicode speech (and a couple of possible buffer overflow bugs)
+        - Text commands are now properly recognised and run
+    TypeOf() (see basic.em) on Dictionary and Struct variables now returns
+        "Dictionary" and "Struct", respectively.
+    Added "unicode.em" with Unicode support functions (refer to file for names)
+        - a Unicode "string" ('uc_text' param) is simply an Array of Integers.
+        - each Integer corresponds to a 2-byte Unicode character.
+        - each of the 4 functions must also be given a 3-character "language code"
+            - examples are "ENU" (US English), "ENG" (UK English), "RUS" (Russian)
+
+11-17 Syzygy
+    Fixed the map Z-height algorithm to match the UO client for negative Z
+        (for an example, see 1906,49)
+    Fixed an assertion failure in SendOpenBook on Linux systems
+    Fixed an ecompile error with substrings/multidimensional subscript access ( ex: tmp := Props[3,1] )
+
+11-16 Racalac
+    New member for the Text Event struct: "texttype". This will be a string with a value of "yell",
+        "whisper", "emote", or "default" depending on the type of speech received.
+    
+    NPCs will only receive text events if the source is in range, depending on the texttype (this 
+        will be configurable in the future, for now, whisper is 2 tiles, normal is 12, and yell is 
+        25 tiles). So an NPC will not get a yell event from a source 30 tiles away, even if its 
+        speech event range is 40. Item text listeners will get all text in their range, regardless 
+        of texttype. (Need feedback for this)
+    
+    New os.em function: clear_event_queue(), empties current script's event queue. 
+        (Distro folks! - need to add this prototype to os.em)
+    
+    The npc.em movement functions (Wander(), Move(), WalkToward(), WalkAwayFrom(), RunToward(), 
+        RunAwayFrom(), TurnToward(), TurnAwayFrom(), WalkTowardLocation(),WalkAwayFromLocation(), 
+        RunTowardLocation(), RunAwayFromLocation(), TurnTowardLocation(), TurnAwayFromLocation()) 
+        now return 1 is the move was successful, and 0 if the move failed. NOTE this will almost 
+        ALWAYS return 1, if UseAdjustments is true (see next item), because the "adjusted" move 
+        probably succeeded.
+    
+    New npcdesc.cfg member: UseAdjustments : If set to 1 all NPCs of this template will behave as 
+        normal when blocked by and object (pace back and forth if path is blocked). If set to 0, the 
+        NPC will not attempt to find a adjacent tile toward the target that is not blocked (defaults 
+        to 1 if not found in the npcdesc.cfg entry). Also, a new NPC member with the name 
+        ".use_adjustments" is read/write. These NPC changes are in preperation for a pathfinding 
+        system.
+        
+    New npcdesc.cfg member: RunSpeed . If present, (default to dexterity value) this value is used 
+        for time delay between NPC moves (maximum usable value is 250, which is pretty damn fast! 
+        Running NPCs move twice as fast as walking NPCs). Also, a new NPC member with the name 
+        ".run_speed" is read/write. Note that this member may become a Vital in the near future 
+        (before the 095 final release).
+
+11-14 Racalac
+    Fixed MoveItemToContainer bug (default container coords of -1 was being flagged 
+        as out of range). Reminder: any value of x or y outside the gump coordinate 
+        range as defined in the container's itemdesc.cfg will be interpreted as "random location"
+    Added new uo.em function: ListItemsNearLocationWithFlag(x,y,z,range,flags). "flags" here are 
+        tiledata.mul flags for the item's graphic. A list of known flags is forthcoming 
+        (curious people can see Alazane's file format page at 
+        http://dkbush.cablenet-va.com/alazane/file_formats.html#3.19 )
+    Fixed an additional MoveItemToContainer bug that was causing random location of items inside
+        the container gump.
+
+11-13 Myrathi
+    Updated ECOMPILE and RUNECL banners to include better version info
+        (number after the decimal point is the supported file version)
+
+11-12 Syzygy
+    Added support for ecompile.cfg and packaged includes
+        see scripts/ecompile.cfg.example
+        usage: include ":pkgname:filebase";
+    npcdesc.cfg can once again hold non-"NpcTemplate" elements.
+    xlate.cfg is no longer loaded and ignored, just ignored.
+
+11-10 Syzygy
+    item.color := (value) will once again set the color properly.
+
+11-10 Myrathi
+    Updated item.facing - valid range is now 0-127
+    Updated TotalStatsAtCreation= option in SERVSPECOPT(.LOCAL).CFG
+        Can now take comma-delimited lists of values and/or ranges (default = "65,80")
+        Example:
+               TotalStatsAtCreation=65,80,90-95,100-110
+    Anti-exploit checks in uo::SelectColor()
+          now validates values as 2 to 1001 to prevent client-side exploits:
+          - returns the chosen color value
+          - or an error ("Client selected an out-of-range color")
+          An error situation will also display information on the console:
+          e.g.
+            Client #1 (account test) selected an out-of-range color 0x1
+
+    Anti-exploit checks & updates in UNICODE-speech code
+          squelch()'d mobiles cannot speak.
+          Text-color is validated between 2 and 1001 to prevent client-side
+            exploits. Invalid color prints a message to console:
+            e.g.
+              Client #1 (account test) speaking with out-of-range color 0x1
+
+11-09 Syzygy
+    Major changes to the script engine:
+
+        ***   ALL SCRIPTS MUST BE RECOMPILED!!   ***
+
+        All scripts should function as they do now, with two exceptions:
+           .smember no longer works
+           the hidden iterator variable in "foreach" is now called
+                _(var)_iter instead of _(var)_counter  
+        Fixed two major script object leaks.
+        Internal changes to the way member assignment and access works.
+        Internal changes to the way script substrings are handled.
+        Removed the 'Substring' object type.
+        Fixed: len() on an error would return random values
+           (now returns the number of elements in the error dictionary,
+            which is probably unnecessary)
+    
+
+11-04 Syzygy
+    Fixed a nasty compiler error.  Expressions like this:
+        (!ev.source.isA(POLCLASS_NPC))
+        will now work properly.
+         The compiler used to consider that something like
+             (!ev.("source".isA(POLCLASS_NPC) ) )
+
+
+10-23 Syzygy
+    foreach now operates over dictionaries:
+        foreach v in dict
+            print( _v_iter + " -> " + v );
+        endforeach
+
+10-17 Syzygy
+    xlate.cfg is no longer used.
+    spells.cfg no longer depends on xlate.cfg for reagent name lookup - will use itemdesc.cfg names.
+    Preload 'equiptest' and 'unequiptest' scripts, to speed system load time.
+       (however, equiptest/unequiptest scripts created after startup will not be noticed)
+    Changed config file handling to speed load time.
+       (menus.cfg entries might have their elements reordered, though)
+
+    Sped up system load
+
+10-13 Syzygy
+    Sped up storage area lookups
+
+09-14  merged changes from Racalac:
+    -New property for itemdesc.cfg Map{} entries: Editable, which defaults to 0
+        This determines if the user can plot points on the map gump. Note you can still edit the map
+        via the script methods.
+        
+    -New script methods for map objects:
+        GetPins(): returns an array of structs with .x and .y members for each pin point.
+        InsertPin( index, x, y ): inserts a pin with the passed x,y before the passed index. Valid range 0 to n-1
+        AppendPin( x, y ): appends a pin to the end of the course with the passed x,y
+        ErasePin( index ): erases the pin at the passed index (valid 0 to n-1), and shifts pins down.
+        isa(): returns true if the object is a map object
+        
+    -New pol.cfg option:
+        MaximumClients=X
+        Denies logon to clients if # of clients connected is at defined maximum
+        
+    -New syshook for walking through other players, i.e. define a package with syshook.cfg :
+        SystemHookScript pushhook.ecl
+        {
+            Pushthrough Pushthrough
+        }
+        with pushhook.src with something like:
+
+        use uo;
+        
+        program PushthroughHook()
+            return 1;
+        endprogram
+        
+        exported function Pushthrough(walker, obstructors) //note passed ARRAY of mobiles in destination tile
+        
+            foreach mob in obstructors
+                print(mob.name);
+            endforeach
+            
+            if(GetVital(walker,"Stamina") < GetVitalMaximumValue(walker,"Stamina"))
+                return 0;
+            else
+                return ConsumeVital(walker,"Stamina",1000);
+            endif
+            
+        endfunction
+        
+    -New player privilage: 'freemove' - ignore Pushthrough/stamina cost for movement
+    -New character method: character.GetGottenItem() returns itemref to item on player's "cursor"
+
+09-12
+    Linux changes
+
+=============================================================================
+POL095-2002-09-11
+=============================================================================
+    Changes for linux build:
+        Built with gcc 3.0, libstdc++2.10, on 2.4.18 kernel
+        Use sigaction() instead of signal() in hopes of correcting SIGPIPE problems.
+
+    The game clock will initialize before any objects are loaded from data files.
+    RecalcVitals will not operate on offline mobiles
+    Fixed an error related to multis which would cause decay to function sporadically
+      near multis, and to use memory without bound if items existed on multis.
+
+    Incorporated changes from Myrathi:
+        * Fixed IP Banning via /config/bannedips.cfg (no longer stops at first element)
+        * Warmode ghosts are no longer flagged criminal/aggressor for dbl-clicking on mobs/PCs
+
+        * Frozen/Paralyzed ghosts are no longer able to move due to being dead.
+
+        * HP/MaxHP update to nearby clients now uses a standard MaxHP ratio against 1000 hitpoints.
+          This should stop people from being able to snoop a mobile's exact HPs via a packet sniffer.
+
+        * item.facing can now be set from 0-101 (used to be 0-31)
+        * Added: AllowSecureTradingInWarMode=0|1 in SERVSPECOPT(.LOCAL).CFG (default = 0)
+        * Added: TotalStatsAtCreation=65|80 in SERVSPECOPT(.LOCAL).CFG (default = 65)
+
+        * Added: account.CheckPassword( password ) -- for validating an account's password
+          (returns 1 if the password is correct)
+
+        * Added: player.clientversion -- returns the client version string or an empty string
+          if the client has disconnected.
+
+        * BUGFIX!!! --> find_supporting_multi()
+            static MultiList mvec;
+            vec.clear();
+            mvec.clear();
+
+        * Addition of packet structures (to stop incorrectly variant blocks skewing data):
+          - 0x15 0x1E 0x1F 0x23 0x26 0x28-0x2B 0x2D 0x2F-0x32 0x35-0x39 0x3D-0x4D 0x50-0x52
+          - 0x55 0x57-0x5C 0x5E-0x64
+          - 0xC8
+
+        * Update of packet structure information (just cuz):
+          - 0x53
+          - 0x65 (weather enumerates)
+
+        * Version string update
+
+        * Copyright date update (1993-2002)
+
+        + Fixed legacy v1.xx-client 0x33 pause/restart packet padding.
+          Still works for "mass item/multi update" though, to help with blackholing.
+
+        + Fast-walk client-checking (packet 0xBF) -- stack-cycle & add-key
+        + Cursor Hues (packet 0xBF) -- Felucca & Trammel
+
+        + Sound effect support updated: repeat/single-use, volume and 'z' variables noted.
+
+=============================================================================
+POL094-2001-07-25
+=============================================================================
+
+    Fixed an error where some packets would be sent to all connected clients,
+      no matter how far away the item was from the logged-in character
+
+    Element types for maps need to be changed from Item to Map - their objtypes
+      no longer have to fall within the range of 0x14EB toi 0x14EE
+
+    Added ConsumeVital( mobile, vitalname, hundredths ) to uo.em
+
+    Added GetAttributeIntrinsicMod declaration to uo.em
+    Attribute updates will be sent to the client
+    Life updates will be sent to nearby clients
+    Added mobile.attached:
+       returns process reference if a script is attached,
+       or an error ("No script attached.")
+    If the Attack system hook returns false, core will handle combat as normal.
+    Vital regen rates will be limited to the range (-30,000 to +30,000)
+    Vital maximum values (in hunredths) will be limited to the range (100 to 10,000,000)
+       (1.00 to 100,000.00)
+    SetVital will accept any value between 0 and 10,000,000
+    Added SystemHook function Attack(attacker,defender)
+      -- called when the attack timer times out.
+      -- attacker must not be hidden
+      -- defender is chosen by checking attacker's Opponent, then Hostiles, for one
+         that meets the following criteria:
+           1) Defender is alive
+           2) Defender is in range of attacker's weapon
+           3) Defender is not hidden
+           4) Defender is not concealed from Attacker
+           5) Line-of-sight exists between Attacker and Defender
+    LOS will be checked when searching for an attackable mobile
+    Removed SetAttributeIntrinsicMod
+    GetIntrinsicModFunction added to attributes.cfg
+    added AlterAttributeTemporaryMod
+    Updated vitals will be sent to the client
+     - this only works for your own character, you won't see changes to others' vitals
+    Added GetAttributeIntrinsicMod and SetAttributeIntrinsicMod
+    Removed SetVitalRegenRate since regen rates are specified by exported functions
+    Added RecalcVitals(chr) which will recalculate regen rates and maximum values
+      for all vitals on a mobile
+    Corrected an error in the compiler having to do with optimization of if..elseif..endif statements
+    Newly created NPCs will regenerate vitals and start with maximum vitals
+    npcdesc.cfg entries can specify AttackAttribute instead of AttackSkillID
+    removed mobile.hp_regen_rate
+    removed mobile.mana_regen_rate
+    removed mobile.stamina_regen_rate
+    resmoved mobile.strength_mod
+    removed mobile.intelligence_mod
+    removed mobile.dexterity_mod
+    removed mobile.hp, mobile.maxhp
+    removed mobile.mana, mobile.maxmana
+    removed mobile.stamina, mobile.maxstamina
+    removed mobile.strength
+    removed mobile.dexterity
+    removed mobile.intelligence
+    removed uo::GetStatus
+    removed uo::GetStats
+    removed mobile.setstr()
+    removed mobile.setint()
+    removed mobile.setdex()
+    removed uo::GetRawSkill
+    removed uo::SetRawSkill
+    removed uo::GetSkill
+    removed uo::AwardRawPoints
+    removed internal attribute advancement due to combat (including parrying)
+    Added system hook: ParryAdvancement( attacker, weapon, defender, shield )
+    Weapon entries in itemdesc.cfg must have an 'Attribute' instead of a 'SkillID'
+    data/pol.txt needs the following element: (core 93 doesn't create)
+        System
+        {
+            CoreVersion 93
+        }
+    
+
+=============================================================================
+POL093-2001-02-10
+=============================================================================
+    SetAttributeBaseValue will only accept base values between 0 and 2200 (0.0 to 220.0)
+    Added GetVitalMaximumValue(character, vitalname);
+
+    Added functions for Vitals:
+        GetVital(character, vitalname)
+        SetVital(character, vitalname, value);
+        GetVitalRegenRate( character, vitalname )
+        SetVitalRegenRate( character, vitalname, rate )
+        Regen rates are in "hundredths of points per minute."
+        A current regen rate of 100 (1 point per 5 seconds) would therefore
+        be 1200 (12 points per minute) under the new system.
+        Valid Vitals are Life, Stamina, and Mana
+
+
+    Added 'CombatAdvancement' system hook
+      function CombatAdvancement( attacker, weapon, defender )
+      The builtin functionality performs the following:
+        For the Attacker:
+           Award 30 raw skill points in the weapon skill
+           Award stat gain as if the weapon skill were used successfully.
+           Award 15 raw skill points in Tactics
+           Award stat gain as if Tactics were used successfully.
+        For the Defender:
+           Award 15 raw skill points in Tactics
+           Award stat gain as if Tactics were used successfully.
+      This is called whether or not the attack was successful
+
+      (I'm sure I'm not the only one that thinks combat needs an overhaul)
+       
+
+
+    Started the new Attribute System (Read this!)
+    ---------------------------------------------
+        The short story: these functions presently operate on the current
+          skills and stats that you know and love.  Core 93 will not change
+          the underlying skills and stats - GetSkill, SetRawSkill etc will
+          continue to work.  Core 94 will no longer support these functions, 
+          so you have until then to convert your current usage to use these
+          new functions.
+          When this is complete, there'll be no more "Raw" skill/stat values,
+          and all Attribute advancement will be handled by scripts.
+
+        See core-docs.txt for a description of Attributes and how they work.
+        In particular, the "conversion notes" at the end may be useful.
+
+        Added uo.em functions:
+            GetAttribute( character, attrname );
+            GetAttributeBaseValue( character, attrname );
+            GetAttributeTemporaryMod( character, attrname );
+            SetAttributeBaseValue( character, attrname, basevalue );
+            SetAttributeTemporaryMod( character, attrname, tempmod );
+
+    config/pkgroots.cfg specifies additional root directories to search for packages.
+        An example pkgroots.cfg:
+            PackageRoot
+            {
+                dir d:\devpkg\
+            }
+        Do include the trailing slash.
+
+    Assertions:
+        Assertions are now present in the Win32 build as well as the Linux build.
+        EnableAssertions is now 1 by default.
+        DumpStackOnAssertionFailure=1 in pol.cfg will cause a stack backtrace
+        to be generated when any assertion fails.  
+        In any case, an exception will be thrown on an assertion failure.
+        I recommend running with EnableAssertions=1.  It is reloaded when pol.cfg is changed.
+
+=============================================================================
+POL092-2000-12-11
+=============================================================================
+    pkg.cfg directive added: "Replaces {pkg}".  Indicates this package should replace
+      any version of {pkg} found under the /pol/pkg/ tree.
+
+
+    objtypes.txt will be created on startup.  It lists all used and unused objtypes in numerical order.
+    Fixed a bug where only the first element in movecost.cfg would be read.
+    Added uo::SelectColor(chr,dyetub)
+    Removed internal dye and dyetub functionality.  (replacement 'dyeitems' package uploaded to pol-core-test)
+      - note this uses Zulu's 'dyecheck' script instead of the old internal functionality
+        to determine if you can dye a particular item.
+    Corrected a bug which caused BaseSkillToRawSkill (and therefore NPC creation) to take a
+      long time to complete (even for base skill values above 160)
+    Added support for the client's book interface:
+      uo::SendOpenBook(chr,book) kicks it off
+      The 'book' passed must have a Method Script, exporting the following functions:
+        exported function IsWritable(book) // returns 0 or 1 for readonly/writable
+        exported function GetNumLines(book) // returns maximum number of lines
+        exported function GetTitle(book)
+        exported function GetAuthor(book)
+        exported function GetLine(book, line) // line is 1-based
+      Writable books must provide the following functions:
+        exported function SetAuthor(book,author)
+        exported function SetTitle(book,title)
+        exported function SetLine(book,line,text)
+        exported function GetContents(book) // returns an array of all lines
+      I've put together a sample 'sysbook' package to demonstrate this.
+
+    Added the Data Store.
+      The Data Store is a collection of files, stored under data/ds/, saved
+        atomically with the rest of the world data.
+      Only those Data Files actually modified are saved at system save time.
+      A Data File is a collection of Data File Elements.  Data File Elements are
+        accessed by key, which can either be a String (case insensitive match)
+        or an Integer.
+      A Data Element is a collection of Properties.  Each Property has a Property
+        Name and a Property Value.  A Property Name is a string, and is, er, 
+        case-sensitive (doh), while a Property Value can be any "packable" script
+        object.
+
+      In other words, a Data File is like a Config File that you can modify and
+        is stored under data/.  The Properties in a Data File Element are just 'cprops'
+        except that when saved in the data store I don't prefix them all with 'cprop'
+
+      scripts/datafile.em lists the functions that are complete and the methods provided
+        by a DataFile and by a DataFileElement.
+     
+      Packages can have their own Data Files; these will be stored in 
+        data/ds/{pkgname}/.  Normal package filename resolution rules apply.
+       
+    Normal "Open Spellbook" handling will occur if the OpenSpellbook hook returns false.
+      (The OpenSpellbook hook script should return 1 if it handled the event, 0 if it didnt)
+    Any itemdesc entry can define zero or more 'OldObjtype' entries.  These are for
+      objtype renumbering.
+    Major rework of multi handling.  There must now be itemdesc.cfg entries for boats
+      and houses, and the objtypes aren't tied to the MultiIDs.  Multis.cfg defines what to
+      expect in multi.mul.
+      CreateMultiAtLocation has more flags for boat creation
+        (CRMULTI_FACING_NORTH, CRMULTI_FACING_EAST, etc)
+      An example entry for pkg/std/boat/itemdesc.cfg:
+        Boat 0x6041
+        {
+            Name smalldragonboat
+            Graphic 0x4004      // base graphic
+            MultiID 0x0004
+
+            OldObjtype 0x4004
+            OldObjtype 0x4005
+            OldObjtype 0x4006
+            OldObjtype 0x4007
+        }
+      An example entry for pkg/std/housing/itemdesc.cfg:
+        House 0x6060
+        {
+            Name smallstoneandplasterhouse
+            Graphic 0x4064
+            MultiID 0x64
+
+            OldObjtype 0x4064
+        }
+      See the latest pol-coresupp zip for config/multis.cfg
+      
+
+    Fixed an error where the server would fail to start if a container was overfilled
+    RegisterForSpeechEvents takes an optional 'flags' parameter.  If LISTENPT_HEAR_GHOSTS is
+      passed, this listening point will hear unfiltered ghost speech.
+    Added scripts/include/sysevent.inc.  All system EVID_* constants have been copied here
+      and renamed to SYSEVENT_*.
+    Added SYSEVENT_GHOST_SPEECH (0x1000), to allow an NPC to hear unfiltered ghost speech.  
+      The NPC must still be able to _see_ the ghost in able to hear it.
+    NPC event masks will now be checked for SYSEVENT_SPEECH being set.
+    Added npc.eventmask, in part to help you find scripts that don't set SYSEVENT_SPEECH.
+    Added npc.speech_color and npc.speech_font.  npc::say() will use these.
+      These will be saved in npcs.txt as SpeechColor and SpeechFont (and can be specified in
+      npcdesc.cfg)
+
+    Added uo::AddAmount(item,amount)
+      - only adds to stackables
+      - only allows stacks up to 60,000 
+      - checks for container overfill
+    Added an optional 'flags' parameter to CreateMultiAtLocation
+      - uo.em contains constants to add together (CRMULTI_*)
+      - this parameter only applies to houses, not boats
+    Before character deletion, scripts/misc/ondelete.ecl and anypkg/ondelete.ecl will be called.
+      Their return values are ignored.
+    New system hook: OpenSpellbook( chr ), called when the Open Spellbook packet is received
+     (not when a spellbook is doubleclicked).  This is called even if the character is dead!
+
+    Added 'Method Scripts' for items:
+      An itemdesc.cfg entry can specify a 'MethodScript'
+      This is a script that (presumably) contains exported functions.
+      Method calls on the item are forwarded to the exported functions in this script.
+      Exported functions can have the same name as an existing object method.  In this case,
+        the exported function will override the existing object method.
+      An example that modifies door.open():
+
+      pkg/.../door/itemdesc.cfg:
+        Door 0x0675
+        {
+            xmod -1
+            ymod +1
+            script door
+            doortype metal
+            MethodScript cdoor.ecl
+        }
+
+      pkg/.../door/cdoor.src:
+        exported function open( door )
+            print( "cdoor::open(" + door.serial + ")" );
+            return door._open();
+        endfunction
+
+        program install()
+            print( "installing cdoor" );
+            return 1;
+        endprogram
+
+      Note the mostly empty 'program' section.  It must return 1 in order for the 
+        method script to be installed.
+      Script methods don't have to be the same as existing methods, and can take
+        and number of parameters.  Pass-by-reference should be possible, as well.
+      Method scripts can only be specified for items in packages; the server will
+        probably blow chunks if you try it in pol/config/itemdesc.cfg.
+    Preceding a method call with an underscore will directly call the "real" object method.
+    
+
+    escript changes:
+        'int' is no longer a reserved word 
+        'exported' is now a reserved word
+    logon scripts in packages will now be called on character creation
+    Added the concept of a "System Hook":
+      - Any package can contain a syshook.cfg file
+      - Each entry is a SystemHookScript, which can provide one or more exported functions
+      - the only function that can presently be hooked is 'CheckSkill'
+      - A sample syshook.cfg:
+            SystemHookScript hooktest.ecl
+            {
+                CheckSkill MyCheckSkill
+            }
+      - And hooktest.src to go with it:
+            use uo;
+
+            exported function MyCheckSkill(who,skillid,difficulty,points)
+                print( "MyCheckSkill("+who.serial+","+skillid+","+difficulty+","+points+")" );
+
+                // note you can call the "system" function normally
+                return CheckSkill(who,skillid,difficulty,points);
+            endfunction
+
+            program hooktest()
+                print( "hooktest prog" );
+            endprogram
+      - The 'program' section is executed once, at system startup.
+        Thereafter, the exported function is called as needed.
+      - A hooked 'CheckSkill' will override any script's call to CheckSkill, as
+        well as the internal combat CheckSkill calls.
+      - Each hooked function has a recursion guard, so the system function can
+        be called from within the hook function (as in the example above)
+      - there is currently no way to unload system hook functions
+
+    Containers won't count their own weight against the weight they can hold
+    Multiple scripts can have active gump dialogs on a particular client
+
+    The 'SecureTradeContainer' itemdesc.cfg entry must specify "Weight 0"
+    Here is the entry I use:
+        Container 0xFF01
+        {
+            Name    SecureTradeContainer
+            graphic 0x1E5E
+            Gump    0x003C
+            MinX    0
+            MaxX    66
+            MinY    0
+            MaxY    33
+            Weight  0
+        }
+    If "Weight 0" is not specified, mobiles who participate in secure trading
+      will weight 255 stones more than they should.
+
+
+    Container entries in itemdesc.cfg can specify MaxWeight and MaxItems
+      - if zero (or not specified) there are no limits
+      - if MaxItems is specified, it includes item counts for child containers
+      - if MaxWeight is specified, it includes weights for child containers
+      - there is still a limit of 150 items in the top-level of a container
+          (so as not to flip out the client)
+      - added item.item_count
+      - container count and weight limits will not be enforced during startup
+    Weight of a mobile will now include items being "dragged" as well as
+      items in the secure trade window
+    Added Container scripts (specify in itemdesc.cfg):
+        Entries:
+            CanInsertScript // called to see if an item can be inserted
+            OnInsertScript  // started after an item is inserted
+            CanRemoveScript // called to see if an item can be removed
+            OnRemoveScript  // started after an item is removed
+      - program definitions are:
+      - program can_insert( who, container, item );
+      - program on_insert( who, container, item );
+      - program on_insert( who, container, item, amtadded ); // if an existing stack was added to
+
+      - program can_remove( who, container, item ); // return nonzero to allow removal
+      - program on_remove( who, container, item ); // when the item is dragged
+            - note the item will always be "in use" when this script is called.
+      - only started on "client drag" operations
+    Packed variables containing 'x' characters (an empty array element) should unpack correctly
+      (would have unpacked a huge error object instead of a nothing)
+
+=============================================================================
+POL091-2000-11-01
+=============================================================================
+    Added more guild support:
+      All guild data is stored in data/guilds.txt.  Existing GuildId entries in
+      pcs.txt will be migrated.
+      Ally and Enemy status is always 2-way, and is not transitive, so any hierarchies
+        will have to be implemented in script.
+
+      - new uo.em functions:
+        CreateGuild();          // returns a guildref
+        FindGuild( guildid );   // returns a guildref or error
+        ListGuilds();           // returns an array of guildrefs
+        DestroyGuild( guild );   // destroys a guild with neither members, allies, nor enemies
+      - Guild Object
+        Properties:
+         guild.guildid : integer, unique guild identifier
+         guild.members : array of offline mobilerefs
+         guild.allyguilds  : array of allied guilds
+         guild.enemyguilds : array of enemy guilds
+
+        Methods:
+         guild.ismember( who )
+         guild.isallyguild( otherguild )
+         guild.isenemyguild( otherguild )
+
+         guild.addmember( who )
+         guild.addallyguild( otherguild )
+         guild.addenemyguild( otherguild )
+
+         guild.removemember( who )
+         guild.removeallyguild( otherguild )
+         guild.removeenemyguild( otherguild )
+
+         guild.getprop( propname )
+         guild.setprop( propname, propvalue )
+         guild.eraseprop( propname )
+        
+    Added Auxilliary Client Interface
+      - a package can contain 'auxsvc.cfg'
+      - packed values are sent, newline-terminated.  These show up on the aux service
+        script's event queue as an event with ev.type = "recv" and ev.value = the unpacked value
+      - parameter to the aux control script is an AuxConnection
+      - AuxConnection.transmit( val ) sends packed representation of val, newline terminated.
+      - see 'pkgauxsvc.zip' for an example
+
+    "CON", "AUX", "PRN", and "NUL" will be disallowed as text command names.
+    NPC intrinsic weapons will be re-equipped after unequipping another weapon
+      (instead of switching to the human wrestling weapon)
+    Removed "Searching for" messages when looking for textcmds
+    An "Unknown command" message will display if you mistype a textcmd
+    NPCs will walk through mobiles they can't see (whether due to concealment or hiding).
+    NPC AttackHitScript entries cause hit scripts to fire now.
+    Ghosts will no longer impede NPC movement.
+    minrange and maxrange can be specified in Weapon entries in itemdesc.cfg.
+      Default for melee weapons: minrange 0, maxrange 1
+      Default for projectile weapons: minrange 2, maxrange 20
+        (same as previous code)
+    NPCs in packages should retain their intrinsic weapon after a restart.
+    npc.isa(t) and mobile.isa(t) now work
+    mobile.setcriminal(0) now works
+    PID will display for runaway scripts
+    ReadConfigFile( ":*:foo" ) will load a combination of all foo.cfg files found in 
+      config/ and all package directories.  These can be unloaded.  This method is preferred
+      over using "::itemdesc", "::spells", and "::skills", since reloading will be handled
+      correctly.
+    Added extra checking on item destruction in case a destroyscript is evil
+    Added uo::SendViewContainer( chr, container ) - just sends the container contents
+      (does not grant access like SendOpenSpecialContainer)
+    mobile.truecolor and mobile.trueobjtype are r/w (though I think trueobjtype has no effect)
+    Fixed a crash bug in some instances of item destruction, decay being one example.
+    "AttackHitScript" can be specified in npcdesc.cfg entries for a per-npctemplate HitScript.
+        For packaged npcdesc.cfg entries, this will need to have the package specified.
+        Also note that AttackSpeed must be specified for any per-npctemplate Attack* properties to be used.
+    added object.isa( polclass_type ) : boolean
+      use constants POLCLASS_OBJECT, POLCLASS_ITEM, etc from uo.em
+        example:
+          door.isa( POLCLASS_DOOR ) will return true
+          door.isa( POLCLASS_ITEM ) will return true
+          door.isa( POLCLASS_MOBILE ) will return false
+    Whisper range is 2, Yell range is 25
+    Items in decaying locked containers will be destroyed with the container.
+    movable=0 items in decaying containers will be destroyed.
+      Note that in both cases, destroy scripts will not execute.
+       (Destroy scripts execute only when DestroyItem is called, or when a toplevel
+        item is checked for decay)
+    '=' is assumed to be a command prefix (as well as '.')
+    mob.setcriminal(0) will clear the criminal timer and send status update packets
+    "destroy [desc] ..." messages will no longer display on item destruction.
+
+POL090-2000-09-03
+=================
+SPECIAL NOTE:
+  ALL SCRIPTS MUST BE RECOMPILED!  (all your scripts compile, right? :-)
+  Old .ECL files will not load!
+
+Titles
+    - if present, "[title_guild]" will display above name on singleclick
+    - if present, " (title_race)" will display after name on paperdoll
+    - title_prefix, title_suffix, title_guild and title_race can contain leading
+         and trailing spaces, embedded quotes, and embedded newlines.
+
+Interactive Debugger
+    - Added beginning of debugger interface.
+         pol.cfg: DebugPort=port, DebugPassword=string, DebugLocalOnly=0/1
+         Only enabled if DebugPort if specified as non-zero.
+    - Added local variable information to .dbg files
+    - Added stepinto debug command
+         (see srcdoc/poldbg.txt for debug command list)
+    - Added debugger commands:
+         pidlist [str]             return list of PIDs with scriptnames matching *str*
+         inslist [file] [line]     list instructions associated with File#/Line#
+         globalvars                list global variable names (if available, compile
+                                    with -z)
+         getlocalpacked [N]        get local variable #N, in packed format
+         setlocalpacked [N] [p]    set local variable #N, to packed value
+         getglobalpacked [N]       get global variable #N, in packed format
+         setglobalpacked [N] [p]   set global variable #N, to packed value
+    - Added debugger command 'call'
+         call [scriptname] [parameters:packed array]
+         parameters must be a packed array.
+         return value is returned packed.
+         So, if 'misc/called.src' ends with 'return 5;' then;
+         "call misc/called.ecl a3:i1i2i3"
+         will call misc/called.src, with three parameters: 1, 2, 3
+         Output will be:
+           Results: 1
+           Return value packed: i5
+    - Added debugger command 'quit' - graceful exit.
+
+eScript
+    - Added 'runecl.exe' to the core distro.
+        - only has access to 'basic', 'basicio', and 'math' execution modules
+    - Added math.em execution module
+    - Added Integer modulus operator '%'
+    - Added bitwise operators, for Integers only
+       & (bitwise and)
+       | (bitwise or)
+       ^ (bitwise xor)
+       ~ (one's complement)
+    - Added 'sysfind_flags' parameter to SystemFindObjectBySerial
+       - flag values can be found in uo.em:
+       - SYSFIND_SEARCH_OFFLINE_MOBILES - search for offline mobiles and equipment
+          on offline mobiles
+       - SYSFIND_SEARCH_STORAGE_AREAS   - search for items in all storage areas
+    - SystemFindObjectBySerial will always return an 'offline mobileref' if
+       SYSFIND_SEARCH_OFFLINE_MOBILES is specified.
+    - Added the 'struct' type.  These can be persisted, unlike a struct created
+      from an array.  Structs should be used rather than arrays when you want a
+      structure.
+      preferred forms:
+          var a,b,c,d;
+          a := array;      // make an empty array
+          a[1] := 2;
+          a[2] := 7;
+
+          b := struct;
+          b.+name := "YouThere";
+          print( b.name );
+
+          c := dictionary;
+          c["hello"] := "foo";
+          c["world"] := "bar";
+
+          d := { 2, 5 };   // make an initialized array
+    - The 'error' datatype is now persistable (internally it's a 'struct')
+    - Added pids (process ids) and a scripting object for process control
+       - os::getpid() gets your own pid
+       - os::getprocess(pid) gets a scripting object for a process given its PID
+    - Added polcore().skill_checks_per_min
+    - Added polcore().combat_operations_per_min
+    - The instares dialog gump packet will no longer be sent automatically on PC death
+       - chrdeath.src will have to handle this
+    - Added uo::SendInstaResDialog( chr );
+    - Added AwardRawSkillPoints( mobile, skillid, rawpoints )
+       - rawpoints must be positive at this time
+    - "pol.lg2" has been renamed to "debug.log" and is enabled in
+        pol.cfg:EnableDebugLog=0/1
+    - Added process.sendevent( object );
+    - Added process.kill();
+    - start_script will now return a process scripting object
+    - Added npc.process, returns a process scripting object
+    - Global variable name information is now included in .dbg files
+       '-z' option removed - only '-x' generates .dbg files
+       .dbg.txt files no longer generated
+    - Added GetObjPropertyNames(object) - returns array of all cprop names
+    - Configfile string properties can be contained within quotes, and can contain
+       leading and trailing spaces, embedded quotes (\"), and embedded newlines (\n)
+    - SendSysMessage, Broadcast, PrintTextAbove, and PrintTextAbove all take
+       optional parameters 'font' and 'color'
+    - Added item.buyprice
+       If nonzero, overrides the 'vendor_buys_for' value from itemdesc.cfg
+       If negative, vendors will not buy this item.
+    - 'invisible' in itemdesc.cfg will be honored as the default.
+
+Compiler
+    - Search rules for .inc and .em files changed:
+       - First, the directory of the including file is searched
+       - Next, either ECOMPILE_PATH_EM or ECOMPILE_PATH_INC (which default to
+          the directory containing ecompile.exe) are searched
+       - relative dir info from the included filename is always used.
+       - pass '-v10' to the compiler to see what's going on, if it can't find
+         your files.
+       - This means that:
+           D:\POL> ecompile -r .
+           D:\POL\PKG\MYPKG> ecompile foo.src
+           D:\POL\SCRIPTS> ecompile ..\pkg\mypkg\foo.src
+          should all be equivalent now.
+       - If you intend to use the debugger, compiling from your pol\ directory
+           is best, (or specifying a full path) so that pol.exe will have the
+           correct paths to all involved files.
+       - I recommend "ecompile -u -b -l -x -a -r d:\pol"
+    - It seems those of you using Win2k and Linux will need to have
+       ECOMPILE_PATH_EM and ECOMPILE_PATH_INC variables.
+
+Reputation System
+    - See srcdoc/repsys.htm for current criminal/murderer flagging rules
+    - Added mobile.SetParalyzed( isparalyzed := 1 );
+       - mobile.paralyzed := 1/0 is deprecated and will become read-only
+       - mobile.SetPoisoned sets repsys data
+    - Added mobile.SetPoisoned( ispoisoned := 1 )
+       - mobile.poisoned := 1/0 is deprecated for this use (it will become read-only)
+       - mobile.SetPoisoned can set repsys data (aggressor, criminal flagging)
+        mobile.poisoned assignment cannot.
+       - mobile.SetPoisoned will no longer set the Murderer flag
+    - Added mobile.SetCriminal( level := 1 ), level >= 1
+    - Added mobile.SetMurderer( ismurderer := 1 )
+    - Added mobile.murderer read-only flag
+    - mobile.criminal will always return true for murderers.
+    - Healing, Unpoisoning, and Unparalyzing will clear the ToBeReportable list if
+       all are clear
+    - A mobile's Reportables list is now persisted
+       Added mobile.reportables (see srcdoc/uoscrobj.htm for details)
+       Added mobile.RemoveReportable( serial, gameclock )
+    - ".i_repdata" updated to display murderer flag, ToBeReportable list, and
+       Reportable list
+    - repsys.cfg: added a General section, with Criminal and Aggressor timeouts.
+
+Client Issues
+    - Added Ignition support
+    - Weather packets are now disabled for all non-1.26.* clients (including Ignition)
+    - pol.cfg: DisplayUnknownPackets=0/1 added
+    - pol.cfg: ClientEncryptionVersion can be set to 1.26.4 , 2.0.0 , or ignition
+
+Errors Resolved
+    - Fixed a crash bug in SystemFindObjectBySerial when the object wasn't found
+    - Possibly fixed the "skill window update" client crash bug
+    - hair and beards created on corpses will be marked invisible and non-movable
+    - Ghosts will no longer be able to pick up or equip items.
+    - Dye tub cursors will no longer be sent if a script cursor is active
+    - Script constructs of the following form will no longer alter chr.name:
+       var n := chr.name;
+       n := "hey";
+       - this applies to all other read/write members
+    - ECOMPILE_PATH_EM and ECOMPILE_PATH_INC env variables will no longer be necessary
+       - (See compiler section above)
+    - Corrected some problems with target cursors
+    - Corrupt .ECL files should be handled better now
+    - fixed a crash bug if global variables were used before declared
+
+Miscellaneous
+    - movecost.cfg can have separate 'Walking' and 'Running' sections, and can
+       range from 0-200% of carrying capacity.
+    - Packages with a higher version than another enabled package by the same name
+       will automatically override the lower versioned package.
+    - Misspelled dot-commands will no longer display, so no more embarrassment
+       in mixed company when I leave an 'o' out of '.objcount'
+
+
+05/23/2000 - POLC089
+==========
+    Script functions can be passed parameters by reference.
+      put 'byref' in the function declaration before the parameter name.
+      function foo( pa, byref pb, pc )
+          pa := 5;
+          pb := 6;
+          pc := 7;
+      endfunction
+      var a := 12;
+      var b := 13;
+      var c := 14;
+      foo(a,b,c);
+      // at this point a and c are unchanged, b is 6
+      Note - it's much more efficient to pass arrays by reference than
+        by value, because pass-by-reference doesn't have to copy them
+        (or destroy them when it's done)  
+    Mobilerefs and Itemrefs can be compared for equality directly
+      - so you can write "if (me = you)" instead of "if (me.serial = you.serial)"
+      - as a result, mobilerefs and itemrefs can be used as keys in dictionaries. 
+    Linux version - gump problems, text command, MT mode problems fixed 
+    Added mobile.title_prefix, mobile.title_suffix, mobile.title_guild, mobile.title_race
+      - mobile.title_prefix is displayed before the name on the paperdoll
+      - mobile.title_suffix is displayed after the name on the paperdoll
+      - mobile.title_guild and mobile.title_race are not used (but are persisted)  
+    Added mobile.GuildId : just a numeric guild identifier
+      (not sure if this is how it'll be done, but this lets me start on highlighting etc)
+    config/repsys.cfg will be required by the core
+    MoveMode can be specified in npcdesc.cfg.  
+      - This is per-NPC -- changing npcdesc.cfg will not affect existing NPCs
+      - MoveMode is a string, containing one or more of the following:
+        - "L" - Moves on Land (this is the default)
+        - "S" - Moves on the Sea
+        - "A" - Moves in the Air 
+      - Mobiles require MoveMode 'L' to move on land.
+      - Mobiles require MoveMode 'S' to move on the sea.
+      - MoveMode A doesn't have any effect yet.
+      - There is no script interface to this yet.
+      - an example - "MoveMode LS" would be appropriate on a Water Elemental.
+      - PCs are all MoveMode L, unless you edit pcs.txt...
+    Added combat.cfg:WarmodeInhibitsRegen (default false)
+    Linux version: corrected an error in CreateAccount that would empty the account file (!)
+    Corrected bug where Paperdoll would display warmode when you weren't
+    'IP' entries in servers.cfg can be hostnames.  A DNS lookup will be performed each time
+      a client connects to the loginserver.
+    CInt(), CDbl(), and Hex() will all operate on Substrings
+    Mobiles without MoveMode L might not be able to move on land.
+    Added account.GetProp(propname)
+    Added account.SetProp(propname,propval)
+    Added 'DefaultPrivs' and 'DefaultCmdLevel' properties to entries in data/accounts.txt
+      - there is no script interface.
+      - these are assigned to new characters for the account.
+    object method name searches are now case-insensitive
+        - so now you can write array.size() or array.Size()
+        - this is really so you can write account.GetProp etc
+    object method names can be the same as system or user functions
+    account.SetName should work now (account.SetAcctName has been renamed to this)
+    Added some more log output when message handlers crash
+    Added FindAccount( acctname )
+    Added ListAccounts()
+    Added account.GetCharacter( index : 1..5 ) -- for offline access to PCs
+    Fixed the "server full" bug when --ip-- and --lan-- were used in servers.cfg
+    ECOMPILE_PATH_EM and ECOMPILE_PATH_INC environment variables are now unnecessary
+      if they would have referred to the directory where the 'ecompile' executable is.
+    ecompile now creates '.dep' files so that changed .inc files will be searched for
+      on '-u' (update) runs. ('ecompile -u -r .')
+      If no .dep file exists for a .src file, no dependencies are assumed - so in order
+      for this to work properly, run 'ecompile -b -r .' to recompile everything once.
+    Added http::QueryIP(), returns IP address of connecting browser.
+    PrintTextAbove and PrintTextAbovePrivate will use the correct description,
+      rather than always using the text from tiledata.mul
+    Added account.DeleteCharacter( index : 1..5 )
+    Added account.EraseProp( propname : string )
+    cfgfile::GetConfigStringKeys and cfgfile::GetConfigIntKeys should work now.
+    Added CChr, CAsc, CChrZ, CAscZ
+    ecompile will optimize IF statements with constant test expressions
+    substring access with out-of-bound indices will return an error rather than aborting the script
+    start_script will return an error rather than aborting the calling script.
+    Fixed a problem involving dictionaries, persistence, and substrings.
+
+
+04/08/2000 - POLC088
+==========
+    Fixed a crash bug when an item was destroyed while equipped on an offline mobile
+    Fixed a crash bug when an error occurred reading properties for a new NPC
+    Added mobile.hp_regen_rate, mobile.mana_regen_rate, and mobile.stamina_regen_rate.
+      - a value of '100' adds one point every five seconds.
+      - a value of '50' adds one half point every five seconds.
+      - ...you see the pattern...
+      - applied fixes for negative regen rates, and regen rates for new characters.
+    Added the BASIC-style FOR-loop to escript.
+      for i := 1 to 5
+         print(i);
+      endfor
+      is the syntax.
+    Added the 'dictionary' complex datatype for scripts.
+        usage:
+           var dict := dictionary;
+           dict[ "green" ] := "blue";
+           dict[ "red" ] := "orange";
+           dict[ 12 ] := "yellow";
+           print( dict[ "green" ] );
+           print( dict[ "red" ] );
+        methods:
+           dictionary.size()        : number of elements
+           dictionary.erase( key )  : erase an element
+           dictionary.insert( key, value ) : insert an element
+             (equivalent of dictionary[key] := value;)
+           dictionary.exists( key ) : check for existence of a key
+           dictionary.keys()        : return an array of all keys
+
+        dictionaries can be persisted.
+        keys can be integers, reals or strings.
+        values can be anything.
+    Added cfgfile::GetConfigStringKeys(config_file)
+    Added cfgfile::GetConfigIntKeys(config_file)
+    Packages can contain a 'www' directory.
+      (use URLs like "http://127.0.0.1:8080/pkg/saver/")
+    www directories and subdirectories will be searched for index.ecl, then
+      index htm, if no page is specified.
+    Added item.invisible; only applies to items in the ground, and the same
+      deal with moving "out of range" after enabling the 'seeinvisitems' priv applies.
+    run_script_to_completion will return the 'return value' of the script it runs
+      (the return value is what the 'program' section returns)
+      it will return an error if the script does not exist.
+    Fixed bugs in gump handling
+    Fixed bug in GetWorldHeight (kept dungeon teleporters from working)
+
+03/05/2000 - POLC087
+==========
+    Removed annoying hit-script debug output
+    Added logon scripts, logoff scripts, reconnect scripts.
+    Added delayed logout (see docs/logonoff.txt)
+     - at a minimum, you will need scripts/misc/logofftest.* for this
+    Line-of-sight will succeed to items in your backpack.
+    Added the 'losany' privilege for letting you ignore LOS.
+    Multis will be checked in Line-of-Sight tests
+    PCs can now walk through items they can move.  Hopefully this means if
+      you're a GM and the client wants to let you walk through something,
+      the server will let you.
+    Added character.enabled( setting ) to allow scripts to check enabled settings
+    Added the 'ignoredoors' privilege to let you walk through doors if your
+      client files will allow it (requires a modified VERDATA.MUL)
+    config/cmds.cfg added - specifies cmdlevel names and textcmd directories.
+    character.setcmdlevel( cmdlevelname ) added - set cmdlevel by name
+    character.cmdlevelstr added - text name of the cmdlevel
+    textcmds can be specified in packages; just make a textcmd/gm etc directory
+     - these are only scanned at startup, so if the directory doesn't exist then,
+       it won't be searched until restart.
+    character.poisoned added - just makes your health bar green or not.
+     - this is not saved with world state.
+    Added a console keypress interface - see config/console.cfg
+    Fixed house-walking bug on restart
+    Added os::unload_scripts(scriptname)  -- see os.em
+    Added os::set_script_option(optnum,optval)  -- see os.em
+    Added uo::Shutdown()
+    Added character.ip (returns an empty string if no client connected)
+    Added a facility for banning logins by IP.  You'll need config/bannedips.cfg
+    MoveItemToLocation and MoveItemToContainer will check the 'moveany' setting of
+      the script controller.
+    EquipItem will check item movability
+    Server should no longer crash if you hit Ctrl-C while packages are loading
+    Added character.gold member
+    Added character.spendgold( amount ) method - spends nothing and returns error if
+      character doesn't have enough.  Does not recurse into locked containers.
+    Added uo::ConsumeSubstance( container, objtype, amount ) - consumes nothing and
+      returns error if container doesn't have enough. Does not recurse into locked containers.
+    MoveItemToContainer will no longer allow a container to be moved into itself,
+      or into a subcontainer in itself.
+    Automatic skill advancement when skill is below 10 will only occur
+      if you had some chance of success
+    Fixed some movement errors; it should be possible to walk into caves now.
+     - dropping things on the ground in caves probably doesn't work yet.
+    character.gender is now read/write
+    Items being dragged will be moved back into the backpack when a character dies
+     (so they'll be moved to the corpse or kept based on newbie status etc)
+
+02/01/2000 - POLC086
+==========
+    Inactivity timeout will not occur to those with cmdlevel > 0
+    Inactivity timeout will not occur until a character is chosen or created
+    "InactivityWarningTimeout" and "InactivityDisconnectTimeout" in pol.cfg configure
+      the inactivity timeout in minutes.  Set either to 0 to disable.
+    pol.cfg will be checked for changes every 30 seconds.  Settings that can be changed
+      without restarting will be re-read.
+    Added map checking to correct LOS issues in dungeons.  (pol.cfg:ExpLosChecksMap=1/0)
+      - currently inhibits LOS across bodies of water, which may be bad.
+    Packet formats changed to match latest client
+      (skill locking stuff is ignored)
+    uo::SendSkillWindow( towhom, forwhom ) added.  A script could send you skills for
+      someone else, if it wanted; you'd get spurious "skill value changed" notifications,
+      but that's your choice.
+    scripts/misc/skillwin.ecl will be run on "Skill Window" (Alt-K) requests if present.
+    MoveItemToLocation takes a 5th parameter, 'flags'
+       - instead of adding MOVEITEM_FORCELOCATION to the z parameter, pass it here
+       - pass MOVEITEM_NORMAL or 0 for normal z-corrected movement
+       - for now, I'm making the 'flags' parameter mandatory, as all existing scripts
+         need to be changed.  Later I'll make flags default to 0.  
+    Added EVID_DOUBLECLICKED event, sent when an NPC is doubleclicked
+      This event must be explicitly enabled with EnableEvents().
+    scripts/misc/skilladv.ecl will be run when a visible skill change happens
+      - parameters are (who, skillid)
+      - this is called for PCs and NPCs.
+    default 'facing' prop added to itemdesc.cfg
+    EquipTest scripts added - scripts/misc/equiptest and all package equiptest scripts
+      will be called to determine if an item can be equipped.
+    The 'mount' layer (25) can now be equipped.
+      - lots of issues are left yet - combat effects, what happens when you die, and so on.
+    pol.cfg:MinCmdlevelToLogin can specify the minimum cmdlevel allowed to log in.
+        (So you can set your server to GM-only access temporarily or whatever)
+    Objtype 0xF021 is now the 'mount' object type.  
+        Add the following entry to itemdesc.cfg:
+            Item 0xF021
+            {
+                name    mount
+                graphic 0x3EA2
+            }
+        Graphic 0x3EA2 is a horse.  0x3E9F to 0x3EA6 will use other mount types.
+    Added uo::OpenPaperdoll( towhom, forwhom ).  Sends the paperdoll window.
+    scripts/misc/dblclickself.ecl will be executed when you doubleclick yourself,
+      if it exists.  The core will still handle "Open Paperdoll" macro requests
+      internally.  The basic doubleclick-self script would look like this:
+            use uo;
+
+            program dblclickself( me )
+                OpenPaperdoll( me, me );
+            endprogram
+    Weapons can specify MountedAnim in itemdesc.cfg.  
+    config/animxlate.cfg specifies animation translations for actions while on 
+      a mount.  Most weapons shouldn't need MountedAnim entries if this is 
+      populated correctly. (thanks to Myrathi for filling in animxlate.cfg)
+    Removed messages when skillwin.ecl and skilladv.ecl don't exist
+    Fixed a crash bug if you tried to spend gold with no backpack.
+    The game clock will be paused during world save.  This should eliminate CPU
+      usage spikes afterwards.
+    Script compiler takes two new parameters:
+        -b : keep building other scripts after errors are encountered
+        -u : only compile updated scripts (.src newer than .ecl)
+    Script compiler will warn for locals with same name as globals
+      (only if -w 'enable warnings' option is passed)
+    Crypto Keys updated for client 1.26.4
+
+
+10/28/1999 - POLC085
+==========
+    Fixed a bug where dragging part of a stack from the ground would
+      misplace the remainder.
+    Items that are 'SaveOnExit 0' and in a container will no longer be saved.
+
+10/25/1999 - POLC084
+==========
+    script compiler: '\' will function as an escape character in strings
+      - \n and \t are defined as special characters
+    script compiler: *.hsr files are ASP-like source pages
+     (see files in the experimental files section for examples)
+    added http::WriteHtmlRaw(str) for .hsr/.asp pages
+    script scheduler uses a priority divider now; will be testing to see
+      if this can help with lag in some instances
+    polcore().set_priority_divide( newvalue ) added
+    polcore().priority_divide (read-only)
+    script compiler will generate a wordlist file if '-W' option is passed.
+    added mobile.criminal property
+    when loading, 1 dot will print per 1000 objects loaded.
+    Fixed a bug in array.insert(index,value) where it was impossible
+      to insert at the end of an array, or into an empty array.
+    Added array.append(value), array.reverse(), and array.sort() methods
+    Inactivity timer added: warning after 4 minutes, disconnect after 5 mins
+    MaxCallDepth for scripts can be specified in pol.cfg (default 100)
+!!  Decreased system load time.  Please BACK UP your datafiles!
+    IgnoreLoadErrors=1 in pol.cfg will ignore (most) load errors and start server
+    Script listfiles generated with -l with always contain source and 
+      file/line information, even if -i is not specified
+      (it's best not to use -i, in fact -- less overhead)
+    Added polcore().script_profiles property:
+      returns array of { name, instr, invocations, instr_per_invoc, instr_percent }
+      - same data as output by .log_profile
+    Added polcore().clear_script_profile_counters() method.
+    array.insert() functions properly again
+    Overhauled the client item manipulation system (getting,dropping,equipping items):
+      - LOS is now checked when picking up an item
+      - LOS is checked when dropping an item
+      - range must be <= 2 to pick up an item
+      - drop-item range increased to 2
+      - picked up items are marked 'inuse'
+        Note this causes some easy resource-use exploits until scripts mark
+        items in-use.  But that's better than crashing.
+    Added uo::ReserveItem(item) and uo::ReleaseItem(item)
+      - these mark an item as inuse for this script only to use.
+      - all reserved items will be released on script exit if ReleaseItem is not called.
+    'inuse' items have special rules:
+      - they cannot be picked up (not even part of a stack)
+      - they cannot be added to, if they're a stack.
+      - they cannot be used as reagents
+      - they cannot be used as projectiles
+      - they cannot be spent at a vendor
+      - they cannot be sold to a vendor
+      - they will not decay
+      - if a stack, they cannot be added to if a like item is bought at a vendor
+      - The following functions will not operate on inuse items, unless the calling
+        script reserved the item for its use with ReserveItem
+          - DestroyItem
+          - SubtractAmount
+          - MoveItem
+          - MoveItemToContainer
+          - EquipItem
+        This means most scripts that have to check for materials twice (typically
+        before and after doing sound effects and delays) can just reserve the items
+        before checking for materials.
+
+      I'm considering whether inuse items should be doubleclickable, and
+        whether or not the doubleclick script should start out with the
+        item already reserved.
+     MoveCharacterToLocation and login will generate EVID_ENTEREDAREA events
+     Ghosts will no longer use nor require stamina for movement
+    
+
+10/07/1999 - POLC083
+==========
+    Lots of items down there.  The highlights:
+        - secure trading (but see important note about enabling)
+        - stamina costs for movement     
+
+    Startup output -- error messages, etc will be logged to 'start.log'.
+    Disabled the following internal text commands, because a replacement
+      script exists, or they're rarely used and a script could be written.
+      (They still exist; renamed to i_[cmd] in case you really need them)
+        .ident
+        .setusescript
+    Added polcore() members:
+        log_profile( clear )
+    text command script names can now contain underscores
+    New config file - config/servspecopt.cfg, for Server Specific Options
+       - DefaultDoubleclickRange, which is used if DoubleclickRange isn't
+         specified for an objtype in itemdesc.cfg
+       The default doubleclick range (if not specified there) is now 2
+    GMs should still see ghosts after they drop out of warmode
+    added mobile.enable( privilege ), mobile.disable( privilege )
+       - for enabling/disabling privileges
+    Added functions to the NPC module:
+        WalkTowardLocation( x, y );
+        WalkAwayFromLocation( x, y );
+        RunTowardLocation( x, y );
+        RunAwayFromLocation( x, y );
+        TurnTowardLocation( x, y );
+        TurnAwayFromLocation( x, y );
+    polcore().itemcount will now decrease
+    Added 'ipmatch' property to servers.cfg, so localhost and LAN servers
+      can be made to only show up if you connect from localhost or the lan.
+    Added the 'all' privilege which effectively gives you..all the privileges!
+    Added the 'dblclickany' privilege which lets you doubleclick any
+      doubleclickable object regardless of range
+    itemdesc.cfg has a 'Weight' entry which can specify whole weights
+      or fractional weights ("1/50" etc) in stones
+    Item weights will be tracked.  No limits or stamina effects yet.
+    added 'object.weight' member
+    Fixed an integrity problem if doors were on a zone boundary
+    Fixed a crash bug if a house component was destroyed before the house was.
+    Items will not decay on multis unless "DecayOnMultis 1" is set in itemdesc.cfg
+!       (Note this should be set for corpses in particular)
+    Gave boats some TLC: (some scripts+config files need updated to use this)
+       - corpses created on a boat will move with it.
+       - items dropped on the boat when a corpse decays will move with it
+       - the remainder of a stack half-removed from a deck will move with the boat
+       - NPCs created directly on boats will move with it
+       - added the rest of the boat definitions to config/boats.cfg
+       - walkon scripts will fire if the item's Z is 0 or 1-z below the walker
+          (specifically so that boat planks can have walkon scripts)
+       - massaged the data from client files so long boats don't have a hole in 
+          the middle.
+       - fixed the "Deck is not empty" bug on boat destruction
+       - characters who log off on a boat will be moved when the boat moves
+       - added member 'boat.has_offline_mobiles'
+       - added method 'boat.move_offline_mobiles(x,y,z)' for moving the offline
+         mobiles carried by a ship somewhere.  This function is very trusting
+         regarding the coordinates you pass it. As long as they're within the 
+         world bounds, it'll move the mobiles there.
+    "walkon" scripts have more parameters.  the full declaration:
+       program walkon( who, what, lastx, lasty, lastz )
+       the 'last' coordinates are the coordinates the walker is coming from.
+    MoveCharacterToLocation takes a 5th parameter, 'flags'
+       if MOVEMOB_FLAG_FORCELOCATION included, force z-location
+         (ignore any obstacles)
+    Added polcore().packages() - array of installed package names
+    Added polcore().compiledate - text string
+    Added polcore().compiletime - text string
+    Incorporated Beosil's latest crypto code to deal with the 21036-bytes bug
+    Fixed a bug with gump-dialog handling for dialogs with many textentry fields
+    Package start scripts will run under the Linux build
+    Added basics of secure trading:
+        Enabled if EnableSecureTrading=1 is set in pol.cfg.
+        Items can be added to the secure trade window
+        Items cannot be removed except through cancelling the trade
+        Items in the secure trade window can be singleclicked
+        Unlocked containers in your side of the trade window can be
+          doubleclicked, and will open for both trading parties
+        stacks currently cannot be added to.
+        If either party disconnects, trade will be cancelled.
+        Traded items which will not fit in your backpack will fall to your feet.
+        All secure trades will be cancelled before saving data or shutting down.
+!       This entry must be added to config/itemdesc.cfg:
+            Container 0xFF01
+            {
+                Name    SecureTradeContainer
+                graphic 0x1E5E
+                Gump    0x003C
+                MinX    0
+                MaxX    66
+                MinY    0
+                MaxY    33
+            }
+    Added servspecopt.cfg property: MovementUsesStamina=0/1
+        If this is set, you will need config/movecost.cfg
+        Note movement cost code is still being developed.
+    ecompile: option -l  (ell) will cause a listfile to be generated, which
+      contains the internal instructions in the compiled file.  In conjunction
+      with '-i' (include debug info) you may have a fighting chance at seeing
+      where your script corresponds to the instructions.  May be useful
+      for debugging or profiling, or for just being nosy.
+    Added runaway script detection.  RunawayScriptThreshold in pol.cfg specifies
+      how many instructions a script can execute without sleeping before being
+      reported as a runaway.  The default is 5000 instructions.  Reports will
+      be logged to log/script.log
+    spellbook weight will no longer include weight of contained scrolls
+    corrected an error in container-weight handling
+    added polcore().running_scripts
+    returns an array of structures { name, instr_cycles, consec_cycles, PC, call_depth, num_globals },
+      one element per running script.  See scripts/www/running_scripts.src
+    pol.cfg can specify WebServerPassword=username:password, to restrict access
+      If this is used, nothing can be accessed without the password.  
+      A more flexible password scheme is in design.
+    
+
+09/09/1999 - POLC082
+==========
+    Added 'hearghosts' privilege
+    Support added for UO client 1.26.1
+      - key constants are specified in a key file, so maybe next time
+        this won't require a rebuild.
+      - pol.cfg must have "Keyfile=crypto/v1_26_1.key"
+
+        
+
+09/05/1999 - POLC081
+==========
+    Added cfgfile::LoadTusScpFile(basename) - loads TUS .SCP format files
+      so they can be accessed like a POL .cfg file
+      (not an importer - an importer will be built upon this)
+    New characters will start with clothing that matches what the new
+      client displays.
+    mobile.concealed can be set to anywhere between 0 and mobile.cmdlevel
+    mobile.concealed is now saved with game state
+    added array.erase( index ) - erases an element in an array
+    added array.size() - returns number of elements in an array
+    added array.shrink( nelems ) - erases all but the first 'nelems' elements
+    added array.insert( index, value ) - inserts an new element 
+    NPC masters will be saved with game state
+    packages can contain npcdesc.cfg and ai scripts.. ".createnpc :pkg:npctype"
+    Encryption keys changed to support client 1.26b (Thanks Beosil!)
+    Added some code to get more information on a particular crash bug
+    Fixed an AV condition when equipping an NPC that isn't strong enough  
+    ".integ_item" will write problem information to the logfile
+    a stack backtrace will be logged on assertion failure
+    Corrected an error in house destruction which could cause corruption
+    added os::events_waiting() - returns number of events in script's event queue
+    added direct stat modification:
+        mobile.setstr( newstrength )
+        mobile.setdex( newdexterity )
+        mobile.setint( newintelligence )
+
+08/28/1999 - POLC080
+==========
+    POL now supports the new UO Client (v 1.26)
+        startloc.cfg must be changed to list cities in a particular order.
+        (Yew, Minoc, Britain, Moonglow, Trinsic, Magincia, Jhelom, Skara Brae, Vesper)
+    Armor now has quality, hp, and maxhp.  This means Armor entries in
+      itemdesc.cfg must have a MaxHP entry!
+    
+    Added polcore().version (79,80,81 etc)
+    Added polcore().verstr ("POL080", "POL080X1" etc)
+    POL version string will be written to log file on startup
+    Added CreateAccount( acctname, password, enabled )
+      - returns an accountref (see docs/objref/account.htm)
+    character.acct added
+    Account object created; gives the ability to ban,unban, disable, enable,
+      change the account name, and change the account password, from scripts.
+    Large shards will want to set UseNewStaticsFile=1 in pol.cfg.  This will
+      create files 'statics0.pol' and 'staidx0.pol', which are smaller versions
+      of statics0.mul and staidx0.mul.  These files are then loaded wholly into
+      memory for very fast access for walking height and LOS checks.
+      If this option is enabled, POL uses an additional 11 MB memory
+    NPC movement anchors can be set; call npc::SetAnchor() (see npc.em)
+      Movement anchors are only in effect when NPC isn't in warmode
+    ".unload" will now unload all scripts whos name contains the parameter
+      ".unload ai" will unload all scripts whos name contains 'ai', for example.
+    Fixed an access violation if a mobile died with a full backpack and
+      worn items.  (bug introduced in the 'newbie items' update)
+    Added weather effects, using static regions (regions/weather.cfg)
+    Armor will now take damage during combat
+    stackable weapons/armor in vendor inventories
+     (merchant.src must be changed to call CreateItemInInventory)
+    New priv/settings: seehidden, seeghosts 
+    added character.setlightlevel( lightlevel, duration ) (mylight.src tests)
+      - sets personal light level for a period of time (duration in seconds)
+    DestroyMulti can destroy boats now (but use BoatFromItem..see destroyboat.src)
+    Fixed an object leak on house destruction
+    Paperdolls will only be opened for humans, ghosts, GMs, Lord British, 
+      Lord Blackthorne, and Dupre
+    chrdeath.src has a second parameter, the character's ghost
+    Added chr.squelch(duration) - duration in seconds.  -1=forever, 0=off
+    added chr.squelched
+    "[invulnerable]", "[frozen]", and "[squelched]" tags will display
+      over affected mobiles when singleclicked.
+    Added SetRegionWeatherLevel(regionname,type,severity,aux,lightoverride)
+      - test/setweather.src tests   
+
+08/16/1999 - POLC079
+==========
+    items on others' paperdolls within visual ranged can be singleclicked
+    If an equipped item can't be equipped on load, it'll be stuffed into the backpack
+      If the backpack is full, the server will refuse to start.
+    More error messages will print hex serial numbers now
+    It will be impossible to assign a blank name to a mobile, or a name
+      that begins with whitespace (this traps all-whitespace names)
+    All the houses should be creatable now.
+    Made a change that seems to help lag when lots of mobiles are on-screen at once
+    http::WriteHtml calls are now handled more efficiently
+    corrected anims for nonhumans using projectile weapons
+    'StrRequired' (Strength Requirement to Equip Item) can be specified in itemdesc.cfg
+    item.newbie added; 'newbie' items will stay with the ghost.
+    'Newbie' can be specified in itemdesc.cfg.  This is the default 'newbie' flag
+      for items of this type.  Typically set for spellbooks.
+      - newbie items stay with the ghost
+      - newbie stacks split turn into two newbie stacks
+      - a non-newbie item added to a newbie stack contaminates the newbie stack,
+        making it non-newbie
+      - the various CreateInContainer functions will not add to an existing newbie stack
+      - vendors won't buy newbie items
+    'BlocksCastingIfInHand' can be specified in itemdesc.cfg.  Both hands will be checked
+    for items after reagents are consumed but before mana is consumed
+    RequireSpellbooks can be specified in pol.cfg; default is 1
+      - Spellbooks, with scrolls, are required in order to cast spells if this is set.
+
+08/10/1999 - POLC078
+==========
+    added character.acctname 
+    added weapon.dmg_mod (-32768 to +32767, but be gentle :)
+    added armor.ar_mod
+      Note if you change ar_mod on equipped armor, it won't reflect in your displayed
+      AR until you take the armor off and put it back on, but the change will
+      increase or decrease your protection immediately.
+    added armor.ar  (adjusted by ar_mod)
+    added armor.ar_base (unadjusted)
+    added nocast regions (will work for spells and scrolls, if they use StartSpellEffect)
+    SaveWorldState() will return an error if an exception occurs during world save
+      (instead of aborting the calling script)
+    added weapon.maxhp_mod
+    Scaled back optimizations so that crash dumps can give more information
+    Included more debug checks in the release version, to search for odd problems
+    corrected an out-of-bounds condition for mobiles near the edges of the world
+    Fixed a bug where boats could go off one side of the world a couple of tiles.
+    It is now impossible to use a skill or item during a casting delay
+    Houses can sit on slightly uneven ground; the z-coord can differ by up to 2
+    added item.sellprice; used instead of 'VendorSellsFor' if nonzero.
+      sellprice on a stack is the price for one unit
+    TwoHanded (0/1) can be set in itemdesc.cfg for weapons
+    Started on z-coord problems, but the map seems to sit above some statics *sigh*
+    Target() will accept TGTOPT_HARMFUL, TGTOPT_NEUTRAL, and TGT_HELPFUL in its
+     'options' parameter.  Harmful actions mark you criminal or aggressor according
+     to normal flagging rules.  Helpful actions on a criminal will mark you a criminal.
+     The criminal query window will pop up when appropriate if enabled on the client.
+    NPCs will get "enteredarea" and "leftarea" events when they move
+    alignment (good, neutral, evil) can be specified in npcdesc.cfg
+    actions for/against yourself or your pets will not affect criminal flags, etc
+    harmful actions against good-alignment NPCs will mark you criminal
+    helpful actions against evil-alignment NPCs will mark you criminal
+    internal command target cursors shouldn't interfere with script target cursors
+    Scripts have a 'controller' attached.  This is set to the spellcaster, or the
+      character doubleclicking the item, etc.  ApplyDamage and ApplyRawDamage now
+      send an EVID_DAMAGED event using the controller as ev.source
+    Added uo::SetScriptController(who) - should be used to set controllers for
+      traps and such
+    EVID_ENGAGED events will be sent to NPCs targetted with hostile actions
+    justice zone "entering" and "leaving" messages won't print if switching between
+      zones where the messages are the same
+    If 'enabled.pkg' exists in a package directory, the package will be enabled
+      regardless of Enabled=1/0 in pkg.cfg.  If 'disabled.pkg' exists, both these
+      will be ignored, and the package will be disabled.
+    It's now possible to set a mobile's colors above 0xfff
+    added mobile.cmdlevel; read-write, set to 0-5 (0-player, 5=test)
+
+07/27/1999 - POLC077
+==========
+    weapon skills, tactics, and parry will cause stat gain from combat
+      - note this is from ANY combat - GMs on rabbits, whatever.
+    transmission buffer size increased to handle huge gump dialogs
+    save time improved; tests show over 2x faster on Win98, almost 2x faster on WinNT
+    Fixed the "you are already holding an item" bug on disconnect while dragging an item
+    Unicode speech is now handled (ASCII character set only)
+    Tooltip text can be specified in itemdesc.cfg
+    'Name' can be specified as 'ObjtypeName' in itemdesc.cfg.  'ObjtypeName' is 
+      preferred. 'Name' is deprecated, and will not be supported after core 079
+    Entries in pol.log will be timestamped
+    Added logging for login/logout (with IP), and incorrect password presentation.
+    new polcore() variables:
+        uptime:  system uptime in seconds
+        sysload: system load, 0-100
+    Limited the crash stack backtrace to 100 frames
+    LogSysload=1 in pol.cfg will cause sysload to be logged each minute
+    Corrected an error which could cause CPU usage to rise to 100% until shutdown
+    Removed dump of message type 0x69
+    New internal text command: "log_profile"  logs script profile data
+    New internal text command: "log_profile_clear"  logs script profile data, clears counters
+    new polcore() variables: bytes_sent, bytes_received
+    SendEvent now functions as advertised
+    new members for multis: multi.items and multi.mobiles
+      - arrays of supported items/mobiles
+    Names of scripts that cause access violations will now be logged.
+    Fixed an AV condition on skills with no script defined
+    Target() takes an 'options' parameter.  This should be either TGTOPT_CHECK_LOS or
+      TGTOPT_NOCHECK_LOS.  The default is TGTOPT_CHECK_LOS.  Some scripts currently 
+      call Target( someone, "" ) -- this should be changed to Target( someone ) ASAP.
+      For now, this is treated the same as TGTOPT_CHECK_LOS.
+    Corrected another cause of client i/o thread infinite loops. 
+    Autodefense will target an attackable opponent or hostile, rather than
+      exclusively trying to hit your opponent. 
+    Added the beginnings of aggressor and criminal flagging.
+      Supported:
+        - criminal flagging (2 minutes) for attacking an innocent
+        - aggressor flagging (2 minutes) for attacking first
+        - extension of these timeouts for continued behavior
+        - pets ordered to attack will affect their owner's flags
+        - attacking a pet is like attacking the owner, as far as flagging is concerned
+        - name coloring
+      Not supported:
+        - any repercussions whatsoever for being a criminal
+            (except that others can attack you without becoming criminal)
+        - any repercussions whatsoever for being an aggressor
+            (except that those you are an aggressor to can attack you freely)
+    Corrected an error in the task scheduler, discovered while coding aggressor flagging.
+      This may also affect autodefense.
+    Ships will no longer be able to sail off the map
+
+07/06/1999 - POL076
+==========
+    data/accounts.txt will be re-read after it has been modified (must remain
+        unchanged for 10-40 seconds).  
+    basic::pack( expr ) and basic::unpack( string ) added.
+    Config/Data file parser modified to handle arbitrarily long properties
+      (mostly for very large stored arrays)
+    Trailing spaces in config/data files will be trimmed.
+    arrays will display their contents when printed, instead of "<objarray>"
+    Weapons will have a 1% chance (was 25%) per swing of losing 1 HP
+    Temporary kludge for combat skill gain:
+        On each swing:
+            attacker gets 30 raw skill points in his weapon skill
+            attacker gets 15 raw skill points in tactics
+            defender gets 15 raw skill points in tactics
+            defender gets 30 points in parry, if a shield is equipped
+    GetObjProperty/SetObjProperty etc can store arrays of integers, strings, reals, and arrays
+    arrays can be tested for equality.
+    Fixed two memory leaks in the script compiler
+    Skill points will always be awarded for skills with <= 10.0 value
+    items which are 'SaveOnExit 0' will use a different serial number pool,
+      from 0x4F000000 to 0x4FFFFFFF
+    bugfix: fixed some problems with LOS checks on doubleclick (and others)
+            if you stood in the same place as, say, an iron ingot, you couldn't
+            open a container in your backpack; this has been fixed.
+    ecompile can take '-r directory' as a parameter, will compile .src files in
+        directory and all subdirectories
+    bugfix: 'npctemplate' custom prop on corpses will now work.
+    Adding support for packages: see also polcore/docs/packages.txt for detail.:
+        - 'item.usescript' can specify ':pkgname:script' format scriptnames
+        - PKG.CFG can specify 'version', 'requires pkgname version', and 'conflicts pkgname'
+        - AppendConfigFileElem and UnloadConfigFile will accept ":pkgname:cfgfile" syntax
+        - Anywhere you can specify 'script' that would specify a script in a package,
+          you can now specify ':pkgname:script' to reference a script in another package
+        - Spells can be put in packages (put a spells.cfg in package directory)
+        - Packages can contain 'skills.cfg'
+        - ReadConfigFile( "::itemdesc" ) will access data in main itemdesc.cfg as well
+          as all package itemdesc.cfg files.  Same for "::skills.cfg" and "::spells.cfg"
+        - ReadConfigFile handles new formats to specify a config file in another package
+
+05/31/1999 - POL075
+==========
+    DoubleclickRange can be specified in itemdesc.cfg
+      (archery buttes will be broken until their configuration uses this)
+    Linux build: Ctrl-C and 'kill [pid]' are caught for save/shutdown
+    Added uo::polcore() - returns an object that can be used to query system data
+       - itemcount
+       - mobilecount
+    regions/regions.cfg defines justice regions - only enter/leave messages are printed.
+    regions/regions.cfg defines music regions
+    ListMobilesInLineOfSight will not return mobile passed as the center
+    Linux build: fixed bug which was causing 100% cpu usage always
+    Startup output for start.src will be shorter
+    Line of sight to items changed: will be from head of mobile to center of item
+    Doubleclick limits added: must be range <= 1, and have LOS.
+    ~IN[spellnum] can be used to cast spells
+    Spells above the standard 64 can be defined (use ~IN to invoke)
+    NPCs have a 'setmaster(master)' method, which right now only allows renaming
+    Events sent to an NPC will be discarded if more than 30 events are currently queued
+    web server can now serve .gif, .jpg, and .jpeg files
+    scripts: "var" can be used instead of "global" and "local"
+    scripts: object methods are here - doors will have them first.
+    scripts: "array(2, 54)" syntax is deprecated in favor of "{ 2, 54 }"
+    scripts: C-style " /*   */ " comments will function again
+    scripts: old, non-"fully bracketed" syntax will no longer compile.
+    Custom properties prefixed with '#' will not be saved with game state.
+    SendDialogGump now returns an 'integer hash' with the results.
+        var x := SendDialogGump(...);
+        x[0] is the exit-button pressed
+        x[button id] returns 1 if that button was pressed/selected
+        x[text entry id] returns the string contents of a textentry field
+        x.keys returns an array of all the keys
+        See scripts/textcmd/test/exgump.*
+    Added GetWorldHeight(x,y) - returns lowest point above map and lowest statics
+        (It's supposed to, anyway.  It actually returns the point atop the
+         highest static, but it works for most dungeon teleporters, so I'm leaving
+         it broken for a while.)
+    internal changes to resource region stuff; more testing before X3
+    mid() is now unavailable (has always been broken)
+    ghosts will speak ghostspeech (no hooks for spirit speak yet)   
+    doors are scriptable; door.src autocloses, and plays sound effects.
+      - door objects have an 'isopen' property
+      - door objects have 'open()', 'close()', and 'toggle()' methods
+      - 'isopen': reports if the door is open or closed
+      - 'open()': opens the door  ("door.open();" in script would open it)
+      - same for  'close()' and 'toggle()' - they change the state of the door.
+      Not sure how well this interface will work, or how intuitive it'll be.
+    bugfix: SetObjProperty etc now work with Multis
+    SystemFindObjectBySerial will find multis
+
+05/18/1999 - POL074
+==========
+    Spawner rewritten; basic spawn limiting is in place.
+    EVID_ITEM_GIVEN event added for items dragged onto NPCs
+    Wrestling will no longer do 0 damage after being used a few times
+    item colors set by scripts will be limited to 0-0xFFF
+    The following types of scripts run at priority 100, instead of critical:
+      - spells
+      - item use
+      - walk on
+      - skill use
+      - text commands
+    The following types of scripts still run critical:
+      - character creation
+    DestroyMulti will destroy houses, moving their contents to the ground.
+    NPCs will have a ".npctemplate" member
+    "CacheInteractiveScripts" in pol.cfg forces disk reloads on use for some scripts:
+      - text commands
+      - item use
+      - walk on
+      - character creation
+      - www pages
+      - spells
+      - skill use
+    Added uo::StartSpellEffect(who,spellid): start the spell script
+    Added uo::GetSpellDifficulty(spellid)
+    Added uo::SpeakPowerWords(who,spellid)
+    Corrected an error where config file/elem variables couldn't be passed to functions
+    spawns.cfg can take 'rect' entries
+    combat.cfg has a param for displaying a message on successful parry.
+    Multithread mode is stable.
+    CDbl(val) added - convert to double
+    ".setskill" now takes base-values instead of raw-values, so 
+      ".setskill 25 60" will set Magery to 60.  It'll actually set it to
+      59.9, because of a base->raw conversion bug, so don't panic.
+    Fixed a resource leak if you set 'decayat' on an object...don't ask.
+    More stuff for houses:
+      - Empty space is required between houses:
+        - 2 tiles east-west
+        - 6 tiles north-south
+      - Houses cannot be built on top of mobiles or items.
+      - Houses must sit on level ground.
+      - Houses cannot sit on trees, rocks etc, or have them directly adjacent to it.
+      - Note, it's still possible to create houses in annoying places.. *sigh*
+    'cprop' and 'strprop' entries in itemdesc.cfg will be added to new items
+    Internal clock granularity is now 1/100th second.
+    CreateMultiAtLocation will function for houses, and will create doors and signs.
+      - house.components will be an array of all these items
+      - each component will have a 'house_serial' custom prop with the serial #
+        of the house.
+
+05/09/1999 - POL073
+==========
+    Rudimentary web server added.  Set WebServer=1, WebServerPort=8080 in pol.cfg,
+      then go to http://localhost:8080.  The default website only has a 
+      "show online characters" page, but that's just the beginning!
+      This only works in multithread mode, which is unstable on exit,
+        so this is really only for playing around at this point.
+      Default operations allows access only from localhost.
+    Weapon animations can be set - 'Anim' in wepndesc.cfg
+    Weapon sounds can be set - 'HitSound', 'MissSound' in wepndesc.cfg
+    NPCs will no longer step into the same tile as another NPC.
+    WebServerLocalOnly (defaults to 1) in pol.cfg will restrict web server access
+    "AttackHitSound" and "AttackMissSound" can be specified in npcdesc.cfg
+      - Note that to do this, you have to have an AttackSpeed entry too
+    Added uo::SendTextEntryGump() - used for those input box thingies
+      - see uo.em for parameters and constants
+      - Added ".testtextentry" to play with it
+      - numerical mode isn't tested yet, but will for sure return result as a string
+    Added uo::SendDialogGump( who, layout, textlines ) - see uo.em and testgump.src
+       We need more 'testgump' scripts for radio buttons etc
+    RandomInt() will return an error if its parameter is <= 0
+    Performance enhancements to PC movement with lots of ingame items
+    The following functions will automatically convert a 'name' to an 'objtype'
+      (they automatically call GetObjtypeByName if a string is passed)
+      - CreateItemAtLocation
+      - AddMenuItem
+      - ListItemsNearLocationOfType
+      - CreateItemInContainer
+      - CreateRootItemInStorageArea
+      - FindObjtypeInContainer
+      - CreateItemInBackpack
+    ".createstack" can take an objname
+    "Movable" property added to itemdesc.cfg - overrides client datafiles
+    Item descriptions in merchant windows will no longer include redundant amounts
+    "Desc" property in itemdesc.cfg will now be used
+    "MOVEITEM_FORCELOCATION" can be added to the z-coordinate in 
+      MoveItemToLocation to force acceptance of the position. 
+    ControlScript in itemdesc.cfg is now functional
+    CreateScript in itemdesc.cfg fill now run for:
+      - CreateItemAtLocation
+      - CreateItemInContainer
+      - CreateItemInBackpack
+      If the CreateScript succeeds (returns a 'true' value, or nothing) creation
+      will be allowed; if it returns a 'false' value, creation will fail.
+    DestroyItem will consult the DestroyScript, if any 
+    Decay will consult DestroyScript, if any.  Decay counter is not reset; 
+      checks will continue on each decay sweep.
+    os::parameter() is gone
+    Added os::set_priority( priority ) - set script priority from 1 to 255
+      - higher priority scripts will get more CPU time
+      - in CS terms, priority is just quanta
+
+
+
+04/29/1999 - POL072 (ouch, too many changes! sorry!)
+==========
+    dot-commands will no longer unhide the character issuing them
+    'stealthsteps' member added to mobiles
+    GameMasters and ghosts can walk through doors
+      GM is defined as graphic == 0x3db, not humans wearing a GM robe
+    NPC stats in NPCDESC will be specified in die-roll, base values
+     (to come: hp, mana, stamina default to associated attributes)
+    'Unhides' property added to skills.cfg, mainly for stealth
+
+    Fixed an AV condition if a stat window was opened on a just-dead NPC
+    Skill values in NPCDESC.CFG are now 'base' values, dieroll-form 
+    Skill values in NPCDESC.CFG can be named using Skill Name (skills.cfg)
+      rather than skillid (for example, Wrestling instead of Skill43)
+    Skill values in PCS.TXT and NPCS.TXT will use skill names (and raw values)
+    'concealed' flag added to mobiles.  Similar to 'hidden', but is only
+      cleared explicitly (who.concealed := 0).  Only effective against
+      mobiles below your command level - so Admins can always see GMs, etc.
+      The following functions will _always_ exclude 'concealed' mobiles:
+        ListMobilesNearLocationEx
+        ListMobilesNearLocation
+        ListMobilesInLineOfSight
+        ListHostiles
+        Note that these affect spells cast by higher-level beings.
+    Speech code modified to accomodate 'concealed' flag.  A side effect is 
+      that speech by non-warmode ghosts should no longer be seen by non-ghosts
+    Some events will not be generated for hidden and concealed mobiles:
+       - speech
+       - entered area, left area
+       - opponent moved
+    'frozen' and 'paralyzed' members added to mobiles
+      - paralyzed is cleared when ApplyRawDamage is called
+      - paralyzed and frozen are cleared upon death and resurrection
+      - either block:
+        - walking and running (MoveCharacter() functions will still work)
+        - casting
+        - skill use
+        - item doubleclick (except paperdoll)
+        - targetting of any kind
+    '.freeze' and '.thaw' GM commands added
+
+    armor.cfg moved to armrdesc.cfg
+      format merged with itemdesc.cfg
+          ".armor" is gone = ".create" can do it now.
+
+    weapon.cfg moved to wepndesc.cfg
+      format merged with itemdesc.cfg
+      ripples to:
+          equipfromtemplate
+          ".weapon" is gone - ".create" should be able to do it now
+      Instead of WeaponTemplate names, weapons can just use different objtypes
+        to have different capabilities with the same graphic
+      This opens the door for magic weapons etc.
+
+    Experimental multithreading mode: Multithread=1 in pol.cfg
+      It's pretty unstable, typically crashing on exit.  Singlethread (default)
+      mode is unaffected.
+    Config properties can be accessed with "." syntax, rather than using
+      "GetConfigInt", "GetConfigString" etc.  Types (integer, string, real)
+      determined automatically.
+    Config files can be searched for elements with "[]" syntax:
+      config[6] searches by integer key, config["WarAxe"] searches by string
+    SendSellWindow() sort of works; any merchant will buy and item with a
+      nonzero "VendorBuysFor" price in itemdesc.cfg.
+!!  Be sure to recompile merchant.src
+    MoveToward etc will move around simple obstacles

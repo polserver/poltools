@@ -1,4 +1,4 @@
-/* $Id: reconnect.src 93 2006-05-23 20:23:29Z sroyalty $
+/* $Id$
  *
  * Purpose
  * This script allows code to run when the player logs in after having recently logged off.

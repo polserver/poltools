@@ -1,0 +1,36 @@
+use os;
+use uo;
+use util;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program efield( parms )
+  var circle := 7;
+  var delivery := "indirect";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 50);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  var fields := {};
+  var listeners := {};
+  var sufferers := {};
+  var x := cast_on.x;
+  var y := cast_on.y;
+  var z := cast_on.z;
+  case(get_direction(caster))
+	"NS" : fields := CreateNorthSouthField(caster, UOBJ_EFIELD_NS, x, y, z, 5);
+	"EW" : fields := CreateEastWestField(caster, UOBJ_EFIELD_EW, x, y, z, 5);
+  endcase
+  PlaySoundEffect(caster,0x20c);
+  Detach();
+  var duration := 20 + ( CInt(GetEffectiveSkill( caster, SKILLID_MAGERY ) ) / 3 );
+  var i;
+  sleep(duration);
+  foreach fieldpart in fields
+    DestroyItem(fieldpart);
+  endforeach
+endprogram

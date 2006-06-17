@@ -1,0 +1,51 @@
+use uo;
+use os;
+
+include "include/eventID";
+include "include/insertSound";
+
+//if inserttype == INSERT_INCREASE_STACK, adding_item is uninit
+//if inserttype == INSERT_ADD_ITEM, existing_stack and amt_to_add are uninit
+program on_insert(who, container, movetype, inserttype, adding_item, existing_stack, amt_to_add )
+  var item;
+  if(inserttype == INSERT_INCREASE_STACK)
+    item := existing_stack;
+  else
+  	item := adding_item;
+  endif
+  inNoise(who, container, item);
+  set_critical(1);
+  if(GetObjProperty(container, "Hold"))
+    SendSysMessage(who, "You can only add one item at a time.");
+    if(!MoveItemToContainer(item, who.backpack))
+      MoveItemToLocation(item, who.x, who.y, who.z, MOVEITEM_FORCELOCATION);
+    endif
+    return;
+  endif
+  var vendorserial := GetObjProperty(container,"Vendored");
+  if(!vendorserial)
+    var ownerserial := GetObjProperty(container, "Owner");
+    if(item.isa(POLCLASS_CONTAINER) && ownerserial)
+      SetObjProperty(item, "Owner", ownerserial);
+    endif
+    return;
+  endif
+  sendsysmessage(who, "Vendor");
+  var vendor := SystemFindObjectBySerial(vendorserial);
+  SetObjProperty(container, "Hold", 1);
+  if(item.isA(POLCLASS_CONTAINER))
+    foreach thing in EnumerateItemsInContainer(item)
+      thing.movable := 0;
+    endforeach
+  endif
+  item.movable := 0;
+  var ev := array;
+  ev.+type := EVID_ITEM_GIVEN;
+  ev.+source := who;
+  ev.+item := item;
+  ev.+vendor := 1;
+  ev.+container := container;
+  SendEvent(vendor, ev);
+  return 1;
+  set_critical(0);
+endprogram

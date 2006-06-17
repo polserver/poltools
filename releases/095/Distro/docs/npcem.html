@@ -1,0 +1,1210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: NPC.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+Functions for manipulating non-player character mobiles. All (most?) these 
+functions are limited to use in an NPC context (meaning an AI script).<BR>Last 
+Modified: 2/11/2003</P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetProperty>
+    <TH align=middle colSpan=2>GetProperty( propertyname )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>propertyname</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Deprecated. Equivalent to GetObjProperty( Self(), 
+      propertyname )</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An unpacked object. See GetObjProperty in 
+UO.EM</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Property not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#IsLegalMove>
+    <TH align=middle colSpan=2>IsLegalMove( move, boundingbox 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>move</VAR></TD>
+    <TD>String, one of N, S, E, W, NW, NE, SW, SE</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>boundingbox</VAR></TD>
+    <TD>Bounding box, from CreateBoundingBox</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Given your position, and a tentative move, would it fall 
+      within a bounding box</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>0 on invalid parameter, or illegal move. 1 on legal 
+  move</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#MakeBoundingBox>
+    <TH align=middle colSpan=2>MakeBoundingBox( areastring )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>areastring</VAR></TD>
+    <TD>String, see explanation</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Make a bounding box from an area string. An area string is a 
+      number of 'x1 y1 x2 y2' world coordinate entries.</TD></TR>
+  <TR>
+    <TD colSpan=2>"1 1 4 4 2 5 3 7" would create a walk area something like 
+      this: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>   XXXX
+   XXXXXXX
+   XXXXXXX
+   XXXX
+</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2>Used with Move() and IsLegalMove() functions</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>boundingbox on success, empty string on invalid param (ick). 
+      Careful, not much error checking!</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Move>
+    <TH align=middle colSpan=2>Move( direction )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>direction</VAR></TD>
+    <TD>Direction String, Facing Integer, or Bounding Box</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Direction String is one of: N, S, E, W, NW, NE, SW, 
+  SE</TD></TR>
+  <TR>
+    <TD colSpan=2>A Facing Integer is 0 through 7 where 0 is North, 1 is 
+      NorthEast, etc.</TD></TR>
+  <TR>
+    <TD colSpan=2>See MakeBoundingBox for info on the bounding 
+  box.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success, or Direction String if bounding 
+      box was used</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>none, returns 0 on failures</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Position>
+    <TH align=middle colSpan=2>Position()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Deprecated. Use Self().x, Self().y, Self().z 
+  instead.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A struct with x,y, and z members.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#RunAwayFrom>
+    <TH align=middle colSpan=2>RunAwayFrom( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Runs away from object one tile. Puts the script to sleep for 
+      a period of time proportional to the NPC's run_speed (or dexterity if not 
+      defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#RunAwayFromLocation>
+    <TH align=middle colSpan=2>RunAwayFromLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Runs away from the given coordinates one tile. Puts the 
+      script to sleep for a period of time proportional to the NPC's run_speed 
+      (or dexterity if not defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#RunToward>
+    <TH align=middle colSpan=2>RunToward( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Runs toward object one tile. Puts the script to sleep for a 
+      period of time proportional to the NPC's run_speed (or dexterity if not 
+      defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#RunTowardLocation>
+    <TH align=middle colSpan=2>RunTowardLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Runs toward the given coordinates one tile. Puts the script 
+      to sleep for a period of time proportional to the NPC's run_speed (or 
+      dexterity if not defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Say>
+    <TH align=middle colSpan=2>Say( text )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>text</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Makes the NPC print text above its head. Uses the NPC member 
+      speech_font and speech_color.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>0</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"NPC is squelched"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Self>
+    <TH align=middle colSpan=2>Self()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>return a mobileref to self</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Character Reference to this NPC</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SetAnchor>
+    <TH align=middle colSpan=2>SetAnchor( centerx, centery, distance_start, 
+      percent_subtract )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>centerx</VAR></TD>
+    <TD>Integer world coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>centery</VAR></TD>
+    <TD>Integer world coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>distance_start</VAR></TD>
+    <TD>Integer</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>percent_subtract</VAR></TD>
+    <TD>Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Sets the NPC's 'anchor' point. The NPC will have difficulty 
+      moving far away from this coordinate, and will generally stay near 
+  it.</TD></TR>
+  <TR>
+    <TD colSpan=2>centerx and centery define the anchor point.</TD></TR>
+  <TR>
+    <TD colSpan=2>distance_start is the distance away from the anchor point at 
+      which the npc may not be able to move beyond. Under this distance there is 
+      a 100% chance the move will succeed. If 0, it disables the anchor 
+  point.</TD></TR>
+  <TR>
+    <TD colSpan=2>percent_subtract is how much to subtract from the normal 
+      100% chance for each move beyond the distance_start boundary. So if this 
+      value is "20", the first move beyond the distance_start range (and away 
+      from the anchor point) will only have an 80% chance of succeeding. The 
+      next one will have a 60% chance. So the NPC will tend to move back toward 
+      its anchor point.</TD></TR>
+  <TR>
+    <TD colSpan=2>The anchor point has no effect as long as the NPC is in war 
+      mode.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SetOpponent>
+    <TH align=middle colSpan=2>SetOpponent( character )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>character</VAR></TD>
+    <TD>CharacterRef</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Set your opponent. If you are in range (or are carrying a 
+      projectile weapon and have LOS), you will attack. If a player character is 
+      connected, the NPC will highlight.</TD></TR>
+  <TR>
+    <TD colSpan=2>Implicitly sets war mode.</TD></TR>
+  <TR>
+    <TD colSpan=2>pass 0 to clear the opponent.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>0 on invalid param or clear, 1 on successful 
+  set</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#Character"><B>Character</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SetProperty>
+    <TH align=middle colSpan=2>SetProperty( propertyname, propertyvalue 
+    )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>propertyname</VAR></TD>
+    <TD>String</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>propertyvalue</VAR></TD>
+    <TD>Packable script object (int, string, array, etc)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Deprecated. Equivalent to SetObjProperty( Self(), 
+      propertyname, propertyvalue )</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1. See SetObjProperty in UO.EM</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SetWarMode>
+    <TH align=middle colSpan=2>SetWarMode( warmode )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>warmode</VAR></TD>
+    <TD>Integer 1/0</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Usually used to leave warmode, but can be used to enter 
+      warmode independently of setting an opponent.</TD></TR>
+  <TR>
+    <TD colSpan=2>Setting war mode to 0 clears your opponent.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success, 0 on invalid param or clear</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TurnAwayFrom>
+    <TH align=middle colSpan=2>TurnAwayFrom( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Adjust facing to turn away from object. Puts the script to 
+      sleep for a period of time proportional to the NPC's run_speed (or 
+      dexterity if not defined).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TurnAwayFromLocation>
+    <TH align=middle colSpan=2>TurnAwayFromLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Adjust facing to turn away from given coordinates one tile. 
+      Puts the script to sleep for a period of time proportional to the NPC's 
+      run_speed (or dexterity if not defined).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TurnToward>
+    <TH align=middle colSpan=2>TurnToward( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Adjust facing to turn toward object. Puts the script to 
+      sleep for a period of time proportional to the NPC's run_speed (or 
+      dexterity if not defined).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TurnTowardLocation>
+    <TH align=middle colSpan=2>TurnTowardLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Adjust facing to turn toward given coordinates one tile. 
+      Puts the script to sleep for a period of time proportional to the NPC's 
+      run_speed (or dexterity if not defined).</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WalkAwayFrom>
+    <TH align=middle colSpan=2>WalkAwayFrom( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Walk away from object one tile. Puts the script to sleep for 
+      a period of time proportional to the NPC's run_speed (or dexterity if not 
+      defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WalkAwayFromLocation>
+    <TH align=middle colSpan=2>WalkAwayFromLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Walk away from the given coordinates one tile. Puts the 
+      script to sleep for a period of time proportional to the NPC's run_speed 
+      (or dexterity if not defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WalkToward>
+    <TH align=middle colSpan=2>WalkToward( object )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>UObject</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Walk toward object one tile. Puts the script to sleep for a 
+      period of time proportional to the NPC's run_speed (or dexterity if not 
+      defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Mobile specified cannot be seen" if object is a character 
+      and invisible</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR>
+  <TR>
+    <TD colSpan=2><A 
+      href="objref.html#UObject"><B>UObject</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#WalkTowardLocation>
+    <TH align=middle colSpan=2>WalkTowardLocation( x, y )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>x</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>y</VAR></TD>
+    <TD>Integer World Coordinate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Walk toward the given coordinates one tile. Puts the script 
+      to sleep for a period of time proportional to the NPC's run_speed (or 
+      dexterity if not defined).</TD></TR>
+  <TR>
+    <TD colSpan=2>Note also, walking in range of your opponent may cause you 
+      to attack.</TD></TR>
+  <TR>
+    <TD colSpan=2>See the NPC members run_speed and use_adjustments. If 
+      use_adjustments is 1 the NPC will adjust the direction of the move to 
+      attempt to avoid small obsticles. Also, this function will always return 
+      true as a result. If it is 0, the NPC will not attempt to adjust the move, 
+      and the function will return false.</TD></TR>
+  <TR>
+    <TD colSpan=2>The success of this function is affected by the NPC's anchor 
+      point. See SetAnchor().</TD></TR>
+  <TR>
+    <TD colSpan=2>In the future, this function will activate a pathfinding 
+      system.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Boolean for move success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Wander>
+    <TH align=middle colSpan=2>Wander()</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>walk, usually forward, sometimes turning</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 if the move succeeded, 0 if it failed</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Related</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2><A 
+    href="objref.html#NPC"><B>NPC</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

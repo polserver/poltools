@@ -1,0 +1,94 @@
+include "spawnRegion";
+
+var SpawnRegionData := DFOpenDataFile("SpawnRegionData", 1);
+var SpawnRegionFreq := DFOpenDataFile("SpawnRegionFreq", 1);
+
+program SpawnRegionManager(param)
+  var pid := getpid();
+  SetGlobalProperty("#SpawnRegionManagerPID", pid);
+  groupscfg := GlobalSpawnGroups();
+  regionscfg := GlobalSpawnRegions();
+  ReadRegions();
+  ReadGroups();
+  ValidateSpawnRegions();
+  var ev;
+  while(1)
+    var NextLoop := ReadGameClock() + 60;
+    ev := os::wait_for_event(60);
+    if(ReadGameClock() >= NextLoop)
+      print("Beginning Spawn Region Sweep");
+      counter := 0;
+      SpawnRegionData := DFOpenDataFile("SpawnRegionData", 1);
+      SpawnRegionFreq := DFOpenDataFile("SpawnRegionFreq", 1);
+      SpawnAllRegions();
+      print("Ending Spawn Region Sweep, " + counter + " NPCs spawned this cycle");
+    endif
+  endwhile
+endprogram
+
+function GlobalSpawnGroups()
+  var dfile := OpenDataFile("SpawnGroups");
+  if(!dfile)
+    dfile := CreateDataFile("SpawnGroups");
+    var cfg := ReadConfigFile(":spawnregion:spawngroups");
+    var grouparray := {};
+    var holder := {};
+    var ary, plc;
+    foreach group in GetConfigStringKeys(cfg)
+      holder.append(group);
+      plc := FindConfigElem(cfg, group);
+      ary := GetConfigStringArray(plc, "npc");
+      foreach entry in ary
+        holder.append(entry);
+      endforeach
+      grouparray.append(holder);
+      holder := {};
+    endforeach
+    var group, groupholder := {};
+    foreach thing in grouparray
+      group := dfile.CreateElement(thing[1]);
+      thing.erase(1);
+      foreach subthing in thing
+        groupholder.append(subthing);
+      endforeach
+      group.SetProp("npc", groupholder);
+      groupholder := {};
+    endforeach
+  endif
+  return dfile;
+endfunction
+
+function GlobalSpawnRegions()
+  var dfile := OpenDataFile("SpawnRegions");
+  if(!dfile)
+    dfile := CreateDataFile("SpawnRegions");
+    var cfg := ReadConfigFile(":spawnregion:spawnregions");
+    var grouparray := {};
+    var holder := {};
+    var ary, plc;
+    foreach group in GetConfigStringKeys(cfg)
+      holder.append(group);
+      holder.append(cfg[group]."rect");
+      plc := FindConfigElem(cfg, group);
+      ary := GetConfigStringArray(plc, "group");
+      foreach entry in ary
+        holder.append(entry);
+      endforeach
+      grouparray.append(holder);
+      holder := {};
+    endforeach
+    var group, split;
+    foreach thing in grouparray
+      group := dfile.CreateElement(thing[1]);
+      group.SetProp("rect", thing[2]);
+      var num := 1;
+      foreach subthing in thing
+        if((subthing != thing[1]) && (subthing != thing[2]))
+          group.SetProp("group"+num, subthing);
+          num := num + 1;
+        endif
+      endforeach
+    endforeach
+  endif
+  return dfile;
+endfunction

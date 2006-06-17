@@ -1,0 +1,263 @@
+use uo;
+use os;
+use cfgfile;
+
+include "util/bank";
+include "include/attributes";
+
+var layout := array(
+
+"page 0",
+"resizepic 0 50 2620 500 300",
+"resizepic 325 100 5054 150 190",
+"text 40 59 5 0",
+"text 20 84 40 1",
+"text 114 84 40 2",
+"text 208 84 40 3",
+"button 78 81 2640 2641 0 1",
+"button 170 81 2640 2641 0 4",
+"button 256 81 2640 2641 0 5",
+"button 20 62 2118 2117 1 1 24",
+"",
+
+"page 1",
+"text 14 120 40 6",
+"text 120 120 40 7",
+"text 14 145 40 8",
+"text 120 145 40 9",
+"text 14 170 40 10",
+"text 120 170 40 11",
+"text 14 195 40 12",
+"text 120 195 40 13",
+"text 14 220 40 14",
+"text 120 220 40 15",
+"text 14 245 40 16",
+"text 120 245 40 17",
+"text 14 270 40 18",
+"text 120 270 40 19",
+"text 14 295 40 20",
+"text 120 295 40 21",
+"button 270 120 2644 2645 0 2", //Page 2 (Amount)
+"button 270 145 2640 2641 1 1 2", //x
+"button 270 170 2640 2641 1 1 3", //y
+"button 270 195 2640 2641 1 1 4", //z
+"button 270 220 2640 2641 1 1 5", //hp
+"button 270 245 2644 2645 0 3", //Page 3 ar/dam mods
+"button 270 270 2640 2641 1 1 7", //graph
+"button 270 295 2640 2641 1 1 8", //color
+
+"page 2",
+"text 14 120 40 6", //Amount
+"text 120 120 40 7",
+"text 14 155 40 28", //Create Stack In Backpack
+"button 270 155 2640 2641 1 1 1",
+"text 14 180 40 30", //Dupe Item In Backpack
+"button 270 180 2640 2641 1 1 16",
+"button 270 120 2645 2644 0 1", //Page 1 (Amount)
+
+"page 3",
+"text 14 120 40 6",
+"text 120 120 40 7",
+"text 14 145 40 8",
+"text 120 145 40 9",
+"text 14 170 40 10",
+"text 120 170 40 11",
+"text 14 195 40 12",
+"text 120 195 40 13",
+"text 14 220 40 14",
+"text 120 220 40 15",
+"text 14 245 40 16",
+"text 120 245 40 17",
+"button 270 120 2644 2645 0 2", //Page 2 (Amount)
+"button 270 145 2640 2641 1 1 2", //x
+"button 270 170 2640 2641 1 1 3", //y
+"button 270 195 2640 2641 1 1 4", //z
+"button 270 220 2640 2641 1 1 5", //hp
+"button 270 245 2645 2644 0 1", //Page 1
+"text 14 270 40 31",            //ar/dmg mod.
+"text 120 270 40 32",            //ar/dmg mod. value
+"button 270 270 2640 2641 1 1 6",
+
+"page 4",
+"text 14 120 40 22",  //Destroy
+"button 270 120 2640 2641 1 1 20",
+"text 14 145 40 26",  //Bounce
+"button 270 145 2640 2641 1 1 21",
+"text 14 170 40 27",  //Set Movable
+"button 270 170 2640 2641 1 1 22",
+"text 14 195 40 25",  //Set Newbie
+"button 270 195 2640 2641 1 1 23",
+
+"page 5",
+"text 14 120 40 35",
+"text 14 145 40 36"
+
+);
+
+var data := array(
+       "",                     //0 Mobile name
+       "General",              //1
+       "Options",              //2
+       "Other",                //3
+       "temp",                 //4
+       "/",                    //5
+       "Amount",               //6
+       "",                     //7 item amount
+       "X",                    //8
+       "",                     //9 mob x
+       "Y",                    //10
+       "",                     //11 mob y
+       "Z",                    //12
+       "",                     //13 mob z
+       "Hp/Mhp",               //14
+       "",                     //15 mob stam/maxstam
+       "Armor",                //16
+       "",                     //17 mob ar
+       "Graphic",              //18
+       "",                     //19 mob graphic
+       "Color",                //20
+       "",                     //21 mob color
+       "Destroy Item",         //22
+       "",                     //23
+       "Dupe Item",            //24
+       "",                     //25 SetNewbie
+       "Bounce Item in Backpack",  //26
+       "",                     //27 SetMovable
+       "Create Stack in Backpack", //28
+       "0",                       //29
+       "Dupe Item in Backpack",    //30
+       "",                     //31
+       "",                     //32 Ar/Dmg Modifier
+       "",                     //33 Ar/Dmg Modifier Value
+       "",                     //34
+       "Stats modifiers for wearable",
+       "items not implemented yet."
+
+);
+
+program textcmd_info(character, text)
+  SendSysMessage(character, "Select an Item.");
+  var item;
+  if (text != "")
+      item := SystemFindObjectBySerial( CInt(text), SYSFIND_SEARCH_OFFLINE_MOBILES|SYSFIND_SEARCH_STORAGE_AREAS );
+  else
+      var what :=  TargetCoordinates(character);
+      item := what.item;
+  endif
+  
+  if(!item || GetIntelligence(item))
+    SendSysMessage(character, "Invalid selection.");
+    return;
+  endif
+  layout[12] := "tilepic 380 180 " + item.graphic;
+  data[1] := "Info On: " + item.desc;
+  if(item.newbie == 1)
+    data[26] := "Set Item not Newbie";
+  else
+    data[26] := "Set Item Newbie";
+  endif
+  if(item.movable == 1)
+    data[28] := "Set Item Unmovable";
+  else
+    data[28] := "Set Item Movable";
+  endif
+  General(item);
+  var result := SendDialogGump(character, layout, data);
+  var reskey;
+  case(result[0])
+     1:  //fall through intentional
+     2:
+     3:
+     4:
+     5:
+     6:
+     7:
+     8:
+     9:
+    10:
+    11:
+    12:
+    13:
+    14:
+    13:
+    15: EditItem(item, character, result[0]);
+    16: CreateItemInContainer(character.backpack, item.objtype, 1);
+    20: DestroyItem(item);
+        PrintTextAbovePrivate(character,"Object Destroyed",character);
+    21: MoveItemToContainer(item, character.backpack, x := -1, y := -1);
+        PrintTextAbovePrivate(character,"Object Bounced",character);
+    22: if(item.movable == 1)
+          item.movable := 0;
+        else
+          item.movable := 1;
+        endif
+    23: if(item.newbie == 1)
+          item.newbie := 0;
+        else
+          item.newbie := 1;
+        endif
+    24: SetName(item, RequestInput(character, character.backpack, "Enter a new name."));
+  endcase
+endprogram
+
+function General(item)
+  var amount := GetAmount(item);
+   data[8]  := item.amount;
+   data[10] := item.x;
+   data[12] := item.y;
+   data[14] := item.z;
+   if(item.hp)
+    data[16] := item.hp + "/" + item.maxhp;
+   else
+    data[16] := "n/a";
+    layout[34] := 0;
+   endif
+   var weapfile := ReadConfigFile(":combat:itemdesc");
+   var entry := weapfile[item.objtype].damage;
+   if(entry)
+     var dam := weapfile[item.objtype].damage;
+     data[17] := "Damage";
+     data[18] := dam;
+     data[32] := "Dmg modifier";
+    data[33] := item.dmg_mod;
+   elseif(item.ar)
+    data[17] := "Armor";
+    data[18] := item.ar;
+    data[32] := "Ar modifier";
+    data[33] := item.ar_mod;
+   else
+    data[17] := "Ar/Dam";
+    data[18] := "n/a";
+    layout[35] := 0;
+   endif
+   data[20] := item.graphic;
+   data[22] := item.color;
+endfunction
+
+function EditItem(item, character, result)
+  SendSysMessage(character, "Changes are made immediately, Integers only. Hit Esc to cancel.");
+  var val := CInt(RequestInput(character, character.backpack, "Enter a new value."));
+  if(!val)
+    if (result == 8)
+      item.color := val;
+    else
+      SendSysMessage(character, "Cancelled.");
+    return;
+    endif
+  endif
+  case(result)
+    1: CreateItemInInventory(character.backpack, item.objtype, val); //SetAmount(item):= val;
+       PrintTextAbovePrivate(character, "You have just created " + val + " " + item.desc + " in your backpack.", character);
+    2: MoveItemToLocation(item, val, item.y, item.z, MOVEITEM_FORCELOCATION);
+    3: MoveItemToLocation(item, item.x, val, item.z, MOVEITEM_FORCELOCATION);
+    4: MoveItemToLocation(item, item.x, item.y, val, MOVEITEM_FORCELOCATION);
+    5: SetHp(item, val);
+    6: if(!item.ar)
+        item.dmg_mod := val;
+       else
+        item.ar_mod := val;
+       endif
+    7: item.graphic := val;
+    8: item.color := val;
+  endcase
+endfunction

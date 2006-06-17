@@ -1,0 +1,14 @@
+use os;
+use uo;
+
+program tst_hardloop( runner, seconds )
+    set_script_option( SCRIPTOPT_NO_RUNAWAY, 1 );
+    seconds := CInt( seconds );
+    if (!seconds)
+        seconds := 5;
+    endif
+    var timeout_at := ReadGameClock() + seconds;
+
+    repeat
+    until (ReadGameClock() >= timeout_at);
+endprogram

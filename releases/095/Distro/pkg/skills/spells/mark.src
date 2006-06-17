@@ -1,0 +1,47 @@
+use uo;
+use util;
+
+include "include/spellRestrictions";
+
+program cast_mark(parms)
+  var circle := 6;
+  var delivery := "notarget";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 45);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := Target(caster);
+  if (cast_on.objtype != UOBJ_RUNE)
+    SendSysMessage(caster, "You can only cast that on a recall rune!");
+	return;
+  endif
+  if(caster.multi)
+    SendSysMessage(caster,"you cant mark runes here");
+    PlaySoundEffect(caster,0x005d);
+    PlayObjectCenteredEffect(caster, 0x3735,0x0a, 0x1e);
+    return;
+  endif
+  if(((caster.x >= 5120) && (caster.x <= 5375) && (caster.y >= 0) && (caster.y <= 255)) or (caster.multi))
+    SendSysMessage(caster, "you cannot mark runes here.");
+    return;
+  endif
+  if (!Accessible(caster, cast_on))
+	SendSysMessage(caster, "You can't reach that!");
+  endif
+  if (cast_on.objtype != UOBJ_RUNE)
+	SendSysMessage(caster, "You can only cast that on a recall rune!");
+	return;
+  endif
+  if(!ReserveItem(cast_on))
+    SendSysMessage(caster,"your spell fizzles");
+    return;
+  endif
+  PlayObjectCenteredEffect(  caster, FX_MARK_EFFECT, 10, 10);
+  PlaySoundEffect( caster, SFX_SPELL_MARK );
+  SetObjProperty(cast_on, "x", caster.x);
+  SetObjProperty(cast_on, "y", caster.y);
+  SetObjProperty(cast_on, "z", caster.z);
+  SetName(cast_on, "a marked recall rune");
+endprogram

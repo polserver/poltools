@@ -1,0 +1,16 @@
+use uo;
+use os;
+
+program floodthread( params )
+    set_script_option( SCRIPTOPT_NO_RUNAWAY, 1);
+
+    //print( "flood thread: " +params );
+    var who := params[1];
+    var count := params[2];
+
+    //set_critical(1);
+    for i := 1 to count
+        SendSysMessage( who, "I'm crushing your head! " + i );
+    endfor
+
+endprogram

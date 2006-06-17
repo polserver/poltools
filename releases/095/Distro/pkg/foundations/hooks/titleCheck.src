@@ -1,0 +1,50 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/attributes";
+
+program TitleCheck(who)
+  var current;
+  var highskill := Cint(GetObjProperty(who, "HighSkill"));
+  var max_skill := 0;
+  var holder := highskill;
+  if(highskill)
+    max_skill := GetBaseSkillBaseValue(who, highskill);
+  endif
+  foreach attributeid in GetAttributeIdsWithoutStatIds()
+    current := GetAttributeBaseValue(who, attributeid);
+    if( current > max_skill )
+      max_skill := current;
+      holder := GetSkillIdByAttributeId(attributeid);
+    endif
+  endforeach
+  SetObjProperty(who, "HighSkill", holder);
+  var title := "";
+  var fame := Cint(GetObjProperty(who, "Fame"));
+  if((max_skill >= 300) and (fame > 5000))
+    var cfg := ReadConfigFile(":*:skills");
+    var elem := FindConfigElem(cfg, holder);;
+    title := CStr(elem.Title);
+    if(max_skill < 400 )
+      title := ", Neophyte " + title;
+    elseif(max_skill < 500 )
+      title := ", Novice " + title;
+    elseif(max_skill < 600 )
+      title := ", Apprentice " + title;
+    elseif(max_skill < 700 )
+      title := ", Journeyman " + title;
+    elseif(max_skill < 800 )
+      title := ", Expert " + title;
+    elseif(max_skill < 900 )
+      title := ", Adept " + title;
+    elseif(max_skill < 1000 )
+      title := ", Master " + title;
+    else
+      title := ", Grandmaster " + title;
+    endif
+  else
+    title := "";
+  endif
+  who.title_suffix := title;
+endprogram

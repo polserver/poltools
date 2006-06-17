@@ -1,4 +1,4 @@
-/* $Id: npcwipe.src 129 2006-05-27 18:08:54Z austinheilman $
+/* $Id$
  *
  */
 //Example: .npcwipe (x1) (y1) (x2) (y2) -> Removes all npcs.

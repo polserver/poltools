@@ -1,4 +1,4 @@
-/* $Id: removenpc.src 129 2006-05-27 18:08:54Z austinheilman $
+/* $Id$
  *
  */
 //Example: .removenpc [npc template] -> Removes every npc of that type.

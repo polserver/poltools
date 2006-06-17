@@ -1,0 +1,47 @@
+use uo;
+use cfgfile;
+
+include "include/eventID";
+include "include/attributes";
+include ":poisonwatcher:poisons";
+include "include/spellRestrictions";
+
+program cast_cure( parms )
+  var circle := 2;
+  var delivery := "direct";
+  var noto := "helpful";
+  var result := maincast(parms, delivery, circle, noto, 11);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(caster, SFX_SPELL_CURE);
+  PlayObjectCenteredEffect( cast_on, FX_BLESS_EFFECT, 10,10);
+  var potency := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY) / 33) +1;
+  if(cast_on.isA(POLCLASS_NPC))
+    var element := npccfg[cast_on.npctemplate].elemental;
+    if(element == "poison")
+      var ev := array;
+      ev.+ type;
+      ev.+ source;
+      ev.type := EVID_PEACEMADE;
+      SendEvent(cast_on, ev);
+      ev.source := caster;
+      SendEvent(cast_on, ev);
+      ev.type := EVID_ENGAGED;
+      SendEvent(cast_on, ev);
+      ApplyRawDamage(cast_on, potency);
+    endif
+  endif
+  if (ListPoisonsByType(cast_on, "defaultPoison").size() > 0)
+    CurePoison(cast_on, 120, "defaultPoison", potency);
+    if (ListPoisonsByType(cast_on, "defaultPoison").size() > 0)
+      SendSysMessage(caster, "You cure some poison.");  
+      SendSysMessage(cast_on, caster.name + " has partially cured you!");
+    else
+      SendSysMessage(caster, cast_on.name + " cured.");
+      SendSysMessage(cast_on, caster.name + " has cured you completely!");
+    endif
+  endif
+endprogram

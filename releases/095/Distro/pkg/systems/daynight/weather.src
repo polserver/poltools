@@ -1,0 +1,20 @@
+use uo;
+use os;
+use util;
+
+set_critical( 1 );
+
+include "weather";
+
+var wstuff := GetGlobalProperty("Weather");
+var day := wstuff[3];
+var doonce := 0;
+
+program WeatherCentre()
+  print("Starting Weather System...");
+  while (1)
+    ChangeWeather();
+    var addtime := CInt(RandomInt(60) * 60);
+    sleep(addtime);
+  endwhile
+endprogram

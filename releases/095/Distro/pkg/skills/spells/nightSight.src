@@ -1,0 +1,21 @@
+use uo;
+use util;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program cast_nightsight(parms)
+  var circle := 1;
+  var delivery := "direct";
+  var noto := "helpful";
+  var result := maincast(parms, delivery, circle, noto, 6);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(cast_on, SFX_SPELL_NIGHT_SIGHT );
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  cast_on.setlightlevel( 0, magery * 60 );
+  PlayObjectCenteredEffect( cast_on, FX_BLESS_EFFECT, 10,10);
+endprogram
