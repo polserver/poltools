@@ -27,7 +27,12 @@ function ICP_ItemDescGump(pkg_name)
 			if ( !graphic )
 				graphic := key;
 			endif
-			GFTilePic(gump, x_pos, y_pos, graphic);
+			var color := CInt(cfg_elem.Color);
+			if ( color )
+				color := color-1;
+			endif
+			
+			GFTilePic(gump, x_pos, y_pos, graphic, color);
 			GFTextCrop(gump, x_pos, y_pos+15, 95, 25, 2100, desc);
 			GFAddButton(gump, x_pos+5, y_pos+35, 2117, 2118, GF_CLOSE_BTN, CInt(key));
 
