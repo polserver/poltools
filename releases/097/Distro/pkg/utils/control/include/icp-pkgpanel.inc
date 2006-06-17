@@ -50,6 +50,9 @@ function ICP_PkgPanelInput(who, pkg_name, cur_menu, info_elem, input)
 	elseif ( cur_menu == ITEMDESC_BTN )
 		ICP_CreateItem(who, input);
 		return 1;
+	elseif ( cur_menu == NPCDESC_BTN )
+		ICP_CreateNPC(who, input, pkg_name);
+		return 1;
 	else
 		//SendSysMessage(who, "Error - Unknown input ["+input+"]");
 		return 0;
@@ -88,7 +91,15 @@ function ICP_GetPkgGump(who, pkg_name, btn_number)
 			gump := ICP_ItemDescGump(pkg_name);
 			ICP_SaveGump(pkg_name, gump, "itemdesc");
 		endif
+	elseif ( btn_number == NPCDESC_BTN )
+		gump := ICP_RetrieveGump(pkg_name, "npcdesc");
+		if ( !gump )
+			//SendSysMessage(who, "Building package ["+pkg_name+"] npcdesc gump...");
+			gump := ICP_NPCDescGump(pkg_name);
+			ICP_SaveGump(pkg_name, gump, "npcdesc");
+		endif
 	endif
+	
 
 	return gump;
 endfunction
