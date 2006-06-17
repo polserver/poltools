@@ -34,7 +34,7 @@ function inNoise(who, box, item)
         var noise := "sound_defaultin";
         
         // the soundfile contains all the special config entries as well as the sound mappings.
-        var soundfile := ReadConfigFile(":containers:config/insertsound");
+        var soundfile := ReadConfigFile(":containers:insertsound");
         
         //start with the objectdesc.cfg entry for the container
         var itemconfig := ReadConfigFile(":*:itemdesc");
@@ -77,7 +77,7 @@ function outNoise(who, box, item)
         var noise := "sound_defaultout";
 
         // the soundfile contains all the special config entries as well as the sound mappings.
-        var soundfile := ReadConfigFile(":containers:config/insertsound");
+        var soundfile := ReadConfigFile(":containers:insertsound");
         
         //start with the objectdesc.cfg entry for the container
         var itemconfig := ReadConfigFile(":*:itemdesc");

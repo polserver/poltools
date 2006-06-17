@@ -21,9 +21,9 @@ use cfgfile;
  *
  */
 function ParseCommands(text)
-	var cmd_cfg := ReadConfigFile(":boat:config/commands");
+	var cmd_cfg := ReadConfigFile(":boat:commands");
 	if ( cmd_cfg.errortext )
-		SysLog("Error - Unable to open :boat:config/commands.cfg");
+		SysLog("Error - Unable to open :boat:commands.cfg");
 		return cmd_cfg;
 	endif	
 	

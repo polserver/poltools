@@ -22,9 +22,9 @@ use os;
  *
  */
 function GetTrapInfo(trap_name)
-	var trap_cfg := ReadConfigFile(":traps:config/traps");
+	var trap_cfg := ReadConfigFile(":traps:traps");
 	if ( trap_cfg.errortext )
-		var temp := error{"errortxt":="GetTrapInfo()::Could not open :traps:config/traps.cfg ->"+trap_cfg.errortext};
+		var temp := error{"errortxt":="GetTrapInfo()::Could not open :traps:traps.cfg ->"+trap_cfg.errortext};
 		SysLog(temp.errortext);
 		return temp;
 	endif

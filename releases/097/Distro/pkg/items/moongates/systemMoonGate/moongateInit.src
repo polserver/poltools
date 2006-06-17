@@ -14,7 +14,7 @@ include ":gumps:gumps_ex";
 
 program CreateSystemMoonGates()
 	MG_ReportText("---=[ MOONGATE INIT SCRIPT HAS STARTED UP ]=---", MG_REPORT_SYSLOG);
-	var config := ReadConfigFile(":moongates:config/moongate");
+	var config := ReadConfigFile(":moongates:moongate");
 	if ( config.errortext )
 		MG_ReportText("ERROR: Could not open moongate.cfg - "+config.errortext, MG_REPORT_SYSLOG);
 		return 0;
@@ -41,7 +41,7 @@ program CreateSystemMoonGates()
 		SleepMS(2);
 	endforeach
 	
-	UnloadConfigFile(":moongates:config/moongate");
+	UnloadConfigFile(":moongates:moongate");
 	
 	MG_ReportText("---=[ MOONGATE INIT SCRIPT HAS FINISHED ]=---", MG_REPORT_SYSLOG);
 	

@@ -35,7 +35,7 @@ program flip (me)
 		endif
 	endif
 
-	var flipConfig  := ReadConfigFile(":commands:config/flip");
+	var flipConfig  := ReadConfigFile(":commands:flip");
 	var flipGraphic := flipConfig[CInt(furniture.graphic)].ChangeTo;
 
 	if( !flipGraphic )

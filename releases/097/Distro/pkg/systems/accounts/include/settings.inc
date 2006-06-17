@@ -17,7 +17,7 @@ use cfgfile;
  * ACCT_GetSettingsCfgFile(engine_name)
  *
  * Purpose
- * Reads in :accounts:config/settings.cfg
+ * Reads in :accounts:settings.cfg
  *
  * Parameters
  *
@@ -26,10 +26,10 @@ use cfgfile;
  *
  */
 function ACCT_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":accounts:config/settings");
+	var cfg := ReadConfigFile(":accounts:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::ACCT_GetSettingsCfgFile() - Unable to open [:accounts:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::ACCT_GetSettingsCfgFile() - Unable to open [:accounts:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

@@ -30,7 +30,7 @@ function GetCmdHelpText(path:="")
 	endif
 	
 	// Get all config/cmdhelp.cfg files and search them.
-	var cfg := ReadConfigFile(":*:config/cmdhelp");
+	var cfg := ReadConfigFile(":*:cmdhelp");
 	if ( !cfg )
 		return cfg;
 	endif

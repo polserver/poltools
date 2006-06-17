@@ -25,7 +25,7 @@ use cfgfile;
  *
  */
 function SysBook_GetZuluCfgFile()
-	var cfg_file := ReadConfigFile(":sysbook:config/zuluBooks");
+	var cfg_file := ReadConfigFile(":sysbook:zuluBooks");
 	if ( cfg_file.errortext )
 		SysLog("Error::SysBook_GetZuluBooksCfgFile() - Unable to open zuluBooks.cfg ->"+cfg_file.errortext);
 	endif

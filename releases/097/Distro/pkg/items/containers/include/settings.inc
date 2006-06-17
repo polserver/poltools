@@ -27,7 +27,7 @@ use cfgfile;
  *
  */
 function CP_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":containers:config/settings");
+	var cfg := ReadConfigFile(":containers:settings");
 
 	if ( cfg.errortext )
 		SysLog("Error::CP_GetSettingsCfgFile() - Unable to open [:containers:config/settings.cfg] ->"+cfg.errortext);

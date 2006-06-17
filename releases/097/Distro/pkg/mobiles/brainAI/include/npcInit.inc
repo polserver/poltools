@@ -161,8 +161,8 @@ endfunction
  *
  */
 function NPC_SetupRandomEquipment(mobile, elem_name:=0, flags:=EQUIP_NOGENDER)
-	var index_cfg := ReadConfigFile(":brainAI:config/equipIndex");
-	var group_cfg := ReadConfigFile(":brainAI:config/equipGroups");
+	var index_cfg := ReadConfigFile(":brainAI:equipIndex");
+	var group_cfg := ReadConfigFile(":brainAI:equipGroups");
 	if ( index_cfg.errortext )
 		return error{"errortext":="Could not open equipIndex.cfg -> "+index_cfg.errortext};
 	elseif ( group_cfg.errortext )
@@ -238,7 +238,7 @@ function NPC_SetupName(mobile, name_elem:=0)
 		endif
 	endif
 
-	var npc_names := ReadConfigFile(":brainAI:config/names");
+	var npc_names := ReadConfigFile(":brainAI:names");
 	if ( !npc_names[name_elem] )
 		return error{"errortext" := "There is no elem ["+name_elem+"] in NAMES.CFG"};
 	endif

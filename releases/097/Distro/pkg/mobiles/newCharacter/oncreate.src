@@ -38,7 +38,7 @@ program OnCreate(params)
 endprogram
 
 function GenerateItemsForSkill(who, attribute, byref uniques)
-	var cfg_file := ReadConfigFile(":newcharacter:config/startEquip");
+	var cfg_file := ReadConfigFile(":newcharacter:startEquip");
 	var cfg_elem := cfg_file[attribute];
 	
 	CreateItemsInElem(cfg_elem, who.backpack, "All");

@@ -30,7 +30,7 @@ function AP_GetLevelTitle(skill_level)
 		return "U SUK";
 	endif
 	
-	var title_cfg := ReadConfigFile(":attributes:config/titles.cfg");
+	var title_cfg := ReadConfigFile(":attributes:titles.cfg");
 	if ( !title_cfg )
 		return title_cfg;
 	endif

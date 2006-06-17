@@ -8,7 +8,7 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 
-var mental_cfg := ReadConfigFile(":anatomy:config/physical");
+var mental_cfg := ReadConfigFile(":anatomy:physical");
 
 program skill_EvaluatingIntelligence(who)
 

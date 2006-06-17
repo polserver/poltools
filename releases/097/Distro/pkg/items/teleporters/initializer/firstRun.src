@@ -9,7 +9,7 @@ use polsys;
 
 include ":teleporters:report";
 
-CONST cfg_path := ":teleporters:config/";
+CONST TELE_CFG_PATH := ":teleporters:";
 
 program InitializeTeleporters(params)
 	if ( !params )
@@ -34,7 +34,7 @@ program InitializeTeleporters(params)
 		endif
 	endif
 	
-	UnloadConfigFile(cfg_path+"teleporters");
+	UnloadConfigFile(TELE_CFG_PATH+"teleporters");
 
 	TELE_ReportText("---=[ TELEPORTER INITIALIZER HAS FINISHED ]=---", TELE_REPORT_SYSLOG);
 
@@ -53,7 +53,7 @@ function BuildAllRealms()
 endfunction
 
 function ProcessConfigsInRealm(realm)
-	var cfg_file := ReadConfigFile(cfg_path+"teleporters");
+	var cfg_file := ReadConfigFile(TELE_CFG_PATH+"teleporters");
 	var cfg_elem := cfg_file[realm];
 	if ( cfg_elem.errortext )
 		TELE_ReportText("No config file found for realm "+realm, TELE_REPORT_SYSLOG);
@@ -72,12 +72,12 @@ endfunction
 
 function BuildTeleportersInCfg(cfg_name, realm)
 
-	var tele_cfg_file := ReadConfigFile(cfg_path+cfg_name);
+	var tele_cfg_file := ReadConfigFile(TELE_CFG_PATH+cfg_name);
 	if ( tele_cfg_file.errortext )
-		TELE_ReportText("Error: Could not find config file '"+cfg_path+cfg_name+"'", TELE_REPORT_SYSLOG);
+		TELE_ReportText("Error: Could not find config file '"+TELE_CFG_PATH+cfg_name+"'", TELE_REPORT_SYSLOG);
 		return 0;
 	else
-		TELE_ReportText("Setting up teleporters in config file '"+cfg_path+cfg_name+"'", TELE_REPORT_SYSLOG);
+		TELE_ReportText("Setting up teleporters in config file '"+TELE_CFG_PATH+cfg_name+"'", TELE_REPORT_SYSLOG);
 	endif
 
 	foreach elem_name in ( GetConfigStringKeys(tele_cfg_file) )
@@ -95,7 +95,7 @@ function BuildTeleportersInCfg(cfg_name, realm)
 		SleepMS(2);
 	endforeach
 
-	UnloadConfigFile(cfg_path+cfg_name);
+	UnloadConfigFile(TELE_CFG_PATH+cfg_name);
 
 	return 1;
 endfunction

@@ -15,7 +15,7 @@ program OnInsert(who, container, movetype, insert_type, adding_item, existing_st
 	movetype := movetype;
 	who := who;
 
-	var cfg := ReadConfigFile(":containers:config/bookshelf");
+	var cfg := ReadConfigFile(":containers:bookshelf");
 	cfg := cfg[container.graphic];
 
 	var num_items := EnumerateItemsInContainer(container).Size();

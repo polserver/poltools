@@ -8,7 +8,7 @@ function Loot_Generate(container, loot_index)
 		return error{"errortext" := "Object passed was not a container."};
 	endif
 
-	var index_cfg := ReadConfigFile(":loot:config/loot-index");
+	var index_cfg := ReadConfigFile(":loot:loot-index");
 	if ( index_cfg.errortext )
 		return error{"errortext" := "Error - Could not open loot-index.cfg -> "+index_cfg.errortext};
 	endif
@@ -77,7 +77,7 @@ endfunction
 
 function Loot_CreateRandom(container, line)
 	var parsed := Loot_ParseString(line);
-	var groups_cfg := ReadConfigFile(":loot:config/loot-groups");
+	var groups_cfg := ReadConfigFile(":loot:loot-groups");
 	if ( groups_cfg.errortext )
 		return error{"errortext" := "Error - Could not open loot-groups.cfg -> "+groups_cfg.errortext};
 	endif

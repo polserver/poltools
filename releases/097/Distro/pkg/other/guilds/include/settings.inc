@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function Guild_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":guilds:config/settings");
+	var cfg := ReadConfigFile(":guilds:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::Guild_GetSettingsCfgFile() - Unable to open [:guilds:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::Guild_GetSettingsCfgFile() - Unable to open [:guilds:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

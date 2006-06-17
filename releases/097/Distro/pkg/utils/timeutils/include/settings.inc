@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function TIME_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":timeutils:config/settings");
+	var cfg := ReadConfigFile(":timeutils:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::TIME_GetSettingsCfgFile() - Unable to open [:timeutils:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::TIME_GetSettingsCfgFile() - Unable to open [:timeutils:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

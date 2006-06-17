@@ -22,7 +22,7 @@ exported function SetDestination(rune, x, y, z, realm)
 	coords.+z := CInt(z);
 	coords.+realm := CStr(realm);
 
-	var color_cfg := ReadConfigFile(":magery:config/runeColor");
+	var color_cfg := ReadConfigFile(":magery:runeColor");
 	var realm_elem := color_cfg[realm];
 	rune.color := CInt(realm_elem.RuneColor);
 

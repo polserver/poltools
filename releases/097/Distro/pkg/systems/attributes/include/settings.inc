@@ -27,10 +27,10 @@ use cfgfile;
  *
  */
 function AP_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":attributes:config/settings");
+	var cfg := ReadConfigFile(":attributes:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::AP_GetSettingsCfgFile() - Unable to open [:attributes:config/settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::AP_GetSettingsCfgFile() - Unable to open [:attributes:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

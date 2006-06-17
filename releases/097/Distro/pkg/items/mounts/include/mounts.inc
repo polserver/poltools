@@ -29,10 +29,10 @@ include "include/client";
  *
  */
 function MP_GetMountsCfgFile()
-	var cfg := ReadConfigFile(":mounts:config/mounts");
+	var cfg := ReadConfigFile(":mounts:mounts");
 
 	if ( cfg.errortext )
-		SysLog("Error::MP_GetMountsCfgFile() - Unable to open [:mounts:config/mounts.cfg] ->"+cfg.errortext);
+		SysLog("Error::MP_GetMountsCfgFile() - Unable to open [:mounts:mounts.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

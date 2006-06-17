@@ -216,7 +216,7 @@ endfunction
  *
  */
 function LJ_PickWoodType(realm, x_pos, y_pos)
-	var wood_cfg := ReadConfigFile(":lumberjacking:config/wood-"+realm);
+	var wood_cfg := ReadConfigFile(":lumberjacking:wood-"+realm);
 	if ( !wood_cfg )
 		return GetObjTypeByName("Log");
 	endif

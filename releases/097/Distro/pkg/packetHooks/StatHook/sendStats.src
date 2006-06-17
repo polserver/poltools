@@ -41,12 +41,12 @@ var MODE    := 0;
 var STATLOCK:= 0;
 
 exported function HandleSendStats( character, byref packet )
-	var enabled := QueryConfigInt("Enabled", ":packetconfig:config/packetconfig", "StatusBar");
+	var enabled := QueryConfigInt("Enabled", ":packetconfig:packetconfig", "StatusBar");
 	if( !enabled )
 		return 0;
 	endif
-	MODE := QueryConfigInt("Mode", ":packetconfig:config/packetconfig", "StatusBar");
-	STATLOCK := QueryConfigInt("Statlock", ":packetconfig:config/packetconfig", "StatusBar");
+	MODE := QueryConfigInt("Mode", ":packetconfig:packetconfig", "StatusBar");
+	STATLOCK := QueryConfigInt("Statlock", ":packetconfig:packetconfig", "StatusBar");
 
 	// Easiest method to decide which way to handle the packet. We could do this based on
 	// a Client version check too, but that would not be recommended since versions can be

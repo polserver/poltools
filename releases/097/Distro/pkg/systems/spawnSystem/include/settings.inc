@@ -16,12 +16,12 @@ use cfgfile;
  *
  */
 function SS_GetSettingsCfgFile(engine_name:="")
-	var cfg_path := ":spawnsystem:config/settings";
+	var cfg_path := ":spawnsystem:settings";
 	if ( engine_name )
 		cfg_path := ":spawnsystem:engines/"+engine_name+"/settings";
 	endif
 
-	var cfg := ReadConfigFile(":spawnsystem:config/settings");
+	var cfg := ReadConfigFile(":spawnsystem:settings");
 
 	if ( cfg.errortext )
 		SysLog("Error::SS_GetSettingsCfgFile() - Unable to open "+cfg_path+".cfg ->"+cfg.errortext);
