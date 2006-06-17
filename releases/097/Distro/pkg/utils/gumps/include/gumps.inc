@@ -505,7 +505,7 @@ function GFGumpPic(byref gump, x, y, gump_id, hue := 0)
 
 	hue := CInt(hue);
 	if ( hue )
-		text := " hue="+CStr(hue);
+		text := text+" hue="+CStr(hue);
 	endif
 	(gump.layout).Append(text);
 
