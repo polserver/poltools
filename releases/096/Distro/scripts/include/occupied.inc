@@ -1,4 +1,4 @@
-/* $Id: occupied.inc 179 2006-06-01 15:16:47Z austinheilman $
+/* $Id$
  *
  * Purpose:
  * Used to determine is a player is 'busy'

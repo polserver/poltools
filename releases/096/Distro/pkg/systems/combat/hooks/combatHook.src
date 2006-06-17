@@ -1,4 +1,4 @@
-/* $Id: combatHook.src 318 2006-06-12 19:17:18Z austinheilman $
+/* $Id$
  *
  * NOTES:
  *	Return 0 if you want the core to handle the

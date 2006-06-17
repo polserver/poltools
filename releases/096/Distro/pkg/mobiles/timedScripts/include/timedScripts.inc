@@ -1,5 +1,5 @@
 /*
- * $Id: timedScripts.inc 317 2006-06-12 18:46:27Z austinheilman $
+ * $Id$
  *
  */
 

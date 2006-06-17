@@ -1,4 +1,4 @@
-/* $Id: exception.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  *
  * Purpose
  * Provides various functions and constants for exceptions.

@@ -1,4 +1,4 @@
-/* $Id: log.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants to log stuff

@@ -1,4 +1,4 @@
-/* $Id: uo_extend.inc 306 2006-06-10 01:47:10Z austinheilman $
+/* $Id$
  *
  *
  */

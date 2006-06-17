@@ -1,5 +1,5 @@
 /*
- * $Id: reactiveArmor.src 281 2006-06-08 16:30:18Z tekproxy $
+ * $Id$
  *
  * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points, 
  * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each. 

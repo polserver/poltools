@@ -1,4 +1,4 @@
-/* $Id: icp-itemdesc.inc 247 2006-06-05 15:18:46Z austinheilman $
+/* $Id$
  *
  */
  

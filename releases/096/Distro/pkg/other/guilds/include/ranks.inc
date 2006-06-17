@@ -1,4 +1,4 @@
-/* $Id: ranks.inc 160 2006-05-30 01:38:24Z montuz $
+/* $Id$
  *	  Author: MontuZ
  *	  Created: Wednesday, May 24 2006
  *	  Version: 0.01

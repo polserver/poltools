@@ -1,4 +1,4 @@
-/* $Id: scheduler.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  *
  * Purpose
  * Provide various functions and constants for the automatic script loader / scheduler

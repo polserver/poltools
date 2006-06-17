@@ -1,5 +1,5 @@
 /* 
- * $Id: moveobject.src 309 2006-06-10 01:57:29Z austinheilman $
+ * $Id$
  *
  * Purpose - Tests / Uses new uo.em function MoveObjectToLocation(object, x, y, z, flags, realm)
  *

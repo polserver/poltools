@@ -1,4 +1,4 @@
-/* $Id: findCity.inc 87 2006-05-23 19:04:43Z sroyalty $
+/* $Id$
  *
  */
 /*

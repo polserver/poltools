@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM - $Id: RealmGen.bat 182 2006-06-02 04:51:36Z austinheilman $
+REM - $Id$
 
 REM -- If a special path is needed to uoconvert.exe set it here
 SET UOCNVRT_PATH=uoconvert.exe
