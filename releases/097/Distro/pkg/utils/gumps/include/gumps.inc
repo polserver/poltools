@@ -534,11 +534,13 @@ endfunction
  *
  */
 function GFTilePic(byref gump, x, y, tile_id, hue := 0)
-	var text := "TilePic "+CStr(CInt(x))+" "+CStr(CInt(y))+" "+CStr(CInt(tile_id));
+	var text := CStr(CInt(x))+" "+CStr(CInt(y))+" "+CStr(CInt(tile_id));
 
 	hue := CInt(hue);
 	if ( hue )
-		text := text+" hue="+CStr(hue);
+		text := "TilePicHue "+text+" "+CStr(hue);
+	else
+		text := "TilePic "+text;
 	endif
 
 	(gump.layout).Append(text);
