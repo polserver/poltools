@@ -1,4 +1,4 @@
-// //$Id: craftGumps.inc 307 2006-06-10 01:50:15Z austinheilman $
+// //$Id$
 
 include ":itemutils:itemdesc";
 

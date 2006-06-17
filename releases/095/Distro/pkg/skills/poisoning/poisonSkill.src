@@ -1,0 +1,149 @@
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include "include/client";
+include "include/canAccess";
+include "include/noto";
+
+program do_poisoning(who)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  SendSysMessage(who, "Select a poison potion.");
+  var the_poison := Target(who);
+  if(!the_poison)
+    SendSysMessage(who, "cancelled.");
+    return;
+  elseif(!can_access(who, the_poison))
+    SendSysMessage(who, " You cannot use that!");
+    return;
+  elseif(the_poison.graphic != 0xf0a)
+    SendSysMessage(who, "You must select a poison potion!");
+    return;
+  endif
+  SendSysMessage(who, "Select an object to which to apply this poison");
+  var the_item := Target(who, TGTOPT_CHECK_LOS);
+  if(!the_item)
+    SendSysMessage(who, "Targetting cancelled.");
+    return;
+  elseif(!can_access(who, the_item))
+    SendSysMessage(who, "You can't use that!");
+    return;
+  endif
+  var acfgfile := ReadConfigFile(":*:itemdesc");
+  var theitem := acfgfile[the_item.objtype];
+  if((theitem.Attribute == "Swords") || (theitem.Attribute == "Fencing"))
+    var stren, skill, point;
+    case(the_poison.objtype)
+      0xdc04: stren := 1;   skill := 10;   point := 50;
+      0xdc05: stren := 2;   skill := 30;   point := 80;
+      0xdc06: stren := 3;   skill := 55;   point := 110;
+      0xdc17: stren := 4;   skill := 88;   point := 160;
+    endcase
+    if(SubtractAmount(the_poison, 1))
+      CreateItemInBackpack(who, 0xf0e, 1);
+      if(CheckSkill(who, SKILLID_POISONING, skill, point))
+        PlaySoundEffect(who, 0x248);
+        SetObjProperty(the_item, "poison_level", stren);
+        var skillmod := Cint(GetAttribute(who, "poisoning") / 20) + RandomInt(4);
+        SetObjProperty(the_item, "d", Cint(25 - (stren * 4)) + skillmod);
+        var hitscripts := GetObjProperty(the_item, "OnHit");
+        if(!hitscripts)
+          hitscripts := array;
+        endif
+        if(!hitscripts.exists(":combat:poisonHit"))
+          hitscripts.append(":combat:poisonHit");
+          SetObjProperty(the_item, "OnHit", hitscripts);
+        endif
+        SendSysMessage(who, "You have successfully applied the poison");
+        var myskill := CInt(GetEffectiveSkill(who, SKILLID_POISONING));
+        var modpts := 0;
+        if(myskill >=  skill)
+          modpts := (myskill - skill);
+        endif
+        var rint := RandomInt(100);
+        if(modpts >= rint)
+          ExceptionalFameMod(who, myskill, skill, point);
+        endif
+      else
+        if(RandomInt(100) > 90)
+          SendSysMessage(who, "You fail and poison yourself!");
+          var parms := array(who, who, "poison Skill", stren);
+          start_script(":spells:poisonDamage", parms);
+        else
+          SendSysMessage(who, "You fail to apply the poison properly");
+        endif
+      endif
+    else
+      SendSysMessage(who, "you cant use that poison.");
+      return;
+    endif
+  else
+    SendSysMessage(who, "That cannot be poisoned");
+    return;
+  endif
+endprogram
+
+function ExceptionalFameMod(who, skill, diff, points)
+  if(skill > diff - 20)
+    diff := diff + 20;
+    if((skill - diff) <= 5)
+      points := points;
+    elseif((skill - diff) <= 10)
+      points := (points * 3) / 4;
+    elseif((skill - diff) <= 15)
+      points := points / 2;
+    elseif((skill - diff) <= 20)
+      points := points / 4;
+    else
+      points := 0;
+    endif
+    points := Cint(points);
+    var fame := Cint(GetObjProperty(who, "Fame"));
+    var famegain := fame + points;
+    SetObjProperty(who, "Fame", famegain);
+    var msgtext := "You have ";
+    if(points < 0)
+      msgtext := msgtext + "lost ";
+      points := Abs(points);
+    else
+      msgtext := msgtext + "gained ";
+    endif
+    if(points > 150)
+      msgtext := msgtext + "a great amount of ";
+    elseif(points > 125)
+      msgtext := msgtext + "alot of ";
+    elseif(points > 75)
+      msgtext := msgtext + "a good amount of ";
+    elseif(points > 30)
+      msgtext := msgtext + "some ";
+    elseif(points > 0)
+      msgtext := msgtext + "a little ";
+    else
+      return 0;
+    endif
+    msgtext := msgtext + "Fame.";
+    SendSysMessage(who, msgtext);
+    var karma := Cint(GetObjProperty(who, "Karma"));
+    var kmod := GetKarmaLevel(karma);
+    var fmod := GetFameLevel(famegain);
+    var newtitle := nototitles[ (kmod) ];
+    newtitle := "The " + CStr(newtitle[fmod]) + " ";
+    if(newtitle["None"])
+      newtitle := "";
+    endif
+    if(fmod == 5)
+      if(who.gender == 1)
+        newtitle := newtitle + "Lady ";
+      else
+        newtitle := newtitle + "Lord ";
+      endif
+    endif
+    if(newtitle != who.title_prefix)
+      who.title_prefix := newtitle;
+      SendSysMessage(who, "you are now known as " + newtitle + who.name);
+    endif
+    SetNotoTitle(who, karma, fame);
+  endif
+endfunction

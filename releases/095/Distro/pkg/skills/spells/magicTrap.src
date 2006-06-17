@@ -1,0 +1,44 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/attributes";
+include "include/spellRestrictions";
+include "include/findCity";
+
+program cast_strength(parms)
+  var circle := 2;
+  var delivery := "direct";
+  var noto := "harmful";
+  var result := maincast(parms, delivery, circle, noto, 13);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  if((cast_on.isa(POLCLASS_DOOR)) || (cast_on.objtype == 0xe79) || ((cast_on.graphic<=0x9ab) &&(cast_on.graphic>=0x9a8)) ||((cast_on.graphic<=0xe43) &&(cast_on.graphic>=0xe3c)) ||((cast_on.graphic<=0xe80) &&(cast_on.graphic>=0xe7c)))
+    var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+    var trapstr := CInt(magery/5);
+    if(findcity(cast_on) != "no city")
+      caster.setCriminal(1);
+    endif
+    if(findcity(caster) != "no city")
+      caster.setCriminal(1);
+    endif
+    if(trapstr<1)
+      trapstr:=1;
+    endif
+    if(trapstr>5)
+      trapstr:=5;
+    endif
+    PlaySoundEffect(caster, SFX_SPELL_MAGIC_TRAP);
+    PlayStationaryEffect(cast_on.x, cast_on.y, cast_on.z, 0x376a, 30, 30);
+    SetObjProperty(cast_on, "trap_strength", trapstr);
+    SetObjProperty(cast_on, "trap_type", 4);
+    SetObjProperty(cast_on, "oldscript", cast_on.usescript);
+    cast_on.usescript := ":tinkering:tinkerTraps";
+  else
+    SendSysMessage(caster, "That cannot be magic trapped!");
+  endif
+endprogram

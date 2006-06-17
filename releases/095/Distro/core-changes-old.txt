@@ -1,0 +1,1254 @@
+
+04/13/1999 - POL071
+==========
+    files in data/ will use ".txt" extension
+       existing .dat files will be converted automatically
+    Boats are no longer broken (objtype/graphic holdover)
+    Boat components will be created non-movable
+    Both attacker and defender must be visible for attacks to occur
+    Weapon templates can now share the same objtype
+       (this is a temporary solution, pending a bit of rework)
+    Holds use the correct gump (itemdesc.cfg)
+    Script scheduler modified to improve performance
+    Item decay scheduling modified
+
+
+04/09/1999 - POL070
+==========
+    Added npc::Wander() - moves, usually forward, sometimes turns
+    Added ai/killpcs.src, made default_AI redirect to these for some monsters
+    Another try at making corpses unmovable.
+    NPCs will be default only pay attention to spoken text @ 1 pace away
+    Boat components will be set for no-decay :)
+    Boats should respond to "right", "left", "drift right", and "drift left"
+    Tests for 'walk-on' scripts will no longer depend on the uo client files
+    Merchants will run critical, to be more responsive
+    SendBuyWindow should handle larger inventories
+    Output trimmed in several scripts
+    coun, seer, and gm textcmd directories now exist
+    MoveToward/RunToward will now try adjacent moves if a direct move is blocked
+       (doesn't work yet..oops!  take a look, it's funny)
+    Client encryption keys are now read from POL.CFG.
+    Client 37 supported; core now supports RemoveTrap and Stealth skills.
+    'invul' priv/setting added.
+    PC corpse decay will dump contents to the ground; all others will not.
+    The server should cope with T2A installations with no VERDATA.MUL
+    Added uo::GetObjtypeByName( name ) - uses NAME prop from itemdesc.cfg
+    Doors are now configured in itemdesc.cfg
+    CreateItem.. functions will refuse to create a nonstackable with amount > 1
+    Items now have a ".decayat" member.  Set to zero to disable decay,
+      or gameclock() + number_of_seconds to make an item decay in the future.
+    Added uo::GetEquipmentByLayer( character, layer )
+    0x3ff will be the highest allowed mobile graphic
+    non-'movable' items will no longer decay.
+
+
+03/30/1999 - POLC069           
+==========
+    NPC corpses will contain an "npctemplate" property (use GetObjProperty)
+    ".destroy" text command moved to a script
+    "misc/oncreate.src" will run critical on character creation.
+        - this is where initial equipment should be created.
+    "item.movable" added - default depends on item type
+    Added option to POL.CFG: "LogScriptCycles"  If set to 1, a breakdown of
+      how many instructions per script were executed will be written to pol.log
+    Item decay is in.  Specify 'DecayTime' in minutes in itemdesc.cfg per 
+      object type.  The default is 10 minutes.
+    Corpses are no longer "SaveOnExit 0"
+    Split OBJECTS.DAT into POL.DAT, PCS.DAT, PCEQUIP.DAT, NPCS.DAT, 
+      NPCEQUIP.DAT, and ITEMS.DAT.  Each of these contains a descriptive comment.
+    Added uo::ListHostiles( character, range, flags );
+    "--lan--" in servers.cfg will use your LAN IP address (192.168.*, 10.*)
+    'const' declarations can be specified in .EM files
+
+03/23/1999 - POLC068
+==========
+    Added "character.ar_mod" AR modifier (use same as strength_mod, etc)
+    Added ".setarmod" text command to test
+    Added uo::DisconnectClient( character ) [note still no way to ban]
+    Added ".kick" text command to admin
+    Scripts waiting for a menu selection will return if the client disconnects
+    Added "character.weapon" returns weaponref to equipped weapon
+    Added "weapon.skillid" returns SkillId for a weapon
+    Corpses should be immovable, by clients and scripts
+       [I'm not sure what happens if a corpse is on a moving boat --
+        has anyone tried?]
+    ".create" implemented as a script (builtin renamed to ".i_create")
+    The structure returned by SelectMenuItem2() will contain the color
+    Tweaked loot.inc so it doesn't create hundreds of individual gold pieces
+
+03/19/1999 - POLC067
+==========
+    SaveOnExit logic will now use objtype, not graphic
+    Objtype is specified in the key-position in itemdesc.cfg
+      This means only one objtype can be specified per element.
+      Itemdesc.cfg still has the ObjType 0xHHHH entries, for compatibility.
+    object.facing is now writable.
+    Added cfgfile::GetConfigStringArray
+    You can buy stuff from merchants.  Try ".createnpc merchant"
+      - See merchant.src, mrcspawn.src, mrcspawn.inc, mrcspawn.cfg
+      - It's not complete/perfect yet, but works for the basics.
+      - The whole merchant inventory spawn thing is overly complex; considering
+        making each merchant NPC AI script respawn its own inventory, but
+        that's all scriptside, so easy to change later
+
+
+03/09/1999 - POLC066
+==========
+    Fixed server AV on skills window opening
+    Added uo::GetRegionString() for config data per resource-region.
+    Reordered parameters of GetHarvestDifficulty and HarvestResource.
+    Character creation will be rejected if a stat was specified < 10
+    Stats will be stored as raw values, same scale as skills.
+    StrAdv, IntAdv, and DexAdv can be specified in skills.cfg.
+      - Format is "chance points", where chance is a percentage, and 
+        points is a die-roll specification.  Examples: "1.5 1d4", "75 1"
+      - advancement is done, but sometimes doesn't display the new value
+    Some additions to error messages displayed for bad die-roll specifiers.
+    Starting skills will start near (known bug) values specified.
+
+
+
+
+02/05/1999 - POLC065
+==========
+	Spells.cfg entries can specify "animation", the spell casting animation.
+	    The default is 0x10
+	Added uo::PlayStationaryEffect( x,y,z, effect, speed, loop );
+    Added uo::DestroyRootItemInStorageArea( itemname );
+    Added os::system_rpm();
+    Weapons have 'quality' and 'hp' read-write properties.
+    Weapons also have a readonly 'maxhp' property, which is the calculation of
+      (template MaxHp) * (weapon quality)
+    Damage done is now (random damage) * hp / (template maxhp)
+    Added ".smember" test textcmd.  ".smember quality", then target, will
+      show you "[targetted].quality" for example.
+    Non-projectile weapons will take 1 hp damage occasionally when they hit
+       (25% chance)
+    Movement will reset the swing timer if you have a projectile weapon equipped
+
+02/03/1999 - POLC064
+==========
+	Maps will display now, if they have a location set.
+	  (see textcmd/test/makemap.src)
+	Map items have xwest,ynorth,xeast,ysouth,gumpheight,gumpwidth properties
+	Some fixes for boat creation.
+	Added uo::GetMapInfo(x,y)
+	Resource types are now defined in regions/resource.cfg, so others can be added.
+
+02/01/1999 - POLC063 - Pol Core 063 
+==========
+	ecompile will check the environment for ECOMPILE_PATH_EM and
+	  ECOMPILE_PATH_INC.  If .em or .inc files are not found by
+	  searching from the current directory, these paths will be
+	  searched.
+    Objtype and Graphic ID are split; 'graphic' is now read/write,
+	  while 'objtype' is read-only.  'objtype' can be anything from
+	  0x0000 to 0xFFFF; Values above 0xF000 are reserved by the system.
+      'include/extobj.inc' defines some values.
+	Doors will use objtypes 0xF000 - 0xF003.  These open in different
+	  ways; it should now be possible to create all types of doors.
+	Ship components will use objtypes from 0xF010 to 0xF013.
+	  Existing ship planks and holds will no longer function.
+	It is now possible to create objects with objtypes >= 0x5000
+
+01/27/1999 - POLC062X - Pol Core 062 (Experimental)
+==========
+	Added 'enum' facility to script compiler (see above, and docs)
+	Added array( 1,5,9,... ) syntax to script compiler/executor
+		- scripts which use this will only work with Core V062+
+		- Note, 'local a := array' now obsoletes 'local a array'
+	Next non-experimental release after a script/config release can
+	  be made.
+
+01/26/1999 - POLC061X - Pol Core 061 (Experimental)
+==========
+	Added ConsumeMana( who, spellid )
+	Added ConsumeReagents( who, spellid )
+	Added AppendConfigFileElement( configfile, elemtype, elemkey, properties );
+	Added UnloadConfigFile( configfile );
+	Added ListEquippedItems( who );
+	Added ListObjectsInBox(x1,y1,z1,x2,y2,z2);
+	Added ".writequip [tag]", writes your equipment to equip.cfg
+	Added to textcmd/test: ".consmana", ".consreg", ".listbox"
+
+01/24/1999 - POL060Ex - Experimental, dev-only release
+==========
+	That means, doesn't go to any test system! developer machines only.
+    Performance enhancements to ListMobilesInLineOfSight
+    Added uo::SendPacket( to_whom, packet_hex_string );
+    Added ".sendpacket" to test this
+    Reorganized locations of scripts.
+      AI scripts go in ai/
+      Skill-window skill scripts go in skills/
+      Item-use scripts go in items/
+      Startup scripts go in startup/
+      4 leftover scripts go in misc/
+      .inc files go in include/
+      (many .inc files are still in util/ - they'll be okay there for a while)
+      The only script in /scripts is start.src
+	Changes made to segment map into zones for item/mobile existence,
+	  so 'search near' and line-of-sight type stuff will take far less time.
+	  (This is why it's devel-only - we need to beat on this)
+	  Only a few functions take advantage of this - the first step is to get
+	  all the items and mobiles into the segmented storage.
+
+
+01/23/1999 - POL059
+==========
+    New event types: EVID_ENTEREDAREA, EVID_LEFTAREA, EVID_OPPONENT_MOVED
+        - More to do yet on these, but they will tell you whenever anything
+          enters or leaves a given range threshold
+        - See CSTGUARD.SRC, as always :)
+    spawner.src rewritten somewhat - more to come
+    It should be impossible to set an item's color to a color that will
+      cause a client crash.
+    Added cfgfile::GetConfigMaxIntKey(config_file)
+    uo::EnableEventType renamed to EnableEvents, takes an optional 'range'
+    Added uo::DisableEvents
+    Tachometer added.  ".rpm" to view last minute's game-loop iteration count.
+        - "WatchRpm=1" in pol.cfg will display every minute, also.
+        - My P133/Win98 gets around 300, P166/WinNT gets around 560
+           (hmm, those are debug build.. release: ~800 P133/Win98)
+        - This number is highly dependent upon # of NPCs
+    Pirate.src changed to use EVID_ constants from include/eventid.inc
+
+01/21/1999 - POL058
+==========
+    Inscription updated to build smaller menus, and other fixes (DT)
+    Scripts updated to correct boolean-return values: (DT)
+        - tinkering
+        - creature_spellcast
+        - carpentry
+    Alchemy re-implemented as OSI-style. (DT)
+    Text commands split into command levels.
+        - textcmd has five subdirectories: admin gm seer coun player
+        - Characters can have a CmdLevel property in OBJECTS.DAT, which specifies
+          which of these they fall under.  'player' is the default.
+          CmdLevel _must_ be one of these, or not specified.
+        - All text commands moved to textcmd/admin
+        - All "built-in" text commands assumed to be admin level.
+    Client V 0.36+ (until they change again :) only will be accepted.
+    Equip.cfg now detects decimal/hex values for objtype and color, like everywhere else.
+      (hex only was by design, but not commented, and different from all else, so..)            
+    Fixed a crash bug in compiler if ';' was the first effective statement
+    AI updated, consolidated further into default_AI with new natures (rje)
+    Several AI scripts removed; use default_AI instead.
+    Energy bolt unbroken (DC)
+    Healers will heal poison and damage (DC)
+    Field spells updated for different orientations (DT)
+    Fire field, poison field use walk-on scripts (DT)
+    Spellbook.src updated to put the scrolls in the spellbook (DT)
+
+01/18/1999 - POL057
+==========
+    Added SplitWords( text ): returns array of words in a string 
+        (space-delimited only, no commas, sorry)
+    NPCs will have their template name follow "NPC" in objects.dat
+    NPC Templates can specify AttackSpeed, AttackDamage, and AttackSkillId
+      these are exactly the same as Speed, Damage, and SkillId properties in
+      weapon.cfg; in fact, a weapon template is generated for each NPC.
+      This has some repurcussions if you, say, create an ettin, then edit 
+      npcdesc.cfg to change damage, then create another ettin.  The new
+      values won't take effect until a system restart.
+    SelectMenuItem will return an error if the menu is too large.
+    AR can be specified in NPC templates, in standard die form.  This will be
+      "rolled" on creation, then saved with each individual creature.
+    Spellbooks may be opened with the Open Spellbook macro, if the spellbook
+      is equipped or in the top level of your backpack.
+    Spells may be cast directly from spellbooks.
+    Formulas, animations updated for spells:
+        - Agility
+        - Bless    (plays anim on caster?)
+        - Clumsy
+        - Cunning
+        - Curse
+        - Feeblemind
+        - Mass Curse
+        - Strength
+        - Weaken
+        - Greater Heal
+    Explosion spell added
+
+
+01/17/1999 - POL056
+==========
+    RequestInput( character, item, text ) - displays message, gets next input line
+    ReadGameClock() - elapsed game seconds counter
+    Alchemy, Inscription, Blacksmithy, Carpentry, Tinkering updated (DT)
+    Loot script updated (DT)
+    Recall rune double-click script added
+    Compiler updated; would sometimes not emit the "implicit return" at end of functions.
+        - this affected make_blacksmith_items, at least.
+    make_blacksmith_items updated to use (menuselection.objtype) (ES)
+    Script profiling info will only be displayed if ProfileScripts is set in watch.cfg
+    default_AI changed to kill creatures with unknown natures.
+    Corpses will have all the custom properties that the creature had when living.
+    Limited skill delay added.
+        - Set a "Delay" property in skills.cfg.  Other skill use will
+          be disabled until 'n' seconds after the initial skill was begun.  Note, we
+          may want to change this timer to start after the skill is complete,
+          or after the skill script calls Detach().
+        - Only Hiding has a skill delay at this time.
+        - No attempt is made to disable skill use in item-use scripts.
+          (So, you could hide, then turn around and use a hammer etc)
+    Net-negative stat modifiers should be handled correctly.
+        - If they would modify the stat below 1, it is assumed to be 1.
+        - the real modifier is "hidden" so scripts don't have to do anything special.
+    Fixed stat-modifying scripts (durations,amounts to be debated) (ES)
+        - Agility
+        - Bless
+        - Clumsy
+        - Cunning
+        - Curse
+        - Feeblemind
+        - Mass Curse (pretty major rewrite)
+        - Strength
+        - Weaken
+      The fix made was to change the stats by an amount, then change
+          them back by the same amount - this way, curse can cancel
+          bless, etc, but a weak curse will only partially cancel
+          a strong bless.
+      No attempt was made to fix the animations, which don't appear.
+    Added animations, sounds to the following spells:
+        - Cure
+        - Dispel Field
+        - Mana Drain (also, uses resist vs magery)
+        - Mana Vampire (also, uses resist vs magery)
+        - Mind Blast
+        - Flame Strike
+    Fireball spell added
+    Heal spell added
+    Greater Heal spell added
+    Damage changed on the following spells:
+        - Magic Arrow
+        - Lightning Bolt
+        - Harm
+        - Flame Strike
+    Damage messages for Earthquake are sent private (Thank you!)
+    strength, intelligence, and dexterity object members will reflect
+       the modified values, not underlying values.
+    Chain Lightning moved back to 7th circle
+    Meteor Swarm moved back to 7th circle
+    Docs updated for new UO.EM functions
+    '.objtype' is writable for mobiles.  If world state is saved with this
+      modified, such modifications will become undone when the system reloads.
+    ".setobjtype", ".showstats", ".powerup" added
+
+01/16/1999 - POL055
+==========
+    Timer granularity improved  (scripts, combat timers, casting delay timers)
+    npc::Move/Run functions use the following formula for timeout:
+       after moving, sleep (1000 - dexterity * 3) milliseconds
+       minimum is 250 milliseconds.
+       If running, halve this (min. 125 ms)
+       Give me a better formula, and I'll use it.
+    os::sleepms( milliseconds ) added.
+    Castle Guards always run critical.
+    util/skillid.inc filled in.  Scripts modified to use.
+    Pirate script added, equip.cfg updated with an outfit (Rob)
+    default_AI updated (trapper) (Rob)
+    Access violations will be written to the log file.  Email any
+     that hit you to syzygy@pobox.com
+    "showadv" privilege/setting will show raw skill updates as they occur.
+    Comments at the top of OBJECTS.DAT will show mobile/toplevel item count.
+    Game time counter added (can't access from scripts yet)
+
+01/15/1999 - POL054
+==========
+    "SelectTimeout" option in POL.CFG.  Set to 0 to hog the processor.
+    Added EquipFromTemplate(npc,template) - equips from EQUIP.CFG by name
+    Internal: build mode changed to multithreaded.
+    "--ip--" can be substituted for IP in SERVERS.CFG; uses the first 
+      non-127.*, 192.168.*, 10.* IP address found.
+    Compiler bug fixed, where in some cases functions would be called incorrectly.
+      This afflicted skeleton and default_AI, and likely others, resulting in
+      ever-increasing memory usage and incorrect behaviour.
+    Telekinesis added (DC)  
+      (I notice it's a bit too powerful: can take equipped items, 
+       and items in any container - syz)
+    Detect Hidden to pit Detect Hidden versus Hiding (DC)
+    Skills updated to use non-difficulty-based CheckSkill:
+        Eval Int, Fletching, Healing, Item ID, Musicianship, Spirit Speak,
+        Taste ID, Tracking, Hiding
+        "Point Value" also increased on these.
+        (lumberjacking is and should be difficulty-based, due to resources)
+    Casting delay added.  Delay, in milliseconds, can be set in CIRCLES.CFG.
+      Note, the delay is rounded to seconds ((delay+500)/1000).
+      This will be true until timer granularity in general is improved.
+      Also note, the animation isn't played long enough.
+    Client disconnect with target cursor active handled appropriately. 
+    Added GrantPrivilege( chr, priv ), ".grantpriv priv" + target
+    Added RevokePrivilege( chr, priv ),".revokepriv priv" + target
+     (see docs for info on privileges/settings)
+!!! Script "case" syntax modified to disallow bare-string tags.  Misspellings
+     of things like UOBJ_PURPLE_POTION were being seen as strings, and
+     not flagged as errors.  All scripts that used the offending syntax updated.
+    Changes to carpentry, tinkering, blacksmithy for repair
+    Loot on corpses added
+
+
+01/12/1999 - POL053
+==========
+    "color" is now read-write, for mobiles and items.
+    ".mycolor", ".showcolor", ".setcolor" text commands added.
+    "name" is now read-write, for mobiles and items.
+    ".setname" text command added.
+    If CheckSkill is passed a negative value for difficulty, it will make a
+      non-difficulty based skill check.  If successful, 100% of points are awarded.
+      The percentage chance will be the effective skill (min 2, max 98).
+      In the future, perhaps different curves will be defined in SKILLS.CFG.
+    Characters can be deleted.
+    Mining updated (DT)
+    alchemy.src, alchemy2.src, drink_potion, eat, poison_skill updated (DT)
+    taming.src updated (DT)
+    Docs on Alchemy, Blacksmithy, Inscription, Tinkering added (DT)
+    Start of resource system - local depletions only, so far (see lumberjack.src)
+    Added GetHarvestDifficulty()
+    Added HarvestResource()
+
+
+01/10/1999 - POL052
+==========
+    "TemplateName" in NPCDESC is gone.  The tag now follows "NpcTemplate", so NPCDESC.CFG
+       can be accessed through the CFGFILE module.
+    Updated all entries in NPCDESC.CFG to follow this format.
+      (Note many entries in NPCDESC still don't have "natures" matching default_AI,
+       so they just exit, and so stand around)
+    Added a default: clause to default_AI which syslogs when an unknown nature comes up.
+    ".script" read-write property added to NPCs. (writing doesn't restart the script)
+    Added uo::RestartScript( npc )
+    Detect Hidden skill added (DC)
+    Earthquake spell added (DC)
+    Mana Drain spell added (DC)
+    Mana Vampire spell added (DC)
+    Object reference added to docs (help welcome, class hierarchy visuals esp.)
+
+01/09/1999 - POL051
+==========
+    Documentation added for 26 script functions
+    Changed many script names in NPCDESC to default_AI per Rob's instructions
+    Speech event types will be "speech", not "Speech"
+    Scripts updated to check for either of the above possibilities
+    Script errors in functions will display the line # of the error, not the function.
+    "engage" and "disengage" event types added (see docs)
+    Added EnableEventType( eventtype ) 
+    "damage" event type added
+    npc::move() can take a number.  0=N,1=NE,2=E, ..., 7=NW, 8=N, ...
+      (so, move( self().facing-2 ) turns left, for example)
+    See CSTGUARD.SRC for an example of a script using the new events.    
+
+01/08/1999 - POL050
+==========
+    Internal: STLport used rather than MS STL
+    Added MoveItemToLocation( item, x, y, z )
+    Added MoveItemToContainer( item, container, x := -1, y := -1 )
+    Added boat::SystemFindBoatBySerial( serial )
+    Added EquipItem( character, item )
+    Added ".whereship" command (target ship deed)
+    Added ".equip" command
+    Added ".moveitem" command
+    Added ".movetocont" command
+    Items in bankboxes should be targettable
+    Light levels will be resent even if you don't move between transportation
+    Scripts that execute 500 or more "instructions" will have profiling information logged.
+    Files in the devel distribution will no longer be read-only
+    Script .ECL files will be included in the devel distribution.
+    AI scripts reorganized (Rob)
+
+01/07/1999 - POL049
+==========
+    Ship holds are now locked on creation, and associated with the keys.
+    First attempt at character logout on disconnect (no timeouts yet)
+    Scripts must now use program foo(param,param,..) .. endprogram to get arguments
+    SPELCAST.EM, SKILLUSE.EM, and ITEMUSE.EM are all history.
+    text command scripts can use program .. endprogram to get arguments.
+    All scripts converted to use program..endprogram to get args.
+    Hiding skill added (DC)
+    Healers added (DC)
+    Invisibility spell added (DT)
+
+01/07/1999 - POL048
+==========
+    All scripts updated to use function .. endfunction
+    ".makeshipdeed" script added - creates a ship deed in your backpack (only 0x4000)
+    ship deeds can be used to place ships. They create keys and a deed certifying ownership.
+    the "." member operator will have higher precedence than the unary operators.
+    script functions can be called before they are defined.
+    unused script functions will not be included in .ECL files.
+    Corrected a precedence error in compiler - ev.text["bank"] will work correctly now.
+
+01/05/1999 - POL047
+==========
+    Fixed a compiler bug where 'default:' followed by 'endcase' would be flagged an error
+    os::syslog( text ) function added - logs to pol.log and prints to console
+    Entries in ITEMDESC.CFG can have more than one OBJTYPE property. Note that 
+     the 'name' property in ITEMDESC.CFG is not used.
+    ".objtype" is writable, for non-multi items only.  Use with caution! This should not be
+      used to convert, say, an apple to a container.
+    Object types and serial numbers will be stored in hex format in data files.
+    "death" script will be executed on NPC death
+    "chrdeath" script will be executed on player character death.
+      - os::parameter() will return the corpse for each.
+    Many AI scripts updated (Rob)
+    SystemFindObjectBySerial( serial ) added - searches everywhere.
+    Hidden characters who take damage will become unhidden.
+    ListMobilesNearLocationEx(x,y,z, range, flags) added
+      Add together constants in LISTEX.INC to build flags.
+    CreateItemInContainer( container, objtype, amount ) added - almost forgot!
+
+01/03/1999 - POL046
+==========
+    Some changes to resurrection so the rezzed won't see peacemode ghosts
+    Newly killed characters should now see nearby ghosts.
+    Beginnings of a hidden flag - ".hidden" property added to mobiles
+     The following functions ignore hidden characters:
+       - ListMobilesNearLocation
+            This means firefield etc won't affect hidden characters, 
+            for the time being.
+       - ListMobilesInLineOfSight
+     The following actions unhide a character:
+       - Movement
+       - Speech
+       - Casting a spell
+       - Using a skill
+       - Double-clicking any item that 'RequiresAttention'
+         (this isn't quite right - just a quick fix to allow container use)
+     Note again that this is just a start - it doesn't take much thinking for 
+      me to come up with something that won't work right with hiding. But 
+      here's something to bang on.
+    ".hideme" text command added.
+
+01/02/1999 - POL045
+==========
+    case..endcase script construct added
+    Taste Identification script updated to use case..endcase
+
+01/01/1999 - POL044
+==========
+    foreach..endforeach script construct added
+    Local variables in nested blocks can override local variables in their parent blocks.
+    Major performance improvement to script engine 
+
+01/01/1999 - POL043
+==========
+    Added ListMobilesInLineOfSight(object,range) - lists non-ghosts in line of sight
+      within 'range' squares of object.
+    ListMobilesNearLocation will no longer include ghosts
+    Added ListGhostsNearLocation(x,y,z,range)
+    Performance updates to script engine.  Scripts must be recompiled to benefit.
+    Converted reflect_spell.src to reflect_spell1.inc
+    Made ebolt use reflect_spell1.inc
+    Added ListItemsNearLocationOfType(x,y,z,range,type)
+
+01/01/1999
+==========
+    Rob:
+     Tidied up creature include files, plus gave a makeover to
+     default creatures.  
+
+     No guarantees that the pack predators work as expected -- I
+     didn't fix any bugs.  This was a code cleanup only, but the
+     default_pack_predator is still a mess.
+
+12/31/1998
+==========
+    Rob:
+     added strprops to npcdesc.cfg:
+        leaderText
+        buddyText
+        targetText
+        aggression  (to replace the 'p' strprop)
+     (by the way, critters now also use strprops "nature" and "alignment")
+
+     split up creatureRoutines.inc into:
+        spawn.inc
+        conflicts.inc
+        buddies.inc
+        creature.inc
+     all of these conform to the new eScript syntax.
+
+     changed my scripts to conform to the new compiler, etc:
+        robs_prey.src
+        robs_predator.src
+        skeleton.src
+        robs_pack_predator -- has bugs (Dan?)
+
+    added harm spell (untested)
+
+12/31/1998 - POL042 (compiler only)
+==========
+    Changed the order of cleanup on shutdown, to correct an AV condition. 
+    Fully-bracketed syntax now for all constructs:
+        WHILE .. ENDWHILE
+        REPEAT .. UNTIL   (replaces DO .. WHILE due to ambiguity)
+        FOR .. ENDFOR
+        FUNCTION .. ENDFUNCTION
+      Scripts must use one form or the other, per type.  
+      Non-bracketed forms are deprecated.  All tests in testsuite have been
+      converted to use the new forms.
+    Some escript docs updated
+    Default parameters for functions can consist of any optimizable expression.
+
+12/30/1998 - POL041
+==========
+    Added Distance( obj1, obj2 )
+    NPCs will now get their scripts from the script repository, rather than
+     each loading their own copy of the .ECL file.
+
+12/30/1998 - ecompile.exe only
+==========
+    Compiler change - 'const' variables will be treated as constants.  They are also
+     now case-sensitive.  This broke a few of the AI scripts.
+     This has made .ECL files smaller, and will result in lower memory usage.
+    Compiler changed to better handle expressions within brackets
+
+12/29/1998 - POL040
+==========
+    "LOS blocked by" diagnostic messages removed
+    Start script and spawned scripts have access to cfgfile module
+    Light regions can be defined in regions/light.cfg
+    Added SetRegionLightLevel( LightRegionName, LightLevel )
+    Added SetGlobalProperty( PropertyName, PropertyValue )
+    Added GetGlobalProperty( PropertyName )
+    Added EraseGlobalProperty( PropertyName )
+    Added EraseObjProperty( Object, PropertyName )
+    Added ".setlight", ".getglobal", ".setglobal", ".eraseglobal", 
+          ".eraseobjproperty" commands.
+
+
+12/29/1998
+==========
+    added lotsa NPCs 
+    added default_pack and default_pack_predator
+    added .kill command
+    modified .createnpc to give target
+    added Skeleton (Rob)     
+    added .goto command (.goto character_name)
+    DefaultAI now has tamed commands built in. Most are working (except Guard)
+    added summon creature,summon daemon,blade spirit,e-vortex,  and summon elemental spells
+    added a bit 'o text to the tillerman in boat.src (Rob)
+    added vortexAI -- chases the smartest guy around, and won't retreat
+    added a 10-minute autosave
+
+12/29/1998 - POL039
+==========
+    SaveWorldState() added
+    ".savenow" command added
+    Implemented a possible fix for server crashes on NPC death.
+    Fixed a server crash bug when an NPC script resulted in its death.
+
+12/28/1998
+==========
+    create musicianship skill (Rac)
+    fixed healing (Rac)
+
+12/27/1998 - POL038a [ecompile.exe only]
+==========
+    Fixed a bug in the compiler.  Scripts which used FOR loops would not clean up
+    correctly, resulting in ever increasing memory usage if scripts ran a long time
+    (ie NPC control scripts)
+
+12/27/1998 - POL038
+==========
+    SetObjProperty now accepts value types of String, Integer, and Real.
+    GetObjProperty will return the same type of object as was Set (String, Integer, or Real)
+      MARK.SRC, GATE.SRC, and MOONGATE.SRC have been updated.  Note CInt() is still used when
+      reading marked runes, in order to work with old marked runes.
+      All properties previously created are assumed to be Strings.
+    Skill## properties are optional in OBJECTS.DAT, and default to 0 if unspecified.
+    Skill## properties are not written if they are 0.
+    Found and fixed resource leak exposed by NPC death.
+
+12/26/1998 (DT)
+==========
+    created default_predator, default_prey, and default_mean_predator AI:
+    default_predator: depending on hunger level, will attack prey, non-predators, or other predators. Eats the meat whn done
+    default_prey: runs from all predators
+    default_mean_predator: like default_predator, but will always attack humans. (use for ettin, ogre, etc)
+
+    added a bunch of creatures based on these scripts
+
+    modofoed .makeregs to do all the regs
+
+12/26/1998 - POL037
+==========
+    Fixed nasty server halt bug exposed by "NPCs don't make ghosts" update.
+
+12/26/1998 - POL036
+==========
+    Killed NPCs will be destroyed, rather than sticking around as ghosts
+        -- this sometimes leaves an orphan (leaked) object, but that's a smaller
+           leak than _always_ leaving an entire ghost, with running script. :)
+    Added RawSkillToBaseSkill();
+    Added BaseSkillToRawSkill();
+       -- note, both of these use a different "skill" scale from GetSkill.
+          if the skill is 12.4, the "base skill" is 124.  (GetSkill would return 12)
+          GetSkill returns _effective_ skill, which is just a simplified number from
+          0 to 100+, modified by stats etc.
+       -- These are slightly broken - RawSkillToBaseSkill(BaseSkillToRawSkill(x)) should
+          always evaluate to x, but often evaluates to x-1.  Not sure what to do about this.
+    IN operator for arrays added.  "if (5 in arrvar)".  
+    ".ident", ".where" ".action", ".bcast" text commands moved to script
+    ".resme" moved to script
+    os::set_debug() function added.  "ecompile -i xx.src" to use.
+    uo::CreateNpcFromTemplate( template, x, y, z, override_properties ) added.
+        see textcmd/createnpc.src for an example
+
+12/23/1998
+==========
+    added clumsy, weaken, feeblemind, strength, agility, cunning (really the same spell)
+    added a few items to itemdesc so they'd disappear on shutdown
+    added bless, curse, mass curse
+    added tracking
+    created default_AI, default_mean_ai, and default_meek_ai. default is to attack only if there's a human nearby and hp < maxhp. Mean automatically attacks humans; meek automatically runs from humans
+
+12/22/1998 - POL035
+==========
+    Simple import facility added - imports and deletes data/import.dat if 
+      present.  misc/world.dor.dat is appropriate for this.
+    Itemdesc.cfg: "SaveOnExit" property, if specified as 0, will force a given
+      item type not to be saved with game state.
+    Boats can turn. They even convert tillermen and gangplanks, and rotate
+      passengers - but not items.
+    Boat scripts auto-start.
+    Boats respond to the following commands: (see BOAT.SRC)
+       forward, backward, turn right, turn left, 
+       come about, furl sail, unfurl sail
+
+12/21/1998 - POL034a
+==========
+    Script compiler works again.
+
+12/21/1998 (DT)
+==========
+    added locked chests in carpentry
+    added restore mana potions in alchemy
+    added digging for clay (shovel on swamp)
+    added Hellfire potion 
+    added stamina potion
+
+12/20/1998 - POL034
+==========
+    You can now open containers even if a skill or spell script hasn't Detach()ed.
+    Items can fire scripts when walked upon. Set WalkOnScript in ITEMDESC.CFG
+    Implemented Gate (see SPELLS/GATE.SRC and MOONGATE.SRC)
+    Duplicates in ITEMDESC.CFG are now detected; commented duplicates out.
+    Added ".createstack" text command
+    Added ".setskill" text command
+    Added ".makeregs" text command
+    Added uo::GetRawSkill(character,skillid);
+    Added uo::SetRawSkill(character,skillid,rawskill);
+    Enhancements to script execution engine to speed start-times.
+    Script compiler will look into 'include' files to determine if IF..ENDIF is used.
+    Script compiler will no longer include source code in output .ECL files.
+    Further optimizations to script compiler to reduce the size of .ECL files
+    The boat control script is underway.
+    Added boat::MoveBoatRelative( boat, relative_direction );
+    Added uo::RegisterForSpeechEvents( at_object, range );
+    Added uo::EnumerateOnlineCharacters();
+    Changes to properties for mobiles:
+        mana and stamina are now writable.  Be nice!
+        strength_mod, intelligence_mod, and dexterity_mod added (read/write).  
+          These are not saved with game state, so use for temporary changes.
+        I may yet add a "SetTempStatMod(chr,stat,howlong)" function, which the 
+        system would automatically maintain.  The advantage there is that faulty 
+        scripts won't permanently grant stat mods, and stat mods _could_ be 
+        recalculated from scratch.
+            
+12/19/1998 - POL033
+==========
+    Projectile weapons now consume projectiles
+    Stackable items dropped into a container will be added to an existing
+      stack if the combined stack would be <= 60000 in size.
+    RandomDiceRoll() function added to UTIL.EM
+    Hex() function added to BASIC.EM
+    Doors are lockable, just as with containers.
+    Dropped items will have their Z-coordinate calculated, rather than believing the client.
+    Dropped items must be placed in an adjacent tile that the character could have walked to.
+      If you try to put an item somewhere, and it appears at your feet, it means the server
+      thought you weren't allowed to put it there.
+    Items dropped on boats will now move with the boat.
+      (There are still some oddities with items that are picked up, where an attempt
+       is made to put them somewhere invalid; but these are longstanding anyway)
+    Walking on water is no longer allowed, so it should be impossible to get stuck on the mast.
+
+12/17/1998 - POL032
+==========
+    Boats automatically figure out they should move you if you walk onto one
+       or teleport onto one. (Dropped items aren't handled yet) (If you .createnpc
+       an NPC on a boat, it won't move with the boat either, I just realized)
+    "locked" property (read/write) available on containers
+       (Should ITEMDESC include a "lockable" property for containers?)
+       locked containers will not be searched for reagents, and cannot be accessed.
+    "corpsetype" property available on corpses - the object type of the corpse when alive
+    Added PrintTextAbove( above_object, text );
+    Added PrintTextAbovePrivate( above_object, text, character ); // send only to character.
+
+12/17/98
+==========
+    Tinkering can now be used to make jewelry. Melt gold coins on a forge to make 
+      gold bars, then use tinker's tools. 
+    Tinkering can also do clay items. Use tinker tools on clay
+    Added jewelry enchantment (use inscription on jewelry, then gems for charges)
+    added corpse carving/chopping
+
+12/16/1998 - POL031
+==========    
+    Numerous sweeping changes to support multis, particularly boats.
+      (hopefully this won't be called the "instability patch" ;)
+    Orcs won't blink when they attack or are hit. This is a temporary fix,
+         until that stuff is config-file driven.
+    MoveCharacterToLocation calculates the correct z-coordinate, based on the input
+        Z-coordinate.  It is impossible to MoveCharacterToLocation to "under the map."
+    MoveCharacterToLocation will refuse to move a character into a blocked location
+        (blocked by a static object, a dynamic blocking object, or a multi)
+    npc::move() will refuse to move an NPC into walls.
+    some errors in z-calculation corrected.
+    Multi-handling added for Z-coordinates.
+    Multis are stored in MULTIS.DAT
+    TO UPDATE:
+       move all MULTIS to MULTIS.DAT
+
+12/16/1998
+==========
+    Got a start on glass working. Use 0x1036 (hay, soon to be called sand) on a forge, 
+      and you get glass. Use tinkers tools on raw glass to make stuff. Tomorrow I'll 
+      have shovels work on beaches to make sand.
+
+    Orcs work, sorta. Orcs will fight for dominance in the pack, 
+      then start wandering around after their leader. They run away 
+      when they get hurt. Next I want to add some speech, to see 
+      if my speech system works for them. They still have the blinkies, though.
+
+
+12/14/1998
+==========
+    use_stuff modified:. Previously the config file key was just the 
+      objtype that you double-clicked. I changed it so it looks for a 
+      string of used.objtype + use_on.objtype. The problem is that 
+      cstr(objtype) results are decimal, so the key for a skull 
+      (objtype 0x1dae) used on a kettle (0x09ed) is "7598+2541". 
+
+    This way you can have a many-to-many relationship with items. 
+       A head on a kettle, a head on a guard (for a bounty), a 
+       head on a stick (for a headcicle) etc.
+
+    cooking skill added
+
+    Set up an npc_speech script. This script checks 2 config files: 
+      npc_speech and npc_speech_limits, and returns an array. 
+      Element 1 of the return is the string containing the speech, 
+      and element2 is a sound for the creature. If it can't find an 
+      appropriate element it looks for a default phrase/sound for the 
+      creature and returns that. 
+    npc_speech has 2 elements: speech an dsound. The key to npc_speech 
+      is multi-part: the objtype of the creature, the event, and an 
+      index (so a creature can have multiple sayings for each event). 
+      npc_speech_limits sets the range of this index.
+
+
+
+12/13/1998
+==========
+    bladed will carve kindling from trees
+    
+    
+12/12/1998 - POL030
+==========
+    Spells will consume reagents.
+    TargetCoordinates result will contain a ".item" member if an item was selected,
+      or a ".mobile" member if a mobile was selected.
+    It is no longer necessary to put "_OptionBracketed" at the beginning of scripts.
+    CreateItemInBackpack will add to an existing stack, if the objtype is stackable
+      and the resulting stack size would be <= 60000.
+    Changed "verdata" handling, which sped up startup considerable.
+    Added "multi" data loading, which slowed startup down again (but not as bad as before!)
+    ".where", ".tele", ".bcast" - scripted text commands.
+
+12/12/98
+==========   
+
+Added fishing, mining, and lumberjacking
+Made some changes to bladed to support carving of fish, and (eventually) kindling
+   
+12/11/1998 - POL029
+==========
+    Spell words will be spoken, and "cast spell" animation will be played, on casting.
+    "include" script directive added for module inclusion.  See CSTGUARD.SRC, DIST.INC
+    text commands are now scriptable.  Put scripts in scripts/textcmd.
+    keys in config files may now be strings.  All config file elements may be referenced
+      by string value; only those beginning in a digit (0-9) can be referenced by number.
+    character.backpack  - access to a character's backpack.
+    target.objtype added to struct returned from TargetCoordinates
+       (should be useful for fishing, mining, lumberjacking)
+
+12/10/1998 - POL028
+==========
+    The script compiler will display the line number where errors are detected.
+
+12/09/1998 - POL027
+==========
+    Added functions to 'npc' module:
+        - WalkToward( object );
+        - WalkAwayFrom( object );
+        - RunToward( object ); 
+        - RunAwayFrom( object );
+        - TurnToward( object ); 
+        - TurnAwayFrom( object );
+    Added functions to 'uo' module:
+        - ApplyDamage( character, damage : real or integer ); 
+             // chooses armor, reduces damage, halves damage, applies what's left.
+             // plays "i'm hit" animation, and kills if out of HP.
+    Support for Tips added - create .TXT files in the TIPS/ directory.
+    script names passed to start_script and run_script_to_completion may
+      no longer have ".ecl" at the end.
+
+12/09/98
+==========
+    Created a magic reflect script. To use it set the parms, then do a 
+    start_script( "spells/reflect_spell",parms) INSTEAD OF 
+    doing animation and damage in your own script. The parms are an array as follows:
+     parms[1]  = caster 
+     parms[2]  = cast_on 
+     parms[3]  = moving_effect
+     parms[4]  = object_centered_effect
+     parms[5]  = speed                //for animatiom
+     parms[6]  = loop                 //for animation
+     parms[7]  = explode              //for moving animation
+     parms[8]  = rawdamage 	          \
+     parms[9]  = thedamage            / don't use both of these, or both will be applied
+     parms[10] = scriptname 
+     parms[11] = script_parms*
+ 
+ 
+ 
+    *Please Note!! If you use parms[11] -- the parameters to be passed to a script -- make sure script_parms[1] is the caster, and script_parms[2] is the target. These 2 parameters will be reversed if the spell is reflected. If you don't want them reversed, use a different array element!
+
+    Also, this won't work with lightening, so you'll have to do that one yourself. 
+
+    Should I do the sound as well?
+ 
+ 
+    I still need to work on the animation timings.
+
+    updated meteor_swarm, ebolt, magic arrow, poison, flamestrike to use this script
+    added spell reflection spell
+ 
+
+12/07/1998 - POL026
+==========    
+    Added functions to 'cfgfile' module:
+        - GetConfigString() - same as, replaces, GetElemProperty()
+        - GetConfigInt()    - returns integer property, or an error
+        - GetConfigReal()   - returns real property, or an error
+    os::start_script and os::run_script_to_completion now take a 'parameter' parameter.
+    os::parameter() added; access to parameter passed. See poisondamage.src
+!!! start.src must be recompiled - for good measure, recompile everything.   
+    Script functions will start return 'error' objects, which evaluate 'false'
+     and have a ".errortext" member.  The three new cfgfile functions are the only
+     ones that will do so, so far.
+    Updated poisonfield.src, cure.src.  Added poisondamage.src. They're not complete yet,
+       but mostly work.
+    Changed Wrestling's OBJTYPE in WEAPON.CFG so 'unused' tiles don't halt startup
+    CreateItem...(): ObjType limited to 2..0x3fff, Amount to 1..60000
+    added inscription
+    added firefield, poisonfield, wall of stone, and energy field
+    added dispel field
+
+12/06/1998 - POL025
+==========
+    Added NPC functions:
+        - SetOpponent( character );
+        - SetWarMode( boolean );
+    See CSTGUARD.SRC.  Try asking a castle guard to fight!
+      (more stuff is on the way, but just to show what's possible now)
+    Added OS function:
+        - set_critical( critical ); - sets a script's critical flag
+                ( if true, script runs until it blocks )
+    NPCs ignore speech of dead PCs.
+    sleep() and wait_for_event() return absolutely immediately if 0 passed as timeout.
+
+12/06/1998 - POL024
+==========
+    ".goto x y z" text command added - transports you anywhere.
+    Dynamic Menus added: (see test/dynmenu.src)
+        - CreateMenu( title )
+        - AddMenuItem( menu, objtype, text );
+           - NOTE, the object type of a mobile can't be used in a menu.
+             Special values are required; see tracking.cfg
+             I may add a function to convert from mobile objtype to menu objtype.
+    Internal changes to menu selection to support dynamic menus
+    Changed how map height is calculated; .wheretest now tests equal for all current test cases.
+    Fixed Mark spell (DC)
+    Recall Spell added (DC)
+
+12/05/1998 - POL023
+==========    
+    Updated a bunch of scripts for the distribution.
+    Filled in SPELLS.CFG, and moved some spell scripts from SCRIPTS to SCRIPTS/SPELLS
+    Fixed bug in SelectMenuItem so you can use menus more than once again.
+    Docs updated for new functions (not the three below though)
+    Docs on structures and arrays added
+    Added
+        - CheckLosAt( character, x, y, z ) can character see (x,y,z)? - see teleport.src
+            - Thinking of calling this CheckLosToLocation.
+        - CreateItemAtLocation( x,y,z, objtype, amount ) - see test/createat.src
+        - MoveCharacterToLocation( character, x, y, z ) - see teleport.src
+
+12/05/1998
+==========
+    Meteor Swarm spell added. (DC)
+    Chain Lightning spell added. (DC)
+
+12/04/1998
+==========
+    finally got the damned frame relay back up :P
+    fixed a bug in alchemy2.src 
+    added success_sound and failure_sound to use_stuff
+    added detatch() to all applicable scripts
+    heal and greater heal added
+
+12/03/1998 - POL022    
+==========
+    Added:
+        - Detach() - allows character to perform other actions.
+            - see sspeak.src for an example.
+    Internal changes to SelectMenuItem to allow Detach to work.
+    Discovered two key (and old!) classes had nonvirtual destructors; Fixed.
+      This will kill some tiny leaks, but may expose other bugs.. Just FYI.
+
+    Created a generic use_stuff script for use when item1 used on item2 = item3. This checks the use_stuff.cfg file for information on how
+    and what to use items on. You still need to associate the item with teh use_item script in itemdesc.cfg
+    (see use_stuff.cfg for details)
+    added Eval Int, camping, Mark spell
+    added Protection from Poison potion
+
+12/02/1998 - POL021
+==========
+    Added:
+        - TargetCoordinates() returns struct(x,y,z)
+        - EnumerateItemsInContainer(container) includes unlocked subcontainers
+        - ListItemsNearLocation(x,y,z,range)
+        - ApplyRawDamage (deprecates Damage)
+        - HealDamage()
+    see healdmg.src, listcont.src, listnear.src for examples
+    Added "desc" read-only property to Item - the same as from singleclicking.
+    Internal changes to single-click text formatting
+    Internal changes to target cursor handling to allow targetting equipped items
+
+12/02/1998 - POL020
+==========
+    Added:
+        - ListItemsAtLocation(x,y,z), returns array of items
+        - ListMobilesNearLocation(x,y,z,range), returns array of mobiles
+            - 10 used for z-range
+
+    Internal changes to Target to support (later) multiple active action scripts.
+
+
+12/01/1998 - POL019
+==========
+    Spell fizzle sounds, animation added (only on skill failure)
+    POL.LG2 will start recording script errors.
+     (I think you can't read this file while the program is running,
+      which may make it useless, unfortunately)
+    some fixes to script substring comparisons.
+
+12/1/98
+==========
+    added Poison spell
+    Alchemy was working, then I broke it again :P
+
+11/30/98
+==========
+    alchemy starting to work. Use mortar on reagent, then select a flask. Contents added to flask (use .props) to check. Click on flask and select brazier to condense potion.
+    For some reason I never got a success on skill check, so may be a bug.
+
+11/29/1998 - POL018 Minirelease
+==========
+    Added:
+        - PlayObjectCenteredEffect() (for flamestrike)
+        - PlayLightningBoltEffect()
+
+11/25/1998 
+==========
+    Dave's Ebolt added (use mine) (Rac)
+    Lightening added (Rac)
+    Ebolt, CreateFood, Cure, ArchCure added (DT)
+    ItemID and Armslore added -- need some changes (DT)
+    Eating added (that was a tough one!) (DT)
+    Created a "zapper" item (0x0379f) to test Item ID skill
+
+
+11/24/1998 - POL017 Minirelease
+==========
+    Skill use and spell casting scripts can now access the 'cfgfile' module
+
+11/24/1998 - POL016
+==========
+    ".log [text]" command added - writes a message to the log file
+    Items can now have unique scripts which fire on double-click instead of
+       their ITEMDESC.CFG script.  These are called a "use script"
+       (better name anyone? action script?)
+    ".setusescript scriptname" command added - sets a "use script" for an item
+    New property added to ITEMs: 'usescript'.  This is read/write.  
+      So, you can do stuff like:
+        item.usescript := "whatever"; // <-- MUST be a string. others ignored.
+      to make enchanted items or whatever.
+      See SHOWSTUFF.SRC and SETSHOWSTUFF.SRC for examples.
+    Added some more checking to configuration file reading; now, translations
+      (like SkillId in weapon.cfg) will flag an error if text is misspelled.
+      Also, poorly formed numbers will be flagged in error.
+
+    Added item quality and exceptional items to blacksmithy, carpentry, and tinkering (DT)
+    Added the rest of weapons and armor to config files (DT)
+    Added Armslore skill, but it's not quite working (DT)
+
+11/23/1998 - POL015
+==========
+    moved explosion potion into drink_potion, and fixed the sound so Rac wouldn't hit me ;) (DT)
+    added batch file to archive all files in pol tree to \pol\pol.zip Mon-Fri at 5:30 PM EST (DT)
+    updated tinkering to include complex items(DT)
+    Added lockable chest creation with carpentry (DT)
+    Added trap creatoin with tinkering (failure has 1 in 10 chance of hurting craftsman)  (DT)
+
+    objects, items, and characters can now have their properties
+    queried in scripts with "dot" syntax:
+        character.serial
+        item.objtype
+        and so on.
+    properties in a UOBJECT:
+        x
+        y
+        z
+        objtype
+        color
+        serial
+        height
+        facing
+    properties in an ITEM (in addition to those in UOBJECT):
+        amount
+        layer
+        container
+    properties in a CHARACTER (in addition to those in UOBJECT):
+        name
+        warmode
+        gender
+        truecolor
+        hp
+        maxhp
+        mana
+        maxmana
+        stamina
+        maxstamina
+        strength
+        dexterity
+        intelligence
+        dead
+        ar
+    NOTES:
+        (1) these are case-sensitive.
+        (2) The compiler won't notice if you misspell them.
+        (3) These are read-only.
+        (4) The compiler won't notice if you try to assign to them.
+        (5) POL won't log if you do (2) or (4)
+        (6) (1) won't change.  (2) probably will some day, (3) will for some properties,
+            (4) probably will some day, (5) will change.
+        (7) I have only tested item.objtype and character.name (see BLADED.SRC)
+ 
+    Also note, these functions, which were added, are now basically obsolete:
+    (good thing they were trivial to write :)
+        GetPosition() added
+        GetStats() added
+        GetStatus() added
+
+11/22/1998 - POL014
+==========
+    ".constat" command added (connection status)
+
+11/22/1998 - POL013
+==========
+    CheckLineOfSight() added
+    SetName() added
+    DestroyItem() added
+
+11/22/1998 - POL012
+==========
+    Added ".destroy" text command to destroy items.
+    I'll be uploading a .ZIP file with new releases.  This will contain
+    the executable, the CONFIG, SCRIPTS, and DOCS directories, but
+    not POL.CFG or the DATA directory.  
+
+11/22/1998 - POL011
+==========
+    bugfix: script target cursors targetted on characters will no longer AV.
+             ( I don't think this actually happened to anyone..)
+    compiler change: all function calls require parenthesis, even those that
+                     take 0 or 1 parameters (notably: print)
+    compiler change: module functions can define default parameter values now,
+                     so scripts don't have to pass explicitly.
+                     See scripts/spells/magicarrow.src for details
+    Scripted spells are in (magic arrow is the first)
+        - note for now, you have to call Target on your own.
+    GetSkill() added
+    PlayMovingEffect() added
+
+
+
+11/21/1998 - POL010
+==========
+    Scripts can now be tied to skills - see anatomy.src, skills.cfg.
+
+
+11/20/1998 - POL009
+==========
+    tinkering added (DT)
+    setup working.txt in /pol directory to track current projects
+    Added .props text command to list all object custom properties (ES)
+    GetObjProperty, SetObjProperty added (ES)
+    CStr() added (ES)
+    Added a bit of range checking to Damage (ES)
+
+11/19/1998 - POL008
+==========
+    SelectMenuItem returns struct( ObjType, Index ) rather than ObjType
+        - temporarily called SelectMenuItem2, to force script updates.
+        - I haven't written any scripts that use the Index member.
+    RandomInt( N ) added, returns random int less than N.
+        - untested as yet.
+    GetMenuObjTypes( menuname ) script-callable function added.
+       (not real useful yet)
+    PlaySoundEffect added.  Currently, effects can only be centered on
+       characters.  Sound names and numbers can be found in
+       docs/escript/sndlist.txt
+    Added carpentry (use saw 0x1035 on logs 0x1bdd) (DT)
+
+11/18/1998 - POL007
+==========
+    Added .UNLOAD SCRIPTNAME command - so you can try new scripts without
+         restarting
+    .CREATE (armor or weapon) will now associate the object with its
+       armor template or weapon template.
+    Added blacksmithy and beginnings of alchemy (DT)
+
+11/17/1998
+==========
+    smelting of ingots added (DT)
+    Added config file access for scripts - see DOCS/ESCRIPT/CFGFILE.HTM
+
+11/09/1998
+==========
+    .CREATE takes a second parameter, a count.  Creates separate items, not stacked.
+    Added scripted fletcher skill - shafts/feathers into arrows.
+    Added .BCAST command
+    Added .ONLINE command
+    Added .ARMOR command - list your armor
+
+
+11/03/1998
+==========
+    Armor, shields, parrying added.  
+    Error in skill advancement corrected.
+    Error in skill display corrected. 
+

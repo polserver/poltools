@@ -1,0 +1,1083 @@
+include "../../../../foundations/gumps/gumps";
+include "include/gumpUtil";
+include "include/client";
+include "../../spawnRegion";
+include "include/yesNo";
+
+const TPERPAGE  := 15;
+var alldone := 0;
+var regiondone := 0;
+var currenttotal := 0;
+var maxtotal     := 0;
+var SpawnRegionData := DFOpenDataFile("SpawnRegionData", 1);
+var SpawnRegionFreq := DFOpenDataFile("SpawnRegionFreq", 1);
+
+program textcmd_RegionManager(parms, param)
+  var who;
+  if(parms[1] == "Script")
+    who := parms[2];
+    param := parms[3];
+  else
+    who := parms;
+  endif
+  if(param)
+    if((param == "start") or (param == "1"))
+      if (GetGlobalProperty("SpawnRegionOff"))
+        EraseGlobalProperty("SpawnRegionOff");
+        SendSysMessage(who, "SpawnRegionManager enabled.");
+      else
+        SendSysMessage(who, "SpawnRegionManager already enabled.");
+        return 0;
+      endif
+    elseif((param == "stop") or (param == "0"))
+      if (!GetGlobalProperty("SpawnRegionOff"))
+        SetGlobalProperty("SpawnRegionOff", 1);
+        SendSysMessage(who, "SpawnRegionManager disabled.");
+      else
+        SendSysMessage(who, "SpawnRegionManager already disabled.");
+        return 0;
+      endif
+    endif
+    return;
+  endif
+  repeat
+    regionscfg  := OpenDataFile("SpawnRegions");
+    groupscfg   := OpenDataFile("SpawnGroups");
+    ReadRegions();
+    ReadGroups();
+    SpawnRegionData := DFOpenDataFile("SpawnRegionData", 1);
+    SpawnRegionFreq := DFOpenDataFile("SpawnRegionFreq", 1);
+    ComposeSpawnRegionGump(who);
+  until (alldone);
+endprogram
+
+function GlobalSpawnGroups()
+  var dfile := OpenDataFile("SpawnGroups");
+  return dfile;
+endfunction
+
+function GlobalSpawnRegions()
+  var dfile := OpenDataFile("SpawnRegions");
+  return dfile;
+endfunction
+
+function ComposeSpawnRegionGump(who)
+  GFInitGump(0, 0);
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 440, 470);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 420, 420);                    //light menu background
+  GFTextLine(132, 17, 0, "Spawn Region Manager");
+  GFTextLine(130, 15, COLOR_YELLOW, "Spawn Region Manager");
+  GFTextLine(30, 30, COLOR_BLUE_LIGHT, "Region Name");
+  GFTextLine(300, 30, COLOR_BLUE_LIGHT, "Status");
+  GFTextLine(370, 30, COLOR_BLUE_LIGHT, "Go To");
+  GFTextLine(140, 400, COLOR_GREEN, "Add Region?");
+  var addnew := GFButtonID(117, 400, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 1);
+  GFTextLine(270, 400, COLOR_GREEN, "Edit Groups?");
+  GFTextLine( 50, 370, COLOR_RED,   "Despawn All Regions (regions will respawn normally)");
+  var respawn := GFButtonID( 15, 370, 4023, 4025, 1);
+  var groups  := GFButtonID(247, 400, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 1);
+  var cancel  := GFButtonID( 40, 400, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var rcfg    := GlobalSpawnRegions();
+  var gcfg    := GlobalSpawnGroups();
+  var regions := rcfg.keys();
+  var numtemp := regions.size();
+  var numpages := 1;
+  while (numtemp > 0)
+    numtemp := numtemp - TPERPAGE;
+    if (numtemp > 0)
+        numpages := numpages + 1;
+    endif
+  endwhile
+  var bt := array;
+  var btgo := array;
+  var pg;
+  maxtotal := 0;
+  currenttotal := 0;
+  for(pg := 1; pg <= numpages; pg := pg + 1)
+    ComposeRegionsPage(pg, regions, bt, btgo, numpages);
+  endfor
+  GFPage(0);
+  GFTextLine(100, 430, COLOR_YELLOW, "Spawn Region Usage Statistics");
+  GFTextLine(100, 445, COLOR_YELLOW, "Current Status: " + currenttotal + "/" + maxtotal);
+  var retkey := GFSendGump(who);
+  if(retkey[cancel.keyid])
+    alldone := 1;
+    return 0;
+  elseif(retkey[respawn.keyid])
+    DespawnAllRegions(who);
+    alldone := 0;
+    return 0;
+  elseif(retkey[addnew.keyid])
+    AddNewRegion(who);
+    alldone := 0;
+    return 0;
+  elseif(retkey[groups.keyid])
+    var done := ComposeSpawnGroupGump(who);
+    while(done == 1)
+      done := ComposeSpawnGroupGump(who);
+    endwhile
+    alldone := 0;
+    return 0;
+  endif
+  var num;
+  for (num := 1; num <= btgo.size(); num := num + 1)
+    if (retkey[btgo[num]])
+      GoToRegion(who, regions[num]);
+      exit;
+    endif
+  endfor
+  var idx;
+  for (num := 1; num <= bt.size(); num := num + 1)
+    if (bt[num] == retkey[0])
+      idx := num;
+      break;
+    endif
+  endfor
+  if (!idx)
+      return 0;
+  endif
+  var holder := rcfg.FindElement(regions[idx]);
+  var rgelem := holder.PropNames();
+  var reggroups := {};
+  ReadRegions();
+  ReadGroups();
+  foreach thing in rgelem
+    if(thing != "rect")
+      reggroups.append(holder.getprop(thing));
+    endif
+  endforeach
+  if (!reggroups)
+    SendMsg(who, "Unable to find groups for: " + regions[idx]);
+    exit;
+  endif
+  repeat
+    rgelem := holder.PropNames();
+    reggroups := {};
+    foreach thing in rgelem
+      if(thing != "rect")
+        reggroups.append(holder.getprop(thing));
+      endif
+    endforeach
+    ComposeRegionGump(who, regions[idx], reggroups);
+  until (regiondone);
+endfunction
+
+function DespawnAllRegions(who)
+  ReadRegions();
+  ReadGroups();
+  var regions := regionscfg.Keys();
+  counter := 0;
+  foreach reg in regions
+    var ct := counter;
+    SetGlobalProperty("#" + reg, 1);
+    DespawnRegionRM(reg);
+    EraseGlobalProperty("#" + reg);
+    sleepms(100);
+  endforeach
+  SendSysMessage(who, "Despawned " + counter + " NPCs");
+endfunction
+
+function ComposeSpawnGroupGump(who)
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFNoClose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 440, 440);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 420, 420);                    //light menu background
+  GFTextLine(132, 17, 0, "Spawn Group Editor");
+  GFTextLine(130, 15, COLOR_YELLOW, "Spawn Group Editor");
+  GFTextLine(30, 30, COLOR_BLUE_LIGHT, "group Name");
+  GFTextLine(380, 30, COLOR_BLUE_LIGHT, "Edit");
+  GFTextLine(140, 400, COLOR_GREEN, "Add Group?");
+  var addnew := GFButtonID(247, 400, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 1);
+  var cancel := GFButtonID(40, 400, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var gcfg := GlobalSpawnGroups();
+  if(!gcfg)
+    syslog("Could not read groups file");
+    return 0;
+  endif
+  var groups := gcfg.keys();
+  var numtemp := groups.size();
+  var numpages := 1;
+  while (numtemp > 0)
+    numtemp := numtemp - TPERPAGE;
+    if (numtemp > 0)
+        numpages := numpages + 1;
+    endif
+  endwhile
+  var bt := array;
+  var btgo := array;
+  var pg;
+  for(pg := 1; pg <= numpages; pg := pg + 1)
+    ComposeGroupsPage(pg, groups, bt, numpages);
+  endfor
+  var retkey := GFSendGump(who);
+  var num;
+  if(retkey[cancel.keyid])
+    return 0;
+  endif
+  if(retkey[addnew.keyid])
+    alldone := AddNewGroup(who);
+    return 1;
+  endif
+  var idx;
+  for (num := 1; num <= bt.size(); num := num + 1)
+    if (bt[num] == retkey[0])
+      idx := num;
+      break;
+    endif
+  endfor
+  if (!idx)
+      return 0;
+  endif
+  var holder := gcfg.FindElement(groups[idx]);
+  var reggroups := holder.GetProp("npc");
+  repeat
+    holder := gcfg.FindElement(groups[idx]);
+    reggroups := holder.GetProp("npc");
+    ComposeGroupGump(who, groups[idx], reggroups);
+  until (regiondone);
+  return 1;
+endfunction
+
+function ComposeGroupEditor(who, region, reggroups)
+  var dfile := OpenDataFile("SpawnGroups");
+  var entry := dfile.FindElement(region);
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Group Editor");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Group Editor");
+  GFTextLine(20, 40, COLOR_GREEN, region);
+  GFTextLine(200, 40, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(245, 40, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine(30, 60, COLOR_BLUE_LIGHT, "NPC Name");
+  var apply  := GFButtonID(20, 400 - 30, G_YELLOW_OVAL_APPLY_0, G_YELLOW_OVAL_APPLY_1, 1);
+  var cancel := GFButtonID(145, 400 - 30, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var yTxt := 80;
+  var xTxt := 30;
+  var yshift := 20;
+  var gdata;
+  var holder := {};
+  foreach grp in reggroups
+    GFTextEntry(xTxt, yTxt, 200, 30, COLOR_GREEN, grp);
+    yTxt := ytxt + yshift;
+  endforeach
+  GFTextEntry(    xTxt, yTxt, 200, 30, COLOR_GREEN, "blank");
+  var retkey := GFSendGump(who);
+  if(!retkey[apply.keyid])
+    SendSysMessage(who, "Cancelled");
+    return 0;
+  else
+    SendSysMessage(who, "Editing");
+    var temp;
+    foreach thing in (retkey.keys)
+      if(thing)
+        temp := SplitWords(retkey[thing]);
+        if((temp[2] != "blank") && (temp[2] != error))
+          holder.append(temp[2]);
+        endif
+      endif
+    endforeach
+    entry.EraseProp("npc");
+    entry.SetProp("npc", holder);
+    return 1;
+  endif
+endfunction
+
+function AddNewGroup(who);
+  var dfile := OpenDataFile("SpawnGroups");
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Group Editor");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Group Editor");
+  GFTextLine(200, 40, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(245, 40, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine(30, 70, COLOR_BLUE_LIGHT, "Group Name");
+  var yTxt := 90;
+  var xTxt := 30;
+  var yshift := 20;
+  var ct := 0;
+  while(ct < 5)
+    GFTextEntry(xTxt-10, yTxt, 200, 30, COLOR_GREEN, "");
+    yTxt := ytxt + yshift;
+    ct := ct + 1;
+  endwhile
+  var new := GFTextEntry(20, 40, 200, 20, COLOR_GREEN, "new");
+  var apply  := GFButtonID(10, 370, G_YELLOW_OVAL_APPLY_0, G_YELLOW_OVAL_APPLY_1, 1);
+  var cancel := GFButtonID(135, 370, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var gdata;
+  var holder := {};
+  var split;
+  var retkey := GFSendGump(who);
+  if(!retkey[apply.keyid])
+    SendSysMessage(who, "Cancelled");
+    return 0;
+  else
+    if(retkey[new.keyid] == "new")
+      SendSysMessage(who, "Cancelled.");
+      return 0;
+    endif
+    if(SplitWords(retkey[new.keyid])[2] in dfile.Keys())
+      SendSysMessage(who, "That Group already exists.");
+      return 0;
+    endif
+    var temp;
+    var holder := array;
+    var entry := dfile.CreateElement(SplitWords(retkey[new.keyid])[2]);
+    if(!entry)
+      SendSysMessage(who, "Cancelled");
+      return 0;
+    endif
+    SendSysMessage(who, "Editing");
+    foreach thing in (retkey.keys)
+      if((thing) && (thing != retkey.keyid) && (thing != new.keyid))
+        temp := SplitWords(retkey[thing]);
+        holder.append(temp[2]);
+      endif
+    endforeach
+    var num := 1;
+    var turn := 1;
+    foreach thing in (entry.PropNames())
+      entry.EraseProp(thing);
+    endforeach
+    var tmp := array;
+    foreach thing in holder
+      if((thing != "0") && (thing) && (thing != "blank") && (thing != ""))
+        tmp.append(thing);
+      endif
+      turn := turn + 1;
+    endforeach
+    entry.SetProp("npc", tmp);
+    return 1;
+  endif
+endfunction
+
+function AddNewRegion(who);
+  var dfile := OpenDataFile("SpawnRegions");
+  var rect := "X1 Y1 X2 Y2";
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Region Editor");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Region Editor");
+  GFTextLine(200, 40, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(245, 40, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine(30, 70, COLOR_BLUE_LIGHT, "Group Name");
+  GFTextLine(340, 70, COLOR_BLUE_LIGHT, "Spawns");
+  GFTextLine(420, 70, COLOR_BLUE_LIGHT, "Freq");
+  GFTextLine(470, 70, COLOR_BLUE_LIGHT, "HrStart");
+  GFTextLine(550, 70, COLOR_BLUE_LIGHT, "HrEnd");
+  var new := GFTextEntry(20, 40, 200, 20, COLOR_GREEN, "new");
+  var apply  := GFButtonID(20, 410 - 30, G_YELLOW_OVAL_APPLY_0, G_YELLOW_OVAL_APPLY_1, 1);
+  var cancel := GFButtonID(145, 410 - 30, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var yTxt := 90;
+  var xTxt := 40;
+  var yshift := 20;
+  var gdata;
+  var holder := {};
+  var split;
+  var ct := 0;
+  while(ct < 5)
+    GFTextEntry(xTxt-20, yTxt, 200, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+310, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+380, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+450, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+525, yTxt, 50, 30, COLOR_GREEN, "");
+    yTxt := ytxt + yshift;
+    ct := ct + 1;
+  endwhile
+  var rectret := GFTextEntry(400, 40, 200, 20, COLOR_GREEN, rect);
+  var retkey := GFSendGump(who);
+  if(!retkey[apply.keyid])
+    SendSysMessage(who, "Cancelled");
+    return 0;
+  else
+    if(retkey[new.keyid] == "new")
+      SendSysMessage(who, "Cancelled.");
+      return 0;
+    endif
+    if(retkey[new.keyid] in dfile.Keys())
+      SendSysMessage(who, "That Region already exists.");
+      return 0;
+    endif
+    var entry := dfile.CreateElement(SplitWords(retkey[new.keyid])[2]);
+    if(!entry)
+      SendSysMessage(who, "Cancelled");
+      return 0;
+    endif
+    SendSysMessage(who, "Editing");
+    var temp;
+    foreach thing in (retkey.keys)
+      if((thing) && (thing != rectret.keyid) && (thing != new.keyid))
+        temp := SplitWords(retkey[thing]);
+        holder.append(temp[2]);
+      endif
+    endforeach
+    var num := 1;
+    var turn := 1;
+    temp := "";
+    foreach thing in (entry.PropNames())
+      entry.EraseProp(thing);
+    endforeach
+    split := SplitWords(retkey[rectret.keyid]);
+    entry.SetProp("rect", split[2]+" "+split[3]+" "+split[4]+" "+split[5]);
+    foreach thing in holder
+      if((num == 1) || (num == 2))
+        if((thing != "0") && (thing) && (thing != "blank"))
+          temp := temp+thing+" ";
+        endif
+        num := num + 1;
+      elseif(num == 3)
+        if((thing != "0") && (thing) && (thing != "blank"))
+          temp := temp+thing+" ";
+        endif
+        if(temp != "")
+          entry.setprop("group"+turn, temp);
+        endif
+        temp := "";
+        turn := turn + 1;
+        num := 1;
+      endif
+    endforeach
+    split := SplitWords(retkey[rectret.keyid]);
+    entry.SetProp("rect", split[2]+" "+split[3]+" "+split[4]+" "+split[5]);
+    return 1;
+  endif
+endfunction
+
+function ComposeGroupsPage(page, byref reglist, byref buttons, maxpages)
+  var bX := 390;
+  var y := 60;
+  var tx := 25;
+  var yshift := 20;
+  var numtemp := TPERPAGE * page;
+  var starttemp := TPERPAGE * (page - 1) + 1;
+  GFPage(page);
+  if (page == 1 && page != maxpages)
+    GFButtonPage(400, 400, 4005, 4007, page + 1);
+  elseif (page == maxpages && page != 1)
+    GFButtonPage(370, 400, 4014, 4016, page - 1);
+  elseif (page > 1 && page < maxpages)
+    GFButtonPage(370, 400, 4014, 4016, page - 1);
+    GFButtonPage(400, 400, 4005, 4007, page + 1);
+  endif
+  var bt, tn, reg, txtcol;
+  for(tn := starttemp; tn <= numtemp; tn := tn + 1)
+    reg := reglist[tn];
+    if(!reg)
+      return;
+    endif
+    bt := GFButtonID(bX, y, 210, 211, 1);
+    buttons.append(bt.keyid);
+    GFTextCrop(tx, y - 3, 320, 20, COLOR_GREEN, reg);
+    y := y + yshift;
+  endfor
+endfunction
+
+function ComposeRegionsPage(page, byref reglist, byref buttons, byref btgo, maxpages)
+  var bX := 15;
+  var y := 60;
+  var tx := 35;
+  var yshift := 20;
+  var numtemp := TPERPAGE * page;
+  var starttemp := TPERPAGE * (page - 1) + 1;
+  GFPage(page);
+  if(page == 1 && page != maxpages)
+    GFButtonPage(400, 400, 4005, 4007, page + 1);
+  elseif (page == maxpages && page != 1)
+    GFButtonPage(370, 400, 4014, 4016, page - 1);
+  elseif (page > 1 && page < maxpages)
+    GFButtonPage(370, 400, 4014, 4016, page - 1);
+    GFButtonPage(400, 400, 4005, 4007, page + 1);
+  endif
+  var tn := starttemp;
+  while(tn <= numtemp)
+    var reg := reglist[tn];
+    if(reg)
+      var bt := GFButtonID(bX, y, 208, 209, 1);
+      buttons.append(bt.keyid);
+      var total := 0;
+      var ct := 0;
+      foreach thing in(regcfg[reg].propnames())
+        if(thing != "rect")
+          var grpdata := SplitWords(regcfg[reg].GetProp(thing));
+          var current := GetGroupSpawnsRM(reg, grpdata[1]);
+          if(current != -1)
+            total := total + CInt(grpdata[2]);
+            ct := ct + Len(current);
+          endif
+        endif
+      endforeach
+      if((ct == 0) and (total == 0))
+        GFTextCrop(tx, y - 3, 320, 20, COLOR_RED, reg);
+        GFTextLine(      300,   y,     COLOR_RED, "Disabled");
+      else
+        GFTextCrop(tx, y - 3, 320, 20, COLOR_GREEN, reg);
+        GFTextLine(300, y, COLOR_BLUE, ct + "/" + total);
+        maxtotal := maxtotal + total;
+        currenttotal := currenttotal + ct;
+      endif
+      bt := GFButtonID(bX + 370, y, 210, 211, 1);
+      btgo.append(bt.keyid);
+      y := y + yshift;
+      tn := tn + 1;
+    else
+      tn := numtemp + 1;
+    endif
+  endwhile
+endfunction
+
+function GoToRegion(who, region)
+  var rcfg := GlobalSpawnRegions();
+  var rdata := SplitWords(rcfg.FindElement(region).GetProp("rect"));
+  var rect := struct;
+  rect.+x1 := CInt(rdata[1]);
+  rect.+y1 := CInt(rdata[2]);
+  rect.+x2 := CInt(rdata[3]);
+  rect.+y2 := CInt(rdata[4]);
+  var x := ((rect.x2 - rect.x1) / 2) + rect.x1;
+  var y := ((rect.y2 - rect.y1) / 2) + rect.y1;
+  var z := 0;
+  var tries := 0;
+  var sh;
+  var info;
+  var success := 0;
+  if (!MoveCharacterToLocation(who, x, y, z, 0))
+    SendMsg(who, "Cannot move to centre, trying random location in region: " + region + "...");
+    repeat
+      x := RandomInt(rect.x2 - rect.x1) + rect.x1;
+      y := RandomInt(rect.y2 - rect.y1) + rect.y1;
+      z := GetMapInfo(x, y).z;
+      tries := tries + 1;
+      sh := GetStandingHeight(x, y, z);
+      info := Hex(GetMapInfo(x, y).landtile);
+      if ((info < 0x406) || (info > 0x455))
+        if (MoveCharacterToLocation(who, x, y, z, 0))
+          success :=  1;
+        endif
+      endif
+    until (tries > 10);
+  else
+    success := 1;
+  endif
+  if(!success)
+    SendMsg(who, "Cannot move to region: " + region + ", try again.");
+  else
+    SendMsg(who, "Success.");
+  endif
+endfunction
+
+function ComposeRegionEditor(who, region, byref reggroups)
+  var dfile := OpenDataFile("SpawnRegions");
+  var entry := dfile.FindElement(region);
+  var rect  := entry.GetProp("rect");
+  if(!rect)
+    rect := "X1 Y1 X2 Y2";
+  endif
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Region Editor");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Region Editor");
+  GFTextLine(20, 40, COLOR_GREEN, region);
+  GFTextLine(200, 40, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(245, 40, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine(40, 70, COLOR_BLUE_LIGHT, "Group Name");
+  GFTextLine(310, 70, COLOR_BLUE_LIGHT, "Spawns");
+  GFTextLine(400, 70, COLOR_BLUE_LIGHT, "Freq");
+  GFTextLine(470, 70, COLOR_BLUE_LIGHT, "HrStart");
+  GFTextLine(550, 70, COLOR_BLUE_LIGHT, "HrEnd");
+  var apply  := GFButtonID(20, 380, G_YELLOW_OVAL_APPLY_0, G_YELLOW_OVAL_APPLY_1, 1);
+  var cancel := GFButtonID(145, 380, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var yTxt := 100;
+  var xTxt := 40;
+  var yshift := 20;
+  var gdata;
+  var holder := {};
+  var split := SplitWords(rect);
+  var rectret := GFTextEntry(410, 30, 200, 20, COLOR_GREEN, rect);
+  foreach grp in reggroups
+    gdata := SplitWords(grp);
+    GFTextEntry(xTxt-20, yTxt, 200, 30, COLOR_GREEN, gdata[1]);
+    GFTextEntry(xTxt+300, yTxt, 50, 30, COLOR_GREEN, gdata[2]);
+    if(!gdata[3])
+      gdata[3] := DEFAULT_GRP_FREQUENCY;
+    endif
+    GFTextEntry(xTxt+370, yTxt, 50, 30, COLOR_GREEN, gdata[3]);
+    if(!gdata[4])
+      gdata[4] := "";
+    endif
+    GFTextEntry(xTxt+450, yTxt, 50, 30, COLOR_GREEN, gdata[4]);
+    if(!gdata[5])
+      gdata[5] := "";
+    endif
+    GFTextEntry(xTxt+525, yTxt, 50, 30, COLOR_GREEN, gdata[5]);
+    yTxt := ytxt + yshift;
+  endforeach
+  var ct := 0;
+  while(ct < 5)
+    GFTextEntry(xTxt-20, yTxt, 200, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+300, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+370, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+450, yTxt, 50, 30, COLOR_GREEN, "");
+    GFTextEntry(xTxt+525, yTxt, 50, 30, COLOR_GREEN, "");
+    yTxt := ytxt + yshift;
+    ct := ct + 1;
+  endwhile
+  var retkey := GFSendGump(who);
+  if(!retkey[apply.keyid])
+    SendSysMessage(who, "Cancelled");
+    return 0;
+  else
+    SendSysMessage(who, "Editing");
+    var temp;
+    foreach thing in (retkey.keys)
+      if((thing) && (thing != rectret.keyid))
+        temp := SplitWords(retkey[thing]);
+        holder.append(temp[2]);
+      endif
+    endforeach
+    var num := 1;
+    var turn := 1;
+    temp := "";
+    foreach thing in (entry.PropNames())
+      entry.EraseProp(thing);
+    endforeach
+    split := SplitWords(retkey[rectret.keyid]);
+    entry.SetProp("rect", split[2]+" "+split[3]+" "+split[4]+" "+split[5]);
+    foreach thing in holder
+      if((num == 1) || (num == 2) || (num == 3) || (num == 4))
+        if((thing != "0") && (thing) && (thing != "blank"))
+          temp := temp+thing+" ";
+        endif
+        num := num + 1;
+      elseif(num == 5)
+        if((thing != "0") && (thing) && (thing != "blank"))
+          temp := temp+thing+" ";
+        endif
+        if(temp != "")
+          entry.setprop("group"+turn, temp);
+        endif
+        temp := "";
+        turn := turn + 1;
+        num := 1;
+      endif
+    endforeach
+    return 1;
+  endif
+endfunction
+
+function ComposeRegionGump(who, region, byref reggroups)
+  var dfile := OpenDataFile("SpawnRegions");
+  var entry := dfile.FindElement(region);
+  var rect  := entry.GetProp("rect");
+  if(!rect)
+    rect := "error";
+  endif
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Region Manager");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Region Manager");
+  GFTextLine(20, 50, COLOR_GREEN, region);
+  GFTextLine(460, 50, COLOR_GREEN, rect);
+  GFTextLine(250, 50, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(295, 50, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine(18, 70, COLOR_BLUE_LIGHT, "S");
+  GFTextLine(40, 70, COLOR_BLUE_LIGHT, "Group Name");
+  GFTextLine(180, 70, COLOR_BLUE_LIGHT, "Spawns");
+  GFTextLine(240, 70, COLOR_BLUE_LIGHT, "Freq");
+  GFTextLine(280, 70, COLOR_BLUE_LIGHT, "HrStart");
+  GFTextLine(345, 70, COLOR_BLUE_LIGHT, "HrEnd");
+  GFTextLine(400, 70, COLOR_BLUE_LIGHT, "Spawn");
+  GFTextLine(460, 70, COLOR_BLUE_LIGHT, "Despawn");
+  GFTextLine(530, 70, COLOR_BLUE_LIGHT, "Respawn");
+  GFTextLine(595, 70, COLOR_BLUE_LIGHT, "Detail");
+  var edit  := GFButtonID(10, 15, 2640, 2641, 1);
+  GFTextLine(50, 20, COLOR_RED, "Edit This Group?");
+  var erase  := GFButtonID(450, 15, 2640, 2641, 1);
+  GFTextLine(490, 20, COLOR_RED, "Delete This Group?");
+  var apply  := GFButtonID(20, 380, G_YELLOW_OVAL_APPLY_0, G_YELLOW_OVAL_APPLY_1, 1);
+  var prev := GFButtonID(80, 380, G_RED_OVAL_PREV_0, G_RED_OVAL_PREV_1, 1);
+  var cancel := GFButtonID(145, 380, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  GFTextLine(220, 390, COLOR_RED, "Red = Disabled");
+  GFTextLine(340, 390, COLOR_BLUE_LIGHT, "NOTE: Spawn/Respawn forces spawn.");
+  var yTxt := 90;
+  var xTxt := 40;
+  var yshift := 20;
+  var idx := 1;
+  var gdata, spawns, spawntxt, rdata, ctxt, status, freq, bt, edt := 0;
+  var btstatus := array;
+  var btspawn := array;
+  var btdespawn := array;
+  var btrespawn := array;
+  var btdetail := array;
+  var holder := {};
+  foreach grp in reggroups
+    gdata := SplitWords(grp);
+    ctxt := COLOR_GREEN;
+    status := 1;
+    freq := GetGroupFreq(region, gdata[1]);
+    if (freq == -1)
+      ctxt := COLOR_RED_LIGHT;
+      status := 0;
+    endif
+    bt := GFCheckBox(16, yTxt, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, status);
+    btstatus.append(bt.keyid);
+    GFTextLine(xTxt, yTxt, ctxt, gdata[1]);
+    spawns := GetGroupSpawns(region, gdata[1]);
+    foreach thing in spawns
+      if(!SystemFindObjectBySerial(thing))
+        RemoveSerialFromGroup(region, gdata[1], thing);
+      endif
+    endforeach
+    spawns := GetGroupSpawns(region, gdata[1]);
+    rdata := gdata;
+    spawntxt := spawns.size() + "/" + rdata[2];
+    GFTextLine(180, yTxt, ctxt, spawntxt);
+    if (!rdata[3])
+      rdata[3] := DEFAULT_GRP_FREQUENCY;
+    endif
+    GFTextLine(xTxt+215, yTxt, ctxt, rdata[3]);
+    if(!rdata[4])
+      rdata[4] := "";
+    endif
+    if(!rdata[5])
+      rdata[5] := "";
+    endif
+    GFTextLine(xTxt+270, yTxt, ctxt, rdata[4]);
+    GFTextLine(xTxt+330, yTxt, ctxt, rdata[5]);
+    bt := GFCheckBox(xTxt+380, yTxt, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 0);
+    btspawn.append(bt.keyid);
+    bt := GFCheckBox(xTxt+445, yTxt, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 0);
+    btdespawn.append(bt.keyid);
+    bt := GFCheckBox(xTxt+515, yTxt, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 0);
+    btrespawn.append(bt.keyid);
+    bt := GFButtonID(xTxt+570, yTxt, G_STONE_RIGHT, G_STONE_RIGHT, 1);
+    btdetail.append(bt.keyid);
+    idx := idx + 1;
+    ytxt := ytxt + yshift;
+  endforeach
+  var retkey := GFSendGump(who);
+  var num, rgelem;
+  for(num := 1; num <= btdetail.size(); num := num + 1)
+    if(retkey[btdetail[num]])
+      edt := ComposeGroupDetailGump(who, region, SplitWords(reggroups[num])[1]);
+      while(edt == 1)
+        SendSysMessage(who, "Composing Group Details");
+        edt := ComposeGroupDetailGump(who, region, SplitWords(reggroups[num])[1]);
+      endwhile
+      return 0;
+    endif
+  endfor
+  if(retkey[cancel.keyid])
+    exit;
+  endif
+  if(retkey[prev.keyid])
+    regiondone := 1;
+    return 0;
+  endif
+  if(retkey[edit.keyid])
+    edt := ComposeRegionEditor(who, region, reggroups);
+    while(edt == 1)
+      rgelem := entry.PropNames();
+      reggroups := {};
+      foreach thing in rgelem
+        if(thing != "rect")
+          reggroups.append(entry.getprop(thing));
+        endif
+      endforeach
+      edt := ComposeRegionEditor(who, region, reggroups);
+    endwhile
+    return 0;
+  endif
+  if(retkey[erase.keyid])
+    if(YesNo(who, "Are You Sure?"))
+      dfile.DeleteElement(region);
+      SendSysMessage(who, "Region Deleted.");
+      regiondone := 1;
+      return 0;
+    else
+      regiondone := 0;
+      return 0;
+    endif
+  endif
+  regionscfg  := OpenDataFile("SpawnRegions");
+  groupscfg   := OpenDataFile("SpawnGroups");
+  for(num := 1; num <= btstatus.size(); num := num + 1)
+    gdata := SplitWords(reggroups[num]);
+    if (retkey[btstatus[num]])
+      EnableGroup(region, gdata[1]);
+    else
+      DisableGroup(region, gdata[1]);
+      DespawnGroup(region, gdata[1]);
+      continue;
+    endif
+    if (retkey[btrespawn[num]])
+      SendMsg(who, "Respawning: " + region + " - " + gdata[1]);
+      DisableGroup(region, gdata[1]); // This resets the freq counter.
+      EnableGroup(region, gdata[1]);
+      DespawnGroup(region, gdata[1]);
+      sleep(2);
+      SpawnGroup(region, gdata[1], CInt(gdata[2]), CInt(gdata[3]), CInt(gdata[4]), CInt(gdata[5]));
+      SendMsg(who, "done.");
+      continue;
+    endif
+    if (retkey[btspawn[num]])
+      SendMsg(who, "Spawning: " + region + " - " + gdata[1]);
+      DisableGroup(region, gdata[1]); // This resets the freq counter.
+      EnableGroup(region, gdata[1]);
+      SpawnGroup(region, gdata[1], CInt(gdata[2]), CInt(gdata[3]), CInt(gdata[4]), CInt(gdata[5]));
+      SendMsg(who, "done.");
+    endif
+    if (retkey[btdespawn[num]])
+      SendMsg(who, "Despawning: " + region + " - " + gdata[1]);
+      DespawnGroup(region, gdata[1]);
+      SendMsg(who, "done.");
+    endif
+  endfor
+endfunction
+
+function ComposeGroupGump(who, region, byref reggroups)
+  var dfile := OpenDataFile("SpawnGroups");
+  var entry := dfile.FindElement(region);
+  regiondone := 0;
+  GFInitGump(0, 0);
+  GFNoDispose();
+  GFPage(0);
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine(232, 17, 0, "Spawn Group Manager");
+  GFTextLine(230, 15, COLOR_YELLOW, "Spawn Group Manager");
+  GFTextLine( 20, 40, COLOR_GREEN, region);
+  GFTextLine(200, 40, COLOR_BLUE_LIGHT, "Time:");
+  GFTextLine(245, 40, COLOR_GREEN, GetTimeOfDay());
+  GFTextLine( 30, 70, COLOR_BLUE_LIGHT, "Group Name");
+  var edit  := GFButtonID(10, 15, 2640, 2641, 1);
+  GFTextLine(50, 20, COLOR_RED, "Edit This Group?");
+  var erase  := GFButtonID(450, 15, 2640, 2641, 1);
+  GFTextLine(490, 20, COLOR_RED, "Delete This Group?");
+  var prev := GFButtonID(70, 390, G_RED_OVAL_PREV_0, G_RED_OVAL_PREV_1, 1);
+  var cancel := GFButtonID(135, 390, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var yTxt := 90;
+  var xTxt := 30;
+  var yshift := 20;
+  var idx := 1;
+  var gdata, spawns, spawntxt, rdata, ctxt, status, freq, bt, edt := 0;
+  var btstatus := array;
+  var btspawn := array;
+  var btdespawn := array;
+  var btrespawn := array;
+  var holder := {};
+  foreach grp in reggroups
+    ctxt := COLOR_GREEN;
+    GFTextLine(xTxt, yTxt, ctxt, grp);
+    ytxt := ytxt + yshift;
+  endforeach
+  var retkey := GFSendGump(who);
+  var num, rgelem;
+  if(retkey[cancel.keyid])
+    exit;
+  endif
+  if(retkey[prev.keyid])
+    regiondone := 1;
+    return 0;
+  endif
+  if(retkey[edit.keyid])
+    edt := ComposeGroupEditor(who, region, reggroups);
+    while(edt == 1)
+      reggroups := entry.GetProp("npc");
+      edt := ComposeGroupEditor(who, region, reggroups);
+    endwhile
+    return 0;
+  endif
+  if(retkey[erase.keyid])
+    if(YesNo(who, "Are You Sure?"))
+      dfile.DeleteElement(region);
+      SendSysMessage(who, "Group Deleted.");
+      regiondone := 1;
+      return 0;
+    else
+      regiondone := 0;
+      return 0;
+    endif
+  endif
+endfunction
+
+function ComposeGroupDetailGump(who, region, group)
+  GFInitGump(0, 0);
+  GFPage(0);
+  GFNoDispose();
+  GFNoClose();
+  GFResizePic(  0,   0, 5120, 640, 420);                    //dark menu background
+  GFResizePic( 10,  10, 5054, 620, 400);                    //light menu background
+  GFTextLine( 232, 17, 0, "Spawn Region Manager");
+  GFTextLine( 230, 15, COLOR_YELLOW, "Spawn Region Manager");
+  GFTextLine( 15, 40, COLOR_GREEN, region + " - " + group);
+  GFTextLine( 15, 60, COLOR_BLUE_LIGHT, "Kill");
+  GFTextLine( 65, 60, COLOR_BLUE_LIGHT, "Template");
+  GFTextLine(160, 60, COLOR_BLUE_LIGHT, "Serial");
+  GFTextLine(260, 60, COLOR_BLUE_LIGHT, "HP");
+  GFTextLine(360, 60, COLOR_BLUE_LIGHT, "Mana");
+  GFTextLine(460, 60, COLOR_BLUE_LIGHT, "Stamina");
+  GFTextLine(550, 60, COLOR_BLUE_LIGHT, "Go To");
+  var kill := GFButtonID(40, 385, G_GREEN_OVAL_OK_0, G_GREEN_OVAL_OK_1, 1);
+  var cancel := GFButtonID(100, 385, G_RED_OVAL_CANCEL_0, G_RED_OVAL_CANCEL_1, 1);
+  var spawns := GetGroupSpawns(region, group);
+  var numtemp := spawns.size();
+  var numpages := 1;
+  while (numtemp > 0)
+    numtemp := numtemp - TPERPAGE;
+    if (numtemp > 0)
+      numpages := numpages + 1;
+    endif
+  endwhile
+  var bt := array;
+  var btgo := array;
+  var pg;
+  for (pg := 1; pg <= numpages; pg := pg + 1)
+    ComposeSpawnsPage(pg, spawns, bt, btgo, numpages, region, group);
+  endfor
+  var retkey := GFSendGump(who);
+  var num;
+  for (num := 1; num <= spawns.size(); num := num + 1)
+    if(retkey[btgo[num]])
+      var npc := SystemFindObjectBySerial(spawns[num]);
+      if (!npc)
+        RemoveSerialFromGroup(region, group, spawns[num]);
+        SendMsg(who, "Unable to locate spawn: " + spawns[num]);
+        return 1;
+      endif
+      MoveCharacterToLocation(who, npc.x, npc.y, npc.z, MOVECHAR_FORCELOCATION);
+      return 1;
+    endif
+  endfor
+  if(retkey[cancel.keyid])
+    return 0;
+  endif
+  for (num := 1; num <= spawns.size(); num := num + 1)
+    if(retkey[bt[num]])
+      Despawn(spawns[num]);
+    endif
+  endfor
+  return 1;
+endfunction
+
+function ComposeSpawnsPage(page, spawnlist, byref buttons, byref btgo, maxpages, region, group)
+  var c, m;
+  var color;
+  var y := 85;
+  var yshift := 20;
+  var numtemp := TPERPAGE * page;
+  var count := TPERPAGE * (page - 1) + 1;
+  GFPage(page);
+  if (page == 1 && page != maxpages)
+    GFButtonPage(600, 380, 4005, 4007, page + 1);
+  elseif (page == maxpages && page != 1)
+    GFButtonPage(560, 380, 4014, 4016, page - 1);
+  elseif (page > 1 && page < maxpages)
+    GFButtonPage(600, 380, 4005, 4007, page + 1);
+    GFButtonPage(560, 380, 4014, 4016, page - 1);
+  endif
+  var bt, serial, obj;
+  while(count < numtemp)
+    serial := spawnlist[count];
+    if (!serial)
+      return;
+    endif
+    obj := SystemFindObjectBySerial(serial);
+    if(!obj)
+      RemoveSerialFromGroup(region, group, serial);
+    endif
+    
+    bt := GFCheckBox(15, y, G_STONE_SQUARE, G_STONE_SQUARE_CHECK, 0);
+    buttons.append(bt.keyid);
+    if (!obj)
+      GFTextLine(65, y - 2, COLOR_RED, "dead");
+      GFTextLine(160, y - 2, COLOR_RED, serial);
+    else
+      GFTextLine(65, y - 2, COLOR_GREEN, TemplateName(obj.npctemplate));
+      GFTextLine(160, y - 2, COLOR_GREEN, serial);
+    endif
+
+    if (!obj)
+      c := 0;
+      m := 0;
+    else
+      c := GetHP(obj) * 1.0;
+      m := GetMaxHP(obj);
+    endif
+
+    if (m == 0)
+      color := COLOR_RED;
+    else
+      if((c / m) < 0.3)
+        color := COLOR_RED;
+      elseif((c / m) < 0.7)
+        color := COLOR_YELLOW;
+      else
+        color := COLOR_GREEN;
+      endif
+    endif
+
+    GFTextMid(250, y - 2, 50, color, c + "/" + m);
+    if (obj)
+      c := GetMana(obj) * 1.0;
+      m := GetMaxMana(obj);
+    endif
+    if (m == 0)
+      color := COLOR_RED;
+    else
+      if((c / m) < 0.3)
+        color := COLOR_RED;
+      elseif((c / m) < 0.7)
+        color := COLOR_YELLOW;
+      else
+        color := COLOR_GREEN;
+      endif
+    endif
+    GFTextMid(350, y - 2, 50, color, c + "/" + m);
+    if (obj)
+      c := GetStamina(obj) * 1.0;
+      m := GetMaxStamina(obj);
+    endif
+    if (m == 0)
+      color := COLOR_RED;
+    else
+      if((c / m) < 0.3)
+        color := COLOR_RED;
+      elseif((c / m) < 0.7)
+        color := COLOR_YELLOW;
+      else
+        color := COLOR_GREEN;
+      endif
+    endif
+    GFTextMid(460, y - 2, 50, color, c + "/" + m);
+    bt := GFButtonID(565, y - 2, 208, 209, 1);
+    btgo.append(bt.keyid);
+    y := y + yshift;
+    count := count + 1;
+  endwhile
+endfunction
+
+function SendMsg(byref who, msg)
+  SendSysMessage(who, msg, FONT_NORMAL, COLOR_BLUE_LIGHT);
+endfunction

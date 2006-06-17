@@ -1,0 +1,49 @@
+use uo;
+use cfgfile;
+
+include "include/client";
+include "include/attributes";
+
+const UOBJECT_FLASK_EMPTY:= 0x1832;
+const UOBJECT_FLASK_FULL := 0x1834;
+const UOBJECT_FLASK_HEATED := 0x1833;
+
+include "include/skillPoints";
+
+program do_tasteid(who)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var poison_descr;
+  var alchemcfg := ReadConfigFile("::itemdesc");
+  SendSysMessage(who, "Select an object to taste.");
+  var the_item := Target(who);
+  if(!the_item)
+    SendSysMessage(who, "Targetting cancelled.");
+    return;
+  endif
+  var content_descr := "";
+  if(CheckSkill(who, SKILLID_TASTEID, -1, CInt(GetEffectiveSkill(who, SKILLID_TASTEID))))
+    case(the_item.objtype)
+      0xdc04: poison_descr := "a lesser poison.";
+      0xdc05: poison_descr := "a regular poison.";
+      0xdc06: poison_descr := "a greater poison.";
+      0xdc17: poison_descr := "a deadly poison.";
+      default: poison_descr := "nothing out of the ordinary.";
+    endcase
+    var itemdesc := alchemcfg[the_item.objtype].sname;
+    if(itemdesc)
+      SendSysMessage(who, "It seems to be " + itemdesc);
+      SetName(the_item, itemdesc);
+    endif
+    SendSysMessage(who, "This contains " + poison_descr);
+  else
+    SendSysMessage(who,"You cant tell anything about this item.");
+  endif
+endprogram
+
+
+
+
+
+
+

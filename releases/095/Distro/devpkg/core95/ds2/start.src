@@ -1,0 +1,6 @@
+use datafile;
+
+program ds2_start()
+    var df := CreateDataFile( ":ds1:file" );
+    print( df );
+endprogram

@@ -1,0 +1,34 @@
+OSI regularly changes the encryption in the UO client.  In order for your users to connect to POL, the POL server and the connecting client need to both be using the same encryption.  
+You set the encryption POL uses by changing the ClientEncryptionVersion line in the file config/pol.cfg.  Currently, POL supports UO Client version 1.26.4 through 1.26.4i; version 2.0.0 through version 2.0.0b; and clients launched with a program called Ignition (explained below).
+
+In pol.cfg set:
+ClientEncryptionVersion=1.26.4
+
+...and clients can connect with UO clients 1.26.4 - 1.26.4i
+
+In pol.cfg set:
+ClientEncryptionVersion=2.0.0
+
+...and clients can connect with UO clients 2.0.0 - 2.0.0b
+
+In pol.cfg set:
+ClientEncryptionVersion=ignition
+
+...and clients can connect with ANY client that Ignition supports (currently most known clients, including 3rd Dawn). *BUT* the client *MUST* be launched via Ignition!  
+
+The Ignition program removes the encryption from the client at runtime.  This makes it easier to get all your users to connect, since many clients are supported by Ignition. The only problem would be getting them to ALL download and USE Ignition.  Also, please note that although Ignition supports the UO:3D clients, POL does not yet support the Ilshenar maps.  So although you can log in to POL with UO:3D, you can't go to Illshenar.
+
+Get Ignition here:  http://www.beosil.com/ignition/
+Don't forget to also get the most current config file!
+
+There is one other way to connect to POL servers configured to use Ignition WITHOUT USING IGNITION.  A program called UO-RICE will actually create a copy of your client that removes the encryption check, you can then use that copy to log in to POL servers using Ignition as the encryption method.  
+
+Get UO-RICE here:   http://stud4.tuwien.ac.at/~e9425109/UO_RICE.htm
+
+You can find various versions of the UO client at the Paigelore website:
+
+http://www.paigelore.com/ultimaonline/clients.html
+
+
+Note also- if you use an older client but have patched all the way to the current version with OSI, you will notice at least two bugs. One will prevent character creation- POL expects you to have 65 total stat points, and the new client data files give you 80. Use the file in the client directory of this download to fix that problem.
+Armor leggings were given their own layer, which the older clients do not know how to display. For that you'll need either an older art.mul or to use a more current client and Ignition or UO-RICE.

@@ -1,0 +1,51 @@
+use uo;
+
+include "include/client";
+include "include/attributes";
+include "include/skillPoints";
+
+program skill_hide(who)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var thepoints := CInt(GetEffectiveSkill(who, SKILLID_HIDING) + 10);
+  if(thepoints < 20)
+    thepoints := 20;
+  endif
+  if(who.warmode)
+    PrintTextAbovePrivate(who, "You cannot hide while in War Mode.", who);
+    return 0;
+  endif
+  var range := getwhoange(GetEffectiveSkill(who, SKILLID_HIDING));
+  var bystanders := ListHostiles(who, range, LH_FLAG_LOS);
+  if(len(bystanders) > 0)
+    PrintTextAbovePrivate(who, "You cannot hide as there are hostiles in view!", who);
+    return 0;
+  endif
+  if(CheckSkill(who, SKILLID_HIDING, -1, thepoints))
+    who.hidden := 1;
+    PrintTextAbovePrivate(who, "You have hidden yourself well", who);
+  else
+    PrintTextAbovePrivate(who, "You can't seem to hide here", who);
+    who.hidden := 0;
+  endif
+endprogram
+
+function getwhoange( skill )
+  if( skill >= 100 )
+    return 4;
+  elseif( skill >= 90 )
+    return 5;
+  elseif( skill >= 80 )
+    return 6;
+  elseif( skill >= 70 )
+    return 7;
+  elseif( skill >= 60 )
+    return 8;
+  elseif( skill >= 50 )
+    return 9;
+  elseif( skill >= 30 )
+    return 10;
+  else
+    return 15;
+  endif
+endfunction

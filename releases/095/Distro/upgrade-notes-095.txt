@@ -1,0 +1,116 @@
+POL095 Upgrade Notes
+A Short List of changes you need to make before running your POL095 Server.
+
+Please check the relevant core-changes text for full details.
+---
+
+EScript
+---
+Deprecated constructs will give compile warnings. Your script will still compile with them, but will not in POL096.
+"local", "global", and "dim" are deprecated in favor of "var"
+"begin" and "end" are deprecated, meaning the "do-while" loops are deprecated. Use "repeat-until" with reversed logic.
+"=" should now be "=="
+"account.SetAcctName()" should now be "account.SetName(name)"
+
+"obj . ("member_name")" has been removed. use obj.get_member("member_name") and obj.set_member("member_name")
+
+
+Script Data Structures
+---
+Structs:
+
+You cannot access structs with array notation, i.e. struct_var[2]. You may have scripts that access members in this way. You must change it to access the members by name, i.e. struct_var.Member_Name or struct_var["Member_Name"]. Member names are case-insensative.
+
+Dictionaries:
+
+Checking if a key exists: if ( dict[key] == error ) now becomes: if ( dict.exists(key) )
+
+Arrays:
+
+In array declarations, it is illegal to have a trailing ",". For example: var b := array{1, 2, 3, }; will not compile.
+
+Containers
+---
+Insert/Remove Scripts:
+  Change the parameter lists for all your CanInsert and OnInsert scripts:
+      where the 'program' directives used to look like this:
+        program CanInsert( mob, container, adding_item )
+        program OnInsert( mob, container, adding_item )
+      they now look like this:
+        program CanInsert( mob, container, movetype, inserttype, adding_item, existing_stack, amt_to_add );
+        program OnInsert( mob, container, movetype, inserttype, added_item, existing_stack, amt_to_add );
+
+    if you want a really easy conversion from POL092-style Can/OnInsert scripts, change the program directive and add
+    this at the beginning of your 'program' section:
+        if (inserttype != INSERT_ADD_ITEM)
+            return 1;
+        endif
+        
+  Change the parameter lists of CanRemove and OnRemove to:
+  program can_remove(mob, container, item, movetype)
+  program on_remove(mob, container, item, movetype)
+  
+  Script functions that add/move/delete items to/from containers will call that container's canInsert, onInsert, canRemove, and onRemove scripts (where appropriate, i.e. if MoveItemToContainer first moves an item out of the original container, caRemove and onRemove will be called). As always, if canInsert or canRemove returns 0, the function WILL FAIL to move/add/delete. ALWAYS check the return value of an core function for an error!
+  
+  Note 'mob' may be uninitialized in these scripts if a core function performed the item move and the container was not owned by any mobile.
+  
+  Constants for movetype and inserttype can be found in UO.EM.
+  
+  Note that OnInsert and OnRemove scripts are now run-to-completion (they used to be scheduled with other scripts).
+  In particular, this means they can no longer sleep.
+  
+  The container limit defaults have been changed: Containers will default to limits as specified in servspecopt.cfg (if not defined, defaults: 150 items, 250 weight). MaxItems and MaxWeight properties in the container's itemdesc.cfg entry will override these defaults.
+
+
+Config Files
+---
+You must add this to itemdesc.cfg:
+        Container 0xFF02
+        {
+            Name        WornItemsContainer
+            graphic     0x1E5E
+            Gump        0x003C
+            MinX        0
+            MaxX        66
+            MinY        0
+            MaxY        33
+            Weight      0
+            MaxItems    65535
+            Maxweight   65535
+        }
+
+Set Weapon 0xF020 to SaveOnExit 0.
+
+xlate.cfg is no longer used, so any item "aliases" you may have (for example "gc" for "garlic") will no longer be converted to an objtype. In these cases, you must add an itemdesc.cfg entry for them.
+
+The default last Skill ID is 49, and you must provide a skills.cfg entry for each skill ID. You can change the max skill id in uoclient.cfg, i.e. "MaxSkillID 48"
+
+
+Compiling
+---
+ecompile.cfg makes compiling easier by defining the key paths to include files, .em files, etc. If you have problems with ecompile not finding include files, consider changing to the new include format, ' include ":pkgname:filename" '
+
+
+NPC Ai Scripts
+---
+There is no longer a default range for EnableEvents. To make your NPCs respond to Speech events, add an appropriate range parameter to the EnableEvents calls for SYSEVENT_SPEECH.
+
+.props text command
+---
+.props is no longer an internal text command. use this script to replace it:
+        use uo;
+
+        program dot_props( who )
+            var what := Target( who );
+            if (what)
+                var names := what.propnames();
+                if (names.size() != 0)
+                    foreach propname in names
+                        SendSysMessage( who, propname + ": " + what.getprop( propname ) );
+                    endforeach
+                else
+                    SendSysMessage( who, "No properties." );
+                endif
+            endif
+
+        endprogram

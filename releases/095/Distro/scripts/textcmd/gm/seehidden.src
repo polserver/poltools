@@ -1,0 +1,12 @@
+use uo;
+use os;
+
+program textcmd_seehidden(caster)
+  foreach thing in ListItemsNearLocation(caster.x, caster.y, caster.z, 2)
+    if(thing.objtype == 0x6200)
+      thing.graphic := 3948;
+    elseif(thing.objtype == 0x6203)
+      thing.graphic := 8148;
+    endif
+  endforeach
+endprogram

@@ -1,0 +1,14 @@
+use uo;
+
+program textcmd_dmany(who)
+  var trg;
+  while(1)
+    trg := Target(who);
+    if(!trg)
+      break;
+    endif
+    foreach item in ListItemsNearLocation(trg.x, trg.y, trg.z, 1);
+      DestroyItem(item);
+    endforeach
+  endwhile
+endprogram

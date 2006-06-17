@@ -1,6 +1,6 @@
 @ECHO OFF
 
-REM - $Id: LoopPOL.bat 182 2006-06-02 04:51:36Z austinheilman $
+REM - $Id$
 
 REM -- If a special path is needed to pol.exe set it here
 SET POL_PATH=pol.exe

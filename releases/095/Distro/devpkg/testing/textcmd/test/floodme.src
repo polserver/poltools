@@ -1,0 +1,11 @@
+use uo;
+use os;
+
+program floodme( who, text )
+    var count := CInt(text);
+    print( "flooding " + who.name + " count=" + count );
+    set_critical(1);
+    for i := 1 to count
+        SendSysMessage( who, "I'm crushing your head!" );
+    endfor
+endprogram

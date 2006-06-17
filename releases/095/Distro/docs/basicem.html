@@ -1,0 +1,597 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
+Basic.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+Functions for converting and manipulating number, character, and string 
+values.<BR>Last Modified: 3/20/2003</P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CAsc>
+    <TH align=middle colSpan=2>CAsc(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>String to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts the first character of string to an ASCII code 
+  </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>ASCII code</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CAscZ>
+    <TH align=middle colSpan=2>CAscZ(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>String to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts the string to an array of the character's ASCII 
+      codes </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Array of ASCII values</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CChr>
+    <TH align=middle colSpan=2>CChr(integer)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>number</VAR></TD>
+    <TD>Integer to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts an ASCII value to a string consisting of one 
+      character. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A character</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CChrZ>
+    <TH align=middle colSpan=2>CChrZ(array)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>array</VAR></TD>
+    <TD>Array of ASCII values</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts an array of ASCII values to a string </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A string</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CDbl>
+    <TH align=middle colSpan=2>CDbl(variable)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>variable</VAR></TD>
+    <TD>A variable Int or String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts a string or int to a real. Only strings containing 
+      digits and '.' will return a predicatable result. Ints will be expanded. 
+    </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Real</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CInt>
+    <TH align=middle colSpan=2>CInt(variable)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>variable</VAR></TD>
+    <TD>A variable Real or String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts a string or real to an integer. Only strings 
+      containing digits and '.' will return a predicatable result. Doubles will 
+      be truncated. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Int</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#CStr>
+    <TH align=middle colSpan=2>CStr(variable)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>variable</VAR></TD>
+    <TD>A variable Int or Real</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts a real or int to a string. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A String</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#find>
+    <TH align=middle colSpan=2>find(string, search, start)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>The string to search in</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>search</VAR></TD>
+    <TD>The string to search for</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>start</VAR></TD>
+    <TD>The index to start searching at</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns the index of the first occurance of 'search' after 
+      'start' within 'string' </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An int</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Hex>
+    <TH align=middle colSpan=2>Hex(number)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>number</VAR></TD>
+    <TD>The number to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns the hexidecimal value of 'number' </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A hexidecimal</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#left>
+    <TH align=middle colSpan=2>left(string, count)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>The string to search</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>count</VAR></TD>
+    <TD>An int to start from</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns 'count' characters starting from the leftmost 
+      character in string 'string'. Reportedly not working in 095. Instead use 
+      substrings- Str[start_index,length] returns a substring. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Int</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#len>
+    <TH align=middle colSpan=2>len(string|array)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string|array</VAR></TD>
+    <TD>A string or array</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>For strings, returns string length. For arrays, returns 
+      number of elements. Does not work for structs or dictionaries, use .size() 
+      for those. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Int</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#lower>
+    <TH align=middle colSpan=2>lower(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>A string to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts 'string' to lowercase (doesn't work with high-ascii 
+      characters or unicode) </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A string</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Pack>
+    <TH align=middle colSpan=2>Pack(object)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>object</VAR></TD>
+    <TD>An object to pack</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Packs a variable into POL's packed data string format. Note 
+      that object references CANNOT be saved with the world, but may be passed 
+      to other running scripts, or with an event. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A string</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#print>
+    <TH align=middle colSpan=2>print(anything)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>anything</VAR></TD>
+    <TD>Any object, or primitive.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Prints 'anything' to the console. If it's a string or 
+      number, it will show the value. If it's an array, struct or dictionary, it 
+      will show the contents of the structure fairly nicely. Else, it shows the 
+      type of object, i.e. 'ItemRef'. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Nothing</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SizeOf>
+    <TH align=middle colSpan=2>SizeOf(expression)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>expression</VAR></TD>
+    <TD>An expression to evaluate</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns an estimate of the memory used </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An int</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#SplitWords>
+    <TH align=middle colSpan=2>SplitWords(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>The string to split</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns an array of words contained in 'string'. Words are 
+      separated by spaces only. Multiple spaces are okay. </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An array</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#TypeOf>
+    <TH align=middle colSpan=2>TypeOf(variable)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>variable</VAR></TD>
+    <TD>a script var</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Returns a string, depending on the variable type of the 
+      parameter. Is one of: "Dictionary", "AccountRef", "ConfigFileRef", 
+      "DataFileRef", "DataElemRef", "ScriptExRef", "GuildRef", "BoundingBox", 
+      "DebugContext", "Package", "MenuRef", "MobileRef", "OfflineMobileRef", 
+      "ItemRef", "BoatRef", "MultiRef", "Uninit", "String", "Integer", "Double", 
+      "Array", "ApplicPtr", "ApplicObj", "Error", "Struct". </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A string</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#Unpack>
+    <TH align=middle colSpan=2>Unpack(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>A string to unpack</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Unpacks a "packed data string" into the variable it 
+      represents. See Pack(). </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A variable</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#upper>
+    <TH align=middle colSpan=2>upper(string)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>string</VAR></TD>
+    <TD>A string to convert</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Converts 'string' to uppercase (doesn't work with high-ascii 
+      characters or unicode) </TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A string</TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

@@ -1,0 +1,13 @@
+// CheckLosAt: check los from current position to a map tile
+
+use uo;
+
+program test_CheckLosAt( who )
+
+    var where := TargetCoordinates( who );
+
+    var res := CheckLosAt( who, where.x, where.y, where.z );
+    SendSysMessage( who, "LOS to " + where.x + "," + where.y + "," + where.z + ": " + res );
+
+
+endprogram

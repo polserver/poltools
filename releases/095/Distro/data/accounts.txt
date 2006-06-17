@@ -1,0 +1,11 @@
+Account
+{
+	Name	admin
+	Password	admin
+	Enabled	1
+	Banned	0
+	DefaultCmdLevel	test
+	CProp	LastIP s127.0.0.1
+	CProp	LastLogin i25142884
+}
+

@@ -1,4 +1,4 @@
-/* $Id: datafile.inc 334 2006-06-15 22:45:25Z austinheilman $
+/* $Id$
  *
  * Purpose
  * TODO

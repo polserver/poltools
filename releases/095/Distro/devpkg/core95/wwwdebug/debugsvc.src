@@ -1,0 +1,47 @@
+use os;
+use uo;
+
+var ResponseType := struct;
+ResponseType.+prompt;
+ResponseType.+results;
+
+program debugsvc( debugpid )
+
+    // connect to the process to debug
+    //(debugex not used)
+    //var debugex := getprocess(debugpid);
+    
+    var dctx := create_debug_context();
+    print(dctx.prompt);
+    print(dctx.process( "attach "+debugpid ));
+    print(dctx.prompt);
+
+    print( "Debug Service thread for PID " + debugpid + " starting." );
+    
+    var gpropkey := "#Debug" + debugpid;
+    // register self
+    SetGlobalProperty( gpropkey, getpid() );
+    
+    var ev;
+
+    while (1)
+        ev := wait_for_event( 120 );
+        if (ev)
+            print( "Debug Service thread for PID " + debugpid + " received event: " + ev );
+            var requester := getprocess( ev.pid );
+            var results := dctx.process( ev.command );
+            var response := ResponseType;
+            response.prompt := dctx.prompt;
+            response.results := results;
+            // print( "Response is " + response );
+            requester.sendevent( response );
+        else
+            break;
+        endif
+    endwhile
+
+    // deregister self
+    EraseGlobalProperty( gpropkey );
+    
+    print( "Debug Service thread for PID " + debugpid + " shut down." );
+endprogram

@@ -1,0 +1,28 @@
+use os;
+use uo;
+use util;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program cast_strength( parms )
+  var circle := 2;
+  var delivery := "direct";
+  var noto := "helpful";
+  var result := maincast(parms, delivery, circle, noto, 16);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(cast_on, SFX_SPELL_STRENGTH);
+  PlayObjectCenteredEffect( cast_on, FX_BLESS_EFFECT, 7,7);
+  if (!CanMod(cast_on, "str"))
+	SendSysMessage(caster,"Already under the influence!");
+	return;
+  endif
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var mod_amount := GetModAmount( magery );
+  var duration := GetModDuration( magery );
+  DoTempMod(cast_on, "str", mod_amount, duration);
+endprogram

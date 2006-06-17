@@ -1,0 +1,15 @@
+include "summon";
+include "include/spellRestrictions";
+
+program summon_earth( parms )
+  var circle := 8;
+  var delivery := "indirect";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 62);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  summon_creature( caster, 8, "earthelemental", cast_on );
+endprogram

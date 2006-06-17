@@ -1,0 +1,10 @@
+use uo;
+use os;
+
+program textcmd_RegionManager(who, param)
+  var parms := array;
+  parms.append("Script");
+  parms.append(who);
+  parms.append(param);
+  start_script("textcmd/gm/regionmanager", parms);
+endprogram

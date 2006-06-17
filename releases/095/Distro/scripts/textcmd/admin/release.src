@@ -1,0 +1,61 @@
+use uo;
+use os;
+
+
+program textcmd_release( who)
+  var house := who.multi;
+  var lists := GetObjProperty(house, "footage");
+  var itemlist := {};
+  var holder, chk := 0;
+  if(lists)
+    foreach thing in lists
+      holder := ListObjectsInBox(thing[1], thing[2], thing[3], thing[4], thing[5],thing[6]);
+      foreach thing in holder
+        itemlist.append(thing);
+      endforeach
+    endforeach
+  endif
+  foreach thing in (house.items)
+    itemlist.append(thing);
+  endforeach
+  case(house.objtype)
+    0x6060: CreateItemInBackpack(who,0x6019,1); //smallstoneandplasterhouse
+    0x6061: CreateItemInBackpack(who,0x601a,1); //smallstonehouse
+    0x6062: CreateItemInBackpack(who,0x601b,1); //smallwoodenhouse
+    0x6063: CreateItemInBackpack(who,0x601c,1); //smallplasterhouse
+    0x6064: CreateItemInBackpack(who,0x601d,1); //smallwoodandstrawhouse
+    0x6073: CreateItemInBackpack(who,0x601e,1); //smallbrickhouse
+    0x6065: CreateItemInBackpack(who,0x6020,1); //largebrickhouse
+    0x6072: CreateItemInBackpack(who,0x6026,1); //largepatiohouse
+    0x6066: CreateItemInBackpack(who,0x6021,1); //twostorywoodandplasterhouse
+    0x6068: CreateItemInBackpack(who,0x6022,1); //twostorystoneandplasterhouse
+    0x6069: CreateItemInBackpack(who,0x6023,1); //tower
+    0x6070: CreateItemInBackpack(who,0x6024,1); //keep
+    0x6071: CreateItemInBackpack(who,0x6025,1); //castle
+  endcase
+  var tilelist := GetObjProperty(house, "bantiles");
+  if(tilelist)
+    foreach thing in tilelist
+      DestroyItem(SystemFindObjectBySerial(thing));
+    endforeach
+  endif
+  var z;
+  foreach thing in itemlist
+    if((GetObjProperty(thing,"secure") == 1) && (thing.movable == 0))
+      EraseObjProperty(thing,"secure");
+      if(GetObjProperty(thing, "houseserial" ) == house.serial)
+        var oldscript := GetObjProperty(thing, "oldscript");
+        if (oldscript == error)
+          oldscript := "";
+        endif
+        thing.usescript := oldscript;
+        thing.movable := 1;
+        EraseObjProperty(thing, "houseserial" );
+        EraseObjProperty(thing, "oldscript" );
+      endif
+    elseif ((GetObjProperty(thing, "lockeddown" ) == 1) && (thing.movable == 0))               //item is locked down in the house
+      thing.movable := 1;
+      EraseObjProperty(thing, "lockeddown");
+    endif
+  endforeach
+endprogram

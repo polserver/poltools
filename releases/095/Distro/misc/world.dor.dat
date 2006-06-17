@@ -1,0 +1,19937 @@
+Item
+{
+	Name	Quality Fletching
+	ObjType	0x0bce
+	X	1472
+	Y	1584
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1439
+	Y	1612
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1439
+	Y	1613
+	Z	20
+}
+
+Item
+{
+	Name	The Best Hides of Britain
+	ObjType	0x0bcf
+	X	1440
+	Y	1611
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1496
+	Y	1620
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1495
+	Y	1620
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1499
+	Y	1618
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1499
+	Y	1614
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1501
+	Y	1612
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1497
+	Y	1612
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1501
+	Y	1617
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1497
+	Y	1616
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1497
+	Y	1622
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1501
+	Y	1622
+	Z	40
+}
+
+Item
+{
+	Name	Sweet Dreams Inn
+	ObjType	0x0bb4
+	X	1500
+	Y	1626
+	Z	14
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1479
+	Y	1611
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1479
+	Y	1612
+	Z	20
+}
+
+Item
+{
+	Name	Good Health Healers
+	ObjType	0x0bab
+	X	1480
+	Y	1610
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1474
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1475
+	Y	1599
+	Z	20
+}
+
+Item
+{
+	Name	Merchant's Association
+	ObjType	0x0c0a
+	X	1477
+	Y	1600
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1459
+	Y	1612
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1459
+	Y	1611
+	Z	20
+}
+
+Item
+{
+	Name	Good Eats
+	ObjType	0x0ba3
+	X	1460
+	Y	1610
+	Z	20
+}
+
+Item
+{
+	Name	The King's Men Theater
+	ObjType	0x0c0e
+	X	1454
+	Y	1600
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1451
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1450
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1457
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1456
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1444
+	Y	1583
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1443
+	Y	1583
+	Z	20
+}
+
+Item
+{
+	Name	The King's Men Theater
+	ObjType	0x0c0e
+	X	1441
+	Y	1584
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1436
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1435
+	Y	1599
+	Z	20
+}
+
+Item
+{
+#!	Name	The Saw HorseBB0
+	Name	The Saw Horse
+	ObjType	0x0599
+	X	1600
+	Y	20
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c7
+	X	1427
+	Y	1583
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c5
+	X	1426
+	Y	1583
+	Z	30
+}
+
+Item
+{
+	Name	Mining Cooperative
+	ObjType	0x0bc2
+	X	1425
+	Y	1584
+	Z	30
+}
+
+Item
+{
+	Name	Britain Public Library
+	ObjType	0x0b95
+	X	1420
+	Y	1595
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1424
+	Y	1551
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1421
+	Y	1555
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1427
+	Y	1547
+	Z	30
+}
+
+Item
+{
+	Name	The Hammer and Anvil
+	ObjType	0x0bbf
+	X	1428
+	Y	1546
+	Z	30
+}
+
+Item
+{
+#	Name	a smelter
+	ObjType	0x0fb1
+	X	1425
+	Y	1556
+	Z	30
+}
+
+Item
+{
+#	Name	an anvil
+	ObjType	0x0fb0
+	X	1424
+	Y	1557
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	1456
+	Y	1560
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	1455
+	Y	1560
+	Z	30
+}
+
+Item
+{
+	Name	Lord British's Conservatory of Music
+	ObjType	0x0bbc
+	X	1454
+	Y	1561
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1474
+	Y	1583
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1487
+	Y	1589
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1487
+	Y	1588
+	Z	20
+}
+
+Item
+{
+	Name	Strength and Steel
+	ObjType	0x0bc7
+	X	1488
+	Y	1586
+	Z	21
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c7
+	X	1514
+	Y	1617
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c5
+	X	1513
+	Y	1617
+	Z	10
+}
+
+Item
+{
+	Name	Order Gate
+	ObjType	0x06f6
+	X	1398
+	Y	1623
+	Z	29
+}
+
+Item
+{
+	Name	Order Gate
+	ObjType	0x06f6
+	X	1398
+	Y	1624
+	Z	29
+}
+
+Item
+{
+	Name	Order Gate
+	ObjType	0x06f6
+	X	1398
+	Y	1625
+	Z	29
+}
+
+Item
+{
+	Name	Order Gate
+	ObjType	0x06f6
+	X	1398
+	Y	1626
+	Z	29
+}
+
+Item
+{
+	Name	Order Gate
+	ObjType	0x06f6
+	X	1398
+	Y	1627
+	Z	29
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1501
+	Y	1617
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e41
+	X	1504
+	Y	1619
+	Z	21
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1502
+	Y	1610
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e40
+	X	1500
+	Y	1612
+	Z	21
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e7d
+	X	1492
+	Y	1613
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1493
+	Y	1610
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1503
+	Y	1610
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1494
+	Y	1615
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1503
+	Y	1615
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1503
+	Y	1620
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1492
+	Y	1620
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a34
+	X	1416
+	Y	1555
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1416
+	Y	1551
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1417
+	Y	1551
+	Z	30
+}
+
+Item
+{
+#	Name	a chest
+	ObjType	0x0e7c
+	X	1416
+	Y	1547
+	Z	36
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1eac
+	X	1398
+	Y	1625
+	Z	52
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	1429
+	Y	1684
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	1427
+	Y	1682
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1201
+	X	1424
+	Y	1680
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1202
+	X	1424
+	Y	1676
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1203
+	X	1424
+	Y	1678
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1203
+	X	1424
+	Y	1677
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1203
+	X	1424
+	Y	1679
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1204
+	X	1429
+	Y	1675
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1205
+	X	1426
+	Y	1675
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1206
+	X	1428
+	Y	1675
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1206
+	X	1427
+	Y	1675
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e41
+	X	1429
+	Y	1675
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e41
+	X	1428
+	Y	1675
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e41
+	X	1427
+	Y	1675
+	Z	6
+}
+
+Item
+{
+#	Name	a chest
+	ObjType	0x0e7c
+	X	1424
+	Y	1677
+	Z	6
+}
+
+Item
+{
+#	Name	a chest
+	ObjType	0x0e7c
+	X	1424
+	Y	1678
+	Z	6
+}
+
+Item
+{
+#	Name	a chest
+	ObjType	0x0e7c
+	X	1424
+	Y	1679
+	Z	6
+}
+
+Item
+{
+#	Name	a chest
+	ObjType	0x0e7c
+	X	1424
+	Y	1680
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e40
+	X	1424
+	Y	1690
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c7
+	X	1439
+	Y	1692
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c5
+	X	1438
+	Y	1692
+	Z	0
+}
+
+Item
+{
+	Name	The First Bank of Britain
+	ObjType	0x0c0c
+	X	1436
+	Y	1693
+	Z	0
+}
+
+Item
+{
+	Name	The Sorcerer's Delight
+	ObjType	0x0bae
+	X	1488
+	Y	1572
+	Z	30
+}
+
+Item
+{
+	Name	Britannia Animal Care
+	ObjType	0x0bac
+	X	1505
+	Y	1576
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1506
+	Y	1575
+	Z	20
+}
+
+Item
+{
+	Name	The Bucking Horse Stables
+	ObjType	0x0bb8
+	X	1515
+	Y	1552
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x083b
+	X	1510
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1509
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1515
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x083b
+	X	1516
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x083b
+	X	1521
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1520
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1524
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x083b
+	X	1525
+	Y	1545
+	Z	25
+}
+
+Item
+{
+#	Name	a bale of hay11EA
+	ObjType	0x05e4
+	X	1544
+	Y	25
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1514
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1511
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1510
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1509
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1510
+	Y	1542
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05e4
+	X	1544
+	Y	26
+	Z	25
+}
+
+#Item
+#{
+#	Name	a door
+#	ObjType	0xaaea
+#	X	1509
+#	Y	1543
+#	Z	25
+#}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1515
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1514
+	Y	1542
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05ed
+	X	1544
+	Y	25
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05ed
+	X	1544
+	Y	26
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1520
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1521
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1521
+	Y	1542
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05f1
+	X	1544
+	Y	25
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05f1
+	X	1544
+	Y	26
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1526
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1525
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1524
+	Y	1541
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1525
+	Y	1542
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05f5
+	X	1544
+	Y	25
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05f5
+	X	1544
+	Y	26
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1525
+	Y	1549
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1525
+	Y	1548
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1524
+	Y	1547
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1510
+	Y	1549
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0f34
+	X	1511
+	Y	1548
+	Z	25
+}
+
+Item
+{
+#	Name	a bile of hay11EA
+	ObjType	0x05e4
+	X	1549
+	Y	31
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1517
+	Y	1551
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1516
+	Y	1551
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1513
+	Y	1599
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1475
+	Y	1583
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e80
+	X	1468
+	Y	1576
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x100b
+	X	1473
+	Y	1576
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1446
+	Y	1669
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1445
+	Y	1669
+	Z	10
+}
+
+Item
+{
+#!	Name	Artist' GuildBCA
+	Name	Artist' Guild
+	ObjType	0x05a4
+	X	1670
+	Y	10
+	Z	10
+}
+
+Item
+{
+	Name	Order of Engineers
+	ObjType	0x0c01
+	X	1432
+	Y	1656
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1431
+	Y	1658
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1431
+	Y	1659
+	Z	10
+}
+
+Item
+{
+	Name	Heavy Metal Armoure
+	ObjType	0x0bc8
+	X	1446
+	Y	1654
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1448
+	Y	1653
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e80
+	X	1446
+	Y	1647
+	Z	16
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1476
+	Y	1669
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1475
+	Y	1669
+	Z	0
+}
+
+Item
+{
+	Name	Britain's Premier Provisioner and Fish Shoppe
+	ObjType	0x0bcc
+	X	1468
+	Y	1676
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e7d
+	X	1484
+	Y	1671
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e7a
+	X	1464
+	Y	1671
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1471
+	Y	1695
+	Z	0
+}
+
+Item
+{
+	Name	The Lord's Clothier
+	ObjType	0x0ba6
+	X	1470
+	Y	1696
+	Z	0
+}
+
+Item
+{
+#!	Name	The Blue BoarBC3
+	Name	The Blue Boar
+	ObjType	0x05de
+	X	1689
+	Y	20
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1507
+	Y	1658
+	Z	27
+}
+
+Item
+{
+	Name	Ethereal Goods
+	ObjType	0x0bad
+	X	1508
+	Y	1662
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1457
+	Y	1681
+	Z	0
+}
+
+Item
+{
+	Name	Premier Gems
+	ObjType	0x0bc1
+	X	1458
+	Y	1683
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1431
+	Y	1731
+	Z	20
+}
+
+Item
+{
+	Name	The Cat's Lair
+	ObjType	0x0bc3
+	X	1432
+	Y	1730
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1455
+	Y	1721
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1455
+	Y	1722
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1452
+	Y	1727
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1460
+	Y	1727
+	Z	6
+}
+
+Item
+{
+	Name	The Cleaver
+	ObjType	0x0baa
+	X	1449
+	Y	1728
+	Z	1
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bd1
+	X	1479
+	Y	1728
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1477
+	Y	1727
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1495
+	Y	1723
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1494
+	Y	1723
+	Z	6
+}
+
+Item
+{
+	Name	The First Library of Britain
+	ObjType	0x0b96
+	X	1493
+	Y	1724
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1479
+	Y	1747
+	Z	0
+}
+
+Item
+{
+	Name	Customs
+	ObjType	0x0bb5
+	X	1480
+	Y	1746
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1423
+	Y	1755
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1423
+	Y	1748
+	Z	10
+}
+
+Item
+{
+#!	Name	The Oaken OarBB1
+	Name	The Oaken Oar
+	ObjType	0x0590
+	X	1747
+	Y	10
+	Z	10
+}
+
+Item
+{
+	Name	Brass Sign
+	ObjType	0x0bd2
+	X	1415
+	Y	1713
+	Z	20
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	1416
+	Y	1713
+	Z	22
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	1516
+	Y	1618
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1504
+	Y	1527
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1503
+	Y	1527
+	Z	40
+}
+
+Item
+{
+	Name	Counselor's Guild Hall
+	ObjType	0x0bd2
+	X	1505
+	Y	1528
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1476
+	Y	1519
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1475
+	Y	1519
+	Z	20
+}
+
+Item
+{
+	Name	The North Side Inn
+	ObjType	0x0bb4
+	X	1474
+	Y	1520
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1473
+	Y	1514
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1473
+	Y	1515
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1461
+	Y	1514
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1461
+	Y	1519
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1461
+	Y	1524
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1464
+	Y	1524
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1456
+	Y	1512
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e41
+	X	1460
+	Y	1512
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e40
+	X	1456
+	Y	1520
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1459
+	Y	1517
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1459
+	Y	1522
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e40
+	X	1456
+	Y	1525
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1468
+	Y	1520
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0e40
+	X	1465
+	Y	1526
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1468
+	Y	1711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1462
+	Y	1711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1456
+	Y	1711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1450
+	Y	1711
+	Z	0
+}
+
+Item
+{
+	Name	Warriors' Guild
+	ObjType	0x0c04
+	X	1342
+	Y	1744
+	Z	20
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bd2
+	X	1360
+	Y	1777
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1359
+	Y	1778
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a34
+	X	1384
+	Y	1801
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1388
+	Y	1807
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1403
+	Y	1807
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1402
+	Y	1800
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a34
+	X	1400
+	Y	1801
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1407
+	Y	1819
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a34
+	X	1400
+	Y	1818
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1401
+	Y	1816
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1391
+	Y	1819
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a34
+	X	1384
+	Y	1818
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1385
+	Y	1816
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1386
+	Y	1800
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1311
+	Y	1804
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1311
+	Y	1803
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1296
+	Y	1783
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1295
+	Y	1783
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1782
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1782
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1779
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1779
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1776
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1776
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1773
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1773
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1770
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1770
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1291
+	Y	1767
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0843
+	X	1299
+	Y	1767
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1300
+	Y	1755
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1291
+	Y	1756
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1297
+	Y	1755
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	1294
+	Y	1755
+	Z	10
+}
+
+Item
+{
+	Name	Sables
+	ObjType	0x0bb7
+	X	1305
+	Y	1760
+	Z	14
+}
+
+Item
+{
+	Name	Road to Skara Brae/Yew
+	ObjType	0x129a
+	X	1314
+	Y	1749
+	Z	25
+}
+
+Item
+{
+	Name	Road to Trinsic
+	ObjType	0x129e
+	X	1375
+	Y	1811
+	Z	16
+}
+
+Item
+{
+	Name	Road to Britain
+	ObjType	0x129c
+	X	1362
+	Y	1756
+	Z	28
+}
+
+Item
+{
+	Name	The Unicorn's Horn
+	ObjType	0x0bc4
+	X	1549
+	Y	1776
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1551
+	Y	1775
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1550
+	Y	1775
+	Z	10
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1545
+	Y	1752
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1543
+	Y	1751
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1563
+	Y	1751
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1571
+	Y	1751
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1579
+	Y	1751
+	Z	15
+}
+
+Item
+{
+	Name	Warehouse space for lease.
+	ObjType	0x0bcf
+	X	1581
+	Y	1752
+	Z	15
+}
+
+Item
+{
+	Name	Warehouse space for lease.
+	ObjType	0x0bcf
+	X	1565
+	Y	1752
+	Z	15
+}
+
+Item
+{
+	Name	Warehouse space for lease.
+	ObjType	0x0bcf
+	X	1573
+	Y	1752
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	1619
+	Y	1767
+	Z	60
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	1620
+	Y	1767
+	Z	60
+}
+
+Item
+{
+#!	Name	Lookout TowerBD2
+	Name	Lookout Tower
+	ObjType	0x0652
+	X	1768
+	Y	59
+	Z	60
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1544
+	Y	1719
+	Z	20
+}
+
+Item
+{
+	Name	For Sale.
+	ObjType	0x0bd1
+	X	1546
+	Y	1720
+	Z	21
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1571
+	Y	1719
+	Z	35
+}
+
+Item
+{
+	Name	Sage Advice
+	ObjType	0x0bae
+	X	1574
+	Y	1720
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1571
+	Y	1701
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1579
+	Y	1701
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1579
+	Y	1705
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1603
+	Y	1719
+	Z	20
+}
+
+Item
+{
+	Name	Profuse Provisions
+	ObjType	0x0bcc
+	X	1602
+	Y	1720
+	Z	20
+}
+
+Item
+{
+	Name	Artistic Armour
+	ObjType	0x0bc7
+	X	1640
+	Y	1688
+	Z	32
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1639
+	Y	1690
+	Z	36
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1639
+	Y	1699
+	Z	36
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a2c
+	X	1641
+	Y	1696
+	Z	36
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1543
+	Y	1683
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1543
+	Y	1691
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1555
+	Y	1687
+	Z	30
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1557
+	Y	1688
+	Z	30
+}
+
+Item
+{
+#!	Name	The Right FitBA6
+	Name	The Right Fit
+	ObjType	0x0612
+	X	1664
+	Y	25
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1556
+	Y	1663
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1555
+	Y	1663
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1547
+	Y	1655
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1592
+	Y	1663
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1591
+	Y	1663
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1599
+	Y	1651
+	Z	10
+}
+
+Item
+{
+	Name	Incantations and Enchantments
+	ObjType	0x0bae
+	X	1589
+	Y	1664
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1632
+	Y	1671
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1631
+	Y	1671
+	Z	15
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	1633
+	Y	1672
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1630
+	Y	1659
+	Z	15
+}
+
+Item
+{
+#	Name	A Girl's Best Friend
+	ObjType	0x0bc2
+	X	1660
+	Y	1648
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1655
+	Y	1651
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1651
+	Y	1639
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1655
+	Y	1604
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1655
+	Y	1612
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1655
+	Y	1611
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	1656
+	Y	1614
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1676
+	Y	1599
+	Z	7
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1675
+	Y	1599
+	Z	7
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1674
+	Y	1600
+	Z	3
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1663
+	Y	1578
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1687
+	Y	1571
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1679
+	Y	1571
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1684
+	Y	1575
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1683
+	Y	1575
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1682
+	Y	1576
+	Z	19
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1705
+	Y	1556
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1706
+	Y	1559
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1708
+	Y	1567
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1707
+	Y	1567
+	Z	50
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1706
+	Y	1568
+	Z	49
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1690
+	Y	1552
+	Z	44
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1693
+	Y	1549
+	Z	65
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1693
+	Y	1548
+	Z	65
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1692
+	Y	1551
+	Z	45
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1691
+	Y	1551
+	Z	45
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1668
+	Y	1548
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1671
+	Y	1551
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1651
+	Y	1567
+	Z	10
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1670
+	Y	1552
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1651
+	Y	1551
+	Z	25
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1650
+	Y	1552
+	Z	25
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1650
+	Y	1568
+	Z	8
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	1664
+	Y	1577
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1647
+	Y	1580
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	1648
+	Y	1579
+	Z	0
+}
+
+Item
+{
+	Name	Gazebo
+	ObjType	0x0bcf
+	X	1635
+	Y	1569
+	Z	25
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1612
+	Y	1591
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1611
+	Y	1591
+	Z	0
+}
+
+Item
+{
+#!	Name	The Salty DogBC4
+	Name	The Salty Dog
+	ObjType	0x064a
+	X	1592
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1623
+	Y	1586
+	Z	-20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1631
+	Y	1587
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1631
+	Y	1588
+	Z	0
+}
+
+Item
+{
+#!	Name	The Salty DogBC3
+	Name	The Salty Dog
+	ObjType	0x0660
+	X	1586
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1618
+	Y	1567
+	Z	30
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1617
+	Y	1568
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1582
+	Y	1589
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1581
+	Y	1593
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1586
+	Y	1589
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1586
+	Y	1593
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1588
+	Y	1589
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1583
+	Y	1589
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1580
+	Y	1593
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1586
+	Y	1593
+	Z	40
+}
+
+Item
+{
+	Name	The Wayfarer's Inn
+	ObjType	0x0bb3
+	X	1600
+	Y	1589
+	Z	20
+}
+
+Item
+{
+	Name	The Chamber of Virtue
+	ObjType	0x0bd1
+	X	1548
+	Y	1616
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1607
+	Y	1515
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1607
+	Y	1523
+	Z	40
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	1608
+	Y	1527
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1636
+	Y	1508
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1637
+	Y	1519
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1636
+	Y	1519
+	Z	35
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	1635
+	Y	1520
+	Z	35
+}
+
+Item
+{
+	Name	Road to Minoc/Vesper
+	ObjType	0x129c
+	X	1643
+	Y	1521
+	Z	49
+}
+
+Item
+{
+	Name	Blackthorn's Castle
+	ObjType	0x0bd1
+	X	1523
+	Y	1455
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06f5
+	X	1522
+	Y	1454
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06f5
+	X	1523
+	Y	1454
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06f5
+	X	1524
+	Y	1454
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06f5
+	X	1525
+	Y	1454
+	Z	15
+}
+
+Item
+{
+	Name	Lord British's Castle
+	ObjType	0x0bd2
+	X	1400
+	Y	1622
+	Z	28
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1662
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1662
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1659
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1659
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1656
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1656
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1653
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1653
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1650
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1650
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1390
+	Y	1647
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0841
+	X	1386
+	Y	1647
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1383
+	Y	1643
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1383
+	Y	1642
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1388
+	Y	1663
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1387
+	Y	1663
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9c
+	X	1387
+	Y	1665
+	Z	40
+}
+
+Item
+{
+	Name	The Royal Stables
+	ObjType	0x0bb8
+	X	1386
+	Y	1664
+	Z	29
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06cd
+	X	1360
+	Y	1675
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06cf
+	X	1360
+	Y	1674
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9b
+	X	1362
+	Y	1674
+	Z	40
+}
+
+Item
+{
+	Name	The Royle  Barracks
+	ObjType	0x0c03
+	X	1361
+	Y	1673
+	Z	29
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c5
+	X	1371
+	Y	1583
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06c7
+	X	1372
+	Y	1583
+	Z	30
+}
+
+Item
+{
+	Name	The Lord's Arms
+	ObjType	0x0bc0
+	X	1370
+	Y	1584
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1eaa
+	X	1522
+	Y	1454
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1eaa
+	X	1526
+	Y	1454
+	Z	35
+}
+
+Item
+{
+	Name	Road to Britain's Cemetery
+	ObjType	0x1299
+	X	1432
+	Y	1538
+	Z	45
+}
+
+Item
+{
+	Name	Main Gate
+	ObjType	0x0bd1
+	X	1471
+	Y	1644
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1370
+	Y	1621
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1369
+	Y	1621
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1370
+	Y	1629
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1369
+	Y	1629
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1351
+	Y	1593
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1339
+	Y	1593
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1338
+	Y	1593
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1334
+	Y	1598
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1340
+	Y	1604
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1334
+	Y	1609
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1345
+	Y	1646
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1345
+	Y	1660
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1340
+	Y	1659
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1340
+	Y	1658
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1333
+	Y	1652
+	Z	72
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1351
+	Y	1646
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1351
+	Y	1645
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1355
+	Y	1655
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1346
+	Y	1655
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1333
+	Y	1640
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1334
+	Y	1640
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1351
+	Y	1604
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1351
+	Y	1603
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1340
+	Y	1609
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1339
+	Y	1609
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1339
+	Y	1598
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1340
+	Y	1598
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1326
+	Y	1604
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1326
+	Y	1605
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1323
+	Y	1609
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1331
+	Y	1593
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1347
+	Y	1593
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1339
+	Y	1593
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1355
+	Y	1593
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1391
+	Y	1594
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1392
+	Y	1594
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1385
+	Y	1607
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1386
+	Y	1607
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1392
+	Y	1575
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1393
+	Y	1575
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1309
+	Y	1575
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1310
+	Y	1575
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1311
+	Y	1681
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1311
+	Y	1680
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1331
+	Y	1676
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1331
+	Y	1675
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1337
+	Y	1677
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1338
+	Y	1677
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1345
+	Y	1676
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1349
+	Y	1675
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1349
+	Y	1674
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1359
+	Y	1625
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1359
+	Y	1624
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1486
+	Y	1550
+	Z	70
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1492
+	Y	1550
+	Z	70
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1493
+	Y	1545
+	Z	70
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1505
+	Y	1569
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1509
+	Y	1564
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1510
+	Y	1564
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1447
+	Y	1555
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1447
+	Y	1554
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1455
+	Y	1553
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1456
+	Y	1553
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1465
+	Y	1556
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1464
+	Y	1556
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	1463
+	Y	1555
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	1463
+	Y	1554
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1441
+	Y	1550
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1441
+	Y	1555
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1441
+	Y	1560
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1441
+	Y	1565
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1445
+	Y	1561
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1457
+	Y	1552
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1465
+	Y	1552
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1469
+	Y	1552
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1474
+	Y	1552
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1465
+	Y	1559
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1466
+	Y	1559
+	Z	50
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1523
+	Y	1439
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1524
+	Y	1439
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1525
+	Y	1435
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1526
+	Y	1435
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1532
+	Y	1427
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1532
+	Y	1435
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1529
+	Y	1429
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1529
+	Y	1428
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1529
+	Y	1420
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1529
+	Y	1419
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1532
+	Y	1420
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1516
+	Y	1431
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1521
+	Y	1427
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1521
+	Y	1426
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1526
+	Y	1421
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1525
+	Y	1421
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1524
+	Y	1421
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1525
+	Y	1421
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1530
+	Y	1421
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1531
+	Y	1421
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1535
+	Y	1439
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1534
+	Y	1439
+	Z	55
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1411
+	Y	1621
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1412
+	Y	1621
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1411
+	Y	1629
+	Z	28
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1412
+	Y	1629
+	Z	29
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0695
+	X	2731
+	Y	2191
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2730
+	Y	2192
+	Z	0
+}
+
+Item
+{
+	Name	Buccaneer's Den Leatherworks
+	ObjType	0x0bcf
+	X	2713
+	Y	2179
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2711
+	Y	2179
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2708
+	Y	2135
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2708
+	Y	2142
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2708
+	Y	2151
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2707
+	Y	2151
+	Z	0
+}
+
+Item
+{
+	Name	The Bloody Scab
+	ObjType	0x0bac
+	X	2706
+	Y	2152
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0695
+	X	2747
+	Y	2119
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2746
+	Y	2120
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2719
+	Y	2081
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2719
+	Y	2082
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2719
+	Y	2085
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2717
+	Y	2085
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2719
+	Y	2091
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2717
+	Y	2090
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2716
+	Y	2103
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2715
+	Y	2103
+	Z	0
+}
+
+Item
+{
+	Name	The Peg Leg Inn
+	ObjType	0x0bb4
+	X	2714
+	Y	2104
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2778
+	Y	2135
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2777
+	Y	2136
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2668
+	Y	2079
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2667
+	Y	2079
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2668
+	Y	2087
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2667
+	Y	2087
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2668
+	Y	2095
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2667
+	Y	2095
+	Z	5
+}
+
+Item
+{
+	Name	Bath House
+	ObjType	0x0bd1
+	X	2666
+	Y	2096
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2636
+	Y	2087
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2635
+	Y	2087
+	Z	10
+}
+
+Item
+{
+	Name	Cutlass Smithing
+	ObjType	0x0bc0
+	X	2634
+	Y	2088
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2631
+	Y	2101
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2631
+	Y	2100
+	Z	10
+}
+
+Item
+{
+	Name	Violente Woodworks
+	ObjType	0x0bd2
+	X	2632
+	Y	2103
+	Z	10
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2672
+	Y	2131
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2671
+	Y	2132
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x11df
+	X	2672
+	Y	2157
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2679
+	Y	2155
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2680
+	Y	2157
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2655
+	Y	2196
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2655
+	Y	2195
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2663
+	Y	2194
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2663
+	Y	2193
+	Z	4
+}
+
+Item
+{
+	Name	Pirate's Den
+	ObjType	0x0bfc
+	X	2664
+	Y	2192
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2691
+	Y	2207
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2690
+	Y	2208
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2671
+	Y	2236
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2671
+	Y	2235
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2680
+	Y	2244
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2682
+	Y	2240
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0870
+	X	2687
+	Y	2235
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	2687
+	Y	2236
+	Z	2
+}
+
+Item
+{
+	Name	The Pirate's Plunder
+	ObjType	0x0bc3
+	X	2688
+	Y	2232
+	Z	-4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2715
+	Y	2215
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2714
+	Y	2216
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2732
+	Y	2257
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2731
+	Y	2257
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2743
+	Y	2252
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	2743
+	Y	2251
+	Z	0
+}
+
+Item
+{
+	Name	Pirate's Provisioner
+	ObjType	0x0bcb
+	X	2744
+	Y	2253
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2755
+	Y	2223
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2754
+	Y	2224
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2279
+	Y	1200
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2279
+	Y	1199
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2276
+	Y	1203
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2275
+	Y	1203
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2283
+	Y	1210
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2283
+	Y	1209
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2263
+	Y	1219
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2264
+	Y	1221
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2243
+	Y	1207
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2231
+	Y	1214
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2232
+	Y	1216
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2242
+	Y	1208
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2247
+	Y	1230
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2247
+	Y	1229
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bab
+	X	2248
+	Y	1227
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2235
+	Y	1191
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2237
+	Y	1192
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2219
+	Y	1190
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2219
+	Y	1189
+	Z	0
+}
+
+Item
+{
+	Name	Provisioner
+	ObjType	0x0bcb
+	X	2220
+	Y	1192
+	Z	-7
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2223
+	Y	1168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2223
+	Y	1167
+	Z	0
+}
+
+Item
+{
+	Name	Armorer
+	ObjType	0x0bc7
+	X	2224
+	Y	1165
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	2215
+	Y	1116
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	2215
+	Y	1115
+	Z	20
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2216
+	Y	1114
+	Z	20
+}
+
+Item
+{
+	Name	Cove City Gate
+	ObjType	0x0bd2
+	X	2284
+	Y	1210
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1479
+	Y	3700
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1479
+	Y	3699
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1476
+	Y	3695
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1475
+	Y	3695
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1476
+	Y	3703
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1475
+	Y	3703
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1479
+	Y	3684
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1479
+	Y	3683
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1475
+	Y	3687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1476
+	Y	3687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1476
+	Y	3711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1475
+	Y	3711
+	Z	0
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd2
+	X	1480
+	Y	3698
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1447
+	Y	3715
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1447
+	Y	3723
+	Z	0
+}
+
+Item
+{
+	Name	Second Skin
+	ObjType	0x0bc7
+	X	1448
+	Y	3721
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1451
+	Y	3751
+	Z	0
+}
+
+Item
+{
+	Name	Sailor's Keeper
+	ObjType	0x0bb2
+	X	1449
+	Y	3752
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1436
+	Y	3735
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1435
+	Y	3735
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1439
+	Y	3748
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1439
+	Y	3747
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1436
+	Y	3759
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1435
+	Y	3759
+	Z	0
+}
+
+Item
+{
+	Name	Ocean's Treasure
+	ObjType	0x0ba9
+	X	1440
+	Y	3746
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1423
+	Y	3746
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1421
+	Y	3751
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1380
+	Y	3735
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1378
+	Y	3751
+	Z	0
+}
+
+Item
+{
+	Name	The Arena
+	ObjType	0x0bd2
+	X	1376
+	Y	3752
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9b
+	X	1425
+	Y	3749
+	Z	9
+}
+
+Item
+{
+	Name	The Arena
+	ObjType	0x0bd1
+	X	1425
+	Y	3749
+	Z	9
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	1425
+	Y	3704
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1415
+	Y	3698
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1410
+	Y	3711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1421
+	Y	3711
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1427
+	Y	3703
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1428
+	Y	3703
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1396
+	Y	3703
+	Z	0
+}
+
+Item
+{
+#!	Name	First DefenseBC0
+	Name	First Defense
+	ObjType	0x0569
+	X	3712
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1387
+	Y	3711
+	Z	0
+}
+
+Item
+{
+	Name	Brothers in Arms Warrior's Guild
+	ObjType	0x0c03
+	X	1368
+	Y	3713
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1367
+	Y	3716
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1367
+	Y	3715
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1359
+	Y	3706
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1359
+	Y	3701
+	Z	0
+}
+
+Item
+{
+#!	Name	Baker's DozenBA3
+	Name	Baker's Dozen
+	ObjType	0x0558
+	X	3733
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1367
+	Y	3735
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1351
+	Y	3754
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1364
+	Y	3767
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1367
+	Y	3754
+	Z	0
+}
+
+Item
+{
+	Name	Deadly Intentions
+	ObjType	0x0bbf
+	X	1368
+	Y	3752
+	Z	0
+}
+
+Item
+{
+	Name	Treasure of Jhelom
+	ObjType	0x0bc1
+	X	1328
+	Y	3771
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1324
+	Y	3775
+	Z	0
+}
+
+Item
+{
+	Name	Jhelom Cemetery
+	ObjType	0x0bd2
+	X	1293
+	Y	3718
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0854
+	X	1292
+	Y	3720
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0856
+	X	1292
+	Y	3719
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1351
+	Y	3778
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1359
+	Y	3789
+	Z	0
+}
+
+Item
+{
+	Name	Adventurer's Needle
+	ObjType	0x0ba5
+	X	1360
+	Y	3786
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1383
+	Y	3770
+	Z	0
+}
+
+Item
+{
+	Name	Jhelom Library
+	ObjType	0x0b95
+	X	1400
+	Y	3769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1399
+	Y	3772
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1399
+	Y	3771
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1415
+	Y	3779
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bac
+	X	1409
+	Y	3792
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1412
+	Y	3791
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1411
+	Y	3791
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1455
+	Y	3773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1436
+	Y	3775
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1435
+	Y	3775
+	Z	0
+}
+
+Item
+{
+	Name	The Horse's Head
+	ObjType	0x0bc4
+	X	1433
+	Y	3776
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1436
+	Y	3799
+	Z	0
+}
+
+Item
+{
+	Name	Provisioner
+	ObjType	0x0bcc
+	X	1434
+	Y	3800
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1407
+	Y	3802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1407
+	Y	3811
+	Z	0
+}
+
+Item
+{
+	Name	Gadgets and Things
+	ObjType	0x0ba8
+	X	1411
+	Y	3808
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1380
+	Y	3799
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1379
+	Y	3799
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1383
+	Y	3796
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1383
+	Y	3795
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	1384
+	Y	3794
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	1378
+	Y	3800
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1361
+	Y	3802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3807
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1361
+	Y	3807
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1361
+	Y	3812
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3812
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3817
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3822
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1361
+	Y	3822
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1357
+	Y	3827
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1361
+	Y	3827
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1372
+	Y	3823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1371
+	Y	3823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1375
+	Y	3818
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1375
+	Y	3817
+	Z	0
+}
+
+Item
+{
+	Name	The Morning Star Inn
+	ObjType	0x0bb3
+	X	1368
+	Y	3829
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1388
+	Y	3831
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1387
+	Y	3831
+	Z	0
+}
+
+Item
+{
+	Name	The Farmer's Market
+	ObjType	0x0be2
+	X	1391
+	Y	3832
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1427
+	Y	3823
+	Z	0
+}
+
+Item
+{
+	Name	Woodworker
+	ObjType	0x0bb0
+	X	1425
+	Y	3824
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1483
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1474
+	Y	3871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1447
+	Y	3850
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1463
+	Y	3851
+	Z	0
+}
+
+Item
+{
+	Name	Blacksmith
+	ObjType	0x0bbf
+	X	1424
+	Y	3859
+	Z	0
+}
+
+Item
+{
+	Name	Weapons
+	ObjType	0x0bda
+	X	1472
+	Y	3872
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1452
+	Y	3863
+	Z	0
+}
+
+Item
+{
+	Name	Armorer
+	ObjType	0x0bc7
+	X	1464
+	Y	3849
+	Z	0
+}
+
+Item
+{
+	Name	Armorer
+	ObjType	0x0bc8
+	X	1449
+	Y	3864
+	Z	0
+}
+
+Item
+{
+	Name	Armourer's Guild
+	ObjType	0x0bd5
+	X	1440
+	Y	3864
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1427
+	Y	3879
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1439
+	Y	3866
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1415
+	Y	3850
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1427
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1351
+	Y	3868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1351
+	Y	3867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1367
+	Y	3868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1367
+	Y	3867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1371
+	Y	3871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1372
+	Y	3871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1375
+	Y	3868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1375
+	Y	3867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1399
+	Y	3868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1391
+	Y	3868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1399
+	Y	3867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1391
+	Y	3867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1396
+	Y	3871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1395
+	Y	3871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1396
+	Y	3887
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1395
+	Y	3887
+	Z	0
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd1
+	X	1370
+	Y	3872
+	Z	0
+}
+
+Item
+{
+	Name	Brass Sign
+	ObjType	0x0bd2
+	X	1400
+	Y	3869
+	Z	0
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd2
+	X	1400
+	Y	3870
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1357
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1362
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1373
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1378
+	Y	3855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1389
+	Y	3855
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1387
+	Y	3856
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1376
+	Y	3856
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1360
+	Y	3856
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1399
+	Y	3828
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1399
+	Y	3827
+	Z	0
+}
+
+Item
+{
+	Name	Farmer's Market
+	ObjType	0x0be1
+	X	1400
+	Y	3825
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17ee
+	X	1409
+	Y	3824
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17e5
+	X	1419
+	Y	3832
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x19a0
+	X	1420
+	Y	3861
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1459
+	Y	3831
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1458
+	Y	3832
+	Z	0
+}
+
+Item
+{
+	Name	Wooden Sign
+	ObjType	0x0bcf
+	X	1457
+	Y	3808
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1458
+	Y	3808
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1459
+	Y	3807
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1332
+	Y	3759
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1331
+	Y	3760
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1319
+	Y	3747
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	1320
+	Y	3749
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1316
+	Y	3735
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1315
+	Y	3736
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1331
+	Y	3735
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1330
+	Y	3736
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1319
+	Y	3707
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	1320
+	Y	3706
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1331
+	Y	3711
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1330
+	Y	3712
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1331
+	Y	3695
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1330
+	Y	3696
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1316
+	Y	3695
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1318
+	Y	3696
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1323
+	Y	3679
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1322
+	Y	3680
+	Z	0
+}
+
+Item
+{
+	Name	The Morning Star Inn
+	ObjType	0x0bb3
+	X	1376
+	Y	3814
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1429
+	Y	3967
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1434
+	Y	3967
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1432
+	Y	3968
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1428
+	Y	3991
+	Z	0
+}
+
+Item
+{
+	Name	Jhelom Mage
+	ObjType	0x0bae
+	X	1426
+	Y	3992
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1444
+	Y	3991
+	Z	0
+}
+
+Item
+{
+	Name	Pearl of Jhelom
+	ObjType	0x0bc2
+	X	1442
+	Y	3992
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1468
+	Y	3991
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1467
+	Y	3992
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1476
+	Y	3991
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1475
+	Y	3992
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1483
+	Y	3991
+	Z	0
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bcf
+	X	1482
+	Y	3992
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1450
+	Y	4007
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1460
+	Y	4007
+	Z	0
+}
+
+Item
+{
+	Name	Fine Tailoring
+	ObjType	0x0ba6
+	X	1458
+	Y	4008
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1463
+	Y	4026
+	Z	0
+}
+
+Item
+{
+	Name	Finest Cuts
+	ObjType	0x0ba9
+	X	1464
+	Y	4024
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1410
+	Y	4015
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1439
+	Y	4012
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1439
+	Y	4011
+	Z	0
+}
+
+Item
+{
+	Name	Performing Arts Theater
+	ObjType	0x0c0d
+	X	1440
+	Y	4009
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	1406
+	Y	3996
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1399
+	Y	4013
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1399
+	Y	4018
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	1400
+	Y	4016
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1407
+	Y	4034
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	1408
+	Y	4036
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1139
+	Y	3663
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1132
+	Y	3663
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1130
+	Y	3664
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1175
+	Y	3635
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1171
+	Y	3647
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1169
+	Y	3648
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	1142
+	Y	3621
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	1142
+	Y	3621
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1132
+	Y	3615
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1134
+	Y	3616
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0870
+	X	1167
+	Y	3620
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1172
+	Y	3599
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1171
+	Y	3599
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	1141
+	Y	3599
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	1140
+	Y	3599
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	1141
+	Y	3599
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	1117
+	Y	3596
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	1117
+	Y	3597
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	1167
+	Y	3621
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1167
+	Y	3621
+	Z	0
+}
+
+Item
+{
+	Name	The Furled Sail
+	ObjType	0x0bb2
+	X	3669
+	Y	2261
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3695
+	Y	2251
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3695
+	Y	2250
+	Z	20
+}
+
+Item
+{
+	Name	the Fishermen's Guild & Supplies
+	ObjType	0x0bf4
+	X	3682
+	Y	2261
+	Z	20
+}
+
+Item
+{
+	Name	Merchant's Association
+	ObjType	0x0c09
+	X	3712
+	Y	2242
+	Z	20
+}
+
+Item
+{
+	Name	Stitchin' Time
+	ObjType	0x0ba5
+	X	3672
+	Y	2232
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084c
+	X	3682
+	Y	2215
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084e
+	X	3683
+	Y	2215
+	Z	20
+}
+
+Item
+{
+	Name	Solder's Sanctuary
+	ObjType	0x0c04
+	X	3685
+	Y	2231
+	Z	20
+}
+
+Item
+{
+	Name	Magincia's Magicka
+	ObjType	0x0be7
+	X	3712
+	Y	2215
+	Z	20
+}
+
+Item
+{
+	Name	The Great Horns Tavern
+	ObjType	0x0bc3
+	X	3736
+	Y	2230
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3754
+	Y	2215
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3751
+	Y	2218
+	Z	20
+}
+
+Item
+{
+	Name	The Baker's Dozen
+	ObjType	0x0ba4
+	X	3753
+	Y	2232
+	Z	20
+}
+
+Item
+{
+	Name	Counselor's Guild Hall
+	ObjType	0x0bd2
+	X	3720
+	Y	2184
+	Z	20
+}
+
+Item
+{
+	Name	The Stag & Lion Inn
+	ObjType	0x0bb4
+	X	3681
+	Y	2176
+	Z	20
+}
+
+Item
+{
+	Name	The Stag & Lion Inn
+	ObjType	0x0bb3
+	X	3704
+	Y	2167
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3672
+	Y	2183
+	Z	20
+}
+
+Item
+{
+	Name	The Family Jewels
+	ObjType	0x0bc1
+	X	3672
+	Y	2183
+	Z	20
+}
+
+Item
+{
+	Name	Mining Cooperative
+	ObjType	0x0bed
+	X	3672
+	Y	2137
+	Z	13
+}
+
+Item
+{
+	Name	The Tic Toc Shop
+	ObjType	0x0ba8
+	X	3712
+	Y	2136
+	Z	20
+}
+
+Item
+{
+	Name	Warehouse
+	ObjType	0x0bd1
+	X	3733
+	Y	2160
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	3679
+	Y	2112
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	3760
+	Y	2115
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	3719
+	Y	2096
+	Z	5
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	3703
+	Y	2080
+	Z	5
+}
+
+Item
+{
+	Name	Temple
+	ObjType	0x0bd1
+	X	3738
+	Y	2075
+	Z	5
+}
+
+Item
+{
+	Name	Brass Sign
+	ObjType	0x0bd1
+	X	3762
+	Y	2234
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	3763
+	Y	2234
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x015f
+	X	3761
+	Y	2233
+	Z	25
+}
+
+Item
+{
+	Name	Bridge to the Parliament
+	ObjType	0x0bd1
+	X	3763
+	Y	2234
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x015f
+	X	3748
+	Y	2256
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	3750
+	Y	2257
+	Z	40
+}
+
+Item
+{
+	Name	Bridge to the Parliament
+	ObjType	0x0bd1
+	X	3749
+	Y	2256
+	Z	29
+}
+
+Item
+{
+	Name	The stretched Hide
+	ObjType	0x0bd0
+	X	2523
+	Y	536
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2516
+	Y	523
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2525
+	Y	535
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2503
+	Y	547
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2503
+	Y	559
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2504
+	Y	559
+	Z	0
+}
+
+Item
+{
+	Name	Bank of Minoc
+	ObjType	0x0bd2
+	X	2505
+	Y	560
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2524
+	Y	547
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2531
+	Y	559
+	Z	0
+}
+
+Item
+{
+	Name	The Survival Shop
+	ObjType	0x0bcc
+	X	2534
+	Y	560
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2534
+	Y	577
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2527
+	Y	577
+	Z	0
+}
+
+Item
+{
+	Name	The Warrior's Battle Gear
+	ObjType	0x0bc8
+	X	2525
+	Y	578
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2577
+	Y	588
+	Z	0
+}
+
+Item
+{
+	Name	The Healing Hand
+	ObjType	0x0bac
+	X	2576
+	Y	603
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2592
+	Y	610
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2600
+	Y	612
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2601
+	Y	611
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2602
+	Y	626
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2603
+	Y	625
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	2596
+	Y	642
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2598
+	Y	643
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	2618
+	Y	622
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2617
+	Y	623
+	Z	0
+}
+
+Item
+{
+	Name	Gypsy Camp
+	ObjType	0x1f29
+	X	2531
+	Y	628
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2507
+	Y	600
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2509
+	Y	601
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2495
+	Y	600
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2482
+	Y	599
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2497
+	Y	601
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2484
+	Y	600
+	Z	0
+}
+
+Item
+{
+	Name	The Forgery
+	ObjType	0x0bc0
+	X	2470
+	Y	569
+	Z	5
+}
+
+Item
+{
+	Name	The Mystical Lute
+	ObjType	0x0bbb
+	X	2432
+	Y	555
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2424
+	Y	559
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2423
+	Y	559
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2423
+	Y	523
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2428
+	Y	523
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2425
+	Y	535
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2426
+	Y	535
+	Z	0
+}
+
+Item
+{
+	Name	Minoc Town Hall
+	ObjType	0x0bd2
+	X	2428
+	Y	536
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2425
+	Y	498
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2426
+	Y	497
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2424
+	Y	483
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2425
+	Y	482
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2423
+	Y	472
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	2424
+	Y	471
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2458
+	Y	495
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2458
+	Y	494
+	Z	15
+}
+
+Item
+{
+	Name	The Matewan
+	ObjType	0x0bed
+	X	2459
+	Y	492
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2484
+	Y	471
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0931
+	X	2490
+	Y	472
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2492
+	Y	479
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2491
+	Y	480
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2509
+	Y	470
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2513
+	Y	481
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2514
+	Y	481
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	2457
+	Y	453
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	2470
+	Y	457
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	2469
+	Y	457
+	Z	15
+}
+
+Item
+{
+	Name	Gears and Gadgets
+	ObjType	0x0ba8
+	X	2472
+	Y	458
+	Z	15
+}
+
+Item
+{
+	Name	The Oak Throne
+	ObjType	0x0bb0
+	X	2510
+	Y	482
+	Z	15
+}
+
+Item
+{
+	Name	The Golden Pick Axe
+	ObjType	0x0bee
+	X	2500
+	Y	440
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2503
+	Y	434
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2504
+	Y	434
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2485
+	Y	439
+	Z	15
+}
+
+Item
+{
+	Name	The New World Order
+	ObjType	0x0c04
+	X	2482
+	Y	440
+	Z	15
+}
+
+Item
+{
+	Name	The Old Miners Supplies
+	ObjType	0x0bcc
+	X	2459
+	Y	432
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2450
+	Y	431
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2461
+	Y	431
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2431
+	Y	434
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2434
+	Y	442
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2435
+	Y	442
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	2437
+	Y	443
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2435
+	Y	407
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2444
+	Y	415
+	Z	15
+}
+
+Item
+{
+	Name	The Slaughterd Cow
+	ObjType	0x0baa
+	X	2442
+	Y	416
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	2476
+	Y	404
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	2477
+	Y	404
+	Z	15
+}
+
+Item
+{
+	Name	The Barnacle
+	ObjType	0x0bc4
+	X	2474
+	Y	405
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2496
+	Y	379
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2501
+	Y	377
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2501
+	Y	389
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9a
+	X	2500
+	Y	391
+	Z	10
+}
+
+Item
+{
+	Name	Counselor's Guild
+	ObjType	0x0bd2
+	X	2499
+	Y	390
+	Z	-1
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2516
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	2517
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2521
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	2522
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2526
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	2527
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2531
+	Y	374
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	2532
+	Y	374
+	Z	23
+}
+
+Item
+{
+	Name	Stables
+	ObjType	0x0bb8
+	X	2521
+	Y	379
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	2555
+	Y	501
+	Z	1
+}
+
+Item
+{
+#!	Name	Cave Entrance1F29
+	Name	Cave Entrance
+	ObjType	0x09fb
+	X	501
+	Y	4
+	Z	1
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	2603
+	Y	501
+	Z	0
+}
+
+Item
+{
+	Name	Path to Mt. Kendall
+	ObjType	0x1f29
+	X	2603
+	Y	501
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	2583
+	Y	527
+	Z	15
+}
+
+Item
+{
+	Name	Mining Camp
+	ObjType	0x1f29
+	X	2583
+	Y	527
+	Z	19
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x1f29
+	X	4403
+	Y	1050
+	Z	3
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	4403
+	Y	1050
+	Z	-1
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	4423
+	Y	1064
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	4423
+	Y	1063
+	Z	0
+}
+
+Item
+{
+	Name	The Scholar's Goods
+	ObjType	0x0bcb
+	X	4424
+	Y	1062
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0931
+	X	4384
+	Y	1056
+	Z	0
+}
+
+Item
+{
+	Name	Mage's Bread
+	ObjType	0x0ba4
+	X	4390
+	Y	1072
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4391
+	Y	1071
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bac
+	X	4396
+	Y	1088
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4397
+	Y	1087
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4415
+	Y	1095
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	4416
+	Y	1095
+	Z	0
+}
+
+Item
+{
+	Name	The Mage's Seat
+	ObjType	0x0bb0
+	X	4414
+	Y	1096
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	4455
+	Y	1060
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	4456
+	Y	1071
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4455
+	Y	1071
+	Z	0
+}
+
+Item
+{
+	Name	Scholar's Cut
+	ObjType	0x0ba6
+	X	4459
+	Y	1072
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4485
+	Y	1071
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4487
+	Y	1064
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4484
+	Y	1059
+	Z	0
+}
+
+Item
+{
+	Name	Moonglow's Student Hostel
+	ObjType	0x0bb4
+	X	4483
+	Y	1072
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4479
+	Y	1063
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	4480
+	Y	1091
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4479
+	Y	1091
+	Z	0
+}
+
+Item
+{
+	Name	Fruits and Vegetables
+	ObjType	0x0bcc
+	X	4478
+	Y	1092
+	Z	0
+}
+
+Item
+{
+	Name	Guild of Arcane Arts
+	ObjType	0x0be8
+	X	4451
+	Y	1096
+	Z	0
+}
+
+Item
+{
+	Name	Moonglow's Academy of Arts
+	ObjType	0x0bc9
+	X	4528
+	Y	1069
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4549
+	Y	1045
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4551
+	Y	1047
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4553
+	Y	1048
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17e5
+	X	4449
+	Y	1107
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17dc
+	X	4449
+	Y	1115
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17e5
+	X	4436
+	Y	1107
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x17ee
+	X	4443
+	Y	1137
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	4423
+	Y	1112
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	4423
+	Y	1111
+	Z	0
+}
+
+Item
+{
+	Name	Moonglow Reagent Shop
+	ObjType	0x0bc5
+	X	4424
+	Y	1108
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4399
+	Y	1117
+	Z	0
+}
+
+Item
+{
+	Name	Weapons
+	ObjType	0x0bd9
+	X	4400
+	Y	1115
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	4399
+	Y	1134
+	Z	0
+}
+
+Item
+{
+	Name	The Fatted Calf
+	ObjType	0x0ba9
+	X	4400
+	Y	1132
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4421
+	Y	1135
+	Z	0
+}
+
+Item
+{
+	Name	Herbal Splendor
+	ObjType	0x0bd2
+	X	4419
+	Y	1136
+	Z	0
+}
+
+Item
+{
+	Name	Counselor's Guild Hall
+	ObjType	0x0bd2
+	X	4477
+	Y	1130
+	Z	0
+}
+
+Item
+{
+	Name	Merchants' Guild
+	ObjType	0x0c0a
+	X	4469
+	Y	1176
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	4440
+	Y	1167
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4439
+	Y	1167
+	Z	0
+}
+
+Item
+{
+	Name	Second Defense
+	ObjType	0x0bc8
+	X	4436
+	Y	1168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4388
+	Y	1153
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4388
+	Y	1159
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4388
+	Y	1165
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4388
+	Y	1171
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	4402
+	Y	1159
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	4404
+	Y	1167
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	4403
+	Y	1167
+	Z	0
+}
+
+Item
+{
+	Name	The Scholar's Inn
+	ObjType	0x0bb4
+	X	4407
+	Y	1168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	4300
+	Y	968
+	Z	5
+}
+
+Item
+{
+	Name	Lycaeum
+	ObjType	0x0bd1
+	X	4314
+	Y	1012
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4306
+	Y	932
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4309
+	Y	929
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4315
+	Y	928
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4323
+	Y	928
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4288
+	Y	928
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4280
+	Y	928
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4528
+	Y	946
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4528
+	Y	938
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	4529
+	Y	938
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	4540
+	Y	943
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	4540
+	Y	942
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4541
+	Y	941
+	Z	18
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4556
+	Y	922
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	4556
+	Y	921
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4564
+	Y	921
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	4561
+	Y	933
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	4560
+	Y	933
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4559
+	Y	934
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	4540
+	Y	898
+	Z	32
+}
+
+Item
+{
+	Name	Encyclopedia Magicka
+	ObjType	0x0be8
+	X	4547
+	Y	872
+	Z	26
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4431
+	Y	1202
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4432
+	Y	1204
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4431
+	Y	1213
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4431
+	Y	1217
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4432
+	Y	1212
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4432
+	Y	1218
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4431
+	Y	1229
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4432
+	Y	1228
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4415
+	Y	1224
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4415
+	Y	1222
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4416
+	Y	1226
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4416
+	Y	1221
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4415
+	Y	1206
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4415
+	Y	1208
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4416
+	Y	1205
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4416
+	Y	1210
+	Z	0
+}
+
+Item
+{
+	Name	Wooden Sign
+	ObjType	0x0bd0
+	X	4400
+	Y	1202
+	Z	0
+}
+
+Item
+{
+	Name	Wooden Sign
+	ObjType	0x0bd0
+	X	4400
+	Y	1210
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4399
+	Y	1203
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4399
+	Y	1211
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4399
+	Y	1219
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4399
+	Y	1227
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4400
+	Y	1218
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4400
+	Y	1226
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a7c
+	X	4470
+	Y	1219
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4485
+	Y	1217
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4484
+	Y	1230
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1216
+	X	4619
+	Y	1203
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1216
+	X	4627
+	Y	1207
+	Z	20
+}
+
+Item
+{
+	Name	Masters of Illusion
+	ObjType	0x0beb
+	X	4632
+	Y	1200
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4650
+	Y	1223
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4649
+	Y	1224
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4684
+	Y	1232
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4683
+	Y	1233
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4689
+	Y	1221
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a7c
+	X	4681
+	Y	1173
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4686
+	Y	1175
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4688
+	Y	1183
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	4689
+	Y	1183
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4687
+	Y	1184
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	4663
+	Y	1134
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	4705
+	Y	1125
+	Z	0
+}
+
+Item
+{
+	Name	Moonglow's Telescope
+	ObjType	0x1f29
+	X	4705
+	Y	1125
+	Z	4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	4627
+	Y	1291
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	4643
+	Y	1317
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0870
+	X	4643
+	Y	1316
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4629
+	Y	1327
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4637
+	Y	1327
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4636
+	Y	1328
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084e
+	X	4546
+	Y	1335
+	Z	8
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084c
+	X	4545
+	Y	1335
+	Z	8
+}
+
+Item
+{
+	Name	Moonglow's Cemetery
+	ObjType	0x0bd1
+	X	4548
+	Y	1336
+	Z	8
+}
+
+Item
+{
+	Name	Moonglow's Zoo
+	ObjType	0x0bd1
+	X	4537
+	Y	1376
+	Z	23
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	4559
+	Y	1492
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4557
+	Y	1503
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4556
+	Y	1504
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	4570
+	Y	1481
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	4571
+	Y	1481
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x1809
+	X	4496
+	Y	1475
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x092b
+	X	4408
+	Y	1466
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	4413
+	Y	1461
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	4423
+	Y	1462
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	4424
+	Y	1461
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	4669
+	Y	1399
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	4668
+	Y	1400
+	Z	0
+}
+
+Item
+{
+	Name	Guild of Sorcerery
+	ObjType	0x0bea
+	X	4686
+	Y	1423
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	3009
+	Y	3538
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2935
+	Y	3508
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2933
+	Y	3511
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2932
+	Y	3511
+	Z	10
+}
+
+Item
+{
+	Name	Tinker
+	ObjType	0x0ba8
+	X	2931
+	Y	3512
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b44
+	X	2899
+	Y	3520
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	2911
+	Y	3522
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	2911
+	Y	3522
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0870
+	X	2911
+	Y	3521
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2911
+	Y	3516
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2911
+	Y	3515
+	Z	10
+}
+
+Item
+{
+	Name	Island Stables
+	ObjType	0x0bb7
+	X	2912
+	Y	3517
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2910
+	Y	3483
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2908
+	Y	3495
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2907
+	Y	3495
+	Z	10
+}
+
+Item
+{
+	Name	Serpent's Hold Meats
+	ObjType	0x0baa
+	X	2909
+	Y	3496
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2879
+	Y	3508
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x00a7
+	X	2879
+	Y	3498
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	2879
+	Y	3499
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2879
+	Y	3500
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	2887
+	Y	3503
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2887
+	Y	3504
+	Z	10
+}
+
+Item
+{
+	Name	Silver Serpent's Tailors
+	ObjType	0x0ba5
+	X	2888
+	Y	3502
+	Z	10
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2890
+	Y	3479
+	Z	15
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	2963
+	Y	3480
+	Z	15
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2968
+	Y	3441
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2972
+	Y	3415
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2971
+	Y	3431
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2972
+	Y	3431
+	Z	15
+}
+
+Item
+{
+	Name	The Dog and Lion Pub
+	ObjType	0x0bc4
+	X	2970
+	Y	3432
+	Z	15
+}
+
+Item
+{
+	Name	The Broken Arrow Inn
+	ObjType	0x0bb3
+	X	2976
+	Y	3406
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2972
+	Y	3405
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2972
+	Y	3409
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2965
+	Y	3405
+	Z	35
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2965
+	Y	3409
+	Z	35
+}
+
+Item
+{
+	Name	The Broken Arrow Inn
+	ObjType	0x0bb3
+	X	2976
+	Y	3410
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2975
+	Y	3408
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2975
+	Y	3407
+	Z	15
+}
+
+Item
+{
+	Name	Tavern
+	ObjType	0x0bc4
+	X	3011
+	Y	3464
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3012
+	Y	3463
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3013
+	Y	3463
+	Z	15
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd0
+	X	2984
+	Y	3449
+	Z	16
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	3027
+	Y	3467
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	3027
+	Y	3467
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	3041
+	Y	3467
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0870
+	X	3041
+	Y	3466
+	Z	15
+}
+
+Item
+{
+	Name	Stables
+	ObjType	0x0bb7
+	X	3042
+	Y	3462
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3051
+	Y	3423
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3050
+	Y	3424
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	3035
+	Y	3431
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3037
+	Y	3432
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3014
+	Y	3426
+	Z	15
+}
+
+Item
+{
+	Name	Serpent Arms
+	ObjType	0x0bd9
+	X	3024
+	Y	3430
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3023
+	Y	3432
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3023
+	Y	3431
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2995
+	Y	3439
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2996
+	Y	3439
+	Z	15
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bac
+	X	2994
+	Y	3440
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3006
+	Y	3415
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x00c8
+	X	3008
+	Y	3415
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3007
+	Y	3415
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	3005
+	Y	3417
+	Z	20
+}
+
+Item
+{
+	Name	Blacksmith
+	ObjType	0x0bc0
+	X	3004
+	Y	3416
+	Z	9
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3058
+	Y	3391
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3055
+	Y	3407
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3056
+	Y	3407
+	Z	15
+}
+
+Item
+{
+	Name	Warriors' Guild
+	ObjType	0x0c04
+	X	3054
+	Y	3408
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3003
+	Y	3386
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3015
+	Y	3388
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3015
+	Y	3387
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a15
+	X	3016
+	Y	3389
+	Z	24
+}
+
+Item
+{
+	Name	Provisioner
+	ObjType	0x0bcb
+	X	3016
+	Y	3386
+	Z	15
+}
+
+Item
+{
+	Name	City Gate
+	ObjType	0x0bd1
+	X	2975
+	Y	3384
+	Z	15
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2952
+	Y	3369
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	2943
+	Y	3392
+	Z	15
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x1f29
+	X	2943
+	Y	3392
+	Z	19
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2898
+	Y	3409
+	Z	35
+}
+
+Item
+{
+	Name	Counselors' Guild
+	ObjType	0x0bd1
+	X	2968
+	Y	3367
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2976
+	Y	3359
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2975
+	Y	3359
+	Z	15
+}
+
+Item
+{
+	Name	Bakery
+	ObjType	0x0ba4
+	X	2977
+	Y	3360
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3003
+	Y	3359
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3004
+	Y	3359
+	Z	15
+}
+
+Item
+{
+	Name	Mage Shop
+	ObjType	0x0bae
+	X	3005
+	Y	3360
+	Z	15
+}
+
+Item
+{
+	Name	Reagent Shop
+	ObjType	0x0bc6
+	X	3009
+	Y	3360
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3011
+	Y	3359
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3012
+	Y	3359
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	3016
+	Y	3349
+	Z	15
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bab
+	X	3016
+	Y	3349
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3015
+	Y	3348
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3015
+	Y	3347
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	3027
+	Y	3360
+	Z	15
+}
+
+Item
+{
+	Name	Barracks
+	ObjType	0x0c04
+	X	3027
+	Y	3360
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	3053
+	Y	3364
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x00ad
+	X	3050
+	Y	3375
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0a15
+	X	3052
+	Y	3376
+	Z	19
+}
+
+Item
+{
+	Name	Bowyer
+	ObjType	0x0bce
+	X	3050
+	Y	3376
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	3051
+	Y	3375
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	3052
+	Y	3375
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3051
+	Y	3351
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3050
+	Y	3352
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3058
+	Y	3351
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3059
+	Y	3351
+	Z	15
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	3061
+	Y	3352
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3765
+	Y	1255
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3764
+	Y	1255
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3765
+	Y	1255
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3764
+	Y	1255
+	Z	0
+}
+
+Item
+{
+	Name	Tailor
+	ObjType	0x0ba5
+	X	3784
+	Y	1264
+	Z	0
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd1
+	X	3800
+	Y	1273
+	Z	9
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0161
+	X	3798
+	Y	1272
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3800
+	Y	1273
+	Z	9
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	3764
+	Y	1320
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	3763
+	Y	1320
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	3767
+	Y	1315
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	3767
+	Y	1314
+	Z	0
+}
+
+Item
+{
+	Name	Bank
+	ObjType	0x0bd2
+	X	3768
+	Y	1313
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3720
+	Y	1351
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0161
+	X	3719
+	Y	1351
+	Z	0
+}
+
+Item
+{
+	Name	Chess Board
+	ObjType	0x0bd1
+	X	3720
+	Y	1351
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3709
+	Y	1382
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3719
+	Y	1382
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3719
+	Y	1381
+	Z	0
+}
+
+Item
+{
+	Name	Merchant's Association
+	ObjType	0x0c09
+	X	3720
+	Y	1380
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	3727
+	Y	1399
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3731
+	Y	1395
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3731
+	Y	1396
+	Z	0
+}
+
+Item
+{
+	Name	Nujel'm Jail
+	ObjType	0x0bd1
+	X	3732
+	Y	1394
+	Z	0
+}
+
+Item
+{
+	Name	Restful Slumber
+	ObjType	0x0bb3
+	X	3740
+	Y	1314
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x092c
+	X	3728
+	Y	1337
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x092c
+	X	3728
+	Y	1335
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3729
+	Y	1322
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3728
+	Y	1322
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3729
+	Y	1308
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3728
+	Y	1308
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3739
+	Y	1304
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3743
+	Y	1299
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3739
+	Y	1299
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3739
+	Y	1292
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3743
+	Y	1294
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3739
+	Y	1316
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3739
+	Y	1315
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3695
+	Y	1280
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3695
+	Y	1279
+	Z	20
+}
+
+Item
+{
+	Name	The Great Palace
+	ObjType	0x0bd2
+	X	3722
+	Y	1276
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3678
+	Y	1316
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3677
+	Y	1316
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3684
+	Y	1315
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3683
+	Y	1315
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3693
+	Y	1315
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3692
+	Y	1315
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3682
+	Y	1239
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3682
+	Y	1240
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3688
+	Y	1237
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3688
+	Y	1240
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3690
+	Y	1239
+	Z	0
+}
+
+Item
+{
+	Name	Palace Gardens
+	ObjType	0x0bd2
+	X	3670
+	Y	1330
+	Z	0
+}
+
+Item
+{
+	Name	The Silver Bow
+	ObjType	0x0bc4
+	X	3748
+	Y	1256
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3765
+	Y	1235
+	Z	0
+}
+
+Item
+{
+	Name	Mystical Spirits
+	ObjType	0x0bc3
+	X	3784
+	Y	1231
+	Z	-1
+}
+
+Item
+{
+	Name	Counselors' Guild
+	ObjType	0x0bd2
+	X	3776
+	Y	1196
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3778
+	Y	1195
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3777
+	Y	1195
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3771
+	Y	1202
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3771
+	Y	1201
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3776
+	Y	1162
+	Z	0
+}
+
+Item
+{
+	Name	Jewler
+	ObjType	0x0bc2
+	X	3778
+	Y	1176
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3770
+	Y	1125
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3780
+	Y	1135
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3779
+	Y	1135
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3778
+	Y	1136
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3747
+	Y	1189
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3747
+	Y	1195
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3743
+	Y	1193
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3743
+	Y	1192
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3747
+	Y	1201
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3740
+	Y	1206
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3739
+	Y	1206
+	Z	0
+}
+
+Item
+{
+	Name	Conservatory
+	ObjType	0x0bbc
+	X	3743
+	Y	1207
+	Z	0
+}
+
+Item
+{
+	Name	Theater
+	ObjType	0x0c0d
+	X	3752
+	Y	1239
+	Z	3
+}
+
+Item
+{
+	Name	Customs
+	ObjType	0x0bd1
+	X	3705
+	Y	1214
+	Z	11
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3719
+	Y	1228
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3719
+	Y	1227
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3703
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3703
+	Y	1214
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3720
+	Y	1224
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	3700
+	Y	1186
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	3681
+	Y	1192
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	3665
+	Y	1188
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	3662
+	Y	1224
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	3656
+	Y	1238
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3626
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3627
+	Y	1215
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3629
+	Y	1216
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3631
+	Y	1229
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3631
+	Y	1228
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3632
+	Y	1231
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3628
+	Y	1247
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3627
+	Y	1247
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3628
+	Y	1248
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3623
+	Y	1253
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3623
+	Y	1252
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3624
+	Y	1255
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3623
+	Y	1260
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3623
+	Y	1261
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3624
+	Y	1263
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3623
+	Y	1267
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3623
+	Y	1268
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3624
+	Y	1266
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3612
+	Y	1263
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3611
+	Y	1263
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3612
+	Y	1264
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3596
+	Y	1239
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3595
+	Y	1239
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3603
+	Y	1239
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3602
+	Y	1239
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3601
+	Y	1240
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3599
+	Y	1227
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3599
+	Y	1226
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3600
+	Y	1225
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3595
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3596
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3602
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3603
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3611
+	Y	1215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3612
+	Y	1215
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3610
+	Y	1216
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3601
+	Y	1216
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3594
+	Y	1216
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3599
+	Y	1204
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3599
+	Y	1197
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3599
+	Y	1196
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3599
+	Y	1203
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3600
+	Y	1199
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3600
+	Y	1204
+	Z	13
+}
+
+Item
+{
+	Name	Butcher
+	ObjType	0x0ba9
+	X	3560
+	Y	1173
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3552
+	Y	1176
+	Z	0
+}
+
+Item
+{
+	Name	Tanner Shop
+	ObjType	0x0bcf
+	X	3552
+	Y	1176
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3552
+	Y	1184
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3552
+	Y	1192
+	Z	0
+}
+
+Item
+{
+	Name	Bowyer Shop
+	ObjType	0x0bcd
+	X	3552
+	Y	1192
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3561
+	Y	1202
+	Z	9
+}
+
+Item
+{
+	Name	Blacksmith's Shop
+	ObjType	0x0bbf
+	X	3560
+	Y	1201
+	Z	-2
+}
+
+Item
+{
+	Name	Weapons Shop
+	ObjType	0x0bd9
+	X	3552
+	Y	1184
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084e
+	X	3537
+	Y	1152
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x084c
+	X	3536
+	Y	1152
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0161
+	X	3534
+	Y	1157
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b99
+	X	3535
+	Y	1157
+	Z	18
+}
+
+Item
+{
+	Name	Nujel'm Cemetery
+	ObjType	0x0bd1
+	X	3535
+	Y	1157
+	Z	18
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3650
+	Y	1175
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3651
+	Y	1175
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3653
+	Y	1176
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3663
+	Y	1172
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3663
+	Y	1171
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3664
+	Y	1172
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3655
+	Y	1163
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3655
+	Y	1162
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3656
+	Y	1163
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3675
+	Y	1151
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3676
+	Y	1151
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3671
+	Y	1157
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3671
+	Y	1156
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3676
+	Y	1152
+	Z	13
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3672
+	Y	1159
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3692
+	Y	1167
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3693
+	Y	1167
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3695
+	Y	1168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3691
+	Y	1135
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3690
+	Y	1135
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3693
+	Y	1136
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3669
+	Y	1133
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3668
+	Y	1133
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3679
+	Y	1132
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3679
+	Y	1131
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3675
+	Y	1135
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3676
+	Y	1135
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3676
+	Y	1136
+	Z	13
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3666
+	Y	1134
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3655
+	Y	1140
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3655
+	Y	1149
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3655
+	Y	1139
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3655
+	Y	1148
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3656
+	Y	1140
+	Z	13
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3656
+	Y	1145
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3655
+	Y	1124
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3655
+	Y	1123
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3653
+	Y	1116
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3653
+	Y	1115
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3654
+	Y	1116
+	Z	13
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3656
+	Y	1124
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3659
+	Y	1103
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3658
+	Y	1103
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3659
+	Y	1104
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3671
+	Y	1109
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3671
+	Y	1108
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3671
+	Y	1100
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3671
+	Y	1099
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3672
+	Y	1106
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3672
+	Y	1102
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3687
+	Y	1117
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3687
+	Y	1116
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3691
+	Y	1111
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3692
+	Y	1111
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3688
+	Y	1119
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3684
+	Y	1111
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3685
+	Y	1111
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3695
+	Y	1108
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3695
+	Y	1107
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3696
+	Y	1110
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3687
+	Y	1099
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3687
+	Y	1098
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3688
+	Y	1099
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3663
+	Y	1075
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3663
+	Y	1074
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3664
+	Y	1073
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3660
+	Y	1063
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3661
+	Y	1063
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3661
+	Y	1064
+	Z	13
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3669
+	Y	1063
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3668
+	Y	1063
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3665
+	Y	1064
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3680
+	Y	1079
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3680
+	Y	1070
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3679
+	Y	1077
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3679
+	Y	1076
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3679
+	Y	1068
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3679
+	Y	1067
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3679
+	Y	1061
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3679
+	Y	1060
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3680
+	Y	1063
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9c
+	X	3646
+	Y	2647
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x00ee
+	X	3646
+	Y	2646
+	Z	0
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd0
+	X	3647
+	Y	2648
+	Z	11
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3631
+	Y	2635
+	Z	0
+}
+
+Item
+{
+	Name	Anchors Aweigh
+	ObjType	0x0bb2
+	X	3634
+	Y	2648
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3636
+	Y	2647
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3635
+	Y	2647
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3666
+	Y	2639
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3667
+	Y	2647
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3668
+	Y	2655
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3667
+	Y	2655
+	Z	0
+}
+
+Item
+{
+#!	Name	The AlbatrossBC4
+	Name	The Albatross
+	ObjType	0x0e51
+	X	2657
+	Y	4
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3710
+	Y	2651
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3719
+	Y	2651
+	Z	20
+}
+
+Item
+{
+	Name	Sweet Meat
+	ObjType	0x0ba9
+	X	3720
+	Y	2650
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3738
+	Y	2679
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3743
+	Y	2683
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3739
+	Y	2695
+	Z	40
+}
+
+Item
+{
+#!	Name	Farm for SaleBCF
+	Name	Farm for Sale
+	ObjType	0x0e9d
+	X	2696
+	Y	40
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3731
+	Y	2639
+	Z	40
+}
+
+Item
+{
+#!	Name	Farm for SaleBCF
+	Name	Farm for Sale
+	ObjType	0x0e95
+	X	2640
+	Y	40
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3707
+	Y	2591
+	Z	20
+}
+
+Item
+{
+#!	Name	Farm for SaleBCF
+	Name	Farm for Sale
+	ObjType	0x0e7d
+	X	2592
+	Y	20
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3739
+	Y	2567
+	Z	40
+}
+
+Item
+{
+#!	Name	Farm for SaleBCF
+	Name	Farm for Sale
+	ObjType	0x0e9a
+	X	2568
+	Y	40
+	Z	40
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3669
+	Y	2610
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3673
+	Y	2609
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3673
+	Y	2615
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3669
+	Y	2615
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3673
+	Y	2620
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3668
+	Y	2623
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3667
+	Y	2623
+	Z	0
+}
+
+Item
+{
+	Name	The Bountiful Harvest
+	ObjType	0x0bb4
+	X	3670
+	Y	2624
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3631
+	Y	2604
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3628
+	Y	2615
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3627
+	Y	2615
+	Z	0
+}
+
+Item
+{
+	Name	Island Sanctuary
+	ObjType	0x0bac
+	X	3625
+	Y	2616
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3599
+	Y	2603
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3607
+	Y	2613
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3607
+	Y	2612
+	Z	0
+}
+
+Item
+{
+	Name	Better Leather Tannery
+	ObjType	0x0bd0
+	X	3608
+	Y	2615
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3637
+	Y	2595
+	Z	0
+}
+
+Item
+{
+	Name	Hammer and Steel Smithy
+	ObjType	0x0bc0
+	X	3647
+	Y	2600
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3647
+	Y	2596
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3647
+	Y	2595
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3671
+	Y	2587
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3667
+	Y	2583
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3659
+	Y	2591
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3658
+	Y	2591
+	Z	0
+}
+
+Item
+{
+#	Name	A Stitch in Time
+	ObjType	0x0ba6
+	X	3656
+	Y	2592
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3635
+	Y	2567
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3635
+	Y	2583
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3636
+	Y	2583
+	Z	0
+}
+
+Item
+{
+	Name	Last Chance Provisioners
+	ObjType	0x0bcc
+	X	3634
+	Y	2584
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3619
+	Y	2575
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3607
+	Y	2572
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3604
+	Y	2583
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3603
+	Y	2583
+	Z	0
+}
+
+Item
+{
+	Name	Now you're Cookin'
+	ObjType	0x0ba4
+	X	3602
+	Y	2584
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3627
+	Y	2535
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3631
+	Y	2547
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	3631
+	Y	2540
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	3631
+	Y	2539
+	Z	0
+}
+
+Item
+{
+	Name	Guild of Sorcery
+	ObjType	0x0be9
+	X	3632
+	Y	2537
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3671
+	Y	2531
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3661
+	Y	2535
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3660
+	Y	2535
+	Z	0
+}
+
+Item
+{
+	Name	Bardic Collegium
+	ObjType	0x0bdc
+	X	3658
+	Y	2536
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3667
+	Y	2503
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3668
+	Y	2511
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3667
+	Y	2511
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3666
+	Y	2512
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	3690
+	Y	2520
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3692
+	Y	2519
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3691
+	Y	2519
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3639
+	Y	2499
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3643
+	Y	2511
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3642
+	Y	2511
+	Z	0
+}
+
+Item
+{
+	Name	Paint and More
+	ObjType	0x0bca
+	X	3646
+	Y	2512
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3611
+	Y	2503
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3607
+	Y	2507
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3615
+	Y	2508
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	3615
+	Y	2507
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	3616
+	Y	2506
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3611
+	Y	2468
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3620
+	Y	2479
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3619
+	Y	2479
+	Z	0
+}
+
+Item
+{
+	Name	Ocllo Public Library
+	ObjType	0x0b96
+	X	3617
+	Y	2480
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3647
+	Y	2467
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3652
+	Y	2479
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3651
+	Y	2479
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	3650
+	Y	2480
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3681
+	Y	2475
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	3677
+	Y	2479
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	3676
+	Y	2479
+	Z	0
+}
+
+Item
+{
+	Name	First Academy of Music
+	ObjType	0x0c0e
+	X	3675
+	Y	2480
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x00cc
+	X	637
+	Y	2225
+	Z	-2
+}
+
+Item
+{
+	Name	Final Aegis
+	ObjType	0x0bac
+	X	621
+	Y	2224
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	595
+	Y	2245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	595
+	Y	2249
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	600
+	Y	2245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	600
+	Y	2249
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	619
+	Y	2249
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	619
+	Y	2245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	612
+	Y	2245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	612
+	Y	2249
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	607
+	Y	2249
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	615
+	Y	2235
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	615
+	Y	2234
+	Z	0
+}
+
+Item
+{
+	Name	The Falconer's Inn
+	ObjType	0x0bb3
+	X	616
+	Y	2232
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	615
+	Y	2219
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	629
+	Y	2214
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	628
+	Y	2214
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	624
+	Y	2223
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	623
+	Y	2223
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	614
+	Y	2273
+	Z	0
+}
+
+Item
+{
+	Name	Dock
+	ObjType	0x1f29
+	X	614
+	Y	2273
+	Z	3
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	599
+	Y	2274
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	607
+	Y	2275
+	Z	0
+}
+
+Item
+{
+	Name	Superior Ships
+	ObjType	0x0bb1
+	X	608
+	Y	2273
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	578
+	Y	2231
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	591
+	Y	2227
+	Z	0
+}
+
+Item
+{
+	Name	Sundry Supplies
+	ObjType	0x0bcb
+	X	592
+	Y	2225
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	551
+	Y	2211
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	559
+	Y	2207
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	555
+	Y	2215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	563
+	Y	2215
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	560
+	Y	2207
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	575
+	Y	2212
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	575
+	Y	2211
+	Z	0
+}
+
+Item
+{
+	Name	Skara Brae Town Hall
+	ObjType	0x0bd1
+	X	576
+	Y	2209
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	599
+	Y	2202
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	599
+	Y	2211
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	595
+	Y	2215
+	Z	0
+}
+
+Item
+{
+	Name	The Bloody Bowman
+	ObjType	0x0bcd
+	X	600
+	Y	2209
+	Z	0
+}
+
+Item
+{
+	Name	The Bloody Bowman
+	ObjType	0x0bce
+	X	593
+	Y	2216
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	623
+	Y	2195
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	631
+	Y	2187
+	Z	0
+}
+
+Item
+{
+	Name	On Guard Armoury
+	ObjType	0x0bc7
+	X	632
+	Y	2185
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	647
+	Y	2178
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	650
+	Y	2191
+	Z	0
+}
+
+Item
+{
+	Name	Shear Pleasure
+	ObjType	0x0ba6
+	X	648
+	Y	2192
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	602
+	Y	2183
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	611
+	Y	2183
+	Z	0
+}
+
+Item
+{
+	Name	Mage's Menagerie
+	ObjType	0x0bae
+	X	609
+	Y	2184
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	591
+	Y	2188
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	591
+	Y	2187
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	579
+	Y	2191
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	580
+	Y	2191
+	Z	0
+}
+
+Item
+{
+	Name	Bountiful Meats
+	ObjType	0x0ba9
+	X	592
+	Y	2185
+	Z	0
+}
+
+Item
+{
+	Name	Bountiful Meats
+	ObjType	0x0baa
+	X	582
+	Y	2192
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	567
+	Y	2170
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	567
+	Y	2180
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	567
+	Y	2179
+	Z	0
+}
+
+Item
+{
+	Name	The Shattered Skull
+	ObjType	0x0bc3
+	X	568
+	Y	2177
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	591
+	Y	2162
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	591
+	Y	2172
+	Z	0
+}
+
+Item
+{
+	Name	More Than Just Mail
+	ObjType	0x0bc7
+	X	592
+	Y	2170
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	615
+	Y	2156
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06df
+	X	615
+	Y	2155
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	611
+	Y	2167
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	612
+	Y	2167
+	Z	0
+}
+
+Item
+{
+	Name	Farmer's Market
+	ObjType	0x0bd0
+	X	610
+	Y	2168
+	Z	0
+}
+
+Item
+{
+	Name	Farmer's Market
+	ObjType	0x0bcf
+	X	616
+	Y	2154
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	627
+	Y	2167
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	635
+	Y	2167
+	Z	0
+}
+
+Item
+{
+	Name	Builder's Delight
+	ObjType	0x0bb0
+	X	633
+	Y	2168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	650
+	Y	2159
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	650
+	Y	2167
+	Z	0
+}
+
+Item
+{
+	Name	Gore Galore
+	ObjType	0x0bda
+	X	648
+	Y	2168
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	668
+	Y	2143
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	658
+	Y	2143
+	Z	0
+}
+
+Item
+{
+	Name	Mystic Treasure
+	ObjType	0x0bc6
+	X	656
+	Y	2144
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	623
+	Y	2114
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd1
+	X	624
+	Y	2112
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	620
+	Y	2143
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	619
+	Y	2143
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	617
+	Y	2144
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	586
+	Y	2143
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	597
+	Y	2151
+	Z	0
+}
+
+Item
+{
+#!	Name	The Honey PotC44
+	Name	The Honey Pot
+	ObjType	0x0253
+	X	2152
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	563
+	Y	2143
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	575
+	Y	2148
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	575
+	Y	2147
+	Z	0
+}
+
+Item
+{
+	Name	League of Rangers
+	ObjType	0x0bef
+	X	576
+	Y	2145
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	570
+	Y	2119
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	580
+	Y	2127
+	Z	0
+}
+
+Item
+{
+	Name	Beasts of Burden
+	ObjType	0x0bd2
+	X	578
+	Y	2128
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x083b
+	X	557
+	Y	2127
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0839
+	X	556
+	Y	2127
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x01d2
+	X	560
+	Y	2127
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9b
+	X	562
+	Y	2128
+	Z	9
+}
+
+Item
+{
+	Name	The Skara Brae Stables
+	ObjType	0x0bcf
+	X	562
+	Y	2128
+	Z	9
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9c
+	X	637
+	Y	2226
+	Z	-4
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bd0
+	X	637
+	Y	2226
+	Z	-4
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	1815
+	Y	2830
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	1816
+	Y	2830
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	1810
+	Y	2824
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	1811
+	Y	2824
+	Z	0
+}
+
+Item
+{
+	Name	Bank of Britannia: Trinsic Branch
+	ObjType	0x0c0b
+	X	1819
+	Y	2825
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1819
+	Y	2806
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1819
+	Y	2805
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	1820
+	Y	2809
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1854
+	Y	2799
+	Z	-8
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1853
+	Y	2799
+	Z	-8
+}
+
+Item
+{
+	Name	Britannia Provisions
+	ObjType	0x0bcc
+	X	1851
+	Y	2800
+	Z	-8
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1846
+	Y	2828
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1846
+	Y	2827
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1849
+	Y	2826
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1856
+	Y	2826
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1852
+	Y	2836
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1853
+	Y	2836
+	Z	10
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	1855
+	Y	2837
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1889
+	Y	2829
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1894
+	Y	2829
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1892
+	Y	2841
+	Z	30
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	1896
+	Y	2842
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1896
+	Y	2806
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1899
+	Y	2810
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1898
+	Y	2810
+	Z	0
+}
+
+Item
+{
+	Name	The Pearl of Trinsic
+	ObjType	0x0bc2
+	X	1901
+	Y	2814
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1916
+	Y	2812
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1915
+	Y	2812
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bac
+	X	1914
+	Y	2813
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	1884
+	Y	2813
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b7
+	X	1885
+	Y	2813
+	Z	10
+}
+
+Item
+{
+	Name	Baked Delights
+	ObjType	0x0ba4
+	X	1881
+	Y	2814
+	Z	6
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	1842
+	Y	2758
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	1842
+	Y	2757
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0176
+	X	1842
+	Y	2759
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1845
+	Y	2760
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1851
+	Y	2760
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x068d
+	X	1857
+	Y	2758
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x068d
+	X	1857
+	Y	2764
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1856
+	Y	2770
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1844
+	Y	2762
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1849
+	Y	2762
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1854
+	Y	2762
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	1859
+	Y	2762
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	1857
+	Y	2766
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1851
+	Y	2775
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1852
+	Y	2775
+	Z	0
+}
+
+Item
+{
+	Name	The Trinsic Jail
+	ObjType	0x0bd2
+	X	1850
+	Y	2777
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0167
+	X	1890
+	Y	2774
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9c
+	X	1891
+	Y	2776
+	Z	10
+}
+
+Item
+{
+	Name	Trinsic Gardens
+	ObjType	0x0bd2
+	X	1890
+	Y	2775
+	Z	-1
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1836
+	Y	2732
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1841
+	Y	2732
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1836
+	Y	2737
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1846
+	Y	2732
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1851
+	Y	2732
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1853
+	Y	2737
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1843
+	Y	2743
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1844
+	Y	2743
+	Z	0
+}
+
+Item
+{
+	Name	The Traveller's Inn
+	ObjType	0x0bb4
+	X	1841
+	Y	2744
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	1821
+	Y	2731
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1820
+	Y	2733
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1824
+	Y	2733
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1820
+	Y	2736
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1823
+	Y	2737
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1820
+	Y	2739
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1823
+	Y	2741
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	1820
+	Y	2742
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	1824
+	Y	2731
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1827
+	Y	2736
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	1827
+	Y	2735
+	Z	0
+}
+
+Item
+{
+	Name	Trinsic Stablery
+	ObjType	0x0bb7
+	X	1828
+	Y	2743
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1810
+	Y	2715
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1811
+	Y	2715
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	1814
+	Y	2716
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1846
+	Y	2709
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1843
+	Y	2714
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1851
+	Y	2712
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1851
+	Y	2711
+	Z	10
+}
+
+Item
+{
+	Name	Encyclopedia Magicka
+	ObjType	0x0be7
+	X	1852
+	Y	2709
+	Z	10
+}
+
+Item
+{
+	Name	Meeting Hall
+	ObjType	0x0bd1
+	X	1912
+	Y	2713
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1896
+	Y	2683
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	1898
+	Y	2686
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1897
+	Y	2686
+	Z	30
+}
+
+Item
+{
+	Name	The British Grille
+	ObjType	0x0be3
+	X	1904
+	Y	2686
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1903
+	Y	2688
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1903
+	Y	2687
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1827
+	Y	2684
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1828
+	Y	2684
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	1831
+	Y	2685
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1849
+	Y	2678
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1858
+	Y	2687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1857
+	Y	2687
+	Z	0
+}
+
+Item
+{
+	Name	The Order of Engineers
+	ObjType	0x0c02
+	X	1855
+	Y	2688
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1841
+	Y	2687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1842
+	Y	2687
+	Z	0
+}
+
+Item
+{
+	Name	The Order of Engineers
+	ObjType	0x0c02
+	X	1844
+	Y	2688
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1867
+	Y	2655
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1868
+	Y	2655
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	1871
+	Y	2656
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1896
+	Y	2663
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1895
+	Y	2663
+	Z	0
+}
+
+Item
+{
+	Name	Shining Path Armoury
+	ObjType	0x0bc8
+	X	1899
+	Y	2664
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1940
+	Y	2693
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1939
+	Y	2693
+	Z	20
+}
+
+Item
+{
+	Name	Barracks
+	ObjType	0x0bd2
+	X	1938
+	Y	2694
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1948
+	Y	2690
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1949
+	Y	2690
+	Z	30
+}
+
+Item
+{
+	Name	Barracks
+	ObjType	0x0bd2
+	X	1947
+	Y	2691
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1958
+	Y	2694
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1957
+	Y	2694
+	Z	20
+}
+
+Item
+{
+	Name	Barracks
+	ObjType	0x0bd2
+	X	1959
+	Y	2695
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1938
+	Y	2702
+	Z	30
+}
+
+Item
+{
+	Name	Barracks
+	ObjType	0x0bd1
+	X	1939
+	Y	2701
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1938
+	Y	2734
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1938
+	Y	2742
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1941
+	Y	2738
+	Z	10
+}
+
+Item
+{
+	Name	Brotherhood of Trinsic
+	ObjType	0x0c03
+	X	1942
+	Y	2736
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1939
+	Y	2764
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1944
+	Y	2764
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1943
+	Y	2768
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1934
+	Y	2775
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1935
+	Y	2775
+	Z	10
+}
+
+Item
+{
+	Name	Honorable Arms
+	ObjType	0x0bda
+	X	1933
+	Y	2776
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1930
+	Y	2799
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1941
+	Y	2794
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1941
+	Y	2793
+	Z	0
+}
+
+Item
+{
+	Name	The Keg and Anchor
+	ObjType	0x0bc3
+	X	1942
+	Y	2791
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1980
+	Y	2837
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1987
+	Y	2845
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	1988
+	Y	2845
+	Z	15
+}
+
+Item
+{
+	Name	Adenturer's Clothing
+	ObjType	0x0ba6
+	X	1986
+	Y	2846
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	1990
+	Y	2864
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	1996
+	Y	2868
+	Z	20
+}
+
+Item
+{
+	Name	Trinsic Fine Skins
+	ObjType	0x0bcf
+	X	1997
+	Y	2864
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1987
+	Y	2887
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	1990
+	Y	2892
+	Z	5
+}
+
+Item
+{
+	Name	The Trinsic Cut
+	ObjType	0x0ba9
+	X	2000
+	Y	2888
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	1997
+	Y	2911
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	1997
+	Y	2912
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	1998
+	Y	2909
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2028
+	Y	2833
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2028
+	Y	2832
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2025
+	Y	2869
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2024
+	Y	2855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2036
+	Y	2846
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2036
+	Y	2845
+	Z	0
+}
+
+Item
+{
+	Name	Sons of the Sea
+	ObjType	0x0bf3
+	X	2037
+	Y	2843
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0093
+	X	2054
+	Y	2848
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	2056
+	Y	2849
+	Z	10
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x0bcf
+	X	2055
+	Y	2848
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0863
+	X	2001
+	Y	2813
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0863
+	X	2000
+	Y	2813
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	1999
+	Y	2813
+	Z	0
+}
+
+Item
+{
+	Name	The First Trinsic Stablery
+	ObjType	0x0bd0
+	X	2005
+	Y	2813
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2005
+	Y	2806
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2005
+	Y	2805
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2007
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2010
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2012
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2016
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2019
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	2014
+	Y	2808
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x086e
+	X	2018
+	Y	2808
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	2021
+	Y	2802
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2029
+	Y	2788
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2032
+	Y	2787
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2032
+	Y	2797
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2029
+	Y	2795
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2029
+	Y	2801
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2032
+	Y	2803
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2029
+	Y	2791
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2033
+	Y	2789
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2029
+	Y	2796
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2033
+	Y	2800
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2032
+	Y	2804
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2031
+	Y	2804
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2033
+	Y	2812
+	Z	10
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2032
+	Y	2812
+	Z	10
+}
+
+Item
+{
+	Name	The Rusty Anchor
+	ObjType	0x0bb4
+	X	2030
+	Y	2813
+	Z	9
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2063
+	Y	2783
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2062
+	Y	2783
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2057
+	Y	2778
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2057
+	Y	2777
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2049
+	Y	2781
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2048
+	Y	2781
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	2046
+	Y	2782
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	2067
+	Y	2784
+	Z	0
+}
+
+Item
+{
+	Name	Paladins' Hall
+	ObjType	0x0bd1
+	X	2017
+	Y	2744
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2014
+	Y	2720
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2014
+	Y	2719
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2007
+	Y	2719
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1998
+	Y	2719
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	1993
+	Y	2723
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	1994
+	Y	2723
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2003
+	Y	2727
+	Z	30
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba0
+	X	2002
+	Y	2729
+	Z	44
+}
+
+Item
+{
+	Name	Paladin's Guild
+	ObjType	0x0c04
+	X	2001
+	Y	2728
+	Z	33
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x009d
+	X	3007
+	Y	827
+	Z	-1
+}
+
+Item
+{
+	Name	Docks
+	ObjType	0x1f29
+	X	3007
+	Y	827
+	Z	2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2991
+	Y	835
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2999
+	Y	835
+	Z	0
+}
+
+Item
+{
+	Name	The Magician's Friend
+	ObjType	0x0bad
+	X	3000
+	Y	833
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2999
+	Y	811
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2995
+	Y	823
+	Z	0
+}
+
+Item
+{
+	Name	The Majestic Boat
+	ObjType	0x0bb2
+	X	2993
+	Y	824
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2964
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2975
+	Y	819
+	Z	0
+}
+
+Item
+{
+	Name	Guild of Fishermen
+	ObjType	0x0bf3
+	X	2976
+	Y	817
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2999
+	Y	779
+	Z	0
+}
+
+Item
+{
+	Name	The Butcher's Knife
+	ObjType	0x0ba9
+	X	3000
+	Y	777
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	3023
+	Y	779
+	Z	0
+}
+
+Item
+{
+	Name	Fish Shop
+	ObjType	0x0bcf
+	X	3024
+	Y	777
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	3023
+	Y	767
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	3022
+	Y	767
+	Z	0
+}
+
+Item
+{
+	Name	Provisioner
+	ObjType	0x0bcc
+	X	3019
+	Y	768
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2998
+	Y	767
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2999
+	Y	767
+	Z	0
+}
+
+Item
+{
+	Name	The Twisted Oven
+	ObjType	0x0ba4
+	X	2995
+	Y	768
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2955
+	Y	703
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2955
+	Y	711
+	Z	0
+}
+
+Item
+{
+	Name	The Busy Bee
+	ObjType	0x0c44
+	X	2958
+	Y	712
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2915
+	Y	671
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2923
+	Y	671
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2924
+	Y	671
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	2916
+	Y	679
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2915
+	Y	679
+	Z	0
+}
+
+Item
+{
+#!	Name	Magical LightBAE
+	Name	Magical Light
+	ObjType	0x0b60
+	X	680
+	Y	0
+	Z	0
+}
+
+Item
+{
+#!	Name	Magical LightBAE
+	Name	Magical Light
+	ObjType	0x0b67
+	X	680
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2903
+	Y	707
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2907
+	Y	719
+	Z	0
+}
+
+Item
+{
+	Name	The Colored Canvas
+	ObjType	0x0bca
+	X	2905
+	Y	720
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2887
+	Y	747
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2903
+	Y	739
+	Z	0
+}
+
+Item
+{
+	Name	The Musician's Hall
+	ObjType	0x0bbb
+	X	2904
+	Y	737
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2863
+	Y	735
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2863
+	Y	734
+	Z	0
+}
+
+Item
+{
+	Name	The Ore of Vesper
+	ObjType	0x0bed
+	X	2864
+	Y	731
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2875
+	Y	719
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2887
+	Y	723
+	Z	0
+}
+
+Item
+{
+	Name	Shimmering Jewel
+	ObjType	0x0bc1
+	X	2888
+	Y	721
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	2875
+	Y	687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	2883
+	Y	687
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	2875
+	Y	679
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	2883
+	Y	679
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2887
+	Y	673
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	2895
+	Y	676
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	2895
+	Y	675
+	Z	0
+}
+
+Item
+{
+	Name	The Mint of Vesper
+	ObjType	0x0c0b
+	X	2896
+	Y	673
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2891
+	Y	655
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2883
+	Y	655
+	Z	0
+}
+
+Item
+{
+	Name	The Bubbling Brew
+	ObjType	0x0be8
+	X	2894
+	Y	664
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2979
+	Y	639
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2995
+	Y	639
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2980
+	Y	639
+	Z	0
+}
+
+Item
+{
+	Name	The Adventurer's Supplies
+	ObjType	0x0bcc
+	X	2977
+	Y	640
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2959
+	Y	627
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2971
+	Y	623
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d7
+	X	2972
+	Y	623
+	Z	0
+}
+
+Item
+{
+	Name	The Spinning Wheel
+	ObjType	0x0ba6
+	X	2969
+	Y	624
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2895
+	Y	787
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2903
+	Y	796
+	Z	0
+}
+
+Item
+{
+	Name	The Gadgets Corner
+	ObjType	0x0ba7
+	X	2904
+	Y	794
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06dd
+	X	2919
+	Y	794
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2915
+	Y	807
+	Z	0
+}
+
+Item
+{
+	Name	The Hammer and Nails
+	ObjType	0x0bb0
+	X	2913
+	Y	808
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2839
+	Y	803
+	Z	0
+}
+
+Item
+{
+	Name	Armourer
+	ObjType	0x0bc7
+	X	2840
+	Y	801
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2859
+	Y	804
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2859
+	Y	803
+	Z	0
+}
+
+Item
+{
+	Name	The Ranger Tool
+	ObjType	0x0bcd
+	X	2860
+	Y	801
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2917
+	Y	860
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2927
+	Y	855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2927
+	Y	854
+	Z	0
+}
+
+Item
+{
+	Name	The Herb of Health
+	ObjType	0x0bab
+	X	2928
+	Y	852
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2957
+	Y	891
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2961
+	Y	891
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2961
+	Y	884
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2957
+	Y	884
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2957
+	Y	878
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2957
+	Y	872
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2957
+	Y	866
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2961
+	Y	872
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2961
+	Y	866
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2975
+	Y	879
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2975
+	Y	878
+	Z	0
+}
+
+Item
+{
+	Name	Vesper Youth Hostel
+	ObjType	0x0bb3
+	X	2976
+	Y	875
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	2943
+	Y	932
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	2943
+	Y	939
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2951
+	Y	931
+	Z	0
+}
+
+Item
+{
+	Name	Vesper Customs
+	ObjType	0x0bd1
+	X	2952
+	Y	929
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2915
+	Y	907
+	Z	0
+}
+
+Item
+{
+	Name	The Marsh Hall
+	ObjType	0x0bc3
+	X	2916
+	Y	905
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2859
+	Y	855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06d5
+	X	2867
+	Y	855
+	Z	0
+}
+
+Item
+{
+	Name	Blacksmith
+	ObjType	0x0bc0
+	X	2857
+	Y	856
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2839
+	Y	876
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2839
+	Y	875
+	Z	0
+}
+
+Item
+{
+	Name	Provisioner
+	ObjType	0x0bcb
+	X	2840
+	Y	873
+	Z	0
+}
+
+Item
+{
+	Name	Tailor
+	ObjType	0x0ba5
+	X	2840
+	Y	878
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2843
+	Y	903
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2855
+	Y	907
+	Z	0
+}
+
+Item
+{
+	Name	The Champion's of Light
+	ObjType	0x0c03
+	X	2856
+	Y	910
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2839
+	Y	944
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2839
+	Y	943
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2847
+	Y	932
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2847
+	Y	931
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd1
+	X	2848
+	Y	929
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	2914
+	Y	982
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a7
+	X	2915
+	Y	982
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2922
+	Y	976
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	2922
+	Y	975
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	2919
+	Y	965
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	2919
+	Y	964
+	Z	0
+}
+
+Item
+{
+#!	Name	Vesper MuseumBD1
+	Name	Vesper Museum
+	ObjType	0x0b68
+	X	962
+	Y	0
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2862
+	Y	1002
+	Z	-21
+}
+
+Item
+{
+	Name	Society of Thieves
+	ObjType	0x0bd0
+	X	2863
+	Y	1000
+	Z	-21
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2862
+	Y	1002
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2862
+	Y	991
+	Z	0
+}
+
+Item
+{
+	Name	Tanner
+	ObjType	0x0bcf
+	X	2863
+	Y	989
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2781
+	Y	980
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2785
+	Y	980
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2781
+	Y	973
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2785
+	Y	973
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2785
+	Y	967
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2781
+	Y	955
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2781
+	Y	961
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2785
+	Y	961
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	2785
+	Y	955
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2771
+	Y	975
+	Z	0
+}
+
+Item
+{
+	Name	The Ironwood Inn
+	ObjType	0x0bb4
+	X	2769
+	Y	976
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	2740
+	Y	983
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	2751
+	Y	984
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	2751
+	Y	983
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	2752
+	Y	982
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x005a
+	X	2784
+	Y	864
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b9d
+	X	2785
+	Y	864
+	Z	-2
+}
+
+Item
+{
+	Name	The Vesper Cemetery
+	ObjType	0x0bd1
+	X	2785
+	Y	864
+	Z	-2
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0854
+	X	2783
+	Y	868
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0856
+	X	2783
+	Y	867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	515
+	Y	999
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	519
+	Y	987
+	Z	0
+}
+
+Item
+{
+	Name	Market
+	ObjType	0x0bcf
+	X	520
+	Y	986
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	543
+	Y	967
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	543
+	Y	966
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bab
+	X	544
+	Y	970
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	566
+	Y	975
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	567
+	Y	975
+	Z	0
+}
+
+Item
+{
+	Name	The Sturdy Bow
+	ObjType	0x0bce
+	X	563
+	Y	976
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	559
+	Y	987
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	555
+	Y	999
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	560
+	Y	985
+	Z	0
+}
+
+Item
+{
+	Name	The Jolly Baker
+	ObjType	0x0ba3
+	X	560
+	Y	985
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	575
+	Y	1011
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	563
+	Y	1015
+	Z	0
+}
+
+Item
+{
+	Name	Bloody Thumb Woodworking
+	ObjType	0x0baf
+	X	576
+	Y	1009
+	Z	0
+}
+
+Item
+{
+	Name	Bloody Thumb Woodworking
+	ObjType	0x0bb0
+	X	561
+	Y	1016
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	531
+	Y	1015
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	543
+	Y	1011
+	Z	0
+}
+
+Item
+{
+	Name	Butcher
+	ObjType	0x0ba9
+	X	544
+	Y	1008
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	563
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	547
+	Y	815
+	Z	0
+}
+
+Item
+{
+	Name	Empath Abbey
+	ObjType	0x0bd2
+	X	637
+	Y	857
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	550
+	Y	831
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	551
+	Y	831
+	Z	0
+}
+
+Item
+{
+	Name	Flour Mill
+	ObjType	0x0bd0
+	X	547
+	Y	832
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	628
+	Y	848
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	635
+	Y	823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	641
+	Y	848
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	607
+	Y	811
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	607
+	Y	819
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	611
+	Y	823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	619
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	619
+	Y	823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	663
+	Y	811
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	663
+	Y	819
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	659
+	Y	823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	651
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	651
+	Y	823
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	631
+	Y	843
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	631
+	Y	851
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	639
+	Y	851
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	635
+	Y	855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	634
+	Y	855
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	610
+	Y	879
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	623
+	Y	884
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	623
+	Y	883
+	Z	0
+}
+
+Item
+{
+	Name	Winery
+	ObjType	0x0bd1
+	X	624
+	Y	886
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	665
+	Y	951
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	667
+	Y	951
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	666
+	Y	951
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	667
+	Y	951
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	643
+	Y	943
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	652
+	Y	943
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	615
+	Y	983
+	Z	0
+}
+
+Item
+{
+	Name	Counselors' Guild Hall
+	ObjType	0x0bd2
+	X	616
+	Y	984
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	642
+	Y	944
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	668
+	Y	1007
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	659
+	Y	1007
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	657
+	Y	1008
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	636
+	Y	1039
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	627
+	Y	1039
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	625
+	Y	1040
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	647
+	Y	1082
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	647
+	Y	1091
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	648
+	Y	1093
+	Z	0
+}
+
+Item
+{
+	Name	Deep Forest Healing
+	ObjType	0x0bab
+	X	648
+	Y	1093
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	619
+	Y	1151
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	621
+	Y	1152
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	607
+	Y	1187
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	608
+	Y	1189
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	684
+	Y	1207
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	675
+	Y	1207
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	673
+	Y	1208
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	667
+	Y	1191
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x085f
+	X	665
+	Y	1191
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	666
+	Y	1191
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	667
+	Y	1191
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	559
+	Y	1211
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	559
+	Y	1219
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	560
+	Y	1209
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	463
+	Y	1131
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	455
+	Y	1131
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	464
+	Y	1129
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	455
+	Y	1115
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	455
+	Y	1107
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd0
+	X	456
+	Y	1106
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	396
+	Y	1223
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	403
+	Y	1223
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	405
+	Y	1224
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	336
+	Y	1245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	327
+	Y	1243
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bf
+	X	335
+	Y	1243
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bab
+	X	336
+	Y	1245
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	428
+	Y	1039
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	419
+	Y	1039
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	418
+	Y	1040
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	327
+	Y	1059
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	327
+	Y	1051
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	328
+	Y	1052
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	328
+	Y	1052
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	455
+	Y	967
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	457
+	Y	968
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	479
+	Y	844
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	480
+	Y	855
+	Z	0
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bcf
+	X	479
+	Y	856
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	387
+	Y	901
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	387
+	Y	905
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	388
+	Y	905
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	388
+	Y	901
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	373
+	Y	915
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	373
+	Y	916
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	377
+	Y	916
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	377
+	Y	915
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	369
+	Y	903
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	370
+	Y	903
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	367
+	Y	873
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	367
+	Y	878
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	371
+	Y	871
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	343
+	Y	873
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	343
+	Y	884
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	355
+	Y	890
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	356
+	Y	890
+	Z	20
+}
+
+Item
+{
+	Name	Courthouse
+	ObjType	0x0bd2
+	X	373
+	Y	904
+	Z	-1
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd1
+	X	376
+	Y	918
+	Z	0
+}
+
+Item
+{
+	Name	Guard Post
+	ObjType	0x0bd2
+	X	390
+	Y	904
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	369
+	Y	867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	370
+	Y	867
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	367
+	Y	873
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	367
+	Y	878
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	343
+	Y	873
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	343
+	Y	885
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0866
+	X	355
+	Y	891
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0868
+	X	356
+	Y	891
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ed
+	X	371
+	Y	902
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ef
+	X	371
+	Y	901
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	356
+	Y	839
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	357
+	Y	839
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	351
+	Y	835
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	351
+	Y	834
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	327
+	Y	793
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	327
+	Y	792
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	313
+	Y	791
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	319
+	Y	791
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	312
+	Y	783
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	313
+	Y	783
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	261
+	Y	763
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	779
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	267
+	Y	763
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	779
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	273
+	Y	763
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	779
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	279
+	Y	763
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	779
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	285
+	Y	763
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	769
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	773
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	779
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	289
+	Y	771
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	301
+	Y	762
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067f
+	X	301
+	Y	761
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	289
+	Y	771
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	291
+	Y	777
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	285
+	Y	763
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	769
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	773
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	286
+	Y	779
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	779
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	773
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	273
+	Y	763
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	769
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	773
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	274
+	Y	779
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	279
+	Y	763
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	280
+	Y	769
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	267
+	Y	763
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	769
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	769
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	773
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	773
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	262
+	Y	779
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	268
+	Y	779
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0685
+	X	261
+	Y	763
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	296
+	Y	761
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	299
+	Y	764
+	Z	20
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x067d
+	X	322
+	Y	784
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0675
+	X	308
+	Y	791
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0677
+	X	309
+	Y	791
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	515
+	Y	999
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	519
+	Y	987
+	Z	0
+}
+
+Item
+{
+	Name	Market
+	ObjType	0x0bcf
+	X	520
+	Y	986
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	543
+	Y	967
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06af
+	X	543
+	Y	966
+	Z	0
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bab
+	X	544
+	Y	970
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	566
+	Y	975
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e7
+	X	567
+	Y	975
+	Z	0
+}
+
+Item
+{
+	Name	The Sturdy Bow
+	ObjType	0x0bce
+	X	563
+	Y	976
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	559
+	Y	987
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	555
+	Y	999
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0b97
+	X	560
+	Y	985
+	Z	0
+}
+
+Item
+{
+	Name	The Jolly Baker
+	ObjType	0x0ba3
+	X	560
+	Y	985
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06ad
+	X	575
+	Y	1011
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06a5
+	X	563
+	Y	1015
+	Z	0
+}
+
+Item
+{
+	Name	Bloody Thumb Woodworking
+	ObjType	0x0baf
+	X	576
+	Y	1009
+	Z	0
+}
+
+Item
+{
+	Name	Bloody Thumb Woodworking
+	ObjType	0x0bb0
+	X	561
+	Y	1016
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06b5
+	X	531
+	Y	1015
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06bd
+	X	543
+	Y	1011
+	Z	0
+}
+
+Item
+{
+	Name	Butcher
+	ObjType	0x0ba9
+	X	544
+	Y	1008
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	563
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x06e5
+	X	547
+	Y	815
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0fea
+	X	1361
+	Y	883
+	Z	0
+}
+
+Item
+{
+	Name	Inn
+	ObjType	0x0bb4
+	X	5217
+	Y	183
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5217
+	Y	183
+	Z	5
+}
+
+Item
+{
+	Name	Library
+	ObjType	0x0b95
+	X	5249
+	Y	183
+	Z	11
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	5244
+	Y	154
+	Z	15
+}
+
+Item
+{
+	Name	Library
+	ObjType	0x0b95
+	X	5244
+	Y	154
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0fea
+	X	5191
+	Y	152
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5213
+	Y	124
+	Z	0
+}
+
+Item
+{
+	Name	Magic Shop
+	ObjType	0x0bae
+	X	5213
+	Y	124
+	Z	0
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	5201
+	Y	97
+	Z	5
+}
+
+Item
+{
+	Name	Tailor
+	ObjType	0x0ba5
+	X	5201
+	Y	97
+	Z	5
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	5180
+	Y	101
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5165
+	Y	101
+	Z	5
+}
+
+Item
+{
+	Name	Supplies
+	ObjType	0x0bcc
+	X	5165
+	Y	101
+	Z	5
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	5153
+	Y	78
+	Z	37
+}
+
+Item
+{
+	Name	Alchemist
+	ObjType	0x0bc5
+	X	5153
+	Y	78
+	Z	37
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0fea
+	X	5200
+	Y	71
+	Z	17
+}
+
+Item
+{
+	Name	Inn
+	ObjType	0x0bb3
+	X	5168
+	Y	35
+	Z	22
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0fea
+	X	5217
+	Y	18
+	Z	15
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd2
+	X	5272
+	Y	165
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5270
+	Y	130
+	Z	20
+}
+
+Item
+{
+	Name	Healer
+	ObjType	0x0bac
+	X	5270
+	Y	130
+	Z	20
+}
+
+Item
+{
+	Name	For Sale
+	ObjType	0x0bd1
+	X	5313
+	Y	119
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5306
+	Y	95
+	Z	26
+}
+
+Item
+{
+	Name	Alchemist
+	ObjType	0x0bc6
+	X	5305
+	Y	94
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5343
+	Y	88
+	Z	25
+}
+
+Item
+{
+	Name	Dining Room
+	ObjType	0x0bd2
+	X	5343
+	Y	88
+	Z	25
+}
+
+Item
+{
+	Name	Kitchen
+	ObjType	0x0bd2
+	X	5351
+	Y	64
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	5343
+	Y	57
+	Z	15
+}
+
+Item
+{
+	Name	Butcher
+	ObjType	0x0ba9
+	X	5343
+	Y	57
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5347
+	Y	49
+	Z	15
+}
+
+Item
+{
+	Name	Bakery
+	ObjType	0x0ba4
+	X	5347
+	Y	49
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba2
+	X	5354
+	Y	53
+	Z	15
+}
+
+Item
+{
+	Name	Farmer's Stall
+	ObjType	0x0bd0
+	X	5354
+	Y	53
+	Z	15
+}
+
+Item
+{
+#	Name	a door
+	ObjType	0x0ba1
+	X	5319
+	Y	40
+	Z	40
+}
+
+Item
+{
+	Name	Bunkhouse
+	ObjType	0x0bd1
+	X	5319
+	Y	40
+	Z	40
+}
+
+Item
+{
+#	Name	a palissade
+	ObjType	0x0222
+	X	646
+	Y	1496
+	Z	0
+}
+
+Item
+{
+#	Name	a palissade
+	ObjType	0x0221
+	X	646
+	Y	1496
+	Z	0
+}
+
+Item
+{
+#	Name	a palissade
+	ObjType	0x0222
+	X	632
+	Y	1488
+	Z	0
+}
+
+Item
+{
+#	Name	a wooden plank
+	ObjType	0x04d5
+	X	627
+	Y	1496
+	Z	13
+}
+
+Item
+{
+#	Name	an anvil
+	ObjType	0x0fb0
+	X	2467
+	Y	555
+	Z	5
+}
+
+Item
+{
+#	Name	a forge
+	ObjType	0x197e
+	X	2468
+	Y	555
+	Z	5
+}
+
+Item
+{
+#	Name	a forge
+	ObjType	0x1982
+	X	2469
+	Y	555
+	Z	5
+}
+
+Item
+{
+#	Name	a forge
+	ObjType	0x197e
+	X	2467
+	Y	557
+	Z	5
+}
+
+Item
+{
+#	Name	a forge
+	ObjType	0x1982
+	X	2468
+	Y	557
+	Z	5
+}
+
+Item
+{
+#	Name	an anvil
+	ObjType	0x0fb0
+	X	2469
+	Y	557
+	Z	5
+}
+

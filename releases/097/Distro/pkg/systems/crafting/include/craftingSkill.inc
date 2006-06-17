@@ -1,4 +1,4 @@
-// //$Id: craftingSkill.inc 128 2006-05-27 17:36:42Z austinheilman $
+// //$Id$
 
 // This is a modified version of the ShilCheckSkill export. The purpose
 // of this function is to mimic the OSI % chance system crafting uses.

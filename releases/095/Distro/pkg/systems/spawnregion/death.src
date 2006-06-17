@@ -1,0 +1,10 @@
+use uo;
+use os;
+
+include "spawnRegion";
+
+var SpawnRegionData := DFOpenDataFile(":spawnregion:SpawnRegionData", 1);
+
+program npc_death(critter)
+  SpawnRegionDeath(critter);
+endprogram

@@ -1,4 +1,4 @@
-/* $Id: storageAreas.inc 306 2006-06-10 01:47:10Z austinheilman $
+/* $Id$
  *
  * Purpose
  * Assists in the use of storage areas.

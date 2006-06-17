@@ -1,0 +1,27 @@
+//
+// LOGON.SRC
+//
+// Called when a player initially connects...
+// Shows the message-of-the-day in a "tips" window :)
+//
+// < Core-related Script >
+//
+// Creator: Myrathi
+// Created: 06/09/2000 --:--
+// Updated: 23/01/2002 11:38
+// <tjh@myrathi.co.uk>
+//
+use uo;
+use os;
+
+include "motdConfig";
+
+program logon( who )
+
+	if ( cShowConsoleMessages )
+		print( "[LOGON] MOTD Tip-window Shown" );
+	endif
+//	run_script_to_completion( ":motd:textcmd/player/motd", who );
+	start_script( ":motd:textcmd/player/motd", who );
+
+endprogram

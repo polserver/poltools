@@ -1,0 +1,49 @@
+use uo;
+use cfgfile;
+
+
+program addteleporter(who)
+  var elem := {};
+  var cfg, maxint;
+  elem.+pname;
+  elem.+pvalue;
+  var elems := array;
+  SendSysMessage(who, "Where would you like to destination to be?");
+  SendSysMessage(who, "You can .goto, .goxyz, or walk to the destination");
+  var whereto := TargetCoordinates(who);
+  if (!whereto)
+    SendSysMessage(who, "Targetting cancelled");
+    return;
+  endif
+  elem.pname := "fromx";
+  elem.pvalue := who.x;
+  elems.append(elem);
+  elem.pname := "fromy";
+  elem.pvalue := who.y;
+  elems.append(elem);
+  elem.pname := "fromz";
+  elem.pvalue := GetMapInfo(who.x, who.y).z;
+  elems.append(elem);
+  elem.pname := "tox";
+  elem.pvalue := whereto.x;
+  elems.append(elem);
+  elem.pname := "toy";
+  elem.pvalue := whereto.y;
+  elems.append(elem);
+  elem.pname := "toz";
+  elem.pvalue := whereto.z;
+  elems.append(elem);
+  cfg := ReadConfigFile("teleporters");
+  maxint := GetConfigMaxIntKey(cfg) + 1;
+  AppendConfigFileElem("teleporters", "teleporter", maxint, elems );
+  print("adding " + elems + " to teleporter");
+  UnloadConfigFile("teleporters");
+  var teleporter := CreateItemAtLocation(who.x, who.y, who.z, 25088, 1);
+  if(teleporter)
+    SetObjProperty( teleporter, "DestX", whereto.x );
+    SetObjProperty( teleporter, "DestY", whereto.Y );
+    SetObjProperty( teleporter, "DestZ", GetMapInfo(whereto.x, whereto.y).z );
+  else
+    SendSysMessage( who, "Error: " + teleporter.errortext  );
+  endif
+endprogram

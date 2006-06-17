@@ -1,0 +1,665 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+0052)fullfunc.html?xmlfile=cfgfileem -->
+<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="POL, EScript, documentation" name=keyword>
+<META content="Racalac, Rykard" name=Author>
+<META content="MSHTML 6.00.2800.1126" name=GENERATOR>
+<STYLE type=text/css>BODY {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+P {
+	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+</STYLE>
+</HEAD>
+<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
+CFGfile.em</P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
+Functions for accessing configuration files.<BR>Last Modified: 6/12/2003</P>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#AppendConfigFileElem>
+    <TH align=middle colSpan=2>AppendConfigFileElem( filename, elemtype, 
+      elemkey, properties )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>String</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>elemtype</VAR></TD>
+    <TD>String</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>elemkey</VAR></TD>
+    <TD>Int or String</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>properties</VAR></TD>
+    <TD>Array of Arrays {propname,value}, or array of structs { name, value 
+    }</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Appends an element to the config file specified. Properties 
+      must be an array of structures, where each element is a structure 
+      containing a name member first, and a value member second.</TD></TR>
+  <TR>
+    <TD colSpan=2>filename uses normal package descriptor format (see 
+      ReadConfigFile).</TD></TR>
+  <TR>
+    <TD colSpan=2>elemtype is the string before the key in the config file, 
+      i.e. 'MyType' in the following: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>MyType 0x34F
+{
+    MyProp 3.1
+}
+</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2>elemkey is 0x34F in the above example. It can be a string or 
+      integer (as in that case)</TD></TR>
+  <TR>
+    <TD colSpan=2>properties must be an array of arrays with the following 
+      format: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>var props := array;
+var a := {"MyProp1",1};
+var b := {"MyProp2",2};
+props.append(a);
+props.append(b);
+AppendConfigFileElem( ":mypkg:mycfg", "MyType", 0x34F, props );
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>1 on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unable to find package X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Poorly formed config file descriptor: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#FindConfigElem>
+    <TH align=middle colSpan=2>FindConfigElem( config_file, key 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>config_file</VAR></TD>
+    <TD>ConfigFileRef</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>key</VAR></TD>
+    <TD>String or Integer</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Finds a Config Element matching 'key' in the given 
+      config_file. In the following sample entry, 'applepie' is the key: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>Dessert applepie
+{
+    Cost 8
+    Calories 1004
+    MadeLike   grandma
+    Ingredient flour
+    Ingredient butter
+    Ingredient apples
+    Deliciousness 3.6
+}
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Config Element Reference on success</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Parameter 0 must be a Config File"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Param 1 must be an Integer or a String"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Element not found"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigInt>
+    <TH align=middle colSpan=2>GetConfigInt( element, property_name 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>element</VAR></TD>
+    <TD>ConfigElementRef</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>property_name</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets a piece of Integer data from a config file element 
+      reference. For example, to get the value of 'Calories' in the following 
+      element: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>Dessert applepie
+{
+    Cost 8
+    Calories 1004
+    MadeLike   grandma
+    Ingredient flour
+    Ingredient butter
+    Ingredient apples
+    Deliciousness 3.6
+}
+Use: 'var cals := GetConfigInt(element,"Calories");'
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Integer value for the property</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid type in config file! (internal error)"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Property not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigIntKeys>
+    <TH align=middle colSpan=2>GetConfigIntKeys( config_file 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>config_file</VAR></TD>
+    <TD>ConfigFileRef</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets an array of only all the Integer keys in the config 
+      file.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An array of integers</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"GetConfigIntKeys param 0 must be a Config 
+  File"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigMaxIntKey>
+    <TH align=middle colSpan=2>GetConfigMaxIntKey( config_file 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>config_file</VAR></TD>
+    <TD>ConfigFileRef</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets the value of the highest value integer key in the 
+      config file. This is useful if all the keys are sequentially numbered and 
+      need to be looped over.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>The maximum integer key in the file</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Parameter 0 must be a Config 
+File"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigReal>
+    <TH align=middle colSpan=2>GetConfigReal( element, property_name 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>element</VAR></TD>
+    <TD>ConfigElementRef</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>property_name</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets a piece of Real (float) data from a config file element 
+      reference. For example, to get the value of 'Deliciousness' in the 
+      following element: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>Dessert applepie
+{
+    Cost 8
+    Calories 1004
+    MadeLike   grandma
+    Ingredient flour
+    Ingredient butter
+    Ingredient apples
+    Deliciousness 3.6
+}
+Use: 'var yum := GetConfigReal(element,"Deliciousness");'
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Real value for the property</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid type in config file! (internal error)"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Property not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigString>
+    <TH align=middle colSpan=2>GetConfigString( element, property_name 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>element</VAR></TD>
+    <TD>ConfigElementRef</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>property_name</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets a piece of String data from a config file element 
+      reference. For example, to get the value of 'MadeLike' in the following 
+      element: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>Dessert applepie
+{
+    Cost 8
+    Calories 1004
+    MadeLike   grandma
+    Ingredient flour
+    Ingredient butter
+    Ingredient apples
+    Deliciousness 3.6
+}
+Use: 'var madelike := GetConfigString(element,"MadeLike");'
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An Real value for the property</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid type in config file! (internal error)"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Property not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigStringArray>
+    <TH align=middle colSpan=2>GetConfigStringArray( element, property_name 
+    )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>element</VAR></TD>
+    <TD>ConfigElementRef</TD></TR>
+  <TR>
+    <TD width="50%"><VAR>property_name</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>For elements with multiple occurrences of a given property, 
+      returns an array containing each occurrence.</TD></TR>
+  <TR>
+    <TD colSpan=2>For example, to get all the ingredients in the following 
+      element: </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>Dessert applepie
+{
+    Cost 8
+    Calories 1004
+    MadeLike   grandma
+    Ingredient flour
+    Ingredient butter
+    Ingredient apples
+    Deliciousness 3.6
+}
+Use: 'var ingredients := GetConfigStringArray(element,"Ingredient");'
+'ingredients' now contains 'flour', 'butter', and 'apples'.
+</PRE></TD></TR>
+  <TR>
+    <TD colSpan=2>Value of the properties are always returned as strings. If 
+      the values are ints or reals, use CInt() or CDbl() to cast the values to 
+      the correct type.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An array of strings.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#GetConfigStringKeys>
+    <TH align=middle colSpan=2>GetConfigStringKeys( config_file 
+  )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>config_file</VAR></TD>
+    <TD>ConfigFileRef</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Gets an array of all the String keys, AND integer keys 
+      (returned as strings) in the config file.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>An array of strings</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"GetConfigStringKeys param 0 must be a Config 
+  File"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#LoadTusScpFile>
+    <TH align=middle colSpan=2>LoadTusScpFile( filename )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>String, see explaination</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Very Old Function - may not work any longer! </TD></TR>
+  <TR>
+    <TD colSpan=2><PRE>    // 
+    // Load a TUS .SCP file as a config file
+    //
+    // Filename must be alphanumeric only.  The file must exist
+    // in pol/import/tus.  So LoadTusScpFile( "grayacct" ) will
+    // try to load "/pol/import/tus/grayacct.scp"
+    // 
+    // Header properties, if any, in cfgfile[0]
+    // Other elements numbered sequentially from 1
+    // The part in brackets ("[WORLDITEM 04000]") will appear in two ways:
+    //   1) as a "_key" property
+    //   2) as a property itself (name=WORLDITEM, value=0x4000)
+    //
+    //
+    // So,if you had the following as the first element
+    //   [WORLDITEM 04000]
+    //   SERIAL=080
+    //   P=1,2,3
+    // And 'var tusfile' was the result of LoadTusScpFile, then
+    // tusfile[1]._key      is "WORLDITEM 04000"
+    // tusfile[1].worlditem is 0x4000
+    // tusfile[1].serial    is 0x80
+    // tusfile[1].p         is "1,2,3"
+    //
+</PRE></TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A Config File Reference</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Filename cannot include path information or special 
+      characters"</TD></TR>
+  <TR>
+    <TD colSpan=2>"File not found"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#ReadConfigFile>
+    <TH align=middle colSpan=2>ReadConfigFile(filename)</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>String (not including '.cfg')</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Reads a given config file and returns a reference to it for 
+      use with other functions in this EM file.</TD></TR>
+  <TR>
+    <TD colSpan=2>Note, takes the usual package filespec: '::cfgfile' is in 
+      /pol/config, ':*:cfgfile' is a combination of all configs named 'cfgfile' 
+      in all pacakages, and ':pkgname:cfgfile' is a specific cfgfile inside a 
+      package. If only 'cfgfile' is passed, POL looks for it first in 
+      /pol/config and then in each package sequentially.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>A ConfigFileRef on success.</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unable to find package X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Poorly formed config file descriptor: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Config file not found"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
+bgColor=#dddddd border=1 frame=box>
+  <TBODY>
+  <TR><A name=#UnloadConfigFile>
+    <TH align=middle colSpan=2>UnloadConfigFile( filename )</TH></A></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#d4d4d4>
+    <TD>Name</TD>
+    <TD>Type</TD></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD width="50%"><VAR>filename</VAR></TD>
+    <TD>String</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Unloads a config file from memory. If other scripts 
+      reference the config file specified, it will remain in memory until they 
+      no longer reference it. Scripts which call ReadConfigFile() after this, 
+      however, will re-read the config file and use the newer version.</TD></TR>
+  <TR>
+    <TD colSpan=2>Has no effect on most core-read config files like 
+      itemdesc.cfg, npcdesc.cfg, etc (See ReloadConfiguation in polsys.em)</TD></TR>
+  <TR>
+    <TD colSpan=2>filename uses the normal package descriptor format (see 
+      ReadConfigFile)</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>Integer number of files unloaded</TD></TR></TBODY>
+  <TBODY>
+  <TR bgColor=#cccccc>
+    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
+  <TBODY>
+  <TR>
+    <TD colSpan=2>"Unable to find package X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Poorly formed config file descriptor: X"</TD></TR>
+  <TR>
+    <TD colSpan=2>"Invalid parameter"</TD></TR></TBODY></TABLE><BR><BR><BR>
+<HR>
+
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
+any information is incorrect on these pages, mail your corrections to 
+racalac@burdell.org </P>
+<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
+David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
+MUTILATE, OR SIT ON. </P></BODY></HTML>

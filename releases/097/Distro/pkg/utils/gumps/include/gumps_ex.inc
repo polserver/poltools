@@ -1,4 +1,4 @@
-/* $Id: gumps_ex.inc 307 2006-06-10 01:50:15Z austinheilman $
+/* $Id$
  *
  * Purpose
  * TODO

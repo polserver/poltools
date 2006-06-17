@@ -1,0 +1,92 @@
+(Everything in this file is deleted as its contents are slurped up by
+the doc-devel team)
+
+
+
+Attributes
+--------------
+Attributes have a Base Value, ranging from 0 to 60000. If unmodified, this
+will correspond to an Effective Value of 0.0 to 6000.0.
+
+Each Attribute will have an Temporary Modifier value and an Intrinsic
+Modifier.  Both of these are valued from 0 to 60000.
+
+Intrinsic modifiers are meant to be generated from Attributes and perhaps
+cprops (say, for race-based modifiers, not for spell modifiers).  They will
+be recalculated (by a system hook) whenever any Attribute changes its Base
+Effective Value.
+
+Temporary Modifiers are the equivalent of today's strength_mod etc, and will
+be managed entirely by script.  Intrinsic and Temporary modifiers will not
+be saved with game state.
+
+An Attribute's Effective Value is CInt((Base Value + Intrinsic Modifier +
+Temporary Modifier) divided by 10).  Effective Values can 
+thus range from 0 to 18000.
+
+Vitals
+--------
+Vitals have a Maximum Value, Current Value, and Regen Rate.
+
+Maximum Value range is from 0 to 1,000,000 (0.0 to 100,000.0)
+Current Value range is from 0 to 1,000,000 (0.0 to 100,000.0)
+  (internally these are both stored in hundredths of points)
+
+Maximum Values and Regen Rates will be recalculated by a system hook
+whenever an Attribute changes its Base Effective Value.
+
+Regen Rate is defined as hundredths of points regenerated per 5 seconds - a
+RegenRate of 100 will increase the Current Value by 1 (display) every 5
+seconds.
+
+Vital Regeneration occurs once every five seconds, when each 
+Vital Current Value is increased according to its RegenRate.
+
+Attribute Tests
+--------------------
+CheckSkill calls will be routed to a System Hook function.  No core
+CheckSkill functionality will be provided.  The CheckSkill function must
+determine success or failure as well as any appropriate Attribute gain.
+
+
+New functions
+
+// These are what most scripts should use to access Attributes and Vitals:
+// All Attribute Names are case-insensitive.
+
+// GetAttribute: returns Attribute's Effective Value (CInt(Base+Intrinsic+Temp)/10)
+GetAttribute( mob, attrname ) : integer;
+
+// GetVital:returns Vitals's Current Effective Value (Cint(Current/10))
+GetVital( mob, vitalname ) : integer;
+
+
+
+// these are what recalculation scripts, CheckSkill hooks etc will use
+GetAttributeBaseValue( mob, attrname ) : integer;
+GetAttributeTemporaryMod( mob, attrname ) : integer;
+GetAttributeIntrinsicMod( mob, attrname ) : integer;
+
+SetAttributeBaseValue( mob, attrname, basevalue );
+SetAttributeTemporaryMod( mob, attrname, temporary_mod );
+SetAttributeIntrinsicMod( mob, attrname, intrinsic_mod );
+
+GetVitalMaximumValue( mob, vitalname ) : integer;
+GetVitalCurrentValue( mob, vitalname ) : integer;
+GetVitalRegenRate( mob, vitalname ) : integer;
+
+SetVitalMaximumValue( mob, vitalname, value );
+SetVitalCurrentValue( mob, vitalname, value );
+SetVitalRegenRate( mob, vitalname, rate );
+
+
+CONVERSION NOTES
+================
+
+GetSkill( mob, SKILLID_MINING )         -> GetAttribute( mob, "Mining" )
+mob.strength                            -> GetAttribute( mob, "Strength" )
+mob.strength_mod := 5                   -> SetAttributeTemporaryMod( mob, "Strength", 50 )
+
+Note that any dealings with "Raw Skill" values should probably be rewritten entirely.
+SetRawSkill( mob, SKILLID_ALCHEMY, rawpoints )  -> SetAttributeBaseValue( mob, "alchemy", RawSkillToBaseSkill(rawpoints) )
+GetRawSkill( mob, SKILLID_ALCHEMY )             -> BaseSkillToRawSkill( GetAttributeBaseValue, "Alchemy" )

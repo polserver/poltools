@@ -1,4 +1,4 @@
-/* $Id: validate.inc 104 2006-05-25 22:14:15Z montuz $
+/* $Id$
  *    Author: Unreal
  *    Created: Sunday, May 21 2006
  *    Version: 0.01

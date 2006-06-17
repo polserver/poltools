@@ -1,4 +1,4 @@
-/* $Id: watchFeared.src 327 2006-06-14 14:56:52Z austinheilman $
+/* $Id$
  *
  */
 include ":brainAI:npcNerves";

@@ -1,0 +1,18 @@
+use uo;
+use os;
+
+program textcmd_consider( who )
+  var lc :=  CInt(GetObjProperty(who, "longmurders"));
+  var short := CInt(GetObjProperty(who, "shortmurders"));
+  if(GetObjProperty(who, "permared"))
+    SendSysMessage(who, "You are known throughout the land as a murderous brigand.");
+  elseif((short == 0) && (lc == 0))
+    SendSysMessage(who, "Fear not, thou hast not slain the innocent.");
+  elseif((short == 0) && (lc > 0))
+    SendSysMessage(who, "Fear not, thou hast not slain the innocent in some time.");
+  elseif((short > 0) && (short <= 4))
+    SendSysMessage(who, "Although thou hast slain the innocent, thy deeds shall not bring retribution upon thy return to the living.");
+  elseif(short >= 5)
+    SendSysMessage(who, "If thou should return to the land of the living, the innocent shall wreak havoc upon thy soul.");
+  endif
+endprogram

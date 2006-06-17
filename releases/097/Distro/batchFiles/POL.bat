@@ -1,4 +1,4 @@
-REM - $Id: POL.bat 182 2006-06-02 04:51:36Z austinheilman $
+REM - $Id$
 
 @ECHO OFF
 

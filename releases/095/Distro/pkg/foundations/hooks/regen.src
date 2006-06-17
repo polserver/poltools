@@ -1,0 +1,84 @@
+use uo;
+
+include "include/attributes";
+
+var npcdesccfg := ReadConfigFile("::npcdesc");
+
+program regen()
+	return 1;
+endprogram
+
+
+exported function GetLifeRegenRateExported(mob)
+	var rate := GetObjProperty(mob, CPROP_NAME_PREFIX_REGEN_RATE+VITALID_LIFE);
+	if( rate != error )
+		rate := Cint(rate);
+		if( rate != error )
+			return rate;
+		endif
+	endif
+	
+	return 1200;
+endfunction
+
+
+exported function GetLifeMaximumValueExported(mob)
+	var maxlife := (GetAttribute(mob, ATTRIBUTEID_STRENGTH) * 100);
+	if (mob.npctemplate)
+		var lifestat := npcdesccfg[mob.npctemplate].HITS;
+		if (lifestat or (lifestat == 0))
+			maxlife := CInt(lifestat) * 100;
+		endif
+	endif
+	return (maxlife);
+endfunction
+
+
+exported function GetStaminaRegenRateExported(mob)
+	var rate := GetObjProperty(mob, CPROP_NAME_PREFIX_REGEN_RATE+VITALID_STAMINA);
+	if( rate != error )
+		rate := Cint(rate);
+		if( rate != error )
+			return rate;
+		endif
+	endif
+	
+	return 1200;
+endfunction
+
+
+exported function GetStaminaMaximumValueExported(mob)
+	var maxstam := (GetAttribute(mob, ATTRIBUTEID_DEXTERITY) * 100);
+	if (mob.npctemplate)
+		var stamstat := npcdesccfg[mob.npctemplate].STAM;
+		if (stamstat or (stamstat == 0))
+			maxstam := CInt(stamstat) * 100;
+		endif
+	endif
+	return (maxstam);
+endfunction
+
+
+exported function GetManaRegenRateExported(mob)
+	var rate := GetObjProperty(mob, CPROP_NAME_PREFIX_REGEN_RATE+VITALID_MANA);
+	if( rate != error )
+		rate := Cint(rate);
+		if( rate != error )
+			return rate;
+		endif
+	endif
+	
+	return 1200;
+endfunction
+
+
+exported function GetManaMaximumValueExported(mob)
+	var maxmana := (GetAttribute(mob, ATTRIBUTEID_INTELLIGENCE) * 100);
+	if (mob.npctemplate)
+		var manastat := npcdesccfg[mob.npctemplate].MANA;
+		if (manastat or (manastat == 0))
+			maxmana := CInt(manastat) * 100;
+		endif
+	endif
+	return (maxmana);
+endfunction

@@ -1,0 +1,102 @@
+///////////////////////////////////////////////////////////
+//
+//   Pirate
+//
+//   Author: rje
+//
+//   Date: 1/99
+//
+//   A pirate is a social character who makes a living
+//   pillaging humans near shorlines.
+//
+///////////////////////////////////////////////////////////
+use uo;
+use npc;
+use util;
+
+var me         := npc::Self();
+const aggression  := 250;
+
+include "util/conflicts";
+include "include/eventID";
+include "include/sysEvent";
+include "include/randName";
+include "include/vetement";
+
+
+program Pirate()
+  start_script("NPCKeeper", me);
+    EnableEvents( SYSEVENT_SPEECH + SYSEVENT_ENGAGED + SYSEVENT_DISENGAGED + SYSEVENT_DAMAGED );
+    EnableEvents( SYSEVENT_ENTEREDAREA, 8 );
+    var next_wander := 0;
+	if (GetObjProperty(me, "frozen"))
+		me.frozen := 1;
+	endif
+    while (1)
+      if( badguy )
+           co_fight();
+        endif
+        var ev;
+        ev := os::wait_for_event( 120 );
+        case (ev.type)
+
+            SYSEVENT_SPEECH:      handleSpeech( ev.text );
+            SYSEVENT_ENGAGED:     co_target( ev.source );
+                              co_fight();
+            SYSEVENT_DISENGAGED:  co_untarget();
+            SYSEVENT_DAMAGED:     co_fight();
+
+            SYSEVENT_ENTEREDAREA: co_target( ev.source );
+
+        endcase
+
+	if (ReadGameClock() >= next_wander)
+                wander();
+                next_wander := ReadGameClock() + 10;
+        endif
+
+        case ( RandomInt( 200 ) )
+           0: say( "Yo ho yo ho" );
+           1: say( "Avast there matey." );
+           2: say( "Arr!" );
+           3: say( "Aye now..." );
+           4: say( "* ptui *" );
+           5: say( "A wee bit windy." );
+           6: say( "It be fair sailin'." );
+           7: say( "It be a bonny fine day." );
+           8: say( "Curse these foul tides!" );
+        endcase
+
+    endwhile
+
+endprogram
+
+function handleSpeech( msg )
+
+   if ( RandomInt( 2 ) == 0 )
+      return;
+   endif
+
+   if ( msg[ "rootbeer" ] )     say( "Yo ho yo ho a pirate's life for me! ");
+   elseif ( msg[ "arr" ] )      say( "Avast there matey!" );
+   elseif ( msg[ "avast" ] )    say( "Move that thing!" );
+   elseif ( msg[ "that thing" ])say( "...and that other thing!" );
+   elseif ( msg[ "aweigh" ] )   say( "Heave!" );
+   elseif ( msg[ "heave" ])     say( "Ho!" );
+   elseif ( msg[ "rum" ])       say( "Sixteen men on a deadman's chest" );
+   elseif ( msg[ "chest" ])     say( "Yo ho ho and a bottle of rootbeer!" );
+   elseif ( msg[ "ahoy" ])      say( "Ahoy there, matey!" );
+   elseif ( msg[ "argh" ])      say( "Arr!" );
+   elseif ( msg[ "grog" ])      say( "Aye, I'd kill fer a flagon 'o that!" );
+   elseif ( msg[ "parrot" ])    say( "Arr, I was starved so, I eats me parrot, so I did!" );
+   elseif ( msg[ "walk" ] && msg[ "plank" ])
+      say( "Arr, ye'll surely be walkin' the plank afore sunrise tomorrer!" );
+   elseif ( msg[ "treasure" ])
+      say( "Aye now, ye be lookin' fer our buried locker, I'll wager." );
+   elseif ( msg[ "locker" ] )
+      say( "Oh, it's safe and sound on the riverside." );
+   elseif( msg[ "river" ] )
+      say( "Arr, the river's near Vesper, ye ken?" );
+   endif
+
+endfunction

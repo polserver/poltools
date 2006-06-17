@@ -1,0 +1,5 @@
+include ":devpkgA:test";
+
+program testprogram()
+    foo();
+endprogram
