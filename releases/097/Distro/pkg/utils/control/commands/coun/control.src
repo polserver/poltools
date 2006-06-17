@@ -14,6 +14,7 @@ include ":control:include/icp-generalinfo";
 include ":control:include/icp-gumps";
 include ":control:include/icp-index";
 include ":control:include/icp-itemdesc";
+include ":control:include/icp-npcdesc";
 include ":control:include/icp-pkgpanel";
 include ":control:include/icp-scripts";
 include ":control:include/icp-util";
@@ -26,6 +27,7 @@ CONST GENERAL_BTN	:= 0xA00004;
 CONST SCRIPTS_BTN	:= 0xA00005;
 CONST COMMANDS_BTN	:= 0xA00006;
 CONST ITEMDESC_BTN	:= 0xA00007;
+CONST NPCDESC_BTN	:= 0xA00008;
 
 // Easier to use the datafile as a global.
 var pkg_info := DFOpenDataFile(":control:packages", DF_CREATE);
