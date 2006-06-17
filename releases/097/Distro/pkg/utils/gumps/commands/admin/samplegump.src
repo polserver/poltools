@@ -8,7 +8,7 @@ program GumpTest(who)
 	var temp := "";
 	var gump := GFCreateGump(0, 0, 640, 480);
 	GFDisposable(gump, 0);
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 640, 480);		//Background
+	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 640, 480);	//Background
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 610, 450);	//Foreground
 	
 	GFPage(gump, 10);
@@ -18,7 +18,9 @@ program GumpTest(who)
 	GFPage(gump, 1);	
 	//Picture Functions
 	GFTextLine(gump, 460, 15, 1153, "Picture Functions");
-	GFTilePic(gump, 470, 35, 2466);
+	GFTilePic(gump, 460, 35, 2466);
+	GFTilePic(gump, 460, 65, 2466, 1108);
+	GFGumpPic(gump, 545, 0, 0xC5B3, 1153);
 	GFGumpPic(gump, 510, 40, 0x15A9);
 	
 	//Text Entry Examples
