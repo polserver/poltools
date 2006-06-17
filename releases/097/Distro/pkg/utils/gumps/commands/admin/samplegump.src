@@ -26,7 +26,7 @@ program GumpTest(who)
 	//Text Entry Examples
 	GFGumpPic(gump, 350, 130, 0x477);
 	GFTextEntry(gump, 360, 133, 250, 25, 35, "Text Entry #1");
-	GFGumpPic(gump, 350, 160, 0x477);
+	GFGumpPic(gump, 350, 160, 0x477, 2100);
 	GFTextEntry(gump, 360, 163, 250, 25, 500, "Text Entry #2");
 	
 	//HTML Area Example
