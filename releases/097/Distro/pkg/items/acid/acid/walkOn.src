@@ -2,6 +2,7 @@
  *
  */
 use uo;
+use vitals;
 
 include ":acid:acid";
 

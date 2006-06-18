@@ -5,6 +5,7 @@
 
 use uo;
 use os;
+use vitals;
 
 include ":gumps:requestgump";
 
