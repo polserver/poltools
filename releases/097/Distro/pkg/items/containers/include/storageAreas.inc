@@ -20,6 +20,7 @@ use uo;
 use os;
 use file;
 use polsys;
+use storage;
 
 // * Global Variables *
 CONST CP_NOCREATE	:= 0x0;
