@@ -1,5 +1,6 @@
 =======
 06-18 Austin
+        Changed : Moved storage area functions to storage.em
         Changed : Moved vital functions, ApplyDamage, ApplyRawDamage and HealDamage 
                   from uo.em to vitals.em
                   
