@@ -16,6 +16,7 @@ use os;
 use npc;
 use cfgfile;
 use polsys;
+use vitals;
 
 include "include/sysEvent";
 include ":brainAI:braincore/error";
