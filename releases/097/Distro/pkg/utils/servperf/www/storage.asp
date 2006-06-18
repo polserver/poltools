@@ -1,6 +1,7 @@
 <%
 use uo;
 use polsys;
+use storage;
 %>
 <html>
 
