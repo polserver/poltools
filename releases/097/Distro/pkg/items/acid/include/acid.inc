@@ -4,6 +4,7 @@
 use uo;
 use cfgfile;
 use util;
+use vitals;
 
 include ":brainAI:npcUtil";
 include "include/packets";

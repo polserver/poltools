@@ -4,6 +4,7 @@
 //Example: .massacre [radius] - Kills npcs within the radius and leaves the corpses.
 
 use uo;
+use vitals;
 
 include ":gumps:requestgump";
 

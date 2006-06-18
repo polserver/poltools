@@ -1,5 +1,6 @@
 use uo;
 use os;
+use vitals;
 
 include ":timedscripts:timedScripts";
 
@@ -8,6 +9,8 @@ program UseFeces(who, feces)
 		SendSysMessage(who, "That is not movable.");
 		return 0;
 	endif
+	
+	SetScriptController(0);
 
 	SendSysMessage(who, "What do you want to throw this at?");
 	var targ := target(who);

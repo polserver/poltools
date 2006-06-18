@@ -5,6 +5,7 @@
 use uo;
 use os;
 use polsys;
+use vitals;
 
 include ":gumps:yesno";
 include ":gumps:requestgump";
