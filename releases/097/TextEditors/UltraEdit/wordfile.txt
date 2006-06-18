@@ -89,6 +89,7 @@ include
 use
 
 /C4"EM Files"
+ATTRIBUTES
 BASIC
 BASICIO
 BOAT
