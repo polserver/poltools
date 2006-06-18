@@ -13,6 +13,7 @@
 use uo;
 use os;
 use cfgfile;
+use attributes;
 
 include ":attributes:regen";
 include ":attributes:settings";
