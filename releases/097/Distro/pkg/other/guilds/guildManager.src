@@ -4,7 +4,8 @@
  *	  Version: 0.03
  */
 
-use	os;
+use os;
+use guilds;
 
 include	":guilds:include/report";
 include	":guilds:include/settings";

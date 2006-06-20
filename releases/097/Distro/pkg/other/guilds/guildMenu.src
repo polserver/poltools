@@ -4,6 +4,7 @@
  */
 
 use uo;
+use guilds;
 
 include ":guilds:include/report";
 include ":guilds:include/settings";
