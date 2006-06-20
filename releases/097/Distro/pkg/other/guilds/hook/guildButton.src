@@ -5,6 +5,7 @@
 
 use uo;
 use polsys;
+use guilds;
 
 CONST OFFSET_UNKOWN_A := 0x01;
 CONST OFFSET_PLAYER_SERIAL := 0x03;
