@@ -1,4 +1,4 @@
-/L1"EScript 096"
+/L1"EScript 097"
 /Nocase
 /Line Comment = //
 /Block Comment On = /*
@@ -94,8 +94,10 @@ BASIC
 BASICIO
 BOAT
 CFGFILE
+CLILOC
 DATAFILE
 FILE
+GUILDS
 HTTP
 MATH
 NPC
@@ -293,9 +295,11 @@ PolCore
 Pow
 Print
 PrintTextAbove
+PrintTextAboveCL
+PrintTextAboveUC
 PrintTextAbovePrivate
 PrintTextAbovePrivateUC
-PrintTextAboveUC
+PrintTextAbovePrivateCL
 QueryIP
 QueryParam
 RadToDeg
@@ -344,6 +348,7 @@ SendSkillWindow
 SendStatus
 SendStringAsTipWindow
 SendSysMessage
+SendSysMessageCL
 SendSysMessageUC
 SendTextEntryGump
 SendViewContainer
@@ -808,6 +813,10 @@ _DEFAULT_TEXT_FONT
 _DEFAULT_UCCOLOR
 _DEFAULT_UCFONT
 
+
+
+
+
 /L2"POL Config File"
 /Nocase
 /Line Comment = //
@@ -837,10 +846,14 @@ SpellScroll
 weapon
 NPCTemplate
 
+
+
+
+
 /L20"Ultra Edit WordFile"
 /Nocase
 /Escape Char = \
 /File Names = wordfile.txt
-/String Chars =
+/String Chars=
 /Delimiters = ~!@%^&*()-+=|/{}[]:;"' <>	,.?
 /Function String = "%/L[0-9]+"^([a-zA-Z0-9_ ]++^)""
