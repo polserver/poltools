@@ -112,9 +112,8 @@ endfunction
  *
  */
 function GetIsAType(object, flags:=0)
-	CONST MAX_TYPE := 16;
 	var type_list := array;
-	var i := MAX_TYPE;
+	var i := 16; // Max number of IsA Id #s
 	for ( i; i > 0; i:=i-1 )
 		if ( !object.IsA(i) )
 			continue;
