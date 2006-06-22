@@ -114,8 +114,8 @@ endfunction
 function GetIsAType(object, flags:=0)
 	CONST MAX_TYPE := 16;
 	var type_list := array;
-	var i := 1;
-	for ( i; i<=MAX_TYPE; i:=i+1 )
+	var i := MAX_TYPE;
+	for ( i; i > 0; i:=i-1 )
 		if ( !object.IsA(i) )
 			continue;
 		elseif ( flags & ISA_GET_ALL )
