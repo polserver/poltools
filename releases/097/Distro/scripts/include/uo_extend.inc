@@ -8,10 +8,15 @@ use os;
 use util;
 use polsys;
 
+//
 // For: EnumerateOnlineCharactersABC()
 //
-CONST SORT_ASCENDING  := 0x0; // Default
-CONST SORT_DESCENDING := 0x1;
+CONST SORT_ASCENDING	:= 0x0; // Default
+CONST SORT_DESCENDING	:= 0x1;
+
+// For: GetIsAType()
+CONST ISA_GET_MAIN	:= 0x0; // Default
+CONST ISA_GET_ALL	:= 0x1;
 
 /*
  * EnumerateOnlineCharactersABC(dir)
@@ -87,6 +92,83 @@ function EnumeratePhysicalItems(mobile)
 	endfor
 
 	return equip_list;
+endfunction
+
+/*
+ * GetIsAType(object, flags)
+ *
+ * Purpose
+ * Retrieves the 'IsA' type for an object or all of the
+ * classes it belongs to.
+ *
+ * Parameters:
+ * object:	Anything belonging to the UObject class heirarchy.
+ * flags:	Flags...
+ *
+ * Return value:
+ * Returns an error on failure.
+ * Returns an integer if ISA_GET_MAIN is passed for flags.
+ * Returns an array of integers if ISA_GET_ALL is used.
+ *
+ */
+function GetIsAType(object, flags:=0)
+	CONST MAX_TYPE := 16;
+	var type_list := array;
+	var i := 1;
+	for ( i; i<=MAX_TYPE; i:=i+1 )
+		if ( !object.IsA(i) )
+			continue;
+		elseif ( flags & ISA_GET_ALL )
+			type_list.Append(i);
+		else
+			return i;
+		endif
+		SleepMS(2);
+	endfor
+	
+	if ( type_list.Size() > 0 )
+		return type_list;
+	else
+		return error{"errortext":="Unable to determine IsA type of '"+TypeOf(object)+"'"};
+	endif
+endfunction
+
+/*
+ * GetIsATypeName(isa_id)
+ *
+ * Purpose
+ * Retrieves the name for an IsA id number.
+ *
+ * Parameters:
+ * isa_id:	Any number that matches an IsA number.
+ *
+ * Return value:
+ * Returns an error on failure.
+ * Returns a string on success.
+ *
+ */
+function GetIsAName(isa_id)
+	isa_id := CInt(isa_id);
+	var type := "POLCLASS_";
+	case ( isa_id )
+		1: return type+"UOBJECT"; break;
+		2: return type+"ITEM"; break;
+		3: return type+"MOBILE"; break;
+		4: return type+"NPC"; break;
+		5: return type+"LOCKABLE"; break;
+		6: return type+"CONTAINER"; break;
+		7: return type+"CORPSE"; break;
+		8: return type+"DOOR"; break;
+		9: return type+"SPELLBOOK"; break;
+		10: return type+"MAP"; break;
+		11: return type+"MULTI"; break;
+		12: return type+"BOAT"; break;
+		13: return type+"HOUSE"; break;
+		14: return type+"EQUIPMENT"; break;
+		15: return type+"ARMOR"; break;
+		16: return type+"WEAPON"; break;
+		default: return error{"errortext":="'"+isa_id+"' is not a valid IsA number."};
+	endcase
 endfunction
 
 /*
