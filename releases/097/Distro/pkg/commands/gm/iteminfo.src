@@ -17,8 +17,6 @@ include ":gumps:yesno";
 include ":combat:weaponInfo";
 include "include/uo_extend";
 
-unload_scripts("iteminfo");
-
 CONST START_Y	:= 55;   // These are to track the display area height.
 CONST END_Y	:= 410;  // These are to track the display area height.
 CONST MENU_BTN	:= 0xF000; // Value of the first menu button.
@@ -37,7 +35,6 @@ program textcmd_Info(who, serial)
 		who := who[1];
 	endif
 	
-	UnloadConfigFile(":commands:iteminfo");
 	info_cfg := ReadConfigFile(":commands:iteminfo");
 	if ( !info_cfg )
 		SendSysMessage(who, "Error reading in iteminfo.cfg ->"+info_cfg);
