@@ -111,7 +111,7 @@ endfunction
  * Returns an array of integers if ISA_GET_ALL is used.
  *
  */
-function GetIsAType(object, flags:=0)
+function GetIsAType(object, flags:=ISA_GET_MAIN)
 	var type_list := array;
 	var i := 16; // Max number of IsA Id #s
 	for ( i; i > 0; i:=i-1 )
