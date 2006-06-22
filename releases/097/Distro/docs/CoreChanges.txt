@@ -1,4 +1,25 @@
-=======
+06-22 Austin
+        Added : Attributes::GetAttributeName(alias) - Returns the real attribute name from an alias.
+        Added : Vitals::GetVitalName(alias) - Returns the real vital name from an alias.
+        Added : PolSys::GetCmdLvlName(alias/number) - Returns the real command level name from an alias.
+        
+06-21 MuadDib
+        Added : Cliloc::PrintTextAboveCL() and PrintTextAbovePrivate().
+        Added : Support for Talisman layer (layer 9) in core definitions.
+        Hint : Quivers (added in ML) share layer 20 with cloaks. You can however
+               on Origin equip cloaks AND quivers. Ewwww.
+               
+06-20 MuadDib
+        Added : Cliloc.em added to the list of new EM Modules. Included in this is already
+                the command SendSysMessageCL(). The new EM will have the commands
+                commented for instruction of use. If you know about clilocs, you know
+                they can be a pain and have additional arguments. Sending normal clilocs
+                and ones with arguments are both supported in the single commands.
+                Argument flag defaults to 0 in the EM for this.
+
+06-20 Austin
+        Changed : Moved guild functions to guilds.em
+
 06-18 Austin
         Changed : Moved storage area functions to storage.em
         Changed : Moved vital functions, ApplyDamage, ApplyRawDamage and HealDamage 
@@ -79,3 +100,4 @@
                   MoveObjectToLocation() now.
         Removed : Removed depreciated UO.EM Function MoveItemToLocation(). Use
                   MoveObjectToLocation() now.
+
