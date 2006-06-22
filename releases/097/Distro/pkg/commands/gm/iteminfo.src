@@ -260,15 +260,11 @@ endfunction
 function GetCustom(targ, property)
 	case ( Lower(property) )
 		"weapon_speed":
-			return CS_GetWeaponInfo(targ.weapon, "Speed");
+			return CS_GetWeaponInfo(targ, "Speed");
 		"damage_dice":
-			return CS_GetWeaponInfo(targ.weapon, "Damage");
+			return CS_GetWeaponInfo(targ, "Damage");
 		"average_damage":
-			return CS_GetAverageDamage(targ.weapon);
-		"gotten_item_name":
-			return targ.GetGottenItem().desc;
-		"gotten_item_serial":
-			return targ.GetGottenItem().serial;
+			return CS_GetAverageDamage(targ);
 	endcase
 
 	return "Unknown custom type!";
