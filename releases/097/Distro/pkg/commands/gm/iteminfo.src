@@ -1,5 +1,5 @@
 /*
- * $Id: info.src 373 2006-06-17 18:27:33Z austinheilman $
+ * $Id$
  *
  * Purpose
  *
@@ -10,16 +10,14 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":brainAI:npcUtil";
 include ":gumps:gumps";
 include ":gumps:gumpprompt";
 include ":gumps:requestgump";
 include ":gumps:yesno";
-include ":containers:storageAreas";
 include ":combat:weaponInfo";
-include "include/arrays";
 include "include/uo_extend";
+
+unload_scripts("iteminfo");
 
 CONST START_Y	:= 55;   // These are to track the display area height.
 CONST END_Y	:= 410;  // These are to track the display area height.
