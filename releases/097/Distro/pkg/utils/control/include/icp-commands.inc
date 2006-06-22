@@ -79,7 +79,15 @@ function ICP_StartCommand(who, input, pkg_elem)
 	var script_line := script_list[input];
 	var temp := ICP_ParseScript(script_line);
 
-	if ( CInt(temp.cmdlevel) > who.cmdlevel )
+	// Check if the command level was a valid level name:
+	var cmdlevel := GetCmdLevelNumber(temp.cmdlevel);
+	if ( cmdlevel == error )
+		//Could be a number or a bad name...
+		//Numbers here works.. but a bad name (string) would get turned into 0.
+		cmdlevel := CInt(temp.cmdlevel);
+	endif
+
+	if ( cmdlevel > who.cmdlevel )
 		GumpPrompt(who, "Command level is not high enough to use command.");
 		return 0;
 	else
