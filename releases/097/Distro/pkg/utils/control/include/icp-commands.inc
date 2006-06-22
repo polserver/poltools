@@ -81,12 +81,13 @@ function ICP_StartCommand(who, input, pkg_elem)
 
 	// Check if the command level was a valid level name:
 	var cmdlevel := GetCmdLevelNumber(temp.cmdlevel);
+	//Print("Cmdlevel == "+cmdlevel);
 	if ( cmdlevel == error )
 		//Could be a number or a bad name...
 		//Numbers here works.. but a bad name (string) would get turned into 0.
 		cmdlevel := CInt(temp.cmdlevel);
 	endif
-
+	//SysLog(who.cmdlevel+"=="+who.cmdlevel+"     &&     cmdlevel=="+cmdlevel);
 	if ( cmdlevel > who.cmdlevel )
 		GumpPrompt(who, "Command level is not high enough to use command.");
 		return 0;
