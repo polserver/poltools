@@ -326,6 +326,9 @@ function ProcessInput(who, targ, input)
 		"methodedit":
 			MethodEdit(who, targ, input_info);
 			break;
+		"amountedit":
+			AmountEdit(who, targ, input_info);
+			break;
 		default:
 			GumpPrompt(who, "Dont know what to do with edit function type '"+input_info.editFunc+"'");
 			break;
@@ -393,9 +396,27 @@ function MethodEdit(who, targ, input_info)
 
 	case ( Lower(input_info.name) )
 		default:
-			GumpPrompt(who, "Dont know how to handle method '"+input_info.name);
+			GumpPrompt(who, "Dont know how to handle method '"+input_info.name+"'");
 			break;
 	endcase
 	
+	return 1;
+endfunction
+
+function AmountEdit(who, targ, input_info)
+	var value := ParseMembers(targ, input_info.name);
+
+	var change := RequestGump(who, "New value to assign "+input_info.name+" to.", "", CStr(value), CANCEL_BTN_ON);
+	if ( !change )
+		SendSysMessage(who, "Cancelled.");
+		return;
+	endif
+	change := CInt(change);
+	if ( change > targ.amount )
+		AddAmount(targ, change-targ.amount);
+	else
+		SubtractAmount(targ, targ.amount-change);
+	endif
+
 	return 1;
 endfunction

@@ -564,7 +564,7 @@ function MethodEdit(who, targ, input_info)
 			targ.Squelch(CInt(change));
 			break;
 		default:
-			GumpPrompt(who, "Dont know how to handle method '"+input_info.name);
+			GumpPrompt(who, "Dont know how to handle method '"+input_info.name+"'");
 			break;
 	endcase
 	
