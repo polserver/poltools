@@ -37,9 +37,10 @@ program textcmd_Info(who, serial)
 		who := who[1];
 	endif
 	
-	info_cfg := ReadConfigFile(":commands:info");
+	UnloadConfigFile(":commands:iteminfo");
+	info_cfg := ReadConfigFile(":commands:iteminfo");
 	if ( !info_cfg )
-		SendSysMessage(who, "Error reading in info.cfg ->"+info_cfg);
+		SendSysMessage(who, "Error reading in iteminfo.cfg ->"+info_cfg);
 		return 0;
 	else
 		index_list := GetConfigStringArray(info_cfg["Index"], "Index");
@@ -119,6 +120,9 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 				GFTextLine(gump, 175, y_pos, 2100, entry);
 				y_pos := y_pos+20;
 				break;
+			"displaygeneral":
+				DisplayGeneral(targ, gump);
+				break;	
 			"blank":
 				var buffer := CInt(entry[2]);
 				if ( !buffer )
@@ -183,6 +187,25 @@ function DisplayWeaponInfo(targ, byref gump, byref entry, byref y_pos)
 	endcase
 	
 	y_pos := y_pos+20;
+	
+	return 1;
+endfunction
+
+function DisplayGeneral(targ, byref gump)
+	GFResizePic(gump, 145, 55, GetCfgConst("Defaults", "ForeGround"), 340, 240);
+	var isa_types := GetIsAType(targ, ISA_GET_ALL);
+	isa_types.Reverse();
+	GFTextLine(gump, 155, 60, 2100, "ISA TREE");
+	var y_pos := 85;
+	foreach type in ( isa_types )
+		type := GetIsAName(type);
+		GFTextLine(gump, 155+(_type_iter*5), y_pos, 2100, type);
+		y_pos := y_pos+20;
+		SleepMS(2);
+	endforeach
+	
+	GFResizePic(gump, 145, 300, GetCfgConst("BackGrounds", "GOLDTRIM"), 340, 165);
+	GFTilePic(gump, 290, 355, targ.graphic, targ.color);
 	
 	return 1;
 endfunction
@@ -332,7 +355,8 @@ function CoordEdit(who, targ, input_info)
 	var y := targ.y;
 	var z := targ.z;
 	var realm := targ.realm;
-
+	var movable := targ.movable;
+	targ.movable := 1;
 	case ( Lower(input_info.name) )
 		"x":
 			x := CInt(change);
@@ -349,6 +373,7 @@ function CoordEdit(who, targ, input_info)
 	endcase
 
 	var result := MoveObjectToLocation(targ, x, y, z, realm, MOVEOBJECT_FORCELOCATION);
+	targ.movable := movable;
 	if ( result.errortext )
 		GumpPrompt(who, "Movement Error [P] "+result);
 	endif
