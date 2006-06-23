@@ -2,7 +2,6 @@
 /*
  *  Include file by Austin Heilman
  *  AustinHeilman@gmail
- *  http: * www.tsse.net
  *
  *  This is an include file for the PHP language.
  *  It is used to easily parse POL config files.
