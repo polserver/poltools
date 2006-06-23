@@ -1,5 +1,6 @@
 <?
-/*
+/*  $Id$
+ *
  *  Include file by Austin Heilman
  *  AustinHeilman@gmail
  *
