@@ -1,14 +1,33 @@
+-- POL097 --
+=======
+06-23 Austin
+        Added : PolSys::ListTextCommands() - Returns a dict of a dict of structs.
+                Dict 1 - Package names Dict 2 - Command levels Struct - .dir .script
+                Example:
+                  foreach package in ( commands )
+                     Print("Pkg:"+_package_iter);
+                     foreach level in ( package )
+                        Print(" CmdLvl:"+_level_iter);
+                        foreach command in ( level )
+                           Print("     "+command);
+                           SleepMS(2);
+                        endforeach
+                        SleepMS(2);
+	             endforeach
+	  	     SleepMS(2);
+	          endforeach
+
 06-22 Austin
         Added : Attributes::GetAttributeName(alias) - Returns the real attribute name from an alias.
         Added : Vitals::GetVitalName(alias) - Returns the real vital name from an alias.
         Added : PolSys::GetCmdLvlName(alias/number) - Returns the real command level name from an alias.
-        
+
 06-21 MuadDib
         Added : Cliloc::PrintTextAboveCL() and PrintTextAbovePrivate().
         Added : Support for Talisman layer (layer 9) in core definitions.
         Hint : Quivers (added in ML) share layer 20 with cloaks. You can however
                on Origin equip cloaks AND quivers. Ewwww.
-               
+
 06-20 MuadDib
         Added : Cliloc.em added to the list of new EM Modules. Included in this is already
                 the command SendSysMessageCL(). The new EM will have the commands
@@ -22,37 +41,37 @@
 
 06-18 Austin
         Changed : Moved storage area functions to storage.em
-        Changed : Moved vital functions, ApplyDamage, ApplyRawDamage and HealDamage 
+        Changed : Moved vital functions, ApplyDamage, ApplyRawDamage and HealDamage
                   from uo.em to vitals.em
-                  
+
 06-17 Austin
         Changed : Updated handling of object properties and methods. Should provide a slight
                   speed increase.
         Changed : Moved attribute functions from uo.em to a new attributes.em module.
-        
+
 06-16 MuadDib
         Changed : AddMenuItem() now has a color option. Default is 0.
         Hint : menus.cfg uses the color of the itemdesc entry of the objtype given,
                to get color. So if an item has no itemdesc entry, it defaults to 0.
-               
+
 06-16 Austin
-        Removed: Skills.cfg is no longer used. 
+        Removed: Skills.cfg is no longer used.
                  Instead skill IDs will be read from uoskills.cfg and redirected to
                  attributes.cfg. The attributes.cfg file now has support for the old entries.
                 skills.cfg entries supported now in attributes.cfg are:
                 DELAY, UNHIDES and SCRIPT
-                
+
 06-15 Austin
-        Added : mobile.Privileges() - Returns a dictionary. 
+        Added : mobile.Privileges() - Returns a dictionary.
                 The key is the privilege name. The value 0/1 is if it is enabled or not.
         Removed: Built-in text commands (you'll need to script them):
-                 .eobjcount, .i_help, .log, .los, .objcount, .priv, .privs, .set, .turn, 
+                 .eobjcount, .i_help, .log, .los, .objcount, .priv, .privs, .set, .turn,
                  .t_online, .unload, .unloadall, .wheretest
 
 06-15 MuadDib
         Added : Function OpenURL(character, url_string) to OS.EM. Used to send Open Web
                 Browser packet to client.
-                 
+
 06-14 MuadDib
         Added : AOS style status bar is now generated correctly for AOS+ clients that ALSO
                 have the UOExpansion set to AOS or higher. Only thing populated by core is
@@ -74,12 +93,12 @@
                   when client already has an active target cursor.
 
 06-12 Austin
-        Added : UO::CloseTradeWindow(mobile) - Will close the trade window for the mobile and the 
+        Added : UO::CloseTradeWindow(mobile) - Will close the trade window for the mobile and the
                 person it is trading with.
 
 06-11 Austin
         Added : mobile.trading_with - Returns a mobile reference if a secure trade is taking place.
-        Added : Util::StrFormatTime(format_string, time_stamp). 
+        Added : Util::StrFormatTime(format_string, time_stamp).
                 Takes in the StrFTime() specifiers for the format string.
                 (http://www.cppreference.com/stddate/strftime.html)
                 If time_stamp is 0, it will use POLCore().systime.
