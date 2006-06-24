@@ -99,7 +99,7 @@ program textcmd_CommandBar(who)
 			GumpPrompt(who, "Settings updated.");
 		elseif ( input[0] >= PKG_START )
 			var temp := commands.Keys();
-			cur_pkg := temp[input[0]];
+			cur_pkg := temp[input[0]-PKG_START];
 			cur_menu := PKG_START;
 		else
 			// This gets hit when the user right clicks the gump
@@ -186,15 +186,16 @@ function PkgListMenu(who, byref commands)
 endfunction
 
 function CmdLevelMenu(who, cur_pkg, byref commands)
-	var gump := PkgListMenu(who, commands);
-	GFPage(gump, 1);
-	
-	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
-	var y_pos := 35;
 	var cmd_lvls := commands[cur_pkg];
-
-	foreach level_id in ( cmd_lvls.Keys() )
-		GFTextLine(gump, 200, y_pos, 2100, level_id);
+	var gump := PkgListMenu(who, commands);
+	GFPage(gump, 0);
+	cmd_lvls := cmd_lvls.Keys();
+	var y_length := (cmd_lvls.Size() * 20)+10;
+	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+	
+	var y_pos := 35;
+	foreach level_id in ( cmd_lvls )
+		GFTextLine(gump, 200, y_pos, 2100, GetCmdLevelName(level_id));
 		GFAddButton(gump, 315, y_pos+3, 5224, 5224, GF_CLOSE_BTN, LVL_START+_level_id_iter);
 		y_pos := y_pos+20;
 				
@@ -203,7 +204,7 @@ function CmdLevelMenu(who, cur_pkg, byref commands)
 
 	if ( LoadUserSetting(who, "Transparent") )
 		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 185, 30, 150, 430);
+		GFAddAlphaRegion(gump, 185, 30, 150, 180);
 	endif
 	
 	return gump;
