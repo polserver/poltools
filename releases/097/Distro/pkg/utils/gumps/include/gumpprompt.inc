@@ -32,9 +32,11 @@ include ":gumps:gumps_ex";
  */
 function GumpPrompt(mobile, text, movable:=0)
 	var gump_prompt := GFCreateGump(180, 100);
+	GFClosable(gump_prompt, 0);
 	if ( !movable )
-		GFClosable(gump_prompt, 0);
+		GFMovable(gump_prompt, 0);
 	endif
+	
 	GFResizePic(gump_prompt, 0, 0, GetCfgConst("Defaults", "BackGround"), 300, 160);
 	GFResizePic(gump_prompt, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 130);
 		
