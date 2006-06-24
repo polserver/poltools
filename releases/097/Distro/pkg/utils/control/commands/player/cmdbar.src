@@ -8,11 +8,15 @@ use polsys;
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
 
 unload_scripts("cmdbar");
 
 CONST COLLAPSE_BTN	:= 0xA00;
 CONST EXPAND_BTN	:= 0xA01;
+CONST REFRESH_BTN	:= 0xA02;
+CONST CMDLVLS_BTN	:= 0xA03;
+CONST CMDS_START	:= 0xF00;
 
 program textcmd_CommandBar(who)
 	if ( GetProcess(GetObjProperty(who, "#CmdBarPid")) )
@@ -22,7 +26,7 @@ program textcmd_CommandBar(who)
 		SetObjProperty(who, "#CmdBarPid", GetPid());
 	endif
 
-	//var commands := ListTextCommands();
+	var commands := ListTextCommands();
 
 	var cur_menu := EXPAND_BTN;
 	while ( who.connected )
@@ -31,6 +35,8 @@ program textcmd_CommandBar(who)
 			gump := ExpandedMenu();
 		elseif ( cur_menu == COLLAPSE_BTN )
 			gump := CollapsedMenu();
+		elseif ( cur_menu == CMDLVLS_BTN )
+			gump := CommandLevelsMenu();
 		endif
 
 		var input := GFSendGump(who, gump);
@@ -40,6 +46,11 @@ program textcmd_CommandBar(who)
 			cur_menu := COLLAPSE_BTN;
 		elseif ( input[EXPAND_BTN] )
 			cur_menu := EXPAND_BTN;
+		elseif ( input[REFRESH_BTN] )
+			commands := ListTextCommands();
+			GumpPrompt(who, "Command list has been updated.");
+		elseif ( input[CMDLVLS_BTN] )
+			cur_menu := CMDLVLS_BTN;
 		endif
 
 		SleepMS(2);
@@ -55,10 +66,12 @@ function ExpandedMenu()
 	GFGumpPic(gump, 35, 4, 0x98D);
 	GFTextLine(gump, 60, 5, 2100, "Commands");
 	
-	GFGumpPic(gump, 150, 4, 0x98D);
+	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, REFRESH_BTN);
+	//GFGumpPic(gump, 150, 4, 0x98D);
 	GFTextLine(gump, 165, 5, 2100, "Refresh List");
 	
-	GFGumpPic(gump, 265, 4, 0x98D);
+	GFAddButton(gump, 265, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
+	//GFGumpPic(gump, 265, 4, 0x98D);	
 	GFTextLine(gump, 272, 5, 2100, "Command Levels");
 
 	return gump;
@@ -69,5 +82,23 @@ function CollapsedMenu()
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
 	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
 
+	return gump;
+endfunction
+
+function CommandLevelsMenu()
+	var cmd_cfg := ReadConfigFile("::cmds");
+	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
+	
+	var gump := ExpandedMenu();
+	var y_length := (num_levels * 20)+10;
+	GFResizePic(gump, 265, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
+	var i;
+	var y_pos := 35;
+	for ( i:=0; i<num_levels; i:=i+1 )
+		GFTextLine(gump, 270, y_pos, 2100, i+" - "+GetCmdLevelName(i));
+		y_pos := y_pos+20;
+		SleepMS(2);
+	endfor
+	
 	return gump;
 endfunction
