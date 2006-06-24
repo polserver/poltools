@@ -103,7 +103,7 @@ endfunction
  *
  */
  function GFClosable(byref gump, bool)
-	case(bool)
+	case ( bool )
 		0:
 			if ( gump.base.CloseLoc )
 				return XGFError("Gump already contains the 'NoClose' flag.");
@@ -147,7 +147,7 @@ endfunction
  *
  */
 function GFDisposable(byref gump, bool)
-	case(bool)
+	case ( bool )
 		0:
 			if ( gump.base.DisposeLoc )
 				return XGFError("Gump already contains the 'NoDispose' flag.");
@@ -187,7 +187,7 @@ function GFDisposable(byref gump, bool)
  *
  */
 function GFMovable(byref gump, bool)
-		case(bool)
+	case ( bool )
 		0:
 			if ( gump.base.MoveLoc )
 				return XGFError("Gump already contains the 'NoMove' flag.");
