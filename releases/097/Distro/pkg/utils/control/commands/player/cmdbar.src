@@ -1,0 +1,65 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use polsys;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+unload_scripts("cmdbar");
+
+CONST COLLAPSE_BTN	:= 0xA00;
+CONST EXPAND_BTN	:= 0xA01;
+
+program textcmd_CommandBar(who)
+	if ( GetProcess(GetObjProperty(who, "#CmdBarPid")) )
+		SendSysMessage(who, "You already have a command bar open.");
+		return 0;
+	else
+		SetObjProperty(who, "#CmdBarPid", GetPid());
+	endif
+
+	//var commands := ListTextCommands();
+
+	var cur_menu := EXPAND_BTN;
+	while ( who.connected )
+		var gump;
+		if ( cur_menu == EXPAND_BTN )
+			gump := ExpandedMenu();
+		elseif ( cur_menu == COLLAPSE_BTN )
+			gump := CollapsedMenu();
+		endif
+
+		var input := GFSendGump(who, gump);
+		if ( !input[0] )
+			break;
+		elseif ( input[COLLAPSE_BTN] )
+			cur_menu := COLLAPSE_BTN;
+		elseif ( input[EXPAND_BTN] )
+			cur_menu := EXPAND_BTN;
+		endif
+
+		SleepMS(2);
+	endwhile
+
+	return 1;
+endprogram
+
+function ExpandedMenu()
+	var gump := GFCreateGump();
+	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
+	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
+
+	return gump;
+endfunction
+
+function CollapsedMenu()
+	var gump := GFCreateGump();
+	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
+	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
+
+	return gump;
+endfunction
