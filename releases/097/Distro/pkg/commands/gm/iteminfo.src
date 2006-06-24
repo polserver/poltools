@@ -392,6 +392,7 @@ function MethodEdit(who, targ, input_info)
 	endif
 
 	case ( Lower(input_info.name) )
+		0: // Just to remove compiler warnings until real cases are needed.
 		default:
 			GumpPrompt(who, "Dont know how to handle method '"+input_info.name+"'");
 			break;
