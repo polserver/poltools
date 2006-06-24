@@ -6,19 +6,27 @@ use uo;
 use os;
 use polsys;
 
+include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":gumps:gumpprompt";
 
 unload_scripts("cmdbar");
 
+// Button IDs
 CONST COLLAPSE_BTN	:= 0xA00;
 CONST EXPAND_BTN	:= 0xA01;
 CONST REFRESH_BTN	:= 0xA02;
 CONST CMDLVLS_BTN	:= 0xA03;
 CONST SETTINGS_BTN	:= 0xA04;
 CONST APPLY_BTN		:= 0xA05;
-CONST CMDS_START	:= 0xF00;
+// Check boxes
+CONST TRANSPARENT_CHK	:= 0xA06;
+CONST MOVABLE_CHK	:= 0xA07;
+// Button ID ranges
+CONST PKG_START		:= 0xB00;
+CONST LVL_START		:= 0xC00;
+CONST CMD_START		:= 0xD00;
 
 program textcmd_CommandBar(who)
 	if ( GetProcess(GetObjProperty(who, "#CmdBarPid")) )
@@ -40,11 +48,12 @@ program textcmd_CommandBar(who)
 		elseif ( cur_menu == CMDLVLS_BTN )
 			gump := CommandLevelsMenu();
 		elseif ( cur_menu == SETTINGS_BTN )
-			gump := SettingsMenu();
+			gump := SettingsMenu(who);
 		endif
 
 		var input := GFSendGump(who, gump);
 		if ( !input[0] )
+			// Right click was made
 			break;
 		elseif ( input[COLLAPSE_BTN] )
 			cur_menu := COLLAPSE_BTN;
@@ -66,7 +75,13 @@ program textcmd_CommandBar(who)
 				cur_menu := SETTINGS_BTN;
 			endif
 		elseif ( input[APPLY_BTN] )
+			SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
+			SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
 			GumpPrompt(who, "Settings updated.");
+		else
+			// This gets hit when the user right clicks the gump
+			// and check boxes were present (and checked)
+			break;
 		endif
 
 		SleepMS(2);
@@ -123,17 +138,31 @@ function CommandLevelsMenu()
 	return gump;
 endfunction
 
-function SettingsMenu()
+function SettingsMenu(who)
 	var gump := ExpandedMenu();
 	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 130);
 
-	GFCheckBox(gump, 475, 40, 210, 211, 0, 1);
+	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
-	GFCheckBox(gump, 475, 60, 210, 211, 0, 2);
+	GFCheckBox(gump, 475, 60, 210, 211, LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
 
 	GFAddButton(gump, 530, 120, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
 
 	return gump;
+endfunction
+
+function SaveUserSetting(who, setting, value)
+	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
+	var data_elem := DFFindElement(data_file, Hex(who.serial), DF_CREATE);
+	
+	return data_elem.SetProp(setting, value);
+endfunction
+
+function LoadUserSetting(who, setting)
+	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
+	var data_elem := DFFindElement(data_file, Hex(who.serial));
+	
+	return data_elem.GetProp(setting);
 endfunction
