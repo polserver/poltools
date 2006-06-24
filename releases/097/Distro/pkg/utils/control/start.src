@@ -3,9 +3,9 @@
  */
 use os;
 
-var script := Start_Script("checkpackages");
+var script := Start_Script("initializer/checkpackages");
 if ( script.errortext )
-	SysLog(script.errortext);
+	SysLog("Error starting ICP setup ->"+script.errortext);
 else
 	Print("Starting ICP setup... OK.");
 endif

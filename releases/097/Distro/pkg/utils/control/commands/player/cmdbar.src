@@ -16,6 +16,7 @@ CONST COLLAPSE_BTN	:= 0xA00;
 CONST EXPAND_BTN	:= 0xA01;
 CONST REFRESH_BTN	:= 0xA02;
 CONST CMDLVLS_BTN	:= 0xA03;
+CONST SETTINGS_BTN	:= 0xA04;
 CONST CMDS_START	:= 0xF00;
 
 program textcmd_CommandBar(who)
@@ -37,8 +38,10 @@ program textcmd_CommandBar(who)
 			gump := CollapsedMenu();
 		elseif ( cur_menu == CMDLVLS_BTN )
 			gump := CommandLevelsMenu();
+		elseif ( cur_menu == SETTINGS_BTN )
+			gump := SettingsMenu();
 		endif
-
+		
 		var input := GFSendGump(who, gump);
 		if ( !input[0] )
 			break;
@@ -50,7 +53,17 @@ program textcmd_CommandBar(who)
 			commands := ListTextCommands();
 			GumpPrompt(who, "Command list has been updated.");
 		elseif ( input[CMDLVLS_BTN] )
-			cur_menu := CMDLVLS_BTN;
+			if ( cur_menu == CMDLVLS_BTN )
+				cur_menu := EXPAND_BTN;
+			else
+				cur_menu := CMDLVLS_BTN;
+			endif
+		elseif ( input[SETTINGS_BTN] )
+			if ( cur_menu == SETTINGS_BTN )
+				cur_menu := EXPAND_BTN;
+			else
+				cur_menu := SETTINGS_BTN;
+			endif
 		endif
 
 		SleepMS(2);
@@ -73,6 +86,10 @@ function ExpandedMenu()
 	GFAddButton(gump, 265, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
 	//GFGumpPic(gump, 265, 4, 0x98D);	
 	GFTextLine(gump, 272, 5, 2100, "Command Levels");
+	
+	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
+	//GFGumpPic(gump, 500, 4, 0x98D);	
+	GFTextLine(gump, 530, 5, 2100, "Settings");
 
 	return gump;
 endfunction
@@ -102,3 +119,6 @@ function CommandLevelsMenu()
 	
 	return gump;
 endfunction
+
+function SettingsMenu()
+	var gump := ExpandedMenu();
