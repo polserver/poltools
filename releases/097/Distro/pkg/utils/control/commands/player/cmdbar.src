@@ -16,13 +16,14 @@ unload_scripts("cmdbar");
 // Button IDs
 CONST COLLAPSE_BTN	:= 0xA00;
 CONST EXPAND_BTN	:= 0xA01;
-CONST REFRESH_BTN	:= 0xA02;
-CONST CMDLVLS_BTN	:= 0xA03;
-CONST SETTINGS_BTN	:= 0xA04;
-CONST APPLY_BTN		:= 0xA05;
+CONST CMDLIST_BTN	:= 0xA02;
+CONST REFRESH_BTN	:= 0xA03;
+CONST CMDLVLS_BTN	:= 0xA04;
+CONST SETTINGS_BTN	:= 0xA05;
+CONST APPLY_BTN		:= 0xA06;
 // Check boxes
-CONST TRANSPARENT_CHK	:= 0xA06;
-CONST MOVABLE_CHK	:= 0xA07;
+CONST TRANSPARENT_CHK	:= 0xA07;
+CONST MOVABLE_CHK	:= 0xA08;
 // Button ID ranges
 CONST PKG_START		:= 0xB00;
 CONST LVL_START		:= 0xC00;
@@ -39,16 +40,23 @@ program textcmd_CommandBar(who)
 	var commands := ListTextCommands();
 
 	var cur_menu := EXPAND_BTN;
+	var cur_pkg, cur_lvl;
+	
 	while ( who.connected )
 		var gump;
+		//Retrieve the gump
 		if ( cur_menu == EXPAND_BTN )
-			gump := ExpandedMenu(who);
+			gump := ExpandedMenuBar(who);
 		elseif ( cur_menu == COLLAPSE_BTN )
-			gump := CollapsedMenu(who);
+			gump := CollapsedMenuBar(who);
+		elseif ( cur_menu == CMDLIST_BTN )
+			gump := PkgListMenu(who, commands);
 		elseif ( cur_menu == CMDLVLS_BTN )
-			gump := CommandLevelsMenu(who);
+			gump := CommandLevelInfoMenu(who);
 		elseif ( cur_menu == SETTINGS_BTN )
 			gump := SettingsMenu(who);
+		elseif ( cur_menu == PKG_START )
+			gump := CmdLevelMenu(who, cur_pkg, commands);
 		endif
 		
 		if ( !LoadUserSetting(who, "Movable") )
@@ -56,6 +64,7 @@ program textcmd_CommandBar(who)
 		endif
 		
 		var input := GFSendGump(who, gump);
+		// Process gump data
 		if ( !input[0] )
 			// Right click was made
 			break;
@@ -63,6 +72,12 @@ program textcmd_CommandBar(who)
 			cur_menu := COLLAPSE_BTN;
 		elseif ( input[EXPAND_BTN] )
 			cur_menu := EXPAND_BTN;
+		elseif ( input[CMDLIST_BTN] )
+			if ( cur_menu == CMDLIST_BTN )
+				cur_menu := EXPAND_BTN;
+			else
+				cur_menu := CMDLIST_BTN;
+			endif
 		elseif ( input[REFRESH_BTN] )
 			commands := ListTextCommands();
 			GumpPrompt(who, "Command list has been updated.");
@@ -82,6 +97,10 @@ program textcmd_CommandBar(who)
 			SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
 			SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
 			GumpPrompt(who, "Settings updated.");
+		elseif ( input[0] >= PKG_START )
+			var temp := commands.Keys();
+			cur_pkg := temp[input[0]];
+			cur_menu := PKG_START;
 		else
 			// This gets hit when the user right clicks the gump
 			// and check boxes were present (and checked)
@@ -94,11 +113,13 @@ program textcmd_CommandBar(who)
 	return 1;
 endprogram
 
-function ExpandedMenu(who)
+function ExpandedMenuBar(who)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
 	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
-	GFGumpPic(gump, 35, 4, 0x98D);
+	
+	GFAddButton(gump, 35, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLIST_BTN);
+	//GFGumpPic(gump, 35, 4, 0x98D);
 	GFTextLine(gump, 60, 5, 2100, "Commands");
 
 	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, REFRESH_BTN);
@@ -120,7 +141,7 @@ function ExpandedMenu(who)
 	return gump;
 endfunction
 
-function CollapsedMenu(who)
+function CollapsedMenuBar(who)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
 	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
@@ -132,11 +153,74 @@ function CollapsedMenu(who)
 	return gump;
 endfunction
 
-function CommandLevelsMenu(who)
+function PkgListMenu(who, byref commands)
+	var gump := ExpandedMenuBar(who);
+	GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
+	
+	var y_pos := 35;
+	
+	GFPage(gump, 1);
+	foreach package in ( commands.Keys() )
+		if ( package == "" )
+			package := "Non-Packaged";
+		endif
+		GFTextLine(gump, 50, y_pos, 2100, package);
+		GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+_package_iter);
+		y_pos := y_pos+20;
+		if ( _package_iter % 21 == 0 )
+			GFAddButton(gump, 35, 441, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 35, 30, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
+			y_pos := 35;
+		endif
+		
+		SleepMS(2);
+	endforeach
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 150, 430, 170, 130);
+	endif
+
+	return gump;
+endfunction
+
+function CmdLevelMenu(who, cur_pkg, byref commands)
+	var gump := PkgListMenu(who, commands);
+	GFPage(gump, 1);
+	
+	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
+	var y_pos := 35;
+	/*
+	GFPage(gump, 1);
+	foreach package in ( commands.Keys() )
+		if ( package == "" )
+			package := "Non-Packaged";
+		endif
+		GFTextLine(gump, 50, y_pos, 2100, package);
+		GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+_package_iter);
+		y_pos := y_pos+20;
+		if ( _package_iter % 21 == 0 )
+			GFAddButton(gump, 35, 441, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 35, 30, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
+			y_pos := 35;
+		endif
+		
+		SleepMS(2);
+	endforeach
+	*/
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 150, 430, 170, 130);
+	endif
+	
+	return gump;
+endfunction
+
+function CommandLevelInfoMenu(who)
 	var cmd_cfg := ReadConfigFile("::cmds");
 	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
 
-	var gump := ExpandedMenu(who);
+	var gump := ExpandedMenuBar(who);
 	var y_length := (num_levels * 20)+10;
 	GFResizePic(gump, 265, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
 	var i;
@@ -155,7 +239,7 @@ function CommandLevelsMenu(who)
 endfunction
 
 function SettingsMenu(who)
-	var gump := ExpandedMenu(who);
+	var gump := ExpandedMenuBar(who);
 	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 130);
 
 	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
