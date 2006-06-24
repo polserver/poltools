@@ -178,7 +178,8 @@ function PkgListMenu(who, byref commands)
 	endforeach
 	
 	if ( LoadUserSetting(who, "Transparent") )
-		GFAddAlphaRegion(gump, 150, 430, 170, 130);
+		GFPage(gump, 0);
+		GFAddAlphaRegion(gump, 35, 30, 150, 430);
 	endif
 
 	return gump;
@@ -190,27 +191,19 @@ function CmdLevelMenu(who, cur_pkg, byref commands)
 	
 	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
 	var y_pos := 35;
-	/*
-	GFPage(gump, 1);
-	foreach package in ( commands.Keys() )
-		if ( package == "" )
-			package := "Non-Packaged";
-		endif
-		GFTextLine(gump, 50, y_pos, 2100, package);
-		GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+_package_iter);
+	var cmd_lvls := commands[cur_pkg];
+
+	foreach level_id in ( cmd_lvls.Keys() )
+		GFTextLine(gump, 200, y_pos, 2100, level_id);
+		GFAddButton(gump, 315, y_pos+3, 5224, 5224, GF_CLOSE_BTN, LVL_START+_level_id_iter);
 		y_pos := y_pos+20;
-		if ( _package_iter % 21 == 0 )
-			GFAddButton(gump, 35, 441, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
-			GFPage(gump, gump.cur_page+1);
-			GFAddButton(gump, 35, 30, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
-			y_pos := 35;
-		endif
-		
+				
 		SleepMS(2);
 	endforeach
-	*/
+
 	if ( LoadUserSetting(who, "Transparent") )
-		GFAddAlphaRegion(gump, 150, 430, 170, 130);
+		GFPage(gump, 0);
+		GFAddAlphaRegion(gump, 185, 30, 150, 430);
 	endif
 	
 	return gump;
