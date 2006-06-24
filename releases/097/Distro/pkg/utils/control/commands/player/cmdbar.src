@@ -57,6 +57,8 @@ program textcmd_CommandBar(who)
 			gump := SettingsMenu(who);
 		elseif ( cur_menu == PKG_START )
 			gump := CmdLevelMenu(who, cur_pkg, commands);
+		elseif ( cur_menu == LVL_START )
+			gump := CommandsListMenu(who, cur_pkg, cur_lvl, commands);
 		endif
 		
 		if ( !LoadUserSetting(who, "Movable") )
@@ -97,6 +99,10 @@ program textcmd_CommandBar(who)
 			SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
 			SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
 			GumpPrompt(who, "Settings updated.");
+		elseif ( input[0] >= LVL_START )
+			var temp := commands[cur_pkg].Keys();
+			cur_lvl := temp[input[0]-LVL_START];
+			cur_menu := LVL_START;
 		elseif ( input[0] >= PKG_START )
 			var temp := commands.Keys();
 			cur_pkg := temp[input[0]-PKG_START];
@@ -158,7 +164,6 @@ function PkgListMenu(who, byref commands)
 	GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
 	
 	var y_pos := 35;
-	
 	GFPage(gump, 1);
 	foreach package in ( commands.Keys() )
 		if ( package == "" )
@@ -187,13 +192,19 @@ endfunction
 
 function CmdLevelMenu(who, cur_pkg, byref commands)
 	var cmd_lvls := commands[cur_pkg];
+	
 	var gump := PkgListMenu(who, commands);
 	GFPage(gump, 0);
 	cmd_lvls := cmd_lvls.Keys();
-	var y_length := (cmd_lvls.Size() * 20)+10;
+	var y_length := (cmd_lvls.Size() * 20)+25;
 	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+	if ( cur_pkg == "" )
+		cur_pkg := "Non-Packaged";
+	endif
+	GFTextMid(gump, 185, 35, 150, 1000, cur_pkg);
 	
-	var y_pos := 35;
+	var y_pos := 50;
+	GFPage(gump, 1);
 	foreach level_id in ( cmd_lvls )
 		GFTextLine(gump, 200, y_pos, 2100, GetCmdLevelName(level_id));
 		GFAddButton(gump, 315, y_pos+3, 5224, 5224, GF_CLOSE_BTN, LVL_START+_level_id_iter);
@@ -205,6 +216,35 @@ function CmdLevelMenu(who, cur_pkg, byref commands)
 	if ( LoadUserSetting(who, "Transparent") )
 		GFPage(gump, 0);
 		GFAddAlphaRegion(gump, 185, 30, 150, 180);
+	endif
+	
+	return gump;
+endfunction
+
+function CommandsListMenu(who, cur_pkg, cur_lvl, byref commands)
+	var scripts := commands[cur_pkg][cur_lvl];
+	
+	var gump := CmdLevelMenu(who, cur_pkg, commands);
+	GFPage(gump, 0);
+	GFResizePic(gump, 335, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
+	GFTextMid(gump, 335, 35, 150, 1000, GetCmdLevelName(cur_lvl));
+	
+	var y_pos := 50;
+	GFPage(gump, 1);
+	foreach script in ( scripts )
+		GFAddButton(gump, 340, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+_script_iter);
+		
+		var name := script.script;
+		name := "."+name[1, Len(name)-4]; // Remove .ecl on the end
+		GFTextLine(gump, 360, y_pos, 2100, name);
+		y_pos := y_pos+20;
+				
+		SleepMS(2);
+	endforeach
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFPage(gump, 0);
+		GFAddAlphaRegion(gump, 335, 30, 150, 180);
 	endif
 	
 	return gump;
