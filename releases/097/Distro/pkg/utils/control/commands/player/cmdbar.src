@@ -99,6 +99,9 @@ program textcmd_CommandBar(who)
 			SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
 			SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
 			GumpPrompt(who, "Settings updated.");
+		elseif ( input[0] >= CMD_START )
+			var command := commands[cur_pkg][cur_lvl][input[0]-CMD_START];
+			StartCommand(who, cur_pkg, command);
 		elseif ( input[0] >= LVL_START )
 			var temp := commands[cur_pkg].Keys();
 			cur_lvl := temp[input[0]-LVL_START];
@@ -289,6 +292,26 @@ function SettingsMenu(who)
 	endif
 
 	return gump;
+endfunction
+
+function StartCommand(who, cur_pkg, command)
+	var name := "";
+	if ( cur_pkg == "" )
+		// :: makes it want to do pol/scripts/...
+		// So a "../" is thrown in to take it to the root.
+		name := "::../"+command.dir+command.script;
+	else
+		name := ":"+cur_pkg+":"+command.dir+command.script;
+	endif
+	var script := Start_Script(name, who);
+	
+	if ( script.errortext )
+		GumpPrompt(who, "Failed to start [P] "+name+" [P] "+script.errortext);
+		return 0;
+	else
+		SendSysMessage(who, "Starting command...");
+		return 1;
+	endif
 endfunction
 
 function SaveUserSetting(who, setting, value)
