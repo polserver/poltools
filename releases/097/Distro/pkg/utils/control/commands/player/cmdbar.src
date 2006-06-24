@@ -101,7 +101,13 @@ program textcmd_CommandBar(who)
 			GumpPrompt(who, "Settings updated.");
 		elseif ( input[0] >= CMD_START )
 			var command := commands[cur_pkg][cur_lvl][input[0]-CMD_START];
-			StartCommand(who, cur_pkg, command);
+			var result := StartCommand(who, cur_pkg, cur_lvl, command);
+			// Collapse the menus if the command worked
+			if ( result )
+				cur_menu := EXPAND_BTN;
+				cur_pkg := 0;
+				cur_lvl := 0;
+			endif
 		elseif ( input[0] >= LVL_START )
 			var temp := commands[cur_pkg].Keys();
 			cur_lvl := temp[input[0]-LVL_START];
@@ -294,7 +300,12 @@ function SettingsMenu(who)
 	return gump;
 endfunction
 
-function StartCommand(who, cur_pkg, command)
+function StartCommand(who, cur_pkg, cur_lvl, command)
+	if ( cur_lvl > who.cmdlevel )
+		GumpPrompt(who, "Your command level is not high enough.");
+		return 0;
+	endif
+				
 	var name := "";
 	if ( cur_pkg == "" )
 		// :: makes it want to do pol/scripts/...
