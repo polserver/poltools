@@ -42,15 +42,19 @@ program textcmd_CommandBar(who)
 	while ( who.connected )
 		var gump;
 		if ( cur_menu == EXPAND_BTN )
-			gump := ExpandedMenu();
+			gump := ExpandedMenu(who);
 		elseif ( cur_menu == COLLAPSE_BTN )
-			gump := CollapsedMenu();
+			gump := CollapsedMenu(who);
 		elseif ( cur_menu == CMDLVLS_BTN )
-			gump := CommandLevelsMenu();
+			gump := CommandLevelsMenu(who);
 		elseif ( cur_menu == SETTINGS_BTN )
 			gump := SettingsMenu(who);
 		endif
-
+		
+		if ( !LoadUserSetting(who, "Movable") )
+			GFMovable(gump, 0);
+		endif
+		
 		var input := GFSendGump(who, gump);
 		if ( !input[0] )
 			// Right click was made
@@ -90,7 +94,7 @@ program textcmd_CommandBar(who)
 	return 1;
 endprogram
 
-function ExpandedMenu()
+function ExpandedMenu(who)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
 	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
@@ -108,23 +112,31 @@ function ExpandedMenu()
 	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
 	//GFGumpPic(gump, 500, 4, 0x98D);
 	GFTextLine(gump, 530, 5, 2100, "Settings");
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 0, 0, 640, 30);
+	endif
 
 	return gump;
 endfunction
 
-function CollapsedMenu()
+function CollapsedMenu(who)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
 	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 0, 0, 30, 30);
+	endif
 
 	return gump;
 endfunction
 
-function CommandLevelsMenu()
+function CommandLevelsMenu(who)
 	var cmd_cfg := ReadConfigFile("::cmds");
 	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
 
-	var gump := ExpandedMenu();
+	var gump := ExpandedMenu(who);
 	var y_length := (num_levels * 20)+10;
 	GFResizePic(gump, 265, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
 	var i;
@@ -134,12 +146,16 @@ function CommandLevelsMenu()
 		y_pos := y_pos+20;
 		SleepMS(2);
 	endfor
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 265, 30, 140, y_length);
+	endif
 
 	return gump;
 endfunction
 
 function SettingsMenu(who)
-	var gump := ExpandedMenu();
+	var gump := ExpandedMenu(who);
 	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 130);
 
 	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
@@ -149,6 +165,10 @@ function SettingsMenu(who)
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
 
 	GFAddButton(gump, 530, 120, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
+	
+	if ( LoadUserSetting(who, "Transparent") )
+		GFAddAlphaRegion(gump, 470, 30, 170, 130);
+	endif
 
 	return gump;
 endfunction
