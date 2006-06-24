@@ -102,7 +102,7 @@ endfunction
  * Returns 1 on success, error on failure.
  *
  */
- function GFClosable(byref gump, bool)
+function GFClosable(byref gump, bool)
 	case ( bool )
 		0:
 			if ( gump.base.CloseLoc )
@@ -124,7 +124,7 @@ endfunction
 			return XGFError("gumps::Closable: Invalid bool value '"+bool+"'");
 	endcase
 	return 1;
- endfunction
+endfunction
 
 
 /*
@@ -286,11 +286,12 @@ endfunction
  * No return value.
  *
  */
- function GFAddAlphaRegion(byref gump, x, y, width, height)
+ 
+function GFAddAlphaRegion(byref gump, x, y, width, height)
 	(gump.layout).Append("CheckerTrans "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
 				+ CStr(CInt(width))+" "+CStr(CInt(height)));
 	return 1;
- endfunction
+endfunction
 
 
 /*
