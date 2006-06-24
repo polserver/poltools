@@ -17,6 +17,7 @@ CONST EXPAND_BTN	:= 0xA01;
 CONST REFRESH_BTN	:= 0xA02;
 CONST CMDLVLS_BTN	:= 0xA03;
 CONST SETTINGS_BTN	:= 0xA04;
+CONST APPLY_BTN		:= 0xA05;
 CONST CMDS_START	:= 0xF00;
 
 program textcmd_CommandBar(who)
@@ -41,7 +42,7 @@ program textcmd_CommandBar(who)
 		elseif ( cur_menu == SETTINGS_BTN )
 			gump := SettingsMenu();
 		endif
-		
+
 		var input := GFSendGump(who, gump);
 		if ( !input[0] )
 			break;
@@ -64,6 +65,8 @@ program textcmd_CommandBar(who)
 			else
 				cur_menu := SETTINGS_BTN;
 			endif
+		elseif ( input[APPLY_BTN] )
+			GumpPrompt(who, "Settings updated.");
 		endif
 
 		SleepMS(2);
@@ -78,17 +81,17 @@ function ExpandedMenu()
 	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
 	GFGumpPic(gump, 35, 4, 0x98D);
 	GFTextLine(gump, 60, 5, 2100, "Commands");
-	
+
 	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, REFRESH_BTN);
 	//GFGumpPic(gump, 150, 4, 0x98D);
 	GFTextLine(gump, 165, 5, 2100, "Refresh List");
-	
+
 	GFAddButton(gump, 265, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
-	//GFGumpPic(gump, 265, 4, 0x98D);	
+	//GFGumpPic(gump, 265, 4, 0x98D);
 	GFTextLine(gump, 272, 5, 2100, "Command Levels");
-	
+
 	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
-	//GFGumpPic(gump, 500, 4, 0x98D);	
+	//GFGumpPic(gump, 500, 4, 0x98D);
 	GFTextLine(gump, 530, 5, 2100, "Settings");
 
 	return gump;
@@ -105,7 +108,7 @@ endfunction
 function CommandLevelsMenu()
 	var cmd_cfg := ReadConfigFile("::cmds");
 	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
-	
+
 	var gump := ExpandedMenu();
 	var y_length := (num_levels * 20)+10;
 	GFResizePic(gump, 265, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
@@ -116,9 +119,21 @@ function CommandLevelsMenu()
 		y_pos := y_pos+20;
 		SleepMS(2);
 	endfor
-	
+
 	return gump;
 endfunction
 
 function SettingsMenu()
 	var gump := ExpandedMenu();
+	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 130);
+
+	GFCheckBox(gump, 475, 40, 210, 211, 0, 1);
+	GFTextLine(gump, 500, 40, 2100, "Movable");
+
+	GFCheckBox(gump, 475, 60, 210, 211, 0, 2);
+	GFTextLine(gump, 500, 60, 2100, "Transparent");
+
+	GFAddButton(gump, 530, 120, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
+
+	return gump;
+endfunction
