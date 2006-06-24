@@ -52,6 +52,14 @@ function ExpandedMenu()
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
 	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
+	GFGumpPic(gump, 35, 4, 0x98D);
+	GFTextLine(gump, 60, 5, 2100, "Commands");
+	
+	GFGumpPic(gump, 150, 4, 0x98D);
+	GFTextLine(gump, 165, 5, 2100, "Refresh List");
+	
+	GFGumpPic(gump, 265, 4, 0x98D);
+	GFTextLine(gump, 272, 5, 2100, "Command Levels");
 
 	return gump;
 endfunction
