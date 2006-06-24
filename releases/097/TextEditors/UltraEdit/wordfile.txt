@@ -262,6 +262,7 @@ ListObjectsInBox
 ListStaticsAtLocation
 ListStaticsInBox
 ListStaticsNearLocation
+ListTextCommands
 ListenPoints
 LoadTusScpFile
 Log10
