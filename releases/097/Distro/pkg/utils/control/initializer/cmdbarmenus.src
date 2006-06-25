@@ -171,13 +171,19 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 endfunction
 
 function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
-	var cmd_lvls := commands[cur_pkg];
-
+	var cmd_lvls := commands[cur_pkg].Keys();
+	
 	var gump := PkgListMenu(transparency, commands, max_level);
 	GFPage(gump, 0);
-	cmd_lvls := cmd_lvls.Keys();
-	var difference := cmd_lvls.Size() - (max_level+1);
-	var y_length := ((cmd_lvls.Size()-difference) * 20)+25;
+	var num_levels := 0;
+	foreach level in ( cmd_lvls )
+		if ( CInt(level) > max_level )
+			break;
+		else
+			num_levels := num_levels+1;
+		endif
+	endforeach
+	var y_length := (num_levels * 20)+25;
 	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
@@ -254,7 +260,7 @@ function GetPackagesWithCommands(byref commands, byref max_level)
 	var pkg_list := array;
 	
 	foreach package in ( commands.Keys() )
-		var num_commands := NumCommandsInPackage(package, commands, max_level);
+		var num_commands := HasUsableCommands(package, commands, max_level);
 		if ( num_commands > 0 )
 			pkg_list.append(package);
 		endif
@@ -263,14 +269,10 @@ function GetPackagesWithCommands(byref commands, byref max_level)
 	return pkg_list;
 endfunction
 
-function NumCommandsInPackage(pkg_name, byref commands, byref max_level)
-	var count := 0;
-	foreach level in ( commands[pkg_name] )
-		if ( CInt(_level_iter) <= max_level )
-			count := count+level.Size();
+function HasUsableCommands(pkg_name, byref commands, byref max_level)
+	foreach level in ( commands[pkg_name].Keys() )
+		if ( CInt(level) <= max_level )
+			return 1;
 		endif
 	endforeach
-	
-	return count;
 endfunction
-
