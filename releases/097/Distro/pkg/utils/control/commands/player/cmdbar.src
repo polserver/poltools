@@ -61,8 +61,9 @@ program textcmd_CommandBar(who)
 		elseif ( input[EXPAND_BTN] )
 			cur_menu := EXPAND_BTN;
 		elseif ( input[CMDLIST_BTN] )
-			if ( cur_menu == CMDLIST_BTN )
+			if ( cur_menu == CMDLIST_BTN || cur_pkg )
 				cur_menu := EXPAND_BTN;
+				cur_pkg := 0; cur_lvl := 0;
 			else
 				cur_menu := CMDLIST_BTN;
 			endif
@@ -135,7 +136,7 @@ function SettingsMenu(who)
 	GFCheckBox(gump, 475, 80, 210, 211, (!ICP_LoadUserSetting(who, "NoCmdBarLogin")), LOGIN_CHK);
 	GFTextLine(gump, 500, 80, 2100, "Open on login");
 
-	if ( who.cmdlevel )
+	if ( who.cmdlevel >= 3 )
 		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
 		GFTextLine(gump, 495, 110, 2100, "Uncache Gumps");
 	endif

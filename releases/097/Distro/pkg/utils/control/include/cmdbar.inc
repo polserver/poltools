@@ -23,6 +23,10 @@ CONST PKG_START		:= 0xB00;
 CONST LVL_START		:= 0xC00;
 CONST CMD_START		:= 0xD00;
 
+// 'Page' flipping buttons
+CONST PKG_PAGE_START	:= 0xA000;
+CONST SCRIPT_PAGE_START	:= 0xB000;
+
 CONST TRANSPARENT	 := 1;
 
 function ICP_ExpandedMenuBar(transparency:=0)
