@@ -4,6 +4,7 @@
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":datafile:datafile";
 
 // Button IDs
 CONST COLLAPSE_BTN	:= 0xA00;
@@ -16,6 +17,7 @@ CONST APPLY_BTN		:= 0xA06;
 // Check boxes
 CONST TRANSPARENT_CHK	:= 0xA07;
 CONST MOVABLE_CHK	:= 0xA08;
+CONST LOGIN_CHK		:= 0xA09;
 // Button ID ranges
 CONST PKG_START		:= 0xB00;
 CONST LVL_START		:= 0xC00;
@@ -23,7 +25,7 @@ CONST CMD_START		:= 0xD00;
 
 CONST TRANSPARENT	 := 1;
 
-function ExpandedMenuBar(transparency:=0)
+function ICP_ExpandedMenuBar(transparency:=0)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
 		

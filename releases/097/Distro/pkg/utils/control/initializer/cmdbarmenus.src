@@ -23,11 +23,11 @@ program CmdBarMenus()
 	data_elem := DFFindElement(data_file, "CmdBarMain", DF_CREATE);
 	data_elem.SetProp("Commands", commands);
 	
-	gump := ExpandedMenuBar();
+	gump := ICP_ExpandedMenuBar();
 	GFOptimizeGump(gump);
 	data_elem.SetProp("Expanded", gump);
 	
-	gump := ExpandedMenuBar(TRANSPARENT);
+	gump := ICP_ExpandedMenuBar(TRANSPARENT);
 	GFOptimizeGump(gump);
 	data_elem.SetProp("ExpandedTrans", gump);
 	
@@ -96,7 +96,7 @@ function CollapsedMenuBar(transparency:=0)
 endfunction
 
 function PkgListMenu(transparency:=0, byref commands)
-	var gump := ExpandedMenuBar(transparency);
+	var gump := ICP_ExpandedMenuBar(transparency);
 	GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
 	
 	if ( transparency )
@@ -188,7 +188,7 @@ function CommandLevelInfoMenu(transparency:=0)
 	var cmd_cfg := ReadConfigFile("::cmds");
 	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
 
-	var gump := ExpandedMenuBar(transparency);
+	var gump := ICP_ExpandedMenuBar(transparency);
 	var y_length := (num_levels * 20)+10;
 	GFResizePic(gump, 150, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
 	if ( transparency )

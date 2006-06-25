@@ -47,7 +47,7 @@ program textcmd_CommandBar(who)
 			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands", who);
 		endif
 
-		if ( !LoadUserSetting(who, "Movable") )
+		if ( !ICP_LoadUserSetting(who, "Movable") )
 			GFMovable(gump, 0);
 		endif
 
@@ -84,8 +84,9 @@ program textcmd_CommandBar(who)
 				cur_menu := SETTINGS_BTN;
 			endif
 		elseif ( input[APPLY_BTN] )
-			SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
-			SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
+			ICP_SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
+			ICP_SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
+			ICP_SaveUserSetting(who, "NoCmdBarLogin", (input[LOGIN_CHK] == error));
 			GumpPrompt(who, "Settings updated.");
 		elseif ( input[0] >= CMD_START )
 			var command := commands[cur_pkg][cur_lvl][input[0]-CMD_START];
@@ -118,18 +119,21 @@ program textcmd_CommandBar(who)
 endprogram
 
 function SettingsMenu(who)
-	var transparency := LoadUserSetting(who, "Transparent");
-	var gump := ExpandedMenuBar(transparency);
+	var transparency := ICP_LoadUserSetting(who, "Transparent");
+	var gump := ICP_ExpandedMenuBar(transparency);
 	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 150);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 470, 30, 170, 150);
 	endif
 	
-	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
+	GFCheckBox(gump, 475, 40, 210, 211, ICP_LoadUserSetting(who, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
-	GFCheckBox(gump, 475, 60, 210, 211, LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
+	GFCheckBox(gump, 475, 60, 210, 211, ICP_LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
+	
+	GFCheckBox(gump, 475, 80, 210, 211, (!ICP_LoadUserSetting(who, "NoCmdBarLogin")), LOGIN_CHK);
+	GFTextLine(gump, 500, 80, 2100, "Open on login");
 
 	if ( who.cmdlevel )
 		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
@@ -159,24 +163,10 @@ function StartCommand(who, cur_pkg, cur_lvl, command)
 	endif
 endfunction
 
-function SaveUserSetting(who, setting, value)
-	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
-	var data_elem := DFFindElement(data_file, Hex(who.serial), DF_CREATE);
-
-	return data_elem.SetProp(setting, value);
-endfunction
-
-function LoadUserSetting(who, setting)
-	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
-	var data_elem := DFFindElement(data_file, Hex(who.serial));
-
-	return data_elem.GetProp(setting);
-endfunction
-
 function RetrieveGump(data_elem, gump_name, who:=0)
 	var transparent :=0;
 	if ( who )
-		transparent := LoadUserSetting(who, "Transparent");
+		transparent := ICP_LoadUserSetting(who, "Transparent");
 
 		if ( transparent )
 			gump_name := gump_name+"Trans";
