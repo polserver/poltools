@@ -68,3 +68,23 @@ function ICP_FormatScriptPath(script, pkg_name)
 	
 	return name;
 endfunction
+
+/*
+ *
+ */
+function ICP_SaveUserSetting(who, setting, value)
+	var data_file := DFOpenDataFile(":control:usrsettings", DF_CREATE);
+	var data_elem := DFFindElement(data_file, Hex(who.serial), DF_CREATE);
+
+	return data_elem.SetProp(setting, value);
+endfunction
+
+/*
+ *
+ */
+function ICP_LoadUserSetting(who, setting)
+	var data_file := DFOpenDataFile(":control:usrsettings", DF_CREATE);
+	var data_elem := DFFindElement(data_file, Hex(who.serial));
+
+	return data_elem.GetProp(setting);
+endfunction
