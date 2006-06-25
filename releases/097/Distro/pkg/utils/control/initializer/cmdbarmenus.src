@@ -158,11 +158,11 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 		endif
 		
 		foreach package in ( page_list )
-			if ( package == "" )
-				package := "Non-Packaged";
+			if ( package.name == "" )
+				package.name := "Non-Packaged";
 			endif
-			GFTextLine(gump, 50, y_pos, 2100, package);
-			GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+_package_iter);
+			GFTextLine(gump, 50, y_pos, 2100, package.name);
+			GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+package.id);
 			y_pos := y_pos+20;
 		endforeach
 	endforeach
@@ -210,19 +210,43 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 endfunction
 
 function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byref max_level)
-	var scripts := commands[cur_pkg][cur_lvl];
-
 	var gump := CmdLevelMenu(transparency, cur_pkg, commands, max_level);
+	
+	var scripts := commands[cur_pkg][cur_lvl];
+	var script_list := BreakArray(scripts, 20);
+	scripts := 0;
+
+	var y_pos := 55;
 	GFPage(gump, 0);
-	GFResizePic(gump, 335, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
-	if ( transparency )
-		GFAddAlphaRegion(gump, 335, 30, 150, 430);
-	endif
-
-	GFTextMid(gump, 335, 35, 150, 1000, GetCmdLevelName(cur_lvl));
-
-	var y_pos := 50;
-	GFPage(gump, 1);
+	var script_id := 0;
+	foreach page_list in ( script_list )
+		GFPage(gump, gump.cur_page+1);
+		var y_length := (page_list.Size() * 20)+30;
+		GFResizePic(gump, 335, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+		if ( transparency )
+			GFAddAlphaRegion(gump, 335, 30, 150, y_length);
+		endif
+		GFTextMid(gump, 335, 35, 150, 1000, GetCmdLevelName(cur_lvl));
+		
+		if ( _page_list_iter > 1 )
+			if ( _page_list_iter < (page_list.Size()) )
+				GFPage(gump, gump.cur_page-1);
+				GFAddButton(gump, 335, 441, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
+			endif
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 335, 60, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
+			y_pos := 55;
+		endif
+		
+		foreach script in ( page_list )
+			script_id := script_id+1;
+			GFAddButton(gump, 350, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+script_id);
+			var name := ICP_GetScriptName(script.script);
+			GFTextLine(gump, 370, y_pos, 2100, "."+name);
+			y_pos := y_pos+20;
+		endforeach
+	endforeach
+	/*
 	foreach script in ( scripts )
 		GFAddButton(gump, 340, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+_script_iter);
 
@@ -231,7 +255,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 		GFTextLine(gump, 360, y_pos, 2100, "."+name);
 		y_pos := y_pos+20;
 	endforeach
-
+	*/
 	return gump;
 endfunction
 
@@ -262,7 +286,10 @@ function GetPackagesWithCommands(byref commands, byref max_level)
 	foreach package in ( commands.Keys() )
 		var num_commands := HasUsableCommands(package, commands, max_level);
 		if ( num_commands > 0 )
-			pkg_list.append(package);
+			// Dont want to lose the package's original commands position id.
+			// It gets lost when the size of the package list is changed.
+			var temp := struct{"name":=package, "id":=_package_iter};
+			pkg_list.Append(temp);
 		endif
 	endforeach
 	
@@ -270,6 +297,7 @@ function GetPackagesWithCommands(byref commands, byref max_level)
 endfunction
 
 function HasUsableCommands(pkg_name, byref commands, byref max_level)
+	// Looks to see if there is atleast 1 command that can be used
 	foreach level in ( commands[pkg_name].Keys() )
 		if ( CInt(level) <= max_level )
 			return 1;
