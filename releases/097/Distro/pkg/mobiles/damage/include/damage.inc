@@ -154,7 +154,7 @@ function CalcDamageAmount(mobile, amount, type)
 	endif
 	
 	var resistance_mult := GetResistance(mobile, type);	
-			
+	
 	if ( resistance_mult == error )
 		// Do nothing, there is no resistance.
 	elseif ( resistance_mult == 0.0 )
@@ -290,6 +290,8 @@ function GetResistance(mobile, type:=0)
 		var mult := GetConfigReal(npc_elem, type+"-ResistMult");
 		if (  mult != error )
 			return CDbl(mult);
+		else
+			return mult;
 		endif
 	else
 		return 1.0;
@@ -479,10 +481,8 @@ endfunction
  */
 function ResistancePercentToMult(percent)
 	if ( percent > 0 )
-		//print("% to mult: "+percent+" is: "+(CDbl(100 - percent) * 0.010));
 		return CDbl(100 - percent) * 0.010;
 	else
-		//print("% to mult: "+percent+" is: "+(CDbl(100 + percent) * 0.010));
 		return CDbl(100 + percent) * 0.010;
 	endif
 endfunction
@@ -502,10 +502,8 @@ endfunction
  */
 function ResistanceMultToPercent(mult)
 	if ( mult > 0 )
-		//print("mult to %: "+mult+" is: "+CInt(100 - (mult * 100)));
 		return CInt(100 - (mult * 100));
 	else
-		//print("mult to %: "+mult+" is: "+CInt(100 + (mult * 100)));
 		return CInt(100 + (mult * 100));
 	endif
 endfunction
