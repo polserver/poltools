@@ -195,7 +195,6 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 	GFTextMid(gump, 185, 35, 150, 1000, cur_pkg);
 
 	var y_pos := 50;
-	GFPage(gump, 1);
 	foreach level_id in ( cmd_lvls )
 		if ( CInt(level_id) > max_level )
 			break;
@@ -246,16 +245,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 			y_pos := y_pos+20;
 		endforeach
 	endforeach
-	/*
-	foreach script in ( scripts )
-		GFAddButton(gump, 340, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+_script_iter);
-
-		var name := ICP_GetScriptName(script.script);
-
-		GFTextLine(gump, 360, y_pos, 2100, "."+name);
-		y_pos := y_pos+20;
-	endforeach
-	*/
+	
 	return gump;
 endfunction
 
