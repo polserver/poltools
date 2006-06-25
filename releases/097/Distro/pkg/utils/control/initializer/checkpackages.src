@@ -3,6 +3,7 @@
  */
 use uo;
 use os;
+use polsys;
 use cfgfile;
 
 include "include/string";
@@ -16,7 +17,7 @@ Set_Script_Option(SCRIPTOPT_NO_RUNAWAY, 1);
 
 program CheckPackages()
 	ICP_ReportText("---=[ ICP SETUP HAS STARTED UP ]=---", ICP_REPORT_SYSLOG);
-	
+
 	var pkg_info := DFOpenDataFile(":control:packages", DF_CREATE);
 	var pkg_gumps := DFOpenDataFile(":control:gumps", DF_CREATE);
 
@@ -24,9 +25,10 @@ program CheckPackages()
 	// Its purpose is to wipe the datafile so its updated for the new package settings.
 	DFPurgeFile(pkg_info);
 	pkg_gumps.DeleteElement("index");
-	
+
 	DF_DEBUG_MODE := 0;
 
+	var cmd_list := ListTextCommands();
 	// Run through each package -
 	// If it has an icp.cfg in its 'config' folder, get the settings we want from it.
 	// If not, it'll go on the gump as packagename [Not ICP compliant]
@@ -45,21 +47,20 @@ program CheckPackages()
 			temp_info.+C_Email := GetCfgValue(icp_cfg, "C_Email");
 			temp_info.+Maintainer := GetCfgValue(icp_cfg, "Maintainer");
 			temp_info.+M_Email := GetCfgValue(icp_cfg, "M_Email");
-			
+
 			var description := "";
 			foreach line in  GetConfigStringArray(icp_cfg, "Description")
 				description := description + line+" ";
 				SleepMS(2);
 			endforeach
 			temp_info.+Description := description;
-			
+
 			// Makes a list of scripts and text commands that will be on the gump.
 			var script_list := GetConfigStringArray(icp_cfg, "Script");
-			var cmd_list := GetConfigStringArray(icp_cfg, "TextCmd");
-
+			
 			data_elem.SetProp("Main", temp_info);
 			data_elem.SetProp("Scripts", script_list);
-			data_elem.SetProp("TextCommands", cmd_list);
+			data_elem.SetProp("TextCommands", cmd_list[package]);
 		else
 			ICP_ReportText("Warning: Package ["+package+"] has no ICP support!", ICP_REPORT_SYSLOG);
 			temp_info.+Name := package;
@@ -71,7 +72,7 @@ program CheckPackages()
 	endforeach
 
 	ICP_ReportText("ICP setup has completed.", ICP_REPORT_SYSLOG);
-	
+
 	return 1;
 endprogram
 

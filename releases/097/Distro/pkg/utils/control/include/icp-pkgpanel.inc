@@ -45,7 +45,7 @@ function ICP_PkgPanelInput(who, pkg_name, cur_menu, info_elem, input)
 		ICP_StartScript(who, input, info_elem);
 		return 1;
 	elseif ( cur_menu == COMMANDS_BTN )
-		ICP_StartCommand(who, input, info_elem);
+		ICP_StartCommand(who, input, info_elem, pkg_name);
 		return 1;
 	elseif ( cur_menu == ITEMDESC_BTN )
 		ICP_CreateItem(who, input);
