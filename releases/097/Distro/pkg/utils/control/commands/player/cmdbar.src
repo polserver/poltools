@@ -22,35 +22,35 @@ program textcmd_CommandBar(who)
 	else
 		SetObjProperty(who, "#CmdBarPid", GetPid());
 	endif
-	
+
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
 	var main_elem := DFFindElement(data_file, "CmdBarMain", DF_CREATE);
 	var commands := main_elem.GetProp("Commands");
-	
+
 	var cur_menu := EXPAND_BTN;
 	var cur_pkg, cur_lvl, gump;
 	var cur_pkg_elem;
 	while ( who.connected )
 		if ( cur_menu == EXPAND_BTN )
-			gump := RetrieveGump(main_elem, "Expanded");
+			gump := RetrieveGump(main_elem, "Expanded", who);
 		elseif ( cur_menu == COLLAPSE_BTN )
-			gump := RetrieveGump(main_elem, "Collapsed");
+			gump := RetrieveGump(main_elem, "Collapsed", who);
 		elseif ( cur_menu == CMDLIST_BTN )
-			gump := RetrieveGump(main_elem, "PkgList");
+			gump := RetrieveGump(main_elem, "PkgList", who);
 		elseif ( cur_menu == CMDLVLS_BTN )
-			gump := gump := RetrieveGump(main_elem, "Levels");
+			gump := gump := RetrieveGump(main_elem, "Levels", who);
 		elseif ( cur_menu == SETTINGS_BTN )
 			gump := SettingsMenu(who);
 		elseif ( cur_menu == PKG_START )
-			gump := RetrieveGump(cur_pkg_elem, "Levels");
+			gump := RetrieveGump(cur_pkg_elem, "Levels", who);
 		elseif ( cur_menu == LVL_START )
-			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands");
+			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands", who);
 		endif
-		
+
 		if ( !LoadUserSetting(who, "Movable") )
 			GFMovable(gump, 0);
 		endif
-	
+
 		var input := GFSendGump(who, gump);
 		// Process gump data
 		if ( !input[0] )
@@ -121,13 +121,16 @@ function SettingsMenu(who)
 	var transparency := LoadUserSetting(who, "Transparent");
 	var gump := ExpandedMenuBar(transparency);
 	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 150);
-
+	if ( transparency )
+		GFAddAlphaRegion(gump, 470, 30, 170, 150);
+	endif
+	
 	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
 	GFCheckBox(gump, 475, 60, 210, 211, LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
-	
+
 	if ( who.cmdlevel )
 		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
 		GFTextLine(gump, 495, 110, 2100, "Uncache Gumps");
@@ -135,10 +138,6 @@ function SettingsMenu(who)
 
 	GFAddButton(gump, 530, 140, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
 	
-	if ( transparency )
-		GFAddAlphaRegion(gump, 470, 30, 170, 150);
-	endif
-
 	return gump;
 endfunction
 
@@ -147,10 +146,10 @@ function StartCommand(who, cur_pkg, cur_lvl, command)
 		GumpPrompt(who, "Your command level is not high enough.");
 		return 0;
 	endif
-				
+
 	var path := ICP_FormatScriptPath(command, cur_pkg);
 	var script := Start_Script(path, who);
-	
+
 	if ( script.errortext )
 		GumpPrompt(who, "Failed to start "+path+" [P] "+script.errortext);
 		return 0;
@@ -163,21 +162,26 @@ endfunction
 function SaveUserSetting(who, setting, value)
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
 	var data_elem := DFFindElement(data_file, Hex(who.serial), DF_CREATE);
-	
+
 	return data_elem.SetProp(setting, value);
 endfunction
 
 function LoadUserSetting(who, setting)
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
 	var data_elem := DFFindElement(data_file, Hex(who.serial));
-	
+
 	return data_elem.GetProp(setting);
 endfunction
 
-function RetrieveGump(data_elem, gump_name, transparent:=0)
-	if ( transparent )
-		gump_name := gump_name+"Trans";
+function RetrieveGump(data_elem, gump_name, who:=0)
+	var transparent :=0;
+	if ( who )
+		transparent := LoadUserSetting(who, "Transparent");
+
+		if ( transparent )
+			gump_name := gump_name+"Trans";
+		endif
 	endif
-	
+
 	return data_elem.GetProp(gump_name);
 endfunction
