@@ -104,7 +104,7 @@ program textcmd_CommandBar(who)
 		elseif ( input[0] >= PKG_START )
 			var temp := commands.Keys();
 			cur_pkg := temp[input[0]-PKG_START];
-			cur_pkg_elem := DFFindElement(data_file, cur_pkg);
+			cur_pkg_elem := DFFindElement(data_file, "CmdLvl-"+who.cmdlevel+cur_pkg);
 			cur_menu := PKG_START;
 		else
 			// This gets hit when the user right clicks the gump
