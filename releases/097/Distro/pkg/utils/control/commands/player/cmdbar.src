@@ -35,12 +35,12 @@ program textcmd_CommandBar(who)
 			gump := RetrieveGump(main_elem, "Expanded");
 		elseif ( cur_menu == COLLAPSE_BTN )
 			gump := RetrieveGump(main_elem, "Collapsed");
-		//elseif ( cur_menu == CMDLIST_BTN )
-		//	gump := PkgListMenu(who, commands);
+		elseif ( cur_menu == CMDLIST_BTN )
+			gump := RetrieveGump(main_elem, "PkgList");
 		elseif ( cur_menu == CMDLVLS_BTN )
 			gump := gump := RetrieveGump(main_elem, "Levels");
-		//elseif ( cur_menu == SETTINGS_BTN )
-		//	gump := SettingsMenu(who);
+		elseif ( cur_menu == SETTINGS_BTN )
+			gump := SettingsMenu(who);
 		//elseif ( cur_menu == PKG_START )
 		//	gump := CmdLevelMenu(who, cur_pkg, commands);
 		//elseif ( cur_menu == LVL_START )
@@ -115,6 +115,31 @@ program textcmd_CommandBar(who)
 
 	return 1;
 endprogram
+
+function SettingsMenu(who)
+	var transparency := LoadUserSetting(who, "Transparent");
+	var gump := ExpandedMenuBar(transparency);
+	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 150);
+
+	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
+	GFTextLine(gump, 500, 40, 2100, "Movable");
+
+	GFCheckBox(gump, 475, 60, 210, 211, LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
+	GFTextLine(gump, 500, 60, 2100, "Transparent");
+	
+	if ( who.cmdlevel )
+		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
+		GFTextLine(gump, 495, 110, 2100, "Uncache Gumps");
+	endif
+
+	GFAddButton(gump, 530, 140, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
+	
+	if ( transparency )
+		GFAddAlphaRegion(gump, 470, 30, 170, 150);
+	endif
+
+	return gump;
+endfunction
 
 function SaveUserSetting(who, setting, value)
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
