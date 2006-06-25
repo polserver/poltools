@@ -29,7 +29,7 @@ program textcmd_CommandBar(who)
 	
 	var cur_menu := EXPAND_BTN;
 	var cur_pkg, cur_lvl, gump;
-	
+	var cur_pkg_elem;
 	while ( who.connected )
 		if ( cur_menu == EXPAND_BTN )
 			gump := RetrieveGump(main_elem, "Expanded");
@@ -41,10 +41,10 @@ program textcmd_CommandBar(who)
 			gump := gump := RetrieveGump(main_elem, "Levels");
 		elseif ( cur_menu == SETTINGS_BTN )
 			gump := SettingsMenu(who);
-		//elseif ( cur_menu == PKG_START )
-		//	gump := CmdLevelMenu(who, cur_pkg, commands);
-		//elseif ( cur_menu == LVL_START )
-		//	gump := CommandsListMenu(who, cur_pkg, cur_lvl, commands);
+		elseif ( cur_menu == PKG_START )
+			gump := RetrieveGump(cur_pkg_elem, "Levels");
+		elseif ( cur_menu == LVL_START )
+			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands");
 		endif
 		
 		if ( !LoadUserSetting(who, "Movable") )
@@ -89,7 +89,7 @@ program textcmd_CommandBar(who)
 			GumpPrompt(who, "Settings updated.");
 		elseif ( input[0] >= CMD_START )
 			var command := commands[cur_pkg][cur_lvl][input[0]-CMD_START];
-			var result;// := StartCommand(who, cur_pkg, cur_lvl, command);
+			var result := StartCommand(who, cur_pkg, cur_lvl, command);
 			// Collapse the menus if the command worked
 			if ( result )
 				cur_menu := EXPAND_BTN;
@@ -103,6 +103,7 @@ program textcmd_CommandBar(who)
 		elseif ( input[0] >= PKG_START )
 			var temp := commands.Keys();
 			cur_pkg := temp[input[0]-PKG_START];
+			cur_pkg_elem := DFFindElement(data_file, cur_pkg);
 			cur_menu := PKG_START;
 		else
 			// This gets hit when the user right clicks the gump
@@ -139,6 +140,24 @@ function SettingsMenu(who)
 	endif
 
 	return gump;
+endfunction
+
+function StartCommand(who, cur_pkg, cur_lvl, command)
+	if ( cur_lvl > who.cmdlevel )
+		GumpPrompt(who, "Your command level is not high enough.");
+		return 0;
+	endif
+				
+	var path := ICP_FormatScriptPath(command, cur_pkg);
+	var script := Start_Script(path, who);
+	
+	if ( script.errortext )
+		GumpPrompt(who, "Failed to start "+path+" [P] "+script.errortext);
+		return 0;
+	else
+		SendSysMessage(who, "Starting command...");
+		return 1;
+	endif
 endfunction
 
 function SaveUserSetting(who, setting, value)
