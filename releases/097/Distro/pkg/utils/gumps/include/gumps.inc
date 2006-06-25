@@ -734,10 +734,12 @@ endfunction
  * error with a .errortext member.
  *
  */
-function XGFError(text)
+function XGFError(text, log:=0)
 	var temp := error{"errortext":=text};
 	
-	SysLog("Gump Error:: "+text);
+	if ( log )
+		SysLog("Gump Error:: "+text);
+	endif
 
 	return temp;
 endfunction
