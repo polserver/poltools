@@ -13,8 +13,6 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":gumps:gumpprompt";
 
-const TRANSPARENT := 1;
-
 program CmdBarMenus()
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
 	DFPurgeFile(data_file);
@@ -33,7 +31,7 @@ program CmdBarMenus()
 	GFOptimizeGump(gump);
 	data_elem.SetProp("ExpandedTrans", gump);
 	
-	gump := ExpandedMenuBar();
+	gump := CollapsedMenuBar();
 	GFOptimizeGump(gump);
 	data_elem.SetProp("Collapsed", gump);
 	
@@ -54,7 +52,7 @@ program CmdBarMenus()
 	data_elem.SetProp("PkgList", gump);
 	
 	gump := PkgListMenu(TRANSPARENT, commands);
-	GFOptimizeGump(gump);
+	//GFOptimizeGump(gump);
 	data_elem.SetProp("PkgListTrans", gump);
 	// -----
 	
@@ -86,45 +84,25 @@ program CmdBarMenus()
 	return 1;
 endprogram
 
-function ExpandedMenuBar(transparency:=0)
-	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
-	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
-	
-	GFAddButton(gump, 35, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLIST_BTN);
-	//GFGumpPic(gump, 35, 4, 0x98D);
-	GFTextLine(gump, 60, 5, 2100, "Commands");
-
-	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
-	//GFGumpPic(gump, 150, 4, 0x98D);
-	GFTextLine(gump, 157, 5, 2100, "Command Levels");
-
-	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
-	//GFGumpPic(gump, 500, 4, 0x98D);
-	GFTextLine(gump, 530, 5, 2100, "Settings");
-	
-	if ( transparency )
-		GFAddAlphaRegion(gump, 0, 0, 640, 30);
-	endif
-
-	return gump;
-endfunction
-
 function CollapsedMenuBar(transparency:=0)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
-	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
-	
 	if ( transparency )
 		GFAddAlphaRegion(gump, 0, 0, 30, 30);
 	endif
+	GFAddButton(gump, 5, 5, 0x15A1, 0x15A1, GF_CLOSE_BTN, EXPAND_BTN);
 	
 	return gump;
 endfunction
 
 function PkgListMenu(transparency:=0, byref commands)
-	var gump := ExpandedMenuBar();
+	var gump := ExpandedMenuBar(transparency);
 	GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
+	
+	if ( transparency )
+		GFPage(gump, 0);
+		GFAddAlphaRegion(gump, 35, 30, 150, 430);
+	endif
 	
 	var y_pos := 35;
 	GFPage(gump, 1);
@@ -145,11 +123,6 @@ function PkgListMenu(transparency:=0, byref commands)
 		SleepMS(2);
 	endforeach
 	
-	if ( transparency )
-		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 35, 30, 150, 430);
-	endif
-
 	return gump;
 endfunction
 
@@ -161,6 +134,10 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands)
 	cmd_lvls := cmd_lvls.Keys();
 	var y_length := (cmd_lvls.Size() * 20)+25;
 	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+	if ( transparency )
+		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
+	endif
+	
 	if ( cur_pkg == "" )
 		cur_pkg := "Non-Packaged";
 	endif
@@ -175,11 +152,6 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands)
 				
 		SleepMS(2);
 	endforeach
-
-	if ( transparency )
-		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
-	endif
 	
 	return gump;
 endfunction
@@ -190,6 +162,10 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands)
 	var gump := CmdLevelMenu(transparency, cur_pkg, commands);
 	GFPage(gump, 0);
 	GFResizePic(gump, 335, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
+	if ( transparency )
+		GFAddAlphaRegion(gump, 335, 30, 150, 430);
+	endif
+	
 	GFTextMid(gump, 335, 35, 150, 1000, GetCmdLevelName(cur_lvl));
 	
 	var y_pos := 50;
@@ -199,17 +175,12 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands)
 		
 		var name := ICP_GetScriptName(script.script);
 		
-		GFTextLine(gump, 360, y_pos, 2100, name);
+		GFTextLine(gump, 360, y_pos, 2100, "."+name);
 		y_pos := y_pos+20;
 				
 		SleepMS(2);
 	endforeach
-	
-	if ( transparency )
-		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 335, 30, 150, 430);
-	endif
-	
+		
 	return gump;
 endfunction
 
@@ -220,6 +191,10 @@ function CommandLevelInfoMenu(transparency:=0)
 	var gump := ExpandedMenuBar(transparency);
 	var y_length := (num_levels * 20)+10;
 	GFResizePic(gump, 150, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
+	if ( transparency )
+		GFAddAlphaRegion(gump, 150, 30, 140, y_length);
+	endif
+	
 	var i;
 	var y_pos := 35;
 	for ( i:=0; i<num_levels; i:=i+1 )
@@ -228,9 +203,5 @@ function CommandLevelInfoMenu(transparency:=0)
 		SleepMS(2);
 	endfor
 	
-	if ( transparency )
-		GFAddAlphaRegion(gump, 150, 30, 140, y_length);
-	endif
-
 	return gump;
 endfunction

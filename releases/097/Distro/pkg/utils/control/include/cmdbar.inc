@@ -1,7 +1,10 @@
 /* $Id$
  *
  */
- 
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
 // Button IDs
 CONST COLLAPSE_BTN	:= 0xA00;
 CONST EXPAND_BTN	:= 0xA01;
@@ -17,3 +20,26 @@ CONST MOVABLE_CHK	:= 0xA08;
 CONST PKG_START		:= 0xB00;
 CONST LVL_START		:= 0xC00;
 CONST CMD_START		:= 0xD00;
+
+CONST TRANSPARENT	 := 1;
+
+function ExpandedMenuBar(transparency:=0)
+	var gump := GFCreateGump();
+	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
+		
+	GFAddButton(gump, 35, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLIST_BTN);
+	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
+	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
+	
+	if ( transparency )
+		GFAddAlphaRegion(gump, 0, 0, 640, 30);
+	endif
+	
+	GFAddButton(gump, 5, 5, 0x15A4, 0x15A4, GF_CLOSE_BTN, COLLAPSE_BTN);
+	
+	GFTextLine(gump, 60, 5, 2100, "Commands");
+	GFTextLine(gump, 157, 5, 2100, "Command Levels");
+	GFTextLine(gump, 530, 5, 2100, "Settings");
+	
+	return gump;
+endfunction
