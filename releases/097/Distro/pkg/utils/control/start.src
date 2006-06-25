@@ -9,3 +9,8 @@ if ( script.errortext )
 else
 	Print("Starting ICP setup... OK.");
 endif
+
+script := Start_Script("initializer/cmdbarmenus");
+if ( script.errortext )
+	SysLog("Error starting ICP command bar setup ->"+script.errortext);
+endif
