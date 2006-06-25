@@ -36,7 +36,7 @@ program textcmd_CommandBar(who)
 		elseif ( cur_menu == COLLAPSE_BTN )
 			gump := RetrieveGump(main_elem, "Collapsed", who);
 		elseif ( cur_menu == CMDLIST_BTN )
-			gump := RetrieveGump(main_elem, "PkgList", who);
+			gump := RetrieveGump(main_elem, "CmdLvl-"+who.cmdlevel+"PkgList", who);
 		elseif ( cur_menu == CMDLVLS_BTN )
 			gump := gump := RetrieveGump(main_elem, "Levels", who);
 		elseif ( cur_menu == SETTINGS_BTN )

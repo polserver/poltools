@@ -13,12 +13,19 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":gumps:gumpprompt";
 
-// Run 255 lines before going to the next script.
-// Its as close as it gets to critical without the console whining about it.
-Set_Priority(255);
-Set_Script_Option(SCRIPTOPT_NO_RUNAWAY, 1);
+//
+// This script is pretty ugly, but atleast all the work is only done once.
+// After that the gumps are saved and loaded very quickly.
+//
+
+unload_scripts("");
 
 program CmdBarMenus()
+	// Run 255 lines before going to the next script.
+	// Its as close as it gets to critical without the console whining about it.
+	Set_Priority(255);
+	Set_Script_Option(SCRIPTOPT_NO_RUNAWAY, 1);
+
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
 	DFPurgeFile(data_file);
 
@@ -33,6 +40,15 @@ program CmdBarMenus()
 	// This loop is done to make a gump set for every command level.
 	// This way no one sees commands above their own level.
 	for ( i:=0; i<=num_levels; i:=i+1 )
+		var data_elem := DFFindElement(data_file, "CmdBarMain", DF_CREATE);
+		var gump := PkgListMenu(0, commands, i);
+		GFOptimizeGump(gump);
+		data_elem.SetProp("CmdLvl-"+i+"PkgList", gump);
+
+		gump := PkgListMenu(TRANSPARENT, commands, i);
+		//GFOptimizeGump(gump);
+		data_elem.SetProp("CmdLvl-"+i+"PkgListTrans", gump);
+		
 		SetupPackageData(data_file, commands, i);
 	endfor
 
@@ -67,14 +83,6 @@ function SetupMainData(data_file, byref commands)
 	gump := CommandLevelInfoMenu(TRANSPARENT);
 	GFOptimizeGump(gump);
 	data_elem.SetProp("LevelsTrans", gump);
-
-	gump := PkgListMenu(0, commands);
-	GFOptimizeGump(gump);
-	data_elem.SetProp("PkgList", gump);
-
-	gump := PkgListMenu(TRANSPARENT, commands);
-	//GFOptimizeGump(gump);
-	data_elem.SetProp("PkgListTrans", gump);
 
 	return 1;
 endfunction
@@ -121,7 +129,7 @@ function CollapsedMenuBar(transparency:=0)
 	return gump;
 endfunction
 
-function PkgListMenu(transparency:=0, byref commands)
+function PkgListMenu(transparency:=0, byref commands, byref max_level)
 	var gump := ICP_ExpandedMenuBar(transparency);
 	GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, 430);
 
@@ -133,7 +141,9 @@ function PkgListMenu(transparency:=0, byref commands)
 	var y_pos := 35;
 	GFPage(gump, 1);
 	foreach package in ( commands.Keys() )
-		if ( package == "" )
+		if ( NumCommandsInPackage(package, commands, max_level) < 1 )
+			continue;
+		elseif ( package == "" )
 			package := "Non-Packaged";
 		endif
 		GFTextLine(gump, 50, y_pos, 2100, package);
@@ -153,10 +163,11 @@ endfunction
 function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 	var cmd_lvls := commands[cur_pkg];
 
-	var gump := PkgListMenu(transparency, commands);
+	var gump := PkgListMenu(transparency, commands, max_level);
 	GFPage(gump, 0);
 	cmd_lvls := cmd_lvls.Keys();
-	var y_length := (cmd_lvls.Size() * 20)+25;
+	var difference := cmd_lvls.Size() - (max_level+1);
+	var y_length := ((cmd_lvls.Size()-difference) * 20)+25;
 	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
@@ -227,4 +238,15 @@ function CommandLevelInfoMenu(transparency:=0)
 	endfor
 
 	return gump;
+endfunction
+
+function NumCommandsInPackage(pkg_name, byref commands, byref max_level)
+	var count := 0;
+	foreach level in ( commands[pkg_name] )
+		if ( CInt(_level_iter) <= max_level )
+			count := count+level.Size();
+		endif
+	endforeach
+	
+	return count;
 endfunction
