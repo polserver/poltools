@@ -4,6 +4,7 @@
  *
  */
 use uo;
+use os;
 
 include "include/client";
 include "include/sounds";
@@ -15,10 +16,24 @@ program command_Tele(who)
 		return 0;
 	endif
 	
-	PlaySoundEffectPrivate(who, SFX_TELEPORT, who);
-	MoveObjectToLocation(who, targ.x, targ.y, targ.z, who.realm, MOVEOBJECT_FORCELOCATION);
-	PlayObjectCenteredEffect(who, GFX_SMOKE, 0, 5);
+	// This is done so the user doesn't get stuck inside of statics (stairs, boats, etc.)
+	var z_pos := GetStandingHeight(targ.x, targ.y, targ.z, who.realm).z;
+	if ( !z_pos )
+		// Occurs when there is no real 'standing' platform for the user.
+		// Example: Teleporting into a wall.
+		z_pos := targ.z;
+	endif
 	
+	var result := MoveObjectToLocation(who, targ.x, targ.y, z_pos, who.realm, MOVEOBJECT_FORCELOCATION);
+	
+	if ( result.errortext )
+		SendSysMessage(who, "Unable to move ->"+result.errortext);
+		return 0;
+	elseif ( !who.concealed )
+		PlaySoundEffect(who, SFX_TELEPORT);
+		PlayObjectCenteredEffect(who, GFX_SMOKE, 0, 5);
+	endif
+		
 	return 1;
 endprogram
 
