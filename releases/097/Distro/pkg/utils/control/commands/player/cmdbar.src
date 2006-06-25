@@ -6,6 +6,7 @@ use uo;
 use os;
 use polsys;
 
+include ":control:icp-util";
 include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
@@ -137,13 +138,9 @@ function ExpandedMenuBar(who)
 	//GFGumpPic(gump, 35, 4, 0x98D);
 	GFTextLine(gump, 60, 5, 2100, "Commands");
 
-	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, REFRESH_BTN);
+	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
 	//GFGumpPic(gump, 150, 4, 0x98D);
-	GFTextLine(gump, 165, 5, 2100, "Refresh List");
-
-	GFAddButton(gump, 265, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);
-	//GFGumpPic(gump, 265, 4, 0x98D);
-	GFTextLine(gump, 272, 5, 2100, "Command Levels");
+	GFTextLine(gump, 157, 5, 2100, "Command Levels");
 
 	GFAddButton(gump, 500, 4, 0x98D, 0x98D, GF_CLOSE_BTN, SETTINGS_BTN);
 	//GFGumpPic(gump, 500, 4, 0x98D);
@@ -224,7 +221,7 @@ function CmdLevelMenu(who, cur_pkg, byref commands)
 
 	if ( LoadUserSetting(who, "Transparent") )
 		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 185, 30, 150, 180);
+		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
 	endif
 	
 	return gump;
@@ -243,8 +240,8 @@ function CommandsListMenu(who, cur_pkg, cur_lvl, byref commands)
 	foreach script in ( scripts )
 		GFAddButton(gump, 340, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+_script_iter);
 		
-		var name := script.script;
-		name := "."+name[1, Len(name)-4]; // Remove .ecl on the end
+		var name := ICP_GetScriptName(script.script);
+		
 		GFTextLine(gump, 360, y_pos, 2100, name);
 		y_pos := y_pos+20;
 				
@@ -253,7 +250,7 @@ function CommandsListMenu(who, cur_pkg, cur_lvl, byref commands)
 	
 	if ( LoadUserSetting(who, "Transparent") )
 		GFPage(gump, 0);
-		GFAddAlphaRegion(gump, 335, 30, 150, 180);
+		GFAddAlphaRegion(gump, 335, 30, 150, 430);
 	endif
 	
 	return gump;
@@ -265,17 +262,17 @@ function CommandLevelInfoMenu(who)
 
 	var gump := ExpandedMenuBar(who);
 	var y_length := (num_levels * 20)+10;
-	GFResizePic(gump, 265, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
+	GFResizePic(gump, 150, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
 	var i;
 	var y_pos := 35;
 	for ( i:=0; i<num_levels; i:=i+1 )
-		GFTextLine(gump, 270, y_pos, 2100, i+" - "+GetCmdLevelName(i));
+		GFTextLine(gump, 155, y_pos, 2100, i+" - "+GetCmdLevelName(i));
 		y_pos := y_pos+20;
 		SleepMS(2);
 	endfor
 	
 	if ( LoadUserSetting(who, "Transparent") )
-		GFAddAlphaRegion(gump, 265, 30, 140, y_length);
+		GFAddAlphaRegion(gump, 150, 30, 140, y_length);
 	endif
 
 	return gump;
@@ -283,18 +280,23 @@ endfunction
 
 function SettingsMenu(who)
 	var gump := ExpandedMenuBar(who);
-	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 130);
+	GFResizePic(gump, 470, 30, GetCfgConst("BackGrounds", "STONESLAB"), 170, 150);
 
 	GFCheckBox(gump, 475, 40, 210, 211, LoadUserSetting(who, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
 	GFCheckBox(gump, 475, 60, 210, 211, LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
+	
+	if ( who.cmdlevel )
+		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
+		GFTextLine(gump, 495, 110, 2100, "Uncache Gumps");
+	endif
 
-	GFAddButton(gump, 530, 120, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
+	GFAddButton(gump, 530, 140, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
 	
 	if ( LoadUserSetting(who, "Transparent") )
-		GFAddAlphaRegion(gump, 470, 30, 170, 130);
+		GFAddAlphaRegion(gump, 470, 30, 170, 150);
 	endif
 
 	return gump;
@@ -306,18 +308,11 @@ function StartCommand(who, cur_pkg, cur_lvl, command)
 		return 0;
 	endif
 				
-	var name := "";
-	if ( cur_pkg == "" )
-		// :: makes it want to do pol/scripts/...
-		// So a "../" is thrown in to take it to the root.
-		name := "::../"+command.dir+command.script;
-	else
-		name := ":"+cur_pkg+":"+command.dir+command.script;
-	endif
-	var script := Start_Script(name, who);
+	var path := ICP_FormatScriptPath(command, cur_pkg);
+	var script := Start_Script(path, who);
 	
 	if ( script.errortext )
-		GumpPrompt(who, "Failed to start [P] "+name+" [P] "+script.errortext);
+		GumpPrompt(who, "Failed to start "+path+" [P] "+script.errortext);
 		return 0;
 	else
 		SendSysMessage(who, "Starting command...");
