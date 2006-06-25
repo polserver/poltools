@@ -33,6 +33,8 @@ CONST NPCDESC_BTN	:= 0xA00008;
 var pkg_info := DFOpenDataFile(":control:packages", DF_CREATE);
 var pkg_gumps := DFOpenDataFile(":control:gumps", DF_CREATE);
 
+unload_scripts("control");
+
 program textcmd_ICPSystem(who, pkg_name)
 	while ( who.connected )
 		if ( pkg_name )
