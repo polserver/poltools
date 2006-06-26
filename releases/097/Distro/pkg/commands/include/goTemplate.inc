@@ -18,7 +18,7 @@ function Go_CheckInit(who)
                 endfor
 
                 go_prop_base := go_elem.GetProp("base_Distro");
-                go_keys_base := go_prop_base.keys();
+                go_keys_base := go_prop_base.Keys();
                 Go_RefreshGump("LocationIndex", "base_Distro");
         endif
 

@@ -93,7 +93,7 @@ program SpawnerCMD(who)
 			cur_group := group_list[input-GROUP_START];
 		elseif ( input >= REGION_START ) // Button next to a region name was clicked.
 			cur_menu := SHOW_THIS_REGION;
-			var region_list := SS_GetRegionsInRealm(cur_realm).keys();
+			var region_list := SS_GetRegionsInRealm(cur_realm).Keys();
 			cur_region := region_list[input-REGION_START];
 		elseif ( input >= REALM_START ) // Button next to a realm name was clicked.
 			cur_menu := SHOW_REGIONS_BTN;
@@ -176,7 +176,7 @@ function BuildGroupsListGump(who, realm_name:="")
 endfunction
 
 function BuildRegionListGump(who, realm_name)
-	var region_list := SS_GetRegionsInRealm(realm_name).keys();
+	var region_list := SS_GetRegionsInRealm(realm_name).Keys();
 	var gump := BuildGumpTemplate(realm_name);
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Region List ["+realm_name+"]");
@@ -199,7 +199,7 @@ function BuildAddRealmGump(who)
 	GFTextMid(gump, 145, 20, 485, 2100, "Add Realm");
 
 	var used_realms := SS_GetRealmNames();
-	var realm_names := Realms().keys();
+	var realm_names := Realms().Keys();
 	var y_pos := 50;
 
 	foreach realm_name in ( realm_names )

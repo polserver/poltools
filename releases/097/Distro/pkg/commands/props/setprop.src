@@ -29,7 +29,7 @@ program SetProperties(who, text)
 	if ( value == "NULL" )
 		value := "";
 	endif
-	var old_val := targ.get_member(property);
+	var old_val := targ.Get_Member(property);
 	var old_type := Lower(TypeOf(old_val));
 	case ( old_type )
 		"integer"	: value := CInt(value); break;
@@ -43,7 +43,7 @@ program SetProperties(who, text)
 
 	ProcessInput(who, targ,property, value);
 
-	SendSysMessage(who, "New Value->"+targ.get_member(property));
+	SendSysMessage(who, "New Value->"+targ.Get_Member(property));
 endprogram
 
 
@@ -57,7 +57,7 @@ function ProcessInput(who, targ, byref property, byref value)
 		return 1;
 	else
 		// Nothing special was needed to be done, just an ordinary member to change.
-		targ.set_member(property, value);
+		targ.Set_Member(property, value);
 		return 1;
 	endif
 endfunction

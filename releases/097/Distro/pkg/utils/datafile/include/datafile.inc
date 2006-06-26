@@ -108,7 +108,7 @@ endfunction
  *
  */
 function DFGetElemNames(byref file_ref)
-	var elem_keys := file_ref.keys();
+	var elem_keys := file_ref.Keys();
 	if ( elem_keys == error )
 		var errmsg := error{"errortext":="Error::DFGetElemNames() - Could not return elem keys :"+elem_keys.errortext};
 		DF_OutPut(errmsg.errortext);

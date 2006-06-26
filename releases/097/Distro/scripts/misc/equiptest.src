@@ -15,7 +15,7 @@ program EquipTest(mobile, item, start_up)
 	elseif ( mobile.cmdlevel )
 		// CmdLevel > 0 can equip anything.
 		retval := 1;
-	elseif ( item.isa(POLCLASS_CONTAINER) )	
+	elseif ( item.IsA(POLCLASS_CONTAINER) )	
 		// Makes backpacks always equippable.
 		retval := 1;
 	elseif ( (mobile.frozen) || (mobile.paralyzed) )

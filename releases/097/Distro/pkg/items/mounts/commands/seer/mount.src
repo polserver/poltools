@@ -8,7 +8,7 @@ include ":mounts:mounts";
 program command_Mount(who, type)
 	SendSysMessage(who, "Select a character to mount.");
 	var targ := Target(who);
-	if ( !targ.isa(POLCLASS_MOBILE) )
+	if ( !targ.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	elseif ( !type )

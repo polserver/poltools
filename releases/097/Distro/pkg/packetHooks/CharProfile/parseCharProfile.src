@@ -37,7 +37,7 @@ program runScript_CharProfileRequest( params )
 	var id := packet.GetInt32(OFFSET_SERIAL_IN);  //serial of requested profile
                                                 //who
 	var chr := SystemFindObjectBySerial(id);
-	if( !chr.isa(POLCLASS_MOBILE) )
+	if( !chr.IsA(POLCLASS_MOBILE) )
 		return 0; //don't bother working on nonexistant or items :P
 	endif
 

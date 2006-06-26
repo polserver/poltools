@@ -348,7 +348,7 @@ function SetUOExpansion(who, account)
 	var expansions := ACCT_GetSettingsCfgElem("Expansions");
 	expansions := GetConfigStringDictionary(expansions, "Expansion");
 	var y_pos := 50;
-	foreach key in ( expansions.keys() )
+	foreach key in ( expansions.Keys() )
 		GFRadioButton(gump, 20, y_pos, 210, 211, (key==account.uo_expansion), EXPANSION_START+_key_iter);
 		GFTextLine(gump, 45, y_pos, 2100, expansions[key]);
 		y_pos := y_pos+20;

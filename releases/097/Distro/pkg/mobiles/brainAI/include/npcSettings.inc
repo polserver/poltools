@@ -35,15 +35,15 @@ function NPC_GetDefaultSettings(settings:=0)
 		settings := dictionary;
 	endif
 
-	if ( CInt(settings.exists("CycleWait")) <= 0 )
+	if ( CInt(settings.Exists("CycleWait")) <= 0 )
 		settings["CycleWait"] := 10;
 	endif
 	
 	if ( !settings.Exists("NoSleep") )
-		if ( CInt(settings.exists("SleepWait")) <= 0 )
+		if ( CInt(settings.Exists("SleepWait")) <= 0 )
 			settings["SleepWait"] := 1024;
 		endif
-		if ( CInt(settings.exists("IdleTicks")) <= 0 )
+		if ( CInt(settings.Exists("IdleTicks")) <= 0 )
 			settings["IdleTicks"] := 5;
 		endif
 	endif
@@ -75,7 +75,7 @@ function NPC_LoadTemplateSettings(source)
 	var setting_list := GetConfigStringDictionary(npc_elem, "AISetting");
 	
 	var settings := dictionary;
-	foreach setting_name in (setting_list.keys())
+	foreach setting_name in (setting_list.Keys())
 		settings[setting_name] := UnPack(setting_list[setting_name]);
 		
 		SleepMS(2);
@@ -86,7 +86,7 @@ function NPC_LoadTemplateSettings(source)
 	//
 	if ( source.IsA(POLCLASS_NPC) )
 		var cstm_settings := GetObjProperty(source, "AISettings");
-		foreach key in (cstm_settings.keys())
+		foreach key in (cstm_settings.Keys())
 			if ( cstm_settings[key] == error )
 				settings.Erase(key);
 			else
@@ -125,7 +125,7 @@ function NPC_LoadScriptSettings(source)
 	var flag_list := GetConfigStringDictionary(npc_elem, "AIScriptFlag");
 
 	var script_settings := dictionary;
-	foreach script_type in (script_list.keys())
+	foreach script_type in (script_list.Keys())
 		var temp := struct;
 		temp.+script := script_list[script_type];
 		
@@ -144,7 +144,7 @@ function NPC_LoadScriptSettings(source)
 	//
 	if ( source.IsA(POLCLASS_NPC) )
 		var cstm_scripts := GetObjProperty(source, "AIScripts");
-		foreach key in (cstm_scripts.keys())
+		foreach key in (cstm_scripts.Keys())
 			script_settings[key] := cstm_scripts[key];
 			SleepMS(2);
 		endforeach

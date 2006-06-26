@@ -112,7 +112,7 @@ function GetCategoryNames()
 	var data_elem := DFFindElement(g_datafile, "Index");
 	var category_names := data_elem.GetProp("CategoryNames");
 	if ( !category_names )
-		category_names := (SortNPCs().keys());
+		category_names := (SortNPCs().Keys());
 		data_elem := DFFindElement(g_datafile, "Index", DF_CREATE);
 		data_elem.SetProp("CategoryNames", category_names);
 	endif

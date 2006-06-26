@@ -182,7 +182,7 @@ function TS_GetTimerNames(mobile, type:="")
 	var timer_list := TS_GetTimerList(mobile);
 	var name_list := array{};
 
-	foreach timer_name in ( timer_list.keys() )
+	foreach timer_name in ( timer_list.Keys() )
 		if ( type )
 			var elem_info := TS_GetCfgElem(timer_name);
 			if ( Lower(elem_info.Type) == type )

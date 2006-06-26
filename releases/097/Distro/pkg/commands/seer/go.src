@@ -63,7 +63,7 @@ var go_data_gumps := DFOpenDataFile(":commands:GoGumps", DF_CREATE);
 var go_data_file  := DFOpenDataFile(":commands:GoFile", DF_CREATE);
 var go_elem       := DFFindElement(go_data_file, "GoList", DF_CREATE);
 var go_prop_base  := go_elem.GetProp("base_Distro");
-var go_keys_base  := go_prop_base.keys();
+var go_keys_base  := go_prop_base.Keys();
 var go_prop;
 var go_keys;
 var num_keys;
@@ -90,7 +90,7 @@ program command_go( who, text )
 		go_prop  := go_elem.GetProp(who.acctname);
 	endif
 
-	go_keys  := go_prop.keys();
+	go_keys  := go_prop.Keys();
 
 	if( Go_Parse_Text(who, text) )
 		return 0;

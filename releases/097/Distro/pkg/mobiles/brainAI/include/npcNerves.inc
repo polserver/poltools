@@ -221,7 +221,7 @@ function StopNerve(mobile, nerve_name)
 	var nerve_dict := LoadNerves(mobile);
 	
 	if ( nerve_dict.Exists(nerve_name) )
-		GetNerveProcess(mobile, nerve_name).kill();
+		GetNerveProcess(mobile, nerve_name).Kill();
 		nerve_dict.Erase(nerve_name);
 
 		return SaveNerves(mobile, nerve_dict);
@@ -248,7 +248,7 @@ function KillNerves(mobile)
 	
 	var nerve_dict := LoadNerves(mobile);
 	
-	foreach nerve_name in (nerve_dict.keys())
+	foreach nerve_name in (nerve_dict.Keys())
 		StopNerve(mobile, nerve_name);
 	endforeach
 	Set_Critical(0);
