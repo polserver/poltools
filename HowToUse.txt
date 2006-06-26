@@ -29,7 +29,7 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 * Install the program to where you normally install stuff and reboot when it asks.
 
 * NOTE: <###> Refers to a version number. 
-  Example: 095 096 097 098 (currently 096 and 097 are available)
+  Example: 095 096 097 098 (currently 095, 096 and 097 are available)
   
   To retrieve all distro versions, omit /releases/<###>
   Example: https://svn.sourceforge.net/svnroot/pol-distro/
@@ -48,8 +48,6 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 * It will begin downloading the files for the disto.
 
 * When it has completed retrieving the files, click [okay]
-
-* Inside the directory it will have made an 096 directory.
 
 * In the future you can right click here and select "SVN Update" to retrieve the latest files.
 
