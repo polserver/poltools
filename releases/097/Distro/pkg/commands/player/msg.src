@@ -41,7 +41,7 @@ function MessageGump(who)
 	var y_pos := 45;
 	
 	GFPage(gump, 1);
-	foreach name in (names_list.keys())
+	foreach name in (names_list.Keys())
 		GFTextLine(gump, 25, y_pos, 2100, name);
 		GFAddButton(gump, 261, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _name_iter);
 
@@ -66,7 +66,7 @@ function MessageGump(who)
 		SendSysMessage(who, "Cancelled");
 		return 0;
 	else
-		names_list := names_list.keys();
+		names_list := names_list.Keys();
 		SendMessage(who, names_list[input]);
 	endif
 endfunction
@@ -98,7 +98,7 @@ function SendMessage(who, name_text, is_reply:=0)
 	var can_msg := 0;
 	if ( is_reply )
 		can_msg := 1;
-	elseif ( name_text in (GetNamesList(who).keys()) )
+	elseif ( name_text in (GetNamesList(who).Keys()) )
 		can_msg := 1;
 	endif
 	

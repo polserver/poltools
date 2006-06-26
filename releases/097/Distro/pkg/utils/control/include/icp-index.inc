@@ -11,7 +11,7 @@ function ICP_IndexGump()
 	var page_num := 1;
 	var counter := 1;
 	
-	var pkg_elems := pkg_info.keys();
+	var pkg_elems := pkg_info.Keys();
 	pkg_elems.Sort();
 	foreach pkg_name in pkg_elems
 		var pkg_elem := DFFindElement(pkg_info, pkg_name);
@@ -58,7 +58,7 @@ function ICP_PackageIndex(who)
 		SendSysMessage(who, "Cancelled");
 		return 0;
 	else
-		var elems := (pkg_info.keys());
+		var elems := (pkg_info.Keys());
 		return elems[input];
 	endif
 endfunction

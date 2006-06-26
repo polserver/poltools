@@ -150,7 +150,7 @@ program CpropEditor(parms1,parms2)
   var who,thing;
 
   if (TypeOf(parms1)=="Array")
-    if ( (parms1[1].isa(POLCLASS_MOBILE) and !parms1[1].isa(POLCLASS_NPC)) and parms1[2].isa(POLCLASS_UOBJECT) )
+    if ( (parms1[1].IsA(POLCLASS_MOBILE) and !parms1[1].IsA(POLCLASS_NPC)) and parms1[2].IsA(POLCLASS_UOBJECT) )
       who:=parms1[1];
       thing:=parms1[2];
     else
@@ -176,7 +176,7 @@ program CpropEditor(parms1,parms2)
   if (!thing)
     sendsysmessage(who,"Cancelled.");
     return 0;
-  elseif (thing.isa(POLCLASS_ITEM))
+  elseif (thing.IsA(POLCLASS_ITEM))
     ReserveItem(thing);
   endif
 
@@ -186,7 +186,7 @@ program CpropEditor(parms1,parms2)
 
   if (!thing)
     sendsysmessage(who,"Item destroyed!");
-  elseif (thing.isa(POLCLASS_ITEM))
+  elseif (thing.IsA(POLCLASS_ITEM))
     ReleaseItem(thing);
   endif
 

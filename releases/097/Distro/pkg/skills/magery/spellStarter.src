@@ -122,7 +122,7 @@ program SpellStarter(params)
 
 		endwhile
 		
-		moveCheck_script.kill();
+		moveCheck_script.Kill();
 		
 		var attribute := spell_elem.Attribute;
 		if ( !attribute )

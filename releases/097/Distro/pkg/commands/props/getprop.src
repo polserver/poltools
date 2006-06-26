@@ -16,5 +16,5 @@ program propertyinfo(who, property)
 		SendSysMessage(who, "Cancelled");
 		return 0;
 	endif
-	SendSysMessage(who, "Property "+property+": "+targ.get_member(property));
+	SendSysMessage(who, "Property "+property+": "+targ.Get_Member(property));
 endprogram

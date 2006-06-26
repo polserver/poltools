@@ -39,7 +39,7 @@ program textcmd_NPCStatus(who)
 	endforeach
 	
 	text := text+"<BR><B>WATCH LIST</B><BR>";
-	foreach serial in ( NPC_LoadWatchList(targ).keys() )
+	foreach serial in ( NPC_LoadWatchList(targ).Keys() )
 		var name := SystemFindObjectBySerial(CInt(serial)).name;
 		text := text+Hex(serial)+" "+name+"<BR>";
 		SleepMS(2);

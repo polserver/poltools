@@ -237,7 +237,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 		elseif( theitem.isA(POLCLASS_ITEM) )
 			SetToolDurability(who, theitem, craft_skill);
 		endif
-		if( (power) && (theitem.isa(POLCLASS_ARMOR)) )
+		if( (power) && (theitem.IsA(POLCLASS_ARMOR)) )
 			SetObjProperty(theitem, "power", power);
 	//		theitem.equipscript := "equiparmor";
 	//		theitem.unequipscript := "unequiparmor";

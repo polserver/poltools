@@ -26,7 +26,7 @@ function CheckToolWear (who, tool, skillid)
 			skill := 20;
 		endif
 		if ( (RandomInt(100)+1) > skill )
-			if ( tool.isa(POLCLASS_WEAPON))
+			if ( tool.IsA(POLCLASS_WEAPON))
 				if ( tool.hp > 1 )
 					SetObjProperty(tool,"swings", (swings - 1));
 					tool.hp := tool.hp - 1;
