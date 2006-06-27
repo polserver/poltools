@@ -35,15 +35,15 @@ use os;
 use datafile;
 
 include ":datafile:datafile";
-include ":gumps:include/gumps";
-include ":gumps:include/gumpprompt";
-include ":gumps:include/gumps_ex";
-include ":gumps:include/yesno";
-include ":commands:include/goAdd";
-include ":commands:include/goEdit";
-include ":commands:include/goText";
-include ":commands:include/goGumps";
-include ":commands:include/goTemplate";
+include ":gumps:gumps";
+include ":gumps:gumpprompt";
+include ":gumps:gumps_ex";
+include ":gumps:yesno";
+include ":commands:goAdd";
+include ":commands:goEdit";
+include ":commands:goText";
+include ":commands:goGumps";
+include ":commands:goTemplate";
 
 CONST ADD_NEW_PUBLIC      := 0x20001;
 CONST ADD_NEW_PRIVATE     := 0x20002;

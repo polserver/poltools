@@ -1,8 +1,8 @@
 use uo;
 
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
-include ":gumps:include/gumpprompt";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
 
 program PromptDemo(who, text)
 	if ( !text )

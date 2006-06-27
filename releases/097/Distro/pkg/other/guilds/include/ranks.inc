@@ -6,7 +6,7 @@
 
 use uo;
 
-include	":guilds:include/settings";
+include	":guilds:settings";
 
 function GetGuildRank(who)
 

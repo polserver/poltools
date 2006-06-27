@@ -1,7 +1,7 @@
 use uo;
 
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
 
 Program GumpTest(who, gump_id)
 	gump_id := CInt(gump_id);

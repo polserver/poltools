@@ -13,8 +13,8 @@ use uo;
 use os;
 use util;
 
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
 include ":datafile:datafile";
 
 program command_Message(who, text)

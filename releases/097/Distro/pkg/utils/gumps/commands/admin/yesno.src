@@ -1,8 +1,8 @@
 use uo;
 
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
-include ":gumps:include/yesno";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:yesno";
 
 program PromptDemo(who)
 	var prompt := "Are you sure you want to take this course of action?";

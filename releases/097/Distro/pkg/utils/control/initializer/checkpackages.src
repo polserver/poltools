@@ -7,7 +7,7 @@ use polsys;
 use cfgfile;
 
 include "include/string";
-include ":datafile:include/datafile";
+include ":datafile:datafile";
 include ":control:report";
 
 // Run 255 lines before going to the next script.

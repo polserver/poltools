@@ -10,8 +10,8 @@ use os;
 use math;
 use cfgfile;
 
-include ":damage:include/settings";
-include ":damage:include/report";
+include ":damage:settings";
+include ":damage:report";
 include ":brainAI:npcUtil";
 include ":attributes:attributes";
 
