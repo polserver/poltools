@@ -62,7 +62,7 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 	{
 		if ( Preg_Match('/\[Label=([[:alnum:][:space:][:punct:]]+)\]/i', $line, $matches) )
 		{
-			$matches[1] = Preg_Replace('/\s/i', ' ', $matches[1]);
+			$matches[1] = Preg_Replace("/%s/i", " ", $matches[1]);
 			if ( $last_label )
 				UnSet($new_elem[$last_label]);
 				
