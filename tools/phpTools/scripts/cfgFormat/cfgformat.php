@@ -60,12 +60,12 @@ function CleanUpElem(&$elem_name, &$cfg_file, &$template)
 	$last_label = 0;
 	foreach ( $template as $indice => $line )
 	{
-		if ( Preg_Match('/\[Label=([[:alnum:][:space:][:punct:]]+)\]/i', $line, $matches) )
+		if ( Preg_Match('/\[Label=([[:alnum:][:space:][:punct:]]+)\]/', $line, $matches) )
 		{
-			$matches[1] = Preg_Replace("/%s/i", " ", $matches[1]);
 			if ( $last_label )
 				UnSet($new_elem[$last_label]);
-				
+			
+			$matches[1] = Preg_Replace("/%s/i", " ", $matches[1]);	
 			$line = "//{$matches[1]}";
 			if ( $indice > 1 )
 				$line = "\n\t{$line}";
