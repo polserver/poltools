@@ -16,7 +16,7 @@ program Controller(gamepiece)
 		MoveItemToContainer(gamepiece, my_board);
 	endif
 
-	SetObjProperty(gamepiece, "#PId", GetPid());
+	SetObjProperty(gamepiece, "#pid", GetPid());
 	gamepiece.movable := 1;
 	
 	while ( gamepiece )
