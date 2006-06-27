@@ -11,8 +11,8 @@ use polsys;
 
 include "include/client";
 include ":skilllock:skillLocks";
-include ":attributes:include/attributes_ex";
-include ":attributes:include/skills";
+include ":attributes:attributes_ex";
+include ":attributes:skills";
 
 CONST MODE_FULL_LIST		:= 0;
 CONST MODE_SINGLE_SKILL		:= 255;

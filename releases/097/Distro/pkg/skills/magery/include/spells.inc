@@ -4,9 +4,9 @@ use util;
 use cfgfile;
 
 include ":attributes:attributes";
-include ":magery:include/settings";
-include ":magery:include/spells_ex";
-include ":magery:include/report";
+include ":magery:settings";
+include ":magery:spells_ex";
+include ":magery:report";
 include "include/client";
 
 CONST MAX_RANGE	:= 16;

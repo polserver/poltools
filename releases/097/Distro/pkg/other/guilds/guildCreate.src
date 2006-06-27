@@ -8,11 +8,11 @@
 use uo;
 use guilds;
 
-include ":guilds:include/report";
-include ":guilds:include/settings";
-include ":guilds:include/events";
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
+include ":guilds:report";
+include ":guilds:settings";
+include ":guilds:events";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
 
 CONST GCGUMP_X := 125;
 CONST GCGUMP_Y := 200;

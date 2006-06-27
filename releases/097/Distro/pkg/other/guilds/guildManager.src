@@ -7,12 +7,12 @@
 use os;
 use guilds;
 
-include	":guilds:include/report";
-include	":guilds:include/settings";
-include	":guilds:include/events";
-include	":guilds:include/validate";
-include	":guilds:include/ranks";
-include	":gumps:include/yesno";
+include	":guilds:report";
+include	":guilds:settings";
+include	":guilds:events";
+include	":guilds:validate";
+include	":guilds:ranks";
+include	":gumps:yesno";
 
 var permissions := Guild_GetSettingsCfgElem("Permissions");
 

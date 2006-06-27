@@ -13,8 +13,8 @@ CONST OFFSET_PACKET_TYPE := 0x08;
 CONST GUILD_BUTTON_PRESSED := 0x280A;
 CONST QUEST_BUTTON_PRESSED := 0x320A;
 
-include ":guilds:include/report";
-include ":guilds:include/settings";
+include ":guilds:report";
+include ":guilds:settings";
 
 program Install()
 

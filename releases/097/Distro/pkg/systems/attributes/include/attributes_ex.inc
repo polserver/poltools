@@ -10,7 +10,7 @@
 *  Created include file
 ===============================================================*/
 
-include ":attributes:include/attributes";
+include ":attributes:attributes";
 
 /*
  * AP_SkillIdToAttributeName(skill_number)

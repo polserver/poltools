@@ -1,15 +1,15 @@
 use uo;
 use os;
 
-include ":gumps:include/gumps";
-include ":gumps:include/gumps_ex";
-include ":gumps:include/gumpprompt";
-include ":gumps:include/yesno";
-include ":gumps:include/requestgump";
-include ":spawnsystem:include/engines";
-include ":spawnsystem:include/realms";
-include ":spawnsystem:include/regions";
-include ":spawnsystem:include/groups";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
+include ":gumps:yesno";
+include ":gumps:requestgump";
+include ":spawnsystem:engines";
+include ":spawnsystem:realms";
+include ":spawnsystem:regions";
+include ":spawnsystem:groups";
 
 // Used for input ranges
 CONST REALM_START	:= 0x1000;
