@@ -7,7 +7,7 @@ use uo;
 program OnCreate(board)
 	var i;
 	var pieces := array;
-	for ( i:=1; i<=12; i:=i+1 )
+	for ( i:=1; i<=12; i+=1 )
 		pieces.Append(CreateItemInContainer(board, "WhiteChecker"));
 		pieces.Append(CreateItemInContainer(board, "RedChecker"));
 	endfor
