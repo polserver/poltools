@@ -17,9 +17,9 @@ function ICP_CommandsGump(pkg_name)
 	if ( cmd_list.Size() > 0 )
 		foreach level in ( cmd_list )
 			foreach script in ( level )
-				btn_num := btn_num+1;
-				counter := counter+1;
-				y_pos := y_pos+20;
+				btn_num += 1;
+				counter += 1;
+				y_pos += 20;
 				ICP_AddCmdLine(gump, script, btn_num, y_pos, counter);
 				SleepMS(2);
 			endforeach
@@ -62,7 +62,7 @@ function ICP_StartCommand(who, input, pkg_elem, pkg_name)
 	foreach level in ( script_list )
 		var num_scripts := level.Size();
 		if ( input > num_scripts )
-			input := input-num_scripts;
+			input -= num_scripts;
 			continue;
 		else
 			script := level[input];

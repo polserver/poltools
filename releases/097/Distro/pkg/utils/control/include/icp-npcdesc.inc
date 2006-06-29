@@ -20,7 +20,7 @@ function ICP_NPCDescGump(pkg_name)
 			//var graphic := cfg_elem.ObjType;
 			var pic_color := CInt(cfg_elem.Color);
 			if ( pic_color )
-				pic_color := pic_color-1;
+				pic_color -= 1;
 			endif
 			var name_color := ICP_GetNPCNameColor(cfg_elem.alignment);
 						
@@ -28,13 +28,13 @@ function ICP_NPCDescGump(pkg_name)
 			GFTextCrop(gump, x_pos, y_pos+15, 95, 25, name_color, key);
 			GFAddButton(gump, x_pos+5, y_pos+35, 2117, 2118, GF_CLOSE_BTN, _key_iter);
 
-			x_pos := x_pos+120;
-			x_count := x_count+1;
+			x_pos += 120;
+			x_count += 1;
 			if ( x_count > 4 )
 				x_count := 1;
-				y_pos := y_pos+80;
+				y_pos += 80;
 				x_pos := 25;
-				y_count := y_count+1;
+				y_count += 1;
 			endif
 			if ( y_count > 4 )
 				y_pos := 100;
@@ -42,7 +42,7 @@ function ICP_NPCDescGump(pkg_name)
 				x_count := 1;
 				y_count := 1;
 				GFAddButton(gump, 460, 420, 0xA58, 0xA59, GF_PAGE_BTN, page_num+1);
-				page_num := page_num+1;
+				page_num += 1;
 				GFPage(gump, page_num);
 				GFAddButton(gump, 460, 105, 0xA5A, 0xA5B, GF_PAGE_BTN, page_num-1);
 			endif

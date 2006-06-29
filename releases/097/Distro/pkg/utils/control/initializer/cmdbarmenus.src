@@ -40,7 +40,7 @@ program CmdBarMenus()
 	var i := 0;
 	// This loop is done to make a gump set for every command level.
 	// This way no one sees commands above their own level.
-	for ( i:=0; i<=num_levels; i:=i+1 )
+	for ( i:=0; i<=num_levels; i+=1 )
 		var data_elem := DFFindElement(data_file, "CmdBarMain", DF_CREATE);
 		var gump := PkgListMenu(0, commands, i);
 		GFOptimizeGump(gump);
@@ -163,7 +163,7 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 			endif
 			GFTextLine(gump, 50, y_pos, 2100, package.name);
 			GFAddButton(gump, 165, y_pos+3, 5224, 5224, GF_CLOSE_BTN, PKG_START+package.id);
-			y_pos := y_pos+20;
+			y_pos += 20;
 		endforeach
 	endforeach
 
@@ -180,7 +180,7 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 		if ( CInt(level) > max_level )
 			break;
 		else
-			num_levels := num_levels+1;
+			num_levels += 1;
 		endif
 	endforeach
 	var y_length := (num_levels * 20)+25;
@@ -202,7 +202,7 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 		
 		GFTextLine(gump, 200, y_pos, 2100, GetCmdLevelName(level_id));
 		GFAddButton(gump, 315, y_pos+3, 5224, 5224, GF_CLOSE_BTN, LVL_START+_level_id_iter);
-		y_pos := y_pos+20;
+		y_pos += 20;
 	endforeach
 
 	return gump;
@@ -238,11 +238,11 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 		endif
 		
 		foreach script in ( page_list )
-			script_id := script_id+1;
+			script_id += 1;
 			GFAddButton(gump, 350, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+script_id);
 			var name := ICP_GetScriptName(script.script);
 			GFTextLine(gump, 370, y_pos, 2100, "."+name);
-			y_pos := y_pos+20;
+			y_pos += 20;
 		endforeach
 	endforeach
 	
@@ -262,9 +262,9 @@ function CommandLevelInfoMenu(transparency:=0)
 
 	var i;
 	var y_pos := 35;
-	for ( i:=0; i<num_levels; i:=i+1 )
+	for ( i:=0; i<num_levels; i+=1 )
 		GFTextLine(gump, 155, y_pos, 2100, i+" - "+GetCmdLevelName(i));
-		y_pos := y_pos+20;
+		y_pos += 20;
 	endfor
 
 	return gump;
