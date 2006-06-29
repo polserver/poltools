@@ -328,11 +328,11 @@ function GFAddButton(byref gump, x, y, off_id, on_id, btn_type:=GF_PAGE_BTN, btn
 	endif
 
 	if ( btn_type == GF_CLOSE_BTN )
-		line := line+" 1 0 "+CStr(btn_value);
+		line += " 1 0 "+CStr(btn_value);
 	elseif ( btn_type == GF_DUMMY_BTN )
-		line := line+" 0 0 "+CStr(btn_value);
+		line += " 0 0 "+CStr(btn_value);
 	else // Assume GF_PAGE_BTN
-		line := line+" 0 "+CStr(btn_value);
+		line += " 0 "+CStr(btn_value);
 	endif
 
 	(gump.layout).Append(line);
@@ -735,11 +735,9 @@ endfunction
  *
  */
 function XGFError(text, log:=0)
-	var temp := error{"errortext":=text};
-	
 	if ( log )
 		SysLog("Gump Error:: "+text);
 	endif
 
-	return temp;
+	return error{"errortext":=text};
 endfunction
