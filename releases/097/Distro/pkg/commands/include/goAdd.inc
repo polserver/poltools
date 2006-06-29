@@ -154,9 +154,9 @@ function Go_LocationCopyGump(public:=1)
 			GFTextLine(gump, 175, y_loc, 2100, go_prop_base[place].Realm);
 			GFAddButton(gump, 300, y_loc+3, 2117, 2118, GF_CLOSE_BTN, counter);
 
-			counter := counter + 1;
-			line_num := line_num+1;
-			y_loc := y_loc + 20;
+			counter += 1;
+			line_num += 1;
+			y_loc += 20;
 			if ( line_num >= 17 && line_num < num_keys )
 				GFAddButton(gump, 370, 405, 2706, 2707, GF_PAGE_BTN, page_num+1);
 				page_num := page_num + 1;
@@ -174,9 +174,9 @@ function Go_LocationCopyGump(public:=1)
 			GFTextLine(gump, 175, y_loc, 2100, go_prop[place].Realm);
 			GFAddButton(gump, 300, y_loc+3, 2117, 2118, GF_CLOSE_BTN, counter);
 
-			counter := counter + 1;
-			line_num := line_num+1;
-			y_loc := y_loc + 20;
+			counter += 1;
+			line_num += 1;
+			y_loc += 20;
 			if ( line_num >= 17 && line_num < num_keys )
 				GFAddButton(gump, 370, 405, 2706, 2707, GF_PAGE_BTN, page_num+1);
 				page_num := page_num + 1;
