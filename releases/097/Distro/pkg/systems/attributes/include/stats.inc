@@ -127,9 +127,9 @@ endfunction
 function AP_ModifyStatMod(mobile, stat_name, points)
 	var orig_mod := AP_GetStatMod(mobile, stat_name);
 	var new_mod := CDbl(points)+CDbl(orig_mod);
-	
+
 	AP_SetStatMod(mobile, stat_name, new_mod);
-	
+
 	return orig_mod;
 endfunction
 
@@ -148,10 +148,10 @@ endfunction
  */
 function AP_GetStatCap(skill_name)
 	var cfg_elem := AP_GetSettingsCfgElem("Stats");
-	
+
 	// Check if there is a cap for that particular skill.
 	var cap_val := GetConfigReal(cfg_elem, skill_name);
-		
+
 	return cap_val;
 endfunction
 
@@ -172,17 +172,17 @@ endfunction
  */
 function AP_CheckStatCap(mobile, stat_name:="")
 	var cfg_elem := AP_GetSettingsCfgElem("Stats");
-	
+
 	if ( stat_name )
 		var cap := AP_GetStatCap(stat_name);
 		return ( AP_GetTrueStat(mobile, stat_name) >= cap );
 	else
 		var total := 0.0;
 		foreach attribute_name in ( AP_ListAttributesByType("Stat") )
-			total := total + AP_GetTrueStat(mobile, attribute_name);
+			total += AP_GetTrueStat(mobile, attribute_name);
 			SleepMS(2);
 		endforeach
-		
+
 		return ( total >= GetConfigReal(cfg_elem, "TotalCap") );
 	endif
 endfunction
