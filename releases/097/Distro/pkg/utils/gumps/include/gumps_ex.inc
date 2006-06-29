@@ -262,7 +262,7 @@ function GFTextWidth(gump_text)
 	var points:=0;
 	var j := Len(gump_text);
 
-	for ( j; j>0; j-=1; )
+	for ( j; j>0; j-=1 )
 		var i := Find(gft_length.charsf, gump_text[j], 1) - 1;
 		if ( i>=0 )
 			points += gft_length.width[CInt(i/14)+1];
