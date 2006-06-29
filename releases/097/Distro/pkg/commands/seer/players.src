@@ -15,13 +15,13 @@ CONST GOTO_START	:= 0xF000;
 program textcmd_Players(who, text)
 	var online_list := GotoArray(who);
 	var input;
-	
+
 	if ( text )
 		input := ParseText(text, online_list);
 	else
 		input := PlayerListGump(who, online_list);
 	endif
-	
+
 	if ( !input )
 		SendSysMessage(who, "Cancelled");
 		return 0;
@@ -50,7 +50,7 @@ function ParseText(text, byref online_list)
 	text := SplitWords(text);
 	var type := Lower(text[1]); // "summon" "goto"
 	var name := Lower(text[2]);
-	
+
 	foreach player in ( online_list )
 		if ( Lower(player.name) == name )
 			if ( type == "summon" )
@@ -61,7 +61,7 @@ function ParseText(text, byref online_list)
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return 0;
 endfunction
 
@@ -75,7 +75,7 @@ function PlayerListGump(who, byref online_list)
 	GFTextLine(gump, 270, 25, 2100, "Summon");
 	GFTextLine(gump, 350, 25, 2100, "Goto");
 
-	
+
 	var counter := 0;
 	var y_pos := 50;
 
@@ -85,9 +85,9 @@ function PlayerListGump(who, byref online_list)
 		GFTextLine(gump, 25, y_pos, 2100, player.name);
 		GFAddButton(gump, 290, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+SUMMON_START);
 		GFAddButton(gump, 360, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+GOTO_START);
-	
-		counter := counter + 1;
-		y_pos := y_pos + 20;
+
+		counter += 1;
+		y_pos += 20;
 
 		if ( counter >= 20 && _player_iter < online_list.Size() )
 			GFAddButton(gump, 390, 435, 2706, 2707, GF_PAGE_BTN, gump.cur_page+1);

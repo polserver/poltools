@@ -1,11 +1,17 @@
+/* $Id$
+ *
+ */
+
 use os;
 use uo;
 
-program textcmd_sayabove( who, text )
-    SendSysMessage( who, "Say above what or whom?" );
+program textcmd_sayabove(who, text)
+	SendSysMessage(who, "Say above what or whom?");
 
-    var what := Target( who );
-    if (what)
-        PrintTextAbove( what, text );
-    endif
+	var what := Target(who);
+	if ( what )
+		PrintTextAbove(what, ""+text);
+	endif
+
+	return 1;
 endprogram
