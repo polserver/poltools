@@ -483,6 +483,7 @@ WriteHTMLRaw
 .hp
 .instr_cycles
 .instr_per_min
+.intrinsic
 .invisible
 .iostats
 .ip
