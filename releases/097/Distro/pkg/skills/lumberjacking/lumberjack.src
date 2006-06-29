@@ -30,7 +30,7 @@ program skill_LumberJack(who, tool)
 	var orig_y := who.y;
 	
 	var num_loops := RandomDiceRoll("1d5");
-	for ( num_loops; num_loops>=0; num_loops:=num_loops-1 )
+	for ( num_loops; num_loops>=0; num_loops-=1 )
 		if ( !ChopTree(who, tool, targ, orig_x, orig_y) )
 			break;
 		endif
@@ -43,7 +43,7 @@ endprogram
 
 function ChopTree(who, tool, targ, orig_x, orig_y)
 	var i:=1;//RandomDiceRoll("3d3");
-	for ( i; i>=0; i:=i-1 )
+	for ( i; i>=0; i-=1 )
 		if ( !CanChop(who, tool, targ, orig_x, orig_y) )
 			return 0;
 		endif
@@ -65,7 +65,7 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 		SendSysMessage(who, "MaxWood="+max_wood+"    CurWood="+wood_amount);
 		SendSysMessage(who, "Difficulty ->"+difficulty);
 	endif
-	wood_amount := wood_amount - 1;
+	wood_amount -= 1;
 	LJ_SetWoodAmount(who.realm, targ.x, targ.y, wood_amount);
 
 	if ( SkillCheck(who, LUMBERJACKING, difficulty) > 0 )

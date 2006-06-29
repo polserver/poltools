@@ -21,7 +21,7 @@ program MessageOfTheDay(mobile)
 	var text_lines := ReadFile("motd.txt");
 	var text := "";
 	foreach line in text_lines
-		text := text+line+"\n";
+		text += line+"\n";
 		SleepMS(5);
 	endforeach
 

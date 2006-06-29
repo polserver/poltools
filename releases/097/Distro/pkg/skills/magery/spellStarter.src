@@ -86,7 +86,7 @@ program SpellStarter(params)
 		SendSysMessage(mobile, "You don't have the proper reagents.");
 		FailSpell(mobile);
 		return 0;
-    else
+	else
 		mobile.hidden := 0;
 		EraseObjProperty(mobile, "#Medding");
 		SpeakPowerWords(mobile, spell_id);
@@ -114,10 +114,10 @@ program SpellStarter(params)
 			
 			if ( delay % 50 )
 				SleepMS(delay % 50);
-				delay := delay - (delay % 50);
+				delay -= (delay % 50);
 			else
 				SleepMS(50);
-				delay := delay - 50;
+				delay -= 50;
 			endif
 
 		endwhile
