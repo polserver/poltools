@@ -50,14 +50,14 @@ function RequestGump(mobile, question, option := "", pre_val := "", cancel_btn:=
 	var y_pos := 20;
 	foreach line in (GFWordWrap(question, 370))
 		GFTextLine(r_gump, 20, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	
 	y_pos := 75;
 	foreach line in (GFWordWrap(option, 370))
 		GFTextLine(r_gump, 20, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	

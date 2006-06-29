@@ -323,7 +323,7 @@ function GFAddButton(byref gump, x, y, off_id, on_id, btn_type:=GF_PAGE_BTN, btn
 
 	btn_value := CInt(btn_value);
 	if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
-		gump.data_id := gump.data_id+1;
+		gump.data_id += 1;
 		btn_value := gump.data_id;
 	endif
 
@@ -377,7 +377,7 @@ function GFCheckBox(byref gump, x, y, unc_id, che_id, status:=0, btn_value:=0)
 
 	btn_value := CInt(btn_value);
 	if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
-		gump.data_id := gump.data_id+1;
+		gump.data_id += 1;
 		btn_value := gump.data_id;
 	endif
 
@@ -506,7 +506,7 @@ function GFGumpPic(byref gump, x, y, gump_id, hue := 0)
 
 	hue := CInt(hue);
 	if ( hue )
-		text := text+" hue="+CStr(hue);
+		text += " hue="+CStr(hue);
 	endif
 	(gump.layout).Append(text);
 
@@ -642,7 +642,7 @@ endfunction
 function GFRadioButton(byref gump, x, y, unp_id, pres_id, status:=0, btn_value:=0)
 	btn_value := CInt(btn_value);
 	if ( btn_value < 1 ) // Catch errors (0) and invalid (negative) values
-		gump.data_id := gump.data_id+1;
+		gump.data_id += 1;
 		btn_value := gump.data_id;
 	endif
 
@@ -683,7 +683,7 @@ function GFTextEntry(byref gump, x, y, width, height, txt_color, ini_text:="", t
 
 	txt_id := CInt(txt_id);
 	if ( txt_id < 1 ) // Catch errors (0) and invalid (negative) values
-		gump.data_id := gump.data_id+1;
+		gump.data_id += 1;
 		txt_id := gump.data_id;
 	endif
 

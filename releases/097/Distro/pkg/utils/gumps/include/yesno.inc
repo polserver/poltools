@@ -40,7 +40,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	var y_pos := 20;
 	foreach line in (GFWordWrap(prompt, 360))
 		GFTextLine(yn_gump, 20, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	
@@ -48,7 +48,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	GFAddButton(yn_gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, 100);
 	foreach line in (GFWordWrap(yes_text, 355));
 		GFTextLine(yn_gump, 40, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 		
@@ -56,7 +56,7 @@ function YesNo(mobile, prompt:="", yes_text:="Yes", no_text:="No")
 	GFAddButton(yn_gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN);
 	foreach line in (GFWordWrap(no_text, 355))
 		GFTextLine(yn_gump, 40, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	
