@@ -6,10 +6,10 @@
 include ":datafile:datafile";
 
 /*
- * SLPH_GetRealmDataFile()
+ * SLPH_GetDataFile()
  * 
  * Purpose
- * Quickly pull up the datafile.
+ * Quickly pull up the skill lock state datafile.
  *
  * Parameters
  *
@@ -18,7 +18,7 @@ include ":datafile:datafile";
  *
  */
 function SLPH_GetDataFile()
-	var data_file := DFOpenDataFile(":skilllock:settings", DF_CREATE);
+	var data_file := DFOpenDataFile(":skilllocks:settings", DF_CREATE);
 	return data_file;
 endfunction
 
@@ -38,7 +38,6 @@ endfunction
 function SLPH_GetDataElem(elem_name)
 	var data_file := SLPH_GetDataFile();
 	var realm_elem := DFFindElement(data_file, elem_name, DF_CREATE);
-
 	return realm_elem;
 endfunction
 
@@ -62,7 +61,6 @@ function SLPH_GetLockState(mobile, skill_id)
 	// +1 is added because skills start at 0 and arrays start at 1
 	// Hex because cprop IDs need to be strings.
 	skill_id := Hex(CInt(skill_id)+1);
-	
 	return CInt(data_elem.GetProp(skill_id));
 endfunction
 
@@ -92,7 +90,7 @@ function SLPH_SaveLockState(mobile, skill_id, state)
 	else
 		data_elem.SetProp(skill_id, state);
 	endif
-
+	
 	return 1;
 endfunction
 

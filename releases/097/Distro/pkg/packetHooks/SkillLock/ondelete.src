@@ -4,12 +4,12 @@
 
 
 include ":datafile:datafile";
-include ":skilllock:skillLocks";
+include ":skilllocks:common";
 
-program skillLock_onDelete(who)
+program skillLock_OnDelete(character)
 	var data_file  := SLPH_GetDataFile();
-	if( data_file )
-		return data_file.DeleteElement(Hex(who.serial));
+	if ( data_file )
+		return data_file.DeleteElement(Hex(character.serial));
 	endif
 	return 1;
 endprogram
