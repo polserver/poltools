@@ -10,7 +10,7 @@ use os;
 use polsys;
 
 include "include/client";
-include ":skilllock:skillLocks";
+include ":skilllocks:common";
 include ":attributes:attributes_ex";
 include ":attributes:skills";
 
@@ -27,13 +27,14 @@ CONST OFFSET_SEND_CAP		:= 11;
 CONST OFFSET_RECEIVE_SKILL	:= 3;
 CONST OFFSET_RECEIVE_MODE	:= 5;
 
+CONST DEBUG := 0;
+
 // Global - Has to do with how hooked scripts work.
 // It'll build this list once on POL start and keep it.
-var num_skills := 0;
+var num_skills := "";
 
 program doSkillLock()
-	print("INSTALLING: Skill Lock PH...");
-	num_skills := GetNumberOfSkills();
+	Print("INSTALLING: Skill Lock PH...");
 	return 1;
 endprogram
 
@@ -41,10 +42,17 @@ exported function HandleSendSkillLock(character, byref packet)
 	var mode := packet.GetInt8(OFFSET_SEND_MODE);
 	var state := 0;
 
+	if ( DEBUG )
+		Print("HandleSendSkillLock - character: "+character.name+" packet: "+packet);
+	endif
+
+	if ( num_skills == "" )
+		num_skills := Len(AP_ListAttributesByType("Skill"));
+	endif
+		
 	if ( mode == MODE_FULL_LIST || mode == MODE_FULL_LIST_CAP )
 		for i := 0 to (num_skills - 1)
-			// Use skillLocks array if exists and is the correct size
-			state :=  SLPH_GetLockState(character, i);
+			state := SLPH_GetLockState(character, i);
 			
 			// If it is requested, include cap information
 			if ( mode == MODE_FULL_LIST_CAP )
@@ -61,28 +69,29 @@ exported function HandleSendSkillLock(character, byref packet)
 		state := SLPH_GetLockState(character, skill_id);
 		packet.SetInt8(OFFSET_SEND_SKILLLOCK, state);
 
-		// If it is requested, include cap information
+		// If it is requested, include skill cap information
 		if ( mode == MODE_SINGLE_SKILL_CAP )
 			packet.SetInt16(OFFSET_SEND_CAP, CInt(AP_GetSkillCap(AP_SkillIdToAttributeName(skill_id))));
 		endif
 	else
-		print("Unknown send skill mode: "+mode);
+		if ( DEBUG )
+			Print("Unknown send skill mode: "+mode);
+		endif
 	endif
 
-	// POL handles the rest
+	// Give packet back to POL
 	return 0;
 endfunction
 
 exported function HandleReceiveSkillLock(character, byref packet)
+	if ( DEBUG )
+		Print("HandleReceiveSkillLock - character: "+character.name+" packet: "+packet);
+	endif
+
 	var skill_id := packet.GetInt16(OFFSET_RECEIVE_SKILL);	// skill ID
 	var mode := packet.GetInt8(OFFSET_RECEIVE_MODE);	// lock state, 0=raise/1=lower/2=lock
 	SLPH_SaveLockState(character, skill_id, mode);
 	
 	// POL skips this packet anyway
 	return 1;
-endfunction
-
-function GetNumberOfSkills()
-	var keys := GetConfigStringKeys(ReadConfigFile(":attributes:uoskills"));
-	return keys.Size();
 endfunction
