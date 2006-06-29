@@ -265,7 +265,7 @@ function GFTextWidth(gump_text)
 	for ( j; j>0; j-=1; )
 		var i := Find(gft_length.charsf, gump_text[j], 1) - 1;
 		if ( i>=0 )
-			points := points + gft_length.width[CInt(i/14)+1];
+			points += gft_length.width[CInt(i/14)+1];
 		else
 			print("XGFTextWidth: Unknown Character = '"+gump_text[j]+"'");
 		endif
@@ -321,7 +321,7 @@ function GFWordWrap(text, pixels)
 		endif
 		if ( word )
 			cur_line += word+" ";
-			cur_length := cur_length+word_width+space_size;
+			cur_length += word_width+space_size;
 		endif
 						
 		SleepMS(2);
