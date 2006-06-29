@@ -13,7 +13,7 @@ function ICP_IndexGump()
 	
 	var pkg_elems := pkg_info.Keys();
 	pkg_elems.Sort();
-	foreach pkg_name in pkg_elems
+	foreach pkg_name in ( pkg_elems )
 		var pkg_elem := DFFindElement(pkg_info, pkg_name);
 		var main_info := pkg_elem.GetProp("Main");
 		
@@ -30,12 +30,12 @@ function ICP_IndexGump()
 			counter := 1;
 			
 			GFAddButton(gump, 460, 435, 2648, 2649, GF_PAGE_BTN, page_num+1);
-			page_num := page_num+1;
+			page_num += 1;
 			GFPage(gump, page_num);
 			GFAddButton(gump, 460, 70, 2650, 2651, GF_PAGE_BTN, page_num-1);
 		else
-			y_pos := y_pos+24;
-			counter := counter+1;
+			y_pos += 24;
+			counter += 1;
 		endif
 		
 		SleepMS(2);

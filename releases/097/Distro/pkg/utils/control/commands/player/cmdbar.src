@@ -165,7 +165,7 @@ function StartCommand(who, cur_pkg, cur_lvl, command)
 endfunction
 
 function RetrieveGump(data_elem, gump_name, who:=0)
-	var transparent :=0;
+	var transparent := 0;
 	if ( who )
 		transparent := ICP_LoadUserSetting(who, "Transparent");
 
