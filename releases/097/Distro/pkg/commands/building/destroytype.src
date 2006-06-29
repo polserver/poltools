@@ -16,7 +16,7 @@ program textcmd_DestroyType(who, text)
     		ranget := 20;
     	endif
 
-	foreach object in ListItemsNearLocation(who.x, who.y, who.z, ranget, who.realm);
+	foreach object in ( ListItemsNearLocation(who.x, who.y, who.z, ranget, who.realm) )
 		if ( graphic == object.graphic )
 			DestroyItem(object);
 		endif

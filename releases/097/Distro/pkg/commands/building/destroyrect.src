@@ -29,7 +29,7 @@ program textcmd_DestroyRect(who, params)
 		return 0;
 	endif
 
-	SendSysMessage( who, "Target the bottom-left corner" );
+	SendSysMessage(who, "Target the bottom-left corner");
 	var botright := TargetCoordinates(who);
 	if ( !botright )
 		SendSysMessage(who, "Cancelled");
@@ -38,9 +38,9 @@ program textcmd_DestroyRect(who, params)
 
 	if ( (topleft.x <= botright.x) && (topleft.y <= botright.y) )
 		var x, y;
-		for( x := topleft.x; x <= botright.x; x := x + 1 )
-			for( y := topleft.y; y <= botright.y; y := y + 1 )
-				foreach item in ListItemsNearLocation( x, y, zheight, 0, who.realm);
+		for( x:=topleft.x; x<=botright.x; x+=1 )
+			for( y:=topleft.y; y<= botright.y; y+=1 )
+				foreach item in ( ListItemsNearLocation( x, y, zheight, 0, who.realm) )
 					if ( !objtype || item.objtype == objtype )
 						DestroyItem(item);
 					endif

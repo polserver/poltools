@@ -27,7 +27,7 @@ program textcmd_MakeFloor(who, text)
 	
 	var coordinates := GetPointsByFacing(who.x, who.y, who.facing, dist);
 	foreach coord in ( coordinates )
-		foreach object in ListItemsNearLocation(coord.x, coord.y, who.z, 0, who.realm)
+		foreach object in ( ListItemsNearLocation(coord.x, coord.y, who.z, 0, who.realm) )
 			if ( graphic )
 				if ( object.graphic == graphic )
 					DestroyItem(object);

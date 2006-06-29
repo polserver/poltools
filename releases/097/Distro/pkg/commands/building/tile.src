@@ -15,44 +15,44 @@ use uo;
 
 
 program command_tile(who, params)
-	if (!params)
-		SendSysMessage( who, "No arguments supplied. Usage: .tile [item] ([z])." );
+	if ( !params )
+		SendSysMessage(who, "No arguments supplied. Usage: .tile [item] ([z]).");
 		return 0;
 	endif
 
-	var argarray := SplitWords( params ); // split the arguments.
-	var tileitem  := CInt( argarray[ 1 ] );
-	var tilez     := CInt( argarray[ 2 ] );
+	var argarray := SplitWords(params); // split the arguments.
+	var tileitem  := CInt(argarray[1]);
+	var tilez     := CInt(argarray[2]);
 	var zvalid := 1;  // assume z is correct for now.
 
-	if (!tilez)
-		SendSysMessage( who, "No Z supplied. Using target #1 Z instead." );
+	if ( !tilez )
+		SendSysMessage(who, "No Z supplied. Using target #1 Z instead.");
 		zvalid := 0;
 	else
-		if ((tilez < -127) || (tilez > 128)) // check the bounds.
+		if ( (tilez < -127) || (tilez > 128) ) // check the bounds.
 			SendSysMessage(who, "Z is out of bounds. Using target #1 Z instead.");
 			zvalid := 0;
 		endif
 	endif
 
-	SendSysMessage( who, "Select coordinate #1" );
-	var coordstructone := TargetCoordinates( who );
-	SendSysMessage( who, "Select coordinate #2" );
-	var coordstructtwo := TargetCoordinates( who );
+	SendSysMessage(who, "Select coordinate #1");
+	var coordstructone := TargetCoordinates( who);
+	SendSysMessage(who, "Select coordinate #2");
+	var coordstructtwo := TargetCoordinates( who);
 
-	if( (!coordstructone) || (!coordstructtwo)) // check that we got two valid coordstructs.
-		SendSysMessage( who, "Missing coordinate. Aborting." );
+	if( (!coordstructone) || (!coordstructtwo) ) // check that we got two valid coordstructs.
+		SendSysMessage(who, "Missing coordinate. Aborting.");
 		return 0;
 	endif
 
-	if (!zvalid) // if we are to use the coord #1 Z, check it out.
-		if (coordstructone.z < -127 || coordstructone.z > 128)
+	if ( !zvalid ) // if we are to use the coord #1 Z, check it out.
+		if ( coordstructone.z < -127 || coordstructone.z > 128 )
 			SendSysMessage(who, "Z is out of bounds. Aborting.");
 			return 0;
 		endif
 	endif
 
-	if (!zvalid)
+	if ( !zvalid )
 		tilez := coordstructone.z;
 	endif
 
@@ -62,7 +62,7 @@ program command_tile(who, params)
 	var endx;
 	var endy;
 
-	if (coordstructone.x <= coordstructtwo.x)
+	if ( coordstructone.x <= coordstructtwo.x )
 		startx  := coordstructone.x;
 		endx    := coordstructtwo.x;
 	else
@@ -70,7 +70,7 @@ program command_tile(who, params)
 		endx    := coordstructone.x;
 	endif
 
-	if (coordstructone.y <= coordstructtwo.y)
+	if ( coordstructone.y <= coordstructtwo.y )
 		starty  := coordstructone.y;
 		endy    := coordstructtwo.y;
 	else
@@ -80,13 +80,13 @@ program command_tile(who, params)
 
 	var fooy := starty; // store the original startY for use after each iteration.
 
-	while (startx <= endx)
+	while ( startx <= endx )
 		while ( starty <= endy )
 			CreateItemAtLocation(startx, starty, tilez, tileitem, 1, who.realm);
-			starty := starty + 1;
+			starty += 1;
 		endwhile
 		starty := fooy;
-		startx := startx + 1;
+		startx := startx += 1;
 	endwhile
 
 	SendSysMessage(who, "Command completed.");

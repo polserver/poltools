@@ -33,21 +33,21 @@ program textcmd_Create(who, params)
 		zheight := who.z;
 	endif
 
-	SendSysMessage( who, "Target the top-left corner" );
+	SendSysMessage(who, "Target the top-left corner");
 	var topleft := TargetCoordinates(who);
 	if ( !topleft )
 		return 0;
 	endif
-	SendSysMessage( who, "Target the bottom-left corner" );
+	SendSysMessage(who, "Target the bottom-left corner");
 	var botright := TargetCoordinates(who);
 	if ( !botright )
 		return 0;
 	endif
 
-	if ( topleft.x <= botright.x and topleft.y <= botright.y )
+	if ( topleft.x<=botright.x && topleft.y <= botright.y )
 		var x, y;
-		for( x := topleft.x; x <= botright.x; x := x + 1 )
-			for( y := topleft.y; y <= botright.y; y := y + 1 )
+		for( x:=topleft.x; x<=botright.x; x+=1 )
+			for( y:=topleft.y; y<=botright.y; y+=1 )
 				var item := CreateItemAtLocation(x, y, zheight, objtype, 1, who.realm);
 				item.decayat := 0;
 				SleepMS(2);

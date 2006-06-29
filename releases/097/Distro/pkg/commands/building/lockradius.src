@@ -13,7 +13,7 @@ program textcmd_LockRadius(who, text)
 	endif
 
 	var range := CInt(text);
-	foreach item in ListItemsNearLocation(who.x, who.y, who.z, range, who.realm)
+	foreach item in ( ListItemsNearLocation(who.x, who.y, who.z, range, who.realm) )
 		item.movable := 0;
 		SleepMS(2);
 	endforeach

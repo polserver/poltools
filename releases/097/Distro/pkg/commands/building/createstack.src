@@ -4,6 +4,7 @@
  */
  
 use uo;
+use os;
 
 program textcmd_CreateStack(who, text)
 	text := SplitWords(text);
@@ -27,8 +28,9 @@ program textcmd_CreateStack(who, text)
 			amount := 10;
 		endif
 		
-		for( amount; amount > 0; amount := amount-1 )
+		for( amount; amount>0; amount-=1 )
 			created := CreateItemInBackPack(who, item, 1);
+			SleepMS(2);
 		endfor	
 	endif
 	
