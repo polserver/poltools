@@ -14,7 +14,7 @@ program TimedScript_Alcohol(params)
 
 	var cycle := 0;
 	while ( 1 )
-		cycle := cycle+1;
+		cycle += 1;
 		if  ( cycle == 1 )
 			SendSysMessage(mobile, "You feel no effects from the alcohol.");
 		elseif ( cycle == 5 )

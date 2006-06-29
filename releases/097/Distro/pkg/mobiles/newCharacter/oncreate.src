@@ -74,7 +74,7 @@ function CreateItemsInElem(cfg_elem, container, amount)
 			SleepMS(2);
 		endforeach
 	else
-		for ( amount; amount>0; amount:=amount-1 )
+		for ( amount; amount>0; amount-=1 )
 			var entry := items[RandomInt(items.Size())+1];
 			entry := ParseItemString(entry);
 			CreateItemInContainer(container, entry.name, entry.amount);
