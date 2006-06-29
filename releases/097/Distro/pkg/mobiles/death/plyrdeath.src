@@ -54,7 +54,7 @@ function CheckForAutoRes(who, corpse)
 		endforeach
 
 		if ( auto_res != -1 ) // -1 means infinite uses
-			auto_res := auto_res-1;
+			auto_res -= 1;
 			SetObjProperty(who, "AutoRes", auto_res);
 		endif
 		return 1;
