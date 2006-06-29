@@ -23,7 +23,7 @@
  */
 function Movement(ev)
 	var old_pri := Set_Priority(50);
-	
+
 	case ( ev.speed )
 		NEMOVE_WALK:
 			case ( ev.direction )
@@ -37,14 +37,14 @@ function Movement(ev)
 						WalkToward(ev.source);
 						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
-			endcase	
+			endcase
 		NEMOVE_RUN:
 			case( ev.direction )
 				NEMOVE_AWAY:
 					repeat
 						RunAWayFrom(ev.source);
 						SleepMS(3);
-					until ( !MoveLoopCheck(ev) );	
+					until ( !MoveLoopCheck(ev) );
 				NEMOVE_TOWARD:
 					repeat
 						RunToward(ev.source);
@@ -52,9 +52,9 @@ function Movement(ev)
 					until ( !MoveLoopCheck(ev) );
 			endcase
 	endcase
-	
+
 	Set_Priority(old_pri);
-	
+
 	return 1;
 endfunction
 
@@ -73,7 +73,7 @@ endfunction
  */
 function MovementXY(ev)
 	var old_pri := Set_Priority(50);
-	
+
 	case ( ev.speed )
 		NEMOVE_WALK:
 			case ( ev.direction )
@@ -87,14 +87,14 @@ function MovementXY(ev)
 						WalkTowardLocation(ev.x, ev.y);
 						SleepMS(3);
 					until ( !MoveLoopCheck(ev) );
-			endcase	
+			endcase
 		NEMOVE_RUN:
 			case( ev.direction )
 				NEMOVE_AWAY:
 					repeat
 						RunAwayFromLocation(ev.x, ev.y);
 						SleepMS(3);
-					until ( !MoveLoopCheck(ev) );	
+					until ( !MoveLoopCheck(ev) );
 				NEMOVE_TOWARD:
 					repeat
 						RunTowardLocation(ev.x, ev.y);
@@ -102,9 +102,9 @@ function MovementXY(ev)
 					until ( !MoveLoopCheck(ev) );
 			endcase
 	endcase
-	
+
 	Set_Priority(old_pri);
-	
+
 	return 1;
 endfunction
 
@@ -153,7 +153,7 @@ function MoveLoopCheck(byref ev)
 		return 0;
 	endif
 	if ( ev.source )
-		// Dont need to worry about distance in an XY movement check. 
+		// Dont need to worry about distance in an XY movement check.
 		// It wont run in circles around XY coordinates like it does an object.
 		if ( ev.direction == NEMOVE_TOWARD )
 			if ( Distance(npc, ev.source) <= 1 )
@@ -161,8 +161,8 @@ function MoveLoopCheck(byref ev)
 			endif
 		endif
 	endif
-	
-	ev.loop := ev.loop-1;
-	
+
+	ev.loop -= 1;
+
 	return 1;
 endfunction
