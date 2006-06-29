@@ -127,9 +127,9 @@ endfunction
 function AP_ModifySkillMod(mobile, stat_name, points)
 	var orig_mod := AP_GetStatMod(mobile, stat_name);
 	var new_mod := CDbl(points)+CDbl(orig_mod);
-	
+
 	AP_SetSkillMod(mobile, stat_name, new_mod);
-	
+
 	return orig_mod;
 endfunction
 
@@ -232,7 +232,7 @@ function AP_CheckSkillCap(mobile, skill_name:="")
 	else
 		var total := 0.0;
 		foreach attribute_name in ( AP_ListAttributesByType("Skill") )
-			total := total + AP_GetTrueSkill(mobile, attribute_name);
+			total += AP_GetTrueSkill(mobile, attribute_name);
 			SleepMS(2);
 		endforeach
 
@@ -263,7 +263,7 @@ function AP_CheckSkillsTotal(mobile)
 
 	var total := 0.0;
 	foreach attribute_name in ( AP_ListAttributesByType("Skill") )
-		total := total + AP_GetTrueSkill(mobile, attribute_name);
+		total += AP_GetTrueSkill(mobile, attribute_name);
 		SleepMS(2);
 	endforeach
 
