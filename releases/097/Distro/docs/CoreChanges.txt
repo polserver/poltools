@@ -1,5 +1,10 @@
 -- POL097 --
 =======
+
+06-29 Austin
+       Added : Operator support for += -= *= /= and %=
+               i += 5; would be the same as i := i+5;
+
 06-23 Austin
         Added : PolSys::ListTextCommands() - Returns a dict of a dict of structs.
                 Dict 1 - Package names Dict 2 - Command levels Struct - .dir .script
