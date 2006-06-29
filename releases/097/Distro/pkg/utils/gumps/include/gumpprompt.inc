@@ -43,7 +43,7 @@ function GumpPrompt(mobile, text, movable:=0)
 	var y_pos := 25;
 	foreach line in (GFWordWrap(text, 260))
 		GFTextLine(gump_prompt, 20, y_pos, 1153, line);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	
