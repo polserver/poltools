@@ -1,17 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//  name:    flip.src - Player Textcommand
-//  version: 1.0a
-//  author:  Distro
-//
-//  Purpose: Changes the orientation of a piece of furniture
-//
-////////////////////////////////////////////////////////////////////////////////////////////////////
+/* $Id$
+ *
+ */
+
 use uo;
-//use basic;
 use cfgfile;
 
-program flip (me)
+program textcmd_Flip(me)
 
 	var furniture := 0;
 
@@ -45,4 +39,5 @@ program flip (me)
 
 	furniture.graphic := flipGraphic;
 
+	return 1;
 endprogram
