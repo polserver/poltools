@@ -44,7 +44,7 @@ program textcmd_Realms(who)
 		GFTextLine(gump, 350, y_pos, 2100, realm.mobile_count);
 		
 		SleepMS(2);
-		y_pos := y_pos+20;
+		y_pos += 20;
 	endforeach
 	
 	GFSendGump(who, gump);

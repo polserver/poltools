@@ -18,5 +18,7 @@ program textcmd_Conceal(who, number)
 		
 	SendSysMessage(who, "Concealed:"+number+" ["+GetCmdLevelName(number)+"]");
 	who.concealed := number;
+	
+	return 1;
 endprogram
 
