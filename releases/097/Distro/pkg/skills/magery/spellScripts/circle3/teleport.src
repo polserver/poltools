@@ -1,0 +1,57 @@
+/*
+ * $Id: $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+
+/*
+Some clilocs, for use later
+502360	You cannot teleport into that area.
+502361	You cannot teleport into that area from here.
+502457	Not a supported teleporter location.
+502828	Cannot teleport to that spot.
+502829	Cannot teleport to that spot.
+502830	Someone is standing there!
+502831	Cannot teleport to that spot.
+502832	I can't teleport there!
+503361	This ability cannot be used to teleport in houses or boats.
+
+*/
+program SpellScript_Teleport(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_TELEPORT);
+	
+	print("targ: x:"+targ.x+", y:"+targ.y+" r:"+targ.realm+" "+Distance(mobile, targ));
+	
+	if ( Distance(mobile, targ) > 11 )
+		SendSysMessage(mobile, "That is too far away.");
+		return 0;
+	endif
+	
+	if ( CheckLosAt(mobile, targ.x, targ.y, targ.z) )
+		SendSysMessage(mobile, "You can't see that!");
+		return 0;
+	endif
+	
+	if ( !MoveObjectToLocation(mobile, targ.x, targ.y, targ.z, targ.realm) );
+		SendSysMessage(mobile, "Not a supported teleporter location.");
+		return 0;
+	endif
+	
+	return 1;
+endprogram

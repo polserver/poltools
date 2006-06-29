@@ -29,7 +29,7 @@ program SpellScript_ArchProtection(params)
 	// 2-tile effect, protection on all party members and caster
 	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 2)
 		var party := GetObjProperty(mobile, "#Party");
-		if ( targ.serial in party )
+		if ( targ.serial in party || targ.serial == mobile.serial )
 			if ( !GetObjProperty(targ, "Protection") )
 				ApplyArchProtection(targ);
 			else

@@ -1,0 +1,30 @@
+/*
+ * $Id: $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+
+program SpellScript_Telekinesis(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0; // No longer needed
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_TELEKINESIS);
+
+	// Must learn restrictions and uses of telekinesis
+	
+	return 1;
+endprogram
