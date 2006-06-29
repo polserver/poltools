@@ -156,12 +156,12 @@ function Go_LocationIndexGump(public:=1)
 			GFAddButton(gump, 300, y_loc+3, 2117, 2118, GF_CLOSE_BTN, counter);
 			GFAddButton(gump, 350, y_loc+3, 2117, 2118, GF_CLOSE_BTN, (num_keys+counter));
 
-			counter := counter + 1;
-			line_num := line_num+1;
-			y_loc := y_loc + 20;
+			counter += 1;
+			line_num += 1;
+			y_loc += 20;
 			if ( line_num >= 17 && line_num < num_keys )
 				GFAddButton(gump, 370, 405, 2706, 2707, GF_PAGE_BTN, page_num+1);
-				page_num := page_num + 1;
+				page_num += 1;
 				GFPage(gump, page_num);
 				GFAddButton(gump, 370,  85, 2704, 2705, GF_PAGE_BTN, page_num-1);
 				y_loc := 85;
@@ -177,12 +177,12 @@ function Go_LocationIndexGump(public:=1)
 			GFAddButton(gump, 300, y_loc+3, 2117, 2118, GF_CLOSE_BTN, counter);
 			GFAddButton(gump, 350, y_loc+3, 2117, 2118, GF_CLOSE_BTN, (num_keys+counter));
 
-			counter := counter + 1;
-			line_num := line_num+1;
-			y_loc := y_loc + 20;
+			counter += 1;
+			line_num += 1;
+			y_loc += 20;
 			if ( line_num >= 17 && line_num < num_keys )
 				GFAddButton(gump, 370, 405, 2706, 2707, GF_PAGE_BTN, page_num+1);
-				page_num := page_num + 1;
+				page_num += 1;
 				GFPage(gump, page_num);
 				GFAddButton(gump, 370,  85, 2704, 2705, GF_PAGE_BTN, page_num-1);
 				y_loc := 85;
