@@ -50,7 +50,7 @@ function CS_GetAverageDamage(weapon)
 	var X := CInt(dmg[1]);
 	var Y := CInt(dmg[2]);
 	var Z := CInt(dmg[3]);
-	Z := Z+CInt((weapon).dmg_mod);
+	Z += CInt((weapon).dmg_mod);
 	// (x*((1+y)/2))+z average formula
 	var average := (X*((1+Y)/2))+Z;
 	

@@ -39,7 +39,7 @@ program AddHitScript(who);
 		var match := HasHitScript(script_list[key], hit_scripts);
 		GFCheckBox(gump, 20, y_pos, 210, 211, match, _key_iter+SELECT_START);
 		GFTextLine(gump, 45, y_pos, 2100, key);
-		y_pos := y_pos + 20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	
