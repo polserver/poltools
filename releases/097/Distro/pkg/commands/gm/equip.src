@@ -1,23 +1,28 @@
+/* $Id$
+ *
+ */
 use uo;
 
-program textcmd_equip( speaker )
-    SendSysMessage( speaker, "What shall be equipped?" );
+program textcmd_Equip( speaker )
+	SendSysMessage( speaker, "What shall be equipped?" );
 
-    var what := Target( speaker );
-    if (!what)
-        return 0;
-    endif
+	var what := Target(speaker);
+	if ( !what )
+		return 0;
+	endif
 
-    SendSysMessage( speaker, "On whom shall "+what.desc+" be equipped?" );
-    var who := Target( speaker );
-    if (!who)
-        return 0;
-    endif
+	SendSysMessage(speaker, "On whom shall "+what.desc+" be equipped?");
+	var who := Target( speaker );
+	if ( !who )
+		return 0;
+	endif
 
-    var res := EquipItem( who, what );
-    if (res)
-        SendSysMessage( speaker, "Done!" );
-    else
-        SendSysMessage( speaker, "Unable to equip item: "+res.errortext );
-    endif
+	var res := EquipItem(who, what);
+	if ( res )
+		SendSysMessage(speaker, "Done!");
+	else
+		SendSysMessage(speaker, "Unable to equip item: "+res.errortext);
+	endif
+
+	return 1;
 endprogram
