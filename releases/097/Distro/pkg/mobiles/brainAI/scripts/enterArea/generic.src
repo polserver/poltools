@@ -15,10 +15,10 @@ program BrainNerve(params)
 	
 	while ( npc )
 		if ( event )
-			CHECKS: case ( event.type )
+			case ( event.type )
 				SYSEVENT_ENTEREDAREA:
 					EnteredArea(npc, event, settings, scripts);
-					break CHECKS;
+					break;
 				default:
 					break;
 			endcase
@@ -26,7 +26,7 @@ program BrainNerve(params)
 			event := 0;
 		endif
 		
-		event := Wait_For_Event(600);
+		event := Wait_For_Event(900000);
 	endwhile
 endprogram
 

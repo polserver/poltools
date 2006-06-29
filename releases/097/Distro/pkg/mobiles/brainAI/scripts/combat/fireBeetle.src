@@ -121,7 +121,7 @@ function SpecialAttack(npc, opponent, byref dist)
 	PlaySoundEffect(opponent, 0x208);
 	ApplyRawDamageEX(opponent, RandomDiceRoll("3d7"), DMG_FIRE, npc);
 
-	foreach coord in GetCoordsInSquare(opponent.x, opponent.y, 3)
+	foreach coord in ( GetCoordsInSquare(opponent.x, opponent.y, 3) )
 		if ( RandomInt(2) != 1 ) // Don't place a fire field
 			continue;
 		endif

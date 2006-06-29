@@ -34,7 +34,7 @@ program BrainNerve(params)
 			endif
 			
 			var attack_list := array{};
-			foreach mobile in ListMobilesNearLocationEX(npc.x, npc.y, npc.z, range, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN)
+			foreach mobile in ( ListMobilesNearLocationEX(npc.x, npc.y, npc.z, range, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN) )
 				if ( (mobile.ip) && (!mobile.concealed) )
 					attack_list.Append(mobile);
 				endif
@@ -46,12 +46,13 @@ program BrainNerve(params)
 			if ( num_opponents > 0 )
 				var dmg := max_hp-hp;
 				//Divvy up the damage
-				dmg := CInt(dmg/num_opponents);
+				dmg /= num_opponents;
+				dmg := CInt(Ceil(dmg));
 				if ( dmg < 1 )
 					dmg := 1;
 				endif
 				
-				foreach opponent in attack_list
+				foreach opponent in ( attack_list )
 					var temp := RandomInt(dmg)+1;
 					ApplyRawDamage(opponent, temp);
 					MakeBleed(opponent);

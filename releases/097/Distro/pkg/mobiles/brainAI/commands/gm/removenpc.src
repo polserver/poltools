@@ -35,7 +35,7 @@ program textcmd_NPCWipe(who, template)
 		if ( Lower(thing.npctemplate) == template )
 			SetObjProperty(thing, "GuardKill", 1);
 			ApplyRawDamage(thing, 8000);
-			count := count + 1;
+			count += 1;
 		endif
 		SleepMS(2);
 	endforeach

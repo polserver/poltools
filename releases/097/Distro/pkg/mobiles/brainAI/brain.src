@@ -70,7 +70,7 @@ program BrainAI()
 			ProcessEvent(ev);
 		else
 			if ( !sleep_mode )
-				idle_ticks:=idle_ticks+1;
+				idle_ticks += 1;
 				if ( ShouldSleep() )
 					EnterSleepMode();
 				endif

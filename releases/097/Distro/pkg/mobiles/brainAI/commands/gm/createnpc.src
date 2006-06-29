@@ -141,7 +141,6 @@ function BuildIndexGump()
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 450);
 	var y_pos := 40;
 	var counter := 1;
-	var page_num := 1;
 	GFTextMid(gump, 10, 20, 280, 2100, "NPC Categories");
 	
 	/////
@@ -152,20 +151,19 @@ function BuildIndexGump()
 	GFTextLine(gump, 200, 440, 2100, "Uncache gump");
 	/////
 	
-	GFPage(gump, page_num);
+	GFPage(gump, 1);
 	foreach category_name in (GetCategoryNames())
 		GFAddButton(gump, 20, y_pos+3, 2117, 2118, GF_CLOSE_BTN, (_category_name_iter));
 		GFTextLine(gump, 40, y_pos, 2100, category_name);
-		y_pos := y_pos+20;
-		counter := counter+1;
+		y_pos += 20;
+		counter += 1;
 		
 		if ( counter > 20 )
 			counter := 1;
 			y_pos := 40;
-			GFAddButton(gump, 265, 445, 2648, 2649, GF_PAGE_BTN, page_num+1);
-			page_num := page_num+1;
-			GFPage(gump, page_num);
-			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
+			GFAddButton(gump, 265, 445, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
 		endif
 		SleepMS(2);
 	endforeach
@@ -190,22 +188,20 @@ function BuildNPCGump(category_name)
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 270, 450);
 	var y_pos := 40;
 	var counter := 1;
-	var page_num := 1;
 	GFTextMid(gump, 10, 15, 290, 2100, "NPC List - "+category_name);
-	GFPage(gump, page_num);
+	GFPage(gump, 1);
 	foreach template in (npc_list[category_name])
 		GFAddButton(gump, 20, y_pos+3, 2117, 2118, GF_CLOSE_BTN, template.pos);
 		GFTextLine(gump, 40, y_pos, template.color, template.name);
-		y_pos := y_pos+20;
-		counter := counter+1;
+		y_pos += 20;
+		counter += 1;
 
 		if ( counter > 21 )
 			counter := 1;
 			y_pos := 40;
-			GFAddButton(gump, 265, 445, 2648, 2649, GF_PAGE_BTN, page_num+1);
-			page_num := page_num+1;
-			GFPage(gump, page_num);
-			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, page_num-1);
+			GFAddButton(gump, 265, 445, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 265, 15, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
 		endif
 		SleepMS(2);
 	endforeach

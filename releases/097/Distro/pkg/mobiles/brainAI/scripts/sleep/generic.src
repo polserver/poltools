@@ -18,7 +18,7 @@ program BrainNerve(params)
 	params := 0; // Not needed anymore.
 
 	// Shut down appropriate nerves.
-	foreach nerve in (LoadNerves(npc))
+	foreach nerve in ( LoadNerves(npc) )
 		if ( nerve.flags & NF_CONTINUE_ON_SLEEP )
 			continue;
 		elseif ( _nerve_iter != nerve_name )
