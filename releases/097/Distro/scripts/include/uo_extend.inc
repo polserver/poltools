@@ -34,7 +34,7 @@ CONST ISA_GET_ALL	:= 0x1;
 function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING)
 	var dict := dictionary;
 	var z_list := EnumerateOnlineCharacters();
-	foreach player in z_list
+	foreach player in ( z_list )
 		var key := Upper(player.name);
 		if ( !dict.Exists(key) )
 			dict[key] := array{};
@@ -79,7 +79,7 @@ function EnumeratePhysicalItems(mobile)
 	var skip_layers := array{11, 16, 21, 25};
 	var i;
 
-	for ( i:=0; i<=25; i:=i+1 )
+	for ( i:=0; i<=25; i+=1 )
 		if ( i in skip_layers ) 
 			continue;
 		else
@@ -114,7 +114,7 @@ endfunction
 function GetIsAType(object, flags:=ISA_GET_MAIN)
 	var type_list := array;
 	var i := 16; // Max number of IsA Id #s
-	for ( i; i > 0; i:=i-1 )
+	for ( i; i > 0; i-=1 )
 		if ( !object.IsA(i) )
 			continue;
 		elseif ( flags & ISA_GET_ALL )
@@ -182,7 +182,7 @@ function BuildFakePlayerList(amount:=0)
 	var realm_list := Realms();
 	var realm_names := realm_list.Keys();
 	
-	for ( amount; amount>0; amount:=amount-1)
+	for ( amount; amount>0; amount-=1 )
 		player.name := "FakePlayer-"+amount;
 		player.serial := amount;
 		player.realm := realm_names[RandomInt(realm_names.Size())];

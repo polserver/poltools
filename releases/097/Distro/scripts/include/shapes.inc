@@ -31,8 +31,8 @@ function GetCoordsInSquare(mid_x, mid_y, radius)
 	var point_list := array{};
 	var coord := struct{"x", "y"};
 	
-	for ( x_row:=(mid_x-radius); x_row<=stop_x; x_row:=x_row+1 )
-		for ( y_col:=(mid_y-radius); y_col<=stop_y; y_col:=y_col+1 )
+	for ( x_row:=(mid_x-radius); x_row<=stop_x; x_row+=1 )
+		for ( y_col:=(mid_y-radius); y_col<=stop_y; y_col+=1 )
 			coord.x := x_row;
 			coord.y := y_col;
 			point_list.Append(coord);
@@ -79,8 +79,8 @@ function GetCoordsInRect(x1, y1, x2, y2)
 	endif
 	
 	var sx, sy;
-	for ( sx:=x1; sx<=x2; sx:=sx+1 )
-		for ( sy:=y1; sy<=y2; sy:=sy+1 )
+	for ( sx:=x1; sx<=x2; sx+=1 )
+		for ( sy:=y1; sy<=y2; sy+=1 )
 			coord.x := Abs(sx);
 			coord.y := ABs(sy);
 			point_list.Append(coord);
