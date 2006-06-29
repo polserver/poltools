@@ -17,7 +17,7 @@ program GlobalControl()
 	if ( cycle_wait < 1 )
 		cycle_wait := 30;
 	endif
-	cycle_wait := cycle_wait * 60;
+	cycle_wait *= 60;
 	
 	SetGlobalProperty("#OreVeinRegenPId", GetPid());
 	
@@ -32,10 +32,10 @@ function RegenVeins()
 	MSP_ReportText("Running ore vein regeneration cycle...", MSP_REPORT_SYSLOG);
 	var data_file := DFOpenDataFile("VeinInfo", DF_CREATE);
 	
-	foreach elem_name in DFGetElemNames(data_file)
+	foreach elem_name in ( DFGetElemNames(data_file) )
 		var ore_vein := SystemFindObjectBySerial(elem_name);
 		var amount := ore_vein.GetRemainingOre();
-		amount := amount + 1;
+		amount += 1;
 		
 		ore_vein.SetRemainingOre(amount);
 		

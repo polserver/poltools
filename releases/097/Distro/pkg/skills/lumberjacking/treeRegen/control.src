@@ -18,7 +18,7 @@ program GlobalControl()
 	if ( cycle_wait < 1 )
 		cycle_wait := 30;
 	endif
-	cycle_wait := cycle_wait * 60;
+	cycle_wait *= 60;
 	
 	SetGlobalProperty("#TreeRegenPId", GetPid());
 	
@@ -38,7 +38,7 @@ function RegenWood(settings)
 		
 		var amount := CInt(data_elem.GetProp("Amount"));
 		if ( amount < CInt(settings.MaxWood) )
-			amount := amount+1;
+			amount += 1;
 			data_elem.SetProp("Amount", amount);
 		endif
 		

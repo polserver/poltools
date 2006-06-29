@@ -29,7 +29,7 @@ program use_PickAxe(who, pick)
 	var orig_y := who.y;
 	
 	var num_loops := RandomDiceRoll("1d5");
-	for ( num_loops; num_loops>=0; num_loops:=num_loops-1 )
+	for ( num_loops; num_loops>=0; num_loops-=1 )
 		if ( !DoMining(who, pick, targ, orig_x, orig_y) )
 			break;
 		endif
@@ -44,7 +44,7 @@ endprogram
 
 function DoMining(who, tool, targ, orig_x, orig_y)
 	var i:=1;//RandomDiceRoll("3d3");
-	for ( i; i>=0; i:=i-1 )
+	for ( i; i>=0; i-=1 )
 		if ( !CanMine(who, tool, targ, orig_x, orig_y) )
 			return 0;
 		endif
@@ -92,7 +92,7 @@ function CheckOreVeins(who)
 				remaining_ore := remaining_ore-yield;
 				ore_vein.SetRemainingOre(remaining_ore);
 				
-				found_ore := found_ore+1;
+				found_ore += 1;
 			endif
 		else
 			vein_list.Erase(_ore_vein_iter);

@@ -17,7 +17,7 @@ program GlobalControl()
 	if ( cycle_wait < 1 )
 		cycle_wait := 30;
 	endif
-	cycle_wait := cycle_wait * 60;
+	cycle_wait *= 60;
 	
 	SetGlobalProperty("#GlobalOreRegenPId", GetPid());
 	

@@ -60,6 +60,7 @@ function ListVeinsNearMobile(mobile, range)
 		if ( item.IsOreVein() )
 			vein_list.Append(item);
 		endif
+		SleepMS(2);
 	endforeach
 	
 	return vein_list;

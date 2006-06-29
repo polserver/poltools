@@ -1,9 +1,18 @@
+/* $Id$ 
+ *
+ */
+
 use uo;
+use os;
 
 program textcmd_spellbook( who )
-    var book := CreateItemInBackpack(who,0x0efa, 1);
-    var i;
-    for (i := 0x1f2d; i <= 0x1f6c; i := i + 1)
-        CreateItemInContainer(book,  i, 1);
-    endfor
+	var book := CreateItemInBackpack(who, "spellbook", 1);
+	
+	var i;
+	for (i := 0x1F2D; i <= 0x1F6C; i+=1 )
+		CreateItemInContainer(book, i, 1);
+		SleepMS(2);
+	endfor
+	
+	return 1;
 endprogram

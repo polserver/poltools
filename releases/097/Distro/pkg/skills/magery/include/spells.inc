@@ -270,11 +270,11 @@ function MS_GetSpellDamage(mobile, targ, min_damage, max_damage)
 	
 	var damage_increase := intel_bonus + sdi_bonus;
 
-    if ( AP_GetSkill(mobile, INSCRIPTION) >= 100 )
+	if ( AP_GetSkill(mobile, INSCRIPTION) >= 100 )
 		damage_increase := damage_increase + 10;
-    endif
-    
-    var total_damage := CInt(base_damage * eval_int_bonus * ((CDbl(damage_increase) / 100) + 1));
+	endif
+	
+	var total_damage := CInt(base_damage * eval_int_bonus * ((CDbl(damage_increase) / 100) + 1));
 	return total_damage;
 endfunction
 
