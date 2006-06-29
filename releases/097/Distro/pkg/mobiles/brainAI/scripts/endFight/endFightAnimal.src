@@ -23,7 +23,7 @@ program BrainNerve(params)
 		var dist := Distance(npc, corpse);
 		AI_Move(npc, corpse, NEMOVE_TOWARD, NEMOVE_WALK, dist);
 		Sleep(dist-1);
-	dowhile( ShouldApproach(npc, opponent, corpse) );
+	dowhile ( ShouldApproach(npc, opponent, corpse) );
 
 	AI_EndNerve(npc, nerve_name);
 endprogram

@@ -30,7 +30,7 @@ program textcmd_NPCStatus(who)
 			state := "Killed";
 		endif
 		
-		text := text+"<U>"+_nerve_iter+"</U><BR>"+
+		text += "<U>"+_nerve_iter+"</U><BR>"+
 			"Pid: "+nerve.pid+"<BR>"+
 			"Flags: "+nerve.flags+"<BR>"+
 			"Status: "+state+"<BR>";
@@ -41,7 +41,7 @@ program textcmd_NPCStatus(who)
 	text := text+"<BR><B>WATCH LIST</B><BR>";
 	foreach serial in ( NPC_LoadWatchList(targ).Keys() )
 		var name := SystemFindObjectBySerial(CInt(serial)).name;
-		text := text+Hex(serial)+" "+name+"<BR>";
+		text += Hex(serial)+" "+name+"<BR>";
 		SleepMS(2);
 	endforeach
 	

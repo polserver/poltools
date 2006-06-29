@@ -30,7 +30,7 @@ endprogram
 
 function FindOpponent(npc, byref settings, byref scripts)
 	var attack_list := array;
-	foreach mobile in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"]))
+	foreach mobile in ( ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"])) )
 		if ( NPC_ShouldWatch(npc, mobile, settings, scripts) )
 			attack_list.Append(mobile);
 		endif

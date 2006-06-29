@@ -39,7 +39,7 @@ program textcmd_NPCWipe(who)
 		if ( thing.npctemplate )
 			SetObjProperty(thing, "GuardKill", 1);
 			ApplyRawDamage(thing, 6000);
-			count := count + 1;
+			count += 1;
 			SleepMS(4);
 		endif
 		SleepMS(5);

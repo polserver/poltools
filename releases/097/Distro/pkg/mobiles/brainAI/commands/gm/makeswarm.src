@@ -47,11 +47,11 @@ program MakeSwarm(who, text)
 	var x := start_x, y := start_y;
 	var created := 0;
 	
-	for ( x:=start_x; x<=end_x; x:=x+1 )
-		for ( y:=start_y; y<=end_y; y:=y+1 )
+	for ( x:=start_x; x<=end_x; x+=1 )
+		for ( y:=start_y; y<=end_y; y+=1 )
 			var npc := CreateNPCFromTemplate(template, x, y, who.z, 0, who.realm);
 			if ( npc )
-				created := created+1;
+				created += 1;
 			elseif ( npc.errortext )
 				Print(npc.errortext);
 			endif

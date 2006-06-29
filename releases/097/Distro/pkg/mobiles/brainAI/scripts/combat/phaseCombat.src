@@ -88,10 +88,15 @@ function PhaseWarp(npc, opponent)
 	
 	PlaySoundEffect(npc, SFX_TELEPORT);
 	
-	foreach coord in phase_coords
+	foreach coord in ( phase_coords )
 		PlayStationaryEffect(npc.x, npc.y, npc.z, GFX_SMOKE, 5, 5, 0);
-		var z := GetWorldHeight(coord.x, coord.y, npc.realm);
-		MoveObjectToLocation(npc, coord.x, coord.y, z, npc.realm, MOVEOBJECT_NORMAL);
+		var z_pos := GetStandingHeight(coord.x, coord.y, npc.z, npc.realm).z;
+		if ( !z_pos )
+			// Occurs when there is no real 'standing' platform for the user.
+			// Example: Teleporting into a wall.
+			z_pos := GetWorldHeight(coord.x, coord.y, npc.realm);
+		endif
+		MoveObjectToLocation(npc, coord.x, coord.y, z_pos, npc.realm, MOVEOBJECT_NORMAL);
 		SleepMS(20);
 	endforeach
 	

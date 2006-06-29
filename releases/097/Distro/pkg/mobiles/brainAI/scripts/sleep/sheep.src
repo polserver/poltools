@@ -36,7 +36,7 @@ program BrainNerve(params)
 			endif
 		endif
 
-		Sleep(30+RandomInt(10));
+		Sleep( 30+RandomInt(10) );
 
 		var my_idle_sound := NPC_GetIdleSound(npc);
 		if ( my_idle_sound )

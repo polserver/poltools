@@ -33,7 +33,7 @@ endprogram
 
 function FindFearedOpponent(npc, byref settings, byref scripts)
 	var run_list := array;
-	foreach mobile in ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"]))
+	foreach mobile in ( ListMobilesInLineOfSight(npc, CInt(settings["AreaSize"])) )
 		if ( NPC_ShouldWatch(npc, mobile, settings, scripts) )
 			run_list.Append(mobile);
 		endif

@@ -25,7 +25,7 @@ program BrainNerve(params)
 		dist := Distance(npc, corpse);
 		AI_Move(npc, corpse, NEMOVE_AWAY, NEMOVE_WALK, CInt(settings["AreaSize"]));
 		Sleep(1);
-	dowhile( ShouldMoveAway(npc, corpse, settings, dist) );
+	dowhile ( ShouldMoveAway(npc, corpse, settings, dist) );
 
 	AI_EndNerve(npc, nerve_name);
 endprogram
