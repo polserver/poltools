@@ -1,21 +1,16 @@
-/////////////////////////////////////////////////////////////////////////////////
-//
-//  .enable [priv]        - enable a privilege
-//
-//  example:
-//      ".enable invul"   - enable invulnerability, if you have that privilege
-//
-//  see also disable.src
-//
-/////////////////////////////////////////////////////////////////////////////////
+/* $Id$
+ *
+ */
 
 use uo;
 
-program enable( who, priv )
-    var res := who.Enable( priv );
-    if (res)
-        SendSysMessage( who, "Setting '"+priv+"' is enabled." );
-    else
-        SendSysMessage( who, "You don't have that privilege." );
-    endif
+program textcmd_Enable(who, priv)
+	var res := who.Enable(priv);
+	if ( res )
+		SendSysMessage(who, "Setting '"+priv+"' is enabled.");
+	else
+		SendSysMessage(who, "You don't have that privilege.");
+	endif
+	
+	return 1;
 endprogram
