@@ -27,7 +27,7 @@ program SpawnCycle(params)
 	var max_amt := group_settings.max_amt;
 	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).Size();
 
-	for ( cur_amount; cur_amount <= max_amt; cur_amount := cur_amount+1 )
+	for ( cur_amount; cur_amount<=max_amt; cur_amount+=1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
 		var z_pos := CInt(GetWorldHeight(spawn_coords.x, spawn_coords.y, realm_name));
 		var spawn_object := group_entries[RandomInt(num_entries)+1];

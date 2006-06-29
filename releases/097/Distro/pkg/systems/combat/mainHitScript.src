@@ -119,7 +119,7 @@ function WearDownArmor(defender, armor)
 						
 		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(defender, armor.desc+" takes some damage.");
-			armor.hp := armor.hp - 1;
+			armor.hp -= 1;
 		
 			if ( armor.hp <= 1 )
 				MoveObjectToLocation(armor, 1, 1, 1, armor.realm, MOVEOBJECT_FORCELOCATION);
@@ -134,7 +134,7 @@ endfunction
 
 function WearDownWeapon(attacker, weapon)
 	if ( weapon.IsA(POLCLASS_WEAPON) )
-		if ( weapon.objtype == 0xF020 )
+		if ( weapon.intrinsic )
 			return 1;
 		else
 			var wpn_elem := CS_GetSettingsCfgElem("Weapons");
@@ -257,7 +257,7 @@ function ParryCheck(attacker, defender, byref rawdamage)
 		
 	if ( rawdamage > CInt(0.15*shield.hp) )
 		SendSysMessage(defender, shield.desc+" takes some damage.");
-		shield.quality := shield.quality * CDbl(CS_GetSettingsCfgElem("Parry").WearRate);
+		shield.quality *= CDbl(CS_GetSettingsCfgElem("Parry").WearRate);
 		if ( shield.quality <= 0.1 )
 			SendSysMessage(defender, shield.desc+" has been destroyed.");
 			MoveObjectToLocation(shield, 1, 1, 1, defender.realm, MOVEOBJECT_FORCELOCATION);

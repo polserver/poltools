@@ -51,7 +51,7 @@ function Loot_CreateItem(container, line)
 
 	if ( Loot_ChanceCheck(parsed.chance) )
 		var i;
-		for ( i:=1; i<= parsed.amount; i:=i+1 )
+		for ( i:=1; i<= parsed.amount; i+=1 )
 			var item := CreateItemInContainer(container, parsed.name);
 			if ( item.errortext )
 				return error{"errortext" := "Error - Could not create ["+parsed.name+"] ->"+item.errortext};
@@ -91,7 +91,7 @@ function Loot_CreateRandom(container, line)
 		var items := GetConfigStringArray(groups_elem, "Item");
 		var num_items := items.Size();
 		var i;
-		for ( i:=1; i<=parsed.amount; i:=i+1 )
+		for ( i:=1; i<=parsed.amount; i+=1 )
 			Loot_CreateItem(container, items[RandomInt(num_items)+1]);
 			SleepMS(2);
 		endfor

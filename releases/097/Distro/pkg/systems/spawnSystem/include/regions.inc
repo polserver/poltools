@@ -119,7 +119,7 @@ function SS_GetRegionNames(realm_name:="", index:=0)
 	if ( !realm_name )
 		region_names := DFGetElemNames(data_file);
 	else
-		foreach region_name in DFGetElemNames(data_file)
+		foreach region_name in ( FGetElemNames(data_file) )
 			if ( Lower(SS_GetRegionRealm(region_name)) == Lower(realm_name) )
 				region_names.Append(region_name);
 			endif

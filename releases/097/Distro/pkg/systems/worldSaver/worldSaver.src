@@ -96,9 +96,9 @@ endfunction
 function DoShutDown(countdown:=0)
 	countdown := CInt(countdown);
 	
-	for( countdown; countdown > 0; countdown:=countdown-1 )
+	for( countdown; countdown>0; countdown-=1 )
 		var i := 2;
-		for (i:=2; i > 0; i:=i-1)
+		for ( i:=2; i>0; i-=1 )
 			SVR_ReportText("System Message: POL restarting in "+countdown+" minutes.", SAVER_REPORT_ALL);
 			Sleep(30);
 		endfor

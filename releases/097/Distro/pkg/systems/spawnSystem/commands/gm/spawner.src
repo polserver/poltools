@@ -145,11 +145,11 @@ function BuildRealmListGump(who)
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Realm List");
 	var y_pos := 50;
-	foreach realm_name in realm_list
+	foreach realm_name in ( realm_list )
 		GFAddButton(gump, 155, y_pos+3, 2117, 2118, GF_CLOSE_BTN, (REALM_START+_realm_name_iter));
 		GFTextLine(gump, 175, y_pos, 2100, realm_name);
 
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -163,11 +163,11 @@ function BuildGroupsListGump(who, realm_name:="")
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Groups List");
 	var y_pos := 50;
-	foreach group_name in group_list
+	foreach group_name in ( group_list )
 		GFAddButton(gump, 155, y_pos+3, 2117, 2118, GF_CLOSE_BTN, (GROUP_START+_group_name_iter));
 		GFTextLine(gump, 175, y_pos, 2100, group_name);
 
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -181,11 +181,11 @@ function BuildRegionListGump(who, realm_name)
 
 	GFTextMid(gump, 145, 20, 485, 2100, "Region List ["+realm_name+"]");
 	var y_pos := 50;
-	foreach region_name in (region_list)
+	foreach region_name in ( region_list )
 		GFAddButton(gump, 155, y_pos+3, 2117, 2118, GF_CLOSE_BTN, (REGION_START+_region_name_iter));
 		GFTextLine(gump, 175, y_pos, 2100, region_name);
 
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -206,7 +206,7 @@ function BuildAddRealmGump(who)
 		if ( !(realm_name in used_realms) )
 			GFAddButton(gump, 155, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _realm_name_iter);
 			GFTextLine(gump, 175, y_pos, 2100, realm_name);
-			y_pos := y_pos+20;
+			y_pos += 20;
 		endif
 		SleepMS(2);
 	endforeach
@@ -291,7 +291,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 		GFTextLine(gump, 540, 200, 2100, "Enabled");
 		var y_pos := 220;
 		var lines := 1;		
-		for ( lines; lines <= 12; lines := lines+1 )
+		for ( lines; lines<=12; lines+=1 )
 			GFAddButton(gump, 170, y_pos+3, 2117, 2118, GF_CLOSE_BTN, GROUP_START+lines);
 			var name := group_names[lines];
 			if ( group_names[lines] )
@@ -303,7 +303,7 @@ function BuildRegionGump(who, realm_name, region_name:="")
 				GFTextLine(gump, 225, y_pos, 2100, "----");
 			endif
 			
-			y_pos := y_pos+20;
+			y_pos += 20;
 			SleepMS(2);
 		endfor
 	endif
@@ -403,7 +403,7 @@ function BuildGroupGump(who, group_name:="")
 	foreach engine_name in ( engines )
 		GFRadioButton(gump, 185, y_pos, 0xD2, 0xD3, (Lower(engine_name)==Lower(cur_engine)), ENGINE_START+_engine_name_iter);
 		GFTextLine(gump, 215, y_pos, 2100, engine_name);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		counter := counter+1;
 		if ( counter >= 16 )
 			GFAddButton(gump, 155, 435, 0xA56, 0xA57, GF_PAGE_BTN, gump.cur_page+1);
@@ -422,14 +422,14 @@ function BuildGroupGump(who, group_name:="")
 	y_pos := 120;
 	var cur_entries := SS_GetEntriesInGroup(group_name);
 	cur_entries := cur_entries.Keys();
-	for ( lines; lines > 0; lines:=lines-1 )
+	for ( lines; lines>0; lines-=1 )
 		GFResizePic(gump, 155, y_pos-4, GetCfgConst("Backgrounds", "GOLDTRIM"), 210, 28);
 		GFTextEntry(gump, 161, y_pos, 200, 20, 2100, SS_GetEntryByNumber(group_name, counter), ENTRY_START+counter);
 		counter := counter+1;
 		GFResizePic(gump, 405, y_pos-4, GetCfgConst("Backgrounds", "GOLDTRIM"), 210, 28);
 		GFTextEntry(gump, 411, y_pos, 200, 20, 2100, SS_GetEntryByNumber(group_name, counter), ENTRY_START+counter);
 		counter := counter+1;
-		y_pos := y_pos+21;
+		y_pos += 21;
 		SleepMS(2);
 	endfor
 
