@@ -8,7 +8,7 @@ CONST MS_REPORT_SYSLOG		:= 0x2;
 CONST MS_REPORT_BROADCAST	:= 0x4;
 CONST MS_REPORT_ALL		:= 0x8;
 
-function MS_ReportText(report_text:="?", flags:=MS_REPORT_DISABLE)
+function MS_ReportText(report_text:="?", flags:=MS_REPORT_CONSOLE)
 	if ( !flags )
 		return 0;
 	endif

@@ -140,13 +140,36 @@ program SpellStarter(params)
 		// skill_check > 0 on success
 		if ( skill_check > 0 )
 			var info := struct;
-			info.+script := spell_elem.script;
+			info.+script := spell_elem.Script;
 			info.+attribute := attribute;
 			info.+skill_check := skill_check;
 			info.+targ := targ;
 			info.+pid := GetPid();
 			info.+spellId := spell_id;
 
+			// Include base damage in info if there is a DamageType
+			if ( spell_elem.DamageType != error )
+				info.+damage_type := spell_elem.DamageType;
+				info.+min_damage := GetConfigReal(spell_elem, "MinBaseDamage");
+				info.+max_damage := GetConfigReal(spell_elem, "MaxBaseDamage");
+
+				if ( info.min_damage == error )
+					MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
+					info.min_damage := 0;
+				endif
+			
+				if ( info.max_damage == error )
+					MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
+					info.max_damage := 1;
+				endif
+			
+				if ( info.min_damage > info.max_damage )
+					MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
+					info.min_damage := 0;
+					info.max_damage := 0;
+				endif
+			endif
+			
 			var script := Start_Script(spell_elem.SpellScript, {mobile, info, spell_id});
 			if ( script.errortext )
 				SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);

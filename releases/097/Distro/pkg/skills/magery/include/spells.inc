@@ -244,36 +244,38 @@ endfunction
  *
  * Parameters
  *   mobile:		mobile refrence of caster
- *   spelli_id:		id of spell
+ *   targ:			target of spell
+ *   min_damage:	minimum base damage
+ *   max_damage:	maximum base damage
  *
  * Returns
- *   dictionary of total damage and damage type
+ *   total damage
  *
  */
-function MS_GetSpellDamage(mobile, spell_id)
-	var info := MS_GetSpellInfo(spell_id);
-	
-	if ( info == error )
-		return info;
-	endif
-	
-	var random_damage := CDbl(RandomInt((info.max_damage - info.min_damage) * 10)) / 10;
-	var base_damage := info.min_damage + random_damage;
-
-	MS_SpellDebug(mobile, "min: "+info.min_damage+" max: "+info.max_damage+" rnd: "+random_damage);
-
-	var eval_int_bonus := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) * 3) / 100) + 1;
+function MS_GetSpellDamage(mobile, targ, min_damage, max_damage)
+	var random_damage := CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10;
+	var base_damage := min_damage + random_damage;
+	var eval_int_bonus := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) * 3) / 100) + 1;
 	var intel_bonus := CInt(AP_GetStat(mobile, "Intelligence") / 10);
 
-	// TODO: Get SDI items percentage (capped at 15% for pvp)
-	var damage_increase := intel_bonus;
-    
+	// TODO: Get SDI items percentage
+	var sdi_bonus := 0;
+	
+	// SDI bonus capped at 15% for PvP
+	if ( mobile.IsA(POLCLASS_MOBILE) && !mobile.IsA(POLCLASS_NPC) && targ.IsA(POLCLASS_MOBILE) && !targ.IsA(POLCLASS_NPC) )
+		if ( sdi_bonus > 15 )
+			sdi_bonus := 15;
+		endif
+	endif
+	
+	var damage_increase := intel_bonus + sdi_bonus;
+
     if ( AP_GetSkill(mobile, INSCRIPTION) >= 100 )
-      damage_increase := damage_increase + 10;
+		damage_increase := damage_increase + 10;
     endif
     
-	var total_damage := CInt(base_damage * eval_int_bonus * ((damage_increase / 100) + 1));
-	return dictionary{"damage"->total_damage, "type"->info.type};
+    var total_damage := CInt(base_damage * eval_int_bonus * ((CDbl(damage_increase) / 100) + 1));
+	return total_damage;
 endfunction
 
 /*
@@ -294,52 +296,4 @@ function MS_MobileCheck(mobile, targ)
 	endif
 	
 	return 1;
-endfunction
-
-/*
- * MS_GetSpellInfo(mobile, targ)
- *
- * Purpose
- *   Retrieves minimum and maximum damge and damage type from all spells.cfg
- *
- * Returns
- *   Dictionary with minimum and maximum damage and damage type
- *
-*/
-function MS_GetSpellInfo(spell_id)
-	var cfg_file := ReadConfigFile(":*:spells.cfg");
-	var elem := cfg_file[spell_id];
-
-	if ( elem == error )
-		MS_ReportText("Error: Could not find cfg elem for spell_id: "+spell_id+".");
-		return {"errortext":="Could not find cfg elem for spell_id: "+spell_id+"."};
-	endif
-	
-	var info := dictionary{"min_damage", "max_damage", "type"};
-	info.min_damage := GetConfigReal(elem, "MinBaseDamage");
-	info.max_damage := GetConfigReal(elem, "MaxBaseDamage");
-	info.type := GetConfigString(elem, "DamageType;");
-
-	if ( info.min_damage == error )
-		MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
-		info.min_damage := 0;
-	endif
-
-	if ( info.max_damage == error )
-		MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
-		info.max_damage := 1;
-	endif
-
-	if ( info.min_damage > info.max_damage )
-		MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
-		info.min_damage := 0;
-		info.max_damage := 0;
-	endif
-
-	if ( info.type == error )
-		MS_ReportText("Error: No damage type defined for spell_id: "+spell_id+".");
-		return error{"errortext":="No damage type defined for spell_id: "+spell_id+"."};
-	endif
-	
-	return info;
 endfunction
