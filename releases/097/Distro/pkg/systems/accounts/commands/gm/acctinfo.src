@@ -46,13 +46,13 @@ program textcmd_AccountInfo(who, acctname)
 			return 0;
 		endif
 	endif
-	
+
 	var account := FindAccount(acctname);
 	if ( account.errortext )
 		GumpPrompt(who, "Error with account name "+acctname+" [P] "+acctname.errortext);
 		return 0;
 	endif
-	
+
 	var input;
 	repeat
 		input := AcctGump(who, account);
@@ -63,7 +63,7 @@ function AcctGump(who, account)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 640, 480);
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 610, 30);
-	
+
 	GFTextLine(gump, 20, 20, 2100, "Account Name:  "+account.name);
 	var status;
 	if ( account.banned )
@@ -74,13 +74,13 @@ function AcctGump(who, account)
 		status := "Active";
 	endif
 	GFTextRight(gump, 605, 20, 2100, "Account Status:  "+status);
-	
+
 	GFPage(gump, 1);
 	CharListGump(account, gump);
 	GeneralInfoGump(account, gump);
 	GFPage(gump, 2);
 	NotesGump(account, gump);
-	
+
 	var input := GFSendGump(who, gump);
 	return input;
 endfunction
@@ -89,7 +89,7 @@ function CharListGump(account, byref gump)
 	GFResizePic(gump, 15, 50, GetCfgConst("Defaults", "ForeGround"), 270, 140);
 	var y_pos := 55;
 	var i := 1;
-	for ( i; i<=5; i:=i+1 )
+	for ( i; i<=5; i+=1 )
 		GFTextLine(gump, 20, y_pos+6, 2100, "Character "+i);
 		var name := account.GetCharacter(i).name;
 		if ( name )
@@ -98,7 +98,7 @@ function CharListGump(account, byref gump)
 		else
 			GFGumpPic(gump, 110, y_pos+3, 2440);
 		endif
-		y_pos := y_pos+25;
+		y_pos += 25;
 	endfor
 endfunction
 
@@ -164,38 +164,38 @@ function GeneralInfoGump(account, byref gump)
 		host := "";
 	endif
 	GFTextLine(gump, 220, 258, 2100, "Signup Host: "+host);
-	
+
 	//////
 	// Lower-Right Buttons
 	/////
 	GFResizePic(gump, 205, 290, GetCfgConst("Defaults", "ForeGround"), 420, 175);
 	GFAddButton(gump, 210, 298, 2117, 2118, GF_CLOSE_BTN, CHANGE_ACCTNAME);
 	GFTextLine(gump, 230, 295, 2100, "Change Account Name");
-	
+
 	return 1;
 endfunction
 
 function NotesGump(account, byref gump)
 	msg_array.Shrink(0);
-	
+
 	GFResizePic(gump, 15, 50, 2620, 610, 380);
 	var acct_notes := account.GetProp("notes");
-	
+
 	var num_lines := acct_notes.Size();
 	if ( num_lines < 19 )
 		//Makes sure that 'off the gump' notes dont get removed.
 		num_lines := 19;
 	endif
-	
+
 	var y_pos := 55;
 	var i;
-	for ( i:=1; i<=num_lines; i:=i+1 )
+	for ( i:=1; i<=num_lines; i+=1 )
 		var line := acct_notes[i];
 		if ( line == error )
 			line := "";
 		endif
 		msg_array.Append(GFTextEntry(gump, 20, y_pos, 595, 20, 2100, line));
-		y_pos := y_pos+19;
+		y_pos += 20;
 	endfor
 
 	GFResizePic(gump, 15, 435, GetCfgConst("Defaults", "ForeGround"), 610, 30);
@@ -205,7 +205,7 @@ function NotesGump(account, byref gump)
 
 	GFAddButton(gump, 585, 440, 4011, 4030, GF_CLOSE_BTN, UPDATE_NOTES_BTN);
 	GFTextLine(gump, 425, 440, 2100, "Update Account Notes");
-	
+
 	return 1;
 endfunction
 
@@ -246,7 +246,7 @@ function SuspendAccount(who, account)
 		endif
 		account.Disable();
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -261,7 +261,7 @@ endfunction
 
 function UpdateNotes(who, account, input)
 	var i;
-	for ( i:=1; i<=msg_array.Size(); i:=i+1 )
+	for ( i:=1; i<=msg_array.Size(); i+=1 )
 		var line := GFExtractData(input, msg_array[i]);
 		if ( line )
 			msg_array[i] := line;
@@ -269,9 +269,9 @@ function UpdateNotes(who, account, input)
 			msg_array[i] := "";
 		endif
 	endfor
-	
+
 	//Clear off empty lines.
-	for ( i:=msg_array.Size(); i>=1; i:=i-1 )
+	for ( i:=msg_array.Size(); i>=1; i-=1 )
 		if ( Len(msg_array[i]) <= 0 )
 			msg_array.Erase(i);
 		endif
@@ -282,9 +282,9 @@ function UpdateNotes(who, account, input)
 	else
 		account.SetProp("notes", msg_array);
 	endif
-	
+
 	SendSysMessage(who, "Writing to account notes... done!");
-	
+
 	return 1;
 endfunction
 
@@ -295,13 +295,13 @@ function SetDefaultCmdLevel(who, account)
 		if ( input > who.cmdlevel )
 			input := who.cmdlevel;
 		endif
-		
+
 		account.SetDefaultCmdLevel(input);
 		SendSysMessage(who, "Account default command level updated.");
 	else
 		SendSysMessage(who, "Cancelled");
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -317,13 +317,13 @@ function ChangeEmail(who, account)
 	else
 		account.SetProp("Email", input);
 	endif
-	
+
 	return 1;
 endfunction
 
 function ChangeAcctName(who, account)
 	var name := account.name;
-	
+
 	var input := RequestGump(who, "What do you want to change this account's name to?", "", CStr(name), 1);
 	if ( input == error )
 		SendSysMessage(who, "Cancelled");
@@ -334,7 +334,7 @@ function ChangeAcctName(who, account)
 			SendSysMessage(who, "Error: Could not set new account name ->"+res.errortext);
 		endif
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -344,20 +344,20 @@ function SetUOExpansion(who, account)
 	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 360, 320);
 	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 330, 290);
 	GFTextMid(gump, 15, 20, 330, 2100, "Select UO Expansion");
-	
+
 	var expansions := ACCT_GetSettingsCfgElem("Expansions");
 	expansions := GetConfigStringDictionary(expansions, "Expansion");
 	var y_pos := 50;
 	foreach key in ( expansions.Keys() )
 		GFRadioButton(gump, 20, y_pos, 210, 211, (key==account.uo_expansion), EXPANSION_START+_key_iter);
 		GFTextLine(gump, 45, y_pos, 2100, expansions[key]);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
-	
+
 	GFAddButton(gump, 50, 260, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
 	GFAddButton(gump, 245, 260, 2119, 2120, GF_CLOSE_BTN, CANCEL_BTN);
-	
+
 	var input := GFSendGump(who, gump);
 	if ( input[OKAY_BTN] )
 		var expansion;
@@ -398,6 +398,6 @@ function ProcessInput(who, account, input)
 		SendSysMessage(who, "Cancelled");
 		return 0;
 	endif
-	
+
 	return 1;
 endfunction
