@@ -37,7 +37,7 @@ program textcmd_Info(who, serial)
 		serial := who[2];
 		who := who[1];
 	endif
-	
+
 	info_cfg := ReadConfigFile(":commands:info");
 	if ( !info_cfg )
 		SendSysMessage(who, "Error reading in info.cfg ->"+info_cfg);
@@ -89,7 +89,7 @@ function BuildGump(targ, index_num)
 	var groups := GetConfigStringArray(cfg_elem, "Group");
 	var y_pos := START_Y;
 	BuildEntries(targ, gump, cfg_elem, y_pos);
-	
+
 	foreach group in ( groups )
 		var group_elem := info_cfg[group];
 		BuildEntries(targ, gump, group_elem, y_pos);
@@ -133,7 +133,7 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 					SleepMS(2);
 				endforeach
 				GFTextLine(gump, 175, y_pos, 2100, text);
-				y_pos := y_pos+20;
+				y_pos += 20;
 				break;
 			"storageareas":
 				DisplayStorageAreas(targ, gump, y_pos);
@@ -150,7 +150,7 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 				break;
 			default:
 				GFTextLine(gump, 175, y_pos, 32, entry);
-				y_pos := y_pos+20;
+				y_pos += 20;
 				break;
 		endcase
 		SleepMS(2);
@@ -191,14 +191,14 @@ function DisplayMember(targ, byref gump, byref entry, byref y_pos)
 	endcase
 	GFTextRight(gump, 480, y_pos, 2100, value);
 
-	y_pos := y_pos+20;
+	y_pos += 20;
 	return 1;
 endfunction
 
 function DisplayVitals(targ, byref gump, byref y_pos)
 	var vitals := AP_GetVitalNames();
 	var num_vitals := vitals.Size();
-	
+
 	GFResizePic(gump, 145, y_pos, GetCfgConst("Defaults", "ForeGround"), 340, (num_vitals*20));
 	foreach vital_name in ( vitals )
 		var btn_id := GFAddButton(gump, 150, (y_pos+3), 2117, 2118, GF_CLOSE_BTN);
@@ -207,7 +207,7 @@ function DisplayVitals(targ, byref gump, byref y_pos)
 		var value := AP_GetVital(targ, vital_name);
 		var max_value := AP_GetVitalMaximumValue(targ, vital_name);
 		GFTextRight(gump, 480, y_pos, 2100, value+" / "+max_value);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -260,7 +260,7 @@ function DisplayAttributes(targ, byref gump, byref entry, byref y_pos)
 			var value := AP_GetTrueSkill(targ, attrib_name);
 			var mod_value := AP_GetSkillMod(targ, attrib_name);
 			GFTextRight(gump, 465, y_pos, 2100, value+" (+"+mod_value+")");
-			y_pos := y_pos+20;
+			y_pos += 20;
 			SleepMS(2);
 		endforeach
 
@@ -294,7 +294,7 @@ function DisplayPrivileges(targ, byref gump, byref y_pos)
 		endif
 
 		GFTextRight(gump, 480, y_pos, 2100, status);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -318,7 +318,7 @@ function DisplayStorageAreas(targ, byref gump, byref y_pos)
 		endif
 
 		GFTextLine(gump, 175, y_pos, 2100, name);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
@@ -335,7 +335,7 @@ function DisplayReportables(targ, byref gump, byref y_pos)
 	GFHTMLArea(gump, 155, y_pos+7, 325, 186, lines, 0, 1);
 
 	y_pos := y_pos+340;
-	
+
 	return 1;
 endfunction
 
@@ -347,9 +347,9 @@ function DisplayWeaponInfo(targ, byref gump, byref entry, byref y_pos)
 		"damagedice":
 		"averagedamage":
 	endcase
-	
-	y_pos := y_pos+20;
-	
+
+	y_pos += 20;
+
 	return 1;
 endfunction
 
@@ -358,7 +358,7 @@ function ParseEntryName(entry_name)
 		entry_name["_"] := " ";
 		SleepMS(2);
 	endwhile
-	
+
 	return entry_name;
 endfunction
 
@@ -444,7 +444,7 @@ function GumpTemplate(targ)
 	foreach entry in ( index_list )
 		GFAddButton(gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, (MENU_BTN+_entry_iter));
 		GFTextLine(gump, 40, y_pos, 2100, entry);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	GFPage(gump, 1);
@@ -462,7 +462,7 @@ endfunction
 
 function ProcessInput(who, targ, input)
 	var input_info := btn_list[input];
-	
+
 	case ( Lower(CStr(input_info.editFunc)) )
 		"propedit":
 			PropEdit(who, targ, input_info);
@@ -491,7 +491,7 @@ function ProcessInput(who, targ, input)
 			GumpPrompt(who, "Dont know what to do with edit function type '"+input_info.editFunc+"'");
 			break;
 	endcase
-	
+
 	return 0;
 endfunction
 
@@ -567,25 +567,25 @@ function MethodEdit(who, targ, input_info)
 			GumpPrompt(who, "Dont know how to handle method '"+input_info.name+"'");
 			break;
 	endcase
-	
+
 	return 1;
 endfunction
 
 function VitalEdit(who, targ, input_info)
-	
+
 	var value := AP_GetVital(targ, input_info.name);
 	var change := RequestGump(who, "New value to assign "+input_info.name+" to.", "", CStr(value), CANCEL_BTN_ON);
 	if ( change == error )
 		return 0;
 	endif
-	
+
 	AP_SetVital(targ, input_info.name, change);
 
 	return 1;
 endfunction
 
 function AttributeEdit(who, targ, input_info)
-	
+
 	var real_value := AP_GetTrueSkill(targ, input_info.name);
 	var mod_value := AP_GetSkillMod(targ, input_info.name);
 	var value := real_value+" "+mod_value;
@@ -593,7 +593,7 @@ function AttributeEdit(who, targ, input_info)
 	if ( change == error )
 		return 0;
 	endif
-	
+
 	change := SplitWords(change, " ");
 	AP_SetTrueSkill(targ, input_info.name, change[1]);
 	AP_SetSkillMod(targ, input_info.name, change[2]);

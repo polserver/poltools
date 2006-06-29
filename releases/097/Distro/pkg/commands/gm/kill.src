@@ -9,15 +9,18 @@ include ":attributes:attributes";
 program textcmd_Kill(who)
 	SendSysMessage(who, "Select a target to kill.");
 	var targ := Target(who);
-	
+
 	if ( !targ.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	endif
-	
+
 	targ.Disable("invul");
-	SetObjProperty(targ, "GuardKill", 1);	
+	if ( targ.IsA(POLCLASS_NPC) )
+		SetObjProperty(targ, "GuardKill", 1);
+	endif
+
 	ApplyRawDamage(targ, CInt(AP_GetVitalMaximumValue(targ, "Hits")));
-	
+
 	return 1;
 endprogram

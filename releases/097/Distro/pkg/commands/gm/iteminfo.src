@@ -34,7 +34,7 @@ program textcmd_Info(who, serial)
 		serial := who[2];
 		who := who[1];
 	endif
-	
+
 	info_cfg := ReadConfigFile(":commands:iteminfo");
 	if ( !info_cfg )
 		SendSysMessage(who, "Error reading in iteminfo.cfg ->"+info_cfg);
@@ -86,7 +86,7 @@ function BuildGump(targ, index_num)
 	var groups := GetConfigStringArray(cfg_elem, "Group");
 	var y_pos := START_Y;
 	BuildEntries(targ, gump, cfg_elem, y_pos);
-	
+
 	foreach group in ( groups )
 		var group_elem := info_cfg[group];
 		BuildEntries(targ, gump, group_elem, y_pos);
@@ -121,11 +121,11 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 					SleepMS(2);
 				endforeach
 				GFTextLine(gump, 175, y_pos, 2100, text);
-				y_pos := y_pos+20;
+				y_pos += 20;
 				break;
 			"displaygeneral":
 				DisplayGeneral(targ, gump);
-				break;	
+				break;
 			"blank":
 				var buffer := CInt(entry[2]);
 				if ( !buffer )
@@ -135,7 +135,7 @@ function BuildEntries(targ, byref gump, byref cfg_elem, byref y_pos)
 				break;
 			default:
 				GFTextLine(gump, 175, y_pos, 32, entry);
-				y_pos := y_pos+20;
+				y_pos += 20;
 				break;
 		endcase
 		SleepMS(2);
@@ -176,7 +176,7 @@ function DisplayMember(targ, byref gump, byref entry, byref y_pos)
 	endcase
 	GFTextRight(gump, 480, y_pos, 2100, value);
 
-	y_pos := y_pos+20;
+	y_pos += 20;
 	return 1;
 endfunction
 
@@ -188,9 +188,9 @@ function DisplayWeaponInfo(targ, byref gump, byref entry, byref y_pos)
 		"damagedice":
 		"averagedamage":
 	endcase
-	
-	y_pos := y_pos+20;
-	
+
+	y_pos += 20;
+
 	return 1;
 endfunction
 
@@ -203,13 +203,13 @@ function DisplayGeneral(targ, byref gump)
 	foreach type in ( isa_types )
 		type := GetIsAName(type);
 		GFTextLine(gump, 155+(_type_iter*5), y_pos, 2100, type);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
-	
+
 	GFResizePic(gump, 145, 300, GetCfgConst("BackGrounds", "GOLDTRIM"), 340, 165);
 	GFTilePic(gump, 290, 355, targ.graphic, targ.color);
-	
+
 	return 1;
 endfunction
 
@@ -218,7 +218,7 @@ function ParseEntryName(entry_name)
 		entry_name["_"] := " ";
 		SleepMS(2);
 	endwhile
-	
+
 	return entry_name;
 endfunction
 
@@ -294,7 +294,7 @@ function GumpTemplate(targ)
 	foreach entry in ( index_list )
 		GFAddButton(gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, (MENU_BTN+_entry_iter));
 		GFTextLine(gump, 40, y_pos, 2100, entry);
-		y_pos := y_pos+20;
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 	GFPage(gump, 1);
@@ -312,7 +312,7 @@ endfunction
 
 function ProcessInput(who, targ, input)
 	var input_info := btn_list[input];
-	
+
 	case ( Lower(CStr(input_info.editFunc)) )
 		"propedit":
 			PropEdit(who, targ, input_info);
@@ -330,7 +330,7 @@ function ProcessInput(who, targ, input)
 			GumpPrompt(who, "Dont know what to do with edit function type '"+input_info.editFunc+"'");
 			break;
 	endcase
-	
+
 	return 0;
 endfunction
 
@@ -397,7 +397,7 @@ function MethodEdit(who, targ, input_info)
 			GumpPrompt(who, "Dont know how to handle method '"+input_info.name+"'");
 			break;
 	endcase
-	
+
 	return 1;
 endfunction
 
