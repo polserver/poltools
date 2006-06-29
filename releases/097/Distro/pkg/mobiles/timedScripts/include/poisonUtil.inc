@@ -23,7 +23,7 @@ include ":attributes:attributes";
  * level:	Level of the cure.
  *		Examples:
  *		A level 2 cure is twice as effective against a level 1 poison.
- *		It will be half as effective against a level 4 poison.		
+ *		It will be half as effective against a level 4 poison.
  *
  * Return value
  * Returns 1 if any curing took place
@@ -33,9 +33,9 @@ include ":attributes:attributes";
 function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 	cure_amount := CInt(cure_amount);
 	cure_level := CInt(cure_level);
-	
+
 	var poison_names := TS_GetTimerNames(mobile, cure_type);
-	
+
 	var num_cured := 0;
 	//Run through all curable poisons, and keep curing until it runs out of curing power.
 	foreach timer_name in ( poison_names )
@@ -48,29 +48,29 @@ function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 		var timer_info := TS_GetTimerInfo(mobile, timer_name);
 		var duration := TS_GetTimerDuration(mobile, timer_name);
 		cure_amount := CInt(cure_amount / CInt(elem_info.Virulence));
-		
+
 		if ( elem_info.AllOrNothingCure )
 			if ( (timer_info.level - 2) > cure_level )
-				// If cure level is less than two levels lower than the poison 
+				// If cure level is less than two levels lower than the poison
 				// level, there is no chance to cure.
-				continue; 
+				continue;
 			endif
-			
+
 			var chance := CInt(timer_info.level / (cure_level * 0.01)); // cure_level % of timer_level.
 			var roll := RandomInt(100)+1;
 			if ( roll <= chance )
-				cure_amount := cure_amount - duration;
+				cure_amount -= duration;
 				TS_LowerDuration(mobile, timer_name, -1);
-				num_cured := num_cured+1;
+				num_cured += 1;
 			endif
 		else
 			var multiply := CInt(CDbl(cure_level) / CDbl(timer_info.level));
 			if ( multiply <= 0 )
 				multiply := 1;
 			endif
-			
-			num_cured := num_cured+1;
-			
+
+			num_cured += 1;
+
 			if ( (multiply * cure_amount) >= duration )
 				// There is enough cure power to stop the poison.
 				// Adjust remaining cure points and stop the poison.
@@ -84,8 +84,8 @@ function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return num_cured;
 endfunction
 
-	
+
