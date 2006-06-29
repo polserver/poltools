@@ -64,13 +64,13 @@ program textcmd_RangeRect(who, parms)
 			var tileitem := lbound  + randomint(ubound - lbound);
 			var item := CreateItemAtLocation(start_x , start_y , z, tileItem , 1, who.realm);
 			item.decayat := ReadGameClock() + 2700; // 45 minutes
-			start_y := start_y + 1;
+			start_y += 1;
 
 			SleepMS(2);
 		endwhile
 
 		start_y := temp_y;
-		start_x := start_x + 1;
+		start_x += 1;
 	endwhile
 
 	SendSysMessage(who, "Done.");

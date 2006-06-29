@@ -56,9 +56,7 @@ program textcmd_MakeSet(who , text)
 	endif
 	
 	var itemlist := struct;
-	var iteminfo := struct;
-	iteminfo.+name;
-	iteminfo.+value;
+	var iteminfo := struct{"name", "value"};
 	
 	SendSysMessage(who, "Target a piece of the item you wish to use as a reference point.");
 	SendSysMessage(who, "The reference point will be used for recreating this set.");

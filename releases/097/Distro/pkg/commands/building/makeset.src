@@ -27,7 +27,7 @@ program textcmd_MakeSet(who, set_name)
 	SendSysMessage(who, "Target where you want to place "+set_name);
 	var targ := TargetCoordinates(who);
 
-	foreach line in GetConfigStringArray(config[set_name], "item")
+	foreach line in ( GetConfigStringArray(config[set_name], "item") )
 		line := SplitWords(line);
 		var objtype := CInt(line[1]), graphic := CInt(line[2]), color := CInt(line[3]);
 		var x := CInt(line[4]), y := CInt(line[5]), z := CInt(line[6]);

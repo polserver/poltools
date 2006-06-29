@@ -36,9 +36,9 @@ program textcmd_ColorRect(who, text)
 	
 	if ( (topleft.x <= botright.x) && (topleft.y <= botright.y) )
 		var x, y;
-		for( x := topleft.x; x <= botright.x; x := x + 1 )
-			for( y := topleft.y; y <= botright.y; y := y + 1 )
-				foreach item in ListItemsNearLocation(x, y, zheight, 0, who.realm)
+		for( x:=topleft.x; x<=botright.x; x+=1 )
+			for( y:=topleft.y; y<=botright.y; y+=1 )
+				foreach item in ( ListItemsNearLocation(x, y, zheight, 0, who.realm) )
 					if ( item.objtype == objtype || !objtype )
 						item.color := color;
 					endif
