@@ -83,7 +83,7 @@ function BuildHairDyeGump(cur_color := 0)
 		var color_elem := color_cfg[category];
 		GFTextLine(gump, 50, index_y, color_elem.TitleColor, category);
 
-		index_y := index_y + 20;
+		index_y += 20;
 		SleepMS(2);
 	endforeach
 
@@ -104,7 +104,7 @@ function BuildHairDyeGump(cur_color := 0)
 				side := 0;
 			else
 				color_x := 150;
-				color_y := color_y+20;
+				color_y += 20;
 				side := 1;
 			endif
 
