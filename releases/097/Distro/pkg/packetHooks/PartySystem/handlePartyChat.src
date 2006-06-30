@@ -12,18 +12,12 @@ include ":partySystem:messages";
 program handlePartyChat(params)
 	Set_Critical(DEBUG_SET_CRITICAL);
 
-	var who := params[1];
+	var character := params[1];
 	var ucmsg := params[2];
-	var party := GetObjProperty(who, PARTY_PROP);
-	var msg := CChrZ(ucmsg);
-	
-	// Check if this is a private message. Ex: /1 hey, will send "hey" to the party leader
-	if ( msg[1] <= party.Size() && msg[2] == " " )
-		Start_Script("handlePartyMessage", array{who, party[CInt(msg[1])], CAscZ(msg[3,Len(msg)-2])});
-	else
-		// Send message to every memeber in party
-		SendPartyMessage(party, who, ucmsg, 1);
-	endif
+	var party := GetObjProperty(character, PARTY_PROP);
+
+	// Send message to every memeber in party
+	SendPartyMessage(party, character, ucmsg, 1);
 	
 	return 1;
 endprogram

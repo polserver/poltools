@@ -13,20 +13,19 @@ include ":partySystem:messages";
 CONST OFFSET_PARTY_ADD_SIZE := 6;
 CONST OFFSET_PARTY_ADD_PLAYERIDS := 7;
 
-program Reconnect(who)
-	var party := GetObjProperty(who, PARTY_PROP);
+program Reconnect(character)
+	var party := GetObjProperty(character, PARTY_PROP);
 
 	if ( party )
-		ReconnectParty(who, party);
+		ReconnectParty(character, party);
 	endif
 
 	return 1;
 endprogram
 
-function ReconnectParty(who, party)
+function ReconnectParty(character, party)
 	// Create and build the packet
 	var packet := CreatePacket(MSGTYPE_PARTY, MSGLEN_VARIABLE);
-
 	packet.SetInt16(OFFSET_PARTY_SUBCMD, SUBCMD_PARTY); // Set subcmd to Party
 	packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 1); // Set subsubcmd to Add
 	packet.SetInt8(OFFSET_PARTY_ADD_SIZE, party.Size()); // Set party size
@@ -37,9 +36,9 @@ function ReconnectParty(who, party)
 		SleepMS(2);
 	endfor
 
-	packet.SendPacket(who);
-	SendPartyMessage(party, who, "rejoined the party.");
-	SendSysMessage(who, "You have rejoined the party.");
+	packet.SendPacket(character);
+	SendPartyMessage(party, character, "rejoined the party.");
+	SendSysMessage(character, "You have rejoined the party.");
 
 	return 1;
 endfunction

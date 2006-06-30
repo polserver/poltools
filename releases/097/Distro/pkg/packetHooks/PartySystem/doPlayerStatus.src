@@ -35,13 +35,13 @@ exported function handleUpdateStat(character, byref packet)
 	endif
 
 	// Is the character in a party?
-	if ( TypeOf(party) == "Array" )
+	if ( Lower(TypeOf(party)) == "array" )
 		var member;
 
-		foreach memberid in (party)			
+		foreach member_id in (party)			
 			// Do not send modified packet to character since they are already getting one
-			if ( memberid != id )
-				member := SystemFindObjectBySerial(memberid);
+			if ( member_id != id )
+				member := SystemFindObjectBySerial(member_id);
 				
 				// Only send this packet if the party member is close enough to the character
 				if ( member && Distance(member, character) <= PARTY_STATUS_UPDATE_DISTANCE )

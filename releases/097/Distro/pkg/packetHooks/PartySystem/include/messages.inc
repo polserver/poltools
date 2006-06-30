@@ -6,13 +6,13 @@ use unicode;
 include ":partySystem:config";
 include ":partySystem:packetInfo";
 
-CONST OFFSET_PARTY_SOURCE_PLAYERID	:= 6;
-CONST OFFSET_PARTY_MESSAGE		:= 10;
+CONST OFFSET_PARTY_SOURCE_PLAYERID := 6;
+CONST OFFSET_PARTY_MESSAGE := 10;
 
-CONST USE_PACKETED_MESSAGES		:= 1;
+CONST USE_PACKETED_MESSAGES := 1;
 
-function SendPartymessage(targ, source, message, self_send := 0)
-	if ( TypeOf(message) != "Array" )
+function SendPartymessage(targ, source, message, self_send:=0)
+	if ( Lower(TypeOf(targ)) == "array" )
 		message := CAscZ(message);
 	endif
 	
@@ -25,17 +25,19 @@ function SendPartymessage(targ, source, message, self_send := 0)
 		packet.SetInt16(OFFSET_PARTY_MSGLEN, packet.GetLength()); // Set packet length
 		
 		// Send packet to party members if targ is an array, else send to targ
-		if ( TypeOf(targ) == "Array" )
+		if ( Lower(TypeOf(targ)) == "array" )
 			packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 4); // Set subsubcmd to party message
 			
 			var member;
-			foreach memberid in (targ)
-				if ( self_send || source.serial != memberid )
-					member := SystemFindObjectBySerial(memberid);
+
+			foreach member_id in (targ)
+				if ( self_send || source.serial != member_id )
+					member := SystemFindObjectBySerial(member_id);
 					if ( member )
 						packet.SendPacket(member);
 					endif
 				endif
+
 				SleepMS(2);
 			endforeach
 		else
@@ -44,15 +46,17 @@ function SendPartymessage(targ, source, message, self_send := 0)
 		endif
 	else
 		// Send packet to party members if targ is an array, else send to targ
-		if ( TypeOf(targ) == "Array")
+		if ( Lower(TypeOf(targ)) == "array" )
 			var member;
-			foreach memberid in (targ)
-				if ( self_send || source.serial != memberid )
-					member := SystemFindObjectBySerial(memberid);
+
+			foreach member_id in (targ)
+				if ( self_send || source.serial != member_id )
+					member := SystemFindObjectBySerial(member_id);
 					if ( member )
 						SendSysMessageUC(member, CAscZ("["+source.name+"]: ")+message, member.uclang, 3, 368);
 					endif
 				endif
+
 				SleepMS(2);
 			endforeach
 		else

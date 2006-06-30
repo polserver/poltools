@@ -1,8 +1,13 @@
 [ - What is this? -]
-An OSI-like party system. This means it uses the client's party manifest gump and can handle all client party commands (/add, /rem, /quit, etc...). It also handles status updates so you see the stamina and mana of other party members.
+A package to handle party system packets. It can handle all client-based party commands and status window updates (mana, stamina). However, extended functionality such as karma/fame sharing, party corpse looting criminality, faction stuff and area effect spells not damaging party members is not easily packaged so it's up to you if you even want your shard to have this functionality and to code it.
 
 
 [ - Changes - ]
+1.2:
+  UO.com says to use "/t #" for private messaging which is handled client-side so "/#" support was removed
+  Fixed a bug with private messages to someone in party position 10
+  Changed spacing and variable names to make it more like the distro
+
 1.1:
   Added support for /# private messanging
     # is position in the party of the player you want to message, ex: "/1 hello" will send "hello" to the party leader
@@ -20,9 +25,12 @@ An OSI-like party system. This means it uses the client's party manifest gump an
   
 
 [ - Installation - ]
-Copy the files over to your packages directory and recompile.
+Copy the files over to your packages directory and compile.
 
-If you have corpse looting criminality checks then add some code to check if the owner of the corpse has PARTY_LOOT_PROP set to true and the person looting is in the party. For refrence, on OSI, you can loot a corpse if it is:
+On OSI, parties share fame and karma, can loot mobs together, may be able to loot each other's corpses, cannot compose of rival factions, and area effect spells do not damage other party members. I'll add this functionality if Austin says it's OK, but it would make the distro more dependant on the party package and would make it more specific to OSI. You can read more about it here:
+http://guide.uo.com/combat_2.html
+
+If you have corpse looting criminality checks then you can add code to check if the owner of the corpse has PARTY_LOOT_PROP set to true and the person looting is in the party. For refrence, on OSI, you can loot a corpse if it is:
  - your own corpse
  - your agressor's corpse (someone who attacks you and you kill them)
  - a criminal/murderer's
@@ -36,13 +44,8 @@ Thanks to Max Sherr for his initial help getting this moving, to Kinetix who pos
 
 
 [ - TODO - ]
-Add support for party chat window (I think this is an AoS+ feature)
-Add support for factions (currently factions are not even implemented)
-	Here is what OSI says about factions and parties:
-	"The party cannot have members from opposing factions."
-	"You have been removed from your party due to factional conflict."
-	"You cannot have players from opposing factions in the same party!"
-I still do not know exactly what messages OSI displays and how they look
+Possibly add support for extended features, but they would be part of the distro and would be tricky to install on other distros
+Get a log of someone playing on OSI and using the party system.
 
 
 [ - Note - ]
@@ -60,6 +63,6 @@ Command 0xBF, subcommand 6:
 
 
 [ - Contact - ]
-Please send me any comments, questions or BUGS.
+Please send me any comments, questions or bugs.
 E-mail: tekproxy@gmail.com
 AIM: tekproxy
