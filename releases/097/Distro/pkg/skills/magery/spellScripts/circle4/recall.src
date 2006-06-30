@@ -12,7 +12,7 @@ include ":containers:containers";
 include ":itemutils:itemdesc";
 include "include/sounds";
 
-program SpellScript(params)
+program SpellScript_Recall(params)
 	var who := params[1];
 	var recall_rune := params[2];
 	//var info := params[2];

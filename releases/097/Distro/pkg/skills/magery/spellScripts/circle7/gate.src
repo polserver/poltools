@@ -12,21 +12,21 @@ include ":containers:containers";
 include ":itemutils:itemdesc";
 include "include/sounds";
 
-program SpellScript(params)
+program SpellScript_Gate(params)
 	var who := params[1];
 	var recall_rune := params[2];
-	//var info := params[2];
-	params := 0; // No longer needed
+	var info := params[2];
+	params := 0;
 
 	var prompt := "Select an object to gate from.";
 	recall_rune := MS_Target(who, recall_rune, prompt, TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
-	if( !recall_rune.IsRecallRune() )
+	if ( !recall_rune.IsRecallRune() )
 		SendSysMessage(who, "You can only cast that on a recall rune or runebook.");
 		return 0;
-	elseif( !ReserveItem(recall_rune) )
+	elseif ( !ReserveItem(recall_rune) )
 		SendSysMessage(who, "That is already being used.");
 		return 0;
-	elseif( GetObjProperty(recall_rune, "Vendored") )
+	elseif ( GetObjProperty(recall_rune, "Vendored") )
 		SendSysMessage(who, "You cannot recall off of runes on a vendor.");
 		return 0;
 	endif

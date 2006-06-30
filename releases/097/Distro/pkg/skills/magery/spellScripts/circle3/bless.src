@@ -16,7 +16,7 @@ include "include/sounds";
 program SpellScript_Bless(params)
 	var mobile := params[1];
 	var info := params[2];
-	params := 0; // No longer needed
+	params := 0;
 	
 	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
 	if ( !MS_MobileCheck(mobile, targ) )
@@ -30,7 +30,7 @@ program SpellScript_Bless(params)
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
 	
 	// Same as casting agility, cunning and strength all at once.
-	// I don't THINK they can stack with bless
+	// On OSI, I don't know if these can stack with bless. Probably not.
 	TS_StartTimer(targ, "agility", duration, 0, mobile);
 	TS_StartTimer(targ, "cunning", duration, 0, mobile);
 	TS_StartTimer(targ, "strength", duration, 0, mobile);

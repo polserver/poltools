@@ -1,30 +1,22 @@
-wait for crashes to stop :)
-
-end scripts for weaken, clumsy, etc... are not being called so mods never go away
-there need to be extra checks for locked down items and other weirdness
-i think there is a different type of message if a timed spell is already in affect
-finish sendstats packet modification to send resistances
-sound/gfx effects could be defined in spells.cfg and called from spell starter, or defined SOMEWHERE
-not sure if I'm playing the right effects or for the right time
-some spells, like lightning bolt, randomly say "I am frozen and cannot move.", not sure why yet
+Last I checked, end scripts were not being called by timedScripts.
+Not sure what happens if you cast a timedScript spell multiple times on OSI. "This spell is already in effect." ?
+Keep in mind that many spells check if an item is locked down or in a house.
+Modify sendstats packet hook to correctly send resistances for debuging.
+Some spells randomly say "I am frozen and cannot move." even though I'm not doing anything.
+Define spell difficulties
+Add ID tags to all files
+Comment out var info line in spell scripts that don't use it
 
 Lvl 2
-Magic Trap	••	Useful for trapping containers, which can break a paralyze spell, but triggering the trap will do 10-50 points damage. Is primarily used to "scare off" thieves these days.
-Magic Untrap	•	Remove the trap from an object that has been trapped with the Magic Trap spell. This, of course, is not usable all that often, so the spell could as well be left out of the book.
+Magic Trap	Traps do 10-50 pts damage
+Magic Untrap	Removes magic trap
 
 Lvl 3
-Telekinesis	Allows you to use or move an object that is out of reach.	
-Teleport	Single Use	Caster is transported to the target location (within the same screen)
-(Max distance 11 tiles) Must be a visible location.
+Telekinesis	Move object (not sure how), manipulate containers (opens them?)
+Teleport	Teleports character to location 11 tiles max with LOS (not sure about boats, houses, etc...)
 
-Mind Blast damage: Base Damage + ((Magery + Intelligence) / 5) (Drop decimals from result)
-
-protection seems to DECREASE resistng spells
-
-the next spells to implement telekinesis, teleport, magic trap and magic untrap, mana vampire (drains up to Caster's Eval-Target's resist)
 Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when cast by another player), as well as act like Clumsy, Feeble mind and Weaken all in one.
 Bless - Counteracts stats effects and does all three good stat effects
 
-check all status scripts, see if they work :)
-
-does spell starter really need all those vars on top? it's called by castSpell
+Summon spells probably wont be able to work until brainAI is finished and all NPCs are converted.
+Firefield and other field spells could be aligned with the mobile's facing property

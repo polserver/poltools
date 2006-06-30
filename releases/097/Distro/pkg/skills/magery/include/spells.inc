@@ -8,8 +8,7 @@ include ":magery:settings";
 include ":magery:spells_ex";
 include ":magery:report";
 include "include/client";
-
-CONST MAX_RANGE	:= 16;
+include "include/sounds";
 
 /*
  * MS_GetSpellsCfgFile()
@@ -99,7 +98,7 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_Target(byref mobile, byref targ:=0, byref prompt := "Select a target.", byref flags:=TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
+function MS_Target(mobile, targ:=0, prompt := "Select a target.", flags:=TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
 	mobile.hidden := 0;
 
 	if ( targ.IsA(POLCLASS_UOBJECT) )
@@ -110,22 +109,28 @@ function MS_Target(byref mobile, byref targ:=0, byref prompt := "Select a target
 
 	var orig_x := mobile.x;
 	var orig_y := mobile.y;
+	var orig_realm := mobile.realm;
+	var settings_elem := MS_GetSettingsCfgElem("Settings");
+	var allow_precast := CInt(settings_elem.AllowPrecasting);
 
 	SendSysMessage(mobile, prompt);
-
-	var elem := MS_GetSettingsCfgElem("Settings");
-	var max_range := elem.MaxRange;
-
+	
 	targ := Target(mobile, flags);
-	if ( Distance(mobile, targ) > MAX_RANGE )
+	if ( Distance(mobile, targ) > settings_elem.MaxRange )
 		SendSysMessage(mobile, "That is too far away.");
 		return 0;
-	elseif ( mobile.x != orig_x || mobile.y != orig_y )
-		SendSysMessage(mobile, "You break your concentration.");
-		return 0;
-	else
-		return targ;
 	endif
+	
+	if ( !allow_precast )
+		if ( mobile.x != orig_x || mobile.y != orig_y || mobile.realm != orig_realm )
+			SendSysMessage(mobile, "Your concentration is disturbed, thus ruining thy spell.");
+			PlaySoundEffect(mobile, SFX_SPELL_FAIL);
+			return 0;
+		endif
+	endif
+
+	return targ;
+
 endfunction
 
 /*
@@ -143,7 +148,7 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_TargetCoordinates(byref mobile, byref targ:=0, byref prompt := "Select a target.")
+function MS_TargetCoordinates(mobile, targ:=0, prompt := "Select a target.")
 	mobile.hidden := 0;
 
 	if ( targ )
@@ -154,22 +159,30 @@ function MS_TargetCoordinates(byref mobile, byref targ:=0, byref prompt := "Sele
 
 	var orig_x := mobile.x;
 	var orig_y := mobile.y;
-
+	var orig_realm := mobile.realm;
+	var settings_elem := MS_GetSettingsCfgElem("Settings");
+	var allow_precast := CInt(settings_elem.AllowPrecasting);
+	
 	SendSysMessage(mobile, prompt);
 	targ := TargetCoordinates(mobile);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
 		return 0;
-	elseif ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > MAX_RANGE )
+	elseif ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > settings_elem.MaxRange )
 		SendSysMessage(mobile, "That is too far away.");
 		return 0;
-	elseif ( mobile.x != orig_x || mobile.y != orig_y )
-		SendSysMessage(mobile, "You lose concentration.");
-		return 0;
-	else
-		return targ;
 	endif
+	
+	if ( !allow_precast )
+		if ( mobile.x != orig_x || mobile.y != orig_y || mobile.realm != orig_realm )
+			SendSysMessage(mobile, "Your concentration is disturbed, thus ruining thy spell.");
+			PlaySoundEffect(mobile, SFX_SPELL_FAIL);
+			return 0;
+		endif
+	endif
+	
+	return targ;
 endfunction
 
 /*
@@ -290,6 +303,7 @@ endfunction
  *
 */
 function MS_MobileCheck(mobile, targ)
+	print("Checking: "+targ+" "+targ.name);
 	if ( !targ.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(mobile, "This spell won't work on that!");
 		return 0;

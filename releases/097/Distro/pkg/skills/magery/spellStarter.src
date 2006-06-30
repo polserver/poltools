@@ -51,7 +51,7 @@ program SpellStarter(params)
 			return 0;
 		else
 			// Perform casting animation depending on spell target
-			case ( spell_elem.Target )
+			case ( Lower(spell_elem.Target) )
 				"none":
 				"direct":
 					PerformAction(mobile, ANIM_CAST_DIR);
@@ -64,11 +64,20 @@ program SpellStarter(params)
 					PerformAction(mobile, ANIM_CAST_DIR);
 			endcase
 
-			SetObjProperty(mobile, "#Casting", 1);
+			// might want to send events to this script
+			SetObjProperty(mobile, "#Casting", GetPid());
 			mobile.frozen := 1;
 		endif
 	endif
 
+	var requires_mana := 1;
+	var requires_regs := 1;
+	var settings_elem := MS_GetSettingsCfgElem("Settings");	
+	if ( !mobile.IsA(POLCLASS_NPC) && (mobile.cmdlevel >= settings_elem.StaffCmdLvl) )
+		requires_mana := CInt(settings_elem.StaffRequiresMana);
+		requires_regs := CInt(settings_elem.StaffRequiresReagents);
+	endif
+	
 	// Perform various checks to see if mobile can perform the spell
 	if ( mobile.squelched && !mobile.npctemplate )
 		SendSysMessage(mobile, "Something prevents you from casting.");
@@ -78,111 +87,112 @@ program SpellStarter(params)
 		SendSysMessage(mobile, "Your hands must be free to cast spells or meditate.");
 		FailSpell(mobile);
 		return 0;
-	elseif ( !AP_ConsumeVital(mobile, MANA, spell_elem.ManaCost) )
-		SendSysMessage(mobile, "You don't have enough mana to cast that spell!");
-		FailSpell(mobile);
-		return 0;
-	elseif ( !CheckReagents(mobile, spell_elem, scroll) )
-		SendSysMessage(mobile, "You don't have the proper reagents.");
-		FailSpell(mobile);
-		return 0;
-	else
-		mobile.hidden := 0;
-		EraseObjProperty(mobile, "#Medding");
-		SpeakPowerWords(mobile, spell_id);
+	endif
+	
+	if ( requires_mana )
+		if ( !AP_ConsumeVital(mobile, MANA, spell_elem.ManaCost) )
+			SendSysMessage(mobile, "You don't have enough mana to cast that spell!");
+			FailSpell(mobile);
+			return 0;
+		endif
+	endif
+	
+	if ( requires_regs )
+		if ( !CheckReagents(mobile, spell_elem, scroll) )
+			SendSysMessage(mobile, "You don't have the proper reagents.");
+			FailSpell(mobile);
+			return 0;
+		endif
+	endif
+	
+	mobile.hidden := 0;
+	EraseObjProperty(mobile, "#Medding");
+	SpeakPowerWords(mobile, spell_id);
 
-		var orig_hp := AP_GetVital(mobile, "Hits");
-		var delay := spell_elem.Delay;
-		var moveCheck_script := Start_Script(":magery:moveCheck/moveCheck", {mobile, Getpid()});
-		while ( delay > 0 )
-			// If mobile is injured and does not have the protection spell on, fail the spell
-			if ( (orig_hp > AP_GetVital(mobile, "Hits") && !GetObjProperty(mobile, "Protection")) )
+	var orig_hp := AP_GetVital(mobile, "Hits");
+	var delay := spell_elem.Delay;
+	var protection := GetObjProperty(mobile, "Protection");
+	while ( delay > 0 )
+		if ( !protection )
+			// There is a small chance, perhaps, that the mobile is damaged and then regens
+			// or is healed enough in the ~50ms delay between checking. It could be more
+			// accurate to grab the pid from ApplyDamageEX and send a damaged event to this
+			// script, on top of also checking the health.
+			if ( orig_hp > AP_GetVital(mobile, "Hits") )
 				SendSysMessage(mobile, "Your concentration is disturbed, thus ruining thy spell.");
 				FailSpell(mobile);
 				PlaySoundEffect(mobile, SFX_SPELL_FAIL);
 				PlayObjectCenteredEffect(mobile, GFX_FIZZLE, 5, 50);
 				return 0;
 			endif
-	
-			// Check if we recieved an event from moveCheck_script, which means the mobile moved while targetting
-			if ( Events_Waiting() )
-				SendSysMessage(mobile, "Your concentration is disturbed, thus ruining thy spell.");
-				FailSpell(mobile);
-				PlaySoundEffect(mobile, SFX_SPELL_FAIL);
-				return 0;
-			endif
-			
-			if ( delay % 50 )
-				SleepMS(delay % 50);
-				delay -= (delay % 50);
-			else
-				SleepMS(50);
-				delay -= 50;
-			endif
-
-		endwhile
-		
-		moveCheck_script.Kill();
-		
-		var attribute := spell_elem.Attribute;
-		if ( !attribute )
-			attribute := MAGERY;
 		endif
 
-		var difficulty := spell_elem.Difficulty;
-		if ( !difficulty )
-			difficulty := -1;
-		endif
-		
-		mobile.frozen := 0;
-		var skill_check := SkillCheck(mobile, attribute, difficulty);
-
-		// skill_check > 0 on success
-		if ( skill_check > 0 )
-			var info := struct;
-			info.+script := spell_elem.Script;
-			info.+attribute := attribute;
-			info.+skill_check := skill_check;
-			info.+targ := targ;
-			info.+pid := GetPid();
-			info.+spellId := spell_id;
-
-			// Include base damage in info if there is a DamageType
-			if ( spell_elem.DamageType != error )
-				info.+damage_type := spell_elem.DamageType;
-				info.+min_damage := GetConfigReal(spell_elem, "MinBaseDamage");
-				info.+max_damage := GetConfigReal(spell_elem, "MaxBaseDamage");
-
-				if ( info.min_damage == error )
-					MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
-					info.min_damage := 0;
-				endif
-			
-				if ( info.max_damage == error )
-					MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
-					info.max_damage := 1;
-				endif
-			
-				if ( info.min_damage > info.max_damage )
-					MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
-					info.min_damage := 0;
-					info.max_damage := 0;
-				endif
-			endif
-			
-			var script := Start_Script(spell_elem.SpellScript, {mobile, info, spell_id});
-			if ( script.errortext )
-				SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
-			endif
-
-			var ev;
-			while ( script.pid && !ev )
-				ev := wait_for_event(1);
-			endwhile
+		if ( delay % 50 )
+			SleepMS(delay % 50);
+			delay -= (delay % 50);
 		else
-			PlaySoundEffect(mobile, SFX_SPELL_FAIL);
-			SendSysMessage(mobile, "The spell fizzles.");
+			SleepMS(50);
+			delay -= 50;
 		endif
+	endwhile
+	
+	var attribute := spell_elem.Attribute;
+	if ( !attribute )
+		attribute := MAGERY;
+	endif
+
+	var difficulty := spell_elem.Difficulty;
+	if ( !difficulty )
+		difficulty := -1;
+	endif
+		
+	mobile.frozen := 0;
+	var skill_check := SkillCheck(mobile, attribute, difficulty);
+
+	// skill_check > 0 on success
+	if ( skill_check > 0 )
+		var info := struct;
+		info.+script := spell_elem.Script;
+		info.+attribute := attribute;
+		info.+skill_check := skill_check;
+		info.+targ := targ;
+		info.+pid := GetPid();
+		info.+spell_id := spell_id;
+		
+		// Include base damage in info if there is a DamageType
+		if ( spell_elem.DamageType != error )
+			info.+damage_type := spell_elem.DamageType;
+			info.+min_damage := GetConfigReal(spell_elem, "MinBaseDamage");
+			info.+max_damage := GetConfigReal(spell_elem, "MaxBaseDamage");
+			if ( info.min_damage == error )
+				MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
+				info.min_damage := 0;
+			endif
+			
+			if ( info.max_damage == error )
+				MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
+				info.max_damage := 1;
+			endif
+		
+			if ( info.min_damage > info.max_damage )
+				MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
+				info.min_damage := 0;
+				info.max_damage := 0;
+			endif
+		endif
+			
+		var script := Start_Script(spell_elem.SpellScript, {mobile, info});
+		if ( script.errortext )
+			SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
+		endif
+
+		var ev;
+		while ( script.pid && !ev )
+			ev := wait_for_event(1);
+		endwhile
+	else
+		PlaySoundEffect(mobile, SFX_SPELL_FAIL);
+		SendSysMessage(mobile, "The spell fizzles.");
 	endif
 
 	MS_SpellDebug(mobile, "Spell starter completed.");
@@ -215,10 +225,10 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 		return 1;
 	endif
 
-	var reagent_costs := GetConfigStringDictionary(spell_elem, "RegCost");
+	var reg_cost := GetConfigStringDictionary(spell_elem, "RegCost");
 
 	// Before consuming, verify that there are enough regs.
-	foreach amount in (reagent_costs)
+	foreach amount in (reg_cost)
 		amount := CInt(amount);
 		if ( !amount )
 			amount := 1;
@@ -236,7 +246,7 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 	endforeach
 	// Consume reagents - CInt() and < 1 checks already done in previous loop.
 	// Foreach is a pointer!
-	foreach amount in (reagent_costs)
+	foreach amount in (reg_cost)
 		ConsumeSubstance(mobile.backpack, GetObjTypeByName(_amount_iter), amount);
 		SleepMS(2);
 	endforeach
