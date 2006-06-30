@@ -7,6 +7,10 @@ function ICP_CommandsGump(pkg_name, pkg_elem)
 		cmd_list := array{};
 	endif
 
+	if ( pkg_elem.GetProp("Main").Main )
+		pkg_name := "";
+	endif
+
 	var gump := GFCreateGump();
 	ICP_GumpHeader(gump, COMMANDS_BTN);
 
@@ -55,6 +59,10 @@ endfunction
 
 function ICP_StartCommand(who, input, pkg_elem, pkg_name)
 	var script_list := pkg_elem.GetProp("TextCommands");
+
+	if ( pkg_elem.GetProp("Main").Main )
+		pkg_name := "";
+	endif
 
 	//Quick way to search an array in an array
 	var script;
