@@ -149,11 +149,12 @@ function GetObjTypeDesc(source, plural:=0)
 	var slash := Find(name, "/", first);
 	var second := Find(name, "%", first + 1);
 
-	if ( slash && !second )
+	if ( !second )
 		// Force-append a % if a '/' exists!
 		name += "%";
 		second := Len(name);
-	elseif ( !slash )
+	endif
+	if ( !slash )
 		slash := second;
 	endif
 
