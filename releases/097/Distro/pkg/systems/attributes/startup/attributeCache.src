@@ -1,18 +1,31 @@
-// $Id$
+/* $Id$
+ *
+ * Purpose
+ * There are a lot of attributes in attributes.cfg
+ * Some are stats, some are skills, some are other.
+ * They all have a category and to get all of the skills in a category
+ * would require iterating over the entire config file every time and
+ * checking all the categories and building a list...
+ *
+ * What this does is build a ready-to-go list for faster retrieval of all
+ * skills in a category.
+ *
+ */
 
 use uo;
 use os;
 
 include ":attributes:attributes";
 
-
 Program attributeCache()
+	Set_Script_Option(SCRIPTOPT_NO_RUNAWAY, 1);
+	Set_Priority(255);
+	
 	var data_elem := AP_GetAttributeDataElem("Categories");
 	
 	// Clear out old cache
 	foreach prop_name in ( DFGetElemProps(data_elem) )
 		data_elem.EraseProp(prop_name);
-		SleepMS(2);
 	endforeach
 	
 	var cfg_file := AP_GetAttributesCfgFile();
