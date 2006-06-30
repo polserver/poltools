@@ -2,9 +2,14 @@
  *
  */
 
-function ICP_NPCDescGump(pkg_name)
+function ICP_NPCDescGump(pkg_name, info_elem)
 	var gump := GFCreateGump();
 	ICP_GumpHeader(gump, NPCDESC_BTN);
+
+	if ( info_elem.GetProp("Main").Main )
+		pkg_name := "";
+	endif
+
 	var npc_cfg := ReadConfigFile(":"+pkg_name+":npcdesc");
 	var elem_names := GetConfigStringKeys(npc_cfg);
 	if ( !npc_cfg || elem_names.Size() < 1 )
@@ -23,7 +28,7 @@ function ICP_NPCDescGump(pkg_name)
 				pic_color -= 1;
 			endif
 			var name_color := ICP_GetNPCNameColor(cfg_elem.alignment);
-						
+
 			GFTilePic(gump, x_pos, y_pos, 8440, pic_color);
 			GFTextCrop(gump, x_pos, y_pos+15, 95, 25, name_color, key);
 			GFAddButton(gump, x_pos+5, y_pos+35, 2117, 2118, GF_CLOSE_BTN, _key_iter);
@@ -49,7 +54,7 @@ function ICP_NPCDescGump(pkg_name)
 			SleepMS(2);
 		endforeach
 	endif
-	
+
 	return gump;
 endfunction
 
@@ -57,21 +62,21 @@ function ICP_CreateNPC(who, template, pkg_name)
 	var npc_cfg := ReadConfigFile(":"+pkg_name+":npcdesc");
 	var keys := GetConfigStringKeys(npc_cfg);
 	template := keys[template];
-	template := ":"+pkg_name+":"+template;	
-	
+	template := ":"+pkg_name+":"+template;
+
 	SendSysMessage(who, "Target where to create the npc ["+template+"].");
 	var targ := TargetCoordinates(who);
 	if ( !targ )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	endif
-	
+
 	var npc := CreateNPCFromTemplate(template, targ.x, targ.y, targ.z, 0, who.realm);
-	
+
 	if ( !npc )
 		SendSysMessage(who, "Error - Unable to create npc ["+template+"] ->"+npc.errortext);
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -84,7 +89,7 @@ function ICP_GetNPCNameColor(reputation)
 		SysLog("You probably don't have an elem name set for it. Thats naughty!");
 		return 0;
 	endif
-	
+
 	case ( reputation )
 		"good":		return (GetConfigInt(reputation_elem, "innocent")-1);
 		"neutral":	return (GetConfigInt(reputation_elem, "attackable")-1);

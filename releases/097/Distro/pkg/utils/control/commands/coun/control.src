@@ -49,6 +49,6 @@ program textcmd_ICPSystem(who, pkg_name)
 		endif
 	endwhile
 	SendSysMessage(who, "Done");
-	
+
 	return 1;
 endprogram

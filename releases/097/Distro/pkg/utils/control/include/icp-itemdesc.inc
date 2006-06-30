@@ -1,12 +1,17 @@
 /* $Id$
  *
  */
- 
+
 include ":itemutils:itemdesc";
 
-function ICP_ItemDescGump(pkg_name)
+function ICP_ItemDescGump(pkg_name, info_elem)
 	var gump := GFCreateGump();
 	ICP_GumpHeader(gump, ITEMDESC_BTN);
+
+	if ( info_elem.GetProp("Main").Main )
+		pkg_name := "";
+	endif
+
 	var item_cfg := ReadConfigFile(":"+pkg_name+":itemdesc");
 	var elem_names := GetConfigStringKeys(item_cfg);
 	if ( !item_cfg || elem_names.Size() < 1 )
@@ -31,7 +36,7 @@ function ICP_ItemDescGump(pkg_name)
 			if ( color )
 				color := color-1;
 			endif
-			
+
 			GFTilePic(gump, x_pos, y_pos, graphic, color);
 			GFTextCrop(gump, x_pos, y_pos+15, 95, 25, 2100, desc);
 			GFAddButton(gump, x_pos+5, y_pos+35, 2117, 2118, GF_CLOSE_BTN, CInt(key));
