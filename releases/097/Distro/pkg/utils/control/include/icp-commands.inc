@@ -1,8 +1,7 @@
 /* $Id$
  *
  */
-function ICP_CommandsGump(pkg_name)
-	var pkg_elem := DFFindElement(pkg_info, pkg_name);
+function ICP_CommandsGump(pkg_name, pkg_elem)
 	var cmd_list := pkg_elem.GetProp("TextCommands");
 	if ( !cmd_list )
 		cmd_list := array{};
@@ -33,7 +32,7 @@ function ICP_CommandsGump(pkg_name)
 endfunction
 
 function ICP_AddCmdLine(byref gump, script, btn_num, byref y_pos, byref counter)
-	
+
 	var script_name := ICP_GetScriptName(script.script);
 	var script_path := script.dir+script.script;
 	GFAddButton(gump, 25, y_pos+3, 2117, 2118, GF_CLOSE_BTN, btn_num);
@@ -50,13 +49,13 @@ function ICP_AddCmdLine(byref gump, script, btn_num, byref y_pos, byref counter)
 		y_pos := 80;
 		counter := 0;
 	endif
-	
+
 	return 1;
 endfunction
 
 function ICP_StartCommand(who, input, pkg_elem, pkg_name)
 	var script_list := pkg_elem.GetProp("TextCommands");
-	
+
 	//Quick way to search an array in an array
 	var script;
 	foreach level in ( script_list )
@@ -70,19 +69,19 @@ function ICP_StartCommand(who, input, pkg_elem, pkg_name)
 		endif
 	endforeach
 	//--
-		
+
 	if ( !script )
 		GumpPrompt(who, "Command level is not high enough to use that command.");
 		return 0;
 	endif
-	
-	var path := ICP_FormatScriptPath(script, pkg_name);	
+
+	var path := ICP_FormatScriptPath(script, pkg_name);
 	script := Start_Script(path, who);
 	if ( script.errortext )
 		GumpPrompt(who, "Error starting "+path+" [P] "+script.errortext);
 	else
 		GumpPrompt(who, "Started [P] "+path);
 	endif
-	
+
 	return script;
 endfunction

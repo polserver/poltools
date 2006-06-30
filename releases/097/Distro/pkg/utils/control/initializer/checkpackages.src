@@ -32,10 +32,19 @@ program CheckPackages()
 	// Run through each package -
 	// If it has an icp.cfg in its 'config' folder, get the settings we want from it.
 	// If not, it'll go on the gump as packagename [Not ICP compliant]
-	foreach package in (POLCore().packages)
+	var pkg_list := POLCore().packages;
+	pkg_list.Insert(1, ""); // For pol/config/* stuff
+
+	foreach package in ( pkg_list )
 		var temp_info := struct;
 
-		var data_elem := DFFindElement(pkg_info, package, DF_CREATE);
+		var pkg_name := package;
+		if ( !pkg_name )
+			pkg_name := "::config (main configs)";
+		endif
+
+		var data_elem := DFFindElement(pkg_info, pkg_name, DF_CREATE);
+		data_elem.SetProp("TextCommands", cmd_list[package]);
 
 		var icp_cfg := ReadConfigFile(":"+package+":icp");
 		icp_cfg := icp_cfg["Register"];
@@ -57,14 +66,16 @@ program CheckPackages()
 
 			// Makes a list of scripts and text commands that will be on the gump.
 			var script_list := GetConfigStringArray(icp_cfg, "Script");
-			
+
 			data_elem.SetProp("Main", temp_info);
 			data_elem.SetProp("Scripts", script_list);
-			data_elem.SetProp("TextCommands", cmd_list[package]);
 		else
-			ICP_ReportText("Warning: Package ["+package+"] has no ICP support!", ICP_REPORT_SYSLOG);
-			temp_info.+Name := package;
+			ICP_ReportText("Warning: Package ["+pkg_name+"] has no ICP support!", ICP_REPORT_SYSLOG);
+			temp_info.+Name := pkg_name;
 			temp_info.+NoSupport := 1;
+			if ( package == "" )
+				temp_info.+Main := 1;
+			endif
 			data_elem.SetProp("Main", temp_info);
 		endif
 
