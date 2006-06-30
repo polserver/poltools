@@ -1,0 +1,27 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":itemutils:itemdesc";
+
+program command_DescTest(who, text)
+	if ( !text )
+		SendSysMessage(who, "Usage: .desctest <string> (plural 0/1)");
+		return 0;
+	endif
+
+	text := SplitWords(text);
+
+	var desc := text[1];
+	var plural := (text[2] != error);
+
+	SendSysMessage(who, "Parsing "+desc+" plural="+plural);
+
+	desc := GetObjTypeDesc(desc, plural);
+
+	SendSysMessage(who, "->"+desc);
+
+	return 1;
+endprogram
