@@ -27,11 +27,11 @@ use polsys;
 function GetItemDescCfgFile(package:="")
 	var file_name := ":"+package+":itemdesc";
 	var item_cfg := ReadConfigFile(file_name);
-	
+
 	if ( item_cfg.errortext )
 		return error{"errortext":="Unable to open ["+file_name+"] ->"+item_cfg.errortext};
 	endif
-	
+
 	return item_cfg;
 endfunction
 
@@ -63,9 +63,9 @@ endfunction
  * Retrieves the proper graphic for an object type.
  * For < 0x3FFF it will see if it has a graphic entry
  * If it does not, it will return the object type (same thing as the graphic).
- * 
+ *
  * For > 0x3FFF it must contain a 'Graphic' entry to even start POL.
- * 
+ *
  * Parameters
  * obj_type:	Object type to get the graphic for.
  *
@@ -75,7 +75,7 @@ endfunction
  */
 function GetObjTypeGraphic(obj_type)
 	obj_type := CInt(obj_type);
-	
+
 	var cfg_info := GetItemDescInfo(obj_type);
 	var graphic := CInt(cfg_info.Graphic);
 	if ( graphic )
@@ -83,7 +83,7 @@ function GetObjTypeGraphic(obj_type)
 	else
 		return obj_type;
 	endif
-endfunction	
+endfunction
 
 
 /*
@@ -92,9 +92,11 @@ endfunction
  * Purpose
  * Retrieves the DESC entry from an itemdesc.cfg and parses it.
  * e.g. bread loa%ves/f% could be "bread loaf" or "bread loaves"
- * 
+ *
  * Parameters
- * objtype:	Object type (elem) to retrieve the description for.
+ * source:	Desc string to parse or an object.
+ *              If it is an item or integer it will retrieve its itemdesc.cfg 'Desc' entry.
+ *		If it is a string, it will parse that.
  * plural:	0 - Will parse the item description in singular form.
  *		1 - Will parse the item in plural form.
  *
@@ -102,22 +104,28 @@ endfunction
  * Returns a string
  *
  */
-function GetObjTypeDesc(obj_type, plural:=0)
-	obj_type := CInt(obj_type);
-	
-	var cfg_info := GetItemDescInfo(obj_type);
-	if ( cfg_info.errortext )
-		return error{"errortext":="Object type not defined in any itemdesc.cfg"};
+function GetObjTypeDesc(source, plural:=0)
+	var obj_type := 0;
+	if ( source.IsA(POLCLASS_ITEM) )
+		obj_type := source.objtype;
+	elseif ( TypeOf(source) == "Integer" )
+		obj_type := CInt(source);
 	endif
-	
-	var name := "";
-	if ( cfg_info.Desc )
-		name := cfg_info.Desc;
-	elseif ( cfg_info.Name )
-		name := cfg_info.Name;
-	else
-		return error{"errortext":="Object type does not have a Name or Desc entry"};
+
+	if ( obj_type )
+		var cfg_info := GetItemDescInfo(obj_type);
+		if ( cfg_info.errortext )
+			return error{"errortext":="Object type not defined in any itemdesc.cfg"};
+		elseif ( cfg_info.Desc )
+			source := cfg_info.Desc;
+		elseif ( cfg_info.Name )
+			source := cfg_info.Name;
+		else
+			return error{"errortext":="Object type does not have a Name or Desc entry"};
+		endif
 	endif
+
+	var name := source;
 
 	if ( !name["%"] ) // Plain desc line - easy enough to deal with.
 		if ( plural == 0 )
@@ -140,10 +148,10 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	var first := Find(name, "%", 1);
 	var slash := Find(name, "/", first);
 	var second := Find(name, "%", first + 1);
-	
+
 	if ( slash && !second )
 		// Force-append a % if a '/' exists!
-		name := name+"%";
+		name += "%";
 		second := Len(name);
 	elseif ( !slash )
 		slash := second;
@@ -169,7 +177,7 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	if ( plural == 0 )
 		s_middle := s_sing;
 	endif
-	
+
 	if ( !s_first )
 		s_first := "";
 	endif
@@ -179,6 +187,6 @@ function GetObjTypeDesc(obj_type, plural:=0)
 	if ( !s_last )
 		s_last := "";
 	endif
-	
+
 	return s_first + s_middle + s_last;
 endfunction
