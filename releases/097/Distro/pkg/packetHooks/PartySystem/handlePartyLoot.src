@@ -11,15 +11,15 @@ include ":partySystem:packetInfo";
 program handlePartyLoot(params)
 	Set_Critical(DEBUG_SET_CRITICAL);
 
-	var who := params[1];
+	var character := params[1];
 	var loot := params[2];
 
 	if ( loot )
-		SetObjProperty(who, PARTY_LOOT_PROP, 1);
-		SendSysMessage(who, "You have chosen to allow your party to loot your corpse.");
+		SetObjProperty(character, PARTY_LOOT_PROP, 1);
+		SendSysMessage(character, "You have chosen to allow your party to loot your corpse.");
 	else
-		EraseObjProperty(who, PARTY_LOOT_PROP);
-		SendSysMessage(who, "You have chosen to prevent your party from looting your corpse.");
+		EraseObjProperty(character, PARTY_LOOT_PROP);
+		SendSysMessage(character, "You have chosen to prevent your party from looting your corpse.");
 	endif
 
 	return 1;

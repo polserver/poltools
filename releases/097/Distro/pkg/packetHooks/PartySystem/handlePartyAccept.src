@@ -37,7 +37,7 @@ program handlePartyAccept(params)
 	var party := GetObjProperty(leader, PARTY_PROP);
 
 	// If there is no party array, start one
-	if ( TypeOf(party) != "Array" )
+	if ( Lower(TypeOf(party)) != "array" )
 		party := array{leader.serial};
 	else
 		// Check if the party.Size() isn't too big
@@ -46,7 +46,7 @@ program handlePartyAccept(params)
 			return 0;
 		endif
 	endif
-
+	
 	// Add invitee's serial to the party array
 	party.Append(invitee.serial);
 
@@ -66,8 +66,8 @@ program handlePartyAccept(params)
 	packet.Set16(OFFSET_PARTY_MSGLEN, packet.GetSize());
 
 	// Loop through each member in the party array and update PARTY_PROP and send Add packet
-	foreach memberid in (party)
-		member := SystemFindObjectBySerial(memberid);
+	foreach member_id in (party)
+		member := SystemFindObjectBySerial(member_id);
 		if ( member )
 			SetObjProperty(member, PARTY_PROP, party);
 			packet.SendPacket(member);
@@ -76,11 +76,10 @@ program handlePartyAccept(params)
 
 	SendSysMessage(invitee, "You have been added to the party.");
 
-	Detach();
-	
 	// Sleep 1 second to allow the client to request the status of the other party member
 	// If you don't do this, then sometimes the client wont know the name that goes along
 	// with the party member's serial and will print out: "[]: joined the party."
+	Detach();
 	Sleep(1);
 	
 	SendPartyMessage(party, invitee, "joined the party.");
