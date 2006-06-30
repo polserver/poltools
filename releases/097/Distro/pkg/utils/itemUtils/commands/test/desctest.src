@@ -4,24 +4,22 @@
 
 use uo;
 
+include ":gumps:requestgump";
+include ":gumps:yesno";
 include ":itemutils:itemdesc";
+
+unload_scripts("desctest");
 
 program command_DescTest(who, text)
 	if ( !text )
-		SendSysMessage(who, "Usage: .desctest <string> (plural 0/1)");
-		return 0;
+		text := RequestGump(who, "Desc String", "", "", CANCEL_BTN_ON);
 	endif
 
-	text := SplitWords(text);
+	var plural := YesNo(who, "Pluralize?");
 
-	var desc := text[1];
-	var plural := (text[2] != error);
+	var desc := GetObjTypeDesc(text, plural);
 
-	SendSysMessage(who, "Parsing "+desc+" plural="+plural);
-
-	desc := GetObjTypeDesc(desc, plural);
-
-	SendSysMessage(who, "->"+desc);
+	SendSysMessage(who, "-> "+desc);
 
 	return 1;
 endprogram
