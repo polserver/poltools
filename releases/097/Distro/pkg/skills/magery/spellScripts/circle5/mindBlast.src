@@ -11,7 +11,6 @@ include ":damage:damage";
 program SpellScript_MindBlast(params)
 	var mobile := params[1];
 	var info := params[2];
-	var spell_id := params[3];
 	params := 0;
 
 	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
@@ -25,9 +24,7 @@ program SpellScript_MindBlast(params)
 	// damage: Base Damage + ((Magery + Intelligence) / 5) (Drop decimals from result)
 	var random_damage := CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10;
 	var base_damage := info.min_damage + random_damage;
-	var damage := base_damage + CInt((AP_GetSkill(mobile, "Magery") + AP_GetStat(mobile, "Intelligence")) / 5);
-
-	SendSysMessage(mobile, "Mindblast for: "+damage);
+	var damage := base_damage + CInt((AP_GetSkill(mobile, MAGERY) + AP_GetStat(mobile, INTELLIGENCE)) / 5);
 	ApplyDamageEX(targ, damage, info.damage_type, mobile);
 	
 	return 1;

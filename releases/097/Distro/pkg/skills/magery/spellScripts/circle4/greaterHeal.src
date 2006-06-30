@@ -28,9 +28,9 @@ program SpellScript_GreaterHeal(params)
 	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLE_SWIRL, 7, 16);
 	PlaySoundEffect(targ, SFX_SPELL_GREATER_HEAL);
 
-	var healed := AP_GetVital(targ, "Hits");
+	var healed := AP_GetVital(targ, HITS);
 	HealDamage(targ, points);
-	healed := AP_GetVital(targ, "Hits") - healed;
+	healed := AP_GetVital(targ, HITS) - healed;
 	
 	SendSysMessage(mobile, "You healed "+healed+" hit points of damage.");
 	

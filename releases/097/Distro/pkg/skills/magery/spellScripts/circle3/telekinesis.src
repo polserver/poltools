@@ -1,8 +1,3 @@
-/*
- * $Id: $
- *
- */
-
 use uo;
 use os;
 
@@ -18,9 +13,6 @@ program SpellScript_Telekinesis(params)
 	params := 0; // No longer needed
 	
 	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
 	
 	PlaySoundEffect(targ, SFX_SPELL_TELEKINESIS);
 

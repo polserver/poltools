@@ -1,0 +1,48 @@
+/*
+ * $Id: lightning.src 476 2006-06-29 07:21:55Z tekproxy $
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+include ":damage:damage";
+
+program SpellScript_ManaDrain(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+
+	if ( mobile.serial == targ.serial )
+		SendSysMessage(mobile, "You cannot mana drain yourself!");
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_MANA_DRAIN);
+	// Not sure what the effect is on OSI
+	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);
+
+	var mana_drained := 40 + AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - AP_GetSkill(targ, RESISTING_SPELLS);
+	var targ_mana := AP_GetVital(targ, MANA);
+	if ( mana_drained > targ_mana )
+		mana_drained := targ_mana;
+	endif
+	
+	// Drain mana and restore lost points on targ after 4 seconds
+	Detach();
+	AP_ConsumeVital(targ, MANA, mana_drained);
+	AP_SetVital(mobile, MANA, AP_GetVital(mobile, MANA) + mana_drained);
+	Sleep(4);
+	AP_SetVital(targ, MANA, AP_GetVital(targ, MANA) + mana_drained);
+	return 1;
+endprogram
