@@ -246,10 +246,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 			advance := 0.1;
 		endif
 
-		// admin magic
-		advance := 0.3;
-
-		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": " + advance);
+		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": "+advance);
 
 		var temp;
 
