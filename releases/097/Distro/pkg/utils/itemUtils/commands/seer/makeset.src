@@ -11,7 +11,7 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
 program textcmd_MakeSet(who, set_name)
-	var config := ReadConfigFile("::noncore/sets");
+	var config := ReadConfigFile(":itemutils:sets");
 
 	if ( !set_name )
 		set_name := SetNamesGump(who, config);

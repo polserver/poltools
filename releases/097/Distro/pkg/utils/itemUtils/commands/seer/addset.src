@@ -76,8 +76,7 @@ program textcmd_MakeSet(who , text)
 		endif
 	endforeach
 	
-	AppendConfigFileElem( "::noncore/sets", "set", text, itemlist);
-	UnloadConfigFile("::noncore/sets");
-	
+	AppendConfigFileElem(":itemutils:sets", "Template", text, itemlist);
+		
 	SendSysMessage(who, "Done!");
 endprogram
