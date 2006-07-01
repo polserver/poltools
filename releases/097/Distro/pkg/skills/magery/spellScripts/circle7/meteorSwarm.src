@@ -1,0 +1,38 @@
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":magery:spells";
+include ":magery:spellSounds";
+include "include/client";
+include "include/sounds";
+include ":damage:damage";
+
+program SpellScript_MeteorSwarm(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	PlaySoundEffect(mobile, SFX_SPELL_METEOR_SWARM);
+
+	// We'll use 15 for the range, which is slightly less than the visible screen
+	var targs := ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 15, mobile.realm);
+	var base_damage := info.min_damage + (CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10);
+	var damage;
+	
+	// Remove party members and self from targs
+	var party := GetObjProperty(mobile, "#Party");
+	for i := 1 to (targs.Size())
+		if ( (targs[i].serial in party) || (mobile.serial == targs[i].serial) )
+			targs.Erase(i);
+		endif
+	endfor
+	
+	foreach targ in targs
+		damage := MS_GetSpellDamage(mobile, targ, base_damage) / targs.Size();
+		PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1 );
+		ApplyDamageEX(targ, damage, info.damage_type, mobile);
+	endforeach
+
+	return 1;
+endprogram

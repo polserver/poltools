@@ -19,14 +19,10 @@ program SpellScript_ArchProtection(params)
 	var info := params[2];
 	params := 0; // No longer needed
 	
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
-	
-	PlaySoundEffect(targ, SFX_SPELL_ARCH_PROTECTION);
+	PlaySoundEffect(mobile, SFX_SPELL_ARCH_PROTECTION);
 	
 	// 2-tile effect, protection on all party members and caster
+	var targ;
 	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 2)
 		var party := GetObjProperty(mobile, "#Party");
 		if ( targ.serial in party || targ.serial == mobile.serial )

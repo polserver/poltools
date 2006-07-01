@@ -5,7 +5,6 @@ Modify sendstats packet hook to correctly send resistances for debuging.
 Some spells randomly say "I am frozen and cannot move." even though I'm not doing anything.
 Define spell difficulties
 Add ID tags to all files
-Comment out var info line in spell scripts that don't use it
 
 Lvl 2
 Magic Trap	Traps do 10-50 pts damage
@@ -20,3 +19,13 @@ Bless - Counteracts stats effects and does all three good stat effects
 
 Summon spells probably wont be able to work until brainAI is finished and all NPCs are converted.
 Firefield and other field spells could be aligned with the mobile's facing property
+
+Area Spells: chain lightning, meteor swarm, earthquake
+	Should not hit party memberse
+	Range is unknown for all three
+	Should they trigger "This may flag you a bastard." window?
+
+
+Do characters unparalyze after taking damage?
+What happens if a server crashes before a timed script finishes?
+Can timed scripts be run multiple times?

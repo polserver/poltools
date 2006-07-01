@@ -1,0 +1,46 @@
+use uo;
+use os;
+
+include ":magery:spells";
+include ":magery:spellSounds";
+
+program SpellScript_Invisibility(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_INVISIBILITY);
+
+	// Tell spell starter to not wait for this script to finish
+	//var spell_starter := GetProcess(info.pid);
+	//spell_starter.SendEvent("continue");
+	
+	// Duration: (Magery * 1.2) seconds
+	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 1.2) * 1000);
+	targ.hidden := 1;
+	
+	Detach();
+	
+	while ( duration )
+		if ( !targ.hidden )
+			return 0;
+		endif
+		
+		if ( !(duration % 100) )
+			duration -= 100;
+			SleepMS(100);
+		else
+			duration := duration - (duration % 50);
+			SleepMS(duration % 50);
+		endif
+	endwhile
+
+	targ.hidden := 0;
+	
+	return 1;
+endprogram
