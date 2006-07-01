@@ -74,7 +74,7 @@ program textcmd_MakeSet(who , text)
 	foreach item in (ListObjectsInBox(startx, starty, -100, endx, endy, 100, who.realm))
 		if ( item.ISA(POLCLASS_ITEM) )
 			iteminfo.name := "Item";
-			iteminfo.value := CInt(item.objtype)+"\t"+item.graphic+"\t"+item.color+"\t"+(item.x-targ.x)+" "+(item.y-targ.y)+" "+(item.z-targ.z)+" \/\/"+item.desc;
+			iteminfo.value := CInt(item.objtype)+"\t"+item.graphic+"\t"+item.color+"\t"+(item.x-targ.x)+" "+(item.y-targ.y)+" "+(item.z-targ.z)+"\t//"+item.desc;
 			
 			itemlist.Append(iteminfo);
 			SleepMS(2);
