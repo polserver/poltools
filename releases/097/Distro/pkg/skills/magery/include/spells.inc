@@ -244,7 +244,7 @@ function ReleaseScript(pid)
 endfunction
 
 /*
- * MS_GetSpellDamage(mobile, spell_id)
+ * MS_CalcSpellDamage(mobile, spell_id)
  *
  * Purpose
  *   Calculates spell damage using base damage defined in spells.cfg and
@@ -265,9 +265,7 @@ endfunction
  *   total damage
  *
  */
-function MS_GetSpellDamage(mobile, targ, min_damage, max_damage)
-	var random_damage := CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10;
-	var base_damage := min_damage + random_damage;
+function MS_GetSpellDamage(mobile, targ, base_damage)
 	var eval_int_bonus := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) * 3) / 100) + 1;
 	var intel_bonus := CInt(AP_GetStat(mobile, "Intelligence") / 10);
 
@@ -288,8 +286,9 @@ function MS_GetSpellDamage(mobile, targ, min_damage, max_damage)
 	endif
 	
 	var total_damage := CInt(base_damage * eval_int_bonus * ((CDbl(damage_increase) / 100) + 1));
-	return total_damage;
+	return CDbl(total_damage);
 endfunction
+
 
 /*
  * MS_MobileCheck(mobile, targ)
@@ -303,7 +302,6 @@ endfunction
  *
 */
 function MS_MobileCheck(mobile, targ)
-	print("Checking: "+targ+" "+targ.name);
 	if ( !targ.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(mobile, "This spell won't work on that!");
 		return 0;

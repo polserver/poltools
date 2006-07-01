@@ -18,12 +18,18 @@ program SpellScript_Explosion(params)
 		return 0;
 	endif
 
+	// Tell spell starter to not wait for this script to finish
+	var spell_starter := GetProcess(info.pid);
+	spell_starter.SendEvent("continue");
+
 	Sleep(2);
 	
 	PlayObjectCenteredEffect(targ, GFX_EXPLOSION_BALL, 7, 7);
 	PlaySoundEffect(mobile, SFX_SPELL_EXPLOSION);
 
-	var damage := MS_GetSpellDamage(mobile, targ, info.min_damage, info.max_damage);
+	var base_damage := info.min_damage + (CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10);
+	var damage := MS_GetSpellDamage(mobile, targ, base_damage);
+
 	ApplyDamageEX(targ, damage, info.damage_type, mobile);
 	
 	return 1;

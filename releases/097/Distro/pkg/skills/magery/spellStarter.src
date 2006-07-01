@@ -41,50 +41,29 @@ program SpellStarter(params)
 		return 0;
 	endif
 
-	// Already casting?
-	if ( GetObjProperty(mobile, "#Casting") )
-		SendSysMessage(mobile, "You can not cast right now.");
-		return 0;
-	else
-		if ( mobile.frozen )
-			SendSysMessage(mobile, "You cannot cast a spell while frozen.");
-			return 0;
-		else
-			// Perform casting animation depending on spell target
-			case ( Lower(spell_elem.Target) )
-				"none":
-				"direct":
-					PerformAction(mobile, ANIM_CAST_DIR);
-					break;
-				"area":
-				"summon":
-					PerformAction(mobile, ANIM_CAST_AREA);
-					break;
-				default:
-					PerformAction(mobile, ANIM_CAST_DIR);
-			endcase
-
-			// might want to send events to this script
-			SetObjProperty(mobile, "#Casting", GetPid());
-			mobile.frozen := 1;
-		endif
-	endif
-
+	// Perform various checks to see if mobile can perform the spell
 	var requires_mana := 1;
 	var requires_regs := 1;
 	var settings_elem := MS_GetSettingsCfgElem("Settings");	
+
 	if ( !mobile.IsA(POLCLASS_NPC) && (mobile.cmdlevel >= settings_elem.StaffCmdLvl) )
 		requires_mana := CInt(settings_elem.StaffRequiresMana);
 		requires_regs := CInt(settings_elem.StaffRequiresReagents);
 	endif
 	
-	// Perform various checks to see if mobile can perform the spell
-	if ( mobile.squelched && !mobile.npctemplate )
+	if ( GetObjProperty(mobile, "#Casting") )
+		SendSysMessage(mobile, "You can not cast right now.");
+		return 0;
+	elseif ( mobile.squelched && !mobile.npctemplate )
 		SendSysMessage(mobile, "Something prevents you from casting.");
 		FailSpell(mobile);
 		return 0;
 	elseif ( !EquipmentCheck(mobile) )
 		SendSysMessage(mobile, "Your hands must be free to cast spells or meditate.");
+		FailSpell(mobile);
+		return 0;
+	elseif ( mobile.frozen )
+		SendSysMessage(mobile, "You cannot cast a spell while frozen.");
 		FailSpell(mobile);
 		return 0;
 	endif
@@ -104,7 +83,24 @@ program SpellStarter(params)
 			return 0;
 		endif
 	endif
-	
+
+	// Perform casting animation
+	case ( Lower(spell_elem.Target) )
+		"none":
+		"direct":
+			PerformAction(mobile, ANIM_CAST_DIR);
+			break;
+		"area":
+		"summon":
+			PerformAction(mobile, ANIM_CAST_AREA);
+			break;
+		default:
+			PerformAction(mobile, ANIM_CAST_DIR);
+	endcase
+
+	// might want to send events to this script
+	SetObjProperty(mobile, "#Casting", GetPid());
+	mobile.frozen := 1;
 	mobile.hidden := 0;
 	EraseObjProperty(mobile, "#Medding");
 	SpeakPowerWords(mobile, spell_id);
@@ -112,6 +108,7 @@ program SpellStarter(params)
 	var orig_hp := AP_GetVital(mobile, "Hits");
 	var delay := spell_elem.Delay;
 	var protection := GetObjProperty(mobile, "Protection");
+
 	while ( delay > 0 )
 		if ( !protection )
 			// There is a small chance, perhaps, that the mobile is damaged and then regens
@@ -127,27 +124,30 @@ program SpellStarter(params)
 			endif
 		endif
 
-		if ( delay % 50 )
-			SleepMS(delay % 50);
-			delay -= (delay % 50);
-		else
-			SleepMS(50);
+		if ( !(delay % 50) )
 			delay -= 50;
+			SleepMS(50);
+		else
+			delay -= (delay % 50);
+			SleepMS(delay % 50);
 		endif
+
 	endwhile
 	
 	var attribute := spell_elem.Attribute;
+
 	if ( !attribute )
 		attribute := MAGERY;
 	endif
 
 	var difficulty := spell_elem.Difficulty;
+
 	if ( !difficulty )
 		difficulty := -1;
 	endif
 		
-	mobile.frozen := 0;
 	var skill_check := SkillCheck(mobile, attribute, difficulty);
+	mobile.frozen := 0;
 
 	// skill_check > 0 on success
 	if ( skill_check > 0 )
@@ -164,6 +164,7 @@ program SpellStarter(params)
 			info.+damage_type := spell_elem.DamageType;
 			info.+min_damage := GetConfigReal(spell_elem, "MinBaseDamage");
 			info.+max_damage := GetConfigReal(spell_elem, "MaxBaseDamage");
+
 			if ( info.min_damage == error )
 				MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
 				info.min_damage := 0;
@@ -182,11 +183,13 @@ program SpellStarter(params)
 		endif
 			
 		var script := Start_Script(spell_elem.SpellScript, {mobile, info});
+
 		if ( script.errortext )
 			SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
 		endif
 
 		var ev;
+
 		while ( script.pid && !ev )
 			ev := wait_for_event(1);
 		endwhile
@@ -233,6 +236,7 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 		if ( !amount )
 			amount := 1;
 		endif
+
 		var objtype := GetObjTypeByName(_amount_iter);
 		var properties := dictionary{"objtype"->objtype};
 		
@@ -242,6 +246,7 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 			endif
 			return 0;
 		endif
+
 		SleepMS(2);
 	endforeach
 	// Consume reagents - CInt() and < 1 checks already done in previous loop.
@@ -258,6 +263,7 @@ function FailSpell(mobile)
 	mobile.frozen := 0;
 	EraseObjProperty(mobile, "#Medding");
 	EraseObjProperty(mobile, "#Casting");
+
 	// The fizzle GFX is not suposed to play unless interrupted
 	PlaySoundEffect(mobile, SFX_SPELL_FAIL);
 	return 1;

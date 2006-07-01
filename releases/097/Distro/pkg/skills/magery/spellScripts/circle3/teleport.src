@@ -44,9 +44,9 @@ program SpellScript_Teleport(params)
 		return 0;
 	endif
 	
-	PlayStationaryEffect( mobile.x+1, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
-  SleepMS(10);
 	PlaySoundEffect(mobile, SFX_SPELL_TELEPORT);
+	PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
+	SleepMS(100);
 	if ( !MoveObjectToLocation(mobile, targ.x, targ.y, targ.z, targ.realm) );
 		SendSysMessage(mobile, "Not a supported teleporter location.");
 		return 0;

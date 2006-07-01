@@ -1,0 +1,47 @@
+use uo;
+use os;
+
+include ":magery:spells";
+include ":magery:spellSounds";
+
+program SpellScript_Paralyze(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_PARALYZE);
+	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
+	
+	// Tell spell starter to not wait for this script to finish
+	var spell_starter := GetProcess(info.pid);
+	spell_starter.SendEvent("continue");
+
+	// Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
+	var duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3000);
+	targ.SetParalyzed(1);
+
+	Detach();
+	
+	while ( duration )
+		if ( !targ.paralyzed )
+			return 0;
+		endif
+		
+		if ( !(duration % 50) )
+			duration -= 50;
+			SleepMS(50);
+		else
+			duration -= (duration % 50);
+			SleepMS(duration % 50);
+		endif
+	endwhile
+	
+	targ.SetParalyzed(0);
+	
+	return 1;
+endprogram
