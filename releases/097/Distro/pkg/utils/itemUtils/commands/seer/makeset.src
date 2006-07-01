@@ -26,8 +26,10 @@ program textcmd_MakeSet(who, set_name)
 
 	SendSysMessage(who, "Target where you want to place "+set_name);
 	var targ := TargetCoordinates(who);
-
-	foreach line in ( GetConfigStringArray(config[set_name], "item") )
+	
+	//From AddSet.src
+	//var iteminfo := struct{"name":="//Item", "value":="ObjType Graphic Color X Y Z"};
+	foreach line in ( GetConfigStringArray(config[set_name], "Item") )
 		line := SplitWords(line);
 		var objtype := CInt(line[1]), graphic := CInt(line[2]), color := CInt(line[3]);
 		var x := CInt(line[4]), y := CInt(line[5]), z := CInt(line[6]);
@@ -54,26 +56,21 @@ function SetNamesGump(byref who, byref config)
 
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 250, 450);
-	GFResizePic(gump, 10, 10, GetCfgConst("Defaults", "ForeGround"), 230, 430);
+	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 220, 420);
 	GFPage(gump, 1);
 
 	var y_pos := 25;
-	var page_num := 1;
-	var counter := 1;
 	foreach elem_name in ( elem_names )
 		GFAddButton(gump, 20, y_pos+5, 2103, 2104, GF_CLOSE_BTN, _elem_name_iter);
 		GFTextLine(gump, 40, y_pos, 2100, elem_name);
 
-		y_pos := y_pos+25;
-		counter := counter+1;
-
-		if ( counter > 16 )
+		y_pos += 20;
+		
+		if ( _elem_name_iter % 20 == 0 )
 			y_pos := 25;
-			counter := 1;
-			GFAddButton(gump, 210, 410, 2648, 2649, GF_PAGE_BTN, page_num+1);
-			page_num := page_num+1;
-			GFPage(gump, page_num);
-			GFAddButton(gump, 210, 20, 2650, 2651, GF_PAGE_BTN, page_num-1);
+			GFAddButton(gump, 210, 410, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 210, 20, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
 		endif
 
 		SleepMS(2);
