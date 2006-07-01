@@ -9,16 +9,24 @@ use cfgfile;
 
 include ":gumps:yesno";
 
-unload_scripts("set");
 
 program textcmd_MakeSet(who , text)
+	var config := ReadConfigFile(":itemutils:sets");
+	
 	if( !text )
 		SendSysMessage(who, "Syntax: .addset [name]");
 		return 0;
 	else
-		if(!yesno(who, "Do you wish to name this set: "+text))
+		if( !YesNo(who, "Do you wish to name this set: "+text) )
 			return 0;
 		endif
+	endif
+	
+	UnloadConfigFile(":itemutils:sets");
+	
+	if( config[text] )
+		SendSysMessage(who, "Error: There is already a set called "+text, 3, 40);
+		return 0;
 	endif
 	
 	SendSysMessage(who, "Select the North West corner of what you wish to template.");
@@ -50,15 +58,9 @@ program textcmd_MakeSet(who , text)
 		starty := se_targ.y;
 		endy	 := nw_targ.y;
 	endif
-	
-	var config := readconfigfile(":itemutils:sets");
-	if( config[text] )
-		SendSysMessage(who, "Error: There is already a set called "+text, 3, 40);
-		return 0;
-	endif
-	
+		
 	var itemlist := array;
-	var iteminfo := struct{"name":="//Item", "value":="ObjType Graphic Color\tX Y Z"};
+	var iteminfo := struct{"name":="//Item", "value":="ObjType Graphic Color\tX Y Z\tDESC"};
 	itemlist.Append(iteminfo);
 	
 	SendSysMessage(who, "Target a piece of the item you wish to use as a reference point.");
