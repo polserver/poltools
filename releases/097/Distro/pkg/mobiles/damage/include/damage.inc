@@ -1,5 +1,5 @@
 /* $Id$
- * 
+ *
  * Purpose
  * Handles damages and resistances to damage types
  *
@@ -30,16 +30,16 @@ enum DAMAGE_TYPES
 	DMG_ENERGY	:= "Energy"
 endenum
 
-/* 
+/*
  * ApplyDamageEX(mobile, amount, type, source)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
- * amount:	
- * type:	
- * source:	
+ * mobile:
+ * amount:
+ * type:
+ * source:
  *
  * Return value
  *
@@ -47,7 +47,7 @@ endenum
 function ApplyDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 	amount := CInt(amount);
 	amount := CalcDamageAmount(mobile, amount, type);
-	
+
 	if ( amount == error )
 		return 0;
 	elseif ( amount < 0 )
@@ -59,20 +59,20 @@ function ApplyDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 		endif
 		ApplyDamage(mobile, amount);
 	endif
-	
+
 	return amount;
 endfunction
 
-/* 
+/*
  * ApplyRawDamageEX(mobile, amount, type, source)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
- * amount:	
- * type:	
- * source:	
+ * mobile:
+ * amount:
+ * type:
+ * source:
  *
  * Return value
  *
@@ -80,9 +80,9 @@ endfunction
 function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 	amount := CInt(amount);
 	amount := CalcDamageAmount(mobile, amount, type);
-	
+
 	if ( amount == error )
-		return 0;	
+		return 0;
 	elseif ( amount < 0 )
 		HealDamage(mobile, Abs(amount));
 	else
@@ -92,11 +92,11 @@ function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 		endif
 		ApplyRawDamage(mobile, amount);
 	endif
-	
+
 	return amount;
 endfunction
 
-/* 
+/*
  * CalcDamageAmount(mobile, amount, type)
  *
  * Purpose
@@ -110,74 +110,41 @@ endfunction
  * Return value
  * Integer
  *
- *---------------------------
- * Notes:
- * AOS deals with resistances as percentages. To keep POL more flexible, it uses multipliers. 
- * Stratics reports the max for any resistance type is 80% (80/100 = 0.8). 
- * % to Mult	(100-80)*0.010 = 0.2
- * Mult to %	100-(0.2*100) = 80
- *
- * Examples: 
- * NPC resists 25% (1/4) of cold damage.
- * Cold-ResistMult 0.75
- * (10 * 0.75 = 7.5) // Removes 2.5 points of damage. 
- *
- * NPC resists 50% (1/2) of cold damage.
- * Cold-ResistMult 0.5
- * (10 * 0.5 = 5) // Removes 5 points of damage.
- *
- * NPC resists 75% (3/4) of cold damage.
- * Cold-ResistMult 0.25
- * (10 * 0.25 = 2.5) // Removes 7.5 points of damage.
- *
- * NPC resists 80% (4/5 max AOS resitance)
- * Cold-ResistMult 0.80
- * (10 * 0.2 = 2) // Removes 8 points of damae.
- *
- * NPC is immune to fire damage
- * Fire-ResistMult 0.0
- * (10 * 0.0 = 0) Removes all points of damage.
- *
- * Energy damage actually heals
- * Energy-ResistMult -10.0
- * (10 * -10.0 = -10) Heals 10 points of damage.
- *
- * Physical damage is double
- * Physical-ResistMult 2.0
- * (10 * 2.0 = 20) Adds 10 points of damage.
- *
  */
 function CalcDamageAmount(mobile, amount, type)
 	amount := CInt(amount);
 	if ( type == DMG_FORCED )
 		return amount;
 	endif
-	
-	var resistance_mult := GetResistance(mobile, type);	
-	
-	if ( resistance_mult == error )
+
+	var resistance := CDbl(GetResistance(mobile, type));
+	if ( resistance == error )
 		// Do nothing, there is no resistance.
-	elseif ( resistance_mult == 0.0 )
-		// Mobile is immune.
-		amount := 0;
-	elseif ( resistance_mult )
-		// Mobile has a resistance multiplier
-		amount := CInt(amount * resistance_mult);
+	else
+		// Calculate percent that was resisted.
+		// Examples:
+		// Damage = 50
+		// [ Resistance = 10 so Resisted = 5, Amount = 45 ]
+		// [ Resistance = 100 so Resisted = 50, Amount = 0 ]
+		// [ Resistance = -100 so Resisted = -50, Amount = -50 ]
+		// [ Resistance = 47.3 so Resisted = 23.65, Amount = 26.35 ]
+		var resisted := (resistance * 0.010) * CDbl(amount);
+		amount -= resisted;
 	endif
-		
+
 	return CInt(amount);
 endfunction
 
-/* 
+/*
  * SetLastDamageInfo(mobile, amount, type, source)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
- * amount:	
- * type:	
- * source:	
+ * mobile:
+ * amount:
+ * type:
+ * source:
  *
  * Return value
  *
@@ -188,28 +155,28 @@ function SetLastDamageInfo(mobile, amount, type, source)
 	last_damage.+time	:= POLCore().systime;
 	last_damage.+amount	:= amount;
 	last_damage.+type	:= type;
-	
+
 	if ( last_damage.acctname )
 		last_damage.+acctname := source.acctname;
 	endif
 	if ( source.name )
 		last_damage.+name := source.name;
-	else
+	elseif ( source.IsA(POLCLASS_ITEM) )
 		last_damage.+name := source.desc;
 	endif
-	
+
 	SetObjProperty(mobile, "LastDamage", last_damage);
-	
+
 	return last_damage;
 endfunction
 
-/* 
+/*
  * GetLastDamageInfo(mobile)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
+ * mobile:
  *
  * Return value
  *
@@ -218,9 +185,23 @@ function GetLastDamageInfo(mobile)
 	return GetObjProperty(mobile, "LastDamage");
 endfunction
 
-//
-// Resistance Functions 
-//
+/*
+ * GetResistanceNames()
+ *
+ * Purpose
+ * Retrieves a list of resistance names from settings.cfg
+ *
+ * Parameters
+ *
+ * Return Value
+ * Returns an array of strings
+ *
+ */
+function GetResistanceNames()
+	var cfg_elem := DMG_GetSettingsCfgElem("DamageTypes");
+
+	return GetConfigStringArray(cfg_elem, "Type");
+endfunction
 
 /*
  * GetResistance(mobile, type)
@@ -238,38 +219,39 @@ endfunction
  *
  * Return value
  * dictionary or double
- * 
+ *
  */
 function GetResistance(mobile, type:=0)
-	var resistances := GetObjProperty(mobile, "Resistances");
+	var resistances := GetObjProperty(mobile, "%Resistances%");
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
-	
+
+	var base_resist := ((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2;
+
 	if ( !type )
-		var dmg_types := GetConfigStringDictionary(DMG_GetSettingsCfgElem("DamageTypes"), "Damage");
-		var base_resist := ResistancePercentToMult(((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2); // from uo.stratics
 		var max_resistances := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");
 		var resistance_mods := GetResistanceMods(mobile);
-		foreach key in (dmg_types.Keys())
+		foreach name in ( GetResistanceNames() )
 			// Set minimum resistance based on resisting spells (does NOT stack with anything else)
-			if ( resistances[key] < base_resist )
-				resistances[key] := base_resist;
+			if ( resistances[name] < base_resist )
+				resistances[name] := base_resist;
 			endif
-			
+
 			// Adjust resistances with resistance mods
-			resistances[key] := resistances[key] + CDbl(resistance_mods[key]);
-			
+			resistances[name] += CDbl(resistance_mods[name]);
+
 			// Cap resistance maximum as defined in settings.cfg
-			if ( resistances[key] > max_resistances[key] )
-				resistances[key] := max_resistances[key];
+			if ( resistances[name] > max_resistances[name] )
+				resistances[name] := max_resistances[name];
 			endif
+
+			SleepMS(2);
 		endforeach
 
 		return resistances;
+
 	elseif ( resistances.Exists(type) )
-		// Set minimum resistance based on magic resistances (does NOT stack with anything else)
-		var base_resist := ResistancePercentToMult(((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2); // from uo.stratics
 		if ( resistances[type] < base_resist )
 			resistances[type] := base_resist;
 		endif
@@ -278,16 +260,17 @@ function GetResistance(mobile, type:=0)
 		var resistance_mods := GetResistanceMods(mobile, type);
 		resistances[type] := resistances[type] + CDbl(resistance_mods[type]);
 
-		var max_resistance := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");		
+		var max_resistance := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");
 		if ( resistances[type] > max_resistance[type] )
 			resistances[type] := max_resistance[type];
 		endif
 
 		return CDbl(resistances[type]);
+
 	elseif ( mobile.npctemplate )
 		// Looks for type-ResistMult in the NPCDESC.CFG
 		var npc_elem := NPC_GetNPCConfig(mobile);
-		var mult := GetConfigReal(npc_elem, type+"-ResistMult");
+		var mult := GetConfigReal(npc_elem, type+"-Resistance");
 		if (  mult != error )
 			return CDbl(mult);
 		else
@@ -299,55 +282,88 @@ function GetResistance(mobile, type:=0)
 endfunction
 
 /*
+ * GetNPCResistance(template, type)
+ *
+ * Purpose
+ * Retrieves base resistances from an npc's npcdesc.cfg
+ *
+ * Parameters
+ * template:	Can take in a template name or an npc reference.
+ * type:	Find a specific resistance value. If 0, will retrieve them all.
+ *
+ * Return Value
+ * Returns a double or a dictionary.
+ *
+ */
+function GetNPCResistance(template, type:=0)
+	if ( template.IsA(POLCLASS_NPC) )
+		template := template.npctemplate;
+	endif
+
+	var npc_elem := NPC_GetNPCConfig(template);
+	if ( type )
+		return GetConfigReal(npc_elem, type+"-Resistance");
+	else
+		var resistances := dictionary;
+		foreach name in ( GetResistanceNames() )
+			resistances[name] := GetConfigReal(npc_elem, name+"-Resistance");
+			SleepMS(2);
+		endforeach
+		return resistances;
+	endif
+endfunction
+
+/*
  * SetResistance(mobile, name, value)
  *
  * Purpose
- * Sets a resistance multiplier on a mobile.
+ * Sets a resistance value on a mobile.
  *
- * mobile:	Mobile to set the resistance multiplier for.
+ * Parameters
+ * mobile:	Mobile to set the resistance value for.
  * name:	Name of the resistance type to set.
- * value:	Multiplier for the resistance.
+ * value:	Value for the resistance.
  *
  * Return value
  * Returns result of SetObjProperty()
  *
  */
 function SetResistance(mobile, name, value)
-	var resistances := GetObjProperty(mobile, "Resistances");
+	var resistances := GetObjProperty(mobile, "%Resistances%");
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
-	
+
 	resistances[name] := CDbl(value);
-	
+
 	return SetObjProperty(mobile, "Resistances", resistances);
 endfunction
 
 /*
  * ModifyResistance(mobile, name, value)
  * Purpose
- * Modifies a resistance multiplier on a mobile.
+ * Modifies a resistance value on a mobile.
  *
- * mobile:	Mobile to set the resistance multiplier for.
+ * mobile:	Mobile to set the resistance value for.
  * name:	Name of the resistance type to change.
- * value:	Adjustment to the multiplier.
+ * value:	Adjustment to the value.
  *
  * Return value
  * Returns result of SetObjProperty()
  *
  */
 function ModifyResistance(mobile, name, value)
-	var resistances := GetObjProperty(mobile, "Resistances");
+	var resistances := GetObjProperty(mobile, "%Resistances%");
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
-	
+
 	var cur_value := CDbl(resistances[name]);
 	value := cur_value + CDbl(value);
-	
+
 	resistances[name] := value;
-	
-	return SetObjProperty(mobile, "Resistances", resistances);
+
+	return SetObjProperty(mobile, "%Resistances%", resistances);
 endfunction
 
 /*
@@ -367,14 +383,14 @@ endfunction
  *
  * Return value
  * dictionary or double
- * 
+ *
  */
 function GetResistanceMods(mobile, type:=0)
-	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	var resistance_mods := GetObjProperty(mobile, "%ResistanceMods%");
 	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
 		resistance_mods := dictionary;
 	endif
-	
+
 	if ( !type )
 		return resistance_mods;
 	elseif ( resistance_mods.Exists(type) )
@@ -388,52 +404,52 @@ endfunction
  * SetResistanceMods(mobile, name, value)
  *
  * Purpose
- * Sets a resistance mod multiplier on a mobile.
+ * Sets a resistance modifier on a mobile.
  *
- * mobile:	Mobile to set the resistance mod multiplier for.
+ * mobile:	Mobile to set the resistance mod value for.
  * name:	Name of the resistance mod type to set.
- * value:	Multiplier for the resistance mod.
+ * value:	Value for the resistance mod.
  *
  * Return value
  * Returns result of SetObjProperty()
  *
  */
 function SetResistanceMod(mobile, name, value)
-	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	var resistance_mods := GetResistanceMods(mobile);
 	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
 		resistance_mods := dictionary;
 	endif
-	
+
 	resistance_mods[name] := CDbl(value);
-	
-	return SetObjProperty(mobile, "ResistanceMods", resistance_mods);
+
+	return SetObjProperty(mobile, "%ResistanceMods%", resistance_mods);
 endfunction
 
 /*
  * ModifyResistance(mobile, name, value)
  * Purpose
- * Modifies a resistance mod multiplier on a mobile.
+ * Modifies a resistance mod value on a mobile.
  *
- * mobile:	Mobile to set the resistance mod multiplier for.
+ * mobile:	Mobile to set the resistance mod value for.
  * name:	Name of the resistance mod type to change.
- * value:	Adjustment to the multiplier.
+ * value:	Adjustment to the value.
  *
  * Return value
  * Returns result of SetObjProperty()
  *
  */
 function ModifyResistanceMod(mobile, name, value)
-	var resistance_mods := GetObjProperty(mobile, "ResistanceMods");
+	var resistance_mods := GetResistanceMods(mobile);
 	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
 		resistance_mods := dictionary;
 	endif
-	
+
 	var cur_value := CDbl(resistance_mods[name]);
 	value := cur_value + CDbl(value);
-	
+
 	resistance_mods[name] := value;
-	
-	return SetObjProperty(mobile, "ResistanceMods", resistance_mods);
+
+	return SetObjProperty(mobile, "%ResistanceMods%", resistance_mods);
 endfunction
 
 /*
@@ -444,7 +460,7 @@ endfunction
  * If no DamageTypes is found, returns all damage as physical
  *
  * mobile: mobile refrence
- * 
+ *
  * Return value:
  * Dictionary with the type of damage and porcentage, eg.: "DMG_FIRE -> 0.5 DMG_COLD -> 0.5"
 */
@@ -464,46 +480,4 @@ function GetDamageTypes(mobile)
 	endif
 
 	return damage_types;
-endfunction
-
-/*
- * ResistancePercentToMult(percent)
- *
- * Purpose
- * Turns a percentage into a resistance multiplier.
- *
- * Parameters
- * percent
- *
- * Return value
- * Double resistance multiplier
- * 
- */
-function ResistancePercentToMult(percent)
-	if ( percent > 0 )
-		return CDbl(100 - percent) * 0.010;
-	else
-		return CDbl(100 + percent) * 0.010;
-	endif
-endfunction
-
-/*
- * ResistancePercentToMult(percent)
- *
- * Purpose
- * Turns a resistance multiplier into a percentage.
- *
- * Parameters
- * mult
- *
- * Return value
- * Int percentage
- * 
- */
-function ResistanceMultToPercent(mult)
-	if ( mult > 0 )
-		return CInt(100 - (mult * 100));
-	else
-		return CInt(100 + (mult * 100));
-	endif
 endfunction
