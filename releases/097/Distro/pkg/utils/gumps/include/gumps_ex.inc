@@ -41,7 +41,13 @@ CONST ALIGN_RIGHT	:= 0x2;
  *
  */
 function GFCloseGump(who, pid, ret_val:=0)
-	return 0;
+	var packet := CreatePacket(0xBF, 13);
+	packet.SetInt16(1, 13);
+	packet.SetInt16(3, 4);
+	packet.SetInt32(5, pid);
+	packet.SetInt32(9, ret_val);
+
+	return packet.SendPacket(who);
 endfunction
 
 /*
