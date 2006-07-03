@@ -22,29 +22,29 @@ program UseScript(who, tile)
 	var dest := tile.GetDestination();
 		
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 450, 235);
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 420, 35);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 450, 235);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 420, 35);
 	GFTextMid(gump, 15, 20, 430, 2100, "Teleporter Setup Menu");
 	
-	GFResizePic(gump, 15, 55, GetCfgConst("Defaults", "ForeGround"), 420, 50);
+	GFResizePic(gump, 15, 55, GFGetCfgConst("Defaults", "ForeGround"), 420, 50);
 	GFTextLine(gump, 20, 60, 2100, "Use the fields below to change the coordinates the");
 	GFTextLine(gump, 20, 80, 2100, "teleporter sends any mobiles to that walk over it.");
 	
-	GFResizePic(gump, 15, 110, GetCfgConst("Defaults", "ForeGround"), 420, 111);
+	GFResizePic(gump, 15, 110, GFGetCfgConst("Defaults", "ForeGround"), 420, 111);
 	GFTextLine(gump, 20, 120, 2100, "Realm");
-	GFResizePic(gump, 120, 115, GetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
+	GFResizePic(gump, 120, 115, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 	GFTextEntry(gump, 127, 120, 80, 20, 2100, dest.realm, REALM_TEXT);
 	
 	GFTextLine(gump, 20, 143, 2100, "X Coordinate");
-	GFResizePic(gump, 120, 138, GetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
+	GFResizePic(gump, 120, 138, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 	GFTextEntry(gump, 127, 143, 80, 20, 2100, CInt(dest.x), X_TEXT);
 	
 	GFTextLine(gump, 20, 166, 2100, "Y Coordinate");
-	GFResizePic(gump, 120, 161, GetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
+	GFResizePic(gump, 120, 161, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 	GFTextEntry(gump, 127, 166, 80, 20, 2100, CInt(dest.y), Y_TEXT);
 	
 	GFTextLine(gump, 20, 189, 2100, "Z Coordinate");
-	GFResizePic(gump, 120, 184, GetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
+	GFResizePic(gump, 120, 184, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 	GFTextEntry(gump, 127, 189, 80, 20, 2100, CInt(dest.z), Z_TEXT);
 	
 	GFAddButton(gump, 304, 135, 2076, 2075, GF_CLOSE_BTN, OKAY_BTN);

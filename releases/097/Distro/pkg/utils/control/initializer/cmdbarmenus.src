@@ -121,7 +121,7 @@ endfunction
 
 function CollapsedMenuBar(transparency:=0)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("BackGrounds", "STONESLAB"), 30, 30);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 0, 0, 30, 30);
 	endif
@@ -142,7 +142,7 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 	foreach page_list in ( new_list )
 		GFPage(gump, gump.cur_page+1);
 		var y_length := (page_list.Size() * 20)+10;
-		GFResizePic(gump, 35, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+		GFResizePic(gump, 35, 30, GFGetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
 		if ( transparency )
 			GFAddAlphaRegion(gump, 35, 30, 150, y_length);
 		endif
@@ -184,7 +184,7 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 		endif
 	endforeach
 	var y_length := (num_levels * 20)+25;
-	GFResizePic(gump, 185, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+	GFResizePic(gump, 185, 30, GFGetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 185, 30, 150, y_length);
 	endif
@@ -221,7 +221,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 	foreach page_list in ( script_list )
 		GFPage(gump, gump.cur_page+1);
 		var y_length := (page_list.Size() * 20)+30;
-		GFResizePic(gump, 335, 30, GetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
+		GFResizePic(gump, 335, 30, GFGetCfgConst("BackGrounds", "STONESLAB"), 150, y_length);
 		if ( transparency )
 			GFAddAlphaRegion(gump, 335, 30, 150, y_length);
 		endif
@@ -255,7 +255,7 @@ function CommandLevelInfoMenu(transparency:=0)
 
 	var gump := ICP_ExpandedMenuBar(transparency);
 	var y_length := (num_levels * 20)+10;
-	GFResizePic(gump, 150, 30, GetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
+	GFResizePic(gump, 150, 30, GFGetCfgConst("BackGrounds", "STONESLAB"), 140, y_length);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 150, 30, 140, y_length);
 	endif

@@ -15,8 +15,8 @@ function GumpList(mobile)
 
 	var gump := GFCreateGump();
 	GFPage(gump, 0);
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 580, 480);
-	GFResizePic(gump, 10, 10, GetCfgConst("Defaults", "ForeGround"), 560, 460);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 580, 480);
+	GFResizePic(gump, 10, 10, GFGetCfgConst("Defaults", "ForeGround"), 560, 460);
 	var y_pos := 40;
 	var counter := 1;
 	GFTextMid(gump, 10, 15, 560, 2100, "Books from zuluBooks.cfg");

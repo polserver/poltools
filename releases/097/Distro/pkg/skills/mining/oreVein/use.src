@@ -11,8 +11,8 @@ CONST UPDATE_BTN	:= 0xA01;
 
 program use_OreVein(who, vein)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 310, 410);
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 280, 380);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 310, 410);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 280, 380);
 
 	GFGumpPic(gump, 20, 90, 2434);
 

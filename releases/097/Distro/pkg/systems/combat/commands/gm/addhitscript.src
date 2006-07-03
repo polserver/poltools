@@ -25,8 +25,8 @@ program AddHitScript(who);
 	endif
 	
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 310, 480);
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 280, 450);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 310, 480);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 280, 450);
 	GFAddButton(gump, 125, 435, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
 	
 	var config := ReadConfigFile(":combat:hitScripts");

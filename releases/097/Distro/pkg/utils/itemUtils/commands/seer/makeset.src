@@ -55,8 +55,8 @@ function SetNamesGump(byref who, byref config)
 	var elem_names := GetConfigStringKeys(config);
 
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 250, 450);
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 220, 420);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 250, 450);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 220, 420);
 	GFPage(gump, 1);
 
 	var y_pos := 25;
