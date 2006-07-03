@@ -15,7 +15,7 @@
  */
 use uo;
 use os;
-use basic;
+use polsys;
 use cfgfile;
 
 include ":gumps:gumps";
@@ -24,14 +24,33 @@ include ":gumps:gumps";
 CONST ALIGN_CENTER	:= 0x1;
 CONST ALIGN_RIGHT	:= 0x2;
 
+/*
+ * GFCloseGump(who, pid, ret_val:=0)
+ *
+ * Purpose
+ * Instructs a client to close a gump.
+ *
+ * Parameters
+ * who:		Player that has the gump open.
+ * pid:		Pid of the script that has the open gump.
+ * ret_val:	What return value the gump should send when closed.
+ *
+ * Return Value
+ * Returns 1 on success.
+ * Returns error on failure.
+ *
+ */
+function GFCloseGump(who, pid, ret_val:=0)
+	return 0;
+endfunction
 
 /*
- * GetCfgConst(elem_name, prop_name)
+ * GFGetCfgConst(elem_name, prop_name)
  *
  * Purpose
  * Rather than have a lot of CONSTants at the top for
  * different gump images, they are placed in GumpInfo.cfg
- * and retrieved with this function. 
+ * and retrieved with this function.
  * The idea is that it is easier to update GumpInfo.cfg than
  * to recompile all scripts that use these includes.
  *
@@ -43,22 +62,22 @@ CONST ALIGN_RIGHT	:= 0x2;
  * An integer for the gump graphical number
  *
  */
-function GetCfgConst(elem_name, prop_name)
+function GFGetCfgConst(elem_name, prop_name)
 	var cfg := ReadConfigFile(":gumps:GumpInfo");
 	if ( cfg.errortext )
-		return XGFError("GetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errortext);
+		return XGFError("GFGetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errortext);
 	endif
-	
+
 	var elem := cfg[elem_name];
 	if ( elem.errortext )
-		return XGFError("GetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
+		return XGFError("GFGetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
 	endif
-	
+
 	var value := GetConfigInt(elem, prop_name);
 	if ( !value )
-		return XGFError("GetCfgConst():: Unable to find property ["+prop_name+"] in elem ["+elem_name+"]");
+		return XGFError("GFGetCfgConst():: Unable to find property ["+prop_name+"] in elem ["+elem_name+"]");
 	endif
-	
+
 	return value;
 endfunction
 
@@ -87,7 +106,7 @@ function GFExtractData(input, data_id)
 endfunction
 
 
-/* 
+/*
  * GFOptimizeGump(gump)
  *
  * Purpose
@@ -105,7 +124,7 @@ function GFOptimizeGump(byref gump)
 	var cur_page := 0;
 	var gump_pages := dictionary;
 	gump_pages[0] := array;
-	
+
 	//Break the pages apart.
 	foreach entry in (gump.layout)
 		var l_entry := Lower(entry);
@@ -124,7 +143,7 @@ function GFOptimizeGump(byref gump)
 		gump_pages[cur_page].Append(entry);
 		SleepMS(2);
 	endforeach
-	
+
 	//Put the gump back together again.
 	gump.layout := array{}; // Wipe it out
 	foreach page_array in (gump_pages)
@@ -136,7 +155,7 @@ function GFOptimizeGump(byref gump)
 		endforeach
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -147,7 +166,7 @@ endfunction
  * Purpose
  * Returns the X coordinate to pass to GFTextLine() that will align
  * the text.
- * 
+ *
  * Parameters
  * type:	The type of horizontal alignment to do.
  *		ALIGN_CENTER - Aligns text between the x_pos and width position.
@@ -158,7 +177,7 @@ endfunction
  *
  * Return value
  * Returns the x coordinate to place the text on.
- *	
+ *
  */
 function GFTextCoords(type:=ALIGN_CENTER, gump_text, x_pos, width:=0)
 	x_pos := CInt(x_pos);
@@ -176,7 +195,7 @@ endfunction
  *
  * Purpose
  * Aligns text between the x position and width position.
- * 
+ *
  * Parameters
  * gump:	Reference to the gump
  * x:		The top-left spot of the X axis.
@@ -185,7 +204,7 @@ endfunction
  * hue:		The decimal number representing the Label's hue
  * text:	The string that is to be exposed.
  *
- * Return value	
+ * Return value
  * Return value is the result from GFTextLine()
  *
  */
@@ -200,7 +219,7 @@ endfunction
  *
  * Purpose
  * Aligns text between the x position and width position.
- * 
+ *
  * Parameters
  * gump:	Reference to the gump
  * x:		The right-most coordinate the text will end on.
@@ -208,7 +227,7 @@ endfunction
  * hue:		The decimal number representing the Label's hue
  * text:	The string that is to be exposed.
  *
- * Return value	
+ * Return value
  * Return value is the result from GFTextLine()
  *
  */
@@ -294,16 +313,16 @@ function GFWordWrap(text, pixels)
 	var wrap_lines := array{};
 	var word_list := SplitWords(text);
 	//var num_words := word_list.Size();
-	
+
 	var space_size := GFTextWidth(" ");
-	
+
 	var cur_line := "";
 	var cur_length := 0;
 	var start_new := 0;
-	
+
 	foreach word in word_list
 		var word_width := GFTextWidth(word);
-				
+
 		if ( word == "[P]" )
 			// [P] will force a line break
 			word := "";
@@ -312,7 +331,7 @@ function GFWordWrap(text, pixels)
 		elseif ( (word_width+cur_length) > pixels )
 			start_new := 1;
 		endif
-		
+
 		if ( start_new )
 			start_new := 0;
 			wrap_lines.Append(cur_line);
@@ -323,14 +342,15 @@ function GFWordWrap(text, pixels)
 			cur_line += word+" ";
 			cur_length += word_width+space_size;
 		endif
-						
+
 		SleepMS(2);
 	endforeach
-	
+
 	//Make sure nothing got left behind.
 	if ( wrap_lines[wrap_lines.Size()] != cur_line )
 		wrap_lines.Append(cur_line);
 	endif
-	
-	return wrap_lines;	
+
+	return wrap_lines;
 endfunction
+

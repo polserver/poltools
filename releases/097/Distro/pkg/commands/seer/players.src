@@ -67,9 +67,9 @@ endfunction
 
 function PlayerListGump(who, byref online_list)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 420, 480);
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 240, 450);
-	GFResizePic(gump, 260, 15, GetCfgConst("Defaults", "ForeGround"), 145, 450);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 420, 480);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 240, 450);
+	GFResizePic(gump, 260, 15, GFGetCfgConst("Defaults", "ForeGround"), 145, 450);
 
 	GFTextMid(gump, 25, 25, 230, 2100, "Player Name");
 	GFTextLine(gump, 270, 25, 2100, "Summon");

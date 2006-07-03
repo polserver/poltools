@@ -31,7 +31,7 @@ CONST TRANSPARENT	 := 1;
 
 function ICP_ExpandedMenuBar(transparency:=0)
 	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("BackGrounds", "STONESLAB"), 640, 30);
 		
 	GFAddButton(gump, 35, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLIST_BTN);
 	GFAddButton(gump, 150, 4, 0x98D, 0x98D, GF_CLOSE_BTN, CMDLVLS_BTN);

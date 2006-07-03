@@ -19,8 +19,8 @@ CONST GCGUMP_Y := 150;
 CONST TXT_CLR_FG := 0;
 CONST TXT_CLR_BG := 2100;
 
-var background := GetCfgConst("Defaults", "BackGround");
-var foreground := GetCfgConst("BackGrounds", "WHITE_PAPER");
+var background := GFGetCfgConst("Defaults", "BackGround");
+var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
 var permissions := Guild_GetSettingsCfgElem("Permissions");
 var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 

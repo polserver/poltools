@@ -8,8 +8,8 @@ program GumpTest(who)
 	var temp := "";
 	var gump := GFCreateGump(0, 0, 640, 480);
 	GFDisposable(gump, 0);
-	GFResizePic(gump, 0, 0, GetCfgConst("Defaults", "BackGround"), 640, 480);	//Background
-	GFResizePic(gump, 15, 15, GetCfgConst("Defaults", "ForeGround"), 610, 450);	//Foreground
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);	//Background
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 450);	//Foreground
 	
 	GFPage(gump, 10);
 	GFTextMid(gump, 15, 100, 610, 1153, "You have reached page 10!");
