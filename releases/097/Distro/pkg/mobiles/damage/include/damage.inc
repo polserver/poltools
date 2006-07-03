@@ -222,62 +222,20 @@ endfunction
  *
  */
 function GetResistance(mobile, type:=0)
-	var resistances := GetObjProperty(mobile, "%Resistances%");
+	var resistances;
+	if ( mobile.IsA(POLCLASS_NPC) )
+		resistances := GetNPCResistance(mobile, type);
+	else
+		resistances := GetObjProperty(mobile, "%Resistances%");
+	endif
 	if ( Lower(TypeOf(resistances)) != "dictionary" )
 		resistances := dictionary;
 	endif
 
-	var base_resist := ((AP_GetSkill(mobile, RESISTING_SPELLS) - 40) / 3) * 2;
-
-	if ( !type )
-		var max_resistances := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");
-		var resistance_mods := GetResistanceMods(mobile);
-		foreach name in ( GetResistanceNames() )
-			// Set minimum resistance based on resisting spells (does NOT stack with anything else)
-			if ( resistances[name] < base_resist )
-				resistances[name] := base_resist;
-			endif
-
-			// Adjust resistances with resistance mods
-			resistances[name] += CDbl(resistance_mods[name]);
-
-			// Cap resistance maximum as defined in settings.cfg
-			if ( resistances[name] > max_resistances[name] )
-				resistances[name] := max_resistances[name];
-			endif
-
-			SleepMS(2);
-		endforeach
-
-		return resistances;
-
-	elseif ( resistances.Exists(type) )
-		if ( resistances[type] < base_resist )
-			resistances[type] := base_resist;
-		endif
-
-		// Adjust resistance with resistance_mods
-		var resistance_mods := GetResistanceMods(mobile, type);
-		resistances[type] := resistances[type] + CDbl(resistance_mods[type]);
-
-		var max_resistance := GetConfigStringDictionary(DMG_GetSettingsCfgElem("Settings"), "MaxResistance");
-		if ( resistances[type] > max_resistance[type] )
-			resistances[type] := max_resistance[type];
-		endif
-
-		return CDbl(resistances[type]);
-
-	elseif ( mobile.npctemplate )
-		// Looks for type-ResistMult in the NPCDESC.CFG
-		var npc_elem := NPC_GetNPCConfig(mobile);
-		var mult := GetConfigReal(npc_elem, type+"-Resistance");
-		if (  mult != error )
-			return CDbl(mult);
-		else
-			return mult;
-		endif
+	if ( type )
+		return resistances[type];
 	else
-		return 1.0;
+		return resistances;
 	endif
 endfunction
 
@@ -296,17 +254,28 @@ endfunction
  *
  */
 function GetNPCResistance(template, type:=0)
+	var cprop_resistances;
+
 	if ( template.IsA(POLCLASS_NPC) )
+		cprop_resistances := GetObjProperty(template, "%Resistances%");
 		template := template.npctemplate;
 	endif
 
 	var npc_elem := NPC_GetNPCConfig(template);
 	if ( type )
-		return GetConfigReal(npc_elem, type+"-Resistance");
+		if ( cprop_resistances.Exists(type) )
+			return cprop_resistances[type];
+		else
+			return GetConfigReal(npc_elem, type+"-Resistance");
+		endif
 	else
 		var resistances := dictionary;
 		foreach name in ( GetResistanceNames() )
-			resistances[name] := GetConfigReal(npc_elem, name+"-Resistance");
+			if ( cprop_resistances.Exists(name) )
+				resistances[name] := cprop_resistances[name];
+			else
+				resistances[name] := GetConfigReal(npc_elem, name+"-Resistance");
+			endif
 			SleepMS(2);
 		endforeach
 		return resistances;
