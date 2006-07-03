@@ -7,6 +7,7 @@ use uo;
 use os;
 use util;
 use polsys;
+use cfgfile;
 
 //
 // For: EnumerateOnlineCharactersABC()
@@ -25,16 +26,24 @@ CONST ISA_GET_ALL	:= 0x1;
  * Builds a list of online characters in ABC order.
  *
  * Parameters
- * dir:	Determines if the list should be made ascending or descending.
+ * dir:		Determines if the list should be made ascending or descending.
+ * cmdlevel:	Command level filter. If the command level of a player is above
+ *		the one passed, it will not be placed in the list.
+ *		Use -1 to list everyone.
  *
  * Return Value:
  * Returns an array of mobile references.
  *
  */
-function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING)
+function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING, cmdlevel:=-1)
 	var dict := dictionary;
-	var z_list := EnumerateOnlineCharacters();
-	foreach player in ( z_list )
+	foreach player in ( EnumerateOnlineCharacters() )
+		if ( cmdlevel != -1 )
+			if ( player.cmdlevel > cmdlevel )
+				continue;
+			endif
+		endif
+
 		var key := Upper(player.name);
 		if ( !dict.Exists(key) )
 			dict[key] := array{};
@@ -43,7 +52,7 @@ function EnumerateOnlineCharactersABC(dir:=SORT_ASCENDING)
 		SleepMS(2);
 	endforeach
 
-	z_list := array{};
+	var z_list := array{};
 	foreach list in ( dict )
 		foreach player in ( list )
 			if ( dir == SORT_ASCENDING )
@@ -80,7 +89,7 @@ function EnumeratePhysicalItems(mobile)
 	var i;
 
 	for ( i:=0; i<=25; i+=1 )
-		if ( i in skip_layers ) 
+		if ( i in skip_layers )
 			continue;
 		else
 			var item := GetEquipmentByLayer(mobile, i);
@@ -124,7 +133,7 @@ function GetIsAType(object, flags:=ISA_GET_MAIN)
 		endif
 		SleepMS(2);
 	endfor
-	
+
 	if ( type_list.Size() > 0 )
 		return type_list;
 	else
@@ -181,19 +190,21 @@ function BuildFakePlayerList(amount:=0)
 	var player := struct{"name", "serial", "x", "y", "z", "realm"};
 	var realm_list := Realms();
 	var realm_names := realm_list.Keys();
-	
+	var cmd_cfg := ReadConfigFile("::cmds");
+	var num_levels := GetConfigStringKeys(cmd_cfg).Size();
+
 	for ( amount; amount>0; amount-=1 )
+		player.cmdlevel := RandomInt(num_levels);
 		player.name := "FakePlayer-"+amount;
 		player.serial := amount;
 		player.realm := realm_names[RandomInt(realm_names.Size())];
 		player.x := RandomInt(realm_list[player.realm].width)+1;
 		player.y := RandomInt(realm_list[player.realm].height)+1;
 		player.z := CInt(GetMapInfo(player.x, player.y, player.realm).z);
-		
+
 		list.Append(player);
 		SleepMS(2);
 	endfor
-	
+
 	return list;
 endfunction
-	
