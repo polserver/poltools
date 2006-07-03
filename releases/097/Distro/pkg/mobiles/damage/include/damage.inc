@@ -305,7 +305,7 @@ function SetResistance(mobile, name, value)
 
 	resistances[name] := CDbl(value);
 
-	return SetObjProperty(mobile, "Resistances", resistances);
+	return SetObjProperty(mobile, "%Resistances%", resistances);
 endfunction
 
 /*
@@ -333,92 +333,6 @@ function ModifyResistance(mobile, name, value)
 	resistances[name] := value;
 
 	return SetObjProperty(mobile, "%Resistances%", resistances);
-endfunction
-
-/*
- * GetResistanceMods(mobile, type)
- *
- * Purpose
- * Retrieves the resistance mods list for a mobile. This prop is used
- * to store resistance modifications that must be applied AFTER
- * a mobile's base resist such as reactive armor and magic reflection
- *
- *
- * Parameters
- * mobile:	Mobile to retrieve the resistances for.
- * type:	Optional argument.
- *		If 0 or blank, will return a dictionary of all resistance mods.
- *		If specified, will return a double for that value.
- *
- * Return value
- * dictionary or double
- *
- */
-function GetResistanceMods(mobile, type:=0)
-	var resistance_mods := GetObjProperty(mobile, "%ResistanceMods%");
-	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
-		resistance_mods := dictionary;
-	endif
-
-	if ( !type )
-		return resistance_mods;
-	elseif ( resistance_mods.Exists(type) )
-		return CDbl(resistance_mods[type]);
-	else
-		return 1.0;
-	endif
-endfunction
-
-/*
- * SetResistanceMods(mobile, name, value)
- *
- * Purpose
- * Sets a resistance modifier on a mobile.
- *
- * mobile:	Mobile to set the resistance mod value for.
- * name:	Name of the resistance mod type to set.
- * value:	Value for the resistance mod.
- *
- * Return value
- * Returns result of SetObjProperty()
- *
- */
-function SetResistanceMod(mobile, name, value)
-	var resistance_mods := GetResistanceMods(mobile);
-	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
-		resistance_mods := dictionary;
-	endif
-
-	resistance_mods[name] := CDbl(value);
-
-	return SetObjProperty(mobile, "%ResistanceMods%", resistance_mods);
-endfunction
-
-/*
- * ModifyResistance(mobile, name, value)
- * Purpose
- * Modifies a resistance mod value on a mobile.
- *
- * mobile:	Mobile to set the resistance mod value for.
- * name:	Name of the resistance mod type to change.
- * value:	Adjustment to the value.
- *
- * Return value
- * Returns result of SetObjProperty()
- *
- */
-function ModifyResistanceMod(mobile, name, value)
-	var resistance_mods := GetResistanceMods(mobile);
-	if ( Lower(TypeOf(resistance_mods)) != "dictionary" )
-		resistance_mods := dictionary;
-	endif
-
-	var cur_value := CDbl(resistance_mods[name]);
-	value := cur_value + CDbl(value);
-
-	resistance_mods[name] := value;
-
-	return SetObjProperty(mobile, "%ResistanceMods%", resistance_mods);
 endfunction
 
 /*
