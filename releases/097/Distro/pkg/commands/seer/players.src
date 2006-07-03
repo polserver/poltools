@@ -13,7 +13,7 @@ CONST SUMMON_START	:= 0xA000;
 CONST GOTO_START	:= 0xF000;
 
 program textcmd_Players(who, text)
-	var online_list := GotoArray(who);
+	var online_list := EnumerateOnlineCharactersABC(SORT_ASCENDING, who.cmdlevel);
 	var input;
 
 	if ( text )
@@ -100,22 +100,4 @@ function PlayerListGump(who, byref online_list)
 
 	var input := GFSendGump(who, gump);
 	return input[0];
-endfunction
-
-/*
- * Makes sure that the user only sees people who are concealed at or below
- * the user's command level. Allows admins to hide from GMs. Seers from counselors.
- * etc.
- *
- */
-function GotoArray(who)
-	var thearray := array{};
-	foreach person in EnumerateOnlineCharactersABC()
-		if ( person.concealed <= who.cmdlevel )
-			thearray.Append(person);
-		endif
-		SleepMS(2);
-	endforeach
-
-	return thearray;
 endfunction
