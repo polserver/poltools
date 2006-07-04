@@ -12,7 +12,6 @@
 
 use uo;
 use os;
-use cfgfile;
 
 /*
  * RACE_GetSettingsCfgFile(engine_name)

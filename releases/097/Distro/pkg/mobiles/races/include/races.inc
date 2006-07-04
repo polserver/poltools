@@ -6,6 +6,7 @@ use uo;
 use cfgfile;
 
 include ":datafile:datafile";
+include "settings";
 
 /*
  * RACE_GetDataFile(mobile)
@@ -96,13 +97,15 @@ endfunction
  *
  */
 function RACE_SetMobileRaceName(mobile, race_name)
-	//Needs to be a settings.cfg value
-	//mobile.title_race := race_name;
+	var settings := RACE_GetSettingsCfgElem("Settings");
+	if ( settings.ShowTitle_Race)
+		mobile.title_race := race_name;
+	endif
 
 	if ( mobile.acctname )
 		var data_elem := RACE_GetDataFile(mobile);
-		data_elem.SetProp("Race", race_name);
+		return data_elem.SetProp("Race", race_name);
 	else
-		SetObjProperty(mobile, "Race", race_name);
+		return SetObjProperty(mobile, "Race", race_name);
 	endif
 endfunction
