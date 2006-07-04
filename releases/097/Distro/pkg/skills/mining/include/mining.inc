@@ -40,28 +40,45 @@ function IsMinable(x, y, realm, objtype:=0)
 	return 0;
 endfunction
 
-/* 
+/*
+ * ListOreTypes()
+ *
+ * Purpose
+ * Retrieves a list of ores that can be mined from settings.cfg
+ *
+ * Parameters
+ *
+ * Return Values
+ * Returns an array of strings.
+ *
+ */
+function ListOreTypes()
+	var settings := MSP_GetSettingsCfgElem("OreTypes");
+	return GetConfigStringArray(settings, "OreType");
+endfunction
+
+/*
  * ListOreVeinsNearMobile(mobile, range)
  *
  * Purpose
  * Finds ore veins that are near a mobile.
  *
  * Parameters
- * mobile:	Mobile to search around.
+ * targ:	Struct (.x, .y, .z, .realm) to search around.
  * range:	Distance to search.
  *
  * Return Values
  * Returns an array of item references
  *
  */
-function ListVeinsNearMobile(mobile, range)
+function ListVeinsNearMobile(targ, range)
 	var vein_list := array;
-	foreach item in ( ListItemsNearLocation(mobile.x, mobile.y, mobile.z, range, mobile.realm) )
+	foreach item in ( ListItemsNearLocation(targ.x, targ.y, targ.z, range, targ.realm) )
 		if ( item.IsOreVein() )
 			vein_list.Append(item);
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return vein_list;
 endfunction
