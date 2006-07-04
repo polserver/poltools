@@ -27,6 +27,7 @@ program core_npcDeath(params)
 
 	if ( death_script )
 		params.Append(npc_cfg);
+		params.Append(template);
 		var result := Start_Script(death_script, params);
 		if ( result.errortext )
 			PrintTextAbove(corpse, "Error::Death Script -"+result.errortext);
@@ -45,25 +46,6 @@ program core_npcDeath(params)
 
 	MP_DeathUnmount(corpse);
 endprogram
-
-function NotorietyChecks(corpse)
-	var killer := GetObjProperty(corpse, "LastHit");
-	if ( killer == error )
-		return 0;
-	endif
-
-	var kwho := SystemFindObjectBySerial(killer[2]);
-	AdjustNoto(kwho, corpse);
-
-	// If killer was provoked, give noto to provoker.
-	var provoked := array;
-	provoked := GetObjProperty(kwho, "Provoked");
-	if ( provoked )
-		kwho := SystemFindObjectBySerial(provoked[2]);
-		AdjustNoto(kwho, corpse);
-		EraseObjProperty(killer[2], "Provoked");
-	endif
-endfunction
 
 function GuardKillCheck(corpse)
 	if ( GetObjProperty(corpse, "GuardKill") );
