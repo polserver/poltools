@@ -9,7 +9,7 @@ unload_scripts("selectiongump");
 program SelectionDemo(mobile)
 	var options := PhoneticAlphabet();
 
-	var input := SelectionGump(mobile, "Sample Options Gump", options, BTN_TYPE_RADIO);
+	var input := SelectionGump(mobile, "Sample Options Gump", options, BTN_TYPE_CHECKBOX);
 
 	SendSysMessage(mobile, "Input->"+input);
 endprogram
