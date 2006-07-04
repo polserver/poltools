@@ -45,12 +45,12 @@ function ResZombie(corpse, byref pieces, template)
 	var realm := corpse.realm;
 
 	foreach obj_type in ( pieces )
-		//if ( RandomInt(50) )
+		if ( RandomInt(50) )
 			var piece := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, obj_type, 1);
 			piece.color := corpse.coor;
 			piece.movable := 1;
 			MoveItem(corpse, piece);
-		//endif
+		endif
 		SleepMS(2);
 	endforeach
 
