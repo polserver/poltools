@@ -17,7 +17,7 @@ include ":attributes:attributes";
  *
  * Purpose
  * Gets the name of the attribute that is associated with a skill number.
- * Skills.cfg -> Attributes.cfg
+ * uoskills.cfg -> Attributes.cfg
  *
  * Parameters
  * skill_number:	Skill ID to convert
@@ -31,12 +31,12 @@ function AP_SkillIdToAttributeName(skill_number)
 	if ( skills_cfg.errortext )
 		SysLog("Error::AP_IDToAttributeName() - Unable to open :attributes:uoskills.cfg ->"+skills_cfg.errortext);
 	endif
-	
+
 	var cfg_elem := skills_cfg[skill_number];
 	if ( cfg_elem.errortext )
 		SysLog("Error::AP_IDToAttributeName() - unable to find cfg elem ["+skill_number+"] ->"+cfg_elem.errortext);
 	endif
-	
+
 	return cfg_elem.Attribute;
 endfunction
 
@@ -45,7 +45,7 @@ endfunction
  *
  * Purpose
  * Gets the skill number (ID) that an attribute name is associated with.
- * Attributes.cfg -> Skills.cfg
+ * Attributes.cfg -> uoskills.cfg
  *
  * Parameters
  * attribute_name:	Attribute name to convert.
@@ -56,6 +56,6 @@ endfunction
  */
 function AP_AttributeNameToSkillId(attribute_name)
 	var cfg_elem := AP_GetAttributeCfgElem(attribute_name);
-	
+
 	return cfg_elem.SkillId;
 endfunction
