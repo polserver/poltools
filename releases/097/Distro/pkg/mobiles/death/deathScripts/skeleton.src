@@ -30,7 +30,7 @@ program DeathScript(params)
 		ResZombie(corpse, pieces, template);
 	else
 		PrintTextAbove(corpse, "*the zombie crumbles to dust*");
-		sleepms(500);
+		SleepMS(500);
 		DestroyItem(corpse);
 	endif
 
@@ -48,18 +48,18 @@ function ResZombie(corpse, byref pieces, template)
 	var realm := corpse.realm;
 
 	foreach obj_type in ( pieces )
-		if ( RandomInt(50) )
+		//if ( RandomInt(50) )
 			var piece := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, obj_type, 1);
 			piece.color := corpse.coor;
 			piece.movable := 1;
 			MoveItem(corpse, piece);
-		endif
-		sleepms(2);
+		//endif
+		SleepMS(2);
 	endforeach
 
 	DestroyItem(corpse);
 
-	Sleep(10);
+	Sleep(3);
 
 	var recovered_pieces := array;
 
@@ -70,7 +70,7 @@ function ResZombie(corpse, byref pieces, template)
 				recovered_pieces.Append(item);
 			endif
 		endif
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	if ( recovered_pieces.Size() == pieces.Size() )
@@ -78,7 +78,7 @@ function ResZombie(corpse, byref pieces, template)
 
 		foreach item in ( recovered_pieces )
 			DestroyItem(item);
-			sleepms(2);
+			SleepMS(2);
 		endforeach
 
 		CreateNPCFromTemplate(template, corpse_x, corpse_y, corpse_z);
@@ -90,8 +90,8 @@ function MoveItem(corpse, item)
 	var newx, newy;
 	var newz;
 	repeat
-		newx := randomint(2)-1;
-		newy := randomint(2)-1;
+		newx := randomint(6)-3;
+		newy := randomint(6)-3;
 		newx := newx+corpse.x;
 		newy := newy+corpse.y;
 
@@ -99,7 +99,7 @@ function MoveItem(corpse, item)
 		if (num_tries > 20)
 			return;
 		endif
-		sleepms(2);
+		SleepMS(2);
 		newz := GetWorldHeight(newx, newy);
 	until ( CheckLOSAt(corpse, newx, newy, newz) );
 
@@ -115,11 +115,14 @@ function MoveItemsToCenter(x, y, byref recovered_pieces)
 
 	while ( line_list.Size() > 0 )
 		foreach item in ( line_list.Keys() )
+			PrintTextAbove(item, "*wiggles*");
 			var coords := line_list[item];
 			var new_coord := line_list[1];
 			MoveObjectToLocation(item, new_coord.x, new_coord.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
 			coords.Erase(1);
 			if ( coords.Size() <= 0 )
+				line_list.Erase(item);
+			elseif ( item.container )
 				line_list.Erase(item);
 			endif
 			SleepMS(2);
