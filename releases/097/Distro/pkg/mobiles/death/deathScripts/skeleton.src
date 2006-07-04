@@ -81,8 +81,14 @@ function ResZombie(corpse, byref pieces, template)
 			SleepMS(2);
 		endforeach
 
-		CreateNPCFromTemplate(template, corpse_x, corpse_y, corpse_z);
+		var npc := CreateNPCFromTemplate(template, corpse_x, corpse_y, corpse_z, 0, realm);
+		if ( npc.errortext )
+			SysLog("Error making npc ->"+npc.errortext);
+			SysLog("template-"+template+"     x-"+corpse_x+"   y-"+corpse_y+"   z-"+corpse_z+"     realm-"+realm);
+		endif
 	endif
+
+	return 1;
 endfunction
 
 function MoveItem(corpse, item)
@@ -115,12 +121,15 @@ function MoveItemsToCenter(x, y, byref recovered_pieces)
 
 	while ( line_list.Size() > 0 )
 		foreach item in ( line_list.Keys() )
-			PrintTextAbove(item, "*wiggles*");
-			var coords := line_list[item];
-			var new_coord := line_list[1];
+			if ( !item )
+				line_list.Erase(item);
+			endif
+
+			var new_coord := line_list[item][1];
 			MoveObjectToLocation(item, new_coord.x, new_coord.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
-			coords.Erase(1);
-			if ( coords.Size() <= 0 )
+			line_list[item].Erase(1);
+
+			if ( line_list[item].Size() <= 0 )
 				line_list.Erase(item);
 			elseif ( item.container )
 				line_list.Erase(item);
@@ -128,7 +137,7 @@ function MoveItemsToCenter(x, y, byref recovered_pieces)
 			SleepMS(2);
 		endforeach
 
-		SleepMS(200);
+		SleepMS(850);
 	endwhile
 
 	return 1;
