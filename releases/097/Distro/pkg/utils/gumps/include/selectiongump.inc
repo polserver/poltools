@@ -53,11 +53,31 @@ function SelectionGump(mobile, title, options, btn_type:=BTN_TYPE_NORMAL)
 	GFPage(s_gump, 1);
 	var y_pos := 40;
 	foreach entry in ( options )
-		GFTextLine(s_gump, 20, y_pos, 1153, entry);
+		case ( btn_type )
+			BTN_TYPE_NORMAL:
+				GFAddButton(s_gump, 20, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _entry_iter);
+				break;
+			BTN_TYPE_CHECKBOX:
+				GFCheckBox(s_gump, 20, y_pos, 210, 211, 0, _entry_iter);
+				break;
+			BTN_TYPE_RADIO:
+				GFRadioButton(s_gump, 20, y_pos, 210, 211, 0, _entry_iter);
+				break;
+		endcase
+		GFTextLine(s_gump, 40, y_pos, 1153, entry);
 		y_pos := y_pos+20;
+
+		if ( _entry_iter % 18 == 0 && _entry_iter < options.Size() )
+			GFAddButton(s_gump, 283, 385, 0xA92, 0xA93, GF_PAGE_BTN, s_gump.cur_page+1);
+			GFPage(s_gump, s_gump.cur_page+1);
+			GFAddButton(s_gump, 283, 40, 0xA90, 0xA91, GF_PAGE_BTN, s_gump.cur_page-1);
+			y_pos := 40;
+		endif
+
+
 		SleepMS(2);
 	endforeach
 
 	var input := GFSendGump(mobile, s_gump);
-
+	return input;
 endfunction
