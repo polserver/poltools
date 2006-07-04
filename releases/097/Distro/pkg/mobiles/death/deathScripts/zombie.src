@@ -71,7 +71,9 @@ function ResZombie(corpse, byref pieces, template)
 	endforeach
 
 	if ( recovered_pieces.Size() == pieces.Size() )
-		MoveItemsToCenter(corpse_x, corpse_y, recovered_pieces);
+		if ( !MoveItemsToCenter(corpse_x, corpse_y, recovered_pieces) )
+			return 0;
+		endif
 
 		foreach item in ( recovered_pieces )
 			DestroyItem(item);
@@ -119,7 +121,8 @@ function MoveItemsToCenter(x, y, byref recovered_pieces)
 	while ( line_list.Size() > 0 )
 		foreach item in ( line_list.Keys() )
 			if ( !item )
-				line_list.Erase(item);
+				// Item was lost, it is no longer valid.
+				return 0;
 			endif
 
 			var new_coord := line_list[item][1];
@@ -127,9 +130,11 @@ function MoveItemsToCenter(x, y, byref recovered_pieces)
 			line_list[item].Erase(1);
 
 			if ( line_list[item].Size() <= 0 )
+				// Successfully moved to the center.
 				line_list.Erase(item);
 			elseif ( item.container )
-				line_list.Erase(item);
+				// A player is holding the item, its no longer valid.
+				return 0;
 			endif
 			SleepMS(2);
 		endforeach
