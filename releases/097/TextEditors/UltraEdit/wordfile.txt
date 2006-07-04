@@ -10,7 +10,7 @@
 /Function String 1 = "%[ ^t]++program [a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)[ ^t]++$"
 /Function String 2 = "%[ ^t]++function ^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^)[ ^t]++$"
 /Function String 3 = "%[ ^t]++exported function ^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^)[ ^t]++$"
-/Function String 4 = "%^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++)^);$"
+/Function String 4 = "%^([a-zA-Z0-9_]+([0-9a-zA-Z_,:=+ 	^-^"]++);^)$"
 /Indent Strings = "case" "else" "elseif" "enum" "for" "foreach" "function" "if" "program" "repeat" "while" "do"
 /Unindent Strings = "else" "elseif" "endif" "endfunction" "endprogram" "endwhile" "endcase" "endenum" "endfor" "endforeach" "until" "dowhile"
 /Open Brace Strings = "case" "else" "elseif" "enum" "for" "foreach" "function" "if" "program" "repeat" "while" "do" "{" "(" "["
