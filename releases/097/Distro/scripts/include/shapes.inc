@@ -2,7 +2,7 @@
  * $Id*
  *
  */
- 
+
 use uo;
 use os;
 use math;
@@ -20,7 +20,7 @@ use math;
  *
  * Return value
  * Array of structs (.x, .y)
- * 
+ *
  */
 function GetCoordsInSquare(mid_x, mid_y, radius)
 	var x_row := CInt(mid_x)-CInt(radius);
@@ -30,7 +30,7 @@ function GetCoordsInSquare(mid_x, mid_y, radius)
 
 	var point_list := array{};
 	var coord := struct{"x", "y"};
-	
+
 	for ( x_row:=(mid_x-radius); x_row<=stop_x; x_row+=1 )
 		for ( y_col:=(mid_y-radius); y_col<=stop_y; y_col+=1 )
 			coord.x := x_row;
@@ -40,7 +40,7 @@ function GetCoordsInSquare(mid_x, mid_y, radius)
 		endfor
 		SleepMS(2);
 	endfor
-	
+
 	return point_list;
 endfunction
 
@@ -58,26 +58,26 @@ endfunction
  *
  * Return value
  * Array of structs (.x, .y)
- * 
+ *
  */
 function GetCoordsInRect(x1, y1, x2, y2)
 	var point_list := array{};
 	var coord := struct{"x", "y"};
-	
+
 	x1 := CInt(x1);
 	y1 := CInt(y1);
 	x2 := CInt(x2);
 	y2 := CInt(y2);
-	
+
 	if ( x1 > x2 )
-		x1 := x1*-1;
-		x2 := x2*-1;
+		x1 *= -1;
+		x2 *= -1;
 	endif
 	if ( y1 > y2 )
-		y1 := y1*-1;
-		y2 := y2*-1;
+		y1 *= -1;
+		y2 *= -1;
 	endif
-	
+
 	var sx, sy;
 	for ( sx:=x1; sx<=x2; sx+=1 )
 		for ( sy:=y1; sy<=y2; sy+=1 )
@@ -88,7 +88,7 @@ function GetCoordsInRect(x1, y1, x2, y2)
 		endfor
 		SleepMS(2);
 	endfor
-	
+
 	return point_list;
 endfunction
 
@@ -105,7 +105,7 @@ endfunction
  *
  * Return value
  * Array of structs (.x, .y)
- * 
+ *
  */
 function GetCoordsInCircle(mid_x, mid_y, radius)
 	mid_x := CInt(mid_x);
@@ -114,7 +114,7 @@ function GetCoordsInCircle(mid_x, mid_y, radius)
 	return error{"errortext":="Hasn't been coded yet!"};
 endfunction
 
-/* 
+/*
  * GetCoordsInPolygon(coord_list)
  *
  * Purpose
@@ -135,9 +135,9 @@ function GetCoordsInPolygon(coord_list)
 	if ( num_coords < 3 )
 		return error{"errortext":="Needs atleast three coordinates to form a polygon."};
 	endif
-	
+
 	//var start_coord := coord_list[1];
 	//var end_coord := coord_list[num_coords];
-	
+
 	return error{"errortext":="Hasn't been coded yet!"};
 endfunction

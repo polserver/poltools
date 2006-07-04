@@ -72,7 +72,7 @@ endfunction
  */
 function IsBehind(tgt_mob, locx, locy)
 	var frot := Abs(((tgt_mob.facing+4)%8)-GetFacing(tgt_mob.x,tgt_mob.y,locx,locy));
-	if (frot > 4)
+	if ( frot > 4 )
 		frot := 8-frot;
 	endif
 
@@ -90,7 +90,7 @@ endfunction
  * y_pos:	Y coordinate to start on.
  * facing:	Direction (0-7) to go on the line.
  * dist:	Distance to go along the line.
- * 
+ *
  * Return Value
  * Returns an array of structs containing .x .y members for coordinates.
  *
@@ -98,7 +98,7 @@ endfunction
 function GetPointsByFacing(x_pos, y_pos, facing, dist)
 	var coord := struct{"x", "y"};
 	var coord_list := array{};
-	
+
 	var xmod := 0, ymod := 0;
 	case ( facing ) // Should find a more sleek mathish way to do this!
 		0: xmod := 0;  ymod := -1; break;
@@ -113,14 +113,14 @@ function GetPointsByFacing(x_pos, y_pos, facing, dist)
 			return error{"errortext":="Invalid facing."};
 			break;
 	endcase
-	
+
 	var i;
-	for( i:=1; i<=dist; i:=i+1 )
+	for( i:=1; i<=dist; i+=1 )
 		coord.x := x_pos+(i*xmod);
 		coord.y := y_pos+(i*ymod);
 		coord_list.Append(coord);
 		SleepMS(2);
-	endfor	
-		
+	endfor
+
 	return coord_list;
 endfunction
