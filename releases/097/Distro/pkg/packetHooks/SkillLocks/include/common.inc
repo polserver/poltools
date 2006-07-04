@@ -1,5 +1,5 @@
 /*
- * $Id: common.inc 474 2006-06-29 07:15:00Z tekproxy $
+ * $Id$
  *
  */
 
