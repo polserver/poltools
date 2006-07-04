@@ -116,7 +116,7 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 		while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(mobile, stat_name)) )
 			// Kludge for an old core precision bug.
 			// Makes sure it always goes up atleast 0.1.
-			temp := temp+0.1;
+			temp += 0.1;
 			SleepMS(10);
 		endwhile
 
@@ -247,8 +247,6 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 		endif
 
 		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": "+advance);
-
-		var temp;
 
 		if ( lower_skill )
 			var lower_skill_value := AP_GetTrueSkill(mobile, lower_skill);
