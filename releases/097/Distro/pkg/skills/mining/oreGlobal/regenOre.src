@@ -11,16 +11,16 @@ include ":mining:report";
 
 program GlobalControl()
 	MSP_ReportText("---=[ GLOBAL ORE REGENERATOR HAS STARTED UP ]=---", MSP_REPORT_SYSLOG);
-	
+
 	var settings := MSP_GetSettingsCfgElem("Settings");
 	var cycle_wait := CInt(settings.RegenWait);
 	if ( cycle_wait < 1 )
 		cycle_wait := 30;
 	endif
 	cycle_wait *= 60;
-	
+
 	SetGlobalProperty("#GlobalOreRegenPId", GetPid());
-	
+
 	Set_Priority(1);
 	while( 1 )
 		Sleep(cycle_wait);
@@ -31,12 +31,16 @@ endprogram
 function RegenVeins()
 	MSP_ReportText("Running global ore regeneration cycle...", MSP_REPORT_SYSLOG);
 	var data_file := DFOpenDataFile("OreSpots", DF_CREATE);
-	
+
 	foreach elem_name in DFGetElemNames(data_file)
-		// Regen ore here
-		
+		var data_elem := DFFIndElement(data_file, elem_name);
+		var amount := CInt(data_elem.GetProp("RemainingOre"));
+		amount += 1;
+
+		data_elem.SetProp("RemainingOre", amount);
+
 		Sleep(1);
 	endforeach
-	
+
 	return 1;
 endfunction
