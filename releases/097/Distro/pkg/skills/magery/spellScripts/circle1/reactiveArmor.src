@@ -1,10 +1,10 @@
 /*
  * $Id$
  *
- * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points, 
- * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each. 
+ * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points,
+ * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each.
  * Lasts until cast again.
- * 
+ *
  */
 
 use uo;
@@ -21,13 +21,13 @@ program SpellScript_ReactiveArmor(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
-	
+
 	if ( GetObjProperty(mobile, "ReactiveArmor") )
 		RemoveReactiveArmor(mobile);
 	else
 		ApplyReactiveArmor(mobile);
 	endif
-	
+
 	PlaySoundEffect(mobile, SFX_SPELL_REACTIVE_ARMOR);
 	PlayObjectCenteredEffect(mobile, GFX_RED_SPARKLES, 7, 16);
 

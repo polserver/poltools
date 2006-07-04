@@ -81,7 +81,7 @@ function BreakArray(byref the_array, size:=1)
 		for ( i; i<=arrays_needed; i+=1 )
 			new_arrays.Append(GetArrayRange(the_array, start, stop));
 			start := stop+1;
-			stop := stop+size;
+			stop += size;
 			SleepMS(2);
 		endfor
 

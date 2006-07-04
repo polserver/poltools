@@ -11,10 +11,10 @@ var struptime;
 uptime := uptime / 60;
 
 if (uptime > 60)
-  uptime := uptime /60;
-  struptime := CStr(uptime)+" hours";
+	uptime := uptime /60;
+	struptime := CStr(uptime)+" hours";
 else
-  struptime := CStr(uptime)+" minutes";
+	struptime := CStr(uptime)+" minutes";
 endif
 writehtml(" <body bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>");
 writehtml("<td valign=top width=24></td><!--msnavigation--><td valign=top><h1 align=center><a href=http://pol.tumbolia.org>POL</a></h1>");
