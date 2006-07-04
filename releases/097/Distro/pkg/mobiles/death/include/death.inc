@@ -9,6 +9,7 @@ use os;
 use util;
 
 include ":brainAI:npcUtil";
+include ":death:settings";
 
 /*
  * DP_PlayDeathSound(corpse, ghost:=0)
@@ -24,7 +25,7 @@ include ":brainAI:npcUtil";
  */
 function DP_PlayDeathSound(object)
 	var death_sound := 0;
-	
+
 	if ( object.IsA(POLCLASS_CORPSE) )
 		var template := GetObjProperty(object, "npctemplate"); // Set by core
 		if ( template )
@@ -37,18 +38,20 @@ function DP_PlayDeathSound(object)
 		// No sound selected yet.
 		if ( object.graphic == 402 || object.corpsetype == 400 )
 			 // Male ghost / corpse
-			var sounds := array{347, 348, 349, 350};
-			death_sound := sounds[RandomInt(sounds.Size())+1];
+			var cfg_elem := DP_GetSettingsCfgElem("MaleSounds");
+			var sounds := GetConfigStringArray(cfg_elem, "Sound");
+			death_sound := CInt(sounds[RandomInt(sounds.Size())+1]);
 		elseif ( object.graphic == 403 || object.corpsetype == 401 )
 			 // Female ghost / corpse
-			var sounds := array{337, 338, 339, 340};
-			death_sound := sounds[RandomInt(sounds.Size())+1];
+			var cfg_elem := DP_GetSettingsCfgElem("FemaleSounds");
+			var sounds := GetConfigStringArray(cfg_elem, "Sound");
+			death_sound := CInt(sounds[RandomInt(sounds.Size())+1]);
 		endif
 	endif
 
 	if ( death_sound )
 		PlaySoundEffect(object, death_sound);
 	endif
-	
+
 	return death_sound;
 endfunction
