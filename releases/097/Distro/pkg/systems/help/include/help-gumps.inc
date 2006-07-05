@@ -5,7 +5,9 @@
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
-CONST CLOSE_BTN	:= 0xA00;
+CONST CLOSE_BTN			:= 0xA001;
+CONST COUNSELOR_PAGE_BTN	:= 0xA002;
+CONST STAFF_PAGE_BTN		:= 0xA003;
 
 function BuildGumpTemplate(byref settings)
 	var gump := GFCreateGump();
@@ -53,14 +55,21 @@ function BuildBottomBar(byref gump, byref settings)
 endfunction
 
 function BuildPage1Gump(byref gump, byref settings)
-	var text;
+	var text, y_pos := 70;
 
 	GFPage(gump, 1);
 	GFAddButton(gump, 210, 50, 4005, 4006, GF_PAGE_BTN, 2);
 	GFTextLine(gump, 250, 50, 1720, "General questions about "+settings.ShardName);
 	text := "Select this option if you are having difficulties learning to use a skill,
 		if you are lost or if you have general gameplay questions.";
-	DrawWrappedText(gump, 250, 70, GFWordWrap(text, 380));
+	y_pos := DrawWrappedText(gump, 250, y_pos, GFWordWrap(text, 380));
+
+	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_CLOSE_BTN, COUNSELOR_PAGE_BTN);
+	GFTextLine(gump, 250, y_pos, 1720, "Contact a counselor");
+	text := "A counselor is an experienced player on the shard who has volunteered time
+		to help answer questions. Selecting this option will let you send a message to a
+		counselor. Please remember they are volunteers and may not be availale at all times.";
+	DrawWrappedText(gump, 250, y_pos+20, GFWordWrap(text, 380));
 
 
 	return 1;
@@ -73,5 +82,5 @@ function DrawWrappedText(byref gump, x_pos, start_y, byref text_lines)
 		SleepMS(2);
 	endforeach
 
-	return 1;
+	return start_y;
 endfunction
