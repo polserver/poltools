@@ -19,11 +19,11 @@ program PageRequest(who)
 	else
 		SetObjProperty(who, "#HelpPID", GetPid());
 	endif
-
-	var gump := LoadGump("MainGump");
+	var settings := HS_GetSettingsCfgElem("Settings");
+	var gump := LoadGump("IntroGump");
 	if ( !gump )
-		gump := BuildGumpTemplate();
-		//SaveGump("MainGump", gump);
+		gump := BuildIntroGump(settings);
+		//SaveGump("IntroGump", gump);
 	endif
 
 	var input := GFSendGump(who, gump);
