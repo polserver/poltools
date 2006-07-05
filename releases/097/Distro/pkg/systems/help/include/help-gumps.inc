@@ -13,8 +13,10 @@ CONST COUNSELOR_PAGE_BTN	:= 0xA002;
 CONST STAFF_PAGE_BTN		:= 0xA003;
 CONST HELP_TOPICS_BTN		:= 0xA004;
 
-CONST COUN_TXT_START		:= 0xA0001;
-CONST STAFF_TXT_START		:= 0xB0002;
+CONST HELP_TOPIC_START		:= 0xA0001;
+
+CONST COUN_TXT_START		:= 0xB0001;
+CONST STAFF_TXT_START		:= 0xC0002;
 
 function BuildGumpTemplate(byref settings)
 
@@ -53,13 +55,13 @@ function BuildIntroGump(byref settings)
 	var text, y_pos := 50;
 
 	GFAddButton(gump, 210, y_pos, 4005, 4006, GF_CLOSE_BTN, HELP_TOPICS_BTN);
-	GFTextLine(gump, 245, y_pos, 1720, "General questions about "+settings.ShardName);
+	GFTextLine(gump, 245, y_pos, 1720, "General questions about "+settings.ShardName+".");
 	text := "Select this option if you are having difficulties learning to use a skill,
 		if you are lost or if you have general gameplay questions.";
 	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
 	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_CLOSE_BTN, COUNSELOR_PAGE_BTN);
-	GFTextLine(gump, 245, y_pos, 1720, "Contact a counselor");
+	GFTextLine(gump, 245, y_pos, 1720, "Contact a counselor.");
 	text := "A counselor is an experienced player on the shard who has volunteered time
 		to help answer questions. Selecting this option will let you send a message to a
 		counselor. Please remember they are volunteers and may not be availale at all times.";
@@ -103,6 +105,24 @@ function BuildHelpTopicsIndexGump(byref settings)
 
 	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
 	GFTextLine(gump, 245, 345, 2100, "Back");
+
+	GFPage(gump, 1);
+	var y_pos := 50;
+	var help_cfg := ReadConfigFile(":help:helptopics");
+	foreach elem_name in ( GetConfigStringKeys(help_cfg) )
+		GFAddButton(gump, 210, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, HELP_TOPIC_START+_elem_name_iter);
+		GFTextLine(gump, 230, y_pos, 2100, elem_name);
+		y_pos += 20;
+
+		if ( _elem_name_iter % 14 == 0 )
+			GFAddButton(gump, 565, 350, 0xA58, 0xA59, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 565, 46, 0xA5A, 0xA5B, GF_PAGE_BTN, gump.cur_page-1);
+			y_pos := 50;
+		endif
+
+		SleepMS(2);
+	endforeach
 
 	return gump;
 endfunction
