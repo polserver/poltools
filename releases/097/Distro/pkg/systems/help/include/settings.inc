@@ -1,5 +1,5 @@
 /*
- * $Id: settings.inc 373 2006-06-17 18:27:33Z austinheilman $
+ * $Id$
  *
  */
 
