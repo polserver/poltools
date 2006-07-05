@@ -31,9 +31,9 @@ function BuildGMBox(byref gump, byref settings)
 	GFGumpPic(gump, 20, 125, 0xC, 1023);
 	GFGumpPic(gump, 20, 125, 0xC72B, 2101);
 	GFGumpPic(gump, 20, 125, 0xC5B9);
+	GFGumpPic(gump, 20, 100, 0xC541, 1719); // Halo ;p
 
-	var text := "Greetings, traveler! [P]
-		This menu will help guide you to the best place for answers about
+	var text := "This menu will help guide you to the best place for answers about
 		"+settings.ShardName+". Please choose from the options on the right.";
 
 	DrawWrappedText(gump, 25, 55, GFWordWrap(text, 175));
@@ -62,25 +62,31 @@ function BuildPage1Gump(byref gump, byref settings)
 	GFTextLine(gump, 250, 50, 1720, "General questions about "+settings.ShardName);
 	text := "Select this option if you are having difficulties learning to use a skill,
 		if you are lost or if you have general gameplay questions.";
-	y_pos := DrawWrappedText(gump, 250, y_pos, GFWordWrap(text, 380));
+	DrawWrappedText(gump, 250, y_pos, GFWordWrap(text, 380));
 
-	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_CLOSE_BTN, COUNSELOR_PAGE_BTN);
+	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, COUNSELOR_PAGE_BTN);
 	GFTextLine(gump, 250, y_pos, 1720, "Contact a counselor");
 	text := "A counselor is an experienced player on the shard who has volunteered time
 		to help answer questions. Selecting this option will let you send a message to a
 		counselor. Please remember they are volunteers and may not be availale at all times.";
-	DrawWrappedText(gump, 250, y_pos+20, GFWordWrap(text, 380));
+	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
+	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, STAFF_PAGE_BTN);
+	GFTextLine(gump, 250, y_pos, 1720, "Contact a staff member.");
+	text := "If you are experiencing a problem in the game such as being stuck, harased by
+		another player or other game stopping issue, you may contact a game master or other
+		staff member here.";
+	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
 	return 1;
 endfunction
 
-function DrawWrappedText(byref gump, x_pos, start_y, byref text_lines)
+function DrawWrappedText(byref gump, byref x_pos, byref y_pos, byref text_lines)
 	foreach line in ( text_lines )
-		GFTextLine(gump, x_pos, start_y, 2100, line);
-		start_y += 20;
+		GFTextLine(gump, x_pos, y_pos, 2100, line);
+		y_pos += 20;
 		SleepMS(2);
 	endforeach
 
-	return start_y;
+	return 1;
 endfunction
