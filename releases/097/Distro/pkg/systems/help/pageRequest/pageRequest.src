@@ -3,19 +3,33 @@
  */
 
 use uo;
+use os;
 
+include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":help:help-gumps";
-include ":help:settings";
 
 unload_scripts("");
 
 program PageRequest(who)
-	var settings := HS_GetSettingsCfgElem("Settings");
+	if ( GetProcess(GetObjProperty(who, "#HelpPID")) )
+		SendSysMessage(who, "You already have a help gump open.");
+		return 0;
+	else
+		SetObjProperty(who, "#HelpPID", GetPid());
+	endif
 
-	var gump := BuildGumpTemplate(settings);
-	GFSendGump(who, gump);
+	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
+	var data_elem := DFFindElement(data_file, "HelpGump");
+	var gump := data_elem.GetProp("Gump");
+	if ( !gump )
+		gump := BuildGumpTemplate();
+		data_elem.SetProp("Gump", gump);
+	endif
+
+	var input := GFSendGump(who, gump);
+	SendSysMessage(who, "Input->"+input[0]);
 
 	return 1;
 endprogram
