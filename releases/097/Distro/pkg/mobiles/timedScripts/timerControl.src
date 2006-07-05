@@ -139,10 +139,13 @@ endfunction
 function AddNewTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
 
-	var script := Start_Script(elem_info.Script, {mobile, event.attacker, event.level});
-	if( script.errortext )
-		SysLog("Error::AddNewTimer() - Unable to start script ["+elem_info.Script+"] ->"+script.errortext);
-		return 0;
+	var script;
+	if ( elem_info.Script )
+		script := Start_Script(elem_info.Script, {mobile, event.attacker, event.level});
+		if( script.errortext )
+			SysLog("Error::AddNewTimer() - Unable to start script ["+elem_info.Script+"] ->"+script.errortext);
+			return 0;
+		endif
 	endif
 
 	var maxdur := CInt(elem_info.MaxDuration);
