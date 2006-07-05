@@ -7,9 +7,11 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":help:settings";
 
-CONST CLOSE_BTN			:= 0xA001;
+CONST CLOSE_BTN			:= 0xA000;
+CONST MAIN_PAGE_BTN		:= 0xA001;
 CONST COUNSELOR_PAGE_BTN	:= 0xA002;
 CONST STAFF_PAGE_BTN		:= 0xA003;
+CONST HELP_TOPICS_BTN		:= 0xA004;
 
 CONST COUN_TXT_START		:= 0xA0001;
 CONST STAFF_TXT_START		:= 0xB0002;
@@ -50,21 +52,20 @@ function BuildIntroGump(byref settings)
 	var gump := BuildGumpTemplate(settings);
 	var text, y_pos := 50;
 
-	GFPage(gump, 1);
-	GFAddButton(gump, 210, y_pos, 4005, 4006, GF_PAGE_BTN, 2);
+	GFAddButton(gump, 210, y_pos, 4005, 4006, GF_CLOSE_BTN, HELP_TOPICS_BTN);
 	GFTextLine(gump, 245, y_pos, 1720, "General questions about "+settings.ShardName);
 	text := "Select this option if you are having difficulties learning to use a skill,
 		if you are lost or if you have general gameplay questions.";
 	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
-	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, COUNSELOR_PAGE_BTN);
+	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_CLOSE_BTN, COUNSELOR_PAGE_BTN);
 	GFTextLine(gump, 245, y_pos, 1720, "Contact a counselor");
 	text := "A counselor is an experienced player on the shard who has volunteered time
 		to help answer questions. Selecting this option will let you send a message to a
 		counselor. Please remember they are volunteers and may not be availale at all times.";
 	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
-	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, STAFF_PAGE_BTN);
+	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_CLOSE_BTN, STAFF_PAGE_BTN);
 	GFTextLine(gump, 245, y_pos, 1720, "Contact a staff member.");
 	text := "If you are experiencing a problem in the game such as being stuck, harased by
 		another player or other game stopping issue, you may contact a game master or other
@@ -74,10 +75,9 @@ function BuildIntroGump(byref settings)
 	return gump;
 endfunction
 
-function BuildTextEntry(title, page_num, txt_start)
+function BuildTextEntryGump(title, send_id, txt_start, byref settings)
 	var gump := BuildGumpTemplate(settings);
 
-	GFPage(gump, page_num);
 	GFTextMid(gump, 210, 50, 380, 2100, title);
 
 	GFResizePic(gump, 210, 70, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
@@ -89,21 +89,19 @@ function BuildTextEntry(title, page_num, txt_start)
 		SleepMS(2);
 	endfor
 
-	GFAddButton(gump, 210, 345, 4014, 4015, GF_PAGE_BTN, 1);
+	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
 	GFTextLine(gump, 245, 345, 2100, "Back");
 
-	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, STAFF_PAGE_BTN);
+	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, send_id);
 	GFTextLine(gump, 485, 345, 2100, "Send Page");
 
 	return gump;
 endfunction
 
-function BuildHelpTopicsIndexGump()
+function BuildHelpTopicsIndexGump(byref settings)
 	var gump := BuildGumpTemplate(settings);
 
-	GFPage(gump, 2);
-
-	GFAddButton(gump, 210, 345, 4014, 4015, GF_PAGE_BTN, 1);
+	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
 	GFTextLine(gump, 245, 345, 2100, "Back");
 
 	return gump;
