@@ -109,7 +109,11 @@ function BuildHelpTopicsIndexGump(byref settings)
 	GFPage(gump, 1);
 	var y_pos := 50;
 	var help_cfg := ReadConfigFile(":help:helptopics");
-	foreach elem_name in ( GetConfigStringKeys(help_cfg) )
+	var elem_names := GetConfigStringKeys(help_cfg);
+
+	SaveHelpInfo("TopicNames", "List", elem_names);
+
+	foreach elem_name in ( elem_names )
 		GFAddButton(gump, 210, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, HELP_TOPIC_START+_elem_name_iter);
 		GFTextLine(gump, 230, y_pos, 2100, elem_name);
 		y_pos += 20;
@@ -127,6 +131,27 @@ function BuildHelpTopicsIndexGump(byref settings)
 	return gump;
 endfunction
 
+function BuildHelpTopicGump(topic_name, byref settings)
+	var gump := BuildGumpTemplate(settings);
+
+	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, HELP_TOPICS_BTN);
+	GFTextLine(gump, 245, 345, 2100, "Back");
+
+	GFPage(gump, 1);
+	var help_cfg := ReadConfigFile(":help:helptopics");
+	var help_elem := help_cfg[topic_name];
+
+	var text := "<CENTER><U>"+topic_name+"</U></CENTER>";
+	foreach line in ( GetConfigStringArray(help_elem, "Text") )
+		text += line+" ";
+		SleepMS(2);
+	endforeach
+
+	GFHTMLArea(gump, 210, 50, 370, 270, text, 1, 1);
+
+	return gump;
+endfunction
+
 function DrawWrappedText(byref gump, byref x_pos, byref y_pos, byref text_lines)
 	foreach line in ( text_lines )
 		GFTextLine(gump, x_pos, y_pos, 2100, line);
@@ -137,14 +162,14 @@ function DrawWrappedText(byref gump, byref x_pos, byref y_pos, byref text_lines)
 	return 1;
 endfunction
 
-function LoadGump(gump_name)
-	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
-	var data_elem := DFFindElement(data_file, gump_name, DF_CREATE);
-	return data_elem.GetProp("Gump");
+function LoadHelpInfo(elem_name, prop_name)
+	var data_file := DFOpenDataFile(":help:helpsys", DF_CREATE);
+	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
+	return data_elem.GetProp(prop_name);
 endfunction
 
-function SaveGump(gump_name, byref gump)
-	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
-	var data_elem := DFFindElement(data_file, gump_name, DF_CREATE);
-	return data_elem.SetProp("Gump", gump);
+function SaveHelpInfo(elem_name, prop_name, byref data)
+	var data_file := DFOpenDataFile(":help:helpsys", DF_CREATE);
+	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
+	return data_elem.SetProp(prop_name, data);
 endfunction
