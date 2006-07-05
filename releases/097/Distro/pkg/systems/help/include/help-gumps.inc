@@ -6,6 +6,7 @@ include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":help:settings";
+include "include/arrays";
 
 CONST CLOSE_BTN			:= 0xA000;
 CONST MAIN_PAGE_BTN		:= 0xA001;
@@ -142,10 +143,7 @@ function BuildHelpTopicGump(topic_name, byref settings)
 	var help_elem := help_cfg[topic_name];
 
 	var text := "<CENTER><U>"+topic_name+"</U></CENTER>";
-	foreach line in ( GetConfigStringArray(help_elem, "Text") )
-		text += line+" ";
-		SleepMS(2);
-	endforeach
+	text += ImplodeArray(" ", GetConfigStringArray(help_elem, "Text"));
 
 	GFHTMLArea(gump, 210, 50, 370, 270, text, 1, 1);
 
