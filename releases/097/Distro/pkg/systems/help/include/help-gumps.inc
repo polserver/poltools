@@ -137,3 +137,15 @@ function DrawWrappedText(byref gump, byref x_pos, byref y_pos, byref text_lines)
 
 	return 1;
 endfunction
+
+function LoadGump(gump_name)
+	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
+	var data_elem := DFFindElement(data_file, gump_name, DF_CREATE);
+	return data_elem.GetProp("Gump");
+endfunction
+
+function SaveGump(gump_name, byref gump)
+	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
+	var data_elem := DFFindElement(data_file, gump_name, DF_CREATE);
+	return data_elem.SetProp("Gump");
+endfunction

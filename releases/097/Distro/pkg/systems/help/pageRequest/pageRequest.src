@@ -20,12 +20,10 @@ program PageRequest(who)
 		SetObjProperty(who, "#HelpPID", GetPid());
 	endif
 
-	var data_file := DFOpenDataFile(":help:gump", DF_CREATE);
-	var data_elem := DFFindElement(data_file, "HelpGump");
-	var gump := data_elem.GetProp("Gump");
+	var gump := LoadGump("MainGump");
 	if ( !gump )
 		gump := BuildGumpTemplate();
-		data_elem.SetProp("Gump", gump);
+		//SaveGump("MainGump", gump);
 	endif
 
 	var input := GFSendGump(who, gump);
