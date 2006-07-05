@@ -26,12 +26,16 @@ function BuildGumpTemplate()
 	BuildGMBox(gump, settings);
 	BuildBottomBar(gump, settings);
 
+	// The "template" ends here, and the stuff im jsut working on begins below..
+
 	BuildPage1Gump(gump, settings);
 
 	BuildHelpTopicsIndexGump(gump);
 
 	BuildTextEntry(gump, "Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START);
 	BuildTextEntry(gump, "Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START);
+
+	// End non template stuff
 
 	return gump;
 endfunction
@@ -42,7 +46,7 @@ function BuildGMBox(byref gump, byref settings)
 	GFGumpPic(gump, 20, 125, 0xC, 1023);
 	GFGumpPic(gump, 20, 125, 0xC72B, 2101);
 	GFGumpPic(gump, 20, 125, 0xC5B9);
-	GFGumpPic(gump, 20, 100, 0xC541, 1719); // Halo ;p
+	GFGumpPic(gump, 20, 100, 0xC541, 1720); // Halo ;p
 
 	var text := "This menu will help guide you to the best place for answers about
 		"+settings.ShardName+". Please choose from the options on the right.";
