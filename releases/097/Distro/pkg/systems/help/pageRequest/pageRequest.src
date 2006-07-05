@@ -6,51 +6,16 @@ use uo;
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":help:help-gumps";
+include ":help:settings";
 
 unload_scripts("");
 
 program PageRequest(who)
-	var gump := BuildGumpTemplate();
+	var settings := HS_GetSettingsCfgElem("Settings");
+
+	var gump := BuildGumpTemplate(settings);
 	GFSendGump(who, gump);
+
 	return 1;
 endprogram
-
-function BuildGumpTemplate()
-	var y_pos;
-
-	var gump := GFCreateGump();
-	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 600, 450);
-	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 570, 25);
-	GFTextMid(gump, 15, 20, 570, 2100, "Help Menu");
-
-	GFResizePic(gump, 15, 45, GFGetCfgConst("Defaults", "ForeGround"), 185, 325);
-	GFResizePic(gump, 20, 50, GFGetCfgConst("BackGrounds", "GoldTrim"), 175, 315);
-	GFGumpPic(gump, 20, 125, 0xC, 1023);
-	GFGumpPic(gump, 20, 125, 0xC72B, 2101);
-	GFGumpPic(gump, 20, 125, 0xC5B9);
-
-	GFResizePic(gump, 15, 375, GFGetCfgConst("Defaults", "ForeGround"), 570, 60);
-	var text := GetTextFor("BottomBar");
-	y_pos := 380;
-	foreach line in ( GFWordWrap(text, 570) )
-		GFTextLine(gump, 20, y_pos, 2100, line);
-		y_pos += 20;
-		SleepMS(2);
-	endforeach
-
-	return gump;
-endfunction
-
-function GetTextFor(section)
-	var gump_cfg := ReadConfigFile(":help:helpmenus");
-	var gump_elem := gump_cfg[section];
-
-	var text_lines := GetConfigStringArray(gump_elem, "Text");
-	var text_string := "";
-	foreach line in ( text_lines )
-		text_string += line+" ";
-		SleepMS(2);
-	endforeach
-
-	return text_string;
-endfunction
