@@ -10,6 +10,36 @@ use os;
 use uo;
 
 /*
+ * ImplodeArray(glue, array)
+ *
+ * Purpose
+ * Returns a string containing the array elements in the same order with
+ * the 'glue' string in between each array element.
+ *
+ * Parameters
+ * glue:	String to place between each array element.
+ * array:	Array to turn into a string.
+ *
+ * Return Value
+ * Returns a string on success.
+ * Returns an error on failure.
+ *
+ */
+function ImplodeArray(glue, byref the_array)
+	if ( Lower(TypeOf(the_array)) != "array" )
+		return error{"errortext":="Object passed was not an array."};
+	endif
+
+	var str_array := "";
+	foreach element in ( the_array )
+		str_array += (CStr(element)+glue);
+		SleepMS(2);
+	endforeach
+
+	return str_array;
+endfunction
+
+/*
  * GetArrayRange(the_array, start, stop)
  *
  * Purpose
