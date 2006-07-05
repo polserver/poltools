@@ -20,16 +20,10 @@ program PageRequest(who)
 		SetObjProperty(who, "#HelpPID", GetPid());
 	endif
 	var settings := HS_GetSettingsCfgElem("Settings");
-	var gump := LoadGump("IntroGump");
-	if ( !gump )
-		gump := BuildIntroGump(settings);
-		//SaveGump("IntroGump", gump);
-	endif
 
 	var input;
-	var cur_menu := MAIN_PAGE_BTN;
+	var gump := RetrieveGump(MAIN_PAGE_BTN, settings);
 	while ( who.connected )
-		gump := RetrieveGump(cur_menu, settings);
 
 		input := GFSendGump(who, gump);
 		SendSysMessage(who, "Input->"+input[0]);
@@ -37,15 +31,15 @@ program PageRequest(who)
 			SendSysMessage(who, "Cancelled.");
 			break;
 		elseif ( input[MAIN_PAGE_BTN] )
-			cur_menu := MAIN_PAGE_BTN;
+			gump := RetrieveGump(MAIN_PAGE_BTN, settings);
 		elseif ( input[COUNSELOR_PAGE_BTN] )
-			cur_menu := COUNSELOR_PAGE_BTN;
+			gump := RetrieveGump(COUNSELOR_PAGE_BTN, settings);
 		elseif ( input[STAFF_PAGE_BTN] )
-			cur_menu := STAFF_PAGE_BTN;
+			gump := RetrieveGump(STAFF_PAGE_BTN, settings);
 		elseif ( input[HELP_TOPICS_BTN] )
-			cur_menu := HELP_TOPICS_BTN;
+			gump := RetrieveGump(HELP_TOPICS_BTN, settings);
 		elseif ( input[0] >= HELP_TOPIC_START )
-			cur_menu := HELP_TOPIC_START;
+			gump := RetrieveTopicGump(input[0], settings);
 		else
 			break;
 		endif
@@ -58,34 +52,34 @@ function RetrieveGump(cur_menu, byref settings)
 	var gump;
 	case ( cur_menu )
 		MAIN_PAGE_BTN:
-			gump := LoadGump("MainGump");
+			gump := LoadHelpInfo("MainGump", "Gump");
 			if ( !gump )
 				gump := BuildIntroGump(settings);
-				//SaveGump("MainGump", gump);
+				//SaveHelpInfo("MainGump", "Gump", gump);
 			endif
 			break;
 
 		COUNSELOR_PAGE_BTN:
-			gump := LoadGump("CounselorPage");
+			gump := LoadHelpInfo("CounselorPage", "Gump");
 			if ( !gump )
 				gump := BuildTextEntryGump("Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START, settings);
-				//SaveGump("CounselorPage", gump);
+				//SaveHelpInfo("CounselorPage", "Gump", gump);
 			endif
 			break;
 
 		STAFF_PAGE_BTN:
-			gump := LoadGump("StaffPage");
+			gump := LoadHelpInfo("StaffPage", "Gump");
 			if ( !gump )
 				gump := BuildTextEntryGump("Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START, settings);
-				//SaveGump("StaffPage", gump);
+				//SaveHelpInfo("StaffPage", "Gump", gump);
 			endif
 			break;
 
 		HELP_TOPICS_BTN:
-			gump := LoadGump("HelpTopicIndex");
+			gump := LoadHelpInfo("HelpTopicIndex", "Gump");
 			if ( !gump )
 				gump := BuildHelpTopicsIndexGump(settings);
-				//SaveGump("StaffPage", gump);
+				//SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
 			endif
 			break;
 
@@ -94,6 +88,20 @@ function RetrieveGump(cur_menu, byref settings)
 			GFTextLine(gump, 1, 1, 32, "INVALID CUR_MENU ["+cur_menu+"]");
 			break;
 	endcase
+
+	return gump;
+endfunction
+
+function RetrieveTopicGump(input, byref settings)
+	input -= HELP_TOPIC_START;
+	var topic_list := LoadHelpInfo("TopicNames", "List");
+	var topic_name := topic_list[input];
+
+	var gump := LoadHelpInfo("HelpTopic-"+topic_name, "Gump");
+	if ( !gump )
+		gump := BuildHelpTopicGump(topic_name, settings);
+		//SaveHelpInfo("HelpTopic-"+topic_name, "Gump", gump);
+	endif
 
 	return gump;
 endfunction
