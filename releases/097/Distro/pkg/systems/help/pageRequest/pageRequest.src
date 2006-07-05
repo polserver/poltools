@@ -44,6 +44,8 @@ program PageRequest(who)
 			cur_menu := STAFF_PAGE_BTN;
 		elseif ( input[HELP_TOPICS_BTN] )
 			cur_menu := HELP_TOPICS_BTN;
+		elseif ( input[0] >= HELP_TOPIC_START )
+			cur_menu := HELP_TOPIC_START;
 		else
 			break;
 		endif
