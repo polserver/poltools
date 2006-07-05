@@ -4,6 +4,7 @@
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":help:settings";
 
 CONST CLOSE_BTN			:= 0xA001;
 CONST COUNSELOR_PAGE_BTN	:= 0xA002;
@@ -12,7 +13,9 @@ CONST STAFF_PAGE_BTN		:= 0xA003;
 CONST COUN_TXT_START		:= 0xA0001;
 CONST STAFF_TXT_START		:= 0xB0002;
 
-function BuildGumpTemplate(byref settings)
+function BuildGumpTemplate()
+	var settings := HS_GetSettingsCfgElem("Settings");
+
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 600, 450);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 570, 25);
@@ -25,7 +28,7 @@ function BuildGumpTemplate(byref settings)
 
 	BuildPage1Gump(gump, settings);
 
-	BuildHelpTopicsIndexGump(gump, settings);
+	BuildHelpTopicsIndexGump(gump);
 
 	BuildTextEntry(gump, "Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START);
 	BuildTextEntry(gump, "Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START);
@@ -112,7 +115,7 @@ function BuildTextEntry(byref gump, title, page_num, txt_start)
 	return 1;
 endfunction
 
-function BuildHelpTopicsIndexGump(byref gump, byref settings)
+function BuildHelpTopicsIndexGump(byref gump)
 	GFPage(gump, 2);
 
 	GFAddButton(gump, 210, 345, 4014, 4015, GF_PAGE_BTN, 1);
