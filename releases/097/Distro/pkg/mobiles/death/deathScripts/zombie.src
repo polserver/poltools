@@ -8,6 +8,8 @@ use util;
 
 include ":death:death";
 
+CONST MAX_RANGE	:= 8;
+
 program DeathScript(params)
 	var corpse := params[1];
 	//var npc_cfg := params[2];
@@ -60,7 +62,7 @@ function ResZombie(corpse, byref pieces, template)
 
 	var recovered_pieces := array;
 
-	foreach item in ( ListItemsNearLocation(corpse_x, corpse_y, corpse_z, 5, realm) )
+	foreach item in ( ListItemsNearLocation(corpse_x, corpse_y, corpse_z, MAX_RANGE, realm) )
 		if ( (item.objtype in pieces) && (item.color == corpse_color) )
 			if ( !Recovered(item, recovered_pieces) )
 				SetObjProperty(item, "#taken", GetPid());
@@ -95,8 +97,8 @@ function MoveItem(corpse, item)
 	var newx, newy;
 	var newz;
 	repeat
-		newx := RandomInt(8)-4;
-		newy := RandomInt(8)-4;
+		newx := RandomInt(MAX_RANGE)-CInt(MAX_RANGE/2);
+		newy := RandomInt(MAX_RANGE)-CInt(MAX_RANGE/2);
 		newx := newx+corpse.x;
 		newy := newy+corpse.y;
 
