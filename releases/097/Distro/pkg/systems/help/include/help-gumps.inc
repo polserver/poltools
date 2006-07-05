@@ -24,6 +24,9 @@ function BuildGumpTemplate(byref settings)
 	BuildBottomBar(gump, settings);
 
 	BuildPage1Gump(gump, settings);
+
+	BuildHelpTopicsIndexGump(gump, settings);
+
 	BuildTextEntry(gump, "Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START);
 	BuildTextEntry(gump, "Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START);
 
@@ -105,6 +108,15 @@ function BuildTextEntry(byref gump, title, page_num, txt_start)
 
 	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, STAFF_PAGE_BTN);
 	GFTextLine(gump, 485, 345, 2100, "Send Page");
+
+	return 1;
+endfunction
+
+function BuildHelpTopicsIndexGump(byref gump, byref settings)
+	GFPage(gump, 2);
+
+	GFAddButton(gump, 210, 345, 4014, 4015, GF_PAGE_BTN, 1);
+	GFTextLine(gump, 245, 345, 2100, "Back");
 
 	return 1;
 endfunction
