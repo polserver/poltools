@@ -9,6 +9,9 @@ CONST CLOSE_BTN			:= 0xA001;
 CONST COUNSELOR_PAGE_BTN	:= 0xA002;
 CONST STAFF_PAGE_BTN		:= 0xA003;
 
+CONST COUN_TXT_START		:= 0xA0001;
+CONST STAFF_TXT_START		:= 0xB0002;
+
 function BuildGumpTemplate(byref settings)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 600, 450);
@@ -21,6 +24,8 @@ function BuildGumpTemplate(byref settings)
 	BuildBottomBar(gump, settings);
 
 	BuildPage1Gump(gump, settings);
+	BuildTextEntry(gump, "Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START);
+	BuildTextEntry(gump, "Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START);
 
 	return gump;
 endfunction
@@ -55,28 +60,51 @@ function BuildBottomBar(byref gump, byref settings)
 endfunction
 
 function BuildPage1Gump(byref gump, byref settings)
-	var text, y_pos := 70;
+	var text, y_pos := 50;
 
 	GFPage(gump, 1);
-	GFAddButton(gump, 210, 50, 4005, 4006, GF_PAGE_BTN, 2);
-	GFTextLine(gump, 250, 50, 1720, "General questions about "+settings.ShardName);
+	GFAddButton(gump, 210, y_pos, 4005, 4006, GF_PAGE_BTN, 2);
+	GFTextLine(gump, 245, y_pos, 1720, "General questions about "+settings.ShardName);
 	text := "Select this option if you are having difficulties learning to use a skill,
 		if you are lost or if you have general gameplay questions.";
-	DrawWrappedText(gump, 250, y_pos, GFWordWrap(text, 380));
+	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
 	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, COUNSELOR_PAGE_BTN);
-	GFTextLine(gump, 250, y_pos, 1720, "Contact a counselor");
+	GFTextLine(gump, 245, y_pos, 1720, "Contact a counselor");
 	text := "A counselor is an experienced player on the shard who has volunteered time
 		to help answer questions. Selecting this option will let you send a message to a
 		counselor. Please remember they are volunteers and may not be availale at all times.";
 	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
 
 	GFAddButton(gump, 210, y_pos, 4011, 4030, GF_PAGE_BTN, STAFF_PAGE_BTN);
-	GFTextLine(gump, 250, y_pos, 1720, "Contact a staff member.");
+	GFTextLine(gump, 245, y_pos, 1720, "Contact a staff member.");
 	text := "If you are experiencing a problem in the game such as being stuck, harased by
 		another player or other game stopping issue, you may contact a game master or other
 		staff member here.";
 	DrawWrappedText(gump, 250, (y_pos+=20), GFWordWrap(text, 380));
+
+	return 1;
+endfunction
+
+function BuildTextEntry(byref gump, title, page_num, txt_start)
+	GFPage(gump, page_num);
+	GFTextMid(gump, 210, 50, 380, 2100, title);
+
+	GFResizePic(gump, 210, 70, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
+	var i;
+	var y_pos := 75;
+	for ( i:=0; i<=12; i+=1 )
+		GFTextEntry(gump, 215, y_pos, 360, 20, 2100, "", txt_start+i);
+		y_pos += 20;
+		SleepMS(2);
+	endfor
+
+
+	GFAddButton(gump, 210, 345, 4014, 4015, GF_PAGE_BTN, 1);
+	GFTextLine(gump, 245, 345, 2100, "Back");
+
+	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, STAFF_PAGE_BTN);
+	GFTextLine(gump, 485, 345, 2100, "Send Page");
 
 	return 1;
 endfunction
