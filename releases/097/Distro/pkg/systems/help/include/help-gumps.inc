@@ -14,8 +14,8 @@ CONST STAFF_PAGE_BTN		:= 0xA003;
 CONST COUN_TXT_START		:= 0xA0001;
 CONST STAFF_TXT_START		:= 0xB0002;
 
-function BuildGumpTemplate()
-	var settings := HS_GetSettingsCfgElem("Settings");
+function BuildGumpTemplate(byref settings)
+
 	var text;
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 600, 450);
@@ -46,8 +46,8 @@ function BuildGumpTemplate()
 	return gump;
 endfunction
 
-function BuildPage1Gump(byref settings)
-	var gump := BuildGumpTemplate();
+function BuildIntroGump(byref settings)
+	var gump := BuildGumpTemplate(settings);
 	var text, y_pos := 50;
 
 	GFPage(gump, 1);
@@ -75,7 +75,7 @@ function BuildPage1Gump(byref settings)
 endfunction
 
 function BuildTextEntry(title, page_num, txt_start)
-	var gump := BuildGumpTemplate();
+	var gump := BuildGumpTemplate(settings);
 
 	GFPage(gump, page_num);
 	GFTextMid(gump, 210, 50, 380, 2100, title);
@@ -99,7 +99,7 @@ function BuildTextEntry(title, page_num, txt_start)
 endfunction
 
 function BuildHelpTopicsIndexGump()
-	var gump := BuildGumpTemplate();
+	var gump := BuildGumpTemplate(settings);
 
 	GFPage(gump, 2);
 
