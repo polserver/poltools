@@ -55,7 +55,7 @@ function RetrieveGump(cur_menu, byref settings)
 			gump := LoadHelpInfo("MainGump", "Gump");
 			if ( !gump )
 				gump := BuildIntroGump(settings);
-				//SaveHelpInfo("MainGump", "Gump", gump);
+				SaveHelpInfo("MainGump", "Gump", gump);
 			endif
 			break;
 
@@ -63,7 +63,7 @@ function RetrieveGump(cur_menu, byref settings)
 			gump := LoadHelpInfo("CounselorPage", "Gump");
 			if ( !gump )
 				gump := BuildTextEntryGump("Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START, settings);
-				//SaveHelpInfo("CounselorPage", "Gump", gump);
+				SaveHelpInfo("CounselorPage", "Gump", gump);
 			endif
 			break;
 
@@ -71,7 +71,7 @@ function RetrieveGump(cur_menu, byref settings)
 			gump := LoadHelpInfo("StaffPage", "Gump");
 			if ( !gump )
 				gump := BuildTextEntryGump("Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START, settings);
-				//SaveHelpInfo("StaffPage", "Gump", gump);
+				SaveHelpInfo("StaffPage", "Gump", gump);
 			endif
 			break;
 
@@ -79,7 +79,7 @@ function RetrieveGump(cur_menu, byref settings)
 			gump := LoadHelpInfo("HelpTopicIndex", "Gump");
 			if ( !gump )
 				gump := BuildHelpTopicsIndexGump(settings);
-				//SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
+				SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
 			endif
 			break;
 
@@ -100,7 +100,7 @@ function RetrieveTopicGump(input, byref settings)
 	var gump := LoadHelpInfo("HelpTopic-"+topic_name, "Gump");
 	if ( !gump )
 		gump := BuildHelpTopicGump(topic_name, settings);
-		//SaveHelpInfo("HelpTopic-"+topic_name, "Gump", gump);
+		SaveHelpInfo("HelpTopic-"+topic_name, "Gump", gump);
 	endif
 
 	return gump;
