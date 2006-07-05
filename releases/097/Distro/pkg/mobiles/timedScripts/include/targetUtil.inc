@@ -11,10 +11,16 @@ include ":timedscripts:timedScripts";
  * TargetEX(mobile, duration, flags)
  *
  * Purpose
+ * Brings up a Target() cursor and closes it after so many seconds.
  *
  * Parameters
+ * mobile:	Mobile to send the target cursor to.
+ * duration:	How long in seconds to keep the target cursor available.
+ * 		0 - Target can stay open until a new one is sent.
+ * flags:	See uo.em TGTOPT_* flags
  *
  * Return Value
+ * Returns the value from uo.em :: Target()
  *
  */
 function TargetEX(mobile, duration:=0, flags := TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
@@ -42,13 +48,19 @@ endfunction
  * TargetCoordinatesEX(mobile, duration, flags)
  *
  * Purpose
+ * Brings up a TargetCoordinates() cursor and closes it after so many seconds.
  *
  * Parameters
+ * mobile:	Mobile to send the target cursor to.
+ * duration:	How long in seconds to keep the target cursor available.
+ * 		0 - Target can stay open until a new one is sent.
+ * flags:	Supports the uo.em TGTOPT_NOCHECK_LOS and TGTOPT_CHECKLOS flags.
  *
  * Return Value
+ * Returns the value from uo.em :: TargetCoordinates()
  *
  */
-function TargetCoordinatesEX(mobile, duration:=0, flags := TGTOPT_CHECK_LOS)
+function TargetCoordinatesEX(mobile, duration:=0, flags := TGTOPT_NOCHECK_LOS)
 	if ( duration > 0 )
 		if ( CInt(TS_GetTimerDuration(mobile, "TargetControl")) > 0 )
 			// Existing timer... stop it (itll cancel the old target)
