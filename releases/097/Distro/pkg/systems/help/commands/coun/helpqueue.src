@@ -1,0 +1,61 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
+
+program HelpQueue(mobile, queue_name)
+	if ( queue_name )
+		if ( !CanAccessQueue(queue_name, mobile.cmdlevel) )
+			GumpPrompt(mobile, "Access denied for queue '"+queue_name+"'");
+			return 0;
+		endif
+
+		ShowPagesInQueue(mobile, queue_name);
+	else
+		ShowQueueTypes(mobile);
+	endif
+
+	return 1;
+endprogram
+
+function ShowPagesInQueue(mobile, queue_name)
+	return 1;
+endfunction
+
+function ShowQueueTypes(mobile)
+	return 1;
+endfunction
+
+function CanAccessQueue(byref queue_name, cmdlevel)
+	queue_name := Lower(queue_name);
+	foreach name in ( GetQueueNamesAccess(cmdlevel) )
+		if ( Lower(name) == queue_name )
+			// Sets it to the proper case.
+			queue_name := name;
+			return 1;
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 0;
+endfunction
+
+function GetQueueNamesAccess(cmdlevel)
+	var names := array;
+
+	if ( cmdlevel >= 1 ) // Counselor +
+		names.Append("Counselor");
+	endif
+
+	if ( cmdlevel >= 2 ) // Seer +
+		names.Append("Staff");
+	endif
+
+	return names;
+endfunction
