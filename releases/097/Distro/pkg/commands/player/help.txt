@@ -1,1 +1,0 @@
-<i>help <u>command</u></i> brings up help for <u>command</u>.
