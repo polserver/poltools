@@ -5,6 +5,7 @@
 include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":help:help";
 include ":help:settings";
 include "include/arrays";
 
@@ -158,16 +159,4 @@ function DrawWrappedText(byref gump, byref x_pos, byref y_pos, byref text_lines)
 	endforeach
 
 	return 1;
-endfunction
-
-function LoadHelpInfo(elem_name, prop_name)
-	var data_file := DFOpenDataFile(":help:helpsys", DF_CREATE);
-	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
-	return data_elem.GetProp(prop_name);
-endfunction
-
-function SaveHelpInfo(elem_name, prop_name, byref data)
-	var data_file := DFOpenDataFile(":help:helpsys", DF_CREATE);
-	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
-	return data_elem.SetProp(prop_name, data);
 endfunction
