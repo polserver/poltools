@@ -8,6 +8,7 @@ use os;
 include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":help:help";
 include ":help:help-gumps";
 
 unload_scripts("");
@@ -24,7 +25,6 @@ program PageRequest(who)
 	var input;
 	var gump := RetrieveGump(MAIN_PAGE_BTN, settings);
 	while ( who.connected )
-
 		input := GFSendGump(who, gump);
 		SendSysMessage(who, "Input->"+input[0]);
 		if ( !input[0] || input[CLOSE_BTN] )
@@ -85,7 +85,7 @@ function RetrieveGump(cur_menu, byref settings)
 
 		default:
 			gump := BuildGumpTemplate(settings);
-			GFTextLine(gump, 1, 1, 32, "INVALID CUR_MENU ["+cur_menu+"]");
+			GFTextLine(gump, 10, 25, 32, "!!! --- INVALID CUR_MENU ["+cur_menu+"] --- !!!");
 			break;
 	endcase
 
