@@ -72,29 +72,29 @@ function RetrieveGump(mobile, cur_menu, byref settings, byref cur_txt)
 	var gump;
 	case ( cur_menu )
 		MAIN_PAGE_BTN:
-			gump := 0 := LoadHelpInfo("MainGump", "Gump");
+			gump := LoadHelpInfo("MainGump", "Gump");
 			if ( !gump )
 				gump := BuildIntroGump(settings);
 				SaveHelpInfo("MainGump", "Gump", gump);
 			endif
 			break;
 
-		COUNSELOR_PAGE_BTN:
-			// Cant cache it easily because of the text entries.
-			gump := BuildTextEntryGump("Counselor Page", settings, cur_txt);
-			break;
-
-		STAFF_PAGE_BTN:
-			// Cant cache it easily because of the text entries.
-			gump := BuildTextEntryGump("Staff Page", settings, cur_txt);
-			break;
-
 		HELP_TOPICS_BTN:
-			gump := 0 := LoadHelpInfo("HelpTopicIndex", "Gump");
+			gump := LoadHelpInfo("HelpTopicIndex", "Gump");
 			if ( !gump )
 				gump := BuildHelpTopicsIndexGump(settings);
 				SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
 			endif
+			break;
+
+		COUNSELOR_PAGE_BTN:
+			// Cant cache the whole thing because of the text entries.
+			gump := BuildTextEntryGump("Counselor Page", settings, cur_txt);
+			break;
+
+		STAFF_PAGE_BTN:
+			// Cant cache the whole thing because of the text entries.
+			gump := BuildTextEntryGump("Staff Page", settings, cur_txt);
 			break;
 
 		default:
