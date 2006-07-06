@@ -1,0 +1,107 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":datafile:datafile";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":help:help-gumps";
+
+unload_scripts("");
+
+program PageRequest(who)
+	if ( GetProcess(GetObjProperty(who, "#HelpPID")) )
+		SendSysMessage(who, "You already have a help gump open.");
+		return 0;
+	else
+		SetObjProperty(who, "#HelpPID", GetPid());
+	endif
+	var settings := HS_GetSettingsCfgElem("Settings");
+
+	var input;
+	var gump := RetrieveGump(MAIN_PAGE_BTN, settings);
+	while ( who.connected )
+
+		input := GFSendGump(who, gump);
+		SendSysMessage(who, "Input->"+input[0]);
+		if ( !input[0] || input[CLOSE_BTN] )
+			SendSysMessage(who, "Cancelled.");
+			break;
+		elseif ( input[MAIN_PAGE_BTN] )
+			gump := RetrieveGump(MAIN_PAGE_BTN, settings);
+		elseif ( input[COUNSELOR_PAGE_BTN] )
+			gump := RetrieveGump(COUNSELOR_PAGE_BTN, settings);
+		elseif ( input[STAFF_PAGE_BTN] )
+			gump := RetrieveGump(STAFF_PAGE_BTN, settings);
+		elseif ( input[HELP_TOPICS_BTN] )
+			gump := RetrieveGump(HELP_TOPICS_BTN, settings);
+		elseif ( input[0] >= HELP_TOPIC_START )
+			gump := RetrieveTopicGump(input[0], settings);
+		else
+			break;
+		endif
+	endwhile
+
+	return 1;
+endprogram
+
+function RetrieveGump(cur_menu, byref settings)
+	var gump;
+	case ( cur_menu )
+		MAIN_PAGE_BTN:
+			gump := LoadHelpInfo("MainGump", "Gump");
+			if ( !gump )
+				gump := BuildIntroGump(settings);
+				SaveHelpInfo("MainGump", "Gump", gump);
+			endif
+			break;
+
+		COUNSELOR_PAGE_BTN:
+			gump := LoadHelpInfo("CounselorPage", "Gump");
+			if ( !gump )
+				gump := BuildTextEntryGump("Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START, settings);
+				SaveHelpInfo("CounselorPage", "Gump", gump);
+			endif
+			break;
+
+		STAFF_PAGE_BTN:
+			gump := LoadHelpInfo("StaffPage", "Gump");
+			if ( !gump )
+				gump := BuildTextEntryGump("Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START, settings);
+				SaveHelpInfo("StaffPage", "Gump", gump);
+			endif
+			break;
+
+		HELP_TOPICS_BTN:
+			gump := LoadHelpInfo("HelpTopicIndex", "Gump");
+			if ( !gump )
+				gump := BuildHelpTopicsIndexGump(settings);
+				SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
+			endif
+			break;
+
+		default:
+			gump := BuildGumpTemplate(settings);
+			GFTextLine(gump, 1, 1, 32, "INVALID CUR_MENU ["+cur_menu+"]");
+			break;
+	endcase
+
+	return gump;
+endfunction
+
+function RetrieveTopicGump(input, byref settings)
+	input -= HELP_TOPIC_START;
+	var topic_list := LoadHelpInfo("TopicNames", "List");
+	var topic_name := topic_list[input];
+
+	var gump := LoadHelpInfo("HelpTopic-"+topic_name, "Gump");
+	if ( !gump )
+		gump := BuildHelpTopicGump(topic_name, settings);
+		SaveHelpInfo("HelpTopic-"+topic_name, "Gump", gump);
+	endif
+
+	return gump;
+endfunction
