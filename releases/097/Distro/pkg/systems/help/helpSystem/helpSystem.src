@@ -30,9 +30,9 @@ program PageRequest(mobile)
 
 	while ( mobile.connected )
 		if ( cur_menu == HELP_TOPIC_START )
-			gump := RetrieveTopicGump(input[0], settings);
+			gump := RetrieveTopicGump(mobile, input[0], settings);
 		else
-			gump := RetrieveGump(cur_menu, settings, cur_txt);
+			gump := RetrieveGump(mobile, cur_menu, settings, cur_txt);
 		endif
 
 		input := GFSendGump(mobile, gump);
@@ -55,6 +55,8 @@ program PageRequest(mobile)
 			cur_menu := STAFF_PAGE_BTN;
 		elseif ( input[HELP_TOPICS_BTN] )
 			cur_menu := HELP_TOPICS_BTN;
+		elseif ( input[UNCACHE_GUMPS_BTN] )
+			UncacheGumps(mobile);
 		elseif ( input[0] >= HELP_TOPIC_START )
 			cur_menu := HELP_TOPIC_START;
 		else
@@ -66,7 +68,7 @@ program PageRequest(mobile)
 	return 1;
 endprogram
 
-function RetrieveGump(cur_menu, byref settings, byref cur_txt)
+function RetrieveGump(mobile, cur_menu, byref settings, byref cur_txt)
 	var gump;
 	case ( cur_menu )
 		MAIN_PAGE_BTN:
@@ -101,10 +103,15 @@ function RetrieveGump(cur_menu, byref settings, byref cur_txt)
 			break;
 	endcase
 
+	if ( mobile.cmdlevel >= 2 ) // Seer
+		GFAddButton(gump, 30, 23, 2117, 2118, GF_CLOSE_BTN, UNCACHE_GUMPS_BTN);
+		GFTextLine(gump, 50, 20, 2100, "Uncache Gumps");
+	endif
+
 	return gump;
 endfunction
 
-function RetrieveTopicGump(byref input, byref settings)
+function RetrieveTopicGump(mobile, byref input, byref settings)
 	input -= HELP_TOPIC_START;
 	var topic_list := LoadHelpInfo("TopicNames", "List");
 	var topic_name := topic_list[input];
@@ -113,6 +120,11 @@ function RetrieveTopicGump(byref input, byref settings)
 	if ( !gump )
 		gump := BuildHelpTopicGump(topic_name, settings);
 		SaveHelpInfo("HelpTopic-"+topic_name, "Gump", gump);
+	endif
+
+	if ( mobile.cmdlevel >= 2 ) // Seer
+		GFAddButton(gump, 30, 23, 2117, 2118, GF_CLOSE_BTN, UNCACHE_GUMPS_BTN);
+		GFTextLine(gump, 50, 20, 2100, "Uncache Gumps");
 	endif
 
 	return gump;
@@ -165,6 +177,34 @@ function SubmitPage(mobile, cur_menu, byref input)
 	else
 		GumpPrompt(mobile, "Your page has been submitted.");
 	endif
+
+	foreach player in ( EnumerateOnlineCharacters() )
+		if ( player.cmdlevel )
+			SendSysMessage(player, mobile.name+" has submitted a help page into the "+type+" queue.");
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
+
+function UncacheGumps(mobile)
+	if ( mobile.cmdlevel < 2 ) // Player, counselor
+		return 0;
+	endif
+
+	var data_file := GetHelpDataFile();
+	foreach elem_name in ( DFGetElemNames(data_file) )
+		var elem := DFFindElement(data_file, elem_name);
+		if ( elem.Getprop("Gump") )
+			data_file.DeleteElement(elem_name);
+		elseif ( elem.GetProp("List") )
+			data_file.DeleteElement(elem_name);
+		endif
+		SleepMS(2);
+	endforeach
+
+	GumpPrompt(mobile, "All gumps uncached.");
 
 	return 1;
 endfunction

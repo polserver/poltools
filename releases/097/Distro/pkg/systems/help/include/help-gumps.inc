@@ -17,6 +17,8 @@ CONST SEND_PAGE_BTN		:= 0xA04;
 CONST HELP_TOPICS_BTN		:= 0xA05;
 CONST WORD_WRAP_BTN		:= 0xA06;
 
+CONST UNCACHE_GUMPS_BTN		:= 0xA07;
+
 CONST HELP_TOPIC_START		:= 0xA001;
 CONST PAGE_TXT_START		:= 0xB001;
 CONST PAGE_TXT_END		:= 0xB00D;
@@ -161,7 +163,7 @@ function BuildHelpTopicGump(topic_name, byref settings)
 	var help_elem := help_cfg[topic_name];
 
 	var text := "<CENTER><U>"+topic_name+"</U></CENTER>";
-	text += ImplodeArray(" ", GetConfigStringArray(help_elem, "Text"));
+	text += ImplodeArray("", GetConfigStringArray(help_elem, "Text"));
 
 	GFHTMLArea(gump, 210, 50, 370, 270, text, 1, 1);
 
