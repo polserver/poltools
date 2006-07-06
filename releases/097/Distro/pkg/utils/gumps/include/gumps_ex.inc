@@ -326,7 +326,7 @@ function GFWordWrap(text, pixels)
 	var cur_length := 0;
 	var start_new := 0;
 
-	foreach word in word_list
+	foreach word in ( word_list )
 		var word_width := GFTextWidth(word);
 
 		if ( word == "[P]" )
@@ -336,6 +336,9 @@ function GFWordWrap(text, pixels)
 			start_new := 1;
 		elseif ( (word_width+cur_length) > pixels )
 			start_new := 1;
+			if ( cur_line[Len(cur_line)] == " " )
+				cur_line[Len(cur_line)] := "";
+			endif
 		endif
 
 		if ( start_new )
@@ -354,6 +357,9 @@ function GFWordWrap(text, pixels)
 
 	//Make sure nothing got left behind.
 	if ( wrap_lines[wrap_lines.Size()] != cur_line )
+		if ( cur_line[Len(cur_line)] == " " )
+			cur_line[Len(cur_line)] := "";
+		endif
 		wrap_lines.Append(cur_line);
 	endif
 
