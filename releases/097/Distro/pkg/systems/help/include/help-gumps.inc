@@ -64,7 +64,7 @@ endfunction
 
 function BuildIntroGump(byref settings)
 	var gump := BuildGumpTemplate(settings);
-	var text, y_pos := 50;
+	var text:="", y_pos := 50;
 
 	GFAddButton(gump, 210, y_pos, 4005, 4006, GF_CLOSE_BTN, HELP_TOPICS_BTN);
 	GFTextLine(gump, 245, y_pos, 1720, "General questions about "+settings.ShardName+".");
@@ -90,11 +90,24 @@ function BuildIntroGump(byref settings)
 endfunction
 
 function BuildTextEntryGump(title,  byref settings, byref cur_txt)
-	var gump := BuildGumpTemplate(settings);
+	var gump := LoadHelpInfo("TextEntry", "Gump");
+	if ( !gump )
+		gump := BuildGumpTemplate(settings);
+		GFResizePic(gump, 210, 70, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
+		GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
+		GFTextLine(gump, 245, 345, 2100, "Back");
 
+		GFAddButton(gump, 330, 348, 2117, 2118, GF_CLOSE_BTN, WORD_WRAP_BTN);
+		GFTextLine(gump, 350, 345, 2100, "Word Wrap");
+
+		GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, SEND_PAGE_BTN);
+		GFTextLine(gump, 485, 345, 2100, "Send Page");
+
+		SaveHelpInfo("TextEntry", "Gump", gump);
+	endif
+
+	// This part below can't be cached.
 	GFTextMid(gump, 210, 50, 380, 2100, title);
-
-	GFResizePic(gump, 210, 70, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
 	var i;
 	var y_pos := 75;
 	for ( i:=PAGE_TXT_START; i<=PAGE_TXT_END; i+=1 )
@@ -109,15 +122,6 @@ function BuildTextEntryGump(title,  byref settings, byref cur_txt)
 		SleepMS(2);
 	endfor
 
-	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
-	GFTextLine(gump, 245, 345, 2100, "Back");
-
-	GFAddButton(gump, 330, 348, 2117, 2118, GF_CLOSE_BTN, WORD_WRAP_BTN);
-	GFTextLine(gump, 350, 345, 2100, "Word Wrap");
-
-	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, SEND_PAGE_BTN);
-	GFTextLine(gump, 485, 345, 2100, "Send Page");
-
 	return gump;
 endfunction
 
@@ -131,7 +135,6 @@ function BuildHelpTopicsIndexGump(byref settings)
 	var y_pos := 50;
 	var help_cfg := ReadConfigFile(":help:helptopics");
 	var elem_names := GetConfigStringKeys(help_cfg);
-
 	SaveHelpInfo("TopicNames", "List", elem_names);
 
 	foreach elem_name in ( elem_names )
