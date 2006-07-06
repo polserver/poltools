@@ -23,29 +23,42 @@ program PageRequest(mobile)
 	endif
 	var settings := HS_GetSettingsCfgElem("Settings");
 
-	var input;
-	var gump := RetrieveGump(MAIN_PAGE_BTN, settings);
+	var input, gump;
+	var cur_menu := MAIN_PAGE_BTN;
+	var cur_txt := array;
+
 	while ( mobile.connected )
+		if ( cur_menu == HELP_TOPIC_START )
+			gump := RetrieveTopicGump(input[0], settings);
+		else
+			gump := RetrieveGump(cur_menu, settings, cur_txt);
+		endif
+
 		input := GFSendGump(mobile, gump);
 		SendSysMessage(mobile, "Input->"+input[0]);
 		if ( !input[0] || input[CLOSE_BTN] )
 			SendSysMessage(mobile, "Cancelled.");
 			break;
-		elseif ( input[SEND_COUN_PAGE_BTN] )
-			GumpPrompt(mobile, "Counselor paging not yet implemented.");
-		elseif ( input[SEND_STAFF_PAGE_BTN] )
-			GumpPrompt(mobile, "Staff paging not yet implemented.");
+		elseif ( input[SEND_PAGE_BTN] )
+			if ( cur_menu == COUNSELOR_PAGE_BTN )
+				GumpPrompt(mobile, "Counselor paging not yet implemented.");
+			elseif ( cur_menu == STAFF_PAGE_BTN )
+				GumpPrompt(mobile, "Staff paging not yet implemented.");
+			endif
+		elseif ( input[WORD_WRAP_BTN] )
+			cur_txt := GFWordWrap(RetrievePageText(input), 370);
 		elseif ( input[MAIN_PAGE_BTN] )
-			gump := RetrieveGump(MAIN_PAGE_BTN, settings);
+			cur_menu := MAIN_PAGE_BTN;
 		elseif ( input[COUNSELOR_PAGE_BTN] )
-			gump := RetrieveGump(COUNSELOR_PAGE_BTN, settings);
+			cur_menu := COUNSELOR_PAGE_BTN;
 		elseif ( input[STAFF_PAGE_BTN] )
-			gump := RetrieveGump(STAFF_PAGE_BTN, settings);
+			cur_menu := STAFF_PAGE_BTN;
 		elseif ( input[HELP_TOPICS_BTN] )
-			gump := RetrieveGump(HELP_TOPICS_BTN, settings);
+			cur_menu := HELP_TOPICS_BTN;
 		elseif ( input[0] >= HELP_TOPIC_START )
-			gump := RetrieveTopicGump(input[0], settings);
+			cur_menu := HELP_TOPIC_START;
 		else
+			SendSysMessage(mobile, "Cancelled.");
 			break;
 		endif
 	endwhile
@@ -53,11 +66,11 @@ program PageRequest(mobile)
 	return 1;
 endprogram
 
-function RetrieveGump(cur_menu, byref settings)
+function RetrieveGump(cur_menu, byref settings, byref cur_txt)
 	var gump;
 	case ( cur_menu )
 		MAIN_PAGE_BTN:
-			gump := LoadHelpInfo("MainGump", "Gump");
+			gump := 0;// := LoadHelpInfo("MainGump", "Gump");
 			if ( !gump )
 				gump := BuildIntroGump(settings);
 				SaveHelpInfo("MainGump", "Gump", gump);
@@ -65,23 +78,23 @@ function RetrieveGump(cur_menu, byref settings)
 			break;
 
 		COUNSELOR_PAGE_BTN:
-			gump := LoadHelpInfo("CounselorPage", "Gump");
+			gump := 0;// := LoadHelpInfo("CounselorPage", "Gump");
 			if ( !gump )
-				gump := BuildTextEntryGump("Counselor Page", SEND_COUN_PAGE_BTN, COUN_TXT_START, settings);
+				gump := BuildTextEntryGump("Counselor Page", settings, cur_txt);
 				SaveHelpInfo("CounselorPage", "Gump", gump);
 			endif
 			break;
 
 		STAFF_PAGE_BTN:
-			gump := LoadHelpInfo("StaffPage", "Gump");
+			gump := 0;// := LoadHelpInfo("StaffPage", "Gump");
 			if ( !gump )
-				gump := BuildTextEntryGump("Staff Page", SEND_STAFF_PAGE_BTN, STAFF_TXT_START, settings);
+				gump := BuildTextEntryGump("Staff Page", settings, cur_txt);
 				SaveHelpInfo("StaffPage", "Gump", gump);
 			endif
 			break;
 
 		HELP_TOPICS_BTN:
-			gump := LoadHelpInfo("HelpTopicIndex", "Gump");
+			gump := 0;// := LoadHelpInfo("HelpTopicIndex", "Gump");
 			if ( !gump )
 				gump := BuildHelpTopicsIndexGump(settings);
 				SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
@@ -97,7 +110,7 @@ function RetrieveGump(cur_menu, byref settings)
 	return gump;
 endfunction
 
-function RetrieveTopicGump(input, byref settings)
+function RetrieveTopicGump(byref input, byref settings)
 	input -= HELP_TOPIC_START;
 	var topic_list := LoadHelpInfo("TopicNames", "List");
 	var topic_name := topic_list[input];
@@ -109,4 +122,18 @@ function RetrieveTopicGump(input, byref settings)
 	endif
 
 	return gump;
+endfunction
+
+function RetrievePageText(byref input)
+	var i;
+	var text := "";
+	for ( i:=PAGE_TXT_START; i<=PAGE_TXT_END; i+=1 )
+		var data := GFExtractData(input, i);
+		if ( data )
+			text += data+" ";
+		endif
+		SleepMS(2);
+	endfor
+
+	return text;
 endfunction

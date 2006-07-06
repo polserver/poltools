@@ -9,18 +9,17 @@ include ":help:help";
 include ":help:settings";
 include "include/arrays";
 
-CONST CLOSE_BTN			:= 0xA000;
-CONST MAIN_PAGE_BTN		:= 0xA001;
-CONST COUNSELOR_PAGE_BTN	:= 0xA002;
-CONST SEND_COUN_PAGE_BTN	:= 0xA003;
-CONST STAFF_PAGE_BTN		:= 0xA004;
-CONST SEND_STAFF_PAGE_BTN	:= 0xA005;
-CONST HELP_TOPICS_BTN		:= 0xA006;
+CONST CLOSE_BTN			:= 0xA00;
+CONST MAIN_PAGE_BTN		:= 0xA01;
+CONST COUNSELOR_PAGE_BTN	:= 0xA02;
+CONST STAFF_PAGE_BTN		:= 0xA03;
+CONST SEND_PAGE_BTN		:= 0xA04;
+CONST HELP_TOPICS_BTN		:= 0xA05;
+CONST WORD_WRAP_BTN		:= 0xA06;
 
-CONST HELP_TOPIC_START		:= 0xA0001;
-
-CONST COUN_TXT_START		:= 0xB0001;
-CONST STAFF_TXT_START		:= 0xC0002;
+CONST HELP_TOPIC_START		:= 0xA001;
+CONST PAGE_TXT_START		:= 0xB001;
+CONST PAGE_TXT_END		:= 0xB00D;
 
 function BuildGumpTemplate(byref settings)
 
@@ -81,7 +80,7 @@ function BuildIntroGump(byref settings)
 	return gump;
 endfunction
 
-function BuildTextEntryGump(title, send_id, txt_start, byref settings)
+function BuildTextEntryGump(title,  byref settings, byref cur_txt)
 	var gump := BuildGumpTemplate(settings);
 
 	GFTextMid(gump, 210, 50, 380, 2100, title);
@@ -89,8 +88,14 @@ function BuildTextEntryGump(title, send_id, txt_start, byref settings)
 	GFResizePic(gump, 210, 70, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
 	var i;
 	var y_pos := 75;
-	for ( i:=0; i<=12; i+=1 )
-		GFTextEntry(gump, 215, y_pos, 360, 20, 2100, "", txt_start+i);
+	for ( i:=PAGE_TXT_START; i<=PAGE_TXT_END; i+=1 )
+		var cur_line := cur_txt[i-(PAGE_TXT_START-1)];
+		if ( !cur_line )
+			cur_line := Hex(i);
+		endif
+
+		GFTextEntry(gump, 215, y_pos, 360, 20, 2100, cur_line, i);
+
 		y_pos += 20;
 		SleepMS(2);
 	endfor
@@ -98,7 +103,10 @@ function BuildTextEntryGump(title, send_id, txt_start, byref settings)
 	GFAddButton(gump, 210, 345, 4014, 4015, GF_CLOSE_BTN, MAIN_PAGE_BTN);
 	GFTextLine(gump, 245, 345, 2100, "Back");
 
-	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, send_id);
+	GFAddButton(gump, 330, 348, 2117, 2118, GF_CLOSE_BTN, WORD_WRAP_BTN);
+	GFTextLine(gump, 350, 345, 2100, "Word Wrap");
+
+	GFAddButton(gump, 550, 345, 4029, 4030, GF_CLOSE_BTN, SEND_PAGE_BTN);
 	GFTextLine(gump, 485, 345, 2100, "Send Page");
 
 	return gump;
