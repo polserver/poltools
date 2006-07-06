@@ -1,4 +1,4 @@
 <CENTER><U>Shard Links</U></CENTER>
 
-<B>o</B><A HREF="http://www.polserver.com">POL Website</A><BR>
-<B>o</B><A HREF="irc://irc.darkmyst.org/pol">IRC Channel</A>
+<B>o</B> <A HREF="http://www.polserver.com">POL Website</A><BR>
+<B>o</B> <A HREF="irc://irc.darkmyst.org/pol">IRC Channel</A>

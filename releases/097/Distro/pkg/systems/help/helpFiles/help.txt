@@ -1,0 +1,3 @@
+<CENTER><U>.help</U></CENTER>
+
+<I>help <U>topic</U></I> brings up help for <U>topic</U>.
