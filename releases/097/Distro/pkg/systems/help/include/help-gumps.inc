@@ -22,9 +22,14 @@ CONST PAGE_TXT_START		:= 0xB001;
 CONST PAGE_TXT_END		:= 0xB00D;
 
 function BuildGumpTemplate(byref settings)
+	var gump := LoadHelpInfo("Template", "Gump");
+
+	if ( gump )
+		return gump;
+	endif
 
 	var text;
-	var gump := GFCreateGump();
+	gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 600, 450);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 570, 25);
 	GFTextMid(gump, 15, 20, 570, 2100, "Help Menu");
@@ -49,6 +54,8 @@ function BuildGumpTemplate(byref settings)
 		webpage at "+settings.website+" for more information.";
 	DrawWrappedText(gump, 20, 380, GFWordWrap(text, 570));
 	GFAddButton(gump, 500, 410, 2119, 2120, GF_CLOSE_BTN, CLOSE_BTN);
+
+	SaveHelpInfo("Template", "Gump", gump);
 
 	return gump;
 endfunction
@@ -91,7 +98,7 @@ function BuildTextEntryGump(title,  byref settings, byref cur_txt)
 	for ( i:=PAGE_TXT_START; i<=PAGE_TXT_END; i+=1 )
 		var cur_line := cur_txt[i-(PAGE_TXT_START-1)];
 		if ( !cur_line )
-			cur_line := Hex(i);
+			cur_line := "";
 		endif
 
 		GFTextEntry(gump, 215, y_pos, 360, 20, 2100, cur_line, i);

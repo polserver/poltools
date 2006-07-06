@@ -11,6 +11,7 @@ include ":gumps:gumps_ex";
 include ":gumps:gumpprompt";
 include ":help:help";
 include ":help:help-gumps";
+include "include/string";
 
 unload_scripts("");
 
@@ -35,15 +36,14 @@ program PageRequest(mobile)
 		endif
 
 		input := GFSendGump(mobile, gump);
-		SendSysMessage(mobile, "Input->"+input[0]);
+
 		if ( !input[0] || input[CLOSE_BTN] )
 			SendSysMessage(mobile, "Cancelled.");
 			break;
 		elseif ( input[SEND_PAGE_BTN] )
-			if ( cur_menu == COUNSELOR_PAGE_BTN )
-				GumpPrompt(mobile, "Counselor paging not yet implemented.");
-			elseif ( cur_menu == STAFF_PAGE_BTN )
-				GumpPrompt(mobile, "Staff paging not yet implemented.");
+			var result := SubmitPage(mobile, cur_menu, input);
+			if ( result )
+				break;
 			endif
 		elseif ( input[WORD_WRAP_BTN] )
 			cur_txt := GFWordWrap(RetrievePageText(input), 370);
@@ -70,7 +70,7 @@ function RetrieveGump(cur_menu, byref settings, byref cur_txt)
 	var gump;
 	case ( cur_menu )
 		MAIN_PAGE_BTN:
-			gump := 0;// := LoadHelpInfo("MainGump", "Gump");
+			gump := 0 := LoadHelpInfo("MainGump", "Gump");
 			if ( !gump )
 				gump := BuildIntroGump(settings);
 				SaveHelpInfo("MainGump", "Gump", gump);
@@ -78,23 +78,17 @@ function RetrieveGump(cur_menu, byref settings, byref cur_txt)
 			break;
 
 		COUNSELOR_PAGE_BTN:
-			gump := 0;// := LoadHelpInfo("CounselorPage", "Gump");
-			if ( !gump )
-				gump := BuildTextEntryGump("Counselor Page", settings, cur_txt);
-				SaveHelpInfo("CounselorPage", "Gump", gump);
-			endif
+			// Cant cache it easily because of the text entries.
+			gump := BuildTextEntryGump("Counselor Page", settings, cur_txt);
 			break;
 
 		STAFF_PAGE_BTN:
-			gump := 0;// := LoadHelpInfo("StaffPage", "Gump");
-			if ( !gump )
-				gump := BuildTextEntryGump("Staff Page", settings, cur_txt);
-				SaveHelpInfo("StaffPage", "Gump", gump);
-			endif
+			// Cant cache it easily because of the text entries.
+			gump := BuildTextEntryGump("Staff Page", settings, cur_txt);
 			break;
 
 		HELP_TOPICS_BTN:
-			gump := 0;// := LoadHelpInfo("HelpTopicIndex", "Gump");
+			gump := 0 := LoadHelpInfo("HelpTopicIndex", "Gump");
 			if ( !gump )
 				gump := BuildHelpTopicsIndexGump(settings);
 				SaveHelpInfo("HelpTopicsIndex", "Gump", gump);
@@ -130,10 +124,47 @@ function RetrievePageText(byref input)
 	for ( i:=PAGE_TXT_START; i<=PAGE_TXT_END; i+=1 )
 		var data := GFExtractData(input, i);
 		if ( data )
-			text += data+" ";
+			text += CStr(data)+" ";
 		endif
 		SleepMS(2);
 	endfor
-
+	text := RemoveSpaces(text, CLR_LEADING_SPACES+CLR_TRAILING_SPACES+CLR_DOUBLE_SPACES);
 	return text;
+endfunction
+
+function SubmitPage(mobile, cur_menu, byref input)
+
+	var message := RetrievePageText(input);
+	if ( Len(message) < 10 )
+		GumpPrompt(mobile, "Please enter a more descriptive message.");
+		return 0;
+	endif
+
+	var type;
+	case ( cur_menu )
+		COUNSELOR_PAGE_BTN:
+			type := "Counselor";
+			break;
+		STAFF_PAGE_BTN:
+			type := "Staff";
+			break;
+		default:
+			GumpPrompt(mobile, "Error - Invalid Menu "+cur_menu);
+			return 0;
+	endcase
+
+	var elem_name := "Queue-"+type;
+	var queue := LoadHelpInfo(elem_name, Hex(mobile.serial));
+	var info := struct;
+	info.+message := message;
+	info.+time := POLCore().systime;
+
+	SaveHelpInfo(elem_name, Hex(mobile.serial), info);
+	if ( queue )
+		GumpPrompt(mobile, "Your previous page was overwritten.");
+	else
+		GumpPrompt(mobile, "Your page has been submitted.");
+	endif
+
+	return 1;
 endfunction
