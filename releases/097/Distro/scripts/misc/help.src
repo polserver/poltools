@@ -7,7 +7,7 @@ use uo;
 use os;
 
 program Help(who)
-	var script := Start_Script(":help:pageRequest/helpSystem", who);
+	var script := Start_Script(":help:helpSystem/helpSystem", who);
 	if ( script.errortext )
 		SendSysMessage(who, "Error starting help system ->"+script.errortext);
 		return 0;
