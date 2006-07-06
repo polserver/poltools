@@ -6,13 +6,7 @@ use uo;
 use os;
 
 include ":help:queue-gumps";
-
-CONST QUEUE_TYPES_BTN	:= 0xA001;
-CONST PAGE_LIST_BTN	:= 0xA002;
-CONST SHOW_PAGE_BTN	:= 0xA003;
-CONST DELETE_PAGE_BTN	:= 0xA004;
-CONST GOTO_BTN		:= 0xA006;
-CONST SUMMON_BTN	:= 0xA007;
+unload_scripts("helpqueue");
 
 program HelpQueue(mobile, queue_name)
 
@@ -30,11 +24,14 @@ program HelpQueue(mobile, queue_name)
 		endif
 
 		input := GFSendGump(mobile, gump);
+		if ( !input[0] || input[CLOSE_BTN] )
+			SendSysMessage(mobile, "Cancelled.");
+			break;
+		endif
 	endwhile
 
 	return 1;
 endprogram
-
 
 function CanAccessQueue(byref queue_name, cmdlevel)
 	queue_name := Lower(queue_name);

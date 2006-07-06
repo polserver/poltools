@@ -24,5 +24,10 @@ function GetHelpFilePath(elem_name)
 	var help_cfg := ReadConfigFile(":help:helptopics");
 	var help_elem := help_cfg[elem_name];
 
-	return ":help:helpFiles/"+help_elem.File+".txt";
+	var file_name := help_elem.File;
+	if ( !file_name )
+		return error{"errortext":="No file path was found."};
+	endif
+
+	return ":help:helpFiles/"+file_name+".txt";
 endfunction

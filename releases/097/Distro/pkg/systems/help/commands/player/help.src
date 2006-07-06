@@ -16,17 +16,17 @@ program helpfile_help(who, helpfile)
 	endif
 
 	var file_path := GetHelpFilePath(helpfile);
-	var text_array := ReadFile(file_path);
-	if ( !text_array )
-		text_array := ReadFile(":help:helpFiles/"+helpfile+".txt");
+	if ( !file_path )
+		file_path := ":help:helpFiles/"+helpfile+".txt";
 	endif
+	var text_array := ReadFile(file_path);
 
-	if ( file_path )
+	if ( text_array )
 		var text := ImplodeArray("", text_array);
 		SendHTMLGump(who, helpfile+" Help Text", text);
 		return 1;
 	else
-		SendSysMessage(who, "No help available for that helpfile.");
+		SendSysMessage(who, "No help available for that topic.");
 		return 0;
 	endif
 endprogram

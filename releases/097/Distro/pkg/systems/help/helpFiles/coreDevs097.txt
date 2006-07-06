@@ -1,6 +1,6 @@
 <CENTER><U>097 Core Developers</U></CENTER>
 
-<B>o</B>Adam<BR>
-<B>o</B>Austin<BR>
-<B>o</B>MuadDib<BR>
-<B>o</B>Shinigami<BR>
+<B>o</B> Adam<BR>
+<B>o</B> Austin<BR>
+<B>o</B> MuadDib<BR>
+<B>o</B> Shinigami<BR>
