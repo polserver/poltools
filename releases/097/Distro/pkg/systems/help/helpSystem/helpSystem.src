@@ -13,9 +13,7 @@ include ":help:help";
 include ":help:help-gumps";
 include "include/string";
 
-unload_scripts("");
-
-program PageRequest(mobile)
+program HelpSystem(mobile)
 	if ( GetProcess(GetObjProperty(mobile, "#HelpPID")) )
 		SendSysMessage(mobile, "You already have a help gump open.");
 		return 0;
