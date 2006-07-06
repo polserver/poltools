@@ -1,24 +1,32 @@
 /* $Id$
  *
  * Purpose:
- * Show help for a specific command.
+ * Show help for a specific helpfile.
  *
  */
 use uo;
 
 include ":gumps:htmlgump";
+include ":help:help";
+include "include/arrays";
 
-program command_help(who, command)
-	if ( !command )
-		command := "help";
+program helpfile_help(who, helpfile)
+	if ( !helpfile )
+		helpfile := "help";
 	endif
 
-	var help := GetCommandHelp(who, command);
-	if ( help )
-		SendHTMLGump(who, command+" Help Text", help);
+	var file_path := GetHelpFilePath(helpfile);
+	var text_array := ReadFile(file_path);
+	if ( !text_array )
+		text_array := ReadFile(":help:helpFiles/"+helpfile+".txt");
+	endif
+
+	if ( file_path )
+		var text := ImplodeArray("", text_array);
+		SendHTMLGump(who, helpfile+" Help Text", text);
 		return 1;
 	else
-		SendSysMessage(who, "No help available for that command.");
+		SendSysMessage(who, "No help available for that helpfile.");
 		return 0;
 	endif
 endprogram
