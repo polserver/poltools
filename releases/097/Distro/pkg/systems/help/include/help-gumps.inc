@@ -2,6 +2,9 @@
  *
  */
 
+use os;
+use file;
+
 include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
@@ -162,11 +165,9 @@ function BuildHelpTopicGump(topic_name, byref settings)
 	GFTextLine(gump, 245, 345, 2100, "Back");
 
 	GFPage(gump, 1);
-	var help_cfg := ReadConfigFile(":help:helptopics");
-	var help_elem := help_cfg[topic_name];
+	var help_file := GetHelpFilePath(topic_name);
 
-	var text := "<CENTER><U>"+topic_name+"</U></CENTER>";
-	text += ImplodeArray("", GetConfigStringArray(help_elem, "Text"));
+	var text := ImplodeArray("", ReadFile(help_file));
 
 	GFHTMLArea(gump, 210, 50, 370, 270, text, 1, 1);
 

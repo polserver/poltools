@@ -19,3 +19,10 @@ function SaveHelpInfo(elem_name, prop_name, byref data)
 	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
 	return data_elem.SetProp(prop_name, data);
 endfunction
+
+function GetHelpFilePath(elem_name)
+	var help_cfg := ReadConfigFile(":help:helptopics");
+	var help_elem := help_cfg[elem_name];
+
+	return ":help:helpFiles/"+help_elem.File+".txt";
+endfunction
