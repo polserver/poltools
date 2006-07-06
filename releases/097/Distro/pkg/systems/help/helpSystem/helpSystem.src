@@ -8,28 +8,33 @@ use os;
 include ":datafile:datafile";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":gumps:gumpprompt";
 include ":help:help";
 include ":help:help-gumps";
 
 unload_scripts("");
 
-program PageRequest(who)
-	if ( GetProcess(GetObjProperty(who, "#HelpPID")) )
-		SendSysMessage(who, "You already have a help gump open.");
+program PageRequest(mobile)
+	if ( GetProcess(GetObjProperty(mobile, "#HelpPID")) )
+		SendSysMessage(mobile, "You already have a help gump open.");
 		return 0;
 	else
-		SetObjProperty(who, "#HelpPID", GetPid());
+		SetObjProperty(mobile, "#HelpPID", GetPid());
 	endif
 	var settings := HS_GetSettingsCfgElem("Settings");
 
 	var input;
 	var gump := RetrieveGump(MAIN_PAGE_BTN, settings);
-	while ( who.connected )
-		input := GFSendGump(who, gump);
-		SendSysMessage(who, "Input->"+input[0]);
+	while ( mobile.connected )
+		input := GFSendGump(mobile, gump);
+		SendSysMessage(mobile, "Input->"+input[0]);
 		if ( !input[0] || input[CLOSE_BTN] )
-			SendSysMessage(who, "Cancelled.");
+			SendSysMessage(mobile, "Cancelled.");
 			break;
+		elseif ( input[SEND_COUN_PAGE_BTN] )
+			GumpPrompt(mobile, "Counselor paging not yet implemented.");
+		elseif ( input[SEND_STAFF_PAGE_BTN] )
+			GumpPrompt(mobile, "Staff paging not yet implemented.");
 		elseif ( input[MAIN_PAGE_BTN] )
 			gump := RetrieveGump(MAIN_PAGE_BTN, settings);
 		elseif ( input[COUNSELOR_PAGE_BTN] )
@@ -62,7 +67,7 @@ function RetrieveGump(cur_menu, byref settings)
 		COUNSELOR_PAGE_BTN:
 			gump := LoadHelpInfo("CounselorPage", "Gump");
 			if ( !gump )
-				gump := BuildTextEntryGump("Counselor Page", COUNSELOR_PAGE_BTN, COUN_TXT_START, settings);
+				gump := BuildTextEntryGump("Counselor Page", SEND_COUN_PAGE_BTN, COUN_TXT_START, settings);
 				SaveHelpInfo("CounselorPage", "Gump", gump);
 			endif
 			break;
@@ -70,7 +75,7 @@ function RetrieveGump(cur_menu, byref settings)
 		STAFF_PAGE_BTN:
 			gump := LoadHelpInfo("StaffPage", "Gump");
 			if ( !gump )
-				gump := BuildTextEntryGump("Staff Page", STAFF_PAGE_BTN, STAFF_TXT_START, settings);
+				gump := BuildTextEntryGump("Staff Page", SEND_STAFF_PAGE_BTN, STAFF_TXT_START, settings);
 				SaveHelpInfo("StaffPage", "Gump", gump);
 			endif
 			break;
