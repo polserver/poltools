@@ -9,9 +9,11 @@ use uo;
 include ":gumps:htmlgump";
 
 program command_help(who, command)
-	var help;
+	if ( !command )
+		command := "help";
+	endif
 
-	help := GetCommandHelp(who, command);
+	var help := GetCommandHelp(who, command);
 	if ( help )
 		SendHTMLGump(who, command+" Help Text", help);
 		return 1;
