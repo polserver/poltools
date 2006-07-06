@@ -5,32 +5,36 @@
 use uo;
 use os;
 
-include ":gumps:gumps";
-include ":gumps:gumps_ex";
-include ":gumps:gumpprompt";
+include ":help:queue-gumps";
+
+CONST QUEUE_TYPES_BTN	:= 0xA001;
+CONST PAGE_LIST_BTN	:= 0xA002;
+CONST SHOW_PAGE_BTN	:= 0xA003;
+CONST DELETE_PAGE_BTN	:= 0xA004;
+CONST GOTO_BTN		:= 0xA006;
+CONST SUMMON_BTN	:= 0xA007;
 
 program HelpQueue(mobile, queue_name)
+
+	var gump, input;
+	var cur_menu := QUEUE_TYPES_BTN;
 	if ( queue_name )
-		if ( !CanAccessQueue(queue_name, mobile.cmdlevel) )
-			GumpPrompt(mobile, "Access denied for queue '"+queue_name+"'");
-			return 0;
+		if ( CanAccessQueue(queue_name, mobile.cmdlevel) )
+			cur_menu := PAGE_LIST_BTN;
+		endif
+	endif
+
+	while ( mobile.connected )
+		if ( cur_menu == QUEUE_TYPES_BTN )
+			gump := ShowQueueTypes(mobile.cmdlevel);
 		endif
 
-		ShowPagesInQueue(mobile, queue_name);
-	else
-		ShowQueueTypes(mobile);
-	endif
+		input := GFSendGump(mobile, gump);
+	endwhile
 
 	return 1;
 endprogram
 
-function ShowPagesInQueue(mobile, queue_name)
-	return 1;
-endfunction
-
-function ShowQueueTypes(mobile)
-	return 1;
-endfunction
 
 function CanAccessQueue(byref queue_name, cmdlevel)
 	queue_name := Lower(queue_name);
