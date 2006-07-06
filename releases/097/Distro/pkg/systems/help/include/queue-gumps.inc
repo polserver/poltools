@@ -12,7 +12,13 @@ include ":help:help";
 
 
 function BuildGumpTemplate()
-	var gump := GFCreateGump();
+	var gump := LoadHelpInfo("QueueTemplate", "Gump");
+
+	if ( gump )
+		return gump;
+	endif
+
+	gump := GFCreateGump();
 
 	return gump;
 endfunction
