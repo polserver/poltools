@@ -1,3 +1,7 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use os;
 use util;
@@ -15,9 +19,8 @@ program control_Corpse(corpse)
 		return 0;
 	endif
 
-	// Script will handle decay time, not the core.
-	corpse.decayat := 0;
 	Sleep(decay_wait);
+	corpse.SetDestroyable(1);
 	corpse.MakeRemains();
 
 	return 1;
