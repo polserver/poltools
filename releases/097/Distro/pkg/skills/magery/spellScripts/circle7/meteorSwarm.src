@@ -1,11 +1,11 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":magery:spells";
-include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
 include ":damage:damage";
 
 program SpellScript_MeteorSwarm(params)

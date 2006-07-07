@@ -6,12 +6,12 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":timedscripts:timedScripts";
-include ":magery:spells";
-include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
 include ":damage:damage";
 
 program SpellScript_ArchProtection(params)
@@ -24,7 +24,9 @@ program SpellScript_ArchProtection(params)
 	// 2-tile effect, protection on all party members and caster
 	var targ;
 	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 2)
+		// Grab the party list, if any
 		var party := GetObjProperty(mobile, "#Party");
+
 		if ( targ.serial in party || targ.serial == mobile.serial )
 			if ( !GetObjProperty(targ, "Protection") )
 				ApplyArchProtection(targ);
@@ -44,8 +46,7 @@ program SpellScript_ArchProtection(params)
 endprogram
 
 function ApplyArchProtection(mobile)
-	// Not sure if I should lower physical resist by 35 here because uo.com and uo.stratics don't say exactly
-	ModifyResistance(mobile, DMG_PHYSICAL, -(ResistancePercentToMult(35)));
+	ModifyResistance(mobile, DMG_PHYSICAL, -35);
 	AP_ModifySkillMod(mobile, RESISTING_SPELLS, -35);
 	
 	// At present there is no determined way to modify casting speed and other stats:
@@ -55,7 +56,7 @@ function ApplyArchProtection(mobile)
 endfunction
 
 function RemoveArchProtection(mobile)
-	ModifyResistance(mobile, DMG_PHYSICAL, ResistancePercentToMult(35));
+	ModifyResistance(mobile, DMG_PHYSICAL, 35);
 	AP_ModifySkillMod(mobile, RESISTING_SPELLS, 35);
 	
 	// At present there is no determined way to modify casting speed and other stats:

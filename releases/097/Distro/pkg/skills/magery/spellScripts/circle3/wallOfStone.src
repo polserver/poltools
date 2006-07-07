@@ -1,0 +1,33 @@
+use uo;
+use os;
+
+include "include/facings";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":magery:fields";
+
+program SpellScript_WallOfStone(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_TargetCoordinates(mobile, info.targ, "Select a target.");
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_FIRE_FIELD);
+	
+	// Duration: 10 seconds
+	var duration := 10;
+
+	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, 0x80, 5, duration, "", mobile, 1);
+	else
+		CreateField(targ, FIELD_SHAPE_VERTICAL, 0x80, 5, duration, "", mobile, 1);
+	endif
+	
+	return 1;
+endprogram

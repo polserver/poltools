@@ -3,8 +3,11 @@ Not sure what happens if you cast a timedScript spell multiple times on OSI. "Th
 Keep in mind that many spells check if an item is locked down or in a house.
 Modify sendstats packet hook to correctly send resistances for debuging.
 Some spells randomly say "I am frozen and cannot move." even though I'm not doing anything.
-Define spell difficulties
 Add ID tags to all files
+Create a file that CONSTs spell FX
+
+In spells.cfg:
+	define spell difficulties
 
 Lvl 2
 Magic Trap	Traps do 10-50 pts damage
@@ -29,3 +32,6 @@ Area Spells: chain lightning, meteor swarm, earthquake
 Do characters unparalyze after taking damage?
 What happens if a server crashes before a timed script finishes?
 Can timed scripts be run multiple times?
+
+
+Use teleport vanish after moving character on original location

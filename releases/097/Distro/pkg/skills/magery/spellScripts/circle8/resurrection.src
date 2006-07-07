@@ -11,6 +11,11 @@ program SpellScript_Resurrection(params)
 
 	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
 
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
 	if ( mobile.serial == targ.serial )
 		SendSysMessage(mobile, "Thou cannot resurrect thyself.");
 		return 0;

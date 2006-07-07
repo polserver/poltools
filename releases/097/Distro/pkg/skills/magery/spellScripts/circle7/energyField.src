@@ -1,0 +1,36 @@
+use uo;
+use os;
+
+include "include/facings";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":magery:fields";
+include ":attributes:attributes";
+
+program SpellScript_EnergyField(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_TargetCoordinates(mobile, info.targ, "Select a target.");
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_ENERGY_FIELD);
+	
+	// Duration: 28% Magery +2 seconds
+	// On OSI the duration max is 35.6, but this probably wont work without some tweaking
+	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 1.28) + 2);
+
+	// TODO: Test!
+	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "EnergyField_NS", 5, duration, "", mobile, 1);
+	else
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "EnergyField_EW", 5, duration, "", mobile, 1);
+	endif
+	
+	return 1;
+endprogram

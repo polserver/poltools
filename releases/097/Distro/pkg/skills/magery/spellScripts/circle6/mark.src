@@ -4,57 +4,63 @@
 use uo;
 use os;
 
+//include "include/tileEffects";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
-include "include/tileEffects";
 
 program SpellScript_Mark(params)
-	var who := params[1];
+	var mobile := params[1];
 	var info := params[2];
 	params := 0;
 
 	var prompt := "Select a recall rune to mark.";
-	var recall_rune := MS_Target(who, 0, prompt, TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
+	var recall_rune := MS_Target(mobile, 0, prompt, TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL);
 
-	if ( !recall_rune.IsRecallRune() )
-		SendSysMessage(who, "You can only cast that on a recall rune!");
-		return 0;
-	elseif ( !Accessible(who, recall_rune) )
-		SendSysMessage(who, "You can't reach that!");
-		return 0;
-	elseif ( !ReserveItem(recall_rune) )
-		SendSysMessage(who, "Your spell fizzles.");
-		return 0;
-	elseif ( GetObjProperty(recall_rune, "Vendored") )
-		SendSysMessage(who, "You cannot mark runes on a vendor.");
-		return 0;
-	elseif ( who.multi )
-		SendSysMessage(who, "You cannot mark runes here.");
-		PlaySoundEffect(who, 0x005d);
-		PlayObjectCenteredEffect(who, 0x3735, 0x0a, 0x1e);
-		return 0;
-	elseif ( ((who.x >= 5120) && (who.x <= 5375) && (who.y >= 0) && (who.y <= 255)) || (who.multi) )
-		SendSysMessage(who, "You cannot mark runes here.");
+	if ( !recall_rune )
+		SendSysMessage(mobile, "Cancelled.");
 		return 0;
 	endif
 
-	var signs := ListItemsNearLocationOfType( who.x, who.y, who.z, 30, 0x7060, who.realm);
+	if ( !recall_rune.IsRecallRune() )
+		SendSysMessage(mobile, "You can only cast that on a recall rune!");
+		return 0;
+	elseif ( !Accessible(mobile, recall_rune) )
+		SendSysMessage(mobile, "You can't reach that!");
+		return 0;
+	elseif ( !ReserveItem(recall_rune) )
+		SendSysMessage(mobile, "Your spell fizzles.");
+		return 0;
+	elseif ( GetObjProperty(recall_rune, "Vendored") )
+		SendSysMessage(mobile, "You cannot mark runes on a vendor.");
+		return 0;
+	elseif ( mobile.multi )
+		SendSysMessage(mobile, "You cannot mark runes here.");
+		PlaySoundEffect(mobile, 0x005d);
+		PlayObjectCenteredEffect(mobile, 0x3735, 0x0a, 0x1e);
+		return 0;
+	elseif ( ((mobile.x >= 5120) && (mobile.x <= 5375) && (mobile.y >= 0) && (mobile.y <= 255)) || (mobile.multi) )
+		SendSysMessage(mobile, "You cannot mark runes here.");
+		return 0;
+	endif
+
+	var signs := ListItemsNearLocationOfType( mobile.x, mobile.y, mobile.z, 30, 0x7060, mobile.realm);
 	foreach sign in signs
 		var infoarr := GetObjProperty(sign, "homeinfo");
 		if( infoarr )
-			if( (who.x >= infoarr[2]) && (who.x <= infoarr[4]) && (who.y >= infoarr[3]) && (who.y <= infoarr[5]) )
-				SendSysMessage(who, "You cannot mark runes here.");
+			if( (mobile.x >= infoarr[2]) && (mobile.x <= infoarr[4]) && (mobile.y >= infoarr[3]) && (mobile.y <= infoarr[5]) )
+				SendSysMessage(mobile, "You cannot mark runes here.");
 				return 0;
 				break;
 			endif
 		endif
 	endforeach
 
-	PlayObjectCenteredEffect(who, FX_MARK_EFFECT, 10, 10);
-	PlaySoundEffect(who, SFX_SPELL_MARK);
-	recall_rune.SetDestination(who.x, who.y, who.z, who.realm);
+	PlayObjectCenteredEffect(mobile, FX_MARK_EFFECT, 10, 10);
+	PlaySoundEffect(mobile, SFX_SPELL_MARK);
+
+	recall_rune.SetDestination(mobile.x, mobile.y, mobile.z, mobile.realm);
 
 	SetName(recall_rune, "a marked recall rune");
 

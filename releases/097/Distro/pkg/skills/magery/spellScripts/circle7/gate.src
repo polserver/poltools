@@ -4,13 +4,13 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
+include "include/sounds";
 include ":magery:spells";
+include ":attributes:attributes";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
 include ":containers:containers";
 include ":itemutils:itemdesc";
-include "include/sounds";
 
 program SpellScript_Gate(params)
 	var who := params[1];

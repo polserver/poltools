@@ -13,11 +13,11 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":magery:spells";
-include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
 include ":damage:damage";
 
 program SpellScript_Protection(params)
@@ -38,8 +38,7 @@ program SpellScript_Protection(params)
 endprogram
 
 function ApplyProtection(mobile)
-	// Not sure if I should lower physical resist by 35 here because uo.com and uo.stratics don't say exactly
-	ModifyResistance(mobile, DMG_PHYSICAL, -(ResistancePercentToMult(35)));
+	ModifyResistance(mobile, DMG_PHYSICAL, -35);
 	AP_ModifySkillMod(mobile, RESISTING_SPELLS, -35);
 	
 	// At present there is no determined way to modify casting speed and other stats:
@@ -49,7 +48,7 @@ function ApplyProtection(mobile)
 endfunction
 
 function RemoveProtection(mobile)
-	ModifyResistance(mobile, DMG_PHYSICAL, ResistancePercentToMult(35));
+	ModifyResistance(mobile, DMG_PHYSICAL, 35);
 	AP_ModifySkillMod(mobile, RESISTING_SPELLS, 35);
 	
 	// At present there is no determined way to modify casting speed and other stats:
