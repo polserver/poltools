@@ -1,16 +1,13 @@
-/* $Id$
- *
- */
 use uo;
 use os;
 
-include ":attributes:attributes";
+include "include/sounds";
 include ":magery:spells";
+include ":attributes:attributes";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
 include ":containers:containers";
 include ":itemutils:itemdesc";
-include "include/sounds";
 
 program SpellScript_Recall(params)
 	var who := params[1];
@@ -19,14 +16,15 @@ program SpellScript_Recall(params)
 	params := 0; // No longer needed
 
 	var prompt := "Select an object to recall from.";
-	recall_rune := MS_Target(who, recall_rune, prompt, TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL);
-	if( !recall_rune.IsRecallRune() )
+	recall_rune := MS_Target(who, recall_rune, prompt, TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL);
+
+	if ( !recall_rune.IsRecallRune() )
 		SendSysMessage(who, "You can only cast that on a recall rune or runebook.");
 		return 0;
-	elseif( !ReserveItem(recall_rune) )
+	elseif ( !ReserveItem(recall_rune) )
 		SendSysMessage(who, "That is already being used.");		
 		return 0;
-	elseif( GetObjProperty(recall_rune, "Vendored") )
+	elseif ( GetObjProperty(recall_rune, "Vendored") )
 		SendSysMessage(who, "You cannot recall off of runes on a vendor.");
 		return 0;
 	endif
@@ -36,6 +34,7 @@ program SpellScript_Recall(params)
 		SendSysMessage(who, "That rune is not marked.");
 		return 0;
 	endif
+
 	/*
 	 * Check if destination is a multi here.
 	 *

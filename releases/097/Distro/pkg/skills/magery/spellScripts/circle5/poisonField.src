@@ -1,0 +1,46 @@
+use uo;
+use os;
+
+include "include/facings";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":magery:fields";
+include ":attributes:attributes";
+
+program SpellScript_PoisonField(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_TargetCoordinates(mobile, info.targ, "Select a target.");
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_POISON_FIELD);
+	
+	// Duration: (3 + (Magery * 0.4)) seconds
+	var duration := CInt(3 + AP_GetSkill(mobile, MAGERY) * 0.4);
+
+	// level: same as poison ((Magery + Poisoning) / 2)
+	var level := CInt(AP_GetSkill(mobile, MAGERY) + AP_GetSkill(mobile, POISONING) / 2);
+
+/*
+Levels go like this:
+Less than 65.1 : Level 1 poison
+65.1 to 85 : Level 2 poison
+85.1 to 99.9 : Level 3 poison
+100 and higher : Level 4 poisoning.
+*/
+
+	// TODO: Set correct poisoning paramaters on field
+	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", 5, duration, "1d2", mobile, "1");
+	else
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", 5, duration, "1d2", mobile, "1");
+	endif
+	
+	return 1;
+endprogram

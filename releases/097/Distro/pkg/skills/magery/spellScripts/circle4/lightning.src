@@ -6,11 +6,11 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":magery:spells";
-include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
 include ":damage:damage";
 
 program SpellScript_Lightning(params)
@@ -18,7 +18,13 @@ program SpellScript_Lightning(params)
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif

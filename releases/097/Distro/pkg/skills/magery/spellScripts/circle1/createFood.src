@@ -6,11 +6,11 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
+include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
+include ":attributes:attributes";
 include ":food&drink:food";
-include "include/sounds";
 
 program SpellScript_CreateFood(params)
 	var mobile := params[1];
@@ -21,7 +21,7 @@ program SpellScript_CreateFood(params)
 	var food := CreateItemInBackPack(mobile, food_item, 1);
 	food.movable := 1;
 	
-	if ( food.errortext )
+	if ( food == error )
 		SendSysMessage(mobile, "Error creating food ("+food_item+") ->"+food.errortext);
 	else
 		PlaySoundEffect(mobile, SFX_SPELL_CREATE_FOOD);

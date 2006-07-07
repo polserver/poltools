@@ -1,10 +1,10 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
+include "include/client";
 include ":magery:spells";
 include ":magery:spellSounds";
-include "include/client";
+include ":attributes:attributes";
 
 /*
 Some clilocs, for use later
@@ -17,8 +17,8 @@ Some clilocs, for use later
 502831	Cannot teleport to that spot.
 502832	I can't teleport there!
 503361	This ability cannot be used to teleport in houses or boats.
-
 */
+
 program SpellScript_Teleport(params)
 	var mobile := params[1];
 	var info := params[2];
@@ -26,6 +26,10 @@ program SpellScript_Teleport(params)
 	
 	var targ := MS_TargetCoordinates(mobile, info.targ, "Select a target.");
 	
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
 	
 	print("targ: x:"+targ.x+", y:"+targ.y+" r:"+targ.realm);
 	

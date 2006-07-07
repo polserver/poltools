@@ -6,18 +6,24 @@
 use uo;
 use os;
 
-include ":attributes:attributes";
-include ":magery:spells";
-include ":magery:spellSounds";
 include "include/client";
 include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
 
 program SpellScript_GreaterHeal(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
 	
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif
