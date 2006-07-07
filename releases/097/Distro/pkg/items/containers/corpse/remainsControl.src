@@ -1,7 +1,7 @@
 /* $Id$
  *
  */
- 
+
 use uo;
 use os;
 
@@ -13,9 +13,9 @@ program control_Remains(remains)
 	if ( !decay_wait )
 		decay_wait := 60;
 	endif
-		
+
 	Sleep(decay_wait);
-	
+
 	foreach item in ( EnumerateItemsInContainer(remains) )
 		if ( item.container != remains )
 			continue;
@@ -24,8 +24,8 @@ program control_Remains(remains)
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	DestroyItem(remains);
-	
+
 	return 1;
 endprogram

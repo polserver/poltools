@@ -39,11 +39,25 @@ endfunction
 
 exported function IsPlayerCorpse(corpse)
 	var owner := GetOwner(corpse);
-	
+
 	if ( owner )
 		return owner;
 	else
 		return error{"errortext":="Corpse does not have an owner."};
+	endif
+endfunction
+
+exported function CanDestroy(corpse)
+	return GetObjProperty(corpse, "CanDestroy");
+endfunction
+
+exported function SetDestroyable(corpse, value)
+	value := CInt(value);
+	if ( !value )
+		EraseObjProperty(corpse, "CanDestroy");
+		return 1;
+	else
+		SetObjProperty(corpse, "CanDestroy", 1);
 	endif
 endfunction
 
@@ -74,28 +88,28 @@ exported function MakeRemains(corpse)
 	if ( !corpse.IsA(POLCLASS_CORPSE) )
 		return error{"errortext":="Object is not a corpse."};
 	endif
-	
+
 	var remains := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, "CorpseRemains", 1, corpse.realm);
 	if ( remains.errortext )
 		return remains;
 	endif
-	
+
 	foreach item in ( EnumerateItemsInContainer(corpse) )
 		if ( item.container != corpse )
 			continue;
 		endif
-		
+
 		MoveItemToContainer(item, remains, item.x, item.y);
 	endforeach
-	
+
 	var owner := IsPlayerCorpse(corpse);
 	if ( owner )
 		remains.SetOwner(owner);
 		SetName(remains, "remains of "+owner.name);
 	endif
-	
+
 	DestroyItem(corpse);
-	
+
 	return remains;
 endfunction
 
@@ -111,10 +125,10 @@ exported function Gibbify(corpse, range)
 		0x1CED, //Heart
 		0x1CF0  //Brain
 	};
-	
+
 	foreach objtype in (piece_list)
 		var item := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, objtype, 1);
-		
+
 		var newx, newy;
 		var num_tries := 0;
 
@@ -134,11 +148,11 @@ exported function Gibbify(corpse, range)
 				break MOVE_LOOP;
 			endif
 		until ( CheckLosAt(corpse, newx, newy, corpse.z) );
-		
+
 		MoveObjectToLocation(item, newx, newy, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
 	endforeach
-	
+
 	DestroyItem(corpse);
-	
+
 	return 1;
 endfunction
