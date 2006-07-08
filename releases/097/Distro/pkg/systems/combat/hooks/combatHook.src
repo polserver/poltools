@@ -38,7 +38,7 @@ exported function Attack(attacker, defender)
 	elseif ( !CanAttack(attacker, defender) )
 		return 1;
 	endif
-	
+
 	var a_info, d_info;
 	SetupInfo(attacker, defender, a_info, d_info);
 
@@ -67,7 +67,7 @@ exported function Attack(attacker, defender)
 		RunWeaponHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
 		RunArmorHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
 
-		ApplyRawDamageEX(d_info.mobile, raw_damage);
+		ApplyRawDamageEX(d_info.mobile, raw_damage, a_info.attacker);
 	else
 		PlayMissSound(a_info);
 	endif
@@ -107,7 +107,7 @@ function FacingChecks(attacker, defender)
 		if ( !IsFacing(attacker, defender.x, defender.y) )
 			TurnObjectToward(attacker, defender.x, defender.y);
 		endif
-		
+
 		if ( !IsFacing(defender, attacker.x, attacker.y) )
 			TurnObjectToward(defender, attacker.x, attacker.y);
 		endif
@@ -143,7 +143,7 @@ function AmmoChecks(byref a_info, byref d_info)
 	if ( !ammo_type )
 		return 1;
 	endif
-	
+
 	if ( ConsumeSubstance((a_info.mobile).backpack, ammo_type, 1) )
 		PlaySoundEffect(a_info.mobile, CInt((a_info.cfginfo).ProjectileSound));
 		PlayMovingEffect(a_info.mobile, d_info.mobile, (a_info.cfginfo).ProjectileAnim, 10, 0);

@@ -31,8 +31,8 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 			rawdamage := CInt(rawdamage/2);
 		endif
 	endif
-	
-	FacingChecks(attacker, defender);	
+
+	FacingChecks(attacker, defender);
 	PlayHitSounds(defender);
 	SkillChecks(attacker, defender, weapon, rawdamage);
 	ArrowRecovery(defender, weapon);
@@ -43,7 +43,7 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 	WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage);
 	ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage);
 	//PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage);
-	
+
 	var hostiles := ListHostiles(defender, 1);
 	rawdamage := rawdamage+CInt(hostiles.Size()/2);
 	hostiles := 0;
@@ -53,10 +53,10 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 	// Raw = post armor
 	//
 	if ( rawdamage > 0 )
-		ApplyRawDamageEX(defender, CInt(rawdamage));
+		ApplyRawDamageEX(defender, CInt(rawdamage), attacker);
 		MakeBleed(defender);
 	endif
-	
+
 	return 1;
 endprogram
 
@@ -64,10 +64,10 @@ function FacingChecks(attacker, defender)
 	if ( !CS_GetSettingsCfgElem("Settings").ForceFacing )
 		return 0;
 	endif
-	
+
 	TurnObjectToward(attacker, defender.x, defender.y);
 	TurnObjectToward(defender, attacker.x, attacker.y);
-		
+
 	return 1;
 endfunction
 
@@ -90,7 +90,7 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 			can_gain := 1;
 		endif
 	endif
-	
+
 	if ( can_gain )
 		var gain_wait := CInt(CS_GetSettingsCfgElem("General").GainWait);
 		SetObjProperty(attacker, "#CS_GainTime", ReadGameClock()+gain_wait);
@@ -116,11 +116,11 @@ endfunction
 function WearDownArmor(defender, armor)
 	if ( armor )
 		var armor_elem := CS_GetSettingsCfgElem("Armor");
-						
+
 		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(defender, armor.desc+" takes some damage.");
 			armor.hp -= 1;
-		
+
 			if ( armor.hp <= 1 )
 				MoveObjectToLocation(armor, 1, 1, 1, armor.realm, MOVEOBJECT_FORCELOCATION);
 				SendSysMessage(defender, armor.desc+" has been destroyed.");
@@ -128,7 +128,7 @@ function WearDownArmor(defender, armor)
 			endif
 		endif
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -172,7 +172,7 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 	elseif ( weapon.IsA(POLCLASS_WEAPON) )
 		weapon_scripts := GetObjProperty(weapon, "HitScripts");
 	endif
-	
+
 	foreach hitscript in weapon_scripts
 		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( !script || script.errortext )
@@ -181,7 +181,7 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -194,9 +194,9 @@ function ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamag
 	if ( !armor_scripts )
 		armor_scripts := array{};
 	endif
-	
+
 	armor_scripts := armor_scripts + body_scripts;
-	
+
 	foreach hitscript in armor_scripts
 		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( script.errortext )
@@ -205,7 +205,7 @@ function ArmorHitScripts(attacker, defender, weapon, armor, basedamage, rawdamag
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -214,7 +214,7 @@ function PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage)
 	if ( rawdamage < 1 )
 		return 0;
 	endif
-	
+
 	// Unsure how poisoned weapon CProps will look yet.
 endfunction
 */
@@ -227,34 +227,34 @@ function ParryCheck(attacker, defender, byref rawdamage)
 	if ( !shield.ISA(POLCLASS_ARMOR) )
 		shield := GetEquipmentByLayer(defender, LAYER_HAND1);
 	endif
-	
+
 	if ( !shield.IsA(POLCLASS_ARMOR) )
 		return 0;
 	endif
-	
+
 	var parry_elem := CS_GetSettingsCfgElem("Parry");
 	var divisor := CDbl(parry_elem.ParryDivisor);
 	var roll := CDbl(parry_elem.ParryRoll);
 	var parry_chance := CDbl(AP_GetSkill(attacker, "Tactics")) / divisor;
-	
+
 	if ( RandomFloat(roll) > parry_chance ) // Failed
 		return 0;
 	endif
-	
+
 	//PerformAction(defender, ANIM_TWIST_DODGE);
 	SendSysMessage(defender, "You deflect some damage using your shield.");
 	var decrease := RandomInt(shield.ar)+1;
 	var new_dmg := rawdamage - decrease;
-	
+
 	if ( attacker.cmdlevel )
 		PrintTextAbovePrivate(defender, "Parry! Lowering damage from ["+rawdamage+"] to ["+new_dmg+"]", attacker);
 	endif
 	if ( defender.cmdlevel )
 		PrintTextAbovePrivate(defender, "Parry! Lowering damage from ["+rawdamage+"] to ["+new_dmg+"]", defender);
 	endif
-	
+
 	rawdamage := new_dmg;
-		
+
 	if ( rawdamage > CInt(0.15*shield.hp) )
 		SendSysMessage(defender, shield.desc+" takes some damage.");
 		shield.quality *= CDbl(CS_GetSettingsCfgElem("Parry").WearRate);
