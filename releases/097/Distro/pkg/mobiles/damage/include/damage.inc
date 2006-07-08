@@ -8,6 +8,7 @@
 use uo;
 use os;
 use math;
+use polsys;
 use cfgfile;
 
 include ":damage:settings";
@@ -17,9 +18,8 @@ include ":attributes:attributes";
 
 /*
  * http://uo.stratics.com/content/guides/resistance.shtml
- * These could be attributes, but not every shard will want to
- * follow OSI. This gives more freedom to make custom resistances
- * and remove existing ones more easily.
+ * Damage constants listed here to prevent typos in scripts.
+ *
  */
 enum DAMAGE_TYPES
 	DMG_FORCED	:= -1, // Ignores resistance
@@ -60,6 +60,11 @@ function ApplyDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 		ApplyDamage(mobile, amount);
 	endif
 
+	var settings := DMG_GetSettingsCfgElem("Settings");
+	if ( settings.DisplayDamage )
+		DisplayDamage(mobile, amount, source);
+	endif
+
 	return amount;
 endfunction
 
@@ -93,7 +98,49 @@ function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 		ApplyRawDamage(mobile, amount);
 	endif
 
+	var settings := DMG_GetSettingsCfgElem("Settings");
+	if ( settings.DisplayDamage )
+		DisplayDamage(mobile, amount, source);
+	endif
+
 	return amount;
+endfunction
+
+/*
+ * DisplayDamage(damaged, amount, source)
+ *
+ * Purpose
+ * Displays the damage done above the damaged mobile.
+ *
+ * Parameters
+ * damaged:	Mobile that was damaged.
+ * amount:	Amount of damage that was done.
+ * source:	Source of the damage.
+ *
+ * Return Value
+ * Returns 1
+ *
+ */
+function DisplayDamage(damaged, amount, source:=0)
+	var dmg_packet := CreatePacket(0x0B, 0x07);
+
+	if( amount <= 255 )
+		dmg_packet.SetInt8(0x06, amount);
+	else
+		dmg_packet.SetInt16(0x05, amount);
+	endif
+
+	dmg_packet.SetInt32(0x01, damaged.serial);
+
+	if ( source.acctname )
+		dmg_packet.SendPacket(source);
+	endif
+
+	if( damaged.acctname )
+		dmg_packet.SendPacket(damaged);
+	endif
+
+	return 1;
 endfunction
 
 /*
