@@ -67,7 +67,7 @@ exported function Attack(attacker, defender)
 		RunWeaponHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
 		RunArmorHitScripts(a_info, d_info, armor_hit, base_damage, raw_damage);
 
-		ApplyRawDamageEX(d_info.mobile, raw_damage, a_info.attacker);
+		ApplyRawDamageEX(d_info.mobile, raw_damage, DMG_FORCED, a_info.attacker);
 	else
 		PlayMissSound(a_info);
 	endif
