@@ -41,6 +41,10 @@ function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 	foreach timer_name in ( poison_names )
 		SendSysMessage(mobile, "Found poison "+timer_name);
 		var elem_info := TS_GetCfgElem(timer_name);
+		if ( elem_info.errortext )
+			SysLog("Error::TS_CurePoison() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+			return 0;
+		endif
 
 		if ( elem_info.NoCure ) // Incurable
 			continue; // Go to the next point in the loop.

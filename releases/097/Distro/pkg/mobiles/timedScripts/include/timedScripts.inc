@@ -185,7 +185,10 @@ function TS_GetTimerNames(mobile, type:="")
 	foreach timer_name in ( timer_list.Keys() )
 		if ( type )
 			var elem_info := TS_GetCfgElem(timer_name);
-			if ( Lower(elem_info.Type) == type )
+			if ( elem_info.errortext )
+				SysLog("Error::TS_GetTimerNames() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+				return 0;
+			elseif ( Lower(elem_info.Type) == type )
 				name_list.Append(timer_name);
 			endif
 		else
@@ -193,7 +196,7 @@ function TS_GetTimerNames(mobile, type:="")
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return name_list;
 endfunction
 
@@ -216,7 +219,7 @@ function TS_GetTimerInfo(mobile, timer_name)
 	if ( timer_list.Exists(timer_name) )
 		return timer_list[timer_name];
 	else
-		return error{"Error::TS_GetTimerInfo() - No timer exists by that name."};
+		return error{"errortext":="Error::TS_GetTimerInfo() - No timer exists by that name."};
 	endif
 endfunction
 
@@ -308,7 +311,7 @@ function TS_LowerDuration(mobile, timer_name, amount)
 	return process.SendEvent(event);
 endfunction
 
-/* 
+/*
  * TS_LogOff(mobile)
  *
  * Purpose
@@ -326,15 +329,15 @@ function TS_LogOff(mobile)
 	if ( mobile.IsA(POLCLASS_NPC) )
 		return error{"errortext":="NPCs can't log off."};
 	endif
-	
+
 	var event := struct;
 	event.+type := EVENT_LOGOFF;
-	
+
 	var process := TS_GetControllerProcess(mobile);
 	return process.SendEvent(event);
 endfunction
 
-/* 
+/*
  * TS_Death(mobile)
  *
  * Purpose
@@ -355,7 +358,7 @@ function TS_Death(mobile)
 	elseif ( mobile.IsA(POLCLASS_CORPSE) )
 		event.+type := EVENT_NPC_DIED;
 	endif
-	
+
 	var process := TS_GetControllerProcess(mobile);
 	return process.SendEvent(event);
 endfunction

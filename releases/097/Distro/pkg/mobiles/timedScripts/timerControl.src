@@ -57,7 +57,7 @@ function SaveState(mobile, byref timer_list)
 	// Need a new dictionary to save the remaining time
 	// Example ( timer.endtime - ReadGameClock() ) == duration
 
-	foreach timer in (timer_list)
+	foreach timer in ( timer_list )
 		var save_timer := struct;
 		save_timer.+name := _timer_iter;
 		save_timer.+duration := timer.endtime - ReadGameClock();
@@ -76,7 +76,7 @@ function StartUp(mobile, byref timer_list, byref num_poisons)
 	// Take in any timers in the dictionary and start the scripts.
 	var temp_list := TS_GetTimerList(mobile); // Will initialize dictionary.
 
-	foreach timer in (temp_list)
+	foreach timer in ( temp_list )
 		var event := struct;
 		event.+name := _timer_iter;
 		event.+amount := timer.duration;
@@ -97,10 +97,13 @@ function LogOff(mobile, byref timer_list)
 
 	foreach timer in ( timer_list )
 		timer := timer; // So the compiler doesn't warn.
-		var elem_info := TS_GetCfgElem(_timer_iter);
 		KillTimedScript(mobile, timer_list.pid, timer_list, _timer_iter);
 
-		if( elem_info.LogOffScript )
+		var elem_info := TS_GetCfgElem(_timer_iter);
+		if ( elem_info.errortext )
+			SysLog("Error::LogOff() - Unable to find elem ["+_timer_iter+"] "+elem_info.errortext);
+			continue;
+		elseif( elem_info.LogOffScript )
 			var script := Start_Script(elem_info.LogOffScript, {mobile, "LogOff"});
 			if( script.errortext )
 				Print("Error::LogOff() - ["+elem_info.LogOffScript+"] "+script.errortext);
@@ -138,6 +141,10 @@ endfunction
 
 function AddNewTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
+	if ( elem_info.errortext )
+		SysLog("Error::AddNewTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext);
+		return 0;
+	endif
 
 	var script;
 	if ( elem_info.Script )
@@ -173,6 +180,10 @@ endfunction
 
 function AddExistingTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
+	if ( elem_info.errortext )
+		SysLog("Error::AddExistingTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext);
+		return 0;
+	endif
 
 	var level := CInt(timer_list[event.name].level);
 	var amt := CInt(event.amount);
@@ -229,6 +240,11 @@ endfunction
 function CheckTimerStatus(mobile, byref timer_list, byref num_poisons)
 	foreach timer in ( timer_list )
 		var cfg_info := TS_GetCfgElem(_timer_iter);
+		if ( cfg_info.errortext )
+			SysLog("Error::CheckTimerStatus() - Unable to find config elem ["+_timer_iter+"] - "+cfg_info.errortext);
+			continue;
+		endif
+
 		if ( cfg_info.StopOnEnd )
 			if ( !GetProcess(timer.pid) )
 				var event := struct;
@@ -286,7 +302,10 @@ function PlayerDeath(mobile, byref timer_list, byref num_poisons)
 	foreach timer in ( timer_list )
 		timer := timer; // So the compiler does not issue warnings.
 		var elem_info := TS_GetCfgElem(_timer_iter);
-		if ( elem_info.ContinueOnDeath )
+		if ( elem_info.errortext )
+			SysLog("Error::PlayerDeath() - Unable to find config elem ["+_timer_iter+"] - "+elem_info.errortext);
+			return 0;
+		elseif ( elem_info.ContinueOnDeath )
 			continue;
 		endif
 
@@ -303,6 +322,10 @@ endfunction
 
 function EndTimedScript(mobile, byref timer_name, byref num_poisons)
 	var elem_info := TS_GetCfgElem(timer_name);
+	if ( elem_info.errortext )
+		SysLog("Error::EndTimedScript() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+		return 0;
+	endif
 
 	if( elem_info.IndicatePoison )
 		num_poisons -= 1;
