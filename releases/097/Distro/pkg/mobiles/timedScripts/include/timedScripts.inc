@@ -7,6 +7,8 @@ use uo;
 use cfgfile;
 use os;
 
+include ":timedscripts:report";
+
 // Event flags
 CONST EVENT_ADD_TIMER			:= 0x1;
 CONST EVENT_LOWER_TIMER			:= 0x2;
@@ -35,7 +37,7 @@ function TS_GetCfgFile()
 	var cfg := ReadConfigFile(":timedscripts:timedScripts");
 
 	if ( cfg.errortext )
-		SysLog("Error::TS_GetSettingsCfgFile() - Unable to open [:timedscripts:timedScripts] ->"+cfg.errortext);
+		TS_ReportText("Error::TS_GetSettingsCfgFile() - Unable to open [:timedscripts:timedScripts] ->"+cfg.errortext, TS_REPORT_SYSLOG);
 	endif
 
 	return cfg;
@@ -63,7 +65,7 @@ function TS_GetCfgElem(elem_name, byref cfg_file:=0)
 	var elem := cfg_file[elem_name];
 
 	if ( elem.errortext )
-		SysLog("Error::TS_GetCfgElem - Unable to find elem ["+elem_name+"] ->"+elem.errortext);
+		TS_ReportText("Error::TS_GetCfgElem - Unable to find elem ["+elem_name+"] ->"+elem.errortext, TS_REPORT_SYSLOG);
 	endif
 
 	return elem;
@@ -119,7 +121,7 @@ function TS_StartController(mobile)
 
 	var script := Start_Script(":timedscripts:timerControl", mobile);
 	if ( script.errortext )
-		SysLog("Error::TS_StartController() ->"+script.errortext);
+		TS_ReportText("Error::TS_StartController() ->"+script.errortext, TS_REPORT_SYSLOG);
 	endif
 
 	return script;
@@ -186,7 +188,7 @@ function TS_GetTimerNames(mobile, type:="")
 		if ( type )
 			var elem_info := TS_GetCfgElem(timer_name);
 			if ( elem_info.errortext )
-				SysLog("Error::TS_GetTimerNames() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+				TS_ReportText("Error::TS_GetTimerNames() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 				return 0;
 			elseif ( Lower(elem_info.Type) == type )
 				name_list.Append(timer_name);

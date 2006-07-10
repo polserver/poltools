@@ -8,6 +8,7 @@ use os;
 use util;
 use cfgfile;
 
+include ":timedscripts:report";
 include ":timedscripts:timedScripts";
 
 program TimerControl(mobile)
@@ -101,12 +102,12 @@ function LogOff(mobile, byref timer_list)
 
 		var elem_info := TS_GetCfgElem(_timer_iter);
 		if ( elem_info.errortext )
-			SysLog("Error::LogOff() - Unable to find elem ["+_timer_iter+"] "+elem_info.errortext);
+			TS_ReportText("Error::LogOff() - Unable to find elem ["+_timer_iter+"] "+elem_info.errortext, TS_REPORT_SYSLOG);
 			continue;
 		elseif( elem_info.LogOffScript )
 			var script := Start_Script(elem_info.LogOffScript, {mobile, "LogOff"});
 			if( script.errortext )
-				Print("Error::LogOff() - ["+elem_info.LogOffScript+"] "+script.errortext);
+				TS_ReportText("Error::LogOff() - ["+elem_info.LogOffScript+"] "+script.errortext, TS_REPORT_SYSLOG);
 			endif
 		endif
 	endforeach
@@ -121,7 +122,7 @@ function AddTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	// Start the necessary script and store the name, duration and sub-script pid.
 
 	if( !TS_GetCfgElem(event.name) )
-		SysLog("Error::AddTimer() - "+event.name+" not found in timedScripts.cfg");
+		TS_ReportText("Error::AddTimer() - "+event.name+" not found in timedScripts.cfg", TS_REPORT_SYSLOG);
 		return 0;
 	endif
 
@@ -142,7 +143,7 @@ endfunction
 function AddNewTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
 	if ( elem_info.errortext )
-		SysLog("Error::AddNewTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext);
+		TS_ReportText("Error::AddNewTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 		return 0;
 	endif
 
@@ -150,7 +151,7 @@ function AddNewTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	if ( elem_info.Script )
 		script := Start_Script(elem_info.Script, {mobile, event.attacker, event.level});
 		if( script.errortext )
-			SysLog("Error::AddNewTimer() - Unable to start script ["+elem_info.Script+"] ->"+script.errortext);
+			TS_ReportText("Error::AddNewTimer() - Unable to start script ["+elem_info.Script+"] ->"+script.errortext, TS_REPORT_SYSLOG);
 			return 0;
 		endif
 	endif
@@ -181,7 +182,7 @@ endfunction
 function AddExistingTimer(mobile, byref event, byref timer_list, byref num_poisons)
 	var elem_info := TS_GetCfgElem(event.name);
 	if ( elem_info.errortext )
-		SysLog("Error::AddExistingTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext);
+		TS_ReportText("Error::AddExistingTimer() - Unable to find config elem ["+event.name+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 		return 0;
 	endif
 
@@ -241,7 +242,7 @@ function CheckTimerStatus(mobile, byref timer_list, byref num_poisons)
 	foreach timer in ( timer_list )
 		var cfg_info := TS_GetCfgElem(_timer_iter);
 		if ( cfg_info.errortext )
-			SysLog("Error::CheckTimerStatus() - Unable to find config elem ["+_timer_iter+"] - "+cfg_info.errortext);
+			TS_ReportText("Error::CheckTimerStatus() - Unable to find config elem ["+_timer_iter+"] - "+cfg_info.errortext, TS_REPORT_SYSLOG);
 			continue;
 		endif
 
@@ -303,7 +304,7 @@ function PlayerDeath(mobile, byref timer_list, byref num_poisons)
 		timer := timer; // So the compiler does not issue warnings.
 		var elem_info := TS_GetCfgElem(_timer_iter);
 		if ( elem_info.errortext )
-			SysLog("Error::PlayerDeath() - Unable to find config elem ["+_timer_iter+"] - "+elem_info.errortext);
+			TS_ReportText("Error::PlayerDeath() - Unable to find config elem ["+_timer_iter+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 			return 0;
 		elseif ( elem_info.ContinueOnDeath )
 			continue;
@@ -323,7 +324,7 @@ endfunction
 function EndTimedScript(mobile, byref timer_name, byref num_poisons)
 	var elem_info := TS_GetCfgElem(timer_name);
 	if ( elem_info.errortext )
-		SysLog("Error::EndTimedScript() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+		TS_ReportText("Error::EndTimedScript() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 		return 0;
 	endif
 
@@ -338,7 +339,7 @@ function EndTimedScript(mobile, byref timer_name, byref num_poisons)
 	if( elem_info.EndScript )
 		var script := Start_Script(elem_info.EndScript, mobile);
 		if( script.errortext )
-			SysLog("Error::EndTimedScript() - "+script.errortext);
+			TS_ReportText("Error::EndTimedScript() - "+script.errortext, TS_REPORT_SYSLOG);
 		endif
 	endif
 endfunction
