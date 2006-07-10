@@ -6,6 +6,7 @@
 use uo;
 use os;
 
+include ":timedscripts:report";
 include ":timedscripts:timedScripts";
 include ":attributes:attributes";
 
@@ -42,7 +43,7 @@ function TS_CurePoison(mobile, cure_amount, cure_type:="", cure_level:=1)
 		SendSysMessage(mobile, "Found poison "+timer_name);
 		var elem_info := TS_GetCfgElem(timer_name);
 		if ( elem_info.errortext )
-			SysLog("Error::TS_CurePoison() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext);
+			TS_ReportText("Error::TS_CurePoison() - Unable to find config elem ["+timer_name+"] - "+elem_info.errortext, TS_REPORT_SYSLOG);
 			return 0;
 		endif
 
