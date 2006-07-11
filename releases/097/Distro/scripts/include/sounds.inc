@@ -1,5 +1,11 @@
+/* $Id$
+ *
+ * NOTE: Any number over 0xFF (255) will not work in older clients.
+ *
+ */
+
+
 // SOUNDS ABC order by insideUO
-// NOTE: Any number over 0xFF (255) will not work in older clients.
 enum PRIMARY_SOUNDS
 	SFX_AGILITY		:= 0x1E8,
 	SFX_AGILITY2		:= 0x28F,
