@@ -58,7 +58,7 @@ function MakeRabbits(mobile)
 
 	Set_Critical(0);
 
-	PlaySoundEffect(mobile, SFX_SPELL_STRENGTH);
+	PlaySoundEffect(mobile, SFX_STRENGTH);
 
 	PlayObjectCenteredEffect(rabbit_1, GFX_RED_SPARKLES, 10, 10);
 	PlayObjectCenteredEffect(rabbit_2, GFX_RED_SPARKLES, 10, 10);
