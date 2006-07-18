@@ -4,6 +4,7 @@
 
 use uo;
 use os;
+use util;
 
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
@@ -27,6 +28,7 @@ program BrainNerve(params)
 
 	while ( npc )
 		AI_ClearThoughts(npc, CLR_NERVE);
+		AI_Wander(npc, RandomInt(3)+1);
 		Sleep(90);
 	endwhile
 

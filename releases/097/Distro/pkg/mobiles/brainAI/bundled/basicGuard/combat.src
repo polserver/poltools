@@ -31,6 +31,8 @@ program BrainNerve(params)
 	var min_range, max_range;
 	NPC_WeaponRanges(npc, min_range, max_range);
 
+	AI_Speak(npc, "Thou shalt regret thine actions, swine!");
+
 	while( npc )
 		var dist := Distance(npc, opponent);
 		if ( ShouldFlee(npc, flee_level) )
