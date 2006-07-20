@@ -27,8 +27,9 @@ program BrainNerve(params)
 		Sleep(dist-1);
 	dowhile( ShouldApproach(npc, opponent, corpse) );
 
-	AI_Speak(npc, "Killed ya, neener!");
 	AI_EndNerve(npc, nerve_name);
+
+	return 1;
 endprogram
 
 function ShouldApproach(npc, opponent, corpse)
