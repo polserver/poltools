@@ -20,10 +20,19 @@ program BrainCriticalScript(params)
 	NPC_SetupName(npc);
 	NPC_SetupEquipment(npc);
 
-	foreach item in ( ListEquippedItems(npc) )
-		item.color := RandomDyeColor();
-		SleepMS(2);
-	endforeach
+	var weapons := array
+	{
+		"Halberd",
+		"LongSword",
+		"BroadSword",
+		"VikingSword"
+	};
+
+	npc.speech_color := RandomDyeColor();
+
+	var objtype := GetObjTypeByName(weapons[RandomInt(weapons.Size())+1]);
+	var weapon := CreateItemAtLocation(npc.x, npc.y, npc.z, objtype, 1, npc.realm);
+	EquipItem(npc, weapon);
 
 	var attribute := (npc.weapon).attribute;
 	AP_SetTrueSkill(npc, attribute, 500);
