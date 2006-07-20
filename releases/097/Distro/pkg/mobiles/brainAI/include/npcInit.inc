@@ -102,7 +102,7 @@ function NPC_SetupAmmo(mobile)
 			return 1;
 		endif
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -171,7 +171,7 @@ function NPC_SetupRandomEquipment(mobile, elem_name:=0, flags:=EQUIP_NOGENDER)
 		var npc_elem := NPC_GetNPCConfig(mobile);
 		elem_name := npc_elem.EquipTemplate;
 	endif
-	
+
 	var index_elem := index_cfg[elem_Name];
 	if ( !index_elem )
 		return error{"errortext":="equipIndex.cfg elem ["+index_elem+"] does not exist."};
@@ -187,13 +187,22 @@ function NPC_SetupRandomEquipment(mobile, elem_name:=0, flags:=EQUIP_NOGENDER)
 
 			var item_list := array{};
 			if ( !flags )
-				item_list := item_list + GetConfigStringArray(group_elem, "Item");
+				var temp := GetConfigStringArray(group_elem, "Item");
+				if ( temp )
+					item_list := item_list + temp;
+				endif
 			endif
 			if ( flags & EQUIP_MALE )
-				item_list := item_list + GetConfigStringArray(group_elem, "Male");
+				var temp := GetConfigStringArray(group_elem, "Male");
+				if ( temp )
+					item_list := item_list + temp;
+				endif
 			endif
 			if ( flags & EQUIP_FEMALE )
-				item_list := item_list + GetConfigStringArray(group_elem, "Female");
+				var temp := GetConfigStringArray(group_elem, "Female");
+				if ( temp )
+					item_list := item_list + temp;
+				endif
 			endif
 
 			var item := item_list[RandomInt(item_list.Size())+1];
