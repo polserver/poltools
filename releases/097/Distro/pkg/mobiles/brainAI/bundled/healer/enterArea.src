@@ -12,7 +12,7 @@ program BrainNerve(params)
 	//var settings	:= params[4];
 	var scripts	:= params[5];
 	params := 0; // Not needed anymore.
-	
+
 	while ( npc )
 		if ( event )
 			case ( event.type )
@@ -22,10 +22,10 @@ program BrainNerve(params)
 				default:
 					break;
 			endcase
-			
+
 			event := 0;
 		endif
-		
+
 		SleepMS(5);
 		event := Wait_For_Event(600);
 	endwhile
@@ -33,7 +33,7 @@ endprogram
 
 function EnteredArea(npc, byref event, byref scripts)
 	var source := event.source;
-	
+
 	if ( !source.dead )
 		return 0;
 	elseif ( !CheckLineOfSight(npc, source) )
@@ -41,13 +41,13 @@ function EnteredArea(npc, byref event, byref scripts)
 	elseif ( source.criminal )
 		AI_Speak(npc, "I will not aid a criminal.");
 	elseif ( !GetObjProperty(source, "#ResMenu") )
-		var script := Start_Script(scripts["ResMenu"], {source, npc});
+		var script := Start_Script(scripts["ResMenu"].Script, {source, npc});
 		if ( script.errortext )
 			SendSysMessage(source, "Error - Unable to start "+scripts["ResMenu"]+" ->"+script.errortext);
 			return 0;
 		endif
 		return 1;
 	endif
-	
+
 	return 0;
 endfunction
