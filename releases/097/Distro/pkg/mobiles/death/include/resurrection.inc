@@ -1,8 +1,6 @@
-/*
- * $Id$
+/* $Id$
  *
  */
-
 use uo;
 
 include ":gumps:gumps";
