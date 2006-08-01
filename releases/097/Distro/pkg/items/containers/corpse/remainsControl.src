@@ -25,6 +25,7 @@ program control_Remains(remains)
 		SleepMS(2);
 	endforeach
 
+	remains.SetDestroyable(1);
 	DestroyItem(remains);
 
 	return 1;
