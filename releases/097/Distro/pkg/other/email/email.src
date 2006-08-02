@@ -7,11 +7,14 @@ use os;
 
 include ":datafile:datafile";
 include ":email:gumps";
+include ":email:settings";
 
 //Global because its just easier.
 var email_data_file := DFOpenDataFile(":email:emails", DF_CREATE);
 var address_data_file := DFOpenDataFile(":email:AddressBooks", DF_CREATE);
 var blocked_data_file := DFOpenDataFile(":email:BlockLists", DF_CREATE);
+
+var settings := EML_GetSettingsCfgElem("Settings");
 
 unload_scripts("email");
 program EmailClient(params)
@@ -69,8 +72,31 @@ endfunction
 
 function BlockList(mobile, box_id)
 	var data_elem := DFFindElement(blocked_data_file, Hex(box_id), DF_CREATE);
-	var gump := BuildBlockListGump(data_elem);
 
-	GFSendGump(mobile, gump);
+	var entry_list := array;
+	var gump := BuildBlockListGump(data_elem, entry_list);
+
+	var input := GFSendGump(mobile, gump);
+
+	if ( input[UPDATE_LIST_BTN] )
+		var entry_num := 1;
+		for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
+			var block_id := GFExtractData(input, entry_list[entry_num].boxid);
+			var name := GFExtractData(input, entry_list[entry_num].name);
+
+			if ( block_id == error )
+				continue;
+			elseif ( name == error )
+				continue;
+			endif
+
+			data_elem.SetProp(Hex(entry_num), struct{"boxid":=block_id, "name":=name});
+			SleepMS(2);
+		endfor
+	elseif ( input[DELETE_ALL_BTN] )
+		foreach propname in ( data_elem.PropNames() )
+			data_elem.EraseProp(propname);
+			SleepMS(2);
+		endforeach
+	endif
 endfunction
-
