@@ -113,5 +113,27 @@ function AddressBook(mobile, box_id)
 
 	var input := GFSendGump(mobile, gump);
 
+	if ( input[UPDATE_LIST_BTN] )
+		var entry_num := 1;
+		for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
+			var block_id := GFExtractData(input, entry_list[entry_num].boxid);
+			var name := GFExtractData(input, entry_list[entry_num].name);
+
+			if ( block_id == error )
+				continue;
+			elseif ( name == error )
+				continue;
+			endif
+
+			data_elem.SetProp(Hex(entry_num), struct{"boxid":=block_id, "name":=name});
+			SleepMS(2);
+		endfor
+	elseif ( input[DELETE_ALL_BTN] )
+		foreach propname in ( data_elem.PropNames() )
+			data_elem.EraseProp(propname);
+			SleepMS(2);
+		endforeach
+	endif
+
 	return 1;
 endfunction
