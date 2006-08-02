@@ -46,6 +46,14 @@ function IndexGump(mobile, box_id)
 
 	while ( mobile.connected )
 		var input := GFSendGump(mobile, gump);
+		if ( !input )
+			break;
+		elseif ( input[CLOSE_EMAIL_BTN] )
+			break;
+		elseif ( input[UPDATE_INBOX_BTN] )
+			mail_elem := DFFindElement(email_data_file, Hex(box_id), DF_CREATE);
+			gump := BuildInboxGump(box_id, mail_elem);
+		endif
 	endwhile
 
 	return 1;
