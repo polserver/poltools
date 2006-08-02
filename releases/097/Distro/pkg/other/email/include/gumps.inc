@@ -168,7 +168,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 
 	GFPage(gump, 1);
 
-	for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
+	for ( entry_num; entry_num<=settings.AddressBookEntries; entry_num+=1 )
 		entry_info := data_elem.GetProp(Hex(entry_num));
 		if ( !entry_info )
 			entry_info := struct{"boxid":="", "name":=""};
@@ -183,7 +183,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
 			GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
-			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 180, 20, 2100, entry_info.name);
+			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 140, 20, 2100, entry_info.name);
 			GFAddButton(gump, 590, y_pos+25, 4029, 4030, GF_CLOSE_BTN, entry_num);
 
 			y_pos += 50;
@@ -197,12 +197,12 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
 			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
-			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
+			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 140, 20, 2100, entry_info.name);
 			GFAddButton(gump, 265, y_pos+23, 4029, 4030, GF_CLOSE_BTN, entry_num);
 		endif
 		entry_list[entry_num] := entry_info;
 
-		if ( ( counter > 7 ) && ( entry_num < settings.BlockListEntries) )
+		if ( ( counter > 7 ) && ( entry_num < settings.AddressBookEntries) )
 			GFAddButton(gump, 605, 420, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
 			GFPage(gump, gump.cur_page+1);
 			GFAddButton(gump, 605, 40, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
