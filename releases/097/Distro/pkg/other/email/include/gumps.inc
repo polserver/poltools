@@ -4,6 +4,7 @@
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":email:settings";
 
 CONST NEW_LETTER_BTN	:= 0xA0000;
 CONST DELETE_ALL_BTN	:= 0xA0001;
@@ -14,6 +15,7 @@ CONST SEND_EMAIL_BTN	:= 0xA0005;
 CONST ADDRESS_BOOK_BTN	:= 0xA0006;
 CONST BLOCK_LIST_BTN	:= 0xA0007;
 CONST UPDATE_INBOX_BTN	:= 0xA0008;
+CONST UPDATE_LIST_BTN	:= 0xA0009;
 
 function BuildInboxGump(byref box_id, byref data_elem)
 	var gump := GFCreateGump();
@@ -77,7 +79,7 @@ function BuildInboxGump(byref box_id, byref data_elem)
 	return gump;
 endfunction
 
-function BuildBlockListGump(data_elem)
+function BuildBlockListGump(data_elem, byref entry_list)
 	var gump := GFCreateGump();
 	GFMovable(gump, 0);
 
@@ -85,64 +87,52 @@ function BuildBlockListGump(data_elem)
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 450);
 	GFTextMid(gump, 15, 25, 620, 2100, "Block List");
 
-	GFAddButton(gump, 25, 428, 2117, 2118, GF_CLOSE_BTN, ADDRESS_BOOK_BTN);
+	GFAddButton(gump, 25, 428, 2117, 2118, GF_CLOSE_BTN, UPDATE_LIST_BTN);
 	GFTextLine(gump, 45, 425, 2100, "Update List");
 
 	GFAddButton(gump, 225, 428, 2117, 2118, GF_CLOSE_BTN, DELETE_ALL_BTN);
 	GFTextLine(gump, 245, 425, 2100, "Erase List");
 
 	var y_pos := 65;
-	var entry_num := 0;
+	var entry_num := 1;
 	var counter := 1;
-	var line_num;
-
-	var entry_info := array;
-	var entry_list := array;
-	var button_list := array;
+	var entry_info;
 
 	GFPage(gump, 1);
 
-	for ( line_num:=1; line_num<=14; line_num+=1 )
-
-		//
-		// Left boxes on the line
-		//
-		entry_num += 1;
+	for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
 		entry_info := data_elem.GetProp(Hex(entry_num));
 		if ( !entry_info )
 			entry_info := struct{"boxid":="", "name":=""};
 		endif
 
-		GFTextLine(gump, 20, y_pos, 2100, "Number");
-		GFTextLine(gump, 120, y_pos, 2100, "Name");
-		GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
-		entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
-		GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
-		entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
-		entry_list.Append(gump, entry_info);
+		if ( entry_num % 2 == 0 )
+			//
+			// Right boxes in the line
+			//
+			GFTextLine(gump, 345, y_pos, 2100, "Number");
+			GFTextLine(gump, 445, y_pos, 2100, "Name");
+			GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
+			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
+			GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
+			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 180, 20, 2100, entry_info.name);
 
-		//
-		// Right boxes in the line
-		//
-		entry_num += 1;
-		entry_info := data_elem.GetProp(Hex(entry_num));
-		if ( !entry_info )
-			entry_info := struct{"boxid":="", "name":=""};
+			y_pos += 50;
+			counter += 1;
+		else
+			//
+			// Left boxes on the line
+			//
+			GFTextLine(gump, 20, y_pos, 2100, "Number");
+			GFTextLine(gump, 120, y_pos, 2100, "Name");
+			GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
+			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
+			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
+			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
 		endif
+		entry_list[entry_num] := entry_info;
 
-		GFTextLine(gump, 345, y_pos, 2100, "Number");
-		GFTextLine(gump, 445, y_pos, 2100, "Name");
-		GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
-		entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
-		GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
-		entry_info.name := GFTextEntry(gump, 450, y_pos+25, 180, 20, 2100, entry_info.name);
-		entry_list.Append(entry_info);
-
-
-		y_pos += 50;
-		counter += 1;
-
-		if ( ( counter > 7 ) && ( line_num < 14) )
+		if ( ( counter > 7 ) && ( entry_num < settings.BlockListEntries) )
 			GFAddButton(gump, 605, 420, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
 			GFPage(gump, gump.cur_page+1);
 			GFAddButton(gump, 605, 40, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
@@ -150,23 +140,9 @@ function BuildBlockListGump(data_elem)
 			counter := 1;
 			y_pos := 65;
 		endif
+
+		SleepMS(2);
 	endfor
 
 	return gump;
-	/*
-	var input := GFSendGump(who);
-
-	if ( GFExtractData(update_button.keyid, input) )
-		for (entry_num; entry_num > 0; entry_num := entry_num - 1)
-			var number := GFExtractData(entry_list[entry_num][1].keyid, input);
-			var name := GFExtractData(entry_list[entry_num][2].keyid, input);
-
-			blocklist_elem.SetProp(hex(entry_num), {number, name});
-		endfor
-	elseif ( GFExtractData(erase_all_button.keyid, input) )
-		foreach propname in ( addressbook_elem.PropNames() )
-			blocklist_elem.EraseProp(propname);
-		endforeach
-	endif
-	*/
 endfunction
