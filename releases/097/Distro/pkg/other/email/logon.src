@@ -16,9 +16,11 @@ program Logon(who)
 		data_elem.SetProp("NextMsgID", 1);
 	endif
 
-	var mail_props := mail_elem.PropNames();
+	var mail_props := data_elem.PropNames();
 	//Dont count the prop "NextMsgID"
 	var num_props := mail_props.size()-1;
 
-	SendSysMessageEX(who, "You have " + num_props + " messages in your mail box. Type .email to view them.", SSM_INFO_OOC);
+	if ( num_props > 0 )
+		SendSysMessage(who, "You have " + num_props + " messages in your mail box. Type .email to view them.");
+	endif
 endprogram

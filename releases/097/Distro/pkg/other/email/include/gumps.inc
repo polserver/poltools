@@ -32,7 +32,7 @@ function BuildInboxGump(byref box_id, byref data_elem)
 
 	GFPage(gump, 1);
 	foreach mail_number in ( data_elem.PropNames() )
-		if ( mail_number != "NewMsg" )
+		if ( mail_number != "NextMsgID" )
 			var mail_info := data_elem.GetProp(mail_number);
 			GFAddButton(gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, mail_number);
 			GFTextLine(gump, 80, y_pos, 2100, mail_info.from_name);
@@ -129,6 +129,76 @@ function BuildBlockListGump(data_elem, byref entry_list)
 			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
 			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
 			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
+		endif
+		entry_list[entry_num] := entry_info;
+
+		if ( ( counter > 7 ) && ( entry_num < settings.BlockListEntries) )
+			GFAddButton(gump, 605, 420, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 605, 40, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
+
+			counter := 1;
+			y_pos := 65;
+		endif
+
+		SleepMS(2);
+	endfor
+
+	return gump;
+endfunction
+
+function BuildAddressBookGump(data_elem, byref entry_list)
+	var gump := GFCreateGump();
+	GFMovable(gump, 0);
+
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 450);
+	GFTextMid(gump, 15, 25, 620, 2100, "Block List");
+
+	GFAddButton(gump, 25, 428, 2117, 2118, GF_CLOSE_BTN, UPDATE_LIST_BTN);
+	GFTextLine(gump, 45, 425, 2100, "Update List");
+
+	GFAddButton(gump, 225, 428, 2117, 2118, GF_CLOSE_BTN, DELETE_ALL_BTN);
+	GFTextLine(gump, 245, 425, 2100, "Erase List");
+
+	var y_pos := 65;
+	var entry_num := 1;
+	var counter := 1;
+	var entry_info;
+
+	GFPage(gump, 1);
+
+	for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
+		entry_info := data_elem.GetProp(Hex(entry_num));
+		if ( !entry_info )
+			entry_info := struct{"boxid":="", "name":=""};
+		endif
+
+		if ( entry_num % 2 == 0 )
+			//
+			// Right boxes in the line
+			//
+			GFTextLine(gump, 345, y_pos, 2100, "Number");
+			GFTextLine(gump, 445, y_pos, 2100, "Name");
+			GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
+			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
+			GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
+			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 180, 20, 2100, entry_info.name);
+			GFAddButton(gump, 590, y_pos+25, 4029, 4030, GF_CLOSE_BTN, entry_num);
+
+			y_pos += 50;
+			counter += 1;
+		else
+			//
+			// Left boxes on the line
+			//
+			GFTextLine(gump, 20, y_pos, 2100, "Number");
+			GFTextLine(gump, 120, y_pos, 2100, "Name");
+			GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
+			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
+			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
+			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
+			GFAddButton(gump, 265, y_pos+23, 4029, 4030, GF_CLOSE_BTN, entry_num);
 		endif
 		entry_list[entry_num] := entry_info;
 
