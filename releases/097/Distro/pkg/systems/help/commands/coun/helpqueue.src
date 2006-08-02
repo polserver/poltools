@@ -27,6 +27,8 @@ program HelpQueue(mobile, queue_name)
 		if ( !input[0] || input[CLOSE_BTN] )
 			SendSysMessage(mobile, "Cancelled.");
 			break;
+		elseif ( input[0] >= SHOW_QUEUE_START )
+			continue;
 		endif
 	endwhile
 
