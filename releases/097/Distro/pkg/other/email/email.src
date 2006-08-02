@@ -20,12 +20,12 @@ unload_scripts("email");
 program EmailClient(params)
 	var mobile := params[1];
 	var box_id := params[2];
-	var send_to := params[3];
-	var subject := params[4];
-	var message := params[5];
+	//var send_to := params[3];
+	//var subject := params[4];
+	//var message := params[5];
 	params := 0; // Not needed anymore.
 
-	if ( send_to )
+	//if ( send_to )
 		/*if ( message )
 			if ( Lower(TypeOf(message)) != "array" )
 				message := GFWordWrap(message, 595);
@@ -34,16 +34,14 @@ program EmailClient(params)
 		else
 			NewLetter(mobile, send_to, subject);
 		endif*/
-	else
+	//else
 		IndexGump(mobile, box_id);
-	endif
+	//endif
 
 	return 1;
 endprogram
 
 function IndexGump(mobile, box_id)
-	var input;
-
 	var mail_elem := DFFindElement(email_data_file, Hex(box_id), DF_CREATE);
 	var gump := BuildInboxGump(box_id, mail_elem);
 
@@ -63,6 +61,8 @@ function IndexGump(mobile, box_id)
 			BlockList(mobile, box_id);
 		elseif ( input[ADDRESS_BOOK_BTN] )
 			AddressBook(mobile, box_id);
+		elseif ( input[NEW_LETTER_BTN] )
+			ComposeEmail(mobile);
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -115,7 +115,7 @@ function AddressBook(mobile, box_id)
 
 	if ( input[UPDATE_LIST_BTN] )
 		var entry_num := 1;
-		for ( entry_num; entry_num<=settings.BlockListEntries; entry_num+=1 )
+		for ( entry_num; entry_num<=settings.AddressBookEntries; entry_num+=1 )
 			var block_id := GFExtractData(input, entry_list[entry_num].boxid);
 			var name := GFExtractData(input, entry_list[entry_num].name);
 
@@ -134,6 +134,14 @@ function AddressBook(mobile, box_id)
 			SleepMS(2);
 		endforeach
 	endif
+
+	return 1;
+endfunction
+
+function ComposeEmail(mobile)
+	var gump := BuildComposeGump();
+
+	var input := GFSendGump(mobile, gump);
 
 	return 1;
 endfunction

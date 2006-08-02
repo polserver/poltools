@@ -112,9 +112,9 @@ function BuildBlockListGump(data_elem, byref entry_list)
 			//
 			GFTextLine(gump, 345, y_pos, 2100, "Number");
 			GFTextLine(gump, 445, y_pos, 2100, "Name");
-			GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
+			GFResizePic(gump, 345, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
-			GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
+			GFResizePic(gump, 440, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 180, 20, 2100, entry_info.name);
 
 			y_pos += 50;
@@ -125,9 +125,9 @@ function BuildBlockListGump(data_elem, byref entry_list)
 			//
 			GFTextLine(gump, 20, y_pos, 2100, "Number");
 			GFTextLine(gump, 120, y_pos, 2100, "Name");
-			GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
+			GFResizePic(gump, 20, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
-			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
+			GFResizePic(gump, 115, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 180, 20, 2100, entry_info.name);
 		endif
 		entry_list[entry_num] := entry_info;
@@ -180,9 +180,9 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			//
 			GFTextLine(gump, 345, y_pos, 2100, "Number");
 			GFTextLine(gump, 445, y_pos, 2100, "Name");
-			GFResizePic(gump, 345, y_pos+20, 2620, 100, 30);
+			GFResizePic(gump, 345, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
-			GFResizePic(gump, 440, y_pos+20, 2620, 180, 30);
+			GFResizePic(gump, 440, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 140, 20, 2100, entry_info.name);
 			GFAddButton(gump, 590, y_pos+25, 4029, 4030, GF_CLOSE_BTN, entry_num);
 
@@ -194,9 +194,9 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			//
 			GFTextLine(gump, 20, y_pos, 2100, "Number");
 			GFTextLine(gump, 120, y_pos, 2100, "Name");
-			GFResizePic(gump, 20, y_pos+20, 2620, 100, 30);
+			GFResizePic(gump, 20, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 100, 30);
 			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
-			GFResizePic(gump, 115, y_pos+20, 2620, 180, 30);
+			GFResizePic(gump, 115, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 140, 20, 2100, entry_info.name);
 			GFAddButton(gump, 265, y_pos+23, 4029, 4030, GF_CLOSE_BTN, entry_num);
 		endif
@@ -211,6 +211,49 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			y_pos := 65;
 		endif
 
+		SleepMS(2);
+	endfor
+
+	return gump;
+endfunction
+
+function BuildComposeGump(send_to:="", subject:="", message:=array)
+	var gump := GFCreateGump();
+
+	GFMovable(gump, 0);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
+
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 480, 80);
+	GFTextLine(gump, 20, 23, 2100, "Send To :");
+	GFGumpPic(gump, 100, 20, 1141);
+	GFTextEntry(gump, 110, 22, 250, 20, 2100, send_to);
+	GFAddButton(gump, 380, 23, 4008, 4009, GF_CLOSE_BTN, ADDRESS_BOOK_BTN);
+	GFTextLine(gump, 415, 23, 2100, "Addresses");
+
+	GFTextLine(gump, 20, 48, 2100, "Subject :");
+	GFGumpPic(gump, 100, 45, 1141);
+	GFTextEntry(gump, 110, 47, 250, 20, 2100, subject);
+	GFTextLine(gump, 20, 70, 2100, "To send to multiple recipients, separate box numbers with a space.");
+
+	GFResizePic(gump, 500, 15, GFGetCfgConst("Defaults", "ForeGround"), 125, 80);
+	GFAddButton(gump, 505, 23, 2117, 2118, GF_CLOSE_BTN, SEND_EMAIL_BTN);
+	GFTextLine(gump, 525, 20, 2100, "Send");
+	GFAddButton(gump, 505, 43, 2117, 2118, GF_CLOSE_BTN, WORD_WRAP_BTN);
+	GFTextLine(gump, 525, 40, 2100, "Word Wrap");
+	GFAddButton(gump, 505, 63, 2117, 2118, GF_CLOSE_BTN, CLOSE_EMAIL_BTN);
+	GFTextLine(gump, 525, 60, 2100, "Cancel");
+
+	var msg_array := array;
+	var y_pos := 100;
+	var i;
+	GFResizePic(gump, 15, 95, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 610, 370);
+	for ( i:=1; i<=18; i+=1 )
+		var text := message[i];
+		if ( !text )
+			text := "";
+		endif
+		msg_array.Append(GFTextEntry(gump, 20, y_pos, 595, 20, 2100, text));
+		y_pos += 20;
 		SleepMS(2);
 	endfor
 
