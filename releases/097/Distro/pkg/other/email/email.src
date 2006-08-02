@@ -61,6 +61,8 @@ function IndexGump(mobile, box_id)
 			endforeach
 		elseif ( input[BLOCK_LIST_BTN] )
 			BlockList(mobile, box_id);
+		elseif ( input[ADDRESS_BOOK_BTN] )
+			AddressBook(mobile, box_id);
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -99,4 +101,17 @@ function BlockList(mobile, box_id)
 			SleepMS(2);
 		endforeach
 	endif
+
+	return 1;
+endfunction
+
+function AddressBook(mobile, box_id)
+	var data_elem := DFFindElement(address_data_file, Hex(box_id), DF_CREATE);
+
+	var entry_list := array;
+	var gump := BuildAddressBookGump(data_elem, entry_list);
+
+	var input := GFSendGump(mobile, gump);
+
+	return 1;
 endfunction
