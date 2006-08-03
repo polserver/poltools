@@ -46,13 +46,13 @@ endprogram
 
 function IndexGump(mobile, box_id)
 	var mail_elem := DFFindElement(email_data_file, Hex(box_id), DF_CREATE);
-	var gump := BuildInboxGump(box_id, mail_elem);
 
 	while ( mobile.connected )
+		var gump := BuildInboxGump(box_id, mail_elem);
+
 		var input := GFSendGump(mobile, gump);
 		if ( input[UPDATE_INBOX_BTN] )
-			mail_elem := DFFindElement(email_data_file, Hex(box_id), DF_CREATE);
-			gump := BuildInboxGump(box_id, mail_elem);
+			continue;
 		elseif ( input[DELETE_ALL_BTN] )
 			foreach mail_number in ( mail_elem.PropNames() )
 				mail_elem.EraseProp(Hex(mail_number));
@@ -66,7 +66,7 @@ function IndexGump(mobile, box_id)
 			ComposeEmail(mobile, box_id);
 		elseif ( input[0] >= READMAIL_START )
 			var key := input[0] - READMAIL_START;
-			ReadMessage(mobile, key, mail_elem);
+			ReadMessage(mobile, box_id, key, mail_elem);
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -76,11 +76,26 @@ function IndexGump(mobile, box_id)
 	return 1;
 endfunction
 
-function ReadMessage(mobile, mail_num, byref mail_elem)
-	var email := mail_elem.GetProp(Hex(mail_num));
+function ReadMessage(mobile, box_id, mail_num, byref mail_elem)
+	mail_num := Hex(CInt(mail_num));
+
+	var email := mail_elem.GetProp(mail_num);
+	email.read += 1;
+	mail_elem.SetProp(mail_num, email);
+
 	var gump := BuildReaderGump(email);
 
-	GFSendGump(mobile, gump);
+	var input := GFSendGump(mobile, gump);
+	if ( !input[0] )
+		return 1;
+	elseif ( input[DELETE_MSG_BTN] )
+		mail_elem.EraseProp(mail_num);
+		return 1;
+	elseif ( input[CLOSE_EMAIL_BTN] )
+		return 1;
+	else
+		ComposeEmail(mobile, box_id, email.from_box);
+	endif
 endfunction
 
 function BlockList(mobile, box_id)
