@@ -1,6 +1,7 @@
 use uo;
 use os;
 
+include "include/client";
 include "include/facings";
 include ":magery:spells";
 include ":magery:spellSounds";

@@ -1,0 +1,48 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":traps:traps";
+
+program SpellScript_MagicUntrap(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	if ( !targ.IsA(POLCLASS_CONTAINER) )
+		SendSysMessage(mobile, "This spell wont work on that!"); // what is the cliloc?
+		return 0;
+	endif
+	
+	var trap_list := GetTrapList(targ);
+	var index := 0;
+	
+	for i := 1 to trap_list.Size()
+		if ( (trap_list[i]).Name == "magicTrap" )
+			index := i;
+			break;
+		endif
+	endfor
+	
+	if ( !index )
+		SendSysMessage(mobile, "This container isn't trapped!");
+		return 0;
+	endif
+	
+	PlaySoundEffect(targ, SFX_SPELL_MAGIC_UNTRAP);
+	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+	
+	RemoveTrap(targ, index);
+	
+	return 1;
+endprogram

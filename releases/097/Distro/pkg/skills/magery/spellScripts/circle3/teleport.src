@@ -31,8 +31,6 @@ program SpellScript_Teleport(params)
 		return 0;
 	endif
 	
-	print("targ: x:"+targ.x+", y:"+targ.y+" r:"+targ.realm);
-	
 	if ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > 11 )
 		SendSysMessage(mobile, "That is too far away.");
 		return 0;
@@ -50,11 +48,14 @@ program SpellScript_Teleport(params)
 	
 	PlaySoundEffect(mobile, SFX_SPELL_TELEPORT);
 	PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
+
 	SleepMS(100);
+
 	if ( !MoveObjectToLocation(mobile, targ.x, targ.y, targ.z, targ.realm) );
 		SendSysMessage(mobile, "Not a supported teleporter location.");
 		return 0;
 	endif
+
 	PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
 
 	return 1;

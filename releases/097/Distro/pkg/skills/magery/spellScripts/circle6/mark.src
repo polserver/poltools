@@ -4,7 +4,7 @@
 use uo;
 use os;
 
-//include "include/tileEffects";
+include "include/client";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":coords:isValidLoc";
@@ -57,7 +57,7 @@ program SpellScript_Mark(params)
 		endif
 	endforeach
 
-	PlayObjectCenteredEffect(mobile, FX_MARK_EFFECT, 10, 10);
+	PlayObjectCenteredEffect(mobile, GFX_BLUE_SPARKLE_GROUND, 10, 10);
 	PlaySoundEffect(mobile, SFX_SPELL_MARK);
 
 	recall_rune.SetDestination(mobile.x, mobile.y, mobile.z, mobile.realm);
