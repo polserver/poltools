@@ -18,6 +18,9 @@ CONST BLOCK_LIST_BTN	:= 0xA0007;
 CONST UPDATE_INBOX_BTN	:= 0xA0008;
 CONST UPDATE_LIST_BTN	:= 0xA0009;
 
+// THE SEND BUTTONS NEXT TO AN ADDRESS BOOK BUTTON
+CONST ADDYBOOK_START	:= 0xB0009;
+
 // TEXT ENTRY IDs
 CONST SEND_TO_TXT	:= 0xB01;
 CONST SUBJECT_TXT	:= 0xB02;
@@ -190,7 +193,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			entry_info.boxid := GFTextEntry(gump, 355, y_pos+25, 80, 20, 2100, entry_info.boxid);
 			GFResizePic(gump, 440, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 450, y_pos+25, 140, 20, 2100, entry_info.name);
-			GFAddButton(gump, 590, y_pos+25, 4029, 4030, GF_CLOSE_BTN, entry_num);
+			GFAddButton(gump, 590, y_pos+25, 4029, 4030, GF_CLOSE_BTN, ADDYBOOK_START+entry_num);
 
 			y_pos += 50;
 			counter += 1;
@@ -204,7 +207,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 			entry_info.boxid := GFTextEntry(gump, 30, y_pos+25, 80, 20, 2100, entry_info.boxid);
 			GFResizePic(gump, 115, y_pos+20, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 180, 30);
 			entry_info.name := GFTextEntry(gump, 125, y_pos+25, 140, 20, 2100, entry_info.name);
-			GFAddButton(gump, 265, y_pos+23, 4029, 4030, GF_CLOSE_BTN, entry_num);
+			GFAddButton(gump, 265, y_pos+23, 4029, 4030, GF_CLOSE_BTN, ADDYBOOK_START+entry_num);
 		endif
 		entry_list[entry_num] := entry_info;
 
