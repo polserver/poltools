@@ -19,27 +19,26 @@ var blocked_data_file := DFOpenDataFile(":email:BlockLists", DF_CREATE);
 
 var settings := EML_GetSettingsCfgElem("Settings");
 
-unload_scripts("email");
 program EmailClient(params)
 	var mobile := params[1];
 	var box_id := params[2];
-	//var send_to := params[3];
-	//var subject := params[4];
-	//var message := params[5];
+	var send_to := params[3];
+	var subject := params[4];
+	var message := params[5];
 	params := 0; // Not needed anymore.
 
-	//if ( send_to )
-		/*if ( message )
+	if ( send_to )
+		if ( message )
 			if ( Lower(TypeOf(message)) != "array" )
 				message := GFWordWrap(message, 595);
 			endif
-			SendMail(mobile, send_to, subject, message);
+			SendEMail(mobile, box_id, send_to, subject, message);
 		else
-			NewLetter(mobile, send_to, subject);
-		endif*/
-	//else
+			ComposeEmail(mobile, send_to, subject);
+		endif
+	else
 		IndexGump(mobile, box_id);
-	//endif
+	endif
 
 	return 1;
 endprogram
@@ -159,21 +158,12 @@ function AddressBook(mobile, box_id, byref send_to:="", writing:=0)
 			data_elem.EraseProp(propname);
 			SleepMS(2);
 		endforeach
-	else
-		foreach key in ( input.keys )
-			if ( key >= ADDYBOOK_START )
-				var entry_info := data_elem.GetProp(Hex(key-ADDYBOOK_START));
-				if ( entry_info )
-					send_to += " "+entry_info.boxid;
-				endif
-
-				if ( !writing )
-					ComposeEmail(mobile, box_id, send_to);
-				endif
-				break;
-			endif
-			SleepMS(2);
-		endforeach
+	elseif ( input[0] >= ADDYBOOK_START )
+		var entry_info := data_elem.GetProp(Hex(input[0]-ADDYBOOK_START));
+		send_to += " "+entry_info.boxid;
+		if ( !writing )
+			ComposeEmail(mobile, box_id, send_to);
+		endif
 	endif
 
 	return 1;
