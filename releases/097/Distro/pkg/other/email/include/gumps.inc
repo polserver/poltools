@@ -198,7 +198,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 450);
-	GFTextMid(gump, 15, 25, 620, 2100, "Block List");
+	GFTextMid(gump, 15, 25, 620, 2100, "Address Book");
 
 	GFAddButton(gump, 25, 428, 2117, 2118, GF_CLOSE_BTN, UPDATE_LIST_BTN);
 	GFTextLine(gump, 45, 425, 2100, "Update List");
