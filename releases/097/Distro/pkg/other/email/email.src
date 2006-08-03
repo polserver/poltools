@@ -106,7 +106,7 @@ function BlockList(mobile, box_id)
 	return 1;
 endfunction
 
-function AddressBook(mobile, box_id)
+function AddressBook(mobile, box_id, byref send_to:="", writing:=0)
 	var data_elem := DFFindElement(address_data_file, Hex(box_id), DF_CREATE);
 
 	var entry_list := array;
@@ -134,13 +134,28 @@ function AddressBook(mobile, box_id)
 			data_elem.EraseProp(propname);
 			SleepMS(2);
 		endforeach
+	else
+		foreach key in ( input.keys )
+			if ( key >= ADDYBOOK_START )
+				var entry_info := data_elem.GetProp(Hex(key-ADDYBOOK_START));
+				if ( entry_info )
+					send_to += " "+entry_info.boxid;
+				endif
+
+				if ( !writing )
+					ComposeEmail(mobile, box_id, send_to);
+				endif
+				break;
+			endif
+			SleepMS(2);
+		endforeach
 	endif
 
 	return 1;
 endfunction
 
-function ComposeEmail(mobile, box_id)
-	var send_to:="9999", subject:="Subject", message:=array;
+function ComposeEmail(mobile, box_id, send_to:="")
+	var subject:="Subject", message:=array;
 	while ( mobile.connected )
 		var gump := BuildComposeGump(send_to, subject, message);
 		var input := GFSendGump(mobile, gump);
