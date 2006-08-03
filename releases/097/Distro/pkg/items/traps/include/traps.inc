@@ -73,7 +73,9 @@ function AddTrap(object, trap_name, strength, count:=0)
 		count := trap_elem.Count;
 		if ( !count )
 			count := -1;
-		elseif ( count["d"] )
+		//elseif ( count["d"] ) // this kept reporting false positives ??
+		elseif ( find(count, "d", 1) )
+			print("There is a d in: " + count);
 			count := RandomDiceRoll(trap_elem.count);
 		else
 			count := CInt(trap_elem.Count);
@@ -164,4 +166,27 @@ function RunTraps(object, mobile)
 	endforeach
 	
 	return 1;
+endfunction
+
+/*
+ * GetTrapList(object)
+ *
+ * Purpose
+ * Retrieves the trap list from an object
+ *
+ * Parameters
+ * object:	Object to get trap list from
+ *
+ * Return value
+ * Returns trap list or empty array if none found
+ *
+ */
+function GetTrapList(object)
+	var trap_list := GetObjProperty(object, "TrapList");
+	
+	if ( Lower(TypeOf(trap_list)) != "array" )
+		trap_list := array{};
+	endif
+	
+	return trap_list;
 endfunction

@@ -1,0 +1,41 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":traps:traps";
+
+program SpellScript_MagicTrap(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	if ( !targ.IsA(POLCLASS_CONTAINER) )
+		SendSysMessage(mobile, "This spell wont work on that!"); // what is the cliloc?
+		return 0;
+	endif
+
+	foreach trap_info in (GetTrapList(targ))
+		if ( trap_info.Name == "magicTrap" )
+			SendSysMessage(mobile, "This container is already trapped!");
+			return 0;
+		endif
+	endforeach
+	
+	PlaySoundEffect(targ, SFX_SPELL_MAGIC_TRAP);
+	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);	
+	
+	// uo.com says 10-50 damage
+	AddTrap(targ, "magicTrap", "10d5");
+	
+	return 1;
+endprogram

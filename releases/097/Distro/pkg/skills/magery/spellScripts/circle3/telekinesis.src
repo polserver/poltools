@@ -21,7 +21,18 @@ program SpellScript_Telekinesis(params)
 	
 	PlaySoundEffect(targ, SFX_SPELL_TELEKINESIS);
 
-	// Must learn restrictions and uses of telekinesis
+	// Does not quite work right
+	if ( targ.IsA(POLCLASS_CONTAINER) )
+		SendOpenSpecialContainer( mobile, targ );
+	else
+		if ( targ.usescript )
+			print("Usescript: "+Start_Script(targ.usescript));
+		elseif ( targ.script )
+			print("Script: "+Start_Script(targ.script));
+		else
+			SendSysMessage(mobile, "Something like, can't figure it out, man.");
+		endif
+	endif
 	
 	return 1;
 endprogram
