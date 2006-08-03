@@ -8,6 +8,7 @@ use os;
 include ":datafile:datafile";
 include ":email:gumps";
 include ":email:settings";
+include ":gumps:gumpprompt";
 
 //Global because its just easier.
 var email_data_file := DFOpenDataFile(":email:emails", DF_CREATE);
@@ -62,7 +63,7 @@ function IndexGump(mobile, box_id)
 		elseif ( input[ADDRESS_BOOK_BTN] )
 			AddressBook(mobile, box_id);
 		elseif ( input[NEW_LETTER_BTN] )
-			ComposeEmail(mobile);
+			ComposeEmail(mobile, box_id);
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -138,10 +139,39 @@ function AddressBook(mobile, box_id)
 	return 1;
 endfunction
 
-function ComposeEmail(mobile)
-	var gump := BuildComposeGump();
+function ComposeEmail(mobile, box_id)
+	var send_to:="9999", subject:="Subject", message:=array;
+	while ( mobile.connected )
+		var gump := BuildComposeGump(send_to, subject, message);
+		var input := GFSendGump(mobile, gump);
+		if ( input[0] == 1 )
+			// Right click
+			break;
+		elseif ( input[CLOSE_EMAIL_BTN] )
+			break;
+		endif
 
-	var input := GFSendGump(mobile, gump);
+		// Retrieve gump input data and word-wrap
+		send_to := GFExtractData(input, SEND_TO_TXT);
+		subject := GFExtractData(input, SUBJECT_TXT);
+
+		var i:=1, temp_string := "";
+		for ( i; i<=message.Size(); i+=1 )
+			var temp_data := GFExtractData(input, message[i]);
+			if ( temp_data )
+				temp_string += " " + temp_data;
+			endif
+			SleepMS(2);
+		endfor
+		message := GFWordWrap(temp_string, 595);
+
+		// Process buttons other than cancellation.
+		if ( input[WORD_WRAP_BTN] )
+			continue;
+		elseif ( input[ADDRESS_BOOK_BTN] )
+			AddressBook(mobile, box_id);
+		endif
+	endwhile
 
 	return 1;
 endfunction

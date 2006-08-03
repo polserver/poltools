@@ -6,6 +6,7 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":email:settings";
 
+// BUTTON IDs
 CONST NEW_LETTER_BTN	:= 0xA0000;
 CONST DELETE_ALL_BTN	:= 0xA0001;
 CONST DELETE_MSG_BTN	:= 0xA0002;
@@ -16,6 +17,11 @@ CONST ADDRESS_BOOK_BTN	:= 0xA0006;
 CONST BLOCK_LIST_BTN	:= 0xA0007;
 CONST UPDATE_INBOX_BTN	:= 0xA0008;
 CONST UPDATE_LIST_BTN	:= 0xA0009;
+
+// TEXT ENTRY IDs
+CONST SEND_TO_TXT	:= 0xB01;
+CONST SUBJECT_TXT	:= 0xB02;
+CONST TXT_START		:= 0xB05;
 
 function BuildInboxGump(byref box_id, byref data_elem)
 	var gump := GFCreateGump();
@@ -217,7 +223,7 @@ function BuildAddressBookGump(data_elem, byref entry_list)
 	return gump;
 endfunction
 
-function BuildComposeGump(send_to:="", subject:="", message:=array)
+function BuildComposeGump(send_to:="", subject:="", byref msg_array:=array)
 	var gump := GFCreateGump();
 
 	GFMovable(gump, 0);
@@ -226,13 +232,13 @@ function BuildComposeGump(send_to:="", subject:="", message:=array)
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 480, 80);
 	GFTextLine(gump, 20, 23, 2100, "Send To :");
 	GFGumpPic(gump, 100, 20, 1141);
-	GFTextEntry(gump, 110, 22, 250, 20, 2100, send_to);
+	GFTextEntry(gump, 110, 22, 250, 20, 2100, send_to, SEND_TO_TXT);
 	GFAddButton(gump, 380, 23, 4008, 4009, GF_CLOSE_BTN, ADDRESS_BOOK_BTN);
 	GFTextLine(gump, 415, 23, 2100, "Addresses");
 
 	GFTextLine(gump, 20, 48, 2100, "Subject :");
 	GFGumpPic(gump, 100, 45, 1141);
-	GFTextEntry(gump, 110, 47, 250, 20, 2100, subject);
+	GFTextEntry(gump, 110, 47, 250, 20, 2100, subject, SUBJECT_TXT);
 	GFTextLine(gump, 20, 70, 2100, "To send to multiple recipients, separate box numbers with a space.");
 
 	GFResizePic(gump, 500, 15, GFGetCfgConst("Defaults", "ForeGround"), 125, 80);
@@ -243,16 +249,15 @@ function BuildComposeGump(send_to:="", subject:="", message:=array)
 	GFAddButton(gump, 505, 63, 2117, 2118, GF_CLOSE_BTN, CLOSE_EMAIL_BTN);
 	GFTextLine(gump, 525, 60, 2100, "Cancel");
 
-	var msg_array := array;
 	var y_pos := 100;
 	var i;
 	GFResizePic(gump, 15, 95, GFGetCfgConst("Backgrounds", "GOLDTRIM"), 610, 370);
 	for ( i:=1; i<=18; i+=1 )
-		var text := message[i];
+		var text := msg_array[i];
 		if ( !text )
 			text := "";
 		endif
-		msg_array.Append(GFTextEntry(gump, 20, y_pos, 595, 20, 2100, text));
+		msg_array[i] := GFTextEntry(gump, 20, y_pos, 595, 20, 2100, text, TXT_START+i);
 		y_pos += 20;
 		SleepMS(2);
 	endfor
