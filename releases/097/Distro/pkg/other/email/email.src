@@ -9,6 +9,7 @@ include ":datafile:datafile";
 include ":email:gumps";
 include ":email:settings";
 include ":gumps:gumpprompt";
+include "include/string";
 
 //Global because its just easier.
 var email_data_file := DFOpenDataFile(":email:emails", DF_CREATE);
@@ -155,7 +156,7 @@ function AddressBook(mobile, box_id, byref send_to:="", writing:=0)
 endfunction
 
 function ComposeEmail(mobile, box_id, send_to:="")
-	var subject:="Subject", message:=array;
+	var subject:="", message:=array;
 	while ( mobile.connected )
 		var gump := BuildComposeGump(send_to, subject, message);
 		var input := GFSendGump(mobile, gump);
@@ -168,7 +169,14 @@ function ComposeEmail(mobile, box_id, send_to:="")
 
 		// Retrieve gump input data and word-wrap
 		send_to := GFExtractData(input, SEND_TO_TXT);
+		if ( !send_to )
+			send_to := "";
+		endif
+
 		subject := GFExtractData(input, SUBJECT_TXT);
+		if ( !subject )
+			subject := "";
+		endif
 
 		var i:=1, temp_string := "";
 		for ( i; i<=message.Size(); i+=1 )
@@ -184,9 +192,86 @@ function ComposeEmail(mobile, box_id, send_to:="")
 		if ( input[WORD_WRAP_BTN] )
 			continue;
 		elseif ( input[ADDRESS_BOOK_BTN] )
-			AddressBook(mobile, box_id);
+			AddressBook(mobile, box_id, send_to, 1);
+		elseif ( input[SEND_EMAIL_BTN] )
+			SendEmail(mobile, box_id, send_to, subject, message);
+			break;
 		endif
+
+		SleepMS(2);
 	endwhile
 
 	return 1;
 endfunction
+
+function SendEmail(mobile, box_id, send_to, subject, msg_array)
+	var email := struct;
+	email.+subject := subject;
+	email.+message := msg_array;
+	email.+from_name := mobile.name;
+	email.+from_acct := mobile.acctname;
+	email.+from_box := box_id;
+	email.+time := POLCore().systime;
+
+	send_to := SplitWords(send_to);
+	subject := RemoveSpaces(subject, CLR_LEADING_SPACES+CLR_TRAILING_SPACES);
+
+	if ( !mobile.IsA(POLCLASS_MOBILE) )
+		mobile := struct{"name":="N/A", "acctname":="N/A"};
+	endif
+
+	var gump := GFCreateGump();
+	GFMovable(gump, 0);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 450);
+	GFTextMid(gump, 15, 25, 620, 2100, "Mail Information");
+	var y_pos := 55;
+	foreach boxid in ( send_to )
+		var inbox_elem := DFFindElement(email_data_file, Hex(boxid), DF_NO_CREATE);
+		if ( !inbox_elem )
+			GFTextLine(gump, 20, y_pos, 2100, boxid+" does not exist.");
+			y_pos += 20;
+		elseif ( IsBlocked(box_id, boxid) )
+			GFTextLine(gump, 20, y_pos, 2100, "Could not send message to box "+boxid);
+			y_pos += 20;
+		else
+			var next_msg := inbox_elem.GetProp("NextMsgID");
+			if ( !next_msg )
+				next_msg := 1;
+			elseif ( next_msg > settings.MaxMessages )
+				next_msg := 1;
+			else
+				next_msg += 1;
+			endif
+
+			inbox_elem.SetProp("NextMsgID", next_msg);
+			inbox_elem.SetProp(Hex(next_msg), email);
+
+			GFTextLine(gump, 20, y_pos, 2100, "Message to box "+boxid+" was sent.");
+			y_pos += 20;
+		endif
+		SleepMS(2);
+	endforeach
+
+	if ( mobile.IsA(POLCLASS_MOBILE) )
+		GFSendGump(mobile, gump);
+	endif
+
+	return 1;
+endfunction
+
+function IsBlocked(serial, box_id)
+	serial := CInt(serial);
+	var block_list := DFFindElement(blocked_data_file, Hex(box_id));
+	foreach entry in ( block_list.PropNames() )
+		var prop_info := block_list.GetProp(Hex(entry));
+		if ( serial == CInt(prop_info.boxid) )
+			return 1;
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return 0;
+endfunction
+
