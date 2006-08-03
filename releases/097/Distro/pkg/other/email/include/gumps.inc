@@ -18,8 +18,11 @@ CONST BLOCK_LIST_BTN	:= 0xA0007;
 CONST UPDATE_INBOX_BTN	:= 0xA0008;
 CONST UPDATE_LIST_BTN	:= 0xA0009;
 
+// BUTTONS FOR READING EMAILS
+CONST READMAIL_START	:= 0xB0009;
+
 // THE SEND BUTTONS NEXT TO AN ADDRESS BOOK BUTTON
-CONST ADDYBOOK_START	:= 0xB0009;
+CONST ADDYBOOK_START	:= 0xC0009;
 
 // TEXT ENTRY IDs
 CONST SEND_TO_TXT	:= 0xB01;
@@ -41,22 +44,23 @@ function BuildInboxGump(byref box_id, byref data_elem)
 
 	GFPage(gump, 1);
 	foreach mail_number in ( data_elem.PropNames() )
-		if ( mail_number != "NextMsgID" )
-			var mail_info := data_elem.GetProp(mail_number);
-			GFAddButton(gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, mail_number);
-			GFTextLine(gump, 80, y_pos, 2100, mail_info.from_name);
-			GFTextCrop(gump, 250, y_pos, 210, 20, 2100, mail_info.subject);
-			y_pos += 20;
-			counter += 1;
+		if ( mail_number == "NextMsgID" )
+			continue;
+		endif
 
-			if ( counter >= 20 )
-				GFAddButton(gump, 465, 440, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
-				GFPage(gump, gump.cur_page+1);
-				GFAddButton(gump, 465, 20, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
-				counter := 1;
-				y_pos := 50;
-			endif
+		var mail_info := data_elem.GetProp(mail_number);
+		GFAddButton(gump, 30, y_pos+3, 2117, 2118, GF_CLOSE_BTN, READMAIL_START+CInt(mail_number));
+		GFTextLine(gump, 80, y_pos, 2100, mail_info.from_name);
+		GFTextCrop(gump, 250, y_pos, 210, 20, 2100, mail_info.subject);
+		y_pos += 20;
+		counter += 1;
 
+		if ( counter >= 20 )
+			GFAddButton(gump, 465, 440, 2648, 2649, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 465, 20, 2650, 2651, GF_PAGE_BTN, gump.cur_page-1);
+			counter := 1;
+			y_pos := 50;
 		endif
 	endforeach
 
@@ -84,6 +88,38 @@ function BuildInboxGump(byref box_id, byref data_elem)
 
 	GFAddButton(gump, 505, 208, 2117, 2118, GF_CLOSE_BTN, CLOSE_EMAIL_BTN);
 	GFTextLine(gump, 525, 205, 2100, "Close");
+
+	return gump;
+endfunction
+
+function BuildReaderGump(email)
+	var gump := GFCreateGump();
+	GFMovable(gump, 0);
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
+
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 480, 75);
+	GFTextLine(gump, 20, 20, 2100, "From : "+email.from_name);
+	GFTextRight(gump, 480, 20, 2100, "Box : "+email.from_box);
+	GFTextLine(gump, 20, 40, 2100, "Subject : "+email.subject);
+	var time_string := StrFormatTime("%b %d, %Y %I:%M %p", email.time);
+	GFTextLine(gump, 20, 60, 2100, "Time : "+time_string);
+
+	GFResizePic(gump, 500, 15, GFGetCfgConst("Defaults", "ForeGround"), 125, 75);
+	GFAddButton(gump, 505, 23, 2117, 2118, GF_CLOSE_BTN, email.from_box);
+	GFTextLine(gump, 525, 20, 2100, "Reply");
+	GFAddButton(gump, 505, 43, 2117, 2118, GF_CLOSE_BTN, CLOSE_EMAIL_BTN);
+	GFTextLine(gump, 525, 40, 2100, "Close");
+	GFAddButton(gump, 505, 63, 2117, 2118, GF_CLOSE_BTN, DELETE_MSG_BTN);
+	GFTextLine(gump, 525, 60, 2100, "Delete");
+
+	GFResizePic(gump, 15, 95, GFGetCfgConst("Defaults", "ForeGround"), 610, 370);
+	var y_pos := 100;
+	foreach line in ( email.message )
+		GFTextLine(gump, 20, y_pos, 2100, line);
+		y_pos += 20;
+
+		SleepMS(2);
+	endforeach
 
 	return gump;
 endfunction
