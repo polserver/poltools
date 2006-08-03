@@ -4,6 +4,7 @@
 
 use uo;
 use os;
+use util;
 
 include ":datafile:datafile";
 include ":email:gumps";
@@ -54,9 +55,7 @@ function IndexGump(mobile, box_id)
 			gump := BuildInboxGump(box_id, mail_elem);
 		elseif ( input[DELETE_ALL_BTN] )
 			foreach mail_number in ( mail_elem.PropNames() )
-				if ( mail_number != "NewMsg" )
-					mail_elem.EraseProp(Hex(mail_number));
-				endif
+				mail_elem.EraseProp(Hex(mail_number));
 				SleepMS(2);
 			endforeach
 		elseif ( input[BLOCK_LIST_BTN] )
@@ -65,6 +64,9 @@ function IndexGump(mobile, box_id)
 			AddressBook(mobile, box_id);
 		elseif ( input[NEW_LETTER_BTN] )
 			ComposeEmail(mobile, box_id);
+		elseif ( input[0] >= READMAIL_START )
+			var key := input[0] - READMAIL_START;
+			ReadMessage(mobile, key, mail_elem);
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -72,6 +74,13 @@ function IndexGump(mobile, box_id)
 	endwhile
 
 	return 1;
+endfunction
+
+function ReadMessage(mobile, mail_num, byref mail_elem)
+	var email := mail_elem.GetProp(Hex(mail_num));
+	var gump := BuildReaderGump(email);
+
+	GFSendGump(mobile, gump);
 endfunction
 
 function BlockList(mobile, box_id)
@@ -205,20 +214,22 @@ function ComposeEmail(mobile, box_id, send_to:="")
 endfunction
 
 function SendEmail(mobile, box_id, send_to, subject, msg_array)
+	if ( !mobile.IsA(POLCLASS_MOBILE) )
+		mobile := struct{"name":="N/A", "acctname":="N/A", "ip":=0};
+	endif
+
 	var email := struct;
 	email.+subject := subject;
 	email.+message := msg_array;
 	email.+from_name := mobile.name;
 	email.+from_acct := mobile.acctname;
+	email.+from_ip := mobile.ip;
 	email.+from_box := box_id;
 	email.+time := POLCore().systime;
+	email.+read := 0;
 
 	send_to := SplitWords(send_to);
 	subject := RemoveSpaces(subject, CLR_LEADING_SPACES+CLR_TRAILING_SPACES);
-
-	if ( !mobile.IsA(POLCLASS_MOBILE) )
-		mobile := struct{"name":="N/A", "acctname":="N/A"};
-	endif
 
 	var gump := GFCreateGump();
 	GFMovable(gump, 0);
