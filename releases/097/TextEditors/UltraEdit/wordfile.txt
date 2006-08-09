@@ -535,6 +535,7 @@ WriteHTMLRaw
 .realm
 .reportables
 .run_speed
+.running_scripts
 .script
 .script_profiles
 .scripts_late_per_min
