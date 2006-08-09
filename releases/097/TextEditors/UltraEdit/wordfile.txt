@@ -431,7 +431,7 @@ WriteHTMLRaw
 .backpack
 .banned
 .buyprice
-.byted_received
+.bytes_received
 .bytes_sent
 .call_depth
 .clientinfo
@@ -533,6 +533,8 @@ WriteHTMLRaw
 .run_speed
 .script
 .script_profiles
+.scripts_late_per_min
+.scripts_ontime_per_min
 .sellprice
 .serial
 .skill_checks_per_min
