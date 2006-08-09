@@ -1,3 +1,12 @@
+/* $Id$
+ *
+ */
+
 use os;
 
-Start_Script( "recBandwidth" );
+var script := Start_Script("recorder/recBandwidth");
+if ( script.errortext )
+	SysLog("Error starting bandwidth recorder ->"+script.errortext);
+else
+	Print("Starting bandwidth recorder... OK.");
+endif
