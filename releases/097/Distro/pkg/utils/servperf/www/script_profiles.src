@@ -34,8 +34,8 @@ program HTMLPage()
 	WriteHTML("</P>");
 
 	WriteHTML("<TABLE>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Name</TD><TD>Instructions</TD><TD>Invocations</TD><TD>Instr Per Invoc</TD><TD>% of sysload</TD>");
+	WriteHTML("<TR CLASS>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Instructions</TD><TD CLASS='header2'>Invocations</TD><TD CLASS='header2'>Instr Per Invoc</TD><TD CLASS='header2'>% of sysload</TD>");
 	WriteHTML("</TR>");
 
 	foreach profile in ( core.script_profiles )

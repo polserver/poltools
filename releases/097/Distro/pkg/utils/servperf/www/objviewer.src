@@ -8,18 +8,96 @@ use http;
 use polsys;
 
 include ":servperf:header";
-
+include ":attributes:attributes";
+include ":containers:storageAreas";
 
 unload_scripts("");
 
 program HTMLPage()
 	DoHeader("Object Viewer");
-
 	TableHeader("Object Viewer");
+
+	StartPoint();
 
 	DoFooter();
 	return 1;
 endprogram
+
+function StartPoint()
+	WriteHTML("<BR>");
+
+	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Select a start point.</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>");
+	WriteHTML("<LI><A HREF='?List=Accounts'>Accounts</A></LI>");
+	WriteHTML("<LI><A HREF='?List=Online'>Online Characters</A></LI>");
+	WriteHTML("<LI><A HREF='?List=Storage'>Storage Areas</A></LI>");
+	WriteHTML("<BR>");
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR>");
+
+	WriteHTML("<FORM METHOD='GET'>");
+	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2' COLSPAN='3'>Search</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>Search Text</TD><TD COLSPAN='2'><INPUT TYPE='TEXT' SIZE='45' NAME='SearchText'></TD>");
+	WriteHTML("</TR>");
+
+	WriteHTML("<TR>");
+	WriteHTML("<TD ROWSPAN='4'>Search Where</TD>");
+	WriteHTML("<TD>Accounts</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Accounts'></TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>Top Level Items</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='TLIs'></TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>Storage Areas</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Storage'></TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>Players</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Players'></TD>");
+	WriteHTML("</TR>");
+
+	WriteHTML("<TR>");
+	WriteHTML("<TD ROWSPAN='2'>Search What</TD>");
+	WriteHTML("<TD>Name/Desc</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhat' VALUE='NameDesc'></TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>Serial</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhat' VALUE='Serial'></TD>");
+	WriteHTML("</TR>");
+
+	WriteHTML("<TR>");
+	WriteHTML("<TD COLSPAN='3' ALIGN='CENTER'><INPUT TYPE='SUBMIT' NAME='Submit' VALUE='Submit'></TD>");
+	WriteHTML("</TR>");
+
+	WriteHTML("</FORM>");
+	WriteHTML("</TABLE>");
+	/*
+	WriteHTML("</P>");
+	WriteHTML("<BR><BR>");
+	WriteHTML("<P>");
+
+	WriteHTML("Search Text: <BR>");
+	WriteHTML("Search Where:<BR>");
+	WriteHTML("");
+	WriteHTML("<BR>");
+	WriteHTML("");
+
+
+	WriteHTML("Serial: <INPUT TYPE='RADIO' NAME='Find' VALUE='Serial' CHECKED>");
+
+	WriteHTML("Character Name: <INPUT TYPE='RADIO' NAME='Find' VALUE='CharName'>");
+	WriteHTML("Storage Area/Root:");
+	*/
+	return 1;
+endfunction
 
 /*
 use uo;
