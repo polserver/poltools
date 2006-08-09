@@ -481,10 +481,14 @@ WriteHTMLRaw
 .hitscript
 .hold
 .hp
+.instr
 .instr_cycles
+.instr_per_invoc
 .instr_per_min
+.instr_percent
 .intrinsic
 .invisible
+.invocations
 .iostats
 .ip
 .isopen
