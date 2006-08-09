@@ -48,6 +48,7 @@ Program HTMLPage()
 
 	WriteHTML("<P>");
 	WriteHTML("<UL>");
+	WriteHTML("<LI><A HREF='objviewer.ecl'>Object Viewer</A>");
 	WriteHTML("<LI><A HREF='bandwidth.ecl'>Bandwidth Usage</A>");
 	WriteHTML("<LI><A HREF='iostats.ecl'>I/O Stats</A>");
 	WriteHTML("<LI><A HREF='script_profiles.ecl'>Script Profiles</A>");
