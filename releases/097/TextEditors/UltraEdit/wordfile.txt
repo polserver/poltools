@@ -427,6 +427,7 @@ WriteHTMLRaw
 .ar_base
 .ar_mod
 .attached
+.attached_to
 .attribute
 .backpack
 .banned
