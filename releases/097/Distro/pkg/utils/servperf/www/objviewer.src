@@ -17,7 +17,25 @@ program HTMLPage()
 	DoHeader("Object Viewer");
 	TableHeader("Object Viewer");
 
-	StartPoint();
+	var list := QueryParam("List");
+	if ( list )
+		case ( list )
+			"Accounts":
+				AcctLister(QueryParam("Ext"));
+				break;
+			"Online":
+				OnlineLister();
+				break;
+			"Storage":
+				StorageLister();
+				break;
+			default:
+				DoError("Unknown 'List' type!");
+				break;
+		endcase
+	else
+		StartPoint();
+	endif
 
 	DoFooter();
 	return 1;
@@ -79,825 +97,150 @@ function StartPoint()
 
 	WriteHTML("</FORM>");
 	WriteHTML("</TABLE>");
-	/*
-	WriteHTML("</P>");
-	WriteHTML("<BR><BR>");
-	WriteHTML("<P>");
 
-	WriteHTML("Search Text: <BR>");
-	WriteHTML("Search Where:<BR>");
-	WriteHTML("");
-	WriteHTML("<BR>");
-	WriteHTML("");
-
-
-	WriteHTML("Serial: <INPUT TYPE='RADIO' NAME='Find' VALUE='Serial' CHECKED>");
-
-	WriteHTML("Character Name: <INPUT TYPE='RADIO' NAME='Find' VALUE='CharName'>");
-	WriteHTML("Storage Area/Root:");
-	*/
 	return 1;
 endfunction
 
-/*
-use uo;
-use cfgfile;
-use os;
-use http;
-
-include "include/uo_extend";
-include ":attributes:attributes";
-include ":containers:storageAreas";
-//include ":classes:classes";
-//include ":races:races";
-
-Set_Priority(2);
-
-const script_name := "";
-
-var ABCList := QueryParam("ABCList");
-var show_acct := QueryParam("ShowAcct");
-var char_serial := CInt(QueryParam("Character"));
-var item_serial := CInt(QueryParam("Item"));
-var prop_search := QueryParam("propval");
-var prop_type := QueryParam("proptype");
-var search_type := QueryParam("SearchType");
-
-WriteHTML("<SCRIPT LANGUAGE='Javascript' TYPE='text/javascript'>");
-WriteHTML("function iteminfo(item_serial)");
-WriteHTML("{");
-WriteHTML("	winDetl = window.open(\""+script_name+"?Item=\"+item_serial,\"ItemDetails\",\"height=400,width=500\");");
-WriteHTML("	winDetl.focus();");
-WriteHTML("}");
-WriteHTML("</SCRIPT>");
-
-WriteHTML("<P><A HREF=\""+script_name+"?\">Back to Index</A></P>");
-
-program AccountManager()
-
-	if ( search_type == "character" )
-		CharPropSearch(prop_type, prop_search);
-	elseif ( show_acct )
-		var account := FindAccount(show_acct);
-		if (!account)
-			WriteHTML("Error: Account " + show_acct + " does not exist.");
-		endif
-
-		AcctCharacters(account);
-		WriteHTML("<BR><BR>");
-		ListProps(account);
-	elseif ( char_serial )
-		var character := SystemFindObjectBySerial(char_serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
-		if (!character.acctname)
-			WriteHTML(char_serial + " is not a character.");
-		endif
-		CharInfo(character);
-	elseif ( item_serial )
-		var item := SystemFindObjectBySerial(item_serial, SYSFIND_SEARCH_STORAGE_AREAS + SYSFIND_SEARCH_OFFLINE_MOBILES);
-		ItemInfo(item);
-	else
-		IndexPage();
-	endif
-endprogram
-
-function IndexPage()
-	if ( !ABCList )
-		ABCList := "Online";
-	endif
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
+function DoError(text)
+	WriteHTML("<TABLE>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("<A HREF='"+script_name+"?ABCList=Online'>Online</A> ");
-	WriteHTML("<A HREF='"+script_name+"?ABCList=%23'>#</A> ");
-	var i;
-	for (i := 65; i <= 90; i := i + 1)
-		var letter := CChr(i);
-		if (letter == ABCList)
-			WriteHTML("<B><I>");
+	WriteHTML("<TD CLASS='header'>!! ERROR !!</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TD><FONT COLOR='RED'>"+text+"</FONT></TD>");
+	WriteHTML("</TR>");
+	WriteHTML("</TABLE>");
+
+	return 1;
+endfunction
+
+function LocationBar(tree)
+	WriteHTML("<TABLE WIDTH='100%'>");
+	WriteHTML("<TR>");
+	WriteHTMLRaw("<TD CLASS='tree'>");
+
+	var tree_size := tree.Size();
+	var i := 1;
+	for ( i:=1; i<=tree_size; i+=2 )
+		WriteHTMLRaw("<A HREF='?"+tree[i]+"'>"+tree[i+1]+"</A>");
+		if ( i+1 < tree_size )
+			WriteHTMLRaw("<B> -> </B>");
 		endif
-		WriteHTML("<A HREF='"+script_name+"?ABCList="+letter+"'>"+letter+"</A>");
-		if (letter == ABCList)
-			WriteHTML("</B></I>");
-		endif
+		SleepMS(2);
 	endfor
-	WriteHTML("<A HREF='"+script_name+"?ABCList=ALL'>All</A>");
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
-
-	if ( ABCLIST == "Online" )
-		var temp := EnumerateOnlineAccountsABC();
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		WriteHTML("Total Accounts: " + temp.size());
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		foreach player in temp
-			WriteHTML("Account:");
-			WriteHTML(AccountLink(player.acct));
-			WriteHTML(" Character:" + MobileLink(player.serial, player.name));
-			WriteHTML("<BR>");
-			sleepms(2);
-		endforeach
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-
-	elseif ( ABCList == "ALL" )
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		WriteHTML("Total Accounts: " + ListAccounts().size());
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-
-		var temp := SortAccounts();
-		foreach key in ( temp.keys() )
-			WriteHTML("<TR>");
-			WriteHTML("<TD>");
-			WriteHTML("<B>"+key+"</B><BR>");
-			foreach account in ( temp[key] )
-				WriteHTML(AccountLink(FindAccount(account)));
-				WriteHTML("<BR>");
-				sleepms(2);
-			endforeach
-			WriteHTML("</TD>");
-			WriteHTML("</TR>");
-			sleepms(2);
-		endforeach
-	else
-		var temp := ListByLetter(ABCList);
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		WriteHTML("Total Accounts: " + temp.size());
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		foreach account in ( ListByLetter(ABCList) )
-			WriteHTML(AccountLink(FindAccount(account)));
-			WriteHTML("<BR>");
-			sleepms(2);
-		endforeach
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-	endif
-
 	WriteHTML("</TABLE>");
+	WriteHTML("<BR>");
 
-	WriteHTML("<BR><BR>");
-
-	SearchForms();
-endfunction
-
-function AcctSearchEngine(type:="name", value:="a")
 	return 1;
-	//foreach acct_name in (ListAccounts())
-	//	var account := FindAccount(acct_name);
-
 endfunction
 
-function SearchForms()
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='0'>");
+function FilterBar(selected:="")
+	WriteHTML("<TABLE WIDTH='100%'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-
-	WriteHTML("<FORM NAME='charsearch' METHOD='GET'>");
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Character Search</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("Property Value: <INPUT TYPE='TEXT' NAME='propval'>");
-	WriteHTML("<BR>");
-	WriteHTML("Property Type: <SELECT NAME='proptype'>");
-	WriteHTML("<OPTION>Name</OPTION>");
-	WriteHTML("<OPTION VALUE='cmdlevel'>Command Level</OPTION>");
-	WriteHTML("</SELECT>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD ALIGN='CENTER'>");
-	WriteHTML("<INPUT TYPE='HIDDEN' NAME='SearchType' VALUE='character'>");
-	WriteHTML("<INPUT TYPE='SUBMIT' VALUE='Search'>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</FORM>");
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("<TD>");
-
-	WriteHTML("<FORM NAME='acctsearch' METHOD='GET'>");
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Account Search</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("Property Value: <INPUT TYPE='TEXT' NAME='propval'>");
-	WriteHTML("<BR>");
-	WriteHTML("Property Type: <SELECT NAME='proptype'>");
-	WriteHTML("<OPTION>Name</OPTION>");
-	WriteHTML("<OPTION>Enabled</OPTION>");
-	WriteHTML("<OPTION>Banned</OPTION>");
-	WriteHTML("</SELECT>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD ALIGN='CENTER'>");
-	WriteHTML("<INPUT TYPE='HIDDEN' NAME='SearchType' VALUE='account'>");
-	WriteHTML("<INPUT TYPE='SUBMIT' VALUE='Search'>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</FORM>");
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</TABLE>");
-endfunction
-
-function ListByLetter(letter)
-	var acct_list := array;
-	foreach account in ( ListAccounts() )
-		var first_letter := Upper(account[1]);
-		if ( letter == "#" )
-			var first_letter := CASC(account[1]);
-			if ( first_letter >= CAsc("0") && first_letter <= CAsc("9") )
-				acct_list.append(account);
-			endif
-		else
-			letter := Upper(letter);
-			if ( first_letter == Upper(letter) )
-				acct_list.append(account);
-			endif
+	WriteHTMLRaw("<TD>");
+	var link := "<A HREF='?List=Accounts&Ext=%23'>#</A> ";
+	if ( selected == "#" )
+		link := "<B><I>"+link+"</I></B>";
+	endif
+	WriteHTMLRaw(link);
+	var i;
+	for ( i:=65; i<=90; i+=1 )
+		var letter := CChr(i);
+		link := "<A HREF='?List=Accounts&Ext="+letter+"'>"+letter+"</A>";
+		if ( letter == selected )
+			link := "<B><I>"+link+"</I></B>";
 		endif
+		WriteHTMLRaw(link+" ");
+		SleepMS(2);
+	endfor
+	link := "<A HREF='?List=Accounts&Ext=All'>All</A> ";
+	if ( selected == "All" )
+		link := "<B><I>"+link+"</I></B>";
+	endif
+	WriteHTMLRaw(link);
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR>");
+
+	return 1;
+endfunction
+
+function AcctLister(selected:="All")
+	LocationBar(array{"", "Index"});
+	FilterBar(selected);
+	var acct_list := SortAccounts(selected);
+
+	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>");
+	WriteHTML("Total Accounts: " + acct_list.Size());
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	foreach list in ( acct_list )
+		WriteHTML("<TR>");
+		WriteHTML("<TD>");
+		WriteHTML("<B>"+_list_iter+"</B><BR>");
+
+		foreach account in ( list )
+			WriteHTML("<LI>"+account+"</LI>");
+			SleepMS(2);
+		endforeach
+		WriteHTML("</TD>");
+		WriteHTML("</TR>");
 		sleepms(2);
 	endforeach
+	WriteHTML("</TABLE>");
 
-	acct_list.sort();
-	return acct_list;
+	return 1;
 endfunction
 
-function SortAccounts()
-	//Used for "All"
+function OnlineLister()
+	LocationBar(array{"", "Index"});
+	return 1;
+endfunction
+
+function StorageLister()
+	LocationBar(array{"", "Index"});
+	return 1;
+endfunction
+
+function SortAccounts(letter:="")
+	letter := Upper(letter);
 	var dict := dictionary;
 
 	foreach account in ( ListAccounts() )
 		account[1] := Upper(Account[1]);
 		var first_letter := account[1];
+		if ( first_letter == letter )
+			if ( !dict.Exists(first_letter) )
+				dict[first_letter] := array;
+			endif
+			dict[first_letter].Append(account);
+		elseif ( letter == "#" )
+			first_letter := CAsc(account[1]);
+			if ( first_letter >= CAsc("0") && first_letter <= CAsc("9") )
+				if ( !dict.Exists(first_letter) )
+					dict["#"] := array;
+				endif
+				dict["#"].Append(account);
+			endif
+		elseif ( letter == "ALL" )
+			if ( CAsc(first_letter) >= CAsc("0") && CAsc(first_letter) <= CAsc("9") )
+				first_letter := "#";
+			endif
 
-		if ( CAsc(first_letter) >= CAsc("0") && CAsc(first_letter) <= CAsc("9") )
-			first_letter := "#";
+			if ( !dict.Exists(first_letter) )
+				dict[first_letter] := array;
+			endif
+
+			dict[first_letter].Append(account);
 		endif
 
-		if ( !dict.exists(first_letter) )
-			dict[first_letter] := array;
-		endif
-
-		dict[first_letter].append(account);
-
-		sleepms(2);
+		SleepMS(2);
 	endforeach
 
 	return dict;
 endfunction
-
-function AcctCharacters(acct_ref, highlight := 0)
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("Characters on account ");
-	WriteHTML(AccountLink(acct_ref));
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-
-	var char_num := 1;
-	for (char_num; char_num <= 5; char_num := char_num+1)
-		var character := acct_ref.GetCharacter(char_num);
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		if ( character )
-			if (highlight == character)
-				WriteHTML("<B><I>");
-			endif
-			WriteHTML( MobileLink(character.serial, character.name)+"<BR>" );
-			if ( highlight == character )
-				WriteHTML("</B></I>");
-			endif
-		else
-			WriteHTML("Empty Slot");
-		endif
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-	endfor
-	WriteHTML("</TABLE>");
-
-endfunction
-
-function CharPropSearch(type, input)
-	type := lower(type);
-	input := lower(input);
-	var i;
-
-	if ( !type || !input )
-		WriteHTML("Error - Search parameters are incomplete");
-		return 0;
-	endif
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2'>");
-	WriteHTML("Matches found for <I>"+input+"</I> (<I>"+type+"</I>)");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>");
-	WriteHTML("Character name");
-	WriteHTML("</TD>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>");
-	WriteHTML("Account name");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-
-	foreach account in ListAccounts()
-		account := FindAccount(account);
-		for ( i:=1; i<=5; i:=i+1 )
-			var character := account.GetCharacter(i);
-			if ( !character );
-				//If no character, do nothing.
-			elseif ( lower(character.Get_Member(type))[input] )
-				WriteHTML("<TR>");
-				WriteHTML("<TD>");
-				WriteHTML(MobileLink(character.serial, character.name));
-				WriteHTML("</TD>");
-				WriteHTML("<TD>");
-				WriteHTML(AccountLink(character.acct));
-				WriteHTML("</TD>");
-				WriteHTML("</TR>");
-			endif
-		endfor
-		sleepms(2);
-	endforeach
-
-	WriteHTML("</TABLE>");
-endfunction
-
-function CharInfo(character)
-
-	AcctCharacters(FindAccount(character.acctname), character);
-
-	WriteHTML("<TITLE>Info on ["+character.name+"] ("+character.serial+")</TITLE>");
-
-	var char_info := GetObjProperty(character, "NameInfo");
-	var title := char_info.Title;
-	if (!title)
-		title := "N/A";
-	endif
-	var first_name := char_info.FirstName;
-	if (!first_name)
-		first_name := character.name;
-	endif
-	var last_name := char_info.LastName;
-	if (!last_name)
-		last_name := "N/A";
-	endif
-	//var class := GetClass(character);
-	//if (!class)
-	//	class := "N/A";
-	//endif
-	//var race := GetRace(character);
-	//if ( !race )
-	//	race := "N/A";
-	//endif
-
-	var devotion := GetObjProperty(character, "Religion");
-	if (!devotion)
-		devotion := "Faithless";
-	endif
-
-	WriteHTML("<BR><BR>");
-	WriteHTML("<TABLE BORDER='0' CELLSPACING='2' CELLPADDING='0'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2'>");
-	WriteHTML("<B>General Info</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD><I><B>Name</B></I></TD> <TD><I><B>Value</B></I></TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Serial</TD> <TD>"+hex(character.serial)+" ("+character.serial+")</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Title</TD> <TD>"+title+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>First Name</TD> <TD>"+first_name+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Last Name</TD> <TD>"+last_name+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Class</TD> <TD>"+class+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Race</TD> <TD>"+race+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Devotion</TD> <TD>"+devotion+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Command Level</TD> <TD>"+character.cmdlevel+"/"+CMDLEVEL_TEST+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>IP Address</TD> <TD>"+character.ip+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>X, Y, Z</TD> <TD>"+character.x+", "+character.y+", "+character.z+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("<TD>");
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='3'>");
-	WriteHTML("<B>Stats</B>");
-	WriteHTML("</TD>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD><I><B>Stat</B></I></TD> <TD><I><B>Value</B></I></TD> <TD><I><B>Mods</I></B></TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Strength</TD> <TD>"+GetTrueStrength(character)+"</TD> <TD>"+GetStrengthMod(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Mana</TD> <TD>"+GetTrueMana(character)+"</TD> <TD>"+GetManaMod(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Stamina</TD> <TD>"+GetTrueStamina(character)+"</TD> <TD>"+GetStaminaMod(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Dexterity</TD> <TD>"+GetTrueDexterity(character)+"</TD> <TD>"+GetDexterityMod(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Intelligence</TD> <TD>"+GetTrueIntelligence(character)+"</TD> <TD>"+GetIntelligenceMod(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Hit Points</TD> <TD>"+GetHitPoints(character)+"/" +GetMaxHitPoints(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Mana Points</TD> <TD>"+GetManaPoints(character)+"/"+GetTrueMana(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Stamina Points</TD> <TD>"+GetStaminaPoints(character)+"/"+GetTrueStamina(character)+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='C0C0C0'>Hunger Points</TD> <TD>"+GetHungerPoints(character)+"/100</TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD>HP Regen</TD> <TD>"+GetVitalRegenRate(character, "Life")+"/1200 </TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Mana Regen</TD> <TD>"+GetVitalRegenRate(character, "Mana")+"/1200 </TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Stamina Regen</TD> <TD>"+GetVitalRegenRate(character, "Stamina")+"/2000 </TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Hunger Regen</TD> <TD>"+GetVitalRegenRate(character, "Hunger")+"/25 </TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD BGCOLOR='666666' COLSPAN='3'>&nbsp;</TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD>AR</TD> <TD>"+character.ar+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>AR Mod</TD> <TD>"+character.ar_mod+"</TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("<TD>");
-
-	var priv_names :=
-	{
-		"ignoredoors", "seeinvisitems", "seehidden",
-		"seeghosts", "renameany", "moveany", "losany", "invul",
-		"hearghosts", "dblclickany", "clotheany", "freemove"
-	};
-	WriteHTML("<BR>");
-	WriteHTML("<TABLE border=1 cellspacing=0 cellpadding=2>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2'>");
-	WriteHTML("<B>Privileges</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD><I><B>Priv Name</B></I></TD> <TD><I><B>Status</B></I></TD>");
-	WriteHTML("</TR>");
-	foreach priv in priv_names
-		WriteHTML("<TR>");
-		WriteHTML("<TD>"+priv+"</TD>");
-		var status := "-  Disabled";
-		if ( character.enabled(priv) )
-			status := "+  Enabled";
-		endif
-		WriteHTML("<TD>"+status+"</TD>");
-		WriteHTML("</TR>");
-		sleepms(2);
-	endforeach
-	WriteHTML("</TABLE>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</TABLE>");
-
-	var attributes_cfg := ReadConfigFile(":core:attributes");
-	var attrib_list := GetConfigStringKeys(attributes_cfg);
-	var class_cfg := ReadConfigFile(":classes:classes");
-	var my_class := GetObjProperty(character, "class");
-
-	WriteHTML("<BR>");
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='5'>");
-	WriteHTML("<B>Skills</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD><I><B>Name</B></I></TD>");
-	WriteHTML("<TD><I><B>Title</B></I></TD>");
-	WriteHTML("<TD><I><B>Value</B></I></TD>");
-	WriteHTML("<TD><I><B>Mods</B></I></TD>");
-	WriteHTML("<TD><I><B>Type</B></I></TD>");
-	WriteHTML("</TR>");
-	var sorted_list := SortAttribs(character, attrib_list);
-	var skill_order := GetSkillCategories();
-	foreach category in skill_order
-		foreach attribute in ( sorted_list[category] )
-			var temp := attributes_cfg[attribute];
-			if ( ( temp.stat ) || ( temp.vital ) || ( temp.fake ) )
-				continue;
-			else
-				var true_skill := GetTrueSkill(character, attribute);
-				var skill_mod := GetSkillMod(character, attribute);
-				var title := GetSkillTitle(true_skill);
-				WriteHTML("<TR>");
-				WriteHTML("<TD>"+Attribute+"</TD>");
-				WriteHTML("<TD>"+title+"</TD>");
-				WriteHTML("<TD>"+true_skill+"</TD>");
-				WriteHTML("<TD>"+skill_mod+"</TD>");
-				WriteHTML("<TD>"+category+"</TD>");
-				WriteHTML("</TR>");
-			endif
-			sleepms(2);
-		endforeach
-	endforeach
-	WriteHTML("</TABLE>");
-
-	WriteHTML("<BR>");
-	WriteHTML("<TABLE BORDER='0' CELLSPACING='2' CELLPADDING='0'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='1'>");
-	WriteHTML("<B>Equipped Items</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	foreach item in ListEquippedItems(character)
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		WriteHTML(ItemLink(item.serial, item.desc));
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-	endforeach
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("<TD>");
-
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='1'>");
-	WriteHTML("<B>Bank Boxes</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	foreach bank in GetBankNames()
-		var box := GetBox(character, bank);
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
-		WriteHTML(ItemLink(box.serial, bank));
-		WriteHTML("</TD>");
-		WriteHTML("</TR>");
-		sleepms(2);
-	endforeach
-	WriteHTML("</TABLE>");
-
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("</TABLE>");
-
-	WriteHTML("<BR>");
-	ListProps(character);
-endfunction
-
-function ItemInfo(item)
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>");
-	WriteHTML("Desc");
-	WriteHTML("</TD>");
-	WriteHTML("<TD>");
-
-	var desc := item.desc;
-	if ( desc["Bankbox for 0x"] )
-		var temp := SplitWords(item.desc);
-		desc := temp[1]+" "+temp[2]+" "+MobileLink(temp[3], temp[3]);
-	endif
-
-	WriteHTML("<B>"+desc+"</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Name</TD><TD>"+item.name+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Color</TD><TD>"+item.color+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Graphic</TD><TD>"+item.graphic+"</TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Objtype</TD><TD>"+hex( item.objtype )+"</TD>");
-	WriteHTML("</TR>");
-	if(item.isa(POLCLASS_ARMOR))
-		WriteHTML("<TR>");
-		WriteHTML("<TD>AR</TD><TD>"+item.ar+"</TD><TD>AR Mod</TD><TD>"+item.ar_mod+"</TD>");
-		WriteHTML("</TR>");
-	elseif(item.isa(POLCLASS_WEAPON))
-		WriteHTML("<TR>");
-		WriteHTML("<TD>Damage Mod</TD><TD>"+item.dmg_mod+"</TD>");
-		WriteHTML("</TR>");
-	endif
-	if( (item.isa(POLCLASS_ARMOR) ) || (item.isa(POLCLASS_WEAPON) ))
-		WriteHTML("<TR>");
-		WriteHTML("<TD>HP/MaxHP</TD><TD>"+item.hp+"/"+item.maxhp+"</TD><TD>MaxHP Mod</TD><TD>"+item.maxhp_mod+"</TD>");
-		WriteHTML("</TR>");
-
-		WriteHTML("<TR>");
-		WriteHTML("<TD>Quality</TD><TD>"+item.quality+"</TD>");
-		WriteHTML("</TR>");
-	endif
-
-	if ( item.container )
-		var container := SystemFindObjectBySerial(item.container.serial, SYSFIND_SEARCH_STORAGE_AREAS + SYSFIND_SEARCH_OFFLINE_MOBILES);
-		WriteHTML("<TR>");
-		if (container.acctname)
-			WriteHTML("<TD>Container Serial</TD><TD>"+MobileLink(container.serial, container.name)+"</TD>");
-		else
-			WriteHTML("<TD>Container Serial</TD><TD>"+ItemLink(container.serial, hex(container.serial))+"</TD>");
-		endif
-		WriteHTML("</TR>");
-	endif
-
-	WriteHTML("</TABLE>");
-	WriteHTML("<BR>");
-
-	if (item.isa(POLCLASS_CONTAINER))
-		ListContents(item);
-	endif
-
-	WriteHTML("<BR>");
-
-	ListProps(item);
-
-endfunction
-
-function ListContents(container)
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2'>");
-	WriteHTML("<B>Container Contents</B>");
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-	foreach item in EnumerateItemsInContainer(container)
-		if (item.container == container)
-			WriteHTML("<TR>");
-			WriteHTML("<TD>");
-			if (item.isa(POLCLASS_CONTAINER))
-				WriteHTML("->");
-			endif
-			WriteHTML(ItemLink(item.serial, item.desc));
-			WriteHTML("</TD>");
-			WriteHTML("</TR>");
-		endif
-		sleepms(2);
-	endforeach
-	WriteHTML("</TABLE>");
-
-endfunction
-
-function AccountLink(account)
-	return "<A HREF='"+script_name+"?ShowAcct="+account.name+"'>"+account.name+"</A> ["+NumChars(account)+"] "+AcctStatus(account);
-endfunction
-
-
-function ItemLink(serial, link_name)
-	//return "<A HREF=\"javascript:iteminfo("+serial+")\">"+link_name+"</A>";
-	return "<A HREF='"+script_name+"?Item="+serial+"'>"+link_name+"</A>";
-endfunction
-
-function MobileLink(serial, link_name)
-	return "<A HREF='"+script_name+"?Character="+serial+"'>"+link_name+"</A>";
-endfunction
-
-
-function SortAttribs(who, attrib_list)
-	var category := dictionary;
-	foreach attrib_name in attrib_list
-		var type := GetSkillCategory(who, attrib_name);
-		if ( !category.exists(type) )
-			category[type] := array;
-		endif
-
-		category[type].append(attrib_name);
-
-		sleepms(2);
-	endforeach
-
-	return category;
-endfunction
-
-function ListProps(object)
-	WriteHTML("<TABLE BORDER='1' CELLSPACING='0' CELLPADDING='2'>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2'>");
-	if (object.name)
-		WriteHTML("<B>CProps on " + object.name + "</B>");
-	else
-		WriteHTML("<B>CProps on " + object.desc + "</B>");
-	endif
-	WriteHTML("</TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Prop Name</TD>");
-	WriteHTML("<TD>Prop Value</TD>");
-	WriteHTML("</TR>");
-
-	foreach prop in ( object.PropNames() )
-		WriteHTML("<TR>");
-		WriteHTML("<TD>"+prop+"</TD>");
-		WriteHTML("<TD>"+object.GetProp(prop)+"</TD>");
-		WriteHTML("</TR>");
-		sleepms(2);
-	endforeach
-	WriteHTML("</TABLE>");
-endfunction
-
-function NumChars(acct_ref)
-	if ( !acct_ref.name )
-		acct_ref := FindAccount(acct_ref);
-	endif
-
-	var i := 1;
-	var total := 0;
-
-	for ( i:=1; i<=5; i:=i+1 )
-		if ( acct_ref.GetCharacter(i) )
-			total := total+1;
-		endif
-	endfor
-	return total;
-endfunction
-
-function AcctStatus(acct_ref)
-	if ( !acct_ref )
-		return "[error="+acct_ref+"]";
-	elseif ( acct_ref.banned )
-		return "[banned]";
-	elseif ( acct_ref.GetProp("**IDLE**") )
-		return "[idle]";
-	elseif ( !acct_ref.enabled )
-		return "[disabled]";
-	else
-		return "";
-	endif
-endfunction
-*/
