@@ -9,11 +9,11 @@ use http;
 include ":servperf:header";
 
 program HTMLPage()
-	DoHeader("ServPerf Running-Scripts");
+	DoHeader("ServPerf Long-Running Scripts");
 
-	TableHeader("Running-Scripts");
+	TableHeader("Long-Running Scripts");
 
-	WriteHTML("<P>Running Scripts</P>");
+	WriteHTML("<P>Long-Running Scripts</P>");
 
 	WriteHTML("<TABLE>");
 	WriteHTML("<TR>");

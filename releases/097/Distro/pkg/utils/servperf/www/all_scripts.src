@@ -15,7 +15,7 @@ program HTMLPage()
 
 	TableHeader("All-Scripts");
 
-	WriteHTML("<P>All Scripts</P>");
+	WriteHTML("<P>All-Scripts</P>");
 
 	WriteHTML("<TABLE>");
 	WriteHTML("<TR>");
