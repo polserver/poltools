@@ -10,6 +10,7 @@ use polsys;
 include ":servperf:header";
 include ":attributes:attributes";
 include ":containers:storageAreas";
+include "include/uo_extend";
 
 unload_scripts("");
 
@@ -18,10 +19,14 @@ program HTMLPage()
 	TableHeader("Object Viewer");
 
 	var list := QueryParam("List");
-	if ( list )
+	//var serial := QueryParam("Serial");
+	var acct_name := QueryParam("Account");
+	if ( acct_name )
+		ShowAccountInfo(acct_name);
+	elseif ( list )
 		case ( list )
 			"Accounts":
-				AcctLister(QueryParam("Ext"));
+				AcctLister();
 				break;
 			"Online":
 				OnlineLister();
@@ -113,18 +118,17 @@ function DoError(text)
 	return 1;
 endfunction
 
-function LocationBar(tree)
+function LocationBar(tree:=0)
 	WriteHTML("<TABLE WIDTH='100%'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD CLASS='tree'>");
+	WriteHTMLRaw("<A HREF='?'>Index</A>");
 
 	var tree_size := tree.Size();
 	var i := 1;
 	for ( i:=1; i<=tree_size; i+=2 )
-		WriteHTMLRaw("<A HREF='?"+tree[i]+"'>"+tree[i+1]+"</A>");
-		if ( i+1 < tree_size )
-			WriteHTMLRaw("<B> -> </B>");
-		endif
+		WriteHTMLRaw("<B> -> </B>");
+		WriteHTMLRaw(" <A HREF='?"+tree[i]+"'>"+tree[i+1]+"</A>");
 		SleepMS(2);
 	endfor
 	WriteHTML("</TD>");
@@ -135,7 +139,7 @@ function LocationBar(tree)
 	return 1;
 endfunction
 
-function FilterBar(selected:="")
+function FilterBar(selected)
 	WriteHTML("<TABLE WIDTH='100%'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD>");
@@ -168,15 +172,58 @@ function FilterBar(selected:="")
 	return 1;
 endfunction
 
-function AcctLister(selected:="All")
-	LocationBar(array{"", "Index"});
+function SortList(byref string_array, letter:="")
+	letter := Upper(letter);
+	var dict := dictionary;
+
+	foreach entry in ( string_array )
+		entry[1] := Upper(entry[1]);
+		var first_letter := entry[1];
+		if ( first_letter == letter )
+			if ( !dict.Exists(first_letter) )
+				dict[first_letter] := array;
+			endif
+			dict[first_letter].Append(entry);
+		elseif ( letter == "#" )
+			first_letter := CAsc(entry[1]);
+			if ( first_letter >= CAsc("0") && first_letter <= CAsc("9") )
+				if ( !dict.Exists(first_letter) )
+					dict["#"] := array;
+				endif
+				dict["#"].Append(entry);
+			endif
+		elseif ( letter == "ALL" )
+			if ( CAsc(first_letter) >= CAsc("0") && CAsc(first_letter) <= CAsc("9") )
+				first_letter := "#";
+			endif
+
+			if ( !dict.Exists(first_letter) )
+				dict[first_letter] := array;
+			endif
+
+			dict[first_letter].Append(entry);
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return dict;
+endfunction
+
+function AcctLister()
+	LocationBar();
+
+	var selected := QueryParam("Ext");
+	if ( !selected )
+		selected := "All";
+	endif
 	FilterBar(selected);
-	var acct_list := SortAccounts(selected);
+	var acct_list := SortList(ListAccounts(), selected);
 
 	WriteHTML("<TABLE WIDTH=400>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>");
-	WriteHTML("Total Accounts: " + acct_list.Size());
+	WriteHTML("Total Accounts: "+acct_list.Size());
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
 	foreach list in ( acct_list )
@@ -185,7 +232,7 @@ function AcctLister(selected:="All")
 		WriteHTML("<B>"+_list_iter+"</B><BR>");
 
 		foreach account in ( list )
-			WriteHTML("<LI>"+account+"</LI>");
+			WriteHTML("<LI><A HREF='?Account="+account+"'>"+account+"</A></LI>");
 			SleepMS(2);
 		endforeach
 		WriteHTML("</TD>");
@@ -197,50 +244,108 @@ function AcctLister(selected:="All")
 	return 1;
 endfunction
 
+function ShowAccountInfo(acct_name)
+	LocationBar(array{"List=Accounts", "Accounts"});
+
+	var account := FindAccount(acct_name);
+	if ( !account )
+		DoError("Could not get account "+acct_name+"<BR> "+account.errortext);
+		return 0;
+	endif
+
+	AccountCharacters(account);
+	ShowCPropInfo(account);
+
+	return 1;
+endfunction
+
+function AccountCharacters(account, highlight:=0)
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header'>Characters on account "+account.name+"</TD>");
+	WriteHTML("</TR>");
+
+	for i:=1 to 6
+		var character := account.GetCharacter(i);
+		WriteHTML("<TR>");
+		WriteHTML("<TD>");
+		if ( character )
+			var line := "<A HREF='?Serial="+character.serial+"'>"+character.name+"</A>";
+			if ( highlight == character )
+				line := "<B><I>"+line+"</I></B>";
+			endif
+			WriteHTML(line);
+		else
+			WriteHTML("Empty Slot");
+		endif
+		WriteHTML("</TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endfor
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	return 1;
+endfunction
+
 function OnlineLister()
-	LocationBar(array{"", "Index"});
+	LocationBar();
+
+	var online := EnumerateOnlineCharactersABC();
+	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>");
+	WriteHTML("Total Online: "+online.Size());
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD>");
+	foreach player in ( online )
+		WriteHTML("<LI>"+player.name+"</LI>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("</TABLE>");
+
 	return 1;
 endfunction
 
 function StorageLister()
-	LocationBar(array{"", "Index"});
+	LocationBar();
+
 	return 1;
 endfunction
 
-function SortAccounts(letter:="")
-	letter := Upper(letter);
-	var dict := dictionary;
+function ShowCpropInfo(object)
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD COLSPAN='2' CLASS='header2'>");
+	if ( object.name )
+		WriteHTML("<B>CProps on "+object.name+"</B>");
+	else
+		WriteHTML("<B>CProps on "+object.desc+"</B>");
+	endif
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
 
-	foreach account in ( ListAccounts() )
-		account[1] := Upper(Account[1]);
-		var first_letter := account[1];
-		if ( first_letter == letter )
-			if ( !dict.Exists(first_letter) )
-				dict[first_letter] := array;
-			endif
-			dict[first_letter].Append(account);
-		elseif ( letter == "#" )
-			first_letter := CAsc(account[1]);
-			if ( first_letter >= CAsc("0") && first_letter <= CAsc("9") )
-				if ( !dict.Exists(first_letter) )
-					dict["#"] := array;
-				endif
-				dict["#"].Append(account);
-			endif
-		elseif ( letter == "ALL" )
-			if ( CAsc(first_letter) >= CAsc("0") && CAsc(first_letter) <= CAsc("9") )
-				first_letter := "#";
-			endif
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Prop Name</TD>");
+	WriteHTML("<TD CLASS='header2'>Prop Value</TD>");
+	WriteHTML("</TR>");
 
-			if ( !dict.Exists(first_letter) )
-				dict[first_letter] := array;
-			endif
-
-			dict[first_letter].Append(account);
-		endif
-
+	foreach prop_name in ( object.PropNames() )
+		WriteHTML("<TR>");
+		WriteHTMLRaw("<TD>"+prop_name+"</TD>");
+		WriteHTML("<TD>"+object.GetProp(prop_name)+"</TD>");
+		WriteHTML("</TR>");
 		SleepMS(2);
 	endforeach
+	WriteHTML("</TABLE>");
 
-	return dict;
+	WriteHTML("<BR>");
+
+	return 1;
 endfunction
+
