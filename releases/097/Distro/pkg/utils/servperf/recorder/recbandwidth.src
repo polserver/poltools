@@ -22,10 +22,13 @@ program record_Bandwidth_used()
 	var last_sent := system.bytes_sent;
 
 	while (1)
-		var this_received := system.bytes_received - last_received;
-		var this_sent := system.bytes_sent - last_sent;
+		var this_received := system.bytes_received;
+		var this_sent := system.bytes_sent;
 
-		results.Insert(1, array{this_received, this_sent});
+		var recv_diff := this_received - last_received;
+		var sent_diff := this_sent - last_sent;
+
+		results.Insert(1, array{recv_diff, sent_diff});
 		results.Shrink(HISTORY_MINUTES);
 
 		last_received := this_received;
