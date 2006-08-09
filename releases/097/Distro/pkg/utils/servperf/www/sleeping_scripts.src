@@ -1,4 +1,4 @@
-/* $Id$
+/* $Id: running_scripts.src 665 2006-08-09 11:18:34Z austinheilman $
  *
  */
 
@@ -9,11 +9,11 @@ use http;
 include ":servperf:header";
 
 program HTMLPage()
-	DoHeader("ServPerf Running Scripts");
+	DoHeader("ServPerf Sleeping-Scripts");
 
-	TableHeader("Running Scripts");
+	TableHeader("Sleeping-Scripts");
 
-	WriteHTML("<P>Running Scripts</P>");
+	WriteHTML("<P>Sleeping Scripts</P>");
 
 	WriteHTML("<TABLE>");
 	WriteHTML("<TR>");
@@ -28,9 +28,13 @@ program HTMLPage()
 	WriteHTML("<TD CLASS='header'>State</TD>");
 	WriteHTML("</TR>");
 
-	var scripts := POLCore().running_scripts;
+	var scripts := POLCore().all_scripts;
 	scripts.Sort();
 	foreach script in ( scripts )
+		if ( script.state != "Sleeping" )
+			continue;
+		endif
+
 		WriteHTML("<TR>");
 		WriteHTML("<TD><A HREF='scriptex.ecl?PID="+script.pid+"'>"+script.pid+"</A></TD>");
 		WriteHTML("<TD>"+script.name+"</TD>");
