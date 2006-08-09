@@ -1,0 +1,37 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use http;
+use polsys;
+use storage;
+
+include ":servperf:header";
+
+Program HTMLPage()
+	DoHeader("ServPerf I/O Stats");
+
+	TableHeader("I/O Stats");
+
+	WriteHTML("<P>Packets Sent</P>");
+
+	WriteHTML("<TABLE>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header'>Mesage Type</TD><TD CLASS='header'>Count</TD><TD CLASS='header'>Bytes</TD>");
+	WriteHTML("</TR>");
+
+	var iostats := POLCore().iostats;
+	for msgtype := 0 to 255
+		if ( iostats.sent[msgtype+1].count )
+			WriteHTML("<TR>");
+			WriteHTML("<TD>"+msgtype+" ("+Hex(msgtype)+")</TD>");
+			WriteHTML("<TD>"+iostats.sent[msgtype+1].count+"</TD>");
+			WriteHTML("<TD>"+iostats.sent[msgtype+1].bytes+"</TD>");
+		endif
+		SleepMS(2);
+	endfor
+
+	return 1;
+endprogram
