@@ -19,10 +19,12 @@ program HTMLPage()
 	TableHeader("Object Viewer");
 
 	var list := QueryParam("List");
-	//var serial := QueryParam("Serial");
+	var serial := CInt(QueryParam("Serial"));
 	var acct_name := QueryParam("Account");
 	if ( acct_name )
 		ShowAccountInfo(acct_name);
+	elseif ( serial )
+		ShowSerialInfo(serial);
 	elseif ( list )
 		case ( list )
 			"Accounts":
@@ -267,18 +269,18 @@ function AccountCharacters(account, highlight:=0)
 
 	for i:=1 to 6
 		var character := account.GetCharacter(i);
-		WriteHTML("<TR>");
-		WriteHTML("<TD>");
+		WriteHTMLRaw("<TR>");
+		WriteHTMLRaw("<TD>");
 		if ( character )
 			var line := "<A HREF='?Serial="+character.serial+"'>"+character.name+"</A>";
 			if ( highlight == character )
 				line := "<B><I>"+line+"</I></B>";
 			endif
-			WriteHTML(line);
+			WriteHTMLRaw(line);
 		else
-			WriteHTML("Empty Slot");
+			WriteHTMLRaw("Empty Slot");
 		endif
-		WriteHTML("</TD>");
+		WriteHTMLRaw("</TD>");
 		WriteHTML("</TR>");
 		SleepMS(2);
 	endfor
@@ -314,6 +316,153 @@ endfunction
 
 function StorageLister()
 	LocationBar();
+
+	return 1;
+endfunction
+
+function ShowSerialInfo(serial)
+	var object := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_STORAGE_AREAS+SYSFIND_SEARCH_OFFLINE_MOBILES);
+	if ( object.errortext )
+		DoError("Could not find serial "+serial+"<BR> "+object.errortext);
+		return 0;
+	endif
+
+	if ( object.IsA(POLCLASS_MOBILE) )
+		ShowCharacterInfo(object);
+	else
+		ShowItemInfo(object);
+	endif
+
+	ShowCPropInfo(object);
+
+	return 1;
+endfunction
+
+function ShowCharacterInfo(object)
+	if ( object.acctname )
+		LocationBar(array{"List=Accounts", "Accounts", "Account="+object.acctname, object.acctname});
+
+		AccountCharacters(object.acct, object);
+	endif
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR><TD>Serial</TD><TD>"+Hex(object.serial)+"</TD></TR>");
+	WriteHTML("<TR><TD>Command Level</TD><TD>"+object.cmdlevel+" ("+GetCmdLevelName(object.cmdlevel)+")</TD></TR>");
+	WriteHTML("<TR><TD>IP Address</TD><TD>"+object.IP+"</TD></TR>");
+	WriteHTML("<TR><TD>X Y Z Realm</TD><TD>"+object.x+", "+object.y+", "+object.z+", "+object.realm+"</TD></TR>");
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Privileges</TD></TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("</TR>");
+	foreach priv in ( object.Privileges() )
+		WriteHTMLRaw("<TR>");
+		WriteHTMLRaw("<TD>"+_priv_iter+"</TD>");
+		var status := "Enabled";
+		if ( !priv )
+			status := "Disabled";
+		endif
+		WriteHTMLRaw("<TD>"+status+"</TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Vitals Info</TD></TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Regen Mod</TD>");
+	WriteHTML("</TR>");
+	foreach vital_name in ( AP_GetVitalNames() )
+		WriteHTMLRaw("<TR>");
+		WriteHTMLRaw("<TD>"+vital_name+"</TD>");
+		WriteHTMLRaw("<TD>"+AP_GetVital(object, vital_name)+"/"+AP_GetVitalMaximumValue(object, vital_name)+"</TD>");
+		WriteHTMLRaw("<TD>"+AP_GetVitalRegenRateMod(object, vital_name)+"</TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Attribute Info</TD></TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Modifier</TD>");
+	WriteHTML("</TR>");
+	foreach attrib_name in ( AP_ListAttributesByType() )
+		WriteHTMLRaw("<TR>");
+		WriteHTMLRaw("<TD>"+attrib_name+"</TD>");
+		WriteHTMLRaw("<TD>"+AP_GetTrueSkill(object, attrib_name)+"</TD>");
+		WriteHTMLRaw("<TD>"+AP_GetSkillMod(object, attrib_name)+"</TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header'>Equipment</TD></TR>");
+	foreach item in ( ListEquippedItems(object) )
+		WriteHTMLRaw("<TR>");
+		WriteHTMLRaw("<TD><A HREF='?Serial="+item.serial+"'>"+item.desc+"</A></TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
+	foreach area_name in ( CP_GetStorageAreaNames() )
+		var container := CP_GetStorageContainerForMobile(object, area_name, CP_NOCREATE);
+		if ( !container )
+			continue;
+		endif
+		WriteHTMLRaw("<TR>");
+		WriteHTML("<TD><A HREF='?Serial="+container.serial+"'>"+area_name+"</A></TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+
+	return 1;
+endfunction
+
+function ShowItemInfo(object)
+	if ( object.container )
+		var tree_array := array;
+		var temp := object;
+		while ( temp )
+			var name := temp.desc;
+			if ( !name )
+				name := temp.name;
+			endif
+
+			tree_array.Insert(1, name);
+			tree_array.Insert(1, "Serial="+temp.serial);
+			temp := temp.container;
+			SleepMS(2);
+		endwhile
+		LocationBar(tree_array);
+	else
+		LocationBar();
+	endif
 
 	return 1;
 endfunction
