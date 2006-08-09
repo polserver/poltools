@@ -418,7 +418,7 @@ WriteHTMLRaw
 .backpack
 .banned
 .buyprice
-.byted_received
+.bytes_received
 .bytes_sent
 .call_depth
 .clientinfo
