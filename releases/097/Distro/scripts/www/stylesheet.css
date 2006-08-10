@@ -13,6 +13,19 @@ body, td, th, table
 	font: 9pt, verdana, sans-serif;
 }
 
+a:link
+{
+	color: blue;
+}
+a:visited
+{
+	color: midnightblue;
+}
+a:hover
+{
+	background: khaki;
+}
+
 table
 {
 	border-collapse: collapse
@@ -30,14 +43,14 @@ td.header
 	color:#000000;
 	background-color:808080;
 }
+
 td.header2
 {
-	font-weight:normal;
-	color:#000000;
-	background-color:808080;
+	font-weight: normal;
+	color: #000000;
+	background-color: 808080;
+	a link: green;
 }
-
-
 
 
 #container {
