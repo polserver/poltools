@@ -464,6 +464,58 @@ function ShowItemInfo(object)
 		LocationBar();
 	endif
 
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("</TR>");
+	WriteHTML("<TR><TD>Desc</TD><TD>"+object.desc+"</TD></TR>");
+	WriteHTML("<TR><TD>Name</TD><TD>"+object.name+"</TD></TR>");
+	WriteHTML("<TR><TD>Color</TD><TD>"+object.color+"</TD></TR>");
+	WriteHTML("<TR><TD>Graphic</TD><TD>"+object.graphic+"</TD></TR>");
+	WriteHTML("<TR><TD>Object Type</TD><TD>"+Hex(object.objtype)+"</TD></TR>");
+	WriteHTML("<TR><TD>Serial</TD><TD>"+Hex(object.serial)+"</TD></TR>");
+	WriteHTML("<TR><TD>X Y Z Realm</TD><TD>"+object.x+", "+object.y+", "+object.z+", "+object.realm+"</TD></TR>");
+	if ( object.container )
+		WriteHTML("<TR><TD>Container</TD><TD><A HREF='?Serial="+object.container.serial+"'>"+Hex(object.container.serial)+"</A></TD></TR>");
+	endif
+	if ( object.IsA(POLCLASS_ARMOR) )
+		WriteHTML("<TR><TD>AR</TD><TD>"+Hex(object.ar)+"</TD></TR>");
+		WriteHTML("<TR><TD>AR Mod</TD><TD>"+Hex(object.ar_mod)+"</TD></TR>");
+	elseif ( object.IsA(POLCLASS_WEAPON) )
+		WriteHTML("<TR><TD>Damage Mod</TD><TD>"+object.dmg_mod+"</TD></TR>");
+	endif
+	if ( object.IsA(POLCLASS_EQUIPMENT) )
+		WriteHTML("<TR><TD>Quality</TD><TD>"+object.quality+"</TD></TR>");
+		WriteHTML("<TR><TD>HP/MaxHP</TD><TD>"+object.hp+"/"+object.maxhp+"</TD></TR>");
+	endif
+	WriteHTML("<TR><TD>Newbie</TD><TD>"+object.newbie+"</TD></TR>");
+	WriteHTML("<TR><TD>Amount</TD><TD>"+object.amount+"</TD></TR>");
+	WriteHTML("</TABLE>");
+
+	WriteHTML("<BR><BR>");
+
+	if ( object.IsA(POLCLASS_CONTAINER) )
+		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TR><TD CLASS='header'>Container Contents</TD></TR>");
+		foreach item in ( EnumerateItemsInContainer(object) )
+			if ( item.container != object )
+				continue;
+			endif
+			WriteHTMLRaw("<TR>");
+			WriteHTMLRaw("<TD>");
+			if ( item.IsA(POLCLASS_CONTAINER) )
+				WriteHTMLRaw("-> ");
+			endif
+			WriteHTMLRaw("<A HREF='?Serial="+item.serial+"'>"+item.desc+"</A></TD>");
+			WriteHTML("</TR>");
+			SleepMS(2);
+		endforeach
+		WriteHTML("</TABLE>");
+
+		WriteHTML("<BR><BR>");
+	endif
+
 	return 1;
 endfunction
 
