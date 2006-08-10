@@ -286,7 +286,7 @@ function ShowSearchResults()
 	LocationBar();
 
 	WriteHTML("<TABLE WIDTH='400'>");
-	WriteHTML("<TR><TD CLASS='header'>Search Results</TD></TR>");
+	WriteHTML("<TR><TD CLASS='header'>Search Results ("+matches.Size()+" matches)</TD></TR>");
 	foreach entry in ( matches )
 		if ( search_where == "Accounts" )
 			WriteHTML("<TR><TD><A HREF='?Account="+entry+"'>"+entry+"</A></TD></TR>");
@@ -318,8 +318,8 @@ function AcctLister()
 
 	WriteHTML("<TABLE WIDTH=400>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>");
-	WriteHTML("Total Accounts: "+acct_list.Size());
+	WriteHTMLRaw("<TD CLASS='header'>");
+	WriteHTMLRaw("Accounts ("+acct_list.Size()+")");
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
 	foreach list in ( acct_list )
@@ -391,8 +391,8 @@ function OnlineLister()
 	var online := EnumerateOnlineCharactersABC();
 	WriteHTML("<TABLE WIDTH=400>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>");
-	WriteHTML("Total Online: "+online.Size());
+	WriteHTML("<TD CLASS='header'>");
+	WriteHTML("Online Characters ("+online.Size()+")");
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
@@ -411,9 +411,10 @@ endfunction
 function StorageLister(area_name:="")
 	if ( !area_name )
 		LocationBar();
+		var areas := CP_GetStorageAreaNames();
 		WriteHTML("<TABLE WIDTH='400'>");
-		WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
-		foreach area_name in ( CP_GetStorageAreaNames() )
+		WriteHTML("<TR><TD CLASS='header'>Storage Areas ("+areas.Size()+")</TD></TR>");
+		foreach area_name in ( areas )
 			WriteHTMLRaw("<TR>");
 			WriteHTMLRaw("<TD><A HREF='?List=Storage&StorageArea="+area_name+"'>"+area_name+"</A></TD>");
 			WriteHTML("</TR>");
@@ -431,7 +432,7 @@ function StorageLister(area_name:="")
 		LocationBar(array{"List=Storage", "Storage Areas"});
 
 		WriteHTML("<TABLE WIDTH='400'>");
-		WriteHTML("<TR><TD CLASS='header'>Root Items</TD></TR>");
+		WriteHTML("<TR><TD CLASS='header'>Root Items ("+area.Count+")</TD></TR>");
 		foreach root_item in ( area )
 			WriteHTMLRaw("<TR>");
 			WriteHTMLRaw("<TD><A HREF='?Serial="+root_item.serial+"'>"+root_item.desc+"</A></TD>");
