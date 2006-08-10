@@ -12,8 +12,6 @@ include ":attributes:attributes";
 include ":containers:storageAreas";
 include "include/uo_extend";
 
-unload_scripts("");
-
 program HTMLPage()
 	DoHeader("Object Viewer");
 	TableHeader("Object Viewer");
