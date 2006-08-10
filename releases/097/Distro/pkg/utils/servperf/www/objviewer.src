@@ -34,7 +34,7 @@ program HTMLPage()
 				OnlineLister();
 				break;
 			"Storage":
-				StorageLister();
+				StorageLister(QueryParam("StorageArea"));
 				break;
 			default:
 				DoError("Unknown 'List' type!");
@@ -314,8 +314,37 @@ function OnlineLister()
 	return 1;
 endfunction
 
-function StorageLister()
+function StorageLister(area_name:="")
 	LocationBar();
+
+	if ( !area_name )
+		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
+		foreach area_name in ( CP_GetStorageAreaNames() )
+			WriteHTMLRaw("<TR>");
+			WriteHTMLRaw("<TD><A HREF='?List=Storage&StorageArea="+area_name+"'>"+area_name+"</A></TD>");
+			WriteHTML("</TR>");
+			SleepMS(2);
+		endforeach
+		WriteHTML("</TABLE>");
+	else
+		var areas := StorageAreas();
+		var area := areas[area_name];
+		if ( !area )
+			DoError("Unable to find storage area "+area_name+"<BR> "+area.errortext);
+			return 0;
+		endif
+
+		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
+		foreach root_item in ( area )
+			WriteHTMLRaw("<TR>");
+			WriteHTMLRaw("<TD><A HREF='?Serial="+root_item.serial+"'>"+root_item.desc+"</A></TD>");
+			WriteHTML("</TR>");
+			SleepMS(2);
+		endforeach
+		WriteHTML("</TABLE>");
+	endif
 
 	return 1;
 endfunction
