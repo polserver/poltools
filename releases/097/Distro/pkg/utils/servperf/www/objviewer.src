@@ -21,7 +21,10 @@ program HTMLPage()
 	var list := QueryParam("List");
 	var serial := CInt(QueryParam("Serial"));
 	var acct_name := QueryParam("Account");
-	if ( acct_name )
+	var search := QueryParam("SubmitSearch");
+	if ( search )
+		ShowSearchResults();
+	elseif ( acct_name )
 		ShowAccountInfo(acct_name);
 	elseif ( serial )
 		ShowSerialInfo(serial);
@@ -70,36 +73,34 @@ function StartPoint()
 	WriteHTML("<FORM METHOD='GET'>");
 	WriteHTML("<TABLE WIDTH=400>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2' COLSPAN='3'>Search</TD>");
+	WriteHTML("<TD CLASS='header2' COLSPAN='2'>Search</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD>Search Text</TD><TD COLSPAN='2'><INPUT TYPE='TEXT' SIZE='45' NAME='SearchText'></TD>");
-	WriteHTML("</TR>");
-
-	WriteHTML("<TR>");
-	WriteHTML("<TD ROWSPAN='4'>Search Where</TD>");
-	WriteHTML("<TD>Accounts</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Accounts'></TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Top Level Items</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='TLIs'></TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Storage Areas</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Storage'></TD>");
-	WriteHTML("</TR>");
-	WriteHTML("<TR>");
-	WriteHTML("<TD>Players</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhere' VALUE='Players'></TD>");
+	WriteHTML("<TD>Search Text</TD><TD><INPUT TYPE='TEXT' SIZE='45' NAME='SearchText'></TD>");
 	WriteHTML("</TR>");
 
 	WriteHTML("<TR>");
-	WriteHTML("<TD ROWSPAN='2'>Search What</TD>");
-	WriteHTML("<TD>Name/Desc</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhat' VALUE='NameDesc'></TD>");
+	WriteHTML("<TD>Search Where</TD><TD><SELECT NAME='SearchWhere'>");
+	WriteHTML("<OPTION VALUE='Accounts'>Accounts</OPTION>");
+	WriteHTML("<OPTION VALUE='TLIs'>Top Level Items</OPTION>");
+	WriteHTML("<OPTION VALUE='Storage'>Storage Areas</OPTION>");
+	WriteHTML("<OPTION VALUE='Online'>Online Players</OPTION>");
+	WriteHTML("</SELECT>");
+	WriteHTML("</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD>Serial</TD><TD ALIGN='CENTER'><INPUT TYPE='RADIO' NAME='SearchWhat' VALUE='Serial'></TD>");
-	WriteHTML("</TR>");
+	WriteHTML("<TD>Search What</TD><TD><SELECT NAME='SearchWhat'>");
+	WriteHTML("<OPTION VALUE='Name'>Name</OPTION>");
+	WriteHTML("<OPTION VALUE='Desc'>Desc</OPTION>");
+	WriteHTML("<OPTION VALUE='Graphic'>Graphic</OPTION>");
+	WriteHTML("<OPTION VALUE='ObjType'>Object Type</OPTION>");
+	WriteHTML("<OPTION VALUE='Realm'>Realm</OPTION>");
+	WriteHTML("<OPTION VALUE='Serial'>Serial Number</OPTION>");
+	WriteHTML("</SELECT>");
+	WriteHTML("</TD>");
 
 	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='3' ALIGN='CENTER'><INPUT TYPE='SUBMIT' NAME='Submit' VALUE='Submit'></TD>");
+	WriteHTML("<TD COLSPAN='2' ALIGN='CENTER'><INPUT TYPE='SUBMIT' NAME='SubmitSearch' VALUE='Submit'></TD>");
 	WriteHTML("</TR>");
 
 	WriteHTML("</FORM>");
@@ -210,6 +211,101 @@ function SortList(byref string_array, letter:="")
 	endforeach
 
 	return dict;
+endfunction
+
+function DoSearch(where, what, text)
+	var matches := array;
+	if ( what == "Serial" )
+		var object := SystemFindObjectBySerial(CInt(text));
+		return array{object};
+	elseif ( where == "Accounts" )
+		foreach acct_name in ( ListAccounts() )
+			if ( acct_name[text] )
+				matches.Append(acct_name);
+			endif
+			SleepMS(2);
+		endforeach
+	elseif ( where == "Online" )
+		foreach player in ( EnumerateOnlineCharactersABC() )
+			if ( Lower(player.Get_Member(what))[text] )
+				matches.Append(player);
+			endif
+			SleepMS(2);
+		endforeach
+	elseif ( where == "TLIs" )
+		foreach realm in ( Realms() )
+			foreach object in ( ListObjectsInBox(0, 0, -130, realm.width, realm.height, 130, _realm_iter) )
+				if ( !object.IsA(POLCLASS_ITEM) )
+					continue;
+				elseif ( Lower(object.Get_Member(what))[text] )
+					matches.Append(object);
+				endif
+				SleepMS(2);
+			endforeach
+			SleepMS(2);
+		endforeach
+	elseif ( where == "Storage" )
+		foreach storage_area in ( StorageAreas() )
+			if ( Lower(_storage_area_iter)[text] )
+				matches.Append(_storage_area_iter);
+			endif
+			foreach root_item in ( storage_area )
+				if ( Lower(root_item.Get_Member(what))[text] )
+					matches.Append(root_item);
+				endif
+				/* Searching inside the root containers...
+				 * This may need to be commented out as this search type could
+				 * end up taking a long time! - Austin
+				 */
+				foreach item in ( EnumerateItemsInContainer(root_item) )
+					if ( Lower(item.Get_member(what))[text] )
+						matches.Append(item);
+					endif
+					SleepMS(2);
+				endforeach
+				SleepMS(2);
+			endforeach
+			SleepMS(2);
+		endforeach
+	else
+		DoError("Invalid search!<BR>Where = "+where+"<BR>What = "+what+"<BR>Text = "+text);
+		return 0;
+	endif
+
+	return matches;
+endfunction
+
+function ShowSearchResults()
+	var search_where := QueryParam("SearchWhere");
+	var search_what := QueryParam("SearchWhat");
+	var search_text := Lower(QueryParam("SearchText"));
+	if ( search_what == "Serial" )
+		search_where := 0;
+	endif
+
+	var matches := DoSearch(search_where, search_what, search_text);
+
+	LocationBar();
+
+	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TR><TD CLASS='header'>Search Results</TD></TR>");
+	foreach entry in ( matches )
+		if ( search_where == "Accounts" )
+			WriteHTML("<TR><TD><A HREF='?Account="+entry+"'>"+entry+"</A></TD></TR>");
+		elseif ( search_where == "Storage" && TypeOf(entry) == "String" )
+			WriteHTML("<TR><TD><A HREF='?List=Storage&StorageArea="+entry+"'>"+entry+"</A></TD></TR>");
+		else
+			if ( entry.desc )
+				WriteHTML("<TR><TD><A HREF='?Serial="+entry.serial+"'>"+entry.desc+"</A></TD></TR>");
+			else
+				WriteHTML("<TR><TD><A HREF='?Serial="+entry.serial+"'>"+entry.name+"</A></TD></TR>");
+			endif
+		endif
+		SleepMS(2);
+	endforeach
+	WriteHTML("</TABLE>");
+
+	return 1;
 endfunction
 
 function AcctLister()
