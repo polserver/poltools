@@ -304,7 +304,7 @@ function OnlineLister()
 	WriteHTML("<TR>");
 	WriteHTML("<TD>");
 	foreach player in ( online )
-		WriteHTML("<LI>"+player.name+"</LI>");
+		WriteHTML("<LI><A HREF='?Serial="+player.serial+"'>"+player.name+"</A></LI>");
 		SleepMS(2);
 	endforeach
 	WriteHTML("</TD>");
@@ -315,9 +315,8 @@ function OnlineLister()
 endfunction
 
 function StorageLister(area_name:="")
-	LocationBar();
-
 	if ( !area_name )
+		LocationBar();
 		WriteHTML("<TABLE WIDTH='400'>");
 		WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
 		foreach area_name in ( CP_GetStorageAreaNames() )
@@ -335,8 +334,10 @@ function StorageLister(area_name:="")
 			return 0;
 		endif
 
+		LocationBar(array{"List=Storage", "Storage Areas"});
+
 		WriteHTML("<TABLE WIDTH='400'>");
-		WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
+		WriteHTML("<TR><TD CLASS='header'>Root Items</TD></TR>");
 		foreach root_item in ( area )
 			WriteHTMLRaw("<TR>");
 			WriteHTMLRaw("<TD><A HREF='?Serial="+root_item.serial+"'>"+root_item.desc+"</A></TD>");
