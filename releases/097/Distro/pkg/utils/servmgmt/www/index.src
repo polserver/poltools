@@ -57,6 +57,7 @@ Program HTMLPage()
 	WriteHTML("<LI><A HREF='long_running_scripts.ecl'>Long Running Scripts</A>");
 	WriteHTML("<LI><A HREF='sleeping_scripts.ecl'>Sleeping Scripts</A>");
 	WriteHTML("<LI><A HREF='storage.ecl'>Storage</A>");
+	WriteHTML("<LI><A HREF='datafiles.ecl'>Data Files</A>");
 	WriteHTML("</UL>");
 	WriteHTML("</P>");
 
