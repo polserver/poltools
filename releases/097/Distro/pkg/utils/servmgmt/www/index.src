@@ -8,12 +8,12 @@ use http;
 use polsys;
 use storage;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 Program HTMLPage()
-	DoHeader("ServPerf Index");
+	DoHeader("Server Management Index");
 
-	TableHeader("Index");
+	TableHeader("Server Management Index");
 
 	var core_ref := POLCore();
 
@@ -57,6 +57,13 @@ Program HTMLPage()
 	WriteHTML("<LI><A HREF='long_running_scripts.ecl'>Long Running Scripts</A>");
 	WriteHTML("<LI><A HREF='sleeping_scripts.ecl'>Sleeping Scripts</A>");
 	WriteHTML("<LI><A HREF='storage.ecl'>Storage</A>");
+	WriteHTML("</UL>");
+	WriteHTML("</P>");
+
+	WriteHTML("<P>");
+	WriteHTML("<UL>");
+	WriteHTML("<LI><A HREF='unloadecl.ecl'>Script Unloader</A>");
+	WriteHTML("<LI><A HREF='unloadcfg.ecl'>Config Unloader</A>");
 	WriteHTML("</UL>");
 	WriteHTML("</P>");
 

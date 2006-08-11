@@ -6,12 +6,12 @@ use uo;
 use os;
 use http;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 unload_scripts("");
 
 program HTMLPage()
-	DoHeader("ServPerf All-Scripts");
+	DoHeader("Server Management All-Scripts");
 
 	TableHeader("All-Scripts");
 

@@ -6,10 +6,10 @@ use uo;
 use os;
 use http;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 program HTMLPage()
-	DoHeader("ServPerf Sleeping-Scripts");
+	DoHeader("Server Management Sleeping-Scripts");
 
 	TableHeader("Sleeping-Scripts");
 

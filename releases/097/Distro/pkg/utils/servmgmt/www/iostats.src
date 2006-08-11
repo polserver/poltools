@@ -8,10 +8,10 @@ use http;
 use polsys;
 use storage;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 Program HTMLPage()
-	DoHeader("ServPerf I/O Stats");
+	DoHeader("Server Management I/O Stats");
 
 	TableHeader("I/O Stats");
 

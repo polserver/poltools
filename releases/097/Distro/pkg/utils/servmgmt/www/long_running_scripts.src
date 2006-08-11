@@ -6,10 +6,10 @@ use uo;
 use os;
 use http;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 program HTMLPage()
-	DoHeader("ServPerf Long-Running Scripts");
+	DoHeader("Server Management Long-Running Scripts");
 
 	TableHeader("Long-Running Scripts");
 

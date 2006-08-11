@@ -7,13 +7,13 @@ use os;
 use http;
 use polsys;
 
-include ":servperf:header";
+include ":servmgmt:header";
 include ":attributes:attributes";
 include ":containers:storageAreas";
 include "include/uo_extend";
 
 program HTMLPage()
-	DoHeader("Object Viewer");
+	DoHeader("Server Management Object Viewer");
 	TableHeader("Object Viewer");
 
 	var list := QueryParam("List");
