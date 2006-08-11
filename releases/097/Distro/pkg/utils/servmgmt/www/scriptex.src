@@ -7,12 +7,12 @@ use os;
 use http;
 use polsys;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 unload_scripts("");
 
 program HTMLPage()
-	DoHeader("Executing Script");
+	DoHeader("Server Management Executing Script");
 
 	TableHeader("Executing Script");
 

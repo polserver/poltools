@@ -6,10 +6,10 @@ use uo;
 use os;
 use http;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 program HTMLPage()
-	DoHeader("ServPerf Bandwidth");
+	DoHeader("Server Management Bandwidth");
 
 	TableHeader("Bandwidth");
 

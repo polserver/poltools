@@ -6,7 +6,7 @@ use uo;
 use os;
 use http;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 program HTMLPage()
 	var reload := QueryParam("Action");
@@ -18,7 +18,7 @@ program HTMLPage()
 		return 1;
 	endif
 
-	DoHeader("ServPerf Script Profiles");
+	DoHeader("Server Management Script Profiles");
 	TableHeader("Script Profiles");
 
 	var core := polcore();

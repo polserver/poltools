@@ -8,11 +8,11 @@ use http;
 use polsys;
 use storage;
 
-include ":servperf:header";
+include ":servmgmt:header";
 
 
 program HTMLPage()
-	DoHeader("ServPerf Storage");
+	DoHeader("Server Management Storage");
 
 	TableHeader("Storage");
 	var storage_area := QueryParam("Area");
