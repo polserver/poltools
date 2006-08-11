@@ -24,7 +24,7 @@ function TableHeader(name:="")
 	WriteHtmlRaw("<TABLE WIDTH='100%'>"
 		+"<TR>"
 		+"<TD VALIGN='TOP' WIDTH='100%' CLASS='header'><STRONG><BIG>"+name+"</BIG></STRONG></TD>"
-		+"<TD WIDTH='100' VALIGN='TOP' ALIGN='CENTER' NOWRAP CLASS='header2'><A HREF='index.ecl'><FONT SIZE=1>ServPerf Home</FONT></A></TD>"
+		+"<TD WIDTH='100' VALIGN='TOP' ALIGN='CENTER' NOWRAP CLASS='header2'><A HREF='index.ecl'><FONT SIZE=1>ServMgmt Home</FONT></A></TD>"
 		+"</TR>"
 		+"</TABLE>");
 
