@@ -8,8 +8,6 @@ use http;
 
 include ":servmgmt:header";
 
-unload_scripts("servmgmt");
-
 Program HTMLPage()
 	DoHeader("Script Unloader");
 
