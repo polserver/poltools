@@ -1,0 +1,53 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use http;
+
+include ":servperf:header";
+
+unload_scripts("");
+
+program HTMLPage()
+	DoHeader("ServPerf All-Scripts");
+
+	TableHeader("All-Scripts");
+
+	WriteHTML("<P>All-Scripts</P>");
+
+	WriteHTML("<TABLE>");
+	WriteHTML("<TR>");
+	WriteHTML("<TD CLASS='header'>PID</TD>");
+	WriteHTML("<TD CLASS='header'>Script Name</TD>");
+	WriteHTML("<TD CLASS='header'>Cycles</TD>");
+	WriteHTML("<TD CLASS='header'>Cycles Since Sleep</TD>");
+	WriteHTML("<TD CLASS='header'>Prog Counter</TD>");
+	WriteHTML("<TD CLASS='header'>Call Depth</TD>");
+	WriteHTML("<TD CLASS='header'>Globals</TD>");
+	WriteHTML("<TD CLASS='header'>Var Size</TD>");
+	WriteHTML("<TD CLASS='header'>State</TD>");
+	WriteHTML("</TR>");
+
+	var scripts := POLCore().all_scripts;
+	scripts.Sort();
+	foreach script in ( scripts )
+		WriteHTML("<TR>");
+		WriteHTML("<TD><A HREF='scriptex.ecl?PID="+script.pid+"'>"+script.pid+"</A></TD>");
+		WriteHTML("<TD>"+script.name+"</TD>");
+		WriteHTML("<TD>"+script.instr_cycles+"</TD>");
+		WriteHTML("<TD>"+script.sleep_cycles+"</TD>");
+		WriteHTML("<TD>"+script.PC+"</TD>");
+		WriteHTML("<TD>"+script.call_depth+"</TD>");
+		WriteHTML("<TD>"+script.num_globals+"</TD>");
+		WriteHTML("<TD>"+script.var_size+"</TD>");
+		WriteHTML("<TD>"+script.state+"</TD>");
+		WriteHTML("</TR>");
+		SleepMS(2);
+	endforeach
+
+	DoFooter();
+
+	return 1;
+endprogram
