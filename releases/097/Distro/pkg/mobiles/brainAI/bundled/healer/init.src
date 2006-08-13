@@ -21,7 +21,10 @@ program BrainCriticalScript(params)
 	NPC_SetupRandomEquipment(npc);
 
 	foreach item in ( ListEquippedItems(npc) )
-		item.color := RandomDyeColor();
+		if ( CanDye(item) )
+			item.color := RandomDyeColor();
+		endif
+
 		SleepMS(2);
 	endforeach
 
