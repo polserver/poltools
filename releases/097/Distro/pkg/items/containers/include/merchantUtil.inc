@@ -14,10 +14,10 @@ use uo;
 
 include ":containers:storageAreas";
 
-CONST CPM_FORSALE	:= "Merchant - ForSale";
-CONST CPM_BUYING	:= "Merchant - Buying";
-CONST CPM_SHOPPINGCART	:= "Merchant - ShoppingCart";
-CONST CPM_HOLDING	:= "Merchant - Holding";
+CONST CPM_FORSALE	:= "Merchant-ForSale";
+CONST CPM_BUYING	:= "Merchant-Buying";
+CONST CPM_SHOPPINGCART	:= "Merchant-ShoppingCart";
+CONST CPM_HOLDING	:= "Merchant-Holding";
 
 /*
  * NPC_MerchantForSaleContainer(npc)
@@ -35,7 +35,10 @@ function CPM_DeleteContainers(npc)
 	var container_id := CP_GetMobileContainerID(npc);
 	var area_names := array{CPM_FORSALE, CPM_BUYING, CPM_SHOPPINGCART, CPM_HOLDING};
 	foreach area_name in ( area_names )
-		if ( CPM_GetMerchantContainer(npc, area_name, CP_NOCREATE) )
+		if ( GetObjProperty(npc, "Shared-"+area_name) )
+			// Dont want to delete shared storage areas.
+			continue;
+		elseif ( CPM_GetMerchantContainer(npc, area_name, CP_NOCREATE) )
 			CP_RemoveStorageAreaContainer(container_id, area_name);
 		endif
 		SleepMS(2);
@@ -63,7 +66,7 @@ endfunction
  *
  */
 function CPM_GetMerchantContainer(npc, type, create:=CP_NOCREATE)
-	var shared_container := GetObjProperty(npc, "MerchantContainer");
+	var shared_container := GetObjProperty(npc, "Shared-"+type);
 	if ( shared_container && type != CPM_SHOPPINGCART )
 		//Note: The 'Shopping cart' container can never be shared between multiple merchants!
 		return CP_GetStorageAreaContainer(shared_container, type, create);
