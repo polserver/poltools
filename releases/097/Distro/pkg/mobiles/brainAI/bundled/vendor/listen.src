@@ -40,13 +40,15 @@ function SpeechEvent(npc, byref event)
 	if ( event.text["buy"] )
 		BuyStuff(npc, event.source);
 		return 1;
+	elseif ( event.text["sell"] )
+		SellStuff(npc, event.source);
+		return 1;
 	endif
 
 	return 1;
 endfunction
 
 function BuyStuff(npc, mobile)
-
 	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
 	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
 
@@ -55,6 +57,21 @@ function BuyStuff(npc, mobile)
 	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart);
 	if ( !result )
 		PrintTextAbove(npc, "SendBuyWindow() error - "+result.errortext);
+	endif
+
+	return 1;
+endfunction
+
+function SellStuff(npc, mobile)
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
+	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
+
+	AI_Turn(npc, mobile, NETURN_TOWARD);
+
+	var result := SendSellWindow(mobile, npc, forsale, shopping_cart, buyable);
+	if ( !result )
+		PrintTextAbove(npc, "SendSellWindow() error - "+result.errortext);
 	endif
 
 	return 1;
