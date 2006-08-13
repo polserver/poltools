@@ -1,0 +1,61 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":containers:merchantUtil";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(900000);
+	endwhile
+endprogram
+
+function SpeechEvent(npc, byref event)
+	if ( event.text["buy"] )
+		BuyStuff(npc, event.source);
+		return 1;
+	endif
+
+	return 1;
+endfunction
+
+function BuyStuff(npc, mobile)
+
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
+
+	AI_Turn(npc, mobile, NETURN_TOWARD);
+
+	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart);
+	if ( !result )
+		PrintTextAbove(npc, "SendBuyWindow() error - "+result.errortext);
+	endif
+
+	return 1;
+endfunction
