@@ -33,10 +33,15 @@ CONST CPM_HOLDING	:= "Merchant - Holding";
  */
 function CPM_DeleteContainers(npc)
 	var container_id := CP_GetMobileContainerID(npc);
-	CP_RemoveStorageAreaContainer(container_id, CPM_FORSALE);
-	CP_RemoveStorageAreaContainer(container_id, CPM_BUYING);
-	CP_RemoveStorageAreaContainer(container_id, CPM_SHOPPINGCART);
-	CP_RemoveStorageAreaContainer(container_id, CPM_HOLDING);
+	var area_names := array{CPM_FORSALE, CPM_BUYING, CPM_SHOPPINGCART, CPM_HOLDING};
+	foreach area_name in ( area_names )
+		if ( CPM_GetMerchantContainer(npc, area_name, CP_NOCREATE) )
+			CP_RemoveStorageAreaContainer(container_id, area_name);
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
 endfunction
 
 /*
@@ -57,12 +62,12 @@ endfunction
  * Returns a container
  *
  */
-function CPM_GetMerchantContainer(npc, type)
+function CPM_GetMerchantContainer(npc, type, create:=CP_NOCREATE)
 	var shared_container := GetObjProperty(npc, "MerchantContainer");
 	if ( shared_container && type != CPM_SHOPPINGCART )
 		//Note: The 'Shopping cart' container can never be shared between multiple merchants!
-		return CP_GetStorageAreaContainer(shared_container, type, CP_CREATE);
+		return CP_GetStorageAreaContainer(shared_container, type, create);
 	else
-		return CP_GetStorageContainerForMobile(npc, type, CP_CREATE);
+		return CP_GetStorageContainerForMobile(npc, type, create);
 	endif
 endfunction
