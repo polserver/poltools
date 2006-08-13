@@ -59,7 +59,8 @@ endfunction
  */
 function CPM_GetMerchantContainer(npc, type)
 	var shared_container := GetObjProperty(npc, "MerchantContainer");
-	if ( shared_container )
+	if ( shared_container && type != CPM_SHOPPINGCART )
+		//Note: The 'Shopping cart' container can never be shared between multiple merchants!
 		return CP_GetStorageAreaContainer(shared_container, type, CP_CREATE);
 	else
 		return CP_GetStorageContainerForMobile(npc, type, CP_CREATE);
