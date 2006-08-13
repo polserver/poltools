@@ -1,0 +1,45 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name	:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_ITEM_GIVEN:
+					ItemGivenEvent(npc, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(900000);
+	endwhile
+
+endprogram
+
+function ItemGivenEvent(npc, byref event)
+	var item := event.item;
+	var source := event.source;
+
+	// Train skills here?
+
+	return 0;
+endfunction

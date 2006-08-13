@@ -1,0 +1,32 @@
+/*
+ * $Id: init.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcInit";
+include ":brainAI:npcCommands";
+include ":dyes:dyes";
+
+program BrainCriticalScript(params)
+	var npc		:= params[1];
+	//var settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+
+	NPC_SetupName(npc);
+	NPC_SetupRandomEquipment(npc);
+
+	foreach item in ( ListEquippedItems(npc) )
+		if ( CanDye(item) )
+			item.color := RandomDyeColor();
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endprogram
