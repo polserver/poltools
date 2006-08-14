@@ -11,7 +11,7 @@ use os;
 use util;
 use cfgfile;
 
-include ":containers:merchantUtil";
+include ":merchants:storage";
 include ":timedscripts:timedScripts";
 include ":death:death";
 include ":mounts:mounts";
