@@ -8,7 +8,6 @@ use os;
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
-include ":containers:merchantUtil";
 
 program BrainNerve(params)
 	var npc		:= params[1];
