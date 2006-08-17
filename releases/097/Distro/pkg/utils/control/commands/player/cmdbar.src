@@ -16,7 +16,7 @@ include ":gumps:gumpprompt";
 unload_scripts("");
 
 program textcmd_CommandBar(who)
-	if ( GetProcess(GetObjProperty(who, "#CmdBarPid")) )
+	if ( GetProcess(CInt(GetObjProperty(who, "#CmdBarPid"))) )
 		SendSysMessage(who, "You already have a command bar open.");
 		return 0;
 	else
@@ -126,13 +126,13 @@ function SettingsMenu(who)
 	if ( transparency )
 		GFAddAlphaRegion(gump, 470, 30, 170, 150);
 	endif
-	
+
 	GFCheckBox(gump, 475, 40, 210, 211, ICP_LoadUserSetting(who, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
 	GFCheckBox(gump, 475, 60, 210, 211, ICP_LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
-	
+
 	GFCheckBox(gump, 475, 80, 210, 211, (!ICP_LoadUserSetting(who, "NoCmdBarLogin")), LOGIN_CHK);
 	GFTextLine(gump, 500, 80, 2100, "Open on login");
 
@@ -142,7 +142,7 @@ function SettingsMenu(who)
 	endif
 
 	GFAddButton(gump, 530, 140, 0x84C, 0x84B, GF_CLOSE_BTN, APPLY_BTN);
-	
+
 	return gump;
 endfunction
 
