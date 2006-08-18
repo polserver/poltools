@@ -38,7 +38,7 @@ function CPM_DeleteContainers(npc)
 		if ( GetObjProperty(npc, "Shared-"+area_name) )
 			// Dont want to delete shared storage areas.
 			continue;
-		elseif ( CPM_GetMerchantContainer(npc, area_name, CP_NOCREATE) )
+		elseif ( CP_GetStorageAreaContainer(container_id, area_name) )
 			CP_RemoveStorageAreaContainer(container_id, area_name);
 		endif
 		SleepMS(2);
