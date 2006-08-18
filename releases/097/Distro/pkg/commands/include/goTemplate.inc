@@ -15,7 +15,7 @@ function Go_CheckInit(who)
 		foreach key in ( GetConfigStringKeys(oldlocs) )
 			// Open files and set veriables
 			var dest := oldlocs[key];
-			Go_SetLocation("base_Distro", who, CStr(dest.name), CStr(dest.realm), CInt(dest.x), CInt(dest.y), CInt(dest.z));
+			Go_SetLocation("base_Distro", who, dest.name, dest.realm, CInt(dest.x), CInt(dest.y), CInt(dest.z));
 			SleepMS(2);
 		endforeach
 
