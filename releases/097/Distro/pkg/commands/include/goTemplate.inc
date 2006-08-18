@@ -17,7 +17,7 @@ function Go_CheckInit(who)
 			var dest := oldlocs[key];
 			Go_SetLocation("base_Distro", who, CStr(dest.name), CStr(dest.realm), CInt(dest.x), CInt(dest.y), CInt(dest.z));
 			SleepMS(2);
-		endfor
+		endforeach
 
 		go_prop_base := go_elem.GetProp("base_Distro");
 		go_keys_base := go_prop_base.Keys();
