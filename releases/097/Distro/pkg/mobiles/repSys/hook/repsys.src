@@ -91,17 +91,102 @@ endfunction
 exported function OnAttack(mobile, attacked)
 	// For now, tell core to process this.
 	PrintTextAbove(mobile, "Repsys OnAttack ->"+attacked.name);
+
+	/* Pseudo (mostly based on core layout)
+	 * if ( attacked.master )
+	 * 	return OnAttack(mobile, attacked);
+	 * elseif ( attacked is innocent to mobile )
+	 *	mobile.SetCriminal(1)
+	 * endif
+	 *
+	 * if ( attacked is aggressor to mobile )
+	 * 	// restart mobile's aggression timer
+	 * else
+	 * 	if ( !mobile is aggressor to attacked )
+	 *		PrintTextAbovePrivate(attacked, mobile.name+" is attacking you!", attacked);
+	 *	endif
+	 *
+	 *	// restart mobile's aggression timer
+	 * endif
+	 *
+	 * return 1;
+	 */
 	return 0;
 endfunction
 
 exported function OnDamage(mobile, damaged)
 	// For now, tell core to process this.
 	PrintTextAbove(mobile, "Repsys OnDamage ->"+damaged.name);
+
+	/* Pseudo (mostly based on core layout)
+	 *
+	 * if ( mobile == damaged )
+	 *	// Its legal to hurt yourself.
+	 * 	return 1;
+	 * endif
+	 *
+	 * OnAttack(mobile, attacked);
+	 *
+	 * if ( damaged is innocent to mobile )
+	 * 	// Add mobile to damaged's reportable list
+	 * else
+	 *	// mobile lawfully damaged attacked
+	 * endif
+	 *
+	 * return 1;
+	 */
 	return 0;
 endfunction
 
 exported function OnHelp(mobile, helped)
 	// For now, tell core to process this.
 	PrintTextAbove(mobile, "Repsys OnHelp ->"+helped.name);
+
+	/* Pseudo (mostly based on core layout)
+	 *
+	 * if ( mobile == helped )
+	 * 	// Its okay to help yourself.
+	 *	return 1;
+	 * elseif ( helped.criminal )
+	 *	mobile.SetCriminal(1);
+	 * endif
+	 *
+	 * return 1;
+	 */
 	return 0;
 endfunction
+
+/*
+ * IsInnocent(mobile_a, mobile_b)
+ *
+ * Purpose
+ * Determines if mobile_a was innocent.
+ *
+ */
+/*
+function IsInnocentTo(mobile_a, mobile_b)
+	// Checks to see if mobile_a is innocent.
+	if ( mobile_b.murderer )
+		// Mobile b is a murderer and considered guilty by default.
+		return 1;
+	elseif ( mobile_b.criminal )
+		// Mobile b is a criminal and considered guilty by default.
+		return 1;
+	elseif ( mobile_b is aggressor to mobile_a )
+		// Mobile b started the fight.
+		return 1;
+	elseif ( mobile_b is a guild ally )
+		// Guild ally's are okay to mess with.
+	        return 1;
+	elseif ( mobile_b is a guild enemy )
+		// Guild enemy's deserve whats coming to them.
+		return 1;
+	elseif ( mobile_b is an npc and its alignment is good )
+		// Not nice to hurt 'blue' npcs
+		return 0;
+	else
+		// Mobile_a is not innocent.
+		return 0;
+	endif
+endfunction
+*/
