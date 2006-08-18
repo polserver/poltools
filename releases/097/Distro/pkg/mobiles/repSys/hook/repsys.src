@@ -36,7 +36,9 @@ exported function NameColor(mobile, seen_by)
 	seen_by := seen_by;
 
 	var color := 0;
-	if ( mobile.murderer )
+	if ( mobile.master )
+		return NameColor(mobile.master, seen_by);
+	elseif ( mobile.murderer )
 		color := GetConfigInt(name_colors, "Murderer");
 	elseif ( mobile.criminal )
 		// Murderers are always criminals
@@ -63,7 +65,9 @@ exported function HighLightColor(mobile, seen_by)
 	seen_by := seen_by;
 
 	var color := 0;
-	if ( mobile.murderer )
+	if ( mobile.master )
+		return HighLightColor(mobile.master, seen_by);
+	elseif ( mobile.murderer )
 		color := GetConfigInt(name_colors, "MurdererHighLight");
 	elseif ( mobile.criminal )
 		// Murderers are always criminals
@@ -72,9 +76,9 @@ exported function HighLightColor(mobile, seen_by)
 	elseif ( mobile.Enabled("invul") )
 		color := GetConfigInt(name_colors, "InvulnerableHighLight");
 	// Guild ally
-	//	return GetConfigInt(name_colors, "GuildAlly");
+	//	return GetConfigInt(name_colors, "GuildAllyHighLight");
 	// Guid enemy
-	//	GetConfigInt(name_colors, "GuildEnemy");
+	//	GetConfigInt(name_colors, "GuildEnemyHighLight");
 	else
 		color := GetConfigInt(name_colors, "InnocentHighLight");
 	endif
