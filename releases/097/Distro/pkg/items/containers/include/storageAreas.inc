@@ -114,12 +114,20 @@ function CP_GetStorageAreaContainer(container_id, storage_area_name:=0, create:=
 	var container_name := CP_DEFAULT_PREFIX + container_id;
 
 	var storage_area := FindStorageArea(storage_area_name);
-	var root_container := FindRootItemInStorageArea(storage_area, container_name);
-	if ( (!root_container) && (create) )
-		root_container := CP_CreateStorageAreaContainer(container_id, storage_area_name);
+	if ( !storage_area )
+		if ( !create )
+			return storage_area; // Will be an error
+		else
+			return CP_CreateStorageAreaContainer(container_id, storage_area_name);
+		endif
 	endif
 
-	return root_container;
+	var root_container := FindRootItemInStorageArea(storage_area, container_name);
+	if ( !root_container && create )
+		return CP_CreateStorageAreaContainer(container_id, storage_area_name);
+	else
+		return root_container;
+	endif
 endfunction
 
 
