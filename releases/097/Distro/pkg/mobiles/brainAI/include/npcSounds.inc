@@ -47,6 +47,10 @@ include ":brainAI:npcError";
  */
 function NPC_GetIdleSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var idle_sound_list := GetConfigStringArray(mobile_template, "IdleSound");
 
 	if( TypeOf(idle_sound_list) != "Array" )
@@ -73,6 +77,10 @@ endfunction
  */
 function NPC_GetDamagedSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var damaged_sound_list := GetConfigStringArray(mobile_template, "DamagedSound");
 
 	if( TypeOf(damaged_sound_list) != "Array" )
@@ -99,6 +107,10 @@ endfunction
  */
 function NPC_GetDeathSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var death_sound_list := GetConfigStringArray(mobile_template, "DeathSound");
 
 	if( TypeOf(death_sound_list) != "Array" )
@@ -125,6 +137,10 @@ endfunction
  */
 function NPC_GetMissSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var miss_sound_list := GetConfigStringArray(mobile_template, "AttackMissSound");
 
 	if( TypeOf(miss_sound_list) != "Array" )
@@ -150,6 +166,10 @@ endfunction
  */
 function NPC_GetHitSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var hit_sound_list := GetConfigStringArray(mobile_template, "AttackHitSound");
 
 	if( TypeOf(hit_sound_list) != "Array" )
@@ -176,6 +196,10 @@ endfunction
  */
 function NPC_GetBarkSound(mobile)
 	var mobile_template := NPC_GetNPCConfig(mobile);
+	if ( !mobile_template )
+		return 0;
+	endif
+
 	var bark_sound_list := GetConfigStringArray(mobile_template, "BarkSound");
 
 	if( TypeOf(bark_sound_list) != "Array" )
