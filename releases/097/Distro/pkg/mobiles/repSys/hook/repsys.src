@@ -87,3 +87,21 @@ exported function HighLightColor(mobile, seen_by)
 
 	return CInt(color);
 endfunction
+
+exported function OnAttack(mobile, attacked)
+	// For now, tell core to process this.
+	PrintTextAbove(mobile, "Repsys OnAttack ->"+attacked.name);
+	return 0;
+endfunction
+
+exported function OnDamage(mobile, damaged)
+	// For now, tell core to process this.
+	PrintTextAbove(mobile, "Repsys OnDamage ->"+damaged.name);
+	return 0;
+endfunction
+
+exported function OnHelp(mobile, helped)
+	// For now, tell core to process this.
+	PrintTextAbove(mobile, "Repsys OnHelp ->"+helped.name);
+	return 0;
+endfunction
