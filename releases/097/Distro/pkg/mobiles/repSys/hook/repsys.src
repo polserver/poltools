@@ -1,0 +1,75 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+
+// Stored as globals because hook scripts handle them in a special way.
+var name_colors, general_elem;
+
+program Install()
+	Set_Critical(1);
+
+	var rep_cfg := ReadConfigFile("::repsys");
+	if ( !rep_cfg )
+		return 0;
+	endif
+
+	name_colors := rep_cfg["NameColoring"];
+	if ( !name_colors )
+		return 0;
+	endif
+
+	general_elem := rep_cfg["General"];
+	if ( !general_elem )
+		return 0;
+	endif
+
+	Set_Critical(0);
+
+	return 1;
+endprogram
+
+exported function NameColor(mobile, seen_by)
+	seen_by := seen_by;
+
+	var color := 0;
+	if ( mobile.criminal )
+		color := GetConfigInt(name_colors, "Criminal");
+	elseif ( mobile.murderer )
+		color := GetConfigInt(name_colors, "Murderer");
+	elseif ( mobile.Enabled("Invul") )
+		color := GetConfigInt(name_colors, "Invulnerable");
+	// Guild ally
+	//	return GetConfigInt(name_colors, "GuildAlly");
+	// Guid enemy
+	//	GetConfigInt(name_colors, "GuildEnemy");
+	else
+		color := GetConfigInt(name_colors, "Innocent");
+	endif
+
+	return color;
+endfunction
+
+exported function HighLightColor(mobile, seen_by)
+	seen_by := seen_by;
+
+	var color := 0;
+	if ( mobile.criminal )
+		color := GetConfigInt(name_colors, "CriminalHighLight");
+	elseif ( mobile.murderer )
+		color := GetConfigInt(name_colors, "MurdererHighLight");
+	elseif ( mobile.Enabled("Invul") )
+		color := GetConfigInt(name_colors, "InvulnerableHighLight");
+	// Guild ally
+	//	return GetConfigInt(name_colors, "GuildAlly");
+	// Guid enemy
+	//	GetConfigInt(name_colors, "GuildEnemy");
+	else
+		color := GetConfigInt(name_colors, "InnocentHighLight");
+	endif
+
+	return color;
+endfunction
