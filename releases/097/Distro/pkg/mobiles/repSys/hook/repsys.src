@@ -33,9 +33,8 @@ program Install()
 endprogram
 
 exported function NameColor(mobile, seen_by)
-	seen_by := seen_by;
-
 	var color := 0;
+
 	if ( mobile.master )
 		return NameColor(mobile.master, seen_by);
 	elseif ( mobile.murderer )
@@ -55,16 +54,15 @@ exported function NameColor(mobile, seen_by)
 	endif
 
 	if ( color.errortext )
-		SysLog("NameColor() - "+color);
+		SysLog("NameColor() - "+color.errortext);
 	endif
 
-	return color;
+	return CInt(color);
 endfunction
 
 exported function HighLightColor(mobile, seen_by)
-	seen_by := seen_by;
-
 	var color := 0;
+
 	if ( mobile.master )
 		return HighLightColor(mobile.master, seen_by);
 	elseif ( mobile.murderer )
@@ -84,7 +82,8 @@ exported function HighLightColor(mobile, seen_by)
 	endif
 
 	if ( color.errortext )
-		SysLog("NameColor() - "+color);
+		SysLog("HighLightColor() - "+color.errortext);
 	endif
-	return color;
+
+	return CInt(color);
 endfunction
