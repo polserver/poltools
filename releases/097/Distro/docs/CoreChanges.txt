@@ -1,5 +1,56 @@
 -- POL097 --
 =======
+08-17 Austin
+       Added: repsys.cfg
+              New elem called 'HookList' which will support syste hook scripts for the reputation system.
+              Currently name (single click) and highlight (health bar) colors are hookable.
+              Example:
+              repsys.cfg
+              HookList HookList
+              {
+                   NameColor :repsys:hookScript:NameColor
+                   HighLightColor :repsys:hookScript:HighLightColor
+              }
+              :repsys:hookScript.src
+              exported function NameColor(mobile, visible_to)
+                   return CInt(GetObjProperty(mobile, "NameColor"));
+              endfunction
+              
+              exported function HighLightColor(mobile, visible_to)
+                   return CInt(GetObjProperty(mobile, "HighLightColor"));
+              endfunction
+              
+              HighLightColor note: The client seems to only accept the following numbers
+              0 - None, 1 - Innocent, 2 - Friend, 3 - Attackable, 
+              4 - Criminal, 5 - Enemy, 6 - Murderer, 7 - Invulnerable
+              8 - Unknown (blue gump, pure black mobile)
+              
+08-14 MuadDib
+       Added: uo.em command CancelTarget( of_whom). Can be used to kill an existing cursor
+              if one exists, for a client.
+              
+08-12 Austin
+       Changed: pol.cfg IgnoreLoadErrors=1 (enabled) changes
+                  Instead of stopping the startup, the following will occur:
+                * If an item belongs in a container or on a character and neither 
+                  are present, the item will be destroyed.
+                *  If an item has an undefined objtype greather than 0x3FFF, it will not be loaded.
+
+08-11 Austin
+       Added: Datafile::ListDataFiles()
+              Returns an array of structs containing
+              .pkg - name of the package the datafile belongs to 
+              .name - name of the file
+              .descriptor - :pkg:name
+              
+07-24 MuadDib
+       Changed: Handling of non-aos expansion accounts and status bars.
+       
+07-20 Austin
+       Fixed : Spelling mistake for the method setcriminal
+       Fixed : Guilds were not saving data.
+       Changed: NPCs with the template set to 'Good' for alignment will now change highlight color
+                if set to murderer or criminal.
 
 06-29 Austin
        Added : Operator support for += -= *= /= and %=
