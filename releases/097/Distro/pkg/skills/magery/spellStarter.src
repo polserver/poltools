@@ -98,7 +98,7 @@ program SpellStarter(params)
 			PerformAction(mobile, ANIM_CAST_DIR);
 	endcase
 
-	// might want to send events to this script
+	// Just in case you want to send events to this script
 	SetObjProperty(mobile, "#Casting", GetPid());
 	mobile.frozen := 1;
 	mobile.hidden := 0;
@@ -142,7 +142,7 @@ program SpellStarter(params)
 
 	var difficulty := spell_elem.Difficulty;
 
-	if ( !difficulty )
+	if ( difficulty == error )
 		difficulty := -1;
 	endif
 		
@@ -190,6 +190,7 @@ program SpellStarter(params)
 
 		var ev;
 
+		// Loop here and wait for events from the script
 		while ( script.pid && !ev )
 			ev := wait_for_event(1);
 		endwhile

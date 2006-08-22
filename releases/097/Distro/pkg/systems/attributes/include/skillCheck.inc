@@ -51,7 +51,7 @@ function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flag
 	endif
 	
 	// Global skill-debug ( for SkillDbgMsg() )
-	g_skill_debug := (GetObjProperty(mobile,"SkillDebug") != error);
+	g_skill_debug := (GetObjProperty(mobile, "SkillDebug") != error);
 	
 	var effective_skill := AP_GetTrueSkill(mobile, attrib_name);
 	
@@ -99,7 +99,7 @@ function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flag
 endfunction
 
 /*
- * CalcSuccessPerfect(mobile, attrib_name, difficulty, effective_skill)
+ * CalcSuccessPercent(mobile, attrib_name, difficulty, effective_skill)
  *
  * Purpose
  * Retrieves the percentage chance of success based on mobile's skill and the difficulty.

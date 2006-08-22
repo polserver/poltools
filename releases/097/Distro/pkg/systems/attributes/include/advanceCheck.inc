@@ -28,7 +28,7 @@ include ":skilllocks:common";
  * skill_name:	Skill to get the stat advance list from.
  *
  * Return value
- * Returns 1
+ * Returns 1 on success, 0 on failure
  *
  */
 function CheckStatsForSkill(mobile, skill_name)
@@ -73,7 +73,7 @@ endfunction
  *		(rolled dice from an attributes.cfg StatCheck entry)
  *
  * Return value
- * Returns 1
+ * Returns 1 on success, 0 on failure
  *
  */
 function CheckStatAdvancement(mobile, stat_name, stat_mult)
@@ -145,61 +145,18 @@ endfunction
  *
  *
  * Return value
- * Returns 1
+ * Returns 1 on success, 0 on failure
  *
  */
 function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
-	var lower_skill := "";
-	var lower_amount := "";
 	var skill_id := AP_AttributeNameToSkillId(skill_name);
 	var skill_lock_state := SLPH_GetLockState(mobile, skill_id);
 
-	if ( AP_CheckSkillCap(mobile, skill_name) )
-		SkillDbgMsg(mobile, "Skill cap for attribute '"+skill_name+"' already reached.");
+	if ( skill_lock_state != 0 )
+		SkillDbgMsg(mobile, "Skill lock state is not set to raise. Aborting.");
 		return 0;
-	elseif ( AP_CheckSkillCap(mobile) )
-		// Skill cap reached, check if skill is set to raise
-		if ( skill_lock_state == 0 )
-			var i := 0, stop := AP_ListAttributesByType("Skill").Size();
-			for ( i:=0; i<=stop; i+=1 )
-				// Check if skill is set to lower
-				if ( CInt(SLPH_GetLockState(mobile, i)) == 1 )
-					lower_skill := AP_SkillIdToAttributeName(i);
-
-					if (AP_GetTrueSkill(mobile, lower_skill) == 0 )
-						lower_skill := "";
-					else
-						// Found a skill to lower
-						// On OSI skills lower relative to their difficulty so harder
-						// skills lower more slowly than easier skills. There's no easy
-						// way to do this yet, until difficulties are configured, so I
-						// leave this here as a reminder. Set lower_amount to the maximum
-						// amount the skill can lower at one time, and subsequently the
-						// maximum amount the other skill can _raise_.
-
-						// Set to -1 to ignore lower_amount
-						lower_amount := -1;
-						break;
-					endif
-				endif
-			endfor
-		endif
-
-		// Do not return 0 if there is another skill we can lower
-		if ( lower_skill )
-			SkillDbgMsg(mobile, "Skill cap reached, but lowering "+lower_skill+" to compensate.");
-		else
-			SkillDbgMsg(mobile, "Total skill cap already reached.");
-			return 0;
-		endif
-	else
-		// Check if skill is set to lower or is locked
-		if ( skill_lock_state == 1 || skill_lock_state == 2)
-			SkillDbgMsg(mobile, "Skill "+skill_name+" set to lower or locked. No advance.");
-			return 0;
-		endif
 	endif
-
+	
 	var skill_cap := AP_GetSkillCap(skill_name);
 	var true_skill := AP_GetTrueSkill(mobile, skill_name);
 	var limit_left := CDbl(skill_cap - true_skill);
@@ -208,8 +165,28 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 	var settings := AP_GetSettingsCfgElem("Skills");
 	var multiplier := CDbl(settings.GainSpeed);
 
+	// Determine amount of skill to gain
+	var advance := 0.1;
+	if (award_diff > true_skill)
+		advance := CDbl(0.1 * (1.0 + CInt((award_diff - true_skill) / 5.0)));
+	endif
+	if (advance > limit_left)
+		advance := limit_left;
+	elseif (advance < 0.1)
+		advance := 0.1;
+	endif
+
+	// Check if we advance the skill
 	if ( true_skill < CDbl(settings.FreeGainUntil) )
 		SkillDbgMsg(mobile, "Skill is < "+CDbl(settings.FreeGainUntil)+". Allowing for advancement.");
+		
+		if ( (true_skill + advance > settings.FreeGainUntil) && !(adv_check <= pass_chance) )
+			limit_left := settings.FreeGainUntil - true_skill;
+			
+			if ( limit_left < 0.1 )
+				SkillDbgMsg(mobile, "No free points left and did not pass advance check.");
+			endif
+		endif
 	elseif ( DifficultyTooEasy(true_skill, award_diff) )
 		SkillDbgMsg(mobile, "No challenge. No advance. True skill ("+true_skill+"-20) > "+award_diff);
 		return 0;
@@ -235,42 +212,93 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 
 	var check_roll := RandomInt(100);
 	SkillDbgMsg(mobile, "Check %age: "+check_roll);
-	if (check_roll < chance)
-		var advance := 0.1;
-		if (award_diff > true_skill)
-			advance := CDbl(0.1 * (1.0 + CInt((award_diff - true_skill) / 5.0)));
-		endif
-		if (advance > limit_left)
-			advance := limit_left;
-		elseif (advance < 0.1)
-			advance := 0.1;
-		endif
 
-		SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": "+advance);
+	if ( check_roll > chance )
+		SkillDbgMsg(mobile, "Failed advancement check. No advance.");
+		return 0;
+	endif
+	
+	SkillDbgMsg(mobile, "Passed. Advance "+skill_name+": "+advance);
+
+	var lower_skill, lower_skill_decrease, new_skill;
+
+	// If skill + advance is greater than specific/general skill caps or if it's already at a cap and the skill is set to raise
+	if ( true_skill + advance > AP_GetSkillCap(skill_name) || true_skill + advance > AP_GetSkillCap() ||
+		   AP_CheckSkillCap(mobile, skill_name) || AP_CheckSkillCap(mobile) )
+
+		// Skill cap reached and skill is set to raise, so try to find another skill to lower
+		SkillDbgMsg(mobile, "Skill cap for attribute '"+skill_name+"' already reached.");
+
+		// NOTE: It might be a good idea to try to randomly find a skill set to lower instead of searching
+		//       sequentially, which will always lower the same skill.
+		var stop := AP_ListAttributesByType("Skill").Size();
+		var i;
+		for ( i := 0; i <= stop; i += 1 )
+			if ( SLPH_GetLockState(mobile, i) == 1 )
+				lower_skill := AP_SkillIdToAttributeName(i);
+
+				if ( AP_GetTrueSkill(mobile, lower_skill) > 0.0 )
+					// It is a little known fact that on OSI skills lower relative to
+					// their difficulty and not all at the same rate. So blacksmithing
+					// and magery do not lower as readily as camping. It would be possible
+					// to check here exactly how much the skill should be lowered here
+					// if you had the difficulty for that skill. Remember, whatever you
+					// set lower_skill_decrease to will be the amount that the skill can raise, so
+					// don't set this to 0.1 unless you want all skills to raise at that
+					// speed when lowering another skill.
+
+					// Set to -1 to ignore lower_skill_decrease and always decrease the skill
+					// the same amount that the other skill is raising.
+					lower_skill_decrease := -1;
+
+					// Break out of this loop, we're done here.
+					break;
+				else
+					lower_skill := "";
+				endif
+			endif
+		endfor
 
 		if ( lower_skill )
+			SkillDbgMsg(mobile, "Skill cap reached, but lowering "+lower_skill+" to compensate.");
+			
 			var lower_skill_value := AP_GetTrueSkill(mobile, lower_skill);
-
+	
 			// If the skill to be lowered is too low to allow for advancement, reduce advancement
 			if ( advance > lower_skill_value )
 				advance := lower_skill_value;
 			endif
-
+	
 			// If the amount lower_skill can drop is less than advancement, reduce advancement
-			if ( lower_amount != -1 && lower_amount < advance )
-				advance := lower_amount;
+			if ( lower_skill_decrease != -1 && lower_skill_decrease < advance )
+				advance := lower_skill_decrease;
+			elseif ( lower_skill_decrease == -1 )
+				lower_skill_decrease := advance;			
 			endif
-
-			// Not sure if this message comes before the gain message on OSI...
-			AP_SetTrueSkill(mobile, lower_skill, lower_skill_value - advance);
+			
+			new_skill := lower_skill_value - advance;
+			while ( CInt(new_skill * 10.0) == CInt(GetAttributeBaseValue(mobile, lower_skill)) )
+				// Kludge for an old core precision bug.
+				new_skill -= 0.1;
+				SleepMS(10);
+			endwhile
+	
+			AP_SetTrueSkill(mobile, lower_skill, new_skill);
+		else
+			SkillDbgMsg(mobile, "Total skill cap already reached.");
+			return 0;
 		endif
-
-		AP_SetTrueSkill(mobile, skill_name, true_skill + advance);
-
-		return 1;
 	endif
 
-	SkillDbgMsg(mobile, "Failed advancement check. No advance.");
+	new_skill := true_skill + advance;
+	while ( CInt(new_skill * 10.0) == CInt(GetAttributeBaseValue(mobile, skill_name)) )
+		// Kludge for an old core precision bug.
+		new_skill += 0.1;
+		SleepMS(10);
+	endwhile
 
-	return 0;
+	AP_SetTrueSkill(mobile, skill_name, new_skill);
+
+	return 1;
+
 endfunction
