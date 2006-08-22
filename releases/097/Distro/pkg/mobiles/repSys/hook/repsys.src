@@ -6,8 +6,10 @@ use uo;
 use os;
 use cfgfile;
 
+include ":repsys:repsys";
+
 // Stored as globals because hook scripts handle them in a special way.
-var name_colors, general_elem;
+var g_name_colors, g_general_elem;
 
 program Install()
 	Set_Critical(1);
@@ -17,13 +19,13 @@ program Install()
 		return 0;
 	endif
 
-	name_colors := rep_cfg["NameColoring"];
-	if ( !name_colors )
+	g_name_colors := rep_cfg["NameColoring"];
+	if ( !g_name_colors )
 		return 0;
 	endif
 
-	general_elem := rep_cfg["General"];
-	if ( !general_elem )
+	g_general_elem := rep_cfg["General"];
+	if ( !g_general_elem )
 		return 0;
 	endif
 
@@ -38,19 +40,19 @@ exported function NameColor(mobile, seen_by)
 	if ( mobile.master )
 		return NameColor(mobile.master, seen_by);
 	elseif ( mobile.murderer )
-		color := GetConfigInt(name_colors, "Murderer");
+		color := GetConfigInt(g_name_colors, "Murderer");
 	elseif ( mobile.criminal )
 		// Murderers are always criminals
 		// Criminals are not always murderers
-		color := GetConfigInt(name_colors, "Criminal");
+		color := GetConfigInt(g_name_colors, "Criminal");
 	elseif ( mobile.Enabled("invul") )
-		color := GetConfigInt(name_colors, "Invulnerable");
+		color := GetConfigInt(g_name_colors, "Invulnerable");
 	// Guild ally
-	//	return GetConfigInt(name_colors, "GuildAlly");
+	//	return GetConfigInt(g_name_colors, "GuildAlly");
 	// Guid enemy
-	//	GetConfigInt(name_colors, "GuildEnemy");
+	//	GetConfigInt(g_name_colors, "GuildEnemy");
 	else
-		color := GetConfigInt(name_colors, "Innocent");
+		color := GetConfigInt(g_name_colors, "Innocent");
 	endif
 
 	if ( color.errortext )
@@ -66,19 +68,19 @@ exported function HighLightColor(mobile, seen_by)
 	if ( mobile.master )
 		return HighLightColor(mobile.master, seen_by);
 	elseif ( mobile.murderer )
-		color := GetConfigInt(name_colors, "MurdererHighLight");
+		color := GetConfigInt(g_name_colors, "MurdererHighLight");
 	elseif ( mobile.criminal )
 		// Murderers are always criminals
 		// Criminals are not always murderers
-		color := GetConfigInt(name_colors, "CriminalHighLight");
+		color := GetConfigInt(g_name_colors, "CriminalHighLight");
 	elseif ( mobile.Enabled("invul") )
-		color := GetConfigInt(name_colors, "InvulnerableHighLight");
+		color := GetConfigInt(g_name_colors, "InvulnerableHighLight");
 	// Guild ally
-	//	return GetConfigInt(name_colors, "GuildAllyHighLight");
+	//	return GetConfigInt(g_name_colors, "GuildAllyHighLight");
 	// Guid enemy
-	//	GetConfigInt(name_colors, "GuildEnemyHighLight");
+	//	GetConfigInt(g_name_colors, "GuildEnemyHighLight");
 	else
-		color := GetConfigInt(name_colors, "InnocentHighLight");
+		color := GetConfigInt(g_name_colors, "InnocentHighLight");
 	endif
 
 	if ( color.errortext )
@@ -112,7 +114,7 @@ exported function OnAttack(attacker, defender)
 		if ( !IsAggressorTo(defender, attacker) )
 			// New engagement, inform the defender of the attack.
 			PrintTextAbovePrivate(defender, "*"+attacker.name+" is attacking you!*",
-			defender, _DEFAULT_TEXT_FONT, GetConfigInt(name_colors, "Murderer"));
+			defender, _DEFAULT_TEXT_FONT, GetConfigInt(g_name_colors, "Murderer"));
 		endif
 		AddAggressorTo(defender, attacker);
 	endif
@@ -120,28 +122,25 @@ exported function OnAttack(attacker, defender)
 	return 1;
 endfunction
 
-exported function OnDamage(mobile, damaged)
+exported function OnDamage(attacker, defender)
 	// For now, tell core to process this.
-	PrintTextAbove(mobile, "Repsys OnDamage ->"+damaged.name);
-
-	/* Pseudo (mostly based on core layout)
-	 *
-	 * if ( mobile == damaged )
-	 *	// Its legal to hurt yourself.
-	 * 	return 1;
-	 * endif
-	 *
-	 * OnAttack(mobile, attacked);
-	 *
-	 * if ( damaged is innocent to mobile )
-	 * 	// Add mobile to damaged's reportable list
-	 * else
-	 *	// mobile lawfully damaged attacked
-	 * endif
-	 *
-	 * return 1;
-	 */
 	return 0;
+
+	if ( attacker == defender )
+		// It is okay to hurt yourself. Damn emos!
+		return 1;
+	endif
+
+	// Initiate the damage as an attack.
+	OnAttack(attacker, defender);
+
+	if ( IsInnocentTo(defender, attacker) )
+		// Add attacker to defender's reportable list.
+	else
+		// Restart the lawful damage timer for the attacker.
+	endif
+
+	return 1;
 endfunction
 
 exported function OnHelp(mobile, helped)
@@ -160,63 +159,4 @@ exported function OnHelp(mobile, helped)
 	 * return 1;
 	 */
 	return 0;
-endfunction
-
-/*
- * IsInnocent(mobile_a, mobile_b)
- *
- * Purpose
- * Determines if the defender was innocent to the attacker.
- *
- */
-function IsInnocentTo(defender, attacker)
-	if ( defender.murderer )
-		// Defender is a murderer and as such, fair game.
-		return 0;
-	elseif ( defender.criminal )
-		// Defender is a criminal and as such, fair game.
-		return 0;
-	elseif ( IsAggressorTo(attacker, defender) )
-		// Defender started the fight, and is fair game.
-		return 0;
-	// elseif ( IsGuildAlly() )
-	//	return 0;
-	// elseif ( IsGuildEnemy() )
-	//	return 0;
-	// elseif ( HasLawfullyDamaged(attacker, defender) )
-	//	Havnt gotten to this yet!
-	//	return 0;
-	else
-		return 1;
-	endif
-endfunction
-
-/*
- * Purpose
- * Sets attacker as aggressive towards the defender.
- * Lasts for AggressorFlagTimeout seconds in repsys.cfg
- *
- *
- */
-function AddAggressorTo(defender, attacker)
-	var aggressor_list := GetObjProperty(defender, "#Aggressors");
-	if ( !aggressor_list )
-		aggressor_list := dictionary;
-	endif
-
-	aggressor_list[attacker.serial] := ReadGameClock() + general_elem.AggressorFlagTimeout;
-
-	return SetObjProperty(defender, "#Aggressors", aggressor_list);
-endfunction
-
-/*
- * Purpose
- * Determines if the attacker is aggressive to the defender.
- *
- *
- */
-function IsAggressorTo(attacker, defender)
-	var aggressor_list := GetObjProperty(defender, "#Aggressors");
-
-	return ( CInt(aggressor_list[attacker.serial]) < ReadGameClock() );
 endfunction
