@@ -298,6 +298,10 @@ endfunction
  *   Checks if the target is a mobile and provides a central
  *   location for failure messages.
  *
+ * Parameters
+ *   mobile:		mobile refrence of caster
+ *   targ:			target refrence
+ *
  * Returns
  *   1 on success
  *

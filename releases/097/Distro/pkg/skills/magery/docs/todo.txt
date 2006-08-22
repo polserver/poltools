@@ -12,6 +12,7 @@ Some spells randomly say "I am frozen and cannot move." even though I'm not doin
 Spells don't do much checking for locked down objects, objects in houses, etc...
 Last I checked, end scripts were not being called by timedScripts.
 Not sure what happens if you cast a timedScript spell multiple times on OSI. "This spell is already in effect." ?
+Spells are FAR too easy
 
 Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when cast by another player), as well as act like Clumsy, Feeble mind and Weaken all in one.
 Bless - Counteracts stats effects and does all three good stat effects
@@ -29,4 +30,24 @@ Do characters unparalyze after taking damage?
 What happens if a server crashes before a timed script finishes?
 Can timed scripts be run multiple times?
 
-Use teleport vanish after moving character on original location
+
+Circle 1:
+clumsy			- works
+create food		- works
+feeble mind		- works
+heal			- works
+magic arrow		- works
+night sight		- works
+reactive armor	- works
+weaken			- works
+
+Circle 2:
+agility
+cunning
+harm
+magic trap
+magic untrap
+protection
+strength
+
+... add the rest here

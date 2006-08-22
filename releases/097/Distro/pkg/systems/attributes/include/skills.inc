@@ -79,12 +79,13 @@ endfunction
  * points:	Number of points to set the skill at.
  *
  * Return value
- * Returns a double.
+ * The result of SetAttributeBaseValue()
  *
  */
 function AP_SetTrueSkill(mobile, skill_name, points)
-	SetAttributeBaseValue(mobile, skill_name, CInt(CDbl(points) * 10.0));
+	var result := SetAttributeBaseValue(mobile, skill_name, CInt(CDbl(points) * 10.0));
 	RecalcVitals(mobile);
+	return result;
 endfunction
 
 /*
@@ -100,12 +101,13 @@ endfunction
  * points:	Number of points to set the modifier skill at.
  *
  * Return value
- * Returns a double.
+ * The result of SetAttributeBaseValue()
  *
  */
 function AP_SetSkillMod(mobile, skill_name, points)
-	SetAttributeTemporaryMod(mobile, skill_name, CInt(CDbl(points) * 10.0));
+	var result := SetAttributeTemporaryMod(mobile, skill_name, CInt(CDbl(points) * 10.0));
 	RecalcVitals(mobile);
+	return result;
 endfunction
 
 /*
@@ -191,17 +193,22 @@ endfunction
  * Returns a number or error
  *
  */
-function AP_GetSkillCap(skill_name)
+function AP_GetSkillCap(skill_name:="")
 	var cfg_elem := AP_GetSettingsCfgElem("Skills");
-
-	// Check if there is a cap for that particular skill.
-	var cap_val := GetConfigReal(cfg_elem, skill_name);
-
-	if ( !cap_val )
-		// No skill specific cap so get the general one.
+	var cap_val;
+	
+	if ( skill_name )
+		// Check if there is a cap for that particular skill.
+		cap_val := GetConfigReal(cfg_elem, skill_name);
+	
+		if ( !cap_val )
+			// No skill specific cap so get the general one.
+			cap_val := GetConfigReal(cfg_elem, "SkillCap");
+		endif
+	else
 		cap_val := GetConfigReal(cfg_elem, "SkillCap");
 	endif
-
+	
 	return cap_val;
 endfunction
 

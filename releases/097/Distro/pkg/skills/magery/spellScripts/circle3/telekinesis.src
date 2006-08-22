@@ -12,26 +12,30 @@ program SpellScript_Telekinesis(params)
 	var info := params[2];
 	params := 0; // No longer needed
 	
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	// Tell spell starter to not wait for this script to finish
+	// If you don't do this, you wont be able to UseItem()
+	var spell_starter := GetProcess(info.pid);
+	spell_starter.SendEvent("continue");
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
 		return 0;
 	endif
+
+	if ( !(targ.IsA(POLCLASS_CONTAINER) && targ.IsA(POLCLASS_ITEM)) )
+		// Doesn't do anything to mobiles
+		SendSysMessage(mobile, "This spell wont work on that!");
+		return 0;
+	endif
 	
 	PlaySoundEffect(targ, SFX_SPELL_TELEKINESIS);
-
-	// Does not quite work right
+	
 	if ( targ.IsA(POLCLASS_CONTAINER) )
-		SendOpenSpecialContainer( mobile, targ );
-	else
-		if ( targ.usescript )
-			print("Usescript: "+Start_Script(targ.usescript));
-		elseif ( targ.script )
-			print("Script: "+Start_Script(targ.script));
-		else
-			SendSysMessage(mobile, "Something like, can't figure it out, man.");
-		endif
+		SendViewContainer( mobile, targ );
+	elseif( targ.IsA(POLCLASS_ITEM ) )
+		UseItem( targ, mobile );
 	endif
 	
 	return 1;

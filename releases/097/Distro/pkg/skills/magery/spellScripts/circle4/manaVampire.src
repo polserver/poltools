@@ -1,8 +1,3 @@
-/*
- * $Id$
- *
- */
-
 use uo;
 use os;
 
@@ -13,7 +8,7 @@ include ":magery:spellSounds";
 include ":attributes:attributes";
 include ":damage:damage";
 
-program SpellScript_ManaDrain(params)
+program SpellScript_ManaVampire(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
@@ -35,6 +30,7 @@ program SpellScript_ManaDrain(params)
 	endif
 	
 	PlaySoundEffect(targ, SFX_SPELL_MANA_DRAIN);
+	// Not sure what the effect is on OSI
 	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);
 
 	var mana_drained := 40 + AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - AP_GetSkill(targ, RESISTING_SPELLS);
