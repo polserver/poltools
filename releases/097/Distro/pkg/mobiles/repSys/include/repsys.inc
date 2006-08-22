@@ -3,6 +3,7 @@
  */
 
 use uo;
+use os;
 use cfgfile;
 
 /*
@@ -26,9 +27,9 @@ function IsInnocentTo(defender, attacker)
 	//	return 0;
 	// elseif ( IsGuildEnemy() )
 	//	return 0;
-	// elseif ( HasLawfullyDamaged(attacker, defender) )
-	//	Havnt gotten to this yet!
-	//	return 0;
+	 elseif ( IsLawfulDamagerTo(attacker, defender) )
+		// Attacker has lawfully damaged the defender.
+		return 0;
 	else
 		return 1;
 	endif
@@ -71,7 +72,12 @@ endfunction
 function IsAggressorTo(attacker, defender)
 	var aggressor_list := GetObjProperty(defender, "#Aggressors");
 
-	return ( CInt(aggressor_list[attacker.serial]) < ReadGameClock() );
+	var expire_time := CInt(aggressor_list[attacker.serial]);
+	if ( !expire_time )
+		return 0;
+	else
+		return ( expire_time < ReadGameClock() );
+	endif
 endfunction
 
 /*
@@ -86,14 +92,92 @@ endfunction
 
 /*
  * Purpose
- * Adds attacker to the defender's reportable list.
+ * Adds an attacker to the defender's to-be-reportable list.
+ * When the defender dies, the to-be list becomes the main reportable-list.
  *
  */
 function AddToBeReportable(defender, attacker)
-	var reportables := GetObjProperty(defender, "#Reportables");
-	if ( !reportables )
-		reportables := dictionary;
+	var tobe_list := GetObjProperty(defender, "#TBReportables");
+	if ( !tobe_list )
+		tobe_list := array;
 	endif
 
-	reportables[attacker.serial] := ReadGameClock();
+	if ( !(attacker.serial in tobe_list) )
+		tobe_list.Append(attacker.serial);
+	endif
+
+	return SetObjProperty(defender, "#TBReportables", tobe_list);
+endfunction
+
+/*
+ * Purpose
+ * Commits the reportables list. Occurs when the mobile dies.
+ * Will build a list thats equivalent to mobile.reportables
+ *
+ */
+function CommitReportables(mobile)
+	var tobe_list := GetObjProperty(mobile, "#TBReportables");
+	if ( !tobe_list )
+		// No reportables to commit.
+		return 1;
+	endif
+
+	var new_list := array;
+	var info := struct{"serial", "gameclock"};
+
+	foreach serial in ( tobe_list )
+		info.serial := CInt(serial);
+		info.gameclock := ReadGameClock();
+		SleepMS(2);
+	endforeach
+
+	SetObjProperty(mobile, "#Reportables", new_list);
+	EraseObjProperty(mobile, "#TBReportables");
+
+	return 1;
+endfunction
+
+
+/*
+ * Purpose
+ * Sets attacker as a lawful damager towards the defender.
+ * Lasts for AggressorFlagTimeout seconds in repsys.cfg
+ *
+ */
+function AddLawfullyDamagedTo(defender, attacker)
+	var lawfuldmg_list := GetObjProperty(defender, "#LawfulDamagers");
+	if ( !lawfuldmg_list )
+		lawfuldmg_list := dictionary;
+	endif
+
+	var rep_cfg := ReadConfigFile("::repsys");
+	if ( !rep_cfg )
+		return rep_cfg; // Contains error;
+	endif
+	var general_elem := rep_cfg["General"];
+	if ( !general_elem )
+		return general_elem; // Contains error;
+	endif
+
+	// Store's how long the attacker will be an aggressor.
+	lawfuldmg_list[attacker.serial] := ReadGameClock() + CInt(general_elem.AggressorFlagTimeout);
+
+	return SetObjProperty(defender, "#LawfulDamagers", lawfuldmg_list);
+endfunction
+
+/*
+ * Purpose
+ * Determines if the attacker had lawfully damaged the defender.
+ *
+ *
+ */
+function IsLawfulDamagerTo(attacker, defender)
+	var lawfuldmg_list := GetObjProperty(defender, "#LawfulDamagers");
+
+	var expire_time := CInt(lawfuldmg_list[attacker.serial]);
+	if ( !expire_time )
+		return 0;
+	else
+		return ( expire_time < ReadGameClock() );
+	endif
 endfunction

@@ -135,9 +135,11 @@ exported function OnDamage(attacker, defender)
 	OnAttack(attacker, defender);
 
 	if ( IsInnocentTo(defender, attacker) )
-		// Add attacker to defender's reportable list.
+		AddToBeReportable(defender, attacker);
 	else
 		// Restart the lawful damage timer for the attacker.
+		// Attacker is lawfully damaging the defender.
+		AddLawfullyDamagedTo(defender, attacker);
 	endif
 
 	return 1;
