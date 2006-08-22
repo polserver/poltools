@@ -147,18 +147,15 @@ endfunction
 
 exported function OnHelp(mobile, helped)
 	// For now, tell core to process this.
-	PrintTextAbove(mobile, "Repsys OnHelp ->"+helped.name);
-
-	/* Pseudo (mostly based on core layout)
-	 *
-	 * if ( mobile == helped )
-	 * 	// Its okay to help yourself.
-	 *	return 1;
-	 * elseif ( helped.criminal )
-	 *	mobile.SetCriminal(1);
-	 * endif
-	 *
-	 * return 1;
-	 */
 	return 0;
+
+	if ( mobile == helped )
+		// Its okay to help yourself.
+		return 1;
+	elseif ( helped.criminal )
+		// Not okay to help criminals!
+		mobile.SetCriminal(1);
+	endif
+
+	return 1;
 endfunction
