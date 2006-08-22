@@ -88,30 +88,36 @@ exported function HighLightColor(mobile, seen_by)
 	return CInt(color);
 endfunction
 
-exported function OnAttack(mobile, attacked)
-	// For now, tell core to process this.
-	PrintTextAbove(mobile, "Repsys OnAttack ->"+attacked.name);
 
-	/* Pseudo (mostly based on core layout)
-	 * if ( attacked.master )
-	 * 	return OnAttack(mobile, attacked);
-	 * elseif ( attacked is innocent to mobile )
-	 *	mobile.SetCriminal(1)
-	 * endif
-	 *
-	 * if ( attacked is aggressor to mobile )
-	 * 	// restart mobile's aggression timer
-	 * else
-	 * 	if ( !mobile is aggressor to attacked )
-	 *		PrintTextAbovePrivate(attacked, mobile.name+" is attacking you!", attacked);
-	 *	endif
-	 *
-	 *	// restart mobile's aggression timer
-	 * endif
-	 *
-	 * return 1;
-	 */
+exported function OnAttack(attacker, defender)
+	// For now, tell core to process this.
 	return 0;
+
+	if ( attacker == defender )
+		// Safe to attack.. yourself?
+		return 1;
+	elseif ( defender.master )
+		// Check for the npc's master.
+		return OnAttack(attacker, defender.master);
+	elseif ( IsInnocentTo(defender, attacker) )
+		// Reset the criminal timer for the attacker.
+		attacker.SetCriminal(1);
+	endif
+
+	if ( IsAggressorTo(attacker, defender) )
+		//Reset the aggressive timer if the defender was the aggressor.
+		AddAggressorTo(attacker, defender);
+	else
+		//Attacker is the aggressor
+		if ( !IsAggressorTo(defender, attacker) )
+			// New engagement, inform the defender of the attack.
+			PrintTextAbovePrivate(defender, "*"+attacker.name+" is attacking you!*",
+			defender, _DEFAULT_TEXT_FONT, GetConfigInt(name_colors, "Murderer"));
+		endif
+		AddAggressorTo(defender, attacker);
+	endif
+
+	return 1;
 endfunction
 
 exported function OnDamage(mobile, damaged)
@@ -160,33 +166,57 @@ endfunction
  * IsInnocent(mobile_a, mobile_b)
  *
  * Purpose
- * Determines if mobile_a was innocent.
+ * Determines if the defender was innocent to the attacker.
  *
  */
-/*
-function IsInnocentTo(mobile_a, mobile_b)
-	// Checks to see if mobile_a is innocent.
-	if ( mobile_b.murderer )
-		// Mobile b is a murderer and considered guilty by default.
-		return 1;
-	elseif ( mobile_b.criminal )
-		// Mobile b is a criminal and considered guilty by default.
-		return 1;
-	elseif ( mobile_b is aggressor to mobile_a )
-		// Mobile b started the fight.
-		return 1;
-	elseif ( mobile_b is a guild ally )
-		// Guild ally's are okay to mess with.
-	        return 1;
-	elseif ( mobile_b is a guild enemy )
-		// Guild enemy's deserve whats coming to them.
-		return 1;
-	elseif ( mobile_b is an npc and its alignment is good )
-		// Not nice to hurt 'blue' npcs
+function IsInnocentTo(defender, attacker)
+	if ( defender.murderer )
+		// Defender is a murderer and as such, fair game.
 		return 0;
+	elseif ( defender.criminal )
+		// Defender is a criminal and as such, fair game.
+		return 0;
+	elseif ( IsAggressorTo(attacker, defender) )
+		// Defender started the fight, and is fair game.
+		return 0;
+	// elseif ( IsGuildAlly() )
+	//	return 0;
+	// elseif ( IsGuildEnemy() )
+	//	return 0;
+	// elseif ( HasLawfullyDamaged(attacker, defender) )
+	//	Havnt gotten to this yet!
+	//	return 0;
 	else
-		// Mobile_a is not innocent.
-		return 0;
+		return 1;
 	endif
 endfunction
-*/
+
+/*
+ * Purpose
+ * Sets attacker as aggressive towards the defender.
+ * Lasts for AggressorFlagTimeout seconds in repsys.cfg
+ *
+ *
+ */
+function AddAggressorTo(defender, attacker)
+	var aggressor_list := GetObjProperty(defender, "#Aggressors");
+	if ( !aggressor_list )
+		aggressor_list := dictionary;
+	endif
+
+	aggressor_list[attacker.serial] := ReadGameClock() + general_elem.AggressorFlagTimeout;
+
+	return SetObjProperty(defender, "#Aggressors", aggressor_list);
+endfunction
+
+/*
+ * Purpose
+ * Determines if the attacker is aggressive to the defender.
+ *
+ *
+ */
+function IsAggressorTo(attacker, defender)
+	var aggressor_list := GetObjProperty(defender, "#Aggressors");
+
+	return ( CInt(aggressor_list[attacker.serial]) < ReadGameClock() );
+endfunction
