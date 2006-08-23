@@ -1,5 +1,21 @@
 -- POL097 --
 =======
+
+08-22 Austin
+       Added: npc.alignment : 0 - Neutral, 1 - Evil, 2 - Good
+
+08-19 Austin
+       Added: Three more hooks to repsys.cfg's HookList elem.
+              OnAttack Run when a mobile attacks another.
+                        - Target with the TGTOPT_HARMFUL flag set.
+                        - Mobile goes into warmode and double clicks another.
+                        
+              OnDamage Run when a mobile damages another.
+                        - ApplyDamage() or ApplyRawDamage() is used.
+
+              OnHelp   Run when a mobile helps another.
+                        - Target with TGTOPT_HELPFUL is used.
+
 08-17 Austin
        Added: repsys.cfg
               New elem called 'HookList' which will support syste hook scripts for the reputation system.
