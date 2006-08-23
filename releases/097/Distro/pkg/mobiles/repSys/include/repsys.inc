@@ -6,6 +6,12 @@ use uo;
 use os;
 use cfgfile;
 
+enum NPCALIGNMENT
+	ALIGNMENT_NEUTRAL 	:= 0,
+	ALIGNMENT_EVIL		:= 1,
+	ALIGNMENT_GOOD		:= 2
+endenum
+
 /*
  * IsInnocent(mobile_a, mobile_b)
  *
@@ -27,7 +33,7 @@ function IsInnocentTo(defender, attacker)
 	//	return 0;
 	// elseif ( IsGuildEnemy() )
 	//	return 0;
-	 elseif ( IsLawfulDamagerTo(attacker, defender) )
+	elseif ( IsLawfulDamagerTo(attacker, defender) )
 		// Attacker has lawfully damaged the defender.
 		return 0;
 	else
