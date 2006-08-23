@@ -12,10 +12,6 @@ CONST OFFSET_PARTY_MESSAGE := 10;
 CONST USE_PACKETED_MESSAGES := 1;
 
 function SendPartymessage(targ, source, message, self_send:=0)
-	if ( Lower(TypeOf(targ)) == "array" )
-		message := CAscZ(message);
-	endif
-	
 	if ( USE_PACKETED_MESSAGES )
 		// Create party message packet
 		var packet := CreatePacket(MSGTYPE_PARTY, MSGLEN_VARIABLE);
@@ -65,4 +61,27 @@ function SendPartymessage(targ, source, message, self_send:=0)
 	endif
 	
 	return 1;
+endfunction
+
+function SendRemovePacket(targ, kicked_id, party:=array{})
+	if ( !targ.connected )
+		return 0;
+	endif
+
+	// Build the packet
+	var packet := CreatePacket(MSGTYPE_PARTY, MSGLEN_VARIABLE);
+	packet.SetInt16(OFFSET_PARTY_SUBCMD, SUBCMD_PARTY); // Set subcmd to Party
+	packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 2); // Set subsubcmd to Remove
+	packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERID, kicked_id); // Set player's serial
+	packet.SetInt8(OFFSET_PARTY_REMOVE_NEWSIZE, party.Size()); // Set new party size
+
+	for i := 1 to (party.Size())
+		if ( party[i] != kicked_id )
+			packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERIDS + ((i - 1) * 4), party[i]);
+		endif
+		SleepMS(2);
+	endfor
+
+	packet.Set16(OFFSET_PARTY_MSGLEN, packet.GetSize()); // Set packet length
+	packet.SendPacket(targ);
 endfunction
