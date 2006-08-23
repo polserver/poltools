@@ -47,9 +47,9 @@ exported function NameColor(mobile, seen_by)
 		color := GetConfigInt(g_name_colors, "Criminal");
 	elseif ( mobile.Enabled("invul") )
 		color := GetConfigInt(g_name_colors, "Invulnerable");
-	// Guild ally
+	// elseif ( Guild ally )
 	//	return GetConfigInt(g_name_colors, "GuildAlly");
-	// Guid enemy
+	// elseif ( Guid enemy )
 	//	GetConfigInt(g_name_colors, "GuildEnemy");
 	else
 		color := GetConfigInt(g_name_colors, "Innocent");
@@ -75,9 +75,9 @@ exported function HighLightColor(mobile, seen_by)
 		color := GetConfigInt(g_name_colors, "CriminalHighLight");
 	elseif ( mobile.Enabled("invul") )
 		color := GetConfigInt(g_name_colors, "InvulnerableHighLight");
-	// Guild ally
+	//elseif ( Guild ally )
 	//	return GetConfigInt(g_name_colors, "GuildAllyHighLight");
-	// Guid enemy
+	//elseif ( Guid enemy )
 	//	GetConfigInt(g_name_colors, "GuildEnemyHighLight");
 	else
 		color := GetConfigInt(g_name_colors, "InnocentHighLight");
@@ -92,9 +92,6 @@ endfunction
 
 
 exported function OnAttack(attacker, defender)
-	// For now, tell core to process this.
-	//return 0;
-
 	if ( attacker == defender )
 		// Safe to attack.. yourself?
 		return 1;
@@ -123,9 +120,6 @@ exported function OnAttack(attacker, defender)
 endfunction
 
 exported function OnDamage(attacker, defender)
-	// For now, tell core to process this.
-	//return 0;
-
 	if ( attacker == defender )
 		// It is okay to hurt yourself. Damn emos!
 		return 1;
@@ -135,6 +129,8 @@ exported function OnDamage(attacker, defender)
 	OnAttack(attacker, defender);
 
 	if ( IsInnocentTo(defender, attacker) )
+		// Attacker (may have) caused damage to defender.
+		// Attacker can now be reported if defender dies.
 		AddToBeReportable(defender, attacker);
 	else
 		// Restart the lawful damage timer for the attacker.
@@ -146,14 +142,14 @@ exported function OnDamage(attacker, defender)
 endfunction
 
 exported function OnHelp(mobile, helped)
-	// For now, tell core to process this.
-	//return 0;
-
 	if ( mobile == helped )
 		// Its okay to help yourself.
 		return 1;
 	elseif ( helped.criminal )
 		// Not okay to help criminals!
+		mobile.SetCriminal(1);
+	elseif ( helped.alignment == ALIGNMENT_EVIL )
+		// Not okay to help red npcs!
 		mobile.SetCriminal(1);
 	endif
 

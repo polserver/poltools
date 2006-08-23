@@ -143,6 +143,18 @@ function CommitReportables(mobile)
 	return 1;
 endfunction
 
+/*
+ * Purpose retrieves a list of reportables (replaces mobile.reportables)
+ *
+ */
+function GetReportables(mobile)
+	var reportables := GetObjProperty(mobile, "#Reportables");
+	if ( !reportables )
+		reportables := array;
+	endif
+
+	return reportables;
+endfunction
 
 /*
  * Purpose
@@ -174,7 +186,6 @@ endfunction
 /*
  * Purpose
  * Determines if the attacker had lawfully damaged the defender.
- *
  *
  */
 function IsLawfulDamagerTo(attacker, defender)
