@@ -14,6 +14,7 @@ include ":attributes:attributes";
 include ":timedscripts:timedScripts";
 include ":death:death";
 include ":mounts:mounts";
+include ":repsys:repsys";
 
 program core_chrDeath(params)
 	var corpse := params[1];
@@ -23,6 +24,7 @@ program core_chrDeath(params)
 
 	EraseObjProperty(ghost, "#IsMeditating");
 
+	CommitReportables(ghost);
 	DP_PlayDeathSound(ghost);
 	MP_DeathUnmount(corpse);
 
