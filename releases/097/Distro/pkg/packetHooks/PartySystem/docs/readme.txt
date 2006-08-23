@@ -3,8 +3,13 @@ A package to handle party system packets. It can handle all client-based party c
 
 
 [ - Changes - ]
+1.3:
+  Fixed some careless bugs I missed after moving around a bunch in an effort to optimize. Thanks Repsak for letting me know and how to fix it.
+  Note: I know of a few people (including Repsak) who use this with 096 and it works OK, so I'm changing core required to 096.
+        Let me know if you have issues.
+        
 1.2:
-  UO.com says to use "/t #" for private messaging which is handled client-side so "/#" support was removed
+  UO.com says to use "/t#" for private messaging which is handled client-side so "/#" support was removed (stratics lied to me)
   Fixed a bug with private messages to someone in party position 10
   Changed spacing and variable names to make it more like the distro
 
@@ -40,12 +45,11 @@ By default this package uses the party message packets (subsub commands 3 and 4)
 
 
 [ - Considerations - ]
-Thanks to Max Sherr for his initial help getting this moving, to Kinetix who posted some code on Folko's old forums, to Aeros, grak and Pierce who posted on the forums when they found something wrong and a massive thanks to all of the POL devs, especially Austin for answering all of my questions.
+Thanks to Max Sherr for his initial help getting this moving, to Kinetix who posted some code on Folko's old forums, to Aeros, grak, Pierce and Repsak who posted on the forums when they found something wrong and a massive thanks to all of the POL devs, especially Austin for answering all of my questions.
 
 
 [ - TODO - ]
-Possibly add support for extended features, but they would be part of the distro and would be tricky to install on other distros
-Get a log of someone playing on OSI and using the party system.
+Get a packet log of someone playing on OSI using the party system to double check everything.
 
 
 [ - Note - ]

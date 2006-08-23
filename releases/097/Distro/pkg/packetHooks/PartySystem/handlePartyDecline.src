@@ -19,13 +19,8 @@ program handlePartyDecline(params)
 	var invitee := params[1];
 	var leader := SystemFindObjectBySerial(params[2]);
 
-	var packet := CreatePacket(MSGTYPE_PARTY, 11);
-	packet.SetInt16(OFFSET_PARTY_SUBCMD, SUBCMD_PARTY); // Set subcmd to Party
-	packet.SetInt8(OFFSET_PARTY_SUBSUBCMD, 2); // Set subsubcmd to Remove
-	packet.SetInt8(OFFSET_PARTY_REMOVE_NEWSIZE, 0); // Set 0 party size
-	packet.SetInt32(OFFSET_PARTY_REMOVE_PLAYERID, invitee.serial); // Set removed player's serial
-	packet.Set16(OFFSET_PARTY_MSGLEN, packet.GetSize()); // Set packet length
-	packet.SendPacket(invitee);
+	// Remove them from the party
+	SendRemovePacket(invitee, invitee.serial);
 	
 	EraseObjProperty(invitee, PARTY_JOINING_PROP);
 	SetObjProperty(leader, "#PartyCanidates", CInt(GetObjProperty(leader, "#PartyCanidates"))-1);
