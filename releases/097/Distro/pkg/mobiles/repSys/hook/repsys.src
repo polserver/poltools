@@ -39,9 +39,9 @@ exported function NameColor(mobile, seen_by)
 
 	if ( mobile.master )
 		return NameColor(mobile.master, seen_by);
-	elseif ( mobile.murderer )
+	elseif ( mobile.murderer || mobile.alignment == ALIGNMENT_EVIL )
 		color := GetConfigInt(g_name_colors, "Murderer");
-	elseif ( mobile.criminal )
+	elseif ( mobile.criminal || mobile.alignment == ALIGNMENT_NEUTRAL )
 		// Murderers are always criminals
 		// Criminals are not always murderers
 		color := GetConfigInt(g_name_colors, "Criminal");
@@ -67,9 +67,9 @@ exported function HighLightColor(mobile, seen_by)
 
 	if ( mobile.master )
 		return HighLightColor(mobile.master, seen_by);
-	elseif ( mobile.murderer )
+	elseif ( mobile.murderer || mobile.alignment == ALIGNMENT_EVIL )
 		color := GetConfigInt(g_name_colors, "MurdererHighLight");
-	elseif ( mobile.criminal )
+	elseif ( mobile.criminal || mobile.alignment == ALIGNMENT_NEUTRAL )
 		// Murderers are always criminals
 		// Criminals are not always murderers
 		color := GetConfigInt(g_name_colors, "CriminalHighLight");
