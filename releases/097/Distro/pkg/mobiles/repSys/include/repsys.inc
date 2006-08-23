@@ -20,10 +20,10 @@ endenum
  *
  */
 function IsInnocentTo(defender, attacker)
-	if ( defender.murderer )
+	if ( defender.murderer || defender.alignment == ALIGNMENT_EVIL )
 		// Defender is a murderer and as such, fair game.
 		return 0;
-	elseif ( defender.criminal )
+	elseif ( defender.criminal || defender.alignment == ALIGNMENT_NEUTRAL )
 		// Defender is a criminal and as such, fair game.
 		return 0;
 	elseif ( IsAggressorTo(attacker, defender) )
@@ -82,7 +82,7 @@ function IsAggressorTo(attacker, defender)
 	if ( !expire_time )
 		return 0;
 	else
-		return ( expire_time < ReadGameClock() );
+		return ( expire_time > ReadGameClock() );
 	endif
 endfunction
 
@@ -184,6 +184,6 @@ function IsLawfulDamagerTo(attacker, defender)
 	if ( !expire_time )
 		return 0;
 	else
-		return ( expire_time < ReadGameClock() );
+		return ( expire_time > ReadGameClock() );
 	endif
 endfunction
