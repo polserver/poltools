@@ -93,7 +93,7 @@ endfunction
 
 exported function OnAttack(attacker, defender)
 	// For now, tell core to process this.
-	return 0;
+	//return 0;
 
 	if ( attacker == defender )
 		// Safe to attack.. yourself?
@@ -124,7 +124,7 @@ endfunction
 
 exported function OnDamage(attacker, defender)
 	// For now, tell core to process this.
-	return 0;
+	//return 0;
 
 	if ( attacker == defender )
 		// It is okay to hurt yourself. Damn emos!
@@ -147,7 +147,7 @@ endfunction
 
 exported function OnHelp(mobile, helped)
 	// For now, tell core to process this.
-	return 0;
+	//return 0;
 
 	if ( mobile == helped )
 		// Its okay to help yourself.
