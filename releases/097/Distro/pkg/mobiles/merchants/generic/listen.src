@@ -8,6 +8,7 @@ use os;
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include ":merchants:merchant";
 include ":merchants:storage";
 
 program BrainNerve(params)
@@ -67,6 +68,12 @@ function SellStuff(npc, mobile)
 	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
 
 	AI_Turn(npc, mobile, NETURN_TOWARD);
+
+	if ( !HasSellableItems(buyable, mobile.backpack) )
+		AI_Speak(npc, "You don't have anything that I am interested in buying.");
+		return 1;
+	endif
+
 	var result := SendSellWindow(mobile, npc, forsale, shopping_cart, buyable);
 	if ( result.errortext )
 		PrintTextAbove(npc, "SendSellWindow() error - "+result.errortext);
