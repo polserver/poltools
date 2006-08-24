@@ -53,9 +53,8 @@ function BuyStuff(npc, mobile)
 	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
 
 	AI_Turn(npc, mobile, NETURN_TOWARD);
-
-	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart);
-	if ( !result )
+	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart, 1);
+	if ( result.errortext )
 		PrintTextAbove(npc, "SendBuyWindow() error - "+result.errortext);
 	endif
 
@@ -68,9 +67,8 @@ function SellStuff(npc, mobile)
 	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
 
 	AI_Turn(npc, mobile, NETURN_TOWARD);
-
 	var result := SendSellWindow(mobile, npc, forsale, shopping_cart, buyable);
-	if ( !result )
+	if ( result.errortext )
 		PrintTextAbove(npc, "SendSellWindow() error - "+result.errortext);
 	endif
 

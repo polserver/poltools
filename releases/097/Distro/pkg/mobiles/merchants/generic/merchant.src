@@ -39,22 +39,13 @@ program BrainNerve(params)
 endprogram
 
 function SoldEvent(npc, byref event)
-
-	// Used to fix unused var report by ecompile: event;
-	event := event;
-
-	AI_Speak(npc, "I so don't know what to do with selling stuff right now...");
+	PrintTextAbovePrivate(npc, "The total of thy purchase is " + event.amount, event.source, 3, npc.speech_color);
 
 	return 1;
 endfunction
 
 function BoughtEvent(npc, byref event)
-
-	// Used to fix unused var report by ecompile: event;
-	event := event;
-
-	AI_Speak(npc, "I am unable to buy anything from you right now.");
+	PrintTextAbovePrivate(npc, "The total of thy sell is " + event.amount, event.source, 3, npc.speech_color);
 
 	return 1;
-
 endfunction
