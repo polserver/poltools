@@ -32,8 +32,8 @@ use datafile;
 CONST DF_NO_CREATE	:= 0;
 CONST DF_CREATE		:= 1;
 
-// Set to 0 in your script to turn off SysLog() calls.
-var DF_DEBUG_MODE	:= 1;
+// Set to 1 in your script to turn on the logging calls.
+var DF_DEBUG_MODE	:= 0;
 
 
 /*
@@ -90,7 +90,7 @@ function DFPurgeFile(byref file_ref)
 		file_ref.DeleteElement(elem_name);
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -237,6 +237,6 @@ function DF_OutPut(text)
 		var script_name := GetProcess(GetPid()).name;
 		LogToFile("::log/dataFile.log", "["+script_name+"]: "+text, LOG_DATETIME);
 	endif
-	
+
 	return 1;
 endfunction
