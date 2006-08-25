@@ -30,8 +30,8 @@ Character
 	Hits	100
 	Mana	100
 	Stamina	100
-	Privs	clotheany dblclickany hearghosts invul losany moveany seeghosts seehidden seeinvisitems 
-	Settings	clotheany dblclickany hearghosts invul losany seeghosts seehidden seeinvisitems 
+	Privs	clotheany dblclickany hearghosts invul losany moveany seeghosts seehidden seeinvisitems
+	Settings	clotheany dblclickany hearghosts invul losany seeghosts seehidden seeinvisitems
 	CreatedAt	1
 }
 
@@ -49,4 +49,3 @@ Item
 	Container	0x1
 	DecayAt	25136153
 }
-

@@ -4,14 +4,3 @@
 #  This file can safely be deleted to wipe bank boxes and vendor inventories.
 #  Note that scripts may use this for other types of storage as well
 #
-
-StorageArea
-{
-	Name	GivenItems
-}
-
-
-StorageArea
-{
-	Name	Merchant Storage
-}
