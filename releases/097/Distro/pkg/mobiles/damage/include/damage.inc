@@ -50,19 +50,22 @@ function ApplyDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 
 	if ( amount == error )
 		return 0;
-	elseif ( amount < 0 )
+	endif
+
+	var settings := DMG_GetSettingsCfgElem("Settings");
+	if ( settings.DisplayDamage )
+		DisplayDamage(mobile, amount, source);
+	endif
+
+	if ( amount < 0 )
 		HealDamage(mobile, Abs(amount));
 	else
 		if ( source )
 			SetLastDamageInfo(mobile, amount, type, source);
 			SetScriptController(source);
 		endif
-		ApplyDamage(mobile, amount);
-	endif
 
-	var settings := DMG_GetSettingsCfgElem("Settings");
-	if ( settings.DisplayDamage )
-		DisplayDamage(mobile, amount, source);
+		ApplyDamage(mobile, amount);
 	endif
 
 	return amount;
@@ -88,7 +91,14 @@ function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 
 	if ( amount == error )
 		return 0;
-	elseif ( amount < 0 )
+	endif
+
+	var settings := DMG_GetSettingsCfgElem("Settings");
+	if ( settings.DisplayDamage )
+		DisplayDamage(mobile, amount, source);
+	endif
+
+	if ( amount < 0 )
 		HealDamage(mobile, Abs(amount));
 	else
 		if ( source )
@@ -96,11 +106,6 @@ function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 			SetScriptController(source);
 		endif
 		ApplyRawDamage(mobile, amount);
-	endif
-
-	var settings := DMG_GetSettingsCfgElem("Settings");
-	if ( settings.DisplayDamage )
-		DisplayDamage(mobile, amount, source);
 	endif
 
 	return amount;
