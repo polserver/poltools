@@ -1,6 +1,14 @@
 /*
  * $Id
  *
+ * Purpose:
+ * Controls combat if the combatHook is disabled.
+ * The difference between this and the combat hook is that
+ * if this is used, the core determines hit difficulty and chance
+ * and that this is run only on a successful hit.
+ *
+ * The hook controls everything from the begining of combat to the end.
+ *
  */
 use uo;
 use os;
