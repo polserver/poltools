@@ -14,7 +14,7 @@ CONST OFFSET_UPDATE_STAT_PLAYERID := 1;
 var sending_stat := 0;
 
 program doPlayerStatus()
-	print("INSTALLING: Party Status Update PH...");
+	Print("INSTALLING: Party Status Update PH...");
 	return 1;
 endprogram
 
@@ -31,7 +31,7 @@ exported function handleUpdateStat(character, byref packet)
 	var party := GetObjProperty(character, PARTY_PROP);
 
 	if ( DEBUG )
-		print("handleUpdateStat - character: "+character.name+"	packet: "+packet);
+		Print("handleUpdateStat - character: "+character.name+"	packet: "+packet);
 	endif
 
 	// Is the character in a party?

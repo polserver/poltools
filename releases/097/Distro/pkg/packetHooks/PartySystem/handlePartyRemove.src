@@ -10,10 +10,6 @@ include ":partySystem:config";
 include ":partySystem:packetInfo";
 include ":partySystem:messages";
 
-CONST OFFSET_PARTY_REMOVE_NEWSIZE := 6;
-CONST OFFSET_PARTY_REMOVE_PLAYERID := 7;
-CONST OFFSET_PARTY_REMOVE_PLAYERIDS := 11;
-
 program HandlePartyRemove(params)
 	Set_Critical(DEBUG_SET_CRITICAL);
 
@@ -33,6 +29,7 @@ program HandlePartyRemove(params)
 			return 0;
 		endif
 		
+		// Target checks
 		if ( !kicked_member.IsA(POLCLASS_MOBILE) || !kicked_member.acctname || !(kicked_member.serial in party) )
 			return 0;
 		endif
@@ -61,7 +58,7 @@ program HandlePartyRemove(params)
 		// Send remove packet
 		SendRemovePacket(kicked_member, kicked_id);
 
-		// If kicked_member is not the party leader
+		// If kicked_member is the party leader
 		if ( kicked_member.serial == party[1] )
 			// Send everyone the packet to disband
 			foreach member_id in (party)
@@ -95,7 +92,7 @@ program HandlePartyRemove(params)
 				member := SystemFindObjectBySerial(member_id, SYSFIND_SEARCH_OFFLINE_MOBILES);
 
 				if ( newparty.Size() > 1 )
-					SendRemovePacket(member, kicked_id);
+					SendRemovePacket(member, kicked_id, newparty);
 					SetObjProperty(member, PARTY_PROP, newparty);
 				else
 					SendRemovePacket(member, member.serial);
