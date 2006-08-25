@@ -2,7 +2,7 @@ use uo;
 use os;
 
 include ":attributes:attributes";
-include ":combat:weaponInfo";
+include ":weapons:weaponInfo";
 include ":training:training";
 
 CONST SUCCESS_SOUND := 0x58;
@@ -26,9 +26,9 @@ program PocketDip(who, dummy)
 	else
 		SendSysMessage(who, "You foolishly grip the bag.");
 		PlaySoundEffect(who, FAIL_SOUND);
-		
+
 		DummyRock(dummy);
-		
+
 		return 1;
 	endif
 endprogram
@@ -40,7 +40,7 @@ function DummyRock(dummy)
 			SleepMS(3600);
 			dummy.graphic := 7872;
 			break;
-			
+
 		7875:
 			dummy.graphic := 7876;
 			SleepMS(3600);

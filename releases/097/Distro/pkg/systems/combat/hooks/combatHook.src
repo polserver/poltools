@@ -12,7 +12,7 @@ use cfgfile;
 
 include ":attributes:attributes";
 include ":brainai:npcUtil";
-include ":combat:armorZones";
+include ":armor:armorZones";
 include ":combat:settings";
 include ":damage:damage";
 include ":itemutils:itemdesc";

@@ -3,7 +3,7 @@ use os;
 use cfgfile;
 
 include ":attributes:attributes";
-include ":combat:weaponInfo";
+include ":weapons:weaponInfo";
 include ":training:training";
 
 CONST DUMMY_HIT_SOUND := 0x13C;
@@ -15,13 +15,13 @@ program PracticeDummy(who, dummy)
 		SendSysMessage(who, "Someone else is already using that.");
 		return 0;
 	endif
-	
+
 	var weapon := who.weapon;
-	
+
 	if ( !TP_CheckRange(who, weapon, dummy) )
 		return 0;
 	endif
-	
+
 	var weapon_anim := CInt(CS_GetWeaponInfo(weapon, "Anim"));
 	var miss_sound := CInt(CS_GetWeaponInfo(weapon, "MissSound"));
 	var weapon_attribute := CS_GetWeaponInfo(weapon, "Attribute");
@@ -29,9 +29,9 @@ program PracticeDummy(who, dummy)
 		SendSysMessage(who, "You should use an archery butte.");
 		return 0;
 	endif
-	
+
 	PerformAction(who, weapon_anim);
-		
+
 	if ( SkillCheck(who, weapon_attribute, -1, 0, TP_CanAdvance(who, weapon_attribute)) > 0 )
 		PlaySoundEffect(who, DUMMY_HIT_SOUND);
 		DummyRock(dummy);
@@ -39,7 +39,7 @@ program PracticeDummy(who, dummy)
 		PlaySoundEffect(who, miss_sound);
 		ReleaseItem(dummy);
 		SleepMS(3600);
-	endif	
+	endif
 endprogram
 
 function DummyRock(dummy)
@@ -49,13 +49,13 @@ function DummyRock(dummy)
 			SleepMS(3600);
 			dummy.graphic := 4208;
 			break;
-			
+
 		4212:
 			dummy.graphic := 4213;
 			SleepMS(3600);
 			dummy.graphic := 4212;
 			break;
 	endcase
-	
+
 	return 1;
 endfunction

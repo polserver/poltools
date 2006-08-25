@@ -4,7 +4,7 @@ use util;
 use cfgfile;
 
 include ":attributes:attributes";
-include ":combat:weaponInfo";
+include ":weapons:weaponInfo";
 include ":training:training";
 include "include/client";
 include ":damage:damage";
@@ -24,7 +24,7 @@ program ArcheryButte(who, butte)
 	var hit_sound := CInt(CS_GetWeaponInfo(weapon, "Hitsound"));
 	var projectile_anim := CInt(CS_GetWeaponInfo(weapon, "ProjectileAnim"));
 	var projectile_type := CInt(CS_GetWeaponInfo(weapon, "ProjectileType"));
-	
+
 	if ( Distance(who, butte) == 1 )
 		RecoverAmmo(who, butte);
 		return 0;
@@ -65,7 +65,7 @@ program ArcheryButte(who, butte)
 
 	if ( SkillCheck(who, weapon_attrib, -1, 0, TP_CanAdvance(who, weapon_attrib)) > 0 )
 		PlaySoundEffect(who, hit_sound);
-		
+
 		if ( closest.IsA(POLCLASS_MOBILE) )
 			PerformAction(closest, ANIM_HIT);
 			var projectile_damage := CS_GetWeaponInfo(weapon, "Damage");

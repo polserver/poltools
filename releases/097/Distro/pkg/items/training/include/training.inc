@@ -6,7 +6,7 @@ use uo;
 use cfgfile;
 
 include ":attributes:attributes";
-include ":combat:weaponInfo";
+include ":weapons:weaponInfo";
 
 /*
  * TP_CheckWeaponRange(mobile, weapon, targ)
@@ -29,12 +29,12 @@ function TP_CheckRange(mobile, weapon, targ)
 	if ( !wpn_range )
 		wpn_range := 1;
 	endif
-		
+
 	if ( Distance(mobile, targ) > wpn_range )
 		SendSysMessage(mobile, "You are too far away.");
 		return 0;
 	endif
-	
+
 	return wpn_range;
 endfunction
 
