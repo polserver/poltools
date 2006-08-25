@@ -4,9 +4,15 @@ A package to handle party system packets. It can handle all client-based party c
 
 [ - Changes - ]
 1.3:
-  Fixed some careless bugs I missed after moving around a bunch in an effort to optimize. Thanks Repsak for letting me know and how to fix it.
+  Fixed careless bugs I missed after moving around a bunch in an effort to optimize.
+  Fixed issues with parties >2 people. I was all alone while testing this and didn't want to run 3 or 4 clients.
   Note: I know of a few people (including Repsak) who use this with 096 and it works OK, so I'm changing core required to 096.
         Let me know if you have issues.
+  Also note: I make mention of this in the source as well. No packet guide even documents the invite packet that I use so no guide
+             has any mention of a decline invite, which I think is what I need. If someone invites you and it times out, and you type
+             /accept, the client still thinks it's being invited but the script makes an additional check. If I knew a way to timeout
+             the invite or decline the invite I wouldn't need to check anymore as it would be handled by the client.
+  Thanks to Repsak for testing, reporting and suggesting fixes for this version.
         
 1.2:
   UO.com says to use "/t#" for private messaging which is handled client-side so "/#" support was removed (stratics lied to me)

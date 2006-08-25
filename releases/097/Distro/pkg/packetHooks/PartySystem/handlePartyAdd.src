@@ -24,7 +24,7 @@ program handlePartyAdd(character)
 			return 0;
 		endif
 
-		if ( party.Size()+CInt(GetObjProperty(character, "#PartyCanidates")) > PARTY_MAX_SIZE )
+		if ( party.Size() + CInt(GetObjProperty(character, "#PartyCanidates")) > PARTY_MAX_SIZE )
 			SendSysMessage(character, "You may only have "+PARTY_MAX_SIZE+" in your party (this includes candidates).");
 			return 0;
 		endif
@@ -40,8 +40,8 @@ program handlePartyAdd(character)
 		SendSysMessage(character, "You may only add living things to your party!");
 		return 0;
 	elseif ( targ.IsA(POLCLASS_NPC) )
-			SendSysMessage(character, "The creature ignores your offer.");
-			return 0;
+		SendSysMessage(character, "The creature ignores your offer.");
+		return 0;
 	elseif ( targ.acctname )
 		if ( targ.serial == character.serial )
 			SendSysMessage(character, "You cannot add yourself to a party.");
@@ -49,12 +49,11 @@ program handlePartyAdd(character)
 		elseif ( GetObjProperty(targ, PARTY_JOINING_PROP) )
 			SendSysMessage(character, "That person is already considering joining a party.");
 			return 0;
-		elseif ( party )
-			if ( targ.serial in (party) )
-				SendSysMessage(character, "This person is already in your party!");
-			else
-				SendSysMessage(character, "This person is already in a party!");
-			endif
+		elseif ( targ.serial in (party) )
+			SendSysMessage(character, "This person is already in your party!");
+			return 0;
+		elseif ( GetObjProperty(targ, PARTY_PROP) )
+			SendSysMessage(character, "This person is already in a party!");
 			return 0;
 		endif
 	endif
@@ -89,7 +88,12 @@ program handlePartyAdd(character)
 	endfor
 
 	// No response, so automatic decline
-	SetObjProperty(character, "#PartyCanidates", CInt(GetObjProperty(character, "#PartyCanidates")) - 1);
+	// NOTE: This is NOT the correct way to decline an invite. No packet guide even documents
+	//       the invite packet that I make use of so I'm pretty sure no packet guide mentions
+	//       a cancel invite packet. I tried using the invite packet again (subsubcmd 7) with
+	//       targ.serial instead of character.serial, and 0, but neither worked. If you have an
+	//       OSI account and can log traffic when a party invite times out and send it to me
+	//       I'd appreciate it.
 	Start_Script("handlePartyDecline", array{targ, character.serial});
 
 	return 1;

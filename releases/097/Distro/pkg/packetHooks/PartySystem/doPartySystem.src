@@ -23,7 +23,7 @@ CONST SUBSUBCMD_PARTY_ACCEPT := 8;
 CONST SUBSUBCMD_PARTY_DECLINE := 9;
 
 program doPartySystem()
-	print("INSTALLING: Party System PH...");
+	Print("INSTALLING: Party System PH...");
 	return 1;
 endprogram
 
@@ -32,7 +32,7 @@ exported function handlePartyCommand(character, byref packet)
 	var param, param2;
 	
 	if ( DEBUG )
-		print( "handlePartyCommand - character: "+character.name+"	subcmd: "+cmd+" packet: "+packet);
+		Print( "handlePartyCommand - character: "+character.name+"	subcmd: "+cmd+" packet: "+packet);
 	endif
 
 	case ( cmd )
@@ -59,8 +59,8 @@ exported function handlePartyCommand(character, byref packet)
 			Start_Script("handlePartyDecline", array{character, param});
 		default:
 			if ( DEBUG )
-				print("handlePartyCommand: unknown command");
-				print("Subsubcmd: "+cmd+" Packet: "+packet);
+				Print("handlePartyCommand: unknown command");
+				Print("Subsubcmd: "+cmd+" Packet: "+packet);
 			endif
 	endcase
 
