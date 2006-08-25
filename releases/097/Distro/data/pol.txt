@@ -1,17 +1,9 @@
 #
-#  Created by Version: POL096-2005-10-30
+#
 #
 #
 
 System
 {
-	CoreVersion	96
-	CoreVersionString	POL096-2005-10-30
-	CompileDate	Nov  3 2005
-	CompileTime	19:18:33
+	CoreVersion	97
 }
-
-GlobalProperties
-{
-}
-
