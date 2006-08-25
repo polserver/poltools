@@ -1,5 +1,5 @@
 /*
- * $Id
+ * $Id$
  *
  * Purpose:
  * Controls combat if the combatHook is disabled.
