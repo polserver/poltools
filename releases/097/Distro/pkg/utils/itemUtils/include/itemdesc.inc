@@ -52,6 +52,10 @@ endfunction
  */
 function GetItemDescInfo(obj_type)
 	var item_cfg := GetItemDescCfgFile("*");
+	if ( !item_cfg )
+		return item_cfg; // Contains an error;
+	endif
+
 	return item_cfg[obj_type];
 endfunction
 
@@ -77,6 +81,10 @@ function GetObjTypeGraphic(obj_type)
 	obj_type := CInt(obj_type);
 
 	var cfg_info := GetItemDescInfo(obj_type);
+	if ( !cfg_info )
+		return cfg_info; // Contains an error
+	endif
+
 	var graphic := CInt(cfg_info.Graphic);
 	if ( graphic )
 		return graphic;
