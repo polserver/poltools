@@ -9,7 +9,7 @@ include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
 include ":brainAI:commonFunctions";
 include ":attributes:attributes";
-include ":combat:weaponInfo";
+include ":weapons:weaponInfo";
 include "include/facings";
 include ":damage:damage";
 
