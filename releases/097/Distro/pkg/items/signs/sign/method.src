@@ -44,3 +44,7 @@ exported function GetTextColor(sign)
 	endif
 endfunction
 
+exported function IsHouseSign(sign)
+	// The "house_serial" cprop is set by the core.
+	return CInt(GetObjProperty(sign, "house_serial"));
+endfunction
