@@ -13,10 +13,10 @@ function ICP_ItemDescGump(pkg_name, info_elem)
 	endif
 
 	var item_cfg := ReadConfigFile(":"+pkg_name+":itemdesc");
-	var elem_names := GetConfigStringKeys(item_cfg);
 	if ( !item_cfg )
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no items that belong to this package.");
 	else
+		var elem_names := GetConfigStringKeys(item_cfg);
 		var y_pos := 100;
 		var x_pos := 25;
 		var x_count := 1;
