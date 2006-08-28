@@ -14,7 +14,7 @@ function ICP_ItemDescGump(pkg_name, info_elem)
 
 	var item_cfg := ReadConfigFile(":"+pkg_name+":itemdesc");
 	var elem_names := GetConfigStringKeys(item_cfg);
-	if ( !item_cfg || elem_names.Size() < 1 )
+	if ( !item_cfg )
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no items that belong to this package.");
 	else
 		var y_pos := 100;
