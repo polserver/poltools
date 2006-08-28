@@ -1,55 +1,49 @@
 /* $Id$
  *
+ * http://uo.stratics.com/content/skills/stealth.shtml
+ *
  */
 
 use uo;
 use os;
+use math;
 
 include ":attributes:attributes";
 include "include/client";
 
 program skill_Stealth(mobile)
-	if( AP_GetSkill(mobile, HIDING) < 80 )
-		PrintTextAbovePrivate(mobile, "You are not good enough at hiding to do that.", mobile);
+	if ( AP_GetSkill(mobile, HIDING) < 50 )
+		PrintTextAbovePrivate(mobile, "You are not good enough at hiding to stealth.", mobile);
 		return 0;
-	elseif( (!mobile.hidden) && (AP_GetSkill(mobile, STEALTH) < 80) )
+	elseif ( (!mobile.hidden) )
 		PrintTextAbovePrivate(mobile, "You must be hidden to use stealth.", mobile);
 		return 0;
-	elseif( GetEquipmentByLayer(mobile, LAYER_MOUNT ) )
-		mobile.hidden := 0;
+	elseif ( GetEquipmentByLayer(mobile, LAYER_MOUNT ) )
 		PrintTextAbovePrivate(mobile, "You can't stealth while riding a horse.", mobile);
 		return 0;
 	endif
 
-	if( SkillCheck(mobile, STEALTH, -1) > 0 )
-		if( !mobile.hidden )
-			// Used RSTC because it runs the script in critical mode, thus
-			// ensuring the hiding attempt completes before the stealth
-			// script continues.
-			var script := Run_Script_To_Completion(":hiding:hiding", {mobile, STEALTH});
-			if ( script.errortext )
-				SendSysMessage(mobile, "Error starting hiding - "+script.errortext);
-			endif
-
-			if ( !mobile.hidden )
-				SendSysMessage(mobile, "You must be hidden to stealth.");
-				return 0;
-			endif
-		endif
-
-		var my_Skill := AP_GetSkill(mobile, STEALTH) / 10;
-		mobile.stealthsteps := CInt(my_Skill + RandomInt(my_Skill));
+	if ( SkillCheck(mobile, STEALTH, -1) > 0 )
+		mobile.stealthsteps := CalcNumSteps(mobile);
 		PrintTextAbovePrivate(mobile, "You are now moving stealthily.", mobile);
 
 		return 1;
 	else
-		if( mobile.hidden )
+		if ( mobile.hidden )
 			mobile.hidden := 0;
-			PrintTextAbovePrivate(mobile, "You have revealed yourself!", mobile);
+			PrintTextAbovePrivate(mobile, "You have revealed yourself.", mobile);
 		else
-			PrintTextAbovePrivate(mobile, "You fail to move stealthily!", mobile);
+			PrintTextAbovePrivate(mobile, "You fail to move stealthily.", mobile);
 		endif
 
 		return 0;
 	endif
 endprogram
+
+function CalcNumSteps(mobile)
+	var skill := AP_GetSkill(mobile, STEALTH);
+	var num_steps := skill / 5;
+
+	return CInt(Ceil(num_steps));
+endfunction
+
