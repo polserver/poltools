@@ -1,4 +1,4 @@
-/* $Id
+/* $Id$
  *
  */
 
@@ -8,48 +8,48 @@ use os;
 include ":attributes:attributes";
 include "include/client";
 
-program skill_Stealth( who )
-	if( AP_GetSkill(who, HIDING) < 80 )
-		PrintTextAbovePrivate(who, "You are not good enough at hiding to do that.", who);
+program skill_Stealth(mobile)
+	if( AP_GetSkill(mobile, HIDING) < 80 )
+		PrintTextAbovePrivate(mobile, "You are not good enough at hiding to do that.", mobile);
 		return 0;
-	elseif( (!who.hidden) && (AP_GetSkill(who, STEALTH) < 80) )
-		PrintTextAbovePrivate(who, "You must be hidden to use stealth.", who);
+	elseif( (!mobile.hidden) && (AP_GetSkill(mobile, STEALTH) < 80) )
+		PrintTextAbovePrivate(mobile, "You must be hidden to use stealth.", mobile);
 		return 0;
-	elseif( GetEquipmentByLayer(who, LAYER_MOUNT ) )
-		who.hidden := 0;
-		PrintTextAbovePrivate(who, "You can't stealth while riding a horse.", who);
+	elseif( GetEquipmentByLayer(mobile, LAYER_MOUNT ) )
+		mobile.hidden := 0;
+		PrintTextAbovePrivate(mobile, "You can't stealth while riding a horse.", mobile);
 		return 0;
 	endif
 
-	if( SkillCheck(who, STEALTH, -1) > 0 )
-		if( !who.hidden )
+	if( SkillCheck(mobile, STEALTH, -1) > 0 )
+		if( !mobile.hidden )
 			// Used RSTC because it runs the script in critical mode, thus
 			// ensuring the hiding attempt completes before the stealth
 			// script continues.
-			var script := Run_Script_To_Completion(":hiding:hiding", {who, STEALTH});
+			var script := Run_Script_To_Completion(":hiding:hiding", {mobile, STEALTH});
 			if ( script.errortext )
-				SendSysMessage(who, "Error starting hiding - "+script.errortext);
-			endif			
-			
-			if ( !who.hidden )
-				SendSysMessage(who, "You must be hidden to stealth.");
+				SendSysMessage(mobile, "Error starting hiding - "+script.errortext);
+			endif
+
+			if ( !mobile.hidden )
+				SendSysMessage(mobile, "You must be hidden to stealth.");
 				return 0;
 			endif
 		endif
-		
-		var my_Skill := AP_GetSkill(who, STEALTH) / 10;
-		who.stealthsteps := CInt(my_Skill + RandomInt(my_Skill));
-		PrintTextAbovePrivate(who, "You are now moving stealthily.", who);
-		
+
+		var my_Skill := AP_GetSkill(mobile, STEALTH) / 10;
+		mobile.stealthsteps := CInt(my_Skill + RandomInt(my_Skill));
+		PrintTextAbovePrivate(mobile, "You are now moving stealthily.", mobile);
+
 		return 1;
 	else
-		if( who.hidden )
-			who.hidden := 0;
-			PrintTextAbovePrivate(who, "You have revealed yourself!", who);
+		if( mobile.hidden )
+			mobile.hidden := 0;
+			PrintTextAbovePrivate(mobile, "You have revealed yourself!", mobile);
 		else
-			PrintTextAbovePrivate(who, "You fail to move stealthily!", who);
+			PrintTextAbovePrivate(mobile, "You fail to move stealthily!", mobile);
 		endif
-		
+
 		return 0;
 	endif
 endprogram
