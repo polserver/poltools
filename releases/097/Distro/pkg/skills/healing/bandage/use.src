@@ -1,0 +1,11 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use math;
+
+program UseBandage(mobile, bandage)
+	return 1;
+endprogram
