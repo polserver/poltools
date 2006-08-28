@@ -11,10 +11,10 @@ function ICP_NPCDescGump(pkg_name, info_elem)
 	endif
 
 	var npc_cfg := ReadConfigFile(":"+pkg_name+":npcdesc");
-	var elem_names := GetConfigStringKeys(npc_cfg);
 	if ( !npc_cfg )
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no NPCs that belong to this package.");
 	else
+		var elem_names := GetConfigStringKeys(npc_cfg);
 		var y_pos := 100;
 		var x_pos := 25;
 		var x_count := 1;
