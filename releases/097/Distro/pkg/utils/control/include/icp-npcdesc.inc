@@ -12,7 +12,7 @@ function ICP_NPCDescGump(pkg_name, info_elem)
 
 	var npc_cfg := ReadConfigFile(":"+pkg_name+":npcdesc");
 	var elem_names := GetConfigStringKeys(npc_cfg);
-	if ( !npc_cfg || elem_names.Size() < 1 )
+	if ( !npc_cfg )
 		GFTextMid(gump, 0, 250, 500, 2100, "There are no NPCs that belong to this package.");
 	else
 		var y_pos := 100;
