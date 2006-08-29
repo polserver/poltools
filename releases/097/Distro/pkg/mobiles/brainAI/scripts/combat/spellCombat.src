@@ -24,9 +24,9 @@ program BrainNerve(params)
 
 	//Store it here so it does not have to do the math over and over.
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
-	
+
 	var opponent := event.source;
-	
+
 	AI_SetOpponent(npc, opponent);
 
 	while( npc )
@@ -46,7 +46,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, (settings["MinRange"]-dist));
 		elseif( dist > settings["MaxRange"] )
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, (dist-settings["MaxRange"]));
-		else
+		elseif ( !IsFacing(npc, opponent.x, opponent.y) )
 			npc.facing := GetFacing(npc.x, npc.y, opponent.x, opponent.y);
 		endif
 
@@ -84,7 +84,7 @@ function ShouldFlee(npc, byref flee_level)
 endfunction
 
 function SpecialAttack(npc, opponent, byref settings, byref dist)
-	if ( GetObjProperty(npc, "#medding") )
+	if ( GetObjProperty(npc, "#Casting") )
 		return 0;
 	elseif ( CInt(GetObjProperty(npc, "#NextCast")) > ReadGameClock() )
 		return 0;
@@ -95,26 +95,26 @@ function SpecialAttack(npc, opponent, byref settings, byref dist)
 	elseif ( dist > settings["MaxRange"] )
 		return 0;
 	endif
-	
+
 	var npc_elem := NPC_GetNPCConfig(npc.npctemplate);
 	var spell_list := GetConfigStringArray(npc_elem, "Spell");
 	var cast_spell := spell_list[RandomInt(spell_list.Size())+1];
 	cast_spell := SplitWords(cast_spell);
 	var spell_id := MS_SpellNameToId(cast_spell[1]);
-	
+
 	if ( !spell_id )
 		return 0;
 	elseif ( RandomInt(100) > CInt(cast_spell[2]) )
 		return 0;
 	endif
-	
+
 	var script := Start_Script(":magery:spellStarter", {npc, spell_id, 0, opponent});
 	if ( script.errortext )
 		PrintTextAbove(npc, script.errortext);
 		return 0;
 	endif
-	
+
 	SetObjProperty(npc, "#NextCast", ReadGameClock()+settings["CastWait"]);
-	
+
 	return 1;
 endfunction
