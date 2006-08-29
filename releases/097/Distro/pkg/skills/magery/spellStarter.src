@@ -44,13 +44,13 @@ program SpellStarter(params)
 	// Perform various checks to see if mobile can perform the spell
 	var requires_mana := 1;
 	var requires_regs := 1;
-	var settings_elem := MS_GetSettingsCfgElem("Settings");	
+	var settings_elem := MS_GetSettingsCfgElem("Settings");
 
 	if ( !mobile.IsA(POLCLASS_NPC) && (mobile.cmdlevel >= settings_elem.StaffCmdLvl) )
 		requires_mana := CInt(settings_elem.StaffRequiresMana);
 		requires_regs := CInt(settings_elem.StaffRequiresReagents);
 	endif
-	
+
 	if ( GetObjProperty(mobile, "#Casting") )
 		SendSysMessage(mobile, "You can not cast right now.");
 		return 0;
@@ -67,7 +67,7 @@ program SpellStarter(params)
 		FailSpell(mobile);
 		return 0;
 	endif
-	
+
 	if ( requires_mana )
 		if ( !AP_ConsumeVital(mobile, MANA, spell_elem.ManaCost) )
 			SendSysMessage(mobile, "You don't have enough mana to cast that spell!");
@@ -75,7 +75,7 @@ program SpellStarter(params)
 			return 0;
 		endif
 	endif
-	
+
 	if ( requires_regs )
 		if ( !CheckReagents(mobile, spell_elem, scroll) )
 			SendSysMessage(mobile, "You don't have the proper reagents.");
@@ -133,7 +133,7 @@ program SpellStarter(params)
 		endif
 
 	endwhile
-	
+
 	var attribute := spell_elem.Attribute;
 
 	if ( !attribute )
@@ -145,7 +145,7 @@ program SpellStarter(params)
 	if ( difficulty == error )
 		difficulty := -1;
 	endif
-		
+
 	var skill_check := SkillCheck(mobile, attribute, difficulty);
 	mobile.frozen := 0;
 
@@ -158,7 +158,7 @@ program SpellStarter(params)
 		info.+targ := targ;
 		info.+pid := GetPid();
 		info.+spell_id := spell_id;
-		
+
 		// Include base damage in info if there is a DamageType
 		if ( spell_elem.DamageType != error )
 			info.+damage_type := spell_elem.DamageType;
@@ -169,23 +169,27 @@ program SpellStarter(params)
 				MS_ReportText("Error: No minimum base damage defined for spell_id: "+spell_id+". Using: 0.");
 				info.min_damage := 0;
 			endif
-			
+
 			if ( info.max_damage == error )
 				MS_ReportText("Error: No maximum base damage defined for spell_id: "+spell_id+". Using: 0.");
 				info.max_damage := 1;
 			endif
-		
+
 			if ( info.min_damage > info.max_damage )
 				MS_ReportText("Error: Minimum base damage > maximum base damage for spell_id: "+spell_id+". Using: 0.");
 				info.min_damage := 0;
 				info.max_damage := 0;
 			endif
 		endif
-			
+
 		var script := Start_Script(spell_elem.SpellScript, {mobile, info});
 
 		if ( script.errortext )
-			SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
+			if ( mobile.npctemplate )
+				PrintTextAbove(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
+			else
+				SendSysMessage(mobile, "Unable to start ["+spell_elem.SpellScript+"] -> "+script.errortext);
+			endif
 		endif
 
 		var ev;
@@ -208,7 +212,7 @@ endprogram
 function EquipmentCheck(mobile)
 	var hand1 := GetEquipmentByLayer(mobile, LAYER_HAND1);
 	var hand2 := GetEquipmentByLayer(mobile, LAYER_HAND2);
-	
+
 	// On OSI there are spell weaving weapons that mages can hold while casting spells
 	// But they are not implemented yet. Maybe later.
 	if ( (hand2 && !hand1.IsA(POLCLASS_SPELLBOOK)) || (hand2 && !hand2.IsA(POLCLASS_SPELLBOOK)) )
@@ -240,7 +244,7 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 
 		var objtype := GetObjTypeByName(_amount_iter);
 		var properties := dictionary{"objtype"->objtype};
-		
+
 		if ( AmountInContainer(mobile.backpack, properties) < amount )
 			if ( mobile.cmdlevel )
 				SendSysMessage(mobile, "You do not have enough "+GetObjTypeDesc(objtype, (amount>1))+".");
