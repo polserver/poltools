@@ -1,6 +1,15 @@
 -- POL097 --
 =======
 
+08-26 Austin
+       Fixed: POL will check to make sure the corpse and backpack items are setup
+              in an itemdesc.cfg when loading. 
+              If EnableSecureTrading is enabled in pol.cfg it will also check to 
+              make sure its container is setup.
+
+08-25 MuadDib
+       Fixed: Padding involving stats.
+       
 08-22 Austin
        Added: npc.alignment : 0 - Neutral, 1 - Evil, 2 - Good
 
