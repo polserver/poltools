@@ -208,9 +208,10 @@ function SetLastDamageInfo(mobile, amount, type, source)
 	last_damage.+amount	:= amount;
 	last_damage.+type	:= type;
 
-	if ( last_damage.acctname )
+	if ( source.acctname )
 		last_damage.+acctname := source.acctname;
 	endif
+
 	if ( source.name )
 		last_damage.+name := source.name;
 	elseif ( source.IsA(POLCLASS_ITEM) )
