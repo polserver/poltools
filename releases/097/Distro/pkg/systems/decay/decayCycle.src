@@ -38,8 +38,8 @@ program DecayCycle(realm)
 	DECAY_ReportText("Starting "+realm.name+" decayer at X:"+cur_x+" Y:"+cur_y, DECAY_REPORT_CONSOLE+DECAY_REPORT_SYSLOG);
 
 	while ( 1 )
-		for ( cur_x:=0; cur_x<=realm.width; cur_x+=RECT_SIZE )
-			for ( cur_y:=0; cur_y<=realm.height; cur_y+=RECT_SIZE )
+		for ( cur_x; cur_x<=realm.width; cur_x+=RECT_SIZE )
+			for ( cur_y; cur_y<=realm.height; cur_y+=RECT_SIZE )
 				/*
 				 * Note:
 				 *  ListObjectsInBox() is ruthless and will list everything that is in that rect.
