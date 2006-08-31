@@ -1,6 +1,7 @@
 /* $Id$
  *
  */
+
 use uo;
 use os;
 
@@ -21,7 +22,7 @@ program BrainNerve(params)
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
 
 	var opponent := event.source;
-	
+
 	AI_SetOpponent(npc, opponent);
 
 	while ( npc )
