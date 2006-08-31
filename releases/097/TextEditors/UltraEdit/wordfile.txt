@@ -137,6 +137,7 @@ CChrZ
 CDbl
 CInt
 CStr
+CancelTarget
 CanMove
 Ceil
 CheckLineOfSight
@@ -421,6 +422,7 @@ WriteHTMLRaw
 /C6"Object Members"
 .acct
 .acctname
+.alignment
 .all_scripts
 .allyguilds
 .amount
@@ -458,6 +460,7 @@ WriteHTMLRaw
 .decayat
 .defaultcmdlevel
 .desc
+.descriptor
 .dmg_mod
 .enabled
 .enemyguilds
@@ -528,6 +531,7 @@ WriteHTMLRaw
 .passwordhash
 .pc
 .pid
+.pkg
 .poisoned
 .portplank
 .priority_divide
