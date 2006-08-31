@@ -14,7 +14,7 @@ CONST RECT_SIZE	:= 20;
 program DecayCycle(realm)
 	// Make sure there isn't already a decay cycler running for this realm.
 	Set_Critical(1);
-	if ( GetProcess(GetGlobalProperty("#DecayPid-"+realm.name)) )
+	if ( GetProcess(CInt(GetGlobalProperty("#DecayPid-"+realm.name))) )
 		return 0;
 	else
 		SetGlobalProperty("#DecayPid-"+realm.name, GetPid());
@@ -38,9 +38,6 @@ program DecayCycle(realm)
 	DECAY_ReportText("Starting "+realm.name+" decayer at X:"+cur_x+" Y:"+cur_y, DECAY_REPORT_CONSOLE+DECAY_REPORT_SYSLOG);
 
 	while ( 1 )
-		cur_x := CInt(data_elem.GetProp("X"));
-		cur_y := CInt(data_elem.GetProp("Y"));
-
 		for ( cur_x:=0; cur_x<=realm.width; cur_x+=RECT_SIZE )
 			for ( cur_y:=0; cur_y<=realm.height; cur_y+=RECT_SIZE )
 				/*
@@ -61,6 +58,8 @@ program DecayCycle(realm)
 			endfor
 
 			data_elem.SetProp("X", cur_x);
+
+			Sleep(1);
 		endfor
 
 		// A full realm sweep has been done.
