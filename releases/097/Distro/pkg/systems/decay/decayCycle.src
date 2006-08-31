@@ -47,19 +47,19 @@ program DecayCycle(realm)
 				 */
 				foreach	object in ( ListObjectsInBox(cur_x, cur_y, -130, cur_x+RECT_SIZE, cur_y+RECT_SIZE, 130, realm.name) )
 					if ( CanRemove(object) )
-						RemoveObject(object, realm);
+						RemoveObject(object);
 					endif
-					SleepMS(50);
+					SleepMS(100);
 				endforeach
 
 				data_elem.SetProp("Y", cur_y);
 
-				Sleep(1);
+				Sleep(2);
 			endfor
 
 			data_elem.SetProp("X", cur_x);
 
-			Sleep(1);
+			Sleep(2);
 		endfor
 
 		// A full realm sweep has been done.
@@ -89,10 +89,10 @@ function CanRemove(object)
 	return 0;
 endfunction
 
-function RemoveObject(object, byref realm)
+function RemoveObject(object)
 	if ( object.IsA(POLCLASS_CONTAINER) )
 		//Empty out containers before destroying them.
-		EmptyContainer(object, realm);
+		EmptyContainer(object);
 	endif
 
 	/* The item isnt guaranteed to be removed here.
@@ -100,19 +100,20 @@ function RemoveObject(object, byref realm)
 	 */
 	var serial := object.serial;
 	var desc := object.desc;
+	var realm := object.realm;
 	if ( DestroyItem(object) )
-		DECAY_ReportText("Decaying Serial["+serial+"] Desc["+desc+"]", DECAY_REPORT_SYSLOG);
+		DECAY_ReportText("Decaying Serial["+serial+"] Desc["+desc+"] Realm["+realm+"]", DECAY_REPORT_SYSLOG);
 	endif
 
 	return 1;
 endfunction
 
-function EmptyContainer(object, byref realm)
+function EmptyContainer(object)
 	foreach item in ( EnumerateItemsInContainer(object) )
 		if ( item.container == object )
-			MoveObjectToLocation(item, object.x, object.y, object.z, realm.name, MOVEOBJECT_FORCELOCATION);
+			MoveObjectToLocation(item, object.x, object.y, object.z, object.realm, MOVEOBJECT_FORCELOCATION);
 		endif
-		sleepms(2);
+		SleepMS(10);
 	endforeach
 
 	return 1;
