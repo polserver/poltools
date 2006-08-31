@@ -1,4 +1,6 @@
-// $Id$
+/* $Id$
+ *
+ */
 
 use uo;
 use os;
@@ -19,7 +21,7 @@ program BrainNerve(params)
 
 	//Store it here so it does not have to do the math over and over.
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
-	
+
 	var opponent := event.source;
 	var flee_mode := 0;
 
@@ -41,7 +43,7 @@ program BrainNerve(params)
 		elseif( dist > 1 )
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
 		endif
-		
+
 		ShitToss(npc, opponent, dist);
 
 		SleepMS(400);

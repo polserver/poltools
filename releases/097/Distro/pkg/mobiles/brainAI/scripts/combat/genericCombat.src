@@ -1,5 +1,4 @@
-/*
- * $Id*
+/* $Id$
  *
  */
 
@@ -26,7 +25,7 @@ program BrainNerve(params)
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
 
 	var opponent := event.source;
-	
+
 	AI_SetOpponent(npc, opponent);
 
 	var min_range, max_range;

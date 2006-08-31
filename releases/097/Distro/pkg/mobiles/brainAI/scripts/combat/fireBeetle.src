@@ -1,5 +1,4 @@
-/*
- * $Id*
+/* $Id$
  *
  */
 
@@ -28,7 +27,7 @@ program BrainNerve(params)
 	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
 
 	var opponent := event.source;
-	
+
 	AI_SetOpponent(npc, opponent);
 
 	while( npc )
@@ -112,7 +111,7 @@ function SpecialAttack(npc, opponent, byref dist)
 		if ( _coord_iter == 1 ) // Dont make one where its standing
 			continue;
 		endif
-		
+
 		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1);
 		field.SetDuration(2);
 		SleepMS(105);
@@ -140,9 +139,9 @@ function SpecialAttack(npc, opponent, byref dist)
 		field.SetDuration(5);
 		SleepMS(5);
 	endforeach
-	
+
 	npc.frozen := 0;
 	SetObjProperty(npc, "#NextShoot", ReadGameClock()+15);
-	
+
 	return 1;
 endfunction
