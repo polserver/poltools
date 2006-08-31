@@ -1,0 +1,120 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":decay:report";
+include ":datafile:datafile";
+
+// Check 20x20 tiles at a time.
+CONST RECT_SIZE	:= 20;
+
+program DecayCycle(realm)
+	// Make sure there isn't already a decay cycler running for this realm.
+	Set_Critical(1);
+	if ( GetProcess(GetGlobalProperty("#DecayPid-"+realm.name)) )
+		return 0;
+	else
+		SetGlobalProperty("#DecayPid-"+realm.name, GetPid());
+	endif
+	Set_Critical(0);
+
+	var data_file := DFOpenDataFile("DecayInfo", DF_CREATE);
+	var data_elem := DFFindElement(data_file, "Status-"+realm.name, DF_CREATE);
+
+	Set_Priority(1);
+	Sleep(3);
+
+	/* Start from the last place the decayer was at.
+	 * This is to ensure that if there are a lot of crashes,
+	 * it doesn't decay the start of the realm over and over.
+	 */
+	var cur_x := CInt(data_elem.GetProp("X"));
+	var cur_y := CInt(data_elem.GetProp("Y"));
+
+	// Report the starting position of the decay cycle for this realm.
+	DECAY_ReportText("Starting "+realm.name+" decayer at X:"+cur_x+" Y:"+cur_y, DECAY_REPORT_CONSOLE+DECAY_REPORT_SYSLOG);
+
+	while ( 1 )
+		cur_x := CInt(data_elem.GetProp("X"));
+		cur_y := CInt(data_elem.GetProp("Y"));
+
+		for ( cur_x:=0; cur_x<=realm.width; cur_x+=RECT_SIZE )
+			for ( cur_y:=0; cur_y<=realm.height; cur_y+=RECT_SIZE )
+				/*
+				 * Note:
+				 *  ListObjectsInBox() is ruthless and will list everything that is in that rect.
+				 *  Print("Decayer: sweeing "+cur_x+" "+cur_y+" "+(cur_x+RECT_SIZE)+" "+(cur_y+RECT_SIZE));
+				 */
+				foreach	object in ( ListObjectsInBox(cur_x, cur_y, -130, cur_x+RECT_SIZE, cur_y+RECT_SIZE, 130, realm.name) )
+					if ( CanRemove(object) )
+						RemoveObject(object, realm);
+					endif
+					SleepMS(50);
+				endforeach
+
+				data_elem.SetProp("Y", cur_y);
+
+				Sleep(1);
+			endfor
+
+			data_elem.SetProp("X", cur_x);
+		endfor
+
+		// A full realm sweep has been done.
+		cur_x := 0;
+		cur_y := 0;
+		data_elem.SetProp("X", 0);
+		data_elem.SetProp("Y", 0);
+
+		//Wait 15 minutes for the next world sweep to begin.
+		Sleep(60*15);
+	endwhile
+
+	return 1;
+endprogram
+
+function CanRemove(object)
+	if ( object.IsA(POLCLASS_ITEM) )
+		if ( object.decayat > 0 )
+			if ( ReadGameClock() > object.decayat )
+				if ( object.movable || object.IsA(POLCLASS_CORPSE) )
+					return 1;
+				endif
+			endif
+		endif
+	endif
+
+	return 0;
+endfunction
+
+function RemoveObject(object, byref realm)
+	if ( object.IsA(POLCLASS_CONTAINER) )
+		//Empty out containers before destroying them.
+		EmptyContainer(object, realm);
+	endif
+
+	/* The item isnt guaranteed to be removed here.
+	 * If it has a DestroyScript, it depends on the return value of it.
+	 */
+	var serial := object.serial;
+	var desc := object.desc;
+	if ( DestroyItem(object) )
+		DECAY_ReportText("Decaying Serial["+serial+"] Desc["+desc+"]", DECAY_REPORT_SYSLOG);
+	endif
+
+	return 1;
+endfunction
+
+function EmptyContainer(object, byref realm)
+	foreach item in ( EnumerateItemsInContainer(object) )
+		if ( item.container == object )
+			MoveObjectToLocation(item, object.x, object.y, object.z, realm.name, MOVEOBJECT_FORCELOCATION);
+		endif
+		sleepms(2);
+	endforeach
+
+	return 1;
+endfunction
