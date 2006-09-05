@@ -43,7 +43,6 @@ program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
 	FacingChecks(attacker, defender);
 	PlayHitSounds(defender);
 	SkillChecks(attacker, defender, weapon, rawdamage);
-	ArrowRecovery(defender, weapon);
 	ParryCheck(attacker, defender, rawdamage);
 	WearDownWeapon(attacker, weapon);
 	WearDownArmor(defender, armor);
@@ -105,18 +104,6 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 		if ( rawdamage > 0 )
 			SkillCheck(attacker, weapon.attribute, -1);
 			SkillCheck(attacker, "Tactics", -1);
-		endif
-	endif
-endfunction
-
-function ArrowRecovery(defender, weapon)
-	if ( defender.IsA(POLCLASS_NPC) && defender.backpack )
-		var chance := CInt(CS_GetSettingsCfgElem("Archery").RecoverChance);
-		if ( RandomDiceRoll("1d100") <= chance )
-			item_cfg := item_cfg[weapon.objtype];
-			if ( item_cfg.Projectile )
-				CreateItemInBackPack(defender, item_cfg.ProjectileType, 1);
-			endif
 		endif
 	endif
 endfunction
@@ -231,48 +218,45 @@ endfunction
 // Returns 1 on successful parry.
 //
 function ParryCheck(attacker, defender, byref rawdamage)
-	var shield := GetEquipmentByLayer(defender, LAYER_HAND2);
-	if ( !shield.ISA(POLCLASS_ARMOR) )
-		shield := GetEquipmentByLayer(defender, LAYER_HAND1);
-	endif
-
-	if ( !shield.IsA(POLCLASS_ARMOR) )
+	var shield := defender.shield;
+	if ( !shield )
 		return 0;
 	endif
 
 	var parry_elem := CS_GetSettingsCfgElem("Parry");
 	var divisor := CDbl(parry_elem.ParryDivisor);
 	var roll := CDbl(parry_elem.ParryRoll);
-	var parry_chance := CDbl(AP_GetSkill(attacker, "Tactics")) / divisor;
+	var parry_chance := CDbl(AP_GetSkill(attacker, PARRY)) / divisor;
 
-	if ( RandomFloat(roll) > parry_chance ) // Failed
-		return 0;
-	endif
+	if ( RandomFloat(roll) < parry_chance )
+		PerformAction(defender, ANIM_TWIST_DODGE);
+		SendSysMessage(defender, "You deflect some damage using your shield.");
+		rawdamage -= shield.ar;
 
-	//PerformAction(defender, ANIM_TWIST_DODGE);
-	SendSysMessage(defender, "You deflect some damage using your shield.");
-	var decrease := RandomInt(shield.ar)+1;
-	var new_dmg := rawdamage - decrease;
+		if ( rawdamage > CInt(0.15*shield.hp) )
+			SendSysMessage(defender, shield.desc+" takes some damage.");
+			shield.quality *= CDbl(parry_elem.WearRate);
+			if ( shield.quality <= 0.1 )
+				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
+				SendSysMessage(defender, shield.desc+" has been destroyed.");
+				DestroyItem(shield);
+			elseif ( shield.hp > shield.maxhp )
+				shield.hp := shield.maxhp;
+			endif
+		endif
 
-	if ( attacker.cmdlevel )
-		PrintTextAbovePrivate(defender, "Parry! Lowering damage from ["+rawdamage+"] to ["+new_dmg+"]", attacker);
-	endif
-	if ( defender.cmdlevel )
-		PrintTextAbovePrivate(defender, "Parry! Lowering damage from ["+rawdamage+"] to ["+new_dmg+"]", defender);
-	endif
+		var armor_elem := CS_GetSettingsCfgElem("Armor");
+		if ( RandomInt(100)+1 <= armor_elem.WearChance )
+			SendSysMessage(defender, shield.desc+" takes some damage.");
+			shield.hp -= 1;
 
-	rawdamage := new_dmg;
-
-	if ( rawdamage > CInt(0.15*shield.hp) )
-		SendSysMessage(defender, shield.desc+" takes some damage.");
-		shield.quality *= CDbl(CS_GetSettingsCfgElem("Parry").WearRate);
-		if ( shield.quality <= 0.1 )
-			SendSysMessage(defender, shield.desc+" has been destroyed.");
-			MoveObjectToLocation(shield, 1, 1, 1, defender.realm, MOVEOBJECT_FORCELOCATION);
-			DestroyItem(shield);
-		elseif ( shield.hp > shield.maxhp )
-			shield.hp := shield.maxhp;
+			if ( shield.hp <= 1 )
+				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
+				SendSysMessage(defender, shield.desc+" has been destroyed.");
+				DestroyItem(shield);
+			endif
 		endif
 	endif
+
 	return 1;
 endfunction

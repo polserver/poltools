@@ -51,10 +51,12 @@ exported function Attack(attacker, defender)
 	FacingChecks(attacker, defender);
 	PlayAttackAnimation(a_info);
 
-	var difficulty := CalcHitDifficulty(a_info, d_info);
-	var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
-	var gain_flag := GetCombatGainFlags(attacker, defender);
-	if ( SkillCheck(attacker, attribute, difficulty, difficulty, gain_flag) > 0 )
+	var hit_chance := CalcHitDifficulty(a_info, d_info);
+	if ( RandomFloat(1.0) < hit_chance )
+		var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
+		var gain_flag := GetCombatGainFlags(attacker, defender);
+		SkillCheck(attacker, attribute, -1, 0, gain_flag);
+
 		PlayHitSound(a_info, d_info);
 
 		var base_damage := CalcBaseDamage(a_info);
@@ -94,7 +96,6 @@ function CanAttack(attacker, defender)
 	//elseif ( !CheckLineOfSight(attacker, defender) )
 	//	return 0;
 	//
-
 	if ( !attacker.warmode && !g_settings_cfg["Settings"].AutoDefend )
 		return 0;
 	endif
@@ -172,12 +173,11 @@ function PlayAttackAnimation(byref a_info)
 endfunction
 
 function CalcHitDifficulty(byref a_info, byref d_info)
-	return RandomInt(100);
 	//hit_chance = (weapon_attribute + 50.0) / (2.0 * opponent_weapon_attribute + 50.0)
 	var a_skill := AP_GetSkill(a_info.mobile, GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute"));
 	var d_skill := AP_GetSkill(d_info.mobile, GetConfigString(d_info.cfginfo, d_info.prefix+"Attribute"));
 
-	return ((a_skill + 50.0) / (2.0 * d_skill + 50)) * 100;
+	return ((a_skill + 50.0) / (2.0 * d_skill + 50));
 endfunction
 
 function PlayHitSound(byref a_info, byref d_info)
@@ -226,7 +226,7 @@ function CalcBaseDamage(byref a_info)
 endfunction
 
 function ParryChecks(byref a_info, byref d_info, byref raw_damage)
-	var shield := d_info.shield;
+	var shield := (d_info.mobile).shield;
 	if ( !shield )
 		return 0;
 	endif
@@ -239,17 +239,17 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 	if ( RandomFloat(roll) < parry_chance )
 		PerformAction(d_info.mobile, ANIM_TWIST_DODGE);
 		SendSysMessage(d_info.mobile, "You deflect some damage using your shield.");
-		raw_damage := raw_damage - RandomInt(shield.ar)+1;
+		raw_damage -= shield.ar;
 
-		if ( raw_damage > CInt(0.15*shield.hp) )
+		var armor_elem := g_settings_cfg["Armor"];
+		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
-			shield.quality *= CDbl(parry_elem.WearRate);
-			if ( shield.quality <= 0.1 )
+			shield.hp -= 1;
+
+			if ( shield.hp <= 1 )
 				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
 				SendSysMessage(d_info.mobile, shield.desc+" has been destroyed.");
 				DestroyItem(shield);
-			elseif ( shield.hp > shield.maxhp )
-				shield.hp := shield.maxhp;
 			endif
 		endif
 	endif
@@ -372,10 +372,6 @@ function SetupInfo(attacker, defender, byref a_info, byref d_info)
 	else
 		d_info.+prefix := "";
 		d_info.+cfginfo := g_item_cfg[(defender.weapon).objtype];
-	endif
-	var shield := GetEquipmentByLayer(defender, LAYER_HAND2);
-	if ( shield.ISA(POLCLASS_ARMOR) )
-		d_info.+shield := shield;
 	endif
 
 	return 1;
