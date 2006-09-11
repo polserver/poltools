@@ -66,14 +66,18 @@ function SpeechEvent(npc, byref event)
 	return 1;
 endfunction
 
-function WithdrawGold(npc, who, bank_box, byref text)
+function WithdrawGold(npc, mobile, bank_box, byref text)
 	var amount := FindAmountInSpeech("withdrawl", text);
 	if ( !CheckGoldAmount(npc, bank_box, amount) )
 		return 0;
 	endif
 
-	ConsumeSubstance(bank_box, GetObjTypeByName("GoldCoin"), amount);
-	CreateItemInBackPack(who, "GoldCoin", amount);
+	if ( ConsumeSubstance(bank_box, GetObjTypeByName("GoldCoin"), amount) )
+		CreateItemInBackPack(mobile, "GoldCoin", amount);
+	else
+		SendSysMessage(mobile, "Error: Unable to consume gold from bank box.");
+		return 0;
+	endif
 
 	return 1;
 endfunction
