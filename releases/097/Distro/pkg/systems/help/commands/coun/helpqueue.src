@@ -10,7 +10,7 @@ unload_scripts("helpqueue");
 
 program HelpQueue(mobile, queue_name)
 
-	var gump, input;
+	var gump, input, page_id;
 	var cur_menu := QUEUE_TYPES_BTN;
 	if ( queue_name )
 		if ( CanAccessQueue(queue_name, mobile.cmdlevel) )
@@ -23,12 +23,18 @@ program HelpQueue(mobile, queue_name)
 			gump := ShowQueueTypes(mobile.cmdlevel);
 		elseif ( cur_menu == PAGE_LIST_BTN )
 			gump := ShowPagesInQueue(queue_name, mobile.cmdlevel);
+		elseif ( cur_menu == SHOW_PAGE_BTN )
+			gump := ShowPageInQueue(queue_name, page_id, mobile.cmdlevel);
 		endif
 
 		input := GFSendGump(mobile, gump);
 		if ( !input[0] || input[CLOSE_BTN] )
 			SendSysMessage(mobile, "Cancelled.");
 			break;
+		elseif ( input[0] >= SHOW_PAGE_START )
+			var key := input[0] - SHOW_PAGE_START;
+			page_id := key;
+			cur_menu := SHOW_PAGE_BTN;
 		elseif ( input[0] >= SHOW_QUEUE_START )
 			var key := input[0] - SHOW_QUEUE_START;
 			var queues := GetQueueNamesAccess(mobile.cmdlevel);

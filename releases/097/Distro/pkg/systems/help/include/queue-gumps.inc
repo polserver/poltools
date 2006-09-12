@@ -4,6 +4,7 @@
 
 use uo;
 use os;
+use util;
 
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
@@ -39,6 +40,9 @@ function BuildGumpTemplate()
 	// Content Area
 	GFResizePic(gump, 145, 45, GFGetCfgConst("Defaults", "ForeGround"), 380, 325);
 
+	// Bar along the bottom
+	GFResizePic(gump, 15, 375, GFGetCfgConst("Defaults", "ForeGround"), 510, 60);
+
 	return gump;
 endfunction
 
@@ -66,17 +70,45 @@ function ShowPagesInQueue(queue_name, cmd_level)
 		var page_info := data_elem.GetProp(prop_name);
 		var mobile := SystemFindObjectBySerial(CInt(prop_name));
 
-		GFAddButton(gump, 145, y_pos+3, 2117, 2118, GF_CLOSE_BTN, SHOW_PAGE_START+_prop_name_iter);
-		GFTextCrop(gump, 165, y_pos, 350, 20, 2100, mobile.name+": "+page_info.message);
+		var status := "(online)";
+		if ( !mobile.connected )
+			status := "(offline)";
+		endif
 
-		y_pos += 20;
+		GFAddButton(gump, 150, y_pos+3, 2117, 2118, GF_CLOSE_BTN, SHOW_PAGE_START+_prop_name_iter);
+		GFTextLine(gump, 170, y_pos, 2100, mobile.name+" "+status);
+		GFTextCrop(gump, 170, y_pos+20, 350, 20, 2100, page_info.message);
+		y_pos += 50;
 		SleepMS(2);
 	endforeach
 
 	return gump;
 endfunction
 
-function ShowPageInQueue(queue_name)
-	var gump := BuildGumpTemplate();
+function ShowPageInQueue(queue_name, page_id, cmdlevel)
+	var data_file := GetHelpDataFile();
+	var data_elem := DFFindElement(data_file, "Queue-"+queue_name, DF_NO_CREATE);
+	var page_info := data_elem.GetProp(Hex(CInt(page_id)));
+
+	var mobile := SystemFindObjectBySerial(CInt(page_id));
+
+	var gump := ShowQueueTypes(cmdlevel);
+
+	var status := "(online)";
+	if ( !mobile.connected )
+		status := "(offline)";
+	endif
+	GFTextLine(gump, 150, 50, 2100, "Viewing Page From: "+mobile.name+" "+status);
+	GFTextLine(gump, 150, 70, 2100, "Page Time: "+StrFormatTime("%b %d, %Y %I:%M %p", page_info.time));
+
+
+	GFResizePic(gump, 150, 90, GFGetCfgConst("BackGrounds", "GoldTrim"), 370, 270);
+	var y_pos := 95;
+	foreach line in ( GFWordWrap(page_info.message, 370) )
+		GFTextLine(gump, 155, y_pos, 2100, line);
+		y_pos += 20;
+		SleepMS(2);
+	endforeach
+
 	return gump;
 endfunction
