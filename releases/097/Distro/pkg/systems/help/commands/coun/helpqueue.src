@@ -6,7 +6,6 @@ use uo;
 use os;
 
 include ":help:queue-gumps";
-unload_scripts("helpqueue");
 
 program HelpQueue(mobile, queue_name)
 
