@@ -14,7 +14,7 @@ include ":help:help-gumps";
 include "include/string";
 
 program HelpSystem(mobile)
-	if ( GetProcess(GetObjProperty(mobile, "#HelpPID")) )
+	if ( GetProcess(CInt(GetObjProperty(mobile, "#HelpPID"))) )
 		SendSysMessage(mobile, "You already have a help gump open.");
 		return 0;
 	else

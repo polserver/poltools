@@ -69,7 +69,11 @@ function ShowPagesInQueue(queue_name, cmd_level)
 	var data_elem := DFFindElement(data_file, "Queue-"+queue_name, DF_NO_CREATE);
 
 	var y_pos := 50;
-	foreach prop_name in ( data_elem.PropNames() )
+	var prop_names := data_elem.PropNames();
+	var counter := 0, num_pages := prop_names.Size();
+
+	GFPage(gump, 1);
+	foreach prop_name in ( prop_names )
 		var page_info := data_elem.GetProp(prop_name);
 		var mobile := SystemFindObjectBySerial(CInt(prop_name));
 
@@ -80,8 +84,25 @@ function ShowPagesInQueue(queue_name, cmd_level)
 
 		GFAddButton(gump, 150, y_pos+3, 2117, 2118, GF_CLOSE_BTN, SHOW_PAGE_START+_prop_name_iter);
 		GFTextLine(gump, 170, y_pos, 2100, mobile.name+" "+status);
-		GFTextCrop(gump, 170, y_pos+20, 350, 20, 2100, page_info.message);
-		y_pos += 50;
+		var summary;
+		if ( Len(page_info.message) > 45 )
+			summary := page_info.message[1, 45]+"...";
+		else
+			summary := page_info.message;
+		endif
+		GFTextLine(gump, 170, y_pos+20, 2100, summary);
+
+		counter += 1;
+		y_pos += 45;
+
+		if ( counter >= 7 && _prop_name_iter < num_pages )
+			GFAddButton(gump, 510, 345, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 510, 50, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
+			counter := 0;
+			y_pos := 50;
+		endif
+
 		SleepMS(2);
 	endforeach
 
