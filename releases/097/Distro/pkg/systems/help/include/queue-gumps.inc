@@ -18,6 +18,9 @@ CONST SHOW_PAGE_BTN	:= 0xA03;
 CONST DELETE_PAGE_BTN	:= 0xA04;
 CONST GOTO_BTN		:= 0xA06;
 CONST SUMMON_BTN	:= 0xA07;
+CONST INFO_BTN		:= 0xA08;
+CONST ACCTINFO_BTN	:= 0xA09;
+CONST EMAIL_BTN		:= 0xA0A;
 
 CONST SHOW_QUEUE_START	:= 0xA000;
 CONST SHOW_PAGE_START	:= 0xB000;
@@ -110,10 +113,25 @@ function ShowPageInQueue(queue_name, page_id, cmdlevel)
 		SleepMS(2);
 	endforeach
 
-	GFAddButton(gump, 20, 385, 2117, 2118, GF_CLOSE_BTN, GOTO_BTN);
+	var btn_type := GF_DUMMY_BTN;
+	if ( cmdlevel >= 3 )
+		btn_type := GF_CLOSE_BTN;
+	endif
+
+	GFAddButton(gump, 20, 385, 2117, 2118, btn_type, GOTO_BTN);
 	GFTextLine(gump, 40, 382, 2100, "Goto");
-	GFAddButton(gump, 20, 413, 2117, 2117, GF_CLOSE_BTN, SUMMON_BTN);
+	GFAddButton(gump, 20, 413, 2117, 2118, btn_type, SUMMON_BTN);
 	GFTextLine(gump, 40, 410, 2100, "Summon");
+
+	GFAddButton(gump, 160, 385, 2117, 2118, btn_type, INFO_BTN);
+	GFTextLine(gump, 180, 382, 2100, "Character Info");
+	GFAddButton(gump, 160, 413, 2117, 2118, btn_type, ACCTINFO_BTN);
+	GFTextLine(gump, 180, 410, 2100, "Account Info");
+
+	GFAddButton(gump, 300, 385, 2117, 2118, GF_CLOSE_BTN, EMAIL_BTN);
+	GFTextLine(gump, 320, 382, 2100, "Send Email");
+	GFAddButton(gump, 300, 413, 2117, 2118, GF_CLOSE_BTN, DELETE_PAGE_BTN);
+	GFTextLine(gump, 320, 410, 2100, "Delete Page");
 
 	return gump;
 endfunction

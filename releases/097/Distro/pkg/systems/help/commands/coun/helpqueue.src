@@ -40,6 +40,11 @@ program HelpQueue(mobile, queue_name)
 			var queues := GetQueueNamesAccess(mobile.cmdlevel);
 			queue_name := queues[key];
 			cur_menu := PAGE_LIST_BTN;
+		else
+			var result := PageButtons(mobile, input, cur_menu, queue_name, page_id);
+			if ( result )
+				break;
+			endif
 		endif
 
 		SleepMS(2);
@@ -47,6 +52,51 @@ program HelpQueue(mobile, queue_name)
 
 	return 1;
 endprogram
+
+function PageButtons(mobile, byref input, byref cur_menu, byref queue_name, byref page_id)
+	if ( input[EMAIL_BTN] )
+		var script := Start_Script(":email:email", array{mobile, mobile.serial, page_id, queue_name+" page response."});
+		if ( script.errortext )
+			GumpPrompt(mobile, "Error - "+script.errortext);
+		endif
+		return 1;
+	elseif ( input[DELETE_PAGE_BTN] )
+		cur_menu := PAGE_LIST_BTN;
+		var data_file := GetHelpDataFile();
+		var data_elem := DFFindElement(data_file, "Queue-"+queue_name, DF_NO_CREATE);
+		data_elem.EraseProp(Hex(CInt(page_id)));
+		SendSysMessage(mobile, "Page deleted.");
+		return 0;
+	elseif ( mobile.cmdlevel < 3 )
+		return 0;
+		// GM and above only buttons after this point.
+	elseif ( input[GOTO_BTN] )
+		var pager := SystemFindObjectBySerial(page_id);
+		SendSysMessage(mobile, "Going to "+pager.name);
+		MoveObjectToLocation(mobile, pager.x, pager.y, pager.z, pager.realm, MOVEOBJECT_FORCELOCATION);
+		return 1;
+	elseif ( input[SUMMON_BTN] )
+		var pager := SystemFindObjectBySerial(page_id);
+		SendSysMessage(mobile, "Bringing "+pager.name+" to your location.");
+		MoveObjectToLocation(pager, mobile.x, mobile.y, mobile.z, mobile.realm, MOVEOBJECT_FORCELOCATION);
+		return 1;
+	elseif ( input[INFO_BTN] )
+		var script := Start_Script(":commands:gm/info", array{mobile, page_id});
+		if ( script.errortext )
+			GumpPrompt(mobile, "Error - "+script.errortext);
+		endif
+		return 1;
+	elseif ( input[ACCTINFO_BTN] )
+		var pager := SystemFindObjectBySerial(page_id);
+		var script := Start_Script(":accounts:commands/gm/acctinfo", array{mobile, pager.acctname});
+		if ( script.errortext )
+			GumpPrompt(mobile, "Error - "+script.errortext);
+		endif
+		return 1;
+	endif
+
+	return 0;
+endfunction
 
 function CanAccessQueue(byref queue_name, cmdlevel)
 	queue_name := Lower(queue_name);
