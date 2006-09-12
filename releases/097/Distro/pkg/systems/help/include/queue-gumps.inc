@@ -19,6 +19,7 @@ CONST GOTO_BTN		:= 0xA06;
 CONST SUMMON_BTN	:= 0xA07;
 
 CONST SHOW_QUEUE_START	:= 0xA000;
+CONST SHOW_PAGE_START	:= 0xB000;
 
 function BuildGumpTemplate()
 	var gump := LoadHelpInfo("QueueTemplate", "Gump");
@@ -41,17 +42,33 @@ function BuildGumpTemplate()
 	return gump;
 endfunction
 
-function ShowPagesInQueue(queue_name)
-	var gump := BuildGumpTemplate();
-	return gump;
-endfunction
-
 function ShowQueueTypes(cmdlevel)
 	var gump := BuildGumpTemplate();
 	var y_pos := 50;
 	foreach level in ( GetQueueNamesAccess(cmdlevel) )
 		GFAddButton(gump, 20, y_pos+3, 2117, 2118, GF_CLOSE_BTN, SHOW_QUEUE_START+_level_iter);
 		GFTextLine(gump, 40, y_pos, 2100, level);
+		y_pos += 20;
+		SleepMS(2);
+	endforeach
+
+	return gump;
+endfunction
+
+function ShowPagesInQueue(queue_name, cmd_level)
+	var gump := ShowQueueTypes(cmd_level);
+
+	var data_file := GetHelpDataFile();
+	var data_elem := DFFindElement(data_file, "Queue-"+queue_name, DF_NO_CREATE);
+
+	var y_pos := 50;
+	foreach prop_name in ( data_elem.PropNames() )
+		var page_info := data_elem.GetProp(prop_name);
+		var mobile := SystemFindObjectBySerial(CInt(prop_name));
+
+		GFAddButton(gump, 145, y_pos+3, 2117, 2118, GF_CLOSE_BTN, SHOW_PAGE_START+_prop_name_iter);
+		GFTextCrop(gump, 165, y_pos, 350, 20, 2100, mobile.name+": "+page_info.message);
+
 		y_pos += 20;
 		SleepMS(2);
 	endforeach
