@@ -170,18 +170,18 @@ function SubmitPage(mobile, cur_menu, byref input)
 	info.+time := POLCore().systime;
 
 	SaveHelpInfo(elem_name, Hex(mobile.serial), info);
-	if ( queue )
-		GumpPrompt(mobile, "Your previous page was overwritten.");
-	else
-		GumpPrompt(mobile, "Your page has been submitted.");
-	endif
-
 	foreach player in ( EnumerateOnlineCharacters() )
 		if ( player.cmdlevel )
 			SendSysMessage(player, mobile.name+" has submitted a help page into the "+type+" queue.");
 		endif
 		SleepMS(2);
 	endforeach
+
+	if ( queue )
+		GumpPrompt(mobile, "Your previous page was overwritten.");
+	else
+		GumpPrompt(mobile, "Your page has been submitted.");
+	endif
 
 	return 1;
 endfunction
