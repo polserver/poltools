@@ -29,6 +29,11 @@ CONST CHANGE_ACCTNAME	:= 0xA0008;
 var msg_array := array{};
 
 program textcmd_AccountInfo(who, acctname)
+	if ( Lower(TypeOf(who)) == "array" )
+		acctname := who[2];
+		who := who[1];
+	endif
+
 	if ( !acctname )
 		SendSysMessage(who, "Select a player.");
 		var targ := Target(who);
