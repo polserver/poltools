@@ -110,5 +110,10 @@ function ShowPageInQueue(queue_name, page_id, cmdlevel)
 		SleepMS(2);
 	endforeach
 
+	GFAddButton(gump, 20, 385, 2117, 2118, GF_CLOSE_BTN, GOTO_BTN);
+	GFTextLine(gump, 40, 382, 2100, "Goto");
+	GFAddButton(gump, 20, 413, 2117, 2117, GF_CLOSE_BTN, SUMMON_BTN);
+	GFTextLine(gump, 40, 410, 2100, "Summon");
+
 	return gump;
 endfunction
