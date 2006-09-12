@@ -34,7 +34,7 @@ program EmailClient(params)
 			endif
 			SendEMail(mobile, box_id, send_to, subject, message);
 		else
-			ComposeEmail(mobile, send_to, subject);
+			ComposeEmail(mobile, box_id, send_to, subject);
 		endif
 	else
 		IndexGump(mobile, box_id);
@@ -169,8 +169,8 @@ function AddressBook(mobile, box_id, byref send_to:="", writing:=0)
 	return 1;
 endfunction
 
-function ComposeEmail(mobile, box_id, send_to:="")
-	var subject:="", message:=array;
+function ComposeEmail(mobile, box_id, send_to:="", subject:="")
+	var message:=array;
 	while ( mobile.connected )
 		var gump := BuildComposeGump(send_to, subject, message);
 		var input := GFSendGump(mobile, gump);
