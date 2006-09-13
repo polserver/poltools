@@ -51,6 +51,27 @@ function GFCloseGump(who, pid, ret_val:=0)
 endfunction
 
 /*
+ * GFCloseGumpTimed(who, pid, timer, ret_val:=0)
+ *
+ * Purpose
+ * Instructs a client to close a gump.
+ *
+ * Parameters
+ * who:		Player that has the gump open.
+ * pid:		Pid of the script that has the open gump.
+ * timer:	Number of seconds before the gump is forced closed.
+ * ret_val:	What return value the gump should send when closed.
+ *
+ * Return Value
+ * Returns 1 on success.
+ * Returns error on failure.
+ *
+ */
+function GFCloseGumpTimed(who, pid, timer, ret_val:=0)
+	return Start_Script(":gumps:autoClose", array{who, pid, timer, ret_val});
+endfunction
+
+/*
  * GFGetCfgConst(elem_name, prop_name)
  *
  * Purpose
