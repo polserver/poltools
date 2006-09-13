@@ -16,7 +16,7 @@
  * GFPage(byref gump, page_num)
  * GFRadioButton(byref gump, x, y, unp_id, pres_id, status:=0, btn_value:=0)
  * GFResizePic(byref gump, x, y, gump_id, width:=0, height:=0)
- * GFSendGump(who, byref gump)
+ * GFSendGump(mobile, byref gump)
  * GFSetRadioGroup(byref gump, group_id)
  * GFTextCrop(byref gump, x, y, width, height, hue:=0, text:="")
  * GFTextEntry(byref gump, x, y, width, height, txt_color, ini_text:="")
@@ -76,10 +76,10 @@ function GFCreateGump(x:=0, y:=0, width:=0, height:=0)
 	gump.+data	:= array;	// Storage array for static-text and
 					// text-entry initialisation strings
 					// Indexes/KeyIDs for...
-	
+
 	// Starting points for data values
 	gump.+data_id	:= 1;
-	
+
 	// Current page the gump is writing to
 	gump.+cur_page := 0;
 
@@ -228,9 +228,9 @@ function GFMovable(byref gump, bool)
  */
 function GFPage(byref gump, page_num)
 	gump.cur_page := CInt(page_num);
-	
+
 	(gump.layout).Append("Page "+CStr(gump.cur_page));
-	
+
 	return 1;
 endfunction
 
@@ -286,7 +286,7 @@ endfunction
  * No return value.
  *
  */
- 
+
 function GFAddAlphaRegion(byref gump, x, y, width, height)
 	(gump.layout).Append("CheckerTrans "+CStr(CInt(x))+" "+CStr(CInt(y))+" "
 				+ CStr(CInt(width))+" "+CStr(CInt(height)));
@@ -696,33 +696,33 @@ endfunction
 
 
 /*
- * GFSendGump(who, gump)
+ * GFSendGump(mobile, gump)
  *
  * Purpose
  * Sends the gump to the character specified.
  *
  * Parameters
- * who:		Reference to the character which should receive the gump.
+ * mobile:		Reference to the character which should receive the gump.
  * gump:	The gump itself, consisting of it's layout and its data.
  *
  * Return value
  * The SendDialogGump().
  *
  */
-function GFSendGump(who, byref gump)
-	var ret_val := SendDialogGump(who, gump.layout, gump.data, gump.base.x, gump.base.y);
+function GFSendGump(mobile, byref gump)
+	var ret_val := SendDialogGump(mobile, gump.layout, gump.data, gump.base.x, gump.base.y);
 	if ( ret_val.errortext )
 		//Sometimes comes up when the gump has too much information.
-		SendSysMessage(who, "Error - Unable to display gump.");
-		SendSysMessage(who, "Error text is ->"+ret_val.errortext);
+		SendSysMessage(mobile, "Error - Unable to display gump.");
+		SendSysMessage(mobile, "Error text is ->"+ret_val.errortext);
 	endif
-	
+
 	return ret_val;
 endfunction
 
 
 /*
- * XGFErrorSetup(who, gump)
+ * XGFErrorSetup(mobile, gump)
  *
  * Purpose
  * Internal function for assembling an error and making a system log.
