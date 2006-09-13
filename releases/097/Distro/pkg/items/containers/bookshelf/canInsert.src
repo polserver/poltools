@@ -1,21 +1,20 @@
-// $Id$
+/* $Id$
+ *
+ */
 
 use uo;
-use cfgfile;
 
-program CanInsert(mobile, container, movetype, insert_type, adding_item, existing_stack, amt_to_add)
+include ":containers:checks";
 
-	amt_to_add := amt_to_add;
-	existing_stack := existing_stack;
-	insert_type := insert_type;
-	movetype := movetype;
-	container := container;
 
+program CanInsert(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)
 	if ( adding_item.IsBook() )
 		return 1;
+	elseif ( CP_IsLocked(container) )
+		SendSysMessage(character, "You can't insert items into locked containers.");
+		return 0;
 	else
-		SendSysMessage(mobile, "That is not a book.");
+		SendSysMessage(character, "That is not a book.");
 		return 0;
 	endif
-
 endprogram

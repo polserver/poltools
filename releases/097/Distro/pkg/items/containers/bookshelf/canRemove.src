@@ -1,15 +1,17 @@
-// $Id$
+/* $Id$
+ *
+ */
 
 use uo;
 
-program canRemoveScript(mobile, container, item, move_type)
+include ":containers:checks";
 
-	mobile := mobile;
-	container := container;
-	item := item;
-	move_type := move_type;
+
+program canRemoveScript(character, container, item, movetype)
+	if ( CP_IsLocked(container) )
+		SendSysMessage(character, "You can't remove items from locked containers.");
+		return 0;
+	endif
 
 	return 1;
-
 endprogram
-

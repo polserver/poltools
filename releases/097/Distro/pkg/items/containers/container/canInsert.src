@@ -7,12 +7,12 @@ use uo;
 include ":containers:checks";
 
 
-program canInsert(mobile, container, item, move_type, insert_type, adding_item, existing_stack, amount_to_add)
+program canInsert(mobile, container, move_type, inserttype, adding_item, existing_stack, amount_to_add)
 	if ( move_type == MOVETYPE_COREMOVE )
 		return 1;
 	elseif ( mobile.cmdlevel >= 2 )
 		return 1;
-	elseif ( CP_RootContainerLocked(item) )
+	elseif ( CP_IsLocked(container) )
 		SendSysMessage(mobile, "You can't insert items into locked containers.");
 		return 0;
 	endif

@@ -7,8 +7,9 @@ use uo;
 include ":containers:checks";
 include ":partysystem:config";
 
+
 program canRemove(mobile, corpse, item, move_type)
-	if ( mobile.cmdlevel )
+	if ( mobile.cmdlevel >= 2 )
 		// Game moderators can loot.
 		return 1;
 	elseif ( move_type == MOVETYPE_COREMOVE )
@@ -19,7 +20,7 @@ program canRemove(mobile, corpse, item, move_type)
 		SendSysMessage(mobile, "You can't remove items from locked containers.");
 		return 0;
 	endif
-	
+
 	var owner := corpse.GetOwner();
 	if ( !owner )
 		// No owner. Could be deleted or an NPC corpse.
@@ -37,11 +38,11 @@ program canRemove(mobile, corpse, item, move_type)
 	elseif ( IsPartyMember(mobile, owner) )
 		return 1;
 	endif
-	
+
 	//If it got this far then it was an illegal looting.
 	mobile.SetCriminal(1);
 	SendSysMessage(mobile, "You have been flagged as a criminal!");
-	
+
 	//To-do
 	//Play sound effect now that item is being removed.
 	return 1;
@@ -53,7 +54,7 @@ function IsGuildMember(mobile, owner)
 		// Both are members of the same guild.
 		return 1;
 	endif
-	
+
 	return 0;
 endfunction
 
@@ -62,13 +63,13 @@ function IsEnemyGuild(mobile, owner)
 	if ( mobile.guildid in (owner.guild).enemyguilds )
 		return 1;
 	endif
-	
+
 	return 0;
 endfunction
 
 function IsPartyMember(mobile, owner)
 	// This should probably exist in a party system include file.
 	var member_list := GetObjProperty(owner, PARTY_PROP);
-	
+
 	return ( mobile.serial in member_list );
 endfunction
