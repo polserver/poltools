@@ -4,6 +4,7 @@
 
 use uo;
 
+include ":bulletinboard:settings";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
@@ -20,6 +21,7 @@ CONST READ_MSG_START	:= 0xD00;
 unload_scripts("use");
 
 program UseBulletinBoard(mobile, board)
+	var settings := BBRD_GetSettingsCfgElem("Settings");
 	var gump, cur_menu := INDEX_BTN, cur_msg := 0;
 
 	while ( mobile.connected )
@@ -41,10 +43,10 @@ program UseBulletinBoard(mobile, board)
 		elseif ( input[POST_MSG_BTN] )
 			cur_menu := POST_MSG_BTN;
 		elseif ( input[SUBMIT_MSG_BTN] )
-			NewPost(board, mobile, input);
+			NewPost(board, mobile, input, settings);
 			cur_menu := INDEX_BTN;
 		elseif ( input[DELETE_BTN] )
-			board.DeletePost(cur_msg);
+			DeletePost(board, mobile, cur_msg, settings);
 			cur_menu := INDEX_BTN;
 		elseif ( input[0] >= READ_MSG_START )
 			cur_msg := input[0] - READ_MSG_START;
@@ -77,13 +79,18 @@ function GetPostIndexGump(board)
 	var posts := board.GetBoardPosts();
 	var num_posts := posts.Size();
 	foreach post_id in ( posts )
+		var post := board.GetPost(post_id);
 		GFAddButton(gump, 115, y_pos+3, 0xFC1, 0xFC1, GF_CLOSE_BTN, READ_MSG_START+CInt(post_id));
-		GFTextLine(gump, 135, y_pos, 2100, post_id);
+		GFTextLine(gump, 135, y_pos, 2100, post.subject);
 		y_pos += 20;
 		counter += 1;
 
-		if ( counter >= 9 && _post_id_iter < num_posts )
-			// new page
+		if ( counter >= 8 && _post_id_iter < num_posts )
+			GFAddButton(gump, 357, 316, 0xFC, 0xFD, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 357, 140, 0xFA, 0xFB, GF_PAGE_BTN, gump.cur_page-1);
+			y_pos := 160;
+			counter := 0;
 		endif
 
 		SleepMS(2);
@@ -139,7 +146,7 @@ function GetReadPostGump(board, post_id)
 	return gump;
 endfunction
 
-function NewPost(board, mobile, byref input)
+function NewPost(board, mobile, byref input, byref settings)
 	var subject := GFExtractData(input, SUBJECT_TXT_POS);
 	var message :="";
 
@@ -152,5 +159,35 @@ function NewPost(board, mobile, byref input)
 	endfor
 	board.AddPost(subject, message, mobile);
 	SendSysMessage(mobile, "Your post has been submitted.");
+
+	if ( settings.MaxPosts )
+		if ( board.GetNextPostId() > settings.MaxPosts )
+			board.SetNextPostId(1);
+		endif
+	endif
+
+	return 1;
+endfunction
+
+function DeletePost(board, mobile, post_id, byref settings)
+	var post := board.GetPost(post_id);
+
+	if ( post.author.serial != mobile.serial )
+		// Only time the following checks would even matter.
+		if ( settings.AuthorOnlyDelete )
+			SendSysMessage(mobile, "Only the author may delete this post.");
+			return 0;
+		elseif ( settings.MinAgeToDelete )
+			var age := POLCore().systime - post.time;
+			if ( age < settings.MinAgeToDelete )
+				SendSysMessage(mobile, "Post is not old enough to delete.");
+				return 0;
+			endif
+		endif
+	endif
+
+	board.DeletePost(post_id);
+	SendSysMessage(mobile, "Deleted.");
+
 	return 1;
 endfunction
