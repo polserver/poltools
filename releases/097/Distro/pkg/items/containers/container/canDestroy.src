@@ -1,8 +1,18 @@
-// $Id$
+/* $Id$
+ *
+ */
+
+use uo;
+
 
 program canDestroy(container)
+	/*
+	foreach item in ( EnumerateItemsInContainer(container) )
+		if ( item.container == container )
+			MoveObjectToLocation(item, container.x, container.y, container.z, container.realm, MOVEOBJECT_FORCELOCATION);
+		endif
+	endforeach
+	*/
 
-	container := container;
 	return 1;
-
 endprogram

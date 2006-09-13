@@ -1,10 +1,14 @@
-/*
+/* $Id$
  *
  */
 
 use uo;
 use os;
 
+
 program onInsert(character, container, movetype, insert_type, adding_item, existing_stack, amount_to_add)
+	//To-do
+	//Play sound effect now that item is being added.
+
 	return 1;
 endprogram

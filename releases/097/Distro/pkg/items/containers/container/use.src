@@ -9,6 +9,7 @@ use cfgfile;
 include ":keys:key";
 include ":traps:traps";
 
+
 program useContainer(mobile, container)
 	var item_cfg := ReadConfigFile(":*:itemdesc");
 	item_cfg := item_cfg[container.graphic];
