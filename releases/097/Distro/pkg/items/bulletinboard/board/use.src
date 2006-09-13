@@ -1,0 +1,12 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program UseBulletinBoard(mobile, board)
+	return 1;
+endprogram
