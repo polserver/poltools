@@ -42,6 +42,12 @@ exported function GetPost(board, post_id)
 	return data_elem.GetProp(Hex(CInt(post_id)));
 endfunction
 
+exported function DeletePost(board, post_id)
+	var data_elem := GetDataElem(Hex(board.serial));
+
+	return data_elem.EraseProp(Hex(CInt(post_id)));
+endfunction
+
 exported function GetBoardPosts(board)
 	var data_elem := GetDataElem(Hex(board.serial));
 

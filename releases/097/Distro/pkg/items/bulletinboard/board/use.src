@@ -12,17 +12,21 @@ CONST POST_MSG_BTN	:= 0xA0001;
 CONST SUBMIT_MSG_BTN	:= 0xA0002;
 CONST DELETE_BTN	:= 0xA0003;
 
-CONST SUBJECT_TXT_POS	:= 0xE00;
-CONST MSG_TXT_START	:= 0xF00;
+CONST SUBJECT_TXT_POS	:= 0xA00;
+CONST MSG_TXT_START	:= 0xB00;
+
+CONST READ_MSG_START	:= 0xD00;
 
 unload_scripts("use");
 
 program UseBulletinBoard(mobile, board)
-	var input, gump, cur_menu := POST_MSG_BTN;
+	var gump, cur_menu := INDEX_BTN, cur_msg := 0;
 
 	while ( mobile.connected )
 		if ( cur_menu == INDEX_BTN )
 			gump := GetPostIndexGump(board);
+		elseif ( cur_menu == READ_MSG_START )
+			gump := GetReadPostGump(board, cur_msg);
 		elseif ( cur_menu == POST_MSG_BTN )
 			gump := GetNewPostGump(mobile, board);
 		endif
@@ -36,6 +40,15 @@ program UseBulletinBoard(mobile, board)
 			cur_menu := INDEX_BTN;
 		elseif ( input[POST_MSG_BTN] )
 			cur_menu := POST_MSG_BTN;
+		elseif ( input[SUBMIT_MSG_BTN] )
+			NewPost(board, mobile, input);
+			cur_menu := INDEX_BTN;
+		elseif ( input[DELETE_BTN] )
+			board.DeletePost(cur_msg);
+			cur_menu := INDEX_BTN;
+		elseif ( input[0] >= READ_MSG_START )
+			cur_msg := input[0] - READ_MSG_START;
+			cur_menu := READ_MSG_START;
 		else
 			SendSysMessage(mobile, "Cancelled.");
 			break;
@@ -59,12 +72,13 @@ function GetPostIndexGump(board)
 
 	GFPage(gump, 1);
 
-	var y_pos := 180;
+	var y_pos := 160;
 	var counter := 0;
 	var posts := board.GetBoardPosts();
 	var num_posts := posts.Size();
 	foreach post_id in ( posts )
-		GFTextLine(gump, 155, y_pos, 2100, post_id);
+		GFAddButton(gump, 115, y_pos+3, 0xFC1, 0xFC1, GF_CLOSE_BTN, READ_MSG_START+CInt(post_id));
+		GFTextLine(gump, 135, y_pos, 2100, post_id);
 		y_pos += 20;
 		counter += 1;
 
@@ -89,17 +103,54 @@ function GetNewPostGump(mobile, board)
 	GFGumpPic(gump, 150, 200, 0x60);
 
 	var y_pos := 205;
-	for i:=0 to 5
-		GFTextEntry(gump, 110, y_pos, 255, 20, 2100, "", SUBJECT_TXT_POS);
+	for i:=MSG_TXT_START to ( MSG_TXT_START+5 )
+		GFTextEntry(gump, 110, y_pos, 255, 20, 2100, "", i);
 		y_pos += 20;
 		SleepMS(2);
 	endfor
 
 	GFAddButton(gump, 115, 347, 0x15E3, 0x15E7, GF_CLOSE_BTN, INDEX_BTN);
-	GFTextLine(gump, 135, 345, 2100, "Back");
+	GFTextLine(gump, 135, 345, 2100, "Index");
 
 	GFGumpPic(gump, 330, 350, 0x886);
 	GFAddButton(gump, 365, 348, 2117, 2118, GF_CLOSE_BTN, SUBMIT_MSG_BTN);
 
 	return gump;
+endfunction
+
+function GetReadPostGump(board, post_id)
+	var post := board.GetPost(post_id);
+	var gump := GetGumpTemplate(board);
+
+	var msg := "<basefont color=#111111>"
+	+"From: "+post.author.name+"<br>"
+	+"Subject: "+post.subject+"<br>"
+	+"Message:<br>"
+	+post.message;
+
+	GFHTMLArea(gump, 110, 160, 263, 160, msg, 0, 1);
+
+	GFAddButton(gump, 115, 347, 0x15E3, 0x15E7, GF_CLOSE_BTN, INDEX_BTN);
+	GFTextLine(gump, 135, 345, 2100, "Index");
+
+	GFGumpPic(gump, 310, 350, 0x885);
+	GFAddButton(gump, 365, 348, 2117, 2118, GF_CLOSE_BTN, DELETE_BTN);
+
+	return gump;
+endfunction
+
+function NewPost(board, mobile, byref input)
+	var subject := GFExtractData(input, SUBJECT_TXT_POS);
+	var message :="";
+
+	for i:=MSG_TXT_START to ( MSG_TXT_START+5 )
+		var data := GFExtractData(input, i);
+		if ( data )
+			message += CStr(data)+" ";
+		endif
+		SleepMS(2);
+	endfor
+	board.AddPost(subject, message, mobile);
+	SendSysMessage(mobile, "Your post has been submitted.");
+	return 1;
 endfunction
