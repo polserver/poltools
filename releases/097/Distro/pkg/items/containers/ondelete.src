@@ -2,7 +2,7 @@
  * $Id$
  *
  * Purpose:
- * When a player character is deleted this will remove all of its storage areas. 
+ * When a player character is deleted this will remove all of its storage areas.
  *
  */
 use uo;
@@ -10,12 +10,13 @@ use file;
 
 include ":containers:storageAreas";
 
+
 program OnDelete(who)
 	var box_id := CP_GetMobileContainerID(who);
 	foreach area_name in ( CP_GetStorageAreaNames() )
 		LogToFile("::log/onDelete.log", "Deleting bank box in storage area ["+area_name+"] for character "+who.name+" ("+Hex(who.serial)+")", LOG_DATETIME);
 		CP_RemoveStorageAreaContainer(box_id, area_name);
 	endforeach
-	
+
 	return 1;
 endprogram

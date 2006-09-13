@@ -7,6 +7,7 @@ use os;
 
 include ":containers:settings";
 
+
 program control_Remains(remains)
 	var settings := CP_GetSettingsCfgElem("Corpse");
 	var decay_wait := CInt(settings.RemainsDecay);

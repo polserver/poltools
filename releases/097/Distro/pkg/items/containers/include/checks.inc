@@ -13,6 +13,29 @@
 use uo;
 use os;
 
+/* CP_IsLocked(container)
+ *
+ * Purpose
+ * Determines if the container or its root containers are locked.
+ *
+ * Parameters
+ * container:	Container to check the locked status of.
+ *
+ * Return Value
+ * Returns 0 if nothing is locked.
+ * Returns 1 if the container or a root container is locked.
+ *
+ */
+function CP_IsLocked(container)
+	if ( container.locked )
+		return 1;
+	elseif ( CP_RootContainerLocked(container) )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction
+
 /*
  * CP_RootContainerLocked(object)
  *
@@ -31,12 +54,12 @@ function CP_RootContainerLocked(object)
 	while ( temp.container )
 		if ( (temp.container).locked )
 			return 1;
-		else 
+		else
 			// Move onto checking the next container.
 			temp := temp.container;
 		endif
 		SleepMS(2);
 	endwhile
-	
+
 	return 0;
 endfunction

@@ -1,4 +1,6 @@
-// $Id$
+/* $Id$
+ *
+ */
 
 use uo;
 use os;
@@ -7,6 +9,7 @@ use polsys;
 include ":containers:storageAreas";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+
 
 program command_StorageAreas(mobile)
 	var area_name := AreaNamesGump(mobile);

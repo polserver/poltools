@@ -1,8 +1,11 @@
-// $Id$
+/* $Id$
+ *
+ */
 
 use uo;
 use util;
 use os;
+
 
 program Install()
 	return 1;
@@ -126,14 +129,20 @@ exported function Gibbify(corpse, range)
 		0x1CF0  //Brain
 	};
 
-	foreach objtype in (piece_list)
+	foreach item in ( EnumerateItemsInContainer(corpse) )
+		if ( item.container == corpse )
+			MoveObjectToLocation(item, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
+		endif
+	endforeach
+
+	foreach objtype in ( piece_list )
 		var item := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, objtype, 1);
 
 		var newx, newy;
 		var num_tries := 0;
 
 		MOVE_LOOP:
-		repeat
+		do
 			newx := RandomInt(range)-CInt(range/2);
 			newy := RandomInt(range)-CInt(range/2);
 
@@ -147,7 +156,7 @@ exported function Gibbify(corpse, range)
 				newy := corpse.y;
 				break MOVE_LOOP;
 			endif
-		until ( CheckLosAt(corpse, newx, newy, corpse.z) );
+		dowhile ( CheckLosAt(corpse, newx, newy, corpse.z) );
 
 		MoveObjectToLocation(item, newx, newy, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
 	endforeach

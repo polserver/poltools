@@ -8,6 +8,7 @@ use util;
 
 include ":containers:settings";
 
+
 program control_Corpse(corpse)
 	if ( corpse.NPCTemplate() )
 		return 0;
