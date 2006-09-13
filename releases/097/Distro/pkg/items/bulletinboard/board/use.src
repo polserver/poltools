@@ -32,8 +32,13 @@ program UseBulletinBoard(mobile, board)
 		if ( !input[0] )
 			SendSysMessage(mobile, "Cancelled.");
 			break;
+		elseif ( input[INDEX_BTN] )
+			cur_menu := INDEX_BTN;
 		elseif ( input[POST_MSG_BTN] )
 			cur_menu := POST_MSG_BTN;
+		else
+			SendSysMessage(mobile, "Cancelled.");
+			break;
 		endif
 	endwhile
 
@@ -75,12 +80,23 @@ endfunction
 
 function GetNewPostGump(mobile, board)
 	var gump := GetGumpTemplate(board);
-	//GFGumpPic(gump, 120, 160, 0x880);
-	GFTextLine(gump, 120, 157, 2100, "Author:");
-	GFTextLine(gump, 175, 157, 2100, mobile.name);
+	GFGumpPic(gump, 180, 123, 0x883);
+	GFTextLine(gump, 120, 155, 2100, "Author:");
+	GFTextLine(gump, 175, 155, 2100, mobile.name);
+	GFTextLine(gump, 120, 175, 2100, "Subject:");
+	GFTextEntry(gump, 180, 175, 185, 20, 2100, "SUBJECT", SUBJECT_TXT_POS);
 
-	//GFGumpPic(gump, 120, 180, 0x882);
-	GFTextLine(gump, 120, 180, 2100, "Subject:");
+	GFGumpPic(gump, 150, 200, 0x60);
+
+	var y_pos := 205;
+	for i:=0 to 5
+		GFTextEntry(gump, 110, y_pos, 255, 20, 2100, "", SUBJECT_TXT_POS);
+		y_pos += 20;
+		SleepMS(2);
+	endfor
+
+	GFAddButton(gump, 115, 347, 0x15E3, 0x15E7, GF_CLOSE_BTN, INDEX_BTN);
+	GFTextLine(gump, 135, 345, 2100, "Back");
 
 	GFGumpPic(gump, 330, 350, 0x886);
 	GFAddButton(gump, 365, 348, 2117, 2118, GF_CLOSE_BTN, SUBMIT_MSG_BTN);
