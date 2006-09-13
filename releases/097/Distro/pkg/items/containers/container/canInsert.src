@@ -1,4 +1,6 @@
-//$Id$
+/* $Id$
+ *
+ */
 
 use uo;
 
@@ -6,23 +8,14 @@ include ":containers:checks";
 
 
 program canInsert(mobile, container, item, move_type, insert_type, adding_item, existing_stack, amount_to_add)
-
-	amount_to_add := amount_to_add;
-	existing_stack := existing_stack;
-	adding_item := adding_item;
-	insert_type := insert_type;
-	container := container;
-
-	if ( mobile.cmdlevel )
+	if ( move_type == MOVETYPE_COREMOVE )
 		return 1;
-	elseif ( move_type == MOVETYPE_COREMOVE )
+	elseif ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( CP_RootContainerLocked(item) )
 		SendSysMessage(mobile, "You can't insert items into locked containers.");
 		return 0;
 	endif
 
-	//To-do
-	//Play sound effect now that item is being added.
 	return 1;
 endprogram

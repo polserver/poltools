@@ -1,4 +1,6 @@
-//$Id$
+/* $Id$
+ *
+ */
 
 use uo;
 
@@ -6,10 +8,7 @@ include ":containers:checks";
 
 
 program canRemove(mobile, container, item, move_type)
-
-	container := container;
-
-	if ( mobile.cmdlevel )
+	if ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( move_type == MOVETYPE_COREMOVE )
 		return 1;
@@ -18,7 +17,5 @@ program canRemove(mobile, container, item, move_type)
 		return 0;
 	endif
 
-	//To-do
-	//Play sound effect now that item is being removed.
 	return 1;
 endprogram
