@@ -152,10 +152,10 @@ function WearDownWeapon(attacker, weapon)
 endfunction
 
 function DamageInfo(attacker, defender, basedamage, rawdamage)
-	if ( attacker.cmdlevel )
+	if ( attacker.cmdlevel >= 2 )
 		PrintTextAbovePrivate(attacker, "Rawdamage:"+rawdamage+"  Base:"+basedamage, attacker);
 	endif
-	if ( defender.cmdlevel )
+	if ( defender.cmdlevel >= 2 )
 		PrintTextAbovePrivate(attacker, "Rawdamage:"+rawdamage+"  Base:"+basedamage, defender);
 	endif
 endfunction

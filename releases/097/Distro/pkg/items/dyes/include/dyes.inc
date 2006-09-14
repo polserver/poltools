@@ -59,7 +59,7 @@ endfunction
  *
  */
 function ValidDyeColor(mobile, color)
-	if ( mobile.cmdlevel )
+	if ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( (color >= MIN_COLOR) && (color <= MAX_COLOR) )
 		return 1;

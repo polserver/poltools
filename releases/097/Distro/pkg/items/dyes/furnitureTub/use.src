@@ -2,6 +2,7 @@ use uo;
 use cfgfile;
 
 include ":dyes:dyes";
+include ":itemutils:itemdesc";
 
 program UseTub(mobile, dyetub)
 	if( !ReserveItem(dyetub) )
@@ -26,11 +27,20 @@ program UseTub(mobile, dyetub)
 		return 0;
 	endif
 
-	if ( GetObjProperty(targ, "furniture") || mobile.cmdlevel )
+	if ( IsFurniture(targ) || mobile.cmdlevel >= 2 )
 		PlaySoundEffect(mobile, 0x23F);
 		targ.color := dyetub.color;
 	else
 		SendSysMessage(mobile, "You can not dye that.");
 	endif
-
 endprogram
+
+function IsFurniture(targ)
+	if ( targ.IsFurniture() )
+		return 1;
+	elseif ( GetItemDescInfo(targ.objtype).Furniture )
+		return 1;
+	else
+		return 0;
+	endif
+endfunction

@@ -18,15 +18,16 @@ program BrainCriticalScript(params)
 		if ( config_list == error )
 			return 0;
 		endif
-		
+
 		var my_fear_list := GetConfigStringArray(config_list, "Fears");
 		if( !(NPC_ParseTemplateName(mobile.npctemplate).template in my_fear_list) )
 			return 0;
 		else
 			return 1;
 		endif
-		
-	elseif ( mobile.connected && !mobile.cmdlevel )
+	elseif ( mobile.cmdlevel >= 2 )
+		return 0;
+	elseif ( mobile.connected )
 		return 1;
 	else
 		return 0;

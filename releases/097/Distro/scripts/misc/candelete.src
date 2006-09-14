@@ -1,18 +1,38 @@
 /* $Id$
  *
  */
- 
+
 use uo;
 use os;
 
+include ":timeutils:time";
+
+
 program core_CanDelete(character, method)
 	if ( method == DELETE_BY_SCRIPT )
-		return 1;
+		return DeleteByScript(character);
 	elseif ( method == DELETE_BY_PLAYER )
-		SysLog("Client deleting character "+character+" from account "+character.acctname);
-		return 1;
+		return DeletebyPlayer(character);
 	endif
-	
-	// Can't really get here - theres supposed to be only two possibilities.
+
 	return 1;
 endprogram
+
+function DeleteByScript(character)
+	return 1;
+endfunction
+
+function DeleteByPlayer(character)
+	var create_time := character.createdat;
+	var age := POLCore().systime - create_time;
+
+	if ( character.cmdlevel >= 2 )
+		return 1;
+	elseif ( age < SECONDS_IN_WEEK )
+		// Character is too young.
+		return 0;
+	endif
+
+	SysLog("Client deleting character "+character+" from account "+character.acctname);
+	return 1;
+endfunction

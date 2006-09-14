@@ -75,7 +75,7 @@ function CheckOreVeins(who, targ, range)
 	var found_ore := 0;
 
 	var vein_list := ListVeinsNearMobile(targ, range);
-	if ( who.cmdlevel )
+	if ( who.cmdlevel >= 2 )
 		SendSysMessage(who, "Number of veins found "+vein_list.Size());
 	endif
 

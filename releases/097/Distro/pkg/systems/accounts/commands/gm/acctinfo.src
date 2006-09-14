@@ -28,43 +28,43 @@ CONST CHANGE_ACCTNAME	:= 0xA0008;
 
 var msg_array := array{};
 
-program textcmd_AccountInfo(who, acctname)
-	if ( Lower(TypeOf(who)) == "array" )
-		acctname := who[2];
-		who := who[1];
+program textcmd_AccountInfo(mobile, acctname)
+	if ( Lower(TypeOf(mobile)) == "array" )
+		acctname := mobile[2];
+		mobile := mobile[1];
 	endif
 
 	if ( !acctname )
-		SendSysMessage(who, "Select a player.");
-		var targ := Target(who);
+		SendSysMessage(mobile, "Select a player.");
+		var targ := Target(mobile);
 		if ( !targ.acctname )
-			SendSysMessage(who, "Cancelled.");
+			SendSysMessage(mobile, "Cancelled.");
 			return 0;
 		else
 			acctname := targ.acctname;
 		endif
 	endif
 	if ( !acctname )
-		acctname := RequestGump(who, "Enter the account name you want to look up.", "", "", CANCEL_BTN_ON);
+		acctname := RequestGump(mobile, "Enter the account name you want to look up.", "", "", CANCEL_BTN_ON);
 		if ( !acctname )
-			SendSysMessage(who, "Cancelled.");
+			SendSysMessage(mobile, "Cancelled.");
 			return 0;
 		endif
 	endif
 
 	var account := FindAccount(acctname);
 	if ( account.errortext )
-		GumpPrompt(who, "Error with account name "+acctname+" [P] "+acctname.errortext);
+		GumpPrompt(mobile, "Error with account name "+acctname+" [P] "+acctname.errortext);
 		return 0;
 	endif
 
 	var input;
 	repeat
-		input := AcctGump(who, account);
-	until ( !ProcessInput(who, account, input) );
+		input := AcctGump(mobile, account);
+	until ( !ProcessInput(mobile, account, input) );
 endprogram
 
-function AcctGump(who, account)
+function AcctGump(mobile, account)
 	var gump := GFCreateGump();
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 640, 480);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 610, 30);
@@ -86,7 +86,7 @@ function AcctGump(who, account)
 	GFPage(gump, 2);
 	NotesGump(account, gump);
 
-	var input := GFSendGump(who, gump);
+	var input := GFSendGump(mobile, gump);
 	return input;
 endfunction
 
@@ -215,27 +215,27 @@ function NotesGump(account, byref gump)
 endfunction
 
 
-function AccountBanner(who, account)
+function AccountBanner(mobile, account)
 	if ( account.banned )
-		if ( YesNo(who, "Are you sure you want to unban this account?") )
+		if ( YesNo(mobile, "Are you sure you want to unban this account?") )
 			account.UnBan();
 			return 1;
 		endif
 	else
-		if ( YesNo(who, "Are you sure you want to ban this account?") )
+		if ( YesNo(mobile, "Are you sure you want to ban this account?") )
 			account.Ban();
 			return 1;
 		endif
 	endif
 
-	SendSysMessage(who, "Cancelled");
+	SendSysMessage(mobile, "Cancelled");
 	return 0;
 endfunction
 
-function SuspendAccount(who, account)
-	var jail_time := RequestGump(who, "How many days do you want to disable this account?","", CStr(GetNumJailDays(account)), 1);
+function SuspendAccount(mobile, account)
+	var jail_time := RequestGump(mobile, "How many days do you want to disable this account?","", CStr(GetNumJailDays(account)), 1);
 	if ( jail_time == error )
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 		return 0;
 	else
 		jail_time := CInt(jail_time);
@@ -264,7 +264,7 @@ function GetNumJailDays(account)
 	return num_days;
 endfunction
 
-function UpdateNotes(who, account, input)
+function UpdateNotes(mobile, account, input)
 	var i;
 	for ( i:=1; i<=msg_array.Size(); i+=1 )
 		var line := GFExtractData(input, msg_array[i]);
@@ -288,36 +288,41 @@ function UpdateNotes(who, account, input)
 		account.SetProp("notes", msg_array);
 	endif
 
-	SendSysMessage(who, "Writing to account notes... done!");
+	SendSysMessage(mobile, "Writing to account notes... done!");
 
 	return 1;
 endfunction
 
-function SetDefaultCmdLevel(who, account)
-	var input := RequestGump(who, "What do you want to sent this account's default cmdlevel to?","", account.defaultcmdlevel, CANCEL_BTN_ON);
+function SetDefaultCmdLevel(mobile, account)
+	if ( mobile.cmdlevel <= 3 ) // GM or less
+		GumpPrompt(mobile, "Your command level too low to change this.");
+		return 0;
+	endif
+
+	var input := RequestGump(mobile, "What do you want to sent this account's default cmdlevel to?","", account.defaultcmdlevel, CANCEL_BTN_ON);
 	if ( input != error )
 		input := CInt(input);
-		if ( input > who.cmdlevel )
-			input := who.cmdlevel;
+		if ( input > mobile.cmdlevel )
+			input := mobile.cmdlevel;
 		endif
 
 		account.SetDefaultCmdLevel(input);
-		SendSysMessage(who, "Account default command level updated.");
+		SendSysMessage(mobile, "Account default command level updated.");
 	else
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 	endif
 
 	return 1;
 endfunction
 
-function ChangeEmail(who, account)
+function ChangeEmail(mobile, account)
 	var email := account.GetProp("Email");
 	if ( !email )
 		email := "";
 	endif
-	var input := RequestGump(who, "What do you want to set the new email address for this account to?","", CStr(email), CANCEL_BTN_ON);
+	var input := RequestGump(mobile, "What do you want to set the new email address for this account to?","", CStr(email), CANCEL_BTN_ON);
 	if ( input == error )
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 		return 0;
 	else
 		account.SetProp("Email", input);
@@ -326,24 +331,24 @@ function ChangeEmail(who, account)
 	return 1;
 endfunction
 
-function ChangeAcctName(who, account)
+function ChangeAcctName(mobile, account)
 	var name := account.name;
 
-	var input := RequestGump(who, "What do you want to change this account's name to?", "", CStr(name), 1);
+	var input := RequestGump(mobile, "What do you want to change this account's name to?", "", CStr(name), 1);
 	if ( input == error )
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 		return 0;
 	else
 		var res := account.SetName(input);
 		if ( res.errortext )
-			SendSysMessage(who, "Error: Could not set new account name ->"+res.errortext);
+			SendSysMessage(mobile, "Error: Could not set new account name ->"+res.errortext);
 		endif
 	endif
 
 	return 1;
 endfunction
 
-function SetUOExpansion(who, account)
+function SetUOExpansion(mobile, account)
 	var gump := GFCreateGump();
 	GFMovable(gump, 0);
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 360, 320);
@@ -363,7 +368,7 @@ function SetUOExpansion(who, account)
 	GFAddButton(gump, 50, 260, 2128, 2129, GF_CLOSE_BTN, OKAY_BTN);
 	GFAddButton(gump, 245, 260, 2119, 2120, GF_CLOSE_BTN, CANCEL_BTN);
 
-	var input := GFSendGump(who, gump);
+	var input := GFSendGump(mobile, gump);
 	if ( input[OKAY_BTN] )
 		var expansion;
 		foreach key in ( input.keys )
@@ -380,27 +385,27 @@ function SetUOExpansion(who, account)
 	return 1;
 endfunction
 
-function ProcessInput(who, account, input)
+function ProcessInput(mobile, account, input)
 	if ( input[0] > CHAR_INFO_START )
 		input := (input[0] - CHAR_INFO_START);
 		var char := account.GetCharacter(input).serial;
-		Start_Script(":commands:gm/info", {who, char});
+		Start_Script(":commands:gm/info", {mobile, char});
 	elseif ( input[BAN_BTN] )
-		AccountBanner(who, account);
+		AccountBanner(mobile, account);
 	elseif ( input[DISABLE_BTN] )
-		SuspendAccount(who, account);
+		SuspendAccount(mobile, account);
 	elseif ( input[UPDATE_NOTES_BTN] )
-		UpdateNotes(who, account, input);
+		UpdateNotes(mobile, account, input);
 	elseif ( input[DEF_CMDLEVEL_BTN] )
-		SetDefaultCmdLevel(who, account);
+		SetDefaultCmdLevel(mobile, account);
 	elseif ( input[EXPANSION_BTN] )
-		SetUOExpansion(who, account);
+		SetUOExpansion(mobile, account);
 	elseif ( input[CHANGE_EMAIL] )
-		ChangeEmail(who, account);
+		ChangeEmail(mobile, account);
 	elseif ( input[CHANGE_ACCTNAME] )
-		ChangeAcctName(who, account);
+		ChangeAcctName(mobile, account);
 	else
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 		return 0;
 	endif
 

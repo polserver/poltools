@@ -11,7 +11,7 @@ program acid_WalkOn(mobile, acid)
 		acid := mobile[2];
 		mobile := mobile[1];
 	endif
-	if ( mobile.cmdlevel )
+	if ( mobile.cmdlevel >= 2 )
 		return 0;
 	elseif ( mobile.dead )
 		return 0;

@@ -163,7 +163,7 @@ function CommandIssued(who, text)
 		return 1;
 	endif
 
-	if ( !who.cmdlevel )
+	if ( who.cmdlevel <= 1 )
 		return 0;
 	elseif ( text == "spy on" )
 		msg_settings["spy"] := 1;

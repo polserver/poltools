@@ -1,5 +1,5 @@
 /*
- * {$Id}
+ * {$Id$}
  *
  * Purpose
  * Allows us to drop our command level to player and then turn it back on.
@@ -19,6 +19,6 @@ program textcmd_CmdToggle(who)
 		EraseObjProperty(who, "cmdlevel");
 		SendSysMessage(who, "On");
 	endif
-	
+
 	return 1;
 endprogram

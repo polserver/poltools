@@ -5,7 +5,7 @@
 use uo;
 
 program cmd_Fetch(who)
-	if( (who.cmdlevel < 3) && (who.multi) )
+	if( (who.cmdlevel <= 2) && (who.multi) )
 		SendSysMessage(who, "You cannot move players into houses.");
 		return 0;
 	endif

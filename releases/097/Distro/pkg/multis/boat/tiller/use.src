@@ -9,12 +9,12 @@ include ":gumps:gumps";
 include ":gumps:yesno";
 
 program UseScript(who, tillerman)
-	if ( who.cmdlevel )
+	if ( who.cmdlevel >= 2 )
 		if ( !tillerman.GetOwner() )
 			TakeOverBoat(who, tillerman);
 		endif
 	endif
-		
+
 	return 1;
 endprogram
 
@@ -24,6 +24,6 @@ function TakeOverBoat(who, tillerman)
 		SendSysMessage(who, "Done!");
 		return 1;
 	endif
-	
+
 	return 0;
 endfunction

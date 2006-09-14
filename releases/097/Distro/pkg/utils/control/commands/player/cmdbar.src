@@ -15,12 +15,12 @@ include ":gumps:gumpprompt";
 
 unload_scripts("");
 
-program textcmd_CommandBar(who)
-	if ( GetProcess(CInt(GetObjProperty(who, "#CmdBarPid"))) )
-		SendSysMessage(who, "You already have a command bar open.");
+program textcmd_CommandBar(mobile)
+	if ( GetProcess(CInt(GetObjProperty(mobile, "#CmdBarPid"))) )
+		SendSysMessage(mobile, "You already have a command bar open.");
 		return 0;
 	else
-		SetObjProperty(who, "#CmdBarPid", GetPid());
+		SetObjProperty(mobile, "#CmdBarPid", GetPid());
 	endif
 
 	var data_file := DFOpenDataFile(":control:cmdbar", DF_CREATE);
@@ -30,28 +30,28 @@ program textcmd_CommandBar(who)
 	var cur_menu := EXPAND_BTN;
 	var cur_pkg, cur_lvl, gump;
 	var cur_pkg_elem;
-	while ( who.connected )
+	while ( mobile.connected )
 		if ( cur_menu == EXPAND_BTN )
-			gump := RetrieveGump(main_elem, "Expanded", who);
+			gump := RetrieveGump(main_elem, "Expanded", mobile);
 		elseif ( cur_menu == COLLAPSE_BTN )
-			gump := RetrieveGump(main_elem, "Collapsed", who);
+			gump := RetrieveGump(main_elem, "Collapsed", mobile);
 		elseif ( cur_menu == CMDLIST_BTN )
-			gump := RetrieveGump(main_elem, "CmdLvl-"+who.cmdlevel+"PkgList", who);
+			gump := RetrieveGump(main_elem, "CmdLvl-"+mobile.cmdlevel+"PkgList", mobile);
 		elseif ( cur_menu == CMDLVLS_BTN )
-			gump := gump := RetrieveGump(main_elem, "Levels", who);
+			gump := gump := RetrieveGump(main_elem, "Levels", mobile);
 		elseif ( cur_menu == SETTINGS_BTN )
-			gump := SettingsMenu(who);
+			gump := SettingsMenu(mobile);
 		elseif ( cur_menu == PKG_START )
-			gump := RetrieveGump(cur_pkg_elem, "Levels", who);
+			gump := RetrieveGump(cur_pkg_elem, "Levels", mobile);
 		elseif ( cur_menu == LVL_START )
-			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands", who);
+			gump := RetrieveGump(cur_pkg_elem, cur_lvl+"-Commands", mobile);
 		endif
 
-		if ( !ICP_LoadUserSetting(who, "Movable") )
+		if ( !ICP_LoadUserSetting(mobile, "Movable") )
 			GFMovable(gump, 0);
 		endif
 
-		var input := GFSendGump(who, gump);
+		var input := GFSendGump(mobile, gump);
 		// Process gump data
 		if ( !input[0] )
 			// Right click was made
@@ -85,13 +85,13 @@ program textcmd_CommandBar(who)
 				cur_menu := SETTINGS_BTN;
 			endif
 		elseif ( input[APPLY_BTN] )
-			ICP_SaveUserSetting(who, "Movable", input[MOVABLE_CHK]);
-			ICP_SaveUserSetting(who, "Transparent", input[TRANSPARENT_CHK]);
-			ICP_SaveUserSetting(who, "NoCmdBarLogin", (input[LOGIN_CHK] == error));
-			GumpPrompt(who, "Settings updated.");
+			ICP_SaveUserSetting(mobile, "Movable", input[MOVABLE_CHK]);
+			ICP_SaveUserSetting(mobile, "Transparent", input[TRANSPARENT_CHK]);
+			ICP_SaveUserSetting(mobile, "NoCmdBarLogin", (input[LOGIN_CHK] == error));
+			GumpPrompt(mobile, "Settings updated.");
 		elseif ( input[0] >= CMD_START )
 			var command := commands[cur_pkg][cur_lvl][input[0]-CMD_START];
-			var result := StartCommand(who, cur_pkg, cur_lvl, command);
+			var result := StartCommand(mobile, cur_pkg, cur_lvl, command);
 			// Collapse the menus if the command worked
 			if ( result )
 				cur_menu := EXPAND_BTN;
@@ -105,7 +105,7 @@ program textcmd_CommandBar(who)
 		elseif ( input[0] >= PKG_START )
 			var temp := commands.Keys();
 			cur_pkg := temp[input[0]-PKG_START];
-			cur_pkg_elem := DFFindElement(data_file, "CmdLvl-"+who.cmdlevel+cur_pkg);
+			cur_pkg_elem := DFFindElement(data_file, "CmdLvl-"+mobile.cmdlevel+cur_pkg);
 			cur_menu := PKG_START;
 		else
 			// This gets hit when the user right clicks the gump
@@ -119,24 +119,24 @@ program textcmd_CommandBar(who)
 	return 1;
 endprogram
 
-function SettingsMenu(who)
-	var transparency := ICP_LoadUserSetting(who, "Transparent");
+function SettingsMenu(mobile)
+	var transparency := ICP_LoadUserSetting(mobile, "Transparent");
 	var gump := ICP_ExpandedMenuBar(transparency);
 	GFResizePic(gump, 470, 30, GFGetCfgConst("BackGrounds", "STONESLAB"), 170, 150);
 	if ( transparency )
 		GFAddAlphaRegion(gump, 470, 30, 170, 150);
 	endif
 
-	GFCheckBox(gump, 475, 40, 210, 211, ICP_LoadUserSetting(who, "Movable"), MOVABLE_CHK);
+	GFCheckBox(gump, 475, 40, 210, 211, ICP_LoadUserSetting(mobile, "Movable"), MOVABLE_CHK);
 	GFTextLine(gump, 500, 40, 2100, "Movable");
 
-	GFCheckBox(gump, 475, 60, 210, 211, ICP_LoadUserSetting(who, "Transparent"), TRANSPARENT_CHK);
+	GFCheckBox(gump, 475, 60, 210, 211, ICP_LoadUserSetting(mobile, "Transparent"), TRANSPARENT_CHK);
 	GFTextLine(gump, 500, 60, 2100, "Transparent");
 
-	GFCheckBox(gump, 475, 80, 210, 211, (!ICP_LoadUserSetting(who, "NoCmdBarLogin")), LOGIN_CHK);
+	GFCheckBox(gump, 475, 80, 210, 211, (!ICP_LoadUserSetting(mobile, "NoCmdBarLogin")), LOGIN_CHK);
 	GFTextLine(gump, 500, 80, 2100, "Open on login");
 
-	if ( who.cmdlevel >= 3 )
+	if ( mobile.cmdlevel >= 3 )
 		GFAddButton(gump, 475, 113, 2117, 2118, GF_CLOSE_BTN, REFRESH_BTN);
 		GFTextLine(gump, 495, 110, 2100, "Uncache Gumps");
 	endif
@@ -146,28 +146,28 @@ function SettingsMenu(who)
 	return gump;
 endfunction
 
-function StartCommand(who, cur_pkg, cur_lvl, command)
-	if ( cur_lvl > who.cmdlevel )
-		GumpPrompt(who, "Your command level is not high enough.");
+function StartCommand(mobile, cur_pkg, cur_lvl, command)
+	if ( cur_lvl > mobile.cmdlevel )
+		GumpPrompt(mobile, "Your command level is not high enough.");
 		return 0;
 	endif
 
 	var path := ICP_FormatScriptPath(command, cur_pkg);
-	var script := Start_Script(path, who);
+	var script := Start_Script(path, mobile);
 
 	if ( script.errortext )
-		GumpPrompt(who, "Failed to start "+path+" [P] "+script.errortext);
+		GumpPrompt(mobile, "Failed to start "+path+" [P] "+script.errortext);
 		return 0;
 	else
-		SendSysMessage(who, "Starting command...");
+		SendSysMessage(mobile, "Starting command...");
 		return 1;
 	endif
 endfunction
 
-function RetrieveGump(data_elem, gump_name, who:=0)
+function RetrieveGump(data_elem, gump_name, mobile:=0)
 	var transparent := 0;
-	if ( who )
-		transparent := ICP_LoadUserSetting(who, "Transparent");
+	if ( mobile )
+		transparent := ICP_LoadUserSetting(mobile, "Transparent");
 
 		if ( transparent )
 			gump_name := gump_name+"Trans";

@@ -17,7 +17,7 @@ include "include/facings";
 program skill_LumberJack(who, tool)
 	SendSysMessage(who, "Select a tree to chop.");
 	var targ := TargetCoordinates(who);
-	
+
 	if ( !targ )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
@@ -25,10 +25,10 @@ program skill_LumberJack(who, tool)
 		SendSysMessage(who, "That is not a tree.");
 		return 0;
 	endif
-	
+
 	var orig_x := who.x;
 	var orig_y := who.y;
-	
+
 	var num_loops := RandomDiceRoll("1d5");
 	for ( num_loops; num_loops>=0; num_loops-=1 )
 		if ( !ChopTree(who, tool, targ, orig_x, orig_y) )
@@ -58,10 +58,10 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 
 	var max_wood := CInt(LJ_GetSettingsCfgElem("Settings").MaxWood);
 	// The less wood there is, the more difficult it becomes.
-	
+
 	var difficulty := CInt(105 - (100 * wood_amount / max_wood));
-	
-	if ( who.cmdlevel )
+
+	if ( who.cmdlevel >= 2 )
 		SendSysMessage(who, "MaxWood="+max_wood+"    CurWood="+wood_amount);
 		SendSysMessage(who, "Difficulty ->"+difficulty);
 	endif
