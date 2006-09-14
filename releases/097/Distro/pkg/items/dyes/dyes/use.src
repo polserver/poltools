@@ -23,7 +23,7 @@ program UseDyes(mobile, dyes)
 		return 0;
 	endif
 
-	if ( (CanDye(targ)) || (mobile.cmdlevel) )
+	if ( CanDye(targ) || mobile.cmdlevel >= 2 )
 		var color := SelectColor(mobile, targ);
 		if ( ValidDyeColor(mobile, color) )
 			PlaySoundEffect(mobile, 0x25);

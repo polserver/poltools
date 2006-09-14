@@ -11,13 +11,14 @@ include ":timeutils:time";
 include ":coords:innFunctions";
 include ":timedscripts:timedScripts";
 
+
 program core_logoffTest(who)
 	// Send event to the 'timed scripts' package to run log off scripts.
 	TS_LogOff(who);
 
-	if ( (who.cmdlevel > 1) || (GetObjProperty(who,"Delete")) )
+	if ( (who.cmdlevel >=2) || (GetObjProperty(who, "Delete")) )
 		// Let staff or characters being deleted/banned logout immediately.
-		return 0;
+		return 10;
 	endif
 
 	var logout_delay := SECONDS_IN_MINUTE * 5;
@@ -25,10 +26,10 @@ program core_logoffTest(who)
 	// Check if player is camping
 	if( CInt(GetObjProperty(who, "#camped")) == 1 )
 		EraseObjProperty(who, "#camped");
-		logout_delay := 0;
+		logout_delay := 10;
 	// Check if player is in an inn
-	elseif( isInInn(who) )
-		logout_delay := 0;
+	elseif( IsInInn(who) )
+		logout_delay := 10;
 	// Check if player is in a house
 	// Then check if player is the owner or  friend of the owner.
 	// elseif ( IsInHouse(who) )

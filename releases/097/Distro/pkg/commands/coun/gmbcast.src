@@ -12,6 +12,6 @@ program command_GMBcast(who, text)
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endprogram

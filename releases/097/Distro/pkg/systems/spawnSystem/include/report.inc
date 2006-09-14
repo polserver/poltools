@@ -16,20 +16,20 @@ function SS_ReportText(report_text:="?", flags:=SPAWN_REPORT_DISABLE)
 	if ( flags & SPAWN_REPORT_CONSOLE )
 		Print(""+report_text);
 	endif
-	
+
 	if ( flags & SPAWN_REPORT_SYSLOG )
 		var script_name := GetProcess(GetPid()).name;
 		LogToFile("::log/spawnSystem.log", "["+script_name+"]: "+report_text, LOG_DATETIME);
 	endif
-	
+
 	if ( flags & SPAWN_REPORT_BROADCAST )
 		foreach mobile in EnumerateOnlineCharacters()
-			if ( mobile.cmdlevel )
+			if ( mobile.cmdlevel >= 2 )
 				SendSysMessage(mobile, ""+report_text);
 			endif
 			SleepMS(5);
 		endforeach
 	endif
-	
+
 	return 1;
 endfunction

@@ -7,7 +7,7 @@ include ":datafile:datafile";
 
 program commands_onDelete(who)
 
-	if( who.cmdlevel > 1 )
+	if( who.cmdlevel >= 2 )
 		var go_data_gumps := DFOpenDataFile(":commands:GoGumps", DF_NO_CREATE);
 		var go_data_file  := DFOpenDataFile(":commands:GoFile", DF_NO_CREATE);
 		var go_elem       := DFFindElement(go_data_file, "GoList", DF_NO_CREATE);

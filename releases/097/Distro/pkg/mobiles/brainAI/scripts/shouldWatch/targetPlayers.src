@@ -11,8 +11,8 @@ program BrainCriticalScript(params)
 	var mobile := params[2];
 	//var settings := params[3];
 	params := 0; // Not needed anymore
-	
-	if ( mobile.cmdlevel )
+
+	if ( mobile.cmdlevel >= 2 )
 		return 0;
 	elseif ( mobile.npctemplate )
 		return 0;

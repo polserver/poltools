@@ -5,10 +5,10 @@ use util;
 include ":attributes:attributes";
 
 program Hunger(chr)
-	if( chr.cmdlevel )
+	if( chr.cmdlevel >= 2 )
 		return 0;
 	endif
-		
+
 	var hunger;
 	while( chr )
 		hunger := CInt(AP_GetVital(chr, "Hunger") / 10);
@@ -17,10 +17,10 @@ program Hunger(chr)
 		elseif (!hunger)
 			hunger :=0;
 		endif
-		
+
 		hunger := hunger +1;
 		SetObjProperty(chr, "hunger", hunger);
-		
+
 		var regen := AP_GetVitalRegenRateMod(chr, "Hunger");
 		case ( hunger )
 			0: regen := regen - 200; break;
@@ -36,7 +36,7 @@ program Hunger(chr)
 			10: regen := regen - 800; break;
 		endcase
 		AP_SetVitalRegenRateMod(chr, "Hunger", regen);
-		
+
 		if (hunger > 8)
 			if (AP_GetVital(chr, "Stamina") > AP_GetVitalMaximumValue(chr, "Stamina"))
 				AP_SetVital(chr, "Stamina", AP_GetVitalMaximumValue(chr, "Stamina"));

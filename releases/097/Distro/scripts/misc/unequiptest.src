@@ -4,7 +4,7 @@ use os;
 include "include/equipment";
 
 program UnequipTest(mobile, item)
-	if ( mobile.cmdlevel ) 
+	if ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( (mobile.frozen) || (mobile.paralyzed))
 		SendSysMessage(mobile, "You are unable to move in order to unequip that.");

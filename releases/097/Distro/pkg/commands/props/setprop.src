@@ -81,7 +81,8 @@ function MobileProperties(who, targ, byref property, byref value)
 				SendSysMessage(who, "You can not set a command level higher than your own.");
 				return 1;
 			else
-				targ.cmdlevel := value; return 1;
+				targ.cmdlevel := value;
+				return 1;
 			endif
 		"criminal":
 			targ.SetCriminal(value); return 1;
