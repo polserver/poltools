@@ -3,6 +3,11 @@
 REM - $Id$
 REM - Designed to be used with scheduled task for automated
 REM - maintenance on the distro server.
+REM - EXAMPLE:
+REM - Every friday its set to do:
+REM -  automate.bat svnupdate recompile datawipe svnupdate killpol
+REM - Everyday at 7am it does
+REM -  automate.bat svnupdate recompile
 
 REM -- CONFIGURE GENERAL PATHS BELOW --
 SET SVN_BIN_PATH=D:\Tortoise\SVN\bin
@@ -46,7 +51,7 @@ GOTO :ARGS_PARSE()
 
 REM -- RECOMPILE_SCRIPTS() FUNCTION
 :RECOMPILE_SCRIPTS()
-START "RECOMPILE" /D%POL_PATH% /WAIT %POL_PATH%\scripts\ecompile.exe
+START "RECOMPILE" /D%POL_PATH% /WAIT %POL_PATH%\scripts\ecompile.exe -F
 GOTO :ARGS_PARSE()
 
 REM -- DATAWIPE() FUNCTION
