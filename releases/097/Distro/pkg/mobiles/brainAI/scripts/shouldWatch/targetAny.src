@@ -16,4 +16,6 @@ program BrainCriticalScript(params)
 	if ( mobile.cmdlevel <= 1 )
 		return 1;
 	endif
+
+	return 0;
 endprogram
