@@ -13,7 +13,7 @@ program BrainCriticalScript(params)
 	params := 0; // Not needed anymore
 
 	//Targets any player or NPC that is not a GM (or higher).
-	if ( mobile.cmdlevel >= 2 )
+	if ( mobile.cmdlevel <= 1 )
 		return 1;
 	endif
 endprogram
