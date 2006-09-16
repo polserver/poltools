@@ -722,16 +722,18 @@ endfunction
 
 
 /*
- * XGFErrorSetup(mobile, gump)
+ * XGFErrorSetup(text, log)
  *
  * Purpose
  * Internal function for assembling an error and making a system log.
  *
  * Parameters
  * text:	The errortext of the error.
+ * log:		0 - Will only return the error.
+ *		1 - will make a system log.
  *
  * Return value
- * error with a .errortext member.
+ * error with an .errortext member.
  *
  */
 function XGFError(text, log:=0)
