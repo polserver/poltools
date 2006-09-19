@@ -63,7 +63,7 @@ function BuildItemDesc($file)
 		FWrite($handle, "	Graphic		{$objtype}\n");
 		FWrite($handle, "\n");
 		FWrite($handle, "	// Multi Info\n");
-		FWrite($handle, "	MultiID		{$elem_name}\n");
+		FWrite($handle, "	MultiID		{$multi_id}\n");
 		FWrite($handle, "}\n\n");
 	}
 	FClose($handle);
