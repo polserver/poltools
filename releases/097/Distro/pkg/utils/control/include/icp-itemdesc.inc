@@ -24,7 +24,7 @@ function ICP_ItemDescGump(pkg_name, info_elem)
 		var page_num := 1;
 		foreach key in ( elem_names )
 			var cfg_elem := item_cfg[key];
-			var desc := GetObjTypeDesc(key);
+			var desc := GetObjTypeDesc(CInt(key));
 			if ( !desc )
 				desc := cfg_elem.name;
 			endif
