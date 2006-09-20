@@ -63,8 +63,8 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cmd_cfg, byref cmd_li
 
 				PrintTextAbove(boat.tillerman, "Aye captain.");
 				foreach command in ( commands )
-					var cmd_elem := cmd_cfg[command];
-					cur_cmd := DoCommand(boat, cmd_elem);
+					var new_cmd := cmd_cfg[command];
+					DoCommand(boat, cur_cmd, new_cmd);
 					SleepMS(2);
 				endforeach
 			endif
@@ -74,7 +74,7 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cmd_cfg, byref cmd_li
 
 		return 0;
 	elseif ( cur_cmd )
-		DoCommand(boat, cur_cmd);
+		DoCommand(boat, cur_cmd, cur_cmd);
 	endif
 
 	return 1;
@@ -128,8 +128,8 @@ function ShouldSleep(byref cur_cmd)
 	endif
 endfunction
 
-function DoCommand(byref boat, byref cmd_elem)
-	if ( cmd_elem.Anchor == 2 )
+function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
+	if ( new_cmd.Anchor == 2 )
 		if ( !(boat.tillerman).IsAnchored() )
 			(boat.tillerman).SetAnchorStatus(1);
 			PrintTextAbove(boat.tillerman, "The anchor has been lowered.");
@@ -137,7 +137,7 @@ function DoCommand(byref boat, byref cmd_elem)
 			PrintTextAbove(boat.tillerman, "The anchor has already been lowered.");
 		endif
 		return 0;
-	elseif ( cmd_elem.Anchor == 1 )
+	elseif ( new_cmd.Anchor == 1 )
 		if ( (boat.tillerman).IsAnchored() )
 			(boat.tillerman).SetAnchorStatus(0);
 			PrintTextAbove(boat.tillerman, "The anchor has been raised.");
@@ -148,16 +148,16 @@ function DoCommand(byref boat, byref cmd_elem)
 	endif
 
 	if ( !(boat.tillerman).IsAnchored() )
-		if ( cmd_elem.Turn )
+		if ( new_cmd.Turn )
 			ClosePlanks(boat);
-			TurnBoat(boat, cmd_elem.Turn);
-			return 0;
-		elseif ( cmd_elem.Stop )
-			return 0;
-		elseif ( cmd_elem.Move )
+			TurnBoat(boat, new_cmd.Turn);
+			// Maintain the current command.
+		endif
+
+		if ( new_cmd.Move )
 			var orig_x := boat.x;
 			var orig_y := boat.y;
-			MoveBoatRelative(boat, cmd_elem.Direction);
+			MoveBoatRelative(boat, new_cmd.Direction);
 			if ( orig_x == boat.x && orig_y == boat.y )
 				// Unable to move.
 				PrintTextAbove(boat.tillerman, "Arrr we hit land!");
@@ -167,11 +167,15 @@ function DoCommand(byref boat, byref cmd_elem)
 			CheckWorldWrap(boat);
 
 			// Keep following this command
-			return cmd_elem;
+			cur_cmd := new_cmd;
+		endif
+
+		if ( new_cmd.Stop )
+			cur_cmd := 0;
 		endif
 	endif
 
-	return 0;
+	return 1;
 endfunction
 
 function CheckWorldWrap(boat)
@@ -222,54 +226,6 @@ function ClosePlanks(byref boat)
 	if ( plank_b.Extended() )
 		plank_b.Retract();
 	endif
+
+	return 1;
 endfunction
-
-/*
-	var repeat_cmd;
-	var last_sound;
-
-	while ( boat )
-		var ev;
-
-		if ( repeat_cmd == -1 && !Events_Waiting() )
-			while ( !ev )
-				if ( last_sound < POLCore().systime-120 )
-					PlaySoundEffect(boat, SFX_WAVE_2);
-					last_sound := POLCore().systime;
-				endif
-				// If there are no commands, and no incoming speech
-				// then make the event wait really long so boats take up very
-				// little cpu time when they are not in use.
-				// This is where they enter a sleep-mode.
-				ev := Wait_For_Event(120);
-			endwhile
-		endif
-		if ( !ev )
-			ev := Wait_For_Event(0);
-		endif
-
-		var delay := (boat.tillerman).GetSpeed();
-		SleepMS(delay);
-
-		if ( ev.text )
-			if ( (boat.tillerman).IsOnBoat(boat, ev.source) )
-				if ( (boat.tillerman).CanCommand(ev.source) )
-					var cmd_list := ParseCommands(ev.text);
-					foreach command in ( cmd_list )
-						repeat_cmd := DoCommand(boat, command);
-						SleepMS(2);
-					endforeach
-				endif
-			endif
-		elseif ( repeat_cmd != -1 )
-			var boat_x := boat.x;
-			var boat_y := boat.y;
-			ClosePlanks(boat);
-			MoveBoatRelative(boat, repeat_cmd);
-			if ( boat.x == boat_x && boat_y == boat.y )
-				repeat_cmd := -1;
-			endif
-		endif
-	endwhile
-endprogram
-*/
