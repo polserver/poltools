@@ -39,8 +39,10 @@ program BoatController(boat)
 		endif
 
 		if ( ev || cur_cmd )
-			LeaveSleepMode(sleep_mode);
 			ProcessEvent(boat, ev, cur_cmd, cmd_cfg, cmd_list);
+			if ( cur_cmd )
+				sleep_mode := 0;
+			endif
 		elseif ( ShouldSleep(cur_cmd) )
 			sleep_mode := 1;
 		endif
@@ -124,10 +126,6 @@ function ShouldSleep(byref cur_cmd)
 	else
 		return 1;
 	endif
-endfunction
-
-function LeaveSleepMode(byref sleep_mode)
-	sleep_mode := 0;
 endfunction
 
 function DoCommand(byref boat, byref cmd_elem)
