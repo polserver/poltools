@@ -136,6 +136,8 @@ function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
 		else
 			PrintTextAbove(boat.tillerman, "The anchor has already been lowered.");
 		endif
+
+		cur_cmd := 0;
 		return 0;
 	elseif ( new_cmd.Anchor == 1 )
 		if ( (boat.tillerman).IsAnchored() )
@@ -144,6 +146,8 @@ function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
 		else
 			PrintTextAbove(boat.tillerman, "The anchor is already raised.");
 		endif
+
+		cur_cmd := 0;
 		return 0;
 	endif
 
