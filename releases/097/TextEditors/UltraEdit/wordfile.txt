@@ -244,6 +244,7 @@ GrantPrivilege
 HarvestResource
 HealDamage
 Hex
+IncRevision
 IsLegalMove
 Is_Critical
 Left
@@ -336,6 +337,7 @@ RunTowardLocation
 Run_Script_To_Completion
 SaveWorldState
 Say
+SayUC
 SecureTradeWin
 SelectColor
 SelectMenuItem2
@@ -546,8 +548,10 @@ WriteHTMLRaw
 .script_profiles
 .scripts_late_per_min
 .scripts_ontime_per_min
+.season
 .sellprice
 .serial
+.shield
 .skill_checks_per_min
 .sleep_cycles
 .source
@@ -640,6 +644,8 @@ WriteHTMLRaw
 .GetSize
 .GetString
 .GetUnicodeString
+.GetUnicodeStringFlipped
+.SetUnicodeStringFlipped
 .Get_Member
 .Insert
 .InsertPin
@@ -713,6 +719,7 @@ DELETE_BY_SCRIPT
 DF_KEYTYPE_INTEGER
 DF_KEYTYPE_STRING
 ENUMERATE_IGNORE_LOCKED
+ENUMERATE_ROOT_ONLY
 FP_IGNORE_DOORS
 FP_IGNORE_MOBILES
 INSERT_ADD_ITEM
