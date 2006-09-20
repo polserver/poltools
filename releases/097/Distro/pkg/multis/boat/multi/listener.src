@@ -52,34 +52,6 @@ program BoatController(boat)
 	return 1;
 endprogram
 
-function ProcessEvent(boat, byref ev, byref cur_cmd, byref cmd_cfg, byref cmd_list)
-	if ( ev.text )
-		if ( (boat.tillerman).IsOnBoat(boat, ev.source) )
-			if ( (boat.tillerman).CanCommand(ev.source) )
-				var commands := ParseCommands(ev.text, cmd_list);
-				if ( commands.Size() <= 0 )
-					return 0;
-				endif
-
-				PrintTextAbove(boat.tillerman, "Aye captain.");
-				foreach command in ( commands )
-					var new_cmd := cmd_cfg[command];
-					DoCommand(boat, cur_cmd, new_cmd);
-					SleepMS(2);
-				endforeach
-			endif
-
-			return 0;
-		endif
-
-		return 0;
-	elseif ( cur_cmd )
-		DoCommand(boat, cur_cmd, cur_cmd);
-	endif
-
-	return 1;
-endfunction
-
 function Initialize(boat, byref cmd_cfg, byref cmd_list)
 	cmd_cfg := ReadConfigFile(":boat:commands");
 	if ( !cmd_cfg )
@@ -128,7 +100,35 @@ function ShouldSleep(byref cur_cmd)
 	endif
 endfunction
 
-function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
+function ProcessEvent(boat, byref ev, byref cur_cmd, byref cmd_cfg, byref cmd_list)
+	if ( ev.text )
+		if ( (boat.tillerman).IsOnBoat(boat, ev.source) )
+			if ( (boat.tillerman).CanCommand(ev.source) )
+				var commands := ParseCommands(ev.text, cmd_list);
+				if ( commands.Size() <= 0 )
+					return 0;
+				endif
+
+				PrintTextAbove(boat.tillerman, "Aye captain.");
+				foreach command in ( commands )
+					var new_cmd := cmd_cfg[command];
+					DoCommand(boat, cur_cmd, new_cmd);
+					SleepMS(2);
+				endforeach
+			endif
+
+			return 0;
+		endif
+
+		return 0;
+	elseif ( cur_cmd )
+		DoCommand(boat, cur_cmd, cur_cmd);
+	endif
+
+	return 1;
+endfunction
+
+function DoCommand(boat, byref cur_cmd, new_cmd)
 	if ( new_cmd.Anchor == 2 )
 		if ( !(boat.tillerman).IsAnchored() )
 			(boat.tillerman).SetAnchorStatus(1);
@@ -138,7 +138,6 @@ function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
 		endif
 
 		cur_cmd := 0;
-		return 0;
 	elseif ( new_cmd.Anchor == 1 )
 		if ( (boat.tillerman).IsAnchored() )
 			(boat.tillerman).SetAnchorStatus(0);
@@ -148,10 +147,7 @@ function DoCommand(byref boat, byref cur_cmd, byref new_cmd)
 		endif
 
 		cur_cmd := 0;
-		return 0;
-	endif
-
-	if ( !(boat.tillerman).IsAnchored() )
+	elseif ( !(boat.tillerman).IsAnchored() )
 		if ( new_cmd.Turn )
 			ClosePlanks(boat);
 			TurnBoat(boat, new_cmd.Turn);
@@ -219,7 +215,7 @@ function CheckWorldWrap(boat)
 	return result;
 endfunction
 
-function ClosePlanks(byref boat)
+function ClosePlanks(boat)
 	var plank_a := boat.starboardplank;
 	var plank_b := boat.portplank;
 
