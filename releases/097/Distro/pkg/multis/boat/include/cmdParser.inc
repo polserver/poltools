@@ -1,5 +1,4 @@
-/*
- * $Id$
+/* $Id$
  *
  */
 
@@ -8,28 +7,22 @@ use cfgfile;
 
 /*
  * ParseCommands(text, last_cmd)
- * 
+ *
  * Purpose:
  * Takes in spoken text and finds boat commands inside of it.
  * Returns valid commands in the order they were issued.
  *
  * Parameters:
  * text:	Text to parse for commands.
+ * cmd_list:	Array of strings containing commands.
  *
  * Return Value:
  * Returns an array of strings.
  *
  */
-function ParseCommands(text)
-	var cmd_cfg := ReadConfigFile(":boat:commands");
-	if ( cmd_cfg.errortext )
-		SysLog("Error - Unable to open :boat:commands.cfg");
-		return cmd_cfg;
-	endif	
-	
-	var cmd_list := GetConfigStringArray(cmd_cfg["heirarchy"], "CMD");
+function ParseCommands(byref text, byref cmd_list)
 	text := Lower(text);
-		
+
 	var match := 0, pos := 0;
 	foreach cmd in ( cmd_list )
 		pos := pos + 1;

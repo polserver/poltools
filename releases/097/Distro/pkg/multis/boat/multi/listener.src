@@ -1,5 +1,4 @@
-/*
- * $Id$
+/* $Id$
  *
  */
 
@@ -8,25 +7,185 @@ use os;
 use boat;
 use cfgfile;
 
-include "include/sysEvent";
 include ":boat:cmdParser";
+include "include/sysEvent";
+include "include/sounds";
 
 program BoatController(boat)
-	Initialize(boat);
-	
-	var repeat_cmd;
-	var last_sound;
-	
+	var last_sound := 0;
+	var sleep_mode := 0;
+	var cur_cmd := 0;
+	var cmd_cfg;
+	var cmd_list;
+
+	if ( !Initialize(boat, cmd_cfg, cmd_list) )
+		return 0;
+	endif
+
 	while ( boat )
 		var ev;
-		
+
+		if ( sleep_mode )
+			if ( last_sound < POLCore().systime-120 )
+				PlaySoundEffect(boat, SFX_WAVE_2);
+				last_sound := POLCore().systime;
+			endif
+
+			ev := Wait_For_Event(120);
+		else
+			ev := Wait_For_Event(0);
+		endif
+
+		if ( ev || cur_cmd )
+			LeaveSleepMode(sleep_mode);
+			ProcessEvent(boat, ev, cur_cmd, cmd_cfg, cmd_list);
+		elseif ( ShouldSleep(cur_cmd) )
+			sleep_mode := 1;
+		endif
+
+	endwhile
+
+	return 1;
+endprogram
+
+function ProcessEvent(boat, byref ev, byref cur_cmd, byref cmd_cfg, byref cmd_list)
+	if ( ev.text )
+		if ( (boat.tillerman).IsOnBoat(boat, ev.source) )
+			if ( (boat.tillerman).CanCommand(ev.source) )
+				var commands := ParseCommands(ev.text, cmd_list);
+				foreach command in ( commands )
+					var cmd_elem := cmd_cfg[command];
+					cur_cmd := DoCommand(boat, cmd_elem);
+					SleepMS(2);
+				endforeach
+			endif
+
+			return 0;
+		endif
+
+		return 0;
+	elseif ( cur_cmd )
+		DoCommand(boat, cur_cmd);
+	endif
+
+	return 1;
+endfunction
+
+function Initialize(boat, byref cmd_cfg, byref cmd_list)
+	cmd_cfg := ReadConfigFile(":boat:commands");
+	if ( !cmd_cfg )
+		PrintTextAbove(boat, "Unable to open config :boat:commands ->"+cmd_cfg.errortext);
+		return 0;
+	endif
+	cmd_list := GetConfigStringArray(cmd_cfg["Heirarchy"], "CMD");
+	if ( !cmd_list )
+		PrintTextAbove(boat, "Unable to load command list heirarchy. "+cmd_list.errortext);
+		return 0;
+	endif
+
+	SetObjProperty(boat.tillerman, "#PID", GetPid());
+
+	if ( !(boat.tillerman).GetOwner() )
+		SetName(boat.tillerman, "a tiller man [awaiting owner]");
+		while ( !(boat.tillerman).GetOwner() )
+			Sleep(2);
+		endwhile
+		var name := (boat.tillerman).desc;
+		name[" [awaiting owner]"] := "";
+		SetName(boat.tillerman, name);
+	endif
+
+	// Ensures the boat only listens as far as it needs to from its mid-point (usually the mast)
+	var foot_print := boat.footprint;
+	var bow_dist := CoordinateDistance(foot_print.xmin, foot_print.ymin, boat.x, boat.y);
+	var stern_dist := CoordinateDistance(foot_print.xmax, foot_print.ymax, boat.x, boat.y);
+	if ( bow_dist > stern_dist )
+		foot_print := bow_dist;
+	else
+		foot_print := stern_dist;
+	endif
+	RegisterForSpeechEvents(boat, foot_print);
+
+	return 1;
+endfunction
+
+function ShouldSleep(byref cur_cmd)
+	if ( Events_Waiting() )
+		return 0;
+	elseif ( cur_cmd )
+		return 0;
+	else
+		return 1;
+	endif
+endfunction
+
+function LeaveSleepMode(byref sleep_mode)
+	sleep_mode := 0;
+endfunction
+
+function DoCommand(byref boat, byref cmd_elem)
+	if ( cmd_elem.Anchor == 2 )
+		if ( !(boat.tillerman).IsAnchored() )
+			(boat.tillerman).SetAnchorStatus(1);
+			PrintTextAbove(boat.tillerman, "The anchor has been lowered.");
+		else
+			PrintTextAbove(boat.tillerman, "The anchor has already been lowered.");
+		endif
+		return 0;
+	elseif ( cmd_elem.Anchor == 1 )
+		if ( (boat.tillerman).IsAnchored() )
+			(boat.tillerman).SetAnchorStatus(0);
+			PrintTextAbove(boat.tillerman, "The anchor has been raised.");
+		else
+			PrintTextAbove(boat.tillerman, "The anchor is already raised.");
+		endif
+		return 0;
+	endif
+
+	if ( !(boat.tillerman).IsAnchored() )
+		if ( cmd_elem.Turn )
+			ClosePlanks(boat);
+			TurnBoat(boat, cmd_elem.Turn);
+			return 0;
+		elseif ( cmd_elem.Stop )
+			return 0;
+		elseif ( cmd_elem.Move )
+			MoveBoatRelative(boat, cmd_elem.Direction);
+			// Keep following this command
+			return cmd_elem;
+		endif
+	endif
+
+	return 0;
+endfunction
+
+function ClosePlanks(byref boat)
+	var plank_a := boat.starboardplank;
+	var plank_b := boat.portplank;
+
+	if ( plank_a.Extended() )
+		plank_a.Retract();
+	endif
+
+	if ( plank_b.Extended() )
+		plank_b.Retract();
+	endif
+endfunction
+
+/*
+	var repeat_cmd;
+	var last_sound;
+
+	while ( boat )
+		var ev;
+
 		if ( repeat_cmd == -1 && !Events_Waiting() )
 			while ( !ev )
 				if ( last_sound < POLCore().systime-120 )
-					PlaySoundEffect(boat, 0x14);
+					PlaySoundEffect(boat, SFX_WAVE_2);
 					last_sound := POLCore().systime;
 				endif
-				// If there are no commands, and no incoming speech 
+				// If there are no commands, and no incoming speech
 				// then make the event wait really long so boats take up very
 				// little cpu time when they are not in use.
 				// This is where they enter a sleep-mode.
@@ -36,12 +195,11 @@ program BoatController(boat)
 		if ( !ev )
 			ev := Wait_For_Event(0);
 		endif
-				
+
 		var delay := (boat.tillerman).GetSpeed();
-		SleepMS(delay);		
-				
+		SleepMS(delay);
+
 		if ( ev.text )
-			
 			if ( (boat.tillerman).IsOnBoat(boat, ev.source) )
 				if ( (boat.tillerman).CanCommand(ev.source) )
 					var cmd_list := ParseCommands(ev.text);
@@ -62,81 +220,4 @@ program BoatController(boat)
 		endif
 	endwhile
 endprogram
-
-function Initialize(boat)
-	SetObjProperty(boat.tillerman, "#PID", GetPid());
-	
-	if ( !(boat.tillerman).GetOwner() )
-		SetName(boat.tillerman, "a tiller man [awaiting owner]");
-		while ( !(boat.tillerman).GetOwner() )
-			Sleep(2);
-		endwhile
-		var name := (boat.tillerman).desc;
-		name[" [awaiting owner]"] := "";
-		SetName(boat.tillerman, name);
-	endif
-	
-	// Ensures the boat only listens as far as it needs to from its mid-point (usually the mast)
-	var foot_print := boat.footprint;
-	var bow_dist := CoordinateDistance(foot_print.xmin, foot_print.ymin, boat.x, boat.y);
-	var stern_dist := CoordinateDistance(foot_print.xmax, foot_print.ymax, boat.x, boat.y);
-	if ( bow_dist > stern_dist )
-		foot_print := bow_dist;
-	else
-		foot_print := stern_dist;
-	endif
-	RegisterForSpeechEvents(boat, foot_print);
-	
-	return 1;
-endfunction
-
-function DoCommand(byref boat, byref cmd)
-	var cmd_cfg := ReadConfigFile(":boat:commands");
-	var cmd_elem := cmd_cfg[cmd];
-	
-	if ( cmd_elem.Anchor == 2 )
-		if ( !(boat.tillerman).IsAnchored() )
-			(boat.tillerman).SetAnchorStatus(1);
-			PrintTextAbove(boat.tillerman, "The anchor has been lowered.");
-		else
-			PrintTextAbove(boat.tillerman, "The anchor has already been lowered.");
-		endif
-		return -1;
-	elseif ( cmd_elem.Anchor == 1 )
-		if ( (boat.tillerman).IsAnchored() )
-			(boat.tillerman).SetAnchorStatus(0);
-			PrintTextAbove(boat.tillerman, "The anchor has been raised.");
-		else
-			PrintTextAbove(boat.tillerman, "The anchor is already raised.");
-		endif
-		return -1;
-	endif
-	
-	if ( !(boat.tillerman).IsAnchored() )
-		if ( cmd_elem.Turn )
-			ClosePlanks(boat);
-			TurnBoat(boat, cmd_elem.Turn);
-			return -1;
-		elseif ( cmd_elem.Stop )
-			return -1;
-		elseif ( cmd_elem.Move )
-			MoveBoatRelative(boat, cmd_elem.Direction);
-			return cmd_elem.Direction; // Keep following this command
-		endif
-	endif
-	
-	return -1;
-endfunction
-
-function ClosePlanks(byref boat)
-	var plank_a := boat.starboardplank;
-	var plank_b := boat.portplank;
-	
-	if ( plank_a.Extended() )
-		plank_a.Retract();
-	endif
-	
-	if ( plank_b.Extended() )
-		plank_b.Retract();
-	endif
-endfunction
+*/
