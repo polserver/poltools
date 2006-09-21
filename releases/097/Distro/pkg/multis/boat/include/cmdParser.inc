@@ -14,17 +14,17 @@ use cfgfile;
  *
  * Parameters:
  * text:	Text to parse for commands.
- * cmd_list:	Array of strings containing commands.
+ * cmd_keys:	Array of strings containing commands.
  *
  * Return Value:
  * Returns an array of strings.
  *
  */
-function ParseCommands(byref text, byref cmd_list)
+function ParseCommands(byref text, byref cmd_keys)
 	text := Lower(text);
 
 	var match := 0, pos := 0;
-	foreach cmd in ( cmd_list )
+	foreach cmd in ( cmd_keys )
 		pos := pos + 1;
 		cmd := Lower(cmd);
 		while ( text[cmd] )
@@ -44,7 +44,7 @@ function ParseCommands(byref text, byref cmd_list)
 		if ( cmd["[["] && cmd["]]"] )
 			cmd["[["] := "";
 			cmd["]]"] := "";
-			cmd := cmd_list[CInt(cmd)];
+			cmd := cmd_keys[CInt(cmd)];
 			cmd_order.Append(cmd);
 		endif
 		SleepMS(2);

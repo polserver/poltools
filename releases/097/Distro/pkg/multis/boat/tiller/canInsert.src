@@ -6,8 +6,8 @@ use uo;
 
 
 program canInsert(mobile, container, move_type, inserttype, adding_item, existing_stack, amount_to_add)
-	if ( adding_item.IsA(POLCLASS_ITEM) )
-		// Setup to follow the map's course.
+	if ( adding_item.IsA(POLCLASS_MAP) )
+		container.FollowMap(adding_item);
 	endif
 
 	// Always return 0 to return the map to the player.
