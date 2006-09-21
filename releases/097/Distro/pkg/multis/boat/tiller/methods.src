@@ -1,23 +1,25 @@
+/* $Id$
+ *
+ */
+
 use uo;
 use boat;
 use os;
 
 include "include/string";
 
+
 program Install()
 	return 1;
 endprogram
+
 
 exported function IsTillerMan(tiller)
 	return 1;
 endfunction
 
-exported function GetMulti(tiller)
-	return SystemFindBoatBySerial((tiller.multi).serial);
-endfunction
-
-exported function IsOnBoat(tiller, boat, mobile)
-	if ( (mobile.multi).serial == boat.serial )
+exported function IsOnBoat(tiller, mobile)
+	if ( (tiller.multi) == mobile.multi )
 		return 1;
 	else
 		return 0;
@@ -51,7 +53,7 @@ exported function SetOwner(tiller, owner)
 	info.+name := owner.name;
 	info.+serial := owner.serial;
 	info.+acctname := owner.acctname;
-	
+
 	return SetObjProperty(tiller, "Owner", info);
 endfunction
 
@@ -61,7 +63,7 @@ exported function GetCrewMates(tiller)
 		crew_mates := array;
 		SetCrewMates(tiller, crew_mates);
 	endif
-	
+
 	return crew_mates;
 endfunction
 
@@ -70,21 +72,25 @@ exported function RemoveCrewMate(tiller, index)
 	var crew_mate := crew_mates[index];
 	crew_mates.Erase(index);
 	SetCrewMates(tiller, crew_mates);
-	
+
 	return crew_mate;
 endfunction
 
 exported function AddCrewMate(tiller, mobile, index)
 	var crew_mates := GetCrewMates(tiller);
-	
+
 	var info := struct;
 	info.+name := mobile.name;
 	info.+serial := mobile.serial;
 	info.+acctname := mobile.acctname;
-	
-	crew_mates[index] := info;
-	
-	SetCrewMates(tiller, crew_mates);
+
+	if ( index <= 0 )
+		crew_mates.Append(info);
+	else
+		crew_mates[index] := info;
+	endif
+
+	return SetCrewMates(tiller, crew_mates);
 endfunction
 
 exported function IsCrewMate(tiller, mobile)
@@ -95,22 +101,22 @@ exported function IsCrewMate(tiller, mobile)
 			return i;
 		endif
 	endfor
-	
+
 	return 0;
 endfunction
 
 exported function SetCrewMates(tiller, list)
-	SetObjProperty(tiller, "CrewMates", list);
+	return SetObjProperty(tiller, "CrewMates", list);
 endfunction
 
 exported function GetCondition(tiller)
 	var condition := GetObjProperty(tiller, "Condition");
-	
+
 	return condition;
 endfunction
 
 exported function SetCondition(tiller, value)
-	SetObjProperty(tiller, "Condition", value);
+	return SetObjProperty(tiller, "Condition", value);
 endfunction
 
 exported function GetSpeed(tiller)
@@ -118,12 +124,12 @@ exported function GetSpeed(tiller)
 	if ( !speed )
 		SetSpeed(tiller, 350);
 	endif
-	
+
 	return CInt(speed);
 endfunction
 
 exported function SetSpeed(tiller, value)
-	SetObjProperty(tiller, "Speed", value);
+	return SetObjProperty(tiller, "Speed", value);
 endfunction
 
 exported function SetAnchorStatus(tiller, value)
@@ -137,8 +143,24 @@ exported function SetAnchorStatus(tiller, value)
 		tiller_name := RemoveSpaces(tiller_name, CLR_LEADING_SPACES+CLR_TRAILING_SPACES+CLR_DOUBLE_SPACES);
 		SetName(tiller, tiller_name);
 	endif
+
+	return 1;
 endfunction
 
 exported function IsAnchored(tiller)
 	return GetObjProperty(tiller, "Anchored");
+endfunction
+
+exported function GetListenerProcess(tiller)
+	var pid := CInt(GetObjProperty(tiller, "#PID"));
+
+	return GetProcess(pid);
+endfunction
+
+exported function FollowMap(tiller, map)
+	var ev := struct;
+	ev.+item := map;
+
+	var process := GetListenerProcess(tiller);
+	return process.SendEvent(ev);
 endfunction
