@@ -155,7 +155,9 @@ function FollowMap(boat, byref cur_cmd, byref cur_map)
 		return 1;
 	endif
 
-	var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	//var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	var next_spot := GetCoordsInLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	next_spot := next_spot[2];
 	var facing := GetFacing(boat.x, boat.y, next_spot.x, next_spot.y);
 	var turn_code := DetermineTurnCode(boat, facing);
 
