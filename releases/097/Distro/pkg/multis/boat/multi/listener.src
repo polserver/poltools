@@ -18,7 +18,8 @@ var cmd_list;
 program BoatController(boat)
 	var sleep_mode := 0;
 	var last_sound := 0;
-	var cur_cmd := 0;
+	var cur_cmd := 0; // Config elem.
+	var cur_map := 0; // Array of coordinates.
 
 	if ( !Initialize(boat) )
 		return 0;
@@ -41,14 +42,14 @@ program BoatController(boat)
 		endif
 
 		if ( ev )
-			ProcessEvent(boat, ev, cur_cmd);
+			ProcessEvent(boat, ev, cur_cmd, cur_map);
+			sleep_mode := 0;
 		elseif ( cur_cmd )
 			DoCommand(boat, cur_cmd, cur_cmd);
 			sleep_mode := 0;
-		elseif ( ShouldSleep(cur_cmd) )
+		elseif ( ShouldSleep() )
 			sleep_mode := 1;
 		endif
-
 	endwhile
 
 	return 1;
@@ -57,12 +58,12 @@ endprogram
 function Initialize(boat)
 	cmd_cfg := ReadConfigFile(":boat:commands");
 	if ( !cmd_cfg )
-		PrintTextAbove(boat, "Unable to open config :boat:commands ->"+cmd_cfg.errortext);
+		PrintTextAbove(boat.tillerman, "Unable to open config :boat:commands ->"+cmd_cfg.errortext);
 		return 0;
 	endif
 	cmd_list := GetConfigStringArray(cmd_cfg["Heirarchy"], "CMD");
 	if ( !cmd_list )
-		PrintTextAbove(boat, "Unable to load command list heirarchy. "+cmd_list.errortext);
+		PrintTextAbove(boat.tillerman, "Unable to load command list heirarchy. "+cmd_list.errortext);
 		return 0;
 	endif
 
@@ -92,43 +93,48 @@ function Initialize(boat)
 	return 1;
 endfunction
 
-function ShouldSleep(byref cur_cmd)
+function ShouldSleep()
 	if ( Events_Waiting() )
-		return 0;
-	elseif ( cur_cmd )
 		return 0;
 	else
 		return 1;
 	endif
 endfunction
 
-function ProcessEvent(boat, byref ev, byref cur_cmd)
-	if ( ev.text )
-		if ( (boat.tillerman).IsOnBoat(ev.source) )
-			if ( (boat.tillerman).CanCommand(ev.source) )
-				var commands := ParseCommands(ev.text, cmd_list);
-				if ( commands.Size() <= 0 )
-					return 0;
-				endif
-
-				PrintTextAbove(boat.tillerman, "Aye captain.");
-				foreach command in ( commands )
-					var new_cmd := cmd_cfg[command];
-					DoCommand(boat, cur_cmd, new_cmd);
-					SleepMS(2);
-				endforeach
-			endif
-
+function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
+	if ( !(boat.tillerman).IsOnBoat(ev.source) )
+		//PrintTextAbove(boat.tillerman, "Not on the boat!");
+		return 0;
+	elseif ( !(boat.tillerman).CanCommand(ev.source) )
+		//PrintTextAbove(boat.tillerman, "Not able to command me!");
+		return 0;
+	elseif ( ev.text )
+		var commands := ParseCommands(ev.text, cmd_list);
+		if ( commands.Size() <= 0 )
+			//PrintTextAbove(boat.tillerman, "No valid commands found.");
 			return 0;
+		else
+			// Speech commands would stop a map from being used.
+			cur_map := 0;
 		endif
 
-		return 0;
+		// Run the command(s) in the order spoken.
+		PrintTextAbove(boat.tillerman, "Aye captain.");
+		foreach command in ( commands )
+			var new_cmd := cmd_cfg[command];
+			DoCommand(boat, cur_cmd, new_cmd);
+			SleepMS(2);
+		endforeach
+
+		return 1;
 	elseif ( ev.item )
-		PrintTextAbove(boat.tillerman, "Can't follow maps yet!");
-		return 0;
+		// Cancel the current command, load the pin coordinates.
+		cur_cmd := 0;
+		cur_map := ev.item.GetPins();
+		return 1;
 	endif
 
-	return 1;
+	return 0;
 endfunction
 
 function DoCommand(boat, byref cur_cmd, new_cmd)

@@ -18,12 +18,8 @@ exported function IsTillerMan(tiller)
 	return 1;
 endfunction
 
-exported function IsOnBoat(tiller, mobile)
-	if ( (tiller.multi) == mobile.multi )
-		return 1;
-	else
-		return 0;
-	endif
+exported function IsOnBoat(tiller, object)
+	return ( (tiller.multi).serial == (object.multi).serial );
 endfunction
 
 exported function CanCommand(tiller, mobile)
@@ -157,9 +153,10 @@ exported function GetListenerProcess(tiller)
 	return GetProcess(pid);
 endfunction
 
-exported function FollowMap(tiller, map)
+exported function FollowMap(tiller, mobile, map)
 	var ev := struct;
 	ev.+item := map;
+	ev.+source := mobile;
 
 	var process := GetListenerProcess(tiller);
 	return process.SendEvent(ev);
