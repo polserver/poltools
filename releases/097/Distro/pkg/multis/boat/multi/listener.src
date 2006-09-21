@@ -142,9 +142,16 @@ endfunction
 
 function FollowMap(boat, byref cur_cmd, byref cur_map)
 	// Still working on this part.
-	var cur_pin := cur_map[cur_map.Size()];
+	var cur_pin := cur_map[1];
 	if ( boat.x == cur_pin.x && boat.y == cur_pin.y )
-		cur_map.Erase(cur_map.Size());
+		cur_map.Erase(1);
+		cur_cmd := 0;
+		PrintTextAbove(boat.tillerman, "Onto the next pin.");
+		return 1;
+	elseif ( cur_map.Size() <= 0 )
+		cur_map := 0;
+		cur_cmd := 0;
+		PrintTextAbove(boat.tillerman, "We have reached the last pin.");
 		return 1;
 	endif
 
@@ -159,6 +166,10 @@ function FollowMap(boat, byref cur_cmd, byref cur_map)
 	cur_cmd.+Turn := turn_code;
 
 	DoCommand(boat, cur_cmd, cur_cmd);
+	if ( !cur_cmd )
+		cur_map := 0;
+	endif
+
 	return 1;
 endfunction
 
