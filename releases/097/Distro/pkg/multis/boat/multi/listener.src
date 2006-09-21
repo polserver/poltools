@@ -8,6 +8,7 @@ use boat;
 use cfgfile;
 
 include ":boat:cmdParser";
+include ":boat:autoPilot";
 include "include/sysEvent";
 include "include/sounds";
 
@@ -44,6 +45,8 @@ program BoatController(boat)
 		if ( ev )
 			ProcessEvent(boat, ev, cur_cmd, cur_map);
 			sleep_mode := 0;
+		elseif ( cur_map )
+			FollowMap(boat, cur_cmd, cur_map);
 		elseif ( cur_cmd )
 			DoCommand(boat, cur_cmd, cur_cmd);
 			sleep_mode := 0;
@@ -137,6 +140,28 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
 	return 0;
 endfunction
 
+function FollowMap(boat, byref cur_cmd, byref cur_map)
+	// Still working on this part.
+	var cur_pin := cur_map[cur_map.Size()];
+	if ( boat.x == cur_pin.x && boat.y == cur_pin.y )
+		cur_map.Erase(cur_map.Size());
+		return 1;
+	endif
+
+	var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	var facing := GetFacing(boat.x, boat.y, next_spot.x, next_spot.y);
+	var turn_code := DetermineTurnCode(boat, facing);
+
+	// Its dirty.. but it works, heh.
+	cur_cmd := struct;
+	cur_cmd.+Direction := 0;
+	cur_cmd.+Move := 1;
+	cur_cmd.+Turn := turn_code;
+
+	DoCommand(boat, cur_cmd, cur_cmd);
+	return 1;
+endfunction
+
 function DoCommand(boat, byref cur_cmd, new_cmd)
 	if ( new_cmd.Anchor == 2 )
 		if ( !(boat.tillerman).IsAnchored() )
@@ -170,6 +195,7 @@ function DoCommand(boat, byref cur_cmd, new_cmd)
 			if ( orig_x == boat.x && orig_y == boat.y )
 				// Unable to move.
 				PrintTextAbove(boat.tillerman, "Arrr we hit land!");
+				cur_cmd := 0;
 				return 0;
 			endif
 
