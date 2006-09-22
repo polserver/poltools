@@ -5,24 +5,28 @@
 
 use uo;
 
-program UsePlank(who, plank)
+include ":keys:key";
+
+program UsePlank(mobile, plank)
 	Detach();
 	if ( plank.Extended() )
-		if ( (who.multi).serial != (plank.multi).serial )
-			if ( Distance(who, plank) <= 2 )
-				MoveObjectToLocation(who, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION);
+		if ( (mobile.multi).serial != (plank.multi).serial )
+			if ( Distance(mobile, plank) <= 2 )
+				MoveObjectToLocation(mobile, plank.x, plank.y, plank.z+1, plank.realm, MOVEOBJECT_FORCELOCATION);
 			endif
 		else
-			plank.Retract(who);
+			plank.Retract();
 		endif
 	else
 		if ( plank.locked )
-			PrintTextAbovePrivate(plank, "That is locked.", who);
-			return 0;
+			if ( !KP_HasKeyForLock(mobile, plank) )
+				PrintTextAbovePrivate(plank, "That is locked.", mobile);
+				return 0;
+			endif
 		endif
-		
+
 		plank.Extend();
 	endif
-	
+
 	return 1;
 endprogram
