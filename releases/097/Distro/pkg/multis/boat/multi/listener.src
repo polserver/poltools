@@ -13,14 +13,15 @@ include "include/sysEvent";
 include "include/sounds";
 
 // Global Variables
-var cmd_cfg;
-var cmd_list;
+var g_cmd_cfg;
+var g_cmd_list;
+var g_wrap_cfg;
 
 program BoatController(boat)
-	var sleep_mode := 0;
-	var last_sound := 0;
-	var cur_cmd := 0; // Config elem.
-	var cur_map := 0; // Array of coordinates.
+	var sleep_mode := 0; // Boolean
+	var last_sound := 0; // Tracks time (integer)
+	var cur_cmd := 0;    // Config elem or struct.
+	var cur_map := 0;    // Array of coordinates.
 
 	if ( !Initialize(boat) )
 		return 0;
@@ -59,14 +60,20 @@ program BoatController(boat)
 endprogram
 
 function Initialize(boat)
-	cmd_cfg := ReadConfigFile(":boat:commands");
-	if ( !cmd_cfg )
-		PrintTextAbove(boat.tillerman, "Unable to open config :boat:commands ->"+cmd_cfg.errortext);
+	g_cmd_cfg := ReadConfigFile(":boat:commands");
+	if ( !g_cmd_cfg )
+		PrintTextAbove(boat.tillerman, "Unable to open config :boat:commands ->"+g_cmd_cfg.errortext);
 		return 0;
 	endif
-	cmd_list := GetConfigStringArray(cmd_cfg["Heirarchy"], "CMD");
-	if ( !cmd_list )
-		PrintTextAbove(boat.tillerman, "Unable to load command list heirarchy. "+cmd_list.errortext);
+	g_cmd_list := GetConfigStringArray(g_cmd_cfg["Heirarchy"], "CMD");
+	if ( !g_cmd_list )
+		PrintTextAbove(boat.tillerman, "Unable to load command list heirarchy. "+g_cmd_list.errortext);
+		return 0;
+	endif
+
+	g_wrap_cfg := ReadConfigFile(":boat:worldWrap");
+	if ( !g_wrap_cfg )
+		PrintTextAbove(boat.tillerman, "Unable to open config :boat:worldWrap ->"+g_wrap_cfg.errortext);
 		return 0;
 	endif
 
@@ -106,15 +113,15 @@ endfunction
 
 function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
 	if ( !(boat.tillerman).IsOnBoat(ev.source) )
-		//PrintTextAbove(boat.tillerman, "Not on the boat!");
+		PrintTextAbove(boat.tillerman, "Not on the boat!");
 		return 0;
 	elseif ( !(boat.tillerman).CanCommand(ev.source) )
-		//PrintTextAbove(boat.tillerman, "Not able to command me!");
+		PrintTextAbove(boat.tillerman, "Not able to command me!");
 		return 0;
 	elseif ( ev.text )
-		var commands := ParseCommands(ev.text, cmd_list);
+		var commands := ParseCommands(ev.text, g_cmd_list);
 		if ( commands.Size() <= 0 )
-			//PrintTextAbove(boat.tillerman, "No valid commands found.");
+			PrintTextAbove(boat.tillerman, "No valid commands found.");
 			return 0;
 		else
 			// Speech commands would stop a map from being used.
@@ -124,7 +131,7 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
 		// Run the command(s) in the order spoken.
 		PrintTextAbove(boat.tillerman, "Aye captain.");
 		foreach command in ( commands )
-			var new_cmd := cmd_cfg[command];
+			var new_cmd := g_cmd_cfg[command];
 			DoCommand(boat, cur_cmd, new_cmd);
 			SleepMS(2);
 		endforeach
@@ -134,6 +141,7 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
 		// Cancel the current command, load the pin coordinates.
 		cur_cmd := 0;
 		cur_map := ev.item.GetPins();
+		PrintTextAbove(boat.tillerman, "Lets follow the "+cur_map.Size()+" pins on the map...");
 		return 1;
 	endif
 
@@ -155,9 +163,18 @@ function FollowMap(boat, byref cur_cmd, byref cur_map)
 		return 1;
 	endif
 
-	//var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
-	var next_spot := GetCoordsInLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
-	next_spot := next_spot[2];
+	var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	//var next_spot := GetCoordsInLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	//next_spot := next_spot[2];
+	if ( boat.x == next_spot.x && boat.y == next_spot.y )
+		PrintTextAbove(boat.tillerman, "Uh oh.. next spot is where we already are at!");
+		cur_map := 0;
+		cur_cmd := 0;
+		return 0;
+	else
+		PrintTextAbove(boat.tillerman, "Next spot to move to is ("+next_spot.x+","+next_spot.y+")");
+	endif
+
 	var facing := GetFacing(boat.x, boat.y, next_spot.x, next_spot.y);
 	var turn_code := DetermineTurnCode(boat, facing);
 
@@ -209,13 +226,11 @@ function DoCommand(boat, byref cur_cmd, new_cmd)
 				// Unable to move.
 				PrintTextAbove(boat.tillerman, "Arrr we hit land!");
 				cur_cmd := 0;
-				return 0;
+			else
+				CheckWorldWrap(boat);
+				// Keep following this command
+				cur_cmd := new_cmd;
 			endif
-
-			CheckWorldWrap(boat);
-
-			// Keep following this command
-			cur_cmd := new_cmd;
 		endif
 
 		if ( new_cmd.Stop )
@@ -227,12 +242,7 @@ function DoCommand(boat, byref cur_cmd, new_cmd)
 endfunction
 
 function CheckWorldWrap(boat)
-	var wrap_cfg := ReadConfigFile(":boat:worldWrap");
-	if ( !wrap_cfg )
-		return 0;
-	endif
-
-	var realm_elem := wrap_cfg[boat.realm];
+	var realm_elem := g_wrap_cfg[boat.realm];
 	if ( !realm_elem )
 		return 0;
 	endif
