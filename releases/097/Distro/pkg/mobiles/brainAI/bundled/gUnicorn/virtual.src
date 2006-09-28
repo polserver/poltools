@@ -27,7 +27,7 @@ program BrainNerve(params)
 				SomethingLame(npc);
 			endif
 		endif
-		
+
 		event := Wait_For_Event(900000);
 	endwhile
 endprogram
@@ -54,7 +54,7 @@ endfunction
 function RainbowStuff(npc)
 	var orig_color := npc.color;
 	var speech_color := npc.speech_color;
-	
+
 	npc.speech_color := 32;
 	npc.color := 32;
 	AI_Speak(npc, "RED!");
@@ -104,12 +104,12 @@ function FartFireworks(npc)
 	AI_Speak(npc, "*lifts its tail*");
 	Sleep(1);
 	AI_Speak(npc, "*nnngggffffffff*");
-	
+
 	var behind := Abs((npc.facing+4)%8);
 	var coords := GetPointsByFacing(npc.x, npc.y, behind, FIREWORK_RANGE+2);
 	var coord_a := coords[1]; // First coordinate
 	var coord_z := coords[coords.Size()]; // Last coordinate
-	
+
 	PlaySoundEffect(npc, 351);
 	SleepMS(30);
 	PlayMovingEffectXYZ(coord_a.x, coord_a.y, npc.z, coord_z.x, coord_z.y, npc.z+5, GFX_WAVY_FIREBALL, 10, 10, 0, npc.realm);
@@ -119,7 +119,7 @@ function FartFireworks(npc)
 		PlayStationaryEffect(coordinate.x, coordinate.y, npc.z+5, RandomSparkle(), 15, 15, 0, npc.realm);
 		SleepMS(2);
 	endforeach
-	
+
 	npc.frozen := 0;
 	return 1;
 endfunction
@@ -144,13 +144,14 @@ function SaySomething(npc)
 		"On a scale of 1-10 for my flamboyance, I am Richard Simmons",
 		"Im so sparkly!",
 		"Unicorn power!",
-		"I love the worj!"
+		"I love the worj!",
+		"Rowan is a unicorn molesterer"
 	};
-	
+
 	var text := speech_entries[RandomInt(speech_entries.Size())+1];
-	
+
 	AI_Speak(npc, text, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_ENABLE, WAKEUP);
-	
+
 	return 1;
 endfunction
 
@@ -164,6 +165,6 @@ function RandomSparkle()
 	GFX_BLUE_SPARKLE_BORDER,
 	GFX_BLUE_SPARKLE_GROUND
 	};
-	
+
 	return sparkles[RandomInt(sparkles.Size())+1];
 endfunction
