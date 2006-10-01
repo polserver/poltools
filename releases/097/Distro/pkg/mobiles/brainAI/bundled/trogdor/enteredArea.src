@@ -12,7 +12,7 @@ program BrainNerve(params)
 	var settings	:= params[4];
 	var scripts	:= params[5];
 	params := 0; // Not needed anymore.
-	
+
 	while ( npc )
 		if ( event )
 			case ( event.type )
@@ -22,10 +22,10 @@ program BrainNerve(params)
 				default:
 					break;
 			endcase
-			
+
 			event := 0;
 		endif
-		
+
 		SleepMS(5);
 		event := Wait_For_Event(600);
 	endwhile
@@ -33,20 +33,14 @@ endprogram
 
 function EnteredArea(npc, byref event, byref settings, byref scripts)
 	var source := event.source;
-	
+
 	if ( NPC_ShouldWatch(npc, source, settings, scripts) )
 		if ( NPC_AddToWatchList(npc, source) )
 			AI_WakeUp(npc);
-			
-			if ( scripts["LookAround"] )
-				if ( !GetNerveProcess(npc, "LookAround") )
-					AI_WakeUp(npc);
-				endif
-			endif
-			
+
 			return 1;
 		endif
 	endif
-	
+
 	return 0;
 endfunction

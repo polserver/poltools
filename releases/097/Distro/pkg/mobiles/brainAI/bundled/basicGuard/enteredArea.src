@@ -42,12 +42,6 @@ function EnteredArea(npc, byref event, byref settings, byref scripts)
 		if ( NPC_AddToWatchList(npc, source) )
 			AI_WakeUp(npc);
 
-			if ( scripts["LookAround"] )
-				if ( !GetNerveProcess(npc, "LookAround") )
-					AI_WakeUp(npc);
-				endif
-			endif
-
 			return 1;
 		endif
 	endif
