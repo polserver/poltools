@@ -3,10 +3,13 @@
  *
  *---------------------------------
  * Current Version
- * EVENTPROCESSOR.INC - v1.0
- * Updated 9/11/2005 2:06AM
+ * EVENTPROCESSOR.INC - v1.1
+ * Updated 10/3/2006 2:59AM
  *
  * -- Revision v1.0 --
+ * Austin:
+ * Added support for NF_INFORM_ON_COMPLETION flag.
+ *
  * Austin:
  *  Created include file
  *---------------------------------
@@ -295,13 +298,20 @@ function ProcessEvent(byref event)
 	// If the event has a .process member, reply to it by sending an event with
 	// .type being the NPCEVENT_DONE constant and telling it what event it sent
 	// that has finished being processed.
-	/*
-	 * Pseudo code for now..
-	if ( flags & NF_INFORM_ON_COMPLETION )
-		var response := struct{"type":=NPCEVENT_DONE, "finished":=event.type};
-		nerve.SendEvent(response);
+
+	if ( event.process )
+		var nerve_name := GetNerveNameByPid(npc, event.process);
+	 	if ( nerve_name )
+	 		var flags := GetNerveFlags(npc, nerve_name);
+	 		if ( flags & NF_INFORM_ON_COMPLETION )
+	 			var process := GetProcess(CInt(event.process));
+	 			var response := struct{"type":=NPCEVENT_DONE, "finished":=event.type};
+				process.SendEvent(response);
+			endif
+	 	endif
 	endif
-	*/
 
 	Set_Priority(old_priority);
+
+	return 1;
 endfunction

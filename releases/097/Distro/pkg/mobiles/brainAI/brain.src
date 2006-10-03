@@ -1,15 +1,19 @@
-/*===============================================================
-* Current Version
-* BRAIN.SRC - v5.0
-* Updated 9/11/2005 2:06AM
-*
-* NPC AI-Script to control all non-setup actions. Acts as the "brain"
-* and fires off external scripts that act as the "nerves" of the NPC.
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * BRAIN.SRC - v5.1
+ * Updated 9/11/2005 2:06AM
+ *
+ * NPC AI-Script to control all non-setup actions. Acts as the "brain"
+ * and fires off external scripts that act as the "nerves" of the NPC.
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
 
 use uo;
 use os;
@@ -50,23 +54,23 @@ program BrainAI()
 	InitializeEvents();
 	Set_Critical(1);
 	StartupScripts();
-	
+
 	Sleep(1);
-	
+
 	while ( npc )
 		var ev;
 		if ( !sleep_mode )
-			RunCycleScript();			
+			RunCycleScript();
 			ev := Wait_For_Event(g_settings["CycleWait"]);
 		else
 			ev := Wait_For_Event(g_settings["SleepWait"]);
 		endif
-		
+
 		if ( ev )
 			if ( ev.WakeUp != NOWAKE )
 				LeaveSleepMode();
 			endif
-			
+
 			ProcessEvent(ev);
 		else
 			if ( !sleep_mode )
