@@ -1,15 +1,16 @@
-/* $Id$
+/*
+ * $Id$
  *
+ *---------------------------------
+ * Current Version
+ * NPCUTIL.INC - v1.0
+ * Updated 8/31/2005 4:23AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
  */
-/*===============================================================
-* Current Version
-* NPCUTIL.INC - v1.0
-* Updated 8/31/2005 4:23AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
 
 use uo;
 use os;

@@ -1,12 +1,15 @@
-/*===============================================================
-* Current Version
-* NPCWATCHLIST.INC - v1.0
-* Updated 9/13/2005 3:21AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *---------------------------------
+ * Current Version
+ * NPCWATCHLIST.INC - v1.0
+ * Updated 9/13/2005 3:21AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
 
 use uo;
 use os;

@@ -1,16 +1,17 @@
-/* $Id$
- * 
+/*
+ *$Id$
+ *
  * Description
  * Common code found in just about every nerve script.
  * This include file exists to reduce redundancy.
- * 
+ *
  */
 
 use uo;
 
 include ":attributes:attributes";
 
- 
+
 //==========
 // Non nerve specific functions
 //==========
@@ -22,12 +23,12 @@ include ":attributes:attributes";
 //==========
 
 /* NPC_GetFleeLevel(npc, flee_percent)
- * 
+ *
  * Purpose
  * Calculates the hit point level when an npc should run away.
  *
  * Parameters
- * npc:			NPC that the nerve belongs to. 
+ * npc:			NPC that the nerve belongs to.
  * flee_percent:	Percentage of hit points that the NPC will flee at.
  *
  * Return Value
@@ -60,7 +61,6 @@ function NPC_WeaponRanges(npc, byref min_range, byref max_range)
 	if ( !max_range )
 		max_range := 1;
 	endif
-	
+
 	return 1;
 endfunction
-
