@@ -1,17 +1,23 @@
-/*===============================================================
-* Current Version
-* NPCNERVES.INC - v1.0
-* Updated 9/11/2005 2:06AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * NPCNERVES.INC - v1.0
+ * Updated 9/11/2005 2:06AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
+
 
 use uo;
 use os;
 
 include ":brainAI:npcError";
+
 
 /////////////////////////////////////////////////////////////////
 // * Function List *
@@ -122,12 +128,14 @@ endfunction
 function GetNerveNameByPid(mobile, pid)
 	var nerve_dict := LoadNerves(mobile);
 
-	foreach nerve in (nerve_dict)
+	foreach nerve in ( nerve_dict )
 		if ( nerve.pid == pid )
 			return _nerve_iter;
 		endif
 		SleepMS(2);
 	endforeach
+
+	return error{"errortext":="Error::GetNerveNameByPid() - No nerve with that PID exists."};
 endfunction
 
 /*
@@ -256,9 +264,10 @@ function KillNerves(mobile)
 
 	var nerve_dict := LoadNerves(mobile);
 
-	foreach nerve_name in (nerve_dict.Keys())
+	foreach nerve_name in ( nerve_dict.Keys() )
 		StopNerve(mobile, nerve_name);
 	endforeach
+
 	Set_Critical(0);
 
 	return 1;

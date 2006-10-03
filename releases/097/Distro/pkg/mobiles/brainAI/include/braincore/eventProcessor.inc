@@ -12,6 +12,7 @@
  *---------------------------------
  */
 
+
 function ProcessEvent(byref event)
 	var old_priority := Set_Priority(25);
 

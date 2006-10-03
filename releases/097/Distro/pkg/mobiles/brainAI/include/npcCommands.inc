@@ -1,12 +1,17 @@
-/*===============================================================
-* Current Version
-* npcCOMMANDS.INC - v1.0
-* Updated 8/31/2005 6:38AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * NPCCOMMANDS.INC - v1.0
+ * Updated 8/31/2005 6:38AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
+
 
 use uo;
 use os;
@@ -33,7 +38,7 @@ include ":brainAI:eventid";
 // AI_WakeUp(npc)
 // AI_Wander(npc, no_wake:=WAKEUP, loop:=0)
 // AI_WarMode(npc, mode:=0, no_wake:=WAKEUP)
-// 
+//
 /////////////////////////////////////////////////////////////////
 
 /*
