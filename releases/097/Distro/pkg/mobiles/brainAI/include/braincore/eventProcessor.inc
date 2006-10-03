@@ -82,7 +82,7 @@ function ProcessEvent(byref event)
 				endif
 			endif
 			break;
-		
+
 		// Instructs the npc to run its disengage nerve.
 		// When something attacking it goes out of warmode, this is run.
 		// .source	: What was targetting this npc but has now left combat mode.
@@ -188,7 +188,7 @@ function ProcessEvent(byref event)
 		//
 		// * Check custom events
 		//
-		
+
 		//A nerve has instructed the brain to kill another nerve or its self.
 		// .name	: Nerve name
 		NPCEVENT_ENDNERVE:
@@ -234,7 +234,7 @@ function ProcessEvent(byref event)
 					TurnAwayFromLocation(event.x, event.y);
 			endcase
 			break;
-			
+
 		// Set a new opponent!
 		// NOTE: Auto-sets Warmode=1!
 		// .source	: Opponent (mobile)
@@ -287,13 +287,16 @@ function ProcessEvent(byref event)
 			break;
 	endcase
 
-	// If the event has a .process member, reply to it by sending
-	// an event with .type being the NPCEVENT_DONE constant
-	// and telling it what event it sent that has finished
-	// being processed.
-	//if ( event.process )
-	//	(event.process).SendEvent(struct{"type":=NPCEVENT_DONE, "evsource":=event.type});
-	//endif
-	
+	// If the event has a .process member, reply to it by sending an event with
+	// .type being the NPCEVENT_DONE constant and telling it what event it sent
+	// that has finished being processed.
+	/*
+	 * Pseudo code for now..
+	if ( flags & NF_INFORM_ON_COMPLETION )
+		var response := struct{"type":=NPCEVENT_DONE, "finished":=event.type};
+		nerve.SendEvent(response);
+	endif
+	*/
+
 	Set_Priority(old_priority);
 endfunction
