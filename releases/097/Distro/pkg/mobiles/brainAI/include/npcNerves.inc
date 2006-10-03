@@ -156,7 +156,7 @@ function GetNerveFlags(mobile, nerve_name)
 	var nerve_dict := LoadNerves(mobile);
 
 	if ( nerve_dict.Exists(nerve_name) )
-		return GetProcess(CInt(nerve_dict[nerve_name].flags));
+		return nerve_dict[nerve_name].flags;
 	else
 		return error{"errortext" := "Error::GetNerveFlags() - Invalid nerve name  ["+nerve_name+"]"};
 	endif
