@@ -21,7 +21,7 @@ program BoatController(boat)
 	var sleep_mode := 0; // Boolean
 	var last_sound := 0; // Tracks time (integer)
 	var cur_cmd := 0;    // Config elem or struct.
-	var cur_map := 0;    // Array of coordinates.
+	var cur_map := 0;    // Struct, cur_pin and an array of coordinates.
 
 	if ( !Initialize(boat) )
 		return 0;
@@ -47,6 +47,7 @@ program BoatController(boat)
 			ProcessEvent(boat, ev, cur_cmd, cur_map);
 			sleep_mode := 0;
 		elseif ( cur_map )
+			SetObjProperty(boat.tillerman, "MapInfo", cur_map);
 			FollowMap(boat, cur_cmd, cur_map);
 		elseif ( cur_cmd )
 			DoCommand(boat, cur_cmd, cur_cmd);
@@ -140,7 +141,9 @@ function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
 	elseif ( ev.item )
 		// Cancel the current command, load the pin coordinates.
 		cur_cmd := 0;
-		cur_map := ev.item.GetPins();
+		cur_map := struct;
+		cur_map.+PinId := 1;
+		cur_map.+Coords := (ev.item).GetPins();
 		//PrintTextAbove(boat.tillerman, "Lets follow the "+cur_map.Size()+" pins on the map...");
 		return 1;
 	endif
@@ -150,13 +153,14 @@ endfunction
 
 function FollowMap(boat, byref cur_cmd, byref cur_map)
 	// Still working on this part.
-	var cur_pin := cur_map[1];
+	var cur_pin := cur_map.Coords[cur_map.PinId];
 	if ( boat.x == cur_pin.x && boat.y == cur_pin.y )
-		cur_map.Erase(1);
+		cur_map.PinId += 1;
 		cur_cmd := 0;
 		//PrintTextAbove(boat.tillerman, "Onto the next pin.");
+		//PrintTextAbove(boat.tillerman, "Heading for pin "+cur_map.PinID);
 		return 1;
-	elseif ( cur_map.Size() <= 0 )
+	elseif ( cur_map.PinId > cur_map.Coords.Size() )
 		cur_map := 0;
 		cur_cmd := 0;
 		//PrintTextAbove(boat.tillerman, "We have reached the last pin.");
