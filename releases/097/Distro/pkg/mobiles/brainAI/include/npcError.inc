@@ -1,15 +1,20 @@
-/*===============================================================
-* Current Version
-* NPCERRORS.INC - v1.0
-* Updated 8/31/2005 5:08AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * NPCERRORS.INC - v1.0
+ * Updated 8/31/2005 5:08AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
 
 use uo;
 use os;
+
 
 /*
  * NPC_ErrorSysLog(errmsg)
@@ -31,6 +36,6 @@ function NPC_ErrorSysLog(mobile, errmsg)
 	SysLog(errmsg);
 	SysLog("------------");
 	Set_Critical(0);
-	
+
 	return 1;
 endfunction
