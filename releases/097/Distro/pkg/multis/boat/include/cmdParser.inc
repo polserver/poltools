@@ -22,6 +22,7 @@ use cfgfile;
  */
 function ParseCommands(byref text, byref cmd_keys)
 	text := Lower(text);
+	var cmd_order := array{};
 
 	var match := 0, pos := 0;
 	foreach cmd in ( cmd_keys )
@@ -34,18 +35,20 @@ function ParseCommands(byref text, byref cmd_keys)
 		endwhile
 		SleepMS(2);
 	endforeach
+
 	if ( match == 0 )
-		return 0;
+		return cmd_order; // Empty array
 	endif
 
-	var cmd_order := array{};
 	text := SplitWords(text);
 	foreach cmd in ( text )
 		if ( cmd["[["] && cmd["]]"] )
 			cmd["[["] := "";
 			cmd["]]"] := "";
 			cmd := cmd_keys[CInt(cmd)];
-			cmd_order.Append(cmd);
+			if ( cmd )
+				cmd_order.Append(cmd);
+			endif
 		endif
 		SleepMS(2);
 	endforeach
