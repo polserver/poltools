@@ -1,12 +1,16 @@
-/*===============================================================
-* Current Version
-* NPCSETTINGS.INC - v1.0
-* Updated 9/8/2005 5:21AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * NPCSETTINGS.INC - v1.0
+ * Updated 9/8/2005 5:21AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
 
 use uo;
 use os;
@@ -38,7 +42,7 @@ function NPC_GetDefaultSettings(settings:=0)
 	if ( CInt(settings.Exists("CycleWait")) <= 0 )
 		settings["CycleWait"] := 10;
 	endif
-	
+
 	if ( !settings.Exists("NoSleep") )
 		if ( CInt(settings.Exists("SleepWait")) <= 0 )
 			settings["SleepWait"] := 1024;
@@ -73,11 +77,11 @@ function NPC_LoadTemplateSettings(source)
 	var npc_elem := NPC_GetNPCConfig(source);
 
 	var setting_list := GetConfigStringDictionary(npc_elem, "AISetting");
-	
+
 	var settings := dictionary;
 	foreach setting_name in (setting_list.Keys())
 		settings[setting_name] := UnPack(setting_list[setting_name]);
-		
+
 		SleepMS(2);
 	endforeach
 
@@ -92,11 +96,11 @@ function NPC_LoadTemplateSettings(source)
 			else
 				settings[key] := cstm_settings[key];
 			endif
-				
+
 			SleepMS(2);
 		endforeach
 	endif
-	
+
 	return settings;
 endfunction
 
@@ -120,7 +124,7 @@ function NPC_LoadScriptSettings(source)
 	// * Load config defaults first
 	//
 	var npc_elem := NPC_GetNPCConfig(source);
-	
+
 	var script_list := GetConfigStringDictionary(npc_elem, "AIScript");
 	var flag_list := GetConfigStringDictionary(npc_elem, "AIScriptFlag");
 
@@ -128,7 +132,7 @@ function NPC_LoadScriptSettings(source)
 	foreach script_type in (script_list.Keys())
 		var temp := struct;
 		temp.+script := script_list[script_type];
-		
+
 		temp.+flags := 0x0;
 		if ( flag_list[script_type] )
 			temp.flags := UnPack(flag_list[script_type]);
@@ -149,7 +153,7 @@ function NPC_LoadScriptSettings(source)
 			SleepMS(2);
 		endforeach
 	endif
-	
+
 	return script_settings;
 endfunction
 

@@ -1,12 +1,17 @@
-/*===============================================================
-* Current Version
-* NPCSOUNDS.INC - v1.0
-* Updated 11/01/2005 2:26AM
-*
-* -- Revision v1.0 --
-* MuadDib:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * NPCSOUNDS.INC - v1.0
+ * Updated 11/01/2005 2:26AM
+ *
+ * -- Revision v1.0 --
+ * MuadDib:
+ *  Created include file
+ *---------------------------------
+ */
+
 use uo;
 use os;
 use util;
