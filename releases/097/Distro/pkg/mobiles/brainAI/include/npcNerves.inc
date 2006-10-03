@@ -27,9 +27,17 @@ include ":brainAI:npcError";
 /////////////////////////////////////////////////////////////////
 // * Global Varibles *
 //
-// Nerve flags
+// NERVE FLAGS
+//
+// - Nerve script has no special settings.
 CONST NF_NO_FLAGS		:= 0x0;
+// - Nerve script will not be stopped when the npc goes to sleep
+//   If an idle script is present, it must support this flag.
 CONST NF_CONTINUE_ON_SLEEP	:= 0x1;
+//
+// - Brain will send an NPCEVENT_DONE event when it completes a
+//   ommand sent by a nerve script.
+CONST NF_INFORM_ON_COMPLETION	:= 0x2;
 //
 /////////////////////////////////////////////////////////////////
 
@@ -89,7 +97,7 @@ endfunction
  */
 function GetNerveProcess(mobile, nerve_name)
 	var nerve_dict := LoadNerves(mobile);
-	
+
 	if ( nerve_dict.Exists(nerve_name) )
 		return GetProcess(CInt(nerve_dict[nerve_name].pid));
 	else
@@ -99,7 +107,7 @@ endfunction
 
 /*
  * GetNerveNameByPid(mobile, pid)
- * 
+ *
  * Purpose
  * Finds the name of a nerve by its pid.
  *
@@ -113,7 +121,7 @@ endfunction
  */
 function GetNerveNameByPid(mobile, pid)
 	var nerve_dict := LoadNerves(mobile);
-	
+
 	foreach nerve in (nerve_dict)
 		if ( nerve.pid == pid )
 			return _nerve_iter;
@@ -138,7 +146,7 @@ endfunction
  */
 function GetNerveFlags(mobile, nerve_name)
 	var nerve_dict := LoadNerves(mobile);
-	
+
 	if ( nerve_dict.Exists(nerve_name) )
 		return GetProcess(CInt(nerve_dict[nerve_name].flags));
 	else
@@ -185,13 +193,13 @@ function StartNerve(mobile, nerve_name, nerve_script, data:=array, flags:=NF_NO_
 		return error{"errortext":=errmsg};
 	else
 		var nerve_dict := LoadNerves(mobile);
-		
+
 		//Before setting the new nerve, check if one is already running.
 		if ( nerve_dict.Exists(nerve_name) )
 			//Stop the old nerve, before storing the new one.
 			StopNerve(mobile, nerve_name);
 		endif
-		
+
 		var nerve_info := struct;
 		nerve_info.+pid := process.pid;
 		nerve_info.+flags := flags;
@@ -219,7 +227,7 @@ endfunction
  */
 function StopNerve(mobile, nerve_name)
 	var nerve_dict := LoadNerves(mobile);
-	
+
 	if ( nerve_dict.Exists(nerve_name) )
 		GetNerveProcess(mobile, nerve_name).Kill();
 		nerve_dict.Erase(nerve_name);
@@ -245,9 +253,9 @@ endfunction
  */
 function KillNerves(mobile)
 	Set_Critical(1);
-	
+
 	var nerve_dict := LoadNerves(mobile);
-	
+
 	foreach nerve_name in (nerve_dict.Keys())
 		StopNerve(mobile, nerve_name);
 	endforeach
