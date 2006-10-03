@@ -1,12 +1,16 @@
-/*===============================================================
-* Current Version
-* EVENTPROCESSOR.INC - v1.0
-* Updated 9/11/2005 2:06AM
-*
-* -- Revision v1.0 --
-* Austin:
-*  Created include file
-===============================================================*/
+/*
+ * $Id$
+ *
+ *---------------------------------
+ * Current Version
+ * EVENTPROCESSOR.INC - v1.0
+ * Updated 9/11/2005 2:06AM
+ *
+ * -- Revision v1.0 --
+ * Austin:
+ *  Created include file
+ *---------------------------------
+ */
 
 function ProcessEvent(byref event)
 	var old_priority := Set_Priority(25);
