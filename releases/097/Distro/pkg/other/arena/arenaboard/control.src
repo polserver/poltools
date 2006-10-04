@@ -1,0 +1,10 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(board)
+	return 1;
+endprogram
