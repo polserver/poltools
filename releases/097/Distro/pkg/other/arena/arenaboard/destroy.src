@@ -1,0 +1,7 @@
+/* $Id$
+ *
+ */
+
+program OnDestroy(board)
+	return 1;
+endprogram
