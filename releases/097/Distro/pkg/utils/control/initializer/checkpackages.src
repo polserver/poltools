@@ -6,9 +6,9 @@ use os;
 use polsys;
 use cfgfile;
 
-include "include/string";
-include ":datafile:datafile";
 include ":control:report";
+include ":datafile:datafile";
+include "include/string";
 
 // Run 255 lines before going to the next script.
 // Its as close as it gets to critical without the console whining about it.

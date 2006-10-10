@@ -4,20 +4,20 @@
 use uo;
 use os;
 
+include ":control:internal/icp-commands";
+include ":control:internal/icp-generalinfo";
+include ":control:internal/icp-gumps";
+include ":control:internal/icp-index";
+include ":control:internal/icp-itemdesc";
+include ":control:internal/icp-npcdesc";
+include ":control:internal/icp-pkgpanel";
+include ":control:internal/icp-scripts";
+include ":control:internal/icp-util";
 include ":datafile:datafile";
 include ":gumps:gumpprompt";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":gumps:yesno";
-include ":control:icp-commands";
-include ":control:icp-generalinfo";
-include ":control:icp-gumps";
-include ":control:icp-index";
-include ":control:icp-itemdesc";
-include ":control:icp-npcdesc";
-include ":control:icp-pkgpanel";
-include ":control:icp-scripts";
-include ":control:icp-util";
 
 // Arbitrary button return (id) values.
 CONST START_ID		:= 0xA00000; // Anything above this value is a button.

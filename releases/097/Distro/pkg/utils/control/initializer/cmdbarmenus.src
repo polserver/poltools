@@ -6,12 +6,12 @@ use uo;
 use os;
 use polsys;
 
-include ":control:icp-util";
-include ":control:cmdbar";
+include ":control:internal/cmdbar";
+include ":control:internal/icp-util";
 include ":datafile:datafile";
+include ":gumps:gumpprompt";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
-include ":gumps:gumpprompt";
 include "include/arrays";
 
 //
@@ -49,7 +49,7 @@ program CmdBarMenus()
 		gump := PkgListMenu(TRANSPARENT, commands, i);
 		//GFOptimizeGump(gump);
 		data_elem.SetProp("CmdLvl-"+i+"PkgListTrans", gump);
-		
+
 		SetupPackageData(data_file, commands, i);
 	endfor
 
@@ -132,7 +132,7 @@ endfunction
 
 function PkgListMenu(transparency:=0, byref commands, byref max_level)
 	var gump := ICP_ExpandedMenuBar(transparency);
-	
+
 	var pkg_list := GetPackagesWithCommands(commands, max_level);
 	var new_list := BreakArray(pkg_list, 21);
 	pkg_list := 0;
@@ -146,7 +146,7 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 		if ( transparency )
 			GFAddAlphaRegion(gump, 35, 30, 150, y_length);
 		endif
-				
+
 		if ( _page_list_iter > 1 )
 			if ( _page_list_iter < (page_list.Size()) )
 				GFPage(gump, gump.cur_page-1);
@@ -156,7 +156,7 @@ function PkgListMenu(transparency:=0, byref commands, byref max_level)
 			GFAddButton(gump, 35, 30, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
 			y_pos := 35;
 		endif
-		
+
 		foreach package in ( page_list )
 			if ( package.name == "" )
 				package.name := "Non-Packaged";
@@ -172,7 +172,7 @@ endfunction
 
 function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 	var cmd_lvls := commands[cur_pkg].Keys();
-	
+
 	var gump := PkgListMenu(transparency, commands, max_level);
 	GFPage(gump, 0);
 	var num_levels := 0;
@@ -199,7 +199,7 @@ function CmdLevelMenu(transparency:=0, cur_pkg, byref commands, max_level)
 		if ( CInt(level_id) > max_level )
 			break;
 		endif
-		
+
 		GFTextLine(gump, 200, y_pos, 2100, GetCmdLevelName(level_id));
 		GFAddButton(gump, 315, y_pos+3, 5224, 5224, GF_CLOSE_BTN, LVL_START+_level_id_iter);
 		y_pos += 20;
@@ -210,7 +210,7 @@ endfunction
 
 function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byref max_level)
 	var gump := CmdLevelMenu(transparency, cur_pkg, commands, max_level);
-	
+
 	var scripts := commands[cur_pkg][cur_lvl];
 	var script_list := BreakArray(scripts, 20);
 	scripts := 0;
@@ -226,7 +226,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 			GFAddAlphaRegion(gump, 335, 30, 150, y_length);
 		endif
 		GFTextMid(gump, 335, 35, 150, 1000, GetCmdLevelName(cur_lvl));
-		
+
 		if ( _page_list_iter > 1 )
 			if ( _page_list_iter < (page_list.Size()) )
 				GFPage(gump, gump.cur_page-1);
@@ -236,7 +236,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 			GFAddButton(gump, 335, 60, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
 			y_pos := 55;
 		endif
-		
+
 		foreach script in ( page_list )
 			script_id += 1;
 			GFAddButton(gump, 350, y_pos+3, 2117, 2118, GF_CLOSE_BTN, CMD_START+script_id);
@@ -245,7 +245,7 @@ function CommandsListMenu(transparency:=0, cur_pkg, cur_lvl, byref commands, byr
 			y_pos += 20;
 		endforeach
 	endforeach
-	
+
 	return gump;
 endfunction
 
@@ -272,7 +272,7 @@ endfunction
 
 function GetPackagesWithCommands(byref commands, byref max_level)
 	var pkg_list := array;
-	
+
 	foreach package in ( commands.Keys() )
 		var num_commands := HasUsableCommands(package, commands, max_level);
 		if ( num_commands > 0 )
@@ -282,7 +282,7 @@ function GetPackagesWithCommands(byref commands, byref max_level)
 			pkg_list.Append(temp);
 		endif
 	endforeach
-	
+
 	return pkg_list;
 endfunction
 
