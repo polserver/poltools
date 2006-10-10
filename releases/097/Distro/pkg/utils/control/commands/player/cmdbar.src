@@ -6,14 +6,12 @@ use uo;
 use os;
 use polsys;
 
-include ":control:icp-util";
-include ":control:cmdbar";
+include ":control:internal/cmdbar";
+include ":control:internal/icp-util";
 include ":datafile:datafile";
+include ":gumps:gumpprompt";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
-include ":gumps:gumpprompt";
-
-unload_scripts("");
 
 program textcmd_CommandBar(mobile)
 	if ( GetProcess(CInt(GetObjProperty(mobile, "#CmdBarPid"))) )
