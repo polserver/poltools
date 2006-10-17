@@ -101,8 +101,8 @@ function BreakArray(byref the_array, size:=1)
 		return error{"errortext":="Object passed was not an array."};
 	endif
 
+	var new_arrays := array{};
 	if ( the_array.Size() > size )
-		var new_arrays := array{};
 		var arrays_needed := Ceil(CDbl(the_array.Size()) / CDbl(size));
 
 		var i := 1;
@@ -114,11 +114,11 @@ function BreakArray(byref the_array, size:=1)
 			stop += size;
 			SleepMS(2);
 		endfor
-
-		return new_arrays;
 	else
-		return array{the_array};
+		new_arrays.append(the_array);
 	endif
+
+	return new_arrays;
 endfunction
 
 /*
