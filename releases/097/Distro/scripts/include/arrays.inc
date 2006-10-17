@@ -102,7 +102,7 @@ function BreakArray(byref the_array, size:=1)
 	endif
 
 	if ( the_array.Size() > size )
-		var new_arrays := array();
+		var new_arrays := array{};
 		var arrays_needed := Ceil(CDbl(the_array.Size()) / CDbl(size));
 
 		var i := 1;
