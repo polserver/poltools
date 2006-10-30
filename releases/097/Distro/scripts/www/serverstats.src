@@ -23,7 +23,7 @@ Program HTMLPage()
 	WriteHTML("<DIV ID='content'>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD COLSPAN='2'><B>Server Hardware</B></TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2' ALIGN='LEFT'><B>Server Hardware</B></TH></TR>");
 	WriteHTML("<TR><TD>CPU:</TD><TD>Unknown</TD></TR>");
 	WriteHTML("<TR><TD>RAM:</TD><TD>Unknown</TD></TR>");
 	WriteHTML("<TR><TD>HDD:</TD><TD>Unknown</TD></TR>");
@@ -37,7 +37,7 @@ Program HTMLPage()
 
 	var core_ref := POLCore();
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD COLSPAN='2'><B>Shard Information</B></TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2' ALIGN='LEFT'><B>Shard Information</B></TH></TR>");
 	WriteHTML("<TR><TD>POL Version:</TD><TD>"+core_ref.verstr+"</TD></TR>");
 	WriteHTML("<TR><TD>POL Time:</TD><TD>"+StrFormatTime("%b %d, %Y %I:%M %p", core_ref.systime)+"</TD></TR>");
 	WriteHTML("<TR><TD>Accounts:</TD><TD>"+ListAccounts().Size()+"</TD></TR>");
