@@ -8,10 +8,23 @@ use http;
 include "include/uo_extend";
 
 Program HTMLPage()
-	WriteHTML("<LINK REL='stylesheet' TYPE='text/css' HREF='stylesheet.css'>");
+	WriteHTML("<HTML>");
+	WriteHTML("<HEAD>");
+	WriteHTML("<TITLE>POL Internal Web Server</TITLE>");
+	WriteHTML("<LINK REL='stylesheet' TYPE='text/css' HREF='/stylesheets/main.css'>");
+	WriteHTML("</HEAD>");
+
+	WriteHTML("<BODY>");
+
+	WriteHTML("<DIV ID='container'>");
+
+	WriteHTML("<DIV ID='header'></DIV>");
+
+
+	WriteHTML("<DIV ID='content'>");
 
 	var online := EnumerateOnlineCharactersABC();
-	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TABLE WIDTH=400 BORDER='0'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>");
 	WriteHTML("Total Online: "+online.Size());
@@ -20,12 +33,21 @@ Program HTMLPage()
 	WriteHTML("<TR>");
 	WriteHTML("<TD>");
 	foreach player in ( online )
-		WriteHTML("<LI><A HREF='?Serial="+player.serial+"'>"+player.name+"</A></LI>");
+		WriteHTML(""+player.name);
 		SleepMS(2);
 	endforeach
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("</TABLE>");
+
+	WriteHTML("</DIV>");
+
+	WriteHTML("<DIV ID='footer'>");
+	WriteHTML("<P>Copyright &copy; 2006 - POL Development Team.</P>");
+	WriteHTML("</DIV>");
+	WriteHTML("</DIV>");
+	WriteHTML("</BODY>");
+	WriteHTML("</HTML>");
 
 	return 1;
 endprogram
