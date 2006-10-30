@@ -22,7 +22,7 @@ Program HTMLPage()
 
 	WriteHTML("<DIV ID='content'>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Server Hardware</TD></TR>");
 	WriteHTML("<TR><TD>CPU:</TD><TD>Unknown</TD></TR>");
 	WriteHTML("<TR><TD>RAM:</TD><TD>Unknown</TD></TR>");
@@ -36,7 +36,7 @@ Program HTMLPage()
 	WriteHTML("<BR><BR>");
 
 	var core_ref := POLCore();
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Shard Information</TD></TR>");
 	WriteHTML("<TR><TD>POL Version:</TD><TD>"+core_ref.verstr+"</TD></TR>");
 	WriteHTML("<TR><TD>POL Time:</TD><TD>"+StrFormatTime("%b %d, %Y %I:%M %p", core_ref.systime)+"</TD></TR>");
