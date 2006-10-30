@@ -26,9 +26,9 @@ Program HTMLPage()
 	var online := EnumerateOnlineCharactersABC();
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>");
-	WriteHTML("Total Online: "+online.Size());
-	WriteHTML("</TD>");
+	WriteHTML("<TH>");
+	WriteHTML("<B>Total Online: "+online.Size()+"</B>");
+	WriteHTML("</TH>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD>");
