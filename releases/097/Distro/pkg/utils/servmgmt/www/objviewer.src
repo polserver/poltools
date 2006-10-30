@@ -16,6 +16,10 @@ program HTMLPage()
 	DoHeader("Server Management Object Viewer");
 	TableHeader("Object Viewer");
 
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
+
 	var list := QueryParam("List");
 	var serial := CInt(QueryParam("Serial"));
 	var acct_name := QueryParam("Account");
@@ -52,7 +56,7 @@ endprogram
 function StartPoint()
 	WriteHTML("<BR>");
 
-	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Select a start point.</TD>");
 	WriteHTML("</TR>");
@@ -75,7 +79,7 @@ endfunction
 
 function SearchForms()
 	WriteHTML("<FORM METHOD='GET'>");
-	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2' COLSPAN='2'>Search</TD>");
 	WriteHTML("</TR>");
@@ -128,7 +132,7 @@ function DoError(text)
 endfunction
 
 function LocationBar(tree:=0)
-	WriteHTML("<TABLE WIDTH='100%'>");
+	WriteHTML("<TABLE WIDTH='100%' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD CLASS='tree'>");
 	WriteHTMLRaw("<A HREF='?'>Index</A>");
@@ -149,7 +153,7 @@ function LocationBar(tree:=0)
 endfunction
 
 function FilterBar(selected)
-	WriteHTML("<TABLE WIDTH='100%'>");
+	WriteHTML("<TABLE WIDTH='100%' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD>");
 	var link := "<A HREF='?List=Accounts&Ext=%23'>#</A> ";
@@ -328,7 +332,7 @@ function ShowSearchResults()
 
 	LocationBar();
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header'>Search Results ("+matches.Size()+" matches)</TD></TR>");
 	foreach entry in ( matches )
 		if ( search_where == "Accounts" )
@@ -359,7 +363,7 @@ function AcctLister()
 	FilterBar(selected);
 	var acct_list := SortList(ListAccounts(), selected);
 
-	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD CLASS='header'>");
 	WriteHTMLRaw("Accounts ("+acct_list.Size()+")");
@@ -399,7 +403,7 @@ function ShowAccountInfo(acct_name)
 endfunction
 
 function AccountCharacters(account, highlight:=0)
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header'>Characters on account "+account.name+"</TD>");
 	WriteHTML("</TR>");
@@ -432,7 +436,7 @@ function OnlineLister()
 	LocationBar();
 
 	var online := EnumerateOnlineCharactersABC();
-	WriteHTML("<TABLE WIDTH=400>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header'>");
 	WriteHTML("Online Characters ("+online.Size()+")");
@@ -455,7 +459,7 @@ function StorageLister(area_name:="")
 	if ( !area_name )
 		LocationBar();
 		var areas := CP_GetStorageAreaNames();
-		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 		WriteHTML("<TR><TD CLASS='header'>Storage Areas ("+areas.Size()+")</TD></TR>");
 		foreach area_name in ( areas )
 			WriteHTMLRaw("<TR>");
@@ -474,7 +478,7 @@ function StorageLister(area_name:="")
 
 		LocationBar(array{"List=Storage", "Storage Areas"});
 
-		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 		WriteHTML("<TR><TD CLASS='header'>Root Items ("+area.Count+")</TD></TR>");
 		foreach root_item in ( area )
 			WriteHTMLRaw("<TR>");
@@ -513,7 +517,7 @@ function ShowCharacterInfo(object)
 		AccountCharacters(object.acct, object);
 	endif
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
@@ -526,7 +530,7 @@ function ShowCharacterInfo(object)
 
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Privileges</TD></TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
@@ -546,7 +550,7 @@ function ShowCharacterInfo(object)
 
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Vitals Info</TD></TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Regen Mod</TD>");
@@ -563,7 +567,7 @@ function ShowCharacterInfo(object)
 
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Attribute Info</TD></TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Modifier</TD>");
@@ -580,7 +584,7 @@ function ShowCharacterInfo(object)
 
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header'>Equipment</TD></TR>");
 	foreach item in ( ListEquippedItems(object) )
 		WriteHTMLRaw("<TR>");
@@ -592,7 +596,7 @@ function ShowCharacterInfo(object)
 
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
 	foreach area_name in ( CP_GetStorageAreaNames() )
 		var container := CP_GetStorageContainerForMobile(object, area_name, CP_NOCREATE);
@@ -632,7 +636,7 @@ function ShowItemInfo(object)
 		LocationBar();
 	endif
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
@@ -664,7 +668,7 @@ function ShowItemInfo(object)
 	WriteHTML("<BR><BR>");
 
 	if ( object.IsA(POLCLASS_CONTAINER) )
-		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 		WriteHTML("<TR><TD CLASS='header'>Container Contents</TD></TR>");
 		foreach item in ( EnumerateItemsInContainer(object) )
 			if ( item.container != object )
@@ -688,7 +692,7 @@ function ShowItemInfo(object)
 endfunction
 
 function ShowCpropInfo(object)
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD COLSPAN='2' CLASS='header2'>");
 	if ( object.name )
@@ -717,4 +721,3 @@ function ShowCpropInfo(object)
 
 	return 1;
 endfunction
-
