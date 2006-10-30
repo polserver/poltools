@@ -32,7 +32,7 @@ Program HTMLPage()
 		WriteHTML("<BR><BR>");
 
 		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-		WriteHTML("<TR><TD CLASS='header'>Unload Result</TD></TR>");
+		WriteHTML("<TR><TH>Unload Result</TH></TR>");
 		if ( res == error )
 			WriteHTML("<TR><TD>Error unloading config file: "+res.errortext+"</TD></TR>");
 		elseif ( res < 0 )
@@ -56,7 +56,7 @@ function ShowForms()
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<FORM NAME='FRM' METHOD='GET'>");
-	WriteHTML("<TR><TD CLASS='header2' COLSPAN='2'>Which config file do you want to unload?</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2'>Which config file do you want to unload?</TD></TR>");
 	WriteHTML("<TR><TD COLSPAN='2'>Use '#'s instead of ':'s and ommit the '.cfg'</TD></TR>");
 	WriteHTMLRaw("<TR>");
 	WriteHTMLRaw("<TD><INPUT TYPE='TEXT' NAME='file' SIZE='40'></TD>");

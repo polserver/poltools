@@ -17,17 +17,17 @@ program HTMLPage()
 
 	WriteHTML("<P>Long-Running Scripts</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='100%'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header'>PID</TD>");
-	WriteHTML("<TD CLASS='header'>Script Name</TD>");
-	WriteHTML("<TD CLASS='header'>Cycles</TD>");
-	WriteHTML("<TD CLASS='header'>Cycles Since Sleep</TD>");
-	WriteHTML("<TD CLASS='header'>Prog Counter</TD>");
-	WriteHTML("<TD CLASS='header'>Call Depth</TD>");
-	WriteHTML("<TD CLASS='header'>Globals</TD>");
-	WriteHTML("<TD CLASS='header'>Var Size</TD>");
-	WriteHTML("<TD CLASS='header'>State</TD>");
+	WriteHTML("<TH><B>PID</B></TH>");
+	WriteHTML("<TH><B>Script Name</B></TH>");
+	WriteHTML("<TH><B>Cycles</B></TH>");
+	WriteHTML("<TH><B>Cycles Since Sleep</B></TH>");
+	WriteHTML("<TH><B>Prog Counter</B></TH>");
+	WriteHTML("<TH><B>Call Depth</B></TH>");
+	WriteHTML("<TH><B>Globals</B></TH>");
+	WriteHTML("<TH><B>Var Size</B></TH>");
+	WriteHTML("<TH><B>State</B></TH>");
 	WriteHTML("</TR>");
 
 	var scripts := POLCore().running_scripts;

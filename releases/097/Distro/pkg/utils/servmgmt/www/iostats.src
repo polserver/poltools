@@ -19,9 +19,9 @@ Program HTMLPage()
 
 	WriteHTML("<P>Packets Sent</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header'>Mesage Type</TD><TD CLASS='header'>Count</TD><TD CLASS='header'>Bytes</TD>");
+	WriteHTML("<TH><B>Mesage Type</B></TH><TH><B>Count</B></TH><TH><B>Bytes</B></TH>");
 	WriteHTML("</TR>");
 	var iostats := POLCore().iostats;
 	for msgtype := 0 to 255

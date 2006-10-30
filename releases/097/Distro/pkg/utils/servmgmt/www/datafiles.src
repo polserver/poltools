@@ -48,7 +48,7 @@ function ShowDataElem(descriptor, elem_name)
 
 	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Prop Name</TD><TD CLASS='header2'>Prop Value</TD>");
+	WriteHTML("<TH><B>Prop Name</B></TH><TH><B>Prop Value</B></TH>");
 	WriteHTML("</TR>");
 	foreach prop_name in ( the_elem.PropNames() )
 		WriteHTML("<TR>");
@@ -74,7 +74,7 @@ function ShowDataFile(descriptor)
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Elem list</TD>");
+	WriteHTML("<TH><B>Elem list</B></TH>");
 	WriteHTML("</TR>");
 	foreach elem_name in ( DFGetElemNames(the_file) )
 		WriteHTML("<TR>");
@@ -90,11 +90,11 @@ endfunction
 function DataFileList()
 	WriteHTML("<P>Data Files</P>");
 
-	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Descriptor</TD>");
-	WriteHTML("<TD CLASS='header2'>Package</TD>");
-	WriteHTML("<TD CLASS='header2'>File Name</TD>");
+	WriteHTML("<TH><B>Descriptor</B></TH>");
+	WriteHTML("<TH><B>Package</B></TH>");
+	WriteHTML("<TH><B>File Name</B></TH>");
 	foreach entry in ( ListDataFiles() )
 		WriteHTML("<TR>");
 		WriteHTML("<TD><A HREF='?File="+entry.descriptor+"'>"+entry.descriptor+"</A></TD>");

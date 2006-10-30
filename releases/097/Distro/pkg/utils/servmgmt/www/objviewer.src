@@ -14,11 +14,10 @@ include "include/uo_extend";
 
 program HTMLPage()
 	DoHeader("Server Management Object Viewer");
-	TableHeader("Object Viewer");
-
 	WriteHTML("<DIV ID='container'>");
 	WriteHTML("<DIV ID='header'></DIV>");
 	WriteHTML("<DIV ID='content'>");
+	TableHeader("Object Viewer");
 
 	var list := QueryParam("List");
 	var serial := CInt(QueryParam("Serial"));
@@ -58,7 +57,7 @@ function StartPoint()
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Select a start point.</TD>");
+	WriteHTML("<TH ALIGN='LEFT'>Select a start point.</TH>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD>");
@@ -81,7 +80,7 @@ function SearchForms()
 	WriteHTML("<FORM METHOD='GET'>");
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2' COLSPAN='2'>Search</TD>");
+	WriteHTML("<TH COLSPAN='2' ALIGN='LEFT'>Search</TH>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD>Search Text</TD><TD><INPUT TYPE='TEXT' SIZE='45' NAME='SearchText'></TD>");
@@ -122,7 +121,7 @@ endfunction
 function DoError(text)
 	WriteHTML("<TABLE>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header'>!! ERROR !!</TD>");
+	WriteHTML("<TD><B>!! ERROR !!</B></TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TD><FONT COLOR='RED'>"+text+"</FONT></TD>");
 	WriteHTML("</TR>");
@@ -134,7 +133,7 @@ endfunction
 function LocationBar(tree:=0)
 	WriteHTML("<TABLE WIDTH='100%' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTMLRaw("<TD CLASS='tree'>");
+	WriteHTMLRaw("<TD>");
 	WriteHTMLRaw("<A HREF='?'>Index</A>");
 
 	var tree_size := tree.Size();
@@ -333,7 +332,7 @@ function ShowSearchResults()
 	LocationBar();
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header'>Search Results ("+matches.Size()+" matches)</TD></TR>");
+	WriteHTML("<TR><TH>Search Results ("+matches.Size()+" matches)</TH></TR>");
 	foreach entry in ( matches )
 		if ( search_where == "Accounts" )
 			WriteHTML("<TR><TD><A HREF='?Account="+entry+"'>"+entry+"</A></TD></TR>");
@@ -365,9 +364,9 @@ function AcctLister()
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTMLRaw("<TD CLASS='header'>");
+	WriteHTMLRaw("<TH>");
 	WriteHTMLRaw("Accounts ("+acct_list.Size()+")");
-	WriteHTML("</TD>");
+	WriteHTML("</TH>");
 	WriteHTML("</TR>");
 	foreach list in ( acct_list )
 		WriteHTML("<TR>");
@@ -405,7 +404,7 @@ endfunction
 function AccountCharacters(account, highlight:=0)
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header'>Characters on account "+account.name+"</TD>");
+	WriteHTML("<TH>Characters on account "+account.name+"</TH>");
 	WriteHTML("</TR>");
 
 	for i:=1 to 6
@@ -438,7 +437,7 @@ function OnlineLister()
 	var online := EnumerateOnlineCharactersABC();
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header'>");
+	WriteHTML("<TD>");
 	WriteHTML("Online Characters ("+online.Size()+")");
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
@@ -460,7 +459,7 @@ function StorageLister(area_name:="")
 		LocationBar();
 		var areas := CP_GetStorageAreaNames();
 		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-		WriteHTML("<TR><TD CLASS='header'>Storage Areas ("+areas.Size()+")</TD></TR>");
+		WriteHTML("<TR><TH>Storage Areas ("+areas.Size()+")</TH></TR>");
 		foreach area_name in ( areas )
 			WriteHTMLRaw("<TR>");
 			WriteHTMLRaw("<TD><A HREF='?List=Storage&StorageArea="+area_name+"'>"+area_name+"</A></TD>");
@@ -479,7 +478,7 @@ function StorageLister(area_name:="")
 		LocationBar(array{"List=Storage", "Storage Areas"});
 
 		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-		WriteHTML("<TR><TD CLASS='header'>Root Items ("+area.Count+")</TD></TR>");
+		WriteHTML("<TR><TH>Root Items ("+area.Count+")</TH></TR>");
 		foreach root_item in ( area )
 			WriteHTMLRaw("<TR>");
 			WriteHTMLRaw("<TD><A HREF='?Serial="+root_item.serial+"'>"+root_item.desc+"</A></TD>");
@@ -518,9 +517,9 @@ function ShowCharacterInfo(object)
 	endif
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2'>General Info</TH></TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("<TD>Name</TD><TD>Value</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR><TD>Serial</TD><TD>"+Hex(object.serial)+"</TD></TR>");
 	WriteHTML("<TR><TD>Command Level</TD><TD>"+object.cmdlevel+" ("+GetCmdLevelName(object.cmdlevel)+")</TD></TR>");
@@ -531,9 +530,9 @@ function ShowCharacterInfo(object)
 	WriteHTML("<BR><BR>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Privileges</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2'>Privileges</TH></TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("<TD>Name</TD><TD>Value</TD>");
 	WriteHTML("</TR>");
 	foreach priv in ( object.Privileges() )
 		WriteHTMLRaw("<TR>");
@@ -551,9 +550,9 @@ function ShowCharacterInfo(object)
 	WriteHTML("<BR><BR>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Vitals Info</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='3'>Vitals Info</TH></TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Regen Mod</TD>");
+	WriteHTML("<TD>Name</TD><TD>Value</TD><TD>Regen Mod</TD>");
 	WriteHTML("</TR>");
 	foreach vital_name in ( AP_GetVitalNames() )
 		WriteHTMLRaw("<TR>");
@@ -568,9 +567,9 @@ function ShowCharacterInfo(object)
 	WriteHTML("<BR><BR>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header' COLSPAN='3'>Attribute Info</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='3'>Attribute Info</TH></TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD><TD CLASS='header2'>Modifier</TD>");
+	WriteHTML("<TD>Name</TD><TD>Value</TD><TD>Modifier</TD>");
 	WriteHTML("</TR>");
 	foreach attrib_name in ( AP_ListAttributesByType() )
 		WriteHTMLRaw("<TR>");
@@ -585,7 +584,7 @@ function ShowCharacterInfo(object)
 	WriteHTML("<BR><BR>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header'>Equipment</TD></TR>");
+	WriteHTML("<TR><TH>Equipment</TH></TR>");
 	foreach item in ( ListEquippedItems(object) )
 		WriteHTMLRaw("<TR>");
 		WriteHTMLRaw("<TD><A HREF='?Serial="+item.serial+"'>"+item.desc+"</A></TD>");
@@ -597,7 +596,7 @@ function ShowCharacterInfo(object)
 	WriteHTML("<BR><BR>");
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header'>Storage Areas</TD></TR>");
+	WriteHTML("<TR><TH>Storage Areas</TH></TR>");
 	foreach area_name in ( CP_GetStorageAreaNames() )
 		var container := CP_GetStorageContainerForMobile(object, area_name, CP_NOCREATE);
 		if ( !container )
@@ -637,9 +636,9 @@ function ShowItemInfo(object)
 	endif
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>General Info</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2'>General Info</TH></TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Value</TD>");
+	WriteHTML("<TD>Name</TD><TD>Value</TD>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR><TD>Desc</TD><TD>"+object.desc+"</TD></TR>");
 	WriteHTML("<TR><TD>Name</TD><TD>"+object.name+"</TD></TR>");
@@ -669,7 +668,7 @@ function ShowItemInfo(object)
 
 	if ( object.IsA(POLCLASS_CONTAINER) )
 		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-		WriteHTML("<TR><TD CLASS='header'>Container Contents</TD></TR>");
+		WriteHTML("<TR><TH>Container Contents</TH></TR>");
 		foreach item in ( EnumerateItemsInContainer(object) )
 			if ( item.container != object )
 				continue;
@@ -694,18 +693,18 @@ endfunction
 function ShowCpropInfo(object)
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD COLSPAN='2' CLASS='header2'>");
+	WriteHTML("<TH COLSPAN='2'>");
 	if ( object.name )
-		WriteHTML("<B>CProps on "+object.name+"</B>");
+		WriteHTML("CProps on "+object.name);
 	else
-		WriteHTML("<B>CProps on "+object.desc+"</B>");
+		WriteHTML("CProps on "+object.desc);
 	endif
-	WriteHTML("</TD>");
+	WriteHTML("</TH>");
 	WriteHTML("</TR>");
 
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Prop Name</TD>");
-	WriteHTML("<TD CLASS='header2'>Prop Value</TD>");
+	WriteHTML("<TD>Prop Name</TD>");
+	WriteHTML("<TD>Prop Value</TD>");
 	WriteHTML("</TR>");
 
 	foreach prop_name in ( object.PropNames() )
