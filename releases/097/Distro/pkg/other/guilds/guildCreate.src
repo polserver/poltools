@@ -24,68 +24,74 @@ var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
 
 program Guild_Create(who)
 
-    var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
-    if ( regist_fee == 0 || !regist_fee )
-        return 0;
-    endif
+	var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
+
+	if ( regist_fee == 0 || !regist_fee )
+		return 0;
+	endif
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 
 	GFResizePic(gump, 0, 0, background, 500, 300);
-    GFResizePic(gump, 25, 20, foreground, 450, 25);
-    GFTextLine(gump, 200, 20, TXT_CLR_FG, "Guild Creation");
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 200, 20, TXT_CLR_FG, "Guild Creation");
 
-    GFTextLine(gump, 25, 60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
-    GFTextLine(gump, 25, 80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
-    GFTextLine(gump, 25, 100, TXT_CLR_BG, "fee.");
+	GFTextLine(gump, 25, 60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
+	GFTextLine(gump, 25, 80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
+	GFTextLine(gump, 25, 100, TXT_CLR_BG, "fee.");
 
-    GFTextLine(gump, 25, 140, TXT_CLR_BG, "Registration Fee:");
-    GFResizePic(gump, 150, 140, foreground, 200, 25);
-    GFTextLine(gump, 160, 140, TXT_CLR_FG, regist_fee);
+	GFTextLine(gump, 25, 140, TXT_CLR_BG, "Registration Fee:");
+	GFResizePic(gump, 150, 140, foreground, 200, 25);
+	GFTextLine(gump, 160, 140, TXT_CLR_FG, regist_fee);
 
-    GFTextLine(gump, 25, 165, TXT_CLR_BG, "Guild Name:");
-    GFResizePic(gump, 150, 165, foreground, 200, 25);
-    GFTextEntry(gump, 160, 165, 200, 20, TXT_CLR_FG, "", 3);
+	GFTextLine(gump, 25, 165, TXT_CLR_BG, "Guild Name:");
+	GFResizePic(gump, 150, 165, foreground, 200, 25);
+	GFTextEntry(gump, 160, 165, 200, 20, TXT_CLR_FG, "", 3);
 
-    GFTextLine(gump, 25, 190, TXT_CLR_BG, "Guild Abbreviation:");
-    GFResizePic(gump, 150, 190, foreground, 200, 25);
-    GFTextEntry(gump, 160, 190, 200, 20, TXT_CLR_FG, "", 4);
+	GFTextLine(gump, 25, 190, TXT_CLR_BG, "Guild Abbreviation:");
+	GFResizePic(gump, 150, 190, foreground, 200, 25);
+	GFTextEntry(gump, 160, 190, 200, 20, TXT_CLR_FG, "", 4);
 
-    GFAddButton(gump, 25, 250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
-    GFAddButton(gump, 100, 250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
+	GFAddButton(gump, 25, 250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
+	GFAddButton(gump, 100, 250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
 
-    var result := GFSendGump(who, gump);
-    if ( result[1] == 1 ) // clicked Okay
-        var i, x;
-	    x := Len(result[3]);
-	    i := result[3];
-	    var guild_name := i[4, (x-3)];
-        if ( !guild_name )
-            SendSysMessage(who, "You must provide a guild name.");
-            return 0;
-        endif
-	    x := Len(result[4]);
-	    i := result[4];
-	    var guild_abbr := i[4, (x-3)];
-        if ( !guild_abbr )
-            SendSysMessage(who, "You must provide a guild abbreviation.");
-            return 0;
-        endif
-        // More stuff todo, drr.
-        var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
-        var ev := struct{};
-        ev.+type := GUILD_CREATE;
-        ev.+source := who;
-        ev.+name := guild_name;
-        ev.+abbr := guild_abbr;
-        guild_manager.SendEvent(ev);
-        return 1;
-    elseif ( result[2] == 1 ) // clicked Cancel
-        SendSysMessage(who, "Aborted.");
-        return 0;
-    else
-        SendSysMessage(who, "Aborted.");
-        return 0;
-    endif
+	var result := GFSendGump(who, gump);
+
+	if ( result[1] == 1 ) // clicked Okay
+		var i, x;
+		x := Len(result[3]);
+		i := result[3];
+		var guild_name := i[4, (x-3)];
+
+		if ( !guild_name )
+			SendSysMessage(who, "You must provide a guild name.");
+			return 0;
+		endif
+
+		x := Len(result[4]);
+		i := result[4];
+		var guild_abbr := i[4, (x-3)];
+
+		if ( !guild_abbr )
+			SendSysMessage(who, "You must provide a guild abbreviation.");
+			return 0;
+		endif
+
+		// More stuff todo, drr.
+		var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
+		var ev := struct{};
+		ev.+type := GUILD_CREATE;
+		ev.+source := who;
+		ev.+name := guild_name;
+		ev.+abbr := guild_abbr;
+		guild_manager.SendEvent(ev);
+		return 1;
+	elseif ( result[2] == 1 ) // clicked Cancel
+		SendSysMessage(who, "Aborted.");
+		return 0;
+	else
+		SendSysMessage(who, "Aborted.");
+		return 0;
+	endif
 
 endprogram
