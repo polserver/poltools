@@ -1,6 +1,7 @@
 /* $Id$
- *
- *
+ *        Author: MontuZ
+ *        Created: Sunday, May 21 2006
+ *        Version: 0.01
  */
 
 use uo;
@@ -39,7 +40,7 @@ exported function ButtonHook(who, byref packet)
 				return 1;
 			endif
 			break;
-		QUEST_BUTTON_PRESSED:
+		QUEST_BUTTON_PRESSED: // TODO: After I'm finished Guildsystem, get started on Questsystem.
 			SendSysMessage(who, "This feature is not currently implemented.");
 			return 0;
 			break;

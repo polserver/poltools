@@ -1,7 +1,7 @@
 /* $Id$
  *	  Author: MontuZ
  *	  Created: Wednesday, May 24 2006
- *	  Version: 0.01
+ *	  Version: 0.02
  */
 
 use uo;
@@ -21,12 +21,12 @@ function SetGuildRank(who, rank)
 		return rank;
 	endif
 
-	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
@@ -51,12 +51,12 @@ function DemoteMember(who)
 		return rank;
 	endif
 
-	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
@@ -83,12 +83,12 @@ function PromoteMember(who)
 		return rank;
 	endif
 
-	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
