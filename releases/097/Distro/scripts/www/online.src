@@ -24,7 +24,7 @@ Program HTMLPage()
 	WriteHTML("<DIV ID='content'>");
 
 	var online := EnumerateOnlineCharactersABC();
-	WriteHTML("<TABLE WIDTH=400 BORDER='0'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>");
 	WriteHTML("Total Online: "+online.Size());
