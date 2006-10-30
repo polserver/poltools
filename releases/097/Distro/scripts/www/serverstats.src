@@ -7,8 +7,20 @@ use util;
 use http;
 
 Program HTMLPage()
-	WriteHTML("<LINK REL='stylesheet' TYPE='text/css' HREF='stylesheet.css'>");
-	WriteHTML("<TITLE>Shard Stats</TITLE>");
+	WriteHTML("<HTML>");
+	WriteHTML("<HEAD>");
+	WriteHTML("<TITLE>POL Internal Web Server</TITLE>");
+	WriteHTML("<LINK REL='stylesheet' TYPE='text/css' HREF='/stylesheets/main.css'>");
+	WriteHTML("</HEAD>");
+
+	WriteHTML("<BODY>");
+
+	WriteHTML("<DIV ID='container'>");
+
+	WriteHTML("<DIV ID='header'></DIV>");
+
+
+	WriteHTML("<DIV ID='content'>");
 
 	WriteHTML("<TABLE WIDTH='400'>");
 	WriteHTML("<TR><TD CLASS='header' COLSPAN='2'>Server Hardware</TD></TR>");
@@ -37,6 +49,15 @@ Program HTMLPage()
 	WriteHTML("<TR><TD>Bytes Received:</TD><TD>"+FormatBytes(core_ref.bytes_received)+"</TD></TR>");
 	WriteHTML("<TR><TD>Bytes Sent:</TD><TD>"+FormatBytes(core_ref.bytes_sent)+"</TD></TR>");
 	WriteHTML("</TABLE>");
+
+	WriteHTML("</DIV>");
+
+	WriteHTML("<DIV ID='footer'>");
+	WriteHTML("<P>Copyright &copy; 2006 - POL Development Team.</P>");
+	WriteHTML("</DIV>");
+	WriteHTML("</DIV>");
+	WriteHTML("</BODY>");
+	WriteHTML("</HTML>");
 
 	return 1;
 endprogram
