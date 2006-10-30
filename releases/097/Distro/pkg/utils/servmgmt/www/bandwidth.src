@@ -9,13 +9,18 @@ use http;
 include ":servmgmt:header";
 
 program HTMLPage()
+	DoHeader("Server Management Index");
+
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	DoHeader("Server Management Bandwidth");
 
 	TableHeader("Bandwidth");
 
 	WriteHTML("<BR>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTMLRaw("<TD CLASS='header'>Minute</TD>");
 	WriteHTMLRaw("<TD CLASS='header'>Bytes Sent</TD>");
@@ -39,6 +44,7 @@ program HTMLPage()
 
 	WriteHTML("</TABLE>");
 
+	WriteHTML("</DIV>");
 	DoFooter();
 
 	return 1;
