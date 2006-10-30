@@ -13,8 +13,11 @@ include ":servmgmt:header";
 
 program HTMLPage()
 	DoHeader("Server Management Storage");
-
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Storage");
+
 	var storage_area := QueryParam("Area");
 	var container := QueryParam("Root");
 
@@ -25,6 +28,8 @@ program HTMLPage()
 	else
 		ListStorageAreas();
 	endif
+
+	WriteHTML("</DIV>");
 
 	DoFooter();
 
@@ -37,7 +42,7 @@ function ShowContainer(storage_area, container)
 	WriteHTML("<P>Storage Area - <A HREF='?Area="+storage_area+"'>"+storage_area+"</A><BR>");
 	WriteHTML("Root Container - "+container.desc+"</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Serial</TD>");
 	WriteHTML("</TR>");
@@ -61,7 +66,7 @@ function ShowStorageArea(storage_area)
 	WriteHTML("<P>Root Items: "+area.count+"<BR>");
 	WriteHTML("Total Items: "+area.totalcount+"</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Item Count</TD>");
 	WriteHTML("</TR>");
@@ -81,7 +86,7 @@ endfunction
 function ListStorageAreas()
 	WriteHTML("<P>Storage Areas</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Area Name</TD>");
 	WriteHTML("<TD CLASS='header2'>Root Item Count</TD>");

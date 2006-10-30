@@ -10,7 +10,9 @@ include ":servmgmt:header";
 
 Program HTMLPage()
 	DoHeader("Script Unloader");
-
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Script Unloader");
 
 	var fname := QueryParam("file");
@@ -29,13 +31,15 @@ Program HTMLPage()
 
 		WriteHTML("<BR><BR>");
 
-		WriteHTML("<TABLE WIDTH='400'>");
+		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 		WriteHTML("<TR><TD CLASS='header'>Unload Results</TD></TR>");
 		WriteHTML("<TR><TD>"+num+" scripts unloaded. ["+fname+"]</TD></TR>");
 		WriteHTML("</TABLE>");
 	endif
 
 	ShowForms();
+	WriteHTML("</DIV>");
+	DoFooter();
 
 	return 1;
 endprogram
@@ -43,7 +47,7 @@ endprogram
 function ShowForms()
 	WriteHTML("<BR><BR>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<FORM NAME='FRM' METHOD='GET'>");
 	WriteHTML("<TR><TD CLASS='header2' COLSPAN='2'>Which script(s) do you want to unload?</TD></TR>");
 	WriteHTML("<TR><TD COLSPAN='2'>Use '#'s instead of ':'s and ommit the '.ecl'</TD></TR>");
