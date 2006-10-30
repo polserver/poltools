@@ -19,13 +19,16 @@ program HTMLPage()
 	endif
 
 	DoHeader("Server Management Script Profiles");
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Script Profiles");
 
 	var core := polcore();
 
 	WriteHTML("<P>");
 	WriteHTML("<FORM><INPUT TYPE='SUBMIT' NAME='Action' VALUE='Reset Counters'></FORM>");
-	WriteHTML("<a href=?>Reload Page</a><BR><BR>");
+	WriteHTML("<A HREF='?'>Reload Page</A><BR><BR>");
 	WriteHTML("Online Players: "+EnumerateOnlineCharacters().Size()+"<BR>");
 	WriteHTML("NPCs: "+polcore().mobilecount+"<BR>");
 	WriteHTML("Current Load: " + core.sysload+"%<BR>");
@@ -33,7 +36,7 @@ program HTMLPage()
 	WriteHTML("Scripts On Time Per Minute: " + core.scripts_ontime_per_min +"<BR>");
 	WriteHTML("</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR CLASS>");
 	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Instructions</TD><TD CLASS='header2'>Invocations</TD><TD CLASS='header2'>Instr Per Invoc</TD><TD CLASS='header2'>% of sysload</TD>");
 	WriteHTML("</TR>");
@@ -47,6 +50,7 @@ program HTMLPage()
 
 	WriteHTML("</TABLE>");
 
+	WriteHTML("</DIV>");
 	DoFooter();
 
 	return 1;
