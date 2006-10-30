@@ -1,7 +1,7 @@
 /* $Id$
- *    Author: Unreal
+ *    Author: MontuZ
  *    Created: Sunday, May 21 2006
- *    Version: 0.02
+ *    Version: 0.01
  */
 
 CONST GUILD_CREATE := 0x0001;

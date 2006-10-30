@@ -1,6 +1,7 @@
 /* $Id$
- *
- *
+ *        Author: MontuZ
+ *        Created: Sunday, May 21 2006
+ *        Version: 0.01
  */
 
 use uo;
@@ -194,6 +195,7 @@ function ShowMembers(who)
 			count := 0;
 			Y := 70;
 		endif
+
 		SleepMS( 2 );
 	endforeach
 

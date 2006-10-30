@@ -1,3 +1,9 @@
+/* $Id$
+ *	  Author: MontuZ
+ *	  Created: Wednesday, May 24 2006
+ *	  Version: 0.01
+ */
+ 
 use uo;
 use os;
 use file;
