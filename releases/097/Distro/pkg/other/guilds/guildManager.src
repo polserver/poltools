@@ -1,30 +1,30 @@
 /* $Id$
- *	  Author: MontuZ
- *	  Created: Sunday, May 21 2006
- *	  Version: 0.03
+ *        Author: MontuZ
+ *        Created: Sunday, May 21 2006
+ *        Version: 0.03
  */
 
 use os;
 use guilds;
 
-include	":guilds:report";
-include	":guilds:settings";
-include	":guilds:events";
-include	":guilds:validate";
-include	":guilds:ranks";
-include	":gumps:yesno";
+include ":guilds:report";
+include ":guilds:settings";
+include ":guilds:events";
+include ":guilds:validate";
+include ":guilds:ranks";
+include ":gumps:yesno";
 
 var permissions := Guild_GetSettingsCfgElem("Permissions");
 
-program	GuildManager()
+program GuildManager()
 
-	SetGlobalProperty("#Guild_Manager",	GetPid());
+	SetGlobalProperty("#Guild_Manager", GetPid());
 
-	var	ev;
+	var     ev;
 
-	while (	1 )
+	while ( 1 )
 	ev := Wait_For_Event(120);
-		if ( ev	)
+		if ( ev )
 			case ( ev.type )
 				GUILD_CREATE:
 					AddGuild(ev);
@@ -64,19 +64,19 @@ endprogram
 
 function AddGuild(ev)
 
-	var	guild_gm :=	ev.source;
-	var	regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
-	if ( regist_fee	== 0 ||	!regist_fee	)
+	var guild_gm := ev.source;
+	var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
+	if ( regist_fee == 0 || !regist_fee     )
 		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
 		return 0;
 	endif
 
-	if ( guild_gm.gold < regist_fee	)
-		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
+	if ( guild_gm.gold < regist_fee )
+		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the     fee.");
 		return 0;
 	endif
 
-	var	guild_name := CStr(ev.name);
+	var     guild_name := CStr(ev.name);
 
 	if ( Len(guild_name) > 20 ) // TODO: Add an option in settings.cfg
 		SendSysMessage(guild_gm, "Aborted. Guild name is too long.");
@@ -84,12 +84,12 @@ function AddGuild(ev)
 	elseif ( !ValidStr(guild_name) )
 		SendSysMessage(guild_gm, "Aborted. Guild name contains illegal characters.");
 		return 0;
-	elseif ( !ValidName(guild_name)	)
+	elseif ( !ValidName(guild_name) )
 		SendSysMessage(guild_gm, "Aborted. Guild name already exists.");
 		return 0;
 	endif
 
-	var	guild_abbr := CStr(ev.abbr);
+	var     guild_abbr := CStr(ev.abbr);
 
 	if ( Len(guild_abbr) > 4 ) // TODO: Add an option in settings.cfg
 		SendSysMessage(guild_gm, "Aborted. Guild abbreviation is too long.");
@@ -97,29 +97,29 @@ function AddGuild(ev)
 	elseif ( !ValidStr(guild_abbr) )
 		SendSysMessage(guild_gm, "Aborted. Guild abbreviation contains illegal characters.");
 		return 0;
-	elseif ( !ValidName(guild_abbr)	)
+	elseif ( !ValidName(guild_abbr) )
 		SendSysMessage(guild_gm, "Aborted. Guild abbreviation already exists.");
 		return 0;
 	endif
 
-	if ( !YesNo(guild_gm, "Are you sure	you	want to	create a new guild?", "Yes", "No") )
+	if ( !YesNo(guild_gm, "Are you sure     you     want to create a new guild?", "Yes", "No") )
 		SendSysMessage(guild_gm, "Aborted.");
 		return 0;
 	else
 		if ( !guild_gm.SpendGold(regist_fee) )
-			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover	the	fee.");
+			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the     fee.");
 			return 0;
 		endif
 	endif
 
-	var	guild := CreateGuild();
+	var     guild := CreateGuild();
 
-    if ( guild )
-		var	guild_id :=	guild.guildid;
-		var	null_space := "NONE";
+	if ( guild )
+		var guild_id := guild.guildid;
+		var null_space := "NONE";
 		guild.SetProp("Name", guild_name);
 		guild.SetProp("Abbr",  guild_abbr);
-		guild.SetProp("Master",	guild_gm.serial);
+		guild.SetProp("Master", guild_gm.serial);
 		guild.SetProp("Charter", null_space);
 		guild.SetProp("Website", null_space);
 		guild.SetProp("Faction", "Neutral");
@@ -139,7 +139,7 @@ endfunction
 
 function RemoveGuild(ev)
 
-	var	guild := ev.guild;
+	var guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
 	foreach member in (guild.members)
@@ -148,6 +148,7 @@ function RemoveGuild(ev)
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
+		SendSysMessage(member, "Your guild has been disbanded.");
 		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		SleepMS(2);
 	endforeach
@@ -169,7 +170,7 @@ endfunction
 function InviteMember(ev)
 
 	var recruiter := ev.source;
-	var	guild := ev.guild;
+	var guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
 	SendSysMessage(recruiter, "Whom do you wish to invite into your guild?");
@@ -239,17 +240,17 @@ function KickMember(ev)
 		endif
 	endif
 
-	var	max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var	min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
 
-	var	guild := ev.guild;
+	var guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
 	if ( !YesNo(character, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
@@ -272,7 +273,7 @@ function LeaveGuild(ev)
 
 	var member := ev.source;
 
-	var	guild := ev.guild;
+	var guild := ev.guild;
 	var guild_name := guild.GetProp("Name");
 
 	if ( !YesNo(member, "Are you sure you would like to leave "+guild_name+"?", "Yes", "No") )
@@ -315,7 +316,7 @@ function SetGuildCharter(ev)
 			return 1;
 		endif
 	else
-		if ( !YesNo(who, "Are you sure	you	want to	create a new guild charter?", "Yes", "No") )
+		if ( !YesNo(who, "Are you sure  you want to create a new guild charter?", "Yes", "No") )
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
@@ -358,7 +359,7 @@ function SetGuildWebsite(ev)
 			return 1;
 		endif
 	else
-		if ( !YesNo(who, "Are you sure	you	want to	create a new guild website?", "Yes", "No") )
+		if ( !YesNo(who, "Are you sure  you want to create a new guild website?", "Yes", "No") )
 			SendSysMessage(who, "Aborted.");
 			return 0;
 		else
