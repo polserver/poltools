@@ -10,12 +10,14 @@ include ":servmgmt:header";
 
 program HTMLPage()
 	DoHeader("Server Management Sleeping-Scripts");
-
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Sleeping-Scripts");
 
 	WriteHTML("<P>Sleeping Scripts</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header'>PID</TD>");
 	WriteHTML("<TD CLASS='header'>Script Name</TD>");
@@ -48,6 +50,9 @@ program HTMLPage()
 		WriteHTML("</TR>");
 		SleepMS(2);
 	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("</DIV>");
 
 	DoFooter();
 

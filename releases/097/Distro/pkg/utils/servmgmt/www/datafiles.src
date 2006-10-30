@@ -12,8 +12,11 @@ include ":servmgmt:header";
 
 program HTMLPage()
 	DoHeader("Server Management Data Files");
-
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Data Files");
+
 	var data_file := QueryParam("File");
 	var data_elem := QueryParam("Elem");
 
@@ -24,6 +27,8 @@ program HTMLPage()
 	else
 		DataFileList();
 	endif
+
+	WriteHTML("</DIV>");
 
 	DoFooter();
 
@@ -41,7 +46,7 @@ function ShowDataElem(descriptor, elem_name)
 	WriteHTML("<P>Data File - <A HREF='?File="+descriptor+"'>"+descriptor+"</A><BR>");
 	WriteHTML("Data Elem - "+elem_name+"</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Prop Name</TD><TD CLASS='header2'>Prop Value</TD>");
 	WriteHTML("</TR>");
@@ -67,7 +72,7 @@ function ShowDataFile(descriptor)
 	WriteHTML("<P><A HREF=?>File List</A><BR>");
 	WriteHTML("Descriptor - "+descriptor+"</P>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Elem list</TD>");
 	WriteHTML("</TR>");
@@ -77,7 +82,6 @@ function ShowDataFile(descriptor)
 		WriteHTML("</TR>");
 		SleepMS(2);
 	endforeach
-
 	WriteHTML("</TABLE>");
 
 	return 1;
@@ -86,7 +90,7 @@ endfunction
 function DataFileList()
 	WriteHTML("<P>Data Files</P>");
 
-	WriteHTML("<TABLE WIDTH='400'>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TD CLASS='header2'>Descriptor</TD>");
 	WriteHTML("<TD CLASS='header2'>Package</TD>");
@@ -99,7 +103,6 @@ function DataFileList()
 		WriteHTML("</TR>");
 		SleepMS(2);
 	endforeach
-
 	WriteHTML("</TABLE>");
 
 	return 1;
