@@ -13,6 +13,9 @@ include ":servmgmt:header";
 Program HTMLPage()
 	DoHeader("Server Management Index");
 
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Server Management Index");
 
 	var core_ref := POLCore();
@@ -22,7 +25,7 @@ Program HTMLPage()
 	WriteHTML("Compile Date: "+core_ref.compiledate+"<BR>");
 	WriteHTML("Compile Time: "+core_ref.compiletime+"</P>");
 
-	WriteHTML("<TABLE BORDER='1'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
 	TableDataHeader("Object Counts");
 	TableData("Mobile Count", core_ref.mobilecount);
 	TableData("Top Level Item Count", core_ref.itemcount);
@@ -67,6 +70,15 @@ Program HTMLPage()
 	WriteHTML("<LI><A HREF='unloadcfg.ecl'>Config Unloader</A>");
 	WriteHTML("</UL>");
 	WriteHTML("</P>");
+
+	WriteHTML("</DIV>");
+
+	WriteHTML("<DIV ID='footer'>");
+	WriteHTML("<P>Copyright &copy; 2006 - POL Development Team.</P>");
+	WriteHTML("</DIV>");
+	WriteHTML("</DIV>");
+	WriteHTML("</BODY>");
+	WriteHTML("</HTML>");
 
 	DoFooter();
 
