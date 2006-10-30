@@ -87,7 +87,7 @@ function TableData(name, data)
 endfunction
 
 function TableDataHeader(data)
-	WriteHTML("<TR><TD COLSPAN='2' CLASS='header2'>"+data+"</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2' ALIGN='LEFT'>"+data+"</TH></TR>");
 
 	return 1;
 endfunction

@@ -42,9 +42,9 @@ function ShowContainer(storage_area, container)
 	WriteHTML("<P>Storage Area - <A HREF='?Area="+storage_area+"'>"+storage_area+"</A><BR>");
 	WriteHTML("Root Container - "+container.desc+"</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Serial</TD>");
+	WriteHTML("<TH><B>Name</B></TH><TH><B>Serial</B></TH>");
 	WriteHTML("</TR>");
 	foreach item in ( EnumerateItemsInContainer(container) )
 		WriteHTML("<TR>");
@@ -66,9 +66,9 @@ function ShowStorageArea(storage_area)
 	WriteHTML("<P>Root Items: "+area.count+"<BR>");
 	WriteHTML("Total Items: "+area.totalcount+"</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD><TD CLASS='header2'>Item Count</TD>");
+	WriteHTML("<TH><B>Name</B></TH><TH><B>Item Count</B></TH>");
 	WriteHTML("</TR>");
 	foreach container in ( area )
 		WriteHTML("<TR>");
@@ -86,11 +86,11 @@ endfunction
 function ListStorageAreas()
 	WriteHTML("<P>Storage Areas</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Area Name</TD>");
-	WriteHTML("<TD CLASS='header2'>Root Item Count</TD>");
-	WriteHTML("<TD CLASS='header2'>Total Items</TD>");
+	WriteHTML("<TH><B>Area Name</B></TH>");
+	WriteHTML("<TH><B>Root Item Count</B></TH>");
+	WriteHTML("<TH><B>Total Items</B></TH>");
 	foreach area in ( StorageAreas() )
 		WriteHTML("<TR>");
 		WriteHTML("<TD><A HREF='?Area="+area+"'>"+area+"</A></TD>");

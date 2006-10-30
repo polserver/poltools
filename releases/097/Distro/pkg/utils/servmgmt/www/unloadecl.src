@@ -32,7 +32,7 @@ Program HTMLPage()
 		WriteHTML("<BR><BR>");
 
 		WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
-		WriteHTML("<TR><TD CLASS='header'>Unload Results</TD></TR>");
+		WriteHTML("<TR><TH>Unload Results</TH></TR>");
 		WriteHTML("<TR><TD>"+num+" scripts unloaded. ["+fname+"]</TD></TR>");
 		WriteHTML("</TABLE>");
 	endif
@@ -49,7 +49,7 @@ function ShowForms()
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<FORM NAME='FRM' METHOD='GET'>");
-	WriteHTML("<TR><TD CLASS='header2' COLSPAN='2'>Which script(s) do you want to unload?</TD></TR>");
+	WriteHTML("<TR><TH COLSPAN='2'>Which script(s) do you want to unload?</TH></TR>");
 	WriteHTML("<TR><TD COLSPAN='2'>Use '#'s instead of ':'s and ommit the '.ecl'</TD></TR>");
 	WriteHTMLRaw("<TR>");
 	WriteHTMLRaw("<TD><INPUT TYPE='TEXT' NAME='file' SIZE='40'></TD>");

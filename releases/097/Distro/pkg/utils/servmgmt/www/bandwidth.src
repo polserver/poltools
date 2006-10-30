@@ -20,13 +20,13 @@ program HTMLPage()
 
 	WriteHTML("<BR>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='400'>");
 	WriteHTML("<TR>");
-	WriteHTMLRaw("<TD CLASS='header'>Minute</TD>");
-	WriteHTMLRaw("<TD CLASS='header'>Bytes Sent</TD>");
-	WriteHTMLRaw("<TD CLASS='header'>bps Out</TD>");
-	WriteHTMLRaw("<TD CLASS='header'>Bytes Received</TD>");
-	WriteHTML("<TD CLASS='header'>bps In</TD>");
+	WriteHTMLRaw("<TH><B>Minute</B></TH>");
+	WriteHTMLRaw("<TH><B>Bytes Sent</B></TH>");
+	WriteHTMLRaw("<TH><B>bps Out</B></TH>");
+	WriteHTMLRaw("<TH><B>Bytes Received</B></TH>");
+	WriteHTML("<TH><B>bps In</B></TH>");
 	WriteHTML("</TR>");
 
 	var gprop := GetGlobalProperty("#:servperf:bandwidth");

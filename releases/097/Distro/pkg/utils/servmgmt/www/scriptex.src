@@ -13,7 +13,9 @@ unload_scripts("");
 
 program HTMLPage()
 	DoHeader("Server Management Executing Script");
-
+	WriteHTML("<DIV ID='container'>");
+	WriteHTML("<DIV ID='header'></DIV>");
+	WriteHTML("<DIV ID='content'>");
 	TableHeader("Executing Script");
 
 	var pid := CInt(QueryParam("PID"));
@@ -21,9 +23,9 @@ program HTMLPage()
 
 	WriteHTML("<P>Executing Script Information</P>");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header' COLSPAN='2'>Script Status</TD>");
+	WriteHTML("<TH COLSPAN='2'><B>Script Status</B></TH>");
 	WriteHTML("</TR>");
 
 	WriteHTML("<TR><TD>Script Name</TD><TD>"+script.name+"</TD></TR>");
@@ -40,17 +42,17 @@ program HTMLPage()
 
 	WriteHTML("</TABLE>");
 
-	WriteHTML("<P>");
+	WriteHTML("<P />");
 
-	WriteHTML("<TABLE>");
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header' COLSPAN='4'>Global Variables</TD>");
+	WriteHTML("<TH COLSPAN='4'><B>Global Variables</B></TH>");
 	WriteHTML("</TR>");
 	WriteHTML("<TR>");
-	WriteHTML("<TD CLASS='header2'>Name</TD>");
-	WriteHTML("<TD CLASS='header2'>Type</TD>");
-	WriteHTML("<TD CLASS='header2'>Size</TD>");
-	WriteHTML("<TD CLASS='header2'>Value</TD>");
+	WriteHTML("<TH ALIGN='LEFT'>Name</TH>");
+	WriteHTML("<TH ALIGN='LEFT'>Type</TH>");
+	WriteHTML("<TH ALIGN='LEFT'>Size</TH>");
+	WriteHTML("<TH ALIGN='LEFT'>Value</TH>");
 	WriteHTML("</TR>");
 
 	foreach global in ( script.globals )
@@ -63,6 +65,12 @@ program HTMLPage()
 
 		SleepMS(2);
 	endforeach
+
+	WriteHTML("</TABLE>");
+
+	WriteHTML("</DIV>");
+
+	DoFooter();
 
 	return 1;
 endprogram
