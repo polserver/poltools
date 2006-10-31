@@ -16,17 +16,17 @@ endfunction
 
 function SetGuildRank(who, rank)
 
-	rank := CInt( rank );
+	CInt( rank );
 	if ( !rank || rank.errortext )
 		return rank;
 	endif
 
-	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
@@ -51,12 +51,12 @@ function DemoteMember(who)
 		return rank;
 	endif
 
-	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
@@ -83,12 +83,12 @@ function PromoteMember(who)
 		return rank;
 	endif
 
-	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif

@@ -520,7 +520,7 @@ function ShowGuilds(who)
 
 	GFResizePic(gump, 0, 0, background, 500, 300);
 	GFResizePic(gump, 25, 20, foreground, 450, 25);
-	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Enemies" );
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guilds" );
 
 	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
 	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
