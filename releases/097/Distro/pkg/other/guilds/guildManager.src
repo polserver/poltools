@@ -223,29 +223,29 @@ function KickMember(ev)
 		return 0;
 	endif
 
-	if ( char_rank == 2 ) // TODO: Get req. rank from settings.cfg
+	if ( char_rank == CInt(permissions.RemoveRonin) )
 		if ( member_rank != 1 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
-	elseif ( char_rank == 3 ) // TODO: Get req. rank from settings.cfg
+	elseif ( char_rank == CInt(permissions.RemoveMember) )
 		if ( member_rank != 2 && member_rank != 1 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
-	elseif ( char_rank == 4 ) // TODO: Get req. rank from settings.cfg
-		if ( member_rank != 1 )
+	elseif ( char_rank == CInt(permissions.RemoveAny) )
+		if ( member_rank == 5 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
 	endif
 
-	var max_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MaxRanks);
+	var max_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var min_ranks := CInt(Guild_GetSettingsCfgElem("Ranks").MinRanks);
+	var min_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
@@ -299,9 +299,6 @@ endfunction
 function SetGuildCharter(ev)
 
 	var who := ev.source;
-
-	var who_rank := GetGuildRank(who);
-
 	var guild := ev.guild;
 	var guild_charter := guild.GetProp("Charter");
 
@@ -337,14 +334,6 @@ endfunction
 function SetGuildWebsite(ev)
 
 	var who := ev.source;
-
-	var who_rank := GetGuildRank(who);
-
-	if ( who_rank != 5 ) // TODO: Get req. rank from settings.cfg
-		SendSysMessage(who, "Aborted. You are not allowed to set the guild charter.");
-		return 0;
-	endif
-
 	var guild := ev.guild;
 	var guild_charter := guild.GetProp("Website");
 
