@@ -72,7 +72,7 @@ function AddGuild(ev)
 	endif
 
 	if ( guild_gm.gold < regist_fee )
-		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the     fee.");
+		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the fee.");
 		return 0;
 	endif
 
@@ -102,12 +102,12 @@ function AddGuild(ev)
 		return 0;
 	endif
 
-	if ( !YesNo(guild_gm, "Are you sure     you     want to create a new guild?", "Yes", "No") )
+	if ( !YesNo(guild_gm, "Are you sure you want to create a new guild?", "Yes", "No") )
 		SendSysMessage(guild_gm, "Aborted.");
 		return 0;
 	else
 		if ( !guild_gm.SpendGold(regist_fee) )
-			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the     fee.");
+			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the fee.");
 			return 0;
 		endif
 	endif
@@ -131,7 +131,7 @@ function AddGuild(ev)
 		return 1;
 	elseif ( guild.errortext )
 		SendSysMessage(guild_gm, "Aborted. Guild creation failed.");
-		SysLog("Error creating guild ->"+guild.errortext);
+		SysLog("Error creating guild -> "+guild.errortext);
 		return 0;
 	endif
 
@@ -200,7 +200,7 @@ function InviteMember(ev)
 			return 0;
 		else
 			guild.AddMember(new_member);
-			SetObjProperty(new_member, "Guild_ID", guild.guild_id);
+			SetObjProperty(new_member, "Guild_ID", guild.guildid);
 			SetGuildRank(new_member, 1);
 			SetObjProperty(new_member, "Fealty", new_member.serial);
 			SendSysMessage(new_member, "You're now a member of "+guild_name+".");
@@ -218,7 +218,7 @@ function KickMember(ev)
 	var member := ev.player;
 	var member_rank := GetGuildRank(member);
 
-	if ( char_rank < member_rank ) // TODO: Get req. rank from settings.cfg
+	if ( char_rank < member_rank )
 		SendSysMessage(character, "Aborted. You cannot kick this member.");
 		return 0;
 	endif
