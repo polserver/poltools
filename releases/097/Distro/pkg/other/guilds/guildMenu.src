@@ -614,8 +614,9 @@ function ViewGuild(who, guild_id)
 	GFTextLine(gump, 25, 90, TXT_CLR_BG, "Master");
 	GFTextLine(gump, 105, 90, TXT_CLR_BG+1, guild_master.name);
 
-	GFTextLine(gump, 25, 110, TXT_CLR_BG+1, "View Members");
-	GFAddButton(gump, 105, 110, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id + 1000));
+	GFTextLine(gump, 25, 130, TXT_CLR_BG, "Functions");
+	GFTextLine(gump, 45, 150, TXT_CLR_BG, "View Members");
+	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id + 1000));
 
 	// Previous
 	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
@@ -628,7 +629,8 @@ function ViewGuild(who, guild_id)
 		ShowGuilds(who);
 		return 1;
 	else
-	ShowMembers(who, CInt(result[0] - 1000));
+		ShowMembers(who, CInt(result[0] - 1000));
+		return 1;
 	endif
 
 endfunction
