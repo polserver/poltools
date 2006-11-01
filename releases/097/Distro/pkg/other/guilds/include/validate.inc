@@ -37,7 +37,7 @@ function ValidAbbr(thestring)
     var flag := 1;
 
     foreach guilds in ListGuilds()
-        if ( Lower(guilds.GetProp("GuildAbbr")) == Lower(thestring) )
+        if ( Lower(guilds.GetProp("Abbr")) == Lower(thestring) )
             flag := 0;
             break;
         endif
@@ -52,7 +52,7 @@ function ValidName(thestring)
     var flag := 1;
 
     foreach guilds in ListGuilds()
-        if ( Lower(guilds.GetProp("GuildName")) == Lower(thestring) )
+        if ( Lower(guilds.GetProp("Name")) == Lower(thestring) )
             flag := 0;
             break;
         endif

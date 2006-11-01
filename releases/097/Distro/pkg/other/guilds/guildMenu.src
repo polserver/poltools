@@ -38,9 +38,12 @@ program Guild_Create(params)
 
 	var who_rank := GetGuildRank(who);
 	var guild := params[2];
+	var guild_id := GetObjProperty(who, "Guild_ID");
 	var guild_name := guild.GetProp("Name");
 	var guild_abbr := guild.GetProp("Abbr");
 	// Resurved for some unknown reason, just accept it.
+	// Five and a half months later, I regret not putting why it's here.
+	// Damnit.
 	//var guild_website := guild.GetProp("Website");
 	//var guild_faction := guild.GetProp("Faction");
 	//var guild_allies := guild.allyguilds;
@@ -93,13 +96,13 @@ program Guild_Create(params)
 
 	case ( result[0] )
 		0:
-			SendSysMessage(who, "Done. 0");
+			SendSysMessage(who, "Aborted.");
 			break;
 		1:
-			ShowMembers(who);
+			ShowMembers(who, guild_id);
 			break;
 		2:
-			SendSysMessage(who, "Done. 2");
+			SendSysMessage(who, "INCOMPLETE->2");
 			break;
 		3:
 			ShowCharter(who);
@@ -108,7 +111,7 @@ program Guild_Create(params)
 			ShowWebsite(who);
 			break;
 		5:
-			if ( who_rank == 5 || who_rank == permissions.Invite )
+			if ( ( who_rank == 5 ) || ( who_rank == permissions.Invite ) )
 				var ev := struct{};
 				ev.+type := GUILD_INVITE_MEMBER;
 				ev.+source := who;
@@ -136,6 +139,10 @@ program Guild_Create(params)
 			guild_manager.SendEvent(ev);
 			break;
 		10:
+			SendSysMessage(who, "INCOMPLETE->10");
+			break;
+		11:
+			SendSysMessage(who, "INCOMPLETE->11");
 			break;
 	endcase
 
@@ -143,9 +150,9 @@ program Guild_Create(params)
 
 endprogram
 
-function ShowMembers(who)
+function ShowMembers(who, guild_id)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
+	//var guild_id := GetObjProperty(who, "Guild_ID"); // Resurved. Testing.
 	var guild := FindGuild(guild_id);
 	var guild_members := guild.members;
 	var who_rank := GetGuildRank(who);
@@ -204,8 +211,13 @@ function ShowMembers(who)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		Start_Script(":guilds:guildMenu", array{who, guild});
-		return 1;
+		if ( GetObjProperty(who, "Guild_ID") != guild_id )
+			ViewGuild(who, guild_id);
+			return 1;
+		else
+			Start_Script(":guilds:guildMenu", array{who, guild});
+			return 1;
+		endif
 	endif
 
 	var view_member := SystemFindObjectBySerial(result[0] - 1000, SYSFIND_SEARCH_OFFLINE_MOBILES);
@@ -219,8 +231,7 @@ endfunction
 
 function ViewMember(who, member)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild_id := GetObjProperty(member, "Guild_ID");
 	var who_rank := GetGuildRank(who);
 	var member_rank := GetGuildRank(member);
 
@@ -256,7 +267,7 @@ function ViewMember(who, member)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		ShowMembers(who);
+		ShowMembers(who, guild_id);
 		return 1;
 	endif
 
@@ -524,7 +535,7 @@ function ShowGuilds(who)
 
 	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
 	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
-	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Leader" );
+	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Master" );
 	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Faction" );
 
 	// Previous
@@ -537,8 +548,8 @@ function ShowGuilds(who)
 		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(guild.guildid + 1000));
 		var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
 		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
-
 		var guild_faction := guild.GetProp("Faction");
+
 		if ( guild_faction )
 			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
 		else
@@ -567,8 +578,57 @@ function ShowGuilds(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", array{who, guild});
 		return 1;
+	else
+		ViewGuild(who, CInt(result[0] - 1000));
+		return 1;
 	endif
 
-	// TODO: Viewing a Guild's PROFILE.
+endfunction
+
+function ViewGuild(who, guild_id)
+
+	var guild := FindGuild(guild_id);
+
+	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
+	var place := 1;
+	var page := 1;
+	var count := 0;
+	var X := 25;
+	var Y := 70;
+
+	GFResizePic(gump, 0, 0, background, 500, 300);
+	GFResizePic(gump, 25, 20, foreground, 450, 25);
+	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Profile" );
+	GFTextLine(gump, 25, 50, TXT_CLR_BG, "Name" );
+	GFTextLine(gump, 105, 50, TXT_CLR_BG+1, guild.GetProp("Name")+" ["+guild.GetProp("Abbr")+"]" );
+	var guild_faction := guild.GetProp("Faction");
+	GFTextLine(gump, 25, 70, TXT_CLR_BG, "Faction" );
+
+	if ( guild_faction )
+		GFTextLine(gump, 105, 70, TXT_CLR_BG+1, guild_faction);
+	else
+		GFTextLine(gump, 105, 70, TXT_CLR_BG+1, "Neutral");
+	endif
+
+	var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
+	GFTextLine(gump, 25, 90, TXT_CLR_BG, "Master");
+	GFTextLine(gump, 105, 90, TXT_CLR_BG+1, guild_master.name);
+
+	GFTextLine(gump, 25, 110, TXT_CLR_BG+1, "View Members");
+	GFAddButton(gump, 105, 110, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id + 1000));
+
+	// Previous
+	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
+
+	var result := GFSendGump(who, gump);
+
+	if ( result[0] == 0 )
+		return 0;
+	elseif ( result[0] == 555 )
+		ShowGuilds(who);
+		return 1;
+	else
+	ShowMembers(who, CInt(result[0] - 1000));
+	endif
 
 endfunction
