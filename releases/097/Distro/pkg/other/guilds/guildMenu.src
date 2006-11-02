@@ -19,15 +19,18 @@ CONST GCGUMP_X := 75;
 CONST GCGUMP_Y := 150;
 CONST TXT_CLR_FG := 0;
 CONST TXT_CLR_BG := 2100;
+CONST PREV_V_NONE := 0x0000;
+CONST PREV_V_G_MEM := 0x0001;
+CONST PREV_V_A_MEM := 0x0002;
+CONST PREV_V_E_MEM := 0x0003;
+CONST PREV_V_AG_MEM := 0x0004;
 
 var background := GFGetCfgConst("Defaults", "BackGround");
 var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
 var permissions := Guild_GetSettingsCfgElem("Permissions");
 var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 
-program Guild_Create(params)
-
-	var who := params[1];
+program Guild_Menu(who)
 
 	if ( GetObjProperty(who, "#GuildMenu") > PolCore().systime )
 		SendSysMessage(who, "The guild menu is already open.");
@@ -37,7 +40,7 @@ program Guild_Create(params)
 	endif
 
 	var who_rank := GetGuildRank(who);
-	var guild := params[2];
+	var guild := who.guild;
 	var guild_id := GetObjProperty(who, "Guild_ID");
 	var guild_name := guild.GetProp("Name");
 	var guild_abbr := guild.GetProp("Abbr");
@@ -142,7 +145,10 @@ program Guild_Create(params)
 			SendSysMessage(who, "INCOMPLETE->10");
 			break;
 		11:
-			SendSysMessage(who, "INCOMPLETE->11");
+			var ev := struct{};
+			ev.+type := GUILD_DISBAND;
+			ev.+guild := guild;
+			guild_manager.SendEvent(ev);
 			break;
 	endcase
 
@@ -155,7 +161,7 @@ function ShowMembers(who, guild_id)
 	//var guild_id := GetObjProperty(who, "Guild_ID"); // Resurved. Testing.
 	var guild := FindGuild(guild_id);
 	var guild_members := guild.members;
-	var who_rank := GetGuildRank(who);
+	//var who_rank := GetGuildRank(who);
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 	var place := 1;
@@ -215,7 +221,7 @@ function ShowMembers(who, guild_id)
 			ViewGuild(who, guild_id);
 			return 1;
 		else
-			Start_Script(":guilds:guildMenu", array{who, guild});
+			Start_Script(":guilds:guildMenu", who);
 			return 1;
 		endif
 	endif
@@ -315,7 +321,7 @@ function ShowCharter(who)
 			return 1;
 			break;
 		3:
-			Start_Script(":guilds:guildMenu", array{who, guild});
+			Start_Script(":guilds:guildMenu", who);
 			return 1;
 			break;
 	endcase
@@ -339,8 +345,8 @@ function ShowWebsite(who)
 		guild_website := "No website has been set.";
 	endif
 
-		GFTextLine(gump, 45, 60, TXT_CLR_BG+1, guild_website);
-		GFAddButton(gump, 25, 63, 2117, 2118, GF_CLOSE_BTN, 1);
+	GFTextLine(gump, 45, 60, TXT_CLR_BG+1, guild_website);
+	GFAddButton(gump, 25, 63, 2117, 2118, GF_CLOSE_BTN, 1);
 
 	if ( who_rank == permissions.SetWebsite )
 		GFTextLine(gump, 45, 80, TXT_CLR_BG, "Set Website");
@@ -370,7 +376,7 @@ function ShowWebsite(who)
 			return 1;
 			break;
 		3:
-			Start_Script(":guilds:guildMenu", array{who, guild});
+			Start_Script(":guilds:guildMenu", who);
 			return 1;
 			break;
 	endcase
@@ -438,7 +444,10 @@ function ShowAllies(who)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		Start_Script(":guilds:guildMenu", array{who, guild});
+		Start_Script(":guilds:guildMenu", who);
+		return 1;
+	else
+		ViewGuild(who, CInt(result[0] - 1000));
 		return 1;
 	endif
 
@@ -507,7 +516,10 @@ function ShowEnemies(who)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		Start_Script(":guilds:guildMenu", array{who, guild});
+		Start_Script(":guilds:guildMenu", who);
+		return 1;
+	else
+		ViewGuild(who, CInt(result[0] - 1000));
 		return 1;
 	endif
 
@@ -536,7 +548,8 @@ function ShowGuilds(who)
 	GFTextLine(gump, 25, 50, TXT_CLR_BG, "V" );
 	GFTextLine(gump, 45, 50, TXT_CLR_BG, "Name" );
 	GFTextLine(gump, 160, 50, TXT_CLR_BG, "Master" );
-	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Faction" );
+	GFTextLine(gump, 260, 50, TXT_CLR_BG, "Members" );
+	GFTextLine(gump, 360, 50, TXT_CLR_BG, "Faction" );
 
 	// Previous
 	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
@@ -548,12 +561,16 @@ function ShowGuilds(who)
 		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(guild.guildid + 1000));
 		var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
 		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+
+		var members := (guild.members).Size();
+		GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, members);
+
 		var guild_faction := guild.GetProp("Faction");
 
 		if ( guild_faction )
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+			GFTextLine(gump, (X + 335), Y, TXT_CLR_BG+1, guild_faction);
 		else
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+			GFTextLine(gump, (X + 335), Y, TXT_CLR_BG+1, "Neutral");
 		endif
 
 		place := place + 1;
@@ -576,7 +593,7 @@ function ShowGuilds(who)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		Start_Script(":guilds:guildMenu", array{who, guild});
+		Start_Script(":guilds:guildMenu", who);
 		return 1;
 	else
 		ViewGuild(who, CInt(result[0] - 1000));
@@ -614,9 +631,32 @@ function ViewGuild(who, guild_id)
 	GFTextLine(gump, 25, 90, TXT_CLR_BG, "Master");
 	GFTextLine(gump, 105, 90, TXT_CLR_BG+1, guild_master.name);
 
+	var members := (guild.members).Size();
+	GFTextLine(gump, 25, 110, TXT_CLR_BG, "Members");
+	GFTextLine(gump, 105, 110, TXT_CLR_BG+1, members);
+
 	GFTextLine(gump, 25, 130, TXT_CLR_BG, "Functions");
+
 	GFTextLine(gump, 45, 150, TXT_CLR_BG, "View Members");
 	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id + 1000));
+
+	if ( ( GetGuildRank(who) >= CInt(permissions.ControlWars) ) && ( guild.guildid != who.guildid ) )
+		if ( guild.IsAllyGuild() )
+			GFTextLine(gump, 45, 170, TXT_CLR_BG, "Remove Alliance");
+			GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 111);
+		else
+			GFTextLine(gump, 45, 170, TXT_CLR_BG, "Request Alliance");
+			GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 112);
+		endif
+
+		if ( guild.IsEnemyGuild() )
+			GFTextLine(gump, 45, 190, TXT_CLR_BG, "Remove Enemy");
+			GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 121);
+		else
+			GFTextLine(gump, 45, 190, TXT_CLR_BG, "Request Enemy");
+			GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 122);
+		endif
+	endif
 
 	// Previous
 	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
@@ -628,7 +668,7 @@ function ViewGuild(who, guild_id)
 	elseif ( result[0] == 555 )
 		ShowGuilds(who);
 		return 1;
-	else
+	elseif ( FindGuild(CInt(result[0] - 1000)) )
 		ShowMembers(who, CInt(result[0] - 1000));
 		return 1;
 	endif

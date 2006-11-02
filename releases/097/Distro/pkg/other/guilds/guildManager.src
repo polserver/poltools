@@ -15,12 +15,13 @@ include ":guilds:ranks";
 include ":gumps:yesno";
 
 var permissions := Guild_GetSettingsCfgElem("Permissions");
+var settings := Guild_GetSettingsCfgElem("Settings");
 
 program GuildManager()
 
 	SetGlobalProperty("#Guild_Manager", GetPid());
 
-	var     ev;
+	var ev;
 
 	while ( 1 )
 	ev := Wait_For_Event(120);
@@ -53,9 +54,9 @@ program GuildManager()
 				GUILD_SET_WEBSITE:
 					SetGuildWebsite(ev);
 				GUILD_REQUEST_ALLY:
-					// TODO:
+					// TODO: RequestAlly(ev);
 				GUILD_REQUEST_WAR:
-					// TODO:
+					// TODO: RequestEnemy(ev);
 			endcase
 		endif
 	endwhile
@@ -65,8 +66,8 @@ endprogram
 function AddGuild(ev)
 
 	var guild_gm := ev.source;
-	var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
-	if ( regist_fee == 0 || !regist_fee     )
+	var regist_fee := CInt(settings.RegistrationFee);
+	if ( regist_fee == 0 || !regist_fee )
 		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
 		return 0;
 	endif
@@ -78,7 +79,7 @@ function AddGuild(ev)
 
 	var     guild_name := CStr(ev.name);
 
-	if ( Len(guild_name) > 20 ) // TODO: Add an option in settings.cfg
+	if ( Len(guild_name) > CInt(settings.MaxGuildNameLen) )
 		SendSysMessage(guild_gm, "Aborted. Guild name is too long.");
 		return 0;
 	elseif ( !ValidStr(guild_name) )
@@ -91,7 +92,7 @@ function AddGuild(ev)
 
 	var     guild_abbr := CStr(ev.abbr);
 
-	if ( Len(guild_abbr) > 4 ) // TODO: Add an option in settings.cfg
+	if ( Len(guild_abbr) > CInt(settings.MaxGuildAbbrLen) )
 		SendSysMessage(guild_gm, "Aborted. Guild abbreviation is too long.");
 		return 0;
 	elseif ( !ValidStr(guild_abbr) )
@@ -112,7 +113,7 @@ function AddGuild(ev)
 		endif
 	endif
 
-	var     guild := CreateGuild();
+	var guild := CreateGuild();
 
 	if ( guild )
 		var guild_id := guild.guildid;
@@ -131,7 +132,7 @@ function AddGuild(ev)
 		return 1;
 	elseif ( guild.errortext )
 		SendSysMessage(guild_gm, "Aborted. Guild creation failed.");
-		SysLog("Error creating guild -> "+guild.errortext);
+		SysLog("Error creating guild -> ["+guild.errortext+"] + CharSerial -> ["+guild_gm.serial+"]");
 		return 0;
 	endif
 
