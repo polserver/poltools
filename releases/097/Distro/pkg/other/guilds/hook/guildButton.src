@@ -30,7 +30,7 @@ exported function ButtonHook(who, byref packet)
 
 	case ( packet_type )
 		GUILD_BUTTON_PRESSED:
-			var guild_id := GetObjProperty(who, "Guild_ID");
+			var guild_id := who.guildid;
 			var guild := FindGuild(guild_id);
 			if ( !guild )
 				Start_Script(":guilds:guildCreate", who);
