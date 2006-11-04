@@ -227,7 +227,7 @@ endfunction
 
 function ViewMember(who, member)
 
-	var guild_id := GetObjProperty(member, "Guild_ID");
+	var guild_id := member.guildid;
 	var who_rank := GetGuildRank(who);
 	var member_rank := GetGuildRank(member);
 
@@ -271,8 +271,7 @@ endfunction
 
 function ShowCharter(who)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild := FindGuild(who.guildid);
 	var guild_charter := guild.GetProp("Charter");
 	var who_rank := GetGuildRank(who);
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
@@ -319,8 +318,7 @@ endfunction
 
 function ShowWebsite(who)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild := FindGuild(who.guildid);
 	var guild_website := guild.GetProp("Website");
 	var who_rank := GetGuildRank(who);
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
@@ -373,8 +371,7 @@ endfunction
 
 function ShowAllies(who)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild := FindGuild(who.guildid);
 	var guild_allies := guild.allyguilds;
 	var who_rank := GetGuildRank(who);
 
@@ -443,8 +440,7 @@ endfunction
 
 function ShowEnemies(who)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild := FindGuild(who.guildid);
 	var guild_enemies := guild.enemyguilds;
 	var who_rank := GetGuildRank(who);
 
@@ -513,8 +509,7 @@ endfunction
 
 function ShowGuilds(who)
 
-	var guild_id := GetObjProperty(who, "Guild_ID");
-	var guild := FindGuild(guild_id);
+	var guild := FindGuild(who.guildid);
 	var guilds := ListGuilds();
 	var who_rank := GetGuildRank(who);
 
