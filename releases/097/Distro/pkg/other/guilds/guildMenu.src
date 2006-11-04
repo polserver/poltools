@@ -19,11 +19,6 @@ CONST GCGUMP_X := 75;
 CONST GCGUMP_Y := 150;
 CONST TXT_CLR_FG := 0;
 CONST TXT_CLR_BG := 2100;
-CONST PREV_V_NONE := 0x0000;
-CONST PREV_V_G_MEM := 0x0001;
-CONST PREV_V_A_MEM := 0x0002;
-CONST PREV_V_E_MEM := 0x0003;
-CONST PREV_V_AG_MEM := 0x0004;
 
 var background := GFGetCfgConst("Defaults", "BackGround");
 var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
@@ -118,7 +113,6 @@ program Guild_Menu(who)
 				var ev := struct{};
 				ev.+type := GUILD_INVITE_MEMBER;
 				ev.+source := who;
-				ev.+guild := guild;
 				guild_manager.SendEvent(ev);
 				break;
 			else
@@ -138,7 +132,6 @@ program Guild_Menu(who)
 			var ev := struct{};
 			ev.+type := GUILD_RESIGN_MEMBER;
 			ev.+source := who;
-			ev.+guild := guild;
 			guild_manager.SendEvent(ev);
 			break;
 		10:
@@ -147,7 +140,6 @@ program Guild_Menu(who)
 		11:
 			var ev := struct{};
 			ev.+type := GUILD_DISBAND;
-			ev.+guild := guild;
 			guild_manager.SendEvent(ev);
 			break;
 	endcase
@@ -158,10 +150,8 @@ endprogram
 
 function ShowMembers(who, guild_id)
 
-	//var guild_id := GetObjProperty(who, "Guild_ID"); // Resurved. Testing.
 	var guild := FindGuild(guild_id);
 	var guild_members := guild.members;
-	//var who_rank := GetGuildRank(who);
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 	var place := 1;
@@ -316,7 +306,6 @@ function ShowCharter(who)
 			var ev := struct{};
 			ev.+type := GUILD_SET_CHARTER;
 			ev.+source := who;
-			ev.+guild := guild;
 			guild_manager.SendEvent(ev);
 			return 1;
 			break;
@@ -371,7 +360,6 @@ function ShowWebsite(who)
 			var ev := struct{};
 			ev.+type := GUILD_SET_WEBSITE;
 			ev.+source := who;
-			ev.+guild := guild;
 			guild_manager.SendEvent(ev);
 			return 1;
 			break;
@@ -446,12 +434,10 @@ function ShowAllies(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	else
+	elseif ( FindGuild(CInt(result[0] - 1000)) )
 		ViewGuild(who, CInt(result[0] - 1000));
 		return 1;
 	endif
-
-	// TODO: Viewing a Guild's PROFILE.
 
 endfunction
 
@@ -518,12 +504,10 @@ function ShowEnemies(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	else
+	elseif ( FindGuild(CInt(result[0] - 1000)) )
 		ViewGuild(who, CInt(result[0] - 1000));
 		return 1;
 	endif
-
-	// TODO: Viewing a Guild's PROFILE.
 
 endfunction
 
@@ -595,7 +579,7 @@ function ShowGuilds(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	else
+	elseif ( FindGuild(CInt(result[0] - 1000)) )
 		ViewGuild(who, CInt(result[0] - 1000));
 		return 1;
 	endif

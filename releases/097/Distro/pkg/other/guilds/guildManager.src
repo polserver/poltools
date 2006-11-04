@@ -79,7 +79,7 @@ function AddGuild(ev)
 
 	var     guild_name := CStr(ev.name);
 
-	if ( Len(guild_name) > CInt(settings.MaxGuildNameLen) )
+	if ( Len(guild_name) > CInt(settings.MaxNameLen) )
 		SendSysMessage(guild_gm, "Aborted. Guild name is too long.");
 		return 0;
 	elseif ( !ValidStr(guild_name) )
@@ -92,7 +92,7 @@ function AddGuild(ev)
 
 	var     guild_abbr := CStr(ev.abbr);
 
-	if ( Len(guild_abbr) > CInt(settings.MaxGuildAbbrLen) )
+	if ( Len(guild_abbr) > CInt(settings.MaxAbbrLen) )
 		SendSysMessage(guild_gm, "Aborted. Guild abbreviation is too long.");
 		return 0;
 	elseif ( !ValidStr(guild_abbr) )
@@ -171,7 +171,7 @@ endfunction
 function InviteMember(ev)
 
 	var recruiter := ev.source;
-	var guild := ev.guild;
+	var guild := recruiter.guild;
 	var guild_name := guild.GetProp("Name");
 
 	SendSysMessage(recruiter, "Whom do you wish to invite into your guild?");
@@ -251,7 +251,7 @@ function KickMember(ev)
 		return min_ranks;
 	endif
 
-	var guild := ev.guild;
+	var guild := character.guild;
 	var guild_name := guild.GetProp("Name");
 
 	if ( !YesNo(character, "Are you sure you would like to remove "+member.name+" from the guild?", "Yes", "No") )
@@ -274,7 +274,7 @@ function LeaveGuild(ev)
 
 	var member := ev.source;
 
-	var guild := ev.guild;
+	var guild := member.guild;
 	var guild_name := guild.GetProp("Name");
 
 	if ( !YesNo(member, "Are you sure you would like to leave "+guild_name+"?", "Yes", "No") )
@@ -300,7 +300,7 @@ endfunction
 function SetGuildCharter(ev)
 
 	var who := ev.source;
-	var guild := ev.guild;
+	var guild := who.guild;
 	var guild_charter := guild.GetProp("Charter");
 
 	if ( guild_charter == "NONE" )
@@ -335,7 +335,7 @@ endfunction
 function SetGuildWebsite(ev)
 
 	var who := ev.source;
-	var guild := ev.guild;
+	var guild := who.guild;
 	var guild_charter := guild.GetProp("Website");
 
 	if ( guild_charter == "NONE" )
