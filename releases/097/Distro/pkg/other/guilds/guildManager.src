@@ -225,12 +225,12 @@ function KickMember(ev)
 	endif
 
 	if ( char_rank == CInt(permissions.RemoveRonin) )
-		if ( member_rank != 1 )
+		if ( member_rank >> 1 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
 	elseif ( char_rank == CInt(permissions.RemoveMember) )
-		if ( member_rank != 2 && member_rank != 1 )
+		if ( member_rank >> 2 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
@@ -241,12 +241,12 @@ function KickMember(ev)
 		endif
 	endif
 
-	var max_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MaxRanks);
+	var max_ranks := CInt(permissions.MaxRanks);
 	if ( !max_ranks || max_ranks.errortext )
 		return max_ranks;
 	endif
 
-	var min_ranks := CInt(Guild_GetSettingsCfgElem("Permissions").MinRanks);
+	var min_ranks := CInt(permissions.MinRanks);
 	if ( !min_ranks || min_ranks.errortext )
 		return min_ranks;
 	endif
