@@ -11,6 +11,9 @@ use guilds;
 include ":guilds:report";
 include ":guilds:settings";
 include ":guilds:events";
+include ":guilds:validate";
+include ":guilds:ranks";
+include ":gumps:yesno";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
@@ -21,14 +24,9 @@ CONST TXT_CLR_BG := 2100;
 
 var background := GFGetCfgConst("Defaults", "BackGround");
 var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
+var settings := Guild_GetSettingsCfgElem("Settings");
 
 program Guild_Create(who)
-
-	var regist_fee := CInt(Guild_GetSettingsCfgElem("Settings").RegistrationFee);
-
-	if ( regist_fee == 0 || !regist_fee )
-		return 0;
-	endif
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 
@@ -39,6 +37,8 @@ program Guild_Create(who)
 	GFTextLine(gump, 25, 60, TXT_CLR_BG, "As you are not a member of any guild, you can create your own by");
 	GFTextLine(gump, 25, 80, TXT_CLR_BG, "providing a unique guild name and paying the standard guild registration");
 	GFTextLine(gump, 25, 100, TXT_CLR_BG, "fee.");
+
+	var regist_fee := CInt(settings.RegistrationFee);
 
 	GFTextLine(gump, 25, 140, TXT_CLR_BG, "Registration Fee:");
 	GFResizePic(gump, 150, 140, foreground, 200, 25);
@@ -77,14 +77,7 @@ program Guild_Create(who)
 			return 0;
 		endif
 
-		// More stuff todo, drr.
-		var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
-		var ev := struct{};
-		ev.+type := GUILD_CREATE;
-		ev.+source := who;
-		ev.+name := guild_name;
-		ev.+abbr := guild_abbr;
-		guild_manager.SendEvent(ev);
+		AddGuild(who, guild_abbr, guild_name);
 		return 1;
 	elseif ( result[2] == 1 ) // clicked Cancel
 		SendSysMessage(who, "Aborted.");
@@ -95,3 +88,73 @@ program Guild_Create(who)
 	endif
 
 endprogram
+
+function AddGuild(guild_gm, guild_abbr, guild_name)
+
+	var regist_fee := CInt(settings.RegistrationFee);
+	if ( regist_fee == 0 || !regist_fee )
+		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
+		return 0;
+	endif
+
+	if ( guild_gm.gold < regist_fee )
+		SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the fee.");
+		return 0;
+	endif
+
+	if ( Len(guild_name) > CInt(settings.MaxNameLen) )
+		SendSysMessage(guild_gm, "Aborted. Guild name is too long.");
+		return 0;
+	elseif ( !ValidStr(guild_name) )
+		SendSysMessage(guild_gm, "Aborted. Guild name contains illegal characters.");
+		return 0;
+	elseif ( !ValidName(guild_name) )
+		SendSysMessage(guild_gm, "Aborted. Guild name already exists.");
+		return 0;
+	endif
+
+	if ( Len(guild_abbr) > CInt(settings.MaxAbbrLen) )
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation is too long.");
+		return 0;
+	elseif ( !ValidStr(guild_abbr) )
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation contains illegal characters.");
+		return 0;
+	elseif ( !ValidName(guild_abbr) )
+		SendSysMessage(guild_gm, "Aborted. Guild abbreviation already exists.");
+		return 0;
+	endif
+
+	if ( !YesNo(guild_gm, "Are you sure you want to create a new guild?", "Yes", "No") )
+		SendSysMessage(guild_gm, "Aborted.");
+		return 0;
+	else
+		if ( !guild_gm.SpendGold(regist_fee) )
+			SendSysMessage(guild_gm, "Aborted. You do not have enough gold to cover the fee.");
+			return 0;
+		endif
+	endif
+
+	var guild := CreateGuild();
+
+	if ( guild )
+		var guild_id := guild.guildid;
+		var null_space := "NONE";
+		guild.SetProp("Name", guild_name);
+		guild.SetProp("Abbr",  guild_abbr);
+		guild.SetProp("Master", guild_gm.serial);
+		guild.SetProp("Charter", null_space);
+		guild.SetProp("Website", null_space);
+		guild.SetProp("Faction", "Neutral");
+		guild.AddMember(guild_gm);
+		SetObjProperty(guild_gm, "Guild_ID", guild_id); // Should I just remove this? There is who.guildid....
+		SetGuildRank(guild_gm, 5);
+		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
+		SendSysMessage(guild_gm, "Guild was successfully created.");
+		return 1;
+	elseif ( guild.errortext )
+		SendSysMessage(guild_gm, "Aborted. Guild creation failed.");
+		SysLog("Error creating guild -> ["+guild.errortext+"] + CharSerial -> ["+guild_gm.serial+"]");
+		return 0;
+	endif
+
+endfunction
