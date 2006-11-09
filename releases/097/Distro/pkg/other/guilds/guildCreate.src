@@ -93,7 +93,7 @@ function AddGuild(guild_gm, guild_abbr, guild_name)
 
 	var regist_fee := CInt(settings.RegistrationFee);
 	if ( regist_fee == 0 || !regist_fee )
-		SendSysMessage(guild_gm, "Aborted. No registration fee is set, or not found.");
+		SendSysMessage(guild_gm, "Aborted. No registration fee is set or not found.");
 		return 0;
 	endif
 

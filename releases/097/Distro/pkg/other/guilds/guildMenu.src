@@ -1,7 +1,7 @@
 /* $Id$
- *        Author: MontuZ
+ *        Author:  MontuZ
  *        Created: Sunday, May 21 2006
- *        Version: 0.01
+ *        Version: 0.26
  */
 
 use uo;
@@ -9,9 +9,9 @@ use guilds;
 
 include ":guilds:report";
 include ":guilds:settings";
-include ":guilds:events";
 include ":guilds:validate";
 include ":guilds:ranks";
+include ":guilds:factions";
 include ":gumps:yesno";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
@@ -24,6 +24,7 @@ CONST TXT_CLR_BG := 2100;
 var background := GFGetCfgConst("Defaults", "BackGround");
 var foreground := GFGetCfgConst("BackGrounds", "WHITE_PAPER");
 var permissions := Guild_GetSettingsCfgElem("Permissions");
+var settings := Guild_GetSettingsCfgElem("Settings");
 var guild_manager := GetProcess(GetGlobalProperty("#Guild_Manager"));
 
 program Guild_Menu(who)
@@ -77,7 +78,7 @@ program Guild_Menu(who)
 	GFTextLine(gump, 245, 90, TXT_CLR_BG, "Toggle Title");
 	GFAddButton(gump, 225, 93, 2117, 2118, GF_CLOSE_BTN, 10);
 
-	if ( who_rank == 5 )
+	if ( who_rank == CInt(permissions.LeaderRank) )
 	GFTextLine(gump, 245, 110, TXT_CLR_BG, "Disband Guild");
 	GFAddButton(gump, 225, 113, 2117, 2118, GF_CLOSE_BTN, 11);
 	endif
@@ -101,7 +102,7 @@ program Guild_Menu(who)
 			ShowWebsite(who);
 			break;
 		5:
-			if ( ( who_rank == 5 ) || ( who_rank == permissions.Invite ) )
+			if ( ( who_rank == CInt(permissions.LeaderRank) ) || ( who_rank == permissions.Invite ) )
 				InviteMember(who);
 			else
 				SendSysMessage(who, "Aborted. You are not allowed to invite.");
@@ -123,7 +124,7 @@ program Guild_Menu(who)
 			SendSysMessage(who, "INCOMPLETE->10");
 			break;
 		11:
-			RemoveGuild(who.guild);
+			RemoveGuild(who, who.guild);
 			break;
 	endcase
 
@@ -158,24 +159,24 @@ function ShowMembers(who, guild_id)
 	GFPage(gump, page);
 
 	foreach member in (guild_members)
-		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, member.name);
-		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(member.serial + 1000));
+		GFTextLine(gump, (X+20), Y, TXT_CLR_BG+1, member.name);
+		GFAddButton(gump, X, (Y+3), 2117, 2118, GF_CLOSE_BTN, CInt(member.serial+1000));
 		var member_rank := GetGuildRank(member);
-		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, GetRankNameByID(member_rank));
+		GFTextLine(gump, (X+135), Y, TXT_CLR_BG+1, GetRankNameByID(member_rank));
 
 		if ( member.ip )
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Online");
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, "Online");
 		elseif ( !member.ip )
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Offline");
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, "Offline");
 		endif
 
-		place := place + 1;
-		count := count + 1;
-		Y := Y + 20;
+		place += 1;
+		count += 1;
+		Y += 20;
 
 		if ( count > 8 )
 			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
-			page := page + 1;
+			page += 1;
 			GFPage(gump, page);
 			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
 			count := 0;
@@ -211,15 +212,9 @@ endfunction
 function ViewMember(who, member)
 
 	var guild_id := member.guildid;
-	var who_rank := GetGuildRank(who);
 	var member_rank := GetGuildRank(member);
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
-	var place := 1;
-	var page := 1;
-	var count := 0;
-	var X := 25;
-	var Y := 70;
 
 	GFResizePic(gump, 0, 0, background, 500, 300);
 	GFResizePic(gump, 25, 20, foreground, 450, 25);
@@ -348,9 +343,7 @@ endfunction
 
 function ShowAllies(who)
 
-	var guild := FindGuild(who.guildid);
-	var guild_allies := guild.allyguilds;
-	var who_rank := GetGuildRank(who);
+	var guild_allies := (FindGuild(who.guildid)).allyguilds;
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 	var place := 1;
@@ -374,27 +367,27 @@ function ShowAllies(who)
 	GFPage(gump, page);
 
 	foreach ally in (guild_allies)
-		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, ally.GetProp("Name"));
-		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(ally.guildid + 1000));
-		var guild_master := SystemFindObjectBySerial(ally.GetProp("Master"));
-		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+		GFTextLine(gump, (X+20), Y, TXT_CLR_BG+1, ally.GetProp("Name"));
+		GFAddButton(gump, X, (Y+3), 2117, 2118, GF_CLOSE_BTN, CInt(ally.guildid+1000));
+		var guild_master := SystemFindObjectBySerial(ally.GetProp("Master"), SYSFIND_SEARCH_OFFLINE_MOBILES);
+		GFTextLine(gump, (X+135), Y, TXT_CLR_BG+1, guild_master.name);
 
 		var guild_faction := ally.GetProp("Faction");
 		if ( guild_faction )
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, guild_faction);
 		else
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, "Neutral");
 		endif
 
-		place := place + 1;
-		count := count + 1;
-		Y := Y + 20;
+		place += 1;
+		count += 1;
+		Y += 20;
 
 		if ( count > 8 )
-			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
-			page := page + 1;
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page+1);
+			page += 1;
 			GFPage(gump, page);
-			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page-1);
 			count := 0;
 			Y := 70;
 		endif
@@ -408,8 +401,8 @@ function ShowAllies(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	elseif ( FindGuild(CInt(result[0] - 1000)) )
-		ViewGuild(who, CInt(result[0] - 1000));
+	elseif ( FindGuild(CInt(result[0]-1000)) )
+		ViewGuild(who, CInt(result[0]-1000));
 		return 1;
 	endif
 
@@ -417,9 +410,7 @@ endfunction
 
 function ShowEnemies(who)
 
-	var guild := FindGuild(who.guildid);
-	var guild_enemies := guild.enemyguilds;
-	var who_rank := GetGuildRank(who);
+	var guild_enemies := (FindGuild(who.guildid)).enemyguilds;
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 	var place := 1;
@@ -443,27 +434,27 @@ function ShowEnemies(who)
 	GFPage(gump, page);
 
 	foreach enemy in (guild_enemies)
-		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, enemy.GetProp("Name"));
-		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(enemy.guildid + 1000));
-		var guild_master := SystemFindObjectBySerial(enemy.GetProp("Master"));
-		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+		GFTextLine(gump, (X+20), Y, TXT_CLR_BG+1, enemy.GetProp("Name"));
+		GFAddButton(gump, X, (Y+3), 2117, 2118, GF_CLOSE_BTN, CInt(enemy.guildid+1000));
+		var guild_master := SystemFindObjectBySerial(enemy.GetProp("Master"), SYSFIND_SEARCH_OFFLINE_MOBILES);
+		GFTextLine(gump, (X+135), Y, TXT_CLR_BG+1, guild_master.name);
 
 		var guild_faction := enemy.GetProp("Faction");
 		if ( guild_faction )
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, guild_faction);
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, guild_faction);
 		else
-			GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, "Neutral");
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, "Neutral");
 		endif
 
-		place := place + 1;
-		count := count + 1;
-		Y := Y + 20;
+		place += 1;
+		count += 1;
+		Y += 20;
 
 		if ( count > 8 )
-			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
-			page := page + 1;
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page+1);
+			page += 1;
 			GFPage(gump, page);
-			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page-1);
 			count := 0;
 			Y := 70;
 		endif
@@ -477,8 +468,8 @@ function ShowEnemies(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	elseif ( FindGuild(CInt(result[0] - 1000)) )
-		ViewGuild(who, CInt(result[0] - 1000));
+	elseif ( FindGuild(CInt(result[0]-1000)) )
+		ViewGuild(who, CInt(result[0]-1000));
 		return 1;
 	endif
 
@@ -486,9 +477,8 @@ endfunction
 
 function ShowGuilds(who)
 
-	var guild := FindGuild(who.guildid);
+	var chr_guild_id := who.guildid;
 	var guilds := ListGuilds();
-	var who_rank := GetGuildRank(who);
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
 	var place := 1;
@@ -513,33 +503,35 @@ function ShowGuilds(who)
 	GFPage(gump, page);
 
 	foreach guild in (guilds)
-		GFTextLine(gump, (X + 20), Y, TXT_CLR_BG+1, guild.GetProp("Name"));
-		GFAddButton(gump, X, (Y + 3), 2117, 2118, GF_CLOSE_BTN, CInt(guild.guildid + 1000));
-		var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
-		GFTextLine(gump, (X + 135), Y, TXT_CLR_BG+1, guild_master.name);
+		if ( guild.guildid != chr_guild_id )
+			GFTextLine(gump, (X+20), Y, TXT_CLR_BG+1, guild.GetProp("Name"));
+			GFAddButton(gump, X, (Y+3), 2117, 2118, GF_CLOSE_BTN, CInt(guild.guildid+1000));
+			var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"), SYSFIND_SEARCH_OFFLINE_MOBILES);
+			GFTextLine(gump, (X+135), Y, TXT_CLR_BG+1, guild_master.name);
 
-		var members := (guild.members).Size();
-		GFTextLine(gump, (X + 235), Y, TXT_CLR_BG+1, members);
+			var members := (guild.members).Size();
+			GFTextLine(gump, (X+235), Y, TXT_CLR_BG+1, members);
 
-		var guild_faction := guild.GetProp("Faction");
+			var guild_faction := guild.GetProp("Faction");
 
-		if ( guild_faction )
-			GFTextLine(gump, (X + 335), Y, TXT_CLR_BG+1, guild_faction);
-		else
-			GFTextLine(gump, (X + 335), Y, TXT_CLR_BG+1, "Neutral");
-		endif
+			if ( guild_faction )
+				GFTextLine(gump, (X+335), Y, TXT_CLR_BG+1, guild_faction);
+			else
+				GFTextLine(gump, (X+335), Y, TXT_CLR_BG+1, "Neutral");
+			endif
 
-		place := place + 1;
-		count := count + 1;
-		Y := Y + 20;
+			place += 1;
+			count += 1;
+			Y += 20;
 
-		if ( count > 8 )
-			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
-			page := page + 1;
-			GFPage(gump, page);
-			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
-			count := 0;
-			Y := 70;
+			if ( count > 8 )
+				GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page+1);
+				page += 1;
+				GFPage(gump, page);
+				GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page-1);
+				count := 0;
+				Y := 70;
+			endif
 		endif
 		SleepMS( 2 );
 	endforeach
@@ -551,8 +543,8 @@ function ShowGuilds(who)
 	elseif ( result[0] == 555 )
 		Start_Script(":guilds:guildMenu", who);
 		return 1;
-	elseif ( FindGuild(CInt(result[0] - 1000)) )
-		ViewGuild(who, CInt(result[0] - 1000));
+	elseif ( FindGuild(CInt(result[0]-1000)) )
+		ViewGuild(who, CInt(result[0]-1000));
 		return 1;
 	endif
 
@@ -563,17 +555,15 @@ function ViewGuild(who, guild_id)
 	var guild := FindGuild(guild_id);
 
 	var gump := GFCreateGump(GCGUMP_X, GCGUMP_Y);
-	var place := 1;
-	var page := 1;
-	var count := 0;
-	var X := 25;
-	var Y := 70;
 
 	GFResizePic(gump, 0, 0, background, 500, 300);
 	GFResizePic(gump, 25, 20, foreground, 450, 25);
 	GFTextLine(gump, 35, 22, TXT_CLR_FG, "Guild Profile" );
 	GFTextLine(gump, 25, 50, TXT_CLR_BG, "Name" );
-	GFTextLine(gump, 105, 50, TXT_CLR_BG+1, guild.GetProp("Name")+" ["+guild.GetProp("Abbr")+"]" );
+
+	var guild_name := guild.GetProp("Name")+" ["+guild.GetProp("Abbr")+"]";
+
+	GFTextLine(gump, 105, 50, TXT_CLR_BG+1, guild_name );
 	GFTextLine(gump, 25, 70, TXT_CLR_BG, "Faction" );
 
 	var guild_faction := guild.GetProp("Faction");
@@ -584,7 +574,7 @@ function ViewGuild(who, guild_id)
 		GFTextLine(gump, 105, 70, TXT_CLR_BG+1, "Neutral");
 	endif
 
-	var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"));
+	var guild_master := SystemFindObjectBySerial(guild.GetProp("Master"), SYSFIND_SEARCH_OFFLINE_MOBILES);
 	GFTextLine(gump, 25, 90, TXT_CLR_BG, "Master");
 	GFTextLine(gump, 105, 90, TXT_CLR_BG+1, guild_master.name);
 
@@ -595,23 +585,27 @@ function ViewGuild(who, guild_id)
 	GFTextLine(gump, 25, 130, TXT_CLR_BG, "Functions");
 
 	GFTextLine(gump, 45, 150, TXT_CLR_BG, "View Members");
-	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id + 1000));
+	GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, CInt(guild_id+1000));
 
-	if ( ( GetGuildRank(who) >= CInt(permissions.ControlWars) ) && ( guild.guildid != who.guildid ) )
-		if ( guild.IsAllyGuild() )
-			GFTextLine(gump, 45, 170, TXT_CLR_BG, "Remove Alliance");
-			GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 111);
-		else
-			GFTextLine(gump, 45, 170, TXT_CLR_BG, "Request Alliance");
-			GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 112);
-		endif
+	if ( settings.AllowWarAlly )
+		if ( guild.guildid != who.guildid )
+			if ( ( GetGuildRank(who) == CInt(permissions.ControlWars) ) || ( GetGuildRank(who) == CInt(permissions.LeaderRank) ) )
+				if ( guild.IsAllyGuild(who.guild) )
+					GFTextLine(gump, 45, 170, TXT_CLR_BG, "Remove Alliance");
+					GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 111);
+				else
+					GFTextLine(gump, 45, 170, TXT_CLR_BG, "Request Alliance");
+					GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 112);
+				endif
 
-		if ( guild.IsEnemyGuild() )
-			GFTextLine(gump, 45, 190, TXT_CLR_BG, "Remove Enemy");
-			GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 121);
-		else
-			GFTextLine(gump, 45, 190, TXT_CLR_BG, "Request Enemy");
-			GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 122);
+				if ( guild.IsEnemyGuild(who.guild) )
+					GFTextLine(gump, 45, 190, TXT_CLR_BG, "Surrender War");
+					GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 121);
+				else
+					GFTextLine(gump, 45, 190, TXT_CLR_BG, "Declare War");
+					GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 122);
+				endif
+			endif
 		endif
 	endif
 
@@ -619,6 +613,7 @@ function ViewGuild(who, guild_id)
 	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
 
 	var result := GFSendGump(who, gump);
+	var chr_guild := who.guild;
 
 	case (result[0])
 		0:
@@ -628,23 +623,95 @@ function ViewGuild(who, guild_id)
 			ShowGuilds(who);
 			break;
 		111:
-			//
+			// Remove Alliance
 			break;
 		112:
-			//
+			// Request Alliance
+			if ( guild in chr_guild.enemyguilds )
+				SendSysMessage(who, "Aborted. You're at war with this guild!");
+				return 0;
+			endif
+			var ally_requests := guild.GetProp("PendingAllyReqs");
+			if ( chr_guild.guildid in ally_requests )
+				SendSysMessage(who, "Aborted. You have already sent a request for an alliance.");
+				return 0;
+			endif
+			if ( !IsOpposingFaction(chr_guild, guild) )
+				if ( guild_master == "In Vote" )
+					SendSysMessage(who, "Aborted. Their guild master is currently in vote.");
+					return 0;
+				endif
+				if ( guild_master.connected )
+					SendSysMessage(who, "A request for an alliance was sent.");
+					if ( !YesNo(guild_master, chr_guild.GetProp("Name")+" would like to form an alliance with your guild. Do you accept this request?", "Yes", "No") )
+						SendSysMessage(who, "Aborted. Their guild master denied your request for an alliance.");
+						return 0;
+					else
+						if ( chr_guild.AddAllyGuild(guild) )
+						SendSysMessage(who, "Their guild master has accepted your request for an alliance!");	
+						endif
+						return 1;
+					endif
+				elseif ( !guild_master.connected )
+					SendSysMessage(who, "A request for an alliance was sent.");
+					if ( !ally_requests )
+						ally_requests := array{};
+						ally_requests.Append(chr_guild.guildid);
+						guild.SetProp("PendingAllyReqs", ally_requests);
+					else
+						ally_requests.Append(chr_guild.guildid);
+						guild.SetProp("PendingAllyReqs", ally_requests);
+					endif
+				endif
+			endif
 			break;
 		121:
-			//
+			// Remove War
 			break;
 		122:
-			//
+			// Request War
+			if ( guild in chr_guild.allyguilds )
+				SendSysMessage(who, "Aborted. You're allied with this guild!");
+				return 0;
+			endif
+			var enemy_requests := guild.GetProp("PendingEnemyReqs");
+			if ( chr_guild.guildid in enemy_requests )
+				SendSysMessage(who, "Aborted. You have already sent a request for a war.");
+				return 0;
+			endif
+			if ( IsOpposingFaction(chr_guild, guild) )
+				if ( guild_master == "In Vote" )
+					SendSysMessage(who, "Aborted. Their guild master is currently in vote.");
+					return 0;
+				endif
+				if ( guild_master.connected )
+					SendSysMessage(who, "A request for a war was sent.");
+					if ( !YesNo(guild_master, chr_guild.GetProp("Name")+" would like to declare war with your guild. Do you accept this request?", "Yes", "No") )
+						return 0;
+					else
+						chr_guild.AddEnemyGuild(guild);
+						return 1;
+					endif
+				elseif ( !guild_master.connected )
+					SendSysMessage(who, "A request for a war was sent.");
+					var war_requests := guild.GetProp("PendingWarReqs");
+					if ( !war_requests )
+						war_requests := array{};
+						war_requests.Append(chr_guild.guildid);
+						guild.SetProp("PendingWarReqs", war_requests);
+					else
+						war_requests.Append(chr_guild.guildid);
+						guild.SetProp("PendingWarReqs", war_requests);
+					endif
+				endif
+			endif
 			break;
 		default:
-			if ( FindGuild(CInt(result[0] - 1000)) )
-				ShowMembers(who, CInt(result[0] - 1000));
+			if ( FindGuild(CInt(result[0]-1000)) )
+				ShowMembers(who, CInt(result[0]-1000));
 				return 1;
-				break;
 			endif
+			break;
 	endcase
 
 endfunction
@@ -708,6 +775,7 @@ function LeaveGuild(member)
 		member.title_guild := "";
 		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		if ( CInt(guild.GetProp("Master")) == CInt(member.serial) )
+			guild.SetProp("Master", "In Vote");
 			foreach xmember in (guild.members)
 			SendSysMessage(xmember, "You leader has left the guild.");
 			endforeach
@@ -717,9 +785,14 @@ function LeaveGuild(member)
 
 endfunction
 
-function RemoveGuild(guild)
+function RemoveGuild(who, guild)
 
 	var guild_name := guild.GetProp("Name");
+
+	if ( !YesNo(who, "Doing this will completely remove the guild. Are you sure you would like to disband "+guild_name+"?", "Yes", "No") )
+		SendSysMessage(who, "Aborted.");
+		return 0;
+	endif
 
 	foreach member in (guild.members)
 		guild.RemoveMember(member);
@@ -733,16 +806,20 @@ function RemoveGuild(guild)
 	endforeach
 
 	foreach ally in (guild.allyguilds)
-		ally.RemoveAllyGuild(guild);
+		guild.RemoveAllyGuild(ally);
 		SleepMS(2);
 	endforeach
 
 	foreach enemy in (guild.enemyguilds)
-		enemy.RemoveEnemyGuild(guild);
+		guild.RemoveEnemyGuild(enemy);
 		SleepMS(2);
 	endforeach
-
-	DestroyGuild(guild);
+	
+	if ( DestroyGuild(guild) )
+		SendSysMessage(who, "Your guild was successfully disbanded.");
+		return 0;
+	endif
+	
 
 endfunction
 
@@ -836,7 +913,7 @@ function KickMember(character, member)
 			return 0;
 		endif
 	elseif ( char_rank == CInt(permissions.RemoveAny) )
-		if ( member_rank == 5 )
+		if ( member_rank == CInt(permissions.LeaderRank) )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
