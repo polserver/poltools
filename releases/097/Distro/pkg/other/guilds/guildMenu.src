@@ -102,7 +102,7 @@ program Guild_Menu(who)
 			ShowWebsite(who);
 			break;
 		5:
-			if ( ( who_rank == CInt(permissions.LeaderRank) ) || ( who_rank == permissions.Invite ) )
+			if ( ( who_rank == permissions.LeaderRank ) || ( who_rank == permissions.Invite ) )
 				InviteMember(who);
 			else
 				SendSysMessage(who, "Aborted. You are not allowed to invite.");
@@ -175,10 +175,10 @@ function ShowMembers(who, guild_id)
 		Y += 20;
 
 		if ( count > 8 )
-			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page + 1);
+			GFAddButton(gump, 460, 228, 2706, 2707, GF_PAGE_BTN, page+1);
 			page += 1;
 			GFPage(gump, page);
-			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page - 1);
+			GFAddButton(gump, 460, 53, 2704, 2705, GF_PAGE_BTN, page-1);
 			count := 0;
 			Y := 70;
 		endif
@@ -200,7 +200,7 @@ function ShowMembers(who, guild_id)
 		endif
 	endif
 
-	var view_member := SystemFindObjectBySerial(result[0] - 1000, SYSFIND_SEARCH_OFFLINE_MOBILES);
+	var view_member := SystemFindObjectBySerial(result[0]-1000, SYSFIND_SEARCH_OFFLINE_MOBILES);
 
 	if ( view_member )
 		ViewMember(who, view_member);
@@ -658,9 +658,11 @@ function ViewGuild(who, guild_id)
 						ally_requests := array{};
 						ally_requests.Append(chr_guild.guildid);
 						guild.SetProp("PendingAllyReqs", ally_requests);
+						return 1;
 					else
 						ally_requests.Append(chr_guild.guildid);
 						guild.SetProp("PendingAllyReqs", ally_requests);
+						return 1;
 					endif
 				endif
 			endif
@@ -699,9 +701,11 @@ function ViewGuild(who, guild_id)
 						war_requests := array{};
 						war_requests.Append(chr_guild.guildid);
 						guild.SetProp("PendingWarReqs", war_requests);
+						return 1;
 					else
 						war_requests.Append(chr_guild.guildid);
 						guild.SetProp("PendingWarReqs", war_requests);
+						return 1;
 					endif
 				endif
 			endif
@@ -896,6 +900,7 @@ function KickMember(character, member)
 
 	var char_rank := GetGuildRank(character);
 	var member_rank := GetGuildRank(member);
+	var not_allowed := array{1, 4};
 
 	if ( char_rank < member_rank )
 		SendSysMessage(character, "Aborted. You cannot kick this member.");
@@ -917,6 +922,9 @@ function KickMember(character, member)
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
+	elseif ( char_rank in not_allowed )
+		SendSysMessage(character, "Aborted. You cannot kick members.");
+		return 0;
 	endif
 
 	var max_ranks := CInt(permissions.MaxRanks);
@@ -944,6 +952,70 @@ function KickMember(character, member)
 		SendSysMessage(member, "You are no longer a member of "+guild_name+".");
 		SendSysMessage(character, member.name+" has been kicked from the guild.");
 		return 1;
+	endif
+
+endfunction
+
+// TODO: Still have to add this to member profile!
+function PromoteMember(character, member)
+
+	var char_rank := GetGuildRank(character);
+	var member_rank := GetGuildRank(member);
+	var not_allowed := array{1, 2, 4};
+
+	if ( char_rank << member_rank )
+		SendSysMessage(character, "Aborted. You cannot promote this member.");
+		return 0;
+	endif
+
+	if ( char_rank == CInt(permissions.Promote) )
+		if ( member_rank >> 2 )
+			SendSysMessage(character, "Aborted. You cannot promote this member.");
+			return 0;
+		endif
+	elseif ( char_rank in not_allowed )
+		SendSysMessage(character, "Aborted. You are not allowed to promote members.");
+		return 0;
+	endif
+
+	var result := PromoteGuildMember(member);
+	if ( result )
+		return 1;
+	else
+		SendSysMessage(character, "Aborted. Error->"+result);
+		return 0;
+	endif
+
+endfunction
+
+// TODO: Still have to add this to member profile!
+function DemoteMember(character, member)
+
+	var char_rank := GetGuildRank(character);
+	var member_rank := GetGuildRank(member);
+	var not_allowed := array{1, 2, 4};
+
+	if ( char_rank << member_rank )
+		SendSysMessage(character, "Aborted. You cannot demote this member.");
+		return 0;
+	endif
+
+	if ( char_rank == CInt(permissions.Demote) )
+		if ( member_rank >> 2 )
+			SendSysMessage(character, "Aborted. You cannot demote this member.");
+			return 0;
+		endif
+	elseif ( char_rank in not_allowed )
+		SendSysMessage(character, "Aborted. You are not allowed to demote members.");
+		return 0;
+	endif
+
+	var result := DemoteGuildMember(member);
+	if ( result )
+		return 1;
+	else
+		SendSysMessage(character, "Aborted. Error->"+result);
+		return 0;
 	endif
 
 endfunction
