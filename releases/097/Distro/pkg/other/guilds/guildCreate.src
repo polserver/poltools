@@ -55,6 +55,27 @@ program Guild_Create(who)
 	GFAddButton(gump, 25, 250, 2128, 2129, GF_CLOSE_BTN, 1); // Okay
 	GFAddButton(gump, 100, 250, 2119, 2120, GF_CLOSE_BTN, 2); // Cancel
 
+	var guild_invites := GetObjProperty(who, "Guild_Invites");
+
+	if ( !guild_invites )
+		SetObjProperty(who, "Guild_Invites", "ON");
+		guild_invites := GetObjProperty(who, "Guild_Invites");
+	endif
+
+	GFTextLine(gump, 325, 250, TXT_CLR_BG, "Guild Invites:");
+	case ( guild_invites )
+		"ON":
+			GFTextLine(gump, 405, 250, TXT_CLR_BG+1, "Allow");
+			break;
+		"OFF":
+			GFTextLine(gump, 405, 250, TXT_CLR_BG+1, "Ignore");
+			break;
+		default:
+			GFTextLine(gump, 405, 250, TXT_CLR_BG+1, "Allow");
+			break;
+	endcase
+	GFAddButton(gump, 305, 253, 2117, 2118, GF_CLOSE_BTN, 10);
+
 	var result := GFSendGump(who, gump);
 
 	if ( result[1] == 1 ) // clicked Okay
@@ -81,6 +102,22 @@ program Guild_Create(who)
 		return 1;
 	elseif ( result[2] == 1 ) // clicked Cancel
 		SendSysMessage(who, "Aborted.");
+		return 0;
+	elseif ( result[10] == 1 )
+		case ( guild_invites )
+			"ON":
+				if ( SetObjProperty(who, "Guild_Invites", "OFF") )
+					SendSysMessage(who, "Guild invites will now be ignored.");
+					return 1;
+				endif
+				break;
+			"OFF":
+				if ( SetObjProperty(who, "Guild_Invites", "ON") )
+					SendSysMessage(who, "Guild invites will not be ignored.");
+					return 1;
+				endif
+				break;
+		endcase
 		return 0;
 	else
 		SendSysMessage(who, "Aborted.");

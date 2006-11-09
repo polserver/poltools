@@ -31,7 +31,7 @@ function SetGuildRank(who, rank)
 		return min_ranks;
 	endif
 
-	if ( rank > max_ranks || rank < min_ranks )
+	if ( rank >> max_ranks || rank << min_ranks )
 		rank := error{"errortext" := "Rank is out of range."};
 		return rank;
 	endif
@@ -44,7 +44,7 @@ function SetGuildRank(who, rank)
 
 endfunction
 
-function DemoteMember(who)
+function DemoteGuildMember(who)
 
 	var rank := GetGuildRank(who);
 	if ( !rank || rank.errortext )
@@ -76,7 +76,7 @@ function DemoteMember(who)
 
 endfunction
 
-function PromoteMember(who)
+function PromoteGuildMember(who)
 
 	var rank := GetGuildRank(who);
 	if ( !rank || rank.errortext )
