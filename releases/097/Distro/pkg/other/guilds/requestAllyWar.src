@@ -1,0 +1,54 @@
+/*
+ * $Id: logon.src 373 2006-06-17 18:27:33Z austinheilman $
+ *        Author: MontuZ
+ *        Created: Wednesday, Nov 08 2006
+ *        Version: 0.01
+ */
+ 
+use uo;
+use guilds;
+
+include ":gumps:yesno";
+
+program RequestAllyWar(who)
+
+	var chr_guild := who.guild;
+	var ally := chr_guild.GetProp("PendingAllyReqs");
+	var enemy := chr_guild.GetProp("PendingWarReqs");
+
+	if ( ally )
+		var ally_guild;
+		var i;
+
+		for (i := 1; i <= ally.Size(); i += 1)
+			ally_guild := FindGuild(ally[i]);
+			if ( ally_guild )
+				if ( !YesNo(who, ally_guild.GetProp("Name")+" would like to make an alliance with your guild. Do you accept this request?", "Yes", "No") )
+				else
+					ally_guild.AddAllyGuild(who.guild);
+				endif
+			endif
+			ally.Erase(i);
+			sleep(2);
+		endfor
+		chr_guild.EraseProp("PendingAllyReqs", ally);
+	endif
+	if ( enemy )
+		var enemy_guild;
+		var i;
+
+		for (i := 1; i <= enemy.Size(); i += 1)
+			enemy_guild := FindGuild(enemy[i]);
+			if ( enemy_guild )
+				if ( !YesNo(who, enemy_guild.GetProp("Name")+" would like to declare war with your guild. Do you accept this request?", "Yes", "No") )
+				else
+					enemy_guild.AddEnemyGuild(who.guild);
+				endif
+			endif
+			enemy.Erase(i);
+			sleep(2);
+		endfor
+		chr_guild.EraseProp("PendingWarReqs");
+	endif
+
+endprogram
