@@ -1,5 +1,110 @@
 -- POL097 --
 =======
+12-05 Shinigami
+        Fixed : fixed a Bug in Walking-on-Multi-Code. A Multi-Definition Door upstairs could block walking.
+
+11-02 Austin
+     Changed : POL no longer requires the presence of the following files in pol/config/ in order to start up:
+               combat.cfg, movecost.cfg, watch.cfg, armrzone.cfg, circles.cfg, spells.cfg npcdesc.cfg
+               and pol/regions/resource.cfg 
+               
+10-30 Austin
+     Fixed : Error in the internal webserver where it would sometimes only send the first part of a file.
+
+10-25 Austin
+     Added : Entry to pol.cfg 'RealmDataPath' to set a different path to the data created by uoconvert.
+             Defaults to 'realm/'
+
+10-20 Austin
+     Fixed : array{array{}} was appending as a single array as a result of a 10-17 change.
+
+10-17 Austin
+     Fixed : array += array will work properly now by merging the arrays.
+             array += xxx will place 'xxx' at the ending index of the array.
+
+09-28 Austin
+     Added : account.AddCharacter(index)
+             * If Index is 0 (.AddCharacter(0)), it will find the next available slot on the account.
+               (Otherwise pass 1-5)
+             Will create a naked, uncolored, male character named "new character" at 1, 1, 1 on Britannia.
+             Character setup will need to be done in the script that creates it.
+             Does not start "scripts/misc/oncreate.ecl"
+
+09-27 Austin
+     Added : File::FileExists( filename ) - returns 1 if a file exists, 0 if not.
+
+09-26 Austin
+     Fixed : Bug in repsys hook where highlight and name color params were backwards for player-player.
+     Fixed : move_offline_mobiles method for boats.
+
+09-23 Shinigami
+       Changed : Profiling counter Script_Cycle and Sleep_Cycle uses 64bit now
+
+09-20 Austin
+       Changed: polsys::Realms() to polsys::Realms(realm:="")
+                 If a realm name is passed, it will provide a struct for that specific realm,
+                 otherwise will work as it did before.
+
+09-17 MuadDib
+        Added: NPC::SayUC(). Same thing as Say(), cept unicode formatted.
+      Changed: NPC::Say() and SayUC() now check distances for different text types.
+         Note: DoEvent for SayUC() is currently disabled.
+
+09-17 Shinigami
+        Changed : uo::SendEvent() and Script.sendevent() will return error
+                  "Event queue is full, discarding event"
+
+09-16 Shinigami
+        Added : some Packet functions, same as original one, but with flipping Byte Order
+                Packet.GetUnicodeStringFlipped(offset, length)
+                Packet.SetUnicodeStringFlipped(offset, unicode character array, nullterminate)
+
+09-15 Austin
+       Added: ENUMERATE_ROOT_ONLY for EnumerateItemsInContainer(container, flags)
+              Will cause it to only list the contents in the container passed and not
+              the contents of any sub-containers.
+
+09-05 MuadDib
+       Added: UOConvert now adds "season 1" to the realm.cfg file for each realm during
+              conversion. Season will default to 1, if no season entry is given (aka
+              you was to lazy to run the newest uoconvert for your maps!). Seasons
+              are listed as follows:
+              0 = Spring
+              1 = Summer
+              2 = Fall
+              3 = Winter
+              4 = Desolation (Felucca)
+       Added: Realms() will now also return .season for each realm.
+       Fixed: Core not sending season information correctly when logging in or
+              changing realms if non-encrypted clients was set up in pol.cfg.
+
+09-03 MuadDib
+       Added: character.shield member. Returns an ObjRef of shield equipped.
+
+09-02 MuadDib
+       Added: Polsys::IncRevision(object). Used to increase the Revision number of an
+              object (mobile or item). It then also runs a check for resending the
+              tooltip data to client. This can be used in scripts when you change
+              CProps or other items that normaly do not update the tooltips for
+              custom tooltip hooks.
+     Changed: Internal handling of UO.EM Function execution. Should not affect
+              scripts. As always, be sure to recompile your scripts when you
+              upgrade to a new core release.
+
+09-01 MuadDib
+       Fixed: Bug causing Pre-AOS status bars to freeze clients and/or generate core
+              crashes.
+     Changed: Adjustments to increasing the revision state for stacks, items, and
+              mobiles. Rule of thumb, if you change a member like newbie, title_race,
+              and so on via script, this is not automatically updated. Names, amounts,
+              and so on that are more critical ARE increased. This is pre to a an
+              upcoming ability to increase via scripts and force tooltips to be
+              resynced with the client for custom tooltip hooks to be fired.
+
+08-31 MuadDib
+     Removed: All instances, calls, used and unused, code for the permitems.txt
+              data file. This was never fully implemented, and as such, has been
+              removed by decision of several developers.
 
 08-26 Austin
        Fixed: POL will check to make sure the corpse and backpack items are setup
