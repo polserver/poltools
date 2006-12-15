@@ -314,3 +314,39 @@ function MS_MobileCheck(mobile, targ)
 	
 	return 1;
 endfunction
+
+/*
+ * MS_MobileCheck(mobile, targ)
+ *
+ * Purpose
+ *   Calculates poison level based on uo.stratics:
+ *  ((Magery + Poisoning) / 2):
+ *  <65.1 = level 1
+ *  65.1 - 85 = level 2
+ *  85.1 - 99.9 = level 3
+ *  100+ = level 4
+ *
+ * Parameters
+ *   mobile:		mobile refrence of caster
+ *   targ:			target refrence
+ *
+ * Returns
+ *   int
+ *
+*/
+function MS_GetPoisonLevel(mobile, targ)
+	
+	var level := CDbl(AP_GetSkill(mobile, MAGERY) + AP_GetSkill(mobile, POISONING)) / 2;
+
+	if ( level < 65.1 )
+		level := 1;
+	elseif ( level >= 65.1 && level <= 85 )
+		level := 2;
+	elseif ( level > 85 && level <= 99.9 )
+		level := 3;
+	elseif ( level > 100 )
+		level := 4;
+	endif
+	
+	return level;
+endfunction
