@@ -23,23 +23,14 @@ program SpellScript_PoisonField(params)
 	
 	// Duration: (3 + (Magery * 0.4)) seconds
 	var duration := CInt(3 + AP_GetSkill(mobile, MAGERY) * 0.4);
-
-	// level: same as poison ((Magery + Poisoning) / 2)
-	var level := CInt(AP_GetSkill(mobile, MAGERY) + AP_GetSkill(mobile, POISONING) / 2);
-
-/*
-Levels go like this:
-Less than 65.1 : Level 1 poison
-65.1 to 85 : Level 2 poison
-85.1 to 99.9 : Level 3 poison
-100 and higher : Level 4 poisoning.
-*/
-
-	// TODO: Set correct poisoning paramaters on field
+	
+	// Level is the same as Poison spell
+	var level := MS_GetPoisonLevel(mobile, targ);
+	
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", 5, duration, "1d2", mobile, "1");
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", level, duration, "1d2", mobile, "1");
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", 5, duration, "1d2", mobile, "1");
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", level, duration, "1d2", mobile, "1");
 	endif
 	
 	return 1;
