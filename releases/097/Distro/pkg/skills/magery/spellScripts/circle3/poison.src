@@ -1,0 +1,34 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/sounds";
+include ":magery:spells";
+include ":magery:spellSounds";
+include ":attributes:attributes";
+
+program SpellScript_Cure(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+
+	var level := MS_GetPoisonLevel(mobile, targ);
+	
+	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
+	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
+
+	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");;
+	
+	return 1;
+endprogram

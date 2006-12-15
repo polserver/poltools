@@ -18,7 +18,7 @@ program SpellScript_Fireball(params)
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
