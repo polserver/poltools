@@ -1,10 +1,17 @@
+Immediate todo:
+Finish implementing areasize cfg
+Finish cure/arch cure
+Do poison
+
 Todo:
 Modify sendstats packet hook to correctly send resistances for debuging.
 Add ID tags to all files
 Create a file that CONSTs spell FX
-Define spell difficulties in spells.cfg for skill advancement
+Add option to be able to cast while paralyzed?
+  Check "able to cast" code for user-configurable options
 
-Problems:
+Problems (need to reverify):
+Poison prevents bandages from healing damage, heal spells will also not work.
 Traps set on containers are not run when opened (needs to check/run scripts in use script)
 Damages appear TWICE above character when hit with direct damage spell, not sure why
 When teleported into a tile with a walk-on script, it might not be activated
@@ -12,7 +19,6 @@ Some spells randomly say "I am frozen and cannot move." even though I'm not doin
 Spells don't do much checking for locked down objects, objects in houses, etc...
 Last I checked, end scripts were not being called by timedScripts.
 Not sure what happens if you cast a timedScript spell multiple times on OSI. "This spell is already in effect." ?
-Spells are FAR too easy
 
 Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when cast by another player), as well as act like Clumsy, Feeble mind and Weaken all in one.
 Bless - Counteracts stats effects and does all three good stat effects
@@ -25,29 +31,88 @@ Area Spells: chain lightning, meteor swarm, earthquake
 	Range is unknown for all three
 	Should they trigger "This may flag you a bastard." window?
 
-
 Do characters unparalyze after taking damage?
 What happens if a server crashes before a timed script finishes?
 Can timed scripts be run multiple times?
 
+Uncompleted: 21
+Summons: 7
 
-Circle 1:
-clumsy			- works
-create food		- works
-feeble mind		- works
-heal			- works
-magic arrow		- works
-night sight		- works
-reactive armor	- works
-weaken			- works
+
+Circle 1 - Completed
+clumsy
+create food
+feeble mind
+heal
+magic arrow	
+night sigh
+reactive armor
+weaken
 
 Circle 2:
 agility
 cunning
+cure - unstarted
 harm
 magic trap
 magic untrap
 protection
 strength
 
-... add the rest here
+Circle 3
+bless
+fireball
+magic lock - unstarted
+telekinesis
+teleport
+unlock - unstarted
+wall of stone
+
+Circle 4
+arch cure - unstarted
+arch protection
+curse
+fire field
+greater heal
+lightning
+mana drain - unstarted
+recall
+
+Circle 5
+blade spirits - unstarted
+dispel field - unstarted
+incognito - unstarted
+magic reflection - unstarted
+mind blast
+paralyze
+poison field
+summon creature - unstarted
+
+Circle 6
+dispel - unstarted
+energy bolt
+explosion
+invisibility
+mark
+mass curse - unstarted
+paralyze field
+reveal - unstarted
+
+Circle 7
+chain lightning
+energy field
+flame strike
+gate travel
+mana vampire - unstarted
+mass dispel - unstarted
+meteor swarm
+polymorph - unstarted
+
+Circle 8
+earthquake
+energy vortex - unstarted
+resurrection
+summon daemon - unstarted
+summon earth elemental - unstarted
+summon fire elemental - unstarted
+summon water elemental - unstarted
