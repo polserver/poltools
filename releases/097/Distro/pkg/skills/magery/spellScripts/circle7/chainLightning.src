@@ -15,7 +15,6 @@ program SpellScript_ChainLightning(params)
 
 	PlaySoundEffect(mobile, SFX_SPELL_CHAIN_LIGHTNING);
 
-	// We'll use 15 for the range, which is slightly less than the visible screen
 	var targs := ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 15, mobile.realm);
 	var base_damage := info.min_damage + (CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10);
 	var damage;
