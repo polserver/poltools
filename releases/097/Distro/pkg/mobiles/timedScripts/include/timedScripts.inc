@@ -250,7 +250,7 @@ function TS_GetTimerDuration(mobile, timer_name)
 endfunction
 
 /*
- * TS_StartTimer(mobile, timer_name, duration, attacker, level)
+ * TS_StartTimer(mobile, timer_name, duration, level, attacker)
  *
  * Purpose
  * Starts a timed script on a mobile. If it is already running, it adds to the time it runs.
