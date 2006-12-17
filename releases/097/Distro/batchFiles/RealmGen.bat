@@ -139,11 +139,11 @@ SET /p UOPATH=Full path to UO directory:
 IF "%UOPATH%" == "" GOTO :RETURN_TO_MENU()
 IF NOT EXIST MUL\ MKDIR MUL
 @ECHO ON
-COPY %UOPATH%\multi.* MUL\
-COPY %UOPATH%\map* MUL\
-COPY %UOPATH%\staidx* MUL\
-COPY %UOPATH%\statics* MUL\
-COPY %UOPATH%\tiledata.mul MUL\
+COPY "%UOPATH%\multi.*" "MUL\"
+COPY "%UOPATH%\map*" "MUL\"
+COPY "%UOPATH%\staidx*" "MUL\"
+COPY "%UOPATH%\statics*" "MUL\"
+COPY "%UOPATH%\tiledata.mul" "MUL\"
 @ECHO OFF
 GOTO :RETURN_TO_MENU()
 
