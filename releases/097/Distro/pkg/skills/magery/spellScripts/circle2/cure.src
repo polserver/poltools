@@ -6,6 +6,7 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
+include ":timedscripts:poisonUtil";
 
 program SpellScript_Cure(params)
 	var mobile := params[1];
@@ -23,14 +24,28 @@ program SpellScript_Cure(params)
 		return 0;
 	endif
 
-	//% Chance to cure: (Magery * 0,75) + (110 - (Poison level * 33)) .
-	// TODO: Don't think there's a clean way to get poison level YET, maybe austin will let me set the poisonlevel cprop on people
-	var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (1 * 33));
-	
-	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
-	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
 
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");;
+	// Get poison level
+	// Note: Unlike OSI, we can have multiple poisons so we'll just grab the highest one.
+	var poison_names := TS_GetTimerNames(targ, "P");
+	var poison_level := 0;
+	foreach timer_name in ( poison_names )
+		var timer_info := TS_GetTimerInfo(mobile, timer_name);
+		
+		if ( timer_info.level > poison_level )
+				poison_level := timer_info.level;
+		endif
+	endforeach
+
+	//% Chance to cure: (Magery * 0,75) + (110 - (Poison level * 33)) .
+	var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
+	if ( chance >= RandomInt(100) )
+		// Should be enough to cure all poison.
+		TS_CurePoison(targ, 10000, "P", 10);
+	endif
 	
+	PlaySoundEffect(mobile, SFX_SPELL_CURE);
+	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 16);
+
 	return 1;
 endprogram

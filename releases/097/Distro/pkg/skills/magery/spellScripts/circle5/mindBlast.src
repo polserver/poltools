@@ -27,8 +27,12 @@ program SpellScript_MindBlast(params)
 	PlaySoundEffect(targ, SFX_SPELL_MIND_BLAST);
 	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
 	
+	// Base damage is a decimal number in between min and max damage
+	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
+	var max_damage := CInt(GetConfigInt(info.spell_config, "MaxBaseDamage"));
+	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10);
+
 	// damage: Base Damage + ((Magery + Intelligence) / 5) (Drop decimals from result)
-	var base_damage := info.min_damage + (CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10);
 	var damage := base_damage + CInt((AP_GetSkill(mobile, MAGERY) + AP_GetStat(mobile, INTELLIGENCE)) / 5);
 
 	ApplyDamageEX(targ, damage, info.damage_type, mobile);

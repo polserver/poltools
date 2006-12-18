@@ -25,12 +25,12 @@ program SpellScript_PoisonField(params)
 	var duration := CInt(3 + AP_GetSkill(mobile, MAGERY) * 0.4);
 	
 	// Level is the same as Poison spell
-	var level := MS_GetPoisonLevel(mobile, targ);
-	
+	var poison_level := MS_GetPoisonLevel(mobile, targ);
+		
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", level, duration, "1d2", mobile, "1");
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "1d2", mobile, "1");
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", level, duration, "1d2", mobile, "1");
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "1d2", mobile, "1");
 	endif
 	
 	return 1;

@@ -6,14 +6,13 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
-include ":timedScripts:timedScripts";
 
 program SpellScript_Cure(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
@@ -24,13 +23,10 @@ program SpellScript_Cure(params)
 		return 0;
 	endif
 
-	var poison_level := MS_GetPoisonLevel(mobile, targ);
+	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
+	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
 
-	// Not sure how long the effects should last
-	TS_StartTimer(targ, "DefaultPoison", 120, poison_level, mobile);
+	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
 	
-	PlaySoundEffect(mobile, SFX_SPELL_POISON);
-	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
-
 	return 1;
 endprogram

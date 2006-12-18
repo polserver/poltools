@@ -27,9 +27,9 @@ program SpellScript_ParalyzeField(params)
 
 	// TODO: Test!
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "ParalyzeField_NS", 5, duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "ParalyzeField_NS", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "ParalyzeField_EW", 5, duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "ParalyzeField_EW", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
 	endif
 	
 	return 1;

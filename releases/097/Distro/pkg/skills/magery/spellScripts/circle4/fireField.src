@@ -25,9 +25,9 @@ program SpellScript_FireField(params)
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 0.5);
 
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", 5, duration, "1d2", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "1d2", mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "FireField_EW", 5, duration, "1d2", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "FireField_EW", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "1d2", mobile, 1);
 	endif
 	
 	return 1;

@@ -1,14 +1,15 @@
-Immediate todo:
-Finish implementing areasize cfg
-Finish cure/arch cure
-Do poison
-
 Todo:
-Modify sendstats packet hook to correctly send resistances for debuging.
-Add ID tags to all files
-Create a file that CONSTs spell FX
+Casting agility, etc... once it's already on should replace duration with new max
+Finish configuring spells.cfg
+	most spells need SFX
+	most spells without GFX defined need them setup (field spells)
+Change all spell scripts to use MS_PlaySpellSFX/GFX()
+
+
 Add option to be able to cast while paralyzed?
   Check "able to cast" code for user-configurable options
+Add ID tags to all files
+Modify sendstats packet hook to correctly send resistances for debuging.
 
 Problems (need to reverify):
 Poison prevents bandages from healing damage, heal spells will also not work.

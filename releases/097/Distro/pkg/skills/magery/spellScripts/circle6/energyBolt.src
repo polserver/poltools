@@ -27,7 +27,10 @@ program SpellScript_EnergyBolt(params)
 	PlaySoundEffect(mobile, SFX_SPELL_ENERGY_BOLT);
 	PlayMovingEffect(mobile, targ, 0x379f, 5, 1);
 
-	var base_damage := info.min_damage + (CDbl(RandomInt(CInt((info.max_damage - info.min_damage) * 10))) / 10);
+	// Base damage is a decimal number in between min and max damage
+	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
+	var max_damage := CInt(GetConfigInt(info.spell_config, "MaxBaseDamage"));
+	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10);
 	var damage := MS_GetSpellDamage(mobile, targ, base_damage);
 
 	ApplyDamageEX(targ, damage, info.damage_type, mobile);
