@@ -13,7 +13,7 @@ program SpellScript_Earthquake(params)
 	var info := params[2];
 	params := 0;
 
-	// Not sure if earthquake has a GFX
+	// Not sure if earthquake should have a GFX
 	// PlayObjectCenteredEffect(targ, GFX_FIRE_COLUMN, 7, 7);
 	PlaySoundEffect(mobile, SFX_SPELL_EARTHQUAKE);
 
@@ -21,8 +21,7 @@ program SpellScript_Earthquake(params)
 	var base_damage;
 	var damage;
 	
-	// We'll use 15 for the range, which is slightly less than the visible screen
-	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 15, mobile.realm)
+	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm)
 		if ( CheckLineOfSight(mobile, targ) && !(targ.serial in party) && (mobile.serial != targ.serial) )
 			base_damage := (CDbl(AP_GetVital(targ, HITS)) / 3);
 			damage := MS_GetSpellDamage(mobile, targ, base_damage);

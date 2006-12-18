@@ -21,9 +21,9 @@ program SpellScript_ArchProtection(params)
 	
 	PlaySoundEffect(mobile, SFX_SPELL_ARCH_PROTECTION);
 	
-	// 2-tile effect, protection on all party members and caster
+	// Protection on all party members and caster
 	var targ;
-	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, 2, mobile.realm)
+	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm)
 		// Grab the party list, if any
 		var party := GetObjProperty(mobile, "#Party");
 

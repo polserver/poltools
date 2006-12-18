@@ -26,6 +26,7 @@ program SpellScript_Cure(params)
 	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
 	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
 
+	// CInt(GetConfigInt(info.spell_config, "AreaSize"))
 	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
 	
 	return 1;

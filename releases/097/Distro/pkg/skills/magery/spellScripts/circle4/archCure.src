@@ -6,31 +6,45 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
+include ":timedScripts:poisonUtil";
 
 program SpellScript_ArchCure(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
+	PlaySoundEffect(mobile, SFX_SPELL_ARCH_PROTECTION);
 
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
+	// Cures all friendlies in area
+	// TODO: I get the party list but should I be getting "friendlies" as uo.com suggests?
+	var targ;
+	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm)
+		// Grab the party list, if any
+		var party := GetObjProperty(mobile, "#Party");
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
+		if ( targ.serial in party || targ.serial == mobile.serial || 1 )
+			// Get poison level
+			// Note: Unlike OSI, we can have multiple poisons so we'll just grab the highest one.
+			var poison_names := TS_GetTimerNames(targ, "P");
+			var poison_level := 0;
+			foreach timer_name in ( poison_names )
+				var timer_info := TS_GetTimerInfo(mobile, timer_name);
+				
+				if ( timer_info.level > poison_level )
+						poison_level := timer_info.level;
+				endif
+			endforeach
+		
+			//% Chance to cure: (Magery * 0,75) + (110 - (Poison level * 33)) .
+			var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
+			if ( chance >= RandomInt(100) )
+				// Should be enough to cure all poison.
+				TS_CurePoison(targ, 10000, "P", 10);
+			endif
 
-	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
-	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
+			PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+		endif
+	endforeach
 
-	// At GM level Magery there is a 87% chance of success against level 5 poison.
-	// Cures all friendly targets that are within 2 tiles of the target.
-	// Casts at the same speed as a 3rd circle spell.
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
-	
 	return 1;
 endprogram

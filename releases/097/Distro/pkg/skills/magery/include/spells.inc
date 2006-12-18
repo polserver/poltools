@@ -245,11 +245,10 @@ function ReleaseScript(pid)
 endfunction
 
 /*
- * MS_CalcSpellDamage(mobile, spell_id)
+ * MS_GetSpellDamage(mobile, targ, base_damage)
  *
  * Purpose
- *   Calculates spell damage using base damage defined in spells.cfg and
- *   formula provided by stratics.
+ *   Calculates spell damage using formula provided by uo.stratics.
  *   Eval. Int. Bonus: ((EvalInt * 3) / 100) + 1
  *   Intelligence Bonus: (INT / 10) (Drop decimals from result)
  *   GM Inscription Bonus: 10% Damage Bonus
@@ -259,11 +258,10 @@ endfunction
  * Parameters
  *   mobile:		mobile refrence of caster
  *   targ:			target of spell
- *   min_damage:	minimum base damage
- *   max_damage:	maximum base damage
+ *   base_damage: base damage
  *
  * Returns
- *   total damage
+ *   double
  *
  */
 function MS_GetSpellDamage(mobile, targ, base_damage)
@@ -316,7 +314,7 @@ function MS_MobileCheck(mobile, targ)
 endfunction
 
 /*
- * MS_MobileCheck(mobile, targ)
+ * MS_GetPoisonLevel(mobile, targ)
  *
  * Purpose
  *   Calculates poison level based on uo.stratics:
@@ -335,18 +333,41 @@ endfunction
  *
 */
 function MS_GetPoisonLevel(mobile, targ)
-	
-	var level := CDbl(AP_GetSkill(mobile, MAGERY) + AP_GetSkill(mobile, POISONING)) / 2;
+	var poison_level := CDbl(AP_GetSkill(mobile, MAGERY) + AP_GetSkill(mobile, POISONING)) / 2;
 
-	if ( level < 65.1 )
-		level := 1;
-	elseif ( level >= 65.1 && level <= 85 )
-		level := 2;
-	elseif ( level > 85 && level <= 99.9 )
-		level := 3;
-	elseif ( level > 100 )
-		level := 4;
+	if ( poison_level < 65.1 )
+		poison_level := 1;
+	elseif ( poison_level >= 65.1 && poison_level <= 85 )
+		poison_level := 2;
+	elseif ( poison_level > 85 && poison_level <= 99.9 )
+		poison_level := 3;
+	elseif ( poison_level >= 100 )
+		poison_level := 4;
 	endif
 	
-	return level;
+	return poison_level;
+endfunction
+
+
+function MS_PlaySpellSFX(spellid, targ, success:=1)
+	var cfg_elem := MS_GetSpellsCfgElem(spellid);
+	PlaySoundEffect(targ, GetConfigInt(cfg_elem, "SFX"));
+	return 1;	
+endfunction
+
+
+function MS_PlaySpellGFX(spellid, targ, attacker:=0, success:=1, speed:=7, loop:=14)
+	var cfg_elem := MS_GetSpellsCfgElem(spellid);
+	var gfx;
+	
+	if ( success )
+		gfx := GetConfigInt(cfg_elem, "GFXSuccess");
+	else
+		gfx := GetConfigInt(cfg_elem, "GFXFailure");
+	endif
+	
+	case ( cfg_elem.GFXType )
+		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
+		2: PlayMovingEffect(attacker, targ, gfx, speed, loop);
+	endcase
 endfunction

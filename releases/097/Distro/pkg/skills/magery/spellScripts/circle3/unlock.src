@@ -12,7 +12,7 @@ program SpellScript_Cure(params)
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
