@@ -23,8 +23,8 @@ program SpellScript_Cure(params)
 		return 0;
 	endif
 
-	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
-	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// CInt(GetConfigInt(info.spell_config, "AreaSize"))
 	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");

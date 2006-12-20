@@ -24,8 +24,8 @@ program SpellScript_Harm(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_HARM);
-	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));

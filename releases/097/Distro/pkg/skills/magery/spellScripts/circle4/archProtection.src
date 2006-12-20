@@ -19,7 +19,7 @@ program SpellScript_ArchProtection(params)
 	var info := params[2];
 	params := 0; // No longer needed
 	
-	PlaySoundEffect(mobile, SFX_SPELL_ARCH_PROTECTION);
+	MS_PlaySpellSFX(info.spell_id, mobile);
 	
 	// Protection on all party members and caster
 	var targ;
@@ -34,7 +34,7 @@ program SpellScript_ArchProtection(params)
 				RemoveArchProtection(targ);
 			endif
 
-			PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
 		endif
 	endforeach
 	

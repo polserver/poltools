@@ -13,15 +13,13 @@ program SpellScript_Earthquake(params)
 	var info := params[2];
 	params := 0;
 
-	// Not sure if earthquake should have a GFX
-	// PlayObjectCenteredEffect(targ, GFX_FIRE_COLUMN, 7, 7);
-	PlaySoundEffect(mobile, SFX_SPELL_EARTHQUAKE);
+	MS_PlaySpellSFX(info.spell_id, mobile);
 
 	var party := GetObjProperty(mobile, "#Party");
 	var base_damage;
 	var damage;
-	
-	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm)
+	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
+	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, area_size, mobile.realm)
 		if ( CheckLineOfSight(mobile, targ) && !(targ.serial in party) && (mobile.serial != targ.serial) )
 			base_damage := (CDbl(AP_GetVital(targ, HITS)) / 3);
 			damage := MS_GetSpellDamage(mobile, targ, base_damage);
@@ -34,7 +32,8 @@ program SpellScript_Earthquake(params)
 					damage := 100;
 				endif
 			endif
-			
+
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
 			ApplyDamageEX(targ, damage, info.damage_type, mobile);
 		endif
 	endforeach

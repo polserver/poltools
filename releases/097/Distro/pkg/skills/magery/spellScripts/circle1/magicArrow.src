@@ -29,8 +29,8 @@ program SpellScript_MagicArrow(params)
 		return 0;
 	endif
 
-	PlaySoundEffect(mobile, SFX_SPELL_MAGIC_ARROW);
-	PlayMovingEffect(mobile, targ, GFX_SMALL_FIREBALL, 5, 1);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));

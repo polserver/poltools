@@ -30,7 +30,7 @@ program SpellScript_Agility(params)
 	endif
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
-	MS_PlaySpellGFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;

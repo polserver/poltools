@@ -19,16 +19,17 @@ program SpellScript_EnergyField(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_ENERGY_FIELD);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Duration: 28% Magery +2 seconds
 	// On OSI the duration max is 35.6, but this probably wont work without some tweaking
 	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 1.28) + 2);
-
+	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "EnergyField_NS", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "EnergyField_NS", area_size, duration, "", mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "EnergyField_EW", CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "EnergyField_EW", area_size, duration, "", mobile, 1);
 	endif
 	
 	return 1;

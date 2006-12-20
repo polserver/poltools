@@ -13,7 +13,7 @@ program SpellScript_ArchCure(params)
 	var info := params[2];
 	params := 0;
 
-	PlaySoundEffect(mobile, SFX_SPELL_ARCH_PROTECTION);
+	MS_PlaySpellSFX(info.spell_id, mobile);
 
 	// Cures all friendlies in area
 	// TODO: I get the party list but should I be getting "friendlies" as uo.com suggests?
@@ -42,7 +42,7 @@ program SpellScript_ArchCure(params)
 				TS_CurePoison(targ, 10000, "P", 10);
 			endif
 
-			PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
 		endif
 	endforeach
 

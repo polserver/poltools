@@ -29,8 +29,8 @@ program SpellScript_Cure(params)
 	// Not sure how long the effects should last
 	TS_StartTimer(targ, "DefaultPoison", 120, poison_level, mobile);
 	
-	PlaySoundEffect(mobile, SFX_SPELL_POISON);
-	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	return 1;
 endprogram

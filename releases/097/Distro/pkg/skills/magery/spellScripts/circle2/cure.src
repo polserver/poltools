@@ -24,14 +24,12 @@ program SpellScript_Cure(params)
 		return 0;
 	endif
 
-
 	// Get poison level
 	// Note: Unlike OSI, we can have multiple poisons so we'll just grab the highest one.
 	var poison_names := TS_GetTimerNames(targ, "P");
 	var poison_level := 0;
 	foreach timer_name in ( poison_names )
 		var timer_info := TS_GetTimerInfo(mobile, timer_name);
-		
 		if ( timer_info.level > poison_level )
 				poison_level := timer_info.level;
 		endif
@@ -44,8 +42,8 @@ program SpellScript_Cure(params)
 		TS_CurePoison(targ, 10000, "P", 10);
 	endif
 	
-	PlaySoundEffect(mobile, SFX_SPELL_CURE);
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 16);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	return 1;
 endprogram

@@ -20,8 +20,8 @@ program SpellScript_Paralyze(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_PARALYZE);
-	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 16);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Tell spell starter to not wait for this script to finish
 	var spell_starter := GetProcess(info.pid);

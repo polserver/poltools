@@ -356,18 +356,16 @@ function MS_PlaySpellSFX(spellid, targ, success:=1)
 endfunction
 
 
-function MS_PlaySpellGFX(spellid, targ, attacker:=0, success:=1, speed:=7, loop:=14)
+function MS_PlaySpellGFX(spellid, targ, caster, speed:=7, loop:=14)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
-	var gfx;
+	var gfx := CInt(GetConfigInt(cfg_elem, "GFX"));
 	
-	if ( success )
-		gfx := GetConfigInt(cfg_elem, "GFXSuccess");
-	else
-		gfx := GetConfigInt(cfg_elem, "GFXFailure");
-	endif
-	
-	case ( cfg_elem.GFXType )
+	case ( CInt(cfg_elem.GFXType) )
+		0: return 1;
 		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
-		2: PlayMovingEffect(attacker, targ, gfx, speed, loop);
+		2: PlayMovingEffect(caster, targ, gfx, speed, loop);
+		3: PlayStationaryEffect( targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm );
 	endcase
+	
+	return 1;
 endfunction

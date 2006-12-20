@@ -19,15 +19,23 @@ program SpellScript_Cure(params)
 		return 0;
 	endif
 
-	if ( !MS_MobileCheck(mobile, targ) )
+	if ( !targ.IsA(POLCLASS_ITEM) )
+		// Doesn't do anything to mobiles
+		SendSysMessage(mobile, "This spell wont work on that!");
 		return 0;
 	endif
 
-	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
-	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
-	// CInt(GetConfigInt(info.spell_config, "AreaSize"))
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var items := ListItemsNearLocation(targ.x, targ.y, targ.z, area_size, targ.realm);
+	
+	foreach item in items
+		if ( GetObjProperty(item, "SummonedField") == 1 )
+			DestroyItem(item);
+		endif
+	endforeach
 	
 	return 1;
 endprogram

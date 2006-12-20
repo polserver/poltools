@@ -1,0 +1,66 @@
+use uo;
+use os;
+
+include ":attributes:attributes";
+include "include/client";
+
+var hair_types := array{ "cutHair", "ShortHair", "LongHair", "PonyTailHair", "MohawkHair",
+                    "PageBoyHair", "BunsHair", "AfroHair", "RecedingHair", "PigTailHair",
+                    "KrisnaHair" }; 
+var beard_types := array{ "LongBeardHair", "ShortBeardHair", "GoateeHair", "MustacheHair",
+                     "MedShortBeardHair", "medlongbeard", "VandykeHair" };
+
+program TimedScript_Incognito(params)
+	var mobile := params[1];
+	params := 0;
+	
+	// Store original info if this is the first time incognito has been cast
+	if ( !GetObjProperty(mobile, "Incognito") )
+		var original := struct;
+		original.+name := mobile.name;
+		original.+gender := mobile.gender;
+		original.+truecolor := mobile.truecolor;
+		original.+title_prefix := mobile.title_prefix;
+		original.+title_suffix := mobile.title_suffix;
+		original.+title_guild := mobile.title_guild;
+		original.+title_race := mobile.title_race;
+		
+		var hair := GetEquipmentByLayer(mobile, LAYER_HAIR);
+		original.+hair := hair.name;
+		var beard := GetEquipmentByLayer(mobile, LAYER_BEARD);
+		original.+beard := beard.name;
+		
+		SetObjProperty(mobile, "Incognito", original);
+		
+		Print("Incognito original:"+original);
+	endif
+	
+	mobile.title_prefix := "";
+	mobile.title_suffix := "";
+	//mobile.title_guild := "";
+	//mobile.title_race := "";
+
+	mobile.gender := RandomInt(1);
+	mobile.truecolor	:= 1056 - RandomInt(55); // 1002-1056
+
+	DestroyItem(GetEquipmentByLayer(mobile, LAYER_HAIR));
+	var new_hair := CreateItemInBackpack(mobile, hair_types[RandomInt(hair_types.Size()) + 1]);
+	EquipItem(mobile, new_hair);
+		
+	var name_template;
+	if ( mobile.gender == 0 )
+		name_template := "Human_Male";
+		DestroyItem(GetEquipmentByLayer(mobile, LAYER_BEARD));
+		var new_beard := CreateItemInBackpack(mobile, beard_types[RandomInt(beard_types.Size()) + 1]);
+		EquipItem(mobile, new_beard);
+	else
+		name_template := "Human_Female";
+	endif
+	
+	var names := ReadConfigFile(":brainAI:names");
+	var name_list := GetConfigStringArray(names[name_template], "Name");
+	SetName(mobile, name_list[RandomInt(name_list.Size()) + 1]);	
+
+	return 1;
+endprogram
+
