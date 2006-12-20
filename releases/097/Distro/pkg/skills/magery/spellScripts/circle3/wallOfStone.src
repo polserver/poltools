@@ -19,16 +19,17 @@ program SpellScript_WallOfStone(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_FIRE_FIELD);
+	MS_PlaySpellSFX(info.spell_id, targ);
 	
 	// Duration: 10 seconds
 	var duration := 10;
-
-	// TODO: GFXSuccess for 0x80
+	var gfx := CInt(GetConfigInt(info.spell_config, "GFX"));
+	var gfx2 := CInt(GetConfigInt(info.spell_config, "GFX2"));
+	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
 	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, 0x80, CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, gfx, area_size, duration, "", mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, 0x80, CInt(GetConfigInt(info.spell_config, "AreaSize")), duration, "", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_VERTICAL, gfx2, area_size, duration, "", mobile, 1);
 	endif
 	
 	return 1;

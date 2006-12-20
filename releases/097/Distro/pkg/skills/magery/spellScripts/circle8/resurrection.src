@@ -43,6 +43,9 @@ program SpellScript_Resurrection(params)
 	if ( CInt(settings_elem.AskToRes) )
 		if ( !ResurrectionGump(targ) )
 			return 0;
+		else
+			MS_PlaySpellSFX(info.spell_id, targ);
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
 		endif
 	endif
 	

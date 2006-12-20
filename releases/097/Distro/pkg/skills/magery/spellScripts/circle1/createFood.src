@@ -24,7 +24,8 @@ program SpellScript_CreateFood(params)
 	if ( food == error )
 		SendSysMessage(mobile, "Error creating food ("+food_item+") ->"+food.errortext);
 	else
-		PlaySoundEffect(mobile, SFX_SPELL_CREATE_FOOD);
+		MS_PlaySpellSFX(info.spell_id, mobile);
+		MS_PlaySpellGFX(info.spell_id, mobile, mobile);
 	endif
 	
 	return 1;

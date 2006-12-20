@@ -41,22 +41,27 @@ program SpellScript_Teleport(params)
 		return 0;
 	endif
 	
-	if ( 0 ) // Not finished
+	if ( 0 ) // TODO: multi-check
 		SendSysMessage(mobile, "This ability cannot be used to teleport in houses or boats.");
 		return 0;
 	endif
 	
-	PlaySoundEffect(mobile, SFX_SPELL_TELEPORT);
-	PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
-
-	SleepMS(100);
-
+	var orig_pos := struct;
+	orig_pos.+x := mobile.x;
+	orig_pos.+y := mobile.y;
+	orig_pos.+z := mobile.z;
+	orig_pos.+realm := mobile.realm;
+	
 	if ( !MoveObjectToLocation(mobile, targ.x, targ.y, targ.z, targ.realm) );
 		SendSysMessage(mobile, "Not a supported teleporter location.");
 		return 0;
 	endif
 
-	PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, orig_pos, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+
+	//PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
 
 	return 1;
 endprogram

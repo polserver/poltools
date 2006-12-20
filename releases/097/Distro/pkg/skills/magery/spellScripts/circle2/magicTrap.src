@@ -31,8 +31,8 @@ program SpellScript_MagicTrap(params)
 		endif
 	endforeach
 	
-	PlaySoundEffect(targ, SFX_SPELL_MAGIC_TRAP);
-	PlayObjectCenteredEffect(targ, GFX_RED_SPARKLES, 7, 7);	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// uo.com says 10-50 damage
 	AddTrap(targ, "magicTrap", "10d5");

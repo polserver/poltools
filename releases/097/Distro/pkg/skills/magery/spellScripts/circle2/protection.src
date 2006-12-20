@@ -31,8 +31,8 @@ program SpellScript_Protection(params)
 		ApplyProtection(mobile);
 	endif
 	
-	PlaySoundEffect(mobile, SFX_SPELL_PROTECTION);
-	PlayObjectCenteredEffect(mobile, GFX_BLUE_SPARKLES, 7, 16);
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
 
 	return 1;
 endprogram

@@ -1,7 +1,7 @@
 CONST FIELD_SHAPE_VERTICAL := 1;
 CONST FIELD_SHAPE_HORIZONTAL := 2;
 
-function CreateField(targ, shape, objtype, size, duration, cprops, mobile:="", check_los:=1, delay:=2)
+function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="", check_los:=1, delay:=2)
 	var start_cord, stop_cord, object;
 	var field := array{};
 	
@@ -64,13 +64,20 @@ function CreateField(targ, shape, objtype, size, duration, cprops, mobile:="", c
 			DestroyItem(check_los);
 		endif
 			
-		if ( Lower(TypeOf(cprops) == "struct") )
-			foreach object in field
-				foreach prop_name in (cprops.Keys())
-					SetObjProperty(object, prop_name, cprops[prop_name]);
-				endforeach
-			endforeach
-		endif
+		// Set cprops
+		foreach object in field
+			if ( cprops )
+				if ( Lower(TypeOf(cprops) == "array") )
+					foreach prop_struct in cprops
+						SetObjProperty(object, prop_struct.name, prop_struct.value);
+					endforeach
+				elseif ( Lower(TypeOf(cprops) == "struct") )
+					SetObjProperty(object, cprops.name, cprops.value);
+				endif
+			endif
+			
+			SetObjProperty(object, "SummonedField", 1);
+		endforeach
 	endif
 			
 return 1;

@@ -13,9 +13,7 @@ program SpellScript_ChainLightning(params)
 	var info := params[2];
 	params := 0;
 
-	// Not sure if we should have a GFX
-	// PlayObjectCenteredEffect(targ, GFX_FIRE_COLUMN, 7, 7);
-	PlaySoundEffect(mobile, SFX_SPELL_CHAIN_LIGHTNING);
+	MS_PlaySpellSFX(info.spell_id, mobile);
 
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
@@ -24,7 +22,8 @@ program SpellScript_ChainLightning(params)
 	var damage;
 
 	// Get targets and remove party members and self. Damage is divided by number of valid targets.
-	var targs := ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm);
+	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
+	var targs := ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, area_size, mobile.realm);
 	var party := GetObjProperty(mobile, "#Party");
 	for i := 1 to (targs.Size())
 		if ( (targs[i].serial in party) || (mobile.serial == targs[i].serial) )

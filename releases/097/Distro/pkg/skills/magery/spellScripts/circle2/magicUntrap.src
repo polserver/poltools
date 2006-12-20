@@ -39,8 +39,8 @@ program SpellScript_MagicUntrap(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_MAGIC_UNTRAP);
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	RemoveTrap(targ, index);
 	

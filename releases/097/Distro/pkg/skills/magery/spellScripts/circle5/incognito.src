@@ -6,27 +6,20 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+include ":timedscripts:timedScripts";
 
-program SpellScript_Cure(params)
+program SpellScript_Incognito(params)
 	var mobile := params[1];
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
 
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
+	// Duration: ((Eval / 5) + 1) * 6
+	var duration := AP_GetSkill(mobile, MAGERY) * 1.2;
+	TS_StartTimer(mobile, "incognito", duration, 0, mobile);
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
-
-	//PlayMovingEffect(mobile, targ, GFX_LARGE_FIREBALL, 5, 1);
-	//PlaySoundEffect(mobile, SFX_SPELL_FIREBALL);
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
-	
 	return 1;
 endprogram

@@ -24,8 +24,8 @@ program SpellScript_FlameStrike(params)
 		return 0;
 	endif
 
-	PlayObjectCenteredEffect(targ, GFX_FIRE_COLUMN, 7, 7);
-	PlaySoundEffect(mobile, SFX_SPELL_FLAME_STRIKE);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));

@@ -28,9 +28,9 @@ program SpellScript_NightSight(params)
 		return 0;
 	endif
 		
-	PlaySoundEffect(targ, SFX_SPELL_NIGHT_SIGHT);
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 10, 10);	
-	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+		
 	// If target magery < 10, no effect
 	// TODO: spell duration should last until next dawn or dusk
 	if ( AP_GetSkill(targ, MAGERY) > 10.0 )

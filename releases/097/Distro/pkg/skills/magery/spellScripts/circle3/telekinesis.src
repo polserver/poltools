@@ -30,7 +30,8 @@ program SpellScript_Telekinesis(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_TELEKINESIS);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	if ( targ.IsA(POLCLASS_CONTAINER) )
 		SendViewContainer( mobile, targ );

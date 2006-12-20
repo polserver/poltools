@@ -29,8 +29,8 @@ program SpellScript_Strength(params)
 		return 0;
 	endif
 	
-	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLES, 7, 7);	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Duration: 120% Magery seconds
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);

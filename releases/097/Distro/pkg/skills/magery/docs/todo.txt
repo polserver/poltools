@@ -1,15 +1,13 @@
 Todo:
 Casting agility, etc... once it's already on should replace duration with new max
-Finish configuring spells.cfg
-	most spells need SFX
-	most spells without GFX defined need them setup (field spells)
-Change all spell scripts to use MS_PlaySpellSFX/GFX()
-
-
-Add option to be able to cast while paralyzed?
-  Check "able to cast" code for user-configurable options
+Lightning needs gfx setup, recall might not use any sounds
+Change all spell scripts to use MS_PlaySpellSFX/GFX(), circles 6+
+Function to test config file, calls functions for sfx and gfx and makes sure there are no errors
+Check spell_sounds.inc
 Add ID tags to all files
 Modify sendstats packet hook to correctly send resistances for debuging.
+make sure all randomints have +1
+field spells are not setup correctly, "1d2" for cprop isn't even a struct
 
 Problems (need to reverify):
 Poison prevents bandages from healing damage, heal spells will also not work.
@@ -26,11 +24,6 @@ Bless - Counteracts stats effects and does all three good stat effects
 
 Summon spells probably wont be able to work until brainAI is finished and all NPCs are converted.
 Firefield and other field spells could be aligned with the mobile's facing property
-
-Area Spells: chain lightning, meteor swarm, earthquake
-	Should not hit party memberse
-	Range is unknown for all three
-	Should they trigger "This may flag you a bastard." window?
 
 Do characters unparalyze after taking damage?
 What happens if a server crashes before a timed script finishes?
@@ -53,7 +46,7 @@ weaken
 Circle 2:
 agility
 cunning
-cure - unstarted
+cure
 harm
 magic trap
 magic untrap
@@ -64,13 +57,14 @@ Circle 3
 bless
 fireball
 magic lock - unstarted
+poison
 telekinesis
 teleport
 unlock - unstarted
 wall of stone
 
 Circle 4
-arch cure - unstarted
+arch cure
 arch protection
 curse
 fire field

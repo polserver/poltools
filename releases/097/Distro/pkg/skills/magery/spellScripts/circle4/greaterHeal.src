@@ -31,8 +31,8 @@ program SpellScript_GreaterHeal(params)
 	// Amount healed: 40% Magery + (1 to 10)
 	var points := CInt(AP_GetSkill(mobile, MAGERY) * 0.4) + RandomDiceRoll("1d10");
 	
-	PlayObjectCenteredEffect(targ, GFX_BLUE_SPARKLE_SWIRL, 7, 16);
-	PlaySoundEffect(targ, SFX_SPELL_GREATER_HEAL);
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	var healed := AP_GetVital(targ, HITS);
 	HealDamage(targ, points);

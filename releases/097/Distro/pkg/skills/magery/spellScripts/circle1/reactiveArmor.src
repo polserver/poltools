@@ -28,9 +28,9 @@ program SpellScript_ReactiveArmor(params)
 		ApplyReactiveArmor(mobile);
 	endif
 
-	PlaySoundEffect(mobile, SFX_SPELL_REACTIVE_ARMOR);
-	PlayObjectCenteredEffect(mobile, GFX_RED_SPARKLES, 7, 16);
-
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+	
 	return 1;
 endprogram
 
