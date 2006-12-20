@@ -99,7 +99,7 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_Target(mobile, targ:=0, prompt := "Select a target.", flags:=TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
+function MS_Target(mobile, targ:=0, prompt:="Select a target.", flags:=TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL)
 	mobile.hidden := 0;
 
 	if ( targ.IsA(POLCLASS_UOBJECT) )
@@ -149,7 +149,7 @@ endfunction
  * Returns an object reference to what was targeted.
  *
  */
-function MS_TargetCoordinates(mobile, targ:=0, prompt := "Select a target.")
+function MS_TargetCoordinates(mobile, targ:=0, prompt:="Select a target.")
 	mobile.hidden := 0;
 
 	if ( targ )
@@ -351,7 +351,9 @@ endfunction
 
 function MS_PlaySpellSFX(spellid, targ, success:=1)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
+	Print("Playing SFX:"+GetConfigInt(cfg_elem, "SFX")+" for spellid:"+spellid);
 	PlaySoundEffect(targ, GetConfigInt(cfg_elem, "SFX"));
+
 	return 1;	
 endfunction
 
@@ -360,6 +362,7 @@ function MS_PlaySpellGFX(spellid, targ, caster, speed:=7, loop:=14)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
 	var gfx := CInt(GetConfigInt(cfg_elem, "GFX"));
 	
+Print("Playing SFX:"+GetConfigInt(cfg_elem, "SFX")+" for spellid:"+spellid+" of gfx type:"+CInt(cfg_elem.GFXType));
 	case ( CInt(cfg_elem.GFXType) )
 		0: return 1;
 		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);

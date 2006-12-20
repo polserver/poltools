@@ -11,20 +11,15 @@ include ":attributes:attributes";
 program TimedScript_FeebleMind(params)
 	var defender := params[1];
 	var attacker := params[2];
+	var points := params[3];
 	params := 0;
 	
 	// Prevents mod from being applied twice.
-	if ( GetObjProperty(defender, "#FeebleMindMod") )
+	if ( GetObjProperty(defender, "FeebleMindMod") )
 		return 0;
 	endif
 	
-	// Int decrease % = (Eval / 10) + 8) - (Resist / 10)
-	var eval := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE));
-	var resist := CInt(AP_GetSkill(defender, RESISTING_SPELLS));
-	var percent := CDbl((eval / 10) + 8) - (resist / 10);
-	var points := CInt(AP_GetStat(defender, INTELLIGENCE) * (percent / 100));
-	
-	SetObjProperty(defender, "#FeebleMindMod", points);
+	SetObjProperty(defender, "FeebleMindMod", points);
 	AP_ModifyStatMod(defender, INTELLIGENCE, -(points));
 	
 	return 1;

@@ -16,25 +16,25 @@ include ":timedscripts:timedScripts";
 program SpellScript_Weaken(params)
 	var mobile := params[1];
 	var info := params[2];
+	var targ := params[3];
 	params := 0;
 	
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
-
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
-
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Strength decrease % = (Eval / 10) + 8) - (Resist / 10)
+	var eval := CInt(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE));
+	var resist := CInt(AP_GetSkill(targ, RESISTING_SPELLS));
+	var percent := CDbl((eval / 10) + 8) - (resist / 10);
+	var points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
 	
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
-	TS_StartTimer(targ, "weaken", duration, 0, mobile);
+	TS_StartTimer(targ, "weaken", duration, points, mobile);
 	
 	return 1;
 endprogram

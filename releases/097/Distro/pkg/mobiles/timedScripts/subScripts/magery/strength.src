@@ -6,19 +6,15 @@ include ":attributes:attributes";
 program TimedScript_Strength(params)
 	var defender := params[1];
 	var attacker := params[2];
+	var points := params[3];
 	params := 0;
 	
 	// Prevents mod from being applied twice.
-	if ( GetObjProperty(defender, "#StrengthMod") )
+	if ( GetObjProperty(defender, "StrengthMod") )
 		return 0;
 	endif
 	
-	// Str increase % = (Eval / 10 + 1)
-	var eval := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE));
-	var percent := CDbl(eval / 10) + 1;
-	var points := CInt(AP_GetStat(defender, STRENGTH) * (percent / 100));
-	
-	SetObjProperty(defender, "#StrengthMod", points);
+	SetObjProperty(defender, "StrengthMod", points);
 	AP_ModifyStatMod(defender, STRENGTH, points);
 	
 	return 1;

@@ -11,19 +11,15 @@ include ":attributes:attributes";
 program TimedScript_Cunning(params)
 	var defender := params[1];
 	var attacker := params[2];
+	var points := params[3];	
 	params := 0;
 	
 	// Prevents mod from being applied twice.
-	if ( GetObjProperty(defender, "#CunningMod") )
+	if ( GetObjProperty(defender, "CunningMod") )
 		return 0;
 	endif
 	
-	// Dex increase % = (Eval / 10 + 1)
-	var eval := CInt(AP_GetSkill(attacker, EVALUATING_INTELLIGENCE));
-	var percent := CDbl(eval / 10) + 1;
-	var points := CInt(AP_GetStat(defender, INTELLIGENCE) * (percent / 100));
-	
-	SetObjProperty(defender, "#CunningMod", points);
+	SetObjProperty(defender, "CunningMod", points);
 	AP_ModifyStatMod(defender, INTELLIGENCE, points);
 	
 	return 1;

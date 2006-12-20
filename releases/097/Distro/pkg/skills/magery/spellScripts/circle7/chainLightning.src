@@ -18,7 +18,7 @@ program SpellScript_ChainLightning(params)
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
 	var max_damage := CInt(GetConfigInt(info.spell_config, "MaxBaseDamage"));
-	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10);
+	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10)) + 1) / 10);
 	var damage;
 
 	// Get targets and remove party members and self. Damage is divided by number of valid targets.
@@ -32,7 +32,7 @@ program SpellScript_ChainLightning(params)
 	endfor
 
 	foreach targ in targs
-		MS_GetSpellDamage(mobile, targ, base_damage) / targs.Size();
+		damage := MS_GetSpellDamage(mobile, targ, base_damage) / targs.Size();
 		PlayLightningBoltEffect(targ);
 		ApplyDamageEX(targ, damage, info.damage_type, mobile);
 	endforeach

@@ -31,10 +31,15 @@ program SpellScript_Strength(params)
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Str increase % = (Eval / 10 + 1)
+	var eval := CInt(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE));
+	var percent := CDbl(eval / 10) + 1;
+	var points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
 	
 	// Duration: 120% Magery seconds
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-	TS_StartTimer(targ, "strength", duration, 0, mobile);
+	TS_StartTimer(targ, "strength", duration, points, mobile);
 	
 	return 1;
 endprogram
