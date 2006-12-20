@@ -6,7 +6,7 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
-include ":damage:damage";
+include ":timedscripts:timedScripts";
 
 program SpellScript_ManaVampire(params)
 	var mobile := params[1];
@@ -32,9 +32,11 @@ program SpellScript_ManaVampire(params)
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
+	// Mana drained = 40 + evaluating intelligence - target's resisting spells
 	var mana_drained := 40 + AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - AP_GetSkill(targ, RESISTING_SPELLS);
 	var targ_mana := AP_GetVital(targ, MANA);
 
+	// Can not drain more mana than the target has
 	if ( mana_drained > targ_mana )
 		mana_drained := targ_mana;
 	endif
@@ -44,10 +46,7 @@ program SpellScript_ManaVampire(params)
 	spell_starter.SendEvent("continue");
 	 
 	// Drain mana from targ and restore lost points after 4 seconds
-	AP_ConsumeVital(targ, MANA, mana_drained);
-	AP_SetVital(mobile, MANA, AP_GetVital(mobile, MANA) + mana_drained);
-	Sleep(4);
-	AP_SetVital(targ, MANA, AP_GetVital(targ, MANA) + mana_drained);
-
+	TS_StartTimer(targ, "manaDrain", 4, mana_drained, mobile);
+	
 	return 1;
 endprogram

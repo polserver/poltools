@@ -13,7 +13,7 @@ program SpellScript_MindBlast(params)
 	var info := params[2];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS+TGTOPT_HARMFUL);
+	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HARMFUL);
 
 	if ( !targ )
 		SendSysMessage(mobile, "Cancelled.");
@@ -30,7 +30,7 @@ program SpellScript_MindBlast(params)
 	// Base damage is a decimal number in between min and max damage
 	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
 	var max_damage := CInt(GetConfigInt(info.spell_config, "MaxBaseDamage"));
-	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10))) / 10);
+	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10)) + 1) / 10);
 
 	// damage: Base Damage + ((Magery + Intelligence) / 5) (Drop decimals from result)
 	var damage := base_damage + CInt((AP_GetSkill(mobile, MAGERY) + AP_GetStat(mobile, INTELLIGENCE)) / 5);

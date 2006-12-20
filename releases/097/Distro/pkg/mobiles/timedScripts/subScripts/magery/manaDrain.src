@@ -1,26 +1,21 @@
-/*
- * $Id$
- *
- */
- 
 use uo;
 use os;
 
 include ":attributes:attributes";
 
-program TimedScript_Weaken(params)
+program TimedScript_ManaDrain(params)
 	var defender := params[1];
 	var attacker := params[2];
 	var points := params[3];
 	params := 0;
 	
 	// Prevents mod from being applied twice.
-	if ( GetObjProperty(defender, "WeakenMod") )
+	if ( GetObjProperty(defender, "ManaDrainMod") )
 		return 0;
 	endif
 	
-	SetObjProperty(defender, "WeakenMod", points);
-	AP_ModifyStatMod(defender, STRENGTH, -(points));
+	AP_ConsumeVital(defender, MANA, points);
+	AP_SetVital(attacker, MANA, AP_GetVital(attacker, MANA) + points);
 	
 	return 1;
 endprogram
