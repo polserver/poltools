@@ -29,7 +29,7 @@ function RandomIntRange(min:=0, max:=1)
 	var difference := CInt(max) - CInt(min);
 	var random := RandomInt(difference);
 
-	return ( random + min);
+	return ( random + min );
 endfunction
 
 /*
@@ -56,5 +56,5 @@ function RandomFloatRange(min:=0.0, max:=1.0)
 	var difference := CDbl(max) - CDbl(min);
 	var random := RandomFloat(difference);
 
-	return ( random + min);
+	return ( random + min );
 endfunction
