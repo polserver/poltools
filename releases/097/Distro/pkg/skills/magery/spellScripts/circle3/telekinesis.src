@@ -10,19 +10,13 @@ include ":attributes:attributes";
 program SpellScript_Telekinesis(params)
 	var mobile := params[1];
 	var info := params[2];
+	var targ := params[3];
 	params := 0; // No longer needed
 	
 	// Tell spell starter to not wait for this script to finish
 	// If you don't do this, you wont be able to UseItem()
 	var spell_starter := GetProcess(info.pid);
 	spell_starter.SendEvent("continue");
-
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_NEUTRAL );
-
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
 
 	if ( !(targ.IsA(POLCLASS_CONTAINER) && targ.IsA(POLCLASS_ITEM)) )
 		// Doesn't do anything to mobiles

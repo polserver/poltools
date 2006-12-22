@@ -7,20 +7,14 @@ include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
 
-program SpellScript_Cure(params)
+program SpellScript_DispelField(params)
 	var mobile := params[1];
 	var info := params[2];
+	var targ := params[3];
 	params := 0;
 
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
-
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
-
+	// Doesn't do anything to mobiles
 	if ( !targ.IsA(POLCLASS_ITEM) )
-		// Doesn't do anything to mobiles
 		SendSysMessage(mobile, "This spell wont work on that!");
 		return 0;
 	endif
