@@ -22,14 +22,8 @@ Some clilocs, for use later
 program SpellScript_Teleport(params)
 	var mobile := params[1];
 	var info := params[2];
+	var targ := params[3];
 	params := 0; // No longer needed
-	
-	var targ := MS_TargetCoordinates(mobile, info.targ, "Select a target.");
-	
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
 	
 	if ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > 11 )
 		SendSysMessage(mobile, "That is too far away.");

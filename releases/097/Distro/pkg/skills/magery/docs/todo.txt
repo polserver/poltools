@@ -1,12 +1,10 @@
 TODO:
 Recall might not make any sounds
-Change all spell scripts to use MS_PlaySpellSFX/GFX(), circles 6+
 Function to test config file, calls functions for sfx and gfx and makes sure there are no errors
 Check spell_sounds.inc for sanity
 Add ID tags to all files
 Modify sendstats packet hook to correctly send resistances for debuging.
 Field spells are not setup correctly, "1d2" for cprop isn't a struct
-Finish implementing new targetting changes circles 1+
 Finish debugging why the new playspell*fx stuff is crashing clients
 
 
@@ -95,7 +93,7 @@ invisibility
 mark
 mass curse - unstarted
 paralyze field
-reveal - unstarted
+reveal
 
 Circle 7
 chain lightning

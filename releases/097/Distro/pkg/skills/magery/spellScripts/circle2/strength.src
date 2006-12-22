@@ -16,15 +16,9 @@ include ":timedscripts:timedScripts";
 program SpellScript_Strength(params)
 	var mobile := params[1];
 	var info := params[2];
+	var targ := params[3];
 	params := 0; // No longer needed
 	
-	var targ := MS_Target(mobile, info.targ, "Select a target.", TGTOPT_CHECK_LOS + TGTOPT_HELPFUL);
-
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	endif
-
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif
