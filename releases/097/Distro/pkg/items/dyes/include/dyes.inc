@@ -14,6 +14,8 @@ use uo;
 use util;
 use cfgfile;
 
+include "include/util_extend";
+
 CONST MIN_COLOR := 2;
 CONST MAX_COLOR := 1001;
 
@@ -81,8 +83,8 @@ endfunction
  *
  */
 function RandomDyeColor()
-	var color := RandomInt(MAX_COLOR - MIN_COLOR);
-	color := color+MIN_COLOR;
-
-	return color;
+	//var color := RandomInt(MAX_COLOR - MIN_COLOR);
+	//color := color+MIN_COLOR;
+	//return color;
+	return RandomIntRange(MIN_COLOR, MAX_COLOR);
 endfunction
