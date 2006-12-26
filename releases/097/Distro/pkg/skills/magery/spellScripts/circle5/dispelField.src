@@ -13,12 +13,6 @@ program SpellScript_DispelField(params)
 	var targ := params[3];
 	params := 0;
 
-	// Doesn't do anything to mobiles
-	if ( !targ.IsA(POLCLASS_ITEM) )
-		SendSysMessage(mobile, "This spell wont work on that!");
-		return 0;
-	endif
-
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 

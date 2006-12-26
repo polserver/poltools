@@ -22,25 +22,21 @@ program SpellScript_ArchProtection(params)
 	MS_PlaySpellSFX(info.spell_id, mobile);
 	
 	// Protection on all party members and caster
-	var targ;
-	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, CInt(GetConfigInt(info.spell_config, "AreaSize")), mobile.realm)
-		// Grab the party list, if any
-		var party := GetObjProperty(mobile, "#Party");
+	// Get all targets in area that are in party or self.
+	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
+	var includes := GetObjProperty(mobile, "#Party");
+	includes.Append(mobile.serial);
+	var targs := MS_GetVaildTargets(mobile, area_size, 1, "", includes);
 
-		if ( targ.serial in party || targ.serial == mobile.serial )
-			if ( !GetObjProperty(targ, "Protection") )
-				ApplyArchProtection(targ);
-			else
-				RemoveArchProtection(targ);
-			endif
-
-			MS_PlaySpellGFX(info.spell_id, targ, mobile);
+	foreach vtarg in targs
+		if ( !GetObjProperty(vtarg, "Protection") )
+			ApplyArchProtection(vtarg);
+		else
+			RemoveArchProtection(vtarg);
 		endif
+
+		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
 	endforeach
-	
-	// Duration: 120% Magery
-	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-	TS_StartTimer(targ, "curse", duration, 0, mobile);
 	
 	return 1;
 endprogram

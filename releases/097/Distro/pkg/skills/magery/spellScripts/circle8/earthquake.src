@@ -15,27 +15,32 @@ program SpellScript_Earthquake(params)
 
 	MS_PlaySpellSFX(info.spell_id, mobile);
 
-	var party := GetObjProperty(mobile, "#Party");
+	// TODO: Should not have LOS if targ is hidden, but not sure
+	
 	var base_damage;
 	var damage;
+	
+	// Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
 	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	foreach targ in ListMobilesNearLocation(mobile.x, mobile.y, mobile.z, area_size, mobile.realm)
-		if ( CheckLineOfSight(mobile, targ) && !(targ.serial in party) && (mobile.serial != targ.serial) )
-			base_damage := (CDbl(AP_GetVital(targ, HITS)) / 3);
-			damage := MS_GetSpellDamage(mobile, targ, base_damage);
-			
-			// Min and max damage for NPCs is 10 and 100
-			if ( targ.npctemplate )
-				if ( damage < 10 )
-					damage := 10;
-				elseif ( damage > 100 )
-					damage := 100;
-				endif
-			endif
+	var exclude := GetObjProperty(mobile, "#Party");
+	exclude.Append(mobile.serial);
+	var targs := MS_GetVaildTargets(mobile, area_size, 1, exclude);
 
-			MS_PlaySpellGFX(info.spell_id, targ, mobile);
-			ApplyDamageEX(targ, damage, info.damage_type, mobile);
+	foreach vtarg in targs
+		base_damage := (CDbl(AP_GetVital(vtarg, HITS)) / 3);
+		damage := MS_GetSpellDamage(mobile, vtarg, base_damage);
+			
+		// Min and max damage for NPCs is 10 and 100
+		if ( vtarg.npctemplate )
+			if ( damage < 10 )
+				damage := 10;
+			elseif ( damage > 100 )
+				damage := 100;
+			endif
 		endif
+
+		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
+		ApplyDamageEX(vtarg, damage, info.damage_type, mobile);
 	endforeach
 
 	return 1;

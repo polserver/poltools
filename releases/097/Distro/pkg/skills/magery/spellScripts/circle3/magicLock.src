@@ -6,6 +6,9 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
+include ":keys:key";
+
+// Note to self: What about having lock levels stored as a cprop? That would allow Unlock to work correctly.
 
 program SpellScript_MagicLock(params)
 	var mobile := params[1];
@@ -13,11 +16,16 @@ program SpellScript_MagicLock(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
+	if ( !KP_IsLockable(targ) )
+		SendSysMessage(mobile, "That is not lockable.");
+		return 0;
+	elseif ( targ.locked )
+		SendSysMessage(mobile, "That object is already locked.");
 		return 0;
 	endif
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");;
+	
+	targ.locked := 1;
+	SetObjProperty(targ, "MagicLock", mobile.name);
 	
 	return 1;
 endprogram

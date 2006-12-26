@@ -4,6 +4,7 @@ CONST FIELD_SHAPE_HORIZONTAL := 2;
 function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="", check_los:=1, delay:=2)
 	var start_cord, stop_cord, object;
 	var field := array{};
+	var manual_duration := 0;
 	
 	case ( shape )
 		FIELD_SHAPE_VERTICAL:
@@ -17,9 +18,11 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 			
 			for i := start_cord to stop_cord
 				object := CreateItemAtLocation(i, targ.y, targ.z, objtype, 1, targ.realm);
-				
 				if ( object )
-					object.SetDuration(duration);
+					// If there is no SetDuration method, we'll have to handle it manually
+					if ( object.SetDuration(duration) == error )
+						manual_duration := 1;
+					endif
 					field.Append(object);
 				endif
 
@@ -37,9 +40,11 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 			
 			for i := start_cord to stop_cord
 				object := CreateItemAtLocation(targ.x, i, targ.z, objtype, 1, targ.realm);
-				
 				if ( object )
-					object.SetDuration(duration);
+					// If there is no SetDuration method, we'll have to handle it manually
+					if ( object.SetDuration(duration) == error )
+						manual_duration := 1;
+					endif
 					field.Append(object);
 				endif
 
@@ -79,6 +84,14 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 			SetObjProperty(object, "SummonedField", 1);
 		endforeach
 	endif
-			
-return 1;
+
+	if ( manual_duration )
+		Sleep(duration);
+		
+		foreach object in field
+			DestroyItem(object);
+		endforeach
+	endif
+				
+	return 1;
 endfunction

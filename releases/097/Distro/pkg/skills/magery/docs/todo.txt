@@ -15,7 +15,7 @@ Last I checked, end scripts were not being called by timedScripts
 I don't think characters unparalyze after taking damage
 What happens if a server crashes before a timed script finishes?
 Can timed scripts be run multiple times?
-
+In damage:damage, ApplyDamageEx converts all damage to int when ApplyDamage says it can handle real numbers
 
 Would be nice:
 Poison prevents bandages from healing damage, heal spells will also not work.
@@ -31,8 +31,8 @@ Bless - Counteracts stats effects and does all three good stat effects
 Summon spells probably wont be able to work until brainAI is finished and all NPCs are converted.
 
 
-Uncompleted: 17
-Summon-related: 8
+Uncompleted: 11
+Summon-related: 9
 
 
 Circle 1
@@ -58,11 +58,11 @@ strength
 Circle 3
 bless
 fireball
-magic lock - unstarted
+magic lock
 poison
 telekinesis
 teleport
-unlock - unstarted
+unlock
 wall of stone
 
 Circle 4
@@ -78,8 +78,8 @@ recall
 Circle 5
 blade spirits - unstarted
 dispel field
-incognito - unstarted
-magic reflection - unstarted
+incognito
+magic reflection
 mind blast
 paralyze
 poison field
@@ -91,7 +91,7 @@ energy bolt
 explosion
 invisibility
 mark
-mass curse - unstarted
+mass curse
 paralyze field
 reveal
 
@@ -100,7 +100,7 @@ chain lightning
 energy field
 flame strike
 gate travel
-mana vampire - unstarted
+mana vampire
 mass dispel - unstarted
 meteor swarm
 polymorph - unstarted
