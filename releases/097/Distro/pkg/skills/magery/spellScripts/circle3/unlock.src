@@ -6,6 +6,7 @@ include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
 include ":attributes:attributes";
+include ":keys:key";
 
 program SpellScript_Unlock(params)
 	var mobile := params[1];
@@ -13,11 +14,18 @@ program SpellScript_Unlock(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
+	if ( !KP_IsLockable(targ) )
+		SendSysMessage(mobile, "That is not lockable.");
 		return 0;
 	endif
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
+	
+	if ( targ.locked )
+		// Note: No lock levels, but you could if ( CInt(GetObjProperty(targ, "LockLevel")) <= 1 )
+		if ( GetObjProperty(targ, "MagicLock") != error )
+			EraseObjProperty(targ, "MagicLock");
+			targ.locked := 0;
+		endif
+	endif
 	
 	return 1;
 endprogram

@@ -29,6 +29,7 @@ program SpellScript_Harm(params)
 
 	// 1 tile = full damage, 2 tiles = half damage, >3 tiles = 1/4 damage
 	case ( Distance(mobile, targ) )
+		0:
 		1: break;
 		2: damage := CDbl(damage) / 2;
 		default: damage := CDbl(damage) / 4;

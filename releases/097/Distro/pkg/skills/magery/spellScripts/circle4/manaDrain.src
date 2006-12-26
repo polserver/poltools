@@ -8,7 +8,7 @@ include ":magery:spellSounds";
 include ":attributes:attributes";
 include ":timedscripts:timedScripts";
 
-program SpellScript_ManaVampire(params)
+program SpellScript_ManaDrain(params)
 	var mobile := params[1];
 	var info := params[2];
 	var targ := params[3];
@@ -35,10 +35,6 @@ program SpellScript_ManaVampire(params)
 		mana_drained := targ_mana;
 	endif
 	
-	// Tell spell starter to not wait for this script to finish
-	var spell_starter := GetProcess(info.pid);
-	spell_starter.SendEvent("continue");
-	 
 	// Drain mana from targ and restore lost points after 4 seconds
 	TS_StartTimer(targ, "manaDrain", 4, mana_drained, mobile);
 	

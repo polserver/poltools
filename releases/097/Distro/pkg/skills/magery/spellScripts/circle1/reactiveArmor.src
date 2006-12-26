@@ -25,7 +25,8 @@ program SpellScript_ReactiveArmor(params)
 	if ( GetObjProperty(mobile, "ReactiveArmor") )
 		RemoveReactiveArmor(mobile);
 	else
-		ApplyReactiveArmor(mobile);
+		var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+		ApplyReactiveArmor(mobile, points);
 	endif
 
 	MS_PlaySpellSFX(info.spell_id, mobile);
@@ -34,20 +35,18 @@ program SpellScript_ReactiveArmor(params)
 	return 1;
 endprogram
 
-function ApplyReactiveArmor(mobile)
-	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
-
+function ApplyReactiveArmor(mobile, points)
 	ModifyResistance(mobile, DMG_PHYSICAL, points);
 	ModifyResistance(mobile, DMG_FIRE, -5);
 	ModifyResistance(mobile, DMG_COLD, -5);
 	ModifyResistance(mobile, DMG_POISON, -5);
 	ModifyResistance(mobile, DMG_ENERGY, -5);
 
-	SetObjProperty(mobile, "ReactiveArmor", 1);
+	SetObjProperty(mobile, "ReactiveArmor", points);
 endfunction
 
 function RemoveReactiveArmor(mobile)
-	var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+	var points := GetObjProperty(mobile, "ReactiveArmor");
 
 	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
 	ModifyResistance(mobile, DMG_FIRE, 5);

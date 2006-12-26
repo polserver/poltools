@@ -351,8 +351,10 @@ endfunction
 
 function MS_PlaySpellSFX(spellid, targ, success:=1)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
-	Print("Playing SFX:"+GetConfigInt(cfg_elem, "SFX")+" for spellid:"+spellid);
-	PlaySoundEffect(targ, GetConfigInt(cfg_elem, "SFX"));
+	var sfx := CInt(GetConfigInt(cfg_elem, "sFX"));
+	
+	Print("Playing SFX:"+sfx+" for spellid:"+spellid);
+	PlaySoundEffect(targ, sfx);
 
 	return 1;	
 endfunction
@@ -362,13 +364,34 @@ function MS_PlaySpellGFX(spellid, targ, caster, speed:=7, loop:=14)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
 	var gfx := CInt(GetConfigInt(cfg_elem, "GFX"));
 	
-Print("Playing SFX:"+GetConfigInt(cfg_elem, "SFX")+" for spellid:"+spellid+" of gfx type:"+CInt(cfg_elem.GFXType));
+	Print("Playing GFX:"+gfx+" for spellid:"+spellid+" of gfx type:"+CInt(cfg_elem.GFXType));
 	case ( CInt(cfg_elem.GFXType) )
 		0: return 1;
 		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
-		2: PlayMovingEffect(caster, targ, gfx, speed, loop);
+		2: PlayMovingEffect(caster, targ, gfx, speed, loop, targ.realm);
 		3: PlayStationaryEffect( targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm );
 	endcase
 	
 	return 1;
+endfunction
+
+
+function MS_GetVaildTargets(targ, area_size:=1, check_los:=1, exclude:="", includes:="", include_self:=0, self:="")
+	var targs := array{};
+	
+	if ( !targ.realm )
+		targs := ListMobilesNearLocation(targ.x, targ.y, targ.z, area_size);
+	else
+		targs := ListMobilesNearLocation(targ.x, targ.y, targ.z, area_size, targ.realm);
+	endif
+	
+	// Remove targs with serial in exclude if exclude exists or not in includes if includes exists
+	for i := 1 to (targs.Size())
+		if ( (exclude != "" && (targs[i].serial in exclude || targs[i].serial == exclude )) ||
+			   (includes != "" && (!(targs[i].serial in includes) || targs[i].serial != includes )) )
+			targs.Erase(i);
+		endif
+	endfor
+	
+	return targs;
 endfunction
