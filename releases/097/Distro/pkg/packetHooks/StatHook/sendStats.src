@@ -28,6 +28,7 @@ use polsys;
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":packetconfig:settings";
+include "include/client";
 
 program sendStats()
 	Print( "INSTALLING: Outgoing Status PH..." );
@@ -213,28 +214,25 @@ function HandleExtended(character, byref packet)
 
 		// Now let's set up the Max and Min damage entries of the packet.
 
-		// Get the weapons they are holding if any.
-		var weaponone := GetEquipmentByLayer (character, 0x01);
-		var weapontwo := GetEquipmentByLayer (character, 0x02);
-		// Set the max and min to that of the wrestling (change if you changed your
-		// wrestle intrinsic in the combat package)
-		var maxdmg := 8, mindmg := 1;
-		// Let's make sure the items in hand are weapons and process them correctly.
-		if( weaponone.isA(POLCLASS_WEAPON) )
-			var cfg := ReadConfigFile(":*:itemdesc");
-			// Read the settings from the config file, and add the mods.
-			mindmg := CInt(cfg[weaponone.objtype].MinDam) + weaponone.dmg_mod;
-			maxdmg := CInt(cfg[weaponone.objtype].MaxDam) + weaponone.dmg_mod;
-		elseif( weapontwo.isA(POLCLASS_WEAPON) )
-			var cfg := ReadConfigFile(":*:itemdesc");
-			// Read the settings from the config file, and add the mods.
-			mindmg := CInt(cfg[weapontwo.objtype].MinDam) + weaponone.dmg_mod;
-			maxdmg := CInt(cfg[weapontwo.objtype].MaxDam) + weaponone.dmg_mod;
-		endif
+		var item_cfg := ReadConfigFile(":*:itemdesc");
+		// Weapon defaults to a fist if nothing is equipped.
+		var cfg_elem := item_cfg[(character.weapon).objtype];
+		var cfg_dmg := cfg_elem.Damage;
+		cfg_dmg["d"] := " ";
+		cfg_dmg["-"] := " ";
+		cfg_dmg["+"] := " ";
+		cfg_dmg := SplitWords(cfg_dmg);
+		var X := CInt(cfg_dmg[1]);
+		var Y := CInt(cfg_dmg[2]);
+		var Z := CInt(cfg_dmg[3]) + (character.weapon).dmg_mod;
+		// var average := (X*((1+Y)/2))+Z;
+		var min_dmg := X+Z;
+		var max_dmg := (X*Y)+Z;
+
 		// Set the min damage in the packet
-		packet.SetInt8(81, mindmg);
+		packet.SetInt8(81, min_dmg);
 		// Set the max damage in the packet
-		packet.SetInt8(83, maxdmg);
+		packet.SetInt8(83, max_dmg);
 	endif
 
 	return 0;
