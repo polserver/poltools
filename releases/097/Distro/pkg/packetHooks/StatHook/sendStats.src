@@ -214,20 +214,12 @@ function HandleExtended(character, byref packet)
 
 		// Now let's set up the Max and Min damage entries of the packet.
 
-		var item_cfg := ReadConfigFile(":*:itemdesc");
-		// Weapon defaults to a fist if nothing is equipped.
-		var cfg_elem := item_cfg[(character.weapon).objtype];
-		var cfg_dmg := cfg_elem.Damage;
-		cfg_dmg["d"] := " ";
-		cfg_dmg["-"] := " ";
-		cfg_dmg["+"] := " ";
-		cfg_dmg := SplitWords(cfg_dmg);
-		var X := CInt(cfg_dmg[1]);
-		var Y := CInt(cfg_dmg[2]);
-		var Z := CInt(cfg_dmg[3]) + (character.weapon).dmg_mod;
-		// var average := (X*((1+Y)/2))+Z;
-		var min_dmg := X+Z;
-		var max_dmg := (X*Y)+Z;
+		var min_dmg := 0, max_dmg := 0;
+		var descriptor := GetItemDescriptor((character.weapon).objtype);
+		if ( descriptor )
+			min_dmg := CInt(descriptor.MinDamage);
+			max_dmg := CInt(descriptor.MaxDamage);
+		endif
 
 		// Set the min damage in the packet
 		packet.SetInt8(81, min_dmg);
