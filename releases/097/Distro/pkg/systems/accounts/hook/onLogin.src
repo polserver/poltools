@@ -14,8 +14,9 @@ use uo;
 use os;
 use polsys;
 
-include ":accounts:settings";
 include ":accounts:accounts";
+include ":accounts:settings";
+include ":accounts:report";
 
 CONST OFFSET_ACCOUNT_NAME	:= 0x01;
 CONST OFFSET_ACCOUNT_PASS	:= 0x1F;
@@ -29,7 +30,7 @@ enum THEFT_LEVELS
 endenum
 
 Program Install()
-	Print( "INSTALLING: Auto Account/Theft Prevention PH..." );
+	Print("INSTALLING: Auto Account/Theft Prevention PH...");
 	Return 1;
 Endprogram
 
@@ -40,10 +41,10 @@ exported function LoginHook(who, byref packet)
 	var password := Packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN);
 
 	if ( !username )
-		SysLog( "Account/GetString Error: "+username.errortext );
+		ACCT_ReportText("Account/GetString Error:"+username.errortext, ACCT_REPORT_CONSOLE+ACCT_REPORT_SYSLOG);
 		return 0;
 	elseif ( !password )
-		SysLog( "Password/GetString Error: "+password.errortext );
+		ACCT_ReportText("Password/GetString Error:"+password.errortext, ACCT_REPORT_CONSOLE+ACCT_REPORT_SYSLOG);
 		return 0;
 	endif
 
@@ -79,10 +80,9 @@ exported function LoginHook(who, byref packet)
 		return 0;
 	endif
 
-	SysLog( "AutoAccount Created: "+username );
+	ACCT_ReportText("AutoAccount Created:"+username, ACCT_REPORT_CONSOLE+ACCT_REPORT_SYSLOG);
 
 	return 0;
-
 endfunction
 
 function AcctHackChecks(username, password)
@@ -107,23 +107,27 @@ function AcctHackChecks(username, password)
 		// First attempt at failing the password check.
 		if ( !failed_login )
 			account.SetProp( "#FailedLogin", array{1, POLCore().systime});
+			ACCT_ReportText("Invalid login credentials for account: "+username, ACCT_REPORT_SYSLOG);
 			return ACCT_LOGIN_FAIL; // Let pol tell the user it's an incorrect password.
 		else
 			if ( failed_login[1] >= 5 && ( failed_login[2] >> POLCore().systime ) )
 		  		// Incorrect password for the 5th time.
 		 		// Leave the user hanging at login for the next 10 minutes.
-		 		account.SetProp("#FailedLogin", array{failed_login[1]+1, POLCore().systime+600});
+		 		ACCT_ReportText("Disabling account ["+username+"] temporarily. Too many invalid logins." , ACCT_REPORT_SYSLOG);
+				account.SetProp("#FailedLogin", array{failed_login[1]+1, POLCore().systime+600});
 		  		return ACCT_LOGIN_HACK; // Leave user hanging.
 
 		 	elseif ( failed_login[1] >= 5 && ( failed_login[2] << POLCore().systime ) )
 		  		// User attempted to login with the wrong password after 10 minutes.
 		 		// Reset user's wait time.
+		 		ACCT_ReportText("Resetting disable timer on account ["+username+"]" , ACCT_REPORT_SYSLOG);
 		 		account.EraseProp("#FailedLogin");
 		  		return ACCT_LOGIN_FAIL; // Let pol tell the user it's an incorrect password.
 
 		 	elseif ( failed_login[1] << 5 )
 		 		// Let pol tell user it's an incorrect password.
-		  		account.SetProp("#FailedLogin", array{failed_login[1]+1, POLCore().systime+10});
+		  		ACCT_ReportText("Invalid login credentials for account: "+username, ACCT_REPORT_SYSLOG);
+				account.SetProp("#FailedLogin", array{failed_login[1]+1, POLCore().systime+10});
 		  		return ACCT_LOGIN_FAIL;
 		 	endif
 		endif
