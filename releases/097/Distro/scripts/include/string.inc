@@ -93,7 +93,7 @@ endfunction
  * RemoveSpaces(text, flags)
  *
  * Purpose
- * Removes spaces from a string depending on the flags passed.
+ * Removes spaces and null values from a string depending on the flags passed.
  *
  * Parameters
  * text:	The text to remove spaces from.
@@ -115,14 +115,14 @@ function RemoveSpaces(text, flags:=CLR_LEADING_SPACES)
 		endwhile
 	else
 		if ( flags & CLR_LEADING_SPACES )
-			while ( text[1] == " " )
+			while ( text[1] == " " || CAsc(text[1]) == 0 )
 				text[1] := "";
 				SleepMS(2);
 			endwhile
 		endif
 		
 		if ( flags & CLR_TRAILING_SPACES )
-			while ( text[Len(text)] == " " )
+			while ( text[Len(text)] == " " || CAsc(text[Len(text)]) == 0 )
 				text[Len(text)] := "";
 				SleepMS(2);
 			endwhile
