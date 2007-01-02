@@ -14,6 +14,12 @@ CONST CLR_TRAILING_SPACES 	:= 0x2;
 CONST CLR_DOUBLE_SPACES		:= 0x4;
 CONST CLR_ALL_SPACES		:= 0x8;
 
+// Constants for the RemoveFromString() function.
+CONST STR_DEL_ONCE		:= 0x1;
+CONST STR_DEL_ANY		:= 0x2;
+CONST STR_DEL_LEADING		:= 0x4;
+CONST STR_DEL_TRAILING		:= 0x8;
+
 /*
  * TruncateArticle(text)
  *
@@ -89,6 +95,43 @@ function UCFirst(text)
 	return text;
 endfunction
 
+/* RemoveFromString(text, remove, flags)
+ *
+ * Purpose
+ * Removes strings from a string.
+ *
+ * Parameters
+ * text:	The text to remove text from.
+ * remove:	What to remove from the text.
+ * flags:	The flags that set where data can get removed.
+ * 		STR_DEL_LEADING  - Removes text only at the begining.
+ *		STR_DEL_TRAILING - Removes text only at the end.
+ *		STR_DEL_ANY	 - Removes text anywhere it appears.
+ *		STR_DEL_ONCE     - Removes text anywhere it appears, but only the first instance.
+ *
+ * Return Value
+ * Returns a string
+ *
+ *//*
+function RemoveFromString(text, remove, flags:=STR_DEL_ONCE)
+	text := CStr(text);
+	remove := CStr(remove);
+
+	if ( flags & STR_DEL_ONCE )
+		text[remove] := "";
+	else
+		var remove_len := Len(remove);
+		if ( flags & STR_DEL_LEADING )
+			while ( text[1, remove_len] == remove )
+				text[1, remove_len] := "";
+				SleepMS(2);
+			endwhile
+		endif
+
+		if ( flags & STR_DEL_TRAILING )
+			while ( text[
+*/
+
 /*
  * RemoveSpaces(text, flags)
  *
@@ -120,7 +163,7 @@ function RemoveSpaces(text, flags:=CLR_LEADING_SPACES)
 				SleepMS(2);
 			endwhile
 		endif
-		
+
 		if ( flags & CLR_TRAILING_SPACES )
 			while ( text[Len(text)] == " " || CAsc(text[Len(text)]) == 0 )
 				text[Len(text)] := "";
