@@ -17,6 +17,7 @@ use polsys;
 include ":accounts:accounts";
 include ":accounts:settings";
 include ":accounts:report";
+include "include/string"; // Added for RemoveSpaces()
 
 CONST OFFSET_ACCOUNT_NAME	:= 0x01;
 CONST OFFSET_ACCOUNT_PASS	:= 0x1F;
@@ -37,8 +38,9 @@ Endprogram
 exported function LoginHook(who, byref packet)
 	who := who; // Avoid compiler warnings.
 
-	var username := Packet.GetString(OFFSET_ACCOUNT_NAME, INFO_LEN);
-	var password := Packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN);
+	// RemoveSpaces() will also remove null values
+	var username := RemoveSpaces(Packet.GetString(OFFSET_ACCOUNT_NAME, INFO_LEN), CLR_TRAILING_SPACES);
+	var password := RemoveSpaces(Packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN), CLR_TRAILING_SPACES);
 
 	if ( !username )
 		ACCT_ReportText("Account/GetString Error:"+username.errortext, ACCT_REPORT_CONSOLE+ACCT_REPORT_SYSLOG);
@@ -104,6 +106,7 @@ function AcctHackChecks(username, password)
 		return ACCT_NOT_EXIST;
 	elseif ( !account.CheckPassword(password) )
 		var failed_login := account.GetProp("#FailedLogin");
+		
 		// First attempt at failing the password check.
 		if ( !failed_login )
 			account.SetProp( "#FailedLogin", array{1, POLCore().systime});
