@@ -118,34 +118,39 @@ function RemoveFromString(text, remove, flags:=STR_DEL_ONCE)
 	remove := CStr(remove);
 
 	if ( flags == STR_DEL_ONCE )
+		// Only remove first instance of 'remove'
 		text[remove] := "";
 	elseif ( flags == STR_DEL_ALL )
+		// Remove all instances of 'remove'
 		while ( text[remove] )
 			text[remove] := "";
 			SleepMs(2);
 		endwhile
 	else
-		// Not sure if these work yet, havn't tested.
-		// Just wrote this really quick.
 		var remove_len := Len(remove);
 		if ( flags & STR_DEL_LEADING )
+			// Remove from the begining of 'text' only.
 			while ( text[1, remove_len] == remove )
 				text[1, remove_len] := "";
 				SleepMs(2);
-				if ( flags & STR_DEL_ONCE)
+				if ( flags & STR_DEL_ONCE )
+					// Remove only first instance of 'remove' from the begining.
 					break;
 				endif
 			endwhile
 		endif
 
 		if ( flags & STR_DEL_TRAILING )
-			var end_start := (Len(text) - Len(remove))+1;
-			while ( text[end_start, end_start+Len(text)] == remove )
+			// Remove from the end of 'text' only.
+			var end_start := (Len(text) - remove_len)+1;
+			while ( text[end_start, Len(text)] == remove )
 				text[end_start, Len(text)] := "";
 				SleepMs(2);
-				if ( flags & STR_DEL_ONCE)
+				if ( flags & STR_DEL_ONCE )
+					// Remove only first instance of 'remove' from the begining.
 					break;
 				endif
+				end_start := (Len(text) - remove_len)+1;
 			endwhile
 		endif
 	endif
