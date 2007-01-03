@@ -113,19 +113,21 @@ endfunction
  * Returns a string
  *
  */
-function RemoveFromString(text, remove, flags:=STR_DEL_ONCE)
+function RemoveFromString(text, remove, flags:=STR_DEL_ALL)
 	text := CStr(text);
 	remove := CStr(remove);
 
-	if ( flags == STR_DEL_ONCE )
-		// Only remove first instance of 'remove'
-		text[remove] := "";
-	elseif ( flags == STR_DEL_ALL )
+	if ( flags == STR_DEL_ALL )
 		// Remove all instances of 'remove'
 		while ( text[remove] )
 			text[remove] := "";
 			SleepMs(2);
 		endwhile
+	elseif ( flags == STR_DEL_ONCE )
+		// Only remove first instance of 'remove'
+		// Really its just better to do text[replace] := "" in a script
+		// but this is here since it is used for leading/trailing removes.
+		text[remove] := "";
 	else
 		var remove_len := Len(remove);
 		if ( flags & STR_DEL_LEADING )
