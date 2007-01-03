@@ -117,9 +117,9 @@ function RemoveFromString(text, remove, flags:=STR_DEL_ONCE)
 	text := CStr(text);
 	remove := CStr(remove);
 
-	if ( flags & STR_DEL_ONCE )
+	if ( flags == STR_DEL_ONCE )
 		text[remove] := "";
-	elseif ( flags & STR_DEL_ALL )
+	elseif ( flags == STR_DEL_ALL )
 		while ( text[remove] )
 			text[remove] := "";
 			SleepMs(2);
@@ -132,14 +132,20 @@ function RemoveFromString(text, remove, flags:=STR_DEL_ONCE)
 			while ( text[1, remove_len] == remove )
 				text[1, remove_len] := "";
 				SleepMs(2);
+				if ( flags & STR_DEL_ONCE)
+					break;
+				endif
 			endwhile
 		endif
 
 		if ( flags & STR_DEL_TRAILING )
-			var end_start := Len(text) - Len(remove);
-			while ( text[end_start, Len(text)] == remove )
+			var end_start := (Len(text) - Len(remove))+1;
+			while ( text[end_start, end_start+Len(text)] == remove )
 				text[end_start, Len(text)] := "";
 				SleepMs(2);
+				if ( flags & STR_DEL_ONCE)
+					break;
+				endif
 			endwhile
 		endif
 	endif
