@@ -149,7 +149,7 @@ function RemoveFromString(text, remove, flags:=STR_DEL_ALL)
 				text[end_start, Len(text)] := "";
 				SleepMs(2);
 				if ( flags & STR_DEL_ONCE )
-					// Remove only first instance of 'remove' from the begining.
+					// Remove only first instance of 'remove' from the ending.
 					break;
 				endif
 				end_start := (Len(text) - remove_len)+1;
