@@ -147,7 +147,7 @@ function HandleSubEndurance(subject, byref str_reply)
 
 endfunction
 
-// I HATE THIS
+// I HATE THIS!! But Austin wants cfgs used for stuff......
 function HandleSubParsing(subject, byref str_reply)
 
 	var sub_strength := "superhumanly";
