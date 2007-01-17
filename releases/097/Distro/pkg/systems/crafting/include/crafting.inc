@@ -72,7 +72,7 @@ function MaterialSelection(who, craft_skill, type, chk:=0)
 	elseif( !(material in EnumerateItemsInContainer(who.backpack)) )
 		SendSysMessage(who, "That is not in your backpack.");
 		return 0;
-	elseif( !Accessible(who, material) || (!material.movable == 0) )
+	elseif( !Accessible(who, material) || (!material.movable) )
 		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	endif
