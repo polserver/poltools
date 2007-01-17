@@ -21,6 +21,9 @@ program use_FletchTool(who, tool)
 	elseif( (!tool.movable) || !ReserveItem(tool) )
 		SendSysMessage(who, "You cannot use that");
 		return 0;
+	elseif( !(tool in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
 	endif
 
 	EraseObjProperty(who, "#IsMeditating");
