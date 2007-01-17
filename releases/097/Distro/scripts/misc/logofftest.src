@@ -24,6 +24,8 @@ program core_logoffTest(who)
 	var logout_delay := SECONDS_IN_MINUTE * 5;
 
 	// Check if player is camping
+	// Prop may exist if fire done successfully, but will only
+	// be set to 1 if bedroll is used!
 	if( CInt(GetObjProperty(who, "#camped")) == 1 )
 		EraseObjProperty(who, "#camped");
 		logout_delay := 10;
