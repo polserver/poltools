@@ -11,12 +11,9 @@ include ":brainAI:npcUtil";
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
-include "include/mobileID";
-include "include/client";
-include ":itemutils:objtype";
 
-CONST MINKARMA := 4000;
-CONST MINFAME := 4000;
+CONST MINKARMA	:= 4000;
+CONST MINFAME	:= 4000;
 CONST UOBJ_GOLDCOIN :=0xEED;
 
 program skill_Begging( who )
@@ -24,6 +21,8 @@ program skill_Begging( who )
 	EraseObjProperty(who, "#IsMeditating");
 	EraseObjProperty(who, "#HealTimer");
 
+	// Human and Elf both.
+	var MOB_APPROVED  := { 400, 401, 605, 606 };
 	SendSysMessage( who, "Select the person you wish to beg to." );
 	var beggee := Target( who );
 	if ( !beggee )
@@ -38,7 +37,7 @@ program skill_Begging( who )
 		SendSysMessage(who, "You might look a little silly doing that.");
 		return 0;
 	endif
-	if( (beggee.graphic != MOB_HUMAN_MALE) && (beggee.graphic != MOB_HUMAN_FEMALE) )
+	if( !(beggee.graphic in MOB_APPROVED) )
 		SendSysMessage(who, "You might look a little silly doing that.");
 		return 0;
 	endif
