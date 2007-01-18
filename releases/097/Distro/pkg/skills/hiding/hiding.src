@@ -6,7 +6,6 @@ use uo;
 use os;
 
 include ":attributes:attributes";
-include "include/client";
 
 program skill_Hiding(mobile)
 	var stealth := 0;
