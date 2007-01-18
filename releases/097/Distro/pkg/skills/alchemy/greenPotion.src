@@ -1,0 +1,40 @@
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+
+program use_greenpotion(who, potion)
+
+	if( (!potion.movable) || !ReserveItem(potion) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif( !(potion in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	if( !CheckToDrink(who, "#green_potion") )
+		return 0;
+	endif
+
+	do_poison(who, potion);
+
+endprogram
+
+function do_poison(who, potion)
+	var level;
+	case(potion.objtype)
+		0xdc04: level := 1;
+		0xdc05: level := 2;
+		0xdc06: level := 3;
+		0xdc17: level := 4;
+	endcase
+	empty_bottle(who, potion);
+	PrintTextAbovePrivate(who, "You have been poisoned!", who);
+	if(who.cmdlevel > 1)
+		return;
+	endif
+	TS_StartTimer(who, "defaultPoison", 120, level, who);
+endfunction
