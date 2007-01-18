@@ -390,7 +390,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		material := "";
 		if((Len(tmpmat)/2) < 5)
 			for j := 1 to (Len(tmpmat)/2)
-				tmatname := GetObjTypeDesc(tmpmat[j]);
+				tmatname := GetObjTypeDesc(CInt(tmpmat[j]));
 				case(j)
 					1:
 					2:
@@ -403,7 +403,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 		else
 			material := 0;
 			for j := 1 to (Len(tmpmat)/2)
-				tmatname := GetObjTypeDesc(tmpmat[j]);
+				tmatname := GetObjTypeDesc(CInt(tmpmat[j]));
 				if(j == (Len(tmpmat)/2))
 					matname := matname+"& "+(tmpmat[j+(Len(tmpmat)/2)])+" "+tmatname+" required";
 				else
