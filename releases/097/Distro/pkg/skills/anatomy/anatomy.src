@@ -33,7 +33,8 @@ program skill_Anatomy(who)
 
 	var str_reply := struct { sub_name, sub_fail, sub_str, sub_dex, sub_endurance };
 
-	if(subject.graphic != 0x190 && subject.graphic != 0x191)
+	var MOB_APPROVED  := { 0x190, 0x191, 0x25D, 0x25E };
+	if( !(subject.graphic in MOB_APPROVED) )
 		str_reply.sub_name := "That creature";
 		str_reply.sub_fail := "that creature's physical characteristics.";
 	else
@@ -155,7 +156,9 @@ function HandleSubParsing(subject, byref str_reply)
 	var sub_gender   := "it";
 
 	case ( subject.graphic )
+		0x25D:
 		0x190: sub_gender := "he";
+		0x25E:
 		0x191: sub_gender := "she";
 		default: sub_strength := "supernaturally";
 			 sub_type     := "creatures";
