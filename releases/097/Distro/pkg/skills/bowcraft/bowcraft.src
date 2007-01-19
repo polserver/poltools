@@ -60,8 +60,8 @@ function makeBowcraftItems(who, what, amt, tool)
 		return 0;
 	endif
 
-	// Metal is sent for the ResourceList entry type.
-	var itemchk := MaterialSelection(who, craft_skill, lower("Wood"));
+	// ResourceList entry type.
+	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[what].type), "boards");
 	if(!itemchk)
 		return 0;
 	endif
