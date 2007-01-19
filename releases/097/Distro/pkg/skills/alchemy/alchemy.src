@@ -55,7 +55,7 @@ function makeAlchemyItems(who, what, amt, tool)
 	endif
 
 	// what's type is sent for the ResourceList entry type.
-	var itemchk := MaterialSelection(who, craft_skill, craft_config[what].type);
+	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[what].type));
 	if(!itemchk)
 		return 0;
 	endif
