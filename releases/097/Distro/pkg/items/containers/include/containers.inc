@@ -112,3 +112,23 @@ function ListRootItemsInContainer(container)
 	return item_list;
 endfunction
 
+/*
+ * CreateLockID()
+ *
+ * Purpose
+ * Returns a new unique lock id for a container or other lockable.
+ *
+ * Parameters
+ *
+ * Return value
+ * Returns a lock id.
+ *
+ */
+function CreateLockID()
+	var lock_id := GetGlobalProperty( "NextLockID" );
+	if (!lock_id || lock_id.errortext)
+		lock_id := 1;
+	endif
+	SetGlobalProperty( "NextLockID", lock_id+1 );
+	return lock_id;
+endfunction
