@@ -29,6 +29,24 @@ function LJ_IsTree(graphic)
 endfunction
 
 /*
+ * LJ_IsFurniture(object)
+ *
+ * Purpose
+ * Determines if the object is furniture, and can thus
+ * either be destroyed, or returned to deed form.
+ *
+ * Parameters
+ * object:	Object to verify
+ *
+ * Return value
+ * Returns 1 if the object can be destroyed.
+ *
+ */
+function LJ_IsFurniture(object)
+	return ( CInt(GetObjProperty(object, "furniture")) );
+endfunction
+
+/*
  * LJ_InRect(x_pos, y_pos, rect_string)
  *
  * Purpose
@@ -243,3 +261,121 @@ function LJ_PickWoodType(realm, x_pos, y_pos)
 	
 endfunction
 
+function ChopFurniture(who, furniture)
+	if ( !ReserveItem(furniture) )
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	endif
+
+	var sign;
+	if ( GetObjProperty(furniture, "lockeddown") || GetObjProperty(furniture, "secure") )
+		SendSysMessage(who, "You cannot destroy secure or locked down items.");
+		return 0;
+	endif
+	if ( furniture.objtype == 0x7007 )
+		var houseserial := GetObjProperty(furniture, "houseserial");
+		sign := SystemFindObjectBySerial(houseserial);
+		if ( GetObjProperty(sign, "barrelserial") == furniture.serial )
+			EraseObjProperty(sign, "barrelserial");
+			DestroyItem(furniture);
+			return 1;
+		endif
+	endif
+
+	var owner_serial := GetObjProperty(furniture , "DeedOwnerSerial");
+	if( !owner_serial )
+		return 0;
+	endif
+	if ( (who.serial != owner_serial) )
+		if ( !who.multi || (GetObjProperty(who.multi, "ownerserial") != who.serial) )
+			SendSysMessage(who, "You can only re-deed this decoration if you are the house owner or originally placed the decoration.");
+			return 0;
+		endif
+	endif
+
+	// FIXME: Need to upgrade this section for 097 Trap system!!!!!!
+/*
+	if(furniture.usescript == ":tinkering:tinkerTraps")
+		var traptype := GetObjProperty(furniture,"trap_type");
+		var trapstrength := GetObjProperty(furniture,"trap_strength");
+		var trapperserial := CInt(GetObjProperty(furniture, "trapper"));
+		var trapper := SystemFindObjectBySerial(trapperserial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+		if(trapper)
+			SetObjProperty(who, "LastHit", {trapper.name, trapper.serial, "trapped chest" });
+			SetScriptController(trapper);
+		endif
+		case traptype
+			"1" :   PlaySoundEffect(who, SFX_224);
+				var dmg := (RandomInt(20) + CInt(trapstrength));
+				SendSysMessage(who, "You set off a needle trap!");
+				ApplyDamage(who, dmg);
+				furniture.usescript := "";
+				EraseObjProperty( furniture, "trap_type" );
+				EraseObjProperty( furniture, "trap_strength" );
+
+			"2" :   start_script(":traps:poisonTrapTriggered", {who, furniture, "You set off a poison trap!", trapstrength});
+
+			"3" :   PlaySoundEffect(who, SFX_208);
+				SendSysMessage(who, "You set off an explosion trap!");
+				PlayObjectCenteredEffect( who, FX_EXPLODE_3, 10,10);
+				var dmg := (RandomInt(20) + CInt(trapstrength));
+				ApplyRawDamage(who, dmg);
+				furniture.usescript := "";
+				EraseObjProperty( furniture, "trap_type" );
+				EraseObjProperty( furniture, "trap_strength" );
+		endcase
+	endif
+*/
+
+	var the_serials  := GetObjProperty( furniture , "ItemsCreatedSerials" );
+	var deed_objtype := GetObjProperty( furniture , "FromDeed" );
+	if( !the_serials or !deed_objtype )
+		return 0;
+	endif
+	
+	var created := {};
+	foreach serial in the_serials
+		// We search both flags, in case a key exists for the furniture,
+		// and needs to be found and destroyed!
+		var part := SystemFindObjectBySerial( serial, SYSFIND_SEARCH_OFFLINE_MOBILES + SYSFIND_SEARCH_STORAGE_AREAS );
+		if( part )
+			created.append( part );
+		endif
+	endforeach
+	if( !len(created) )
+		return 0;
+	endif
+	
+	var item_name, the_color;
+	foreach item in created
+		if( item.objtype != 0x100E )
+			if( !item_name || item_name.errortext )
+				item_name := GetObjProperty( item , "BaseName" );
+			endif
+			if( !the_color || the_color.errortext )
+				the_color := GetObjProperty( item , "DeedColor" );
+			endif
+		endif
+		if ( item.isa(POLCLASS_CONTAINER) )
+			foreach thing in EnumerateItemsInContainer(item, ENUMERATE_ROOT_ONLY)
+				if ( item.container )
+					MoveItemToContainer(thing, item.container);
+				else
+					MoveObjectToLocation(thing, item.x, item.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
+				endif
+			endforeach
+		endif
+		DestroyItem( item );
+	endforeach
+
+	var the_deed := CreateItemInBackpack( who , deed_objtype );
+	if( the_color && !the_color.errortext )
+		the_deed.color := the_color;
+	endif
+	if( item_name && !item_name.errortext )
+		SetName( the_deed , item_name );
+	endif
+	
+	PlaySoundEffect(who, 0x13a);
+	return 1;
+endfunction

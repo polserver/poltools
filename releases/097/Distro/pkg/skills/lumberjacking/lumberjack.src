@@ -15,6 +15,16 @@ include "include/sounds";
 include "include/facings";
 
 program skill_LumberJack(who, tool)
+	if ( !ReserveItem(tool) || (!tool.movable))
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	elseif( !tool in ListEquippedItems(who) )
+		if( !(tool in EnumerateItemsInContainer(who.backpack)) )
+			SendSysMessage(who, "That item is not in your backpack nor equipped.");
+			return 0;
+		endif
+	endif
+
 	SendSysMessage(who, "Select a tree to chop.");
 	var targ := TargetCoordinates(who);
 
@@ -22,8 +32,13 @@ program skill_LumberJack(who, tool)
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	elseif ( !LJ_IsTree(targ.objtype) )
-		SendSysMessage(who, "That is not a tree.");
-		return 0;
+		if (LJ_IsFurniture(targ.item) )
+			ChopFurniture(who, targ.item);
+			return 1;
+		else
+			SendSysMessage(who, "That is not a tree.");
+			return 0;
+		endif
 	endif
 
 	var orig_x := who.x;
