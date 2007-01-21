@@ -61,7 +61,7 @@ function makeBowcraftItems(who, what, amt, tool)
 	endif
 
 	// ResourceList entry type.
-	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[what].type), "boards");
+	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[what].type));
 	if(!itemchk)
 		return 0;
 	endif
