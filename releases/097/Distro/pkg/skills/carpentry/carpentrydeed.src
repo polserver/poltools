@@ -156,6 +156,7 @@ program place_deed(who, deed)
 					SetObjProperty(part, "ItemsCreatedSerials", the_serials);
 					SetObjProperty(part, "FromDeed", deed_objtype);
 					SetObjProperty(part, "DeedColor", deed_color);
+					SetObjProperty(part, "furniture", 1);
 				endif
 			endforeach
 		endif
