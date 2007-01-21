@@ -63,7 +63,7 @@ var makermark := 1;
 // to check the item for. This is used for example, for boards that
 // was originally colored logs. The colored log objtype is stored
 // in the cprop, and is used to get it's "ResourceList" reference.
-function MaterialSelection(who, craft_skill, type, chk:=0)
+function MaterialSelection(who, craft_skill, type)
 	
 	SendSysMessage(who, "Select the "+Lower(type)+" you would like to work with.");
 	var material := Target(who);
@@ -78,12 +78,8 @@ function MaterialSelection(who, craft_skill, type, chk:=0)
 	endif
 	
 	var materialobjtype := 0;
-	if( chk )
-		if(GetObjProperty(material, chk))
-			materialobjtype := GetObjProperty(material, chk);
-		else
-			materialobjtype := material.objtype;
-		endif
+	if(CInt(GetObjProperty(material, type)) > 0)
+		materialobjtype := GetObjProperty(material, type);
 	else
 		materialobjtype := material.objtype;
 	endif
