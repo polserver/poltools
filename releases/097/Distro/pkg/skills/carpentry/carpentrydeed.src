@@ -145,13 +145,14 @@ program place_deed(who, deed)
 		return 0;
 	endif
 
-	var deed_objtype := deed.objtype;
-	var deed_color := deed.color;
-
+	var deed_objtype:= deed.objtype;
+	var deed_color	:= deed.color;
+	var deed_name	:= deed.desc;
 	if(YesNo(who, "Placed well?"))
 		if(DestroyItem(deed))
 			foreach part in created
 				if(part.objtype != 0x100E)
+					SetObjProperty(part, "BaseName", deed_name);
 					SetObjProperty(part, "DeedOwnerSerial", who.serial);
 					SetObjProperty(part, "ItemsCreatedSerials", the_serials);
 					SetObjProperty(part, "FromDeed", deed_objtype);
