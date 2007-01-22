@@ -15,11 +15,8 @@ var craft_config    := ReadConfigFile(":bowcraft:bowcraft");
 
 program use_FletchTool(who, tool)
 
-	if ( !ReserveItem(tool) )
-		SendSysMessage(who, "That is already in use.");
-		return 0;
-	elseif( (!tool.movable) || !ReserveItem(tool) )
-		SendSysMessage(who, "You cannot use that");
+	if ( !ReserveItem(tool) || !tool.movable )
+		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	elseif( !(tool in EnumerateItemsInContainer(who.backpack)) )
 		SendSysMessage(who, "That item is not in your backpack.");
