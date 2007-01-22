@@ -177,7 +177,8 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 	//		endif
 			if((craft_config[objtype].Mark == 1))
 				if((makermark == 1) && (myskill >= 100))
-					nme := "an exceptional "+nme+" [Crafted by "+who.name+"]";
+					nme := "an exceptional "+nme+" ["+
+					menu_config[craft_skill].ExceptionalName+" "+who.name+"]";
 				else
 					nme := "an exceptional "+nme;
 				endif
