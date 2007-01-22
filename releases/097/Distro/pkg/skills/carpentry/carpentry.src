@@ -114,10 +114,6 @@ endfunction
 
 function CarpentryItems(who, tool, objtype, amt)
 
-	// Wood is sent for the ResourceList entry type, boards is to check for the
-	// boards cprop on the material. Boards cprop is made when logs are cut into
-	// boards on them, so if you have colored logs it can get the original log
-	// type from there to use as the resource type.
 	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[objtype].type));
 	if( !itemchk )
 		return 0;
