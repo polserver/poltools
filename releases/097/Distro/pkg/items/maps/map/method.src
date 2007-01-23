@@ -31,3 +31,24 @@ exported function SetForArea(map, area_name, realm_name)
 
 	return 1;
 endfunction
+
+function encodeMap(map, map_definitions)
+	// NOTE: At this time maps dont support realms in the core!
+
+	if( map_definitions[2] < 0 )
+		map_definitions[2] := 0;
+	endif
+	if( map_definitions[3] < 0 )
+		map_definitions[3] := 0;
+	endif
+	
+	map.xwest      := map_definitions[2];
+	map.ynorth     := map_definitions[3];
+	map.xeast      := map_definitions[4];
+	map.ysouth     := map_definitions[5];
+	map.gumpwidth  := map_definitions[6];
+	map.gumpheight := map_definitions[7];
+
+	return 1;
+
+endfunction
