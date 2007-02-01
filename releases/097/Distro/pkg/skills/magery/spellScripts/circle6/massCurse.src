@@ -31,7 +31,7 @@ program SpellScript_MassCurse(params)
 
 	foreach vtarg in targs
 		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
-		TS_StartTimer(vtarg, "curse", duration, 0, mobile);
+		TS_StartTimer(vtarg, "Curse", duration, 0, mobile);
 	endforeach
 	
 	return 1;

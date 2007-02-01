@@ -23,7 +23,7 @@ program SpellScript_Invisibility(params)
 	
 	// Duration: (Magery * 1.2) seconds
 	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 1.2) * 1000);
-	TS_StartTimer(targ, "invisibility", duration, 0, mobile);
+	TS_StartTimer(targ, "Invisibility", duration, 0, mobile);
 
 	return 1;
 endprogram

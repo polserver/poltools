@@ -33,7 +33,7 @@ program SpellScript_Strength(params)
 	
 	// Duration: 120% Magery seconds
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-	TS_StartTimer(targ, "strength", duration, points, mobile);
+	TS_StartTimer(targ, "Strength", duration, points, mobile);
 	
 	return 1;
 endprogram

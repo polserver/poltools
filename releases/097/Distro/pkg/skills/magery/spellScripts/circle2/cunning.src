@@ -33,7 +33,7 @@ program SpellScript_Cunning(params)
 	
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
-	TS_StartTimer(targ, "cunning", duration, points, mobile);
+	TS_StartTimer(targ, "Cunning", duration, points, mobile);
 	
 	return 1;
 endprogram
