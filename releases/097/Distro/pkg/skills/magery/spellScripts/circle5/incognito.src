@@ -19,7 +19,7 @@ program SpellScript_Incognito(params)
 
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := AP_GetSkill(mobile, MAGERY) * 1.2;
-	TS_StartTimer(mobile, "incognito", duration, 0, mobile);
+	TS_StartTimer(mobile, "Incognito", duration, 0, mobile);
 
 	return 1;
 endprogram

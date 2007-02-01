@@ -31,9 +31,9 @@ program SpellScript_Bless(params)
 	
 	// Same as casting agility, cunning and strength all at once.
 	// On OSI, I don't know if these can stack with bless. Probably not.
-	TS_StartTimer(targ, "agility", duration, 0, mobile);
-	TS_StartTimer(targ, "cunning", duration, 0, mobile);
-	TS_StartTimer(targ, "strength", duration, 0, mobile);
+	TS_StartTimer(targ, "Agility", duration, 0, mobile);
+	TS_StartTimer(targ, "Cunning", duration, 0, mobile);
+	TS_StartTimer(targ, "Strength", duration, 0, mobile);
 	
 	return 1;
 endprogram

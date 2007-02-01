@@ -36,7 +36,7 @@ program SpellScript_ManaDrain(params)
 	endif
 	
 	// Drain mana from targ and restore lost points after 4 seconds
-	TS_StartTimer(targ, "manaDrain", 4, mana_drained, mobile);
+	TS_StartTimer(targ, "ManaDrain", 4, mana_drained, mobile);
 	
 	return 1;
 endprogram

@@ -34,7 +34,7 @@ program SpellScript_FeebleMind(params)
 	
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
-	TS_StartTimer(targ, "feebleMind", duration, points, mobile);
+	TS_StartTimer(targ, "FeebleMind", duration, points, mobile);
 	
 	return 1;
 endprogram

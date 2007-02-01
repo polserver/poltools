@@ -34,7 +34,7 @@ program SpellScript_Weaken(params)
 	
 	// Duration: ((Eval / 5) + 1) * 6
 	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
-	TS_StartTimer(targ, "weaken", duration, points, mobile);
+	TS_StartTimer(targ, "Weaken", duration, points, mobile);
 	
 	return 1;
 endprogram

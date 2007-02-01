@@ -28,7 +28,7 @@ program SpellScript_Curse(params)
 	
 	// Duration: 120% Magery
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-	TS_StartTimer(targ, "curse", duration, 0, mobile);
+	TS_StartTimer(targ, "Curse", duration, 0, mobile);
 	
 	return 1;
 endprogram
