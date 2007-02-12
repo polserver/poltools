@@ -118,8 +118,10 @@ program SpellStarter(params)
 	var delay := spell_elem.Delay;
 	var protection := GetObjProperty(mobile, "Protection");
 
+	// Check for health changes and fail the spell if caster becomes damaged
 	while ( delay > 0 )
-		if ( !protection )
+		// On OSI protection will prevent a caster from being disrupted if they are damaged
+		if ( !protection && settings_elem.ProtectionPreventsCastingDisruption )
 			// There is a small chance, perhaps, that the mobile is damaged and then regens
 			// or is healed enough in the ~50ms delay between checking. It could be more
 			// accurate to grab the pid from ApplyDamageEX and send a damaged event to this
