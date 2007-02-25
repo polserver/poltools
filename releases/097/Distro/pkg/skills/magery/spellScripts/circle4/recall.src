@@ -37,5 +37,7 @@ program SpellScript_Recall(params)
 	 *
 	 */
 	 
+	MS_PlaySpellSFX(info.spell_id, targ);
+
 	 targ.SendToDestination(mobile);
 endprogram

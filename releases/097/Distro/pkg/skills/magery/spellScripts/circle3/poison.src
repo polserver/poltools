@@ -19,9 +19,8 @@ program SpellScript_Poison(params)
 	endif
 
 	var poison_level := MS_GetPoisonLevel(mobile, targ);
-
-	// Not sure how long the effects should last
-	TS_StartTimer(targ, "DefaultPoison", 120, poison_level, mobile);
+	Print("Poison level: "+poison_level);
+	TS_StartTimer(targ, "DefaultPoison", 60, poison_level, mobile);
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);

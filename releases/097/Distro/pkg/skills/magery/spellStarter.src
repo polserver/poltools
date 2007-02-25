@@ -88,7 +88,7 @@ program SpellStarter(params)
 		endif
 	endif
 
-	// Perform casting animation
+	// Perform casting animation based on spell target type
 	if ( spell_elem.Animation )
 		PerformAction(mobile, spell_elem.Animation);
 	else
@@ -106,7 +106,7 @@ program SpellStarter(params)
 		endcase
 	endif
 	
-	// Just in case you want to send events to this script, save the pid
+	// Just in case we want to send events to this script, save this script's pid
 	SetObjProperty(mobile, "#Casting", GetPid());
 
 	mobile.frozen := 1;
@@ -256,7 +256,7 @@ function CheckReagents(mobile, byref spell_elem, scroll)
 		return 1;
 	endif
 
-	// Before consuming, verify that there are enough regs.
+	// Before consuming regs, make sure there are enough
 	var reg_cost := GetConfigStringDictionary(spell_elem, "RegCost");
 	foreach amount in (reg_cost)
 		amount := CInt(amount);
