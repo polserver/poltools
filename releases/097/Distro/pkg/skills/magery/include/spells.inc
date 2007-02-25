@@ -360,18 +360,26 @@ function MS_PlaySpellSFX(spellid, targ, success:=1)
 endfunction
 
 
-function MS_PlaySpellGFX(spellid, targ, caster, speed:=7, loop:=14)
+function MS_PlaySpellGFX(spellid, targ, source, speed:=7, loop:=14, explode:=0, realm:=_DEFAULT_REALM)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
 	var gfx := CInt(GetConfigInt(cfg_elem, "GFX"));
+	var gfx_type := CInt(GetConfigInt(cfg_elem, "GFXType"));
 	
-	//Print("Playing GFX:"+gfx+" for spellid:"+spellid+" of gfx type:"+CInt(cfg_elem.GFXType));
-	case ( CInt(cfg_elem.GFXType) )
+	//Print("Playing GFX:"+gfx+" spellid:"+spellid+" gfx type:"+gfx_type+" source:"+source.name+" targ:"+targ.name);
+	
+	// In the case of gfx_type 4, source and targ will be structs
+	case ( gfx_type )
 		0: return 1;
-		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
-		2: PlayMovingEffect(caster, targ, gfx, speed, loop, targ.realm);
-		3: PlayStationaryEffect( targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm );
+		1: Print(PlayObjectCenteredEffect(targ, gfx, speed, loop));
+		   break;
+		2: Print(PlayMovingEffect(source, targ, gfx, speed, loop, explode));
+		   break;
+		3: Print(PlayStationaryEffect(targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm));
+		   break;
+		4: PlayMovingEffectXYZ( source.x, source.y, source.z, targ.x, targ.y, targ.z, gfx, speed, loop, explode, realm);
+		   break;
 	endcase
-	
+
 	return 1;
 endfunction
 

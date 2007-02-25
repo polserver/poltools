@@ -29,11 +29,11 @@ program SpellScript_Cure(params)
 		endif
 	endforeach
 
-	//% Chance to cure: (Magery * 0,75) + (110 - (Poison level * 33)) .
+	//% Chance to cure: (Magery * 0.75) + (110 - (Poison level * 33)) .
 	var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
 	if ( chance >= RandomInt(100) + 1 )
 		// Should be enough to cure all poison.
-		TS_CurePoison(targ, 10000, "P", 10);
+		TS_CurePoison(targ, 10000, "DefaultPoison", 10);
 	endif
 	
 	MS_PlaySpellSFX(info.spell_id, targ);

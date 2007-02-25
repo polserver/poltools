@@ -1,11 +1,9 @@
 TODO:
-Recall might not make any sounds
-Function to test config file, calls functions for sfx and gfx and makes sure there are no errors
-Check spell_sounds.inc for sanity
-Add ID tags to all files
 Field spells are not setup correctly, "1d2" for cprop isn't a struct
-Finish debugging why the new playspell*fx stuff is crashing clients
-Create NPCs in brainAI for summoned monsterz
+Create brain for summoned NPCs, use random NPCs just for testing
+Figure out if spells are going to rise appropriately when they're checked in various spells
+Make sure poison field poison is giving the same poison duration as the spell, or slightly more
+  Should the decrease in duration only be awarded with a successfull resisting spells check?
 
 
 TODO - not in magery package:
@@ -16,6 +14,7 @@ When teleported into a tile with a walk-on script, it might not be activated
 I don't think characters unparalyze after taking damage
 Yukiko says timed scripts are loopy when it comes to logging off and back on
 In damage:damage, ApplyDamageEx converts all damage to int when ApplyDamage says it can handle real numbers
+Magic un/lock is a little weird since there are no lock levels..
 
 
 Would be nice:
@@ -23,6 +22,8 @@ Poison prevents bandages from healing damage, heal spells will also not work.
 Damages appear TWICE above character when hit with direct damage spell, not sure why
 Spells don't do much checking for locked down objects, objects in houses, etc...
 Not sure what happens if you cast a timedScript spell multiple times on OSI. "This spell is already in effect." ?
+Function to test config file, calls functions for sfx and gfx and makes sure there are no errors
+Command history for the command bar :)
 
 
 For my own notes, don't think these work exactly right yet:
@@ -30,6 +31,7 @@ Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when c
 Bless - Counteracts stats effects and does all three good stat effects
 
 
+This is the list I'll use to make sure each spell works perfectly. It's hard to keep track of all of them in my brain.
 
 Circle 1
 clumsy
