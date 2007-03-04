@@ -19,11 +19,12 @@ program SpellScript_Cure(params)
 	endif
 
 	// Get poison level
-	// Note: Unlike OSI, we can have multiple poisons so we'll just grab the highest one.
+	// make sure it's curable first
 	var poison_names := TS_GetTimerNames(targ, "P");
 	var poison_level := 0;
+	
 	foreach timer_name in ( poison_names )
-		var timer_info := TS_GetTimerInfo(mobile, timer_name);
+		var timer_info := TS_GetTimerInfo(targ, timer_name);
 		if ( timer_info.level > poison_level )
 				poison_level := timer_info.level;
 		endif
@@ -32,8 +33,8 @@ program SpellScript_Cure(params)
 	//% Chance to cure: (Magery * 0.75) + (110 - (Poison level * 33)) .
 	var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
 	if ( chance >= RandomInt(100) + 1 )
-		// Should be enough to cure all poison.
-		TS_CurePoison(targ, 10000, "DefaultPoison", 10);
+		// NOTE: There is still a 1 in 100 chance that this wont work..
+		TS_CurePoison(targ, 10000, "P", poison_level);
 	endif
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
