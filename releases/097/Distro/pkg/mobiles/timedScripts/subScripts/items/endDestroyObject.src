@@ -1,0 +1,11 @@
+use uo;
+use os;
+
+program TimedScript_EndDestroyObject(params)
+	var object := params[1];
+	
+	DestroyItem(object);
+	
+	return 1;
+endprogram
+
