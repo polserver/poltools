@@ -19,7 +19,6 @@ program SpellScript_Poison(params)
 	endif
 
 	var poison_level := MS_GetPoisonLevel(mobile, targ);
-	Print("Poison level: "+poison_level);
 	TS_StartTimer(targ, "DefaultPoison", 60, poison_level, mobile);
 	
 	MS_PlaySpellSFX(info.spell_id, targ);

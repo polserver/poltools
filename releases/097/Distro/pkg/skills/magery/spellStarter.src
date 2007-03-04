@@ -197,7 +197,7 @@ program SpellStarter(params)
 				targ := MS_Target(mobile, 0, prompt, opts);
 			endif
 			
-			if ( targ == error )
+			if ( targ == error || !targ )
 				SendSysMessage(mobile, "Cancelled.");
 				MS_SpellDebug(mobile, "Spell starter completed.");
 				EraseObjProperty(mobile, "#Casting");

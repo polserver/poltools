@@ -117,6 +117,7 @@ function MS_Target(mobile, targ:=0, prompt:="Select a target.", flags:=TGTOPT_CH
 	SendSysMessage(mobile, prompt);
 	
 	targ := Target(mobile, flags);
+
 	if ( Distance(mobile, targ) > settings_elem.MaxRange )
 		SendSysMessage(mobile, "That is too far away.");
 		return 0;
@@ -131,7 +132,6 @@ function MS_Target(mobile, targ:=0, prompt:="Select a target.", flags:=TGTOPT_CH
 	endif
 
 	return targ;
-
 endfunction
 
 /*
@@ -167,10 +167,7 @@ function MS_TargetCoordinates(mobile, targ:=0, prompt:="Select a target.")
 	SendSysMessage(mobile, prompt);
 	targ := TargetCoordinates(mobile);
 
-	if ( !targ )
-		SendSysMessage(mobile, "Cancelled.");
-		return 0;
-	elseif ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > settings_elem.MaxRange )
+	if ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > settings_elem.MaxRange )
 		SendSysMessage(mobile, "That is too far away.");
 		return 0;
 	endif
@@ -349,9 +346,9 @@ function MS_GetPoisonLevel(mobile, targ)
 endfunction
 
 
-function MS_PlaySpellSFX(spellid, targ, success:=1)
+function MS_PlaySpellSFX(spellid, targ)
 	var cfg_elem := MS_GetSpellsCfgElem(spellid);
-	var sfx := CInt(GetConfigInt(cfg_elem, "sFX"));
+	var sfx := CInt(GetConfigInt(cfg_elem, "SFX"));
 	
 	//Print("Playing SFX:"+sfx+" for spellid:"+spellid);
 	PlaySoundEffect(targ, sfx);
@@ -370,11 +367,11 @@ function MS_PlaySpellGFX(spellid, targ, source, speed:=7, loop:=14, explode:=0, 
 	// In the case of gfx_type 4, source and targ will be structs
 	case ( gfx_type )
 		0: return 1;
-		1: Print(PlayObjectCenteredEffect(targ, gfx, speed, loop));
+		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
 		   break;
-		2: Print(PlayMovingEffect(source, targ, gfx, speed, loop, explode));
+		2: PlayMovingEffect(source, targ, gfx, speed, loop, explode);
 		   break;
-		3: Print(PlayStationaryEffect(targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm));
+		3: PlayStationaryEffect(targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm);
 		   break;
 		4: PlayMovingEffectXYZ( source.x, source.y, source.z, targ.x, targ.y, targ.z, gfx, speed, loop, explode, realm);
 		   break;

@@ -3,6 +3,7 @@ Field spells are not setup correctly, "1d2" for cprop isn't a struct
 Create brain for summoned NPCs, use random NPCs just for testing
 Figure out if spells are going to rise appropriately when they're checked in various spells
 Make sure poison field poison is giving the same poison duration as the spell, or slightly more
+Make spell resistance changes mentioned in the forums
   Should the decrease in duration only be awarded with a successfull resisting spells check?
 
 
