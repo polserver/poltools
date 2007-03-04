@@ -1,10 +1,8 @@
 TODO:
-Field spells are not setup correctly, "1d2" for cprop isn't a struct
-Create brain for summoned NPCs, use random NPCs just for testing
-Figure out if spells are going to rise appropriately when they're checked in various spells
-Make sure poison field poison is giving the same poison duration as the spell, or slightly more
+Add eval int skill checks for direct damage spells
 Make spell resistance changes mentioned in the forums
   Should the decrease in duration only be awarded with a successfull resisting spells check?
+Create brain for summoned NPCs, use random NPCs just for testing
 
 
 TODO - not in magery package:
@@ -17,17 +15,21 @@ Yukiko says timed scripts are loopy when it comes to logging off and back on
 In damage:damage, ApplyDamageEx converts all damage to int when ApplyDamage says it can handle real numbers
 Magic un/lock is a little weird since there are no lock levels..
 
+Corpses don't decay. Maybe in corpseControl.src:
+	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
+		return 0;
+	endif
 
 Would be nice:
 Poison prevents bandages from healing damage, heal spells will also not work.
-Damages appear TWICE above character when hit with direct damage spell, not sure why
+Damages sometimes appear TWICE above character when hit with direct damage spell, not sure why
 Spells don't do much checking for locked down objects, objects in houses, etc...
 Not sure what happens if you cast a timedScript spell multiple times on OSI. "This spell is already in effect." ?
 Function to test config file, calls functions for sfx and gfx and makes sure there are no errors
 Command history for the command bar :)
 
 
-For my own notes, don't think these work exactly right yet:
+For my own notes, this is how OSI does the spells:
 Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when cast by another player), as well as act like Clumsy, Feeble mind and Weaken all in one.
 Bless - Counteracts stats effects and does all three good stat effects
 

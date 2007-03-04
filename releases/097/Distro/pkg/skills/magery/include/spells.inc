@@ -363,10 +363,10 @@ function MS_PlaySpellGFX(spellid, targ, source, speed:=7, loop:=14, explode:=0, 
 	var gfx_type := CInt(GetConfigInt(cfg_elem, "GFXType"));
 	
 	//Print("Playing GFX:"+gfx+" spellid:"+spellid+" gfx type:"+gfx_type+" source:"+source.name+" targ:"+targ.name);
-	
-	// In the case of gfx_type 4, source and targ will be structs
+
 	case ( gfx_type )
 		0: return 1;
+		   break;
 		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
 		   break;
 		2: PlayMovingEffect(source, targ, gfx, speed, loop, explode);

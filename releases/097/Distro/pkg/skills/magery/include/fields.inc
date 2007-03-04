@@ -1,10 +1,13 @@
 CONST FIELD_SHAPE_VERTICAL := 1;
 CONST FIELD_SHAPE_HORIZONTAL := 2;
 
+include ":timedscripts:timedScripts";
+
 function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="", check_los:=1, delay:=2)
 	var start_cord, stop_cord, object;
 	var field := array{};
-	var manual_duration := 0;
+	
+	Print("Shape: "+shape+" objtype:"+objtype);
 	
 	case ( shape )
 		FIELD_SHAPE_VERTICAL:
@@ -16,13 +19,21 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 				stop_cord := targ.x + (size / 2) + 1;
 			endif
 			
+			// Create objects and SetDuration & SetOwner
 			for i := start_cord to stop_cord
 				object := CreateItemAtLocation(i, targ.y, targ.z, objtype, 1, targ.realm);
 				if ( object )
-					// If there is no SetDuration method, we'll have to handle it manually
-					if ( object.SetDuration(duration) == error )
-						manual_duration := 1;
+					// If there is no SetDuration method, set it manually
+					if ( object.SetDuration(duration) == error && mobile )
+						Print("No duration, setting manually.");
+						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
 					endif
+
+					// If there is no SetOwner method, set it manually
+					if ( object.SetOwner(mobile.serial) == error && mobile )
+						SetObjProperty(field, "Owner", mobile.serial);
+					endif
+
 					field.Append(object);
 				endif
 
@@ -38,13 +49,21 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 				stop_cord := targ.y + (size / 2) + 1;
 			endif
 			
+			// Create objects and SetDuration() & SetOwner()
 			for i := start_cord to stop_cord
 				object := CreateItemAtLocation(targ.x, i, targ.z, objtype, 1, targ.realm);
 				if ( object )
-					// If there is no SetDuration method, we'll have to handle it manually
-					if ( object.SetDuration(duration) == error )
-						manual_duration := 1;
+					// If there is no SetDuration method, set it manually
+					if ( object.SetDuration(duration) == error && mobile )
+						Print("No duration, setting manually.");
+						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
 					endif
+
+					// If there is no SetOwner method, set it manually
+					if ( object.SetOwner(mobile.serial) == error && mobile )
+						SetObjProperty(field, "Owner", mobile.serial);
+					endif
+
 					field.Append(object);
 				endif
 
@@ -54,6 +73,7 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 	endcase
 
 	if ( field )
+		// Make sure we have LOS to the field
 		if ( check_los )
 			// object type doesn't matter, it'll be deleted soon
 			check_los := CreateItemAtLocation(targ.x, targ.y, targ.z, 0x002, 1, targ.realm);
@@ -69,29 +89,23 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 			DestroyItem(check_los);
 		endif
 			
-		// Set cprops
+		// Set cprops, can be array of structs or just a struct
 		foreach object in field
 			if ( cprops )
-				if ( Lower(TypeOf(cprops) == "array") )
+				if ( Lower(TypeOf(cprops)) == "array" )
 					foreach prop_struct in cprops
-						SetObjProperty(object, prop_struct.name, prop_struct.value);
+						foreach prop_name in ( cprops.Keys() )
+							SetObjProperty(object, prop_name, cprops[prop_name]);
+						endforeach
 					endforeach
-				elseif ( Lower(TypeOf(cprops) == "struct") )
-					SetObjProperty(object, cprops.name, cprops.value);
+				elseif ( Lower(TypeOf(cprops)) == "struct" )
+					foreach prop_name in ( cprops.Keys() )
+						SetObjProperty(object, prop_name, cprops[prop_name]);
+					endforeach
 				endif
 			endif
-			
-			SetObjProperty(object, "SummonedField", 1);
 		endforeach
 	endif
 
-	if ( manual_duration )
-		Sleep(duration);
-		
-		foreach object in field
-			DestroyItem(object);
-		endforeach
-	endif
-				
 	return 1;
 endfunction

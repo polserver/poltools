@@ -17,6 +17,9 @@ program controlScript(field)
 		SetScriptController(creator);
 	endif
 
+	// Kludge to keep this script from running before cprops are set
+	SleepMS(500);
+	
 	var dmg_dice := GetObjProperty(field, "DamageDice");
 	if ( !dmg_dice )
 		dmg_dice := "1d5";

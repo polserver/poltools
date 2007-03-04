@@ -17,7 +17,10 @@ program controlScript(field)
 		SetScriptController(creator);
 	endif
 
-	var duration := CInt(GetObjProperty(field, "Duration"));
+	// Kludge to keep this script from running before cprops are set
+	SleepMS(500);
+
+	var duration := CInt(GetObjProperty(field, "ParaDuration"));
 	if ( !duration )
 		duration := RandomDiceRoll("5d3");
 	endif

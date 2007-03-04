@@ -18,8 +18,8 @@ program SpellScript_Invisibility(params)
 	MS_PlaySpellSFX(info.spell_id, targ);
 
 	// Tell spell starter to not wait for this script to finish
-	var spell_starter := GetProcess(info.pid);
-	spell_starter.SendEvent("continue");
+	//var spell_starter := GetProcess(info.pid);
+	//spell_starter.SendEvent("continue");
 	
 	// Duration: (Magery * 1.2) seconds
 	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 1.2) * 1000);

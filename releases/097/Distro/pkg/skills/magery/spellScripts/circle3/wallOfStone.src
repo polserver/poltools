@@ -17,8 +17,8 @@ program SpellScript_WallOfStone(params)
 	
 	// Duration: 10 seconds
 	var duration := 10;
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
 		CreateField(targ, FIELD_SHAPE_HORIZONTAL, 0x80, area_size, duration, "", mobile, 1);
 	else
 		CreateField(targ, FIELD_SHAPE_VERTICAL, 0x80, area_size, duration, "", mobile, 1);

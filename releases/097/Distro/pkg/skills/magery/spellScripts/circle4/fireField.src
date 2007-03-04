@@ -18,11 +18,12 @@ program SpellScript_FireField(params)
 	
 	// Duration: 50% Magery
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 0.5);
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", area_size, duration, "1d2", mobile, 1);
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var prop_struct := struct{ "DamageDice" := "1d2" };
+	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", area_size, duration, prop_struct, mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "FireField_EW", area_size, duration, "1d2", mobile, 1);
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "FireField_EW", area_size, duration, prop_struct, mobile, 1);
 	endif
 	
 	return 1;
