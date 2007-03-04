@@ -13,11 +13,6 @@ program SpellScript_Telekinesis(params)
 	var targ := params[3];
 	params := 0; // No longer needed
 	
-	// Tell spell starter to not wait for this script to finish
-	// If you don't do this, you wont be able to UseItem()
-	var spell_starter := GetProcess(info.pid);
-	spell_starter.SendEvent("continue");
-
 	if ( !(targ.IsA(POLCLASS_CONTAINER) && targ.IsA(POLCLASS_ITEM)) )
 		// Doesn't do anything to mobiles
 		SendSysMessage(mobile, "This spell wont work on that!");

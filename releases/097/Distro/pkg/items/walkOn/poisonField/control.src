@@ -17,6 +17,9 @@ program controlScript(field)
 		SetScriptController(creator);
 	endif
 
+	// Kludge to keep this script from running before cprops are set
+	SleepMS(500);
+
 	var poison_level := CInt(GetObjProperty(field, "PoisonLevel"));
 	if ( !poison_level )
 		poison_level := RandomDiceRoll("1d5");

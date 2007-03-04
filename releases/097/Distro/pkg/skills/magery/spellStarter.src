@@ -216,11 +216,12 @@ program SpellStarter(params)
 			endif
 		endif
 
+		// Note: Took this out because no script ever sends events and it's causing delays.
 		// Loop here and wait for events from the script
-		var ev;
-		while ( script.pid && !ev )
-			ev := wait_for_event(1);
-		endwhile
+		//var ev;
+		//while ( script.pid && !ev )
+		//	ev := wait_for_event(1);
+		//endwhile
 	else
 		PlaySoundEffect(mobile, SFX_SPELL_FAIL);
 		SendSysMessage(mobile, "The spell fizzles.");

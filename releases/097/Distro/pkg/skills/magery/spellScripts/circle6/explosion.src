@@ -18,10 +18,6 @@ program SpellScript_Explosion(params)
 		return 0;
 	endif
 
-	// Tell spell starter to not wait for this script to finish
-	var spell_starter := GetProcess(info.pid);
-	spell_starter.SendEvent("continue");
-
 	Sleep(2);
 	
 	MS_PlaySpellSFX(info.spell_id, targ);

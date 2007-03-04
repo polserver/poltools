@@ -21,14 +21,12 @@ program SpellScript_PoisonField(params)
 	
 	// Level is the same as Poison spell
 	var poison_level := MS_GetPoisonLevel(mobile, targ);
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	var prop_struct := struct;
-	prop_struct.+name := "PoisonLevel";
-	prop_struct.+value := poison_level;
-	if ( targ.facing == 1 || targ.facing == 2 || targ.facing == 5 || targ.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", area_size, duration, prop_struct, mobile, "1");
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var prop_struct := struct{ "PoisonLevel" := poison_level };
+	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
+		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", area_size, duration, prop_struct, mobile, 1);
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", area_size, duration, prop_struct, mobile, "1");
+		CreateField(targ, FIELD_SHAPE_VERTICAL, "PoisonField_EW", area_size, duration, prop_struct, mobile, 1);
 	endif
 	
 	return 1;

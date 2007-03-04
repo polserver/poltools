@@ -3,6 +3,7 @@ use os;
 
 include ":magery:spells";
 include ":magery:spellSounds";
+include ":timedscripts:timedScripts";
 
 program SpellScript_Paralyze(params)
 	var mobile := params[1];
@@ -16,32 +17,8 @@ program SpellScript_Paralyze(params)
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
-	
-	// Tell spell starter to not wait for this script to finish
-	var spell_starter := GetProcess(info.pid);
-	spell_starter.SendEvent("continue");
 
 	// Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
-	var duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3000);
-	targ.SetParalyzed(1);
-
-	Detach();
-	
-	while ( duration )
-		if ( !targ.paralyzed )
-			return 0;
-		endif
-		
-		if ( !(duration % 50) )
-			duration -= 50;
-			SleepMS(50);
-		else
-			duration -= (duration % 50);
-			SleepMS(duration % 50);
-		endif
-	endwhile
-	
-	targ.SetParalyzed(0);
-	
-	return 1;
+	var duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3);
+	TS_StartTimer(targ, "Paralyze", duration);
 endprogram
