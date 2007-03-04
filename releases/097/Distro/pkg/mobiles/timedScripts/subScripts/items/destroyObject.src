@@ -1,0 +1,14 @@
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program TimedScript_DestroyObject(params)
+	var duration := params[1];
+	params := 0;
+	
+	Sleep(Duration);
+	
+	return 1;
+endprogram
+
