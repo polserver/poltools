@@ -13,10 +13,6 @@ program SpellScript_SummonWaterElemental(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
-
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 

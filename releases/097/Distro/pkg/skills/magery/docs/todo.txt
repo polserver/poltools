@@ -1,5 +1,4 @@
 TODO:
-Add eval int skill checks for direct damage spells
 Make spell resistance changes mentioned in the forums
   Should the decrease in duration only be awarded with a successfull resisting spells check?
 Create brain for summoned NPCs, use random NPCs just for testing
@@ -10,7 +9,6 @@ Modify sendstats packet hook to correctly send resistances for debuging?
 Traps set on containers are not run when opened (needs to check/run scripts in use script)
   Make sure I'm actually using the code correctly...
 When teleported into a tile with a walk-on script, it might not be activated
-I don't think characters unparalyze after taking damage
 Yukiko says timed scripts are loopy when it comes to logging off and back on
 In damage:damage, ApplyDamageEx converts all damage to int when ApplyDamage says it can handle real numbers
 Magic un/lock is a little weird since there are no lock levels..
