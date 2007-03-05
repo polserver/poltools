@@ -1,15 +1,9 @@
-/*
- * $Id$
- *
- */
+// $Id$
 
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 
 program SpellScript_Heal(params)

@@ -1,12 +1,9 @@
-/* $Id$
- *
- */
+// $Id$
+
 use uo;
 use os;
 
-include "include/client";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":coords:isValidLoc";
 include ":runebook:runebookFunctions";
 

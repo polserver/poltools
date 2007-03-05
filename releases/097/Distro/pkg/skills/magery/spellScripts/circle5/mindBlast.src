@@ -1,9 +1,8 @@
+// $Id$
+
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
-include ":magery:spellSounds";
 include ":magery:spells";
 include ":attributes:attributes";
 include ":damage:damage";

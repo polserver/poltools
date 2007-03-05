@@ -1,11 +1,10 @@
+// $Id$
+
 use uo;
 use os;
 
-include ":attributes:attributes";
 include ":magery:spells";
-include ":magery:spellSounds";
-include "include/client";
-include "include/sounds";
+include ":attributes:attributes";
 include ":damage:damage";
 
 program SpellScript_FlameStrike(params)
