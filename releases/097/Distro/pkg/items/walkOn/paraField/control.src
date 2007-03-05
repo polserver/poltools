@@ -58,7 +58,7 @@ function ParalyzeNearbyMobiles(field, duration)
 endfunction
 
 function ParalyzeMobile(mobile, duration)
-	TS_StartTimer(mobile, "Paralyze", duration);
+	TS_StartTimer(mobile, "Paralysis", duration);
 
 	return 1;
 endfunction
