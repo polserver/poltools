@@ -23,11 +23,20 @@ program SpellScript_ArchProtection(params)
 	
 	// Protection on all party members and caster
 	// Get all targets in area that are in party or self.
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
 	var includes := GetObjProperty(mobile, "#Party");
-	includes.Append(mobile.serial);
-	var targs := MS_GetVaildTargets(mobile, area_size, 1, "", includes);
+	if ( includes == error )
+			includes := array{mobile.serial};
+	else
+			includes.Append(mobile.serial);
+	endif
 
+	var friendlies := MS_GetFriendlies(mobile, area_size);
+	if ( friendlies != error )
+			includes == friendlies;
+	endif
+
+	var targs := MS_GetValidTargets(mobile, area_size, 1, "", includes);
 	foreach vtarg in targs
 		if ( !GetObjProperty(vtarg, "Protection") )
 			ApplyArchProtection(vtarg);

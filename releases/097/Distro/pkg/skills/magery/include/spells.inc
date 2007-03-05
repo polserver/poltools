@@ -351,9 +351,7 @@ function MS_PlaySpellSFX(spellid, targ)
 	var sfx := CInt(GetConfigInt(cfg_elem, "SFX"));
 	
 	//Print("Playing SFX:"+sfx+" for spellid:"+spellid);
-	PlaySoundEffect(targ, sfx);
-
-	return 1;	
+	return PlaySoundEffect(targ, sfx);
 endfunction
 
 
@@ -366,22 +364,18 @@ function MS_PlaySpellGFX(spellid, targ, source, speed:=7, loop:=14, explode:=0, 
 
 	case ( gfx_type )
 		0: return 1;
-		   break;
-		1: PlayObjectCenteredEffect(targ, gfx, speed, loop);
-		   break;
-		2: PlayMovingEffect(source, targ, gfx, speed, loop, explode);
-		   break;
-		3: PlayStationaryEffect(targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm);
-		   break;
-		4: PlayMovingEffectXYZ( source.x, source.y, source.z, targ.x, targ.y, targ.z, gfx, speed, loop, explode, realm);
-		   break;
+		1: return PlayObjectCenteredEffect(targ, gfx, speed, loop);
+		2: return PlayMovingEffect(source, targ, gfx, speed, loop, explode);
+		3: return PlayStationaryEffect(targ.x, targ.y, targ.z, gfx, speed, loop, 0, targ.realm);
+		4: return PlayMovingEffectXYZ( source.x, source.y, source.z, targ.x, targ.y, targ.z, gfx, speed, loop, explode, realm);
 	endcase
 
 	return 1;
 endfunction
 
 
-function MS_GetVaildTargets(targ, area_size:=1, check_los:=1, exclude:="", includes:="", include_self:=0, self:="")
+// Function for quickly grabbing nearby mobiles that are not in excludes or that are in includes
+function MS_GetValidTargets(targ, area_size:=1, check_los:=1, excludes:=array{}, includes:=array{})
 	var targs := array{};
 	
 	if ( !targ.realm )
@@ -391,12 +385,32 @@ function MS_GetVaildTargets(targ, area_size:=1, check_los:=1, exclude:="", inclu
 	endif
 	
 	// Remove targs with serial in exclude if exclude exists or not in includes if includes exists
-	for i := 1 to (targs.Size())
-		if ( (exclude != "" && (targs[i].serial in exclude || targs[i].serial == exclude )) ||
-			   (includes != "" && (!(targs[i].serial in includes) || targs[i].serial != includes )) )
+	for i := 1 to ( targs.Size() )
+		if ( (excludes.Size() > 0 && targs[i].serial in excludes) || (includes.Size() > 0 && !(targs[i].serial in includes)))
 			targs.Erase(i);
 		endif
 	endfor
 	
 	return targs;
 endfunction
+
+
+// Find friendlies and add them to the list of includes
+// Note: A friendly is anything non-criminal and non-murderer. I guess.
+function MS_GetFriendlies(targ, area_size:=1)
+	var friendlies;
+	if ( !targ.realm )
+		friendlies := ListMobilesNearLocation(targ.x, targ.y, targ.z, area_size);
+	else
+		friendlies := ListMobilesNearLocation(targ.x, targ.y, targ.z, area_size, targ.realm);
+	endif
+	
+	for i := 1 to friendlies.Size()
+		if ( friendlies[i].criminal || friendlies[1].murderer )
+				friendlies.Erase(i);
+		endif
+	endfor
+	
+	return friendlies;
+endfunction
+	

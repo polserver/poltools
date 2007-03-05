@@ -19,9 +19,8 @@ program SpellScript_Cure(params)
 	endif
 
 	// Get poison level
-	// make sure it's curable first
 	var poison_names := TS_GetTimerNames(targ, "P");
-	var poison_level := 0;
+	var poison_level := 1;
 	
 	foreach timer_name in ( poison_names )
 		var timer_info := TS_GetTimerInfo(targ, timer_name);

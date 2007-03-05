@@ -19,7 +19,6 @@ program SpellScript_ParalyzeField(params)
 	// Duration: 33% Magery +3 seconds
 	var duration := CInt((AP_GetSkill(mobile, MAGERY) * 0.33) + 3);
 
-	Print("Para duration: "+duration);
 	// Paralyze Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
 	// Note: On OSI the duration max is 42.6, but we use damage dice, so max is 42. :(
 	var para_duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3);

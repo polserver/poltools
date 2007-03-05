@@ -21,14 +21,17 @@ program SpellScript_MassCurse(params)
 	MS_PlaySpellSFX(info.spell_id, targ);
 
 	// Get all targets in area excluding party and self.
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	var exclude := GetObjProperty(mobile, "#Party");
-	exclude.Append(mobile.serial);
-	var targs := MS_GetVaildTargets(targ, area_size, 1, exclude);
-	
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var excludes := GetObjProperty(mobile, "#Party");
+	if ( excludes == error )
+			excludes := array{mobile.serial};
+	else
+			excludes.Append(mobile.serial);
+	endif
+
 	// Duration: 120% Magery
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-
+	var targs := MS_GetValidTargets(targ, area_size, 1, excludes);
 	foreach vtarg in targs
 		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
 		TS_StartTimer(vtarg, "Curse", duration, 0, mobile);

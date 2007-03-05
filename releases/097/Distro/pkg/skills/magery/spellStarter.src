@@ -97,6 +97,7 @@ program SpellStarter(params)
 			"direct":
 				PerformAction(mobile, ANIM_CAST_DIR);
 				break;
+			"notarget_area":
 			"area":
 			"summon":
 				PerformAction(mobile, ANIM_CAST_AREA);
@@ -167,10 +168,9 @@ program SpellStarter(params)
 		info.+spell_id := spell_id;
 		info.+spell_config := spell_elem;
 		
-		// Get target if there is no NPC target and the spell.cfg Target is !"none" or blank
+		// Get target if there is no NPC target and Target is !"none" and !"notarget_area" and not error
 		var cfg_targ := GetConfigString(spell_elem, "Target");
-		if ( !targ && cfg_targ != "none" and cfg_targ != error )
-			
+		if ( !targ && cfg_targ != "none" && cfg_targ != "notarget_area" && cfg_targ == error )
 			// Get target options
 			var opts := 0; // 0 don't check LOS, noto is neutral
 			var check_los := CInt(GetConfigInt(spell_elem, "CheckLOS"));
@@ -202,8 +202,6 @@ program SpellStarter(params)
 				MS_SpellDebug(mobile, "Spell starter completed.");
 				EraseObjProperty(mobile, "#Casting");
 				return 1;
-			else
-
 			endif
 		endif
 			
