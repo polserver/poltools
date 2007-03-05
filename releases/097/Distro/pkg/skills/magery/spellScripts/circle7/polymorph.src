@@ -5,7 +5,27 @@ include "include/client";
 include "include/sounds";
 include ":magery:spells";
 include ":magery:spellSounds";
-include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+// Maybe make some colors random?
+var polymorph_gfx := struct{ "black bear"		:= array{ 0xD3, 0 },
+                             "grizzly bear"	:= array{ 0xD4, 0 },
+                             "polar bear"		:= array{ 0xD5, 0 },
+                             "chicken"			:= array{ 0xD0, 0 },
+                             "daemon"				:= array{ 0xD0, 0 },	// fix this
+                             "dog"					:= array{ 0xD9, 0 },
+                             "ettin"				:= array{ 0x2, 0 },
+                             "gargoyle"			:= array{ 0x2, 0 },	// fix this
+                             "gorilla"			:= array{ 0x2, 0 }, // fix this
+                             "human female"	:= array{ 0x190, 1024 }, // fix this
+                             "human male"		:= array{ 0x190, 1024 },
+                             "lizard man"		:= array{ 0x21, 0 },
+                             "ogre"					:= array{ 0x1, 0 }, 
+                             "orc"					:= array{ 0x7, 0 },
+                             "panther"			:= array{ 0xD6, 0 },
+                             "slime"				:= array{ 0x33, 0 },
+                             "troll"				:= array{ 0x35, 0 },
+                             "wolf"					:= array{ 0xE1, 0 } };
 
 program SpellScript_Polymorph(params)
 	var mobile := params[1];
@@ -13,14 +33,23 @@ program SpellScript_Polymorph(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
+	// Duration = Magery up to 100
+	var duration := AP_GetSkill(mobile, MAGERY);
+	if ( duration > 100 )
+		duration := 100;
 	endif
 
+	var struct_keys := polymorph_gfx.Keys();
+	var random_gfx := polymorph_gfx[struct_keys[RandomInt(struct_keys.Size()) + 1]];
+	var random_color := random_gfx[2];
+	random_gfx := random_gfx[1];
+	
+	// Stop and then start th etimer
+	TS_LowerDuration(mobile, "Polymorph", 1000);
+	TS_StartTimer(mobile, "Polymorph", duration, random_gfx, random_color);
+	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
 	
 	return 1;
 endprogram

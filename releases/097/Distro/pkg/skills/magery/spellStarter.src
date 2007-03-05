@@ -89,6 +89,8 @@ program SpellStarter(params)
 	endif
 
 	// Perform casting animation based on spell target type
+	// Note: If polymorphed and the graphic doesn't have that animation
+	// user will get an error. There may be some way to fix this...
 	if ( spell_elem.Animation )
 		PerformAction(mobile, spell_elem.Animation);
 	else
