@@ -1,10 +1,9 @@
+// $Id$
+
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 
 program SpellScript_SummonFireElemental(params)
@@ -15,6 +14,12 @@ program SpellScript_SummonFireElemental(params)
 
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Duration = Magery * 4 seconds (max 480)
+	var duration := AP_GetSkill(mobile, MAGERY) * 4;
+	if ( duration > 480 )
+			duration := 480;
+	endif
 
 	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
 	

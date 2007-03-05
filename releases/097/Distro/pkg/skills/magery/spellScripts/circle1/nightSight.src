@@ -1,15 +1,9 @@
-/*
- * $Id$
- *
- */
+// $Id$
 
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 
 program SpellScript_NightSight(params)
@@ -26,7 +20,7 @@ program SpellScript_NightSight(params)
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 		
 	// If target magery < 10, no effect
-	// TODO: spell duration should last until next dawn or dusk
+	// Note: On OSI, spell duration is until next dawn or dusk
 	if ( AP_GetSkill(targ, MAGERY) > 10.0 )
 		targ.SetLightLevel(0, CInt(AP_GetSkill(mobile, MAGERY)) * 60);
 	endif

@@ -1,7 +1,7 @@
+// $Id$
+
 /*
- * $Id$
- *
- * Directly from uo.com:
+ * Uo.com:
  * Players under the protection spell effect can no longer have their spells "disrupted" when hit.
  * Players under the protection spell have decreased physical resistance stat value, a decreased
  * "resisting spells" skill value by -35, and a slower casting speed modifier (technically, a negative
@@ -13,10 +13,7 @@
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 include ":damage:damage";
 

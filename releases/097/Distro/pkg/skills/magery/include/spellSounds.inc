@@ -1,3 +1,5 @@
+// $Id$
+
 CONST SFX_SPELL_CLUMSY              :=  0x1E0;
 CONST SFX_SPELL_CREATE_FOOD         :=  0x1E3;
 CONST SFX_SPELL_FEEBLEMIND          :=  0x1E5;

@@ -1,10 +1,9 @@
+// $Id$
+
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 
 program SpellScript_SummonCreature(params)
@@ -13,11 +12,13 @@ program SpellScript_SummonCreature(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
-	endif
-
 	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");;
-	
+
+	// Duration = Magery * 4 seconds (max 480)
+	var duration := AP_GetSkill(mobile, MAGERY) * 4;
+	if ( duration > 480 )
+			duration := 480;
+	endif
+		
 	return 1;
 endprogram

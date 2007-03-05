@@ -1,6 +1,4 @@
-/* $Id$
- *
- */
+// $Id$
 
 use uo;
 use os;
@@ -22,7 +20,6 @@ include ":magery:spells";
  * Returns 0 if the spell name is invalid.
  *
  */
-  
 function MS_SpellNameToId(spell_name)
 	var spellex_cfg := ReadConfigFile(":magery:spells_ex");
 	var cfg_elem := spellex_cfg["NameToId"];

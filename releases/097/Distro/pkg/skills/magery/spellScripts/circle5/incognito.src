@@ -1,12 +1,10 @@
+// $Id$
+
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
-include ":timedscripts:timedScripts";
 include ":timedscripts:timedScripts";
 
 program SpellScript_Incognito(params)

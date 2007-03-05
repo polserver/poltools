@@ -1,17 +1,11 @@
-/*
- * $Id$
- *
- */
+// $Id$
 
 use uo;
 use os;
 
+include ":magery:spells";
 include ":attributes:attributes";
 include ":timedscripts:timedScripts";
-include ":magery:spells";
-include ":magery:spellSounds";
-include "include/client";
-include "include/sounds";
 
 program SpellScript_Cunning(params)
 	var mobile := params[1];

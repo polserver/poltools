@@ -1,19 +1,15 @@
+// $Id$
+
 /*
- * $Id$
- *
  * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points,
  * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each.
  * Lasts until cast again.
- *
  */
 
 use uo;
 use os;
 
-include "include/client";
-include "include/sounds";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":attributes:attributes";
 include ":damage:damage";
 

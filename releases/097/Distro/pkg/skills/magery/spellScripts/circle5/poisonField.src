@@ -1,11 +1,12 @@
+// $Id$
+
 use uo;
 use os;
 
-include "include/facings";
 include ":magery:spells";
-include ":magery:spellSounds";
 include ":magery:fields";
 include ":attributes:attributes";
+include "include/facings";
 
 program SpellScript_PoisonField(params)
 	var mobile := params[1];
