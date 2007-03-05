@@ -23,7 +23,7 @@ CONST ADV_DISABLE	:= 0x4; // 4 - because the default is ADV_ALL.
 var g_skill_debug	:= 0;
 
 /*
- * SkillCheck(mobile, attrib_name, difficulty, award_points, advance_flags)
+ * SkillCheck(mobile, attrib_name, difficulty, award_diff, advance_flags)
  *
  * Purpose
  * Performs a skill check on an attribute and performs skill and stat advancements.

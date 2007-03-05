@@ -170,7 +170,7 @@ program SpellStarter(params)
 		
 		// Get target if there is no NPC target and Target is !"none" and !"notarget_area" and not error
 		var cfg_targ := GetConfigString(spell_elem, "Target");
-		if ( !targ && cfg_targ != "none" && cfg_targ != "notarget_area" && cfg_targ == error )
+		if ( !targ && cfg_targ != "none" && cfg_targ != "notarget_area" )
 			// Get target options
 			var opts := 0; // 0 don't check LOS, noto is neutral
 			var check_los := CInt(GetConfigInt(spell_elem, "CheckLOS"));
@@ -214,7 +214,12 @@ program SpellStarter(params)
 			endif
 		endif
 
-		// Note: Took this out because no script ever sends events and it's causing delays.
+		// Note: On OSI, all spells have an equal chance to improve eval int
+		// It may be useful to have config options so each spell can define
+		// if it wants to raise this, and with what difficulty.
+		SkillCheck(mobile, EVALUATING_INTELLIGENCE, -1);
+
+		// Note: Took this out because no script ever sends events
 		// Loop here and wait for events from the script
 		//var ev;
 		//while ( script.pid && !ev )

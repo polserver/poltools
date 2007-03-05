@@ -23,15 +23,18 @@ program SpellScript_MagicArrow(params)
 		return 0;
 	endif
 
+	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// Base damage is a decimal number in between min and max damage
-	var min_damage := CInt(GetConfigInt(info.spell_config, "MinBaseDamage"));
-	var max_damage := CInt(GetConfigInt(info.spell_config, "MaxBaseDamage"));
+	var min_damage := GetConfigInt(info.spell_config, "MinBaseDamage");
+	var max_damage := GetConfigInt(info.spell_config, "MaxBaseDamage");
 	var base_damage := min_damage + (CDbl(RandomInt(CInt((max_damage - min_damage) * 10)) + 1) / 10);
 	var damage := MS_GetSpellDamage(mobile, targ, base_damage);
 	ApplyDamageEX(targ, damage, info.damage_type, mobile);
+
+	SkillCheck(mobile, EVALUATING_INTELLIGENCE, -1);
 
 	return 1;
 endprogram

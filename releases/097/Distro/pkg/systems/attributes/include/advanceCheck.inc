@@ -132,7 +132,7 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 endfunction
 
 /*
- * CheckSkillAdvance(mobile, stat_name, stat_mult)
+ * CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
  *
  * Purpose
  * Does an advancement check on a stat and considers skill locks.
