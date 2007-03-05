@@ -25,7 +25,6 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 				if ( object )
 					// If there is no SetDuration method, set it manually
 					if ( object.SetDuration(duration) == error && mobile )
-						Print("No duration, setting manually.");
 						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
 					endif
 
@@ -55,7 +54,6 @@ function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="
 				if ( object )
 					// If there is no SetDuration method, set it manually
 					if ( object.SetDuration(duration) == error && mobile )
-						Print("No duration, setting manually.");
 						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
 					endif
 

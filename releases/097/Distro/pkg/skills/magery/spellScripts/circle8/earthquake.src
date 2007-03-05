@@ -21,11 +21,15 @@ program SpellScript_Earthquake(params)
 	var damage;
 	
 	// Get all targets in area excluding party and self. Damaged is divided by number of valid targets.
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
-	var exclude := GetObjProperty(mobile, "#Party");
-	exclude.Append(mobile.serial);
-	var targs := MS_GetVaildTargets(mobile, area_size, 1, exclude);
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var excludes := GetObjProperty(mobile, "#Party");
+	if ( excludes == error )
+			excludes := array{mobile.serial};
+	else
+			excludes.Append(mobile.serial);
+	endif
 
+	var targs := MS_GetValidTargets(mobile, area_size, 1, excludes);
 	foreach vtarg in targs
 		base_damage := (CDbl(AP_GetVital(vtarg, HITS)) / 3);
 		damage := MS_GetSpellDamage(mobile, vtarg, base_damage);

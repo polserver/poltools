@@ -20,5 +20,5 @@ program SpellScript_Paralyze(params)
 
 	// Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
 	var duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3);
-	TS_StartTimer(targ, "Paralyze", duration);
+	TS_StartTimer(targ, "Paralysis", duration);
 endprogram

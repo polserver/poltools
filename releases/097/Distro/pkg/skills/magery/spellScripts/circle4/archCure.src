@@ -17,29 +17,39 @@ program SpellScript_ArchCure(params)
 
 	// TODO: Get non-hostile blues instead of people just in party
 	// Get all targets in area that are in party.
-	var area_size := CInt(GetConfigInt(info.spell_config, "AreaSize"));
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
 	var includes := GetObjProperty(mobile, "#Party");
-	var targs := MS_GetVaildTargets(mobile, area_size, 1, "", includes);
+	if ( includes == error )
+			includes := array{mobile.serial};
+	else
+			includes.Append(mobile.serial);
+	endif
 
+	var friendlies := MS_GetFriendlies(mobile, area_size);
+	if ( friendlies != error )
+			includes += friendlies;
+	endif
+	
+	var targs := MS_GetValidTargets(mobile, area_size, 1, "", includes);
 	foreach vtarg in targs
 		// Get poison level
-		// Note: Unlike OSI, we can have multiple poisons so we'll just grab the highest one.
 		var poison_names := TS_GetTimerNames(vtarg, "P");
-		var poison_level := 0;
+		var poison_level := 1;
+		
 		foreach timer_name in ( poison_names )
-			var timer_info := TS_GetTimerInfo(mobile, timer_name);
+			var timer_info := TS_GetTimerInfo(vtarg, timer_name);
 			if ( timer_info.level > poison_level )
 					poison_level := timer_info.level;
 			endif
 		endforeach
-		
-		//% Chance to cure: (Magery * 0,75) + (110 - (Poison level * 33)) .
-		var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
+	
+		//% Chance to cure: (Magery * 1.42) + (110 - (Poison level * 33)) (87% chance for level 5 poison at GM magery)
+		var chance := CInt(AP_GetSkill(mobile, MAGERY) * 1.42) + (110 - (poison_level * 33));
 		if ( chance >= RandomInt(100) + 1 )
-			// Should be enough to cure all poison.
-			TS_CurePoison(vtarg, 10000, "P", 10);
+			// NOTE: There is still a 1 in 100 chance that this wont work..
+			TS_CurePoison(vtarg, 10000, "P", poison_level);
 		endif
-
+		
 		MS_PlaySpellGFX(info.spell_id, vtarg, mobile);
 	endforeach
 
