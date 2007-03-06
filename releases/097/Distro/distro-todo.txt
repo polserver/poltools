@@ -1,0 +1,38 @@
+# $Id$
+
+Monkey work:
+ - NPCs
+ - Items
+ - Placing world items
+ - Spawning
+
+
+Systems:
+ - Guilds?
+ - Crafting?
+ - Spawning?
+
+
+
+Skills:
+ - cooking
+ - detect hidden
+ - fishing
+ - forensic evaluation
+ - herding
+ - inscription
+ - item identification
+ - lockpicking
+ - meditation
+ - musicianship
+ - poisoning
+ - remove trap
+ - tailoring
+ - taming
+ - taste identification
+ - tinkering
+ - tracking
+ - veterinary
+
+
+Stat advancement for skills
