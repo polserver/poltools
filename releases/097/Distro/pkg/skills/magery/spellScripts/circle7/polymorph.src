@@ -6,17 +6,17 @@ use os;
 include ":magery:spells";
 include ":timedscripts:timedScripts";
 
-// Maybe make some colors random?
+// struct of arrays{ objtype, color }
 var polymorph_gfx := struct{ "black bear"		:= array{ 0xD3, 0 },
                              "grizzly bear"	:= array{ 0xD4, 0 },
                              "polar bear"		:= array{ 0xD5, 0 },
                              "chicken"			:= array{ 0xD0, 0 },
-                             "daemon"				:= array{ 0xD0, 0 },	// fix this
+                             "daemon"				:= array{ 0x09, 0 },
                              "dog"					:= array{ 0xD9, 0 },
                              "ettin"				:= array{ 0x2, 0 },
-                             "gargoyle"			:= array{ 0x2, 0 },	// fix this
-                             "gorilla"			:= array{ 0x2, 0 }, // fix this
-                             "human female"	:= array{ 0x190, 1024 }, // fix this
+                             "gargoyle"			:= array{ 0x4, 0 },
+                             "gorilla"			:= array{ 0x1d, 0 },
+                             "human female"	:= array{ 0x191, 1024 },
                              "human male"		:= array{ 0x190, 1024 },
                              "lizard man"		:= array{ 0x21, 0 },
                              "ogre"					:= array{ 0x1, 0 }, 

@@ -15,18 +15,13 @@ program SpellScript_BladeSpirit(params)
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
-/*
-fights anything within 6 tile radius
-up to 15 damage per hit
-targets are chosen based on (Strength + Tactics)/distance
-closest, strongest are highest priority
-damage is forced
-*/
-
 	// Duration = 120 seconds
 	var duration := 120;
 	
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
+	var summoned := CreateNPCFromTemplate(":brainai:bladespirit", targ.x, targ.y, targ.z);
+	if ( summoned )
+		SetObjProperty(summoned, "SummonedBy", mobile.serial);
+	endif
 	
 	return 1;
 endprogram
