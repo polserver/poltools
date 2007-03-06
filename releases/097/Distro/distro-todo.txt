@@ -1,38 +1,40 @@
 # $Id$
 
 Monkey work:
- - NPCs
- - Items
- - Placing world items
+ - NPC definitions
+ - Item definitions
+ - World item placement (doors, signgs) I think a fairly complete one is floating around somewhere
  - Spawning
 
 
 Systems:
- - Guilds?
- - Crafting?
- - Spawning?
-
+ - Guilds - 3/4s completed?
+ - Crafting - ?
+ - Spawning - almost completed?
 
 
 Skills:
- - cooking
- - detect hidden
- - fishing
- - forensic evaluation
- - herding
- - inscription
- - item identification
- - lockpicking
- - meditation
- - musicianship
- - poisoning
- - remove trap
- - tailoring
- - taming
- - taste identification
- - tinkering
- - tracking
- - veterinary
+ - magery - tekproxy: add summons, tweak skill gains, some documentation
+ - cooking - unassigned
+ - detect hidden - unassigned
+ - fishing - unassigned
+ - forensic evaluation - unassigned
+ - herding - unassigned
+ - inscription - unassigned
+ - item identification - unassigned
+ - lockpicking - unassigned
+ - meditation - unassigned
+ - musicianship - unassigned
+ - poisoning - unassigned
+ - remove trap - unassigned
+ - tailoring - unassigned
+ - taming - unassigned
+ - taste identification - unassigned
+ - tinkering - unassigned
+ - tracking - unassigned
+ - veterinary - unassigned
+ - other skills ?
 
 
 Stat advancement for skills
+BrainAI script for merchants 

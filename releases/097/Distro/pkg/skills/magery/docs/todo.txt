@@ -1,10 +1,7 @@
 TODO:
-Make spell resistance changes mentioned in the forums
-  Should the decrease in duration only be awarded with a successfull resisting spells check?
-Create brain for summoned NPCs, use random NPCs just for testing
-Blade spirit/summoned creatures must not have corpses
-Cleaner way to dispel creatures would be nice, something that doesn't show damage, or getting exact amount needed to kill
-
+Add resistance skill gain
+Create brainai scripts for summoned creatures
+Firefield/Poison field needs to give gains to resist
 
 TODO - not in magery package:
 Modify sendstats packet hook to correctly send resistances for debuging?

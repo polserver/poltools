@@ -16,13 +16,29 @@ program SpellScript_Curse(params)
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif
+
+	// TODO: skill gain is horribly easy, talk to Austin
+	SkillCheck(mobile, RESISTING_SPELLS, -1);
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
-	// Duration: 120% Magery
+	// Duration: 120% Magery, up to 144 seconds
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
-	TS_StartTimer(targ, "Curse", duration, 0, mobile);
+	if ( duration > 144 )
+			duration := 144;
+	endif
 	
+	// Decrease % = (Caster Magery / 10) + 1) - (Target Resist / 15)
+	// Note: OSI says resist scales down potency but doesn't explain HOW
+	var percent := CDbl((AP_GetSkill(mobile, MAGERY) / 10) + 1) - (AP_GetSkill(targ, RESISTING_SPELLS) / 15);
+	var dex_points := CInt(AP_GetStat(targ, DEXTERITY) * (percent / 100));
+	var int_points := CInt(AP_GetStat(targ, INTELLIGENCE) * (percent / 100));
+	var str_points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
+	
+	TS_StartTimer(targ, "Clumsy", duration, dex_points, mobile);
+	TS_StartTimer(targ, "FeebleMind", duration, int_points, mobile);
+	TS_StartTimer(targ, "Weaken", duration, str_points, mobile);
+
 	return 1;
 endprogram

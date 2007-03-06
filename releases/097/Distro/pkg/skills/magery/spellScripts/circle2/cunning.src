@@ -20,9 +20,8 @@ program SpellScript_Cunning(params)
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
-	// Dex increase % = (Eval / 10 + 1)
-	var eval := CInt(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE));
-	var percent := CDbl(eval / 10) + 1;
+	// Int increase % = (Eval / 10 + 1)
+	var percent := CDbl(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 1;
 	var points := CInt(AP_GetStat(targ, INTELLIGENCE) * (percent / 100));
 	
 	// Duration: ((Eval / 5) + 1) * 6
