@@ -151,6 +151,7 @@ program SpellStarter(params)
 
 	var difficulty := spell_elem.Difficulty;
 	if ( difficulty == error )
+		MS_ReportText("Error: No difficulty set for spell:"+spell_elem.Name+". Using -1", MS_REPORT_SYSLOG);
 		difficulty := -1;
 	endif
 
@@ -162,7 +163,7 @@ program SpellStarter(params)
 		var info := struct;
 		info.+script := spell_elem.Script;
 		info.+attribute := attribute;
-		info.+skill_check := skill_check;
+		info.+difficulty := difficulty;
 		info.+pid := GetPid();
 		info.+spell_id := spell_id;
 		info.+spell_config := spell_elem;

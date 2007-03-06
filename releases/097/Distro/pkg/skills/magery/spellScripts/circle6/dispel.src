@@ -14,9 +14,16 @@ program SpellScript_Dispel(params)
 	params := 0;
 
 	if ( GetObjProperty(targ, "SummonedBy") )
+		var dispel_difficulty := CInt(info.difficulty + (AP_GetSkill(mobile, MAGERY) / 10));
+		
 		// TODO: Check resistance
 		if ( 1 )
-			ApplyDamageEX(targ, AP_GetVitalMaximumValue(targ, HITS) * 100 , DMG_FORCED, mobile);
+			// May want to use DispellKill and change npcdeath accordingly to properly track how targ died
+			if ( targ.IsA(POLCLASS_NPC) )
+				SetObjProperty(targ, "GuardKill", 1);
+			endif
+		
+			ApplyRawDamage(targ, CInt(AP_GetVitalMaximumValue(targ, "Hits")));
 			MS_PlaySpellSFX(info.spell_id, targ);
 			MS_PlaySpellGFX(info.spell_id, targ, mobile);
 		endif

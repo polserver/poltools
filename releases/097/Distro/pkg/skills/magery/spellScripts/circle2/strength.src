@@ -21,8 +21,7 @@ program SpellScript_Strength(params)
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// Str increase % = (Eval / 10 + 1)
-	var eval := CInt(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE));
-	var percent := CDbl(eval / 10) + 1;
+	var percent := CDbl(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 1;
 	var points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
 	
 	// Duration: 120% Magery seconds

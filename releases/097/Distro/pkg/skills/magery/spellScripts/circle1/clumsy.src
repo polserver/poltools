@@ -23,9 +23,7 @@ program SpellScript_Clumsy(params)
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
 	// Dex decrease % = (Eval / 10) + 8) - (Resist / 10)
-	var eval := CInt(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE));
-	var resist := CInt(AP_GetSkill(targ, RESISTING_SPELLS));
-	var percent := CDbl((eval / 10) + 8) - (resist / 10);
+	var percent := CDbl((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 8) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10);
 	var points := CInt(AP_GetStat(targ, DEXTERITY) * (percent / 100));
 	
 	// Duration: ((Eval / 5) + 1) * 6
