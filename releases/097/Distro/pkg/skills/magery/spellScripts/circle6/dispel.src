@@ -5,6 +5,7 @@ use os;
 
 include ":magery:spells";
 include ":attributes:attributes";
+include ":damage:damage";
 
 program SpellScript_Dispel(params)
 	var mobile := params[1];
@@ -12,14 +13,14 @@ program SpellScript_Dispel(params)
 	var targ := params[3];
 	params := 0;
 
-	if ( !MS_MobileCheck(mobile, targ) )
-		return 0;
+	if ( GetObjProperty(targ, "SummonedBy") )
+		// TODO: Check resistance
+		if ( 1 )
+			ApplyDamageEX(targ, AP_GetVitalMaximumValue(targ, HITS) * 100 , DMG_FORCED, mobile);
+			MS_PlaySpellSFX(info.spell_id, targ);
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
+		endif
 	endif
 
-	MS_PlaySpellSFX(info.spell_id, targ);
-	MS_PlaySpellGFX(info.spell_id, targ, mobile);
-
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
-	
 	return 1;
 endprogram
