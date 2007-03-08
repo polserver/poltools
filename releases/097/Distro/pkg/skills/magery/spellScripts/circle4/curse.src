@@ -2,6 +2,7 @@
 
 use uo;
 use os;
+use math;
 
 include ":magery:spells";
 include ":attributes:attributes";
@@ -17,9 +18,28 @@ program SpellScript_Curse(params)
 		return 0;
 	endif
 
-	// TODO: skill gain is horribly easy, talk to Austin
-	SkillCheck(mobile, RESISTING_SPELLS, -1);
-	
+	// Note: Skill gain is a little too easy
+	var resist_skill := AP_GetSkill(mobile, RESISTING_SPELLS);
+	Print("diff b:"+(15 * (resist_skill / 100.0)));
+	var diff := info.difficulty + (15 * (resist_skill / 100.0));
+	var adv_diff_bonus := info.difficulty + CInt(((RandomInt(150) + 1.0) - (15 * (resist_skill / 100.0) * 10)) / 10.0);
+	if ( adv_diff_bonus < 0 )
+			adv_diff_bonus := 0;
+	endif
+	var adv_diff := resist_skill + adv_diff_bonus;
+	Print("diff:"+diff+" adv_diff:"+adv_diff);
+/*
+	for i := 1 to 1000
+		diff := info.difficulty + (15 * (resist_skill / 100.0));
+		adv_diff_bonus := info.difficulty + CInt(((RandomInt(150) + 1.0) - (15 * (resist_skill / 100.0) * 10)) / 10.0);
+		if ( adv_diff_bonus < 0 )
+				adv_diff_bonus := 0;
+		endif
+		adv_diff := resist_skill + adv_diff_bonus;
+		SkillCheck(mobile, RESISTING_SPELLS, diff, adv_diff);
+		SleepMS(2);
+	endfor
+*/
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 	
