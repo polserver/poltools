@@ -1,40 +1,97 @@
 # $Id$
 
+This is the current TODO list for the distro. Right now this file is new and I'm (tekproxy) the only one who's updated it, and I mostly stuck to magery so I'm not the best person to write this. :) If anyone else feels like editing the crap out of this file, you just think you can do better, or you want to add something, please do!
+
+
 Monkey work:
  - NPC definitions
+    Should we go with OSI NPC definitions? I intend to write a quick database app so my friends
+    can input NPC info from stratics and from there I could dump most of the NPC info into npcdesc.cfg files
+
  - Item definitions
- - World item placement (doors, signgs) I think a fairly complete one is floating around somewhere
+    This would take a little more time to organize once input into a database.
+
+ - World item placement (doors, signs)
+    I know one exists and it's probably just a copy/paste job
+
  - Spawning
+    Does anyone know the OSI spawn locations well? I may know someone who can help with this.
 
 
 Systems:
- - Guilds - 3/4s completed?
- - Crafting - ?
- - Spawning - almost completed?
+ - Guilds
+    MontuZ estimates 3/4 completed
+
+ - Crafting
+    MuadDib is busy making huge piles of money at work
+
+ - Spawning
+    Austin said "almost complete"
 
 
 Skills:
- - magery - tekproxy: add summons, tweak skill gains, some documentation
+ - magery
+    add summons, tweak skill gains, some documentation
+
  - cooking - unassigned
+
  - detect hidden - unassigned
+
  - fishing - unassigned
+
  - forensic evaluation - unassigned
+
  - herding - unassigned
+
  - inscription - unassigned
+
  - item identification - unassigned
+
  - lockpicking - unassigned
+
  - meditation - unassigned
+    I was thinking this could be a script that runs on a player and would work like OSI works by improving mana regeneration rates
+
  - musicianship - unassigned
+
  - poisoning - unassigned
+
  - remove trap - unassigned
- - tailoring - unassigned
+
+ - tailoring - Someone is contributing this
+
  - taming - unassigned
+    Are we doing control slots?
+
  - taste identification - unassigned
+
  - tinkering - unassigned
+
  - tracking - unassigned
+
  - veterinary - unassigned
+
  - other skills ?
 
 
-Stat advancement for skills
-BrainAI script for merchants 
+
+
+Stat advancement for skills is disabled, but looks mostly complete
+
+BrainAI script for merchants, how far along is this?
+  - What about skill training?
+
+pkg/items/clothing/config/itemdesc.cfg needs VendorBuy/Sell values, possibly others
+
+Corpses don't decay. Maybe in corpseControl.src:
+	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
+		return 0;
+	endif
+
+Lockpicking and magic unlock both require locks to have different difficulties. This could easily be done with a CProp on every lockable item, something like LockLevel, and it could be an integer from 1 to 100. Does anyone else have a better idea?
+
+
+Does anyone else think skill gain is either too easy or too hard? I'm having difficulty with scenarios where I'd want a skill to raise once every few hundred tries, and after about 30 skill only gain in 0.1 increments (instead of the occasional 0.3, 0.2).
+
+
+In advanceCheck.inc it makes two checks to see if skill gain should happen. The first is made with a pass_chance, which is calculated in skillCheck.inc. If There was more control over what pass_chance would be, possibly making it an optional paramater for SkillCheck()... The second check is made using an intelligence bonus and a task modifier. I think the bonus should depend on the skill. Swords would be strength, magery int, etc... This is what the OSI website says. I really don't want to ruff up Austin's code since he knows his way around it better. Maybe I am missing something? Maybe if each skill had a difficulty that somehow modified skill checks. That way it'd be easier to configure for new people.
