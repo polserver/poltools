@@ -217,7 +217,7 @@ program SpellStarter(params)
 		// Note: On OSI, all spells have an equal chance to improve eval int
 		// It may be useful to have config options so each spell can define
 		// if it wants to raise this, and with what difficulty.
-		SkillCheck(mobile, EVALUATING_INTELLIGENCE, -1);
+		//SkillCheck(mobile, EVALUATING_INTELLIGENCE, -1);
 
 		// Note: Took this out because no script ever sends events
 		// Loop here and wait for events from the script

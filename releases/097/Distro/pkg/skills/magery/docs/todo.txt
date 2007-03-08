@@ -1,10 +1,11 @@
 TODO:
-Add resistance skill gain
+Resistance skill gain must be added in
+Eval skill gain is too easy
 Create brainai scripts for summoned creatures
-Firefield/Poison field needs to give gains to resist
+
 
 TODO - not in magery package:
-Modify sendstats packet hook to correctly send resistances for debuging?
+Modify sendstats packet hook to correctly send resistances for debuging
 Traps set on containers are not run when opened (needs to check/run scripts in use script)
   Make sure I'm actually using the code correctly...
 When teleported into a tile with a walk-on script, it might not be activated
@@ -12,10 +13,6 @@ Yukiko says timed scripts are loopy when it comes to logging off and back on
 In damage:damage, ApplyDamageEx converts all damage to int when ApplyDamage says it can handle real numbers
 Magic un/lock is a little weird since there are no lock levels..
 
-Corpses don't decay. Maybe in corpseControl.src:
-	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
-		return 0;
-	endif
 
 Would be nice:
 Poison prevents bandages from healing damage, heal spells will also not work.
@@ -74,7 +71,7 @@ mana drain
 recall
 
 Circle 5
-blade spirits - unstarted
+blade spirits
 dispel field
 incognito
 magic reflection
@@ -84,7 +81,7 @@ poison field
 summon creature - unstarted
 
 Circle 6
-dispel - unstarted
+dispel
 energy bolt
 explosion
 invisibility

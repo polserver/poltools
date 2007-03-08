@@ -142,13 +142,14 @@ endfunction
  * skill_name:	Name of the skill to check.
  * award_diff:	Difficulty to use for advancement award.
  * pass_chance:	Chance of getting a gain check.
+ * pretend: Do not actually make any skill changes at the end.
  *
  *
  * Return value
- * Returns 1 on success, 0 on failure
+ * Returns amount advanced on success, 0 on failure
  *
  */
-function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
+function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:=0)
 	var skill_id := AP_AttributeNameToSkillId(skill_name);
 	var skill_lock_state := SLPH_GetLockState(mobile, skill_id);
 
@@ -160,7 +161,9 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 	var skill_cap := AP_GetSkillCap(skill_name);
 	var true_skill := AP_GetTrueSkill(mobile, skill_name);
 	var limit_left := CDbl(skill_cap - true_skill);
-	var adv_check := RandomInt(100) + 1;
+	
+	// Any number from 0.01 to 100.00, so there can be a greater possibility of difficulty
+	var adv_check := (RandomInt(10000) + 1.0) / 100.0;
 
 	var settings := AP_GetSettingsCfgElem("Skills");
 	var multiplier := CDbl(settings.GainSpeed);
@@ -297,8 +300,10 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 		SleepMS(10);
 	endwhile
 
-	AP_SetTrueSkill(mobile, skill_name, new_skill);
+	if ( !pretend )
+		AP_SetTrueSkill(mobile, skill_name, new_skill);
+	endif
 
-	return 1;
+	return advance;
 
 endfunction
