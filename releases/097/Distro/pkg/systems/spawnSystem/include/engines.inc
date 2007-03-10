@@ -81,5 +81,5 @@ endfunction
  *
  */
 function SS_GetEnginePath(engine_name)
-	return ":spawnsystem:engines/"+engine_name+"/spawncycle";
+	return ":spawnsystem:engines/"+engine_name+"/spawnCycle";
 endfunction
