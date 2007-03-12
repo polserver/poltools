@@ -624,6 +624,15 @@ function ViewGuild(who, guild_id)
 			break;
 		111:
 			// Remove Alliance
+			if ( !YesNo(who, "Are you sure you would like to end your alliance with "+guild.GetProp("Name")+"?", "Yes", "No") )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			else
+				if ( chr_guild.RemoveAllyGuild(guild) )
+				SendSysMessage(who, "You are no longer allied to "+guild.GetProp("Name")+".");	
+				endif
+				return 1;
+			endif
 			break;
 		112:
 			// Request Alliance
@@ -665,10 +674,21 @@ function ViewGuild(who, guild_id)
 						return 1;
 					endif
 				endif
+			else
+				SendSysMessage(who, "You can not form an alliance with a guild from an opposing faction.");
 			endif
 			break;
 		121:
 			// Remove War
+			if ( !YesNo(who, "Are you sure you would like to end your war with "+guild.GetProp("Name")+"?", "Yes", "No") )
+				SendSysMessage(who, "Aborted.");
+				return 0;
+			else
+				if ( chr_guild.RemoveEnemyGuild(guild) )
+				SendSysMessage(who, "You are no longer at war with "+guild.GetProp("Name")+".");	
+				endif
+				return 1;
+			endif
 			break;
 		122:
 			// Request War
@@ -708,6 +728,8 @@ function ViewGuild(who, guild_id)
 						return 1;
 					endif
 				endif
+			else
+				SendSysMessage(who, "You can not go to war with a guild from the same faction.");
 			endif
 			break;
 		default:
@@ -864,9 +886,9 @@ endfunction
 function SetGuildWebsite(who)
 
 	var guild := who.guild;
-	var guild_charter := guild.GetProp("Website");
+	var guild_website := guild.GetProp("Website");
 
-	if ( guild_charter == "NONE" )
+	if ( guild_website == "NONE" )
 		var new_website := RequestInput(who, who.backpack, "Enter the new guild website (50 characters max):");
 		if ( !new_website )
 			SendSysMessage(who, "Aborted.");
