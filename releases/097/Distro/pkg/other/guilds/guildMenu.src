@@ -958,12 +958,12 @@ function KickMember(character, member)
 	endif
 
 	if ( char_rank == CInt(permissions.RemoveRonin) )
-		if ( member_rank >> 1 )
+		if ( member_rank > 1 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
 	elseif ( char_rank == CInt(permissions.RemoveMember) )
-		if ( member_rank >> 2 )
+		if ( member_rank > 2 )
 			SendSysMessage(character, "Aborted. You cannot kick this member.");
 			return 0;
 		endif
@@ -1006,20 +1006,19 @@ function KickMember(character, member)
 
 endfunction
 
-// TODO: Still have to add this to member profile!
 function PromoteMember(character, member)
 
 	var char_rank := GetGuildRank(character);
 	var member_rank := GetGuildRank(member);
 	var not_allowed := array{1, 2, 4};
 
-	if ( char_rank << member_rank )
+	if ( char_rank < member_rank )
 		SendSysMessage(character, "Aborted. You cannot promote this member.");
 		return 0;
 	endif
 
 	if ( char_rank == CInt(permissions.Promote) )
-		if ( member_rank >> 2 )
+		if ( member_rank > 2 )
 			SendSysMessage(character, "Aborted. You cannot promote this member.");
 			return 0;
 		endif
@@ -1038,7 +1037,6 @@ function PromoteMember(character, member)
 
 endfunction
 
-// TODO: Still have to add this to member profile!
 function DemoteMember(character, member)
 
 	var char_rank := GetGuildRank(character);
@@ -1051,7 +1049,7 @@ function DemoteMember(character, member)
 	endif
 
 	if ( char_rank == CInt(permissions.Demote) )
-		if ( member_rank >> 2 )
+		if ( member_rank > 2 )
 			SendSysMessage(character, "Aborted. You cannot demote this member.");
 			return 0;
 		endif
