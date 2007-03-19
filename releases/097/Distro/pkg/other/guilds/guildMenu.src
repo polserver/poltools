@@ -79,8 +79,8 @@ program Guild_Menu(who)
 	GFAddButton(gump, 225, 93, 2117, 2118, GF_CLOSE_BTN, 10);
 
 	if ( who_rank == CInt(permissions.LeaderRank) )
-	GFTextLine(gump, 245, 110, TXT_CLR_BG, "Disband Guild");
-	GFAddButton(gump, 225, 113, 2117, 2118, GF_CLOSE_BTN, 11);
+		GFTextLine(gump, 245, 110, TXT_CLR_BG, "Disband Guild");
+		GFAddButton(gump, 225, 113, 2117, 2118, GF_CLOSE_BTN, 11);
 	endif
 
 	var result := GFSendGump(who, gump);
@@ -233,17 +233,46 @@ function ViewMember(who, member)
 		GFTextLine(gump, 105, 90, TXT_CLR_BG+1, "Offline");
 	endif
 
+	if ( who != member )
+		GFTextLine(gump, 25, 130, TXT_CLR_BG, "Functions");
+
+		GFTextLine(gump, 45, 150, TXT_CLR_BG, "Kick");
+		GFAddButton(gump, 25, 153, 2117, 2118, GF_CLOSE_BTN, 120);
+
+		GFTextLine(gump, 45, 170, TXT_CLR_BG, "Promote");
+		GFAddButton(gump, 25, 173, 2117, 2118, GF_CLOSE_BTN, 121);
+
+		GFTextLine(gump, 45, 190, TXT_CLR_BG, "Demote");
+		GFAddButton(gump, 25, 193, 2117, 2118, GF_CLOSE_BTN, 122);		
+	endif
+
+
 	// Previous
 	GFAddButton(gump, 25, 255, 2322, 2323, GF_CLOSE_BTN, 555);
 
 	var result := GFSendGump(who, gump);
 
-	if ( result[0] == 0 )
-		return 0;
-	elseif ( result[0] == 555 )
-		ShowMembers(who, guild_id);
-		return 1;
-	endif
+	case ( result[0] )
+		0:
+			return 0;
+			break;
+		555:
+			ShowMembers(who, guild_id);
+			return 1;
+			break;
+		120:
+			KickMember(who, member);
+			return 1;
+			break;
+		121:
+			PromoteMember(who, member);
+			return 1;
+			break;
+		122:
+			DemoteMember(who, member);
+			return 1;
+			break;
+	endcase
 
 endfunction
 
@@ -917,7 +946,6 @@ function SetGuildWebsite(who)
 
 endfunction
 
-// TODO: Still have to add this to member profile!
 function KickMember(character, member)
 
 	var char_rank := GetGuildRank(character);

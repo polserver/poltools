@@ -13,6 +13,8 @@ program Logon(who)
 	var gm_serial := chr_guild.GetProp("Master");
 
 	if ( CInt(who.serial) == CInt(gm_serial) )
+		// Logon script runs critical, that's why I do this.
+		// At least I think that's why, lol.
 		Start_Script(":guilds:requestAllyWar", who);
 	endif
 
