@@ -2,6 +2,7 @@
  * $Id$
  *
  */
+
 use uo;
 use os;
 
@@ -14,7 +15,6 @@ program TimedScript_EndInvisibility(params)
 	
 	EraseObjProperty(defender, "Invisibility");
 	defender.hidden := 0;
-	
 	
 	return 1;
 endprogram
