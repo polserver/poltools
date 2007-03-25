@@ -223,27 +223,6 @@ function MS_AdjustSpellPoints(mage, targ, points)
 endfunction
 
 /*
- * MS_ReleaseScript(pid)
- *
- * Purpose
- * Informs the spell starter that the caster can cast another spell.
- * This allows the spell script to continue running without blocking future castings.
- *
- * Parameters
- * pid:	PId to the spell starter that started the spell.
- *
- * Return value
- * Returns 1
- *
- */
-function ReleaseScript(pid)
-	var process := GetProcess(pid);
-	process.SendEvent("done");
-
-	return 1;
-endfunction
-
-/*
  * MS_GetSpellDamage(mobile, targ, base_damage)
  *
  * Purpose
@@ -286,7 +265,6 @@ function MS_GetSpellDamage(mobile, targ, base_damage)
 	var total_damage := CInt(base_damage * eval_int_bonus * ((CDbl(damage_increase) / 100) + 1));
 	return CDbl(total_damage);
 endfunction
-
 
 /*
  * MS_MobileCheck(mobile, targ)
