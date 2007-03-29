@@ -265,9 +265,9 @@ function GetArmorHit(byref d_info)
 		return 0;
 	endif
 
-	var best_armor := 0;
+	var best_armor := struct{"ar" := 0};
 	foreach item in ( armor_hit )
-		if ( item.ar > best_armor.ar )
+		if ( item.ar > best_armor )
 			best_armor := item;
 		endif
 		SleepMS(2);
