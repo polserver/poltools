@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //  name:    Send Stats Packet Hook
-//  version: 1.0a
+//  version: 1.1a
 //  author:  MuadDib
 //
 //  Purpose:  This hooks the core 0x11 stats packet, and rewrites it for sending the char all the
@@ -29,6 +29,7 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":packetconfig:settings";
 include "include/client";
+include ":damage:damage";
 
 program sendStats()
 	Print( "INSTALLING: Outgoing Status PH..." );
@@ -43,7 +44,7 @@ var STATLOCK:= 0;
 
 exported function HandleSendStats( character, byref packet )
 	var enabled := QueryConfigInt("Enabled", ":packetconfig:packetconfig", "StatusBar");
-	if( !enabled )
+	if ( !enabled )
 		return 0;
 	endif
 	MODE := QueryConfigInt("Mode", ":packetconfig:packetconfig", "StatusBar");
@@ -52,10 +53,10 @@ exported function HandleSendStats( character, byref packet )
 	// Easiest method to decide which way to handle the packet. We could do this based on
 	// a Client version check too, but that would not be recommended since versions can be
 	// spoofed with software.
-	case(MODE)
+	case ( MODE )
 		0: return 0;
-		3: HandleStatPet(character, packet); if( STATLOCK ) SendStatLock(character); endif
-		4: HandleExtended(character, packet); if( STATLOCK ) SendStatLock(character); endif
+		3: HandleStatPet(character, packet); if ( STATLOCK ) SendStatLock(character); endif
+		4: HandleExtended(character, packet); if ( STATLOCK ) SendStatLock(character); endif
 		default: return 0;
 	endcase
 
@@ -78,15 +79,16 @@ function HandleStatPet(character, byref packet)
 	// and there is no need to send the additional info.
 	var packet_mode := packet.GetInt8(42);
 	var chk := 0;
-	case(packet_mode)
+	case ( packet_mode )
 		0: return 0;    // Base packet, so not needed
-		1: chk := 1;  // Ok, let's continue processing this
-		3: return 0;    // In case we messed up, do nothing
-		4: return 0;    // In case we messed up, do nothing
+		1:
+		3: 
+		4:
+		5: chk := 1; // Continue processing! At this time 5 is not used, but it may in the future! Thanks OSI!
 		default: return 0;   // OHHHH, mommy :o
 	endcase
 
-	if( chk )
+	if ( chk )
 		// I do not recommend pet count stuff. Should just change code
 		// to always send 0 for them, useless unless you have some form
 		// of Pet control system on your shard.
@@ -98,7 +100,7 @@ function HandleStatPet(character, byref packet)
 		// to use a cprop that is a Struct. Using the serials of each pet, and just counting
 		// the struct. OHHHHHH the options.
 		var petcnt := GetObjProperty(character, "#PetCount");
-		if( !petcnt )
+		if ( !petcnt )
 			petcnt := 0;
 		endif
 		// Change this to your liking. This is what decides how many pets they can have
@@ -106,7 +108,7 @@ function HandleStatPet(character, byref packet)
 		var petmax := AP_GetSkill(character, ANIMAL_TAMING)/15;
 		// May want higher, if you have horses and llamas counting as more than 1. That way they
 		// can always at least have a horse or llama.
-		if( !petmax )
+		if ( !petmax )
 			petmax := 1;
 		endif
 		// Sets the packet to MODE 3
@@ -114,7 +116,7 @@ function HandleStatPet(character, byref packet)
 		// Done this way due to reverse padding expected by the client
 		// Due to some backward settings, this check is required to set the Statcap
 		// in the packet.
-		if( STATCAP <= 255 )
+		if ( STATCAP <= 255 )
 		// Set the STATCAP in the packet
 			packet.SetInt8(67, STATCAP);
 		else
@@ -150,15 +152,16 @@ function HandleExtended(character, byref packet)
 	// and there is no need to send the additional info.
 	var packet_mode := packet.GetInt8(42);
 	var chk := 0;
-	case(packet_mode)
+	case ( packet_mode )
 		0: return 0;    // Base packet, so not needed
-		1: chk := 1;  // Ok, let's continue processing this
-		3: return 0;    // In case we messed up, do nothing
-		4: return 0;    // In case we messed up, do nothing
+		1:
+		3: 
+		4:
+		5: chk := 1; // Continue processing! At this time 5 is not used, but it may in the future! Thanks OSI!
 		default: return 0;   // OHHHH, mommy :o
 	endcase
 
-	if(chk)
+	if ( chk )
 		// I do not recommend pet count stuff. Should just change code
 		// to always send 0 for them, useless unless you have some form
 		// of Pet control system on your shard.
@@ -170,15 +173,16 @@ function HandleExtended(character, byref packet)
 		// to use a cprop that is a Struct. Using the serials of each pet, and just counting
 		// the struct. OHHHHHH the options.
 		var petcnt := GetObjProperty(character, "#PetCount");
-		if( !petcnt )
+		if ( !petcnt )
 			petcnt := 0;
 		endif
+		
 		// Change this to your liking. This is what decides how many pets they can have
 		// at one time unstabled.
 		var petmax := AP_GetSkill(character, ANIMAL_TAMING)/15;
 		// May want higher, if you have horses and llamas counting as more than 1. That way they
 		// can always at least have a horse or llama.
-		if( !petmax )
+		if ( !petmax )
 			petmax := 1;
 		endif
 		// Sets it to MODE 4
@@ -186,7 +190,7 @@ function HandleExtended(character, byref packet)
 		// Done this way due to reverse padding expected by the client
 		// Due to some backward settings, this check is required to set the Statcap
 		// in the packet.
-		if( STATCAP <= 255 )
+		if ( STATCAP <= 255 )
 			// Set the STATCAP in the packet
 			packet.SetInt8(67, STATCAP);
 		else
@@ -198,19 +202,58 @@ function HandleExtended(character, byref packet)
 		// Sets their current pet max count based on taming in packet
 		packet.SetInt8(69, petmax);
 
-		// These SHOULD be 1 lower for position, and using 16 not 8, but it does it wrong with core >:(
-		// Tithing should be a 32, position 84 also. SetInt16 will not pad the packet correctly is why.
-		// Instead of SetInt16(70, 5) making it 0005, it makes it 0500 if I remember right. BOOOOO
+		// Set the resistances
+		// If negative, it's 65536 plus the resistance. -10 would be 65536 + -10
+		// tekproxy: It would be nice if a few packet guides actually mentioned this...
+		var resistances := GetResistance(character);
+		
+		// Set the fire resist in the packet
+		if ( CInt(resistances[DMG_FIRE]) > 0 )
+			packet.SetInt16(70, CInt(resistances[DMG_FIRE])); 
+		else
+			packet.SetInt16(70, 0x10000 + CInt(resistances[DMG_FIRE]));
+		endif
+		
+		// Set the cold resist in the packet
+		if ( CInt(resistances[DMG_COLD]) > 0 )
+			packet.SetInt16(72, CInt(resistances[DMG_COLD])); 
+		else
+			packet.SetInt16(72, 0x10000 + CInt(resistances[DMG_COLD]));
+		endif
+		
+		// Set the poison resist in the packet
+		if ( CInt(resistances[DMG_POISON]) > 0 )
+			packet.SetInt16(74, CInt(resistances[DMG_POISON])); 
+		else
+			packet.SetInt16(74, 0x10000 + CInt(resistances[DMG_POISON]));
+		endif
 
-		// Be sure to make your own functions for these. But since they are NOT used with Distro, will
-		// just have the core set them to 0 for it all.
+		// Set the energy resist in the packet
+		if ( CInt(resistances[DMG_ENERGY]) > 0 )
+			packet.SetInt16(76, CInt(resistances[DMG_ENERGY])); 
+		else
+			packet.SetInt16(76, 0x10000 + CInt(resistances[DMG_ENERGY]));
+		endif
+
+
+		// Distro doesn't handle luck and tithing yet.
 		// NOTE**** Just like the statcap, if it is over 255, have the if check statcap uses!!
-		packet.SetInt8(71, 0);  // Set the fireresist in the packet
-		packet.SetInt8(73, 0);  // Set the coldresist in the packet
-		packet.SetInt8(75, 0);  // Set the poisonresist in the packet
-		packet.SetInt8(77, 0);  // Set the energyresist in the packet
-		packet.SetInt8(79, 0);  // Set the luck in the packet
-		packet.SetInt8(87, 0);  // Set the tithing points in the packet
+		// Set the luck in the packet
+		var luck := 0;
+		if ( luck > 0 )
+			packet.SetInt16(78, luck);
+		else
+			packet.SetInt16(78, 0x10000 + luck);
+		endif
+		
+	  // Set the tithing points in the packet
+		var tithing := 0;
+		if ( tithing > 0 )
+			packet.SetInt16(86, tithing);
+		else
+			packet.SetInt16(86, 0x10000 + tithing);
+		endif
+
 
 		// Now let's set up the Max and Min damage entries of the packet.
 
@@ -248,7 +291,7 @@ endfunction
 // For this to work correctly, You will also need a hook for the 0xBF packet and the 0x19 Sub to
 // accept the state changes of the locks.
 function SendStatLock(character)
-	if( CInt(character.clientversion[1]) < 3 )
+	if ( CInt(character.clientversion[1]) < 3 )
 		return 0;
 	endif
 	// Let's create the new packet to send them. This is to send the command that will make the
@@ -267,7 +310,7 @@ function SendStatLock(character)
 	var statBit := GetObjProperty( character, "%StatLock%" );
 	// If it doesn't exist, it makes the bit 0, means nothing locked or down.
 	// Then records it on the player.
-	if( (statbit.errortext) )
+	if ( (statbit.errortext) )
 		statBit := 0;
 		SetObjProperty(character, "%StatLock%", statBit);
 	endif
