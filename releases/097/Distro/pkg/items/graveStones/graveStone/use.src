@@ -13,10 +13,13 @@ program Usegstone(mobile, gstone)
 
 	var text := GFWordWrap(gstone.GetText(), 100);
 	var text_color := gstone.GetTextColor();
-	var y_pos := 20;
+	var text_pos := gstone.GetTextPosition(); // Array of X/Y position for gump.
+	var x_pos := CInt(text_pos[1]);
+	var y_pos := CInt(text_pos[2]);
+	var width := CInt(text_pos[3]);
 
 	foreach line in ( text )
-		GFTextMid(gump, 20, y_pos, 100, text_color, line);
+		GFTextMid(gump, x_pos, y_pos, width, text_color, CStr(line));
 		y_pos += 20;
 		SleepMS(2);
 	endforeach

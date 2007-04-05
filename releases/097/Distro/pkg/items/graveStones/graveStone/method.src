@@ -21,8 +21,22 @@ exported function GetText(gstone)
 	elseif ( gstone.name )
 		return gstone.name;
 	else
-		return gstone.desc;
+		return gstone.desc; 
 	endif
+endfunction
+
+exported function GetTextPosition(gstone)
+	var cfg_info := GetItemDescInfo(gstone.objtype);
+	var pos := CStr(cfg_info.TextPos);
+	if ( pos )
+		return SplitWords(pos, " "); // Space Delimited splitter into array
+	else
+		return {15, 60, 190}; // Square grave stone
+	endif
+endfunction
+
+exported function SetText(gstone)
+	return 0;
 endfunction
 
 exported function GetGumpPic(gstone)
