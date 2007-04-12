@@ -1,0 +1,147 @@
+// $Id$
+
+use cfgfile;
+use util;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":attributes:advanceCheck";
+include ":crafting:crafting";
+include ":crafting:craftingRepair";
+include ":crafting:toolWear";
+
+var item_config := ReadConfigFile(":*:itemdesc");
+var craft_config := ReadConfigFile(":tailoring:tailoring");
+
+program use_sewingkit(who, tool)
+	if ( !ReserveItem(tool) )
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	elseif ( (!tool.movable) || !ReserveItem(tool) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif ( !(tool in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	var rinfo := sendCraftGump(who, TAILORING);
+
+	// OK was pressed, close it on out
+	if ( rinfo == 0 )
+		return 0;
+	endif
+
+	var the_objtype := rinfo[1];
+	var amt := rinfo[2];
+	var repairit := rinfo[3];
+
+	if ( repairit )
+		repair_this(who, craft_skill);
+		return 0;
+	endif
+
+	TailoringItems(who, tool, the_objtype, amt);
+endprogram
+
+function TailoringItems(who, tool, objtype, amt)
+	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[objtype].type));
+	if ( !itemchk ) 
+		return 0;
+	endif
+
+	var item1 := itemchk[1];
+	var item1objtype := itemchk[2];
+	var ptmod := itemchk[3];
+
+	var x := who.x, y := who.y, item2 := 0;
+	if ( Lower(TypeOf(craft_config[objtype].material2obj)) == "string" )
+		// Let's now select the secondary material. Chk is not passed, as currently
+		// ingots do not hold a cprop to know which type they was originally like boards
+		// or cut leather.
+		itemchk := MaterialSelection(who, craft_skill, lower(craft_config[objtype].material2obj));
+		if ( !itemchk )
+			return 0;
+		endif
+		item2 := itemchk[1];
+		ptmod := ptmod + CInt(itemchk[3]);
+	endif
+
+	var theitem;
+	var itemname := craft_config[objtype].name;
+	var material := CInt(craft_config[objtype].material);
+	var material2 := CInt(craft_config[objtype].material2);
+	var reqd := CInt(craft_config[objtype].skill);
+	var skillid2 := craft_config[objtype].skillID;
+	var skill2 := CInt(craft_config[objtype].skill2);
+	var diff := CInt(craft_config[objtype].difficulty);
+	var pts := CInt(craft_config[objtype].points);
+	pts := CInt(pts + ptmod);
+
+	var counter := 0;
+	while ( counter < amt )
+		if ( (who.x != x) || (who.y != y) )
+			SendSysMessage(who, "You stop tailoring.");
+			break;
+		endif
+
+		if ( !tool )
+			break;
+		endif
+
+		Sleep(2);
+
+		if ( GetAmount(item1) >= material )
+			if ( item2 != 0 && GetAmount(item2) < material2 )
+				SendSysMessage(who, "You do not have enough materials.");
+				return 0;
+			endif
+
+			if ( CraftCheckSkill(who, craft_skill, diff, pts) > 0 )
+				if ( skillid2 )
+					if ( (skill2 <= AP_GetSkill(who, skillid2)) )
+						theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
+					else
+						SendSysMessage(who, "You do not have the required skill.");
+						return 0;
+					endif
+				else
+					theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
+					if ( Lower(TypeOf(theitem)) != "itemref" )
+						if ( item2 != 0 )
+							if ( !SubtractAmount(item2, material2) )
+								DestroyItem(theitem);
+								SendSysMessage(who, "You do not have enough materials.");
+								return 0;
+							endif
+						else
+							CheckToolWear (who, tool, craft_skill);
+							SkillCheck(who, TAILORING, diff);
+						endif
+					else
+						SubtractAmount(item1, (material / 2));
+						if ( material2 )
+							if ( !SubtractAmount(item2, CInt(material2 / 2)) )
+								SendSysMessage(who, "You do not have enough materials.");
+								return 0;
+							endif
+						endif
+						SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
+						SkillCheck(who, TAILORING, diff);
+						counter := counter + 1;
+						continue;
+					endif
+				endif
+			endif
+		endif
+
+		theitem.movable := 1;
+		counter := counter + 1;
+	endwhile
+
+	return 1;
+endfunction

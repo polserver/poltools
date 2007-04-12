@@ -1,0 +1,119 @@
+// $Id$
+
+use uo;
+use cfgfile;
+use util;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":crafting:toolWear";
+
+const SCISSORS_SFX := 0x0249;
+
+var scissors_cfg := ReadConfigFile(":tailoring:scissors");
+var item_config := ReadConfigFile(":*:itemdesc");
+
+program use_scissors(who, tool)
+	if ( !ReserveItem(tool) )
+			SendSysMessage(who, "That is already in use.");
+			return 0;
+	elseif ( (!tool.movable) || !ReserveItem(tool) )
+			SendSysMessage(who, "You cannot use that");
+			return 0;
+	elseif ( !(tool in EnumerateItemsInContainer(who.backpack)) )
+			SendSysMessage(who, "That item is not in your backpack.");
+			return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	SendSysMessage(who, "Select an item to cut.");
+	var cloth := Target(who);
+	cutItems(who, cloth, tool);
+endprogram
+
+function cutItems(who, item, tool)
+	if ( !item )
+		SendSysMessage(who, "Cancelled.");
+		return;
+	elseif ( !ReserveItem(item) )
+		SendSysMessage(who, "You cannot use that.");
+		return;
+	elseif (!item.movable )
+		SendSysMessage(who, "You cannot use that.");
+		return;
+	elseif ( item in ListEquippedItems(who) )
+		SendSysMessage(who, "You cannot cut something being worn!");
+		return;
+	endif
+
+ 	var material := CInt(scissors_cfg[item.objtype].material);
+ 	var clr := item.color;
+ 	var cont := item.container;
+ 	var newitem := CInt(scissors_cfg[item.objtype].newitem);
+ 	var amt, newcloth;
+ 	if ( material )
+		amt := (material * item.amount);
+		if ( SubtractAmount(item, amt) )
+			for i := 1 to 4
+				PlaySoundEffect(who, SCISSORS_SFX);
+				Sleep(1);
+			endfor
+
+ 			newcloth := CreateItemAtLocation(who.x, who.y, who.z, newitem, amt, who.realm);
+			if ( !newcloth )
+				// Todo: Should probably add in reporttext functions and put an error somewhere...
+				SendSysMessage(who, "Your cloth could not be created.");
+				return 0;
+			endif
+			
+ 			newcloth.color := clr;
+
+ 			if ( cont )
+				MoveItemToContainer(newcloth, cont);
+ 			else
+				MoveItemToContainer(newcloth, who.backpack);
+ 			endif
+
+  		CheckToolWear (who, tool, TAILORING);
+ 			SendSysMessage(who, "You use the scissors to cut the material.");
+ 			return;
+		else
+			SendSysMessage(who, "You can not cut that.");
+	 		return;
+		endif
+ 	else
+		material := CInt(item_config[item.objtype].material);
+
+		if ( !material )
+  			if ( !material )
+					SendSysMessage (who, "You can't use scissors on that.");
+					return;
+  			endif
+		endif
+
+		amt := CInt((material * AP_GetSkill(who, TAILORING) * 75) / 10000);
+		if ( amt < 1 )
+  			amt := 1;
+		endif
+
+		if ( DestroyItem(item) )
+ 			// 0x1766 = folded cloth
+ 			CheckToolWear(who, tool, TAILORING);
+
+ 			newcloth := CreateItemInContainer(who.backpack, 0x1766, amt);
+			if ( !newcloth )
+				// Todo: Should probably add in reporttext functions and put an error somewhere...
+				SendSysMessage(who, "Your cloth could not be created.");
+				return 0;
+			endif
+
+			newcloth.color := clr;
+		else
+  		SendSysMessage(who, "You can't use scissors on that.");
+  		return;
+		endif
+  endif
+endfunction

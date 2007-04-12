@@ -35,6 +35,11 @@ program SpellScript_Teleport(params)
 		return 0;
 	endif
 	
+	// It isn't easy putting multis up yet, so I'll have to figure this out later.
+	//foreach mult in ListMultisInBox( targ.x, targ.y, targ.z, targ.x, targ.y, targ.z, mobile.realm)
+	//	Print("multi: " + mult);
+	//endforeach
+	
 	if ( 0 ) // TODO: multi-check
 		SendSysMessage(mobile, "This ability cannot be used to teleport in houses or boats.");
 		return 0;

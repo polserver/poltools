@@ -246,7 +246,7 @@ function MS_GetSpellDamage(mobile, targ, base_damage)
 	var eval_int_bonus := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) * 3) / 100) + 1;
 	var intel_bonus := CInt(AP_GetStat(mobile, "Intelligence") / 10);
 
-	// TODO: Get SDI items percentage
+	// TODO: Get SDI items percentage (after SDI Items are actually defined)
 	var sdi_bonus := 0;
 	
 	// SDI bonus capped at 15% for PvP
