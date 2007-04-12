@@ -14,8 +14,6 @@ program SpellScript_Earthquake(params)
 
 	MS_PlaySpellSFX(info.spell_id, mobile);
 
-	// TODO: Should not have LOS if targ is hidden, but not sure
-	
 	var base_damage;
 	var damage;
 	

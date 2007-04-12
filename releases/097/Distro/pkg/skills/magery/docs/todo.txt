@@ -23,7 +23,7 @@ Function to test config file, calls functions for sfx and gfx and makes sure the
 Command history for the command bar :)
 Command search for the command bar
 
-For my own notes, this is how OSI does the spells:
+For my own notes, this is how OSI does curse/bless:
 Curse -	Reduces a player’s maximum elemental resistances to 60% (but only when cast by another player), as well as act like Clumsy, Feeble mind and Weaken all in one.
 Bless - Counteracts stats effects and does all three good stat effects
 

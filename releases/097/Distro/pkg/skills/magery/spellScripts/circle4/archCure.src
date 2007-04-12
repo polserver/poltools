@@ -14,7 +14,6 @@ program SpellScript_ArchCure(params)
 
 	MS_PlaySpellSFX(info.spell_id, mobile);
 
-	// TODO: Get non-hostile blues instead of people just in party
 	// Get all targets in area that are in party.
 	var area_size := GetConfigInt(info.spell_config, "AreaSize");
 	var includes := GetObjProperty(mobile, "#Party");
