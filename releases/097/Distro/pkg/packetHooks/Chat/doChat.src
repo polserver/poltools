@@ -12,11 +12,10 @@ include ":chat:packets";
 include ":chat:functions";
 include ":chat:settings";
 
+var settings := CH_GetSettingsCfgElem("Settings");
+
 program doChat()
 	Print("INSTALLING: Chat PH...");
-	
-	// Load settings
-	//MS_GetSettingsCfgElem("Settings");
 	
 	return 1;
 endprogram
@@ -43,9 +42,16 @@ exported function handleOpenChatWindow(character, byref packet)
 	if ( CH_CheckDebug() )
 		Print("handleOpenChatWindow: "+character.name+" packet: "+packet);
 	endif
-	
-	var chatName := CChrZ(packet.GetUnicodeString(2, 31));
 
+	var chatName;
+	if ( settings.PermChatName )
+		chatName := GetObjProperty(character, "ChatName");
+	endif
+	
+	if ( !chatName )
+		chatName := CChrZ(packet.GetUnicodeString(2, 31));
+	endif
+	
 	if ( chatName )
 		// Validate chat name
 		if ( chatName == character.acctname )
@@ -53,14 +59,13 @@ exported function handleOpenChatWindow(character, byref packet)
 			return 0;
 		endif
 		
-		// Chat names are suposed to be perm, but for now...
+		// Chat names are suposed to be permenant, but for now...
 		SetObjProperty(character, "ChatName", chatName);
 		
 		// Display chat
-		Print("Chat name accepted: "+chatName);
 		SendChatMessagePacket(character, TYPE_USERNAME_ACCEPTED, chatName);
 		
-		// Create Add User packet and send to character
+		// Create Add Player packet and send to character
 		// TODO: maybe this should be it's own function
 		var packet := CreatePacket(0xB2, 13 + (Len(chatName) * 2));
 		packet.SetInt16(1, 13 + (Len(chatName) * 2)); // length
@@ -79,7 +84,7 @@ exported function handleOpenChatWindow(character, byref packet)
 		endif
 		packet.SetInt16(9, user_type);
 		
-		CH_AddUser(character.serial); // add user to datafiles
+		CH_AddPlayer(character.serial); // add user to datafiles
 		SendChatPacket(packet, "", character.serial);
 		
 		// Send character the conferences
@@ -97,16 +102,19 @@ function SendChatMessagePacket(targ, type, param:="")
 		TYPE_DISPLAY_USERNAME:
 			packet.SetInt32(5, 0); // unknown
 			packet.SetInt32(9, 0); // unknown
+			break;
 		TYPE_USERNAME_ACCEPTED:
 			packet.SetInt32(5, 0); // unknown
 			packet.SetUnicodeString(9, CAscZ(param), 1); // chat name
 			packet.SetInt32(packet.GetSize() - 1, 0); // unknown
+			break;
 		TYPE_JOIN_CHANNEL:
 			packet.SetInt32(5, 0); // unknown
 			packet.SetUnicodeString(9, CAscZ(param), 1);
 			packet.SetInt16(packet.GetSize() - 1, 0); // unknown
 			packet.SetInt16(packet.GetSize() - 1, 30); // unknown
 			packet.SetInt16(packet.GetSize() - 1, 0); // unknown
+			break;
 	endcase
 	
 	packet.SetInt16(1, packet.GetSize()); // packet length

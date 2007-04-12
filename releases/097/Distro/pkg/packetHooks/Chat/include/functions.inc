@@ -1,12 +1,27 @@
+use os;
+
 include ":chat:settings";
 
-CONST CONFERENCE_NAME_MIN_LEN := 1;
-CONST CONFERENCE_NAME_MAX_LEN := 25;
+function CheckForValidChars(conference_name)
+	// Todo: Move to config, and make note for non-english speakers
+	var settings_elem := CH_GetSettingsCfgElem("Settings");
+	var valid_chars := GetConfigString(settings_elem, "ValidConfChars");
+	
+	for i := 1 to Len(conference_name)
+		if ( !Find(valid_chars, conference_name[i], 1) )
+				return 0;
+		endif
+	endfor
+	
+	return 1;
+endfunction
 
 function CreateNewConference(conference_name, conference_pass:="", character:="")	
-	// Validate conference name
-	// TODO: I don't know how OSI validates conference names, this is just off of the top of my head
-	if ( len(conference_name) < CONFERENCE_NAME_MIN_LEN || len(conference_name) > CONFERENCE_NAME_MAX_LEN )
+	// I don't know how OSI validates conference names, this is just off of the top of my head
+	var settings_elem := CH_GetSettingsCfgElem("Settings");
+	if ( len(conference_name) < GetConfigInt(settings_elem, "MinConfNameLength") ||
+	     len(conference_name) > GetConfigInt(settings_elem, "MaxConfNameLength") || 
+	     CheckForValidChars(conference_name) )
 		if ( character )
 			SendSysMessage(character, "That is not a valid conference name.");
 		else
@@ -26,7 +41,7 @@ function CreateNewConference(conference_name, conference_pass:="", character:=""
 	endif
 	
 	var settings := dictionary{"pass" -> conference_pass};
-	Print("Calling creation: "+CH_SetProp("Conferences", conference_name, settings));
+	Print("Calling conf creation: "+CH_SetProp("Conferences", conference_name, settings));
 	
 	// Send new conference to everyone ("" = everyone because of SendChatPacket())
 	SendConferences("", conference_name, conference_pass);
@@ -72,6 +87,30 @@ function CreateNewConferencePacket(conference_name, conference_pass)
 	endif
 
 	return packet;
+endfunction
+
+// Checks password, sends join packet to player and adds them to datafiles.
+function AddPlayerToConference(character, conference_name, conference_pass:="")
+	Print("Adding player to conference: "+character+" "+conference_name+" "+conference_pass);
+	
+	if ( conference_pass )
+		var conference := CH_GetProp("Conferences", conference_name);
+			
+		if ( conference.pass != conference_pass )
+			SendChatClilocMessage(character, 0x000E); // incorrect password
+			return 0;
+		endif
+	endif
+	
+	var join_packet := CreatePacket(0xB2, 13 + (Len(conference_name) * 2));
+	join_packet.SetInt16(1, 13 + (Len(conference_name) * 2)); // packet size
+	join_packet.SetInt16(3, 0x03F1); // you have joined message
+	join_packet.SetUnicodeString(9, CAscZ(conference_name), 0);
+	join_packet.SendPacket(character);
+
+	CH_AddPlayerToConference(character, conference_name);
+
+	return 1;
 endfunction
 
 function SendChatClilocMessage(targ, msgtype, text1:="", text2:="")
