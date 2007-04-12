@@ -6,7 +6,7 @@ function CH_GetSettingsCfgFile()
 	var cfg := ReadConfigFile(":chat:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::MS_GetSettingsCfgFile() - Unable to open [:magery:settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::MS_GetSettingsCfgFile() - Unable to open [:settings:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

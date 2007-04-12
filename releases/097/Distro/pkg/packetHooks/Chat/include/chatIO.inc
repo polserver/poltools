@@ -46,8 +46,8 @@ function CH_EreaseProp(elem_name, prop_name)
 	return settings_elem.EreaseProp(prop_name);
 endfunction
 
-function CH_AddUser(serial)
-	var online := CH_ListUsers();
+function CH_AddPlayer(serial)
+	var online := CH_ListPlayers();
 	
 	if ( Lower(TypeOf(online)) != "array" )
 		online := array{};
@@ -60,8 +60,8 @@ function CH_AddUser(serial)
 	CH_SetProp("Settings", "Online", online);
 endfunction
 
-function CH_RemoveUser(serial)
-	var online := CH_ListUsers();
+function CH_RemovePlayer(serial)
+	var online := CH_ListPlayers();
 	
 	if ( Lower(TypeOf(online)) != "array" )
 		online := array{};
@@ -76,12 +76,12 @@ function CH_RemoveUser(serial)
 	CH_SetProp("Settings", "Online", online);
 endfunction
 
-function CH_ListUsers()
+function CH_ListPlayers()
 	var online := CH_GetProp("Settings", "Online");
 	return online;
 endfunction
 		
-function CH_AddUserToConference(character, conference_name)
+function CH_AddPlayerToConference(character, conference_name)
 	var conference := CH_GetProp("Conferences", conference_name);
 	(conference.joined).Append(character.serial);
 	
@@ -90,7 +90,7 @@ function CH_AddUserToConference(character, conference_name)
 	return CH_SetProp("Conferences", conference_name, conference);
 endfunction
 
-function CH_RemoveUserFromConference(character, conference_name)
+function CH_RemovePlayerFromConference(character, conference_name)
 	var conference := CH_GetProp("Conferences", conference_name);
 	for i := 1 to ((conference.joined).Size())
 		if ( (conference.joined)[i] == character.serial )
@@ -103,5 +103,5 @@ function CH_RemoveUserFromConference(character, conference_name)
 	return CH_SetProp("Conferences", conference_name, conference);
 endfunction
 
-// CH_AddUserToIgnoreLi
-// CH_RemoveUserFromIgnoreList
+// CH_AddPlayerToIgnoreList
+// CH_RemovePlayerFromIgnoreList
