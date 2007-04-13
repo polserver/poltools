@@ -46,7 +46,7 @@ function CH_EreaseProp(elem_name, prop_name)
 	return settings_elem.EreaseProp(prop_name);
 endfunction
 
-function CH_AddPlayer(serial)
+function CH_AddPlayerToChat(serial)
 	var online := CH_ListPlayers();
 	
 	if ( Lower(TypeOf(online)) != "array" )
@@ -60,7 +60,7 @@ function CH_AddPlayer(serial)
 	CH_SetProp("Settings", "Online", online);
 endfunction
 
-function CH_RemovePlayer(serial)
+function CH_RemovePlayerFromChat(serial)
 	var online := CH_ListPlayers();
 	
 	if ( Lower(TypeOf(online)) != "array" )
@@ -90,6 +90,7 @@ function CH_AddPlayerToConference(character, conference_name)
 	return CH_SetProp("Conferences", conference_name, conference);
 endfunction
 
+// Todo: I think players can only be in one conf, so just use the prop
 function CH_RemovePlayerFromConference(character, conference_name)
 	var conference := CH_GetProp("Conferences", conference_name);
 	for i := 1 to ((conference.joined).Size())
@@ -101,6 +102,10 @@ function CH_RemovePlayerFromConference(character, conference_name)
 	EraseObjProperty(character, "ChatConference");
 	
 	return CH_SetProp("Conferences", conference_name, conference);
+endfunction
+
+function CH_GetPlayerConference(character)
+	return GetObjProperty(character, "ChatConference");
 endfunction
 
 // CH_AddPlayerToIgnoreList

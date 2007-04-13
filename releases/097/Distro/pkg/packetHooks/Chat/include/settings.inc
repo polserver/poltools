@@ -29,5 +29,5 @@ endfunction
 function CH_CheckDebug()
 	var settings_elem := CH_GetSettingsCfgElem("Settings");
 	
-	return CInt(settings_elem.Debug);
+	return GetConfigInt(settings_elem, "Debug");
 endfunction

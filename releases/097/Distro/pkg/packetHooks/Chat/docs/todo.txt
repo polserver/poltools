@@ -4,3 +4,5 @@ When all players leave conference, destroy conference
 When player creates conference, auto-join it
 
 Search through all SendSysMessages() and replace with private messages within the chat.
+
+Think about combining a few of the related handle*.src files
