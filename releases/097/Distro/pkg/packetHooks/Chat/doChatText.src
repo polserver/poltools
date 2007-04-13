@@ -3,64 +3,63 @@ use os;
 use polsys;
 
 include ":chat:settings";
-include ":chat:handleFunctions";
 
 exported function handleChangePassword(character, byref packet)
-	hChangePassword(character, packet);
+	Start_Script("handleChangePassword", array{character, packet});
 	return 1;
 endfunction
 
-exported function handleClose(character, byref packet)
-	hClose(character, packet);
+exported function handleCloseChat(character, byref packet)
+	Start_Script("handleCloseChat", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleMessage(character, byref packet)
-	hMessage(character, packet);
+	Start_Script("handleMessage", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleJoinConference(character, byref packet)
-	hJoinConference(character, packet);
+	Start_Script("handleJoinConference", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleCreateNewConference(character, byref packet)
-	hCreateNewConference(character, packet);
+	Start_Script("handleCreateNewConference", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleRenameConference(character, byref packet)
-	hRenameConference(character, packet);
+	Start_Script("handleRenameConference", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleSendPrivateMessage(character, byref packet)
-	hSendPrivateMessage(character, packet);
+	Start_Script("handleSendPrivateMessage", array{character, packet});
 	return 1;
 endfunction
 
 exported function handleIgnore(character, byref packet)
-	hIgnore(character, packet);
+	Start_Script("handleIgnore", array{character, packet, 1}); // 1 = ignore
 	return 1;
 endfunction
 
 exported function handleStopIgnoring(character, byref packet)
-	hStopIgnoring(character, packet);
+	Start_Script("handleIgnore", array{character, packet, 2}); // 2 = stop ignoring
 	return 1;
 endfunction
 
 exported function handleToggleIgnore(character, byref packet)
-	hToggleIgnore(character, packet);
+	Start_Script("handleIgnore", array{character, packet, 3}); // 3 = toggle ignore
 	return 1;
 endfunction
 
 exported function handleGrantSpeakingPrivs(character, byref packet)
-	hGrantSpeakingPrivs(character, packet);
+	Start_Script("handleSpeakingPrivs", array{character, packet, 1}); // 1 = grant speaking privs
 	return 1;
 endfunction
 
 exported function handleRemoveSpeakingPrivs(character, byref packet)
-	hRemoveSpeakingPrivs(character, packet);
+	Start_Script("handleSpeakingPrivs", array{character, packet, 2}); // 2 = remove speaking privs
 	return 1;
 endfunction
