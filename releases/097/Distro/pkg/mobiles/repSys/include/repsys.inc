@@ -12,6 +12,88 @@ enum NPCALIGNMENT
 	ALIGNMENT_GOOD		:= 2
 endenum
 
+/* 
+ * IsMurderer(mobile)
+ *
+ * Purpose
+ * Determines if a mobile is a murderer (replaces mobile.murderer)
+ * 
+ * Parameters
+ * mobile:	Mobile reference to check the murderer status of.
+ * 
+ * Return Values:
+ * Returns 1 if the mobile is a murderer
+ * Returns 0 if the mobile is not a murderer
+ *
+ */
+function IsMurderer(mobile)
+	// Returns 0 if it is 0, 1 if anything else.
+	return ( CInt(GetObjProperty(mobile, "%Murderer%")) != 0 );
+endfunction
+
+/* 
+ * SetMurderer(mobile, onoff, duration)
+ *
+ * Purpose
+ * Sets a mobile's murderer flag.
+ *
+ * Parameters:
+ * mobile:	Mobile to set the murderer flag on.
+ * onoff:	0 - Disabled (turn flag off)
+ * 		1 - Enabled (turn flag on)
+ * 
+ * Return Values
+ * Returns 1 on success
+ * Returns error on failure
+ *
+ */
+function SetMurderer(mobile, onoff)
+	return SetObjProperty(mobile, "%Criminal%", CInt(onoff));
+endfunction
+
+/* 
+ * IsCriminal(mobile)
+ *
+ * Purpose
+ * Determines if a mobile is a criminal (replaces mobile.criminal)
+ * 
+ * Parameters
+ * mobile:	Mobile reference to check the criminal status of.
+ * 
+ * Return Values:
+ * Returns 1 if the mobile is a criminal or murderer
+ * Returns 0 if the mobile is not a criminal
+ *
+ */
+function IsCriminal(mobile)
+	if ( IsMurderer(mobile) )
+		return 1;
+	else
+		return ( CInt(GetObjProperty(mobile, "%Criminal%")) != 0 );
+	endif
+endfunction
+
+/* 
+ * SetMurderer(mobile, onoff)
+ *
+ * Purpose
+ * Sets a mobile's criminal flag.
+ *
+ * Parameters:
+ * mobile:	Mobile to set the criminal flag on.
+ * onoff:	0 - Disabled (turn flag off)
+ * 		1 - Enabled (turn flag on)
+ * 
+ * Return Values
+ * Returns 1 on success
+ * Returns error on failure
+ *
+ */
+function SetCriminal(mobile, onoff)
+	return SetObjProperty(mobile, "%Criminal%", CInt(onoff));
+endfunction
+
+
 /*
  * IsInnocent(mobile_a, mobile_b)
  *
