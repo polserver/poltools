@@ -2,8 +2,6 @@ use uo;
 use os;
 use polsys;
 
-include ":chat:settings";
-
 exported function handleChangePassword(character, byref packet)
 	Start_Script("handleChangePassword", array{character, packet});
 	return 1;

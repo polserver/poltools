@@ -6,7 +6,7 @@ function CH_GetSettingsCfgFile()
 	var cfg := ReadConfigFile(":chat:settings");
 
 	if ( cfg.errortext )
-		SysLog("Error::MS_GetSettingsCfgFile() - Unable to open [:settings:settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::CH_GetSettingsCfgFile() - Unable to open [:settings:settings.cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;
@@ -20,7 +20,7 @@ function CH_GetSettingsCfgElem(elem_name, byref cfg_file:=0)
 	var elem := cfg_file[elem_name];
 
 	if ( elem.errortext )
-		SysLog("Error::MS_GetSettingsCfgElem() - Unable to find elem ["+elem_name+"] ->"+elem.errortext);
+		SysLog("Error::CH_GetSettingsCfgElem() - Unable to find elem ["+elem_name+"] ->"+elem.errortext);
 	endif
 
 	return elem;

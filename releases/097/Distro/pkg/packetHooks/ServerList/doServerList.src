@@ -1,0 +1,47 @@
+// $Id$
+
+use uo;
+use os;
+use polsys;
+
+include ":serverlist:settings";
+
+var settings := SL_GetSettingsCfgElem("Settings");
+
+program doServerList()
+	Print("INSTALLING: ServerList PH...");
+	return 1;
+endprogram
+
+exported function handleStatusRequest(connection, byref packet)
+	// I want to be VERY sure this thing is being called...
+	Print("WE GOT A STATUS REQUEST ("+packet+") FROM:"+connection);
+	
+	// Packet looks like: 0xF1 0x00 0x04 0xFF
+	var status_packet := CreatePacket(0x00, MSGLEN_VARIABLE);
+	
+	status_packet.SetString(1, GetConnectUOStatus());
+	
+	if ( GetConfigInt(settings, "Debug") )
+		Print("Sending ServerList status. Packet:"+status_packet);
+	endif
+	
+	Print("SendPacket result:"+connection.SendPacket(status_packet));
+	
+	// POL ignores the packet anyway, so return 1 (no further processing)
+	return 1;
+endfunction
+
+// ConnectUO expects: Name Age Clients Items Chars Mem
+function GetConnectUOStatus()
+	var memory := CInt(GetConfigInt(settings, "PhysicalMemory") / 1024);
+	
+	return "POL, Name="+settings.ServerName+", Age="+PolCore().uptime+", Clients="+(EnumerateOnlineCharacters().Size()+1)+", "+
+           "Items="+PolCore().itemcount+", Chars="+PolCore().mobilecount+", Mem="+memory+"K";
+endfunction
+
+// UOGateway expects: Name Age Ver TZ EMail URL Clients
+function GetUOGatewayStatus()
+	return "POL, Name="+settings.ServerName+", Age="+CInt(ReadGameClock()/86400)+", Ver="+PolCore().verstr+", TZ=1, "+
+           "EMail="+settings.ServerEmail+", URL="+settings.ServerURL+", Clients="+(EnumerateOnlineCharacters().Size()+1));
+endfunction
