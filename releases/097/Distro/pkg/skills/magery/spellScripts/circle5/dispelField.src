@@ -19,7 +19,7 @@ program SpellScript_DispelField(params)
 	var items := ListItemsNearLocation(targ.x, targ.y, targ.z, area_size, targ.realm);
 	
 	foreach item in items
-		if ( GetObjProperty(item, "SummonedField") == 1 )
+		if ( GetObjProperty(item, "SummonedField") )
 			DestroyItem(item);
 		endif
 	endforeach

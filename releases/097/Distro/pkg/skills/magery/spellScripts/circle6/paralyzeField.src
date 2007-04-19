@@ -24,7 +24,7 @@ program SpellScript_ParalyzeField(params)
 	// Note: On OSI the duration max is 42.6, but we use damage dice, so max is 42. :(
 	var para_duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3);
 	var area_size := GetConfigInt(info.spell_config, "AreaSize");
-	var prop_struct := struct{ "ParaDuration" := "1d" + para_duration };
+	var prop_struct := struct{ "ParaDuration" := "1d" + para_duration, "SummonedField" := 1 };
 	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
 		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "ParaField_NS", area_size, duration, prop_struct, mobile, 1);
 	else

@@ -20,7 +20,7 @@ program SpellScript_FireField(params)
 	// Duration: 50% Magery
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 0.5);
 	var area_size := GetConfigInt(info.spell_config, "AreaSize");
-	var prop_struct := struct{ "DamageDice" := "1d2" };
+	var prop_struct := struct{ "DamageDice" := "1d2", "SummonedField" := 1 };
 	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
 		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", area_size, duration, prop_struct, mobile, 1);
 	else
