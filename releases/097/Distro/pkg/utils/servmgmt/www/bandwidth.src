@@ -29,7 +29,7 @@ program HTMLPage()
 	WriteHTML("<TH><B>bps In</B></TH>");
 	WriteHTML("</TR>");
 
-	var gprop := GetGlobalProperty("#:servperf:bandwidth");
+	var gprop := GetGlobalProperty("#:servmgmt:bandwidth");
 	foreach index in ( gprop )
 		WriteHTML("<TR>");
 		WriteHTMLRaw("<TD>"+_index_iter+"</TD>");

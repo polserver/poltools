@@ -34,7 +34,7 @@ program record_Bandwidth_used()
 		last_received := this_received;
 		last_sent := this_sent;
 
-		SetGlobalProperty("#:servperf:bandwidth", results);
+		SetGlobalProperty("#:servmgmt:bandwidth", results);
 
 		Sleep(60);
 	endwhile
