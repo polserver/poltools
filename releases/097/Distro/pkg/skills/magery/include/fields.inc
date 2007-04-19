@@ -5,75 +5,64 @@ CONST FIELD_SHAPE_HORIZONTAL := 2;
 
 include ":timedscripts:timedScripts";
 
-function CreateField(targ, shape, objtype, size, duration, cprops:="", mobile:="", check_los:=1, delay:=2)
+function CreateField(targ, shape, objtype, size, duration, cprops:="", caster:="", check_los:=1, delay:=2, skip_mobiles:=0)
 	var start_cord, stop_cord, object;
 	var field := array{};
-	
-	Print("Shape: "+shape+" objtype:"+objtype);
-	
+	var coords := array{};
+		
 	case ( shape )
 		FIELD_SHAPE_VERTICAL:
 			if ( size % 2 )
 				start_cord := targ.x - ((size - 1) / 2);
-				stop_cord := targ.x + CInt(size / 2);
 			else
 				start_cord := targ.x - (size / 2);
-				stop_cord := targ.x + (size / 2) + 1;
 			endif
-			
-			// Create objects and SetDuration & SetOwner
-			for i := start_cord to stop_cord
-				object := CreateItemAtLocation(i, targ.y, targ.z, objtype, 1, targ.realm);
-				if ( object )
-					// If there is no SetDuration method, set it manually
-					if ( object.SetDuration(duration) == error && mobile )
-						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
-					endif
 
-					// If there is no SetOwner method, set it manually
-					if ( object.SetOwner(mobile.serial) == error && mobile )
-						SetObjProperty(field, "Owner", mobile.serial);
-					endif
-
-					field.Append(object);
-				endif
-
-				SleepMS(delay);
+			for i := start_cord to (start_cord + size - 1)
+				coords.Append(struct{"x" := i, "y" := targ.y});
 			endfor
 			break;
 		FIELD_SHAPE_HORIZONTAL:
 			if ( size % 2 )
 				start_cord := targ.y - ((size - 1) / 2);
-				stop_cord := targ.y + CInt(size / 2);
 			else
 				start_cord := targ.y - (size / 2);
-				stop_cord := targ.y + (size / 2) + 1;
 			endif
-			
-			// Create objects and SetDuration() & SetOwner()
-			for i := start_cord to stop_cord
-				object := CreateItemAtLocation(targ.x, i, targ.z, objtype, 1, targ.realm);
-				if ( object )
-					// If there is no SetDuration method, set it manually
-					if ( object.SetDuration(duration) == error && mobile )
-						TS_StartTimer(object, "destroyObject", duration, 0, mobile);
-					endif
 
-					// If there is no SetOwner method, set it manually
-					if ( object.SetOwner(mobile.serial) == error && mobile )
-						SetObjProperty(field, "Owner", mobile.serial);
-					endif
-
-					field.Append(object);
-				endif
-
-				SleepMS(delay);
+			for i := start_cord to (start_cord + size - 1)
+				coords.Append(struct{"x" := targ.x, "y" := i});
 			endfor
 			break;
 	endcase
 
+
+	foreach coord in coords
+		// Some fields might not be created directly on the target (wall of stone, energy field)
+		if ( skip_mobiles )
+			if ( (ListMobilesNearLocationEx(coord.x, coord.y, targ.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, targ.realm)).Size() )
+				continue;
+			endif
+		endif
+				
+		object := CreateItemAtLocation(coord.x, coord.y, targ.z, objtype, 1, targ.realm);
+		if ( object )
+			// If there is no SetDuration method, set it manually
+			if ( object.SetDuration(duration) == error && caster )
+				TS_StartTimer(object, "destroyObject", duration, 0, caster);
+			endif
+		
+			// If there is no SetOwner method, set it manually
+			if ( object.SetOwner(caster.serial) == error && caster )
+				SetObjProperty(field, "Owner", caster.serial);
+			endif
+		endif
+
+		SleepMS(delay);
+	endforeach
+
+			
+	// Destroy field items that caster doesn't have LOS to
 	if ( field )
-		// Make sure we have LOS to the field
 		if ( check_los )
 			// object type doesn't matter, it'll be deleted soon
 			check_los := CreateItemAtLocation(targ.x, targ.y, targ.z, 0x002, 1, targ.realm);

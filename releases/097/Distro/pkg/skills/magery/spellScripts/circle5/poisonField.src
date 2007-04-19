@@ -23,7 +23,7 @@ program SpellScript_PoisonField(params)
 	// Level is the same as Poison spell
 	var poison_level := MS_GetPoisonLevel(mobile, targ);
 	var area_size := GetConfigInt(info.spell_config, "AreaSize");
-	var prop_struct := struct{ "PoisonLevel" := poison_level };
+	var prop_struct := struct{ "PoisonLevel" := poison_level, "SummonedField" := 1 };
 	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
 		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "PoisonField_NS", area_size, duration, prop_struct, mobile, 1);
 	else
