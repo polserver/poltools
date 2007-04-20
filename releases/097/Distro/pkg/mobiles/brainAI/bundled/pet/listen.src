@@ -4,6 +4,7 @@ use os;
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include ":brainAI:pets";
 
 program BrainNerve(params)
 	var npc		:= params[1];
@@ -17,7 +18,7 @@ program BrainNerve(params)
 		if ( event )
 			case ( event.type )
 				SYSEVENT_SPEECH:
-					if ( (event.source).serial == GetObjProperty(npc, "Master") )
+					if ( (event.source).serial == NPC_GetMaster(npc) )
 						SpeechEvent(npc, event);
 					endif
 					break;
@@ -59,7 +60,7 @@ function SpeechEvent(npc, byref event)
 				AI_Speak(npc, "I should attack "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
 				break;
 			"release":
-				// If summoned, dispel, else, go untamed, probably have to change ai scripts
+				// If summoned, dispel, else, go untamed - probably have to change ai scripts
 				AI_Speak(npc, "I should be released.", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
 				break;
 			"fetch":

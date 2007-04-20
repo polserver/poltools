@@ -12,25 +12,24 @@ program doServerList()
 	return 1;
 endprogram
 
-exported function handleStatusRequest(connection, byref packet)
+exported function handleSendStatusRequest(connection, byref packet)
 	var settings := SL_GetSettingsCfgElem("Settings");
+	var status := GetConnectUOStatus();
 
-	Print("We got a status request ("+packet+") From:"+connection);
-	
-	// Packet looks like: 0xF1 0x00 0x04 0xFF
-	var status_packet := CreatePacket(0x00, MSGLEN_VARIABLE);
-	
-	status_packet.SetString(1, GetConnectUOStatus());
+	packet.SetSize(Len(status));
+
+	Print("Testing:"+packet.SetString(0, status, 0));
 	
 	if ( GetConfigInt(settings, "Debug") )
-		Print("Sending ServerList status. Packet:"+status_packet);
+		Print("Sending ServerList status: "+status);
+		Print("  Packet:"+packet);
 	endif
 	
-	// Cannot SendPacket here.
-	Print("SendPacket() result:"+connection.SendPacket(status_packet));
-	
-	// POL ignores the packet anyway, so return 1 (no further processing)
-	return 1;
+	return 0;
+endfunction
+
+exported function handleReceiveStatusRequest(connection, byref packet)
+	return 0;
 endfunction
 
 // ConnectUO expects: Name Age Clients Items Chars Mem
@@ -38,7 +37,7 @@ function GetConnectUOStatus()
 	var settings := SL_GetSettingsCfgElem("Settings");
 	var memory := CInt(GetConfigInt(settings, "PhysicalMemory") / 1024);
 	
-	return "POL, Name="+settings.ServerName+", Age="+PolCore().uptime+", Clients="+(EnumerateOnlineCharacters().Size()+1)+", "+
+	return "POL, Name="+settings.ServerName+", Age="+PolCore().uptime+", Clients="+(EnumerateOnlineCharacters().Size())+", "+
            "Items="+PolCore().itemcount+", Chars="+PolCore().mobilecount+", Mem="+memory+"K";
 endfunction
 
@@ -47,5 +46,5 @@ function GetUOGatewayStatus()
 	var settings := SL_GetSettingsCfgElem("Settings");
 
 	return "POL, Name="+settings.ServerName+", Age="+CInt(ReadGameClock()/86400)+", Ver="+PolCore().verstr+", TZ=1, "+
-           "EMail="+settings.ServerEmail+", URL="+settings.ServerURL+", Clients="+(EnumerateOnlineCharacters().Size()+1));
+           "EMail="+settings.ServerEmail+", URL="+settings.ServerURL+", Clients="+(EnumerateOnlineCharacters().Size()));
 endfunction
