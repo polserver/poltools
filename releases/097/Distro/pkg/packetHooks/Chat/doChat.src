@@ -12,7 +12,6 @@ include ":chat:packets";
 include ":chat:functions";
 include ":chat:settings";
 
-var settings := CH_GetSettingsCfgElem("Settings");
 
 program doChat()
 	Print("INSTALLING: Chat PH...");
@@ -39,6 +38,8 @@ exported function handleChatText(character, byref packet)
 endfunction
 
 exported function handleOpenChatWindow(character, byref packet)
+	var settings := CH_GetSettingsCfgElem("Settings");
+
 	if ( CH_CheckDebug() )
 		Print("handleOpenChatWindow: "+character.name+" packet: "+packet);
 	endif

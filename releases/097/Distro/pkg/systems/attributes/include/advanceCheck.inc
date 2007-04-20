@@ -112,8 +112,8 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 			advance := 0.1;
 		endif
 
-		var temp := stat_value+advance;
-		while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(mobile, stat_name)) )
+		var temp := stat_value + advance;
+		while ( temp == AP_GetTrueStat(mobile, stat_name) )
 			// Kludge for an old core precision bug.
 			// Makes sure it always goes up atleast 0.1.
 			temp += 0.1;
@@ -135,15 +135,14 @@ endfunction
  * CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
  *
  * Purpose
- * Does an advancement check on a stat and considers skill locks.
+ * Does an advancement check on a skil and considers skill locks.
  *
  * Parameters
  * mobile:	Mobile to do the skill advancement check on.
  * skill_name:	Name of the skill to check.
  * award_diff:	Difficulty to use for advancement award.
  * pass_chance:	Chance of getting a gain check.
- * pretend: Do not actually make any skill changes at the end.
- *
+ * pretend:	Do not actually make any skill changes (for testing).
  *
  * Return value
  * Returns amount advanced on success, 0 on failure
@@ -162,7 +161,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 	var true_skill := AP_GetTrueSkill(mobile, skill_name);
 	var limit_left := CDbl(skill_cap - true_skill);
 	
-	// Any number from 0.01 to 100.00, so there can be a greater possibility of difficulty
+	// Any number from 0.01 to 100.00, for a wide range of advancement difficulty
 	var adv_check := (RandomInt(10000) + 1.0) / 100.0;
 
 	var settings := AP_GetSettingsCfgElem("Skills");
@@ -203,6 +202,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 	SkillDbgMsg(mobile, "Skill Cap: "+skill_cap+"%");
 	SkillDbgMsg(mobile, "Left to cap: "+limit_left+" ->"+skill_cap+"-"+true_skill);
 	SkillDbgMsg(mobile, "Multiplier: "+multiplier);
+
 
 	var int_chance := AP_GetStat(mobile, "Intelligence") / 2.0;
 	var task_chance := (100.0 - award_diff) / 2.0;
@@ -280,7 +280,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 			endif
 			
 			new_skill := lower_skill_value - advance;
-			while ( CInt(new_skill * 10.0) == CInt(GetAttributeBaseValue(mobile, lower_skill)) )
+			while ( new_skill == AP_GetTrueStat(mobile, lower_skill) )
 				// Kludge for an old core precision bug.
 				new_skill -= 0.1;
 				SleepMS(10);
@@ -294,7 +294,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 	endif
 
 	new_skill := true_skill + advance;
-	while ( CInt(new_skill * 10.0) == CInt(GetAttributeBaseValue(mobile, skill_name)) )
+	while ( new_skill == AP_GetTrueStat(mobile, skill_name) )
 		// Kludge for an old core precision bug.
 		new_skill += 0.1;
 		SleepMS(10);
