@@ -39,7 +39,7 @@ var g_skill_debug	:= 0;
  * Returns > 0 if the skill check was successful
  *
  */
-function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flags:=ADV_ALL)
+function SkillCheck(mobile, attrib_name, difficulty, award_diff:="", advance_flags:=ADV_ALL)
 	if ( mobile.dead )
 		SendSysMessage(mobile, "You can't use skills while dead.");
 		return -100;
@@ -71,7 +71,7 @@ function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flag
 	if ( difficulty == -1 )
 		difficulty := effective_skill;
 	endif
-	if ( !award_diff )
+	if ( award_diff == "" )
 		award_diff := difficulty;
 	endif
 	
@@ -92,7 +92,7 @@ function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flag
 	if ( !(advance_flags & ADV_STATS) )
 		SkillDbgMsg(mobile, "Stat advancement disabled.");
 	else
-		//AdvanceStatsForSkill();
+		CheckStatsForSkill(mobile, attrib_name);
 	endif
 	
 	return pass_success;
@@ -126,6 +126,7 @@ function CalcSuccessPercent(mobile, attrib_name, difficulty, effective_skill)
 		SkillDbgMsg(mobile, "Too easy.");
 		percent := 100;
 	else
+		// For every 5 points difference there will be a +-10 for percent
 		percent := CInt(50.0 + ((effective_skill - difficulty) * 2.5));
 	endif
 	

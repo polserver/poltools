@@ -13,6 +13,7 @@
 use uo;
 use os;
 use util;
+use math;
 
 include ":attributes:attributes_ex";
 include ":skilllocks:common";
@@ -34,7 +35,7 @@ include ":skilllocks:common";
 function CheckStatsForSkill(mobile, skill_name)
 	var settings := AP_GetSettingsCfgElem("Stats");
 
-	var next_check := CInt(GetObjProperty(mobile, "#LastStatGain"))+CInt(settings.GainWait);
+	var next_check := CInt(GetObjProperty(mobile, "#LastStatGain"))+GetConfigInt(settings, "GainWait");
 	if ( next_check > ReadGameClock() )
 		SkillDbgMsg(mobile, "Stat advance-wait timer has not yet expired.");
 		return 0;
@@ -105,7 +106,8 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 	SkillDbgMsg(mobile, "Check %age: "+random);
 
 	if ( random < chance )
-		var advance := CDbl(0.1 + (0.1 * CDbl(CInt(chance / 12.5))));
+		var advance_factor := CDbl(settings.AdvanceFactor);
+		var advance := CDbl(0.1 + (0.1 * CDbl(CInt(chance / advance_factor))));
 		if ( advance > stat_left )
 			advance := stat_left;
 		elseif ( advance < 0.1 )
@@ -132,10 +134,10 @@ function CheckStatAdvancement(mobile, stat_name, stat_mult)
 endfunction
 
 /*
- * CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
+ * CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend)
  *
  * Purpose
- * Does an advancement check on a skil and considers skill locks.
+ * Does an advancement check on a skill and considers skill locks.
  *
  * Parameters
  * mobile:	Mobile to do the skill advancement check on.
@@ -157,21 +159,33 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 		return 0;
 	endif
 	
+	var settings := AP_GetSettingsCfgElem("Skills");
+
+	if ( !pretend )
+		var next_check := CInt(GetObjProperty(mobile, "#LastSkillGain"))+GetConfigInt(settings, "GainWait");
+		if ( next_check > ReadGameClock() )
+			SkillDbgMsg(mobile, "Skill advance-wait timer has not yet expired.");
+			return 0;
+		endif
+	endif
+	
 	var skill_cap := AP_GetSkillCap(skill_name);
 	var true_skill := AP_GetTrueSkill(mobile, skill_name);
 	var limit_left := CDbl(skill_cap - true_skill);
 	
-	// Any number from 0.01 to 100.00, for a wide range of advancement difficulty
-	var adv_check := (RandomInt(10000) + 1.0) / 100.0;
+	var adv_check := RandomFloat(100.0);
 
-	var settings := AP_GetSettingsCfgElem("Skills");
 	var multiplier := CDbl(settings.GainSpeed);
-
+	var advance_factor := CDbl(settings.AdvanceFactor);
+	
 	// Determine amount of skill to gain
 	var advance := 0.1;
 	if (award_diff > true_skill)
-		advance := CDbl(0.1 * (1.0 + CInt((award_diff - true_skill) / 5.0)));
+		// For every advance_factor points difference between award_diff and true skill
+		// there is +0.1 skill gain.
+		advance := CDbl(0.1 * (1.0 + CInt((award_diff - true_skill) / advance_factor)));
 	endif
+
 	if (advance > limit_left)
 		advance := limit_left;
 	elseif (advance < 0.1)
@@ -190,7 +204,7 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 			endif
 		endif
 	elseif ( DifficultyTooEasy(true_skill, award_diff) )
-		SkillDbgMsg(mobile, "No challenge. No advance. True skill ("+true_skill+"-20) > "+award_diff);
+		SkillDbgMsg(mobile, "No challenge. No advance. True skill ("+true_skill+") > "+award_diff);
 		return 0;
 	elseif ( adv_check <= pass_chance )
 		SkillDbgMsg(mobile, "Passed advance check: +"+(pass_chance - adv_check)+"%");
@@ -203,17 +217,26 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 	SkillDbgMsg(mobile, "Left to cap: "+limit_left+" ->"+skill_cap+"-"+true_skill);
 	SkillDbgMsg(mobile, "Multiplier: "+multiplier);
 
-
-	var int_chance := AP_GetStat(mobile, "Intelligence") / 2.0;
-	var task_chance := (100.0 - award_diff) / 2.0;
-	var chance := CInt((int_chance + task_chance) * multiplier);
+	var int_chance := 0;
+	var int_bonus := CDbl(settings.IntBonus);
+	if ( int_bonus )
+		int_chance := AP_GetStat(mobile, "Intelligence") / int_bonus;
+	endif
+	
+	var task_chance := (100.0 - award_diff);
+	var task_factor := CDbl(settings.TaskChanceFactor);
+	if ( advance_factor )
+		task_chance /= task_factor;
+	endif
+	
+	var chance := CDbl((int_chance + task_chance) + (Abs(int_chance + task_chance) * multiplier));
 
 	SkillDbgMsg(mobile, "INT gives "+int_chance+"%");
 	SkillDbgMsg(mobile, "Task gives "+task_chance+"%");
 	SkillDbgMsg(mobile, "Multiplier on "+(int_chance+task_chance)+" gives "+chance);
 	SkillDbgMsg(mobile, "---");
 
-	var check_roll := RandomInt(100);
+	var check_roll := RandomFloat(100.0);
 	SkillDbgMsg(mobile, "Check %age: "+check_roll);
 
 	if ( check_roll > chance )
@@ -241,20 +264,16 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 				lower_skill := AP_SkillIdToAttributeName(i);
 
 				if ( AP_GetTrueSkill(mobile, lower_skill) > 0.0 )
-					// It is a little known fact that on OSI skills lower relative to
-					// their difficulty and not all at the same rate. So blacksmithing
-					// and magery do not lower as readily as camping. It would be possible
-					// to check here exactly how much the skill should be lowered here
-					// if you had the difficulty for that skill. Remember, whatever you
-					// set lower_skill_decrease to will be the amount that the skill can raise, so
-					// don't set this to 0.1 unless you want all skills to raise at that
-					// speed when lowering another skill.
+					// On OSI skills lower relative to their difficulty--NOT at the same rate.
+					// To emulate this it would be necessary to define the difficulty for each
+					// skill. This is where you would do the calculations.
+					// Remember, whatever you set lower_skill_decrease to will be the amount that
+					// the skill can raise, so don't set this to 0.1 unless you want all skills to
+					// raise at that speed when lowering another skill.
 
 					// Set to -1 to ignore lower_skill_decrease and always decrease the skill
 					// the same amount that the other skill is raising.
 					lower_skill_decrease := -1;
-
-					// Break out of this loop, we're done here.
 					break;
 				else
 					lower_skill := "";
@@ -301,9 +320,9 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance, pretend:
 	endwhile
 
 	if ( !pretend )
+		SetObjProperty(mobile, "#LastSkillGain", ReadGameClock());
 		AP_SetTrueSkill(mobile, skill_name, new_skill);
 	endif
 
 	return advance;
-
 endfunction
