@@ -20,6 +20,10 @@ Monkey work:
 
 
 Systems:
+ - Housing and boats
+    I couldn't find any house deeds, only a nearly empty housing package.
+    Boat deeds need to have the use script written for them.
+    
  - Guilds
     MontuZ says finished and in testing
 
@@ -78,11 +82,10 @@ Skills:
 
  - veterinary - unassigned
 
+ - focus - unassigned
+ 
  - other skills ?
 
-
-
-Housing doesn't exist anywhere. Someone?
 
 
 It would be nice if NPC categories in .createnpc menu were collapseable OR there was a back button of some sort.
