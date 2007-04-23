@@ -17,10 +17,11 @@ use cfgfile;
  *
  */
 function MS_GetSettingsCfgFile()
-	var cfg := ReadConfigFile(":magery:settings");
+	var settings_path := ":magery:settings";
+	var cfg := ReadConfigFile(settings_path);
 
 	if ( cfg.errortext )
-		SysLog("Error::MS_GetSettingsCfgFile() - Unable to open [:magery:settings.cfg] ->"+cfg.errortext);
+		SysLog("Error::MS_GetSettingsCfgFile() - Unable to open ["+settings_path+".cfg] ->"+cfg.errortext);
 	endif
 
 	return cfg;

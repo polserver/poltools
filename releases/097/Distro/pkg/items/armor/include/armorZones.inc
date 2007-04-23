@@ -7,8 +7,33 @@ use os;
 use util;
 use cfgfile;
 
+
 /*
- * CS_GetRandomArmorZone(defender)
+ * CS_GetArmorZones(defender)
+ *
+ * Purpose
+ * Reads in pol/config/armrzone.cfg and returns all zone names.
+ *
+ * Parameters
+ * None
+ *
+ * Return Value
+ * Array of strings
+ *
+ */
+function CS_GetArmorZones()
+	var cfg_file := ReadConfigFile("::armrzone");
+	var zones := array{};
+	
+	foreach zone_name in ( GetConfigStringKeys(cfg_file) )
+		zones.append(zone_name);
+	endforeach
+	
+	return zones;
+endfunction
+
+/*
+ * CS_GetRandomArmorZone()
  *
  * Purpose
  * Reads in pol/config/armrzone.cfg and based on the 'chance' settings,

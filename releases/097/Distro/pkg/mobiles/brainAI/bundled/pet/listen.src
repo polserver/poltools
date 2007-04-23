@@ -4,7 +4,6 @@ use os;
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
-include ":brainAI:pets";
 
 program BrainNerve(params)
 	var npc		:= params[1];
@@ -18,7 +17,7 @@ program BrainNerve(params)
 		if ( event )
 			case ( event.type )
 				SYSEVENT_SPEECH:
-					if ( (event.source).serial == NPC_GetMaster(npc) )
+					if ( npc.master && event.source == npc.master )
 						SpeechEvent(npc, event);
 					endif
 					break;
@@ -90,6 +89,7 @@ function SpeechEvent(npc, byref event)
 				if ( !command[3] )
 					command[3] := Target(event.source);
 				endif
+				npc.setmaster(event.source);
 				AI_Speak(npc, "I should transfer to "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
 				break;
 		endcase

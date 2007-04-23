@@ -1,0 +1,32 @@
+// $Id$
+
+/*
+"You are at peace". Your mana level is already at its maximum. 
+"You cannot focus your concentration". The skill check failed. 
+"Regenerative forces cannot penetrate your armor". The skill check passed, but you are wearing too much armor to meditate actively. 
+"You enter a meditative trance". The skill check passed and you start to meditate actively. 
+"You stop meditating". You performed an action while meditating or you reached full mana. Active meditation stops.
+*/
+
+include ":meditation:functions";
+include ":attributes:attributes";
+
+program Meditation(mobile)
+	var difficulty := 15;
+	
+	Print("diff:"+difficulty);
+	Print(SkillCheck(mobile, MEDITATION, difficulty));
+	if ( AP_GetVital(mobile, "Mana") >= AP_GetVitalMaximumValue(mobile, "Mana") )
+		SendSysMessage(mobile, "You are at peace.");
+		return 0;
+	elseif ( SkillCheck(mobile, MEDITATION, difficulty) == 0 );
+		SendSysMessage(mobile, "You cannot focus your concentration.");
+		return 0;
+	elseif ( GetManaLoss(mobile) == "nomed" )			
+		SendSysMessage(mobile, "Regenerative forces cannot penetrate your armor.");
+		return 0;
+	else
+		StartMeditating(mobile);
+		return 1;
+	endif
+endprogram
