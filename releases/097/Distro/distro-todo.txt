@@ -7,6 +7,7 @@ Monkey work:
  - NPC definitions
     Should we go with OSI NPC definitions? I intend to write a quick database app so my friends
     can input NPC info from stratics and from there I could dump most of the NPC info into npcdesc.cfg files
+    MuadDib mentioned something about greasemonkey scripts for firefox to do all of this work, could be the same for items, maybe.
 
  - Item definitions
     This would take a little more time to organize once input into a database.
@@ -20,7 +21,7 @@ Monkey work:
 
 Systems:
  - Guilds
-    MontuZ estimates 3/4 completed
+    MontuZ says finished and in testing
 
  - Crafting
     MuadDib is busy making huge piles of money at work
@@ -31,17 +32,22 @@ Systems:
 
 Skills:
  - magery
-    add summons, tweak skill gains, some documentation
+    pet AI needs to be implemented in brainAI before summons will work
+    tweak skill gains
+    code documentation
 
- - cooking - unassigned
+ - cooking - Ninde is working on this.
 
  - detect hidden - unassigned
-
+     Should be easy.
+ 
  - fishing - unassigned
+     Should be easy.
 
  - forensic evaluation - unassigned
 
  - herding - unassigned
+     Should be easy.
 
  - inscription - unassigned
 
@@ -49,8 +55,8 @@ Skills:
 
  - lockpicking - unassigned
 
- - meditation - unassigned
-    I was thinking this could be a script that runs on a player and would work like OSI works by improving mana regeneration rates
+ - meditation
+    Needs testing!
 
  - musicianship - unassigned
 
@@ -58,7 +64,8 @@ Skills:
 
  - remove trap - unassigned
 
- - tailoring - Someone is contributing this
+ - tailoring
+     Added but largely untested.
 
  - taming - unassigned
     Are we doing control slots?
@@ -75,18 +82,27 @@ Skills:
 
 
 
+Housing doesn't exist anywhere. Someone?
+
+
+It would be nice if NPC categories in .createnpc menu were collapseable OR there was a back button of some sort.
+
 
 Stat advancement for skills is disabled, but looks mostly complete
+
 
 BrainAI script for merchants, how far along is this?
   - What about skill training?
 
+
 pkg/items/clothing/config/itemdesc.cfg needs VendorBuy/Sell values, possibly others
+
 
 Corpses don't decay. Maybe in corpseControl.src:
 	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
 		return 0;
 	endif
+
 
 Lockpicking and magic unlock both require locks to have different difficulties. This could easily be done with a CProp on every lockable item, something like LockLevel, and it could be an integer from 1 to 100. Does anyone else have a better idea?
 
@@ -94,4 +110,10 @@ Lockpicking and magic unlock both require locks to have different difficulties. 
 Does anyone else think skill gain is either too easy or too hard? I'm having difficulty with scenarios where I'd want a skill to raise once every few hundred tries, and after about 30 skill only gain in 0.1 increments (instead of the occasional 0.3, 0.2).
 
 
+Merchants from 095 need to be corrected and converted over to use brainAI.
+
+
 In advanceCheck.inc it makes two checks to see if skill gain should happen. The first is made with a pass_chance, which is calculated in skillCheck.inc. If There was more control over what pass_chance would be, possibly making it an optional paramater for SkillCheck()... The second check is made using an intelligence bonus and a task modifier. I think the bonus should depend on the skill. Swords would be strength, magery int, etc... This is what the OSI website says. I really don't want to ruff up Austin's code since he knows his way around it better. Maybe I am missing something? Maybe if each skill had a difficulty that somehow modified skill checks. That way it'd be easier to configure for new people.
+
+
+Guards do not work yet. It could be missing the criminal in the look around system, or a gone criminal event or it's not scripted at all.

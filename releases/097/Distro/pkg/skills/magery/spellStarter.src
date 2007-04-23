@@ -6,7 +6,6 @@ use cfgfile;
 
 include ":attributes:attributes";
 include ":magery:spells";
-
 include ":containers:containers";
 include ":itemutils:itemdesc";
 include "include/client";
@@ -64,9 +63,9 @@ program SpellStarter(params)
 		FailSpell(mobile);
 		return 0;
 	elseif ( mobile.paralyzed && settings_elem.CanCastWhileParalyzed != 1 )
-			SendSysMessage(mobile, "You cannot cast a spell while paralyzed.");
-			FailSpell(mobile);
-			return 0;
+		SendSysMessage(mobile, "You cannot cast a spell while paralyzed.");
+		FailSpell(mobile);
+		return 0;
 	endif
 
 	if ( requires_mana )
