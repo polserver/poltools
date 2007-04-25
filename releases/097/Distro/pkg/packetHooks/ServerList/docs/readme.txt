@@ -1,1 +1,0 @@
-Put a link to ConnectUO and UOGateway websites and explain what the package does.
