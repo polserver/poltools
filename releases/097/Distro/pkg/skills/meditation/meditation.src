@@ -1,21 +1,14 @@
 // $Id$
 
-/*
-"You are at peace". Your mana level is already at its maximum. 
-"You cannot focus your concentration". The skill check failed. 
-"Regenerative forces cannot penetrate your armor". The skill check passed, but you are wearing too much armor to meditate actively. 
-"You enter a meditative trance". The skill check passed and you start to meditate actively. 
-"You stop meditating". You performed an action while meditating or you reached full mana. Active meditation stops.
-*/
+// http://uo.stratics.com/content/guides/medguide.shtml
 
 include ":meditation:functions";
 include ":attributes:attributes";
 
 program Meditation(mobile)
+	// TODO: Difficulty is influenced by type of armor you wear. Leather is easiest.
 	var difficulty := 15;
 	
-	Print("diff:"+difficulty);
-	Print(SkillCheck(mobile, MEDITATION, difficulty));
 	if ( AP_GetVital(mobile, "Mana") >= AP_GetVitalMaximumValue(mobile, "Mana") )
 		SendSysMessage(mobile, "You are at peace.");
 		return 0;
