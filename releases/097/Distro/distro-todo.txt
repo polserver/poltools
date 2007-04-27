@@ -1,66 +1,83 @@
 # $Id$
 
-This is the current TODO list for the distro. Right now this file is new and I'm (tekproxy) the only one who's updated it, and I mostly stuck to magery so I'm not the best person to write this. :) If anyone else feels like editing the crap out of this file, you just think you can do better, or you want to add something, please do!
+Welcome to the Distro TODO. If you find anything you'd like to help with, just contact me at tekproxy@gmail.com and we can talk about it. If you are aware of anything that should be on this list, please let me know!
 
 
-Monkey work:
- - NPC definitions
-    Should we go with OSI NPC definitions? I intend to write a quick database app so my friends
-    can input NPC info from stratics and from there I could dump most of the NPC info into npcdesc.cfg files
-    MuadDib mentioned something about greasemonkey scripts for firefox to do all of this work, could be the same for items, maybe.
-
- - Item definitions
-    This would take a little more time to organize once input into a database.
-
- - World item placement (doors, signs)
-    I know one exists and it's probably just a copy/paste job
-
- - Spawning
-    Does anyone know the OSI spawn locations well? I may know someone who can help with this.
+BIG STUFF
+----------------
+NPC definitions
+  This may be easy to do with greasemonkey scripts on firefox using the stratics website. Need to look more into this.
 
 
-Systems:
- - Housing and boats
-    I couldn't find any house deeds, only a nearly empty housing package.
-    Boat deeds need to have the use script written for them.
-    
- - Guilds
-    MontuZ says finished and in testing
-
- - Crafting
-    MuadDib is busy making huge piles of money at work
-
- - Spawning
-    Austin said "almost complete"
+Item definitions
+  Same as NPC definitions. Hopefully we can get buy/sell values.
 
 
-Skills:
+World item placement (doors, signs)
+  These used to be in the 096 distro so I know they're floating around somewhere.
+  Probably just need to copy them over and scrub them clean (wipe message boards, find any "easter eggs" etc...).
+
+
+Spawning
+  If you know OSI spawn locations well, or run a shard with some already set up in your own custom format, we can use the help.
+
+
+Boats and Housing
+  This is almost completely unscripted. The brunt of the work could be done by converting 095 scripts.
+   
+
+Crafting
+  Very far along. Not sure exactly this is MuadDib's area.
+
+
+Guilds
+  MontuZ reports this system is finished and in testing.
+
+
+Spawning
+  Austin said "almost complete". It doesn't have a web interface.
+
+
+Merchants
+  Can copy over most of the stuff in 095 and get it to work with BrainAI. Merchants should be finished and usable, just not configured.
+  Not sure if merchants do training of if there is AI scripted for that...
+
+Guards
+  It could be missing the criminal in the look around system, or a gone criminal event or it's not scripted at all.
+
+
+Corpse decay
+  Doesn't work but there is code for it. I think it might be because of:
+	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
+		return 0;
+	endif
+  I'll have to check!
+
+
+
+SKILLS
+----------------
+Some of these skills depend on other systems that are either unfinished or do not exist, but some would be easy. Don't be shy. ;) Any other skills not listed should be considered finished and in testing.
+
  - magery
-    pet AI needs to be implemented in brainAI before summons will work
-    tweak skill gains
-    code documentation
+    pet AI needs to be implemented in BrainAI before summons will work
+    function documentation
 
- - cooking - Ninde is working on this.
+ - cooking - Ninde is working on this, and possibly more. :)
 
  - detect hidden - unassigned
-     Should be easy.
  
  - fishing - unassigned
-     Should be easy.
 
  - forensic evaluation - unassigned
 
  - herding - unassigned
-     Should be easy.
 
  - inscription - unassigned
 
  - item identification - unassigned
 
  - lockpicking - unassigned
-
- - meditation
-    Needs testing!
 
  - musicianship - unassigned
 
@@ -72,7 +89,7 @@ Skills:
      Added but largely untested.
 
  - taming - unassigned
-    Are we doing control slots?
+    Will require pets to be added to BrainAI.
 
  - taste identification - unassigned
 
@@ -84,39 +101,26 @@ Skills:
 
  - focus - unassigned
  
- - other skills ?
+ - AOS+ skills are not a huge priority and may come up in future distro revisions.
 
 
 
-It would be nice if NPC categories in .createnpc menu were collapseable OR there was a back button of some sort.
+Features
+----------------
+  A back button for .createnpc menu
 
+  Stat advancement has been enabled, but needs testing
 
-Stat advancement for skills is disabled, but looks mostly complete
+  LockLevel cprop defined for every lockable item. LockLevels would go from 1 to 10. Not sure what objects had more difficult locks.
+    Lockpicking and magic unlock both require some sort of lock level.
 
+  Some steps have been made to move some numbers out of attributes code into config files to make tweaking gain speeds and difficulties easier.
+    Still need to do a lot more looking into this....
 
-BrainAI script for merchants, how far along is this?
-  - What about skill training?
+  Limit number of accounts per IP
+    This may be easy to do in the accounts package, but might not be important enough to be added for a whlie.
 
+  Speech commands
+    Could be a script that's started on a player onlogon that registers speech events and processes things like "I must consider my sins."
 
-pkg/items/clothing/config/itemdesc.cfg needs VendorBuy/Sell values, possibly others
-
-
-Corpses don't decay. Maybe in corpseControl.src:
-	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
-		return 0;
-	endif
-
-
-Lockpicking and magic unlock both require locks to have different difficulties. This could easily be done with a CProp on every lockable item, something like LockLevel, and it could be an integer from 1 to 100. Does anyone else have a better idea?
-
-
-Does anyone else think skill gain is either too easy or too hard? I'm having difficulty with scenarios where I'd want a skill to raise once every few hundred tries, and after about 30 skill only gain in 0.1 increments (instead of the occasional 0.3, 0.2).
-
-
-Merchants from 095 need to be corrected and converted over to use brainAI.
-
-
-In advanceCheck.inc it makes two checks to see if skill gain should happen. The first is made with a pass_chance, which is calculated in skillCheck.inc. If There was more control over what pass_chance would be, possibly making it an optional paramater for SkillCheck()... The second check is made using an intelligence bonus and a task modifier. I think the bonus should depend on the skill. Swords would be strength, magery int, etc... This is what the OSI website says. I really don't want to ruff up Austin's code since he knows his way around it better. Maybe I am missing something? Maybe if each skill had a difficulty that somehow modified skill checks. That way it'd be easier to configure for new people.
-
-
-Guards do not work yet. It could be missing the criminal in the look around system, or a gone criminal event or it's not scripted at all.
+  Make pre-AOS spell resistance a configurable option for magery.

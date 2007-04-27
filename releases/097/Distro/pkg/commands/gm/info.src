@@ -603,6 +603,12 @@ endfunction
 
 function PrivEdit(who, targ, input_info)
 	who := who; // Stops compiler warning.
+
+	// Privs should only be editible by Admin and above
+	if ( who.cmdlevel < 4 )
+		SendSysMessage(who, "Privileges can only be edited by administrators and above.");
+	endif
+	
 	var priv_name := input_info.name;
 
 	if ( targ.Enabled(priv_name) )
