@@ -9,9 +9,9 @@ include ":attributes:attributes";
 include ":attributes:skillCheck";
 include ":crafting:toolWear";
 
-const UOBJ_LOOM_START		:= 0x105f;
-const UOBJ_LOOM_END			:= 0x1066;
-const UOBJ_BOLT					:= 0xf95;
+CONST UOBJ_LOOM_START		:= 0x105f;
+CONST UOBJ_LOOM_END			:= 0x1066;
+CONST UOBJ_BOLT					:= 0xf95;
 
 var item_config := ReadConfigFile(":*:itemdesc");
 

@@ -1,7 +1,7 @@
 Naming Conventions:
 -------------------
 
-FileNames:
+File names:
 The letter of the first word is lowercase, while the first letter of each additional
 word is capitalized. This naming convention is known as camelCase. All file extensions
 are lowercase.
@@ -15,12 +15,11 @@ are lowercase.
 		Core files are all lowercase.
 
 
-Variables:
+Variable names:
 	Examples:
 		var my_integer;
 		var my_string;
 		var layer_array;
-
 	Exceptions:
 		Constant variables are all capitalized and words are separated
 		using the underscore character '_'.
@@ -32,7 +31,7 @@ Variables:
 		object.someproperty := 100;
 
 
-Functions:
+Function names:
 All functions use the PascalCase convention, which as you can see has the first
 letter of each word capitalized.
 	Examples:
@@ -46,7 +45,7 @@ letter of each word capitalized.
 		prefix to define its origin i.e. AI_GetNerves(mobile).
 
 
-Programs:
+Program names:
 All programs are named after the file in which they are contained. Unlike their filenames
 though, the can either follow the 'cameCasing' or 'PascalCasing'.
 	Examples:
@@ -67,98 +66,99 @@ though, the can either follow the 'cameCasing' or 'PascalCasing'.
 === Other Formatting ===
 
 Return:
-// BAD
-return;
-// Proper
-return 0;
+	return; // BAD
+	return 0; // Propper
 
 Math:
-var math := 4 + 3 * 10; // 70 or 34? Use parethesis to control better.
-var pemdas := ( ( 4 * 4 ) + ( 8 / ( 3 + 2 ) ) ) - ( 100 + some_var );
+	var math := 4 + 3 * 10; // 70 or 34? Use parethesis to control better.
+	var pemdas := ( ( 4 * 4 ) + ( 8 / ( 3 + 2 ) ) ) - ( 100 + some_var );
 
 Strings:	
-// Strings dont have spaces around the + operator.
-var string := "Hello there "+"Stephen."+" I am "+math+" years old.";
+	// Strings dont have spaces around the + operator.
+	var string := "Hello there "+"Stephen."+" I am "+math+" years old.";
 
 Function Usage:
-var value := SomeFunction(argument_1, argument_2);
-var other_value := object.SomeMethodFunction(argument_1);
+	var value := SomeFunction(argument_1, argument_2);
+	var other_value := object.SomeMethodFunction(argument_1);
 
 Properties:
-object.somepropery := some_value;
+	object.somepropery := some_value;
 
 Comments:
-// MuadDib wears his daughter's undies in this comment.
+	// MuadDib wears his daughter's undies in this comment.
 
-/*
- * In this comment...
- * You learn he wears them on his head.
- *
- */
+	/*
+	 * In this comment...
+	 * You learn he wears them on his head.
+	 *
+	 */
 
-If, While, etc. Stuff:
-	
-if ( something )
-	Code here;
-endif
+If:
+	if ( something )
+		// Code here;
+	endif
 		
-if ( this || that ) // Dont use 'or' spelled out.
-if ( this && that ) // Dont use 'and' spelled out.
-if ( this || ( one && two ) ) // Parenthesis are important for order of operations.
+	if ( this || that ) // Don't use 'or' spelled out.
+	if ( this && that ) // Don't use 'and' spelled out.
+	if ( this || ( one && two ) ) // Parenthesis are important for order of operations.
 
-case ( something )
-     	value:
-	     	code;
-	     	break;
-    	default:
-    		code;
-  		break;
-endcase
+Case:
+	case ( something )
+     		value:
+	     		// code
+		     	break;
+    		default:
+	    		// code
+  			break;
+	endcase
 
-while ( something )
-	code here;
-	sleepms(2);
-endwhile
+Loops:
+Each iteration of a loop should sleep at least 2 ms.
 
-do
-	codehere;
-	sleepms(2);
-dowhile ( case );
+	while ( something )
+		// code
+		Sleepms(2);
+	endwhile
+
+	do
+		// code
+		Sleepms(2);
+	dowhile ( case );
 	
-foreach iteration in ( iterated )
-	codehere;
-	sleepms(2);
-endforeach
+	foreach iteration in ( iterated )
+		// code
+		Sleepms(2);
+	endforeach
 
-for ( i; i <= 4; i:=i+1 )
-	codehere;
-	sleepms(2);
-endfor
+	for ( i; i <= 4; i:=i+1 )
+		// code
+		Sleepms(2);
+	endfor
 
-for i:=1 to value
-	codehere;
-	sleepms(2);
-endfor
+	for i:=1 to value
+		// code
+		Sleepms(2);
+	endfor
+
 
 Declarations:
-// Dont make arrays like this
-var a := {1, 2, 3};
-var b := {};
-// Proper way
-var a := array{1, 2, 3};
-// Either below is acceptable
-var b := array{}; 
-var b := array;
+	// Dont make arrays like this
+	var a := {1, 2, 3};
+	var b := {};
+
+	// Proper way
+	var a := array{1, 2, 3};
+	var b := array{}; 
+	var b := array;
 	
-// Struct setup
-var my_var := struct;
-my_var.+member := something;
-my_var.+member2;
-// Or...
-var my_var := struct{"member":=something, "member2"};
+	// Struct setup
+	var my_var := struct;
+	my_var.+member := something;
+	my_var.+member2;
+	var my_var := struct{"member":=something, "member2"};
 	
-// Dictionary Setup
-var my_var := dictionary{"key"->value, "key2"->value};
+	// Dictionary Setup
+	var my_var := dictionary{"key"->value, "key2"->value};
 
 Other Notes:
 * Do not use spaces for indents, use tabs.

@@ -54,13 +54,17 @@ Corpse decay
   I'll have to check!
 
 
+Arenas
+  Basic framework is there, but otherwise unscripted.
+
+
 
 SKILLS
 ----------------
 Some of these skills depend on other systems that are either unfinished or do not exist, but some would be easy. Don't be shy. ;) Any other skills not listed should be considered finished and in testing.
 
  - magery
-    pet AI needs to be implemented in BrainAI before summons will work
+    pet AI must be scripted for summons
     function documentation
 
  - cooking - Ninde is working on this, and possibly more. :)
@@ -99,28 +103,35 @@ Some of these skills depend on other systems that are either unfinished or do no
 
  - veterinary - unassigned
 
- - focus - unassigned
+ - focus
+     Needs testing.
  
- - AOS+ skills are not a huge priority and may come up in future distro revisions.
+ - AOS/LBR/UOR skills & systems are not top priority but should be added in future versions.
+
+
+
+Small Stuff
+----------------
+Find a better place for CONSTs in drinkPotion.inc
 
 
 
 Features
 ----------------
-  A back button for .createnpc menu
+A back button for .createnpc menu
 
-  Stat advancement has been enabled, but needs testing
+Stat advancement has been enabled, but needs testing
 
-  LockLevel cprop defined for every lockable item. LockLevels would go from 1 to 10. Not sure what objects had more difficult locks.
-    Lockpicking and magic unlock both require some sort of lock level.
+LockLevel cprop defined for every lockable item. LockLevels would go from 1 to 10. Not sure what objects had more difficult locks.
+  Lockpicking and magic unlock both require some sort of lock level.
 
-  Some steps have been made to move some numbers out of attributes code into config files to make tweaking gain speeds and difficulties easier.
-    Still need to do a lot more looking into this....
+Some steps have been made to move some numbers out of attributes code into config files to make tweaking gain speeds and difficulties easier.
+  Still need to do a lot more looking into this....
 
-  Limit number of accounts per IP
-    This may be easy to do in the accounts package, but might not be important enough to be added for a whlie.
+Limit number of accounts per IP
+  This may be easy to do in the accounts package, but might not be important enough to be added for a whlie.
 
-  Speech commands
-    Could be a script that's started on a player onlogon that registers speech events and processes things like "I must consider my sins."
+Speech commands
+  Could be a script that's started on a player onlogon that registers speech events and processes things like "I must consider my sins."
 
-  Make pre-AOS spell resistance a configurable option for magery.
+Make pre-AOS spell resistance a configurable option for magery.
