@@ -9,9 +9,9 @@ include ":containers:containers";
 include ":gumps:yesno";
 include ":keys:key";
 
-const UOBJECT_DOORS_START	:= 0x0675;
-const UOBJECT_DOORS_END		:= 0x06f4;
-const CANCEL_ID			:= 9999;
+CONST UOBJECT_DOORS_START	:= 0x0675;
+CONST UOBJECT_DOORS_END		:= 0x06f4;
+CONST CANCEL_ID			:= 9999;
 
 program place_deed(who, deed)
 

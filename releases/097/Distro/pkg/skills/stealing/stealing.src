@@ -12,6 +12,10 @@ use math;
 include ":attributes:attributes";
 include "include/facings";
 
+CONST STEAL_NOTIFY_RANGE := 15;
+CONST MAX_WEIGHT_FACTOR := 10;
+CONST RANDOM_DIFFICULTY_RANGE := 30;
+
 program skill_Stealing(mobile)
 	if ( CInt(GetObjProperty(mobile, "#StealWait")) > ReadGameClock() )
 		SendSysMessage(mobile, "You must wait to use your stealing skill again.");
@@ -26,7 +30,7 @@ program skill_Stealing(mobile)
 	endif
 
 	var difficulty :=  CInt((AP_GetStat(targ, INTELLIGENCE)/2) + (AP_GetStat(targ, DEXTERITY)/2) );
-	difficulty := difficulty+RandomInt(30);
+	difficulty := difficulty+RandomInt(RANDOM_DIFFICULTY_RANGE);
 
 	if ( SkillCheck(mobile, "Stealing", difficulty) > 0 )
 		var skill_lvl := AP_GetSkill(mobile, STEALING);
@@ -44,7 +48,7 @@ program skill_Stealing(mobile)
 endprogram
 
 function FindStealableItems(container, skill_lvl)
-	var max_weight := CInt(Ceil(skill_lvl / 10));
+	var max_weight := CInt(Ceil(skill_lvl / MAX_WEIGHT_FACTOR));
 
 	var item_list := array;
 	foreach item in ( EnumerateItemsInContainer(container) )
@@ -59,7 +63,7 @@ function FindStealableItems(container, skill_lvl)
 endfunction
 
 function NotifyNoticers(mobile, targ)
-	foreach player in ( ListMobilesInLineOfSight(targ, 15) )
+	foreach player in ( ListMobilesInLineOfSight(targ, STEAL_NOTIFY_RANGE) )
 		if ( !player.connected )
 			continue;
 		elseif ( IsFacing(player, targ.x, targ.y) )

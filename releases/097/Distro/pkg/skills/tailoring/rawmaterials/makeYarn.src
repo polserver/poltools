@@ -9,11 +9,11 @@ include ":attributes:attributes";
 include ":attributes:skillCheck";
 include ":crafting:toolWear";
 
-const UOBJ_WHEEL_START	:= 0x1015;
-const UOBJ_WHEEL_END		:= 0x101e;
-const UOBJ_WHEEL_START2	:= 0x10a4;
-const UOBJ_WHEEL_END2		:= 0x10a6;
-const UOBJ_YARN					:= 0xe1f;
+CONST UOBJ_WHEEL_START	:= 0x1015;
+CONST UOBJ_WHEEL_END		:= 0x101e;
+CONST UOBJ_WHEEL_START2	:= 0x10a4;
+CONST UOBJ_WHEEL_END2		:= 0x10a6;
+CONST UOBJ_YARN					:= 0xe1f;
 
 var item_config := ReadConfigFile(":*:itemdesc");
 

@@ -3,9 +3,9 @@ use os;
 use polsys;
 use unicode;
 
-const TYPE_DISPLAY_USERNAME := 0X03EB;
-const TYPE_USERNAME_ACCEPTED := 0x03ED;
-const TYPE_JOIN_CHANNEL := 0X03E8;
+CONST TYPE_DISPLAY_USERNAME := 0X03EB;
+CONST TYPE_USERNAME_ACCEPTED := 0x03ED;
+CONST TYPE_JOIN_CHANNEL := 0X03E8;
 
 include ":chat:chatIO";
 include ":chat:packets";

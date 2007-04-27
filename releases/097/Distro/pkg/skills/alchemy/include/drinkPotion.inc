@@ -2,17 +2,17 @@ use cfgfile;
 
 include ":attributes:attributes";
 
-const POISON_SOUND := 0x247;
-const DRINK_SOUND := 0x32;
-const UOBJ_EMPTY_BOTTLE := 0x0f0e;
-const EFFECT_BLUE_SPARKLE  := 0x373a;
-const SOUND_EFFECT_CURE	:= 0x1e1;
-const EFFECT_SPARKLE  := 0x374a;
-const HIT_ACTION := 0x148b;
-const MOVING_EFFECT_PURPLE_POTION  := 0x0f0d;
-const SOUND_EFFECT_EXPLOSION	:= 0x208;
-const SOUND_EFFECT_HEAL	:= 0x1f3;
-const EFFECT_EXPLOSION := 0x36b0;
+CONST POISON_SOUND := 0x247;
+CONST DRINK_SOUND := 0x32;
+CONST UOBJ_EMPTY_BOTTLE := 0x0f0e;
+CONST EFFECT_BLUE_SPARKLE  := 0x373a;
+CONST SOUND_EFFECT_CURE	:= 0x1e1;
+CONST EFFECT_SPARKLE  := 0x374a;
+CONST HIT_ACTION := 0x148b;
+CONST MOVING_EFFECT_PURPLE_POTION  := 0x0f0d;
+CONST SOUND_EFFECT_EXPLOSION	:= 0x208;
+CONST SOUND_EFFECT_HEAL	:= 0x1f3;
+CONST EFFECT_EXPLOSION := 0x36b0;
 
 function CheckToDrink(character, type)
 	// Check to make sure they have at least one hand free to drink the potion

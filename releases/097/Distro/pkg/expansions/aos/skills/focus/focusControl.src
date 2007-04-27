@@ -1,0 +1,62 @@
+// $Id: medControl.src 1048 2007-04-23 00:56:15Z tekproxy $
+
+include ":attributes:attributes";
+
+program medControl(mobile)
+	var regen_rate := 0;
+	var cfg_elem := AP_GetSettingsCfgElem("Regen");
+	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, "Stamina"));
+	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, "Mana"));
+	var focus := AP_GetSkill(mobile, BATTLE_FOCUS);
+	var history := struct{mana := AP_GetVital(mobile, "Mana"), stam := AP_GetVital(mobile, "Stamina")};
+	var newVital;
+	
+	var advanced;
+	var award_diff;
+	var pass_chance;
+	
+	while ( mobile.connected )
+		// Every point of vital regenerated, there is a chance for skill gain
+		newVital := AP_GetVital(mobile, "Mana");
+		if ( newVital != history.mana )
+			// TODO: calculate award_diff and pass chance
+			award_diff := focus;
+			pass_chance := 100;
+			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
+			history.mana :=	newVital;
+		endif
+		
+		newVital := AP_GetVital(mobile, "Stamina");
+		if ( newVital != history.stam )
+			// TODO: calculate award_diff and pass chance (should be awarded more for stam gain)
+			award_diff := focus;
+			pass_chance := 100;
+			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
+			history.stam :=	newVital;
+		endif
+
+		// For every 1 points focus, +0.01 stamina per second
+		var stam_regen := focus / 100.0;
+
+    // For every 2 points focus, +0.01 mana per second
+		var mana_regen := focus / 200.0;
+		
+		// We're not changing the base regen rate, only applying a MOD
+		// So subtract the configured base regen rate for mana and we get the mod total.
+		if ( base_stam_regen )
+			stam_regen -= (base_stam_regen / 60.0);
+		endif
+		
+		if ( base_mana_regen )
+			mana_regen -= (base_mana_regen / 60.0);
+		endif
+
+		// Regen rates are in hundredths of points per minute
+		AP_SetVitalRegenRateMod(mobile, "Stamina", stam_regen * 60 * 100);
+		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen * 60 * 100);
+
+    Sleep(1);
+	endwhile
+	
+	return 1;
+endprogram

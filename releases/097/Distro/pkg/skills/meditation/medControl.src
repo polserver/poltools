@@ -14,46 +14,44 @@ include ":meditation:settings";
 include ":meditation:functions";
 
 program medControl(mobile)
-	var regen_rate := 0;
+	var mana_regen := 0;
 	var cfg_elem := AP_GetSettingsCfgElem("Regen");
-	var base_regen := CDbl(GetConfigInt(cfg_elem, "Mana"));
+	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, "Mana"));
 	var meditation := AP_GetSkill(mobile, MEDITATION);
-	var history := struct{ x, y, z, mana := AP_GetVital(mobile, "Mana") };
-	var newmana;
+	var history := struct{x, y, z, mana := AP_GetVital(mobile, "Mana")};
+	var newVital;
 	
 	var advanced;
 	var award_diff;
 	var pass_chance;
 	
 	while ( mobile.connected )
-		// If mana now is greater than mana 1 second ago by 1 whole point
-		// there's a chance to get some skill gain.
-		newmana := AP_GetVital(mobile, "Mana");
-		if ( newmana != history.mana )
+		// Every point of vital regenerated, there is a chance for skill gain
+		newVital := AP_GetVital(mobile, "Mana");
+		if ( newVital != history.mana )
 			// TODO: calculate award_diff and pass chance
 			award_diff := meditation;
 			pass_chance := 100;
 			advanced := CheckSkillAdvance(mobile, "Meditation", award_diff, pass_chance);
-
-			history.mana :=	newmana;
+			history.mana :=	newVital;
 		endif
 		
 		if ( GetManaLoss(mobile) != "nomed" )			
 			// Base regen speed: (Meditation * 3) + Intelligence
-			regen_rate := (meditation * 3) + AP_GetStat(mobile, "Intelligence");
+			mana_regen := (meditation * 3) + AP_GetStat(mobile, "Intelligence");
 			
 			// 10% bonus at GM meditation
 			if ( meditation >= 100 )
-				regen_rate *= 1.10;
+				mana_regen *= 1.10;
 			endif
 		endif
 		
 		var settings_elem := ME_GetSettingsCfgElem("Settings");
 		if ( GetConfigInt(settings_elem, "UseFocus") )
-			regen_rate := (regen_rate / 400) + (AP_GetSkill(mobile, BATTLE_FOCUS) / 200) + 0.2;
+			mana_regen := (mana_regen / 400) + (AP_GetSkill(mobile, BATTLE_FOCUS) / 200) + 0.2;
 		else
 			// Not sure what the exact formula is
-			regen_rate := (regen_rate / 400) + 0.2;
+			mana_regen := (mana_regen / 400) + 0.2;
 		endif
 
 		// If actively meditating, regen rate is doubled
@@ -71,7 +69,7 @@ program medControl(mobile)
 			elseif ( history.x != mobile.x || history.y != mobile.y || history.z != mobile.z )
 				StopMeditating(mobile);
 			else
-				regen_rate *= 2;
+				mana_regen *= 2;
 			endif
 		else
 			// It's only necessary to null history.x since it's the only member checked
@@ -82,12 +80,12 @@ program medControl(mobile)
 		
 		// We're not changing the base regen rate, only applying a MOD
 		// So subtract the configured base regen rate for mana and we get the mod total.
-		if ( base_regen )
-			regen_rate -= (base_regen / 60.0);
+		if ( base_mana_regen )
+			mana_regen -= (base_mana_regen / 60.0);
 		endif
 		
 		// Regen rates are in hundredths of points per minute
-		AP_SetVitalRegenRateMod(mobile, "Mana", regen_rate * 60 * 100);
+		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen * 60 * 100);
 
 		// Sleep less while meditating so player position checks wont miss player movement
 		if ( CheckIfMeditating(mobile) )

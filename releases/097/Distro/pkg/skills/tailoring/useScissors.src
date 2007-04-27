@@ -9,7 +9,7 @@ include ":attributes:attributes";
 include ":attributes:skillCheck";
 include ":crafting:toolWear";
 
-const SCISSORS_SFX := 0x0249;
+CONST SCISSORS_SFX := 0x0249;
 
 var scissors_cfg := ReadConfigFile(":tailoring:scissors");
 var item_config := ReadConfigFile(":*:itemdesc");
