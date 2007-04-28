@@ -113,6 +113,7 @@ Some of these skills depend on other systems that are either unfinished or do no
 Small Stuff
 ----------------
 Find a better place for CONSTs in drinkPotion.inc
+Keg script should be cleaned up and made to account for tasteid
 
 
 
