@@ -207,28 +207,24 @@ function HandleExtended(character, byref packet)
 		// tekproxy: It would be nice if a few packet guides actually mentioned this...
 		var resistances := GetResistance(character);
 		
-		// Set the fire resist in the packet
 		if ( CInt(resistances[DMG_FIRE]) > 0 )
 			packet.SetInt16(70, CInt(resistances[DMG_FIRE])); 
 		else
 			packet.SetInt16(70, 0x10000 + CInt(resistances[DMG_FIRE]));
 		endif
 		
-		// Set the cold resist in the packet
 		if ( CInt(resistances[DMG_COLD]) > 0 )
 			packet.SetInt16(72, CInt(resistances[DMG_COLD])); 
 		else
 			packet.SetInt16(72, 0x10000 + CInt(resistances[DMG_COLD]));
 		endif
 		
-		// Set the poison resist in the packet
 		if ( CInt(resistances[DMG_POISON]) > 0 )
 			packet.SetInt16(74, CInt(resistances[DMG_POISON])); 
 		else
 			packet.SetInt16(74, 0x10000 + CInt(resistances[DMG_POISON]));
 		endif
 
-		// Set the energy resist in the packet
 		if ( CInt(resistances[DMG_ENERGY]) > 0 )
 			packet.SetInt16(76, CInt(resistances[DMG_ENERGY])); 
 		else
@@ -246,7 +242,7 @@ function HandleExtended(character, byref packet)
 			packet.SetInt16(78, 0x10000 + luck);
 		endif
 		
-	  // Set the tithing points in the packet
+		// Set the tithing points in the packet
 		var tithing := 0;
 		if ( tithing > 0 )
 			packet.SetInt16(86, tithing);
@@ -256,7 +252,6 @@ function HandleExtended(character, byref packet)
 
 
 		// Now let's set up the Max and Min damage entries of the packet.
-
 		var min_dmg := 0, max_dmg := 0;
 		var descriptor := GetItemDescriptor((character.weapon).objtype);
 		if ( descriptor )

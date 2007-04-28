@@ -1,8 +1,8 @@
-// $Id: medControl.src 1048 2007-04-23 00:56:15Z tekproxy $
+// $Id$
 
 include ":attributes:attributes";
 
-program medControl(mobile)
+program focusControl(mobile)
 	var regen_rate := 0;
 	var cfg_elem := AP_GetSettingsCfgElem("Regen");
 	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, "Stamina"));
@@ -38,7 +38,7 @@ program medControl(mobile)
 		// For every 1 points focus, +0.01 stamina per second
 		var stam_regen := focus / 100.0;
 
-    // For every 2 points focus, +0.01 mana per second
+		// For every 2 points focus, +0.01 mana per second
 		var mana_regen := focus / 200.0;
 		
 		// We're not changing the base regen rate, only applying a MOD
@@ -55,7 +55,7 @@ program medControl(mobile)
 		AP_SetVitalRegenRateMod(mobile, "Stamina", stam_regen * 60 * 100);
 		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen * 60 * 100);
 
-    Sleep(1);
+		Sleep(1);
 	endwhile
 	
 	return 1;

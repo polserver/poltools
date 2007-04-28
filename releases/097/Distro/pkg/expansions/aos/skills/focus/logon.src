@@ -1,4 +1,4 @@
-// $Id: logon.src 1048 2007-04-23 00:56:15Z tekproxy $
+// $Id$
 
 use uo;
 use os;

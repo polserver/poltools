@@ -5,7 +5,7 @@
 include ":meditation:functions";
 include ":attributes:attributes";
 
-program Meditation(mobile)
+program skill_Meditation(mobile)
 	// TODO: Difficulty is influenced by type of armor you wear. Leather is easiest.
 	var difficulty := 15;
 	
