@@ -63,9 +63,9 @@ Program HTMLPage()
 endprogram
 
 function FormatSeconds(seconds)
-	const SEC_PER_HOUR := 3600.0;
-	const SEC_PER_DAY := 86400.0;
-	const SEC_PER_WEEK := 604800.0;
+	CONST SEC_PER_HOUR := 3600.0;
+	CONST SEC_PER_DAY := 86400.0;
+	CONST SEC_PER_WEEK := 604800.0;
 
 	var formatted := "";
 
@@ -117,9 +117,8 @@ function FormatSeconds(seconds)
 endfunction
 
 function FormatBytes(bytes)
-
-	const BYTES_IN_KILO	:= 1024.0;
-	const BYTES_IN_MEG	:= 1048576.0;
+	CONST BYTES_IN_KILO	:= 1024.0;
+	CONST BYTES_IN_MEG	:= 1048576.0;
 
 	var mb := CDbl(bytes) / BYTES_IN_MEG;
 	var type := "MB";
