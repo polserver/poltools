@@ -1,61 +1,70 @@
-# $Id$
-
-Welcome to the Distro TODO. If you find anything you'd like to help with, just contact me at tekproxy@gmail.com and we can talk about it. If you are aware of anything that should be on this list, please let me know!
+Welcome to the Distro To-Do! This list is by no means definitive, so if you see anything that should be on here, even if it is very small, let me know. 
 
 
-BIG STUFF
+Please read through this list and contact tekproxy(at)gmail.com if you find anything that you would like to do. You will also need to read StyleGuide.txt in the distro docs directory and write your code according to those standards. DO NOT assume that you are not good enough to contribute. ;) We all have to start somewhere.
+
+We're trying to make the Distro like current OSI but not at the cost of modularity and configurability. If it can be 90% OSI, and highly configurable and mostly self-contained, that is wonderful.
+
+
+
+
+MAIN STUFF
 ----------------
-NPC definitions
+NPC definitions - unassigned
   This may be easy to do with greasemonkey scripts on firefox using the stratics website. Need to look more into this.
 
 
-Item definitions
+Item definitions - unassigned
   Same as NPC definitions. Hopefully we can get buy/sell values.
 
 
-World item placement (doors, signs)
+World item placement (doors, signs) - No assignment necessary.
   These used to be in the 096 distro so I know they're floating around somewhere.
   Probably just need to copy them over and scrub them clean (wipe message boards, find any "easter eggs" etc...).
 
 
-Spawning
+Spawn Locations - unassigned
   If you know OSI spawn locations well, or run a shard with some already set up in your own custom format, we can use the help.
 
 
-Boats and Housing
+Boats and Housing - unassigned
   This is almost completely unscripted. The brunt of the work could be done by converting 095 scripts.
    
 
-Crafting
-  Very far along. Not sure exactly this is MuadDib's area.
+Crafting - Assigned to MuadDib
+  Nearly finished.
 
 
-Guilds
-  MontuZ reports this system is finished and in testing.
+Guilds - Assigned to MontuZ
+  Finished and in testing.
 
 
-Spawning
+Spawning - unassigned
   Austin said "almost complete". It doesn't have a web interface.
 
 
-Merchants
+Merchants - unassigned
   Can copy over most of the stuff in 095 and get it to work with BrainAI. Merchants should be finished and usable, just not configured.
   Not sure if merchants do training of if there is AI scripted for that...
 
-Guards
+Guards - unassigned
   It could be missing the criminal in the look around system, or a gone criminal event or it's not scripted at all.
 
 
-Corpse decay
+Arenas - unassigned
+  Basic framework is there, but otherwise unscripted.
+
+
+
+
+BUGS
+----------------
+Corpse decay - unassigned
   Doesn't work but there is code for it. I think it might be because of:
 	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
 		return 0;
 	endif
-  I'll have to check!
 
-
-Arenas
-  Basic framework is there, but otherwise unscripted.
 
 
 
@@ -63,11 +72,11 @@ SKILLS
 ----------------
 Some of these skills depend on other systems that are either unfinished or do not exist, but some would be easy. Don't be shy. ;) Any other skills not listed should be considered finished and in testing.
 
- - magery
+ - magery - Assigned to tekproxy
     pet AI must be scripted for summons
     function documentation
 
- - cooking - Ninde is working on this, and possibly more. :)
+ - cooking - Assigned to Ninde
 
  - detect hidden - unassigned
  
@@ -90,7 +99,7 @@ Some of these skills depend on other systems that are either unfinished or do no
  - remove trap - unassigned
 
  - tailoring
-     Added but largely untested.
+     Requires testing.
 
  - taming - unassigned
     Will require pets to be added to BrainAI.
@@ -104,20 +113,21 @@ Some of these skills depend on other systems that are either unfinished or do no
  - veterinary - unassigned
 
  - focus
-     Needs testing.
+     Requires testing.
  
  - AOS/LBR/UOR skills & systems are not top priority but should be added in future versions.
 
 
 
-Small Stuff
+
+Assigned Features
 ----------------
-Find a better place for CONSTs in drinkPotion.inc
-Keg script should be cleaned up and made to account for tasteid
+Can't think of anything right now...
 
 
 
-Features
+
+Unassigned Features
 ----------------
 A back button for .createnpc menu
 
@@ -136,3 +146,12 @@ Speech commands
   Could be a script that's started on a player onlogon that registers speech events and processes things like "I must consider my sins."
 
 Make pre-AOS spell resistance a configurable option for magery.
+
+
+
+
+Very Small Stuff
+----------------
+Find a better place for CONSTs in drinkPotion.inc - Assigned to tekproxy
+Keg script should be cleaned up and made to account for tasteid - Assigned to tekproxy
+Tailoring gump bugs - Assigned to Ninde
