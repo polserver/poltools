@@ -65,22 +65,24 @@ function cutItems(who, item, tool)
 				Sleep(1);
 			endfor
 
- 			newcloth := CreateItemAtLocation(who.x, who.y, who.z, newitem, amt, who.realm);
+			// First try creating it in their backpack.
+ 			newcloth := CreateItemInBackpack( who, newitem, amt );
 			if ( !newcloth )
-				// Todo: Should probably add in reporttext functions and put an error somewhere...
-				SendSysMessage(who, "Your cloth could not be created.");
-				return 0;
+				// If no room in pack, create at cutter's feet.
+				newcloth := CreateItemAtLocation(who.x, who.y, who.z, newitem, amt, who.realm);
 			endif
 			
  			newcloth.color := clr;
 
- 			if ( cont )
+			// If hides was in a container, and it's not the container
+			// the cut leather is already in.....
+ 			if ( cont && (cont != newcloth.container) )
 				MoveItemToContainer(newcloth, cont);
  			else
 				MoveItemToContainer(newcloth, who.backpack);
  			endif
 
-  		CheckToolWear (who, tool, TAILORING);
+  			CheckToolWear (who, tool, TAILORING);
  			SendSysMessage(who, "You use the scissors to cut the material.");
  			return;
 		else
@@ -106,17 +108,16 @@ function cutItems(who, item, tool)
  			// 0x1766 = folded cloth
  			CheckToolWear(who, tool, TAILORING);
 
- 			newcloth := CreateItemInContainer(who.backpack, 0x1766, amt);
+ 			newcloth := CreateItemInBackpack(who, 0x1766, amt);
 			if ( !newcloth )
-				// Todo: Should probably add in reporttext functions and put an error somewhere...
-				SendSysMessage(who, "Your cloth could not be created.");
-				return 0;
+				// If no room in pack, create at cutter's feet.
+				newcloth := CreateItemAtLocation(who.x, who.y, who.z, 0x1766, amt, who.realm);
 			endif
 
 			newcloth.color := clr;
 		else
-  		SendSysMessage(who, "You can't use scissors on that.");
-  		return;
+	  		SendSysMessage(who, "You can't use scissors on that.");
+	  		return;
 		endif
-  endif
+	endif
 endfunction
