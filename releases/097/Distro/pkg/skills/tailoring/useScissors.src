@@ -47,6 +47,9 @@ function cutItems(who, item, tool)
 	elseif ( item in ListEquippedItems(who) )
 		SendSysMessage(who, "You cannot cut something being worn!");
 		return;
+	elseif ( !(item in EnumerateItemsInContainer(who.backpack)) )
+			SendSysMessage(who, "That item is not in your backpack.");
+			return 0;
 	endif
 
  	var material := CInt(scissors_cfg[item.objtype].material);
