@@ -104,7 +104,8 @@ Some of these skills depend on other systems that are either unfinished or do no
  - taming - unassigned
     Will require pets to be added to BrainAI.
 
- - taste identification - unassigned
+ - taste identification - Assigned to tekproxy
+    Mostly finished. Slight changes should be made to kegs.
 
  - tinkering - unassigned
 
@@ -120,14 +121,14 @@ Some of these skills depend on other systems that are either unfinished or do no
 
 
 
-Assigned Features
+ASSIGNED
 ----------------
 Can't think of anything right now...
 
 
 
 
-Unassigned Features
+UNASSIGNED
 ----------------
 A back button for .createnpc menu
 
@@ -147,11 +148,20 @@ Speech commands
 
 Make pre-AOS spell resistance a configurable option for magery.
 
+Blue, red, white and orange potion scripts should make use of the strength cprop in :alchemy:itemdesc.cfg (look at greenPotion.src for an example)
+
+Item category/type cprop for itemdesc entries such as "potion" for potions and "food" for foods. This would be used by other scripts such as tasteID to determine if an item is a potion or not instead of a list of objtype numbers.
+
+Some old distro code that does not meet distro style standards, including $Id:$ tags at the top of files, and should be fixed but are not a high priority as there are more important things to do. A good solution would be a script that automates the process.
 
 
 
-Very Small Stuff
+
+
+SMALL STUFF
 ----------------
 Find a better place for CONSTs in drinkPotion.inc - Assigned to tekproxy
-Keg script should be cleaned up and made to account for tasteid - Assigned to tekproxy
+
+Keg script should be cleaned up and made to account for tasteidentification - Assigned to tekproxy
+
 Tailoring gump bugs - Assigned to Ninde
