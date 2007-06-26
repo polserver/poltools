@@ -66,7 +66,7 @@ function DemoteGuildMember(who)
 		return rank;
 	endif
 
-	rank := rank - 1;
+	rank -= 1;
 
 	if( SetObjProperty(who, "Guild_Rank", rank ) )
 		return 1;
@@ -98,7 +98,7 @@ function PromoteGuildMember(who)
 		return rank;
 	endif
 
-	rank := rank + 1;
+	rank += 1;
 
 	if( SetObjProperty(who, "Guild_Rank", rank ) )
 		return 1;

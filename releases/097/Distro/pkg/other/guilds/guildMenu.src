@@ -93,7 +93,7 @@ program Guild_Menu(who)
 			ShowMembers(who, guild_id);
 			break;
 		2:
-			SendSysMessage(who, "INCOMPLETE->2");
+			SendSysMessage(who, "INCOMPLETE->2 Faction");
 			break;
 		3:
 			ShowCharter(who);
@@ -121,7 +121,7 @@ program Guild_Menu(who)
 			LeaveGuild(who);
 			break;
 		10:
-			SendSysMessage(who, "INCOMPLETE->10");
+			SendSysMessage(who, "INCOMPLETE->10 Toggle Title");
 			break;
 		11:
 			RemoveGuild(who, who.guild);
@@ -679,7 +679,7 @@ function ViewGuild(who, guild_id)
 					SendSysMessage(who, "Aborted. Their guild master is currently in vote.");
 					return 0;
 				endif
-				if ( guild_master.connected )
+				if ( guild_master.ip )
 					SendSysMessage(who, "A request for an alliance was sent.");
 					if ( !YesNo(guild_master, chr_guild.GetProp("Name")+" would like to form an alliance with your guild. Do you accept this request?", "Yes", "No") )
 						SendSysMessage(who, "Aborted. Their guild master denied your request for an alliance.");
@@ -690,7 +690,7 @@ function ViewGuild(who, guild_id)
 						endif
 						return 1;
 					endif
-				elseif ( !guild_master.connected )
+				elseif ( !guild_master.ip )
 					SendSysMessage(who, "A request for an alliance was sent.");
 					if ( !ally_requests )
 						ally_requests := array{};
@@ -735,7 +735,7 @@ function ViewGuild(who, guild_id)
 					SendSysMessage(who, "Aborted. Their guild master is currently in vote.");
 					return 0;
 				endif
-				if ( guild_master.connected )
+				if ( guild_master.ip )
 					SendSysMessage(who, "A request for a war was sent.");
 					if ( !YesNo(guild_master, chr_guild.GetProp("Name")+" would like to declare war with your guild. Do you accept this request?", "Yes", "No") )
 						return 0;
@@ -743,7 +743,7 @@ function ViewGuild(who, guild_id)
 						chr_guild.AddEnemyGuild(guild);
 						return 1;
 					endif
-				elseif ( !guild_master.connected )
+				elseif ( !guild_master.ip )
 					SendSysMessage(who, "A request for a war was sent.");
 					var war_requests := guild.GetProp("PendingWarReqs");
 					if ( !war_requests )
@@ -783,10 +783,10 @@ function InviteMember(recruiter)
 	if ( !new_member )
 		SendSysMessage(recruiter, "Aborted.");
 		return 0;
-	elseif ( new_member.IsA( POLCLASS_NPC ) )
+	elseif ( new_member.IsA(POLCLASS_NPC) )
 		SendSysMessage(recruiter, "Aborted. You must select a player.");
 		return 0;
-	elseif ( !new_member.IsA( POLCLASS_MOBILE ) )
+	elseif ( !new_member.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(recruiter, "Aborted. You must select a player.");
 		return 0;
 	elseif ( GetObjProperty(new_member, "Guild_ID" ) )
@@ -832,7 +832,7 @@ function LeaveGuild(member)
 		if ( CInt(guild.GetProp("Master")) == CInt(member.serial) )
 			guild.SetProp("Master", "In Vote");
 			foreach xmember in (guild.members)
-			SendSysMessage(xmember, "You leader has left the guild.");
+				SendSysMessage(xmember, "You leader has left the guild.");
 			endforeach
 		endif
 		return 1;
@@ -1031,7 +1031,7 @@ function PromoteMember(character, member)
 	if ( result )
 		return 1;
 	else
-		SendSysMessage(character, "Aborted. Error->"+result);
+		SendSysMessage(character, "Aborted. Error: "+result);
 		return 0;
 	endif
 
@@ -1043,7 +1043,7 @@ function DemoteMember(character, member)
 	var member_rank := GetGuildRank(member);
 	var not_allowed := array{1, 2, 4};
 
-	if ( char_rank << member_rank )
+	if ( char_rank < member_rank )
 		SendSysMessage(character, "Aborted. You cannot demote this member.");
 		return 0;
 	endif
@@ -1062,7 +1062,7 @@ function DemoteMember(character, member)
 	if ( result )
 		return 1;
 	else
-		SendSysMessage(character, "Aborted. Error->"+result);
+		SendSysMessage(character, "Aborted. Error: "+result);
 		return 0;
 	endif
 
