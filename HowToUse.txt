@@ -39,9 +39,8 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
 * Select "SVN Checkout" 
 
 * For the URL of the repository enter
-  https://svn.sourceforge.net/svnroot/pol-distro/releases/<###>
-  
-  Example: https://svn.sourceforge.net/svnroot/pol-distro/releases/096
+  https://pol-distro.svn.sourceforge.net/svnroot/pol-distro/releases/<###>
+  Example: https://pol-distro.svn.sourceforge.net/svnroot/pol-distro/releases/097
   
   Click [okay]
 
@@ -65,7 +64,7 @@ UOCONVERT.CFG
 * Extract the following files from the zip file to the "Distro-<###>/distro/scripts" folder:
 ECOMPILE.EXE
 
-* Extract the .em files from the zip file to the "Distro-<###>/distro/scripts/modules" folder:
+* Extract all of the .em files from the zip file to the "Distro-<###>/distro/scripts/modules" folder:
    *.EM FILE EXAMPLES:
     BASIC.EM
     BASICIO.EM
