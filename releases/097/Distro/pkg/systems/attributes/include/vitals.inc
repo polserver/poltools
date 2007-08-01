@@ -12,6 +12,7 @@
 
 use uo;
 use os;
+use vitals;
 use cfgfile;
 
 /* AP_GetVitalsCfgFile()
