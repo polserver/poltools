@@ -32,7 +32,7 @@ Post to the 'POL Distro Dev' board at http://www.polserver.com
   Example: 095 096 097 098 (currently 095, 096 and 097 are available)
   
   To retrieve all distro versions, omit /releases/<###>
-  Example: https://svn.sourceforge.net/svnroot/pol-distro/
+  Example: https://pol-distro.svn.sourceforge.net/svnroot/pol-distro/
 
 * Create a folder called "Distro-<###>" and right click it.
   Example: Distro-096
