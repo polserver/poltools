@@ -32,7 +32,7 @@ Boats and Housing - unassigned
    
 
 Crafting - Assigned to MuadDib
-  Nearly finished.
+  Nearly finished. But needs some more help, as Dib's undie time is limited.
 
 
 Guilds - Assigned to MontuZ
@@ -152,7 +152,7 @@ Blue, red, white and orange potion scripts should make use of the strength cprop
 
 Item category/type cprop for itemdesc entries such as "potion" for potions and "food" for foods. This would be used by other scripts such as tasteID to determine if an item is a potion or not instead of a list of objtype numbers.
 
-Some old distro code that does not meet distro style standards, including $Id:$ tags at the top of files, and should be fixed but are not a high priority as there are more important things to do. A good solution would be a script that automates the process.
+Some old distro code that does not meet distro style standards, including $Id$ tags at the top of files, and should be fixed but are not a high priority as there are more important things to do. A good solution would be a script that automates the process.
 
 
 
