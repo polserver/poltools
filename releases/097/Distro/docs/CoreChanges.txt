@@ -1,5 +1,94 @@
 -- POL097 --
 =======
+9-05 VeNdOr
+        Fixed : equipped items become invisible on realms different from britannia
+        
+9-04 VeNdOr
+        Added : auxconnection.ip -- returns remote ip of connection as string
+
+8-20 Shinigami
+        Fixed : Bug in config/movecost.cfg - "Walking_Mounted" section was ignored
+
+8-19 Shinigami
+        Fixed : Memory Leak in PacketHook functions
+
+7-09 Shinigami
+        Added : added UO:KR login process
+        Added : player.isUOKR -- returns 1 if player uses an UO:KR client
+
+6-17 Shinigami
+        Added : Entry to pol.cfg 'WorldDataPath' to set a different path to the data files.
+                Defaults to 'data/'
+
+5-4 Shinigami
+        Added : uo::GetRegionName( object )                - get name of [justice] region
+                uo::GetRegionNameAtLocation( x, y, realm ) - get name of [justice] region
+
+4-12 Austin
+     Added: Projectile support for NPC intrinsic weapons.
+                Property keys are AttackProjectile, AttackProjectileAnim, AttackProjectileType and AttackProjectileSound
+
+4-8  MuadDib
+        Fixed : Crash involving Realms() and passing non-string param or empty param to it.
+      Changed : Sending of worn items to inrange pcs has been optimized. Should help
+                reduce load a little bit for fully dressed mobs and full packs. Maybe
+                reduce server load during bashes? Would require testing of course to make
+                that statement :)
+      Removed : CreateNPCFromTemplate() will now only accept Struct for override props.
+                Arrays was removed due to core changes in array handling since this
+                function was updated to use arrays.
+
+4-4  MuadDib
+        Added : WornItms Container checks that look for and handle container class
+                objects like Quivers, etc, will ignore the following layers for the
+                obvious and specific reasons:
+                11 (hair), 15 (shhhh), 16 (beard), 21 (pack), 25 (mount)
+      Changed : WornItems container checks when looking for accessible items. If an
+                item inside the WornItems container is a container itself, it will
+                now check inside that. This affects for example, quivers added in
+                the ML Expansion. Lets you make new equippable containers to
+                hand layers, etc, and be usable fully for adding items into it
+                and removing while equipped. This is in effect for layers 1-25
+                so be very carefull when creating these items!
+      Changed : WornItems container is now checked for legal containers when drag-n-drop
+                attempts to drop an item onto the equipped container class object (quiver).
+                THe above layer ignoring is in place here also.
+        Added : Projectile weapons will now check equipped containers for ammo if it
+                cannot find any in the backpack first.
+         NOTE : I very strongly recommend making equip scripts and all for these
+                items. Since it IS a container, you need to make sure the layer
+                the client is putting it on, is the correct layer. So just have the
+                equip script make sure the correct layer is empty on the character
+                equipping this. Remember, these are CONTAINERS, not armor/weapons.
+                The client will allow equipping only if the item is set as armor
+                or weapon, and uses layers client side. Never trust the client, thus
+                the need for an equipscript for containers when they can possibly be
+                equipped.
+
+3-28 Shinigami
+       Changed: Adjustment to increasing the revision state for Equipment loosing
+                HPs while fighting.
+
+1-15 MuadDib
+        Fixed : PrintTextAboveCL() now checks for object instead of mobile class
+                being passed to it.
+      Changed : Default of uc_text in cliloc.em. Just smack me.
+
+1-3 MuadDib
+        Added : Packets that are pre-character selection will now report a struct to
+                a packethook with the member "ip". So far this is the only member in
+                the struct. Future members might be added, but don't hold me to it.
+                Account references at this time, cannot be added.
+
+1-2 MuadDib
+        Added : Native handling of 2D and 3D "Allnames" macro that uses CTRL+SHIFT.
+                Added due to the nature of client to spam a lot of these in crowded
+                areas, which would cause server lag due to packet hooks to handle each
+                request individually in critical mode per client using it.
+
+12-27 MuadDib
+        Fixed : Server IP is now sent in correct order in the 0xA8 packet.
+
 12-05 Shinigami
         Fixed : fixed a Bug in Walking-on-Multi-Code. A Multi-Definition Door upstairs could block walking.
 
