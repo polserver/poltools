@@ -1,5 +1,19 @@
 -- POL097 --
 =======
+10-04 MuadDib
+      Changed : NPC::IsLegalMove() will now explicitly check for a MOVE in the given
+                direction, regardless of NPC's current Facing. Will stop AI's that
+                have NPC's using Bounding Boxes that walk out of the box by checking
+                legal move, turning, then moving 1 step. Please be sure to check
+                your AI's that use bounding boxes, to see if you coded that way!
+                This check is for step movement. Facing should only be blockable if
+                frozen, paralyzed, or stamina affected (if server set to use stam).
+        Fixed : Exploit in Unpack() with Arrays and Dictionaries. If an element within
+                the pack returns an error when unpacked, Unpack() halts and returns an
+                error. Still ignores Uninit stuff as before. Same reasoning for fix as
+                with Strings on 10-02. Dictionary will continue on and insert the error
+                returns in key/value entries.
+
 10-02 MuadDib
         Fixed : Exploit in unpacking Strings with length definition. Affected manual 
                 building of packed versions such as in use by Aux connections etc.
