@@ -39,8 +39,8 @@ exported function LoginHook(connection, byref packet)
 	connection := connection; // Avoid compiler warnings.
 
 	// RemoveSpaces() will also remove null values
-	var username := RemoveSpaces(packet.GetString(OFFSET_ACCOUNT_NAME, INFO_LEN), CLR_TRAILING_SPACES);
-	var password := RemoveSpaces(packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN), CLR_TRAILING_SPACES);
+	var username := RemoveSpaces(packet.GetString(OFFSET_ACCOUNT_NAME, INFO_LEN), CLR_ALL_SPACES);
+	var password := RemoveSpaces(packet.GetString(OFFSET_ACCOUNT_PASS, INFO_LEN), CLR_ALL_SPACES);
 
 	if ( username == error )
 		ACCT_ReportText("Account/GetString Error:"+username.errortext, ACCT_REPORT_CONSOLE+ACCT_REPORT_SYSLOG);
