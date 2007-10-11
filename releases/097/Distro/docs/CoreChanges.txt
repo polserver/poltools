@@ -1,5 +1,18 @@
 -- POL097 --
 =======
+10-11 MuadDib
+        Fixed : Changing realms with Season info would reset light levels until next
+                light update in that realm. Send Season in core now sends light level
+                whenever season info is sent to the client (Client issue). Also fixes
+                an issue with seasons and 1.x clients.
+                
+10-10 MuadDib
+        Fixed : uo::CreateAccount() will no longer accept non-alphanumeric characters
+                for account name, will return error stating such if one is used. Also
+                now passwords can contain all characters except whitespace and control
+                characters. Please test heavily. I tested for the commons via script
+                already.
+
 10-04 MuadDib
       Changed : NPC::IsLegalMove() will now explicitly check for a MOVE in the given
                 direction, regardless of NPC's current Facing. Will stop AI's that
