@@ -5,6 +5,9 @@
                 light update in that realm. Send Season in core now sends light level
                 whenever season info is sent to the client (Client issue). Also fixes
                 an issue with seasons and 1.x clients.
+        Added : servspecopt.cfg::DefaultLightLevel=ushort. New default light level
+                setting for regions with no light level defined in regions cfg files.
+                Default is 10. Replaced arbitrary setting in core.
                 
 10-10 MuadDib
         Fixed : uo::CreateAccount() will no longer accept non-alphanumeric characters
