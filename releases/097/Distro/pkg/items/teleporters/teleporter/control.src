@@ -14,11 +14,13 @@ program controlScript(tile)
 		return 0;
 	endif
 	
-	if ( tile.graphic == 1 )
-		tile.graphic := 0x17E5;
-	endif
-	if ( tile.color != 1001 )
-		tile.color := 1001;
+	if ( tile.objtype == 0x6203 )
+		if ( tile.graphic == 1 )
+			tile.graphic := 0x17E5;
+		endif
+		if ( tile.color != 1001 )
+			tile.color := 1001;
+		endif
 	endif
 	
 	var dest := struct;
