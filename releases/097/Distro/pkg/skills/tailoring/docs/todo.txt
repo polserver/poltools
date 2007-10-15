@@ -1,3 +1,7 @@
+#
+# $Id$
+#
+
 - check for reasonable skill gains
 - check if difficulty isn't set too high/low for items
 
