@@ -14,11 +14,26 @@ CONST REALM_TEXT	:= 0xA001;
 CONST X_TEXT		:= 0xA002;
 CONST Y_TEXT		:= 0xA003;
 CONST Z_TEXT		:= 0xA004;
+CONST KEYWORD_TEXT	:= 0xA005;
+CONST NAME_TEXT		:= 0xA006;
+CONST GRAPHIC_TEXT	:= 0xA007;
 
 CONST CANCEL_BTN	:= 0xB000;
 CONST OKAY_BTN		:= 0xB001;
 
 program UseScript(who, tile)
+	if ( !who.cmdlevel )
+		return 0;
+	endif
+	
+	if ( tile.objtype == 0x6202 )
+		return SetUpKeyTele(who, tile);
+	else
+		return SetUpWalkTele(who, tile);
+	endif
+endprogram
+
+function SetUpWalkTele(who, tile)
 	var dest := tile.GetDestination();
 		
 	var gump := GFCreateGump();
@@ -65,4 +80,12 @@ program UseScript(who, tile)
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	endif
-endprogram
+endfunction
+
+function SetUpKeyTele(who, tile)
+
+	// Not completed Yet. Submitted this way to get in place and reserve for future
+	// work. Needs same as SetUpWalkTele plus fields for item Name, Graphic, and
+	// Keyword. Added needed Const declaration for these already in header.
+
+endfunction
