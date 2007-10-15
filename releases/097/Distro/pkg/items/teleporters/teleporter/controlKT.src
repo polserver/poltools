@@ -7,6 +7,9 @@
  */
 
 use uo;
+use os;
+
+include "include/sysEvent";
 
 program controlScript(tile)
 	SetObjProperty(tile, "#Pid", GetPid());
