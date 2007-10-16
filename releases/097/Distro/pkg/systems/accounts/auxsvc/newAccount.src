@@ -21,7 +21,15 @@ include ":accounts:settings";
 program AuxService(connection)
 	var report;
 	var settings := ACCT_GetSettingsCfgElem("Settings");
+	var iplist   := Unpack(settings.AllowedIPList);
+
 	while ( connection )
+		if( !(CStr(connection.ip) in iplist) )
+			report := array{"Error", "IP is not allowed to use this connection."};
+			connection.Transmit(report);
+			return 0;
+		endif
+		
 		if ( !settings.AllowWWWAccounts )
 			report := array{"Error", "Web account maker is disabled."};
 			connection.Transmit(report);
