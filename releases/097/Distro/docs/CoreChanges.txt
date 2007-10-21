@@ -1,5 +1,13 @@
 -- POL097 --
 =======
+10-20 MuadDib
+      Removed : Basic::Left and Basic::Mid. These functions reported not working since
+                095, and code was set to not use them anyway. Val[int, int] works anyway
+                and does what these functions do.
+        Added : Basic::SubStr(string, start, length). Replace for left/right/mid. Works
+                same way as virtual SubStrings in eScript (val[int, int]). This is for
+                those who like the func methods instead.
+                
 10-11 MuadDib
         Fixed : Changing realms with Season info would reset light levels until next
                 light update in that realm. Send Season in core now sends light level
