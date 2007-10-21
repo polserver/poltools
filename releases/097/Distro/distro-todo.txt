@@ -118,7 +118,14 @@ Some of these skills depend on other systems that are either unfinished or do no
  
  - AOS/LBR/UOR skills & systems are not top priority but should be added in future versions.
 
+ - Tailoring rewrite with new crafting still. Need to update for new hide/cloth handling like
+   smithing and bowcraft.
 
+ - Tailoring needs to use 0x1766 base cloth types only (inside tailor script check this).
+
+ - Add Combine Cloth reserved container to Tailoring. Changes cloth types to base 0x1766
+
+ - Finish Scissors system in Tailoring for new style crafting. 
 
 
 ASSIGNED
