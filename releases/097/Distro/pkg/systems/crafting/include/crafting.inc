@@ -142,8 +142,6 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 		if( (rcolor == 1) && (craft_config[objtype].retain == 1) )
 			if( resource_config[use_onobjtype].Color )
 				theitem.color := resource_config[use_onobjtype].Color;
-			else
-				theitem.color := use_on.color;
 			endif
 		endif
 		SetObjProperty(theitem, "material", use_onobjtype);
