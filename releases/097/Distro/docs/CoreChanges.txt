@@ -7,7 +7,8 @@
         Added : Basic::SubStr(string, start, length). Replace for left/right/mid. Works
                 same way as virtual SubStrings in eScript (val[int, int]). This is for
                 those who like the func methods instead.
-                
+        Added : Math::Min and Math::Max functions.
+
 10-11 MuadDib
         Fixed : Changing realms with Season info would reset light levels until next
                 light update in that realm. Send Season in core now sends light level
