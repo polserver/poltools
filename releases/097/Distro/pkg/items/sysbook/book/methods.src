@@ -246,9 +246,14 @@ function GetInfo(book, prop_name)
 
 	//If we got this far.. then lets fall back on the itemdesc.cfg
 	//Note its read in as :*: which reads in every itemdesc.cfg
+	//See 0x7021 itemdesc entry for example
 	var cfg := ReadConfigFile(":*:itemdesc");
 	cfg := cfg[book.objtype];
-	prop_value := GetConfigString(cfg, prop_name);
+	if ( prop_name == "Contents" )
+		prop_value := GetConfigStringArray(cfg, prop_name);
+	else
+		prop_value := GetConfigString(cfg, prop_name);
+	endif
 	if ( prop_value )
 		return prop_value;
 	endif
