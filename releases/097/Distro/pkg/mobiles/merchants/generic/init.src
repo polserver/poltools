@@ -10,6 +10,8 @@ include ":brainAI:npcNerves";
 include ":brainAI:npcInit";
 include ":brainAI:npcCommands";
 include ":dyes:dyes";
+include ":merchants:merchant";
+include ":merchants:storage";
 
 program BrainCriticalScript(params)
 	var npc		:= params[1];
@@ -42,5 +44,9 @@ program BrainCriticalScript(params)
 		SleepMS(2);
 	endforeach
 
+	var merchant_type := CPM_GetMerchantType(npc);
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	RestockInventory (merchant_type, forsale);
+	
 	return 1;
 endprogram

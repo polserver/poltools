@@ -4,10 +4,13 @@
 
 use uo;
 use os;
+use util;
+use cfgfile;
 
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
 include ":merchants:merchant";
 include ":merchants:storage";
 
@@ -18,12 +21,17 @@ program BrainNerve(params)
 	//var settings	:= params[4];
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
+	
+	
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
+	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
 
 	while ( npc )
 		if ( event )
 			case ( event.type )
 				SYSEVENT_SPEECH:
-					SpeechEvent(npc, event);
+					SpeechEvent(npc, event, forsale, buyable, shopping_cart);
 					break;
 				default:
 					break;
@@ -37,21 +45,19 @@ program BrainNerve(params)
 	endwhile
 endprogram
 
-function SpeechEvent(npc, byref event)
+function SpeechEvent(npc, byref event, forsale, buyable, shopping_cart)
 	if ( event.text["buy"] )
-		BuyStuff(npc, event.source);
+		BuyStuff(npc, event.source, forsale, shopping_cart);
 		return 1;
 	elseif ( event.text["sell"] )
-		SellStuff(npc, event.source);
+		SellStuff(npc, event.source, forsale, buyable, shopping_cart);
 		return 1;
 	endif
 
 	return 1;
 endfunction
 
-function BuyStuff(npc, mobile)
-	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
-	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
+function BuyStuff(npc, mobile, forsale, shopping_cart)
 
 	AI_Turn(npc, mobile, NETURN_TOWARD);
 	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart, 1);
@@ -62,18 +68,16 @@ function BuyStuff(npc, mobile)
 	return 1;
 endfunction
 
-function SellStuff(npc, mobile)
-	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
-	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
-	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
+function SellStuff(npc, mobile, forsale, buyable, shopping_cart)
 
+	var merchant_type := CPM_GetMerchantType(npc);
+	
 	AI_Turn(npc, mobile, NETURN_TOWARD);
-
-	if ( !HasSellableItems(buyable, mobile.backpack) )
+	if ( !HasSellableItems(merchant_type, mobile.backpack) )
 		AI_Speak(npc, "You don't have anything that I am interested in buying.");
 		return 1;
 	endif
-
+	
 	var result := SendSellWindow(mobile, npc, forsale, shopping_cart, buyable);
 	if ( result.errortext )
 		PrintTextAbove(npc, "SendSellWindow() error - "+result.errortext);
