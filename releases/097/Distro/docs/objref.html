@@ -17,7 +17,7 @@ Hierarchy</th> </tr><tr> <td><pre> <a href="objref.html#UObject">UObject</a> <a 
 </pre></td></tr></tbody></table></center>
 <p style="font-weight: bold; font-size: 10pt; text-align: left;">Last
 Modified: 6/12/2003<br></p>
-<a name="#Account"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Account</th></tr></tbody> <tbody>
+<a name="Account"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Account</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Object
 describing a player's game account</td></tr></tbody> <tbody>
@@ -69,7 +69,7 @@ for account objects.</td></tr> <tr bgcolor="#f0f0f0">
 <td nowrap="nowrap">propnames()</td> <td>Array</td>
 <td colspan="2">returns an array of cprop names on this
 account</td></tr></tbody></table><br><br><br>
-<a name="#Armor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Armor</th></tr></tbody> <tbody>
+<a name="Armor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Armor</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Equipment">Equipment</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -90,7 +90,7 @@ armor factor (as in itemdesc.cfg)</td> <td width="10%">r/o</td></tr>
 <tr bgcolor="#e5e5e5"> <td width="25%">onhitscript</td>
 <td width="10%">string</td> <td width="55%">Script
 name that runs when armor is hit</td> <td width="10%">r/w</td></tr></tbody></table><br><br><br>
-<a name="#Array"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Array</th></tr></tbody> <tbody>
+<a name="Array"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Array</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Data structure
 for linear storage, dynamically resizes to fit more elements. Declare
@@ -117,7 +117,7 @@ elements of the array</td></tr> <tr bgcolor="#f0f0f0">
 <tr bgcolor="#e5e5e5"> <td nowrap="nowrap">+
 array</td> <td>array</td> <td colspan="2">concatinates
 2 arrays</td></tr></tbody></table><br><br><br>
-<a name="#AuxConnection"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">AuxConnection</th></tr></tbody>
+<a name="AuxConnection"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">AuxConnection</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">An object
 passed to an Aux Service Script that allows the script to transmit and
@@ -129,13 +129,14 @@ service script to recieve data. </td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td width="25%">ip</td>
 <td width="10%">String</td> <td width="55%">originating
 ip on the AuxConnection Pipe</td> <td width="10%">r/o</td></tr>
-</tbody>
-<tbody><tr bgcolor="#cccccc"> <th colspan="4" align="left">Methods</th></tr></tbody> <colgroup align="left"></colgroup><colgroup align="left"></colgroup><colgroup align="left"></colgroup><tbody> <tr> <td>Prototype</td>
+</tbody><tbody><tr bgcolor="#cccccc"> <th colspan="4" align="left">Methods</th></tr></tbody>
+<colgroup align="left"></colgroup><colgroup align="left"></colgroup><colgroup align="left"></colgroup><tbody>
+<tr> <td>Prototype</td>
 <td>Returns</td> <td colspan="2">Desc</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">transmit(object
 o)</td> <td>error/0</td> <td colspan="2">Transmits
 the packable object 'o' over the Aux connection.</td></tr></tbody></table><br><br><br>
-<a name="#Boat"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Boat</th></tr></tbody> <tbody>
+<a name="Boat"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Boat</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Multi">Multi</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -168,7 +169,7 @@ to the hold container item</td> <td width="10%">r/o</td></tr></tbody>
 <td>Returns</td> <td colspan="2">Desc</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">move_offline_mobiles(int
 x, int y, int z)</td> <td>true/false</td> <td colspan="2">moves offline mobiles on boat to x,y,z</td></tr></tbody></table><br><br><br>
-<a name="#Character"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Character</th></tr></tbody>
+<a name="Character"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Character</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#UObject">UObject</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -276,8 +277,10 @@ system) Array of Structs: { serial, killer, gameclock }, serial =
 killer's serial, killer = 'offline mobile reference' to the killer,
 gameclock = game time when the death occurred</td> <td width="10%">r/o</td></tr> <tr bgcolor="#f0f0f0"> <td width="25%">clientversion</td>
 <td width="10%">string</td> <td width="55%">UO
-Client version string</td> <td width="10%">r/o</td></tr> <tr bgcolor="#e5e5e5"> <td width="25%">isUOKR</td>
-<td width="10%">boolean</td> <td width="55%">True if the client being used is an UO:KR client</td> <td width="10%">r/o</td></tr></tbody>
+Client version string</td> <td width="10%">r/o</td></tr>
+<tr bgcolor="#e5e5e5"> <td width="25%">isUOKR</td>
+<td width="10%">boolean</td> <td width="55%">True
+if the client being used is an UO:KR client</td> <td width="10%">r/o</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Methods</th></tr></tbody> <colgroup align="left"></colgroup><colgroup align="left"></colgroup><colgroup align="left"></colgroup><tbody> <tr> <td>Prototype</td>
 <td>Returns</td> <td colspan="2">Desc</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">setpoisoned(bool)</td>
@@ -316,7 +319,7 @@ an ItemRef to the item held on the player's cursor, if any.</td></tr>
 <td>integer/error</td> <td colspan="2">Sets
 the internal warmode flag and sends the update to the player. Returns
 the new warmode value.</td></tr></tbody></table><br><br><br>
-<a name="#Container"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Container</th></tr></tbody>
+<a name="Container"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Container</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Lockable">Lockable</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -324,7 +327,7 @@ the new warmode value.</td></tr></tbody></table><br><br><br>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Items that can
 be locked, and have other items inside them</td></tr></tbody></table><br><br><br>
-<a name="#Corpse"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Corpse</th></tr></tbody> <tbody>
+<a name="Corpse"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Corpse</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Lockable">Lockable</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -336,7 +339,7 @@ are created when character objects are killed</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td width="25%">corpsetype</td>
 <td width="10%">integer</td> <td width="55%">objtype
 of the character killed</td> <td width="10%">r/o</td></tr></tbody></table><br><br><br>
-<a name="#Datafile"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Datafile</th></tr></tbody> <tbody>
+<a name="Datafile"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Datafile</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Object
 representing a data file in a data store</td></tr></tbody>
@@ -351,7 +354,7 @@ key notes above</td></tr> <tr bgcolor="#f0f0f0">
 <td colspan="2">see key notes above</td></tr> <tr bgcolor="#e5e5e5"> <td nowrap="nowrap">Keys()</td>
 <td>array</td> <td colspan="2">array of ints
 or strings, depending on datafile flags</td></tr></tbody></table><br><br><br>
-<a name="#DataFileElement"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">DataFileElement</th></tr></tbody>
+<a name="DataFileElement"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">DataFileElement</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">A data element
 inside a datastore file</td></tr></tbody> <tbody>
@@ -367,7 +370,7 @@ propname)</td> <td>true/error</td> <td colspan="2">Erases the property named 'pr
 <tr bgcolor="#e5e5e5"> <td nowrap="nowrap">PropNames()</td>
 <td>array</td> <td colspan="2">Returns an
 array of property name strings</td></tr></tbody></table><br><br><br>
-<a name="#Datastore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Datastore</th></tr></tbody>
+<a name="Datastore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Datastore</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Functions for
 manipulating a datastore. Not an actual object, but funcs found in
@@ -379,7 +382,7 @@ name, int flags)</td> <td>DataFileRef/error</td> <td colspan="2">Creates a dataf
 name)</td> <td>DataFileRef/error</td> <td colspan="2">Opens a datafile</td></tr> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">UnloadDataFile(string
 name)</td> <td>true/error</td> <td colspan="2">Unloads
 a datafile</td></tr></tbody></table><br><br><br>
-<a name="#Dictionary"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Dictionary</th></tr></tbody>
+<a name="Dictionary"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Dictionary</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Data structure
 for key-&gt;value pairs (i.e."associative array"). Keys may be
@@ -403,7 +406,7 @@ array of the keys</td></tr> <tr bgcolor="#e5e5e5">
 <td nowrap="nowrap">[key]</td> <td>value</td>
 <td colspan="2">gets value at key, or uninit if key
 doesn't exist</td></tr></tbody></table><br><br><br>
-<a name="#Door"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Door</th></tr></tbody> <tbody>
+<a name="Door"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Door</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Lockable">Lockable</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -423,7 +426,7 @@ that automatically closes.</td></tr></tbody> <tbody>
 <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">toggle()</td>
 <td>true</td> <td colspan="2">toggles the
 door to the other state</td></tr></tbody></table><br><br><br>
-<a name="#Equipment"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Equipment</th></tr></tbody>
+<a name="Equipment"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Equipment</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Item">Item</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -446,7 +449,7 @@ Hit Point modification</td> <td width="10%">r/w</td></tr>
 <tr bgcolor="#e5e5e5"> <td width="25%">maxhp</td>
 <td width="10%">integer</td> <td width="55%">Maximum
 Hit Points of item</td> <td width="10%">r/o</td></tr></tbody></table><br><br><br>
-<a name="#Error"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Error</th></tr></tbody> <tbody>
+<a name="Error"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Error</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">An object
 representing a script error. Comparing this object against the keyword
@@ -457,7 +460,7 @@ was an error.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="4" a
 <tbody> <tr bgcolor="#f0f0f0"> <td width="25%">errortext</td>
 <td width="10%">string</td> <td width="55%">Informational
 Error string</td> <td width="10%">r/w</td></tr></tbody></table><br><br><br>
-<a name="#Guild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Guild</th></tr></tbody> <tbody>
+<a name="Guild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Guild</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Object
 representing a player guild association</td></tr></tbody>
@@ -498,7 +501,7 @@ enemy guild</td></tr> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">removemember(Ch
 an ally guild</td></tr> <tr bgcolor="#f0f0f0">
 <td nowrap="nowrap">removeenemyguild(GuildRef)</td> <td>true/error</td>
 <td colspan="2">removes an enemy guild</td></tr></tbody></table><br><br><br>
-<a name="#House"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">House</th></tr></tbody> <tbody>
+<a name="House"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">House</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Multi">Multi</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -515,7 +518,7 @@ of Item References in the house</td> <td width="10%">r/o</td></tr>
 <tr bgcolor="#f0f0f0"> <td width="25%">mobiles</td>
 <td width="10%">Array</td> <td width="55%">Array
 of Character References in the house</td> <td width="10%">r/o</td></tr></tbody></table><br><br><br>
-<a name="#Item"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Item</th></tr></tbody> <tbody>
+<a name="Item"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Item</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#UObject">UObject</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -570,7 +573,7 @@ if the item remains with the ghost when player dies</td> <td width="10%">r/w</td
 <td width="10%">integer</td> <td width="55%">number
 of items in container (or 1 if this item is not a container)</td>
 <td width="10%">r/o</td></tr></tbody></table><br><br><br>
-<a name="#Lockable"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Lockable</th></tr></tbody> <tbody>
+<a name="Lockable"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Lockable</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Item">Item</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -585,7 +588,7 @@ containing concrete subclasses which can 'lock'</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td width="25%">locked</td>
 <td width="10%">boolean</td> <td width="55%">true
 if the item is locked</td> <td width="10%">r/w</td></tr></tbody></table><br><br><br>
-<a name="#Map"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Map</th></tr></tbody> <tbody>
+<a name="Map"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Map</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Item">Item</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -623,7 +626,7 @@ x, int y)</td> <td>true/error</td> <td colspan="2">append pin{x,y} to end of cou
 <tr bgcolor="#e5e5e5"> <td nowrap="nowrap">erasepin(int
 index)</td> <td>true/error</td> <td colspan="2">erase
 pin at index</td></tr></tbody></table><br><br><br>
-<a name="#Multi"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Multi</th></tr></tbody> <tbody>
+<a name="Multi"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Multi</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Item">Item</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
@@ -633,7 +636,7 @@ pin at index</td></tr></tbody></table><br><br><br>
 <tbody> <tr> <td colspan="4">Special items
 that display as many pieces of a large structure, as defined in
 multi.cfg</td></tr></tbody></table><br><br><br>
-<a name="#NPC"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">NPC</th></tr></tbody> <tbody>
+<a name="NPC"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">NPC</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Character">Character</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
@@ -674,7 +677,7 @@ walk delay (maximum 250)</td> <td width="10%">r/w</td></tr></tbody>
 <tbody> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">setmaster(CharacterRef
 master)</td> <td>true/false</td> <td colspan="2">Sets
 the master character for the NPC, if not passed, clears master.</td></tr></tbody></table><br><br><br>
-<a name="#Polcore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Polcore</th></tr></tbody> <tbody>
+<a name="Polcore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Polcore</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Object
 containing server data</td></tr></tbody> <tbody>
@@ -772,7 +775,7 @@ divide)</td> <td>true/false</td> <td colspan="2">Sets
 the priority divide to 'divide'</td></tr> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">clear_script_profile_counters()</td>
 <td>true/false</td> <td colspan="2">Clears
 the script profile counters</td></tr></tbody></table><br><br><br>
-<a name="#Script"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Script</th></tr></tbody> <tbody>
+<a name="Script"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Script</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Object
 representing a script in the system</td></tr></tbody>
@@ -819,7 +822,7 @@ a event to this script (usually a struct)</td></tr> <tr bgcolor="#e5e5e5"> <td n
 <td>true</td> <td colspan="2">Kills this
 script</td></tr> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">clear_event_queue()</td> <td>true</td>
 <td colspan="2">clears the event queue of the script</td></tr></tbody></table><br><br><br>
-<a name="#String"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">String</th></tr></tbody> <tbody>
+<a name="String"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">String</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">An ordered
 collection of ascii (1-byte) characters. Declare with var s := "my
@@ -840,7 +843,7 @@ replaces substr with 'replace_str'. returns the new string.</td></tr>
 <tr bgcolor="#e5e5e5"> <td nowrap="nowrap">+
 string</td> <td>string</td> <td colspan="2">concatenates
 the strings, returns the new string.</td></tr></tbody></table><br><br><br>
-<a name="#Struct"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Struct</th></tr></tbody> <tbody>
+<a name="Struct"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Struct</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="4">Data structure
 with explicitly named members (keys). Keys may be only be strings.
@@ -858,7 +861,7 @@ adds a member</td></tr> <tr bgcolor="#e5e5e5">
 <td>value</td> <td colspan="2">gets value of
 member ONLY when member is a string! no using integers here like an
 array.</td></tr></tbody></table><br><br><br>
-<a name="#UObject"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">UObject</th></tr></tbody> <tbody>
+<a name="UObject"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">UObject</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Children</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Character">Character</a></td></tr>
 <tr> <td colspan="4"><a href="objref.html#Item">Item</a></td></tr></tbody>
@@ -915,7 +918,7 @@ suck"</td></tr> <tr bgcolor="#f0f0f0"> <td nowrap="nowrap">get_member(string mem
 value of member or error</td> <td colspan="2">Gets
 the value of the built-in member 'membername'. var objname :=
 obj.get_member("name") is the same as var objname := obj.name</td></tr></tbody></table><br><br><br>
-<a name="#Weapon"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Weapon</th></tr></tbody> <tbody>
+<a name="Weapon"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="4" align="center">Weapon</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="4" align="left">Parent</th></tr></tbody> <tbody>
 <tr> <td colspan="4"><a href="objref.html#Equipment">Equipment</a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="4" align="left">Explanation</th></tr></tbody>

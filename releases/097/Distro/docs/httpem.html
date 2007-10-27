@@ -1,168 +1,78 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=windows-1252">
-<META content="POL, EScript, documentation" name=keyword>
-<META content="Racalac, Rykard" name=Author>
-<STYLE type=text/css>BODY {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+<html><head><title>POL
+Scripting Reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta content="POL, EScript, documentation" name="keyword">
+<meta content="Racalac, Rykard" name="Author"><style type="text/css">BODY {
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 TD {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 P {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
-</STYLE>
-</HEAD>
-<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
-HTTP.em</P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
-Functions to send and receive data over an HTTP connection using POL's internal 
-webserver. Scripts in /scripts/www are considered at the top level directory. 
-I.e. http://192.168.0.5:8088/online.ecl <BR>Last Modified: 1/22/2003</P>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#QueryIP>
-    <TH align=middle colSpan=2>QueryIP()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>returns the IP address of the connecting 
-  browser</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>String IP address, i.e. 
-"192.168.0.5"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#QueryParam>
-    <TH align=middle colSpan=2>QueryParam( param )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>param</VAR></TD>
-    <TD>String</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Query's the accessed URL for any embedded parameters. (see 
-      your favorite HTML docs for parameter embedding! :) )</TD></TR>
-  <TR>
-    <TD colSpan=2>Example: 
-      http://pol.server.com:8080/querytest.ecl?par=wibble&amp;name= </TD></TR>
-  <TR>
-    <TD colSpan=2><PRE>QueryParam( "par" ) ---&gt; "wibble"
-QueryParam( "name" ) --&gt; ""
-QueryParam( "heat" ) --&gt; 0 [integer]
-</PRE></TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>String value of the embedded param, or 0 if not 
-  found.</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#WriteHtml>
-    <TH align=middle colSpan=2>WriteHtml( html )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>html</VAR></TD>
-    <TD>String</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Writes a line of HTML to the "virtual webpage" that will be 
-      sent to the connecting browser and appends a new-line.</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>1 always</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Socket is disconnected"</TD></TR>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#WriteHtmlRaw>
-    <TH align=middle colSpan=2>WriteHtmlRaw( html )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>html</VAR></TD>
-    <TD>String</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Writes a line of HTML to the "virtual webpage" that will be 
-      sent to the connecting browser, does NOT append a new-line.</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>1 always</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Socket is disconnected"</TD></TR>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<HR>
-
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
-any information is incorrect on these pages, mail your corrections to 
-racalac@burdell.org </P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
-David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
-MUTILATE, OR SIT ON. </P></BODY></HTML>
+</style></head>
+<body style="background-color: rgb(240, 240, 240);"><p style="font-weight: bold; font-size: 14pt; text-align: left;">File:
+HTTP.em</p>
+<p style="font-weight: bold; font-size: 10pt; text-align: left;">Description:
+Functions to send and receive data over an HTTP connection using POL's
+internal webserver. Scripts in /scripts/www are considered at the top
+level directory. I.e. http://192.168.0.5:8088/online.ecl <br>Last
+Modified: 1/22/2003</p>
+<a name="QueryIP"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">QueryIP()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">returns the IP
+address of the connecting browser</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">String IP
+address, i.e. "192.168.0.5"</td></tr></tbody></table><br><br><br>
+<a name="QueryParam"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">QueryParam( param )</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>param</var></td> <td>String</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Query's the
+accessed URL for any embedded parameters. (see your favorite HTML docs
+for parameter embedding! :) )</td></tr> <tr> <td colspan="2">Example:
+http://pol.server.com:8080/querytest.ecl?par=wibble&amp;name= </td></tr>
+<tr> <td colspan="2"><pre>QueryParam( "par" ) ---&gt; "wibble"<br>QueryParam( "name" ) --&gt; ""<br>QueryParam( "heat" ) --&gt; 0 [integer]<br></pre></td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">String value of
+the embedded param, or 0 if not found.</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="WriteHtml"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">WriteHtml( html )</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>html</var></td> <td>String</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Writes a line
+of HTML to the "virtual webpage" that will be sent to the connecting
+browser and appends a new-line.</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">1 always</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Socket is disconnected"</td></tr>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="WriteHtmlRaw"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">WriteHtmlRaw( html )</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>html</var></td> <td>String</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Writes a line
+of HTML to the "virtual webpage" that will be sent to the connecting
+browser, does NOT append a new-line.</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">1 always</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Socket is disconnected"</td></tr>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<hr><p style="font-weight: bold; font-size: 9pt; text-align: center;">If
+you know if any information is incorrect on these pages, mail your
+corrections to racalac@burdell.org </p>
+<p style="font-weight: bold; font-size: 7pt; text-align: center;">Copyright
+©2003 David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR,
+ALTER, SPINDLE, MUTILATE, OR SIT ON. </p></body></html>
