@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>POL Scripting Reference</title>
+<html><head><title>POL
+Scripting Reference</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta content="POL, EScript, documentation" name="keyword"><meta content="Racalac, Rykard" name="Author"><style type="text/css">BODY {
 FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
@@ -16,7 +17,7 @@ UO.em</p>
 Functions that interact with and alter UO game world data, including
 server-client messages.<br>Last Modified: 6/19/2003</p>
 <p>File Constants: </p><pre><ul>// CreateMulti flags<br>// only for house creation:<br>const CRMULTI_IGNORE_MULTIS := 0x0001; // ignore intersecting multis<br>const CRMULTI_IGNORE_OBJECTS := 0x0002; // ignore dynamic objects<br>const CRMULTI_IGNORE_WORLDZ := 0x0004; // ignore standability, relative Z, world height<br>const CRMULTI_IGNORE_ALL := 0x0007; <br>// only for boat creation:<br>const CRMULTI_FACING_NORTH := 0x0000; <br>const CRMULTI_FACING_EAST := 0x0100;<br>const CRMULTI_FACING_SOUTH := 0x0200;<br>const CRMULTI_FACING_WEST := 0x0300;<br><br>// ListHostiles exclusions<br><br>const LH_FLAG_LOS := 1; // only include those in LOS<br>const LH_FLAG_INCLUDE_HIDDEN := 2; // include hidden characters<br><br>// RegisterForSpeechEvents flags<br>const LISTENPT_HEAR_GHOSTS := 0x01; // hear ghost speech in addition to living speech<br><br>// ListItemsNearLocationEx exclusions<br><br>const LISTEX_FLAG_NORMAL := 0x01;<br>const LISTEX_FLAG_HIDDEN := 0x02;<br>const LISTEX_FLAG_GHOST := 0x04;<br><br>// ListItemsNearLocationWithFlag( x,y,z, range, flags ); tiledata flags<br>const TILEDATA_FLAG_BACKGROUND := 0x00000001; //Background<br>const TILEDATA_FLAG_WEAPON := 0x00000002; //Weapon<br>const TILEDATA_FLAG_TRANSPARENT := 0x00000004; //Transparent<br>const TILEDATA_FLAG_TRANSLUCENT := 0x00000008; //Translucent<br>const TILEDATA_FLAG_WALL := 0x00000010; //Wall<br>const TILEDATA_FLAG_DAMAGING := 0x00000020; //Damaging<br>const TILEDATA_FLAG_IMPASSIBLE := 0x00000040; //Impassable<br>const TILEDATA_FLAG_WET := 0x00000080; //Wet<br>const TILEDATA_FLAG_UNK := 0x00000100; //Unknown<br>const TILEDATA_FLAG_SURFACE := 0x00000200; //Surface<br>const TILEDATA_FLAG_BRIDGE := 0x00000400; //Bridge<br>const TILEDATA_FLAG_STACKABLE := 0x00000800; //Generic/Stackable<br>const TILEDATA_FLAG_WINDOW := 0x00001000; //Window<br>const TILEDATA_FLAG_NOSHOOT := 0x00002000; //No Shoot<br>const TILEDATA_FLAG_PREFIX_A := 0x00004000; //Prefix A<br>const TILEDATA_FLAG_PREFIX_AN := 0x00008000; //Prefix An<br>const TILEDATA_FLAG_INTERNAL := 0x00010000; //Internal (things like hair, beards, etc)<br>const TILEDATA_FLAG_FOILIAGE := 0x00020000; //Foliage<br>const TILEDATA_FLAG_PARTIAL_HUE := 0x00040000; //Partial Hue<br>const TILEDATA_FLAG_UNK1 := 0x00080000; //Unknown 1<br>const TILEDATA_FLAG_MAP := 0x00100000; //Map<br>const TILEDATA_FLAG_CONTAINER := 0x00200000; //Container<br>const TILEDATA_FLAG_WEARABLE := 0x00400000; //Wearable<br>const TILEDATA_FLAG_LIGHTSOURCE := 0x00800000; //LightSource<br>const TILEDATA_FLAG_ANIMATED := 0x01000000; //Animated<br>const TILEDATA_FLAG_NODIAGONAL := 0x02000000; //No Diagonal<br>const TILEDATA_FLAG_UNK2 := 0x04000000; //Unknown 2<br>const TILEDATA_FLAG_ARMOR := 0x08000000; //Armor<br>const TILEDATA_FLAG_ROOF := 0x10000000; //Roof<br>const TILEDATA_FLAG_DOOR := 0x20000000; //Door<br>const TILEDATA_FLAG_STAIRBACK := 0x40000000; //StairBack<br>const TILEDATA_FLAG_STAIRRIGHT := 0x80000000; //StairRight<br><br>// Move Options - add together and pass as "flags" param to<br>// MoveCharacterToLocation or MoveItemToLocation<br>const MOVECHAR_FORCELOCATION := 0x40000000;<br>const MOVEITEM_NORMAL := 0;<br>const MOVEITEM_FORCELOCATION := 0x40000000;<br>// Resurrect options<br>const RESURRECT_FORCELOCATION := 0x01;<br>// MoveType constants for CanInsert/OnInsert/CanRemove/OnRemove scripts<br>const MOVETYPE_PLAYER := 0; // Moved by the player<br>const MOVETYPE_COREMOVE := 1; // Moved with MoveItem*() (or equiv)<br>const MOVETYPE_CORECREATE := 2; // Created with CreateItemIn*() (or equiv)<br>// InsertType constants for CanInsert/OnInsert scripts<br>const INSERT_ADD_ITEM := 1;<br>const INSERT_INCREASE_STACK := 2;<br><br>// SendTextEntryGump options<br><br>const TE_CANCEL_DISABLE := 0;<br>const TE_CANCEL_ENABLE := 1;<br>const TE_STYLE_DISABLE := 0;<br>const TE_STYLE_NORMAL := 1;<br>const TE_STYLE_NUMERICAL:= 2;<br><br>// SystemFindObjectBySerial options:<br>const SYSFIND_SEARCH_OFFLINE_MOBILES := 1;<br>const SYSFIND_SEARCH_STORAGE_AREAS := 2;<br><br>// Target Options - add these together and pass as second<br>// param to Target()<br>const TGTOPT_CHECK_LOS := 0x0001;<br>const TGTOPT_NOCHECK_LOS := 0x0000; // to be explicit<br>const TGTOPT_HARMFUL := 0x0002;<br>const TGTOPT_NEUTRAL := 0x0000; // to be explicit<br>const TGTOPT_HELPFUL := 0x0004;<br><br>// POLCLASS_* constants - use with obj.isa(POLCLASS_*)<br>const POLCLASS_UOBJECT := 1;<br>const POLCLASS_ITEM := 2;<br>const POLCLASS_MOBILE := 3;<br>const POLCLASS_NPC := 4;<br>const POLCLASS_LOCKABLE := 5;<br>const POLCLASS_CONTAINER := 6;<br>const POLCLASS_CORPSE := 7;<br>const POLCLASS_DOOR := 8;<br>const POLCLASS_SPELLBOOK := 9;<br>const POLCLASS_MAP := 10;<br>const POLCLASS_MULTI := 11;<br>const POLCLASS_BOAT := 12;<br>const POLCLASS_HOUSE := 13;<br>const POLCLASS_EQUIPMENT := 14;<br>const POLCLASS_ARMOR := 15;<br>const POLCLASS_WEAPON := 16;<br><br>// Don't use these outside this file, use FONT_* from client.inc<br>// (and I don't know what for color)<br>const _DEFAULT_TEXT_FONT := 3;<br>const _DEFAULT_TEXT_COLOR := 0x3B2;<br></ul></pre>
-<p></p><a name="#Accessible"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Accessible( Character,
+<p></p><a name="Accessible"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Accessible( Character,
 item )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -40,7 +41,7 @@ not fall into one of the above categories, 1 if the item does. </td></tr></tbody
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#AddAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AddAmount( item_ref, amount )</th></tr></tbody>
+<a name="AddAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AddAmount( item_ref, amount )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -58,7 +59,7 @@ item type is not stackable" </td></tr> <tr> <td colspan="2">"Can't add that much
 resulting amount &gt; 60000)</td></tr> <tr> <td colspan="2">"Invalid Parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#AddMenuItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AddMenuItem( menu, objtype, text )</th></tr></tbody>
+<a name="AddMenuItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AddMenuItem( menu, objtype, text )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -78,7 +79,7 @@ was added successfully</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameters)</td></tr></tbody></table><br><br><br>
-<a name="#AlterAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AlterAttributeTemporaryMod(
+<a name="AlterAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AlterAttributeTemporaryMod(
 character, attrname, delta_tenths )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -100,7 +101,7 @@ range"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="l
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ApplyConstraint"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyConstraint( objlist,
+<a name="ApplyConstraint"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyConstraint( objlist,
 configfile, propertyname, minvalue )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -126,7 +127,7 @@ Uninitialized Object on failure)</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ApplyDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyDamage( Character, Hits )</th></tr></tbody>
+<a name="ApplyDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyDamage( Character, Hits )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -148,7 +149,7 @@ Reputation system effects.</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Damage is out of range"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ApplyRawDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyRawDamage( Character,
+<a name="ApplyRawDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ApplyRawDamage( Character,
 Hits )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -165,7 +166,7 @@ kills the character.</td></tr> <tr> <td colspan="2">Notes: Armor is ignored.</td
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#AssignRectToWeatherRegion"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AssignRectToWeatherRegion(
+<a name="AssignRectToWeatherRegion"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">AssignRectToWeatherRegion(
 region, xwest, ynorth, xeast, ysouth )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -186,7 +187,7 @@ Notes: Weather region strings as defined in regions/weather.cfg</td></tr></tbody
 <tr> <td colspan="2">"Weather region not found"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#weather.cfg"><b>weather.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#BaseSkillToRawSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">BaseSkillToRawSkill(
+<a name="BaseSkillToRawSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">BaseSkillToRawSkill(
 baseskill )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -200,7 +201,7 @@ old-style "base skill" value to old-style "raw skill" value.</td></tr>
 representation</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
 <tbody> <tr> <td colspan="2">"Invalid
 parameter type"</td></tr></tbody></table><br><br><br>
-<a name="#Broadcast"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Broadcast( text, font := _DEFAULT_TEXT_FONT,
+<a name="Broadcast"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Broadcast( text, font := _DEFAULT_TEXT_FONT,
 color := _DEFAULT_TEXT_COLOR )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -217,7 +218,7 @@ System Message to every online player. </td></tr> <tr>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter) </td></tr></tbody></table><br><br><br>
-<a name="#CheckLineOfSight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckLineOfSight( object1,
+<a name="CheckLineOfSight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckLineOfSight( object1,
 object2 )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -235,7 +236,7 @@ if object1 has LOS to object2</td></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CheckLosAt"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckLosAt( character, x, y, z )</th></tr></tbody>
+<a name="CheckLosAt"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckLosAt( character, x, y, z )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -252,7 +253,7 @@ has line-of-sight to (x,y,z)</td></tr> <tr> <td colspan="2">0 if character does 
 on invalid parameter)</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CheckSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckSkill( character, skillid, difficulty,
+<a name="CheckSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CheckSkill( character, skillid, difficulty,
 points )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -272,7 +273,7 @@ CheckSkill syshook.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan
 parameter"</td></tr> <tr> <td colspan="2">"No
 such skill"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ConsumeMana"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeMana( who, spellid )</th></tr></tbody>
+<a name="ConsumeMana"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeMana( who, spellid )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -293,7 +294,7 @@ spells and spell ids.</td></tr> <tr> <td colspan="2">Consumes from "Mana" vital.
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ConsumeReagents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeReagents( caster,
+<a name="ConsumeReagents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeReagents( caster,
 spellid )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -316,7 +317,7 @@ parameter"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" alig
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ConsumeSubstance"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeSubstance(
+<a name="ConsumeSubstance"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeSubstance(
 container, objtype, amount )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -339,7 +340,7 @@ enough of that substance in container"</td></tr> <tr>
 <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ConsumeVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeVital( who, vital,
+<a name="ConsumeVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConsumeVital( who, vital,
 hundredths )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -360,7 +361,7 @@ including if vital was not found as a vital name</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateAccount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateAccount( acctname,
+<a name="CreateAccount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateAccount( acctname,
 password, enabled )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -383,14 +384,14 @@ to create account with non-alphanumeric characters."<br>"Attempted
 to use password in account creation with non-allowed characters."</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Account"><b>Account</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateGuild()</th></tr></tbody>
+<a name="CreateGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateGuild()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Creates a new
 Guild Object.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
 values</th></tr></tbody> <tbody> <tr> <td colspan="2">A Guild Reference to the new guild.</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Guild"><b>Guild</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateItemAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemAtLocation( x,
+<a name="CreateItemAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemAtLocation( x,
 y, z, objtype, amount )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -414,7 +415,7 @@ Create one at a time."</td></tr> <tr> <td colspan="2">"Unable to create item of 
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateItemCopyAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemCopyAtLocation(x,
+<a name="CreateItemCopyAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemCopyAtLocation(x,
 y, z, itemref)</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -437,7 +438,7 @@ function does not work with Multi objects."</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateItemInBackpack"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInBackpack(
+<a name="CreateItemInBackpack"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInBackpack(
 of_character, objtype, amount := 1 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -473,7 +474,7 @@ type"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="le
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
 <tr> <td colspan="2"><a href="configfiles.html#stacking.cfg"><b>stacking.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateItemInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInContainer(
+<a name="CreateItemInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInContainer(
 container, objtype, amount := 1 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -509,7 +510,7 @@ to create that item type"</td></tr></tbody> <tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
 <tr> <td colspan="2"><a href="configfiles.html#stacking.cfg"><b>stacking.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateItemInInventory"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInInventory(
+<a name="CreateItemInInventory"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateItemInInventory(
 container, objtype, amount := 1 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -539,7 +540,7 @@ not insert item into container." if canInsert script returns false</td></tr></tb
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateMenu"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateMenu( title )</th></tr></tbody>
+<a name="CreateMenu"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateMenu( title )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -553,7 +554,7 @@ reference if the menu was created successfully</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody></table><br><br><br>
-<a name="#CreateMultiAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateMultiAtLocation( x,
+<a name="CreateMultiAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateMultiAtLocation( x,
 y, z, objtype, flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -593,7 +594,7 @@ CRMULTI_IGNORE_WORLDZ)</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#House"><b>House</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Boat"><b>Boat</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateNpcFromTemplate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateNpcFromTemplate(
+<a name="CreateNpcFromTemplate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateNpcFromTemplate(
 template, x, y, z, override_properties := 0)</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -625,7 +626,7 @@ create npc from template 'X'"</td></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#npcdesc.cfg"><b>npcdesc.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateRootItemInStorageArea(
+<a name="CreateRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateRootItemInStorageArea(
 area, itemname, objtype )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -648,7 +649,7 @@ on success</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" alig
 parameter type"</td></tr> <tr> <td colspan="2">"Unable
 to create item"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#CreateStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateStorageArea(
+<a name="CreateStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">CreateStorageArea(
 areaname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -662,7 +663,7 @@ reference on success</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">Errors: none (returns 0 on
 invalid parameter)</td></tr></tbody></table><br><br><br>
-<a name="#DestroyGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyGuild( guild )</th></tr></tbody>
+<a name="DestroyGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyGuild( guild )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -681,7 +682,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Guild"><b>Guild</b></a></td></tr></tbody></table><br><br><br>
-<a name="#DestroyItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyItem( Item )</th></tr></tbody>
+<a name="DestroyItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyItem( Item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -700,7 +701,7 @@ if the item's destroy script disallowed destruction</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#DestroyMulti"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyMulti( multi )</th></tr></tbody>
+<a name="DestroyMulti"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyMulti( multi )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -723,7 +724,7 @@ are logged-out characters on the deck"</td></tr> <tr>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#House"><b>House</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Boat"><b>Boat</b></a></td></tr></tbody></table><br><br><br>
-<a name="#DestroyRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyRootItemInStorageArea(
+<a name="DestroyRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DestroyRootItemInStorageArea(
 area, itemname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -738,7 +739,7 @@ success</td></tr> <tr> <td colspan="2">0
 on item not found</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
 <tbody> <tr> <td colspan="2">"Invalid
 parameter type"</td></tr></tbody></table><br><br><br>
-<a name="#Detach"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Detach()</th></tr></tbody> <tbody>
+<a name="Detach"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Detach()</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Disassociates
 the current script from the character that it is attached to.</td></tr>
@@ -754,7 +755,7 @@ values</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on failure
 (character invalid))</td></tr></tbody></table><br><br><br>
-<a name="#DisableEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DisableEvents( eventtype )</th></tr></tbody>
+<a name="DisableEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DisableEvents( eventtype )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -769,7 +770,7 @@ control script. Do not use for "user" events (see EnableEvents()).</td></tr></tb
 on success</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
 <tbody> <tr> <td colspan="2">"Invalid
 parameter"</td></tr></tbody></table><br><br><br>
-<a name="#DisconnectClient"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DisconnectClient(
+<a name="DisconnectClient"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DisconnectClient(
 character )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -785,7 +786,7 @@ character's client.</td></tr> <tr> <td colspan="2">Notes: Fun!</td></tr></tbody>
 <tr> <td colspan="2">"No client is attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#Distance"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Distance( object1, object2 )</th></tr></tbody>
+<a name="Distance"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Distance( object1, object2 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -807,7 +808,7 @@ calculated distance on success</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#EnableEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnableEvents( events,
+<a name="EnableEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnableEvents( events,
 range := -1 )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -831,7 +832,7 @@ events (currently speech, and entered/leftarea events)</td></tr></tbody>
 event "mask" on success</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody></table><br><br><br>
-<a name="#EnumerateItemsInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnumerateItemsInContainer(
+<a name="EnumerateItemsInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnumerateItemsInContainer(
 container )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -848,7 +849,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">An Array of Item Reference
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#EnumerateOnlineCharacters"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnumerateOnlineCharacters()</th></tr></tbody>
+<a name="EnumerateOnlineCharacters"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EnumerateOnlineCharacters()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Gets a list of
 all online player characters.</td></tr></tbody> <tbody>
@@ -859,7 +860,7 @@ Character References on success</td></tr></tbody> <tbody>
 <tr> <td colspan="2">none</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#EquipFromTemplate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EquipFromTemplate(
+<a name="EquipFromTemplate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EquipFromTemplate(
 character, template )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -886,7 +887,7 @@ name]' named in equip.cfg"</td></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Equipment"><b>Equipment</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#equip.cfg"><b>equip.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#EquipItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EquipItem( mobile, item )</th></tr></tbody>
+<a name="EquipItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EquipItem( mobile, item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -913,7 +914,7 @@ if equiptest script failed.</td></tr> <tr> <td colspan="2">"Invalid parameter ty
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#EraseGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EraseGlobalProperty(
+<a name="EraseGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EraseGlobalProperty(
 propertyname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -926,7 +927,7 @@ property from the global property list. propertyname is case-sensative</td></tr>
 property was erased or did not exist.</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
-<a name="#EraseObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EraseObjProperty( object,
+<a name="EraseObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">EraseObjProperty( object,
 propertyname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -943,7 +944,7 @@ property was erased or did not exist.</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#FindAccount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindAccount( acctname )</th></tr></tbody>
+<a name="FindAccount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindAccount( acctname )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -959,7 +960,7 @@ Reference on success</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Account"><b>Account</b></a></td></tr></tbody></table><br><br><br>
-<a name="#FindGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindGuild( guildid )</th></tr></tbody>
+<a name="FindGuild"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindGuild( guildid )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -974,7 +975,7 @@ on success</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" alig
 found"</td></tr> <tr> <td colspan="2">"Invalid
 parameter type"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Guild"><b>Guild</b></a></td></tr></tbody></table><br><br><br>
-<a name="#FindObjtypeInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindObjtypeInContainer(
+<a name="FindObjtypeInContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindObjtypeInContainer(
 container, objtype )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -994,7 +995,7 @@ container.isa(POLCLASS_CONTAINER) == false</td></tr> <tr>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#FindRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindRootItemInStorageArea(
+<a name="FindRootItemInStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindRootItemInStorageArea(
 area, itemname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1009,7 +1010,7 @@ on success</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" alig
 <tbody> <tr> <td colspan="2">"Invalid
 parameter type"</td></tr> <tr> <td colspan="2">"Root
 item not found."</td></tr></tbody></table><br><br><br>
-<a name="#FindStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindStorageArea( areaname )</th></tr></tbody>
+<a name="FindStorageArea"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FindStorageArea( areaname )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1023,7 +1024,7 @@ reference on success</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter or area not found)</td></tr></tbody></table><br><br><br>
-<a name="#GetAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAmount( item )</th></tr></tbody>
+<a name="GetAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAmount( item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1039,7 +1040,7 @@ item's stack on success</td></tr></tbody> <tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetAttribute"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttribute( character,
+<a name="GetAttribute"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttribute( character,
 attrname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1059,7 +1060,7 @@ including if attrname was not found as an attribute</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetAttributeBaseValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeBaseValue(
+<a name="GetAttributeBaseValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeBaseValue(
 character, attrname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1079,7 +1080,7 @@ including if attrname was not found as an attribute</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetAttributeIntrinsicMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeIntrinsicMod(
+<a name="GetAttributeIntrinsicMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeIntrinsicMod(
 character, attrname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1099,7 +1100,7 @@ including if attrname was not found as an attribute</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeTemporaryMod(
+<a name="GetAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetAttributeTemporaryMod(
 character, attrname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1119,7 +1120,7 @@ including if attrname was not found as an attribute</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetCommandHelp"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetCommandHelp( character,
+<a name="GetCommandHelp"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetCommandHelp( character,
 command )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1138,7 +1139,7 @@ parameter type"</td></tr> <tr> <td colspan="2">"No
 help for that command found"</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetEquipmentByLayer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetEquipmentByLayer(
+<a name="GetEquipmentByLayer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetEquipmentByLayer(
 character, layer )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1157,7 +1158,7 @@ layer."</td></tr> <tr> <td colspan="2">"Invalid
 parameter"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetGlobalProperty(
+<a name="GetGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetGlobalProperty(
 propertyname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1172,7 +1173,7 @@ of the named property</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr>
 <tr> <td colspan="2">"Property not found"</td></tr></tbody></table><br><br><br>
-<a name="#GetHarvestDifficulty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetHarvestDifficulty(
+<a name="GetHarvestDifficulty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetHarvestDifficulty(
 resource, x, y, tiletype )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1198,7 +1199,7 @@ there"</td></tr> <tr> <td colspan="2">"No
 resource region at that location"</td></tr> <tr> <td colspan="2">"Resource is depleted"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#resource.cfg"><b>resource.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetMapInfo"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetMapInfo( x, y )</th></tr></tbody>
+<a name="GetMapInfo"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetMapInfo( x, y )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1218,7 +1219,7 @@ item graphic number)</td></tr></tbody> <tbody>
 members "z" and "landtile".</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody></table><br><br><br>
-<a name="#GetMenuObjTypes"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetMenuObjTypes( menuname )</th></tr></tbody>
+<a name="GetMenuObjTypes"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetMenuObjTypes( menuname )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1234,7 +1235,7 @@ objtypes contained in the given menu.</td></tr></tbody>
 <tr> <td colspan="2">none (instead returns 0 on
 failure)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjProperty( object,
+<a name="GetObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjProperty( object,
 propertyname )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1252,7 +1253,7 @@ struct, dictionary, etc.</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetObjPropertyNames"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjPropertyNames(
+<a name="GetObjPropertyNames"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjPropertyNames(
 object )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1268,7 +1269,7 @@ strings or Error</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2
 parameter type"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetObjTypeByName"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjtypeByName( name )</th></tr></tbody>
+<a name="GetObjTypeByName"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetObjtypeByName( name )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1321,11 +1322,13 @@ x, y, realm )</th></tr></tbody>
 "Region Name" on success</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr>
-<tr><td>"Realm not found"</td><td></td></tr><tr><td>"Invalid Coordinates for realm"</td><td></td></tr><tr> <td colspan="2">"No Region defined at this
+<tr><td>"Realm not found"</td><td></td></tr><tr><td>"Invalid
+Coordinates for realm"</td><td></td></tr><tr>
+<td colspan="2">"No Region defined at this
 Location"</td></tr> </tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#regions.cfg"><b>regions.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetRegionString"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetRegionString( resource,
+<a name="GetRegionString"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetRegionString( resource,
 x, y, propertyname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1357,7 +1360,7 @@ regions/[resource string].cfg</td></tr> <tr> <td colspan="2">"Property not found
 found in the matching region.</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#regions.cfg"><b>regions.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetSpellDifficulty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetSpellDifficulty(
+<a name="GetSpellDifficulty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetSpellDifficulty(
 spellid )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1375,7 +1378,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">Integer difficulty value</
 <tr> <td colspan="2">"Spell ID out of range"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#circles.cfg"><b>circles.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetStandingHeight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetStandingHeight( x, y,
+<a name="GetStandingHeight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetStandingHeight( x, y,
 startz )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1397,7 +1400,7 @@ members "z" and possibly "multi" (a Multi Reference)</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr>
 <tr> <td colspan="2">"Can't stand there" if
 inaccessible location</td></tr></tbody></table><br><br><br>
-<a name="#GetVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVital( character, vitalname )</th></tr></tbody>
+<a name="GetVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVital( character, vitalname )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1416,7 +1419,7 @@ including if vitalname was not found as a vital</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetVitalMaximumValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVitalMaximumValue(
+<a name="GetVitalMaximumValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVitalMaximumValue(
 character, vitalname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1436,7 +1439,7 @@ including if vitalname was not found as a vital</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetVitalRegenRate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVitalRegenRate(
+<a name="GetVitalRegenRate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetVitalRegenRate(
 character, vitalname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1457,7 +1460,7 @@ including if vitalname was not found as a vital</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#String"><b>String</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#GetWorldHeight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetWorldHeight( x, y )</th></tr></tbody>
+<a name="GetWorldHeight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetWorldHeight( x, y )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1475,7 +1478,7 @@ lowest standing height</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr>
 <tr> <td colspan="2">"Nowhere" if one could not
 stand at any z value of x,y</td></tr></tbody></table><br><br><br>
-<a name="#GrantPrivilege"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GrantPrivilege( character,
+<a name="GrantPrivilege"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GrantPrivilege( character,
 privilege )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1490,7 +1493,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 f the privilege was gran
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#HarvestResource"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">HarvestResource( resource,
+<a name="HarvestResource"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">HarvestResource( resource,
 x, y, b, n )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1513,7 +1516,7 @@ resources were available.</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"No resource region at that
 location"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related
 Configs</th></tr></tbody> <tbody> <tr> <td colspan="2"><a href="configfiles.html#resource.cfg"><b>resource.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#HealDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">HealDamage( Character, Hits )</th></tr></tbody>
+<a name="HealDamage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">HealDamage( Character, Hits )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1529,7 +1532,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 if some part of the dama
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListAccounts"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListAccounts()</th></tr></tbody>
+<a name="ListAccounts"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListAccounts()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Gets a list of
 all account names.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
@@ -1537,7 +1540,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">Array of Strings of accoun
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Account"><b>Account</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListEquippedItems"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListEquippedItems( who )</th></tr></tbody>
+<a name="ListEquippedItems"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListEquippedItems( who )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1554,7 +1557,7 @@ References equipped on "who"</td></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListGhostsNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListGhostsNearLocation( x,
+<a name="ListGhostsNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListGhostsNearLocation( x,
 y, z, range )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1574,7 +1577,7 @@ near the location on success</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListGuilds"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListGuilds()</th></tr></tbody>
+<a name="ListGuilds"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListGuilds()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Gets a list of
 all guilds.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
@@ -1582,7 +1585,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">An Array of Guild Referenc
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Guild"><b>Guild</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListHostiles"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListHostiles( character,
+<a name="ListHostiles"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListHostiles( character,
 range := 20, flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1603,7 +1606,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">Array of Character Referen
 parameter"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListItemsAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsAtLocation( x, y,
+<a name="ListItemsAtLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsAtLocation( x, y,
 z )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1622,7 +1625,7 @@ items at that location</td></tr></tbody> <tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListItemsNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocation( x,
+<a name="ListItemsNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocation( x,
 y, z, range )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1640,7 +1643,7 @@ the location.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" a
 on invalid parameter)</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListItemsNearLocationOfType"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocationOfType(
+<a name="ListItemsNearLocationOfType"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocationOfType(
 x, y, z, range, objtype )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1661,7 +1664,7 @@ Item References of items matching "objtype" found near the location. </td></tr><
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListItemsNearLocationWithFlag"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocationWithFlag(x,y,z,range,flags)</th></tr></tbody>
+<a name="ListItemsNearLocationWithFlag"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListItemsNearLocationWithFlag(x,y,z,range,flags)</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1681,7 +1684,7 @@ Itemrefs</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align=
 parameter"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListMobilesInLineOfSight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesInLineOfSight(
+<a name="ListMobilesInLineOfSight"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesInLineOfSight(
 object, range )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1698,7 +1701,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">An Array of Character Refe
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListMobilesNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesNearLocation(
+<a name="ListMobilesNearLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesNearLocation(
 x, y, z, range )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1719,7 +1722,7 @@ Character References</td></tr></tbody> <tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListMobilesNearLocationEx"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesNearLocationEx(
+<a name="ListMobilesNearLocationEx"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListMobilesNearLocationEx(
 x, y, z, range, flags )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1742,7 +1745,7 @@ found matching the search criteria. </td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListObjectsInBox"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListObjectsInBox(
+<a name="ListObjectsInBox"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListObjectsInBox(
 x1,y1,z1, x2,y2,z2 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1764,7 +1767,7 @@ of all characters and items found inside the specified box.</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ListMultisInBox"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListObjectsInBox(
+<a name="ListMultisInBox"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ListObjectsInBox(
 x1,y1,z1, x2,y2,z2 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1786,7 +1789,7 @@ of all multis found inside the specified box.</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#House"><b>House</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Boat"><b>Boat</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#MoveCharacterToLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveCharacterToLocation(
+<a name="MoveCharacterToLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveCharacterToLocation(
 character, x, y, z, flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1810,7 +1813,7 @@ MOVECHAR_FORCELOCATION := 0x40000000;</td></tr></tbody>
 <tr> <td colspan="2">"Can't go there"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#MoveItemToContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveItemToContainer( item,
+<a name="MoveItemToContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveItemToContainer( item,
 container, x := -1, y := -1 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1844,7 +1847,7 @@ cannot be unequipped"</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#MoveItemToLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveItemToLocation( item,
+<a name="MoveItemToLocation"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">MoveItemToLocation( item,
 x, y, z, flags )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1871,7 +1874,7 @@ bounds"</td></tr> <tr> <td colspan="2">"That
 item is being used."</td></tr> <tr> <td colspan="2">"That is immobile"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#OpenPaperdoll"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">OpenPaperdoll( towhom,
+<a name="OpenPaperdoll"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">OpenPaperdoll( towhom,
 forwhom )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1888,7 +1891,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2">"No client attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PerformAction"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PerformAction( character,
+<a name="PerformAction"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PerformAction( character,
 action )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1904,7 +1907,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlayLightningBoltEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayLightningBoltEffect(
+<a name="PlayLightningBoltEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayLightningBoltEffect(
 center_object )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -1919,7 +1922,7 @@ lightning bolt effect centered on the object.</td></tr></tbody>
 <tr> <td colspan="2">none (returns 0 if invalid
 parameter).</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlayMovingEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayMovingEffect( source,
+<a name="PlayMovingEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayMovingEffect( source,
 target, effect, speed, loop := 0, explode := 0 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1944,7 +1947,7 @@ show an explosion at destination at the end of the effect?</td></tr></tbody>
 <tr> <td colspan="2">none (returns 0 if invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlayMovingEffectXYZ"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayMovingEffectXYZ( srcx,
+<a name="PlayMovingEffectXYZ"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayMovingEffectXYZ( srcx,
 srcy, srcz, dstx, dsty, dstz, effect, speed, loop := 0, explode := 0 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1974,7 +1977,7 @@ explosion effect should be played at the end of the animation</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none (instead returns 0 on
 invalid parameter)</td></tr></tbody></table><br><br><br>
-<a name="#PlayObjectCenteredEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayObjectCenteredEffect(
+<a name="PlayObjectCenteredEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayObjectCenteredEffect(
 uobject, effect, speed, loop := 0)</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -1995,7 +1998,7 @@ for effects like flame strike and reactive armor.</td></tr></tbody>
 <tr> <td colspan="2">none (returns 0 on invalid
 parameter)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlaySoundEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlaySoundEffect( object,
+<a name="PlaySoundEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlaySoundEffect( object,
 effect )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2014,7 +2017,7 @@ PlaySoundEffectPrivate() for private sounds.</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlaySoundEffectPrivate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlaySoundEffectPrivate(
+<a name="PlaySoundEffectPrivate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlaySoundEffectPrivate(
 object, effect, playfor )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2035,7 +2038,7 @@ sound IDs (or InsideUO)</td></tr></tbody> <tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PlayStationaryEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayStationaryEffect( x,
+<a name="PlayStationaryEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PlayStationaryEffect( x,
 y, z, effect, speed, loop := 0, explode := 0 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2060,7 +2063,7 @@ should be played at the end of the animation</td></tr></tbody>
 <tbody> <tr> <td colspan="2">1 on success</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody></table><br><br><br>
-<a name="#Polcore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Polcore()</th></tr></tbody>
+<a name="Polcore"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Polcore()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Returns a
 Polcore object. See object reference for object methods.</td></tr></tbody>
@@ -2068,7 +2071,7 @@ Polcore object. See object reference for object methods.</td></tr></tbody>
 <tbody> <tr> <td colspan="2">Polcore object
 reference</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Polcore"><b>Polcore</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PrintTextAbove"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PrintTextAbove(
+<a name="PrintTextAbove"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PrintTextAbove(
 above_object, text, font := _DEFAULT_TEXT_FONT, color :=
 _DEFAULT_TEXT_COLOR )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
@@ -2088,7 +2091,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">0 if text was too long (&g
 <tr> <td colspan="2">"A parameter was invalid"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#PrintTextAbovePrivate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PrintTextAbovePrivate(
+<a name="PrintTextAbovePrivate"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">PrintTextAbovePrivate(
 above_object, text, character, font := _DEFAULT_TEXT_FONT, color :=
 _DEFAULT_TEXT_COLOR )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
@@ -2114,7 +2117,7 @@ too long (&gt;200 characters)</td></tr> <tr> <td colspan="2">1 on success</td></
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#RawSkillToBaseSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RawSkillToBaseSkill(
+<a name="RawSkillToBaseSkill"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RawSkillToBaseSkill(
 rawskill )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2128,7 +2131,7 @@ old-style "raw skill" value to old-style "base skill" value.</td></tr>
 value representation</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
-<a name="#ReadGameClock"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReadGameClock()</th></tr></tbody>
+<a name="ReadGameClock"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReadGameClock()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Returns the
 total number of seconds the server has been active.</td></tr>
@@ -2141,7 +2144,7 @@ game was running. </td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan=
 values</th></tr></tbody> <tbody> <tr> <td colspan="2">Integer - The current value of the game clock. </td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">none</td></tr></tbody></table><br><br><br>
-<a name="#RecalcVitals"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RecalcVitals( character )</th></tr></tbody>
+<a name="RecalcVitals"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RecalcVitals( character )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2162,7 +2165,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">true</td></tr></tbody> <tb
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#RegisterForSpeechEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RegisterForSpeechEvents(
+<a name="RegisterForSpeechEvents"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RegisterForSpeechEvents(
 at_object, range, flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2187,7 +2190,7 @@ events"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ReleaseItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReleaseItem( item )</th></tr></tbody>
+<a name="ReleaseItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReleaseItem( item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2205,7 +2208,7 @@ item is not reserved." if the item is not "in use"</td></tr>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#RequestInput"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RequestInput(character,
+<a name="RequestInput"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RequestInput(character,
 item, prompt )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2229,7 +2232,7 @@ Returns 0 (int) if control characters were found in the string.</td></tr></tbody
 prompt"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#ReserveItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReserveItem( item )</th></tr></tbody>
+<a name="ReserveItem"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReserveItem( item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2247,7 +2250,7 @@ reserved, 1 on success, or Error</td></tr></tbody> <tbody>
 used."</td></tr> <tr> <td colspan="2">"Invalid
 parameter"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#RestartScript"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RestartScript( npc )</th></tr></tbody>
+<a name="RestartScript"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RestartScript( npc )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2266,7 +2269,7 @@ parameter"</td></tr> <tr> <td colspan="2">"RestartScript
 only operates on NPCs"</td></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody></table><br><br><br>
-<a name="#Resurrect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Resurrect( ghost, flags := 0 )</th></tr></tbody>
+<a name="Resurrect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Resurrect( ghost, flags := 0 )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2288,7 +2291,7 @@ was resurrected successfully</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"That location is blocked"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#RevokePrivilege"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RevokePrivilege(
+<a name="RevokePrivilege"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RevokePrivilege(
 character, privilege )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2305,7 +2308,7 @@ privilege was revoked, or if it was not previously granted. </td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SaveWorldState"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SaveWorldState()</th></tr></tbody>
+<a name="SaveWorldState"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SaveWorldState()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Saves the
 current world state. </td></tr></tbody> <tbody>
@@ -2315,7 +2318,7 @@ CleanObjects, DirtyObjects, ElapsedMilliseconds }</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Exception during world save"</td></tr>
 <tr> <td colspan="2">"pol.cfg has InhibitSaves=1"</td></tr></tbody></table><br><br><br>
-<a name="#SelectColor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SelectColor( character, item )</th></tr></tbody>
+<a name="SelectColor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SelectColor( character, item )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2337,7 +2340,7 @@ selected color. use item.color = return_value to set.</td></tr></tbody>
 color"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SelectMenuItem2"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SelectMenuItem2(
+<a name="SelectMenuItem2"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SelectMenuItem2(
 character, menuname )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2362,7 +2365,7 @@ is busy, or menu is empty"</td></tr> <tr> <td colspan="2">"Menu too large"</td><
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#menus.cfg"><b>menus.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendBuyWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendBuyWindow( character,
+<a name="SendBuyWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendBuyWindow( character,
 container, vendor, items )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2393,7 +2396,7 @@ much crap in vendor's inventory!" (message exceeds 2000 byte buffer)</td></tr></
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendDialogGump"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendDialogGump( who,
+<a name="SendDialogGump"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendDialogGump( who,
 layout, textlines )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2424,7 +2427,7 @@ byte)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="le
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Dictionary"><b>Dictionary</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendEvent"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendEvent( npc, event )</th></tr></tbody>
+<a name="SendEvent"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendEvent( npc, event )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2442,7 +2445,7 @@ user-defined event) to the NPC's control script.</td></tr></tbody>
 <tr> <td colspan="2">"That NPC doesn't have a
 control script"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendInstaResDialog"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendInstaResDialog(
+<a name="SendInstaResDialog"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendInstaResDialog(
 character )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2463,7 +2466,7 @@ choice. 1 = instares, 2 = ghost</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Client busy with another
 instares dialog"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendOpenBook"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendOpenBook( character,
+<a name="SendOpenBook"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendOpenBook( character,
 book )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2485,7 +2488,7 @@ must return an array"</td></tr> <tr> <td colspan="2">"Buffer overflow"</td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Array"><b>Array</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendOpenSpecialContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendOpenSpecialContainer(
+<a name="SendOpenSpecialContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendOpenSpecialContainer(
 character, container )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2507,7 +2510,7 @@ contents. See SendViewContainer().</td></tr></tbody> <tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendPacket"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendPacket( to_whom, packet_hex_string )</th></tr></tbody>
+<a name="SendPacket"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendPacket( to_whom, packet_hex_string )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2526,7 +2529,7 @@ cause the season to change to "desolation"</td></tr></tbody>
 <tr> <td colspan="2">"No client attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendQuestArrow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendQuestArrow(to_whom, x
+<a name="SendQuestArrow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendQuestArrow(to_whom, x
 := -1, y := -1)</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2546,7 +2549,7 @@ called SendQuestArrow(to_whom)) will remove it.</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendSellWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSellWindow( character,
+<a name="SendSellWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSellWindow( character,
 vendor, i1, i2, i3 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2575,7 +2578,7 @@ character"</td></tr> <tr> <td colspan="2">"Parameter
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendSkillWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSkillWindow( towhom,
+<a name="SendSkillWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSkillWindow( towhom,
 forwhom )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2592,7 +2595,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2">"No client attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendStringAsTipWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendStringAsTipWindow(
+<a name="SendStringAsTipWindow"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendStringAsTipWindow(
 character, text )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2608,7 +2611,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2">"No client attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendSysMessage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSysMessage( character,
+<a name="SendSysMessage"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendSysMessage( character,
 text, font := _DEFAULT_TEXT_FONT, color := _DEFAULT_TEXT_COLOR )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2629,7 +2632,7 @@ see client.inc for suitable values of font and color.</td></tr></tbody>
 <tr> <td colspan="2">"Mobile has no active client"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendTextEntryGump"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendTextEntryGump( who,
+<a name="SendTextEntryGump"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendTextEntryGump( who,
 line1, cancel := TE_CANCEL_ENABLE, style := TE_STYLE_NORMAL, maximum :=
 40, line2 := "" )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2654,7 +2657,7 @@ success 0 if gump was cancelled.</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"No client attached"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SendViewContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendViewContainer(
+<a name="SendViewContainer"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SendViewContainer(
 character, container )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2674,7 +2677,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetAttributeBaseValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetAttributeBaseValue(
+<a name="SetAttributeBaseValue"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetAttributeBaseValue(
 character, attrname, basevalue_tenths ); // obsoletes SetRawSkill</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2694,7 +2697,7 @@ value of "attrname" on "character"</td></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetAttributeTemporaryMod(
+<a name="SetAttributeTemporaryMod"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetAttributeTemporaryMod(
 character, attrname, tempmod_tenths ); // obsoletes mob.strength_mod etc</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2715,7 +2718,7 @@ including if attrname was not found as an attribute</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetGlobalProperty(
+<a name="SetGlobalProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetGlobalProperty(
 propertyname, propertyvalue )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2730,7 +2733,7 @@ of a global property. propertyname is case-sensative</td></tr></tbody>
 <tbody> <tr> <td colspan="2">1 on success</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
-<a name="#SetObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetObjProperty( object,
+<a name="SetObjProperty"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetObjProperty( object,
 propertyname, propertyvalue )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2749,7 +2752,7 @@ for later retrieval with GetObjProperty. propertyname is case-sensative</td></tr
 <tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetRegionLightLevel"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetRegionLightLevel(
+<a name="SetRegionLightLevel"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetRegionLightLevel(
 regionname, lightlevel )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2771,7 +2774,7 @@ level was set successfully</td></tr></tbody> <tbody>
 <tr> <td colspan="2">"Light region not found"</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#light.cfg"><b>light.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetRegionWeatherLevel"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetRegionWeatherLevel(
+<a name="SetRegionWeatherLevel"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetRegionWeatherLevel(
 region, type, severity, aux := 0, lightoverride := -1)</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2795,7 +2798,7 @@ values</th></tr></tbody>
 "region" not found in regions/weather.cfg</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#weather.cfg"><b>weather.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetScriptController"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetScriptController( who )</th></tr></tbody>
+<a name="SetScriptController"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetScriptController( who )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2814,7 +2817,7 @@ Reference of the "old" controller of the script.</td></tr></tbody>
 <tr> <td colspan="2">none (instead returns 0 on
 failure)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SetVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetVital( character, vitalname, value )</th></tr></tbody>
+<a name="SetVital"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetVital( character, vitalname, value )</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2834,14 +2837,14 @@ including if vitalname was not found as a vital</td></tr></tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#Shutdown"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Shutdown()</th></tr></tbody>
+<a name="Shutdown"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Shutdown()</th></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
 <tbody> <tr> <td colspan="2">Shuts down the
 server</td></tr> <tr> <td colspan="2">Notes:
 Disconnects all clients and saves the world state.</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
 <tbody> <tr> <td colspan="2">1 always</td></tr></tbody></table><br><br><br>
-<a name="#SpeakPowerWords"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SpeakPowerWords( who,
+<a name="SpeakPowerWords"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SpeakPowerWords( who,
 spellid )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2862,7 +2865,7 @@ spells and spell ids.</td></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#StartSpellEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">StartSpellEffect( who,
+<a name="StartSpellEffect"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">StartSpellEffect( who,
 spellid )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2882,7 +2885,7 @@ values</th></tr></tbody> <tbody> <tr> <td colspan="2">1 on success</td></tr></tb
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SubtractAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SubtractAmount( item,
+<a name="SubtractAmount"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SubtractAmount( item,
 amount )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2898,7 +2901,7 @@ stack size of an item. If nothing is left, deletes the item. </td></tr></tbody>
 <tr> <td colspan="2">"That item is being used."</td></tr></tbody>
 <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody> <tbody>
 <tr> <td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr></tbody></table><br><br><br>
-<a name="#SystemFindObjectBySerial"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SystemFindObjectBySerial(
+<a name="SystemFindObjectBySerial"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SystemFindObjectBySerial(
 serial, sysfind_flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2919,7 +2922,7 @@ Reference, Item Reference, or Multi reference on success.</td></tr></tbody>
 <tr> <td colspan="2">"Invalid parameter type"</td></tr>
 <tr> <td colspan="2">"Character not found"</td></tr>
 <tr> <td colspan="2">"Item not found."</td></tr></tbody></table><br><br><br>
-<a name="#Target"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Target( by_character, options :=
+<a name="Target"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Target( by_character, options :=
 TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
@@ -2952,7 +2955,7 @@ Reference on success (item or character or multi)</td></tr></tbody>
 target cursor"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
 <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#TargetCoordinates"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">TargetCoordinates(
+<a name="TargetCoordinates"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">TargetCoordinates(
 Character )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
 <td>Type</td></tr></tbody> <tbody> <tr>
@@ -2978,7 +2981,7 @@ cancelled or the client disconnected. </td></tr></tbody>
 <tr> <td colspan="2">"Client has an active target
 cursor"</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Related</th></tr></tbody>
 <tbody> <tr> <td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br>
-<a name="#TargetMultiPlacement"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">TargetMultiPlacement(
+<a name="TargetMultiPlacement"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">TargetMultiPlacement(
 character, objtype, flags := 0 )</th></tr></tbody> <tbody>
 <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
 <tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
