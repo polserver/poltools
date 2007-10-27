@@ -1,214 +1,96 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=windows-1252">
-<META content="POL, EScript, documentation" name=keyword>
-<META content="Racalac, Rykard" name=Author>
-<STYLE type=text/css>BODY {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+<html><head><title>POL
+Scripting Reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta content="POL, EScript, documentation" name="keyword">
+<meta content="Racalac, Rykard" name="Author"><style type="text/css">BODY {
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 TD {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 P {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
-</STYLE>
-</HEAD>
-<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
-POLsys.em</P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
-Functions to access POL system data.<BR>Last Modified: 6/18/2003</P>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#GetItemDescriptor>
-    <TH align=middle colSpan=2>GetItemDescriptor(objtype)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>objtype</VAR></TD>
-    <TD>int Objtype OR string ObjtypeName</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Returns a struct of all itemdesc.cfg properties for the 
-      objtype.</TD></TR>
-  <TR>
-    <TD colSpan=2>The keys are the property names, i.e. "Color", "Desc", etc. 
-      The values can be String, Integer, Real. The exceptions are "CProps" and 
-      "StackingIgnoresCProps". "CProps" is a dictionary where the CProp name is 
-      the key, and the value can be any packable type (i.e. array, struct, 
-      etc.). "StackingIgnoresCProps" is an array of strings.</TD></TR>
-  <TR>
-    <TD colSpan=2>The primary use of this function is to pass it to any of the 
-      item creation functions, and the values in the struct will be used in 
-      place of the static itemdesc.cfg values. Use it to assign specific 
-      properties to an item during creation, rather than after. This allows 
-      easier stacking with existing item stacks.</TD></TR>
-  <TR>
-    <TD colSpan=2>Note not all properties can be assigned per-item, so editing 
-      the value in the descriptor struct will not be passed to the new item. 
-  </TD></TR>
-  <TR>
-    <TD colSpan=2><PRE>//For example, to stack with an existing stack with color 0x10 and cprop
-use uo;
-use polsys;
-program testdesc(who,objtype)
-    var ret := GetItemDescriptor(CInt(objtype));
-    ret.Color := 0x10;
-    ret.CProps.insert("blah","1"); //assuming the existing stack have this color and cprop
-    ret.StackingIgnoresCProps.append("blingbling");    
-    var item := CreateItemInBackpack(who,ret,10);
-    if(item)
-        print("OK!");
-    endif
-endprogram</PRE></TD></TR>
-  <TR>
-    <TD colSpan=2><PRE>To print the contents of the struct:
-var ret := GetItemDescriptor(objtype);
-foreach thing in ret
-    print(_thing_iter + ": " + thing);
-endforeach</PRE></TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>A struct of all itemdesc.cfg properties and 
-  values.</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR>
-  <TR>
-    <TD colSpan=2>"Itemdesc.cfg entry for objtype X not found."</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Related Configs</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2><A 
-      href="configfiles.html#itemdesc.cfg"><B>itemdesc.cfg</B></A></TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Packages>
-    <TH align=middle colSpan=2>Packages()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Get an array of "package objects", with "name" and 
-      "supports_http" members. (more info TBD)</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>An array of package objects.</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ReadMillisecondClock>
-    <TH align=middle colSpan=2>ReadMillisecondClock()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Returns a long integer of the current millisecond clock. 
-      TBD: timebase of clock, saved with server?</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Current time in 
-milliseconds.</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ReloadConfiguration>
-    <TH align=middle colSpan=2>ReloadConfiguration()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>reloads pol.cfg (most entries) and npcdesc.cfg</TD></TR>
-  <TR>
-    <TD colSpan=2>Linux: HUP signal will cause ReloadConfiguration to be 
-      called.</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>1</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#SetSysTrayPopupText>
-    <TH align=middle colSpan=2>SetSysTrayPopupText(text)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>text</VAR></TD>
-    <TD>String tooltip text for systray icon</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Sets the systray icon's tooltip text (win32 
-  only)</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>1</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#StorageAreas>
-    <TH align=middle colSpan=2>StorageAreas()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Get an array of "Storage area objects", with "count" member, 
-      and [] operator. (more info TBD)</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>?</TD></TR></TBODY></TABLE><BR><BR><BR>
-<HR>
-
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
-any information is incorrect on these pages, mail your corrections to 
-racalac@burdell.org </P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
-David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
-MUTILATE, OR SIT ON. </P></BODY></HTML>
+</style></head>
+<body style="background-color: rgb(240, 240, 240);"><p style="font-weight: bold; font-size: 14pt; text-align: left;">File:
+POLsys.em</p>
+<p style="font-weight: bold; font-size: 10pt; text-align: left;">Description:
+Functions to access POL system data.<br>Last Modified: 6/18/2003</p>
+<a name="#GetItemDescriptor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">GetItemDescriptor(objtype)</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>objtype</var></td> <td>int
+Objtype OR string ObjtypeName</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Returns a
+struct of all itemdesc.cfg properties for the objtype.</td></tr>
+<tr> <td colspan="2">The keys are the property
+names, i.e. "Color", "Desc", etc. The values can be String, Integer,
+Real. The exceptions are "CProps" and "StackingIgnoresCProps". "CProps"
+is a dictionary where the CProp name is the key, and the value can be
+any packable type (i.e. array, struct, etc.). "StackingIgnoresCProps"
+is an array of strings.</td></tr> <tr> <td colspan="2">The primary use of this function is to pass it
+to any of the item creation functions, and the values in the struct
+will be used in place of the static itemdesc.cfg values. Use it to
+assign specific properties to an item during creation, rather than
+after. This allows easier stacking with existing item stacks.</td></tr>
+<tr> <td colspan="2">Note not all properties can be
+assigned per-item, so editing the value in the descriptor struct will
+not be passed to the new item. </td></tr> <tr> <td colspan="2"><pre>//For example, to stack with an existing stack with color 0x10 and cprop<br>use uo;<br>use polsys;<br>program testdesc(who,objtype)<br> var ret := GetItemDescriptor(CInt(objtype));<br> ret.Color := 0x10;<br> ret.CProps.insert("blah","1"); //assuming the existing stack have this color and cprop<br> ret.StackingIgnoresCProps.append("blingbling"); <br> var item := CreateItemInBackpack(who,ret,10);<br> if(item)<br> print("OK!");<br> endif<br>endprogram</pre></td></tr>
+<tr> <td colspan="2"><pre>To print the contents of the struct:<br>var ret := GetItemDescriptor(objtype);<br>foreach thing in ret<br> print(_thing_iter + ": " + thing);<br>endforeach</pre></td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">A struct of all
+itemdesc.cfg properties and values.</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr>
+<tr> <td colspan="2">"Itemdesc.cfg entry for
+objtype X not found."</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Related Configs</th></tr></tbody>
+<tbody> <tr> <td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr></tbody></table><br><br><br>
+<a name="#Packages"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Packages()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Get an array of
+"package objects", with "name" and "supports_http" members. (more info
+TBD)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">An array of package objects.</td></tr></tbody></table><br><br><br>
+<a name="#ReadMillisecondClock"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReadMillisecondClock()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Returns a long
+integer of the current millisecond clock. TBD: timebase of clock, saved
+with server?</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Current time in milliseconds.</td></tr></tbody></table><br><br><br>
+<a name="Realms"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Realms(realms:="")</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Returns a dictionary of structs. example:
+<pre>    "realm_name" -&gt; "width"<br>                    "height"<br>                    "mapid"<br>                    "toplevel_item_count"<br>                    "mobile_count"<br><br>Can also pass the realm name for single information also.</pre></td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">A dictionary of structs of Realms.</td></tr></tbody></table><br><br><br>
+<a name="#ReloadConfiguration"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ReloadConfiguration()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">reloads pol.cfg
+(most entries) and npcdesc.cfg</td></tr> <tr> <td colspan="2">Linux: HUP signal will cause ReloadConfiguration
+to be called.</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">1</td></tr></tbody></table><br><br><br>
+<a name="#SetSysTrayPopupText"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">SetSysTrayPopupText(text)</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>text</var></td> <td>String
+tooltip text for systray icon</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Sets the
+systray icon's tooltip text (win32 only)</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">1</td></tr></tbody></table><br><br><br>
+<a name="#StorageAreas"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">StorageAreas()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Get an array of
+"Storage area objects", with "count" member, and [] operator. (more
+info TBD)</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">?</td></tr></tbody></table><br><br><br>
+<hr><p style="font-weight: bold; font-size: 9pt; text-align: center;">If
+you know if any information is incorrect on these pages, mail your
+corrections to racalac@burdell.org </p>
+<p style="font-weight: bold; font-size: 7pt; text-align: center;">Copyright
+©2003 David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR,
+ALTER, SPINDLE, MUTILATE, OR SIT ON. </p></body></html>
