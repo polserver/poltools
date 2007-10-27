@@ -1,593 +1,247 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>POL Scripting Reference</TITLE>
-<META http-equiv=Content-Type content="text/html; charset=windows-1252">
-<META content="POL, EScript, documentation" name=keyword>
-<META content="Racalac, Rykard" name=Author>
-<STYLE type=text/css>BODY {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+<html><head><title>POL
+Scripting Reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta content="POL, EScript, documentation" name="keyword">
+<meta content="Racalac, Rykard" name="Author"><style type="text/css">BODY {
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 TD {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
 P {
-	FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+FONT-WEIGHT: normal; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
 }
-</STYLE>
-</HEAD>
-<BODY bgColor=#f0f0f0><?xml version="1.0" encoding="UTF-8"?>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 14pt; TEXT-ALIGN: left">File: 
-Math.em</P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; TEXT-ALIGN: left">Description: 
-Mathematic functions for your enjoyment<BR>Last Modified: 1/22/2003</P>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Abs>
-    <TH align=middle colSpan=2>Abs(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real or Integer</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the absolute value of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ACos>
-    <TH align=middle colSpan=2>ACos(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the arccosine of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ASin>
-    <TH align=middle colSpan=2>ASin(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the arcsine of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ATan>
-    <TH align=middle colSpan=2>ATan(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the arctangent of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Ceil>
-    <TH align=middle colSpan=2>Ceil(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the ceiling of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real that is smallest integer &gt;= x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ConstE>
-    <TH align=middle colSpan=2>ConstE()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Returns an approximation of the trancendental number E</TD></TR>
-  <TR>
-    <TD colSpan=2>e, is an irrational NUMBER occurring widely in mathematics 
-      and science, approximately equal to the value 2.71828; it is the base of 
-      natural, or Naperian, LOGARITHMS. Like pi, e is transcendental, i.e., not 
-      a ROOT of any algebraic equation. It is defined as the LIMIT of the 
-      expression (1 + 1/n)^n as n becomes infinitely large. Expressions of the 
-      form e^(x), known as the exponential function, occur in applications 
-      ranging from statistics to nuclear physics</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#ConstPi>
-    <TH align=middle colSpan=2>ConstPi()</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Returns an approximation of the trancendental number 
-Pi</TD></TR>
-  <TR>
-    <TD colSpan=2>Pi is a numerical constant that represents the ratio of a 
-      circle's circumference to its diameter on a flat plane surface. The value 
-      is the same regardless of the size of the circle. The decimal expansion of 
-      pi is a nonterminating, nonrepeating sequence of digits. Pi can be 
-      expressed through the Fourier series pi = 4 - (4/3) + (4/5) - (4/7) + 
-      (4/9) - ... </TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number (3.14159....)</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Cos>
-    <TH align=middle colSpan=2>Cos(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the cosine of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#DegToRad>
-    <TH align=middle colSpan=2>DegToRad( degrees )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>degrees</VAR></TD>
-    <TD>Real, in degrees</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Converts the degrees parameter to radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Floor>
-    <TH align=middle colSpan=2>Floor(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the floor of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>RReal that is largest integer &lt;= x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#FormatRealToString>
-    <TH align=middle colSpan=2>FormatRealToString( value, precision 
-  )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>value</VAR></TD>
-    <TD>Real</TD></TR>
-  <TR>
-    <TD width="50%"><VAR>precision</VAR></TD>
-    <TD>Integer</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Who knows if this even works at all</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>String rep of the real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Log10>
-    <TH align=middle colSpan=2>Log10(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes log(base 10) of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#LogE>
-    <TH align=middle colSpan=2>LogE(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the natural log of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#RadToDeg>
-    <TH align=middle colSpan=2>RadToDeg( radians )</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>radians</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Converts the radian parameter to degrees</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number in degrees</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Sin>
-    <TH align=middle colSpan=2>Sin(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the sine of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Sqrt>
-    <TH align=middle colSpan=2>Sqrt(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the square root of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<TABLE cellSpacing=0 cellPadding=1 rules=groups width="75%" align=center 
-bgColor=#dddddd border=1 frame=box>
-  <TBODY>
-  <TR><A name=#Tan>
-    <TH align=middle colSpan=2>Tan(x)</TH></A></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Parameters:</TH></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#d4d4d4>
-    <TD>Name</TD>
-    <TD>Type</TD></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD width="50%"><VAR>x</VAR></TD>
-    <TD>Real, in radians</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Explanation</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Computes the tangent of x</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Return values</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>Real number</TD></TR></TBODY>
-  <TBODY>
-  <TR bgColor=#cccccc>
-    <TH align=left colSpan=2>Errors</TH></TR></TBODY>
-  <TBODY>
-  <TR>
-    <TD colSpan=2>"Invalid parameter type"</TD></TR></TBODY></TABLE><BR><BR><BR>
-<HR>
-
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 9pt; TEXT-ALIGN: center">If you know if 
-any information is incorrect on these pages, mail your corrections to 
-racalac@burdell.org </P>
-<P style="FONT-WEIGHT: bold; FONT-SIZE: 7pt; TEXT-ALIGN: center">Copyright ©2003 
-David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, 
-MUTILATE, OR SIT ON. </P></BODY></HTML>
+</style></head>
+<body style="background-color: rgb(240, 240, 240);"><p style="font-weight: bold; font-size: 14pt; text-align: left;">File:
+Math.em</p>
+<p style="font-weight: bold; font-size: 10pt; text-align: left;">Description:
+Mathematic functions for your enjoyment<br>Last Modified:
+1/22/2003</p>
+<a name="#Abs"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Abs(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real
+or Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+absolute value of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#ACos"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ACos(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+arccosine of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number in radians</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#ASin"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ASin(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+arcsine of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number in radians</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#ATan"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ATan(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+arctangent of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number in radians</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Ceil"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Ceil(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+ceiling of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real that is smallest integer &gt;= x</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#ConstE"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConstE()</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Returns an
+approximation of the trancendental number E</td></tr> <tr>
+<td colspan="2">e, is an irrational NUMBER occurring
+widely in mathematics and science, approximately equal to the value
+2.71828; it is the base of natural, or Naperian, LOGARITHMS. Like pi, e
+is transcendental, i.e., not a ROOT of any algebraic equation. It is
+defined as the LIMIT of the expression (1 + 1/n)^n as n becomes
+infinitely large. Expressions of the form e^(x), known as the
+exponential function, occur in applications ranging from statistics to
+nuclear physics</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody></table><br><br><br>
+<a name="#ConstPi"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">ConstPi()</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Returns an
+approximation of the trancendental number Pi</td></tr> <tr>
+<td colspan="2">Pi is a numerical constant that represents
+the ratio of a circle's circumference to its diameter on a flat plane
+surface. The value is the same regardless of the size of the circle.
+The decimal expansion of pi is a nonterminating, nonrepeating sequence
+of digits. Pi can be expressed through the Fourier series pi = 4 -
+(4/3) + (4/5) - (4/7) + (4/9) - ... </td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Real number
+(3.14159....)</td></tr></tbody></table><br><br><br>
+<a name="#Cos"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Cos(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+cosine of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#DegToRad"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">DegToRad( degrees )</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>degrees</var></td> <td>Real,
+in degrees</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Converts the
+degrees parameter to radians</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Real number in
+radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
+<tbody> <tr> <td colspan="2">"Invalid
+parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Floor"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Floor(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+floor of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">RReal that is largest integer &lt;= x</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#FormatRealToString"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">FormatRealToString( value,
+precision )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>value</var></td> <td>Real</td></tr>
+<tr> <td width="50%"><var>precision</var></td>
+<td>Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Who knows if
+this even works at all</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">String rep of
+the real number</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
+<tbody> <tr> <td colspan="2">"Invalid
+parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Log10"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Log10(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes
+log(base 10) of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#LogE"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">LogE(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+natural log of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="Min"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Min( x, y )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Integer</td></tr>
+<tr> <td width="50%"><var>y</var></td>
+<td>Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">The numerically lowest Integer of the
+   parameter values</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
+<tbody> <tr> <td colspan="2">"Invalid
+parameter type"</td></tr></tbody></table><br><br><br>
+<a name="Max"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Max( x, y )</th></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Integer</td></tr>
+<tr> <td width="50%"><var>y</var></td>
+<td>Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">The numerically highest Integer of the
+   parameter values</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Integer</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
+<tbody> <tr> <td colspan="2">"Invalid
+parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#RadToDeg"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">RadToDeg( radians )</th></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>radians</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Converts the
+radian parameter to degrees</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Return values</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Real number in
+degrees</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody>
+<tbody> <tr> <td colspan="2">"Invalid
+parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Sin"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Sin(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+sine of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Sqrt"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Sqrt(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real</td></tr></tbody>
+<tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+square root of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<a name="#Tan"> </a><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"> <tbody> <tr><th colspan="2" align="center">Tan(x)</th></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Parameters:</th></tr></tbody>
+<tbody> <tr bgcolor="#d4d4d4"> <td>Name</td>
+<td>Type</td></tr></tbody> <tbody> <tr>
+<td width="50%"><var>x</var></td> <td>Real,
+in radians</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Explanation</th></tr></tbody>
+<tbody> <tr> <td colspan="2">Computes the
+tangent of x</td></tr></tbody> <tbody> <tr bgcolor="#cccccc"> <th colspan="2" align="left">Return
+values</th></tr></tbody> <tbody> <tr> <td colspan="2">Real number</td></tr></tbody> <tbody>
+<tr bgcolor="#cccccc"> <th colspan="2" align="left">Errors</th></tr></tbody> <tbody>
+<tr> <td colspan="2">"Invalid parameter type"</td></tr></tbody></table><br><br><br>
+<hr><p style="font-weight: bold; font-size: 9pt; text-align: center;">If
+you know if any information is incorrect on these pages, mail your
+corrections to racalac@burdell.org </p>
+<p style="font-weight: bold; font-size: 7pt; text-align: center;">Copyright
+©2003 David Carpman, all rights reserved. DO NOT REPRODUCE, MIRROR,
+ALTER, SPINDLE, MUTILATE, OR SIT ON. </p></body></html>
