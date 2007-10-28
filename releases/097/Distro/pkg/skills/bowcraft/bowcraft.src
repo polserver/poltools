@@ -10,8 +10,8 @@ include ":crafting:crafting";
 include ":crafting:craftingRepair";
 include ":crafting:toolWear";
 
-var item_config     := ReadConfigFile(":*:itemdesc");
-var craft_config    := ReadConfigFile(":bowcraft:bowcraft");
+var item_config  := ReadConfigFile(":*:itemdesc");
+var craft_config := ReadConfigFile(":bowcraft:bowcraft");
 
 program use_FletchTool(who, tool)
 
@@ -59,9 +59,10 @@ function makeBowcraftItems(who, what, amt, tool)
 
 	// ResourceList entry type.
 	var itemchk := MaterialSelection(who, craft_skill, lower(craft_config[what].type));
-	if(!itemchk)
+	if (!itemchk)
 		return 0;
 	endif
+
 	var use_on := itemchk[1];
 	var ptmod := itemchk[3];
 

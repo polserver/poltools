@@ -125,11 +125,10 @@ function CarpentryItems(who, tool, objtype, amt)
 	var x := who.x, y := who.y, item2 := 0;
 	var material2obj := craft_config[objtype].material2obj;
 	if( TypeOf(material2obj) == "String" )
-		var holder := material2obj;
 		// Let's now select the secondary material. Chk is not passed, as currently
 		// ingots do not hold a cprop to know which type they was originally like boards
 		// or cut leather.
-		itemchk := MaterialSelection(who, craft_skill, lower(holder));
+		itemchk := MaterialSelection(who, craft_skill, lower(material2obj));
 		if( !itemchk )
 			return 0;
 		endif
@@ -169,7 +168,8 @@ function CarpentryItems(who, tool, objtype, amt)
 					if( (skill2 <= AP_GetSkill(who, skillid2)) )
 						theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
 					else
-						chk := -2;
+						SendSysMessage(who, "You do not have the required skill.");
+						return 0;
 					endif
 				else
 					theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
@@ -177,7 +177,8 @@ function CarpentryItems(who, tool, objtype, amt)
 						if( item2 != 0 )
 							if( !SubtractAmount(item2, material2) )
 								DestroyItem(theitem);
-								chk := -1;
+								SendSysMessage(who, "You do not have enough materials.");
+								return 0;
 							endif
 						else
 							CheckToolWear (who, tool, craft_skill);
@@ -190,9 +191,9 @@ function CarpentryItems(who, tool, objtype, amt)
 			endif
 		endif
 		if( chk == 0 )
-			SubtractAmount(item1, (material / 2));
+			SubtractAmount(item1, Ceil(material / 2));
 			if( material2 )
-				if( !SubtractAmount(item2, CInt(material2 / 2)) )
+				if( !SubtractAmount(item2, Ceil(material2 / 2)) )
 					SendSysMessage(who, "You do not have enough materials.");
 					return 0;
 				endif
@@ -200,14 +201,6 @@ function CarpentryItems(who, tool, objtype, amt)
 			SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
 			counter := counter + 1;
 			continue;
-		endif
-		if( chk == -1 )
-			SendSysMessage(who, "You do not have enough materials.");
-			return 0;
-		endif
-		if( chk == -2 )
-			SendSysMessage(who, "You do not have the required skill.");
-			return 0;
 		endif
 		theitem.movable := 1;
 		if( craft_config[theitem.objtype].lockable )
