@@ -21,6 +21,13 @@
 // Global Variables:
 // STATCAP = Set this to your shard's Stat Cap. If based on age, race, etc, just add a function
 //           at the beginning of the exported function to check and set the statcap variable.
+//           Otherwise use the new UOClient.cfg statcap entry for a static amount.
+// VAR_STATCAP = If your statcap is not static, set this to 1. This will require you to populate
+//               the GetStatCap() function to build the statcap amount based on your customs.
+// MODE = The mode of the Status Packet. Populated by the Settings Configuration file in the pkg.
+//        This is used to know how to edit the packet for AOS extended stuff.
+// STATLOCK = If Statelock is enabled. sends the Stat Lock feature to the client. Requires
+//            another package to handle recieving the statlock packets back from client.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 use polsys;
@@ -38,9 +45,10 @@ endprogram
 
 CONST BIT_MASK := 0x00000003;
 
-var STATCAP := 225;
-var MODE    := 0;
-var STATLOCK:= 0;
+var STATCAP     := 0;
+var VAR_STATCAP := 0;
+var MODE        := 0;
+var STATLOCK    := 0;
 
 exported function HandleSendStats( character, byref packet )
 	var enabled := QueryConfigInt("Enabled", ":packetconfig:packetconfig", "StatusBar");
@@ -116,12 +124,15 @@ function HandleStatPet(character, byref packet)
 		// Done this way due to reverse padding expected by the client
 		// Due to some backward settings, this check is required to set the Statcap
 		// in the packet.
-		if ( STATCAP <= 255 )
-		// Set the STATCAP in the packet
-			packet.SetInt8(67, STATCAP);
-		else
-			// Set the STATCAP in the packet
-			packet.SetInt16(66, STATCAP);
+		if ( VAR_STATCAP )
+			GetStatCap( STATCAP );
+			if ( STATCAP <= 255 )
+				// Set the STATCAP in the packet
+				packet.SetInt8(67, STATCAP);
+			else
+				// Set the STATCAP in the packet
+				packet.SetInt16(66, STATCAP);
+			endif
 		endif
 		// Sets their current pet count
 		packet.SetInt8(68, petcnt);
@@ -190,13 +201,17 @@ function HandleExtended(character, byref packet)
 		// Done this way due to reverse padding expected by the client
 		// Due to some backward settings, this check is required to set the Statcap
 		// in the packet.
-		if ( STATCAP <= 255 )
-			// Set the STATCAP in the packet
-			packet.SetInt8(67, STATCAP);
-		else
-			// Set the STATCAP in the packet
-			packet.SetInt16(66, STATCAP);
+		if ( VAR_STATCAP )
+			GetStatCap( STATCAP );
+			if ( STATCAP <= 255 )
+				// Set the STATCAP in the packet
+				packet.SetInt8(67, STATCAP);
+			else
+				// Set the STATCAP in the packet
+				packet.SetInt16(66, STATCAP);
+			endif
 		endif
+
 		// Sets their current pet count in packet
 		packet.SetInt8(68, petcnt);
 		// Sets their current pet max count based on taming in packet
@@ -317,4 +332,10 @@ function SendStatLock(character)
 	newpacket.SendPacket(character);
 
 	return 1;
+endfunction
+
+// Change this if you use a custom Statcap system that changes with age.
+// Since this is a ByRef, no need to do a return unless there is an error.
+function GetStatCap(byref STATCAP)
+	STATCAP := STATCAP;
 endfunction
