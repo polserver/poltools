@@ -1,0 +1,10 @@
+/* $Id$
+ *
+ */
+use uo;
+
+program skill_AnimalTaming(who)
+
+	SendSysMessage(who, "Animal Taming is currently not scripted.");
+
+endprogram
