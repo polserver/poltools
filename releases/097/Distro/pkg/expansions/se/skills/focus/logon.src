@@ -1,0 +1,8 @@
+// $Id: logon.src 1054 2007-04-28 13:30:16Z tekproxy $
+
+use uo;
+use os;
+
+program LogOn(character)
+	Start_Script("focusControl", character);
+endprogram
