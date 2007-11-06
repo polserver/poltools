@@ -1,5 +1,13 @@
 -- POL097 --
 =======
+11-5  MuadDib
+        Added : Character.Cursor member. Returns 0/1 based on if character has an active
+                cursor.
+                Character.Gump member. Returns 0/1 based on if character has any active
+                gumps.
+                Character.Prompt member. Returns 0/1 based on if character has any active
+                unicode and/or normal text prompt gumps open.
+                
 10-20 MuadDib
       Removed : Basic::Left and Basic::Mid. These functions reported not working since
                 095, and code was set to not use them anyway. Val[int, int] works anyway
