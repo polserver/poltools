@@ -5,10 +5,10 @@ include ":attributes:attributes";
 program focusControl(mobile)
 	var regen_rate := 0;
 	var cfg_elem := AP_GetSettingsCfgElem("Regen");
-	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, "Stamina"));
-	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, "Mana"));
+	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, STAMINA));
+	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, MANA));
 	var focus := AP_GetSkill(mobile, BATTLE_FOCUS);
-	var history := struct{mana := AP_GetVital(mobile, "Mana"), stam := AP_GetVital(mobile, "Stamina")};
+	var history := struct{mana := AP_GetVital(mobile, MANA), stam := AP_GetVital(mobile, STAMINA)};
 	var newVital;
 	
 	var advanced;
@@ -17,21 +17,21 @@ program focusControl(mobile)
 	
 	while ( mobile.connected )
 		// Every point of vital regenerated, there is a chance for skill gain
-		newVital := AP_GetVital(mobile, "Mana");
+		newVital := AP_GetVital(mobile, MANA);
 		if ( newVital != history.mana )
 			// TODO: calculate award_diff and pass chance
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, "BattleFocus", award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, BATTLE_FOCUS, award_diff, pass_chance);
 			history.mana :=	newVital;
 		endif
 		
-		newVital := AP_GetVital(mobile, "Stamina");
+		newVital := AP_GetVital(mobile, STAMINA);
 		if ( newVital != history.stam )
 			// TODO: calculate award_diff and pass chance (should be awarded more for stam gain)
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, "BattleFocus", award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, BATTLE_FOCUS, award_diff, pass_chance);
 			history.stam :=	newVital;
 		endif
 
@@ -52,8 +52,8 @@ program focusControl(mobile)
 		endif
 
 		// Regen rates are in hundredths of points per minute
-		AP_SetVitalRegenRateMod(mobile, "Stamina", stam_regen * 60 * 100);
-		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen * 60 * 100);
+		AP_SetVitalRegenRateMod(mobile, STAMINA, stam_regen * 60 * 100);
+		AP_SetVitalRegenRateMod(mobile, MANA, mana_regen * 60 * 100);
 
 		Sleep(1);
 	endwhile
