@@ -172,3 +172,5 @@ Find a better place for CONSTs in drinkPotion.inc - Assigned to tekproxy
 Keg script should be cleaned up and made to account for tasteidentification - Assigned to tekproxy
 
 Tailoring gump bugs - Assigned to Ninde
+
+When Target() is called, is there a max range? Would it be possible for someone to do a last target macro 50 screens away and do something?
