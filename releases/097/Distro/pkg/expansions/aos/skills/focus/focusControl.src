@@ -22,7 +22,7 @@ program focusControl(mobile)
 			// TODO: calculate award_diff and pass chance
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, "BattleFocus", award_diff, pass_chance);
 			history.mana :=	newVital;
 		endif
 		
@@ -31,7 +31,7 @@ program focusControl(mobile)
 			// TODO: calculate award_diff and pass chance (should be awarded more for stam gain)
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, "BattleFocus", award_diff, pass_chance);
 			history.stam :=	newVital;
 		endif
 
