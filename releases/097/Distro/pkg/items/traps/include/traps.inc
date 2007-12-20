@@ -75,7 +75,7 @@ function AddTrap(object, trap_name, strength, count:=0)
 			count := -1;
 		//elseif ( count["d"] ) // this kept reporting false positives ??
 		elseif ( find(count, "d", 1) )
-			print("There is a d in: " + count);
+			//print("There is a d in: " + count);
 			count := RandomDiceRoll(trap_elem.count);
 		else
 			count := CInt(trap_elem.Count);
@@ -121,6 +121,19 @@ function RemoveTrap(object, index)
 		SetObjProperty(object, "TrapList", trap_list);
 	else
 		EraseObjProperty(object, "TrapList");
+
+		// Remove "[trapped]" from name
+		if ( GetObjProperty(object, "TrapsRevealed") )
+			var tempStr := SplitWords(object.name, "[trapped]");
+			var newName := "";
+
+			foreach part in tempStr
+				newName += part;
+			endforeach
+
+			object.name := newName;
+			EraseObjProperty(object, "TrapsRevealed");
+		endif
 	endif
 	
 	return 1;
@@ -172,7 +185,7 @@ endfunction
  * GetTrapList(object)
  *
  * Purpose
- * Retrieves the trap list from an object
+ * Retrieves the trap list from an object.
  *
  * Parameters
  * object:	Object to get trap list from
@@ -189,4 +202,49 @@ function GetTrapList(object)
 	endif
 	
 	return trap_list;
+endfunction
+
+/*
+ * RevealTrap(object)
+ *
+ * Purpose
+ * Adds "[trapped]" to object name and sets cprop on object to keep track of it being revealed.
+ *
+ * Parameters
+ * object:	Object to reveal traps on (if any)
+ *
+ * Return value
+ * int number of traps revealed
+ *
+ */
+function RevealTraps(object)
+	if ( !GetObjProperty(object, "TrapsRevealed") )
+		var trapCount := Len(GetTrapList(object));
+
+		if ( trapCount )
+			SetObjProperty(object, "TrapsRevealed", 1);
+			SetName(object, object.name + " [trapped]");
+			return trapCount;
+		endif
+	endif
+
+	return 0;
+endfunction
+
+/*
+ * IsTrapRevealed(object)
+ *
+ * Purpose
+ * Provides a layer of abstraction for checking if a trap has been revealed.
+ *
+ * Parameters
+ * object:	Object ref
+ *
+ * Return value
+ * 1 - has been revealed
+ * 0 - has NOT been revealed
+ *
+ */
+function IsTrapRevealed(object)
+	return GetObjProperty(object, "TrapsRevealed");
 endfunction
