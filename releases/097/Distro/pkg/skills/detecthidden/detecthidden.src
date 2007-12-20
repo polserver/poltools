@@ -1,0 +1,56 @@
+// $Id$
+
+use uo;
+
+include ":attributes:attributes";
+include ":traps:traps";
+
+program skill_DetectHidden(mobile)
+	SendSysMessage(mobile, "Where would you like to reveal?");
+
+	var targ := Target(mobile);
+	if ( !targ )
+		return 0;
+	elseif ( targ.IsA(POLCLASS_CONTAINER) )
+		// Only returns true if trap was detected
+		// TODO: Player could potentially detect hidden on the same container forever
+		if ( IsTrapRevealed(targ) )
+			SendSysMessage(mobile, "You already know that container is trapped.");
+			return;
+		else
+			if ( SkillCheck(mobile, DETECTING_HIDDEN, -1) > 0 )
+				var detected := RevealTraps(targ);
+				
+				if ( !detected )
+					SendSysMessage(mobile, "You do not detect any traps on that container.");
+				else
+					SendSysMessage(mobile, "You have detected " + detected + " traps on this container.");
+				endif
+			else
+				SendSysMessage(mobile, "You do not detect any traps on that container.");
+			endif
+		endif
+	else
+		// At GM: 100 / 8 = 12.5 + 3 = 15.5, nearly a full screen
+		var detectSkill := AP_GetSkill(mobile, DETECTING_HIDDEN);
+		var radius := CInt(detectSkill / 8.0 + 3.0);
+		var mobiles := ListMobilesNearLocationEx(targ.x, targ.y, targ.z, radius, LISTEX_FLAG_HIDDEN, targ.realm);
+		var found := 0;
+		
+		// TODO: If mobile is in their home, no skill check is required to reveal all
+		foreach hidden in mobiles
+			// Skill check against hidden's hiding skill
+			if ( SkillCheck(mobile, DETECTING_HIDDEN, AP_GetSkill(hidden, HIDING)) > 0 )
+				hidden.hidden := 0;
+				found += 1;
+				SendSysMessage(mobile, "You have revealed " + hidden.name + ".");
+			endif
+		endforeach
+		
+		if ( !found )
+			SendSysMessage(mobile, "You do not detect anyone hiding.");
+		endif	
+	endif
+
+	return 1;
+endprogram
