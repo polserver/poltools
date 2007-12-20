@@ -1,5 +1,6 @@
 use uo;
 use os;
+use cfgfile;
 
 program textcmd_readonly(character)
 	SendSysMessage(character, "Target a book to switch between read-only and read/write");
