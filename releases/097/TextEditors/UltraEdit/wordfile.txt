@@ -506,6 +506,7 @@ WriteHTMLRaw
 .iostats
 .ip
 .isopen
+.isUOKR
 .item
 .item_count
 .itemcount
