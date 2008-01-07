@@ -275,6 +275,8 @@ LogE
 LogToFile
 Lower
 MakeBoundingBox
+Max
+Min
 Move
 MoveBoat
 MoveBoatRelative
@@ -390,6 +392,7 @@ StartSpellEffect
 Start_Script
 StorageAreas
 StrFormatTime
+SubStr
 SubtractAmount
 SysLog
 SystemFindBoatBySerial
@@ -457,6 +460,7 @@ WriteHTMLRaw
 .corpsetype
 .createdat
 .criminal
+.cursor
 .damage
 .dead
 .decayat
@@ -479,6 +483,7 @@ WriteHTMLRaw
 .graphic
 .guild
 .guildid
+.gump
 .gumpheight
 .gumpwidth
 .has_offline_mobiles
@@ -538,6 +543,7 @@ WriteHTMLRaw
 .portplank
 .priority_divide
 .process
+.prompt
 .quality
 .queued_iostats
 .realm
