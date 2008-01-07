@@ -232,6 +232,8 @@ GetPid
 GetProcess
 GetProperty
 GetRegionString
+GetRegionName
+GetRegionNameAtLocation
 GetSpellDifficulty
 GetStandingHeight
 GetStandingLayers
