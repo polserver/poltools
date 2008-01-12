@@ -13,13 +13,14 @@ program control_Corpse(corpse)
 	if ( corpse.NPCTemplate() )
 		// Dont need to do the skeleton break-down for npc corpses.
 		corpse.SetDestroyable(1);
-		return 0;
+		return 1;
 	endif
 
 	var settings := CP_GetSettingsCfgElem("Corpse");
 	var decay_wait := CInt(settings.CorpseDecay);
 	if ( !decay_wait )
-		return 0;
+		// Corpses.. dont decay.
+		return 1;
 	endif
 
 	Sleep(decay_wait);

@@ -51,17 +51,17 @@ exported function IsPlayerCorpse(corpse)
 endfunction
 
 exported function CanDestroy(corpse)
-	return GetObjProperty(corpse, "CanDestroy");
+	return CInt(GetObjProperty(corpse, "CanDestroy"));
 endfunction
 
 exported function SetDestroyable(corpse, value)
 	value := CInt(value);
 	if ( !value )
 		EraseObjProperty(corpse, "CanDestroy");
-		return 1;
 	else
 		SetObjProperty(corpse, "CanDestroy", 1);
 	endif
+	return 1;
 endfunction
 
 exported function SetSkinned(corpse, skinner)
@@ -83,6 +83,8 @@ exported function SetSkinned(corpse, skinner)
 
 	//Store the serial of who skinned the corpse.
 	SetObjProperty(corpse, "Skinned", serial);
+
+	return 1;
 endfunction
 
 exported function IsSkinned(corpse)
