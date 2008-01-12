@@ -11,6 +11,8 @@ include ":containers:settings";
 
 program control_Corpse(corpse)
 	if ( corpse.NPCTemplate() )
+		// Dont need to do the skeleton break-down for npc corpses.
+		corpse.SetDestroyable(1);
 		return 0;
 	endif
 
