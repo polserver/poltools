@@ -79,6 +79,8 @@ exported function SetSkinned(corpse, skinner)
 		SetName(corpse, corpse_name+" [skinned]");
 	endif
 
+	CreateItemAtLocation(corpse.x, corpse.y, corpse.z, "blood", 1, corpse.realm);
+
 	//Store the serial of who skinned the corpse.
 	SetObjProperty(corpse, "Skinned", serial);
 endfunction
