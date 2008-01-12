@@ -1,5 +1,5 @@
-Welcome to the Distro To-Do! This list is by no means definitive, so if you see anything that should be on here, even if it is very small, let me know. 
-  
+Welcome to the Distro To-Do! This list is by no means definitive, so if you see anything that should be on here, even if it is very small, let me know.
+
 
 Please read through this list and contact tekproxy(at)gmail.com if you find anything that you would like to do. You will also need to read StyleGuide.txt in the distro docs directory and write your code according to those standards. DO NOT assume that you are not good enough to contribute. ;) We all have to start somewhere.
 
@@ -29,7 +29,8 @@ Spawn Locations - unassigned
 
 Boats and Housing - unassigned
   This is almost completely unscripted. The brunt of the work could be done by converting 095 scripts.
-   
+  * Boats -- Support exists for using the planks. The listener engine is created to control boats.
+  * Nothing really done for housing (multis)
 
 Crafting - Assigned to MuadDib
   Nearly finished. But needs some more help, as Dib's undie time is limited.
@@ -53,19 +54,14 @@ Guards - unassigned
 
 Arenas - unassigned
   Basic framework is there, but otherwise unscripted.
-
+  Can use an older existing system (upgraded for new gumps) by Austin?
 
 
 
 BUGS
 ----------------
-Corpse decay - unassigned
-  Doesn't work but there is code for it. I think it might be because of:
-	if ( corpse.NPCTemplate() ) // should be !corpse.NPCTemplate()?
-		return 0;
-	endif
-
-
+Script Path & Name - Description
+NONE KNOWN
 
 
 SKILLS
@@ -79,7 +75,7 @@ Some of these skills depend on other systems that are either unfinished or do no
  - cooking - Assigned to Ninde
 
  - detect hidden - unassigned
- 
+
  - fishing - unassigned
 
  - forensic evaluation - unassigned
@@ -115,7 +111,7 @@ Some of these skills depend on other systems that are either unfinished or do no
 
  - focus
      Requires testing.
- 
+
  - AOS/LBR/UOR skills & systems are not top priority but should be added in future versions.
 
  - Tailoring rewrite with new crafting still. Need to update for new hide/cloth handling like
@@ -125,7 +121,7 @@ Some of these skills depend on other systems that are either unfinished or do no
 
  - Add Combine Cloth reserved container to Tailoring. Changes cloth types to base 0x1766
 
- - Finish Scissors system in Tailoring for new style crafting. 
+ - Finish Scissors system in Tailoring for new style crafting.
 
 
 ASSIGNED
