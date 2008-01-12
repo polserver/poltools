@@ -18,6 +18,7 @@ program useScript_Corpse(mobile, corpse)
 		SleepMS(2);
 	endforeach
 	SendSysMessage(mobile, "You collect your belongings.");
+	corpse.SetDestroyable(1);
 	DestroyItem(corpse);
 
 	return 1;
