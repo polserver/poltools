@@ -40,16 +40,21 @@ function AP_GetLevelTitle(skill_level)
 		return title_elem;
 	endif
 
-	var levels_list := GetConfigStringDictionary(title_elem, "Level");
+	var levels_list := GetConfigStringArray(title_elem, "Level");
+	var cur_title;
+	foreach level in ( levels_list )
+		level := SplitWords(level);
+		var amt := CDbl(level[1]);
+		var title := CStr(level[2]);
 
-	foreach entry in ( levels_list )
-		if ( skill_level < CDbl(entry) )
-			return _entry_iter;
+		if ( skill_level >= amt )
+			cur_title := title;
+		else
+			break;
 		endif
-		SleepMS(2);
 	endforeach
 
-	return error{"errortext":="Could not find skill title for that level."};
+	return cur_title;
 endfunction
 
 /*
