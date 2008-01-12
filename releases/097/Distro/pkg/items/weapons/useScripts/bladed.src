@@ -2,22 +2,23 @@
  *
  *
  */
- 
+
 use uo;
 use os;
 use util;
 
 include ":lumberjacking:lumberJack";
+include ":brainai:npcUtil";
 
 program use_Bladed(who, tool)
 	SendSysMessage(who, "What would you like to use that on?");
 	var targ := TargetCoordinates(who);
-	
+
 	if ( !targ )
 		SendSysMessage(who, "Cancelled.");
 		return 0;
 	endif
-	
+
 	if ( targ.item )
 		CarveItems(who, tool, targ.item);
 	elseif ( targ.mobile )
@@ -29,14 +30,15 @@ endprogram
 
 function CarveItems(who, tool, item)
 	if ( item.IsA(POLCLASS_CORPSE) )
-		// Carve corpse;
+		CarveCorpse(who, item);
+		item.SetSkinned(1);
 		return 1;
 	endif
 	//elseif ( fish )
 	// 	Fish?
 	//	return 1;
 	//endif
-	
+
 	return 1;
 endfunction
 
@@ -45,7 +47,7 @@ function CarveMobiles(who, tool, mobile)
 		// Wool stuff;
 		return 1;
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -54,7 +56,20 @@ function CarveObject(who, tool, objtype)
 		// Give kindling;
 		return 1;
 	endif
-	
+
 	return 1;
 endfunction
-		
+
+function CarveCorpse(who, corpse)
+	if ( corpse.NPCTemplate() )
+		var template := NPC_ParseTemplateName(corpse.NPCTemplate());
+		var cfg_elem := NPC_GetNPCConfig(template);
+		foreach entry in ( GetConfigStringArray(cfg_elem, "SkinningItem") )
+			entry := SplitWords(entry);
+			CreateItemInContainer(corpse, entry[1], CInt(entry[2]));
+			sleepms(2);
+		endforeach
+	endif
+
+	return 1;
+endfunction
