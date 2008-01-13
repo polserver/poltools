@@ -15,11 +15,16 @@ program SpellScript_Paralyze(params)
 	if ( !MS_MobileCheck(mobile, targ) )
 		return 0;
 	endif
-	
+
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
 	// Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
-	var duration := CInt((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10)) * 3);
+	var attack := AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10;
+	var defense := AP_GetSkill(targ, RESISTING_SPELLS) / 10;
+	var duration := CInt((attack - defense) * 3);
+
 	TS_StartTimer(targ, "Paralysis", duration);
+
+	return 1;
 endprogram
