@@ -26,6 +26,7 @@ program Initializemerchants()
 
 		SleepMS(2);
 	endforeach
+	UnloadConfigFile(":merchants:unit");
 
 	MERC_ReportText("---=[ MERCHANT INITIALIZER HAS FINISHED ]=---", MERC_REPORT_SYSLOG);
 
