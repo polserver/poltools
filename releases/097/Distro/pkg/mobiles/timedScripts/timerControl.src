@@ -63,6 +63,9 @@ function SaveState(mobile, byref timer_list)
 		save_timer.+name := _timer_iter;
 		save_timer.+duration := timer.endtime - ReadGameClock();
 		save_timer.+level := timer.level;
+		// This is not actually used when read back in.
+		// Stored so outside scripts can see how long the timer has.
+		save_timer.+endtime := timer.endtime;
 
 		save_dict[_timer_iter] := save_timer;
 	endforeach
