@@ -46,7 +46,7 @@ program BrainCriticalScript(params)
 
 	var merchant_type := CPM_GetMerchantType(npc);
 	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
-	RestockInventory (merchant_type, forsale);
-	
+	RestockInventory(merchant_type, forsale);
+
 	return 1;
 endprogram
