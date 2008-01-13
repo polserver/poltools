@@ -34,8 +34,17 @@ function TargetEX(mobile, duration:=0, flags := TGTOPT_CHECK_LOS+TGTOPT_NEUTRAL)
 		TS_StartTimer(mobile, "TargetControl", duration);
 	endif
 
-	return Target(mobile, flags);
+	var targ := Target(mobile, flags);
 
+	if ( duration > 0 )
+		// Remove the target timer so new targets can be set up.
+		if ( CInt(TS_GetTimerDuration(mobile, "TargetControl")) > 0 )
+			// If the timer is still running, stop it.
+			TS_LowerDuration(mobile, "TargetControl", -1);
+		endif
+	endif
+
+	return targ;
 endfunction
 
 /*
@@ -57,8 +66,9 @@ endfunction
 function TargetCoordinatesEX(mobile, duration:=0, flags := TGTOPT_NOCHECK_LOS)
 	if ( duration > 0 )
 		if ( CInt(TS_GetTimerDuration(mobile, "TargetControl")) > 0 )
-			// Existing timer... stop it (itll cancel the old target)
-			TS_LowerDuration(mobile, "TargetControl", -1);
+			// Existing timer... return an error to the script
+			// just like core does in this case.
+			return error{"errortext":="Client has an active target cursor"};
 		endif
 
 		TS_StartTimer(mobile, "TargetControl", duration);
@@ -67,6 +77,7 @@ function TargetCoordinatesEX(mobile, duration:=0, flags := TGTOPT_NOCHECK_LOS)
 	var targ := TargetCoordinates(mobile);
 
 	if ( duration > 0 )
+		// Remove the target timer so new targets can be set up.
 		if ( CInt(TS_GetTimerDuration(mobile, "TargetControl")) > 0 )
 			// If the timer is still running, stop it.
 			TS_LowerDuration(mobile, "TargetControl", -1);
