@@ -140,3 +140,40 @@ function AP_ListAttributesByType(type:="")
 	var data_elem := AP_GetAttributeDataElem("Categories");
 	return data_elem.GetProp(type);
 endfunction
+
+/*
+ * AP_PrecisionFixer(original, new)
+ *
+ * Purpose
+ * Sometimes when you have a skill at say 72.4 and you try to move it +0.1 for 72.5
+ * it will stay at 72.4. This ensures a skill goes up or down certain amounts.
+ *
+ * Parameters
+ * mobile: Mobile to change the attribute on.
+ * attrib: Attribute name to change.
+ * change: Amount to change the attribute by (ex. 0.3, -2.4)
+ *
+ */
+
+function AP_PrecisionFixer(mobile, attrib, change)
+	if ( CInt(change) == 0 )
+		return 0;
+		
+	var attrib_val := APGetTrueStat(mobile, attrib);
+		
+	var temp := attrib_val + change;
+	
+	while ( temp == AP_GetTrueStat(mobile, attrib) )
+		// Kludge for an old core precision bug.
+		// Usually only loops once when there is an issue.
+		if ( change > 0 )
+			temp += 0.1;
+		else if ( change < 0 )
+			temp -= 0.1;
+		endif
+		
+		SleepMS(10);
+	endwhile
+	
+	return 1;
+endfunction
