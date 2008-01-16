@@ -153,15 +153,16 @@ endfunction
  * attrib: Attribute name to change.
  * change: Amount to change the attribute by (ex. 0.3, -2.4)
  *
+ * Return Value
+ * Returns a double - the finalized value of the attribute
+ * 
  */
 
 function AP_PrecisionFixer(mobile, attrib, change)
-	if ( CInt(change) == 0 )
-		return 0;
-		
 	var attrib_val := APGetTrueStat(mobile, attrib);
-		
 	var temp := attrib_val + change;
+	if ( CInt(change) == 0 )
+		return temp;
 	
 	while ( temp == AP_GetTrueStat(mobile, attrib) )
 		// Kludge for an old core precision bug.
@@ -175,5 +176,5 @@ function AP_PrecisionFixer(mobile, attrib, change)
 		SleepMS(10);
 	endwhile
 	
-	return 1;
+	return temp;
 endfunction
