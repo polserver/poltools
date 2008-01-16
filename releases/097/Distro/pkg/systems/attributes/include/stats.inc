@@ -82,8 +82,13 @@ endfunction
  * Returns a double.
  *
  */
-function AP_SetTrueStat(mobile, stat_name, points)
-	SetAttributeBaseValue(mobile, stat_name, CInt(CDbl(points) * 10.0));
+
+function AP_SetTrueStat(mobile, attributeid, points)
+	if ( points >= 0 )
+		SetAttributeBaseValue(mobile, attributeid, CInt(CDbl(points) * 10.0 + 0.1));
+	else
+		SetAttributeBaseValue(mobile, attributeid, CInt(CDbl(points) * 10.0 - 0.1));
+	endif
 	RecalcVitals(mobile);
 endfunction
 
