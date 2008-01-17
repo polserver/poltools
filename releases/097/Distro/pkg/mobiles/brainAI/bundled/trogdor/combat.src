@@ -25,7 +25,7 @@ program BrainNerve(params)
 	var flee_level := AP_GetVitalMaximumValue(npc, "Hits") * (CDbl(settings["FleeLevel"])/100.0);
 
 	var opponent := event.source;
-	
+
 	AI_SetOpponent(npc, opponent);
 
 	while ( npc )
@@ -44,7 +44,7 @@ program BrainNerve(params)
 		elseif ( dist > 1 )
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, dist+1);
 		endif
-		
+
 		var next_attack := CInt(GetObjProperty(npc, "#NextAttack"));
 		if ( next_attack < ReadGameClock() )
 			SpecialAttacks(npc, opponent, dist);
@@ -94,9 +94,9 @@ function SpecialAttacks(npc, opponent, byref dist)
 		SpitFireBall(npc, opponent);
 	endif
 	npc.frozen := 0;
-	
+
 	SetObjProperty(npc, "#NextAttack", ReadGameClock()+15);
-	
+
 	return 1;
 endfunction
 
@@ -107,14 +107,14 @@ function BlowFire(npc, opponent)
 	SleepMS(1100);
 	AI_Speak(npc, "*BURNINNATES*");
 	foreach coord in ( coordinates )
-		PlayStationaryEffect(coord.x, coord.y, npc.z+15, SelectRandomExplosion(), 15, 15, 0);
+		PlayStationaryEffect(coord.x, coord.y, npc.z+15, SelectRandomExplosion(), 15, 15, 0, npc.realm);
 		foreach player in ListMobilesNearLocationEX(coord.x, coord.y, coord.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, npc.realm)
 			ApplyRawDamageEX(player, RandomDiceRoll("5d15"), DMG_FIRE, npc);
 			SleepMS(2);
 		endforeach
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -129,8 +129,8 @@ function SpitFireBall(npc, opponent)
 		if ( _coord_iter == 1 ) // Dont make one where its standing
 			continue;
 		endif
-		
-		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1);
+
+		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1, npc.realm);
 		field.SetDuration(2);
 		SleepMS(105);
 	endforeach
@@ -142,12 +142,12 @@ function SpitFireBall(npc, opponent)
 		if ( RandomInt(2) != 1 ) // Don't place a fire field
 			continue;
 		endif
-		PlayStationaryEffect(coord.x, coord.y, npc.z, SelectRandomExplosion(), 10, 10, 0);
-		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1);
+		PlayStationaryEffect(coord.x, coord.y, npc.z, SelectRandomExplosion(), 10, 10, 0, npc.realm);
+		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1, npc.realm);
 		field.SetDuration(5);
 		SleepMS(5);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -158,4 +158,3 @@ function SelectRandomExplosion()
 		default: return GFX_EXPLODE_1; break;
 	endcase
 endfunction
-		
