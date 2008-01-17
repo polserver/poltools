@@ -112,7 +112,7 @@ function SpecialAttack(npc, opponent, byref dist)
 			continue;
 		endif
 
-		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1);
+		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1, npc.realm);
 		field.SetDuration(2);
 		SleepMS(105);
 	endforeach
@@ -126,16 +126,16 @@ function SpecialAttack(npc, opponent, byref dist)
 		endif
 		case( RandomInt(3) )
 			default:
-				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_1, 10, 10, 0);
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_1, 10, 10, 0, npc.realm);
 				break;
 			1:
-				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_2, 10, 10, 0);
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_2, 10, 10, 0, npc.realm);
 				break;
 			2:
-				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_3, 10, 10, 0);
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_3, 10, 10, 0, npc.realm);
 				break;
 		endcase
-		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1);
+		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1, npc.realm);
 		field.SetDuration(5);
 		SleepMS(5);
 	endforeach
