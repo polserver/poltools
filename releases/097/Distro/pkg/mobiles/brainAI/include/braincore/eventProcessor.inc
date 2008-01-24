@@ -113,14 +113,14 @@ function ProcessEvent(byref event)
 		SYSEVENT_ENGAGED:
 		SYSEVENT_DAMAGED:
 			if ( g_scripts.Exists("Combat") )
-				if ( (event.source).ISA(POLCLASS_MOBILE) )
+				//if ( (event.source).ISA(POLCLASS_MOBILE) )
 					var process := GetNerveProcess(npc, "Combat");
 					if ( !process )
 						StartNerve(npc, "Combat", g_scripts["Combat"].script, array{event, g_settings, g_scripts}, g_scripts["Combat"].flags);
 					else
 						process.SendEvent(event);
 					endif
-				endif
+				//endif
 			endif
 			break;
 
