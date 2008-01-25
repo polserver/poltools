@@ -167,6 +167,20 @@ function PlayAttackAnimation(byref a_info)
 		attack_anim := anim_list[RandomInt(anim_list.Size())+1];
 	endif
 
+	if ( GetEquipmentbyLayer(a_info.mobile, LAYER_MOUNT) )
+		var xlate_cfg := ReadConfigFile("::animxlate");
+		if ( xlate_cfg )
+			var cfg_elem := xlate_cfg["OnMount"];
+			if ( cfg_elem )
+				var change := GetConfigInt(cfg_elem, Hex(attack_anim));
+				if ( change )
+					attack_anim := change;
+				endif
+			endif
+		endif
+	endif
+
+
 	PerformAction(a_info.mobile, CInt(attack_anim));
 
 	return attack_anim;
