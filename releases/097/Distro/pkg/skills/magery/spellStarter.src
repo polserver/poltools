@@ -12,10 +12,12 @@ include "include/client";
 include "include/sounds";
 
 program SpellStarter(params)
-	var mobile := params[1]; // Caster
-	var spell_id := params[2]; // Id # of the spell
-	var scroll := params[3]; // Scroll object being used
-	var targ := params[4]; // NPC target
+	var mobile := params[1];	// Caster
+	var spell_id := params[2];	// Id # of the spell
+	var scroll := params[3];	// Scroll object being used
+	var targ := params[4];		// NPC target
+	var no_words := params[5];	// WordsOfPower toggle
+	params := 0; // Not needed anymore
 
 	if ( !Attach(mobile) )
 		SendSysMessage(mobile, "You are already doing something.");
@@ -104,14 +106,17 @@ program SpellStarter(params)
 				PerformAction(mobile, ANIM_CAST_DIR);
 		endcase
 	endif
-	
+
 	// Just in case we want to send events to this script, save this script's pid
 	SetObjProperty(mobile, "#Casting", GetPid());
 
 	mobile.frozen := 1;
 	mobile.hidden := 0;
 	EraseObjProperty(mobile, "#Medding");
-	SpeakPowerWords(mobile, spell_id);
+
+	if ( no_words )
+		SpeakPowerWords(mobile, spell_id);
+	endif
 
 	var orig_hp := AP_GetVital(mobile, "Hits");
 	var delay := spell_elem.Delay;
@@ -166,7 +171,7 @@ program SpellStarter(params)
 		info.+pid := GetPid();
 		info.+spell_id := spell_id;
 		info.+spell_config := spell_elem;
-		
+
 		// Get target if there is no NPC target and Target is !"none" and !"notarget_area" and not error
 		var cfg_targ := GetConfigString(spell_elem, "Target");
 		if ( !targ && cfg_targ != "none" && cfg_targ != "notarget_area" )
@@ -176,7 +181,7 @@ program SpellStarter(params)
 			if ( check_los != 0 )
 					opts := TGTOPT_CHECK_LOS;
 			endif
-			
+
 			var noto := GetConfigString(spell_elem, "Noto");
 			case ( noto )
 				default:
@@ -184,18 +189,18 @@ program SpellStarter(params)
 				"harmful": opts += TGTOPT_HARMFUL;
 				"helpful": opts += TGTOPT_HELPFUL;
 			endcase
-			
+
 			var prompt := GetConfigString(spell_elem, "Prompt");
 			if ( prompt == error )
 				prompt := "Select a target.";
 			endif
-			
+
 			if ( cfg_targ == "area" )
 				targ := MS_TargetCoordinates(mobile, 0, prompt);
 			else
 				targ := MS_Target(mobile, 0, prompt, opts);
 			endif
-			
+
 			if ( targ == error || !targ )
 				SendSysMessage(mobile, "Cancelled.");
 				MS_SpellDebug(mobile, "Spell starter completed.");
@@ -203,7 +208,7 @@ program SpellStarter(params)
 				return 1;
 			endif
 		endif
-			
+
 		var script := Start_Script(spell_elem.SpellScript, {mobile, info, targ});
 		if ( script.errortext )
 			if ( mobile.npctemplate )

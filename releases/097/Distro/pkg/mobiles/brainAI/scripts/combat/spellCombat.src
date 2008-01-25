@@ -107,7 +107,7 @@ function SpecialAttack(npc, opponent, byref settings, byref dist)
 		return 0;
 	endif
 
-	var script := Start_Script(":magery:spellStarter", {npc, spell_id, 0, opponent});
+	var script := Start_Script(":magery:spellStarter", {npc, spell_id, 0, opponent, (!settings["SpellWords"])});
 	if ( script.errortext )
 		PrintTextAbove(npc, script.errortext);
 		return 0;
