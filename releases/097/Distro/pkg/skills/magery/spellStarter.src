@@ -12,11 +12,11 @@ include "include/client";
 include "include/sounds";
 
 program SpellStarter(params)
-	var mobile := params[1];	// Caster
-	var spell_id := params[2];	// Id # of the spell
-	var scroll := params[3];	// Scroll object being used
-	var targ := params[4];		// NPC target
-	var no_words := params[5];	// WordsOfPower toggle
+	var mobile := params[1];		// Caster
+	var spell_id := CInt(params[2]);	// Id # of the spell
+	var scroll := params[3];		// Scroll object being used
+	var targ := params[4];			// NPC target
+	var no_words := CInt(params[5]);	// WordsOfPower toggle
 	params := 0; // Not needed anymore
 
 	if ( !Attach(mobile) )
@@ -114,7 +114,7 @@ program SpellStarter(params)
 	mobile.hidden := 0;
 	EraseObjProperty(mobile, "#Medding");
 
-	if ( no_words )
+	if ( !no_words )
 		SpeakPowerWords(mobile, spell_id);
 	endif
 
