@@ -108,10 +108,10 @@ function FacingChecks(attacker, defender)
 		if ( !IsFacing(attacker, defender.x, defender.y) )
 			TurnObjectToward(attacker, defender.x, defender.y);
 		endif
-
-		if ( !IsFacing(defender, attacker.x, attacker.y) )
-			TurnObjectToward(defender, attacker.x, attacker.y);
-		endif
+		// Should only turn the attacker
+		//if ( !IsFacing(defender, attacker.x, attacker.y) )
+		//	TurnObjectToward(defender, attacker.x, attacker.y);
+		//endif
 	endif
 
 	return 1;
