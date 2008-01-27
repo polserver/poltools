@@ -13,6 +13,7 @@ use cfgfile;
 include ":attributes:attributes";
 include ":brainai:npcUtil";
 include ":armor:armorZones";
+include ":combat:hitScripts";
 include ":combat:settings";
 include ":damage:damage";
 include ":itemutils:itemdesc";
@@ -324,9 +325,9 @@ endfunction
 function RunWeaponHitScripts(byref a_info, byref d_info, armor_hit, base_damage, raw_damage)
 	var weapon_scripts := array{};
 	if ( ((a_info.mobile).weapon).intrinsic )
-		weapon_scripts := GetObjProperty(a_info.mobile, "HitScripts");
+		weapon_scripts := GetWeaponHitScripts(a_info.mobile);
 	elseif ( ((a_info.mobile).weapon).IsA(POLCLASS_WEAPON) )
-		weapon_scripts := GetObjProperty((a_info.mobile).weapon, "HitScripts");
+		weapon_scripts := GetWeaponHitScripts((a_info.mobile).weapon);
 	endif
 
 	var params := array{a_info.mobile, d_info.mobile, (a_info.mobile).weapon, armor_hit, base_damage, raw_damage};
@@ -343,16 +344,7 @@ function RunWeaponHitScripts(byref a_info, byref d_info, armor_hit, base_damage,
 endfunction
 
 function RunArmorHitScripts(byref a_info, byref d_info, armor_hit, base_damage, raw_damage)
-	var body_scripts := GetObjProperty(d_info.mobile, "ArmorHitScripts");
-	var armor_scripts := GetObjProperty(armor_hit, "ArmorHitScripts");
-	if ( !body_scripts )
-		body_scripts := array{};
-	endif
-	if ( !armor_scripts )
-		armor_scripts := array{};
-	endif
-
-	armor_scripts := armor_scripts + body_scripts;
+	var armor_scripts := GetArmorHitScripts(d_info.mobile, (d_info.mobile).weapon);
 
 	var params := array{a_info.mobile, d_info.mobile, (a_info.mobile).weapon, armor_hit, base_damage, raw_damage};
 	foreach hitscript in ( armor_scripts )
