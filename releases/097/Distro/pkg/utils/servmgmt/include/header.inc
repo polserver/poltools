@@ -26,7 +26,7 @@ function DoFooter()
 endfunction
 
 function TableHeader(name:="")
-	WriteHtmlRaw("<TABLE WIDTH='100%' CELLSPACING='1' CELLPADDING='2'>"
+	WriteHtmlRaw("<TABLE WIDTH='90%' CELLSPACING='1' CELLPADDING='2'>"
 		+"<TR>"
 		+"<TH VALIGN='TOP' ALIGN='LEFT' WIDTH='100%'><STRONG>"+name+"</STRONG></TH>"
 		+"<TH WIDTH='100' VALIGN='TOP' ALIGN='CENTER' NOWRAP><A HREF='index.ecl'><FONT SIZE=1>ServMgmt Home</FONT></A></TH>"
