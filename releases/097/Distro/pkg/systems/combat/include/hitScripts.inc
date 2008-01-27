@@ -22,7 +22,7 @@ include ":brainai:npcUtil";
  */
 function GetWeaponHitScripts(object)
 	var hit_scripts := GetObjProperty(object, "HitScripts");
-	if ( TypeOf(hit_scripts) != "array" )
+	if ( TypeOf(hit_scripts) != "Array" )
 		hit_scripts := array;
 	endif
 
@@ -42,7 +42,8 @@ endfunction
  * Retrieves an array of all hit scripts that the object has when it hits.
  *
  * Parameters
- * object: 	Object to get the armor hit scripts of.
+ * mobile:	Mobile that is being hit. (Any scripts on the mobile its self)
+ * armor: 	Armor to get the armor hit scripts of.
  * 		Will read from a cprop array called "ArmorHitScripts"
  *		If the object is an NPC it will also get any ArmorHitScript lines from its config elem.
  *
@@ -50,16 +51,29 @@ endfunction
  * Returns an array.
  *
  */
-function GetArmorHitScripts(object)
-	var hit_scripts := GetObjProperty(object, "ArmorHitScripts");
-	if ( TypeOf(hit_scripts) != "array" )
-		hit_scripts := array;
+function GetArmorHitScripts(mobile, armor)
+	var hit_scripts := array;
+
+	if ( mobile.IsA(POLCLASS_MOBILE) )
+		// Get Cprops from the mobile its self.
+		var temp := GetObjProperty(armor, "ArmorHitScripts");
+		if ( TypeOf(temp) == "Array" )
+			hit_scripts += temp;
+		endif
 	endif
 
-	if ( object.IsA(POLCLASS_NPC) )
-		var cfg_elem := NPC_GetNPCConfig(object);
+	if ( mobile.IsA(POLCLASS_NPC) )
+		// Get npc config elem armor hit scripts
+		var cfg_elem := NPC_GetNPCConfig(mobile);
 		var temp := GetConfigStringArray(cfg_elem, "ArmorHitScript");
-		if ( temp.Size() > 0 )
+		if ( TypeOf(temp) == "Array" )
+			hit_scripts += temp;
+		endif
+	endif
+
+	if ( armor.IsA(POLCLASS_ARMOR) )
+		var temp := GetObjProperty(armor, "ArmorHitScripts");
+		if ( TypeOf(temp) == "Array" )
 			hit_scripts += temp;
 		endif
 	endif
