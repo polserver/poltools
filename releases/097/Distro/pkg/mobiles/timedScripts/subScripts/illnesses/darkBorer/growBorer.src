@@ -1,0 +1,63 @@
+/* $Id$
+ *
+ */
+use uo;
+use os;
+
+include ":attributes:attributes";
+
+program PoisonScript(params)
+	var mobile := params[1];
+
+	var duration := CInt(GetObjProperty(mobile, "DarkBorer"));
+	if ( !duration )
+		duration := 90;
+	endif
+
+	for ( duration; duration > 0; duration:=duration-1 )
+		SetObjProperty(mobile, "DarkBorer", duration);
+
+		sleep(60);
+		if ( duration == 89 )
+			SendSysMessage(mobile, "You have a sore stomach.");
+		elseif ( duration == 60 )
+			SendSysMessage(mobile, "You feel a knot in your stomach.");
+		elseif ( duration == 50 )
+			SendSysMessage(mobile, "Your stomach size begins to expand outward.");
+		elseif ( duration == 40 )
+			SendSysMessage(mobile, "You feel sharp stomach pains.");
+		elseif ( duration == 35 )
+			SendSysMessage(mobile, "You feel sharp stomach pains.");
+		elseif ( duration == 25 )
+			SendSysMessage(mobile, "You feel something sharp poking at your innards.");
+		elseif ( duration == 15 )
+			SendSysMessage(mobile, "You feel intensely sharp pains coming from all over the inside of your torso.");
+		elseif ( duration == 10 )
+			SendSysMessage(mobile, "You feel your innards being shreaded to bits!");
+		elseif ( duration == 1 )
+			SendSysMessage(mobile, "You feel something preparing to burst out of your body!");
+		endif
+	endfor
+
+	PrintTextAbove(mobile, "*A dark borer that was incubating in " + mobile.name + "'s stomach rips its way out!*", 3, 55);
+	var baby := CreateNPCFromTemplate(":brainai:darkborer", mobile.x, mobile.y, mobile.z, 0, mobile.realm);
+	ApplyRawDamage(mobile, AP_GetVitalMaximumValue(mobile, HITS));
+
+	if ( mobile.acctname )
+		sleepms(100);
+
+		var corpse := mobile.GetCorpse();
+
+		while ( !corpse )
+			SleepMS(10);
+			corpse := mobile.GetCorpse();
+		endwhile
+
+		sleepms(20);
+
+		corpse.Gibbify(5);
+		SleepMS(20);
+	endif
+
+	return 1;
+endprogram
