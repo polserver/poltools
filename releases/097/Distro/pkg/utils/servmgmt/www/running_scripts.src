@@ -17,7 +17,7 @@ program HTMLPage()
 
 	WriteHTML("<P>Running Scripts</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='100%'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='90%'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TH><B>PID</B></TH>");
 	WriteHTML("<TH><B>Script Name</B></TH>");
