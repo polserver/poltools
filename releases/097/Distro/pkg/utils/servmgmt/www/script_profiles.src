@@ -36,7 +36,7 @@ program HTMLPage()
 	WriteHTML("Scripts On Time Per Minute: " + core.scripts_ontime_per_min +"<BR>");
 	WriteHTML("</P>");
 
-	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='100%'>");
+	WriteHTML("<TABLE CELLSPACING='1' CELLPADDING='2' WIDTH='90%'>");
 	WriteHTML("<TR>");
 	WriteHTML("<TH><B>Name</B></TH><TH><B>Instructions</B></TH><TH><B>Invocations</B></TH><TH><B>Instr Per Invoc</B></TH><TH><B>% of sysload</B></TH>");
 	WriteHTML("</TR>");
