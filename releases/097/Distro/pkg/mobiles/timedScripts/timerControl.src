@@ -348,8 +348,11 @@ function EndTimedScript(mobile, byref timer_name, byref num_poisons)
 endfunction
 
 function KillTimedScript(mobile, byref pid, byref timer_list, byref timer_name)
-	var script := GetProcess(pid);
-	script.Kill();
+	var script := GetProcess(CInt(pid));
+	if ( script )
+		script.Kill();
+	endif
+
 	timer_list.Erase(timer_name);
 
 	SaveState(mobile, timer_list);
