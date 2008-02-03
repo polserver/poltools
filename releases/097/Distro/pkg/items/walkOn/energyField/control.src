@@ -6,12 +6,13 @@
 use uo;
 use os;
 
-program control(field)
+program ControlScript(field)
 	while ( field )
 		Sleep(1);
 		if ( field.IsExpired() )
 			DestroyItem(field);
-			return 1;
 		endif
 	endwhile
+
+	return 1;
 endprogram
