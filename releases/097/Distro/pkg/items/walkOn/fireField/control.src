@@ -9,7 +9,7 @@ use util;
 
 include ":damage:damage";
 
-program controlScript(field)
+program ControlScript(field)
 	SetObjProperty(field, "#PID", GetPid());
 
 	var creator := field.GetOwner();
@@ -18,8 +18,8 @@ program controlScript(field)
 	endif
 
 	// Kludge to keep this script from running before cprops are set
-	SleepMS(500);
-	
+	SleepMS(60);
+
 	var dmg_dice := GetObjProperty(field, "DamageDice");
 	if ( !dmg_dice )
 		dmg_dice := "1d5";
@@ -38,12 +38,13 @@ program controlScript(field)
 			//Someone just walked onto the tile.
 			BurnMobile(event, dmg_dice);
 		endif
-		
+
 		if ( field.IsExpired() )
 			DestroyItem(field);
-			return 1;
 		endif
 	endwhile
+
+	return 1;
 endprogram
 
 function BurnNearbyMobiles(field, dmg_dice)
@@ -59,7 +60,7 @@ endfunction
 
 function BurnMobile(mobile, dmg_dice)
 	var dmg := RandomDiceRoll(dmg_dice); // - resistance ?
-	ApplyRawDamageEX(mobile, dmg, DMG_FIRE);
+	ApplyDamageEX(mobile, dmg, DMG_FIRE);
 
 	return 1;
 endfunction

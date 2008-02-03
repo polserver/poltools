@@ -7,6 +7,7 @@ use uo;
 use os;
 use util;
 
+include "include/sounds";
 include ":timedscripts:timedScripts";
 
 program controlScript(field)
@@ -30,7 +31,7 @@ program controlScript(field)
 
 		if ( ReadGameClock() % 5 == 0 )
 			// Play once every 5 seconds.
-			PlaySoundEffect(field, 0x20C);
+			PlaySoundEffect(field, SFX_PARALYZED);
 		endif
 
 		var event := Wait_For_Event(1);
@@ -38,7 +39,7 @@ program controlScript(field)
 			//Someone just walked onto the tile.
 			ParalyzeMobile(event, duration);
 		endif
-		
+
 		if ( field.IsExpired() )
 			DestroyItem(field);
 			return 1;
