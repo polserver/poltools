@@ -35,12 +35,16 @@ program SpellScript_WallOfStone(params)
 			z := GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm);
 		endif
 
-		var mobiles := ListMobilesNearLocationEx(coord.x, coord.y, coord.z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, mobile.realm);
-		if (  mobiles.Size() == 0 )
-			var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
-			if ( item != error )
-				item_list.Append(item);
-			endif
+		var mobiles := ListMobilesNearLocationEx(coord.x, coord.y, z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, mobile.realm);
+		if (  mobiles.Size() > 0 )
+			continue; // Dont create walls on top of mobiles.
+		elseif ( !CheckLosAt(mobile, coord.x, coord.y, z ) )
+			continue; // Only create a field piece if the caster has line of sight.
+		endif
+
+		var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
+		if ( item != error )
+			item_list.Append(item);
 		endif
 
 		SleepMS(2);
