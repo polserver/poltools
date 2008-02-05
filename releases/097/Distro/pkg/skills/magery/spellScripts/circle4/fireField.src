@@ -13,19 +13,45 @@ program SpellScript_FireField(params)
 	var info := params[2];
 	var targ := params[3];
 	params := 0;
-	
+
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
-	
+
+	var objtype;
+	var direction := GetDirectionByFacing(mobile);
+	case ( direction )
+		FIELD_SHAPE_HORIZONTAL: objtype := "FireFieldEW"; break;
+		FIELD_SHAPE_VERTICAL: objtype := "FireFieldNS"; break;
+	endcase
+
 	// Duration: 50% Magery
 	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 0.5);
 	var area_size := GetConfigInt(info.spell_config, "AreaSize");
-	var prop_struct := struct{ "DamageDice" := "1d2", "SummonedField" := 1 };
-	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, "FireField_NS", area_size, duration, prop_struct, mobile, 1);
-	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, "FireField_EW", area_size, duration, prop_struct, mobile, 1);
-	endif
-	
+
+	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, CInt(area_size/2));
+	foreach coord in ( coordinates )
+		var z := targ.z;
+		if ( z < GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm) )
+			z := GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm);
+		endif
+
+		if ( !CheckLosAt(mobile, coord.x, coord.y, z ) )
+			continue; // Only create a field piece if the caster has line of sight.
+		endif
+
+		var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
+		if ( item.errortext )
+			SendSysMessage(mobile, "Error - "+item.errortext);
+			continue;
+		endif
+
+		SetObjProperty(item, "SummonedField", mobile.serial);
+		SetObjProperty(item, "DamageDice", "1d2");
+		item.SetOwner(mobile);
+		item.SetDuration(duration);
+
+		SleepMS(2);
+	endforeach
+
 	return 1;
 endprogram
