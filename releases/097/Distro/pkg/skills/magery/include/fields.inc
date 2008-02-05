@@ -25,9 +25,14 @@ function GetCoordinatesForField(x, y, direction, size)
 	if ( direction == FIELD_SHAPE_VERTICAL )
 		y -= size;
 		y2 += size;
-	else
+	elseif ( direction == FIELD_SHAPE_HORIZONTAL )
 		x -= size;
 		x2 += size;
+	else
+		x -= size;
+		y -= size;
+		x2 += size;
+		y2 += size;
 	endif
 
 	return GetCoordsInRect(x, y, x2, y2);

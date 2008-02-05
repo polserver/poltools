@@ -26,7 +26,7 @@ program SpellScript_WallOfStone(params)
 	endif
 
 	var size := GetConfigInt(info.spell_config, "AreaSize");
-	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, size);
+	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, CInt(size/2));
 	var item_list := array{};
 
 	foreach coord in ( coordinates )
@@ -35,7 +35,7 @@ program SpellScript_WallOfStone(params)
 			z := GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm);
 		endif
 
-		var item := CreateItemAtLocation(targ.x, targ.y, z, objtype, 1, mobile.realm);
+		var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
 		if ( item != error )
 			item_list.Append(item);
 		endif
