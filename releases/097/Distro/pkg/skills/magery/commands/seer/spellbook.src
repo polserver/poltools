@@ -3,14 +3,24 @@
 use uo;
 use os;
 
-program textcmd_spellbook( who )
-	var book := CreateItemInBackpack(who, "spellbook", 1);
-	
+program Textcmd_SpellBook(mobile)
+	var book := CreateItemInBackpack(mobile, "SpellBook", 1);
+
+	if ( book == error )
+		SendSysMessage(mobile, "Unable to create spell book - "+book.errortext);
+		return 0;
+	endif
+
 	var i;
-	for (i := 0x1F2D; i <= 0x1F6C; i+=1 )
-		CreateItemInContainer(book, i, 1);
+	for ( i := 0x1F2D; i <= 0x1F6C; i+=1 )
+		var scroll := CreateItemInContainer(book, i, 1);
+		if ( scroll == error )
+			SendSysMessage(mobile, "Unable to create spell scroll - "+scroll.errortext);
+		endif
 		SleepMS(2);
 	endfor
-	
+
+	SendSysMessage(mobile, "Spellbook created in pack...");
+
 	return 1;
 endprogram
