@@ -24,7 +24,6 @@ program SpellScript_WallOfStone(params)
 
 	var size := GetConfigInt(info.spell_config, "AreaSize");
 	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, CInt(size/2));
-	var item_list := array{};
 
 	foreach coord in ( coordinates )
 		var z := targ.z;
@@ -45,9 +44,9 @@ program SpellScript_WallOfStone(params)
 			continue;
 		endif
 
+		SetObjProperty(item, "SummonedField", mobile.serial);
 		item.SetOwner(mobile);
 		item.SetDuration(10);
-		item_list.Append(item);
 
 		SleepMS(2);
 	endforeach
