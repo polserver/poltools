@@ -3,7 +3,7 @@
 use uo;
 use os;
 
-include "include/facings";
+include "include/client";
 include ":magery:spells";
 include ":magery:fields";
 
@@ -12,18 +12,44 @@ program SpellScript_WallOfStone(params)
 	var info := params[2];
 	var targ := params[3];
 	params := 0;
-	
+
 	MS_PlaySpellSFX(info.spell_id, targ);
-	
-	// Duration: 10 seconds
-	var duration := 10;
-	var area_size := GetConfigInt(info.spell_config, "AreaSize");
-	var prop_struct := struct{ "SummonedField" := 1 };
-	if ( mobile.facing == 1 || mobile.facing == 2 || mobile.facing == 5 || mobile.facing == 6 )
-		CreateField(targ, FIELD_SHAPE_HORIZONTAL, 0x80, area_size, duration, prop_struct, mobile, 1, 2, 1);
+
+	var direction := GetDirectionByFacing(mobile);
+	var objtype;
+	if ( direction == FIELD_SHAPE_HORIZONTAL )
+		objtype := 0x58;
+	elseif ( direction == FIELD_SHAPE_VERTICAL )
+		objtype := 0x57;
 	else
-		CreateField(targ, FIELD_SHAPE_VERTICAL, 0x80, area_size, duration, "", mobile, 1, 2, 1);
+		objtype := 0x80;
 	endif
-	
+
+	var size := GetConfigInt(info.spell_config, "AreaSize");
+	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, size);
+	var item_list := array{};
+
+	foreach coord in ( coordinates )
+		var z := targ.z;
+		if ( z < GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm) )
+			z := GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm);
+		endif
+
+		var item := CreateItemAtLocation(targ.x, targ.y, z, objtype, 1, mobile.realm);
+		if ( item != error )
+			item_list.Append(item);
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	Sleep(10);
+
+	foreach item in ( item_list )
+		PlayStationaryEffect(item.x, item.y, item.z, GFX_SMOKE, 10, 10, 0, item.realm);
+		DestroyItem(item);
+		SleepMS(2);
+	endforeach
+
 	return 1;
 endprogram
