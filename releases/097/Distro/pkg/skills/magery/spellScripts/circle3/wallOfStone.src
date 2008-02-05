@@ -15,15 +15,12 @@ program SpellScript_WallOfStone(params)
 
 	MS_PlaySpellSFX(info.spell_id, targ);
 
+	var objtype := 0x80;
 	var direction := GetDirectionByFacing(mobile);
-	var objtype;
-	if ( direction == FIELD_SHAPE_HORIZONTAL )
-		objtype := 0x58;
-	elseif ( direction == FIELD_SHAPE_VERTICAL )
-		objtype := 0x57;
-	else
-		objtype := 0x80;
-	endif
+	case ( direction )
+		FIELD_SHAPE_HORIZONTAL: objtype := "WallofStoneEW"; break;
+		FIELD_SHAPE_VERTICAL: objtype := "WallofStoneNS"; break;
+	endcase
 
 	var size := GetConfigInt(info.spell_config, "AreaSize");
 	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, CInt(size/2));
@@ -43,18 +40,15 @@ program SpellScript_WallOfStone(params)
 		endif
 
 		var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
-		if ( item != error )
-			item_list.Append(item);
+		if ( item.errortext )
+			SendSysMessage(mobile, "Error - "+item.errortext);
+			continue;
 		endif
 
-		SleepMS(2);
-	endforeach
+		item.SetOwner(mobile);
+		item.SetDuration(10);
+		item_list.Append(item);
 
-	Sleep(10);
-
-	foreach item in ( item_list )
-		PlayStationaryEffect(item.x, item.y, item.z, GFX_SMOKE, 10, 10, 0, item.realm);
-		DestroyItem(item);
 		SleepMS(2);
 	endforeach
 
