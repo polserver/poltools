@@ -1,0 +1,17 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(item)
+	while ( item )
+		if ( item.IsExpired() )
+			DestroyItem(item);
+		endif
+		Sleep(1);
+	endwhile
+
+	return 1;
+endprogram
