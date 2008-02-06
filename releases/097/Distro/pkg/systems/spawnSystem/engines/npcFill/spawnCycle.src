@@ -24,8 +24,8 @@ program SpawnCycle(params)
 	var num_entries := group_entries.Size();
 	var group_settings := SS_GetGroupInRegion(region_name, group_name);
 
-	var max_amt := GetConfigInt(group_settings, "max_amt");
-	var cur_amount := SS_GetSpawnsInRegionGroup(region_name, group_name).Size();
+	var max_amt := CInt(group_settings.max_amt);
+	var cur_amount := CInt(SS_GetSpawnsInRegionGroup(region_name, group_name).Size());
 
 	for ( cur_amount; cur_amount<=max_amt; cur_amount+=1 )
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
@@ -40,7 +40,7 @@ program SpawnCycle(params)
 		endif
 		SleepMS(2);
 	endfor
-	
+
 	SS_ReportText("Completed spawning of group ("+group_name+") in region ("+region_name+").", SPAWN_REPORT_SYSLOG);
 
 	return 1;
@@ -55,6 +55,6 @@ function ValidateSpawns(region_name, group_name)
 		endif
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
