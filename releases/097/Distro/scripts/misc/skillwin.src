@@ -12,8 +12,8 @@
 use uo;
 
 
-program core_skillWin(who)
-	SendSkillWindow(who, who);
+program core_skillWin(mobile)
+	SendSkillWindow(mobile, mobile);
 
 	return 0;
 endprogram
