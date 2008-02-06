@@ -16,7 +16,7 @@ endfunction
 
 function DoFooter()
 	WriteHTML("<DIV ID='footer'>");
-	WriteHTML("<P>Copyright &copy; 2006 - POL Development Team.</P>");
+	WriteHTML("<P>Copyright &copy; 2006-2008 - POL Development Team.</P>");
 	WriteHTML("</DIV>");
 	WriteHTML("</DIV>");
 	WriteHTML("</BODY>");
