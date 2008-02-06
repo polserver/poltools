@@ -30,14 +30,14 @@ Program HTMLPage()
 	WriteHTML("<B>Total Online: "+online.Size()+"</B>");
 	WriteHTML("</TH>");
 	WriteHTML("</TR>");
+	foreach player in ( online )
 	WriteHTML("<TR>");
 	WriteHTML("<TD>");
-	foreach player in ( online )
 		WriteHTML(""+player.name);
 		SleepMS(2);
-	endforeach
 	WriteHTML("</TD>");
 	WriteHTML("</TR>");
+	endforeach
 	WriteHTML("</TABLE>");
 
 	WriteHTML("</DIV>");
