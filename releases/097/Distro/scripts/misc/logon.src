@@ -2,12 +2,10 @@
  * $Id$
  *
  */
- 
-use uo;
- 
-program Logon(who)
 
-	SetObjProperty(who, "ConnectTime", POLCore().systime);
-	
+use os;
+
+program LogonScript(mobile)
+	SysLog("Character:'"+mobile.name+"' on account '"+mobile.acctname+"' logging in.");
 	return 1;
 endprogram

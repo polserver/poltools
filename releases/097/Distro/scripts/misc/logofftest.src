@@ -11,12 +11,11 @@ include ":timeutils:time";
 include ":coords:innFunctions";
 include ":timedscripts:timedScripts";
 
-
-program core_logoffTest(who)
+program LogOffTest(mobile)
 	// Send event to the 'timed scripts' package to run log off scripts.
-	TS_LogOff(who);
+	TS_LogOff(mobile);
 
-	if ( (who.cmdlevel >=2) || (GetObjProperty(who, "Delete")) )
+	if ( (mobile.cmdlevel >=2) || (GetObjProperty(mobile, "Delete")) )
 		// Let staff or characters being deleted/banned logout immediately.
 		return 10;
 	endif
@@ -26,16 +25,18 @@ program core_logoffTest(who)
 	// Check if player is camping
 	// Prop may exist if fire done successfully, but will only
 	// be set to 1 if bedroll is used!
-	if( CInt(GetObjProperty(who, "#camped")) == 1 )
-		EraseObjProperty(who, "#camped");
+	if( CInt(GetObjProperty(mobile, "#camped")) == 1 )
+		EraseObjProperty(mobile, "#camped");
 		logout_delay := 10;
 	// Check if player is in an inn
-	elseif( IsInInn(who) )
+	elseif( IsInInn(mobile) )
 		logout_delay := 10;
 	// Check if player is in a house
 	// Then check if player is the owner or  friend of the owner.
-	// elseif ( IsInHouse(who) )
+	// elseif ( IsInHouse(mobile) )
 	endif
+
+	SysLog("Character:'"+mobile.name+"' on account '"+mobile.acctname+"' logging out.");
 
 	return logout_delay;
 endprogram

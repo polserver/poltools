@@ -6,10 +6,11 @@
 use uo;
 use os;
 
-program Help(who)
-	var script := Start_Script(":help:helpSystem/helpSystem", who);
+program Help(mobile)
+	var script := Start_Script(":help:helpSystem/helpSystem", mobile);
 	if ( script.errortext )
-		SendSysMessage(who, "Error starting help system ->"+script.errortext);
+		SendSysMessage(mobile, "Error starting help system ->"+script.errortext);
+		SysLog("Error starting help system->"+script.errortext);
 		return 0;
 	endif
 

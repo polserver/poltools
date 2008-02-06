@@ -9,12 +9,12 @@ use uo;
 use os;
 
 program core_onCreate(who, skillids)
-	var script := Start_Script(":newcharacter:oncreate", {who, skillids});
-	
+	var script := Start_Script(":newcharacter:oncreate", array{who, skillids});
+
 	if ( script.errortext )
 		SysLog("Error - Unable to start :newcharacter:oncreate ->"+script.errortext);
 		return 0;
 	endif
-	
+
 	return 1;
 endprogram

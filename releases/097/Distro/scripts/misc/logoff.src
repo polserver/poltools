@@ -6,7 +6,10 @@
  *
  */
 
-program LogOff(who)
-	who := who; // Avoid compiler warnings.
+use os;
+
+program LogOffScript(mobile)
+
+	SysLog("Character:'"+mobile.name+"' on account '"+mobile.acctname+"' logged out.");
 	return 1;
 endprogram
