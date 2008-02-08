@@ -20,7 +20,7 @@ program HitScript(params)
 	//var basedamage	:= params[5];
 	//var rawdamage	:= params[6];
 	params := 0; // Not needed anymore.
-
+	
 	if ( RandomInt(10) > 4 || defender.cmdlevel )
 		SendSysMessage(defender, "The dark borer's sharp stinger sinks into you and injects something!");
 		TS_StartTimer(defender, "DarkBorer", 40, 0, attacker);

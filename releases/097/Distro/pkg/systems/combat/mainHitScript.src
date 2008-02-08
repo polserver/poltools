@@ -164,10 +164,12 @@ endfunction
 function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdamage)
 	var weapon_scripts := array;
 	if ( weapon.intrinsic ) // Intrinsic fist
-		weapon_scripts := GetWeaponHitScripts(defender);
+		weapon_scripts := GetWeaponHitScripts(attacker);
 	elseif ( weapon.IsA(POLCLASS_WEAPON) )
 		weapon_scripts := GetWeaponHitScripts(weapon);
 	endif
+	
+	PrintTextAbove(attacker, "HitScripts="+weapon_scripts.Size());
 
 	foreach hitscript in ( weapon_scripts )
 		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
