@@ -37,9 +37,10 @@ program textcmd_createNPC(mobile, template)
 	if ( npc.errortext )
 		SendSysMessage(mobile, "Error creating NPC ["+template+"] -> "+npc.errortext);
 		return 0;
+	else
+		SendSysMessage(mobile, "Created NPC template '"+template+"'");
+		return 1;
 	endif
-
-	return 1;
 endprogram
 
 function SelectTemplateFromGump(mobile)
