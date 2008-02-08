@@ -258,14 +258,15 @@ function CheckTimerStatus(mobile, byref timer_list, byref num_poisons)
 				LowerDuration(mobile, event, timer_list, num_poisons);
 				continue;
 			endif
-		endif
-		if ( ReadGameClock() >= timer.endtime )
-			var event := struct;
-			event.+name := _timer_iter;
-			event.+amount := -1;
+		elseif ( !cfg_info.NoEnd )
+			if ( ReadGameClock() >= timer.endtime )
+				var event := struct;
+				event.+name := _timer_iter;
+				event.+amount := -1;
 
-			LowerDuration(mobile, event, timer_list, num_poisons);
-			continue;
+				LowerDuration(mobile, event, timer_list, num_poisons);
+				continue;
+			endif
 		endif
 	endforeach
 

@@ -8,7 +8,7 @@ include ":attributes:attributes";
 
 program PoisonScript(params)
 	var mobile := params[1];
-
+	
 	var duration := CInt(GetObjProperty(mobile, "DarkBorer"));
 	if ( !duration )
 		duration := 90;
