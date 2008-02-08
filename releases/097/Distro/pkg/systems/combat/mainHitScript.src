@@ -169,8 +169,6 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 		weapon_scripts := GetWeaponHitScripts(weapon);
 	endif
 	
-	PrintTextAbove(attacker, "HitScripts="+weapon_scripts.Size());
-
 	foreach hitscript in ( weapon_scripts )
 		var script := Start_Script(hitscript, array{attacker, defender, weapon, armor, basedamage, rawdamage});
 		if ( !script || script.errortext )

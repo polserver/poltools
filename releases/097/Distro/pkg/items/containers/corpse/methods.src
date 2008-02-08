@@ -140,7 +140,7 @@ exported function Gibbify(corpse, range)
 	endforeach
 
 	foreach objtype in ( piece_list )
-		var item := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, objtype, 1);
+		var item := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, objtype, 1, corpse.realm);
 
 		var newx, newy;
 		var num_tries := 0;
@@ -160,11 +160,16 @@ exported function Gibbify(corpse, range)
 				newy := corpse.y;
 				break MOVE_LOOP;
 			endif
-		dowhile ( CheckLosAt(corpse, newx, newy, corpse.z) );
+		dowhile ( !CheckLosAt(corpse, newx, newy, corpse.z) );
 
 		MoveObjectToLocation(item, newx, newy, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION);
+		foreach coord in ( GetCoordsInLine(corpse.x, corpse.y, item.x, item.y) )
+			CreateItemAtLocation(coord.x, coord.y, item.z, "blood", 1, corpse.realm);
+		endforeach
+		
 	endforeach
 
+	SetDestroyable(corpse, 1);
 	DestroyItem(corpse);
 
 	return 1;
