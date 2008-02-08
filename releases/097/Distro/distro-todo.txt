@@ -133,8 +133,6 @@ Can't think of anything right now...
 
 UNASSIGNED
 ----------------
-A back button for .createnpc menu
-
 Stat advancement has been enabled, but needs testing
 
 LockLevel cprop defined for every lockable item. LockLevels would go from 1 to 10. Not sure what objects had more difficult locks.
