@@ -33,7 +33,7 @@ program PoisonScript(params)
 			1: SendSysMessage(mobile, "You feel something preparing to burst out of your body!"); break;
 		endcase
 		
-		Sleep(5);
+		Sleep(60);
 	endfor
 
 	PrintTextAbove(mobile, "*A dark borer that was incubating in "+mobile.name+"'s stomach rips its way out!*", 3, 55);
