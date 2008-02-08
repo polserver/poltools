@@ -5,7 +5,7 @@
 use uo;
 use util;
 use os;
-
+use math;
 
 program Install()
 	return 1;
@@ -147,8 +147,8 @@ exported function Gibbify(corpse, range)
 
 		MOVE_LOOP:
 		do
-			newx := RandomInt(range)-CInt(range/2);
-			newy := RandomInt(range)-CInt(range/2);
+			newx := RandomInt(range)-CInt(Ceil(range/2));
+			newy := RandomInt(range)-CInt(Ceil(range/2));
 
 			newx := newx+corpse.x;
 			newy := newy+corpse.y;
