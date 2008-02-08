@@ -19,6 +19,9 @@ Item definitions - unassigned
 
 
 World item placement (doors, signs) - No assignment necessary.
+  - Door package currently sets up doors on the first run.
+  - Teleporter package sets up telepads for dungeon link ups on first run.
+  - Need package to set up miscellaneous decorations.
   These used to be in the 096 distro so I know they're floating around somewhere.
   Probably just need to copy them over and scrub them clean (wipe message boards, find any "easter eggs" etc...).
 
