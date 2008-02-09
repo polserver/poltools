@@ -1,0 +1,69 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:regions";
+include ":spawnsystem:spawnerUtil";
+include ":spawnsystem:report";
+
+program SpawnCycle(params)
+	//var engine_name	:= params[1];
+	var realm_name	:= params[2];
+	var region_name	:= params[3];
+	var group_name	:= params[4];
+	params := 0; // Not needed anymore.
+
+	ValidateSpawns(region_name, group_name);
+
+	var coords := SS_GetRegionCoordinates(region_name);
+	var group_entries := SS_GetEntriesInGroup(group_name).Keys();
+	var num_entries := group_entries.Size();
+	var group_settings := SS_GetGroupInRegion(region_name, group_name);
+
+	var max_amt := CInt(group_settings.max_amt);
+	var cur_amount := CInt(SS_GetSpawnsInRegionGroup(region_name, group_name).Size());
+
+	//SS_ReportText("Spawning of group ("+group_name+") in region ("+region_name+"). ["+cur_amount+"/"+max_amt+"]", SPAWN_REPORT_SYSLOG);
+
+	for ( cur_amount; cur_amount<=max_amt; cur_amount+=1 )
+		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
+		var z_pos := CInt(GetWorldHeight(spawn_coords.x, spawn_coords.y, realm_name));
+		var spawn_object := group_entries[RandomInt(num_entries)+1];
+		//SS_ReportText("DEBUG A-- X="+spawn_coords.x+", Y="+spawn_coords.y+", Z="+z_pos+", Realm="+realm_name+"   OBJTYPE="+spawn_object, SPAWN_REPORT_SYSLOG);
+		var created := CreateItemAtLocation(spawn_coords.x, spawn_coords.y, z_pos, spawn_object, RandomDiceRoll("2d3"), realm_name);
+		if ( created )
+			created.movable := 1;
+			SS_AddSpawnToRegion(region_name, group_name, created);
+		elseif ( created.errortext )
+			SS_ReportText("Error: Unable to create ("+spawn_object+") for group ("+group_name+") in region ("+region_name+"). ->"+created.errortext, SPAWN_REPORT_SYSLOG);
+		endif
+		SleepMS(2);
+	endfor
+
+	SS_ReportText("Completed spawning of group ("+group_name+") in region ("+region_name+").", SPAWN_REPORT_SYSLOG);
+
+	return 1;
+endprogram
+
+function ValidateSpawns(region_name, group_name)
+	var spawns := SS_GetSpawnsInRegionGroup(region_name, group_name);
+	foreach serial in ( spawns.Keys() )
+		var object := SystemFindObjectBySerial(serial);
+		var orig_spot := spawns[serial].orig_coords;
+
+		if ( !object.IsA(POLCLASS_ITEM) )
+			// Item no longer exists (decayed?)
+			SS_RemoveSpawnFromRegion(region_name, group_name, serial);
+		elseif ( orig_spot.x != object.x || orig_spot.y != object.y || object.container )
+			// Item has been moved (interacted with)
+			SS_RemoveSpawnFromRegion(region_name, group_name, serial);
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction
