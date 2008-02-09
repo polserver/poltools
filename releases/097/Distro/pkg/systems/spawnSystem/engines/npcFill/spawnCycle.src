@@ -31,13 +31,21 @@ program SpawnCycle(params)
 		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
 		var z_pos := CInt(GetWorldHeight(spawn_coords.x, spawn_coords.y, realm_name));
 		var spawn_object := group_entries[RandomInt(num_entries)+1];
-
-		var created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, z_pos, 0, realm_name);
-		if ( created )
-			SS_AddSpawnToRegion(region_name, group_name, created);
-		elseif ( created.errortext )
+		
+		var created := 0, i := 0;
+		for ( i := 0; i <= 5; i+=1 )
+			// Try up to 5 times to create the NPC (helps with invalid spawn coordinates)
+			created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, z_pos, 0, realm_name);
+			if ( created )
+				SS_AddSpawnToRegion(region_name, group_name, created);
+				break;
+			endif
+			SleepMS(2);
+		endfor
+		if ( created.errortext )
 			SS_ReportText("Error: Unable to create ("+spawn_object+") for group ("+group_name+") in region ("+region_name+"). ->"+created.errortext, SPAWN_REPORT_SYSLOG);
 		endif
+		
 		SleepMS(2);
 	endfor
 
