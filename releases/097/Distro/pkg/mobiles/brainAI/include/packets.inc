@@ -23,7 +23,7 @@ use uo;
  *
  */
 
-function PlayerSpeedBoos(player, toggle:=0)
+function PlayerSpeedBoost(player, toggle:=0)
 	if ( toggle )
 		return SendPacket(player, "BF0006002601");
 	else
