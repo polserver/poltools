@@ -4,6 +4,7 @@
  * Provide various functions and constants for raw packets.
  *
  */
+use uo;
 use polsys;
 
 enum PACKET_ID
@@ -89,7 +90,7 @@ function OpenBrowser(who, link:="")
 
 	var packet;
 
-	packet := CreatePacket(0xA5, MSGLEN_VARIABLE);;
+	packet := CreatePacket(0xA5, MSGLEN_VARIABLE);
 	packet.SetString(0x03, link, 1);
 	packet.SetInt16(0x01, packet.GetSize());
 	packet.SendPacket(who);

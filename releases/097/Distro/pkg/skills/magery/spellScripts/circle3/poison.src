@@ -18,10 +18,10 @@ program SpellScript_Poison(params)
 	endif
 
 	// Duration: (3 + (Magery * 0.4)) seconds
-	var duration := CInt(3 + AP_GetSkill(mobile, MAGERY) * 0.4);;
+	var duration := CInt(3 + AP_GetSkill(mobile, MAGERY) * 0.4);
 	var poison_level := MS_GetPoisonLevel(mobile, targ);
 	TS_StartTimer(targ, "DefaultPoison", duration, poison_level, mobile);
-	
+
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);
 
