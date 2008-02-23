@@ -12,13 +12,13 @@ program SpellScript_SummonCreature(params)
 	var targ := params[3];
 	params := 0;
 
-	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");;
+	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
 
 	// Duration = Magery * 4 seconds (max 480)
 	var duration := AP_GetSkill(mobile, MAGERY) * 4;
 	if ( duration > 480 )
 			duration := 480;
 	endif
-		
+
 	return 1;
 endprogram
