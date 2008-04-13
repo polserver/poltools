@@ -259,7 +259,7 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 		var armor_elem := g_settings_cfg["Armor"];
 		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(d_info.mobile, shield.desc+" takes some damage.");
-			shield.hp -= 1;
+			shield.hp := shield.hp - 1;
 
 			if ( shield.hp <= 1 )
 				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
@@ -310,7 +310,7 @@ function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
 	var armor_elem := g_settings_cfg["Armor"];
 	if ( RandomInt(100)+1 <= armor_elem.WearChance )
 		SendSysMessage(d_info.mobile, armor_hit.desc+" takes some damage.");
-		armor_hit.hp -= 1;
+		armor_hit.hp := armor_hit.hp - 1;
 
 		if ( armor_hit.hp <= 1 )
 			MoveObjectToLocation(armor_hit, 1, 1, 1, armor_hit.realm, MOVEOBJECT_FORCELOCATION);
