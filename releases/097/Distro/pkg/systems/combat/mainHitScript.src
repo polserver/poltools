@@ -115,7 +115,7 @@ function WearDownArmor(defender, armor)
 
 		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(defender, armor.desc+" takes some damage.");
-			armor.hp -= 1;
+			armor.hp := armor.hp - 1;
 
 			if ( armor.hp <= 1 )
 				MoveObjectToLocation(armor, 1, 1, 1, armor.realm, MOVEOBJECT_FORCELOCATION);
@@ -238,7 +238,7 @@ function ParryCheck(attacker, defender, byref rawdamage)
 		var armor_elem := CS_GetSettingsCfgElem("Armor");
 		if ( RandomInt(100)+1 <= armor_elem.WearChance )
 			SendSysMessage(defender, shield.desc+" takes some damage.");
-			shield.hp -= 1;
+			shield.hp := shield.hp - 1;
 
 			if ( shield.hp <= 1 )
 				MoveObjectToLocation(shield, 1, 1, 1, shield.realm, MOVEOBJECT_FORCELOCATION);
