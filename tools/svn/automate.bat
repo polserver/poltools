@@ -61,12 +61,20 @@ GOTO :ARGS_PARSE()
 
 REM -- KILLPOL() FUNCTION
 :KILLPOL()
-VER | FIND "2003" > NUL
+
+REM - Windows Vista
+VER | FIND "Version 6.0." > NUL
 IF %ERRORLEVEL% == 0 taskkill /F /IM pol.exe /T
 
+REM - Windows 2003
+VER | FIND "Version 5.2." > NUL
+IF %ERRORLEVEL% == 0 taskkill /F /IM pol.exe /T
+
+REM - Windows XP
 VER | FIND "XP" > NUL
 IF %ERRORLEVEL% == 0 taskkill /F /IM pol.exe /T
 
+REM - Windows 2000
 VER | FIND "2000" > NUL
 IF %ERRORLEVEL% == 0 %PS_TOOLS_PATH%/PSKill.exe pol
 
