@@ -7,6 +7,7 @@ use uo;
 use os;
 use util;
 
+include ":timeutils:time";
 include ":lumberjacking:lumberJack";
 include ":brainai:npcUtil";
 
@@ -43,12 +44,22 @@ function CarveItems(mobile, tool, item)
 endfunction
 
 function CarveMobiles(mobile, tool, targ)
-	if ( targ.npctemplate["sheep"] )
-		// Wool stuff;
-		return 1;
+	if ( !CheckLineOfSight(mobile, targ) )
+		SendSysMessage(mobile, "You can not see that.");
+		return 0;
+	elseif ( targ.npctemplate )
+		if ( targ.graphic == 207 ) // Fluffy sheep
+			targ.graphic := 223;
+			CreateItemInContainer(mobile.backpack, "wool", 3);
+			
+			// Sheep will regrow wool in 300 seconds (5 minutes)
+			SetObjProperty(targ, "#RegrowWool", polcore().systime+300);
+			
+			return 1;
+		endif
 	endif
 
-	return 1;
+	return 0;
 endfunction
 
 function CarveObject(mobile, tool, objtype)
