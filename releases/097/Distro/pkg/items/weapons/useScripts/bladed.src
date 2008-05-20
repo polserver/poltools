@@ -10,27 +10,27 @@ use util;
 include ":lumberjacking:lumberJack";
 include ":brainai:npcUtil";
 
-program use_Bladed(who, tool)
-	SendSysMessage(who, "What would you like to use that on?");
-	var targ := TargetCoordinates(who);
+program use_Bladed(mobile, tool)
+	SendSysMessage(mobile, "What would you like to use that on?");
+	var targ := TargetCoordinates(mobile);
 
 	if ( !targ )
-		SendSysMessage(who, "Cancelled.");
+		SendSysMessage(mobile, "Cancelled.");
 		return 0;
 	endif
 
 	if ( targ.item )
-		CarveItems(who, tool, targ.item);
+		CarveItems(mobile, tool, targ.item);
 	elseif ( targ.mobile )
-		CarveMobiles(who, tool, targ.mobile);
+		CarveMobiles(mobile, tool, targ.mobile);
 	else
-		CarveObject(who, tool, targ.objtype);
+		CarveObject(mobile, tool, targ.objtype);
 	endif
 endprogram
 
-function CarveItems(who, tool, item)
+function CarveItems(mobile, tool, item)
 	if ( item.IsA(POLCLASS_CORPSE) )
-		CarveCorpse(who, item);
+		CarveCorpse(mobile, item);
 		item.SetSkinned(1);
 		return 1;
 	endif
@@ -42,8 +42,8 @@ function CarveItems(who, tool, item)
 	return 1;
 endfunction
 
-function CarveMobiles(who, tool, mobile)
-	if ( mobile.npctemplate["sheep"] )
+function CarveMobiles(mobile, tool, targ)
+	if ( targ.npctemplate["sheep"] )
 		// Wool stuff;
 		return 1;
 	endif
@@ -51,7 +51,7 @@ function CarveMobiles(who, tool, mobile)
 	return 1;
 endfunction
 
-function CarveObject(who, tool, objtype)
+function CarveObject(mobile, tool, objtype)
 	if ( LJ_IsTree(objtype) )
 		// Give kindling;
 		return 1;
@@ -60,8 +60,12 @@ function CarveObject(who, tool, objtype)
 	return 1;
 endfunction
 
-function CarveCorpse(who, corpse)
-	if ( corpse.NPCTemplate() )
+function CarveCorpse(mobile, corpse)
+	if ( corpse.IsSkinned() )
+		SendSysMessage(mobile, "That has already been skinned.");
+		return 0;
+	elseif ( corpse.NPCTemplate() )
+		corpse.SetSkinned(mobile);
 		var template := NPC_ParseTemplateName(corpse.NPCTemplate());
 		var cfg_elem := NPC_GetNPCConfig(template);
 		foreach entry in ( GetConfigStringArray(cfg_elem, "SkinningItem") )
@@ -69,7 +73,11 @@ function CarveCorpse(who, corpse)
 			CreateItemInContainer(corpse, entry[1], CInt(entry[2]));
 			sleepms(2);
 		endforeach
+	else
+		// Player corpse
 	endif
+	
+	SendSysMessage(mobile, "You carve the corpse...");
 
 	return 1;
 endfunction
