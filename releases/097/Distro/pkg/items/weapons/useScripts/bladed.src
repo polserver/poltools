@@ -49,12 +49,8 @@ function CarveMobiles(mobile, tool, targ)
 		return 0;
 	elseif ( targ.npctemplate )
 		if ( targ.graphic == 207 ) // Fluffy sheep
-			targ.graphic := 223;
+			targ.graphic := 223; // Bald sheep
 			CreateItemInContainer(mobile.backpack, "wool", 3);
-			
-			// Sheep will regrow wool in 300 seconds (5 minutes)
-			SetObjProperty(targ, "#RegrowWool", polcore().systime+300);
-			
 			return 1;
 		endif
 	endif
@@ -81,11 +77,11 @@ function CarveCorpse(mobile, corpse)
 		var cfg_elem := NPC_GetNPCConfig(template);
 		foreach entry in ( GetConfigStringArray(cfg_elem, "SkinningItem") )
 			entry := SplitWords(entry);
-			CreateItemInContainer(corpse, entry[1], CInt(entry[2]));
-			sleepms(2);
+			CreateItemInContainer(corpse, entry[1], RandomDiceRoll(CStr(entry[2])));
+			SleepMS(2);
 		endforeach
 	else
-		// Player corpse
+		
 	endif
 	
 	SendSysMessage(mobile, "You carve the corpse...");
