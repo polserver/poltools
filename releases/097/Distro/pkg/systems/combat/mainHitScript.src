@@ -92,7 +92,7 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 	var can_gain := 0;
 	var next_gain := CInt(GetObjProperty(attacker, "#CS_GainTime"));
 	if ( ReadGameClock() >= next_gain )
-		if ( CS_GetSettingsCfgElem("General").PvPGains )
+		if ( CS_GetSettingsCfgElem("Settings").PvPGains )
 			can_gain := 1;
 		elseif ( defender.IsA(POLCLASS_NPC) )
 			can_gain := 1;
@@ -100,7 +100,7 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 	endif
 
 	if ( can_gain )
-		var gain_wait := CInt(CS_GetSettingsCfgElem("General").GainWait);
+		var gain_wait := CInt(CS_GetSettingsCfgElem("Settings").GainWait);
 		SetObjProperty(attacker, "#CS_GainTime", ReadGameClock()+gain_wait);
 		if ( rawdamage > 0 )
 			SkillCheck(attacker, weapon.attribute, -1);
