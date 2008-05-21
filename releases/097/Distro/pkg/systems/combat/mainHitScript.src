@@ -74,7 +74,7 @@ function FacingChecks(attacker, defender)
 	endif
 
 	TurnObjectToward(attacker, defender.x, defender.y);
-	TurnObjectToward(defender, attacker.x, attacker.y);
+	//TurnObjectToward(defender, attacker.x, attacker.y);
 
 	return 1;
 endfunction
