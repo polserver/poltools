@@ -31,13 +31,14 @@ program BrainNerve(params)
 		if ( npc.graphic == 223 )
 			// Detected the sheep has no wool.
 			// See if there is a timer already on the sheep to regrow
-			if ( CInt(GetObjProperty(npc, "#RegrowWool")) < POLCore().systime )
-				npc.graphic := 207;
-				EraseObjProperty(npc, "#RegrowWool");
-			else
+			if ( !CInt(GetObjproperty(npc, "#RegrowWool")) )
 				// No timer set yet. 
 				// Sheep can regrow wool after 5 minutes has passed.
 				SetObjProperty(npc, "#RegrowWool", POLCore().systime+300);
+			elseif ( CInt(GetObjProperty(npc, "#RegrowWool")) < POLCore().systime )
+				// Timer has passed, give the sheep wool again.
+				npc.graphic := 207;
+				EraseObjProperty(npc, "#RegrowWool");
 			endif
 		endif
 
