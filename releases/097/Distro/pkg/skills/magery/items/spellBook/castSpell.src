@@ -1,13 +1,14 @@
 // $Id$
+//
 
 use uo;
 use os;
 use cfgfile;
 
-program castSpell(who, spell_id)
-	var script := Start_Script("spellStarter", {who, spell_id});
+program castSpell(mobile, spell_id)
+	var script := Start_Script("spellStarter", array{mobile, spell_id});
 	if ( script.errortext )
-		SendSysMessage(who, "Error - Could not start spell starter ->"+script.errortext);
+		SendSysMessage(mobile, "Error - Could not start spell starter ->"+script.errortext);
 		return 0;
 	endif
 	
