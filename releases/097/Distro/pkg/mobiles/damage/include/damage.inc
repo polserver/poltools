@@ -64,6 +64,11 @@ function ApplyDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 			SetLastDamageInfo(mobile, amount, type, source);
 			SetScriptController(source);
 		endif
+		
+		if ( mobile.IsA(POLCLASS_NPC) )
+			var npc_elem := NPC_GetNPCConfig(mobile.npctemplate);
+			PlaySoundEffect(mobile, CInt(npc_elem.DamagedSound));
+		endif
 
 		ApplyDamage(mobile, amount);
 	endif
@@ -105,6 +110,12 @@ function ApplyRawDamageEX(mobile, amount, type:=DMG_FORCED, source:=0)
 			SetLastDamageInfo(mobile, amount, type, source);
 			SetScriptController(source);
 		endif
+		
+		if ( mobile.IsA(POLCLASS_NPC) )
+			var npc_elem := NPC_GetNPCConfig(mobile.npctemplate);
+			PlaySoundEffect(mobile, CInt(npc_elem.DamagedSound));
+		endif
+		
 		ApplyRawDamage(mobile, amount);
 	endif
 
