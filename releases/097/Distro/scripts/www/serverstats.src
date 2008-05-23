@@ -18,6 +18,7 @@ endprogram
 
 function OutputXML()
 	WriteHTML("<CONTENT>");
+	
 	WriteHTML("<SERVER>");
 	WriteHTML("<CPU></CPU>");
 	WriteHTML("<RAM></RAM>");
@@ -41,6 +42,9 @@ function OutputXML()
 	WriteHTML("<UPTIME>"+FormatSeconds(core_ref.uptime)+"</UPTIME>");
 	WriteHTML("<RX>"+FormatBytes(core_ref.bytes_received)+"</RX>");
 	WriteHTML("<TX>"+FormatBytes(core_ref.bytes_sent)+"</TX>");
+	WriteHTML("</POL>");
+	
+	WriteHTML("</CONTENT>");
 	
 	return 1;
 endfunction
