@@ -8,6 +8,32 @@ use http;
 include "include/uo_extend";
 
 Program HTMLPage()
+	if ( QueryParam("XML") )
+		OutputXML();
+	else
+		OutputHTML();
+	endif
+
+	return 1;
+endprogram
+
+function OutputXML()
+	var online := EnumerateOnlineCharactersABC();
+	
+	WriteHTML("<CONTENT>");
+	WriteHTML("<TOTAL>"+online.Size()+"</TOTAL>");
+	foreach player in ( online )
+		WriteHTML("<PLAYER>");
+		WriteHTML("<NAME>"+player.name+"</NAME>");
+		WriteHTML("</PLAYER>");
+		SleepMS(2);
+	endforeach	
+	WriteHTML("</CONTENT>");
+	return 1;
+endfunction
+
+function OutputHTML()
+	
 	WriteHTML("<HTML>");
 	WriteHTML("<HEAD>");
 	WriteHTML("<TITLE>POL Internal Web Server</TITLE>");
@@ -43,11 +69,12 @@ Program HTMLPage()
 	WriteHTML("</DIV>");
 
 	WriteHTML("<DIV ID='footer'>");
-	WriteHTML("<P>Copyright &copy; 2006-2008 - POL Development Team.</P>");
+	WriteHTML("<P>Copyright &copy; 1998-2008 - POL Development Team.</P>");
 	WriteHTML("</DIV>");
 	WriteHTML("</DIV>");
 	WriteHTML("</BODY>");
 	WriteHTML("</HTML>");
-
+	
 	return 1;
-endprogram
+endfunction
+
