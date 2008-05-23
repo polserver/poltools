@@ -7,6 +7,45 @@ use util;
 use http;
 
 Program HTMLPage()
+	if ( QueryParam("XML") )
+		OutputXML();
+	else
+		OutputHTML();
+	endif
+	
+	return 1;
+endprogram
+
+function OutputXML()
+	WriteHTML("<CONTENT>");
+	WriteHTML("<SERVER>");
+	WriteHTML("<CPU></CPU>");
+	WriteHTML("<RAM></RAM>");
+	WriteHTML("<HDD></HDD>");
+	WriteHTML("<OS></OS>");
+	WriteHTML("<CONNECTION></CONNECTION>");
+	WriteHTML("<LOCATION></LOCATION>");
+	WriteHTML("<TIMEZONE></TIMEZONE>");
+	WriteHTML("</SERVER>");
+	
+	var core_ref := POLCore();
+	WriteHTML("<POL>");
+	WriteHTML("<CONNECTION></CONNECTION>");
+	WriteHTML("<VERSION>"+core_ref.verstr+"</VERSION>");
+	WriteHTML("<TIME>"+StrFormatTime("%b %d, %Y %I:%M %p", core_ref.systime)+"</TIME>");
+	WriteHTML("<ACCOUNTS>"+ListAccounts().Size()+"</ACCOUNTS>");
+	WriteHTML("<TLI>"+core_ref.itemcount+"</TLI>");
+	WriteHTML("<MOBILEAMT>"+core_ref.mobilecount+"</MOBILEAMT>");
+	WriteHTML("<PLAYERAMT>"+EnumerateOnlineCharacters().Size()+"</PLAYERAMT>");
+	WriteHTML("<LOAD>"+core_ref.sysload+"%</LOAD>");
+	WriteHTML("<UPTIME>"+FormatSeconds(core_ref.uptime)+"</UPTIME>");
+	WriteHTML("<RX>"+FormatBytes(core_ref.bytes_received)+"</RX>");
+	WriteHTML("<TX>"+FormatBytes(core_ref.bytes_sent)+"</TX>");
+	
+	return 1;
+endfunction
+
+function OutputHTML()
 	WriteHTML("<HTML>");
 	WriteHTML("<HEAD>");
 	WriteHTML("<TITLE>POL Internal Web Server</TITLE>");
@@ -58,9 +97,10 @@ Program HTMLPage()
 	WriteHTML("</DIV>");
 	WriteHTML("</BODY>");
 	WriteHTML("</HTML>");
-
+	
 	return 1;
-endprogram
+endfunction
+
 
 function FormatSeconds(seconds)
 	CONST SEC_PER_HOUR := 3600.0;
