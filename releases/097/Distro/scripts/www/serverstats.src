@@ -6,6 +6,16 @@ use uo;
 use util;
 use http;
 
+ENUM SERVER_STATS
+	CPU		:= "",
+	RAM		:= "",
+	HDD		:= "",
+	OS		:= "",
+	CONNECTION	:= "",
+	LOCATION	:= "",
+	TIMEZONE	:= ""
+ENDENUM
+
 Program HTMLPage()
 	if ( QueryParam("XML") )
 		OutputXML();
@@ -20,13 +30,13 @@ function OutputXML()
 	WriteHTML("<CONTENT>");
 	
 	WriteHTML("<SERVER>");
-	WriteHTML("<CPU></CPU>");
-	WriteHTML("<RAM></RAM>");
-	WriteHTML("<HDD></HDD>");
-	WriteHTML("<OS></OS>");
-	WriteHTML("<CONNECTION></CONNECTION>");
-	WriteHTML("<LOCATION></LOCATION>");
-	WriteHTML("<TIMEZONE></TIMEZONE>");
+	WriteHTML("<CPU>"+CPU+"</CPU>");
+	WriteHTML("<RAM>"+RAM+"</RAM>");
+	WriteHTML("<HDD>"+HDD+"</HDD>");
+	WriteHTML("<OS>"+OS+"</OS>");
+	WriteHTML("<CONNECTION>"+CONNECTION+"</CONNECTION>");
+	WriteHTML("<LOCATION>"+LOCATION+"</LOCATION>");
+	WriteHTML("<TIMEZONE>"+TIMEZONE+"</TIMEZONE>");
 	WriteHTML("</SERVER>");
 	
 	var core_ref := POLCore();
@@ -67,13 +77,13 @@ function OutputHTML()
 
 	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
 	WriteHTML("<TR><TH COLSPAN='2' ALIGN='LEFT'><B>Server Hardware</B></TH></TR>");
-	WriteHTML("<TR><TD>CPU:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>RAM:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>HDD:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>OS:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>Connection:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>Server Location:</TD><TD>Unknown</TD></TR>");
-	WriteHTML("<TR><TD>Server Time Zone:</TD><TD>Unknown</TD></TR>");
+	WriteHTML("<TR><TD>CPU:</TD><TD>"+CPU+"</TD></TR>");
+	WriteHTML("<TR><TD>RAM:</TD><TD>"+RAM+"</TD></TR>");
+	WriteHTML("<TR><TD>HDD:</TD><TD>"+HDD+"</TD></TR>");
+	WriteHTML("<TR><TD>OS:</TD><TD>"+OS+"</TD></TR>");
+	WriteHTML("<TR><TD>Connection:</TD><TD>"+CONNECTION+"</TD></TR>");
+	WriteHTML("<TR><TD>Server Location:</TD><TD>"+LOCATION+"</TD></TR>");
+	WriteHTML("<TR><TD>Server Time Zone:</TD><TD>"+TIMEZONE+"</TD></TR>");
 	WriteHTML("</TABLE>");
 
 	WriteHTML("<BR><BR>");
