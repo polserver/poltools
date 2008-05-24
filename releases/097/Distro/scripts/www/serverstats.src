@@ -41,7 +41,6 @@ function OutputXML()
 	
 	var core_ref := POLCore();
 	WriteHTML("<POL>");
-	WriteHTML("<CONNECTION></CONNECTION>");
 	WriteHTML("<VERSION>"+core_ref.verstr+"</VERSION>");
 	WriteHTML("<TIME>"+StrFormatTime("%b %d, %Y %I:%M %p", core_ref.systime)+"</TIME>");
 	WriteHTML("<ACCOUNTS>"+ListAccounts().Size()+"</ACCOUNTS>");
