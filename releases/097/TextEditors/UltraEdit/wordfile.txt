@@ -568,6 +568,7 @@ WriteHTMLRaw
 .speech_color
 .speech_font
 .squelched
+.stackable
 .starboardplank
 .state
 .stealthsteps
@@ -668,6 +669,7 @@ WriteHTMLRaw
 .Log_Profile
 .Move_Char
 .Move_Offline_Mobiles
+.MoveMode
 .Open
 .Print
 .Privileges
