@@ -249,7 +249,7 @@ Hex
 IncRevision
 IsLegalMove
 Is_Critical
-Left
+IsStackable
 Len
 ListAccounts
 ListConfigElemProps
@@ -316,6 +316,7 @@ RadToDeg
 RandomDiceRoll
 RandomFloat
 RandomInt
+RandomIntMinMax
 RawSkillToBaseSkill
 ReadConfigFile
 ReadFile
