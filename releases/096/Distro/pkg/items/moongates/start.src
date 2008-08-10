@@ -1,0 +1,7 @@
+use uo;
+
+// include "moongates";
+
+print("Initializing moongates");
+print("Moongates are currently disabled! Blame the coder.");
+// CreateMoongates();
