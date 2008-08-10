@@ -1,0 +1,231 @@
+1) Install 095 full
+2) Install 096 core on top of 095 full
+3) Install 095to096distro on top of 096c+095d
+4) Change in pol.cfg the line
+	# UoDataFileRoot=c:\uo #
+to point to your UO data folder (for example e:\games\EA\Ultima Online Mondain's Legacy)
+
+5) Create realm files. (CreateBritannia.bat or if you want other realms, study uoconvert.txt) - note that this may take a while.
+
+Also note that the .bat uses incorrect width value if you want to use Mondain's Legacy map(6144 instead of 7168) but the point in this fixdistro wasn't to be 100% accurate, I just wanted to get POL to start up.
+
+6. Remove all .em files from \scripts\ folder. New versions of these files are located in scripts\modules in POL096 and as such having these old versions in this folder may cause compiling errors and whatnot.
+
+7) Recompile everything by browsing to \scripts\ and either by running FullCompile.bat or "ecompile -f" on command line.
+
+
+=====
+Full list of changes:
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/scripts\ai\main\mainLoopAnimal.inc 
+ scripts\ai\main\mainLoopBarker.inc 
+ scripts\ai\main\mainLoopCat.inc 
+ scripts\ai\main\mainLoopChicken.inc 
+ scripts\ai\main\mainLoopCow.inc 
+ scripts\ai\main\killPCsLoop.inc 
+ scripts\ai\immobile.src 
+ scripts\ai\immobileSpell.src 
+ scripts\ai\main\mainLoopKillAny.inc 
+ scripts\ai\main\mainLoopMeek.inc 
+ scripts\ai\main\packKillPCsLoop.inc 
+ scripts\ai\main\mainLoopSheep.inc 
+ scripts\ai\main\mainLoopWolf.inc
+
+Change #1:
+From	[ if(!CloseIn(me, lx, ly)) ]
+To	[ if(CloseIn(me, lx, ly)) ]
+
+Change #2:
+From	[ function CloseIn(me, lx, ly) {+entire function} ]
+To	[ function CloseIn(me, lx, ly) 
+	    if(coordist(me.x, me.y, lx, ly) == 0) 
+	      return 0; 
+	    else 
+	      WalkTowardLocation(lx, ly); 
+	      return 1; 
+	    endif 
+	  endfunction ]
+
+Explanation: The case structure present in this function just didn't compile so I replaced it with an if stack. I also changed the negation of the actual function to remove one extra check and thus hopefully making these scripts marginally faster.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/scripts\ai\animal.src 
+ scripts\ai\cat.src 
+ scripts\ai\cow.src 
+ scripts\ai\davesHealer.src 
+ scripts\ai\dumbKillPCs.src 
+ scripts\ai\employed.src 
+ scripts\ai\firebreather.src 
+ scripts\ai\killAny.src 
+ scripts\ai\KillPCs.src 
+ scripts\ai\meek.src <= NOTICE! This change is applied to two functions in this file, OpenDistance() and CloseDistance() 
+ scripts\ai\packFirebreather.src 
+ scripts\ai\person.src 
+ scripts\ai\poisonElemental.src 
+ scripts\ai\poisonKillPCs.src 
+ scripts\ai\sheep.src 
+ scripts\ai\slime.src 
+ scripts\ai\spellFire.src 
+ scripts\ai\spiders.src 
+ scripts\ai\tamed.src 
+ scripts\ai\townGuard.src 
+ scripts\ai\undead.src 
+ scripts\ai\undeadKillPCs.src 
+ scripts\ai\wolf.src
+
+Change #1:
+From	[ case Distance( me, opponent ) ]
+To	[ case ( Distance( me, opponent )) ]
+
+Explanation: The new eScript compiler in 096 is apparently a bit more strict about its syntax and since all these files are based on some ancient version of some basic NPC they all reuse this bit of code a lot.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/scripts\ai\bladeSpirit.src 
+ scripts\ai\crier.src 
+ scripts\ai\escortee.src 
+ scripts\ai\goodCaster.src 
+ scripts\ai\helpPCs.src 
+ scripts\ai\townPerson.src 
+ scripts\ai\vortexAI.src 
+ scripts\ai\worker.src
+
+Change #1:
+From	[ case Distance( me, opponent ) ]
+To	[ case ( Distance( me, opponent )) ]
+
+Change #2:
+From	[ if(!CloseIn(me, lx, ly)) ]
+To	[ if(CloseIn(me, lx, ly)) ]
+
+Change #3:
+From	[ function CloseIn(me, lx, ly) {+entire function} ]
+To	[ function CloseIn(me, lx, ly) 
+	    if(coordist(me.x, me.y, lx, ly) == 0) 
+	      return 0; 
+	    else 
+	      WalkTowardLocation(lx, ly); 
+	      return 1; 
+	    endif 
+	  endfunction ]
+
+Explanation: Nothing new here, just combinatory changes.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/scripts\items\plank.src 
+ pkg\systems\boat\plankUtil.inc
+
+Change #1:
+From	[ case planktype ]
+To	[ case ( planktype ) ]
+
+Explanation: in new eCompiler case syntax is more strict than before.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/scripts\www\servperf\script_profiles.asp
+
+Change #1:
+From	[ if (QueryParam( "Action" ) = "Clear Counters") ]
+To	[ if (QueryParam( "Action" ) == "Clear Counters") ]
+
+Explanation: = is now deprecated, use == instead. Also note that since this is an ASP file I have no idea if this new change will break down the ASP script.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/pkg\items\traps\traps.src 
+ pkg\skills\lumberjacking\lumberjack.src 
+ pkg\skills\removetrap\removeTrap.src 
+ pkg\tools\gmtools\lever.src 
+ pkg\tools\gmtools\toolTraps.src
+
+Change #1:
+From	[ case traptype ]
+To	[ case ( traptype ) ]
+
+Explanation: in new eCompiler case syntax is more strict than before.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/pkg\items\moongates.start.src
+
+Change #1:
+From	[ {entire file contents} ]
+To	[ use uo; 
+
+	  // include "moongates"; 
+
+	  print("Initializing moongates"); 
+	  print("Moongates are currently disabled! Blame the coder."); 
+	  // CreateMoongates(); ]
+
+Explanation: My lazyness. I also hate moongates so I disabled them. This hate comes from my first few weeks in UO when I managed to get stuck to Buccaneer's Den with a crappy character because of moongates cycling.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/ai\combat\packFight.inc
+ ai\main\mainLoopSheep.inc
+ ai\main\sleepModeSheep.inc
+
+Change #1:
+From	[ Damage( me, GetMaxHp(me) + 3 ); ]
+To	[ ApplyDamage( me, GetMaxHp(me) + 3 ); ]
+
+Explanation: I had to take a guess at which function of all the available damage functions this was supposed to be so this may be incorrect.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/pkg\skills\spells\summon.inc
+
+Change #1:
+From	[ Damage( me, GetMaxHp(me) + 3 ); ]
+To	[ ApplyDamage( me, GetMaxHp(me) + 3 ); ]
+
+Explanation: I had to take a guess at which function of all the available damage functions this was supposed to be so this may be incorrect.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/pkg\tools\gmtools\spawnTest.src
+
+Change #1:
+From	[ foreach thing in ListItemsNearLocation(cint(item.x), cint(item.y), cint(item.z), CInt(rng)) ]
+To	[ foreach thing in ListItemsNearLocation(cint(item.x), cint(item.y), cint(item.z), CInt(rng), _DEFAULT_REALM) ]
+
+Change #2:
+From	[ newz:= cint(GetWorldHeight(newx, newy)); ]
+To	[ newz:= cint(GetWorldHeight(newx, newy ,_DEFAULT_REALM)); ]
+
+Change #3:
+From	[ if(len(ListItemsNearLocation(newx, newy, newz, 0)) == 0)
+To	[ if(len(ListItemsNearLocation(newx, newy, newz, 0, _DEFAULT_REALM)) == 0) ]
+
+Change #4:
+From	[ chest := CreateItemAtLocation(newx, newy, newz, gfx, 1); ]
+To	[ chest := CreateItemAtLocation(newx, newy, newz, gfx, 1, _DEFAULT_REALM); ]
+
+Explanation: These functions now require realm identification information.
+
+    THESE CHANGES APPLY TO THESE FILES:
+ ___
+/pkg\systems\merchantnodes\merchantNodeControl.src
+
+Change #1:
+From	[ {all references to variable named "root" in function SpawnAll() } ]
+To	[ {rename variable to "rooteh" in function SpawnAll() } ]
+
+Explanation: Apparently "root" isn't a good name for a variable anymore.
+
+OTHER CHANGES:
+config\repsys.cfg - I added the line "    Invulnerable    38" to NameColoring block.
+scripts\ecompile.cfg - This config file now uses relational paths to various folders. Thanks to itec
+
+Final note: pkg\systems\spawnregion\spawnRegionManager.src may be obsolete in this package.
+
+
+
+Total of 65 files modified.
+- Para @ 8th March 2007
