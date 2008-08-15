@@ -91,13 +91,17 @@ function GetCombatGainFlags(attacker, defender)
 endfunction
 
 function CanAttack(attacker, defender)
-	// These first two checks are handled by the core.
-	//if ( attacker == defender )
-	//	return 0;
-	//elseif ( !CheckLineOfSight(attacker, defender) )
-	//	return 0;
-	//
-	if ( !attacker.warmode && !g_settings_cfg["Settings"].AutoDefend )
+	if ( attacker == defender )
+		return 0;
+	elseif ( defender.dead || attacker.dead )
+		return 0;
+	elseif ( defender.hidden || attacker.hidden )
+		return 0;
+	elseif ( defender.concealed > attacker.cmdlevel )
+		return 0;
+	elseif ( !CheckLineOfSight(attacker, defender) )
+		return 0;
+	elseif ( !attacker.warmode && !g_settings_cfg["Settings"].AutoDefend )
 		return 0;
 	endif
 
@@ -119,9 +123,6 @@ function FacingChecks(attacker, defender)
 endfunction
 
 function DistanceChecks(byref a_info, byref d_info)
-	// Core handles distance checks before starting the hook.
-	return 1;
-	/*
 	var cur_range := Distance(a_info.mobile, d_info.mobile);
 	var max_range := GetConfigInt(a_info.cfginfo, a_info.prefix+"MaxRange");
 	if ( max_range == error )
@@ -129,7 +130,7 @@ function DistanceChecks(byref a_info, byref d_info)
 	endif
 
 	if ( cur_range > max_range )
-		CombatMsg(a_info.mobile, "Opponent is too far away. ["+max_range+"]", "Dist");
+		CombatMsg(a_info.mobile, "Opponent is too far away.", "Dist");
 		return 0;
 	elseif ( cur_range < CInt(GetConfigInt(a_info.cfginfo, a_info.prefix+"MinRange")) )
 		CombatMsg(a_info.mobile, "Opponent is too close.", "Dist");
@@ -137,7 +138,6 @@ function DistanceChecks(byref a_info, byref d_info)
 	else
 		return 1;
 	endif
-	*/
 endfunction
 
 function AmmoChecks(byref a_info, byref d_info)
