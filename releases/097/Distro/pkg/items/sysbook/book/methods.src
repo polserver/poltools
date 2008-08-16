@@ -80,13 +80,27 @@ exported function GetNumLines(book)
 endfunction
 
 exported function GetTitle(book)
-	//One line. Looks for a property called "Title".
-	return CStr(GetInfo(book, "Title"));
+	//Looks for a property called "Title".
+	//If not set, converts the false to "".
+	var title := GetInfo(book, "Title");
+	
+	if (!title)
+		title := "";
+	endif
+	
+	return CStr(title);
 endfunction
 
 exported function GetAuthor(book)
-	//One line. :ooks for a property called "Author".
-	return CStr(GetInfo(book, "Author"));
+	//:ooks for a property called "Author".
+	//If not set, converts the false to "".
+	var author := GetInfo(book, "Author");
+	
+	if (!author)
+		author := "";
+	endif
+	
+	return CStr(author);
 endfunction
 
 exported function GetLine(book, line_num)
