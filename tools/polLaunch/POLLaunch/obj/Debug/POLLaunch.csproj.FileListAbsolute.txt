@@ -1,0 +1,8 @@
+E:\UOL\C#\POLLaunch\POLLaunch\bin\Debug\POLLaunch.exe
+E:\UOL\C#\POLLaunch\POLLaunch\bin\Debug\POLLaunch.pdb
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\ResolveAssemblyReference.cache
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\POLLaunch.Form1.resources
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\POLLaunch.Properties.Resources.resources
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\POLLaunch.csproj.GenerateResource.Cache
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\POLLaunch.exe
+E:\UOL\C#\POLLaunch\POLLaunch\obj\Debug\POLLaunch.pdb
