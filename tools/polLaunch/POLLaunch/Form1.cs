@@ -28,7 +28,7 @@ namespace POLLaunch
 
 		private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ConfigurationForm tmp = new ConfigurationForm();
+			Configuration.ConfigurationForm tmp = new Configuration.ConfigurationForm();
 			tmp.ShowDialog(this);
 		}
 	}
