@@ -36,24 +36,24 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
-			this.button8 = new System.Windows.Forms.Button();
-			this.textBox5 = new System.Windows.Forms.TextBox();
+			this.BTN_BrowseEcompileEXEPath = new System.Windows.Forms.Button();
+			this.TB_ECompileEXEPath = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
-			this.button7 = new System.Windows.Forms.Button();
-			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.BTN_BrowseUOCnvrtEXEPath = new System.Windows.Forms.Button();
+			this.TB_UOCnvrtEXEPath = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.button6 = new System.Windows.Forms.Button();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.BTN_BrowsePOLEXEPath = new System.Windows.Forms.Button();
+			this.TB_POLEXEPath = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.button5 = new System.Windows.Forms.Button();
-			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.BTN_BrowsePOLPath = new System.Windows.Forms.Button();
+			this.TB_POLPath = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.button4 = new System.Windows.Forms.Button();
-			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BTN_BrowseUOPath = new System.Windows.Forms.Button();
+			this.TB_UOPath = new System.Windows.Forms.TextBox();
+			this.BTN_OKAY = new System.Windows.Forms.Button();
+			this.BTN_Cancel = new System.Windows.Forms.Button();
+			this.BTN_Apply = new System.Windows.Forms.Button();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -75,9 +75,9 @@
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
 			this.tabPage1.Controls.Add(this.panel1);
-			this.tabPage1.Controls.Add(this.button3);
-			this.tabPage1.Controls.Add(this.button2);
-			this.tabPage1.Controls.Add(this.button1);
+			this.tabPage1.Controls.Add(this.BTN_OKAY);
+			this.tabPage1.Controls.Add(this.BTN_Cancel);
+			this.tabPage1.Controls.Add(this.BTN_Apply);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -100,17 +100,17 @@
 			this.groupBox2.Controls.Add(this.label7);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Controls.Add(this.button8);
-			this.groupBox2.Controls.Add(this.textBox5);
+			this.groupBox2.Controls.Add(this.BTN_BrowseEcompileEXEPath);
+			this.groupBox2.Controls.Add(this.TB_ECompileEXEPath);
 			this.groupBox2.Controls.Add(this.label4);
-			this.groupBox2.Controls.Add(this.button7);
-			this.groupBox2.Controls.Add(this.textBox4);
+			this.groupBox2.Controls.Add(this.BTN_BrowseUOCnvrtEXEPath);
+			this.groupBox2.Controls.Add(this.TB_UOCnvrtEXEPath);
 			this.groupBox2.Controls.Add(this.label3);
-			this.groupBox2.Controls.Add(this.button6);
-			this.groupBox2.Controls.Add(this.textBox3);
+			this.groupBox2.Controls.Add(this.BTN_BrowsePOLEXEPath);
+			this.groupBox2.Controls.Add(this.TB_POLEXEPath);
 			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Controls.Add(this.button5);
-			this.groupBox2.Controls.Add(this.textBox2);
+			this.groupBox2.Controls.Add(this.BTN_BrowsePOLPath);
+			this.groupBox2.Controls.Add(this.TB_POLPath);
 			this.groupBox2.Location = new System.Drawing.Point(4, 85);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(588, 260);
@@ -145,23 +145,23 @@
 			this.label5.TabIndex = 11;
 			this.label5.Text = "Path to the ECompile executable (Ecompile.exe)";
 			// 
-			// button8
+			// BTN_BrowseEcompileEXEPath
 			// 
-			this.button8.Location = new System.Drawing.Point(6, 197);
-			this.button8.Name = "button8";
-			this.button8.Size = new System.Drawing.Size(75, 23);
-			this.button8.TabIndex = 10;
-			this.button8.Text = "Browse";
-			this.button8.UseVisualStyleBackColor = true;
+			this.BTN_BrowseEcompileEXEPath.Location = new System.Drawing.Point(6, 197);
+			this.BTN_BrowseEcompileEXEPath.Name = "BTN_BrowseEcompileEXEPath";
+			this.BTN_BrowseEcompileEXEPath.Size = new System.Drawing.Size(75, 23);
+			this.BTN_BrowseEcompileEXEPath.TabIndex = 10;
+			this.BTN_BrowseEcompileEXEPath.Text = "Browse";
+			this.BTN_BrowseEcompileEXEPath.UseVisualStyleBackColor = true;
 			// 
-			// textBox5
+			// TB_ECompileEXEPath
 			// 
-			this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox5.Location = new System.Drawing.Point(6, 226);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.Size = new System.Drawing.Size(575, 20);
-			this.textBox5.TabIndex = 9;
+			this.TB_ECompileEXEPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_ECompileEXEPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_ECompileEXEPath.Location = new System.Drawing.Point(6, 226);
+			this.TB_ECompileEXEPath.Name = "TB_ECompileEXEPath";
+			this.TB_ECompileEXEPath.Size = new System.Drawing.Size(575, 20);
+			this.TB_ECompileEXEPath.TabIndex = 9;
 			// 
 			// label4
 			// 
@@ -172,23 +172,23 @@
 			this.label4.TabIndex = 8;
 			this.label4.Text = "Path to the UOConvert executable (UOConvert.exe)";
 			// 
-			// button7
+			// BTN_BrowseUOCnvrtEXEPath
 			// 
-			this.button7.Location = new System.Drawing.Point(7, 137);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(75, 23);
-			this.button7.TabIndex = 7;
-			this.button7.Text = "Browse";
-			this.button7.UseVisualStyleBackColor = true;
+			this.BTN_BrowseUOCnvrtEXEPath.Location = new System.Drawing.Point(7, 137);
+			this.BTN_BrowseUOCnvrtEXEPath.Name = "BTN_BrowseUOCnvrtEXEPath";
+			this.BTN_BrowseUOCnvrtEXEPath.Size = new System.Drawing.Size(75, 23);
+			this.BTN_BrowseUOCnvrtEXEPath.TabIndex = 7;
+			this.BTN_BrowseUOCnvrtEXEPath.Text = "Browse";
+			this.BTN_BrowseUOCnvrtEXEPath.UseVisualStyleBackColor = true;
 			// 
-			// textBox4
+			// TB_UOCnvrtEXEPath
 			// 
-			this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox4.Location = new System.Drawing.Point(6, 166);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(575, 20);
-			this.textBox4.TabIndex = 6;
+			this.TB_UOCnvrtEXEPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_UOCnvrtEXEPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_UOCnvrtEXEPath.Location = new System.Drawing.Point(6, 166);
+			this.TB_UOCnvrtEXEPath.Name = "TB_UOCnvrtEXEPath";
+			this.TB_UOCnvrtEXEPath.Size = new System.Drawing.Size(575, 20);
+			this.TB_UOCnvrtEXEPath.TabIndex = 6;
 			// 
 			// label3
 			// 
@@ -199,23 +199,23 @@
 			this.label3.TabIndex = 5;
 			this.label3.Text = "Path to the POL executable (POL.exe)";
 			// 
-			// button6
+			// BTN_BrowsePOLEXEPath
 			// 
-			this.button6.Location = new System.Drawing.Point(6, 77);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(75, 23);
-			this.button6.TabIndex = 4;
-			this.button6.Text = "Browse";
-			this.button6.UseVisualStyleBackColor = true;
+			this.BTN_BrowsePOLEXEPath.Location = new System.Drawing.Point(6, 77);
+			this.BTN_BrowsePOLEXEPath.Name = "BTN_BrowsePOLEXEPath";
+			this.BTN_BrowsePOLEXEPath.Size = new System.Drawing.Size(75, 23);
+			this.BTN_BrowsePOLEXEPath.TabIndex = 4;
+			this.BTN_BrowsePOLEXEPath.Text = "Browse";
+			this.BTN_BrowsePOLEXEPath.UseVisualStyleBackColor = true;
 			// 
-			// textBox3
+			// TB_POLEXEPath
 			// 
-			this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox3.Location = new System.Drawing.Point(6, 106);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(575, 20);
-			this.textBox3.TabIndex = 3;
+			this.TB_POLEXEPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_POLEXEPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_POLEXEPath.Location = new System.Drawing.Point(6, 106);
+			this.TB_POLEXEPath.Name = "TB_POLEXEPath";
+			this.TB_POLEXEPath.Size = new System.Drawing.Size(575, 20);
+			this.TB_POLEXEPath.TabIndex = 3;
 			// 
 			// label2
 			// 
@@ -226,29 +226,29 @@
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Path to POL\'s root directory.";
 			// 
-			// button5
+			// BTN_BrowsePOLPath
 			// 
-			this.button5.Location = new System.Drawing.Point(7, 17);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(75, 23);
-			this.button5.TabIndex = 1;
-			this.button5.Text = "Browse";
-			this.button5.UseVisualStyleBackColor = true;
+			this.BTN_BrowsePOLPath.Location = new System.Drawing.Point(7, 17);
+			this.BTN_BrowsePOLPath.Name = "BTN_BrowsePOLPath";
+			this.BTN_BrowsePOLPath.Size = new System.Drawing.Size(75, 23);
+			this.BTN_BrowsePOLPath.TabIndex = 1;
+			this.BTN_BrowsePOLPath.Text = "Browse";
+			this.BTN_BrowsePOLPath.UseVisualStyleBackColor = true;
 			// 
-			// textBox2
+			// TB_POLPath
 			// 
-			this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox2.Location = new System.Drawing.Point(7, 46);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(575, 20);
-			this.textBox2.TabIndex = 0;
+			this.TB_POLPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_POLPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_POLPath.Location = new System.Drawing.Point(7, 46);
+			this.TB_POLPath.Name = "TB_POLPath";
+			this.TB_POLPath.Size = new System.Drawing.Size(575, 20);
+			this.TB_POLPath.TabIndex = 0;
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Controls.Add(this.button4);
-			this.groupBox1.Controls.Add(this.textBox1);
+			this.groupBox1.Controls.Add(this.BTN_BrowseUOPath);
+			this.groupBox1.Controls.Add(this.TB_UOPath);
 			this.groupBox1.Location = new System.Drawing.Point(4, 4);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(588, 75);
@@ -265,58 +265,58 @@
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Path to where Ultima Online is installed.";
 			// 
-			// button4
+			// BTN_BrowseUOPath
 			// 
-			this.button4.Location = new System.Drawing.Point(7, 17);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(75, 23);
-			this.button4.TabIndex = 1;
-			this.button4.Text = "Browse";
-			this.button4.UseVisualStyleBackColor = true;
+			this.BTN_BrowseUOPath.Location = new System.Drawing.Point(7, 17);
+			this.BTN_BrowseUOPath.Name = "BTN_BrowseUOPath";
+			this.BTN_BrowseUOPath.Size = new System.Drawing.Size(75, 23);
+			this.BTN_BrowseUOPath.TabIndex = 1;
+			this.BTN_BrowseUOPath.Text = "Browse";
+			this.BTN_BrowseUOPath.UseVisualStyleBackColor = true;
 			// 
-			// textBox1
+			// TB_UOPath
 			// 
-			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.textBox1.Location = new System.Drawing.Point(7, 46);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(575, 20);
-			this.textBox1.TabIndex = 0;
+			this.TB_UOPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.TB_UOPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.TB_UOPath.Location = new System.Drawing.Point(7, 46);
+			this.TB_UOPath.Name = "TB_UOPath";
+			this.TB_UOPath.Size = new System.Drawing.Size(575, 20);
+			this.TB_UOPath.TabIndex = 0;
 			// 
-			// button3
+			// BTN_OKAY
 			// 
-			this.button3.Location = new System.Drawing.Point(195, 357);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 23);
-			this.button3.TabIndex = 2;
-			this.button3.Text = "Okay";
-			this.button3.UseVisualStyleBackColor = true;
+			this.BTN_OKAY.Location = new System.Drawing.Point(195, 357);
+			this.BTN_OKAY.Name = "BTN_OKAY";
+			this.BTN_OKAY.Size = new System.Drawing.Size(75, 23);
+			this.BTN_OKAY.TabIndex = 2;
+			this.BTN_OKAY.Text = "Okay";
+			this.BTN_OKAY.UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// BTN_Cancel
 			// 
-			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button2.Location = new System.Drawing.Point(357, 357);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "Cancel";
-			this.button2.UseVisualStyleBackColor = true;
+			this.BTN_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.BTN_Cancel.Location = new System.Drawing.Point(357, 357);
+			this.BTN_Cancel.Name = "BTN_Cancel";
+			this.BTN_Cancel.Size = new System.Drawing.Size(75, 23);
+			this.BTN_Cancel.TabIndex = 1;
+			this.BTN_Cancel.Text = "Cancel";
+			this.BTN_Cancel.UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// BTN_Apply
 			// 
-			this.button1.Location = new System.Drawing.Point(276, 357);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Apply";
-			this.button1.UseVisualStyleBackColor = true;
+			this.BTN_Apply.Location = new System.Drawing.Point(276, 357);
+			this.BTN_Apply.Name = "BTN_Apply";
+			this.BTN_Apply.Size = new System.Drawing.Size(75, 23);
+			this.BTN_Apply.TabIndex = 0;
+			this.BTN_Apply.Text = "Apply";
+			this.BTN_Apply.UseVisualStyleBackColor = true;
 			// 
 			// ConfigurationForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.CancelButton = this.button2;
+			this.CancelButton = this.BTN_Cancel;
 			this.ClientSize = new System.Drawing.Size(634, 414);
 			this.Controls.Add(this.tabControl1);
 			this.ForeColor = System.Drawing.Color.Black;
@@ -343,27 +343,27 @@
 
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button BTN_OKAY;
+		private System.Windows.Forms.Button BTN_Cancel;
+		private System.Windows.Forms.Button BTN_Apply;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button button4;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Button BTN_BrowseUOPath;
+		private System.Windows.Forms.TextBox TB_UOPath;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button button5;
-		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.Button BTN_BrowsePOLPath;
+		private System.Windows.Forms.TextBox TB_POLPath;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Button button7;
-		private System.Windows.Forms.TextBox textBox4;
+		private System.Windows.Forms.Button BTN_BrowseUOCnvrtEXEPath;
+		private System.Windows.Forms.TextBox TB_UOCnvrtEXEPath;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button button6;
-		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.Button BTN_BrowsePOLEXEPath;
+		private System.Windows.Forms.TextBox TB_POLEXEPath;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Button button8;
-		private System.Windows.Forms.TextBox textBox5;
+		private System.Windows.Forms.Button BTN_BrowseEcompileEXEPath;
+		private System.Windows.Forms.TextBox TB_ECompileEXEPath;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label6;
 
