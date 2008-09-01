@@ -45,12 +45,12 @@ exported function NameColor(mobile, seen_by)
 		// Murderers are always criminals
 		// Criminals are not always murderers
 		color := GetConfigInt(g_name_colors, "Criminal");
+	elseif ( Guild_Ally(mobile, seen_by) )
+		color :=  GetConfigInt(g_name_colors, "GuildAlly");
+	elseif ( Guild_Enemy(mobile, seen_by) )
+		color := GetConfigInt(g_name_colors, "GuildEnemy");
 	elseif ( mobile.Enabled("invul") )
 		color := GetConfigInt(g_name_colors, "Invulnerable");
-	// elseif ( Guild ally )
-	//	return GetConfigInt(g_name_colors, "GuildAlly");
-	// elseif ( Guid enemy )
-	//	GetConfigInt(g_name_colors, "GuildEnemy");
 	else
 		color := GetConfigInt(g_name_colors, "Innocent");
 	endif
@@ -73,12 +73,12 @@ exported function HighLightColor(mobile, seen_by)
 		// Murderers are always criminals
 		// Criminals are not always murderers
 		color := GetConfigInt(g_name_colors, "CriminalHighLight");
+	elseif ( Guild_Ally(mobile, seen_by) )
+		color :=  GetConfigInt(g_name_colors, "GuildAllyHighLight");
+	elseif ( Guild_Enemy(mobile, seen_by) )
+		color := GetConfigInt(g_name_colors, "GuildEnemyHighLight");
 	elseif ( mobile.Enabled("invul") )
 		color := GetConfigInt(g_name_colors, "InvulnerableHighLight");
-	//elseif ( Guild ally )
-	//	return GetConfigInt(g_name_colors, "GuildAllyHighLight");
-	//elseif ( Guid enemy )
-	//	GetConfigInt(g_name_colors, "GuildEnemyHighLight");
 	else
 		color := GetConfigInt(g_name_colors, "InnocentHighLight");
 	endif
@@ -89,7 +89,6 @@ exported function HighLightColor(mobile, seen_by)
 
 	return CInt(color);
 endfunction
-
 
 exported function OnAttack(attacker, defender)
 	if ( attacker == defender )
@@ -154,4 +153,49 @@ exported function OnHelp(mobile, helped)
 	endif
 
 	return 1;
+endfunction
+
+function Guild_Ally(byref mobile, byref seen_by)
+	if ( !mobile.guild )
+		return 0;
+	endif
+	if ( !seen_by.guild )
+		return 0;
+	endif
+
+	if ( mobile.guildid == seen_by.guildid )
+		return 1;
+	endif
+
+	var mobile_guild := mobile.guild;
+	var seen_by_guild := seen_by.guild;
+
+	if ( mobile_guild.isallyguild(seen_by_guild) )
+		return 1;
+	endif
+	if ( seen_by_guild.isallyguild(mobile_guild) )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function Guild_Enemy(byref mobile, byref seen_by)
+	if ( !mobile.guild )
+		return 0;
+	endif
+	if ( !seen_by.guild )
+		return 0;
+	endif
+
+	var mobile_guild := mobile.guild;
+	var seen_by_guild := seen_by.guild;
+	if ( mobile_guild.isenemyguild(seen_by_guild) )
+		return 1;
+	endif
+	if ( seen_by_guild.isenemyguild(mobile_guild) )
+		return 1;
+	endif
+
+	return 0;
 endfunction
