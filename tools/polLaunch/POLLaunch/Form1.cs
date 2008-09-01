@@ -25,5 +25,11 @@ namespace POLLaunch
 			AboutForm tmp = new AboutForm();
 			tmp.ShowDialog(this);
 		}
+
+		private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ConfigurationForm tmp = new ConfigurationForm();
+			tmp.ShowDialog(this);
+		}
 	}
 }
