@@ -1,9 +1,0 @@
-E:\UOL\C#\POLLaunch\POLLaunch\bin\Release\POLLaunch.exe
-E:\UOL\C#\POLLaunch\POLLaunch\bin\Release\POLLaunch.pdb
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\ResolveAssemblyReference.cache
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.Form1.resources
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.Properties.Resources.resources
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.csproj.GenerateResource.Cache
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.exe
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.pdb
-E:\UOL\C#\POLLaunch\POLLaunch\obj\Release\POLLaunch.AboutForm.resources
