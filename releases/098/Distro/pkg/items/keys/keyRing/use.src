@@ -1,0 +1,48 @@
+/*
+ * $Id: use.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":keys:key";
+
+program UseKeyRing(who, keyring)
+	SendSysMessage(who, "What do you want to use that on?");
+	
+	var targ := Target(who);
+	if ( !targ.IsA(POLCLASS_ITEM) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	elseif ( targ == keyring )
+		RemoveKeys(who, keyring);
+		return 1;
+	elseif ( !KP_IsLockable(targ) )
+		SendSysMessage(who, "That is not lockable.");
+		return 0;
+	endif
+
+	if ( KP_HasKeyForLock(keyring, targ) )
+		KP_ToggleLock(targ, who);
+		return 1;
+	else
+		SendSysMessage(who, "You do not have a key for that lock.");
+		return 0;
+	endif
+endprogram
+
+function RemoveKeys(who, keyring)
+	var contents := EnumerateItemsInContainer(who.backpack);
+	if ( !(keyring in contents) )
+		SendSysMessage(who, "That keyring must be in your backpack to remove its keys.");
+		return 0;
+	endif
+	
+	foreach item in ( contents )
+		MoveItemToContainer(item, who.backpack);
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endfunction

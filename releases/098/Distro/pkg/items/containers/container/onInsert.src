@@ -1,0 +1,14 @@
+/* $Id: onInsert.src 812 2006-09-13 20:59:46Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+
+program onInsert(mobile, container, move_type, insert_type, adding_item, existing_stack, amount_to_add)
+	//To-do
+	//Play sound effect now that item is being added.
+
+	return 1;
+endprogram

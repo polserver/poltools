@@ -1,0 +1,15 @@
+/* $Id: method.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+ 
+use uo;
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsReagent(item)
+	item := item; // Avoid compiler warnings.
+	
+	return 1;
+endfunction

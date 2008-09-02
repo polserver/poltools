@@ -1,0 +1,11 @@
+/* $Id: cartography.src 999 2007-01-23 13:01:06Z sroyalty $
+ *
+ */
+use uo;
+
+program skill_Cartography(who)
+
+	SendSysMessage(who, "You must use a mapmaker's pen to make maps.");
+	return 1;
+
+endprogram

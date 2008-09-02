@@ -1,0 +1,13 @@
+/* $Id: ondelete.src 445 2006-06-25 05:44:27Z austinheilman $
+ *
+ */
+use datafile;
+
+include ":datafile:datafile";
+
+program onDelete(who)
+	var data_file := DFOpenDataFile(":control:usrsettings", DF_CREATE);
+	data_file.DeleteElement(Hex(who.serial));
+
+	return 1;
+endprogram

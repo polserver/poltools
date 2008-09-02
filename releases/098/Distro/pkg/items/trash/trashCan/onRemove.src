@@ -1,0 +1,16 @@
+/* $Id: onRemove.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program onRemove(who, backpack, item, movetype)
+
+	movetype := movetype;
+	backpack := backpack;
+	who := who;
+	EraseObjProperty(item, "#DestroyAt");
+
+	return 1;
+endprogram

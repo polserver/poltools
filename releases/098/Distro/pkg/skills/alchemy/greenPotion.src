@@ -1,0 +1,40 @@
+// $Id: greenPotion.src 1059 2007-05-11 15:34:30Z tekproxy $
+
+use cfgfile;
+
+include ":alchemy:drinkPotion";
+include ":timedscripts:timedScripts";
+
+program use_greenpotion(who, potion)
+	if ( (!potion.movable) || !ReserveItem(potion) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif ( !(potion in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	if ( !CheckToDrink(who, "#green_potion") )
+		return 0;
+	endif
+
+	do_poison(who, potion);
+endprogram
+
+function do_poison(who, potion)
+	var item_config := ReadConfigFile(":alchemy:itemdesc");
+	var config_elem := FindConfigElem(item_config, potion.objtype);
+	var strength := GetConfigInt(config_elem, "strength");
+
+	empty_bottle(who, potion);
+	PrintTextAbovePrivate(who, "You have been poisoned!", who);
+
+	if ( who.cmdlevel > 1 )
+		return 0;
+	endif
+	
+	TS_StartTimer(who, "defaultPoison", 120, strength, who);
+endfunction

@@ -1,0 +1,8 @@
+use os;
+
+var script := Start_Script("treeRegen/control");
+if ( script.errortext )
+	SysLog("Error starting tree regen ->"+script.errortext);
+else
+	Print("Starting tree regeneration controller... OK.");
+endif

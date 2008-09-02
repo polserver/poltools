@@ -1,0 +1,13 @@
+/* $Id: sfx.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+ 
+use uo;
+
+program command_Sfx(who, sound)
+	sound := CInt(sound);
+	
+	PlaySoundEffect(who, sound);
+	
+	return 1;
+endprogram

@@ -1,0 +1,38 @@
+/* $Id: justWander.src 502 2006-06-29 15:07:25Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+use util;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcSounds";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	//var settings	:= params[3];
+	//var scripts	:= params[4];
+	params := 0; // Not needed anymore.
+
+	// Shut down appropriate nerves.
+	foreach nerve in ( LoadNerves(npc) )
+		if ( nerve.flags & NF_CONTINUE_ON_SLEEP )
+			continue;
+		elseif ( _nerve_iter != nerve_name )
+			StopNerve(npc, _nerve_iter);
+		endif
+		SleepMS(2);
+	endforeach
+
+	while ( npc )
+		npc.facing := RandomInt(8);
+		AI_Wander(npc, NOWAKE);
+
+		AI_ClearThoughts(npc, CLR_NERVE);
+
+		Sleep(30+RandomInt(10));
+	endwhile
+endprogram
