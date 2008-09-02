@@ -1,0 +1,7 @@
+Account
+{
+	Name	admin
+	Password	admin
+	Enabled	1
+	Banned	0
+}
