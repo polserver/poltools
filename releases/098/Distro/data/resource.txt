@@ -1,0 +1,3 @@
+#
+#  RESOURCE.TXT: Resource System Data
+#
