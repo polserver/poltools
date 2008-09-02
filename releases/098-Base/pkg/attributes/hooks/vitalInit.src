@@ -1,0 +1,28 @@
+program Install()
+	print("INSTALLING: Exported Vital - RegenRate and MaxValue functions ...");
+	return 1;
+endprogram
+
+exported function GetLifeRegenRate(mobile)
+	return 100;
+endfunction
+
+exported function GetLifeMaximumValue(mobile)
+	return 100;
+endfunction
+
+exported function GetManaRegenRate(mobile)
+	return 100;
+endfunction
+
+exported function GetManaMaximumValue(mobile)
+	return 100;
+endfunction
+
+exported function GetStaminaRegenRate(mobile)
+	return 100;
+endfunction
+
+exported function GetStaminaMaximumValue(mobile)
+	return 100;
+endfunction
