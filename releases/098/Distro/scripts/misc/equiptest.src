@@ -1,0 +1,38 @@
+use uo;
+use os;
+
+include "include/equipment";
+
+program EquipTest(mobile, item, start_up)
+	var retval;
+
+	if ( start_up )
+		// POL is starting up, yes the mobile can equip it
+		retval := 1;
+	elseif ( mobile.npctemplate )
+		// NPCs can wear anything
+		retval := 1;
+	elseif ( mobile.cmdlevel >= 2 )
+		// CmdLevel >= 2 can equip anything.
+		retval := 1;
+	elseif ( item.IsA(POLCLASS_CONTAINER) )
+		// Makes backpacks always equippable.
+		retval := 1;
+	elseif ( (mobile.frozen) || (mobile.paralyzed) )
+		// Frozen players cant equip stuff
+		SendSysMessage(mobile, "You are unable to move in order to equip that.");
+		retval := 0;
+	else
+		retval := 1;
+	endif
+
+	if ( retval )
+		SetObjProperty(item, "#EquippedOn", mobile.serial);
+		ApplyEquipmentMods(mobile, item);
+	else
+		// Unable to equip but no reaso was given above.
+		SendSysMessage(mobile, "Unable to equip ->"+item.desc);
+	endif
+
+	return retval;
+endprogram

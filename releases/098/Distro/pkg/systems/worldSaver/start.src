@@ -1,0 +1,12 @@
+/* $Id: start.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+
+use os;
+
+var script := Start_Script("worldSaver");
+if ( script.errortext )
+	SysLog("Error starting world saver ->"+script.errortext);
+else
+	Print("Starting world saver... OK.");
+endif

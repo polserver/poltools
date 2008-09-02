@@ -1,0 +1,25 @@
+// $Id: meditation.src 1054 2007-04-28 13:30:16Z tekproxy $
+
+// http://uo.stratics.com/content/guides/medguide.shtml
+
+include ":meditation:functions";
+include ":attributes:attributes";
+
+program skill_Meditation(mobile)
+	// TODO: Difficulty is influenced by type of armor you wear. Leather is easiest.
+	var difficulty := 15;
+	
+	if ( AP_GetVital(mobile, "Mana") >= AP_GetVitalMaximumValue(mobile, "Mana") )
+		SendSysMessage(mobile, "You are at peace.");
+		return 0;
+	elseif ( SkillCheck(mobile, MEDITATION, difficulty) == 0 );
+		SendSysMessage(mobile, "You cannot focus your concentration.");
+		return 0;
+	elseif ( GetManaLoss(mobile) == "nomed" )			
+		SendSysMessage(mobile, "Regenerative forces cannot penetrate your armor.");
+		return 0;
+	else
+		StartMeditating(mobile);
+		return 1;
+	endif
+endprogram

@@ -1,0 +1,103 @@
+/* $Id: players.src 539 2006-07-03 21:18:36Z austinheilman $
+ *
+ */
+
+use uo;
+
+include "include/uo_extend";
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+// Button Ranges
+CONST SUMMON_START	:= 0xA000;
+CONST GOTO_START	:= 0xF000;
+
+program textcmd_Players(who, text)
+	var online_list := EnumerateOnlineCharactersABC(SORT_ASCENDING, who.cmdlevel);
+	var input;
+
+	if ( text )
+		input := ParseText(text, online_list);
+	else
+		input := PlayerListGump(who, online_list);
+	endif
+
+	if ( !input )
+		SendSysMessage(who, "Cancelled");
+		return 0;
+	elseif ( input >= GOTO_START )
+		input := input-GOTO_START;
+		var player := online_list[input];
+		SendSysMessage(who, "Going to "+player.name);
+		var result := MoveObjectToLocation(who, player.x, player.y, player.z, player.realm, MOVEOBJECT_FORCELOCATION);
+		if ( result.errortext )
+			SendSysMessage(who, "Error going to player: "+result.errortext);
+		endif
+		return 1;
+	elseif ( input >= SUMMON_START )
+		input := input-SUMMON_START;
+		var player := online_list[input];
+		SendSysMessage(who, "Summoning player "+player.name);
+		var result := MoveObjectToLocation(player, who.x, who.y, who.z, who.realm, MOVEOBJECT_FORCELOCATION);
+		if ( result.errortext )
+			SendSysMessage(who, "Error moving player: "+result.errortext);
+		endif
+		return 1;
+	endif
+endprogram
+
+function ParseText(text, byref online_list)
+	text := SplitWords(text);
+	var type := Lower(text[1]); // "summon" "goto"
+	var name := Lower(text[2]);
+
+	foreach player in ( online_list )
+		if ( Lower(player.name) == name )
+			if ( type == "summon" )
+				return SUMMON_START+_player_iter;
+			else
+				return GOTO_START+_player_iter;
+			endif
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 0;
+endfunction
+
+function PlayerListGump(who, byref online_list)
+	var gump := GFCreateGump();
+	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 420, 480);
+	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 240, 450);
+	GFResizePic(gump, 260, 15, GFGetCfgConst("Defaults", "ForeGround"), 145, 450);
+
+	GFTextMid(gump, 25, 25, 230, 2100, "Player Name");
+	GFTextLine(gump, 270, 25, 2100, "Summon");
+	GFTextLine(gump, 350, 25, 2100, "Goto");
+
+
+	var counter := 0;
+	var y_pos := 50;
+
+	GFPage(gump, 1);
+
+	foreach player in ( online_list )
+		GFTextLine(gump, 25, y_pos, 2100, player.name);
+		GFAddButton(gump, 290, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+SUMMON_START);
+		GFAddButton(gump, 360, y_pos+3, 2117, 2118, GF_CLOSE_BTN, _player_iter+GOTO_START);
+
+		counter += 1;
+		y_pos += 20;
+
+		if ( counter >= 20 && _player_iter < online_list.Size() )
+			GFAddButton(gump, 390, 435, 2706, 2707, GF_PAGE_BTN, gump.cur_page+1);
+			GFPage(gump, gump.cur_page+1);
+			GFAddButton(gump, 390, 25, 2704, 2705, GF_PAGE_BTN, gump.cur_page-1);
+			counter := 0;
+			y_pos := 50;
+		endif
+	endforeach
+
+	var input := GFSendGump(who, gump);
+	return input[0];
+endfunction

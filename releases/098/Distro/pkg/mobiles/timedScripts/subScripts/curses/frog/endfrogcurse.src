@@ -1,0 +1,15 @@
+/* $Id: endfrogcurse.src 627 2006-07-11 10:30:20Z austinheilman $
+ *
+ */
+
+use uo;
+
+program EndFrogCurse(params)
+	var who := params[1];
+
+	PlaySoundEffect(who, 0x246);
+
+	who.graphic := who.trueobjtype;
+
+	return 1;
+endprogram

@@ -1,0 +1,68 @@
+/* $Id: spawnCycle.src 1194 2008-02-09 03:52:05Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:regions";
+include ":spawnsystem:spawnerUtil";
+include ":spawnsystem:report";
+
+program SpawnCycle(params)
+	//var engine_name	:= params[1];
+	var realm_name	:= params[2];
+	var region_name	:= params[3];
+	var group_name	:= params[4];
+	params := 0; // Not needed anymore.
+
+	ValidateSpawns(region_name, group_name);
+
+	var coords := SS_GetRegionCoordinates(region_name);
+	var group_entries := SS_GetEntriesInGroup(group_name).Keys();
+	var num_entries := group_entries.Size();
+	var group_settings := SS_GetGroupInRegion(region_name, group_name);
+
+	var max_amt := CInt(group_settings.max_amt);
+	var cur_amount := CInt(SS_GetSpawnsInRegionGroup(region_name, group_name).Size());
+
+	for ( cur_amount; cur_amount<=max_amt; cur_amount+=1 )
+		var spawn_coords := SS_SelectCoordsInArea(coords.x1, coords.y1, coords.x2, coords.y2);
+		var z_pos := CInt(GetWorldHeight(spawn_coords.x, spawn_coords.y, realm_name));
+		var spawn_object := group_entries[RandomInt(num_entries)+1];
+		
+		var created := 0, i := 0;
+		for ( i := 0; i <= 5; i+=1 )
+			// Try up to 5 times to create the NPC (helps with invalid spawn coordinates)
+			created := CreateNPCFromTemplate(spawn_object, spawn_coords.x, spawn_coords.y, z_pos, 0, realm_name);
+			if ( created )
+				SS_AddSpawnToRegion(region_name, group_name, created);
+				break;
+			endif
+			SleepMS(2);
+		endfor
+		if ( created.errortext )
+			SS_ReportText("Error: Unable to create ("+spawn_object+") for group ("+group_name+") in region ("+region_name+"). ->"+created.errortext, SPAWN_REPORT_SYSLOG);
+		endif
+		
+		SleepMS(2);
+	endfor
+
+	SS_ReportText("Completed spawning of group ("+group_name+") in region ("+region_name+").", SPAWN_REPORT_SYSLOG);
+
+	return 1;
+endprogram
+
+function ValidateSpawns(region_name, group_name)
+	var spawns := SS_GetSpawnsInRegionGroup(region_name, group_name);
+	foreach serial in ( spawns.Keys() )
+		var object := SystemFindObjectBySerial(serial);
+		if ( !object.IsA(POLCLASS_NPC) )
+			SS_RemoveSpawnFromRegion(region_name, group_name, serial);
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction

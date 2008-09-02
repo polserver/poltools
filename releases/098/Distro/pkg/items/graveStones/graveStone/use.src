@@ -1,0 +1,30 @@
+/* $Id: use.src 1032 2007-04-05 08:49:29Z sroyalty $
+ *
+ */
+
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+
+program Usegstone(mobile, gstone)
+	var gump := GFCreateGump();
+	GFGumpPic(gump, 0, 0, gstone.GetGumpPic());
+
+	var text := GFWordWrap(gstone.GetText(), 100);
+	var text_color := gstone.GetTextColor();
+	var text_pos := gstone.GetTextPosition(); // Array of X/Y position for gump.
+	var x_pos := CInt(text_pos[1]);
+	var y_pos := CInt(text_pos[2]);
+	var width := CInt(text_pos[3]);
+
+	foreach line in ( text )
+		GFTextMid(gump, x_pos, y_pos, width, text_color, CStr(line));
+		y_pos += 20;
+		SleepMS(2);
+	endforeach
+
+	GFSendGump(mobile, gump);
+
+	return 1;
+endprogram

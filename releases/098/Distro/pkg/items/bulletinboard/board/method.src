@@ -1,0 +1,87 @@
+/* $Id: method.src 807 2006-09-13 10:47:44Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+include ":datafile:datafile";
+
+program Install()
+	return 1;
+endprogram
+
+exported function IsBulletinBoard(board)
+	return 1;
+endfunction
+
+exported function AddPost(board, subject, message, poster)
+	var post := struct;
+	post.+subject := subject;
+	post.+message := message;
+	post.+time := POLCore().systime;
+
+	// Stores extra author info incase someone makes an offensive
+	// post, then deletes the character to hide his/her tracks.
+	post.+author := struct;
+	post.author.+name := poster.name;
+	post.author.+serial := poster.serial;
+	post.author.+acctname := poster.acctname;
+
+	var data_elem := GetDataElem(Hex(board.serial));
+	var next_id := GetNextPostId(board);
+	data_elem.SetProp(Hex(next_id), post);
+	SetNextPostId(board, next_id+1);
+
+	return 1;
+endfunction
+
+exported function GetPost(board, post_id)
+	var data_elem := GetDataElem(Hex(board.serial));
+
+	return data_elem.GetProp(Hex(CInt(post_id)));
+endfunction
+
+exported function DeletePost(board, post_id)
+	var data_elem := GetDataElem(Hex(board.serial));
+
+	return data_elem.EraseProp(Hex(CInt(post_id)));
+endfunction
+
+exported function GetBoardPosts(board)
+	var data_elem := GetDataElem(Hex(board.serial));
+
+	return data_elem.PropNames();
+endfunction
+
+exported function GetNextPostId(board)
+	var data_elem := GetDataElem("NextPost");
+
+	return CInt(data_elem.GetProp(Hex(board.serial)));
+endfunction
+
+exported function SetNextPostId(board, next_id)
+	var data_elem := GetDataElem("NextPost");
+
+	return data_elem.SetProp(Hex(board.serial), CInt(next_id));
+endfunction
+
+exported function CleanUpData(board)
+	var data_file := GetDataFile();
+	data_file.DeleteElement(Hex(board.serial));
+	var data_elem := GetDataElem("NextPost");
+	data_elem.EraseProp(Hex(board.serial));
+
+	return 1;
+endfunction
+
+function GetDataFile()
+	return DFOpenDatafile(":bulletinboard:bulletinboard", DF_CREATE);
+endfunction
+
+function GetDataElem(elem_name)
+	var data_file := GetDataFile();
+	var data_elem := DFFindElement(data_file, elem_name, DF_CREATE);
+
+	return data_elem;
+endfunction

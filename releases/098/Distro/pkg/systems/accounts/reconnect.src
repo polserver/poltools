@@ -1,0 +1,16 @@
+/*
+ * $Id: reconnect.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+ 
+use uo;
+use os;
+
+include ":accounts:accounts";
+
+
+program Logon(who)
+	ACCT_SetLastLogin(who.acct);
+
+	return 1;
+endprogram

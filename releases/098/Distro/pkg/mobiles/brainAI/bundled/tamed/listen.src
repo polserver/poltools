@@ -1,0 +1,50 @@
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":containers:storageAreas";
+include ":containers:containers";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					if ( event.source == npc.master )
+						SpeechEvent(npc, event);
+					endif
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(100000);
+	endwhile
+
+	return 1;
+endprogram
+
+function SpeechEvent(npc, byref event)
+	var text := Lower(event.text);
+	var source := event.source;
+
+	// Process speech commands
+
+	// Forward combat to combat nerves / AI_ATTACK()
+	// Forward most other things to a virtual nerve?
+
+	return 1;
+endfunction

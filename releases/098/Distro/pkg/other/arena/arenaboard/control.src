@@ -1,0 +1,10 @@
+/* $Id: control.src 868 2006-10-04 08:21:24Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(board)
+	return 1;
+endprogram

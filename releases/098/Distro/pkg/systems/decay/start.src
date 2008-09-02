@@ -1,0 +1,12 @@
+/* $Id: start.src 783 2006-08-31 10:08:57Z austinheilman $
+ *
+ */
+
+use os;
+
+var script := Start_Script("initRealmDecay");
+if ( script.errortext )
+	SysLog("Error starting decay cycler initializer ->"+script.errortext);
+else
+	Print("Starting decay cycle initializer... OK.");
+endif
