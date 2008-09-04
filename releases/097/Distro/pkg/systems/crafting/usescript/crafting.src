@@ -1,0 +1,46 @@
+/* $Id$ */
+
+use uo;
+use os;
+use cfgfile;
+
+include ":attributes:attributes";
+
+program crafting(mobile, tool)
+	return 1;
+endprogram
+
+function ToolOnMaterial()
+	return 0;
+endfunction
+
+function DoMenuStuff()
+	return 1;
+endfunction
+
+function InternalMenuSystem()
+	return 1;
+endfunction
+
+function CheckMaterials()
+	return 1;
+endfunction
+
+function ConsumeMaterials()
+	return 1;
+endfunction
+
+function DoSkillCheck()
+	return 1;
+endfunction
+
+function InternalSkillCheck()
+	return 1;
+endfunction
+
+function CreateItem()
+	return 1;
+endfunction
+
+
+
