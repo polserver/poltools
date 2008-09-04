@@ -3,7 +3,7 @@
 include ":itemutils:itemdesc";
 
 var craft_gumps := DFOpenDataFile(":crafting:CraftGumps", DF_CREATE);
-var menu_config := ReadConfigFile( ":crafting:craftConfig" );
+var menu_config := ReadConfigFile( ":crafting:old/config/craftConfig" );
 var arinfo   := array;
 var arcnt    := 61500;
 var craft_settings;

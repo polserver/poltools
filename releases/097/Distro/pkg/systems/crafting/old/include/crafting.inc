@@ -48,7 +48,7 @@ include ":crafting:old/include/craftingSkill";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
-var resource_config := ReadConfigFile(":crafting:resourceList");
+var resource_config := ReadConfigFile(":crafting:old/config/resourceList");
 
 var craft_skill;
 var display_skill;
