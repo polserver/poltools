@@ -17,38 +17,54 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
+	var material_uses_cfg := GetToolOnMaterialUses(tool, targ);
+	if ( !material_uses_cfg )
+		SendSysMessage(mobile, "You can't make anything with this material.");
+		return 0;
+	endif
+	
+	//This is done so we dont lose these values if the material_used is totally consumed.
+	var material		:= struct;
+	material.+graphic	:= targ.graphic;
+	material.+color		:= targ.color;
+	material.+objtype	:= targ.objtype;
+	material.+amount	:= targ.amount;
+	material.+serial	:= targ.serial;
+	
 endprogram
 
-//
-// Returns 0 on failure.
-// Returns a cfg elem on success dictating what can be made.
-// 
 function CanUseToolOnMaterial(mobile, tool, targ)
 	if ( !(targ in EnumerateItemsInContainer(mobile.backpack) ) )
 		SendSysMessage(mobile, "You can only use materials in your backpack.");
 		return 0;
-	endif
+	endif	
 	
+	return 1;
+endfunction
+
+//
+// Returns 0 on failure.
+// Returns a cfg elem on success dictating what can be made.
+//
+function GetToolOnMaterialUses(tool, material)
 	// Tool=0x1234&Material=0x5678
 	// {
 	//	SubMenu ... (another menu of stuff to make)
 	//	Entry	objtype	desc
 	// }
-	var tool_on_material_objtype := CStr("Tool=" + hex(tool.objtype) + "&Material=" + hex(targ.objtype));
-	var tool_on_material_graphic := CStr("Tool=" + hex(tool.objtype) + "&Material=" + hex(targ.graphic));
+	var tool_on_material_objtype := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.objtype));
+	var tool_on_material_graphic := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.graphic));
 	var cfg := ReadConfigFile(":*:toolOnMaterial");
 	var elem := cfg[tool_on_material_objtype];
 	if ( !elem )
 		elem := cfg[tool_on_material_graphic];
 		if ( !elem )
-			SendSysMessage(mobile, "You cant make anything with this material.");
 			return 0;
 		endif
 	endif
-	
+
 	return elem;
 endfunction
-
 
 function ToolOnMaterial()
 	return 0;
