@@ -7,8 +7,8 @@ use util;
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
-include ":crafting:crafting";
-include ":crafting:toolWear";
+include ":crafting:old/include/crafting";
+include ":crafting:old/include/toolWear";
 
 var scissors_config := ReadConfigFile(":tailoring:scissors");
 var craft_config    := ReadConfigFile(":tailoring:tailoring");
