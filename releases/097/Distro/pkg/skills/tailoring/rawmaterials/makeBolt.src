@@ -7,7 +7,7 @@ use util;
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
-include ":crafting:toolWear";
+include ":crafting:old/include/toolWear";
 
 CONST UOBJ_LOOM_START		:= 0x105f;
 CONST UOBJ_LOOM_END			:= 0x1066;

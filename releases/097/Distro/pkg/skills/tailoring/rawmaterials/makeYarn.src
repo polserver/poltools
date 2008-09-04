@@ -7,7 +7,7 @@ use util;
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
-include ":crafting:toolWear";
+include ":crafting:old/include/toolWear";
 
 CONST UOBJ_WHEEL_START	:= 0x1015;
 CONST UOBJ_WHEEL_END		:= 0x101e;

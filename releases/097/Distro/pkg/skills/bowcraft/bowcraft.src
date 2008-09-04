@@ -6,9 +6,9 @@ use util;
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
-include ":crafting:crafting";
-include ":crafting:craftingRepair";
-include ":crafting:toolWear";
+include ":crafting:old/include/crafting";
+include ":crafting:old/include/craftingRepair";
+include ":crafting:old/include/toolWear";
 
 var item_config  := ReadConfigFile(":*:itemdesc");
 var craft_config := ReadConfigFile(":bowcraft:bowcraft");

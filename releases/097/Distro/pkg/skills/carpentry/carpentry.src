@@ -9,9 +9,9 @@ include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
 include ":containers:containers";
-include ":crafting:crafting";
-include ":crafting:craftingRepair";
-include ":crafting:toolWear";
+include ":crafting:old/include/crafting";
+include ":crafting:old/include/craftingRepair";
+include ":crafting:old/include/toolWear";
 
 CONST CARP_WOOD_SOUND := 0x23e;
 
