@@ -43,8 +43,8 @@ use datafile;
 include ":attributes:attributes";
 include ":datafile:datafile";
 include ":keys:key";
-include ":crafting:craftGumps";
-include ":crafting:craftingSkill";
+include ":crafting:old/include/craftGumps";
+include ":crafting:old/include/craftingSkill";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
