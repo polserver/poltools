@@ -17,9 +17,9 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
-	var material_uses_cfg := GetToolOnMaterialUses(tool, targ);
-	if ( !material_uses_cfg )
-		SendSysMessage(mobile, "You can't make anything with this material.");
+	var material_uses_elem := GetToolOnMaterialUses(tool, targ);
+	if ( !material_uses_elem )
+		SendSysMessage(mobile, "You can't make anything with that tool on this material.");
 		return 0;
 	endif
 	
@@ -31,6 +31,7 @@ program crafting(mobile, tool)
 	material.+amount	:= targ.amount;
 	material.+serial	:= targ.serial;
 	
+	var create := SelectCraftable(mobile, tool, material_uses_elem);
 endprogram
 
 function CanUseToolOnMaterial(mobile, tool, targ)
@@ -66,11 +67,11 @@ function GetToolOnMaterialUses(tool, material)
 	return elem;
 endfunction
 
-function ToolOnMaterial()
-	return 0;
-endfunction
-
-function DoMenuStuff()
+function SelectCraftable(mobile, tool, material_uses_elem)
+	if ( material_uses_elem.SelectScript )
+		return Run_Script(material_uses_elem.SelectScript, array{mobile, material_uses_elem});
+	endif
+	
 	return 1;
 endfunction
 
