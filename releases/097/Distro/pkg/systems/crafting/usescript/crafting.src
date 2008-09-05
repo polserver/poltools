@@ -49,9 +49,13 @@ function SelectCraftable(mobile, tool, material_uses_elem, byref material)
 		return Run_Script(material_uses_elem.SelectScript, array{mobile, material_uses_elem});
 	endif
 	
+	var cur_menu_elem := material_uses_elem;
+	var history := array{cur_menu_elem};
+	var depth := 1;
 	while ( mobile.connected )
-		
+		ShowCraftablesMenu(mobile, cur_menu_elem, depth, material.color);
 	endwhile
+	
 	return 1;
 endfunction
 
