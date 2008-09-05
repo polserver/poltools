@@ -6,6 +6,7 @@ use cfgfile;
 
 include ":attributes:attributes";
 include ":containers:containers";
+include ":crafting:crafting";
 
 program crafting(mobile, tool)
 	SendSysMessage(mobile, "Select a material to work with.");
@@ -31,7 +32,7 @@ program crafting(mobile, tool)
 	material.+amount	:= targ.amount;
 	material.+serial	:= targ.serial;
 	
-	var create := SelectCraftable(mobile, tool, material_uses_elem);
+	var create := SelectCraftable(mobile, tool, material_uses_elem, material);
 endprogram
 
 function CanUseToolOnMaterial(mobile, tool, targ)
@@ -43,37 +44,17 @@ function CanUseToolOnMaterial(mobile, tool, targ)
 	return 1;
 endfunction
 
-//
-// Returns 0 on failure.
-// Returns a cfg elem on success dictating what can be made.
-//
-function GetToolOnMaterialUses(tool, material)
-	// Tool=0x1234&Material=0x5678
-	// {
-	//	SubMenu ... (another menu of stuff to make)
-	//	Entry	objtype	desc
-	// }
-	var tool_on_material_objtype := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.objtype));
-	var tool_on_material_graphic := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.graphic));
-	var cfg := ReadConfigFile(":*:toolOnMaterial");
-	var elem := cfg[tool_on_material_objtype];
-	if ( !elem )
-		elem := cfg[tool_on_material_graphic];
-		if ( !elem )
-			return 0;
-		endif
-	endif
-
-	return elem;
-endfunction
-
-function SelectCraftable(mobile, tool, material_uses_elem)
+function SelectCraftable(mobile, tool, material_uses_elem, byref material)
 	if ( material_uses_elem.SelectScript )
 		return Run_Script(material_uses_elem.SelectScript, array{mobile, material_uses_elem});
 	endif
 	
+	while ( mobile.connected )
+		
+	endwhile
 	return 1;
 endfunction
+
 
 function InternalMenuSystem()
 	return 1;
