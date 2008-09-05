@@ -339,6 +339,7 @@ RunAwayFrom
 RunAwayFromLocation
 RunToward
 RunTowardLocation
+Run_Script
 Run_Script_To_Completion
 SaveWorldState
 Say
@@ -507,6 +508,7 @@ WriteHTMLRaw
 .iostats
 .ip
 .isopen
+.isstackable
 .isUOKR
 .item
 .item_count
@@ -526,6 +528,7 @@ WriteHTMLRaw
 .mobilecount
 .mobiles
 .movable
+.movemode
 .multi
 .murderer
 .name
