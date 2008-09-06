@@ -26,12 +26,20 @@ function GetInitialMenu(tool, material)
 	var search;
 	var cfg_elem;
 	var cfg_file := ReadConfigFile(":*:toolOnMaterial");
+	if ( cfg_file.errortext )
+		SysLog("GetInitialMenu() - Could not open :*:toolOnMaterial - "+cfg_file.errortext);
+		return 0;
+	endif
 	var menu_cfg := ReadConfigFile(":*:craftMenus");
+	if ( menu_cfg.errortext )
+		SysLog("GetInitialMenu() - Could not open :*:craftMenus - "+menu_cfg.errortext);
+		return 0;
+	endif
 	
 	if ( tool.IsA(POLCLASS_ITEM) )
-		search := Lower("Tool=" + Hex(tool.objtype));
+		search := "Tool=" + Hex(tool.objtype);
 	else
-		search := Lower("Tool=" + Hex(CInt(tool)));
+		search := "Tool=" + Hex(CInt(tool));
 	endif
 	search += "&Material=";
 	
@@ -39,14 +47,16 @@ function GetInitialMenu(tool, material)
 		cfg_elem := cfg_file[search+Hex(material.objtype)];
 		if ( cfg_elem )
 			return menu_cfg[cfg_elem.ShowMenu];
+		else
+			material := material.graphic;
 		endif
-	else
-		cfg_elem := cfg_file[search+Hex(CInt(material))];
-		if ( cfg_elem )
-			return menu_cfg[cfg_elem.ShowMenu];
-		endif
-	endif
+	endif 
 	
+	cfg_elem := cfg_file[search+Hex(CInt(material))];
+	if ( cfg_elem )
+		return menu_cfg[cfg_elem.ShowMenu];
+	endif
+		
 	return 0;
 endfunction
 

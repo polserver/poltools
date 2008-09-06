@@ -18,8 +18,8 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
-	var start_elem := GetToolOnMaterialUses(tool, targ);
-	if ( !material_uses_elem )
+	var start_menu_elem := GetInitialMenu(tool, targ);
+	if ( !start_menu_elem )
 		SendSysMessage(mobile, "You can't make anything with that tool on this material.");
 		return 0;
 	endif
@@ -32,7 +32,7 @@ program crafting(mobile, tool)
 	material.+amount	:= targ.amount;
 	material.+serial	:= targ.serial;
 	
-	var create := SelectCraftable(mobile, tool, material_uses_elem, material);
+	var create := SelectCraftable(mobile, tool, start_menu_elem, material);
 endprogram
 
 function CanUseToolOnMaterial(mobile, tool, targ)
@@ -44,12 +44,12 @@ function CanUseToolOnMaterial(mobile, tool, targ)
 	return 1;
 endfunction
 
-function SelectCraftable(mobile, tool, material_uses_elem, byref material)
-	if ( material_uses_elem.SelectScript )
-		return Run_Script(material_uses_elem.SelectScript, array{mobile, material_uses_elem});
+function SelectCraftable(mobile, tool, start_menu_elem, byref material)
+	if ( start_menu_elem.SelectScript )
+		return Run_Script(start_menu_elem.SelectScript, array{mobile, start_menu_elem});
 	endif
 	
-	var cur_menu_elem := material_uses_elem;
+	var cur_menu_elem := start_menu_elem;
 	var history := array{cur_menu_elem};
 	var depth := 1;
 	while ( mobile.connected )
