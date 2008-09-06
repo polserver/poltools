@@ -18,8 +18,8 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
-	var start_menu_elem := GetInitialMenu(tool, targ);
-	if ( !start_menu_elem )
+	var start_menu_name := GetInitialMenuName(tool, targ);
+	if ( !start_menu_name )
 		SendSysMessage(mobile, "You can't make anything with that tool on this material.");
 		return 0;
 	endif
@@ -32,7 +32,7 @@ program crafting(mobile, tool)
 	material.+amount	:= targ.amount;
 	material.+serial	:= targ.serial;
 	
-	var create := SelectCraftable(mobile, tool, start_menu_elem, material);
+	var create := SelectCraftable(mobile, tool, start_menu_name, material);
 endprogram
 
 function CanUseToolOnMaterial(mobile, tool, targ)
@@ -44,19 +44,32 @@ function CanUseToolOnMaterial(mobile, tool, targ)
 	return 1;
 endfunction
 
-function SelectCraftable(mobile, tool, start_menu_elem, byref material)
-	if ( start_menu_elem.SelectScript )
-		return Run_Script(start_menu_elem.SelectScript, array{mobile, start_menu_elem});
-	endif
-	
-	var cur_menu_elem := start_menu_elem;
+function SelectCraftable(mobile, tool, start_menu_name, byref material)
+	var menus_cfg := ReadConfigFile(":*:craftMenus");
+	var cur_menu_elem := menus_cfg[start_menu_name];
+			
 	var history := array{cur_menu_elem};
 	var depth := 1;
 	while ( mobile.connected )
-		ShowCraftablesMenu(mobile, cur_menu_elem, depth, material.color);
+		var input := ShowCraftablesMenu(mobile, cur_menu_elem, depth, material.color);
+		if ( input.SubMenu == -1 )
+			cur_menu_elem := history[depth];
+			depth := depth-1;
+			history.Shrink(depth);
+		elseif ( input.SubMenu )
+			depth += 1;
+			history[depth] := cur_menu_elem;
+			cur_menu_elem := menus_cfg[input.SubMenu];
+			if ( !cur_menu_elem )
+				SendSysMessage(mobile, "Cancelled: Menu [" + input.SubMenu + "] does not exist.");
+				return 0;
+			endif
+		else
+			break;
+		endif
 	endwhile
 	
-	return 1;
+	return 0;
 endfunction
 
 

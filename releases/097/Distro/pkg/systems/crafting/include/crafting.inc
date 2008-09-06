@@ -22,7 +22,7 @@ include ":itemUtils:itemdesc";
  * Returns 0 if nothing can be crafted with the combination used.
  *
  */
-function GetInitialMenu(tool, material)
+function GetInitialMenuName(tool, material)
 	var search;
 	var cfg_elem;
 	var cfg_file := ReadConfigFile(":*:toolOnMaterial");
@@ -30,12 +30,7 @@ function GetInitialMenu(tool, material)
 		SysLog("GetInitialMenu() - Could not open :*:toolOnMaterial - "+cfg_file.errortext);
 		return 0;
 	endif
-	var menu_cfg := ReadConfigFile(":*:craftMenus");
-	if ( menu_cfg.errortext )
-		SysLog("GetInitialMenu() - Could not open :*:craftMenus - "+menu_cfg.errortext);
-		return 0;
-	endif
-	
+		
 	if ( tool.IsA(POLCLASS_ITEM) )
 		search := "Tool=" + Hex(tool.objtype);
 	else
@@ -46,7 +41,7 @@ function GetInitialMenu(tool, material)
 	if ( material.IsA(POLCLASS_ITEM) )
 		cfg_elem := cfg_file[search+Hex(material.objtype)];
 		if ( cfg_elem )
-			return menu_cfg[cfg_elem.ShowMenu];
+			return cfg_elem.ShowMenu;
 		else
 			material := material.graphic;
 		endif
@@ -54,7 +49,7 @@ function GetInitialMenu(tool, material)
 	
 	cfg_elem := cfg_file[search+Hex(CInt(material))];
 	if ( cfg_elem )
-		return menu_cfg[cfg_elem.ShowMenu];
+		return cfg_elem.ShowMenu;
 	endif
 		
 	return 0;
