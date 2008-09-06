@@ -33,6 +33,11 @@ program crafting(mobile, tool)
 	material.+serial	:= targ.serial;
 	
 	var create := SelectCraftable(mobile, tool, start_menu_name, material);
+	if ( !create )
+		return 1;
+	endif 
+	
+	SendSysMessage(mobile, "Crafting a "+GetObjTypeDesc(create));
 endprogram
 
 function CanUseToolOnMaterial(mobile, tool, targ)
@@ -64,8 +69,11 @@ function SelectCraftable(mobile, tool, start_menu_name, byref material)
 				SendSysMessage(mobile, "Cancelled: Menu [" + input.SubMenu + "] does not exist.");
 				return 0;
 			endif
+		elseif ( input.objtype )
+			return input.objtype;
 		else
-			break;
+			SendSysMessage(mobile, "Cancelled.");
+			return 0;
 		endif
 	endwhile
 	
