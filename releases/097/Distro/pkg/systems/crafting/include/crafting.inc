@@ -12,32 +12,42 @@ include ":itemUtils:itemdesc";
  * Retrieves an config elem of what can be crafted with a combination of a tool on a material.
  *
  * Parameters
- * tool: 	Item that the crafting use script is bound to.
- * material:	Item that the user selected to craft with.
+ * tool: 	Item that the crafting use script is bound to or an object type.
+ * material:	
+ *              If an item is passed, it will first check its object type for a match with the tool, then graphic.
+ *              If a number is passed, it will be handled as if it was a graphic.
  *
  * Return Value:
  * Returns a config elem on success.
  * Returns 0 if nothing can be crafted with the combination used.
  *
  */
-function GetToolOnMaterialUses(tool, material)
-	// Tool=0x1234&Material=0x5678
-	// {
-	//	SubMenu ... (another menu of stuff to make)
-	//	Entry	objtype	desc
-	// }
-	var tool_on_material_objtype := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.objtype));
-	var tool_on_material_graphic := CStr("Tool=" + Hex(tool.objtype) + "&Material=" + Hex(material.graphic));
-	var cfg := ReadConfigFile(":*:toolOnMaterial");
-	var elem := cfg[tool_on_material_objtype];
-	if ( !elem )
-		elem := cfg[tool_on_material_graphic];
-		if ( !elem )
-			return 0;
+function GetInitialMenu(tool, material)
+	var search;
+	var cfg_elem;
+	var cfg_file := ReadConfigFile(":*:toolOnMaterial");
+	var menu_cfg := ReadConfigFile(":*:craftMenus");
+	
+	if ( tool.IsA(POLCLASS_ITEM) )
+		search := Lower("Tool=" + Hex(tool.objtype));
+	else
+		search := Lower("Tool=" + Hex(CInt(tool)));
+	endif
+	search += "&Material=";
+	
+	if ( material.IsA(POLCLASS_ITEM) )
+		cfg_elem := cfg_file[search+Hex(material.objtype)];
+		if ( cfg_elem )
+			return menu_cfg[cfg_elem.ShowMenu];
+		endif
+	else
+		cfg_elem := cfg_file[search+Hex(CInt(material))];
+		if ( cfg_elem )
+			return menu_cfg[cfg_elem.ShowMenu];
 		endif
 	endif
-
-	return elem;
+	
+	return 0;
 endfunction
 
 /* GetCraftablesByTool(tool)
@@ -66,7 +76,7 @@ function GetToolUses(tool)
 	
 	var elem_list := array{};
 	foreach elem_name in ( GetConfigStringKeys(cfg) )
-		if ( Lower(elem_name) == search )
+		if ( Lower(elem_name[0, size]) == search )
 			elem_list.Append(cfg[elem_name]);
 		endif
 		SleepMS(2);

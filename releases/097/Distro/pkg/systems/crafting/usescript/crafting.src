@@ -18,7 +18,7 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
-	var material_uses_elem := GetToolOnMaterialUses(tool, targ);
+	var start_elem := GetToolOnMaterialUses(tool, targ);
 	if ( !material_uses_elem )
 		SendSysMessage(mobile, "You can't make anything with that tool on this material.");
 		return 0;
