@@ -40,6 +40,41 @@ function GetToolOnMaterialUses(tool, material)
 	return elem;
 endfunction
 
+/* GetCraftablesByTool(tool)
+ *
+ * Returns.. something, haven't decided yet!
+ *
+ * Parameters
+ * tool: 	Item reference or object type of the tool being used.
+ *
+ * Return Value:
+ * Possibly an array of config elem references?
+ *
+ */
+function GetToolUses(tool)
+	var search;
+	
+	if ( tool.IsA(POLCLASS_ITEM) )
+		search := Lower("Tool=" + Hex(tool.objtype));
+	else
+		search := Lower("Tool=" + Hex(CInt(tool)));
+	endif
+	
+	var size := Len(search);
+	
+	var cfg := ReadConfigFile(":*:toolOnMaterial");
+	
+	var elem_list := array{};
+	foreach elem_name in ( GetConfigStringKeys(cfg) )
+		if ( Lower(elem_name) == search )
+			elem_list.Append(cfg[elem_name]);
+		endif
+		SleepMS(2);
+	endforeach
+
+	return elem_list;
+endfunction
+
 /* ShowCraftablesMenu(mobile, cur_menu_elem, level, material.color);
  *
  * Receives an elem containing submenu properties and craft item properties.
