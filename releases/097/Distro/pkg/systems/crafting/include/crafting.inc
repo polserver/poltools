@@ -121,12 +121,13 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 		menu_options.Append(menu_selection);
 		
 		AddMenuItem(menu_obj, 8304, "^- Back");
-		menu_selection.objtype := 0;
-		menu_selection.SubMenu := 0;
 	endif
 	
 	var menu_list := GetConfigStringArray(menu_elem, "SubMenu");
 	foreach submenu in ( menu_list )
+		menu_selection.objtype := 0;
+		menu_selection.SubMenu := 0;
+		
 		var line := SplitWords(submenu);
 		var graphic := GetObjTypeGraphic(CInt(line[2]));
 
@@ -137,15 +138,16 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 
 		menu_selection.SubMenu := line[1];
 		menu_options.Append(menu_selection);
-		menu_selection.objtype := 0;
-		menu_selection.SubMenu := 0;
-
+		
 		AddMenuItem(menu_obj, graphic, item_name+" (submenu)");
 		sleepms(2);
 	endforeach
 	
 	var item_list := GetConfigStringArray(menu_elem, "Entry");
 	foreach entry in ( item_list )
+		menu_selection.objtype := 0;
+		menu_selection.SubMenu := 0;
+		
 		var line := SplitWords(entry);
 		
 		var graphic := GetObjTypeGraphic(CInt(line[1]));
@@ -155,11 +157,9 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 			item_name["_"] := " ";
 		endwhile
 		
-		menu_selection.SubMenu := line[1];
+		menu_selection.objtype := line[1];
 		menu_options.Append(menu_selection);
-		menu_selection.objtype := 0;
-		menu_selection.SubMenu := 0;
-
+		
 		AddMenuItem(menu_obj, graphic, item_name, color);
 		sleepms(2);
 		
