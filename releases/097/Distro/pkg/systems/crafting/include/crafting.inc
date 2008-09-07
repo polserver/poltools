@@ -150,20 +150,25 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 		
 		var line := SplitWords(entry);
 		
-		var graphic := GetObjTypeGraphic(CInt(line[1]));
-		if ( !graphic )
-			SysLog("ShowCraftablesMenu() Error - No graphic for "+line[1]);
+		var objtype := GetObjTypeByName(line[1]);
+		var menu_name;
+		if ( objtype )
+			menu_name := GetObjTypeDesc(objtype);
+		else
+			objtype := CInt(line[1]);
+			menu_name := CStr(line[2]);
 		endif
 		
-		var item_name := line[2];
-		while( item_name["_"] )
-			item_name["_"] := " ";
+		var graphic := GetObjTypeGraphic(objtype);
+				
+		while( menu_name["_"] )
+			menu_name["_"] := " ";
 		endwhile
 		
-		menu_selection.objtype := line[1];
+		menu_selection.objtype := objtype;
 		menu_options.Append(menu_selection);
 		
-		AddMenuItem(menu_obj, graphic, item_name, color);
+		AddMenuItem(menu_obj, graphic, menu_name, color);
 		sleepms(2);
 		
 		sleepms(2);

@@ -24,7 +24,7 @@ program crafting(mobile, tool)
 		return 0;
 	endif
 	
-	//This is done so we dont lose these values if the material_used is totally consumed.
+	// This is done so we dont lose these values if the 'targ' is totally consumed.
 	var material		:= struct;
 	material.+graphic	:= targ.graphic;
 	material.+color		:= targ.color;
@@ -52,6 +52,10 @@ endfunction
 function SelectCraftable(mobile, tool, start_menu_name, byref material)
 	var menus_cfg := ReadConfigFile(":*:craftMenus");
 	var cur_menu_elem := menus_cfg[start_menu_name];
+	
+	if ( cur_menu_elem.MenuScript )
+		return Run_Script(cur_menu_elem.MenuScript, array{mobile, tool, start_menu_name, material});
+	endif
 			
 	var history := array{cur_menu_elem};
 	var depth := 1;
@@ -78,11 +82,6 @@ function SelectCraftable(mobile, tool, start_menu_name, byref material)
 	endwhile
 	
 	return 0;
-endfunction
-
-
-function InternalMenuSystem()
-	return 1;
 endfunction
 
 function CheckMaterials()
