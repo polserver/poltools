@@ -151,6 +151,9 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 		var line := SplitWords(entry);
 		
 		var graphic := GetObjTypeGraphic(CInt(line[1]));
+		if ( !graphic )
+			SysLog("ShowCraftablesMenu() Error - No graphic for "+line[1]);
+		endif
 		
 		var item_name := line[2];
 		while( item_name["_"] )
