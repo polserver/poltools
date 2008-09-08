@@ -63,11 +63,12 @@ exported function Close(door)
 endfunction
 
 exported function IsOpen(door)
-	if ( door.isopen )
-		return 1;
-	else
+	// Use custom cprop to track.
+	//if ( door.isopen )
+	//	return 1;
+	//else
 		return CInt(GetObjProperty(door, "Open"));
-	endif
+	//endif
 endfunction
 
 exported function IsInside(door, object)
