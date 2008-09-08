@@ -55,7 +55,7 @@ function GetInitialMenuName(tool, material)
 	return 0;
 endfunction
 
-/* GetCraftablesByTool(tool)
+/* GetInitialMenusByTool(tool)
  *
  * Returns.. something, haven't decided yet!
  *
@@ -63,10 +63,10 @@ endfunction
  * tool: 	Item reference or object type of the tool being used.
  *
  * Return Value:
- * Possibly an array of config elem references?
+ * returns an array of config elems.
  *
  */
-function GetToolUses(tool)
+function GetInitialMenusByTool(tool)
 	var search;
 	
 	if ( tool.IsA(POLCLASS_ITEM) )
@@ -181,4 +181,46 @@ function ShowCraftablesMenu(mobile, menu_elem, depth, color:=0)
 	
 	var input := SelectMenuItem2(mobile, menu_obj);
 	return menu_options[input.index];
+endfunction
+
+/* CheckForAdditionalTools(mobile, tool_list)
+ *
+ * Determines if additional tools such as forges, anvils, etc, are available.
+ * Checks the player's pack, as well as dynamic and static items surrounding the player.
+ *
+ * Parameters
+ * mobile: 	Mobile performing the crafting.
+ * tool_list:	Array containing object types of possible matches.
+ *
+ * Return Value:
+ * Returns 1 if something valid was found.
+ * Returns 0 if nothing could be found.
+ *
+ */
+function FindTool(mobile, tool_list)
+	foreach item in ( EnumerateItemsInContainer(mobile.backpack) )
+		if ( CStr(item.objtype) in tool_list )
+			return item;
+		endif
+	endforeach
+	
+	foreach item in ( ListItemsNearLocation(mobile.x, mobile.y, mobile.z, 5, mobile.realm) )
+		if ( CheckLineOfSight(mobile, item) )
+			if ( CStr(item.objtype) in tool_list )
+				return item;
+			endif
+		endif
+		sleepms(2);
+	endforeach
+	
+	foreach item in ( ListStaticsNearLocation(mobile.x, mobile.y, mobile.z, 5, 0, mobile.realm) )
+		if ( CheckLineOfSight(mobile, item) )
+			if ( CStr(item.objtype) in tool_list )
+				return item;
+			endif
+		endif
+		sleepms(2);
+	endforeach
+	
+	return 0;
 endfunction
