@@ -1,9 +1,0 @@
-/*
- * $Id: start.src 373 2006-06-17 18:27:33Z austinheilman $
- *
- */
-
-program GlobalStartup()
-	Print("\n---------------------------\n");
-	return 1;
-endprogram

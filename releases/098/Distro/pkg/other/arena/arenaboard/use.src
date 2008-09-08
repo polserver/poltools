@@ -1,9 +1,0 @@
-/* $Id: use.src 868 2006-10-04 08:21:24Z austinheilman $
- *
- */
-
-use uo;
-
-program UseBoard(mobile, board)
-	return 1;
-endprogram
