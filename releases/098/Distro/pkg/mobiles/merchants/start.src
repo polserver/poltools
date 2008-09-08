@@ -1,8 +1,0 @@
-// $Id$
-
-use os;
-
-var script := Start_Script("initializer/firstRun");
-if ( script.errortext )
-	SysLog("Error starting merchant initializer ->"+script.errortext);
-endif

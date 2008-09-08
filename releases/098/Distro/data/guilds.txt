@@ -1,3 +1,0 @@
-#
-#  GUILDS.TXT: Guild Data
-#
