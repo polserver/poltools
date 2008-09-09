@@ -14,18 +14,6 @@ NPC definitions - unassigned
   This may be easy to do with greasemonkey scripts on firefox using the stratics website. Need to look more into this.
 
 
-Item definitions - unassigned
-  Same as NPC definitions. Hopefully we can get buy/sell values.
-
-
-World item placement (doors, signs) - No assignment necessary.
-  - Door package currently sets up doors on the first run.
-  - Teleporter package sets up telepads for dungeon link ups on first run.
-  - Need package to set up miscellaneous decorations.
-  These used to be in the 096 distro so I know they're floating around somewhere.
-  Probably just need to copy them over and scrub them clean (wipe message boards, find any "easter eggs" etc...).
-
-
 Spawn Locations - unassigned
   If you know OSI spawn locations well, or run a shard with some already set up in your own custom format, we can use the help.
 
