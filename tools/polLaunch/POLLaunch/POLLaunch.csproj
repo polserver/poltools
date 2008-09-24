@@ -52,6 +52,8 @@
     <Compile Include="Config\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileLister.cs" />
+    <Compile Include="FilePicker.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
