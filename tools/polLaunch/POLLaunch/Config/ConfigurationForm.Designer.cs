@@ -153,6 +153,7 @@
 			this.BTN_BrowseEcompileEXEPath.TabIndex = 10;
 			this.BTN_BrowseEcompileEXEPath.Text = "Browse";
 			this.BTN_BrowseEcompileEXEPath.UseVisualStyleBackColor = true;
+			this.BTN_BrowseEcompileEXEPath.Click += new System.EventHandler(this.BTN_BrowseEcompileEXEPath_Click);
 			// 
 			// TB_ECompileEXEPath
 			// 
@@ -180,6 +181,7 @@
 			this.BTN_BrowseUOCnvrtEXEPath.TabIndex = 7;
 			this.BTN_BrowseUOCnvrtEXEPath.Text = "Browse";
 			this.BTN_BrowseUOCnvrtEXEPath.UseVisualStyleBackColor = true;
+			this.BTN_BrowseUOCnvrtEXEPath.Click += new System.EventHandler(this.BTN_BrowseUOCnvrtEXEPath_Click);
 			// 
 			// TB_UOCnvrtEXEPath
 			// 
@@ -207,6 +209,7 @@
 			this.BTN_BrowsePOLEXEPath.TabIndex = 4;
 			this.BTN_BrowsePOLEXEPath.Text = "Browse";
 			this.BTN_BrowsePOLEXEPath.UseVisualStyleBackColor = true;
+			this.BTN_BrowsePOLEXEPath.Click += new System.EventHandler(this.BTN_BrowsePOLEXEPath_Click);
 			// 
 			// TB_POLEXEPath
 			// 
@@ -234,6 +237,7 @@
 			this.BTN_BrowsePOLPath.TabIndex = 1;
 			this.BTN_BrowsePOLPath.Text = "Browse";
 			this.BTN_BrowsePOLPath.UseVisualStyleBackColor = true;
+			this.BTN_BrowsePOLPath.Click += new System.EventHandler(this.BTN_BrowsePOLPath_Click);
 			// 
 			// TB_POLPath
 			// 
@@ -273,6 +277,7 @@
 			this.BTN_BrowseUOPath.TabIndex = 1;
 			this.BTN_BrowseUOPath.Text = "Browse";
 			this.BTN_BrowseUOPath.UseVisualStyleBackColor = true;
+			this.BTN_BrowseUOPath.Click += new System.EventHandler(this.BTN_BrowseUOPath_Click);
 			// 
 			// TB_UOPath
 			// 
@@ -291,6 +296,7 @@
 			this.BTN_OKAY.TabIndex = 2;
 			this.BTN_OKAY.Text = "Okay";
 			this.BTN_OKAY.UseVisualStyleBackColor = true;
+			this.BTN_OKAY.Click += new System.EventHandler(this.BTN_OKAY_Click);
 			// 
 			// BTN_Cancel
 			// 
@@ -310,6 +316,7 @@
 			this.BTN_Apply.TabIndex = 0;
 			this.BTN_Apply.Text = "Apply";
 			this.BTN_Apply.UseVisualStyleBackColor = true;
+			this.BTN_Apply.Click += new System.EventHandler(this.BTN_Apply_Click);
 			// 
 			// ConfigurationForm
 			// 
