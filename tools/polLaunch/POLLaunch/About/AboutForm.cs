@@ -7,53 +7,53 @@ using System.Diagnostics;
 
 namespace POLLaunch
 {
-	/// <summary>
-	/// Summary description for AboutForm.
-	/// </summary>
-	public class AboutForm : System.Windows.Forms.Form
-	{
-		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.LinkLabel WebLink;
-		private System.Windows.Forms.LinkLabel EmailLink;
-		private System.Windows.Forms.Label label1;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+    /// <summary>
+    /// Summary description for AboutForm.
+    /// </summary>
+    public class AboutForm : System.Windows.Forms.Form
+    {
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.LinkLabel WebLink;
+        private System.Windows.Forms.LinkLabel EmailLink;
+        private System.Windows.Forms.Label label1;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		public AboutForm()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-		}
+        public AboutForm()
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.WebLink = new System.Windows.Forms.LinkLabel();
@@ -117,35 +117,36 @@ namespace POLLaunch
 			this.Controls.Add(this.EmailLink);
 			this.Controls.Add(this.WebLink);
 			this.Controls.Add(this.pictureBox1);
+			this.ForeColor = System.Drawing.Color.Black;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutForm";
-			this.Opacity = 0.99;
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About";
+			this.TopMost = true;
 			this.Load += new System.EventHandler(this.AboutForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-		}
-		#endregion
+        }
+        #endregion
 
-		private void AboutForm_Load(object sender, System.EventArgs e)
-		{
-		}
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+        }
 
-		private void LinkLabelClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
-		{
-			LinkLabel clicked = (LinkLabel)sender;
-			if ( sender == EmailLink )
-				System.Diagnostics.Process.Start("mailto:"+this.EmailLink.Text.ToString());
-			else
-				System.Diagnostics.Process.Start(clicked.Text.ToString());
-		}
-	}
+        private void LinkLabelClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LinkLabel clicked = (LinkLabel)sender;
+            if (sender == EmailLink)
+                System.Diagnostics.Process.Start("mailto:" + this.EmailLink.Text.ToString());
+            else
+                System.Diagnostics.Process.Start(clicked.Text.ToString());
+        }
+    }
 }
