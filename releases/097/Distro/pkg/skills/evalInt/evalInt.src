@@ -57,10 +57,10 @@ program skill_EvaluatingIntelligence(who)
 	var eval_response := str_reply.sub_name+" looks "+str_reply.sub_intel+".";
 	var mana_resonse  := str_reply.sub_name+" is at "+str_reply.sub_mana+" mana.";
 
-	if( SkillCheck(who, ANATOMY, -1) > 0 )
+	if( SkillCheck(who, EVALUATING_INTELLIGENCE, -1) > 0 )
 		PrintTextAbovePrivate(subject, eval_response, who);
-		// player's anatomy skill equal/greater than 65 can get endurance info
-		if(AP_GetSkill(who, ANATOMY) >= 65)
+		// player's eval int skill equal/greater than 65 can get mana info
+		if(AP_GetSkill(who, EVALUATING_INTELLIGENCE) >= 65)
 			PrintTextAbovePrivate(subject, mana_resonse, who);
 		endif
 		return 1;
