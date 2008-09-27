@@ -8,7 +8,27 @@ namespace POLLaunch
 	class Settings
 	{
 		const string filename = "POLLaunch.cfg";
-		protected string uo_path = "";
+		public string uo_path;
+		public string pol_path;
+		public string polexe_path;
+		public string uocnvrtexe_path;
+		public string ecompileexe_path;
+		public bool show_pol_tab_first;
+
+		public Settings(bool readfile)
+		{
+			uo_path = "";
+			pol_path = "";
+			polexe_path = "";
+			uocnvrtexe_path = "";
+			ecompileexe_path = "";
+			show_pol_tab_first = false;
+
+			if (!File.Exists(filename))
+				SaveConfiguration();
+			else
+				LoadConfiguration();
+		}
 
 		public bool LoadConfiguration()
 		{
@@ -27,6 +47,11 @@ namespace POLLaunch
 					switch (pair[0])
 					{
 						case "uopath": this.uo_path = pair[1]; break;
+						case "polpath": this.pol_path = pair[1]; break;
+						case "polexepath": this.polexe_path = pair[1]; break;
+						case "uoconvertexepath": this.uocnvrtexe_path = pair[1]; break;
+						case "ecompileexepath": this.ecompileexe_path = pair[1]; break;
+						case "showpoltabfirst": this.show_pol_tab_first = ToBoolean(pair[1]); break;
 					}
 					line = tr.ReadLine();
 				}
@@ -43,12 +68,21 @@ namespace POLLaunch
 		public bool SaveConfiguration()
 		{
 			if (File.Exists(filename))
-				File.Delete(filename);
+			{
+				try
+				{
+					File.Delete(filename);
+				}
+				catch { }
+			}
 			try
 			{
 				TextWriter tw = new StreamWriter(filename);
 				tw.WriteLine("UOPath=" + this.uo_path);
-				
+				tw.WriteLine("POLPath=" + this.pol_path);
+				tw.WriteLine("POLExePath" + this.polexe_path);
+				tw.WriteLine("UOConvertExePath=" + this.uocnvrtexe_path);
+				tw.WriteLine("EcompileExePath=" + this.ecompileexe_path);
 				tw.Close();
 			}
 			catch (Exception ex)
@@ -56,6 +90,15 @@ namespace POLLaunch
 				MessageBox.Show(ex.Message, "Error");
 			}
 			return true;
+		}
+
+		private bool ToBoolean(string value)
+		{
+			value = value.ToLower();
+			if ( value == "1" || value == "true" )
+				return true;
+			else
+				return false;
 		}
 	}
 	/*
