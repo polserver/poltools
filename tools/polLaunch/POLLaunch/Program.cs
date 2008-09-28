@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace POLLaunch
 {
-	static class Program
+	class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.
