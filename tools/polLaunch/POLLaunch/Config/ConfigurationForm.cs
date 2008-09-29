@@ -15,14 +15,11 @@ namespace POLLaunch.Configuration
 		public ConfigurationForm()
 		{
 			InitializeComponent();
-
-			/*
-			 *this.TB_UOPath.Text = Properties.Settings.Default.UOPath;
-			this.TB_POLPath.Text = Properties.Settings.Default.POLPath;
-			this.TB_POLEXEPath.Text = Properties.Settings.Default.POLExePath;
-			this.TB_UOCnvrtEXEPath.Text = Properties.Settings.Default.UOConvertExePath;
-			this.TB_ECompileEXEPath.Text = Properties.Settings.Default.EcompileExePath;
-			*/
+			this.TB_UOPath.Text = (string)Settings.Global.Properties["UOPath"];
+			//this.TB_POLPath.Text = (string)Settings.Global.Properties["POLPath"];
+			//this.TB_POLEXEPath.Text = (string)Settings.Global.Properties["POLExePath"];
+			//this.TB_UOCnvrtEXEPath.Text = (string)Settings.Global.Properties["UOConvertExePath"];
+			//this.TB_ECompileEXEPath.Text = (string)Settings.Global.Properties["ECompileExePath"];
 		}
 
 		private void ConfigurationForm_Load(object sender, EventArgs e)
@@ -65,14 +62,13 @@ namespace POLLaunch.Configuration
 		private void BTN_Apply_Click(object sender, EventArgs e)
 		{
 			// Save settings
-			/*
-			Properties.Settings.Default.UOPath = this.TB_UOPath.Text;
-			Properties.Settings.Default.POLPath = this.TB_POLPath.Text;
-			Properties.Settings.Default.POLExePath = this.TB_POLEXEPath.Text;
-			Properties.Settings.Default.UOConvertExePath = this.TB_UOCnvrtEXEPath.Text;
-			Properties.Settings.Default.EcompileExePath = this.TB_ECompileEXEPath.Text;
-			Properties.Settings.Default.Save();
-			 */
+
+			Settings.Global.Properties["UOPath"] = this.TB_UOPath.Text;
+			//Settings.Global.Properties["POLPath"] = this.TB_POLPath.Text;
+			//Settings.Global.Properties["POLExePath"] = this.TB_POLEXEPath.Text;
+			//Settings.Global.Properties["UOConvertExePath"] = this.TB_UOCnvrtEXEPath.Text;
+			//Settings.Global.Properties["ECompileExePath"] = this.TB_ECompileEXEPath.Text;
+			Settings.Global.SaveConfiguration();
 		}
 
 		private void BTN_OKAY_Click(object sender, EventArgs e)

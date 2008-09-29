@@ -13,18 +13,21 @@ namespace POLLaunch
 		
 		private Settings()
 		{
-			if (!File.Exists(filename))
-				SaveConfiguration();
-			else
-				LoadConfiguration();
+			//if (!File.Exists(filename))
+			//	SaveConfiguration();
+			//else
+			//	LoadConfiguration();
 		}
-
+		
 		public static Settings Global
 		{
 			get
 			{
 				if (settings == null)
+				{
 					settings = new Settings();
+					settings.LoadConfiguration();
+				}
 				return settings;
 			}
 		}
@@ -52,7 +55,7 @@ namespace POLLaunch
 					if (pair.Length == 1)
 						continue;
 
-					pair[0] = pair[0].ToLower();
+					//pair[0] = pair[0].ToLower();
 					pair[1] = pair[1].TrimEnd(new char[] { ' ', '\t', '\n', '\r' });
 					//switch (pair[0])
 					{
