@@ -13,6 +13,9 @@ namespace POLLaunch
 		public Form1()
 		{
 			InitializeComponent();
+			checkBox1.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
+			if (checkBox1.Checked)
+				tabControl1.SelectedIndex = tabControl1.TabPages.IndexOfKey("tabPage6");
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -35,6 +38,11 @@ namespace POLLaunch
 		{
 			Configuration.ConfigurationForm tmp = new Configuration.ConfigurationForm();
 			tmp.ShowDialog(this);
+		}
+
+		private void checkBox1_CheckStateChanged(object sender, EventArgs e)
+		{
+			Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked;
 		}
 	}
 }

@@ -14,6 +14,11 @@ namespace POLLaunch
 		private Settings()
 		{
 		}
+
+		~Settings()
+		{
+			SaveConfiguration();
+		}
 		
 		public static Settings Global
 		{
@@ -43,6 +48,7 @@ namespace POLLaunch
 
 			try
 			{
+				Global.properties.Clear();
 				TextReader tr = new StreamReader(filename);
 				string line = tr.ReadLine();
 				while (line != null)
@@ -53,19 +59,7 @@ namespace POLLaunch
 
 					//pair[0] = pair[0].ToLower();
 					pair[1] = pair[1].TrimEnd(new char[] { ' ', '\t', '\n', '\r' });
-					//switch (pair[0])
-					{
-						if ( !Global.properties.ContainsKey(pair[0]) )
-							Global.properties.Add(pair[0], pair[1]);
-						/*
-						case "uopath": this.uo_path = pair[1]; break;
-						case "polpath": this.pol_path = pair[1]; break;
-						case "polexepath": this.polexe_path = pair[1]; break;
-						case "uoconvertexepath": this.uocnvrtexe_path = pair[1]; break;
-						case "ecompileexepath": this.ecompileexe_path = pair[1]; break;
-						case "showpoltabfirst": this.show_pol_tab_first = ToBoolean(pair[1]); break;
-						*/
-					}
+					Global.properties[pair[0]] = pair[1];
 					line = tr.ReadLine();
 				}
 				tr.Close();
@@ -73,6 +67,7 @@ namespace POLLaunch
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "LoadConfiguration() Error");
+				return false;
 			}
 
 			return true;
@@ -87,30 +82,23 @@ namespace POLLaunch
 				{
 					tw.WriteLine(k.Key + "=" + k.Value);
 				}
-				/*
-				tw.WriteLine("UOPath=" + this.uo_path);
-				tw.WriteLine("POLPath=" + this.pol_path);
-				tw.WriteLine("POLExePath" + this.polexe_path);
-				tw.WriteLine("UOConvertExePath=" + this.uocnvrtexe_path);
-				tw.WriteLine("EcompileExePath=" + this.ecompileexe_path);
-				tw.WriteLine("ShowPOLTabFirst=" + this.show_pol_tab_first);
-				*/
 				tw.Close();
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "SaveConfiguration() Error");
+				return false;
 			}
 			return true;
 		}
 
-		private bool ToBoolean(string value)
+		public bool ToBoolean(string value)
 		{
 			value = value.ToLower();
-			if (value == "1" || value == "true")
-				return true;
-			else
+			if (value == "" || value == "0" || value == "false")
 				return false;
+			else
+				return true;
 		}
 	}
 }
