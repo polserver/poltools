@@ -60,6 +60,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IPStuff.cs" />
+    <Compile Include="POLChecks.cs" />
+    <Compile Include="POLTools\UOConvert.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About\AboutForm.resx">

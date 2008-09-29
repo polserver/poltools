@@ -172,7 +172,7 @@
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>245, 17</value>
   </metadata>
-  <data name="richTextBox1.Text" xml:space="preserve">
+  <data name="textBox3.Text" xml:space="preserve">
     <value>This is a replacement for the starthere.bat system.
 Place this program in your POL Root directory (next to pol.exe)
 1. Select File-&gt;Configuration to setup paths to programs.

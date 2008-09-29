@@ -44,5 +44,17 @@ namespace POLLaunch
 		{
 			Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked;
 		}
+
+		private void BTN_RunTests_Click(object sender, EventArgs e)
+		{
+			textBox1.Text = "";
+			Cursor = Cursors.WaitCursor;
+			
+			textBox1.Text += "Analyzing setup in '" + Settings.Global.Properties["POLPath"] + "'" + Environment.NewLine;
+			POLChecks.RealmChecks(ref textBox1);
+			POLChecks.ScriptChecks(ref textBox1);
+
+			Cursor = Cursors.Default;
+		}
 	}
 }
