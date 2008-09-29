@@ -247,6 +247,7 @@
 			this.TB_POLPath.Name = "TB_POLPath";
 			this.TB_POLPath.Size = new System.Drawing.Size(575, 20);
 			this.TB_POLPath.TabIndex = 0;
+			this.TB_POLPath.TextChanged += new System.EventHandler(this.TB_POLPath_TextChanged);
 			// 
 			// groupBox1
 			// 

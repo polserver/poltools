@@ -16,10 +16,10 @@ namespace POLLaunch.Configuration
 		{
 			InitializeComponent();
 			this.TB_UOPath.Text = (string)Settings.Global.Properties["UOPath"];
-			//this.TB_POLPath.Text = (string)Settings.Global.Properties["POLPath"];
-			//this.TB_POLEXEPath.Text = (string)Settings.Global.Properties["POLExePath"];
-			//this.TB_UOCnvrtEXEPath.Text = (string)Settings.Global.Properties["UOConvertExePath"];
-			//this.TB_ECompileEXEPath.Text = (string)Settings.Global.Properties["ECompileExePath"];
+			this.TB_POLPath.Text = (string)Settings.Global.Properties["POLPath"];
+			this.TB_POLEXEPath.Text = (string)Settings.Global.Properties["POLExePath"];
+			this.TB_UOCnvrtEXEPath.Text = (string)Settings.Global.Properties["UOConvertExePath"];
+			this.TB_ECompileEXEPath.Text = (string)Settings.Global.Properties["ECompileExePath"];
 		}
 
 		private void ConfigurationForm_Load(object sender, EventArgs e)
@@ -35,12 +35,15 @@ namespace POLLaunch.Configuration
 		private void BTN_BrowsePOLPath_Click(object sender, EventArgs e)
 		{
 			this.TB_POLPath.Text = FilePicker.SelectFolder();
-			
-			if ( File.Exists(this.TB_POLPath.Text + @"\pol.exe") )
+		}
+
+		private void TB_POLPath_TextChanged(object sender, EventArgs e)
+		{
+			if (File.Exists(this.TB_POLPath.Text + @"\pol.exe"))
 				this.TB_POLEXEPath.Text = this.TB_POLPath.Text + @"\pol.exe";
-			if ( File.Exists( this.TB_POLPath.Text + @"\uoconvert.exe") )
+			if (File.Exists(this.TB_POLPath.Text + @"\uoconvert.exe"))
 				this.TB_UOCnvrtEXEPath.Text = this.TB_POLPath.Text + @"\uoconvert.exe";
-			if ( File.Exists(this.TB_POLPath.Text + @"\scripts\ecompile.exe") )
+			if (File.Exists(this.TB_POLPath.Text + @"\scripts\ecompile.exe"))
 				this.TB_ECompileEXEPath.Text = this.TB_POLPath.Text + @"\scripts\ecompile.exe";
 		}
 
@@ -62,12 +65,11 @@ namespace POLLaunch.Configuration
 		private void BTN_Apply_Click(object sender, EventArgs e)
 		{
 			// Save settings
-
 			Settings.Global.Properties["UOPath"] = this.TB_UOPath.Text;
-			//Settings.Global.Properties["POLPath"] = this.TB_POLPath.Text;
-			//Settings.Global.Properties["POLExePath"] = this.TB_POLEXEPath.Text;
-			//Settings.Global.Properties["UOConvertExePath"] = this.TB_UOCnvrtEXEPath.Text;
-			//Settings.Global.Properties["ECompileExePath"] = this.TB_ECompileEXEPath.Text;
+			Settings.Global.Properties["POLPath"] = this.TB_POLPath.Text;
+			Settings.Global.Properties["POLExePath"] = this.TB_POLEXEPath.Text;
+			Settings.Global.Properties["UOConvertExePath"] = this.TB_UOCnvrtEXEPath.Text;
+			Settings.Global.Properties["ECompileExePath"] = this.TB_ECompileEXEPath.Text;
 			Settings.Global.SaveConfiguration();
 		}
 
