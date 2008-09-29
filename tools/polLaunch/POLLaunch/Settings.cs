@@ -9,14 +9,10 @@ namespace POLLaunch
 	{
 		static Settings settings;
 		Hashtable properties = new Hashtable();
-		const string filename = "POLLaunch.cfg";
+		string filename = Program.GetPath()+"POLLaunch.cfg";
 		
 		private Settings()
 		{
-			//if (!File.Exists(filename))
-			//	SaveConfiguration();
-			//else
-			//	LoadConfiguration();
 		}
 		
 		public static Settings Global
@@ -59,7 +55,8 @@ namespace POLLaunch
 					pair[1] = pair[1].TrimEnd(new char[] { ' ', '\t', '\n', '\r' });
 					//switch (pair[0])
 					{
-						Global.Properties.Add(pair[0], pair[1]);
+						if ( !Global.properties.ContainsKey(pair[0]) )
+							Global.properties.Add(pair[0], pair[1]);
 						/*
 						case "uopath": this.uo_path = pair[1]; break;
 						case "polpath": this.pol_path = pair[1]; break;
@@ -75,7 +72,7 @@ namespace POLLaunch
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "ERROR");
+				MessageBox.Show(ex.Message, "LoadConfiguration() Error");
 			}
 
 			return true;
@@ -83,18 +80,10 @@ namespace POLLaunch
 
 		public bool SaveConfiguration()
 		{
-			if (File.Exists(filename))
-			{
-				try
-				{
-					File.Delete(filename);
-				}
-				catch { }
-			}
 			try
 			{
 				TextWriter tw = new StreamWriter(filename);
-				foreach (DictionaryEntry k in Global.Properties)
+				foreach (DictionaryEntry k in Global.properties)
 				{
 					tw.WriteLine(k.Key + "=" + k.Value);
 				}
@@ -110,7 +99,7 @@ namespace POLLaunch
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "Error");
+				MessageBox.Show(ex.Message, "SaveConfiguration() Error");
 			}
 			return true;
 		}
