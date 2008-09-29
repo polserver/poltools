@@ -42,16 +42,16 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.button1 = new System.Windows.Forms.Button();
+			this.BTN_RunTests = new System.Windows.Forms.Button();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
 			this.tabPage6 = new System.Windows.Forms.TabPage();
-			this.button2 = new System.Windows.Forms.Button();
+			this.BTN_StartPOL = new System.Windows.Forms.Button();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -159,8 +159,8 @@
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+			this.tabPage1.Controls.Add(this.textBox3);
 			this.tabPage1.Controls.Add(this.checkBox1);
-			this.tabPage1.Controls.Add(this.richTextBox1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -168,10 +168,21 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Introduction";
 			// 
+			// textBox3
+			// 
+			this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.textBox3.Location = new System.Drawing.Point(9, 7);
+			this.textBox3.Multiline = true;
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(659, 341);
+			this.textBox3.TabIndex = 2;
+			this.textBox3.Text = resources.GetString("textBox3.Text");
+			// 
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(8, 354);
+			this.checkBox1.Location = new System.Drawing.Point(9, 362);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(243, 17);
 			this.checkBox1.TabIndex = 1;
@@ -179,20 +190,10 @@
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.CheckStateChanged += new System.EventHandler(this.checkBox1_CheckStateChanged);
 			// 
-			// richTextBox1
-			// 
-			this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-			this.richTextBox1.ForeColor = System.Drawing.Color.Black;
-			this.richTextBox1.Location = new System.Drawing.Point(8, 6);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(660, 328);
-			this.richTextBox1.TabIndex = 0;
-			this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
-			// 
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage2.Controls.Add(this.button1);
+			this.tabPage2.Controls.Add(this.BTN_RunTests);
 			this.tabPage2.Controls.Add(this.textBox1);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
@@ -201,18 +202,20 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Initial Checks";
 			// 
-			// button1
+			// BTN_RunTests
 			// 
-			this.button1.Location = new System.Drawing.Point(301, 363);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "Run Tests";
-			this.button1.UseVisualStyleBackColor = true;
+			this.BTN_RunTests.Location = new System.Drawing.Point(301, 363);
+			this.BTN_RunTests.Name = "BTN_RunTests";
+			this.BTN_RunTests.Size = new System.Drawing.Size(75, 23);
+			this.BTN_RunTests.TabIndex = 1;
+			this.BTN_RunTests.Text = "Run Tests";
+			this.BTN_RunTests.UseVisualStyleBackColor = true;
+			this.BTN_RunTests.Click += new System.EventHandler(this.BTN_RunTests_Click);
 			// 
 			// textBox1
 			// 
 			this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textBox1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
 			this.textBox1.ForeColor = System.Drawing.Color.Black;
 			this.textBox1.Location = new System.Drawing.Point(7, 6);
@@ -251,7 +254,7 @@
 			// tabPage6
 			// 
 			this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-			this.tabPage6.Controls.Add(this.button2);
+			this.tabPage6.Controls.Add(this.BTN_StartPOL);
 			this.tabPage6.Controls.Add(this.textBox2);
 			this.tabPage6.Location = new System.Drawing.Point(4, 22);
 			this.tabPage6.Name = "tabPage6";
@@ -259,24 +262,25 @@
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "POL";
 			// 
-			// button2
+			// BTN_StartPOL
 			// 
-			this.button2.Location = new System.Drawing.Point(301, 352);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "Start POL";
-			this.button2.UseVisualStyleBackColor = true;
+			this.BTN_StartPOL.Location = new System.Drawing.Point(301, 358);
+			this.BTN_StartPOL.Name = "BTN_StartPOL";
+			this.BTN_StartPOL.Size = new System.Drawing.Size(75, 23);
+			this.BTN_StartPOL.TabIndex = 2;
+			this.BTN_StartPOL.Text = "Start POL";
+			this.BTN_StartPOL.UseVisualStyleBackColor = true;
 			// 
 			// textBox2
 			// 
 			this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.textBox2.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
 			this.textBox2.ForeColor = System.Drawing.Color.Black;
-			this.textBox2.Location = new System.Drawing.Point(8, 13);
+			this.textBox2.Location = new System.Drawing.Point(8, 3);
 			this.textBox2.Multiline = true;
 			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(660, 332);
+			this.textBox2.Size = new System.Drawing.Size(660, 342);
 			this.textBox2.TabIndex = 1;
 			// 
 			// Form1
@@ -329,13 +333,13 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TabPage tabPage6;
+		private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button BTN_RunTests;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button BTN_StartPOL;
+		private System.Windows.Forms.TextBox textBox3;
+		public System.Windows.Forms.TextBox textBox1;
 	}
 }
 
