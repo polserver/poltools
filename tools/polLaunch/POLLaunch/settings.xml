@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Paths>
+		<UORoot></UORoot>
+		<POLRoot></POLRoot>
+		<POLExe></POLExe>
+		<UOConvertExe></UOConvertExe>
+		<EcompileExe></EcompileExe>
+	</Paths>
+	
+	<Realms>
+		<Realm>
+			<Name>Britannia</Name>
+			<MapID>0</MapID>
+			<UseDif>1</UseDif>
+			<Width>6144</Width>
+			<Height>4096</Height>
+		</Realm>
+	</Realm>
+</configuration>
