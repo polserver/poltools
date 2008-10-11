@@ -12,7 +12,6 @@ namespace POLConfig
 {
 	class POLConfig
 	{
-		Hashtable _entries = new Hashtable();
 		public enum FlagOpts
 		{
 			read_structured = 0x1,
@@ -20,7 +19,8 @@ namespace POLConfig
 		}
 
 		FlagOpts _flags = 0x0;
-		private string _path = "";		
+		private string _path = "";
+		Hashtable _entries = new Hashtable();
 
 		public POLConfig(string path): this(path, FlagOpts.read_structured)
 		{
@@ -32,6 +32,16 @@ namespace POLConfig
 			_path = path;
 			
 			ReadConfigFile();
+		}
+
+		public string Path
+		{
+			get { return _path; }
+		}
+
+		public FlagOpts Flags
+		{
+			get { return _flags; }
 		}
 
 		public bool ReadConfigFile()
@@ -78,7 +88,17 @@ namespace POLConfig
 
 	class POLConfigElem
 	{
-		string _elem_name = "";
-		Hashtable _properties = new Hashtable();
+		private string _elem_name = "";
+		private Hashtable _properties = new Hashtable();
+
+		public POLConfigElem(string elem_name)
+		{
+			_elem_name = elem_name;
+		}
+
+		public String ElemName
+		{
+			get { return _elem_name; }
+		}
 	}
 }
