@@ -100,5 +100,40 @@ namespace POLConfig
 		{
 			get { return _elem_name; }
 		}
+
+		public string[] ListConfigElemProps()
+		{
+			string[] keys = new string[_properties.Count];
+			int pos = 0;
+			foreach (string key in _properties.Keys)
+				keys[pos++] = key;
+			return keys;
+		}
+
+		public int GetConfigInt(string property_name)
+		{
+			if (_properties.ContainsKey(property_name))
+				return (int)_properties[property_name];
+			else
+				return 0;
+		}
+
+		public double GetConfigFloat(string property_name)
+		{
+			if (_properties.ContainsKey(property_name))
+				return (double)_properties[property_name];
+			else
+				return 0.0;
+		}
+
+		public string GetConfigString(string property_name)
+		{
+			if (_properties.ContainsKey(property_name))
+				return (string)_properties[property_name];
+			else
+				return "";
+		}
+
+
 	}
 }
