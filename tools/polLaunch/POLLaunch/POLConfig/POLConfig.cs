@@ -3,11 +3,16 @@ using System.IO;
 using System.Collections;
 using System.Windows.Forms;
 
+//
+// Note: This is not how config files are used in the pol core.
+// Its much more advanced and WAY faster, there. 
+//
 
 namespace POLConfig
 {
 	class POLConfig
 	{
+		Hashtable _entries = new Hashtable();
 		public enum FlagOpts
 		{
 			read_structured = 0x1,
@@ -25,7 +30,7 @@ namespace POLConfig
 		{
 			_flags = _flags | flags;
 			_path = path;
-			MessageBox.Show("Flags=" + _flags.ToString());
+			
 			ReadConfigFile();
 		}
 
@@ -35,5 +40,45 @@ namespace POLConfig
 				return false;
 			return true;
 		}
+
+		public void FindConfigElem(string elem_name)
+		{
+			// Will implement a ConfigElem class
+		}
+
+		public int GetConfigMaxIntKey()
+		{
+			int highest = 0;
+			foreach (int key in _entries.Keys)
+			{
+				if (key > highest)
+					highest = key;
+			}
+			return highest;
+		}
+
+		public string[] GetConfigStringKeys()
+		{
+			string[] keys = new string[_entries.Count];
+			int pos = 0;
+			foreach (string key in _entries.Keys)
+				keys[pos++] = key;
+			return keys;
+		}
+
+		public int[] GetConfigIntKeys()
+		{
+			int[] keys = new int[_entries.Count];
+			int pos = 0;
+			foreach (int key in _entries.Keys)
+				keys[pos++] = key;
+			return keys;
+		}
+	}
+
+	class POLConfigElem
+	{
+		string _elem_name = "";
+		Hashtable _properties = new Hashtable();
 	}
 }
