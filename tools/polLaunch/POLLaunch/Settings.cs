@@ -1,15 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Reflection;
 
 namespace POLLaunch
 {
+    [Serializable]
+    [XmlRoot("configurations")]
 	public class Settings
 	{
 		static Settings settings;
-		Hashtable properties = new Hashtable();
-		string filename = Program.GetPath()+"POLLaunch.cfg";
+		MyHashtable properties = new MyHashtable();
+        List<Realm> realms = new List<Realm>();
+     
+		string filename = Program.GetPath()+"POLLaunch.xml";
 		
 		private Settings()
 		{
@@ -19,7 +27,18 @@ namespace POLLaunch
 		{
 			SaveConfiguration();
 		}
-		
+
+        public static bool IsNull
+        {
+            get
+            {
+                if (Settings.settings == null)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
 		public static Settings Global
 		{
 			get
@@ -27,13 +46,19 @@ namespace POLLaunch
 				if (settings == null)
 				{
 					settings = new Settings();
-					settings.LoadConfiguration();
+                    settings.LoadConfiguration();
 				}
 				return settings;
 			}
+            set
+            {
+                settings = value;
+            }
 		}
 
-		public Hashtable Properties
+        [XmlArray("properties")]
+        [XmlArrayItem("property")]
+		public MyHashtable Properties
 		{
 			get
 			{
@@ -41,59 +66,64 @@ namespace POLLaunch
 			}
 		}
 
+        public List<Realm> Realms
+        {
+            get
+            {
+                return realms;
+            }
+        }
+
 		public bool LoadConfiguration()
 		{
 			if (!File.Exists(filename))
 				return false;
 
-			try
-			{
-				Global.properties.Clear();
-				TextReader tr = new StreamReader(filename);
-				string line = tr.ReadLine();
-				while (line != null)
-				{
-					string[] pair = line.Split(new char[] { '=' }, 2);
-					if (pair.Length == 1)
-						continue;
-
-					//pair[0] = pair[0].ToLower();
-					pair[1] = pair[1].TrimEnd(new char[] { ' ', '\t', '\n', '\r' });
-					Global.properties[pair[0]] = pair[1];
-					line = tr.ReadLine();
-				}
-				tr.Close();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "LoadConfiguration() Error");
-				return false;
-			}
+           try
+            {
+                StreamReader tr = new StreamReader(filename);
+                XmlTextReader xr = new XmlTextReader(tr);
+                XmlSerializer xs = new XmlSerializer(typeof(Settings));
+                object c;
+                if (xs.CanDeserialize(xr))
+                {
+                    c = xs.Deserialize(xr); // Don´t know why this didn´t work directly
+                    Settings.Global = (Settings)c;
+                }
+                xr.Close();
+                tr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "LoadConfiguration() Error");
+                return false;
+            }
 
 			return true;
 		}
 
 		public bool SaveConfiguration()
 		{
-			try
-			{
-				TextWriter tw = new StreamWriter(filename);
-				foreach (DictionaryEntry k in Global.properties)
-				{
-					tw.WriteLine(k.Key + "=" + k.Value);
-				}
-				tw.Close();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "SaveConfiguration() Error");
-				return false;
-			}
+            try
+            {
+                TextWriter tw = new StreamWriter(filename);
+                XmlSerializer xs = new XmlSerializer(this.GetType());
+                xs.Serialize(tw, Settings.Global);
+                tw.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "SaveConfiguration() Error");
+                return false;
+            }
+
 			return true;
 		}
 
 		public bool ToBoolean(string value)
 		{
+            if (value == null) return false; // Who would send a null reference to this function? haha.. =D
+
 			value = value.ToLower();
 			if (value == "" || value == "0" || value == "false")
 				return false;
@@ -101,4 +131,25 @@ namespace POLLaunch
 				return true;
 		}
 	}
+
+    [Serializable]
+    public class Realm
+    {
+        public string Name;
+        public int MapID;
+        public bool UseDif;
+        public int Width;
+        public int Height;
+
+        public Realm() { }
+
+        public Realm(string Name, int MapID, bool UseDif, int Width, int Height)
+        {
+            this.Name = Name;
+            this.MapID = MapID;
+            this.UseDif = UseDif;
+            this.Width = Width;
+            this.Height = Height;
+        }
+    }
 }
