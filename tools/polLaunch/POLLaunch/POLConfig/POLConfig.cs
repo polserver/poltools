@@ -8,21 +8,24 @@ namespace POLConfig
 {
 	class POLConfig
 	{
-		const uint FLAG_STRUCTUREDCFG = 0x1;
-		const uint FLAG_FLATCFG = 0x2;
+		public enum FlagOpts
+		{
+			read_structured = 0x1,
+			read_flat = 0x2,
+		}
 
-		private uint _flags = 0x0;
+		FlagOpts _flags = 0x0;
 		private string _path = "";		
 
-		public POLConfig(string path): this(path, FLAG_STRUCTUREDCFG)
+		public POLConfig(string path): this(path, FlagOpts.read_structured)
 		{
 		}
 
-		public POLConfig(string path, uint flags)
+		public POLConfig(string path, FlagOpts flags)
 		{
-			_flags = flags;
+			_flags = _flags | flags;
 			_path = path;
-
+			MessageBox.Show("Flags=" + _flags.ToString());
 			ReadConfigFile();
 		}
 
