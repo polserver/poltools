@@ -42,7 +42,7 @@ namespace POLLaunch
 
 		private void checkBox1_CheckStateChanged(object sender, EventArgs e)
 		{
-			Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked;
+			Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked.ToString();
 		}
 
 		private void BTN_RunTests_Click(object sender, EventArgs e)
