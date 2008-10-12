@@ -48,6 +48,24 @@ namespace POLConfig
 		{
 			if (!File.Exists(_path))
 				return false;
+			try
+			{
+				StreamReader sr = new StreamReader(_path);
+				string line = "";
+				while ((line = sr.ReadLine()) != null)
+				{
+					if (line[0] == '#') // Comment line
+						continue;
+					else if (line.Substring(0, 1) == @"//")
+						continue;
+				}
+				sr.Close();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "POLConfig ReadConfigFile() Error");
+				return false;
+			}
 			return true;
 		}
 
@@ -133,7 +151,5 @@ namespace POLConfig
 			else
 				return "";
 		}
-
-
 	}
 }
