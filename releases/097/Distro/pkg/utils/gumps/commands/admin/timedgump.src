@@ -1,0 +1,13 @@
+use uo;
+
+include ":gumps:gumps";
+include ":gumps:gumps_ex";
+include ":gumps:htmlgump";
+
+program PromptDemo(mobile, text)
+	GFCloseGumpTimed(mobile, GetPid(), 10, 1234);
+	var input := SendHTMLGump(mobile, "Sample HTML Gump", "This gump will close on its own in 10 seconds.");
+	SendSysMessage(mobile, "Gump was closed. Return value was "+input[0]);
+	
+	return 1;
+endprogram
