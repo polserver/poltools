@@ -27,10 +27,11 @@ namespace POLConfig
 			read_flat = 0x2,
 		}
 
-		FlagOpts _flags = 0x0;
+		private FlagOpts _flags = 0x0;
 		private string _path = "";
-		Hashtable _entries = new Hashtable(); // Stores actual data.
-		List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine or POLConfigElem)
+		private bool _read = false;
+		private Hashtable _entries = new Hashtable(); // Stores actual data.
+		private List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine or POLConfigElem)
 
 		public POLConfig(string path): this(path, FlagOpts.read_structured)
 		{
@@ -58,11 +59,16 @@ namespace POLConfig
 		{
 			if (!File.Exists(_path))
 				return false;
+			else if (_read)
+				return false;
+			else
+				_read = true;
+
 			try
 			{
 				StreamReader sr = new StreamReader(_path);
 				string line = "";
-				bool in_elem = false;
+				POLConfigElem cur_elem = null;
 				while ((line = sr.ReadLine()) != null)
 				{
 					//Remove any leading white space.
@@ -70,13 +76,17 @@ namespace POLConfig
 					//Remove any trailing white space.
 					line.Trim(new char[] { ' ', '\t' });
 
-					if (!in_elem)
+					if ( cur_elem == null )
 					{
-						if (line[0] == '#' || (line.Substring(0, 1) == @"//")) // Comment line outisde an elem
+						if ( line[0] == '#' || (line.Substring(0, 1) == @"//") ) // Comment line outisde an elem
 							_write_order.Add(new POLConfigLine(null, line));
 					}
 					else
 					{
+						if (line[0] == '}')
+							cur_elem = null;
+						else if (line[0] == '#' || (line.Substring(0, 1) == @"//"))
+							cur_elem.AddComment(line);
 					}				
 				}
 				sr.Close();
@@ -152,7 +162,7 @@ namespace POLConfig
 		public int GetConfigInt(string property_name)
 		{
 			if (_properties.ContainsKey(property_name))
-				return (int)_properties[property_name];
+				return Convert.ToInt32(_properties[property_name]);
 			else
 				return 0;
 		}
@@ -160,7 +170,7 @@ namespace POLConfig
 		public double GetConfigFloat(string property_name)
 		{
 			if (_properties.ContainsKey(property_name))
-				return (double)_properties[property_name];
+				return Convert.ToDouble(_properties[property_name], System.Globalization.NumberFormatInfo.InvariantInfo);
 			else
 				return 0.0;
 		}
@@ -168,9 +178,14 @@ namespace POLConfig
 		public string GetConfigString(string property_name)
 		{
 			if (_properties.ContainsKey(property_name))
-				return (string)_properties[property_name];
+				return Convert.ToString(_properties[property_name]);
 			else
 				return "";
+		}
+
+		public void AddComment(string comment)
+		{
+			_write_order.Add(new POLConfigLine(null, comment));
 		}
 	}
 
@@ -183,6 +198,18 @@ namespace POLConfig
 		{
 			_value = value;
 			_comments = comments;
+		}
+	}
+
+	struct POLElemKey
+	{
+		public string _prefix;
+		public string _suffix;
+
+		public POLElemKey(string prefix, string suffix)
+		{
+			_prefix = prefix;
+			_suffix = suffix;
 		}
 	}
 }
