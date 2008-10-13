@@ -1,11 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 //
 // Note: This is not how config files are used in the pol core.
 // Its much more advanced and WAY faster, there. 
+//
+// To make it write safe (not lose comments)
+// Config File [hash] (can contain a config elem or a config line class) 
+// Config Elem [hash] (contains either a config line class, or an array of them)
+// Config Line -> A struct containing 2 strings, a value and a comment
+//
+// POLConfigFile also has a LIST to make sure the file doesn't 
+// lose the order of how things were read in.
 //
 
 namespace POLConfig
@@ -20,7 +29,8 @@ namespace POLConfig
 
 		FlagOpts _flags = 0x0;
 		private string _path = "";
-		Hashtable _entries = new Hashtable();
+		Hashtable _entries = new Hashtable(); // Stores actual data.
+		List<object> _write_order;
 
 		public POLConfig(string path): this(path, FlagOpts.read_structured)
 		{
@@ -54,10 +64,11 @@ namespace POLConfig
 				string line = "";
 				while ((line = sr.ReadLine()) != null)
 				{
-					if (line[0] == '#') // Comment line
+					if (line[0] == '#' || (line.Substring(0, 1) == @"//" ) ) // Comment line outisde an elem
 						continue;
-					else if (line.Substring(0, 1) == @"//")
-						continue;
+
+					//Remove any leading white space.
+					line.TrimStart(new char[]{' ','\t'});
 				}
 				sr.Close();
 			}
@@ -150,6 +161,18 @@ namespace POLConfig
 				return (string)_properties[property_name];
 			else
 				return "";
+		}
+	}
+
+	struct POLConfigLine
+	{
+		public string _value;
+		public string _comments;
+
+		POLConfigLine(string value, string comments)
+		{
+			_value = value;
+			_comments = comments;
 		}
 	}
 }
