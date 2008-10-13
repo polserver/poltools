@@ -30,7 +30,7 @@ namespace POLConfig
 		FlagOpts _flags = 0x0;
 		private string _path = "";
 		Hashtable _entries = new Hashtable(); // Stores actual data.
-		List<object> _write_order;
+		List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine or POLConfigElem)
 
 		public POLConfig(string path): this(path, FlagOpts.read_structured)
 		{
@@ -62,13 +62,22 @@ namespace POLConfig
 			{
 				StreamReader sr = new StreamReader(_path);
 				string line = "";
+				bool in_elem = false;
 				while ((line = sr.ReadLine()) != null)
 				{
-					if (line[0] == '#' || (line.Substring(0, 1) == @"//" ) ) // Comment line outisde an elem
-						continue;
-
 					//Remove any leading white space.
-					line.TrimStart(new char[]{' ','\t'});
+					line.TrimStart(new char[] { ' ', '\t' });
+					//Remove any trailing white space.
+					line.Trim(new char[] { ' ', '\t' });
+
+					if (!in_elem)
+					{
+						if (line[0] == '#' || (line.Substring(0, 1) == @"//")) // Comment line outisde an elem
+							_write_order.Add(new POLConfigLine(null, line));
+					}
+					else
+					{
+					}				
 				}
 				sr.Close();
 			}
@@ -118,7 +127,8 @@ namespace POLConfig
 	class POLConfigElem
 	{
 		private string _elem_name = "";
-		private Hashtable _properties = new Hashtable();
+		private Hashtable _properties = new Hashtable(); // Stores POLConfigLine() values
+		List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine)
 
 		public POLConfigElem(string elem_name)
 		{
@@ -169,7 +179,7 @@ namespace POLConfig
 		public string _value;
 		public string _comments;
 
-		POLConfigLine(string value, string comments)
+		public POLConfigLine(string value, string comments)
 		{
 			_value = value;
 			_comments = comments;
