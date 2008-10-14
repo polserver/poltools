@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace POLConfig
 {
-	class POLConfig
+	class POLConfigFile
 	{
 		public enum FlagOpts
 		{
@@ -33,11 +33,11 @@ namespace POLConfig
 		private Hashtable _entries = new Hashtable(); // Stores actual data.
 		private List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine or POLConfigElem)
 
-		public POLConfig(string path): this(path, FlagOpts.read_structured)
+		public POLConfigFile(string path): this(path, FlagOpts.read_structured)
 		{
 		}
 
-		public POLConfig(string path, FlagOpts flags)
+		public POLConfigFile(string path, FlagOpts flags)
 		{
 			_flags = _flags | flags;
 			_path = path;
