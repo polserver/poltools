@@ -1,0 +1,140 @@
+namespace Controls
+{
+    partial class ItemDetail
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            if (showform != null)
+                showform.Close();
+
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemDetail));
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Graphic = new System.Windows.Forms.PictureBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.extractImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Data = new System.Windows.Forms.RichTextBox();
+            this.setHueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Graphic)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.Graphic);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.Data);
+            this.splitContainer1.Size = new System.Drawing.Size(292, 266);
+            this.splitContainer1.SplitterDistance = 61;
+            this.splitContainer1.SplitterWidth = 1;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // Graphic
+            // 
+            this.Graphic.ContextMenuStrip = this.contextMenuStrip1;
+            this.Graphic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Graphic.Location = new System.Drawing.Point(0, 0);
+            this.Graphic.Name = "Graphic";
+            this.Graphic.Size = new System.Drawing.Size(292, 61);
+            this.Graphic.TabIndex = 0;
+            this.Graphic.TabStop = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractImageToolStripMenuItem,
+            this.setHueToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
+            // 
+            // extractImageToolStripMenuItem
+            // 
+            this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractImageToolStripMenuItem.Text = "extract Image";
+            this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
+            // 
+            // Data
+            // 
+            this.Data.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Data.Location = new System.Drawing.Point(0, 0);
+            this.Data.Name = "Data";
+            this.Data.ReadOnly = true;
+            this.Data.Size = new System.Drawing.Size(292, 204);
+            this.Data.TabIndex = 0;
+            this.Data.Text = "";
+            // 
+            // setHueToolStripMenuItem
+            // 
+            this.setHueToolStripMenuItem.Name = "setHueToolStripMenuItem";
+            this.setHueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.setHueToolStripMenuItem.Text = "Set Hue";
+            this.setHueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
+            // 
+            // ItemDetail
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "ItemDetail";
+            this.Text = "ItemDetail";
+            this.Load += new System.EventHandler(this.onLoad);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Graphic)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.PictureBox Graphic;
+        private System.Windows.Forms.RichTextBox Data;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setHueToolStripMenuItem;
+
+    }
+}
