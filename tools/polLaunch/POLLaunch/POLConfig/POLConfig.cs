@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace POLConfig
 {
-	class POLConfigFile
+	public class POLConfigFile
 	{
 		public enum FlagOpts
 		{
@@ -36,6 +36,46 @@ namespace POLConfig
 		public POLConfigFile(string path): this(path, FlagOpts.read_structured)
 		{
 		}
+
+        static public bool SplitLine(string line, out string propname, out string value, out string comment)
+        {
+            propname = "";
+            value = "";
+            comment = "";
+            
+            int pos = 0;
+
+            if ((pos = line.IndexOf('#')) > 0) {
+                comment = line.Substring(pos);
+                line = line.Substring(0, pos);
+            }
+            else if ((pos = line.IndexOf("//")) > 0)
+            {
+                comment = line.Substring(pos);
+                line = line.Substring(0, pos);
+            }
+
+            if ((pos = line.IndexOf(' ')) > 0) // first space separates prop from value
+            {
+                propname = line.Substring(0, pos);
+                value = line.Substring(pos+1);
+            }
+            else
+            {
+                propname = line; // if there´s no space, just make propname what is on the line
+                value = "";
+            }
+
+            return true;
+        }
+
+        static bool IsComment(string line)
+        {
+            if (line[0] == '#' || line.Substring(0, 2) == @"//")
+                return true;
+            
+            return false;
+        }
 
 		public POLConfigFile(string path, FlagOpts flags)
 		{
@@ -55,6 +95,10 @@ namespace POLConfig
 			get { return _flags; }
 		}
 
+        public List<Object> Structure {
+         get { return _write_order;}
+        }
+
 		public bool ReadConfigFile()
 		{
 			if (!File.Exists(_path))
@@ -71,22 +115,50 @@ namespace POLConfig
 				POLConfigElem cur_elem = null;
 				while ((line = sr.ReadLine()) != null)
 				{
-					//Remove any leading white space.
-					line.TrimStart(new char[] { ' ', '\t' });
-					//Remove any trailing white space.
-					line.Trim(new char[] { ' ', '\t' });
+					//Remove any leading or trailing white space.
+					line = line.Trim(new char[] { ' ', '\t' });
+
+                    if (line.Length == 0)
+                    {
+                        if (cur_elem == null)
+                            _write_order.Add(new POLConfigLine(null, ""));
+                        else
+                            cur_elem.AddComment("");
+
+                        continue;
+                    }
 
 					if ( cur_elem == null )
-					{
-						if ( line[0] == '#' || (line.Substring(0, 1) == @"//") ) // Comment line outisde an elem
-							_write_order.Add(new POLConfigLine(null, line));
-					}
+                    {
+                        if (IsComment(line)) // Comment line outside an elem
+                            _write_order.Add(new POLConfigLine(null, line));
+                        {
+                            int pos = 0;
+                            if ((pos = line.IndexOf('{')) > 0)
+                            {
+                                cur_elem = new POLConfigElem(line.Substring(0, pos));
+                            }
+                        }
+                    }
 					else
 					{
-						if (line[0] == '}')
-							cur_elem = null;
-						else if (line[0] == '#' || (line.Substring(0, 1) == @"//"))
-							cur_elem.AddComment(line);
+                        if (line[0] == '}')
+                        {
+                            _write_order.Add(cur_elem);
+                            cur_elem = null;
+                        }
+                        else if (IsComment(line))
+                            cur_elem.AddComment(line);
+                        else
+                        {
+                            string name = "";
+                            string value = "";
+                            string comment = "";
+                            if (SplitLine(line, out name, out value, out comment))
+                            {
+                                cur_elem.AddProperty(name, value, comment);
+                            }
+                        }
 					}				
 				}
 				sr.Close();
@@ -98,6 +170,31 @@ namespace POLConfig
 			}
 			return true;
 		}
+        
+        public void DumpConfigStream(TextWriter stream)
+        {
+            if (!_read)
+                return;
+
+            foreach (object o in this.Structure)
+            {
+                if (o.GetType() == typeof(POLConfigElem))
+                {
+                    if (((POLConfigElem)o).Prefix != "")
+                        stream.WriteLine("{0} {1} {2}", ((POLConfigElem)o).Prefix, ((POLConfigElem)o).ElemName, '{');
+                    else
+                        stream.WriteLine("{0} {1}", ((POLConfigElem)o).ElemName, '{');
+
+                    foreach (object x in ((POLConfigElem)o).Structure)
+                    {
+                        stream.WriteLine("\t {0}", x.ToString());
+                    }
+
+                    stream.WriteLine("}");
+                }
+                else stream.WriteLine(o.ToString());
+            }
+        }
 
 		public void FindConfigElem(string elem_name)
 		{
@@ -136,19 +233,42 @@ namespace POLConfig
 
 	class POLConfigElem
 	{
+        private string _elem_prefix = "";
 		private string _elem_name = "";
 		private Hashtable _properties = new Hashtable(); // Stores POLConfigLine() values
 		List<object> _write_order = new List<object>(); // Stores the order of data (POLConfigLine)
 
 		public POLConfigElem(string elem_name)
 		{
-			_elem_name = elem_name;
+            elem_name = elem_name.Trim(new char[] {' ', '\t'});
+            string[] names = elem_name.Split(' ');
+            if (names.Length > 1)
+            {
+                _elem_prefix = names[0];
+                _elem_name = names[1];
+            }
+            else 
+            {
+                _elem_prefix = "";
+                _elem_name = elem_name;
+            }
+
+			//_elem_name = elem_name;
 		}
 
 		public String ElemName
 		{
 			get { return _elem_name; }
 		}
+        public String Prefix
+        {
+            get { return _elem_prefix; }
+        }
+
+        public List<object> Structure
+        {
+            get { return _write_order; }
+        }
 
 		public string[] ListConfigElemProps()
 		{
@@ -183,6 +303,17 @@ namespace POLConfig
 				return "";
 		}
 
+        public void AddProperty(string name, string value)
+        {
+            AddProperty(name, value, "");
+        }
+        public void AddProperty(string name, string value, string comment)
+        {
+            _write_order.Add(new POLConfigLine(name, value, comment));
+            if (!_properties.ContainsKey(name))
+                _properties[name] = new POLConfigLine(name, value, comment);
+        }
+
 		public void AddComment(string comment)
 		{
 			_write_order.Add(new POLConfigLine(null, comment));
@@ -191,14 +322,25 @@ namespace POLConfig
 
 	struct POLConfigLine
 	{
+        public string _name;
 		public string _value;
 		public string _comments;
 
-		public POLConfigLine(string value, string comments)
+		public POLConfigLine(string name, string value, string comments)
 		{
+            _name = name;
 			_value = value;
 			_comments = comments;
 		}
+        public POLConfigLine(string value, string comments) : this(null, value, comments) 
+        { }
+        public override string ToString()
+        {
+            if (_name != "")
+                return _name + " " + _value + _comments;
+            else
+                return _value + _comments;
+        }
 	}
 
 	struct POLElemKey
