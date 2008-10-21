@@ -36,17 +36,24 @@ namespace UoViewer
             dom.AppendChild(decl);
             XmlElement sr = dom.CreateElement("Options");
 
-            XmlElement itemsize = dom.CreateElement("ItemSize");
-            itemsize.SetAttribute("width", ItemShow.ItemSizeWidth.ToString());
-            itemsize.SetAttribute("height", ItemShow.ItemSizeHeight.ToString());
-            sr.AppendChild(itemsize);
-            XmlElement itemclip = dom.CreateElement("ItemClip");
-            itemclip.SetAttribute("active", ItemShow.ItemClip.ToString());
-            sr.AppendChild(itemclip);
-            XmlElement cachedata = dom.CreateElement("CacheData");
-            cachedata.SetAttribute("active", FileIndex.CacheData.ToString());
-            sr.AppendChild(cachedata);
-
+            XmlComment comment= dom.CreateComment("ItemSize controls the size of images in items tab");
+            sr.AppendChild(comment);
+            XmlElement elem = dom.CreateElement("ItemSize");
+            elem.SetAttribute("width", ItemShow.ItemSizeWidth.ToString());
+            elem.SetAttribute("height", ItemShow.ItemSizeHeight.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("ItemClip images in items tab shrinked or clipped");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("ItemClip");
+            elem.SetAttribute("active", ItemShow.ItemClip.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("CacheData should mul entries be cached for faster load");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("CacheData");
+            elem.SetAttribute("active", FileIndex.CacheData.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("Pathsettings");
+            sr.AppendChild(comment);
             foreach (DictionaryEntry e in FileIndex.MulPath)
             {
                 XmlElement path = dom.CreateElement("Paths");
@@ -77,7 +84,7 @@ namespace UoViewer
             dom.Load(FileName);
             XmlElement xOptions = dom["Options"];
 
-            XmlElement itemsize = (XmlElement) xOptions.SelectSingleNode("ItemSize");
+            XmlElement itemsize = (XmlElement)xOptions.SelectSingleNode("ItemSize");
             if (itemsize != null)
             {
                 ItemShow.ItemSizeWidth = int.Parse(itemsize.GetAttribute("width"));

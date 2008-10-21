@@ -101,7 +101,6 @@ namespace Controls
             {
                 layers[i] = (object)0;
                 checkedListBoxWear.Items.Add(String.Format("0x{0:X2}", i), true);
-
             }
             checkedListBoxWear.EndUpdate();
             groupBoxAnimate.Visible = false;
@@ -316,9 +315,13 @@ namespace Controls
         {
             m_FrameIndex++;
 
-            if (m_FrameIndex == m_Animation.Length)
+            if (m_FrameIndex >= m_Animation.Length)
                 m_FrameIndex = 0;
 
+            if (m_Animation == null)
+                return;
+            if (m_Animation[m_FrameIndex] == null)
+                return;
             DressPic.Image = m_Animation[m_FrameIndex];
             DressPic.Update();
         }
@@ -600,6 +603,7 @@ namespace Controls
 
             m_Animation = null;
             m_FrameIndex = 0;
+
             DrawPaperdoll();
         }
 

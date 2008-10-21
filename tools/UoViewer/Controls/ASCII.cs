@@ -17,19 +17,13 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
-        private static Brush borderBrush = Brushes.Gray;
-        private Pen borderPen = new Pen(borderBrush);
-        private int i;
-        private Bitmap bmp;
-        private int font = 0;
-
         private void OnLoad(object sender, EventArgs e)
         {
             treeView.Nodes.Clear();
             TreeNode node = new TreeNode("ASCII");
             node.Tag = 0;
             treeView.Nodes.Add(node);
-            for (i = 0; i < ASCIIText.Fonts.Length; i++)
+            for (int i = 0; i < ASCIIText.Fonts.Length; i++)
             {
                 node = new TreeNode(i.ToString());
                 node.Tag = i;
@@ -43,11 +37,11 @@ namespace Controls
             if (treeView.SelectedNode.Parent == null)
                 treeView.SelectedNode = treeView.SelectedNode.Nodes[0];
 
-            font = (int)treeView.SelectedNode.Tag;
+            int font = (int)treeView.SelectedNode.Tag;
 
             listView1.Clear();
             listView1.BeginUpdate();
-            for (i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
+            for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
             {
                 ListViewItem item = new ListViewItem(i.ToString(), 0);
                 item.Tag = ASCIIText.Fonts[font].Characters[i];
@@ -59,8 +53,8 @@ namespace Controls
 
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
-            i = int.Parse(e.Item.Text.ToString());
-            bmp = (Bitmap)e.Item.Tag;
+            int i = int.Parse(e.Item.Text.ToString());
+            Bitmap bmp = (Bitmap)e.Item.Tag;
             
             if (bmp != null)
             {
@@ -79,7 +73,7 @@ namespace Controls
 
                 e.Graphics.DrawImage(bmp, new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
 
-                e.Graphics.DrawRectangle(borderPen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }
     }

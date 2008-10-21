@@ -17,16 +17,11 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
-        private static Brush borderBrush = Brushes.Gray;
-        private Pen borderPen = new Pen(borderBrush);
-        private Bitmap bmp;
-        private int i;
-
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
-            i = (int)e.Item.Tag;
+            int i = (int)e.Item.Tag;
 
-            bmp = Textures.GetTexture(i);
+            Bitmap bmp = Textures.GetTexture(i);
 
             if (bmp != null)
             {
@@ -44,7 +39,7 @@ namespace Controls
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.DrawFocusRectangle();
                 else
-                    e.Graphics.DrawRectangle(borderPen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                    e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }
 
@@ -58,7 +53,7 @@ namespace Controls
         {
             listView1.BeginUpdate();
             ListViewItem item;
-            for (i = 0; i < 0x1000; i++)
+            for (int i = 0; i < 0x1000; i++)
             {
                 if (Textures.TestTexture(i))
                 {

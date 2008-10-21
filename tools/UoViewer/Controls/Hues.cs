@@ -19,16 +19,13 @@ namespace Controls
         private int Selected=0;
         private void OnLoad(object sender, EventArgs e)
         {
-            if (listBox.Items.Count == 0)
+            listBox.BeginUpdate();
+            listBox.Items.Clear();
+            foreach (Hue hue in Ultima.Hues.List)
             {
-                listBox.BeginUpdate();
-                listBox.Items.Clear();
-                foreach (Hue hue in Ultima.Hues.List)
-                {
-                    listBox.Items.Add(hue);
-                }
-                listBox.EndUpdate();
+                listBox.Items.Add(hue);
             }
+            listBox.EndUpdate();
             listBox.SelectedIndex = Selected;
         }
 

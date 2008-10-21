@@ -23,10 +23,6 @@ namespace Controls
         public static bool ItemClip = false;
 
         private static ItemShow refMarker = null;
-        private static Brush borderBrush = Brushes.Gray;
-        private Pen borderPen = new Pen(borderBrush);
-        private int i;
-        private Bitmap bmp;
 
         public static bool SearchGraphic(int graphic)
         {
@@ -93,7 +89,7 @@ namespace Controls
                 listView1.SmallImageList.Images.Add(bmptest);
             }
 
-            for (i = 0; i < 0x4000; i++)
+            for (int i = 0; i < 0x4000; i++)
             {
                 if (Art.IsValidStatic(i))
                 {
@@ -113,7 +109,7 @@ namespace Controls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                i = (int)listView1.SelectedItems[0].Tag;
+                int i = (int)listView1.SelectedItems[0].Tag;
                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4}", i);
             }
@@ -121,9 +117,9 @@ namespace Controls
 
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
-            i = (int)e.Item.Tag;
+            int i = (int)e.Item.Tag;
 
-            bmp = Art.GetStatic(i);
+            Bitmap bmp = Art.GetStatic(i);
 
             if (bmp != null)
             {
@@ -156,7 +152,7 @@ namespace Controls
                                          new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
                 }
                 if (!listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.DrawRectangle(borderPen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
+                    e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
             }
         }
 
@@ -164,7 +160,7 @@ namespace Controls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                i = (int)listView1.SelectedItems[0].Tag;
+                int i = (int)listView1.SelectedItems[0].Tag;
                 new ItemDetail(i).Show();
             }
         }

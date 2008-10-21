@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mobs>
+  <!--Entries in Mob tab-->
+  <!--Name=Displayed name-->
+  <!--body=Graphic-->
+  <!--type=0:Monster, 1:Sea, 2:Animal, 3:Human/Equipment-->
   <Mob name="ogres_ogre (1)" body="1" type="0"></Mob>
   <Mob name="ettins_ettin (2)" body="2" type="0"></Mob>
   <Mob name="walking_dead_zombie (3)" body="3" type="0"></Mob>

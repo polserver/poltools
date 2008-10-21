@@ -18,7 +18,7 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
-        private System.Media.SoundPlayer sp = new System.Media.SoundPlayer();
+        private System.Media.SoundPlayer sp;
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -36,6 +36,7 @@ namespace Controls
             }
             treeView.EndUpdate();
             treeView.SelectedNode = treeView.Nodes[0];
+            sp = new System.Media.SoundPlayer();
         }
 
         private void PlaySound(object sender, EventArgs e)
@@ -49,12 +50,11 @@ namespace Controls
 
         private void OnChangeSort(object sender, EventArgs e)
         {
-            int i;
             string delimiter= " ";
             char[] delim = delimiter.ToCharArray();
             string [] name;
             treeView.BeginUpdate();
-            for (i = 0; i < treeView.Nodes.Count; i++)
+            for (int i = 0; i < treeView.Nodes.Count; i++)
             {
                 name = treeView.Nodes[i].Text.Split(delim);
                 treeView.Nodes[i].Text = String.Format("{0} {1} ", name[1], name[0]);
