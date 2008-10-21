@@ -20,13 +20,9 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
-        private Bitmap bmp;
-        private Brush fontBrush;
-        private int i;
-
         protected override void OnLoad(EventArgs e)
         {
-            for (i = 0; i < 0xFFFF; i++)
+            for (int i = 0; i < 0xFFFF; i++)
             {
                 if (Gumps.IsValidIndex(i))
                     listBox.Items.Add(i);
@@ -37,12 +33,12 @@ namespace Controls
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            fontBrush = Brushes.Gray;
+            Brush fontBrush = Brushes.Gray;
 
-            i = int.Parse(listBox.Items[e.Index].ToString());
+            int i = int.Parse(listBox.Items[e.Index].ToString());
             if (Gumps.IsValidIndex(i))
             {
-                bmp = Gumps.GetGump(i);
+                Bitmap bmp = Gumps.GetGump(i);
                 
                 //index 21696 is valid index, but no valid bitmap data?
                 if (bmp != null)
@@ -83,10 +79,10 @@ namespace Controls
             if (listBox.SelectedIndex == -1)
                 return;
 
-            i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             if (Gumps.IsValidIndex(i))
             {
-                bmp = Gumps.GetGump(i);
+                Bitmap bmp = Gumps.GetGump(i);
                 if (bmp != null)
                 {
                     pictureBox.BackgroundImage = bmp;
@@ -104,9 +100,9 @@ namespace Controls
         private void extract_Image_Click(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
-            bmp = Gumps.GetGump(i);
+            Bitmap bmp = Gumps.GetGump(i);
             bmp.Save(FileName, ImageFormat.Jpeg);
         }
     }

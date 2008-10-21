@@ -41,7 +41,6 @@ namespace Controls
 
 
         private Bitmap m_MainPicture;
-        private Bitmap bmp;
         private int m_CurrentSelect = 0;
         private int m_CurrentSelectAction = 0;
         private bool m_Animate = false;
@@ -50,8 +49,6 @@ namespace Controls
         private bool m_ImageInvalidated = true;
         private Timer m_Timer = null;
         private Frame[] frames;
-        private static Brush borderBrush = Brushes.Gray;
-        private Pen borderPen = new Pen(borderBrush);
         private int customHue = 0;
         private int DefHue = 0;
         private int facing = 1;
@@ -305,7 +302,7 @@ namespace Controls
                         node.Tag = i;
                         TreeViewMobs.Nodes[TreeViewMobs.Nodes.Count - 1].Nodes.Add(node);
                     }
-                }
+                    }
             }
             TreeViewMobs.EndUpdate();
             return true;
@@ -369,7 +366,7 @@ namespace Controls
 
             if (frames == null)
                 return;
-            bmp = frames[0].Bitmap;
+            Bitmap bmp = frames[0].Bitmap;
             int width = bmp.Width;
             int height = bmp.Height;
 
@@ -384,7 +381,7 @@ namespace Controls
             if (listView.SelectedItems.Contains(e.Item))
                 e.DrawFocusRectangle();
             else
-                e.Graphics.DrawRectangle(borderPen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
         }
 
         private HuePopUp showform = null;
@@ -415,7 +412,7 @@ namespace Controls
         }
         private void Frames_ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            bmp = m_Animation[(int)e.Item.Tag];
+            Bitmap bmp = m_Animation[(int)e.Item.Tag];
             int width = bmp.Width;
             int height = bmp.Height;
 
@@ -427,7 +424,7 @@ namespace Controls
 
             e.Graphics.DrawImage(bmp, e.Bounds.X, e.Bounds.Y, width, height);
             e.DrawText(TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter);
-            e.Graphics.DrawRectangle(borderPen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+            e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
         }
 
         private void OnScrollFacing(object sender, EventArgs e)

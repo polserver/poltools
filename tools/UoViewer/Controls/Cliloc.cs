@@ -18,8 +18,8 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
-        private StringList cliloc;
-        private int lang=0;
+        private static StringList cliloc;
+        private static int lang=0;
 
         private void OnLoad(object sender, EventArgs e)
         {

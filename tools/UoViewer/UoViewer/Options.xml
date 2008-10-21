@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Options>
+  <!--ItemSize controls the size of images in items tab-->
   <ItemSize width="48" height="48" />
+  <!--ItemClip images in items tab shrinked or clipped-->
   <ItemClip active="True" />
-  <CacheData active="True" />
+  <!--CacheData should mul entries be cached for faster load-->
+  <CacheData active="False" />
 </Options>

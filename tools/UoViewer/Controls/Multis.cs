@@ -18,8 +18,6 @@ namespace Controls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
-        private Bitmap m_MainPicture_Multi;
-        private MultiComponentList multi;
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -27,7 +25,7 @@ namespace Controls
             TreeViewMulti.Nodes.Clear();
             for (int i = 0; i <= 0x4000; i++)
             {
-                multi = Ultima.Multis.GetComponents(i);
+                MultiComponentList multi = Ultima.Multis.GetComponents(i);
                 if (multi != MultiComponentList.Empty)
                 {
                     TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
@@ -55,7 +53,7 @@ namespace Controls
         private void onPaint_MultiPic(object sender, PaintEventArgs e)
         {
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
-            m_MainPicture_Multi = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
+            Bitmap m_MainPicture_Multi  = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             Point location = Point.Empty;
             Size size = Size.Empty;
             Rectangle destRect = Rectangle.Empty;
@@ -89,6 +87,7 @@ namespace Controls
 
 
             e.Graphics.DrawImage(m_MainPicture_Multi, destRect, 0, 0, m_MainPicture_Multi.Width, m_MainPicture_Multi.Height, System.Drawing.GraphicsUnit.Pixel);
+            
         }
 
         private void onValue_HeightChangeMulti(object sender, EventArgs e)
@@ -118,7 +117,10 @@ namespace Controls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.jpg", int.Parse(TreeViewMulti.SelectedNode.Name)));
-            m_MainPicture_Multi.Save(FileName, ImageFormat.Jpeg);
+            int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
+            Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
+            bit.Save(FileName, ImageFormat.Jpeg);
+
         }
     }
 }
