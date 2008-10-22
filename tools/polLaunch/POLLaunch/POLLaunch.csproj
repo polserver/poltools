@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FF207B3B-C063-46FA-8043-66FC4B9D8508}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -61,6 +61,9 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IPStuff.cs" />
+    <Compile Include="MyConsole.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="POLChecks.cs" />
     <Compile Include="POLConfig\POLConfig.cs" />
     <Compile Include="POLTools\UOConvert.cs" />
