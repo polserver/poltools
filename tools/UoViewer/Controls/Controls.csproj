@@ -71,11 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ASCII.cs">
+    <Compile Include="Fonts.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ASCII.Designer.cs">
-      <DependentUpon>ASCII.cs</DependentUpon>
+    <Compile Include="Fonts.Designer.cs">
+      <DependentUpon>Fonts.cs</DependentUpon>
     </Compile>
     <Compile Include="Cliloc.cs">
       <SubType>UserControl</SubType>
@@ -200,9 +200,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ASCII.resx">
+    <EmbeddedResource Include="Fonts.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ASCII.cs</DependentUpon>
+      <DependentUpon>Fonts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cliloc.resx">
       <SubType>Designer</SubType>

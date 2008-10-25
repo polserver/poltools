@@ -54,12 +54,14 @@ namespace UoViewer
             sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
-            foreach (DictionaryEntry e in FileIndex.MulPath)
+
+            ArrayList sorter = new ArrayList(FileIndex.MulPath.Keys);
+            sorter.Sort();
+            foreach (string key in sorter)
             {
                 XmlElement path = dom.CreateElement("Paths");
-                path.SetAttribute("key", e.Key.ToString());
-                path.SetAttribute("value", e.Value.ToString());
-
+                path.SetAttribute("key", key.ToString());
+                path.SetAttribute("value", FileIndex.MulPath[key].ToString());
                 sr.AppendChild(path);
             }
             dom.AppendChild(sr);

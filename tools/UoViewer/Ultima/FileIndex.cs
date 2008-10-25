@@ -80,6 +80,13 @@ namespace Ultima
             "texidx.mul",
             "texmaps.mul",
             "tiledata.mul",
+            "unifont.mul",
+            "unifont1.mul",
+            "unifont2.mul",
+            "unifont3.mul",
+            "unifont4.mul",
+            "unifont5.mul",
+            "unifont6.mul",
 			"verdata.mul"
         };
 

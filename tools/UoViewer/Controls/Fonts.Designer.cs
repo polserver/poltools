@@ -1,6 +1,6 @@
 namespace Controls
 {
-    partial class ASCII
+    partial class Fonts
     {
         /// <summary> 
         /// Required designer variable.

@@ -50,8 +50,8 @@ namespace UoViewer
             this.controlSound = new Controls.Sounds();
             this.Hue = new System.Windows.Forms.TabPage();
             this.controlHue = new Controls.Hues();
-            this.asciifont = new System.Windows.Forms.TabPage();
-            this.controlascii = new Controls.ASCII();
+            this.fonts = new System.Windows.Forms.TabPage();
+            this.controlfonts = new Controls.Fonts();
             this.Cliloc = new System.Windows.Forms.TabPage();
             this.controlCliloc = new Controls.Cliloc();
             this.map = new System.Windows.Forms.TabPage();
@@ -76,7 +76,7 @@ namespace UoViewer
             this.Gumps.SuspendLayout();
             this.Sounds.SuspendLayout();
             this.Hue.SuspendLayout();
-            this.asciifont.SuspendLayout();
+            this.fonts.SuspendLayout();
             this.Cliloc.SuspendLayout();
             this.map.SuspendLayout();
             this.Light.SuspendLayout();
@@ -95,7 +95,7 @@ namespace UoViewer
             this.tabControl2.Controls.Add(this.Gumps);
             this.tabControl2.Controls.Add(this.Sounds);
             this.tabControl2.Controls.Add(this.Hue);
-            this.tabControl2.Controls.Add(this.asciifont);
+            this.tabControl2.Controls.Add(this.fonts);
             this.tabControl2.Controls.Add(this.Cliloc);
             this.tabControl2.Controls.Add(this.map);
             this.tabControl2.Controls.Add(this.Light);
@@ -128,7 +128,7 @@ namespace UoViewer
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Version 1.2";
+            this.label2.Text = "Version 1.3";
             // 
             // label1
             // 
@@ -297,24 +297,24 @@ namespace UoViewer
             this.controlHue.Size = new System.Drawing.Size(613, 318);
             this.controlHue.TabIndex = 0;
             // 
-            // asciifont
+            // fonts
             // 
-            this.asciifont.Controls.Add(this.controlascii);
-            this.asciifont.Location = new System.Drawing.Point(4, 22);
-            this.asciifont.Name = "asciifont";
-            this.asciifont.Padding = new System.Windows.Forms.Padding(3);
-            this.asciifont.Size = new System.Drawing.Size(619, 324);
-            this.asciifont.TabIndex = 7;
-            this.asciifont.Text = "ASCIIFont";
-            this.asciifont.UseVisualStyleBackColor = true;
+            this.fonts.Controls.Add(this.controlfonts);
+            this.fonts.Location = new System.Drawing.Point(4, 22);
+            this.fonts.Name = "fonts";
+            this.fonts.Padding = new System.Windows.Forms.Padding(3);
+            this.fonts.Size = new System.Drawing.Size(619, 324);
+            this.fonts.TabIndex = 7;
+            this.fonts.Text = "Fonts";
+            this.fonts.UseVisualStyleBackColor = true;
             // 
-            // controlascii
+            // controlfonts
             // 
-            this.controlascii.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlascii.Location = new System.Drawing.Point(3, 3);
-            this.controlascii.Name = "controlascii";
-            this.controlascii.Size = new System.Drawing.Size(613, 318);
-            this.controlascii.TabIndex = 0;
+            this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlfonts.Location = new System.Drawing.Point(3, 3);
+            this.controlfonts.Name = "controlascii";
+            this.controlfonts.Size = new System.Drawing.Size(613, 318);
+            this.controlfonts.TabIndex = 0;
             // 
             // Cliloc
             // 
@@ -455,7 +455,7 @@ namespace UoViewer
             this.Gumps.ResumeLayout(false);
             this.Sounds.ResumeLayout(false);
             this.Hue.ResumeLayout(false);
-            this.asciifont.ResumeLayout(false);
+            this.fonts.ResumeLayout(false);
             this.Cliloc.ResumeLayout(false);
             this.map.ResumeLayout(false);
             this.Light.ResumeLayout(false);
@@ -489,8 +489,8 @@ namespace UoViewer
         private Controls.Multis controlMulti;
         private System.Windows.Forms.TabPage Hue;
         private Controls.Hues controlHue;
-        private System.Windows.Forms.TabPage asciifont;
-        private Controls.ASCII controlascii;
+        private System.Windows.Forms.TabPage fonts;
+        private Controls.Fonts controlfonts;
         private System.Windows.Forms.TabPage Cliloc;
         private Controls.Cliloc controlCliloc;
         private System.Windows.Forms.TabPage map;
