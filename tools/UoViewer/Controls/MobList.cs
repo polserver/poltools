@@ -291,6 +291,7 @@ namespace Controls
                 value = int.Parse(xMob.GetAttribute("body"));
                 node = new TreeNode(name);
                 node.Tag = value;
+                node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes.Add(node);
                 int type = int.Parse(xMob.GetAttribute("type"));
 

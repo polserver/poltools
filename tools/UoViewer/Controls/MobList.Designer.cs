@@ -88,6 +88,7 @@ namespace Controls
             this.TreeViewMobs.HideSelection = false;
             this.TreeViewMobs.Location = new System.Drawing.Point(0, 0);
             this.TreeViewMobs.Name = "TreeViewMobs";
+            this.TreeViewMobs.ShowNodeToolTips = true;
             this.TreeViewMobs.Size = new System.Drawing.Size(203, 324);
             this.TreeViewMobs.TabIndex = 0;
             this.TreeViewMobs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewMobs_AfterSelect);
@@ -144,12 +145,12 @@ namespace Controls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 26);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
             // 
@@ -242,14 +243,14 @@ namespace Controls
             this.sortAlphaToolStripMenuItem.CheckOnClick = true;
             this.sortAlphaToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.sortAlphaToolStripMenuItem.Name = "sortAlphaToolStripMenuItem";
-            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.sortAlphaToolStripMenuItem.Text = "Sort alphabetically";
             this.sortAlphaToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Sort);
             // 
             // hueToolStripMenuItem
             // 
             this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
-            this.hueToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.hueToolStripMenuItem.Text = "Hue";
             this.hueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
             // 
@@ -257,7 +258,7 @@ namespace Controls
             // 
             this.animateToolStripMenuItem.CheckOnClick = true;
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
             // 
