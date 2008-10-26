@@ -314,7 +314,7 @@ namespace Controls
                         node.Tag = i;
                         TreeViewMobs.Nodes[TreeViewMobs.Nodes.Count - 1].Nodes.Add(node);
                     }
-                    }
+                }
             }
             TreeViewMobs.EndUpdate();
             return true;
@@ -405,6 +405,7 @@ namespace Controls
                     showform = new HuePopUp(this,DefHue+1);
                 else
                     showform = new HuePopUp(this, customHue-1);
+                showform.TopMost = true;
                 showform.Show();
             }
         }

@@ -42,7 +42,16 @@ namespace UoViewer
                 m_Path = new PathSettings();
             else
                 m_Path.Focus();
+            m_Path.TopMost = true;
             m_Path.Show();
+        }
+
+        private void onClickAlwaysTop(object sender, EventArgs e)
+        {
+            if (alwaysOnTopToolStripMenuItem.Checked)
+                this.TopMost = true;
+            else
+                this.TopMost = false;
         }
     }
 }
