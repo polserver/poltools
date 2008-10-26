@@ -108,15 +108,11 @@ namespace Controls
         private void OnClick_Hue(object sender, EventArgs e)
         {
             if ((showform == null) || (showform.IsDisposed))
-            {
                 showform = new HuePopUpItem(this, DefHue - 1);
-                showform.Show();
-            }
             else
-            {
                 showform.SetHue(DefHue - 1);
-                showform.Show();
-            }
+            showform.TopMost = true;
+            showform.Show();
         }
 
         public void ChangeHue(int select)

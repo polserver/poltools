@@ -107,7 +107,6 @@ namespace Controls
                     ListViewItem item = new ListViewItem(i.ToString(), 0);
                     item.Tag = i;
                     listView1.Items.Add(item);
-
                 }
             }
             if (OSFeature.Feature.IsPresent(OSFeature.Themes))
@@ -171,8 +170,9 @@ namespace Controls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                int i = (int)listView1.SelectedItems[0].Tag;
-                new ItemDetail(i).Show();
+                ItemDetail f = new ItemDetail((int)listView1.SelectedItems[0].Tag);
+                f.TopMost = true;
+                f.Show();
             }
         }
 
@@ -182,6 +182,7 @@ namespace Controls
             if ((showform == null) || (showform.IsDisposed))
             {
                 showform = new ItemSearch();
+                showform.TopMost = true;
                 showform.Show();
             }
         }

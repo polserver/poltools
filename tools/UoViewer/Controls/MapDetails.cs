@@ -25,6 +25,7 @@ namespace Controls
         public MapDetails(Ultima.Map currmap, Point point)
         {
             InitializeComponent();
+            this.TopMost = true;
             Tile currtile = currmap.Tiles.GetLandTile(point.X, point.Y);
             richTextBox.AppendText(String.Format("X: {0} Y: {1}\n\n",point.X,point.Y));
             richTextBox.AppendText("LandTile:\n");

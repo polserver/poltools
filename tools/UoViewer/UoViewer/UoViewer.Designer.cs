@@ -74,6 +74,7 @@ namespace UoViewer
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pathSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,9 +138,9 @@ namespace UoViewer
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(553, 311);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Version 1.3";
+            this.label2.Text = "Version 1.3b";
             // 
             // label1
             // 
@@ -323,7 +324,7 @@ namespace UoViewer
             // 
             this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlfonts.Location = new System.Drawing.Point(3, 3);
-            this.controlfonts.Name = "controlascii";
+            this.controlfonts.Name = "controlfonts";
             this.controlfonts.Size = new System.Drawing.Size(613, 318);
             this.controlfonts.TabIndex = 0;
             // 
@@ -418,6 +419,7 @@ namespace UoViewer
             // 
             this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.alwaysOnTopToolStripMenuItem,
             this.pathSettingsToolStripMenuItem,
             this.toolStripSeparator1,
             this.restartNeededToolStripMenuItem});
@@ -425,6 +427,14 @@ namespace UoViewer
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(62, 22);
             this.toolStripSplitButton1.Text = "Settings";
+            // 
+            // alwaysOnTopToolStripMenuItem
+            // 
+            this.alwaysOnTopToolStripMenuItem.CheckOnClick = true;
+            this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
+            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.alwaysOnTopToolStripMenuItem.Text = "Always On Top";
+            this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
             // pathSettingsToolStripMenuItem
             // 
@@ -516,6 +526,7 @@ namespace UoViewer
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage Dress;
         private Controls.Dress controldress;
+        private System.Windows.Forms.ToolStripMenuItem alwaysOnTopToolStripMenuItem;
     }
 }
 
