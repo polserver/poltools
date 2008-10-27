@@ -104,11 +104,21 @@ namespace Controls
 
 
                 char c = (char)(i+ 32);
-                e.Graphics.DrawString(c.ToString(), Fonts.DefaultFont, Brushes.LightGray, e.Bounds.X + e.Bounds.Width / 2, e.Bounds.Y + e.Bounds.Height / 2);
-
+                e.Graphics.DrawString(c.ToString(), Fonts.DefaultFont, Brushes.Gray, e.Bounds.X + e.Bounds.Width / 2, e.Bounds.Y + e.Bounds.Height / 2);
                 e.Graphics.DrawImage(bmp, new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
-
                 e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+            }
+        }
+
+        private void onSelectChar(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 0)
+                toolStripStatusLabel1.Text = " : ()";
+            else
+            {
+                int i = int.Parse(listView1.SelectedItems[0].Text.ToString());
+                i+=32;
+                toolStripStatusLabel1.Text = String.Format("'{0}' : {1} (0x{2:X})",(char)i,i,i);
             }
         }
     }
