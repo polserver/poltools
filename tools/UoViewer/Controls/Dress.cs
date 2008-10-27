@@ -180,8 +180,9 @@ namespace Controls
                 }
             }
             graphpic.Save();
-            DressPic.Image = bitpic;
-            DressPic.Update();
+            //DressPic.Image = bitpic;
+            //DressPic.Update();
+            DressPic.Refresh();
         }
 
         private void DrawAnimation()
@@ -245,8 +246,9 @@ namespace Controls
                 }
             }
             graphpic.Save();
-            DressPic.Image = bitpic;
-            DressPic.Update();
+            //DressPic.Image = bitpic;
+            //DressPic.Update();
+            DressPic.Refresh();
         }
 
         private void DoAnimation()
@@ -333,8 +335,9 @@ namespace Controls
                 return;
             if (m_Animation[m_FrameIndex] == null)
                 return;
-            DressPic.Image = m_Animation[m_FrameIndex];
-            DressPic.Update();
+            //DressPic.Image = m_Animation[m_FrameIndex];
+            //DressPic.Update();
+            DressPic.Refresh();
         }
 
         private void BuildDressList()
@@ -639,6 +642,14 @@ namespace Controls
             toolTip1.SetToolTip(ActionBar,ActionBar.Value.ToString()+" "+tip[ActionBar.Value]);
             action = ActionBar.Value;
             RefreshDrawing();
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            if (animate)
+                e.Graphics.DrawImage(m_Animation[m_FrameIndex], drawpoint);
+            else
+                e.Graphics.DrawImage(bitpic,drawpoint);
         }
     }
 
