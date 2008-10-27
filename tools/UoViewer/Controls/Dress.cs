@@ -646,10 +646,12 @@ namespace Controls
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
-            if (animate)
+            if (showPD)
+                e.Graphics.DrawImage(bitpic, drawpoint);
+            else if (animate)
                 e.Graphics.DrawImage(m_Animation[m_FrameIndex], drawpoint);
             else
-                e.Graphics.DrawImage(bitpic,drawpoint);
+                e.Graphics.DrawImage(bitpic, drawpoint);
         }
     }
 

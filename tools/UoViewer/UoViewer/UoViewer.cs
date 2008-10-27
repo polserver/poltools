@@ -26,9 +26,11 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
+        private static string Version = "1.3d";
         public UoViewer()
         {
             InitializeComponent();
+            Versionlabel.Text = "Version " + Version;
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
