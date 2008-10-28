@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -9,9 +10,10 @@ namespace Ultima
 {
     public class Animdata
     {
-        public static Data[] AnimData= new Data[0x4000];
+        public static Hashtable AnimData;
         unsafe static Animdata()
         {
+            AnimData = new Hashtable();
             string path = Client.GetFilePath("animdata.mul");
             if (path != null)
             {
@@ -19,6 +21,8 @@ namespace Ultima
                 {
                     BinaryReader bin = new BinaryReader(fs);
                     int id=0;
+                    byte unk, fcount, finter, fstart;
+                    sbyte[] fdata;
                     while (bin.BaseStream.Length != bin.BaseStream.Position)
                     {
                         bin.ReadInt32(); // chunk header
@@ -26,19 +30,17 @@ namespace Ultima
                         // Read 8 tiles
                         for (int i = 0; i < 8; ++i)
                         {
-                            Data info = new Data();
+                            fdata = new sbyte[64];
                             for (int j = 0; j < 64; ++j)
                             {
-                                info.FrameData[j] = bin.ReadSByte();
+                                fdata[j] = bin.ReadSByte();
                             }
-                            info.unknown = bin.ReadByte();
-                            info.FrameCount = bin.ReadByte();
-                            info.FrameInterval = bin.ReadByte();
-                            info.FrameStart = bin.ReadByte();
-                            if (info.FrameCount > 0)
-                                AnimData[id] = info;
-                            else
-                                AnimData[id] = null;
+                            unk = bin.ReadByte();
+                            fcount = bin.ReadByte();
+                            finter = bin.ReadByte();
+                            fstart = bin.ReadByte();
+                            if (fcount > 0)
+                                AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
                             ++id;
                         }
                     }
@@ -47,16 +49,27 @@ namespace Ultima
         }
         public unsafe static Data GetAnimData(int id)
         {
-            return (AnimData[id]);
+            if (AnimData.Contains(id))
+                return ((Data)AnimData[id]);
+            else
+                return null;
         }
 
         public class Data
         {
-            public sbyte[] FrameData=new sbyte[64];
+            public sbyte[] FrameData;
             public byte unknown;
             public byte FrameCount;
             public byte FrameInterval;
             public byte FrameStart;
+            public Data(sbyte[] frame, byte unk, byte fcount, byte finter, byte fstart)
+            {
+                FrameData = frame;
+                unknown = unk;
+                FrameCount = fcount;
+                FrameInterval = finter;
+                FrameStart = fstart;
+            }
         }
     }
 }

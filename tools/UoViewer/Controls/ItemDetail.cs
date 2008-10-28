@@ -69,12 +69,13 @@ namespace Controls
         {
             this.animateToolStripMenuItem.Visible = false;
             Ultima.ItemData item = Ultima.TileData.ItemTable[index];
+            Bitmap bit = Ultima.Art.GetStatic(index);
 
             this.Text = String.Format("Item Detail 0x{0:X} '{1}'", index, item.Name);
-            this.Size = new System.Drawing.Size(300, Ultima.Art.GetStatic(index).Size.Height + this.Data.Size.Height + 10);
-            this.splitContainer1.SplitterDistance = Ultima.Art.GetStatic(index).Size.Height + 10;
-            this.Graphic.Size = new System.Drawing.Size(300, Ultima.Art.GetStatic(index).Size.Height + 10);
-            SetPicture(Ultima.Art.GetStatic(index));
+            this.Size = new System.Drawing.Size(300, bit.Size.Height + this.Data.Size.Height + 10);
+            this.splitContainer1.SplitterDistance = bit.Size.Height + 10;
+            this.Graphic.Size = new System.Drawing.Size(300, bit.Size.Height + 10);
+            SetPicture(bit);
             
             this.Data.AppendText(String.Format("Name: {0}\n",item.Name));
             this.Data.AppendText(String.Format("Graphic: 0x{0:X4}\n", index));
