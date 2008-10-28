@@ -27,6 +27,7 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
             refMarker = this;
         }
         public static int ItemSizeWidth = 48;  // ListViewSize
@@ -122,6 +123,7 @@ namespace Controls
                 int i = (int)listView1.SelectedItems[0].Tag;
                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4}", i);
+                UpdateDetail(i);
             }
         }
 
@@ -184,6 +186,37 @@ namespace Controls
                 showform = new ItemSearch();
                 showform.TopMost = true;
                 showform.Show();
+            }
+        }
+
+        private void UpdateDetail(int id)
+        {
+            Ultima.ItemData item = Ultima.TileData.ItemTable[id];
+            Bitmap bit = Ultima.Art.GetStatic(id);
+            splitContainer2.SplitterDistance = bit.Size.Height + 10;
+            Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
+            Graphics newgraph = Graphics.FromImage(newbit);
+            newgraph.Clear(Color.FromArgb(-1));
+            newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
+
+            DetailPictureBox.Image = newbit;
+
+            DetailTextBox.Clear();
+            DetailTextBox.AppendText(String.Format("Name: {0}\n", item.Name));
+            DetailTextBox.AppendText(String.Format("Graphic: 0x{0:X4}\n", id));
+            DetailTextBox.AppendText(String.Format("Height/Capacity: {0}\n", item.Height));
+            DetailTextBox.AppendText(String.Format("Weight: {0}\n", item.Weight));
+            DetailTextBox.AppendText(String.Format("Animation: {0}\n", item.Animation));
+            DetailTextBox.AppendText(String.Format("Quality/Layer/Light: {0}\n", item.Quality));
+            DetailTextBox.AppendText(String.Format("Quantity: {0}\n", item.Quantity));
+            DetailTextBox.AppendText(String.Format("Hue: {0}\n", item.Hue));
+            DetailTextBox.AppendText(String.Format("StackingOffset/Unk4: {0}\n", item.StackingOffset));
+            DetailTextBox.AppendText(String.Format("Flags: {0}\n", item.Flags));
+            if ((item.Flags & TileFlag.Animation) != 0)
+            {
+                Animdata.Data info = Animdata.GetAnimData(id);
+                if (info != null)
+                    DetailTextBox.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount, info.FrameInterval));
             }
         }
     }

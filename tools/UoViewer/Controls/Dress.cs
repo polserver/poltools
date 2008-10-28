@@ -180,8 +180,6 @@ namespace Controls
                 }
             }
             graphpic.Save();
-            //DressPic.Image = bitpic;
-            //DressPic.Update();
             DressPic.Refresh();
         }
 
@@ -246,8 +244,6 @@ namespace Controls
                 }
             }
             graphpic.Save();
-            //DressPic.Image = bitpic;
-            //DressPic.Update();
             DressPic.Refresh();
         }
 
@@ -335,8 +331,6 @@ namespace Controls
                 return;
             if (m_Animation[m_FrameIndex] == null)
                 return;
-            //DressPic.Image = m_Animation[m_FrameIndex];
-            //DressPic.Update();
             DressPic.Refresh();
         }
 
@@ -444,6 +438,8 @@ namespace Controls
                 return;
             int objtype = (int)treeViewItems.SelectedNode.Tag;
             int layer = TileData.ItemTable[objtype].Quality;
+            if ((layer < 0) || (layer > layers.Length))
+                return;
             layers[layer] = (object)objtype;
             checkedListBoxWear.BeginUpdate();
             checkedListBoxWear.Items[layer]=String.Format("0x{0:X2} {1}", layer, TileData.ItemTable[objtype].Name);
