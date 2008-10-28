@@ -134,6 +134,7 @@
     <Compile Include="Animations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Animdata.cs" />
     <Compile Include="Art.cs">
       <SubType>Code</SubType>
     </Compile>

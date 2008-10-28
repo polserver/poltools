@@ -48,8 +48,9 @@ namespace Controls
             this.Graphic = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.extractImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Data = new System.Windows.Forms.RichTextBox();
             this.setHueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Data = new System.Windows.Forms.RichTextBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -91,16 +92,31 @@ namespace Controls
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem,
-            this.setHueToolStripMenuItem});
+            this.setHueToolStripMenuItem,
+            this.animateToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 70);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
+            // 
+            // setHueToolStripMenuItem
+            // 
+            this.setHueToolStripMenuItem.Name = "setHueToolStripMenuItem";
+            this.setHueToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.setHueToolStripMenuItem.Text = "Set Hue";
+            this.setHueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
+            // 
+            // animateToolStripMenuItem
+            // 
+            this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.animateToolStripMenuItem.Text = "Animate";
+            this.animateToolStripMenuItem.Click += new System.EventHandler(this.OnClickAnimate);
             // 
             // Data
             // 
@@ -112,13 +128,6 @@ namespace Controls
             this.Data.TabIndex = 0;
             this.Data.Text = "";
             // 
-            // setHueToolStripMenuItem
-            // 
-            this.setHueToolStripMenuItem.Name = "setHueToolStripMenuItem";
-            this.setHueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.setHueToolStripMenuItem.Text = "Set Hue";
-            this.setHueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
-            // 
             // ItemDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,6 +138,7 @@ namespace Controls
             this.Name = "ItemDetail";
             this.Text = "ItemDetail";
             this.Load += new System.EventHandler(this.onLoad);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.onClose);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
@@ -146,6 +156,7 @@ namespace Controls
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setHueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem animateToolStripMenuItem;
 
     }
 }
