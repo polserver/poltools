@@ -27,7 +27,10 @@ namespace Controls
         public int index;
         private int defHue = -1;
         private bool partialHue = false;
-        private Bitmap origbit;
+        private bool animate = false;
+        private Timer m_Timer;
+        int frame;
+        Animdata.Data info;
         public ItemDetail(int i)
         {
             InitializeComponent();
@@ -39,39 +42,39 @@ namespace Controls
             set
             {
                 defHue = value;
-                Bitmap huebit = new Bitmap(origbit);
-                if (defHue >= 0)
+                if (!animate)
                 {
-                    Hue hue = Ultima.Hues.List[defHue];
-                    hue.ApplyTo(huebit, partialHue);
+                    Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
+                    if (defHue >= 0)
+                    {
+                        Hue hue = Ultima.Hues.List[defHue];
+                        hue.ApplyTo(huebit, partialHue);
+                    }
+                    SetPicture(huebit);
                 }
-                Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.Clear(Color.FromArgb(-1));
-                newgraph.DrawImage(huebit, (this.Graphic.Size.Width - huebit.Width) / 2, 0);
-
-                this.Graphic.Image = newbit;
-                this.Graphic.Refresh();
             }
         }
 
+        private void SetPicture(Bitmap bit)
+        {
+            Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
+            Graphics newgraph = Graphics.FromImage(newbit);
+            newgraph.Clear(Color.FromArgb(-1));
+            newgraph.DrawImage(bit, (this.Graphic.Size.Width - bit.Width) / 2, 5);
+
+            this.Graphic.Image = newbit;
+        }
         
         private void onLoad(object sender, EventArgs e)
         {
+            this.animateToolStripMenuItem.Visible = false;
             Ultima.ItemData item = Ultima.TileData.ItemTable[index];
 
             this.Text = String.Format("Item Detail 0x{0:X} '{1}'", index, item.Name);
-            origbit = Ultima.Art.GetStatic(index);
-            this.Size = new System.Drawing.Size(300, origbit.Size.Height + this.Data.Size.Height + 5);
-            this.splitContainer1.SplitterDistance = origbit.Size.Height + 5;
-            this.Graphic.Size = new System.Drawing.Size(300, origbit.Size.Height + 5);
-            
-            Bitmap newbit=new Bitmap(this.Graphic.Size.Width,this.Graphic.Size.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.Clear(Color.FromArgb(-1));
-            newgraph.DrawImage(origbit, (this.Graphic.Size.Width - origbit.Width) / 2, 0);
-            
-            this.Graphic.Image=newbit;
+            this.Size = new System.Drawing.Size(300, Ultima.Art.GetStatic(index).Size.Height + this.Data.Size.Height + 10);
+            this.splitContainer1.SplitterDistance = Ultima.Art.GetStatic(index).Size.Height + 10;
+            this.Graphic.Size = new System.Drawing.Size(300, Ultima.Art.GetStatic(index).Size.Height + 10);
+            SetPicture(Ultima.Art.GetStatic(index));
             
             this.Data.AppendText(String.Format("Name: {0}\n",item.Name));
             this.Data.AppendText(String.Format("Graphic: 0x{0:X4}\n", index));
@@ -85,16 +88,40 @@ namespace Controls
             this.Data.AppendText(String.Format("Flags: {0}\n", item.Flags));
             if ((item.Flags & TileFlag.PartialHue) != 0)
                 partialHue = true;
+            if ((item.Flags & TileFlag.Animation) != 0 )
+            {
+                info = Animdata.GetAnimData(index);
+                if (info != null)
+                {
+                    this.animateToolStripMenuItem.Visible = true;
+                    this.Data.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount,info.FrameInterval));
+                }
+            }
+        }
+
+        private void AnimTick(object sender, EventArgs e)
+        {
+            frame++;
+            if (frame >= info.FrameCount)
+                frame = 0;
+
+            Bitmap animbit = Ultima.Art.GetStatic(index+info.FrameData[frame]);
+            if (defHue >= 0)
+            {
+                Hue hue = Ultima.Hues.List[defHue];
+                hue.ApplyTo(animbit, partialHue);
+            }
+            SetPicture(animbit);
         }
 
         private void extract_Image_Click(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", index));
-            Bitmap bit = new Bitmap(origbit.Width, origbit.Height);
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
             Graphics newgraph = Graphics.FromImage(bit);
             newgraph.Clear(Color.FromArgb(-1));
-            Bitmap huebit = new Bitmap(origbit);
+            Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
             if (defHue > 0)
             {
                 Hue hue = Ultima.Hues.List[defHue];
@@ -118,6 +145,40 @@ namespace Controls
         public void ChangeHue(int select)
         {
             DefHue = select;
+        }
+
+        private void OnClickAnimate(object sender, EventArgs e)
+        {
+            animate = !animate;
+            if (animate)
+            {
+                m_Timer = new Timer();
+                frame = -1;
+                m_Timer.Interval = 100 * info.FrameInterval;
+                m_Timer.Tick += new EventHandler(AnimTick);
+                m_Timer.Start();
+            }
+            else
+            {
+                if (m_Timer.Enabled)
+                    m_Timer.Stop();
+
+                m_Timer.Dispose();
+                m_Timer = null;
+                SetPicture(Ultima.Art.GetStatic(index));
+            }
+        }
+
+        private void onClose(object sender, FormClosingEventArgs e)
+        {
+            if (m_Timer != null)
+            {
+                if (m_Timer.Enabled)
+                    m_Timer.Stop();
+
+                m_Timer.Dispose();
+                m_Timer = null;
+            }
         }
     }
 }

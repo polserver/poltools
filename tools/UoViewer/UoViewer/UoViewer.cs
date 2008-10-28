@@ -26,7 +26,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "1.3d";
+        private static string Version = "1.4";
         public UoViewer()
         {
             InitializeComponent();
