@@ -13,7 +13,7 @@
     <ManifestCertificateThumbprint>A68D9FDA8EAE913DE51EAE72EAFDB04ACE6D75E1</ManifestCertificateThumbprint>
     <ManifestKeyFile>UoViewer_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>E:\UO-Stuff\UoViewer\publish\</PublishUrl>
     <Install>true</Install>
@@ -144,6 +144,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="UOViewer.ico" />
+    <None Include="UOViewer.jpg" />
     <None Include="Options.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

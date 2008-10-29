@@ -27,7 +27,6 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.ResizeRedraw, true);
             refMarker = this;
         }
         public static int ItemSizeWidth = 48;  // ListViewSize
