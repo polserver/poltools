@@ -44,7 +44,6 @@ namespace UoViewer
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.Start = new System.Windows.Forms.TabPage();
             this.Versionlabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.Multis = new System.Windows.Forms.TabPage();
             this.MobGraphic = new System.Windows.Forms.TabPage();
             this.Items = new System.Windows.Forms.TabPage();
@@ -93,7 +92,6 @@ namespace UoViewer
             this.map.SuspendLayout();
             this.Light.SuspendLayout();
             this.Dress.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -122,15 +120,16 @@ namespace UoViewer
             // 
             // Start
             // 
+            this.Start.BackColor = System.Drawing.Color.White;
+            this.Start.BackgroundImage = global::UoViewer.Properties.Resources.UOViewer;
+            this.Start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Start.Controls.Add(this.Versionlabel);
-            this.Start.Controls.Add(this.label1);
             this.Start.Location = new System.Drawing.Point(4, 22);
             this.Start.Name = "Start";
             this.Start.Padding = new System.Windows.Forms.Padding(3);
             this.Start.Size = new System.Drawing.Size(619, 324);
             this.Start.TabIndex = 10;
             this.Start.Text = "Start";
-            this.Start.UseVisualStyleBackColor = true;
             // 
             // Versionlabel
             // 
@@ -141,21 +140,6 @@ namespace UoViewer
             this.Versionlabel.Size = new System.Drawing.Size(42, 13);
             this.Versionlabel.TabIndex = 1;
             this.Versionlabel.Text = "Version";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Lucida Calligraphy", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(130, 119);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(335, 36);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "UOViewer by Turley";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Multis
             // 
@@ -301,8 +285,6 @@ namespace UoViewer
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSplitButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -481,8 +463,6 @@ namespace UoViewer
             this.map.ResumeLayout(false);
             this.Light.ResumeLayout(false);
             this.Dress.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,7 +497,6 @@ namespace UoViewer
         private System.Windows.Forms.TabPage map;
         private Controls.Map controlmap;
         private System.Windows.Forms.TabPage Start;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem pathSettingsToolStripMenuItem;
         private System.Windows.Forms.TabPage Texture;
         private Controls.Texture controlTexture;

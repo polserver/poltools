@@ -356,7 +356,9 @@ namespace Controls
                                     TileData.ItemTable[i].Quality,
                                     TileData.ItemTable[i].Name));
                         node.Tag = i;
-                        if (!hasani)
+                        if (Array.IndexOf(draworder, TileData.ItemTable[i].Quality)==-1)
+                            node.ForeColor = Color.DarkRed;
+                        else if (!hasani)
                         {
                             if (!hasgump)
                                 node.ForeColor = Color.Red;
@@ -421,9 +423,11 @@ namespace Controls
             TextBox.AppendText(String.Format("Animation: 0x{0:X4} (0x{1:X4})\n", 
                 ani,
                 TileData.ItemTable[(int)e.Node.Tag].Animation));
-            TextBox.AppendText(String.Format("ValidGump: {0} ValidAnim: {1}",
+            TextBox.AppendText(String.Format("ValidGump: {0} ValidAnim: {1}\n",
                 Gumps.IsValidIndex(gump).ToString(),
                 Animations.IsActionDefined(ani, 0, 0, 0, false).ToString()));
+            TextBox.AppendText(String.Format("ValidLayer: {0}",
+                (Array.IndexOf(draworder, TileData.ItemTable[(int)e.Node.Tag].Quality) == -1 ? false : true)));
         }
 
         private void OnChangeFemale(object sender, EventArgs e)
@@ -438,7 +442,7 @@ namespace Controls
                 return;
             int objtype = (int)treeViewItems.SelectedNode.Tag;
             int layer = TileData.ItemTable[objtype].Quality;
-            if ((layer < 0) || (layer > layers.Length))
+            if (Array.IndexOf(draworder, layer) == -1)
                 return;
             layers[layer] = (object)objtype;
             checkedListBoxWear.BeginUpdate();
