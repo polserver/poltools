@@ -524,12 +524,16 @@ namespace Ultima
 
 			string pathReg = GetExePath( "Ultima Online" );
 			string path3D = GetExePath( "Ultima Online Third Dawn" );
+            string pathSE = GetExePathSE();
 
 			if ( pathReg != null )
 				list.Add( pathReg );
 
 			if ( path3D != null )
 				list.Add( path3D );
+
+            if (pathSE != null)
+                list.Add( pathSE );
 
 			return list;
 		}
@@ -551,6 +555,34 @@ namespace Ultima
 					v = Path.GetDirectoryName( v );
 
 					if ( v == null )
+						return null;
+
+					return v;
+				}
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+        private static string GetExePathSE()
+		{
+			try
+            {
+				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( @"SOFTWARE\EA GAMES\Ultima Online Samurai Empire") )
+				{
+					if ( key == null )
+						return null;
+
+					string v = key.GetValue( "Install Dir" ) as string;
+
+					if ( v == null || v.Length <= 0 )
+						return null;
+
+                    string file = Path.Combine(v, "client.exe");
+
+					if ( !File.Exists( file ) )
 						return null;
 
 					return v;

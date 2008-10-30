@@ -26,7 +26,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "1.6";
+        private static string Version = "1.7b";
         public UoViewer()
         {
             InitializeComponent();
@@ -50,7 +50,7 @@ namespace UoViewer
 
         private void onClickAlwaysTop(object sender, EventArgs e)
         {
-            if (alwaysOnTopToolStripMenuItem.Checked)
+            if (toolStripMenuItem1.Checked)
                 this.TopMost = true;
             else
                 this.TopMost = false;
