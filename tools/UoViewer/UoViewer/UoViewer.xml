@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mobs>
+<Graphics>
   <!--Entries in Mob tab-->
   <!--Name=Displayed name-->
   <!--body=Graphic-->
@@ -360,4 +360,358 @@
   <Mob name="character_blackthorn (991)" body="991" type="3"></Mob>
   <Mob name="character_dupre (994)" body="994" type="3"></Mob>
   <Mob name="Multi Colored Horde Deamon (999)" body="999" type="0"></Mob>
-</Mobs>
+  <Equip name="floppy hat (404)" body="404" type="3" />
+  <Equip name="wide-brim hat (405)" body="405" type="3" />
+  <Equip name="cap (406)" body="406" type="3" />
+  <Equip name="tall straw hat (407)" body="407" type="3" />
+  <Equip name="straw hat (408)" body="408" type="3" />
+  <Equip name="wizard's hat (409)" body="409" type="3" />
+  <Equip name="bonnet (410)" body="410" type="3" />
+  <Equip name="feathered hat (411)" body="411" type="3" />
+  <Equip name="tricorne hat (412)" body="412" type="3" />
+  <Equip name="jester hat (413)" body="413" type="3" />
+  <Equip name="bear mask (414)" body="414" type="3" />
+  <Equip name="deer mask (415)" body="415" type="3" />
+  <Equip name="orc mask (416)" body="416" type="3" />
+  <Equip name="tribal mask (417)" body="417" type="3" />
+  <Equip name="tribal mask (418)" body="418" type="3" />
+  <Equip name="skullcap (419)" body="419" type="3" />
+  <Equip name="Leather Ninja Pants (423)" body="423" type="3" />
+  <Equip name="Leather Ninja Mitts (424)" body="424" type="3" />
+  <Equip name="Leather Ninja Hood (425)" body="425" type="3" />
+  <Equip name="Leather Ninja Jacke (426)" body="426" type="3" />
+  <Equip name="short pants (430)" body="430" type="3" />
+  <Equip name="long pants (431)" body="431" type="3" />
+  <Equip name="shirt (434)" body="434" type="3" />
+  <Equip name="fancy shirt (435)" body="435" type="3" />
+  <Equip name="Mail Hatsuburi (442)" body="442" type="3" />
+  <Equip name="Plate Hatsuburi (443)" body="443" type="3" />
+  <Equip name="Leather Jingasa (444)" body="444" type="3" />
+  <Equip name="Plate Jingasa (445)" body="445" type="3" />
+  <Equip name="Plate Jingasa (446)" body="446" type="3" />
+  <Equip name="plain dress (447)" body="447" type="3" />
+  <Equip name="fancy dress (448)" body="448" type="3" />
+  <Equip name="skirt (449)" body="449" type="3" />
+  <Equip name="Plate Jingasa (450)" body="450" type="3" />
+  <Equip name="Plate Kabuto (451)" body="451" type="3" />
+  <Equip name="kilt (455)" body="455" type="3" />
+  <Equip name="Plate Mempo (456)" body="456" type="3" />
+  <Equip name="Leather Do (457)" body="457" type="3" />
+  <Equip name="Studded Do (458)" body="458" type="3" />
+  <Equip name="Plate Do (459)" body="459" type="3" />
+  <Equip name=" (460)" body="460" type="3" />
+  <Equip name=" (461)" body="461" type="3" />
+  <Equip name="Plate Kabuto (462)" body="462" type="3" />
+  <Equip name="Plate Kabuto (463)" body="463" type="3" />
+  <Equip name="Wakizashi (464)" body="464" type="3" />
+  <Equip name="full apron (465)" body="465" type="3" />
+  <Equip name="half apron (466)" body="466" type="3" />
+  <Equip name="Bokuto (467)" body="467" type="3" />
+  <Equip name="cloak (468)" body="468" type="3" />
+  <Equip name="robe (469)" body="469" type="3" />
+  <Equip name="Daisho (470)" body="470" type="3" />
+  <Equip name="Leather Mempo (471)" body="471" type="3" />
+  <Equip name="Studded Mempo (472)" body="472" type="3" />
+  <Equip name="Leather Hiro Sode (473)" body="473" type="3" />
+  <Equip name="Studded Hiro Sode (474)" body="474" type="3" />
+  <Equip name="thigh boots (476)" body="476" type="3" />
+  <Equip name="boots (477)" body="477" type="3" />
+  <Equip name="Plate Hiro Sode (478)" body="478" type="3" />
+  <Equip name="sandals (479)" body="479" type="3" />
+  <Equip name="shoes (480)" body="480" type="3" />
+  <Equip name="flower garland (481)" body="481" type="3" />
+  <Equip name="fur boots (482)" body="482" type="3" />
+  <Equip name="fur cape (483)" body="483" type="3" />
+  <Equip name="fur surong (484)" body="484" type="3" />
+  <Equip name="gilded dress (485)" body="485" type="3" />
+  <Equip name="formal shirt (486)" body="486" type="3" />
+  <Equip name="Leather Suneate (487)" body="487" type="3" />
+  <Equip name="Studded Suneate (488)" body="488" type="3" />
+  <Equip name="Plate Suneate (489)" body="489" type="3" />
+  <Equip name="body sash (490)" body="490" type="3" />
+  <Equip name="Leather Haidate (491)" body="491" type="3" />
+  <Equip name="bandana (492)" body="492" type="3" />
+  <Equip name="lantern (500)" body="500" type="3" />
+  <Equip name="torch (501)" body="501" type="3" />
+  <Equip name="candle (502)" body="502" type="3" />
+  <Equip name="lantern (503)" body="503" type="3" />
+  <Equip name="torch%es% (504)" body="504" type="3" />
+  <Equip name="candle (505)" body="505" type="3" />
+  <Equip name="Plate Haidate (506)" body="506" type="3" />
+  <Equip name="Studded Haidate (512)" body="512" type="3" />
+  <Equip name="Cloth Ninja Hood (513)" body="513" type="3" />
+  <Equip name="Leather Ninja Belt (514)" body="514" type="3" />
+  <Equip name="Kasa (516)" body="516" type="3" />
+  <Equip name="Kamishimo (517)" body="517" type="3" />
+  <Equip name="Hakama (518)" body="518" type="3" />
+  <Equip name="No-Dachi (519)" body="519" type="3" />
+  <Equip name="Tessen (520)" body="520" type="3" />
+  <Equip name="studded tunic (521)" body="521" type="3" />
+  <Equip name="studded sleeves (523)" body="523" type="3" />
+  <Equip name="studded gorget (525)" body="525" type="3" />
+  <Equip name="Lajatang (526)" body="526" type="3" />
+  <Equip name="platemail (527)" body="527" type="3" />
+  <Equip name="platemail arms (528)" body="528" type="3" />
+  <Equip name="platemail legs (529)" body="529" type="3" />
+  <Equip name="platemail gloves (530)" body="530" type="3" />
+  <Equip name="Fukiya (532)" body="532" type="3" />
+  <Equip name="Tekagi (533)" body="533" type="3" />
+  <Equip name="Shuriken (534)" body="534" type="3" />
+  <Equip name="Kama (535)" body="535" type="3" />
+  <Equip name="Nunchaku (536)" body="536" type="3" />
+  <Equip name="Sai (537)" body="537" type="3" />
+  <Equip name="chainmail tunic (538)" body="538" type="3" />
+  <Equip name=" (539)" body="539" type="3" />
+  <Equip name="chainmail leggings (540)" body="540" type="3" />
+  <Equip name="leather tunic (542)" body="542" type="3" />
+  <Equip name="leather leggings (543)" body="543" type="3" />
+  <Equip name="leather sleeves (544)" body="544" type="3" />
+  <Equip name="leather gloves (545)" body="545" type="3" />
+  <Equip name="leather gorget (546)" body="546" type="3" />
+  <Equip name=" (547)" body="547" type="3" />
+  <Equip name="ringmail armor (548)" body="548" type="3" />
+  <Equip name="ringmail leggings (549)" body="549" type="3" />
+  <Equip name="ringmail sleeves (550)" body="550" type="3" />
+  <Equip name=" (551)" body="551" type="3" />
+  <Equip name="Tattsuke-Hakama (552)" body="552" type="3" />
+  <Equip name="Hakama-Shita (553)" body="553" type="3" />
+  <Equip name="bone armor (554)" body="554" type="3" />
+  <Equip name="bone leggings (555)" body="555" type="3" />
+  <Equip name="bone arms (556)" body="556" type="3" />
+  <Equip name="bone gloves (557)" body="557" type="3" />
+  <Equip name="Male Kimono (558)" body="558" type="3" />
+  <Equip name="Female Kimono (559)" body="559" type="3" />
+  <Equip name="leather cap (560)" body="560" type="3" />
+  <Equip name="chainmail  coif (561)" body="561" type="3" />
+  <Equip name="bone helmet (562)" body="562" type="3" />
+  <Equip name="plate helm (563)" body="563" type="3" />
+  <Equip name="nose helm (564)" body="564" type="3" />
+  <Equip name="helmet (565)" body="565" type="3" />
+  <Equip name="kabuto (566)" body="566" type="3" />
+  <Equip name="Obi (567)" body="567" type="3" />
+  <Equip name="Jin-Baori (568)" body="568" type="3" />
+  <Equip name="Samurai Waraji &amp; Ta (569)" body="569" type="3" />
+  <Equip name=" (570)" body="570" type="3" />
+  <Equip name="Cloth Ninja Jacket (571)" body="571" type="3" />
+  <Equip name="Ninja Tall Tabi (572)" body="572" type="3" />
+  <Equip name="Yumi (575)" body="575" type="3" />
+  <Equip name="metal shield (576)" body="576" type="3" />
+  <Equip name="bronze shield (577)" body="577" type="3" />
+  <Equip name="wooden shield (578)" body="578" type="3" />
+  <Equip name="buckler (579)" body="579" type="3" />
+  <Equip name="kite shield (580)" body="580" type="3" />
+  <Equip name="kite shield (581)" body="581" type="3" />
+  <Equip name="heater shield (582)" body="582" type="3" />
+  <Equip name="Tetsubo (583)" body="583" type="3" />
+  <Equip name="large battle axe (611)" body="611" type="3" />
+  <Equip name="two handed axe (612)" body="612" type="3" />
+  <Equip name="executioner's axe (613)" body="613" type="3" />
+  <Equip name="bardiche (614)" body="614" type="3" />
+  <Equip name="hatchet (615)" body="615" type="3" />
+  <Equip name="heavy crossbow (616)" body="616" type="3" />
+  <Equip name="black staff (617)" body="617" type="3" />
+  <Equip name="broadsword (618)" body="618" type="3" />
+  <Equip name="cleaver (619)" body="619" type="3" />
+  <Equip name="club (620)" body="620" type="3" />
+  <Equip name="shepherd's crook (621)" body="621" type="3" />
+  <Equip name="dagger (622)" body="622" type="3" />
+  <Equip name="cutlass (623)" body="623" type="3" />
+  <Equip name="halberd (624)" body="624" type="3" />
+  <Equip name="hammer pick (625)" body="625" type="3" />
+  <Equip name="javelin (626)" body="626" type="3" />
+  <Equip name="katana (627)" body="627" type="3" />
+  <Equip name="gnarled staff (628)" body="628" type="3" />
+  <Equip name="butcher knife (629)" body="629" type="3" />
+  <Equip name="kryss (630)" body="630" type="3" />
+  <Equip name="mace (631)" body="631" type="3" />
+  <Equip name="maul (633)" body="633" type="3" />
+  <Equip name="pickaxe (635)" body="635" type="3" />
+  <Equip name="pitchfork (636)" body="636" type="3" />
+  <Equip name="scimitar (637)" body="637" type="3" />
+  <Equip name="skinning knife (638)" body="638" type="3" />
+  <Equip name="short spear (639)" body="639" type="3" />
+  <Equip name="viking sword (643)" body="643" type="3" />
+  <Equip name="war axe (644)" body="644" type="3" />
+  <Equip name="war fork (645)" body="645" type="3" />
+  <Equip name="war hammer (646)" body="646" type="3" />
+  <Equip name="quarter staff (648)" body="648" type="3" />
+  <Equip name="bow (649)" body="649" type="3" />
+  <Equip name="crossbow (651)" body="651" type="3" />
+  <Equip name="axe (653)" body="653" type="3" />
+  <Equip name="dragon sleeves (679)" body="679" type="3" />
+  <Equip name="dragon sleeves (679)" body="679" type="3" />
+  <Equip name="dragon breastplate (680)" body="680" type="3" />
+  <Equip name="dragon breastplate (680)" body="680" type="3" />
+  <Equip name="dragon gloves (681)" body="681" type="3" />
+  <Equip name="dragon gloves (681)" body="681" type="3" />
+  <Equip name="dragon helm (682)" body="682" type="3" />
+  <Equip name="dragon helm (682)" body="682" type="3" />
+  <Equip name="dragon leggings (683)" body="683" type="3" />
+  <Equip name="dragon leggings (683)" body="683" type="3" />
+  <Equip name="amazon armor (684)" body="684" type="3" />
+  <Equip name="amazon armor (685)" body="685" type="3" />
+  <Equip name="amazon armor (686)" body="686" type="3" />
+  <Equip name="fancy dress (687)" body="687" type="3" />
+  <Equip name="fancy dress (687)" body="687" type="3" />
+  <Equip name="fancy dress (688)" body="688" type="3" />
+  <Equip name="fancy dress (688)" body="688" type="3" />
+  <Equip name=" (700)" body="700" type="3" />
+  <Equip name="Long Hair (701)" body="701" type="3" />
+  <Equip name="Ponytail (702)" body="702" type="3" />
+  <Equip name=" (703)" body="703" type="3" />
+  <Equip name=" (710)" body="710" type="3" />
+  <Equip name=" (712)" body="712" type="3" />
+  <Equip name="Arcane Cloak (759)" body="759" type="3" />
+  <Equip name="Arcane Gloves (760)" body="760" type="3" />
+  <Equip name="Arcane Robe (761)" body="761" type="3" />
+  <Equip name="Arcane Thigh Boots (762)" body="762" type="3" />
+  <Equip name="goatee (800)" body="800" type="3" />
+  <Equip name="long beard (801)" body="801" type="3" />
+  <Equip name="short beard (802)" body="802" type="3" />
+  <Equip name="mustache (803)" body="803" type="3" />
+  <Equip name=" (809)" body="809" type="3" />
+  <Equip name=" (810)" body="810" type="3" />
+  <Equip name=" (811)" body="811" type="3" />
+  <Equip name=" (812)" body="812" type="3" />
+  <Equip name=" (813)" body="813" type="3" />
+  <Equip name=" (814)" body="814" type="3" />
+  <Equip name=" (815)" body="815" type="3" />
+  <Equip name=" (816)" body="816" type="3" />
+  <Equip name=" (817)" body="817" type="3" />
+  <Equip name=" (818)" body="818" type="3" />
+  <Equip name=" (819)" body="819" type="3" />
+  <Equip name=" (821)" body="821" type="3" />
+  <Equip name=" (822)" body="822" type="3" />
+  <Equip name=" (823)" body="823" type="3" />
+  <Equip name=" (833)" body="833" type="3" />
+  <Equip name=" (834)" body="834" type="3" />
+  <Equip name=" (835)" body="835" type="3" />
+  <Equip name=" (836)" body="836" type="3" />
+  <Equip name=" (837)" body="837" type="3" />
+  <Equip name=" (838)" body="838" type="3" />
+  <Equip name=" (839)" body="839" type="3" />
+  <Equip name=" (840)" body="840" type="3" />
+  <Equip name=" (841)" body="841" type="3" />
+  <Equip name=" (842)" body="842" type="3" />
+  <Equip name="winged helmet (866)" body="866" type="3" />
+  <Equip name=" (867)" body="867" type="3" />
+  <Equip name=" (868)" body="868" type="3" />
+  <Equip name="Helm of Spirituali (869)" body="869" type="3" />
+  <Equip name="Gorget of Truth (870)" body="870" type="3" />
+  <Equip name="Breastplate of Jus (871)" body="871" type="3" />
+  <Equip name="Arms of Compassion (872)" body="872" type="3" />
+  <Equip name="Gauntlets of Valor (873)" body="873" type="3" />
+  <Equip name="Legs of Honor (874)" body="874" type="3" />
+  <Equip name="Solaretes of Sacri (875)" body="875" type="3" />
+  <Equip name="Cloak of Humility (876)" body="876" type="3" />
+  <Equip name="Spell weaving book (877)" body="877" type="3" />
+  <Equip name="book of ninjitsu (878)" body="878" type="3" />
+  <Equip name="book of bushido (879)" body="879" type="3" />
+  <Equip name=" (880)" body="880" type="3" />
+  <Equip name=" (881)" body="881" type="3" />
+  <Equip name="necromancer book (882)" body="882" type="3" />
+  <Equip name="book of arms (883)" body="883" type="3" />
+  <Equip name="paladin spellbook (884)" body="884" type="3" />
+  <Equip name="Lt_Armor_Gorget (886)" body="886" type="3" />
+  <Equip name="Quiver of Infinity (887)" body="887" type="3" />
+  <Equip name="Dupres Shield (888)" body="888" type="3" />
+  <Equip name="Elven_Hair (889)" body="889" type="3" />
+  <Equip name="Elven_Hair (890)" body="890" type="3" />
+  <Equip name="Elven_Hair (891)" body="891" type="3" />
+  <Equip name="Elven_Hair (892)" body="892" type="3" />
+  <Equip name="Elven_Hair (893)" body="893" type="3" />
+  <Equip name="Elven_Hair (894)" body="894" type="3" />
+  <Equip name="Elven_Hair (895)" body="895" type="3" />
+  <Equip name="elven quiver r (896)" body="896" type="3" />
+  <Equip name="elven glasses s (897)" body="897" type="3" />
+  <Equip name="elven robe e01 (898)" body="898" type="3" />
+  <Equip name="elven robe e02 (899)" body="899" type="3" />
+  <Equip name=" (900)" body="900" type="3" />
+  <Equip name=" (901)" body="901" type="3" />
+  <Equip name=" (902)" body="902" type="3" />
+  <Equip name=" (903)" body="903" type="3" />
+  <Equip name=" (904)" body="904" type="3" />
+  <Equip name=" (905)" body="905" type="3" />
+  <Equip name=" (906)" body="906" type="3" />
+  <Equip name="elven shirt Male (907)" body="907" type="3" />
+  <Equip name="elven shirt Male (908)" body="908" type="3" />
+  <Equip name="tunic (909)" body="909" type="3" />
+  <Equip name="surcoat (910)" body="910" type="3" />
+  <Equip name="checkered shirt (911)" body="911" type="3" />
+  <Equip name="jester suit (912)" body="912" type="3" />
+  <Equip name="doublet (913)" body="913" type="3" />
+  <Equip name="elven shirt t _Ches (914)" body="914" type="3" />
+  <Equip name="elven shirt t _Ches (915)" body="915" type="3" />
+  <Equip name="Elven_Hair01_BL_Mu (916)" body="916" type="3" />
+  <Equip name="hair (917)" body="917" type="3" />
+  <Equip name="hair (918)" body="918" type="3" />
+  <Equip name="Elven_Hair04_BR_Mu (919)" body="919" type="3" />
+  <Equip name="Elven_Pants s (920)" body="920" type="3" />
+  <Equip name="studded armor (921)" body="921" type="3" />
+  <Equip name="plate armor (922)" body="922" type="3" />
+  <Equip name="leather armor (923)" body="923" type="3" />
+  <Equip name="leather bustier (924)" body="924" type="3" />
+  <Equip name="studded bustier (925)" body="925" type="3" />
+  <Equip name="leather skirt (926)" body="926" type="3" />
+  <Equip name="leather shorts (927)" body="927" type="3" />
+  <Equip name="close helmet (928)" body="928" type="3" />
+  <Equip name="bascinet (929)" body="929" type="3" />
+  <Equip name="scythe (930)" body="930" type="3" />
+  <Equip name="bone harvester (931)" body="931" type="3" />
+  <Equip name="scepter (932)" body="932" type="3" />
+  <Equip name="bladed staff (933)" body="933" type="3" />
+  <Equip name="pike (934)" body="934" type="3" />
+  <Equip name="double bladed staff (935)" body="935" type="3" />
+  <Equip name="lance (936)" body="936" type="3" />
+  <Equip name="crescent blade (937)" body="937" type="3" />
+  <Equip name="composite bow (938)" body="938" type="3" />
+  <Equip name="repeating crossbow (939)" body="939" type="3" />
+  <Equip name="Elven_Boot t (941)" body="941" type="3" />
+  <Equip name="Elven Plate (942)" body="942" type="3" />
+  <Equip name="Elven Plate Belt (943)" body="943" type="3" />
+  <Equip name="Elven Plate Gorget (944)" body="944" type="3" />
+  <Equip name="Elven Plate Gloves (945)" body="945" type="3" />
+  <Equip name="Elven Plate Legs (946)" body="946" type="3" />
+  <Equip name="Elven Arm Plate (947)" body="947" type="3" />
+  <Equip name="Elven Plate (948)" body="948" type="3" />
+  <Equip name="Elven Composite Lo (950)" body="950" type="3" />
+  <Equip name="Magical Shortbow (951)" body="951" type="3" />
+  <Equip name="Elven Spellblade (952)" body="952" type="3" />
+  <Equip name="Assassin Spike (953)" body="953" type="3" />
+  <Equip name="Leafblade (954)" body="954" type="3" />
+  <Equip name="War Cleaver (955)" body="955" type="3" />
+  <Equip name="Diamond Mace (956)" body="956" type="3" />
+  <Equip name="Wild Staff (957)" body="957" type="3" />
+  <Equip name="Rune Blade (958)" body="958" type="3" />
+  <Equip name="Radiant Scimitar (959)" body="959" type="3" />
+  <Equip name="Ornate Axe (960)" body="960" type="3" />
+  <Equip name="bone machete (961)" body="961" type="3" />
+  <Equip name="Raven Helm (965)" body="965" type="3" />
+  <Equip name="Vulture Helm (966)" body="966" type="3" />
+  <Equip name="Winged Helm (967)" body="967" type="3" />
+  <Equip name="Hide Chest (968)" body="968" type="3" />
+  <Equip name="Hide Gloves (969)" body="969" type="3" />
+  <Equip name="knee skirt (971)" body="971" type="3" />
+  <Equip name="fishing pole (972)" body="972" type="3" />
+  <Equip name="orc helm (973)" body="973" type="3" />
+  <Equip name="Hide Gorget (974)" body="974" type="3" />
+  <Equip name="Hide Paldrons (975)" body="975" type="3" />
+  <Equip name="Hide Pants (976)" body="976" type="3" />
+  <Equip name="Hide Female Chest (977)" body="977" type="3" />
+  <Equip name="Lt_Armor_Chest (978)" body="978" type="3" />
+  <Equip name="Lt_Armor_Gloves (979)" body="979" type="3" />
+  <Equip name="wand (980)" body="980" type="3" />
+  <Equip name="wand (981)" body="981" type="3" />
+  <Equip name="wand (982)" body="982" type="3" />
+  <Equip name="wand (983)" body="983" type="3" />
+  <Equip name="spellbook (984)" body="984" type="3" />
+  <Equip name=" (985)" body="985" type="3" />
+  <Equip name=" (986)" body="986" type="3" />
+  <Equip name="Lt_Armor_Paldrons (989)" body="989" type="3" />
+  <Equip name="Order shield (992)" body="992" type="3" />
+  <Equip name="Chaos shield (993)" body="993" type="3" />
+  <Equip name="Lt_Armor_Pants (995)" body="995" type="3" />
+  <Equip name="leaf tonlet t r_Kil (996)" body="996" type="3" />
+  <Equip name="LtF_Chest Chest (997)" body="997" type="3" />
+</Graphics>
+

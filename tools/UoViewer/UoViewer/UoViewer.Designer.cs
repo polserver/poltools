@@ -64,6 +64,11 @@ namespace UoViewer
             this.pathSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathSettingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.restartNeededToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.controlMulti = new Controls.Multis();
             this.controlMobList = new Controls.MobList();
             this.controlItemShow = new Controls.ItemShow();
@@ -92,6 +97,7 @@ namespace UoViewer
             this.map.SuspendLayout();
             this.Light.SuspendLayout();
             this.Dress.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -160,7 +166,7 @@ namespace UoViewer
             this.MobGraphic.Padding = new System.Windows.Forms.Padding(3);
             this.MobGraphic.Size = new System.Drawing.Size(619, 324);
             this.MobGraphic.TabIndex = 0;
-            this.MobGraphic.Text = "MobGraphic";
+            this.MobGraphic.Text = "Animations";
             this.MobGraphic.UseVisualStyleBackColor = true;
             // 
             // Items
@@ -285,6 +291,8 @@ namespace UoViewer
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -331,6 +339,47 @@ namespace UoViewer
             this.restartNeededToolStripMenuItem.Name = "restartNeededToolStripMenuItem";
             this.restartNeededToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.restartNeededToolStripMenuItem.Text = "Restart Needed!";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.pathSettingsToolStripMenuItem1,
+            this.toolStripSeparator2,
+            this.restartNeededToolStripMenuItem1});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(59, 22);
+            this.toolStripDropDownButton1.Text = "Settings";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.CheckOnClick = true;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.toolStripMenuItem1.Text = "Always On Top";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.onClickAlwaysTop);
+            // 
+            // pathSettingsToolStripMenuItem1
+            // 
+            this.pathSettingsToolStripMenuItem1.Name = "pathSettingsToolStripMenuItem1";
+            this.pathSettingsToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.pathSettingsToolStripMenuItem1.Text = "Path Settings";
+            this.pathSettingsToolStripMenuItem1.Click += new System.EventHandler(this.click_path);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+            // 
+            // restartNeededToolStripMenuItem1
+            // 
+            this.restartNeededToolStripMenuItem1.ForeColor = System.Drawing.Color.DarkRed;
+            this.restartNeededToolStripMenuItem1.Name = "restartNeededToolStripMenuItem1";
+            this.restartNeededToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+            this.restartNeededToolStripMenuItem1.Text = "Restart Needed!";
             // 
             // controlMulti
             // 
@@ -463,6 +512,8 @@ namespace UoViewer
             this.map.ResumeLayout(false);
             this.Light.ResumeLayout(false);
             this.Dress.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -506,6 +557,11 @@ namespace UoViewer
         private System.Windows.Forms.TabPage Dress;
         private Controls.Dress controldress;
         private System.Windows.Forms.ToolStripMenuItem alwaysOnTopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem pathSettingsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem restartNeededToolStripMenuItem1;
     }
 }
 

@@ -64,6 +64,7 @@ namespace Controls
         private int DefHue = 0;
         private int facing = 1;
         private bool sortalpha = false;
+        private int DisplayType = 0;
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -74,7 +75,7 @@ namespace Controls
 
             m_CurrentSelect = 0;
             m_CurrentSelectAction = 0;
-            TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0];
+            TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
         }
 
@@ -265,13 +266,49 @@ namespace Controls
         {
             if (e.Node.Parent != null)
             {
-                m_CurrentSelectAction = (int)e.Node.Tag;
-                CurrentSelect = (int)e.Node.Parent.Tag;
+                if ((e.Node.Parent.Name == "Mobs") || (e.Node.Parent.Name == "Equipment"))
+                {
+                    m_CurrentSelectAction = 0;
+                    CurrentSelect = (int)e.Node.Tag;
+                    if ((e.Node.Parent.Name == "Mobs") && (DisplayType == 1))
+                    {
+                        DisplayType = 0;
+                        LoadListView();
+                    }
+                    else if ((e.Node.Parent.Name == "Equipment") && (DisplayType == 0))
+                    {
+                        DisplayType = 1;
+                        LoadListView();
+                    }
+                }
+                else
+                {
+                    m_CurrentSelectAction = (int)e.Node.Tag;
+                    CurrentSelect = (int)e.Node.Parent.Tag;
+                    if ((e.Node.Parent.Parent.Name == "Mobs") && (DisplayType == 1))
+                    {
+                        DisplayType = 0;
+                        LoadListView();
+                    }
+                    else if ((e.Node.Parent.Parent.Name == "Equipment") && (DisplayType == 0))
+                    {
+                        DisplayType = 1;
+                        LoadListView();
+                    }
+                }
             }
             else
             {
-                m_CurrentSelectAction = 0;
-                CurrentSelect = (int)e.Node.Tag;
+                if ((e.Node.Name == "Mobs") && (DisplayType == 1))
+                {
+                    DisplayType = 0;
+                    LoadListView();
+                }
+                else if ((e.Node.Name == "Equipment") && (DisplayType == 0))
+                {
+                    DisplayType = 1;
+                    LoadListView();
+                }
             }
         }
 
@@ -290,10 +327,16 @@ namespace Controls
                 return false;
             TreeViewMobs.BeginUpdate();
             TreeViewMobs.Nodes.Clear();
+
+            
             XmlDocument dom = new XmlDocument();
             dom.Load(FileName);
-            XmlElement xMobs = dom["Mobs"];
+            XmlElement xMobs = dom["Graphics"];
             TreeNode node;
+            node = new TreeNode("Mobs");
+            node.Name = "Mobs";
+            node.Tag = -1;
+            TreeViewMobs.Nodes.Add(node);
             foreach (XmlElement xMob in xMobs.SelectNodes("Mob"))
             {
                 string name;
@@ -303,7 +346,7 @@ namespace Controls
                 node = new TreeNode(name);
                 node.Tag = value;
                 node.ToolTipText = Animations.GetFileName(value);
-                TreeViewMobs.Nodes.Add(node);
+                TreeViewMobs.Nodes[0].Nodes.Add(node);
                 int type = int.Parse(xMob.GetAttribute("type"));
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
@@ -312,8 +355,35 @@ namespace Controls
                     {
                         node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
                         node.Tag = i;
-                        TreeViewMobs.Nodes[TreeViewMobs.Nodes.Count - 1].Nodes.Add(node);
+                        TreeViewMobs.Nodes[0].Nodes[TreeViewMobs.Nodes[0].Nodes.Count - 1].Nodes.Add(node);
                     }
+                }
+            }
+            node = new TreeNode("Equipment");
+            node.Name = "Equipment";
+            node.Tag = -2;
+            TreeViewMobs.Nodes.Add(node);
+            foreach (XmlElement xMob in xMobs.SelectNodes("Equip"))
+            {
+                string name;
+                int value;
+                name = xMob.GetAttribute("name");
+                value = int.Parse(xMob.GetAttribute("body"));
+                node = new TreeNode(name);
+                node.Tag = value;
+                node.ToolTipText = Animations.GetFileName(value);
+                TreeViewMobs.Nodes[1].Nodes.Add(node);
+                int type = int.Parse(xMob.GetAttribute("type"));
+
+                for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
+                {
+                    if (Ultima.Animations.IsActionDefined(value, i, 0, 0, false))
+                    {
+                        node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
+                        node.Tag = i;
+                        TreeViewMobs.Nodes[1].Nodes[TreeViewMobs.Nodes[1].Nodes.Count - 1].Nodes.Add(node);
+                    }
+
                 }
             }
             TreeViewMobs.EndUpdate();
@@ -325,7 +395,7 @@ namespace Controls
             listView.BeginUpdate();
             listView.Clear();
             ListViewItem item;
-            foreach (TreeNode node in TreeViewMobs.Nodes)
+            foreach (TreeNode node in TreeViewMobs.Nodes[DisplayType].Nodes)
             {
                 item = new ListViewItem("("+node.Tag+")", 0);
                 item.Tag = node.Tag;
@@ -337,7 +407,7 @@ namespace Controls
         private void selectChanged_listView(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0)
-                TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[listView.SelectedItems[0].Index];
+                TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[DisplayType].Nodes[listView.SelectedItems[0].Index];
         }
 
         private void listView_DoubleClick(object sender, MouseEventArgs e)
@@ -464,6 +534,8 @@ namespace Controls
         {
             TreeNode tx = x as TreeNode;
             TreeNode ty = y as TreeNode;
+            if (tx.Parent == null)
+                return 0;
             return string.Compare(tx.Text, ty.Text);
         }
     }
@@ -474,6 +546,8 @@ namespace Controls
         {
             TreeNode tx = x as TreeNode;
             TreeNode ty = y as TreeNode;
+            if (tx.Parent == null)
+                return 0;
             if ((int)tx.Tag == (int)ty.Tag)
                 return 0;
             else if ((int)tx.Tag < (int)ty.Tag)
