@@ -121,6 +121,19 @@ namespace Ultima
             }
         }
 
+        public static void SetMulPath(string path)
+        {
+            string filePath;
+            foreach (string file in m_Files)
+            {
+                filePath = Path.Combine(path, file);
+                if (File.Exists(filePath))
+                    MulPath[file] = filePath;
+                else
+                    MulPath[file] = "";
+            }
+        }
+
 		public Stream Seek( int index, out int length, out int extra, out bool patched )
 		{
 			if ( index < 0 || index >= m_Index.Length )

@@ -522,27 +522,36 @@ namespace Ultima
 		{
 			ArrayList list = new ArrayList();
 
-			string pathReg = GetExePath( "Ultima Online" );
-			string path3D = GetExePath( "Ultima Online Third Dawn" );
-            string pathSE = GetExePathSE();
+            string pathReg = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online\1.0");
+			string path3D =  GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online Third Dawn\1.0");
+            string pathSE =  GetInstallPath(@"SOFTWARE\EA GAMES\Ultima Online Samurai Empire");
+
+            string pathReg64 = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online\1.0");
+            string path3D64 =  GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online Third Dawn\1.0");
+            string pathSE64 =  GetInstallPath(@"SOFTWARE\Wow6432Node\EA GAMES\Ultima Online Samurai Empire");
 
 			if ( pathReg != null )
 				list.Add( pathReg );
-
 			if ( path3D != null )
 				list.Add( path3D );
-
             if (pathSE != null)
                 list.Add( pathSE );
+
+            if (pathReg64 != null)
+                list.Add(pathReg64);
+            if (path3D64 != null)
+                list.Add(path3D64);
+            if (pathSE64 != null)
+                list.Add(pathSE64);
 
 			return list;
 		}
 
-		private static string GetExePath( string subName )
+		private static string GetExePath( string regkey )
 		{
 			try
 			{
-				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( String.Format( @"SOFTWARE\Origin Worlds Online\{0}\1.0", subName ) ) )
+				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( regkey ) )
 				{
 					if ( key == null )
 						return null;
@@ -566,11 +575,11 @@ namespace Ultima
 			}
 		}
 
-        private static string GetExePathSE()
+        private static string GetInstallPath(string regkey)
 		{
 			try
             {
-				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( @"SOFTWARE\EA GAMES\Ultima Online Samurai Empire") )
+				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( regkey ) )
 				{
 					if ( key == null )
 						return null;
