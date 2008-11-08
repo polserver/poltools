@@ -45,43 +45,44 @@ namespace UoViewer
             this.Start = new System.Windows.Forms.TabPage();
             this.Versionlabel = new System.Windows.Forms.Label();
             this.Multis = new System.Windows.Forms.TabPage();
+            this.controlMulti = new Controls.Multis();
             this.MobGraphic = new System.Windows.Forms.TabPage();
+            this.controlMobList = new Controls.MobList();
             this.Items = new System.Windows.Forms.TabPage();
+            this.controlItemShow = new Controls.ItemShow();
             this.LandTiles = new System.Windows.Forms.TabPage();
+            this.controlLandTiles = new Controls.LandTiles();
             this.Texture = new System.Windows.Forms.TabPage();
+            this.controlTexture = new Controls.Texture();
             this.Gumps = new System.Windows.Forms.TabPage();
+            this.controlGumps = new Controls.Gump();
             this.Sounds = new System.Windows.Forms.TabPage();
+            this.controlSound = new Controls.Sounds();
             this.Hue = new System.Windows.Forms.TabPage();
+            this.controlHue = new Controls.Hues();
             this.fonts = new System.Windows.Forms.TabPage();
+            this.controlfonts = new Controls.Fonts();
             this.Cliloc = new System.Windows.Forms.TabPage();
+            this.controlCliloc = new Controls.Cliloc();
             this.map = new System.Windows.Forms.TabPage();
+            this.controlmap = new Controls.Map();
             this.Light = new System.Windows.Forms.TabPage();
+            this.controlLight = new Controls.Light();
             this.Dress = new System.Windows.Forms.TabPage();
+            this.controldress = new Controls.Dress();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.restartNeededToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pathSettingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.controlMulti = new Controls.Multis();
-            this.controlMobList = new Controls.MobList();
-            this.controlItemShow = new Controls.ItemShow();
-            this.controlLandTiles = new Controls.LandTiles();
-            this.controlTexture = new Controls.Texture();
-            this.controlGumps = new Controls.Gump();
-            this.controlSound = new Controls.Sounds();
-            this.controlHue = new Controls.Hues();
-            this.controlfonts = new Controls.Fonts();
-            this.controlCliloc = new Controls.Cliloc();
-            this.controlmap = new Controls.Map();
-            this.controlLight = new Controls.Light();
-            this.controldress = new Controls.Dress();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.restartNeededToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setClientPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2.SuspendLayout();
             this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
@@ -158,6 +159,14 @@ namespace UoViewer
             this.Multis.Text = "Multis";
             this.Multis.UseVisualStyleBackColor = true;
             // 
+            // controlMulti
+            // 
+            this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlMulti.Location = new System.Drawing.Point(3, 3);
+            this.controlMulti.Name = "controlMulti";
+            this.controlMulti.Size = new System.Drawing.Size(613, 318);
+            this.controlMulti.TabIndex = 0;
+            // 
             // MobGraphic
             // 
             this.MobGraphic.Controls.Add(this.controlMobList);
@@ -168,6 +177,14 @@ namespace UoViewer
             this.MobGraphic.TabIndex = 0;
             this.MobGraphic.Text = "Animations";
             this.MobGraphic.UseVisualStyleBackColor = true;
+            // 
+            // controlMobList
+            // 
+            this.controlMobList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlMobList.Location = new System.Drawing.Point(3, 3);
+            this.controlMobList.Name = "controlMobList";
+            this.controlMobList.Size = new System.Drawing.Size(613, 318);
+            this.controlMobList.TabIndex = 0;
             // 
             // Items
             // 
@@ -180,6 +197,14 @@ namespace UoViewer
             this.Items.Text = "Items";
             this.Items.UseVisualStyleBackColor = true;
             // 
+            // controlItemShow
+            // 
+            this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlItemShow.Location = new System.Drawing.Point(3, 3);
+            this.controlItemShow.Name = "controlItemShow";
+            this.controlItemShow.Size = new System.Drawing.Size(613, 318);
+            this.controlItemShow.TabIndex = 0;
+            // 
             // LandTiles
             // 
             this.LandTiles.Controls.Add(this.controlLandTiles);
@@ -190,6 +215,14 @@ namespace UoViewer
             this.LandTiles.TabIndex = 3;
             this.LandTiles.Text = "LandTiles";
             this.LandTiles.UseVisualStyleBackColor = true;
+            // 
+            // controlLandTiles
+            // 
+            this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
+            this.controlLandTiles.Name = "controlLandTiles";
+            this.controlLandTiles.Size = new System.Drawing.Size(613, 318);
+            this.controlLandTiles.TabIndex = 0;
             // 
             // Texture
             // 
@@ -202,6 +235,14 @@ namespace UoViewer
             this.Texture.Text = "Texture";
             this.Texture.UseVisualStyleBackColor = true;
             // 
+            // controlTexture
+            // 
+            this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlTexture.Location = new System.Drawing.Point(3, 3);
+            this.controlTexture.Name = "controlTexture";
+            this.controlTexture.Size = new System.Drawing.Size(613, 318);
+            this.controlTexture.TabIndex = 0;
+            // 
             // Gumps
             // 
             this.Gumps.Controls.Add(this.controlGumps);
@@ -212,6 +253,14 @@ namespace UoViewer
             this.Gumps.TabIndex = 4;
             this.Gumps.Text = "Gumps";
             this.Gumps.UseVisualStyleBackColor = true;
+            // 
+            // controlGumps
+            // 
+            this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlGumps.Location = new System.Drawing.Point(3, 3);
+            this.controlGumps.Name = "controlGumps";
+            this.controlGumps.Size = new System.Drawing.Size(613, 318);
+            this.controlGumps.TabIndex = 0;
             // 
             // Sounds
             // 
@@ -224,6 +273,14 @@ namespace UoViewer
             this.Sounds.Text = "Sounds";
             this.Sounds.UseVisualStyleBackColor = true;
             // 
+            // controlSound
+            // 
+            this.controlSound.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlSound.Location = new System.Drawing.Point(3, 3);
+            this.controlSound.Name = "controlSound";
+            this.controlSound.Size = new System.Drawing.Size(613, 318);
+            this.controlSound.TabIndex = 0;
+            // 
             // Hue
             // 
             this.Hue.Controls.Add(this.controlHue);
@@ -234,6 +291,14 @@ namespace UoViewer
             this.Hue.TabIndex = 6;
             this.Hue.Text = "Hue";
             this.Hue.UseVisualStyleBackColor = true;
+            // 
+            // controlHue
+            // 
+            this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlHue.Location = new System.Drawing.Point(3, 3);
+            this.controlHue.Name = "controlHue";
+            this.controlHue.Size = new System.Drawing.Size(613, 318);
+            this.controlHue.TabIndex = 0;
             // 
             // fonts
             // 
@@ -246,6 +311,14 @@ namespace UoViewer
             this.fonts.Text = "Fonts";
             this.fonts.UseVisualStyleBackColor = true;
             // 
+            // controlfonts
+            // 
+            this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlfonts.Location = new System.Drawing.Point(3, 3);
+            this.controlfonts.Name = "controlfonts";
+            this.controlfonts.Size = new System.Drawing.Size(613, 318);
+            this.controlfonts.TabIndex = 0;
+            // 
             // Cliloc
             // 
             this.Cliloc.Controls.Add(this.controlCliloc);
@@ -256,6 +329,14 @@ namespace UoViewer
             this.Cliloc.TabIndex = 8;
             this.Cliloc.Text = "CliLoc";
             this.Cliloc.UseVisualStyleBackColor = true;
+            // 
+            // controlCliloc
+            // 
+            this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlCliloc.Location = new System.Drawing.Point(3, 3);
+            this.controlCliloc.Name = "controlCliloc";
+            this.controlCliloc.Size = new System.Drawing.Size(613, 318);
+            this.controlCliloc.TabIndex = 0;
             // 
             // map
             // 
@@ -268,6 +349,15 @@ namespace UoViewer
             this.map.Text = "Map";
             this.map.UseVisualStyleBackColor = true;
             // 
+            // controlmap
+            // 
+            this.controlmap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlmap.Location = new System.Drawing.Point(3, 3);
+            this.controlmap.Margin = new System.Windows.Forms.Padding(0);
+            this.controlmap.Name = "controlmap";
+            this.controlmap.Size = new System.Drawing.Size(613, 318);
+            this.controlmap.TabIndex = 0;
+            // 
             // Light
             // 
             this.Light.Controls.Add(this.controlLight);
@@ -277,6 +367,14 @@ namespace UoViewer
             this.Light.TabIndex = 12;
             this.Light.Text = "Light";
             this.Light.UseVisualStyleBackColor = true;
+            // 
+            // controlLight
+            // 
+            this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlLight.Location = new System.Drawing.Point(0, 0);
+            this.controlLight.Name = "controlLight";
+            this.controlLight.Size = new System.Drawing.Size(619, 324);
+            this.controlLight.TabIndex = 0;
             // 
             // Dress
             // 
@@ -289,6 +387,14 @@ namespace UoViewer
             this.Dress.Text = "Dress";
             this.Dress.UseVisualStyleBackColor = true;
             // 
+            // controldress
+            // 
+            this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controldress.Location = new System.Drawing.Point(3, 3);
+            this.controldress.Name = "controldress";
+            this.controldress.Size = new System.Drawing.Size(613, 318);
+            this.controldress.TabIndex = 0;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -299,6 +405,48 @@ namespace UoViewer
             this.toolStrip1.Size = new System.Drawing.Size(627, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.pathSettingsToolStripMenuItem1,
+            this.setClientPathToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.restartNeededToolStripMenuItem1});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(59, 22);
+            this.toolStripDropDownButton1.Text = "Settings";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.CheckOnClick = true;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem1.Text = "Always On Top";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.onClickAlwaysTop);
+            // 
+            // pathSettingsToolStripMenuItem1
+            // 
+            this.pathSettingsToolStripMenuItem1.Name = "pathSettingsToolStripMenuItem1";
+            this.pathSettingsToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.pathSettingsToolStripMenuItem1.Text = "Path Settings";
+            this.pathSettingsToolStripMenuItem1.Click += new System.EventHandler(this.click_path);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
+            // 
+            // restartNeededToolStripMenuItem1
+            // 
+            this.restartNeededToolStripMenuItem1.ForeColor = System.Drawing.Color.DarkRed;
+            this.restartNeededToolStripMenuItem1.Name = "restartNeededToolStripMenuItem1";
+            this.restartNeededToolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.restartNeededToolStripMenuItem1.Text = "Restart Needed!";
             // 
             // toolStripSplitButton1
             // 
@@ -317,174 +465,35 @@ namespace UoViewer
             // 
             this.alwaysOnTopToolStripMenuItem.CheckOnClick = true;
             this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
-            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.alwaysOnTopToolStripMenuItem.Text = "Always On Top";
             this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
             // pathSettingsToolStripMenuItem
             // 
             this.pathSettingsToolStripMenuItem.Name = "pathSettingsToolStripMenuItem";
-            this.pathSettingsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.pathSettingsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.pathSettingsToolStripMenuItem.Text = "Path Settings";
             this.pathSettingsToolStripMenuItem.Click += new System.EventHandler(this.click_path);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
             // 
             // restartNeededToolStripMenuItem
             // 
             this.restartNeededToolStripMenuItem.ForeColor = System.Drawing.Color.DarkRed;
             this.restartNeededToolStripMenuItem.Name = "restartNeededToolStripMenuItem";
-            this.restartNeededToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.restartNeededToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.restartNeededToolStripMenuItem.Text = "Restart Needed!";
             // 
-            // toolStripDropDownButton1
+            // setClientPathToolStripMenuItem
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.pathSettingsToolStripMenuItem1,
-            this.toolStripSeparator2,
-            this.restartNeededToolStripMenuItem1});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(59, 22);
-            this.toolStripDropDownButton1.Text = "Settings";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.toolStripMenuItem1.Text = "Always On Top";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.onClickAlwaysTop);
-            // 
-            // pathSettingsToolStripMenuItem1
-            // 
-            this.pathSettingsToolStripMenuItem1.Name = "pathSettingsToolStripMenuItem1";
-            this.pathSettingsToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.pathSettingsToolStripMenuItem1.Text = "Path Settings";
-            this.pathSettingsToolStripMenuItem1.Click += new System.EventHandler(this.click_path);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
-            // 
-            // restartNeededToolStripMenuItem1
-            // 
-            this.restartNeededToolStripMenuItem1.ForeColor = System.Drawing.Color.DarkRed;
-            this.restartNeededToolStripMenuItem1.Name = "restartNeededToolStripMenuItem1";
-            this.restartNeededToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.restartNeededToolStripMenuItem1.Text = "Restart Needed!";
-            // 
-            // controlMulti
-            // 
-            this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlMulti.Location = new System.Drawing.Point(3, 3);
-            this.controlMulti.Name = "controlMulti";
-            this.controlMulti.Size = new System.Drawing.Size(613, 318);
-            this.controlMulti.TabIndex = 0;
-            // 
-            // controlMobList
-            // 
-            this.controlMobList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlMobList.Location = new System.Drawing.Point(3, 3);
-            this.controlMobList.Name = "controlMobList";
-            this.controlMobList.Size = new System.Drawing.Size(613, 318);
-            this.controlMobList.TabIndex = 0;
-            // 
-            // controlItemShow
-            // 
-            this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlItemShow.Location = new System.Drawing.Point(3, 3);
-            this.controlItemShow.Name = "controlItemShow";
-            this.controlItemShow.Size = new System.Drawing.Size(613, 318);
-            this.controlItemShow.TabIndex = 0;
-            // 
-            // controlLandTiles
-            // 
-            this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
-            this.controlLandTiles.Name = "controlLandTiles";
-            this.controlLandTiles.Size = new System.Drawing.Size(613, 318);
-            this.controlLandTiles.TabIndex = 0;
-            // 
-            // controlTexture
-            // 
-            this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlTexture.Location = new System.Drawing.Point(3, 3);
-            this.controlTexture.Name = "controlTexture";
-            this.controlTexture.Size = new System.Drawing.Size(613, 318);
-            this.controlTexture.TabIndex = 0;
-            // 
-            // controlGumps
-            // 
-            this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlGumps.Location = new System.Drawing.Point(3, 3);
-            this.controlGumps.Name = "controlGumps";
-            this.controlGumps.Size = new System.Drawing.Size(613, 318);
-            this.controlGumps.TabIndex = 0;
-            // 
-            // controlSound
-            // 
-            this.controlSound.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlSound.Location = new System.Drawing.Point(3, 3);
-            this.controlSound.Name = "controlSound";
-            this.controlSound.Size = new System.Drawing.Size(613, 318);
-            this.controlSound.TabIndex = 0;
-            // 
-            // controlHue
-            // 
-            this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlHue.Location = new System.Drawing.Point(3, 3);
-            this.controlHue.Name = "controlHue";
-            this.controlHue.Size = new System.Drawing.Size(613, 318);
-            this.controlHue.TabIndex = 0;
-            // 
-            // controlfonts
-            // 
-            this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlfonts.Location = new System.Drawing.Point(3, 3);
-            this.controlfonts.Name = "controlfonts";
-            this.controlfonts.Size = new System.Drawing.Size(613, 318);
-            this.controlfonts.TabIndex = 0;
-            // 
-            // controlCliloc
-            // 
-            this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlCliloc.Location = new System.Drawing.Point(3, 3);
-            this.controlCliloc.Name = "controlCliloc";
-            this.controlCliloc.Size = new System.Drawing.Size(613, 318);
-            this.controlCliloc.TabIndex = 0;
-            // 
-            // controlmap
-            // 
-            this.controlmap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlmap.Location = new System.Drawing.Point(3, 3);
-            this.controlmap.Margin = new System.Windows.Forms.Padding(0);
-            this.controlmap.Name = "controlmap";
-            this.controlmap.Size = new System.Drawing.Size(613, 318);
-            this.controlmap.TabIndex = 0;
-            // 
-            // controlLight
-            // 
-            this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlLight.Location = new System.Drawing.Point(0, 0);
-            this.controlLight.Name = "controlLight";
-            this.controlLight.Size = new System.Drawing.Size(619, 324);
-            this.controlLight.TabIndex = 0;
-            // 
-            // controldress
-            // 
-            this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controldress.Location = new System.Drawing.Point(3, 3);
-            this.controldress.Name = "controldress";
-            this.controldress.Size = new System.Drawing.Size(613, 318);
-            this.controldress.TabIndex = 0;
+            this.setClientPathToolStripMenuItem.Name = "setClientPathToolStripMenuItem";
+            this.setClientPathToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.setClientPathToolStripMenuItem.Text = "Set Client Path";
+            this.setClientPathToolStripMenuItem.Click += new System.EventHandler(this.onClickSetClientPath);
             // 
             // UoViewer
             // 
@@ -562,6 +571,7 @@ namespace UoViewer
         private System.Windows.Forms.ToolStripMenuItem pathSettingsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem restartNeededToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem setClientPathToolStripMenuItem;
     }
 }
 
