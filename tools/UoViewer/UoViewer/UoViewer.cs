@@ -55,14 +55,5 @@ namespace UoViewer
             else
                 this.TopMost = false;
         }
-
-        private void onClickSetClientPath(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dialog=new FolderBrowserDialog();
-            dialog.Description = "Select directory containing the client files";
-            dialog.ShowNewFolderButton = false;
-            if (dialog.ShowDialog() == DialogResult.OK)
-                FileIndex.SetMulPath(dialog.SelectedPath);
-        }
     }
 }

@@ -38,6 +38,20 @@ namespace UoViewer
             propertyGrid1.Refresh();
             propertyGrid1.Update();
         }
+
+        private void OnClickManual(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Select directory containing the client files";
+            dialog.ShowNewFolderButton = false;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                FileIndex.SetMulPath(dialog.SelectedPath);
+                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(FileIndex.MulPath);
+                propertyGrid1.Refresh();
+                propertyGrid1.Update();
+            }
+        }
     }
     class DictionaryPropertyGridAdapter : ICustomTypeDescriptor
     {
