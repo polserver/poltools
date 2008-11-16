@@ -47,6 +47,7 @@ namespace Controls
             this.showClientLoc = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoClientLoc = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientLocLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ZoomLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.feluccaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,9 +58,13 @@ namespace Controls
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.extractMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getMapInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.showStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -70,7 +75,8 @@ namespace Controls
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CoordsLabel,
             this.ClientInteract,
-            this.ClientLocLabel});
+            this.ClientLocLabel,
+            this.ZoomLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 302);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(619, 22);
@@ -116,6 +122,12 @@ namespace Controls
             this.ClientLocLabel.Size = new System.Drawing.Size(73, 17);
             this.ClientLocLabel.Text = "ClientLoc: 0,0";
             // 
+            // ZoomLabel
+            // 
+            this.ZoomLabel.Name = "ZoomLabel";
+            this.ZoomLabel.Size = new System.Drawing.Size(40, 17);
+            this.ZoomLabel.Text = "Zoom: ";
+            // 
             // pictureBox
             // 
             this.pictureBox.ContextMenuStrip = this.contextMenuStrip1;
@@ -127,75 +139,95 @@ namespace Controls
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zoomToolStripMenuItem,
+            this.zoomToolStripMenuItem1,
+            this.showStaticsToolStripMenuItem,
+            this.getMapInfoToolStripMenuItem,
+            this.toolStripSeparator2,
             this.feluccaToolStripMenuItem,
             this.trammelToolStripMenuItem,
             this.malasToolStripMenuItem,
             this.ilshenarToolStripMenuItem,
             this.tokunoToolStripMenuItem,
             this.toolStripSeparator1,
-            this.extractMapToolStripMenuItem,
-            this.getMapInfoToolStripMenuItem});
+            this.extractMapToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 186);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 258);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.OnOpenContext);
             // 
             // feluccaToolStripMenuItem
             // 
             this.feluccaToolStripMenuItem.Name = "feluccaToolStripMenuItem";
-            this.feluccaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.feluccaToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.feluccaToolStripMenuItem.Text = "Felucca";
             this.feluccaToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapFelucca);
             // 
             // trammelToolStripMenuItem
             // 
             this.trammelToolStripMenuItem.Name = "trammelToolStripMenuItem";
-            this.trammelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.trammelToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.trammelToolStripMenuItem.Text = "Trammel";
             this.trammelToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapTrammel);
             // 
             // malasToolStripMenuItem
             // 
             this.malasToolStripMenuItem.Name = "malasToolStripMenuItem";
-            this.malasToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.malasToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.malasToolStripMenuItem.Text = "Malas";
             this.malasToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapMalas);
             // 
             // ilshenarToolStripMenuItem
             // 
             this.ilshenarToolStripMenuItem.Name = "ilshenarToolStripMenuItem";
-            this.ilshenarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ilshenarToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.ilshenarToolStripMenuItem.Text = "Ilshenar";
             this.ilshenarToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapIlshenar);
             // 
             // tokunoToolStripMenuItem
             // 
             this.tokunoToolStripMenuItem.Name = "tokunoToolStripMenuItem";
-            this.tokunoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tokunoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.tokunoToolStripMenuItem.Text = "Tokuno";
             this.tokunoToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapTokuno);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // extractMapToolStripMenuItem
             // 
             this.extractMapToolStripMenuItem.Name = "extractMapToolStripMenuItem";
-            this.extractMapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractMapToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.extractMapToolStripMenuItem.Text = "Extract Map";
             this.extractMapToolStripMenuItem.Click += new System.EventHandler(this.ExtractMap);
             // 
             // getMapInfoToolStripMenuItem
             // 
             this.getMapInfoToolStripMenuItem.Name = "getMapInfoToolStripMenuItem";
-            this.getMapInfoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.getMapInfoToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.getMapInfoToolStripMenuItem.Text = "GetMapInfo";
             this.getMapInfoToolStripMenuItem.Click += new System.EventHandler(this.GetMapInfo);
+            // 
+            // zoomToolStripMenuItem
+            // 
+            this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.zoomToolStripMenuItem.Text = "+Zoom";
+            this.zoomToolStripMenuItem.Click += new System.EventHandler(this.OnZoomPlus);
+            // 
+            // zoomToolStripMenuItem1
+            // 
+            this.zoomToolStripMenuItem1.Name = "zoomToolStripMenuItem1";
+            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            this.zoomToolStripMenuItem1.Text = "-Zoom";
+            this.zoomToolStripMenuItem1.Click += new System.EventHandler(this.OnZoomMinus);
             // 
             // hScrollBar
             // 
@@ -220,6 +252,21 @@ namespace Controls
             this.timer1.Enabled = true;
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.SyncClientTimer);
+            // 
+            // showStaticsToolStripMenuItem
+            // 
+            this.showStaticsToolStripMenuItem.Checked = true;
+            this.showStaticsToolStripMenuItem.CheckOnClick = true;
+            this.showStaticsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showStaticsToolStripMenuItem.Name = "showStaticsToolStripMenuItem";
+            this.showStaticsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showStaticsToolStripMenuItem.Text = "Show Statics";
+            this.showStaticsToolStripMenuItem.Click += new System.EventHandler(this.ClickShowStatics);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // Map
             // 
@@ -264,5 +311,10 @@ namespace Controls
         private System.Windows.Forms.ToolStripStatusLabel ClientLocLabel;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem getMapInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripStatusLabel ZoomLabel;
+        private System.Windows.Forms.ToolStripMenuItem showStaticsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

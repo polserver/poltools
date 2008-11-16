@@ -99,7 +99,7 @@ namespace Ultima
 				if ( statics )
 					m_Cache = cache = new short[m_Tiles.BlockHeight][][];
 				else
-					m_Cache_NoStatics = new short[m_Tiles.BlockHeight][][];
+                    m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
 			}
 
 			if ( cache[y] == null )
