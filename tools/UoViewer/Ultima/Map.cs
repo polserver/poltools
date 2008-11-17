@@ -16,8 +16,8 @@ namespace Ultima
 
 		public static short[] Colors{ get{ return m_Colors; } set{ m_Colors = value; } }
 
-		public static readonly Map Felucca = new Map( 0, 0, 6144, 4096 );
-		public static readonly Map Trammel = new Map( 0, 1, 6144, 4096 );
+		public static Map Felucca = new Map( 0, 0, 6144, 4096 );
+		public static Map Trammel = new Map( 0, 1, 6144, 4096 );
 		public static readonly Map Ilshenar = new Map( 2, 2, 2304, 1600 );
 		public static readonly Map Malas = new Map( 3, 3, 2560, 2048 );
 		public static readonly Map Tokuno = new Map( 4, 4, 1448, 1448 );
@@ -52,6 +52,7 @@ namespace Ultima
 		public int Width
 		{
 			get{ return m_Width; }
+            set{ m_Width = value; }
 		}
 
 		public int Height

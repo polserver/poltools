@@ -63,6 +63,11 @@ namespace UoViewer
             elem = dom.CreateElement("CacheData");
             elem.SetAttribute("active", FileIndex.CacheData.ToString());
             sr.AppendChild(elem);
+            comment = dom.CreateComment("NewMapSize Felucca/Trammel width 7168?");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("NewMapSize");
+            elem.SetAttribute("active", Ultima.Map.Felucca.Width==7168 ? true.ToString() : false.ToString());
+            sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
 
@@ -111,6 +116,15 @@ namespace UoViewer
             if (cachedata != null)
                 FileIndex.CacheData = bool.Parse(cachedata.GetAttribute("active"));
 
+            XmlElement mapsize = (XmlElement)xOptions.SelectSingleNode("NewMapSize");
+            if (mapsize != null)
+            {
+                if (bool.Parse(mapsize.GetAttribute("active")))
+                {
+                    Ultima.Map.Felucca.Width = 7168;
+                    Ultima.Map.Trammel.Width = 7168;
+                }
+            }
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;
