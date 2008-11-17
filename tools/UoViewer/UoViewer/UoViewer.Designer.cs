@@ -72,16 +72,11 @@ namespace UoViewer
             this.controldress = new Controls.Dress();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathSettingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
+            this.AlwaysOnTopMenuitem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.restartNeededToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pathSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.restartNeededToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartNeededMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2.SuspendLayout();
             this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
@@ -397,7 +392,7 @@ namespace UoViewer
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1});
+            this.SettingsMenu});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -405,86 +400,46 @@ namespace UoViewer
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripDropDownButton1
+            // SettingsMenu
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.pathSettingsToolStripMenuItem1,
+            this.SettingsMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SettingsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AlwaysOnTopMenuitem,
+            this.pathSettingsMenuItem,
             this.toolStripSeparator2,
-            this.restartNeededToolStripMenuItem1});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(59, 22);
-            this.toolStripDropDownButton1.Text = "Settings";
+            this.restartNeededMenuItem});
+            this.SettingsMenu.Image = ((System.Drawing.Image)(resources.GetObject("SettingsMenu.Image")));
+            this.SettingsMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SettingsMenu.Name = "SettingsMenu";
+            this.SettingsMenu.Size = new System.Drawing.Size(59, 22);
+            this.SettingsMenu.Text = "Settings";
             // 
-            // toolStripMenuItem1
+            // AlwaysOnTopMenuitem
             // 
-            this.toolStripMenuItem1.CheckOnClick = true;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.toolStripMenuItem1.Text = "Always On Top";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.onClickAlwaysTop);
+            this.AlwaysOnTopMenuitem.CheckOnClick = true;
+            this.AlwaysOnTopMenuitem.Name = "AlwaysOnTopMenuitem";
+            this.AlwaysOnTopMenuitem.Size = new System.Drawing.Size(165, 22);
+            this.AlwaysOnTopMenuitem.Text = "Always On Top";
+            this.AlwaysOnTopMenuitem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
-            // pathSettingsToolStripMenuItem1
+            // pathSettingsMenuItem
             // 
-            this.pathSettingsToolStripMenuItem1.Name = "pathSettingsToolStripMenuItem1";
-            this.pathSettingsToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.pathSettingsToolStripMenuItem1.Text = "Path Settings";
-            this.pathSettingsToolStripMenuItem1.Click += new System.EventHandler(this.click_path);
+            this.pathSettingsMenuItem.Name = "pathSettingsMenuItem";
+            this.pathSettingsMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.pathSettingsMenuItem.Text = "Path Settings";
+            this.pathSettingsMenuItem.Click += new System.EventHandler(this.click_path);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
             // 
-            // restartNeededToolStripMenuItem1
+            // restartNeededMenuItem
             // 
-            this.restartNeededToolStripMenuItem1.ForeColor = System.Drawing.Color.DarkRed;
-            this.restartNeededToolStripMenuItem1.Name = "restartNeededToolStripMenuItem1";
-            this.restartNeededToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
-            this.restartNeededToolStripMenuItem1.Text = "Restart Needed!";
-            // 
-            // toolStripSplitButton1
-            // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.alwaysOnTopToolStripMenuItem,
-            this.pathSettingsToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.restartNeededToolStripMenuItem});
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(62, 22);
-            this.toolStripSplitButton1.Text = "Settings";
-            // 
-            // alwaysOnTopToolStripMenuItem
-            // 
-            this.alwaysOnTopToolStripMenuItem.CheckOnClick = true;
-            this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
-            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.alwaysOnTopToolStripMenuItem.Text = "Always On Top";
-            this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.onClickAlwaysTop);
-            // 
-            // pathSettingsToolStripMenuItem
-            // 
-            this.pathSettingsToolStripMenuItem.Name = "pathSettingsToolStripMenuItem";
-            this.pathSettingsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.pathSettingsToolStripMenuItem.Text = "Path Settings";
-            this.pathSettingsToolStripMenuItem.Click += new System.EventHandler(this.click_path);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
-            // 
-            // restartNeededToolStripMenuItem
-            // 
-            this.restartNeededToolStripMenuItem.ForeColor = System.Drawing.Color.DarkRed;
-            this.restartNeededToolStripMenuItem.Name = "restartNeededToolStripMenuItem";
-            this.restartNeededToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.restartNeededToolStripMenuItem.Text = "Restart Needed!";
+            this.restartNeededMenuItem.ForeColor = System.Drawing.Color.DarkRed;
+            this.restartNeededMenuItem.Name = "restartNeededMenuItem";
+            this.restartNeededMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.restartNeededMenuItem.Text = "Restart Needed!";
             // 
             // UoViewer
             // 
@@ -534,9 +489,6 @@ namespace UoViewer
         private System.Windows.Forms.TabPage Sounds;
         private Controls.Sounds controlSound;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-        private System.Windows.Forms.ToolStripMenuItem restartNeededToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TabPage Multis;
         private Controls.Multis controlMulti;
         private System.Windows.Forms.TabPage Hue;
@@ -548,7 +500,6 @@ namespace UoViewer
         private System.Windows.Forms.TabPage map;
         private Controls.Map controlmap;
         private System.Windows.Forms.TabPage Start;
-        private System.Windows.Forms.ToolStripMenuItem pathSettingsToolStripMenuItem;
         private System.Windows.Forms.TabPage Texture;
         private Controls.Texture controlTexture;
         private System.Windows.Forms.TabPage Light;
@@ -556,12 +507,11 @@ namespace UoViewer
         private System.Windows.Forms.Label Versionlabel;
         private System.Windows.Forms.TabPage Dress;
         private Controls.Dress controldress;
-        private System.Windows.Forms.ToolStripMenuItem alwaysOnTopToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem pathSettingsToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripDropDownButton SettingsMenu;
+        private System.Windows.Forms.ToolStripMenuItem AlwaysOnTopMenuitem;
+        private System.Windows.Forms.ToolStripMenuItem pathSettingsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem restartNeededToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem restartNeededMenuItem;
     }
 }
 

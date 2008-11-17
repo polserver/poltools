@@ -83,11 +83,9 @@ namespace Controls
             this.hScrollBar.Maximum = (int)(currmap.Width / Zoom);
             this.hScrollBar.LargeChange = 40;
             this.hScrollBar.SmallChange = 8;
-            this.hScrollBar.Maximum += this.hScrollBar.LargeChange;
             this.vScrollBar.Maximum = (int)(currmap.Height / Zoom);
             this.vScrollBar.LargeChange = 40;
             this.vScrollBar.SmallChange = 8;
-            this.vScrollBar.Maximum += this.vScrollBar.LargeChange;
             this.vScrollBar.Value = 0;
             this.hScrollBar.Value = 0;
         }
@@ -204,7 +202,6 @@ namespace Controls
             string FileName = Path.Combine(path, name);
             Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3)+8, (currmap.Height >> 3)+8);
             extract.Save(FileName, ImageFormat.Tiff);
-            
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -218,18 +215,8 @@ namespace Controls
                 int deltay = (int)(-1 * (e.Y - movingpoint.Y) / Zoom);
                 movingpoint.X = e.X;
                 movingpoint.Y = e.Y;
-                if (hScrollBar.Value + deltax < 0)
-                    hScrollBar.Value = 0;
-                else if (hScrollBar.Value + deltax > hScrollBar.Maximum)
-                    hScrollBar.Value = hScrollBar.Maximum;
-                else
-                    hScrollBar.Value += deltax;
-                if (vScrollBar.Value + deltay < 0)
-                    vScrollBar.Value = 0;
-                else if (vScrollBar.Value + deltax > vScrollBar.Maximum)
-                    vScrollBar.Value = vScrollBar.Maximum;
-                else
-                    vScrollBar.Value += deltay;
+                hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
+                vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
                 map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
                 ZoomMap(ref map);
                 pictureBox.Image = map;
@@ -370,14 +357,19 @@ namespace Controls
                 moving = true;
                 movingpoint.X = e.X;
                 movingpoint.Y = e.Y;
+                this.Cursor = Cursors.Hand;
             }
             else
+            {
                 moving = false;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
             moving = false;
+            this.Cursor = Cursors.Default;
         }
 
         private void ClickShowStatics(object sender, EventArgs e)
