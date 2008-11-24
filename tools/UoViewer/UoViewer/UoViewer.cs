@@ -26,11 +26,51 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "1.8b";
+        private static string Version = "1.9";
+        public static bool AlternativeDesign = false;
+        private Controls.ItemShowAlternative controlItemShowAlt;
+        private Controls.TextureAlternative controlTextureAlt;
+        private Controls.LandTilesAlternative controlLandTilesAlt;
+
         public UoViewer()
         {
             InitializeComponent();
             Versionlabel.Text = "Version " + Version;
+            if (AlternativeDesign)
+            {
+                this.Items.Controls.Clear();
+                this.controlItemShow.Dispose();
+                this.controlItemShowAlt = new Controls.ItemShowAlternative();
+                this.controlItemShowAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                this.controlItemShowAlt.Location = new System.Drawing.Point(3, 3);
+                this.controlItemShowAlt.Name = "controlItemShow";
+                this.controlItemShowAlt.Size = new System.Drawing.Size(613, 318);
+                this.controlItemShowAlt.TabIndex = 0;
+                this.Items.Controls.Add(this.controlItemShowAlt);
+                this.Items.PerformLayout();
+
+                this.Texture.Controls.Clear();
+                this.controlTexture.Dispose();
+                this.controlTextureAlt = new Controls.TextureAlternative();
+                this.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                this.controlTextureAlt.Location = new System.Drawing.Point(3, 3);
+                this.controlTextureAlt.Name = "controlTexture";
+                this.controlTextureAlt.Size = new System.Drawing.Size(613, 318);
+                this.controlTextureAlt.TabIndex = 0;
+                this.Texture.Controls.Add(this.controlTextureAlt);
+                this.Texture.PerformLayout();
+
+                this.LandTiles.Controls.Clear();
+                this.controlLandTiles.Dispose();
+                this.controlLandTilesAlt = new Controls.LandTilesAlternative();
+                this.controlLandTilesAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                this.controlLandTilesAlt.Location = new System.Drawing.Point(3, 3);
+                this.controlLandTilesAlt.Name = "controlLandTiles";
+                this.controlLandTilesAlt.Size = new System.Drawing.Size(613, 318);
+                this.controlLandTilesAlt.TabIndex = 0;
+                this.LandTiles.Controls.Add(this.controlLandTilesAlt);
+                this.LandTiles.PerformLayout();
+            }
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);

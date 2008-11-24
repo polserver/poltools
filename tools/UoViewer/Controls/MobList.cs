@@ -519,11 +519,13 @@ namespace Controls
         private void OnClick_Sort(object sender, EventArgs e)
         {
             sortalpha = !sortalpha;
+            TreeViewMobs.BeginUpdate();
             if (!sortalpha)
                 TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
             else
                 TreeViewMobs.TreeViewNodeSorter = new AlphaSorter();
             TreeViewMobs.Sort();
+            TreeViewMobs.EndUpdate();
             LoadListView();
         }
     }

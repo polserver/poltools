@@ -1,34 +1,32 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+using Ultima;
 
-namespace System
+namespace Ultima
 {
 	public class WindowProcessStream : ProcessStream
 	{
-        [DllImport( "user32.dll" )]
-        static extern bool IsWindow( IntPtr window );
+		private ClientWindowHandle m_Window;
+		private ClientProcessHandle m_ProcessID;
 
-		[DllImport( "User32" )]
-		private static extern int GetWindowThreadProcessId( IntPtr window, ref IntPtr processID );
+		public ClientWindowHandle Window { get { return m_Window; } set { m_Window = value; } }
 
-		private IntPtr m_Window, m_ProcessID;
-
-		public IntPtr Window{ get{ return m_Window; } set{ m_Window = value; m_ProcessID = IntPtr.Zero; } }
-
-		public WindowProcessStream( IntPtr window )
+		public WindowProcessStream( ClientWindowHandle window )
 		{
 			m_Window = window;
+			m_ProcessID = ClientProcessHandle.Invalid;
 		}
 
-		public override IntPtr ProcessID
+		public override ClientProcessHandle ProcessID
 		{
 			get
 			{
-				if ( IsWindow( m_Window ) && m_ProcessID != IntPtr.Zero )
+				if ( NativeMethods.IsWindow( m_Window ) != 0 && !m_ProcessID.IsInvalid )
 					return m_ProcessID;
 
-				GetWindowThreadProcessId( m_Window, ref m_ProcessID );
+                NativeMethods.GetWindowThreadProcessId(m_Window, ref m_ProcessID);
 
 				return m_ProcessID;
 			}

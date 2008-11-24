@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Ultima
 {
-	public class Verdata
+	public sealed class Verdata
 	{
 		private static Entry5D[] m_Patches;
 		private static Stream m_Stream;

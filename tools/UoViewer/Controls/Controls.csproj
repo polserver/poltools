@@ -137,11 +137,23 @@
     <Compile Include="ItemShow.Designer.cs">
       <DependentUpon>ItemShow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemShowAlternative.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemShowAlternative.Designer.cs">
+      <DependentUpon>ItemShowAlternative.cs</DependentUpon>
+    </Compile>
     <Compile Include="LandTiles.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LandTiles.Designer.cs">
       <DependentUpon>LandTiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LandTilesAlternative.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LandTilesAlternative.Designer.cs">
+      <DependentUpon>LandTilesAlternative.cs</DependentUpon>
     </Compile>
     <Compile Include="Light.cs">
       <SubType>UserControl</SubType>
@@ -167,6 +179,12 @@
     <Compile Include="MobList.Designer.cs">
       <DependentUpon>MobList.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultiMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MultiMap.Designer.cs">
+      <DependentUpon>MultiMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="Multis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -190,6 +208,12 @@
     </Compile>
     <Compile Include="Texture.Designer.cs">
       <DependentUpon>Texture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextureAlternative.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TextureAlternative.Designer.cs">
+      <DependentUpon>TextureAlternative.cs</DependentUpon>
     </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -244,9 +268,17 @@
       <DependentUpon>ItemShow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ItemShowAlternative.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ItemShowAlternative.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LandTiles.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LandTiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LandTilesAlternative.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LandTilesAlternative.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Light.resx">
       <SubType>Designer</SubType>
@@ -264,6 +296,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>MobList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MultiMap.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MultiMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Multis.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Multis.cs</DependentUpon>
@@ -280,6 +316,10 @@
     <EmbeddedResource Include="Texture.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Texture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextureAlternative.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TextureAlternative.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

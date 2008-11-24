@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-    public class Animdata
+    public sealed class Animdata
     {
         public static Hashtable AnimData;
         unsafe static Animdata()

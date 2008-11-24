@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using Microsoft.Win32.SafeHandles;
 
 namespace Ultima
 {
@@ -13,22 +14,10 @@ namespace Ultima
 	/// </summary>
 	public sealed class Client
 	{
-		[DllImport( "User32" )]
-		private static extern int IsWindow( IntPtr hWnd );
-
-		[DllImport( "User32" )]
-		private static extern int SetForegroundWindow( IntPtr hWnd );
-
-		[DllImport( "User32" )]
-		private static extern int SendMessage( IntPtr hWnd, int wMsg, int wParam, int lParam );
-
-		[DllImport( "User32" )]
-		private static extern int OemKeyScan( int wOemChar );
-
 		private const int WM_CHAR = 0x102;
 
 		private static ArrayList m_Directories;
-		private static IntPtr m_Handle;
+		private static ClientWindowHandle m_Handle = ClientWindowHandle.Invalid;
 
 		private static WindowProcessStream m_ProcStream;
 		private static LocationPointer m_LocationPointer;
@@ -347,14 +336,14 @@ namespace Ultima
 		}
 
 		/// <summary>
-		/// Gets the current window handle. A value of <c>IntPtr.Zero</c> is returned if the Client is not currently running.
+		/// Gets the current window handle. A value of <c>ClientHandle.Invalid</c> is returned if the Client is not currently running.
 		/// <seealso cref="Running" />
 		/// </summary>
-		public static IntPtr Handle
+		public static ClientWindowHandle Handle
 		{
 			get
 			{
-				if ( IsWindow( m_Handle ) == 0 )
+                if (NativeMethods.IsWindow(m_Handle) == 0)
 					m_Handle = FindHandle();
 
 				return m_Handle;
@@ -363,22 +352,22 @@ namespace Ultima
 
 		/// <summary>
 		/// Whether or not the Client is currently running.
-		/// <seealso cref="Handle" />
+		/// <seealso cref="ClientHandle" />
 		/// </summary>
 		public static bool Running
 		{
 			get
 			{
-				return ( Handle != IntPtr.Zero );
+				return ( !Handle.IsInvalid );
 			}
 		}
 
-		private static void SendChar( IntPtr hWnd, char c )
+		private static void SendChar( ClientWindowHandle hWnd, char c )
 		{
 			int value = (int)c;
-			int lParam = 1 | ((OemKeyScan( value ) & 0xFF) << 16) | (0x3 << 30);
+            int lParam = 1 | ((NativeMethods.OemKeyScan(value) & 0xFF) << 16) | (0x3 << 30);
 
-			SendMessage( hWnd, WM_CHAR, value, lParam );
+            NativeMethods.SendMessage(hWnd, WM_CHAR, value, lParam);
 		}
 
 		/// <summary>
@@ -387,11 +376,11 @@ namespace Ultima
 		/// <returns>True if the Client is running, false if not.</returns>
 		public static bool BringToTop()
 		{
-			IntPtr hWnd = Handle;
+			ClientWindowHandle hWnd = Handle;
 
-			if ( hWnd != IntPtr.Zero )
+            if (!hWnd.IsInvalid)
 			{
-				SetForegroundWindow( hWnd );
+                NativeMethods.SetForegroundWindow(hWnd);
 
 				return true;
 			}
@@ -407,9 +396,9 @@ namespace Ultima
 		/// <returns>True if the Client is running, false if not.</returns>
 		public static bool SendText( string text )
 		{
-			IntPtr hWnd = Handle;
+			ClientWindowHandle hWnd = Handle;
 
-			if ( hWnd != IntPtr.Zero )
+            if (!hWnd.IsInvalid)
 			{
 				for ( int i = 0; i < text.Length; ++i )
 					SendChar( hWnd, text[i] );
@@ -434,38 +423,18 @@ namespace Ultima
 			return SendText( String.Format( format, args ) );
 		}
 
-		[DllImport( "user32" )]
-		private static extern IntPtr FindWindowA( string lpClassName, string lpWindowName );
 
-		/*private static IntPtr FindWindow( string windowName )
+		private static ClientWindowHandle FindHandle()
 		{
-			Process[] procs = Process.GetProcesses();
-			IntPtr fallback = IntPtr.Zero;
-			foreach ( Process proc in procs )
-			{
-				if ( proc.MainWindowTitle.StartsWith( windowName ) )
-				{
-					string procName = proc.ProcessName.ToLower();
-					if ( procName.IndexOf( "client" ) >= 0 || procName.IndexOf( "uotd" ) >= 0 )
-						return proc.MainWindowHandle;
-					fallback = proc.MainWindowHandle;
-				}
-			}
-			return fallback;
-		}*/
-		private static IntPtr FindHandle()
-		{
-			IntPtr hWnd;
+			ClientWindowHandle hWnd;
 
-			/*if ( IsWindow( hWnd = FindWindow( "Ultima Online" ) ) != 0 )
-				return hWnd;*/
-			if ( IsWindow( hWnd = FindWindowA( "Ultima Online", null ) ) != 0 )
+            if (NativeMethods.IsWindow(hWnd = NativeMethods.FindWindowA("Ultima Online", null)) != 0)
 				return hWnd;
 
-			if ( IsWindow( hWnd = FindWindowA( "Ultima Online Third Dawn", null ) ) != 0 )
+            if (NativeMethods.IsWindow(hWnd = NativeMethods.FindWindowA("Ultima Online Third Dawn", null)) != 0)
 				return hWnd;
 
-			return IntPtr.Zero;
+			return ClientWindowHandle.Invalid;
 		}
 
 		/// <summary>

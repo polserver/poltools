@@ -2,7 +2,7 @@ using System;
 
 namespace Ultima
 {
-	public class HuedTileList
+	public sealed class HuedTileList
 	{
 		private HuedTile[] m_Tiles;
 		private int m_Count;
@@ -48,7 +48,7 @@ namespace Ultima
 		}
 	}
 
-	public class TileList
+	public sealed class TileList
 	{
 		private Tile[] m_Tiles;
 		private int m_Count;

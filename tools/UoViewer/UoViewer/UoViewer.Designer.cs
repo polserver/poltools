@@ -70,6 +70,8 @@ namespace UoViewer
             this.controlLight = new Controls.Light();
             this.Dress = new System.Windows.Forms.TabPage();
             this.controldress = new Controls.Dress();
+            this.multimap = new System.Windows.Forms.TabPage();
+            this.controlMultimap = new Controls.MultiMap();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
@@ -92,6 +94,7 @@ namespace UoViewer
             this.map.SuspendLayout();
             this.Light.SuspendLayout();
             this.Dress.SuspendLayout();
+            this.multimap.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,6 +114,7 @@ namespace UoViewer
             this.tabControl2.Controls.Add(this.map);
             this.tabControl2.Controls.Add(this.Light);
             this.tabControl2.Controls.Add(this.Dress);
+            this.tabControl2.Controls.Add(this.multimap);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 25);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
@@ -131,6 +135,7 @@ namespace UoViewer
             this.Start.Size = new System.Drawing.Size(619, 324);
             this.Start.TabIndex = 10;
             this.Start.Text = "Start";
+            this.Start.UseVisualStyleBackColor = true;
             // 
             // Versionlabel
             // 
@@ -389,6 +394,26 @@ namespace UoViewer
             this.controldress.Size = new System.Drawing.Size(613, 318);
             this.controldress.TabIndex = 0;
             // 
+            // multimap
+            // 
+            this.multimap.Controls.Add(this.controlMultimap);
+            this.multimap.Location = new System.Drawing.Point(4, 22);
+            this.multimap.Name = "multimap";
+            this.multimap.Padding = new System.Windows.Forms.Padding(3);
+            this.multimap.Size = new System.Drawing.Size(619, 324);
+            this.multimap.TabIndex = 14;
+            this.multimap.Text = "MultiMap";
+            this.multimap.UseVisualStyleBackColor = true;
+            // 
+            // controlMultimap
+            // 
+            this.controlMultimap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlMultimap.Location = new System.Drawing.Point(3, 3);
+            this.controlMultimap.Name = "controlMultimap";
+            this.controlMultimap.Size = new System.Drawing.Size(613, 318);
+            this.controlMultimap.TabIndex = 0;
+            this.controlMultimap.Text = "control1";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -467,6 +492,7 @@ namespace UoViewer
             this.map.ResumeLayout(false);
             this.Light.ResumeLayout(false);
             this.Dress.ResumeLayout(false);
+            this.multimap.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -512,6 +538,8 @@ namespace UoViewer
         private System.Windows.Forms.ToolStripMenuItem pathSettingsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem restartNeededMenuItem;
+        private System.Windows.Forms.TabPage multimap;
+        private Controls.MultiMap controlMultimap;
     }
 }
 

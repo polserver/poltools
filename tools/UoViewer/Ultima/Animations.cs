@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
-//using System.Windows.Forms;
 
 namespace Ultima
 {
@@ -11,7 +10,7 @@ namespace Ultima
 	/// Contains translation tables used for mapping body values to file subsets.
 	/// <seealso cref="Animations" />
 	/// </summary>
-	public class BodyConverter
+	public sealed class BodyConverter
 	{
 		private static int[] m_Table1;
 		private static int[] m_Table2;
@@ -249,22 +248,22 @@ namespace Ultima
 		}
 	}
 
-	public class Animations
+    public sealed class Animations
 	{
 		private static FileIndex m_FileIndex = new FileIndex( "Anim.idx", "Anim.mul", 0x40000, 6 );
-		public static FileIndex FileIndex{ get{ return m_FileIndex; } }
+		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
 		private static FileIndex m_FileIndex2 = new FileIndex( "Anim2.idx", "Anim2.mul", 0x10000, -1 );
-		public static FileIndex FileIndex2{ get{ return m_FileIndex2; } }
+		//public static FileIndex FileIndex2{ get{ return m_FileIndex2; } }
 
 		private static FileIndex m_FileIndex3 = new FileIndex( "Anim3.idx", "Anim3.mul", 0x20000, -1 );
-		public static FileIndex FileIndex3{ get{ return m_FileIndex3; } }
+		//public static FileIndex FileIndex3{ get{ return m_FileIndex3; } }
 		
 		private static FileIndex m_FileIndex4 = new FileIndex( "Anim4.idx", "Anim4.mul", 0x20000, -1 );
-		public static FileIndex FileIndex4{ get{ return m_FileIndex4; } }
+		//public static FileIndex FileIndex4{ get{ return m_FileIndex4; } }
 
 		private static FileIndex m_FileIndex5 = new FileIndex( "Anim5.idx", "Anim5.mul", 0x20000, -1 );
-		public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
+		//public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
 
 		private Animations()
 		{
@@ -589,7 +588,7 @@ namespace Ultima
 
 	}
 
-	public class Frame
+    public sealed class Frame
 	{
 		private Point m_Center;
 		private Bitmap m_Bitmap;
@@ -668,7 +667,7 @@ namespace Ultima
 		}
 	}
 
-	public class BodyTableEntry
+    public sealed class BodyTableEntry
 	{
 		public int m_OldID;
 		public int m_NewID;
@@ -682,7 +681,7 @@ namespace Ultima
 		}
 	}
 
-	public class BodyTable
+    public sealed class BodyTable
 	{
 		public static Hashtable m_Entries;
 

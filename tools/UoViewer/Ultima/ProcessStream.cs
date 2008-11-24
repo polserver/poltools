@@ -1,31 +1,20 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
-namespace System
+namespace Ultima
 {
 	public unsafe abstract class ProcessStream : Stream
 	{
 		private const int ProcessAllAccess = 0x1F0FFF;
 
-		[DllImport( "Kernel32" )]
-		private static extern IntPtr OpenProcess( int desiredAccess, int inheritHandle, IntPtr processID );
-
-		[DllImport( "Kernel32" )]
-		private static extern int CloseHandle( IntPtr handle );
-
-		[DllImport( "Kernel32" )]
-		private static extern int ReadProcessMemory( IntPtr process, int baseAddress, void *buffer, int size, ref int op );
-
-		[DllImport( "Kernel32" )]
-		private static extern int WriteProcessMemory( IntPtr process, int baseAddress, void *buffer, int size, int nullMe );
-
 		protected bool m_Open;
-		protected IntPtr m_Process;
+		protected ClientProcessHandle m_Process;
 
 		protected int m_Position;
 
-		public abstract IntPtr ProcessID{ get; }
+		public abstract ClientProcessHandle ProcessID { get; }
 
 		public ProcessStream()
 		{
@@ -36,7 +25,7 @@ namespace System
 			if ( m_Open )
 				return false;
 
-			m_Process = OpenProcess( ProcessAllAccess, 0, ProcessID );
+			m_Process = NativeMethods.OpenProcess( ProcessAllAccess, 0, ProcessID );
 			m_Open = true;
 
 			return true;
@@ -47,7 +36,7 @@ namespace System
 			if ( !m_Open )
 				return;
 
-			CloseHandle( m_Process );
+			m_Process.Close();
 			m_Open = false;
 		}
 
@@ -62,7 +51,7 @@ namespace System
 			int res = 0;
 
 			fixed ( byte *p = buffer )
-				ReadProcessMemory( m_Process, m_Position, p + offset, count, ref res );
+                NativeMethods.ReadProcessMemory(m_Process, m_Position, p + offset, count, ref res);
 
 			m_Position += count;
 
@@ -77,7 +66,7 @@ namespace System
 			bool end = !BeginAccess();
 
 			fixed ( byte *p = buffer )
-				WriteProcessMemory( m_Process, m_Position, p + offset, count, 0 );
+                NativeMethods.WriteProcessMemory(m_Process, m_Position, p + offset, count, 0);
 
 			m_Position += count;
 

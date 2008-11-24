@@ -148,6 +148,7 @@
     <Compile Include="Client.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClientHandles.cs" />
     <Compile Include="FileIndex.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,9 +165,11 @@
     <Compile Include="Map.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MultiMap.cs" />
     <Compile Include="Multis.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="ProcessStream.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -50,13 +50,13 @@ namespace UoViewer
             XmlComment comment= dom.CreateComment("ItemSize controls the size of images in items tab");
             sr.AppendChild(comment);
             XmlElement elem = dom.CreateElement("ItemSize");
-            elem.SetAttribute("width", ItemShow.ItemSizeWidth.ToString());
-            elem.SetAttribute("height", ItemShow.ItemSizeHeight.ToString());
+            elem.SetAttribute("width", Art.ItemSizeWidth.ToString());
+            elem.SetAttribute("height", Art.ItemSizeHeight.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("ItemClip images in items tab shrinked or clipped");
             sr.AppendChild(comment);
             elem = dom.CreateElement("ItemClip");
-            elem.SetAttribute("active", ItemShow.ItemClip.ToString());
+            elem.SetAttribute("active", Art.ItemClip.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("CacheData should mul entries be cached for faster load");
             sr.AppendChild(comment);
@@ -67,6 +67,11 @@ namespace UoViewer
             sr.AppendChild(comment);
             elem = dom.CreateElement("NewMapSize");
             elem.SetAttribute("active", Ultima.Map.Felucca.Width==7168 ? true.ToString() : false.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("Alternative layout in items tab?");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("AlternativeDesign");
+            elem.SetAttribute("active", UoViewer.AlternativeDesign.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
@@ -102,29 +107,37 @@ namespace UoViewer
             dom.Load(FileName);
             XmlElement xOptions = dom["Options"];
 
-            XmlElement itemsize = (XmlElement)xOptions.SelectSingleNode("ItemSize");
-            if (itemsize != null)
+            XmlElement elem = (XmlElement)xOptions.SelectSingleNode("ItemSize");
+            if (elem != null)
             {
-                ItemShow.ItemSizeWidth = int.Parse(itemsize.GetAttribute("width"));
-                ItemShow.ItemSizeHeight = int.Parse(itemsize.GetAttribute("height"));
+                Art.ItemSizeWidth = int.Parse(elem.GetAttribute("width"));
+                Art.ItemSizeHeight = int.Parse(elem.GetAttribute("height"));
             }
-            XmlElement itemclip = (XmlElement)xOptions.SelectSingleNode("ItemClip");
-            if (itemclip != null)
-                ItemShow.ItemClip = bool.Parse(itemclip.GetAttribute("active"));
+            elem = (XmlElement)xOptions.SelectSingleNode("ItemClip");
+            if (elem != null)
+                Art.ItemClip = bool.Parse(elem.GetAttribute("active"));
 
-            XmlElement cachedata = (XmlElement)xOptions.SelectSingleNode("CacheData");
-            if (cachedata != null)
-                FileIndex.CacheData = bool.Parse(cachedata.GetAttribute("active"));
+            elem = (XmlElement)xOptions.SelectSingleNode("CacheData");
+            if (elem != null)
+                FileIndex.CacheData = bool.Parse(elem.GetAttribute("active"));
 
-            XmlElement mapsize = (XmlElement)xOptions.SelectSingleNode("NewMapSize");
-            if (mapsize != null)
+            elem = (XmlElement)xOptions.SelectSingleNode("NewMapSize");
+            if (elem != null)
             {
-                if (bool.Parse(mapsize.GetAttribute("active")))
+                if (bool.Parse(elem.GetAttribute("active")))
                 {
                     Ultima.Map.Felucca.Width = 7168;
                     Ultima.Map.Trammel.Width = 7168;
                 }
             }
+
+            elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
+            if (elem != null)
+            {
+                if (bool.Parse(elem.GetAttribute("active")))
+                    UoViewer.AlternativeDesign = true;
+            }
+
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;

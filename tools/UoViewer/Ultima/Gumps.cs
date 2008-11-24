@@ -5,10 +5,10 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-	public class Gumps
+	public sealed class Gumps
 	{
 		private static FileIndex m_FileIndex = new FileIndex( "Gumpidx.mul", "Gumpart.mul", 0x10000, 12 );
-		public static FileIndex FileIndex{ get{ return m_FileIndex; } }
+		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
 		private static byte[] m_PixelBuffer;
 		private static byte[] m_StreamBuffer;

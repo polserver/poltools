@@ -5,14 +5,19 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-	public class Art
+    public sealed class Art
 	{
+        // Props for ItemControls
+        public static int ItemSizeWidth = 48;
+        public static int ItemSizeHeight = 48;
+        public static bool ItemClip = false;
+
 		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0x10000, 4 );
-		public static FileIndex FileIndex{ get{ return m_FileIndex; } }
+		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
 		private static Bitmap[] m_Cache = new Bitmap[0x10000];
 
-		public static Bitmap[] Cache{ get{ return m_Cache; } }
+		//public static Bitmap[] Cache{ get{ return m_Cache; } }
 
 		private Art()
 		{

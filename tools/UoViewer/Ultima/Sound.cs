@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Ultima
 {
-	public class UOSound
+	public sealed class UOSound
 	{
 		public string Name;
 		public MemoryStream WAVEStream;

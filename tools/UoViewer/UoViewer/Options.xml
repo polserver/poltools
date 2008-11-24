@@ -6,4 +6,9 @@
   <ItemClip active="True" />
   <!--CacheData should mul entries be cached for faster load-->
   <CacheData active="False" />
+  <!--NewMapSize Felucca/Trammel width 7168?-->
+  <NewMapSize active="False" />
+  <!--Alternative layout in items tab?-->
+  <AlternativeDesign active="False" />
+  <!--Pathsettings-->
 </Options>

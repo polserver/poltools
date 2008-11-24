@@ -7,7 +7,7 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-    public class UnicodeFonts
+    public sealed class UnicodeFonts
     {
         public static Bitmap GetCharImage(int font, int c)
         {

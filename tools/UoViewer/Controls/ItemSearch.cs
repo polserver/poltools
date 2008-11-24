@@ -22,9 +22,11 @@ namespace Controls
 {
     public partial class ItemSearch : Form
     {
-        public ItemSearch()
+        private static bool alt;
+        public ItemSearch(bool alternative)
         {
             InitializeComponent();
+            alt = alternative;
         }
 
         private void Search_Graphic(object sender, EventArgs e)
@@ -42,7 +44,12 @@ namespace Controls
                 
             if (candone)
             {
-                if (!ItemShow.SearchGraphic(graphic))
+                bool res;
+                if (alt)
+                    res = ItemShowAlternative.SearchGraphic(graphic);
+                else
+                    res = ItemShow.SearchGraphic(graphic);
+                if (!res)
                 {
                     DialogResult result = MessageBox.Show("No item found","Result",MessageBoxButtons.OKCancel);
                     if (result == DialogResult.Cancel)
@@ -54,7 +61,12 @@ namespace Controls
 
         private void Search_ItemName(object sender, EventArgs e)
         {
-            if (!ItemShow.SearchName(textBoxItemName.Text))
+            bool res;
+            if (alt)
+                res = ItemShowAlternative.SearchName(textBoxItemName.Text);
+            else
+                res = ItemShow.SearchName(textBoxItemName.Text);
+            if (!res)
             {
                 DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.Cancel)

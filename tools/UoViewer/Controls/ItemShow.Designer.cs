@@ -82,9 +82,11 @@ namespace Controls
             // 
             // graphiclabel
             // 
+            this.graphiclabel.AutoSize = false;
             this.graphiclabel.Name = "graphiclabel";
-            this.graphiclabel.Size = new System.Drawing.Size(47, 17);
+            this.graphiclabel.Size = new System.Drawing.Size(200, 17);
             this.graphiclabel.Text = "Graphic:";
+            this.graphiclabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel1
             // 
@@ -92,7 +94,7 @@ namespace Controls
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(100, 3, 0, 2);
+            this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);

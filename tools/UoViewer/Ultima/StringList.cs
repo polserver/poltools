@@ -5,7 +5,7 @@ using System.Collections;
 
 namespace Ultima
 {
-	public class StringList
+	public sealed class StringList
 	{
 		private Hashtable m_Table;
 		private StringEntry[] m_Entries;

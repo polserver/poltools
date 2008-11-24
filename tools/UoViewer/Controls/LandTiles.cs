@@ -83,7 +83,7 @@ namespace Controls
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.DrawFocusRectangle();
                 else
-                    e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
 
         }
