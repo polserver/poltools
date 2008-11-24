@@ -2,7 +2,7 @@ using System;
 
 namespace Ultima
 {
-	public class StringEntry
+	public sealed class StringEntry
 	{
 		private int m_Number;
 		private string m_Text;

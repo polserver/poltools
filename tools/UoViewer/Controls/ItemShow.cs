@@ -29,9 +29,6 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refMarker = this;
         }
-        public static int ItemSizeWidth = 48;  // ListViewSize
-        public static int ItemSizeHeight = 48;
-        public static bool ItemClip = false;
 
         private static ItemShow refMarker = null;
 
@@ -91,10 +88,10 @@ namespace Controls
             {
                 listView1.View = View.SmallIcon;
                 listView1.SmallImageList = new ImageList();
-                listView1.SmallImageList.ImageSize = new Size(ItemSizeWidth, ItemSizeHeight);
+                listView1.SmallImageList.ImageSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
                 listView1.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
                 listView1.LabelWrap = false;
-                Bitmap bmptest = new Bitmap(ItemSizeWidth, ItemSizeHeight);
+                Bitmap bmptest = new Bitmap(Art.ItemSizeWidth, Art.ItemSizeHeight);
                 Graphics test = Graphics.FromImage(bmptest);
                 test.Clear(Color.White);
                 listView1.SmallImageList.Images.Add(bmptest);
@@ -110,7 +107,7 @@ namespace Controls
                 }
             }
             if (OSFeature.Feature.IsPresent(OSFeature.Themes))
-                listView1.TileSize = new Size(ItemSizeWidth, ItemSizeHeight);
+                listView1.TileSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
 
             listView1.EndUpdate();
         }
@@ -121,7 +118,7 @@ namespace Controls
             {
                 int i = (int)listView1.SelectedItems[0].Tag;
                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
-                graphiclabel.Text = String.Format("Graphic: 0x{0:X4}", i);
+                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", i);
                 UpdateDetail(i);
             }
         }
@@ -139,7 +136,7 @@ namespace Controls
                 else
                     e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
 
-                if (ItemClip)
+                if (Art.ItemClip)
                 {
                     e.Graphics.DrawImage(bmp, e.Bounds.X + 1, e.Bounds.Y + 1,
                                          new Rectangle(0, 0, e.Bounds.Width - 1, e.Bounds.Height - 1),
@@ -163,7 +160,7 @@ namespace Controls
                                          new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
                 }
                 if (!listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
+                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
             }
         }
 
@@ -182,7 +179,7 @@ namespace Controls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                showform = new ItemSearch();
+                showform = new ItemSearch(false);
                 showform.TopMost = true;
                 showform.Show();
             }

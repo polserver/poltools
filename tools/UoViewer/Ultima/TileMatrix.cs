@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Ultima
 {
-	public class TileMatrix
+	public sealed class TileMatrix
 	{
 		private HuedTile[][][][][] m_StaticTiles;
 		private Tile[][][] m_LandTiles;
@@ -25,8 +25,6 @@ namespace Ultima
 
 		private TileMatrixPatch m_Patch;
 
-		[System.Runtime.InteropServices.DllImport( "Kernel32" )]
-		private unsafe static extern int _lread( SafeHandle hFile, void *lpBuffer, int wBytes );
 
 		public TileMatrixPatch Patch
 		{
@@ -219,7 +217,7 @@ namespace Ultima
 
 				fixed ( StaticTile *pTiles = staTiles )
 				{
-					_lread( m_Statics.SafeFileHandle, pTiles, length );
+                    NativeMethods._lread(m_Statics.SafeFileHandle, pTiles, length);
 
 					if ( m_Lists == null )
 					{
@@ -267,7 +265,7 @@ namespace Ultima
 
 			fixed ( Tile *pTiles = tiles )
 			{
-				_lread( m_Map.SafeFileHandle, pTiles, 192 );
+                NativeMethods._lread(m_Map.SafeFileHandle, pTiles, 192);
 			}
 
 			return tiles;

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Ultima
 {
-	public class CalibrationInfo
+	public sealed class CalibrationInfo
 	{
 		private byte[] m_Mask;
 		private byte[] m_Vals;
@@ -129,7 +129,7 @@ namespace Ultima
 					{
 						line = line.Trim();
 
-						if ( line.ToLower() == "Begin" )
+						if ( line.Equals("Begin", StringComparison.OrdinalIgnoreCase) )
 						{
 							byte[] mask, vals, detx, dety, detz, detf;
 

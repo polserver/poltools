@@ -54,13 +54,13 @@ namespace Controls
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.SettingsButton = new System.Windows.Forms.ToolStripSplitButton();
-            this.sortAlphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.BaseGraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.HueLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SettingsButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.sortAlphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -236,43 +236,6 @@ namespace Controls
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // SettingsButton
-            // 
-            this.SettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.SettingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortAlphaToolStripMenuItem,
-            this.hueToolStripMenuItem,
-            this.animateToolStripMenuItem});
-            this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
-            this.SettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(62, 20);
-            this.SettingsButton.Text = "Settings";
-            // 
-            // sortAlphaToolStripMenuItem
-            // 
-            this.sortAlphaToolStripMenuItem.CheckOnClick = true;
-            this.sortAlphaToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.sortAlphaToolStripMenuItem.Name = "sortAlphaToolStripMenuItem";
-            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.sortAlphaToolStripMenuItem.Text = "Sort alphabetically";
-            this.sortAlphaToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Sort);
-            // 
-            // hueToolStripMenuItem
-            // 
-            this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
-            this.hueToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.hueToolStripMenuItem.Text = "Hue";
-            this.hueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
-            // 
-            // animateToolStripMenuItem
-            // 
-            this.animateToolStripMenuItem.CheckOnClick = true;
-            this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.animateToolStripMenuItem.Text = "Animate";
-            this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
-            // 
             // GraphicLabel
             // 
             this.GraphicLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -302,6 +265,43 @@ namespace Controls
             this.HueLabel.Size = new System.Drawing.Size(60, 17);
             this.HueLabel.Text = "Hue:";
             this.HueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SettingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sortAlphaToolStripMenuItem,
+            this.hueToolStripMenuItem,
+            this.animateToolStripMenuItem});
+            this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
+            this.SettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(59, 20);
+            this.SettingsButton.Text = "Settings";
+            // 
+            // sortAlphaToolStripMenuItem
+            // 
+            this.sortAlphaToolStripMenuItem.CheckOnClick = true;
+            this.sortAlphaToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.sortAlphaToolStripMenuItem.Name = "sortAlphaToolStripMenuItem";
+            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.sortAlphaToolStripMenuItem.Text = "Sort alphabetically";
+            this.sortAlphaToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Sort);
+            // 
+            // hueToolStripMenuItem
+            // 
+            this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.hueToolStripMenuItem.Text = "Hue";
+            this.hueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
+            // 
+            // animateToolStripMenuItem
+            // 
+            this.animateToolStripMenuItem.CheckOnClick = true;
+            this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.animateToolStripMenuItem.Text = "Animate";
+            this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
             // 
             // MobList
             // 
@@ -339,18 +339,18 @@ namespace Controls
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripSplitButton SettingsButton;
-        private System.Windows.Forms.ToolStripMenuItem animateToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel GraphicLabel;
         private System.Windows.Forms.ToolStripStatusLabel BaseGraphicLabel;
         private System.Windows.Forms.ToolStripStatusLabel HueLabel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hueToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.TrackBar FacingBar;
+        private System.Windows.Forms.ToolStripDropDownButton SettingsButton;
         private System.Windows.Forms.ToolStripMenuItem sortAlphaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem animateToolStripMenuItem;
 
     }
 }

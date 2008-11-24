@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Ultima
 {
-	public class Map
+	public sealed class Map
 	{
 		private TileMatrix m_Tiles;
 		private int m_FileIndex, m_MapID;
@@ -14,7 +14,7 @@ namespace Ultima
 
 		private static short[] m_Colors;
 
-		public static short[] Colors{ get{ return m_Colors; } set{ m_Colors = value; } }
+		//public static short[] Colors{ get{ return m_Colors; } set{ m_Colors = value; } }
 
 		public static Map Felucca = new Map( 0, 0, 6144, 4096 );
 		public static Map Trammel = new Map( 0, 1, 6144, 4096 );
@@ -287,9 +287,6 @@ namespace Ultima
 			bmp.UnlockBits( bd );
 		}
 
-		[System.Runtime.InteropServices.DllImport( "Kernel32" )]
-		private unsafe static extern int _lread( SafeHandle hFile, void *lpBuffer, int wBytes );
-
 		private unsafe static void LoadColors()
 		{
 			m_Colors = new short[0x8000];
@@ -302,7 +299,7 @@ namespace Ultima
 			fixed ( short *pColors = m_Colors )
 			{
 				using ( FileStream fs = new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read ) )
-					_lread( fs.SafeFileHandle, pColors, 0x10000 );
+                    NativeMethods._lread(fs.SafeFileHandle, pColors, 0x10000);
 			}
 		}
 	}

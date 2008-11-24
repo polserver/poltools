@@ -50,14 +50,14 @@ namespace Controls
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.DrawFocusRectangle();
                 else
-                    e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }
 
         private void istView_SelectedIndexChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)
-                Label.Text = String.Format("Graphic: 0x{0:X4}", (int)listView1.SelectedItems[0].Tag);
+                Label.Text = String.Format("Graphic: 0x{0:X4} ({0})", (int)listView1.SelectedItems[0].Tag);
         }
 
         private void OnLoad(object sender, EventArgs e)

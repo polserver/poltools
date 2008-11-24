@@ -5,7 +5,7 @@ using System.Windows.Forms.Design;
 
 namespace Ultima
 {
-	public class FileIndex
+	public sealed class FileIndex
 	{
         public static bool CacheData = true;
         public static string[] m_Files = new string[]
@@ -51,6 +51,7 @@ namespace Ultima
 			"mapdifl4.mul",
             "multi.idx",
             "multi.mul",
+            "multimap.rle",
 			"radarcol.mul",
             "soundidx.mul",
             "sound.mul",

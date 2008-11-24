@@ -2,7 +2,7 @@ using System;
 
 namespace Ultima
 {
-	public class LocationPointer
+	public sealed class LocationPointer
 	{
 		private int m_PointerX, m_SizeX;
 		private int m_PointerY, m_SizeY;

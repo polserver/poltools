@@ -6,13 +6,13 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-	public class Multis
+	public sealed class Multis
 	{
 		private static MultiComponentList[] m_Components = new MultiComponentList[0x4000];
-		public static MultiComponentList[] Cache{ get{ return m_Components; } }
+		//public static MultiComponentList[] Cache{ get{ return m_Components; } }
 
 		private static FileIndex m_FileIndex = new FileIndex( "Multi.idx", "Multi.mul", 0x4000, 14 );
-		public static FileIndex FileIndex{ get{ return m_FileIndex; } }
+		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
 		public static MultiComponentList GetComponents( int index )
 		{

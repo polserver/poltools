@@ -5,12 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace Ultima
 {
-	public class TileMatrixPatch
+	public sealed class TileMatrixPatch
 	{
 		private int m_LandBlocks, m_StaticBlocks;
 
-		[System.Runtime.InteropServices.DllImport( "Kernel32" )]
-		private unsafe static extern int _lread( SafeHandle hFile, void *lpBuffer, int wBytes );
 
 		public int LandBlocks
 		{
@@ -66,7 +64,7 @@ namespace Ultima
 
 						fixed ( Tile *pTiles = tiles )
 						{
-							_lread( fsData.SafeFileHandle, pTiles, 192 );
+                            NativeMethods._lread(fsData.SafeFileHandle, pTiles, 192);
 						}
 
 						matrix.SetLandBlock( x, y, tiles );
@@ -124,7 +122,7 @@ namespace Ultima
 
 							fixed ( StaticTile *pTiles = staTiles )
 							{
-								_lread( fsData.SafeFileHandle, pTiles, length );
+                                NativeMethods._lread(fsData.SafeFileHandle, pTiles, length);
 
 								StaticTile *pCur = pTiles, pEnd = pTiles + tileCount;
 

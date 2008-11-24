@@ -5,14 +5,14 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-    public class Light
+    public sealed class Light
     {
         private static FileIndex m_FileIndex = new FileIndex("lightidx.mul", "light.mul", 0x100, -1);
-        public static FileIndex FileIndex { get { return m_FileIndex; } }
+        //public static FileIndex FileIndex { get { return m_FileIndex; } }
 
         private static Bitmap[] m_Cache = new Bitmap[0x100];
 
-        public static Bitmap[] Cache { get { return m_Cache; } }
+        //public static Bitmap[] Cache { get { return m_Cache; } }
 
         public static int GetCount()
         {

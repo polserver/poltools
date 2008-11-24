@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 
 namespace Ultima
 {
-	public class Hues
+	public sealed class Hues
 	{
 		private static Hue[] m_List;
 
@@ -55,7 +55,7 @@ namespace Ultima
 		}
 	}
 
-	public class Hue
+	public sealed class Hue
 	{
 		private int m_Index;
 		private short[] m_Colors;

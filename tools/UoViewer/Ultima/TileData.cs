@@ -358,7 +358,7 @@ namespace Ultima
 	/// <seealso cref="LandData" />
 	/// <seealso cref="ItemData" />
 	/// </summary>
-	public class TileData
+	public sealed class TileData
 	{
 		private static LandData[] m_LandData;
 		private static ItemData[] m_ItemData;
