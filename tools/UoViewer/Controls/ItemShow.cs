@@ -84,19 +84,6 @@ namespace Controls
         {
             listView1.BeginUpdate();
 
-            if (!OSFeature.Feature.IsPresent(OSFeature.Themes))
-            {
-                listView1.View = View.SmallIcon;
-                listView1.SmallImageList = new ImageList();
-                listView1.SmallImageList.ImageSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
-                listView1.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
-                listView1.LabelWrap = false;
-                Bitmap bmptest = new Bitmap(Art.ItemSizeWidth, Art.ItemSizeHeight);
-                Graphics test = Graphics.FromImage(bmptest);
-                test.Clear(Color.White);
-                listView1.SmallImageList.Images.Add(bmptest);
-            }
-
             for (int i = 0; i < 0x4000; i++)
             {
                 if (Art.IsValidStatic(i))
@@ -106,8 +93,7 @@ namespace Controls
                     listView1.Items.Add(item);
                 }
             }
-            if (OSFeature.Feature.IsPresent(OSFeature.Themes))
-                listView1.TileSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
+            listView1.TileSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
 
             listView1.EndUpdate();
         }

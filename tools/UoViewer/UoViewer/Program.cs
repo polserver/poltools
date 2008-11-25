@@ -13,9 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Collections;
-using Ultima;
-
-
 
 namespace UoViewer
 {
@@ -24,13 +21,14 @@ namespace UoViewer
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+
         
+        public static Options opt = new Options();
         [STAThread]
         static void Main()
         {
             try
             {
-                Options.Load();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new UoViewer());

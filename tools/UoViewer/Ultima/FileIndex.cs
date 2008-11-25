@@ -56,6 +56,8 @@ namespace Ultima
             "soundidx.mul",
             "sound.mul",
             "sound.def",
+            "skills.idx",
+            "skills.mul",
 			"stadif0.mul",
 			"stadif1.mul",
 			"stadif2.mul",
@@ -105,7 +107,7 @@ namespace Ultima
             string path;
             try
             {
-                path = (string)Client.Directories[0];
+                path = Client.Directory;
             }
             catch
             {
@@ -180,8 +182,8 @@ namespace Ultima
 		{
 			m_Index = new Entry3D[length];
 
-            string idxPath;
-            string mulPath;
+            string idxPath=null;
+            string mulPath=null;
             if (MulPath.Count > 0)
             {
                 idxPath = MulPath[idxFile.ToLower()].ToString();
@@ -190,11 +192,6 @@ namespace Ultima
                     idxPath = Client.GetFilePath(idxFile);
                 if (!File.Exists(mulPath))
                     mulPath = Client.GetFilePath(mulFile);
-            }
-            else
-            {
-                idxPath = Client.GetFilePath(idxFile);
-                mulPath = Client.GetFilePath(mulFile);
             }
 
 			if ( idxPath != null && mulPath != null )
