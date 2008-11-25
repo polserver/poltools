@@ -29,11 +29,7 @@ namespace UoViewer
         public Options() 
         {
             FileIndex.LoadMulPath();
-        }
-
-        public static void Reload()
-        {
-            FileIndex.LoadMulPath();
+            Options.Load();
         }
 
         public static void Save()
@@ -91,15 +87,8 @@ namespace UoViewer
  
         public static void Load()
         {
-            Options Options = new Options();
-
-            // Look for filename
-            System.Reflection.Assembly theExe = Options.GetType().Assembly;
-
-            string file = theExe.Location;
-
-            string FileName = Path.Combine(Path.GetDirectoryName(file), "Options.xml");
-
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(Path.GetDirectoryName(path), "Options.xml");
             if (!System.IO.File.Exists(FileName))
                 return;
 

@@ -5,20 +5,17 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-//using Microsoft.Win32.SafeHandles;
 
 namespace Ultima
 {
     public sealed class MultiMap
     {
-        //public static Bitmap multimap;
         static MultiMap()
         {
         }
 
         public unsafe static Bitmap GetMultiMap()
         {
-            
             string path = Client.GetFilePath("Multimap.rle");
             if (path != null)
             {
@@ -51,7 +48,6 @@ namespace Ultima
                                 ++y;
                                 x = 0;
                             }
-
                         }
                     }
                     return multimap;

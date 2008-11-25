@@ -197,6 +197,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Skills.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Skills.Designer.cs">
+      <DependentUpon>Skills.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sounds.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -308,6 +314,10 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Skills.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Skills.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sounds.resx">
       <SubType>Designer</SubType>

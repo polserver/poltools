@@ -4,362 +4,362 @@
   <!--Name=Displayed name-->
   <!--body=Graphic-->
   <!--type=0:Monster, 1:Sea, 2:Animal, 3:Human/Equipment-->
-  <Mob name="ogres_ogre (1)" body="1" type="0"></Mob>
-  <Mob name="ettins_ettin (2)" body="2" type="0"></Mob>
-  <Mob name="walking_dead_zombie (3)" body="3" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle (4)" body="4" type="0"></Mob>
-  <Mob name="birds_eagle (5)" body="5" type="0"></Mob>
-  <Mob name="birds_generic (6)" body="6" type="0"></Mob>
-  <Mob name="orcs_orc_captain (7)" body="7" type="0"></Mob>
-  <Mob name="flails_corpser (8)" body="8" type="0"></Mob>
-  <Mob name="daemons_daemon (9)" body="9" type="0"></Mob>
-  <Mob name="daemons_daemon2 (10)" body="10" type="0"></Mob>
-  <Mob name="arachnids_spider_dread (11)" body="11" type="0"></Mob>
-  <Mob name="dragons_dragon_retro_grey (12)" body="12" type="0"></Mob>
-  <Mob name="elementals_air_elemental (13)" body="13" type="0"></Mob>
-  <Mob name="elementals_earth_elemental (14)" body="14" type="0"></Mob>
-  <Mob name="elementals_fire_elemental (15)" body="15" type="0"></Mob>
-  <Mob name="elementals_water_elemental (16)" body="16" type="0"></Mob>
-  <Mob name="orcs_orc (17)" body="17" type="0"></Mob>
-  <Mob name="ettins_ettin2 (18)" body="18" type="0"></Mob>
-  <Mob name="arachnids_spider_dread2 (19)" body="19" type="0"></Mob>
-  <Mob name="arachnids_spider_frost (20)" body="20" type="0"></Mob>
-  <Mob name="serpents_snake_giant (21)" body="21" type="0"></Mob>
-  <Mob name="gazers_gazer (22)" body="22" type="0"></Mob>
-  <Mob name="canines_wolf_dire (23)" body="23" type="2"></Mob>
-  <Mob name="liche_liche_retro (24)" body="24" type="0"></Mob>
-  <Mob name="canines_wolf_grey (25)" body="25" type="2"></Mob>
-  <Mob name="spirits_ghost (26)" body="26" type="0"></Mob>
-  <Mob name="canines_wolf_grey2 (27)" body="27" type="2"></Mob>
-  <Mob name="arachnids_spider_giant (28)" body="28" type="0"></Mob>
-  <Mob name="gorillas_silverback (29)" body="29" type="0"></Mob>
-  <Mob name="harpies_harpy (30)" body="30" type="0"></Mob>
-  <Mob name="headless_headless (31)" body="31" type="0"></Mob>
-  <Mob name="lizard_race_lizardman (33)" body="33" type="0"></Mob>
-  <Mob name="canines_wolf_white (34)" body="34" type="2"></Mob>
-  <Mob name="lizard_race_lizardman2 (35)" body="35" type="0"></Mob>
-  <Mob name="lizard_race_lizardman3 (36)" body="36" type="0"></Mob>
-  <Mob name="canines_wolf_white2 (37)" body="37" type="2"></Mob>
-  <Mob name="daemons_daemon_black_gate (38)" body="38" type="0"></Mob>
-  <Mob name="mongbats_mongbat (39)" body="39" type="0"></Mob>
-  <Mob name="daemons_daemon_elder (40)" body="40" type="0"></Mob>
-  <Mob name="orcs_orc2 (41)" body="41" type="0"></Mob>
-  <Mob name="rat_race_ratman (42)" body="42" type="0"></Mob>
-  <Mob name="daemons_daemon_ice_fiend (43)" body="43" type="0"></Mob>
-  <Mob name="rat_race_ratman2 (44)" body="44" type="0"></Mob>
-  <Mob name="rat_race_ratman3 (45)" body="45" type="0"></Mob>
-  <Mob name="Mf_Dragon_Rust (46)" body="46" type="0"></Mob>
-  <Mob name="flails_reaper (47)" body="47" type="0"></Mob>
-  <Mob name="scorpions_giant (48)" body="48" type="0"></Mob>
-  <Mob name="dragons_wyrm_retro_white (49)" body="49" type="0"></Mob>
-  <Mob name="skeletons_skeleton (50)" body="50" type="0"></Mob>
-  <Mob name="slimes_slime (51)" body="51" type="0"></Mob>
-  <Mob name="serpents_snake (52)" body="52" type="0"></Mob>
-  <Mob name="trolls_troll (53)" body="53" type="0"></Mob>
-  <Mob name="trolls_troll2 (54)" body="54" type="0"></Mob>
-  <Mob name="trolls_troll_frost (55)" body="55" type="0"></Mob>
-  <Mob name="skeletons_skeleton2 (56)" body="56" type="0"></Mob>
-  <Mob name="skeletons_skeleton3 (57)" body="57" type="0"></Mob>
-  <Mob name="ethereals_wisp (58)" body="58" type="0"></Mob>
-  <Mob name="dragons_dragon_retro_red (59)" body="59" type="0"></Mob>
-  <Mob name="dragons_dragon_retro_grey2 (60)" body="60" type="0"></Mob>
-  <Mob name="dragons_dragon_retro_red2 (61)" body="61" type="0"></Mob>
-  <Mob name="dragons_wyvern (62)" body="62" type="0"></Mob>
-  <Mob name="felines_cougar (63)" body="63" type="2"></Mob>
-  <Mob name="felines_leopard_snow (64)" body="64" type="2"></Mob>
-  <Mob name="felines_leopard_snow2 (65)" body="65" type="2"></Mob>
-  <Mob name="flails_swamp_tentacles (66)" body="66" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_stone (67)" body="67" type="0"></Mob>
-  <Mob name="gazers_gazer_elder (68)" body="68" type="0"></Mob>
-  <Mob name="gazers_gazer_elder2 (69)" body="69" type="0"></Mob>
-  <Mob name="terathan_terathan_warrior (70)" body="70" type="0"></Mob>
-  <Mob name="terathan_terathan_drone (71)" body="71" type="0"></Mob>
-  <Mob name="terathan_terathan_queen (72)" body="72" type="0"></Mob>
-  <Mob name="harpies_harpy_stone (73)" body="73" type="0"></Mob>
-  <Mob name="imps_imp (74)" body="74" type="0"></Mob>
-  <Mob name="cyclops_cyclops (75)" body="75" type="0"></Mob>
-  <Mob name="titans_titan (76)" body="76" type="0"></Mob>
-  <Mob name="krakens_kraken (77)" body="77" type="0"></Mob>
-  <Mob name="liche_liche_lord_retro (78)" body="78" type="0"></Mob>
-  <Mob name="liche_liche_lord_retro2 (79)" body="79" type="0"></Mob>
-  <Mob name="frogs_frog_giant (80)" body="80" type="0"></Mob>
-  <Mob name="frogs_bullfrog (81)" body="81" type="0"></Mob>
-  <Mob name="liche_liche_lord_retro3 (82)" body="82" type="0"></Mob>
-  <Mob name="ogres_ogre_lord (83)" body="83" type="0"></Mob>
-  <Mob name="ogres_ogre_lord2 (84)" body="84" type="0"></Mob>
-  <Mob name="ophidians_ophidian_mage (85)" body="85" type="0"></Mob>
-  <Mob name="ophidians_ophidian_warrior (86)" body="86" type="0"></Mob>
-  <Mob name="ophidians_ophidian_queen (87)" body="87" type="0"></Mob>
-  <Mob name="ruminants_goat_mountain (88)" body="88" type="2"></Mob>
-  <Mob name="serpents_snake_giant_ice (89)" body="89" type="0"></Mob>
-  <Mob name="serpents_snake_giant_lava (90)" body="90" type="0"></Mob>
-  <Mob name="serpents_snake_giant_silver (91)" body="91" type="0"></Mob>
-  <Mob name="serpents_snake_giant_silver2 (92)" body="92" type="0"></Mob>
-  <Mob name="serpents_snake_giant_silver3 (93)" body="93" type="0"></Mob>
-  <Mob name="slimes_slime_frost (94)" body="94" type="0"></Mob>
-  <Mob name="slimes_slime_frost2 (96)" body="96" type="0"></Mob>
-  <Mob name="canines_hell_hound (97)" body="97" type="2"></Mob>
-  <Mob name="canines_hell_hound2 (98)" body="98" type="2"></Mob>
-  <Mob name="canines_wolf_dark (99)" body="99" type="2"></Mob>
-  <Mob name="canines_wolf_silver (100)" body="100" type="2"></Mob>
-  <Mob name="centaurs_centaur (101)" body="101" type="0"></Mob>
-  <Mob name="daemons_daemon_exodus (102)" body="102" type="0"></Mob>
-  <Mob name="dragons_dragon_asian (103)" body="103" type="0"></Mob>
-  <Mob name="dragons_dragon_skeletal (104)" body="104" type="0"></Mob>
-  <Mob name="dragons_wyrm_ancient (105)" body="105" type="0"></Mob>
-  <Mob name="dragons_wyrm_shadow (106)" body="106" type="0"></Mob>
-  <Mob name="elementals_agapite_elemental (107)" body="107" type="0"></Mob>
-  <Mob name="elementals_bronze_elemental (108)" body="108" type="0"></Mob>
-  <Mob name="elementals_copper_elemental (109)" body="109" type="0"></Mob>
-  <Mob name="elementals_copper_dull_elemental (110)" body="110" type="0"></Mob>
-  <Mob name="elementals_iron_elemental (111)" body="111" type="0"></Mob>
-  <Mob name="elementals_valorite_elemental (112)" body="112" type="0"></Mob>
-  <Mob name="elementals_verite_elemental (113)" body="113" type="0"></Mob>
-  <Mob name="equines_horse_dark_steed (114)" body="114" type="2"></Mob>
-  <Mob name="equines_horse_ethereal (115)" body="115" type="2"></Mob>
-  <Mob name="equines_horse_nightmare (116)" body="116" type="2"></Mob>
-  <Mob name="equines_horse_silver_steed (117)" body="117" type="2"></Mob>
-  <Mob name="equines_horse_war_brittanian (118)" body="118" type="2"></Mob>
-  <Mob name="equines_horse_war_mage_council (119)" body="119" type="2"></Mob>
-  <Mob name="equines_horse_war_minax (120)" body="120" type="2"></Mob>
-  <Mob name="equines_horse_war_shadowlord (121)" body="121" type="2"></Mob>
-  <Mob name="equines_unicorn (122)" body="122" type="2"></Mob>
-  <Mob name="ethereal_warriors_male (123)" body="123" type="0"></Mob>
-  <Mob name="mages_evil_mage (124)" body="124" type="0"></Mob>
-  <Mob name="mages_evil_mage_master (125)" body="125" type="0"></Mob>
-  <Mob name="mages_evil_mage_master2 (126)" body="126" type="0"></Mob>
-  <Mob name="felines_predator_hellcat (127)" body="127" type="2"></Mob>
-  <Mob name="fey_race_pixie (128)" body="128" type="0"></Mob>
-  <Mob name="flails_swamp_tentacles2 (129)" body="129" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_blistering (130)" body="130" type="0"></Mob>
-  <Mob name="genies_efreet (131)" body="131" type="0"></Mob>
-  <Mob name="kirin_kirin (132)" body="132" type="2"></Mob>
-  <Mob name="lizards_alligator_small (133)" body="133" type="2"></Mob>
-  <Mob name="lizards_komodo_dragon (134)" body="134" type="2"></Mob>
-  <Mob name="ogres_ogre_lord_arctic (135)" body="135" type="0"></Mob>
-  <Mob name="ophidians_ophidian_archmage (136)" body="136" type="0"></Mob>
-  <Mob name="ophidians_ophidian_knight (137)" body="137" type="0"></Mob>
-  <Mob name="orcs_orc_lord (138)" body="138" type="0"></Mob>
-  <Mob name="orcs_orc_lord2 (139)" body="139" type="0"></Mob>
-  <Mob name="orcs_orc_shaman (140)" body="140" type="0"></Mob>
-  <Mob name="paladins_paladin (141)" body="141" type="0"></Mob>
-  <Mob name="rat_race_ratman4 (142)" body="142" type="0"></Mob>
-  <Mob name="rat_race_shaman (143)" body="143" type="0"></Mob>
-  <Mob name="sea_horse_sea_horse (144)" body="144" type="1"></Mob>
-  <Mob name="sea_serpents_sea_serpent (145)" body="145" type="1"></Mob>
-  <Mob name="shadowlords_shadowlord (146)" body="146" type="0"></Mob>
-  <Mob name="skeletons_skeleton_knight (147)" body="147" type="0"></Mob>
-  <Mob name="skeletons_skeleton_mage (148)" body="148" type="0"></Mob>
-  <Mob name="succubi_succubus (149)" body="149" type="0"></Mob>
-  <Mob name="sea_serpents_sea_serpent2 (150)" body="150" type="1"></Mob>
-  <Mob name="dolphins_dolphin (151)" body="151" type="1"></Mob>
-  <Mob name="terathan_terathan_avenger (152)" body="152" type="0"></Mob>
-  <Mob name="walking_dead_ghoul (153)" body="153" type="0"></Mob>
-  <Mob name="walking_dead_mummy (154)" body="154" type="0"></Mob>
-  <Mob name="walking_dead_rotting_corpse (155)" body="155" type="0"></Mob>
-  <Mob name="arachnids_spider_black_widow (157)" body="157" type="0"></Mob>
-  <Mob name="elementals_acid_elemental (158)" body="158" type="0"></Mob>
-  <Mob name="elementals_blood_elemental (159)" body="159" type="0"></Mob>
-  <Mob name="elementals_blood_elemental2 (160)" body="160" type="0"></Mob>
-  <Mob name="elementals_ice_elemental (161)" body="161" type="0"></Mob>
-  <Mob name="elementals_poison_elemental (162)" body="162" type="0"></Mob>
-  <Mob name="elementals_snow_elemental (163)" body="163" type="0"></Mob>
-  <Mob name="ethereals_energy_vortex (164)" body="164" type="0"></Mob>
-  <Mob name="ethereals_wisp2 (165)" body="165" type="0"></Mob>
-  <Mob name="elementals_gold_elemental (166)" body="166" type="0"></Mob>
-  <Mob name="bruins_bear_brown (167)" body="167" type="2"></Mob>
-  <Mob name="imps_shadow_fiend (168)" body="168" type="0"></Mob>
-  <Mob name="Giant_Beetle_Fire (169)" body="169" type="2"></Mob>
-  <Mob name="llamas_llama_ethereal (170)" body="170" type="2"></Mob>
-  <Mob name="ostards_ostard_ethereal (171)" body="171" type="2"></Mob>
-  <Mob name="dragons_dragon_retro_red3 (172)" body="172" type="0"></Mob>
-  <Mob name="arachnids_spider_black_widow2 (173)" body="173" type="0"></Mob>
-  <Mob name="succubi_succubus2 (174)" body="174" type="0"></Mob>
-  <Mob name="ethereal_warriors_male2 (175)" body="175" type="0"></Mob>
-  <Mob name="fey_race_pixie2 (176)" body="176" type="0"></Mob>
-  <Mob name="equines_horse_nightmare2 (177)" body="177" type="2"></Mob>
-  <Mob name="equines_horse_nightmare3 (178)" body="178" type="2"></Mob>
-  <Mob name="equines_horse_nightmare4 (179)" body="179" type="2"></Mob>
-  <Mob name="dragons_wyrm_retro_white2 (180)" body="180" type="0"></Mob>
-  <Mob name="orcs_orc_scout (181)" body="181" type="0"></Mob>
-  <Mob name="orcs_orc_bomber (182)" body="182" type="0"></Mob>
-  <Mob name="H_Savage_Male (183)" body="183" type="3"></Mob>
-  <Mob name="H_Savage_Female (184)" body="184" type="3"></Mob>
-  <Mob name="H_SavageRider_Male (185)" body="185" type="3"></Mob>
-  <Mob name="H_Savage_Female2 (186)" body="186" type="3"></Mob>
-  <Mob name="ridgeback_ridgeback (187)" body="187" type="2"></Mob>
-  <Mob name="ridgeback_savage (188)" body="188" type="2"></Mob>
-  <Mob name="orcs_orc_lord3 (189)" body="189" type="0"></Mob>
-  <Mob name="equines_horse_firesteed (190)" body="190" type="2"></Mob>
-  <Mob name="kirin_kirin_ethereal (191)" body="191" type="2"></Mob>
-  <Mob name="equines_unicorn_ethereal (192)" body="192" type="2"></Mob>
-  <Mob name="ridgeback_ridgeback_ethereal (193)" body="193" type="2"></Mob>
-  <Mob name="swamp_dragon_ethereal (194)" body="194" type="2"></Mob>
-  <Mob name="giant_beetle_ethereal (195)" body="195" type="2"></Mob>
-  <Mob name="Denkou_Yajuu (196)" body="196" type="0"></Mob>
-  <Mob name="Gouzen_Ha (199)" body="199" type="0"></Mob>
-  <Mob name="equines_horse_dappled_brown (200)" body="200" type="2"></Mob>
-  <Mob name="felines_housecat (201)" body="201" type="2"></Mob>
-  <Mob name="lizards_alligator_brown (202)" body="202" type="2"></Mob>
-  <Mob name="porcines_pig (203)" body="203" type="2"></Mob>
-  <Mob name="equines_horse_dark_brown (204)" body="204" type="2"></Mob>
-  <Mob name="rodents_rabbit_cottontail (205)" body="205" type="2"></Mob>
-  <Mob name="lizards_lava_lizard (206)" body="206" type="2"></Mob>
-  <Mob name="ruminants_sheep (207)" body="207" type="2"></Mob>
-  <Mob name="fowl_normal_hen (208)" body="208" type="2"></Mob>
-  <Mob name="ruminants_goat_billy (209)" body="209" type="2"></Mob>
-  <Mob name="ostards_ostard_desert (210)" body="210" type="2"></Mob>
-  <Mob name="bruins_bear_black (211)" body="211" type="2"></Mob>
-  <Mob name="bruins_bear_grizzly (212)" body="212" type="2"></Mob>
-  <Mob name="bruins_bear_polar (213)" body="213" type="2"></Mob>
-  <Mob name="felines_panther (214)" body="214" type="2"></Mob>
-  <Mob name="rodents_rat_giant (215)" body="215" type="2"></Mob>
-  <Mob name="bovines_cow_brown (216)" body="216" type="2"></Mob>
-  <Mob name="canines_dog_hound (217)" body="217" type="2"></Mob>
-  <Mob name="ostards_ostard_forest (218)" body="218" type="2"></Mob>
-  <Mob name="ostards_ostard_frenzied (219)" body="219" type="2"></Mob>
-  <Mob name="llamas_llama (220)" body="220" type="2"></Mob>
-  <Mob name="walrus_walrus_male (221)" body="221" type="2"></Mob>
-  <Mob name="ruminants_sheep_shorn (223)" body="223" type="2"></Mob>
-  <Mob name="canines_wolf_timber (225)" body="225" type="2"></Mob>
-  <Mob name="equines_horse_dappled_grey (226)" body="226" type="2"></Mob>
-  <Mob name="equines_horse_tan (228)" body="228" type="2"></Mob>
-  <Mob name="bovines_cow_spotted (231)" body="231" type="2"></Mob>
-  <Mob name="bovines_bull_brown (232)" body="232" type="2"></Mob>
-  <Mob name="bovines_bull_spotted (233)" body="233" type="2"></Mob>
-  <Mob name="deer_stag (234)" body="234" type="2"></Mob>
-  <Mob name="deer_doe (237)" body="237" type="2"></Mob>
-  <Mob name="rodents_rat_sewer (238)" body="238" type="2"></Mob>
-  <Mob name="Kappa (240)" body="240" type="0"></Mob>
-  <Mob name="Oni (241)" body="241" type="0"></Mob>
-  <Mob name="Bimbobushi (242)" body="242" type="0"></Mob>
-  <Mob name="Hai_Riyo (243)" body="243" type="2"></Mob>
-  <Mob name="Rune_Beetle (244)" body="244" type="0"></Mob>
-  <Mob name="Yomotsu_Warrior (245)" body="245" type="0"></Mob>
-  <Mob name="Kitsun_Tsuki (246)" body="246" type="2"></Mob>
-  <Mob name="Fan_Dancer (247)" body="247" type="0"></Mob>
-  <Mob name="Wild_Guar (248)" body="248" type="2"></Mob>
-  <Mob name="Yamandon (249)" body="249" type="0"></Mob>
-  <Mob name="Tri_Wolf (250)" body="250" type="0"></Mob>
-  <Mob name="Vampyric_Beast (251)" body="251" type="0"></Mob>
-  <Mob name="Lady_of_the_Snow (252)" body="252" type="0"></Mob>
-  <Mob name="Yomotsu_Priest (253)" body="253" type="0"></Mob>
-  <Mob name="Crane (254)" body="254" type="2"></Mob>
-  <Mob name="Yomotsu_Elder (255)" body="255" type="0"></Mob>
-  <Mob name="Paroxysmus (256)" body="256" type="0"></Mob>
-  <Mob name="DreadHorn (257)" body="257" type="0"></Mob>
-  <Mob name="LadyMelisande (258)" body="258" type="0"></Mob>
-  <Mob name="MonstrousInterredGrizzle (259)" body="259" type="0"></Mob>
-  <Mob name="Shimmering_Effusion (261)" body="261" type="0"></Mob>
-  <Mob name="TormentedMinotaur (262)" body="262" type="0"></Mob>
-  <Mob name="Minotaur (263)" body="263" type="0"></Mob>
-  <Mob name="Changling (264)" body="264" type="0"></Mob>
-  <Mob name="Hydra (265)" body="265" type="0"></Mob>
-  <Mob name="Dryad (266)" body="266" type="0"></Mob>
-  <Mob name="Troglodyte (267)" body="267" type="0"></Mob>
-  <Mob name="Satyr (271)" body="271" type="0"></Mob>
-  <Mob name="MonstrousInterredGrizzle2 (272)" body="272" type="0"></Mob>
-  <Mob name="Fetid_Essence (273)" body="273" type="0"></Mob>
-  <Mob name="Raptalon (276)" body="276" type="2"></Mob>
-  <Mob name="CuShidhe (277)" body="277" type="2"></Mob>
-  <Mob name="Squirrel (278)" body="278" type="2"></Mob>
-  <Mob name="Ferret (279)" body="279" type="2"></Mob>
-  <Mob name="MinotaurArmored (280)" body="280" type="0"></Mob>
-  <Mob name="LeatherMinotaur (281)" body="281" type="0"></Mob>
-  <Mob name="Parrot (282)" body="282" type="2"></Mob>
-  <Mob name="Crow (283)" body="283" type="2"></Mob>
-  <Mob name="MondainSteed01 (284)" body="284" type="2"></Mob>
-  <Mob name="ReaperForm (285)" body="285" type="0"></Mob>
-  <Mob name="porcines_boar (290)" body="290" type="2"></Mob>
-  <Mob name="equines_horse_dappled_brown_pack (291)" body="291" type="2"></Mob>
-  <Mob name="llamas_llama_pack (292)" body="292" type="2"></Mob>
-  <Mob name="crystal_elemental (300)" body="300" type="0"></Mob>
-  <Mob name="treefellow (301)" body="301" type="0"></Mob>
-  <Mob name="skittering_hopper (302)" body="302" type="0"></Mob>
-  <Mob name="devourer (303)" body="303" type="0"></Mob>
-  <Mob name="flesh_golem (304)" body="304" type="0"></Mob>
-  <Mob name="gore_fiend (305)" body="305" type="0"></Mob>
-  <Mob name="impaler (306)" body="306" type="0"></Mob>
-  <Mob name="gibberling (307)" body="307" type="0"></Mob>
-  <Mob name="bonedemon (308)" body="308" type="0"></Mob>
-  <Mob name="patchskeleton (309)" body="309" type="0"></Mob>
-  <Mob name="wailingbanshee (310)" body="310" type="0"></Mob>
-  <Mob name="shadow_knight (311)" body="311" type="0"></Mob>
-  <Mob name="abysmal_horror (312)" body="312" type="0"></Mob>
-  <Mob name="Darknight_Creeper (313)" body="313" type="0"></Mob>
-  <Mob name="ravager (314)" body="314" type="0"></Mob>
-  <Mob name="flesh_renderer (315)" body="315" type="0"></Mob>
-  <Mob name="wander (316)" body="316" type="0"></Mob>
-  <Mob name="vampire_bat (317)" body="317" type="0"></Mob>
-  <Mob name="demon_knight (318)" body="318" type="0"></Mob>
-  <Mob name="mound_of_maggots (319)" body="319" type="0"></Mob>
-  <Mob name="h_male (400)" body="400" type="3"></Mob>
-  <Mob name="h_female (401)" body="401" type="3"></Mob>
-  <Mob name="spirits_blade_spirit (574)" body="574" type="0"></Mob>
-  <Mob name="h_male1 (605)" body="605" type="3"></Mob>
-  <Mob name="h_female1 (606)" body="606" type="3"></Mob>
-  <Mob name="h_male3 (744)" body="744" type="3"></Mob>
-  <Mob name="h_female3 (745)" body="745" type="3"></Mob>
-  <Mob name="four_armed_demon (746)" body="746" type="0"></Mob>
-  <Mob name="wailingbanshee2 (747)" body="747" type="0"></Mob>
-  <Mob name="spirits_ghost2 (748)" body="748" type="0"></Mob>
-  <Mob name="liche_liche_retro3 (749)" body="749" type="0"></Mob>
-  <Mob name="h_savage_male (750)" body="750" type="3"></Mob>
-  <Mob name="h_savage_female (751)" body="751" type="3"></Mob>
-  <Mob name="golem_iron (752)" body="752" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_slave (753)" body="753" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_enforcer (754)" body="754" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_guard (755)" body="755" type="0"></Mob>
-  <Mob name="clockwork_overseer (756)" body="756" type="0"></Mob>
-  <Mob name="clockwork_minion (757)" body="757" type="0"></Mob>
-  <Mob name="gargoyles_gargoyle_shopkeeper (758)" body="758" type="0"></Mob>
-  <Mob name="clockwork_minion2 (763)" body="763" type="0"></Mob>
-  <Mob name="Juka_Warrior (764)" body="764" type="0"></Mob>
-  <Mob name="Juka_Mage (765)" body="765" type="0"></Mob>
-  <Mob name="NPC_Kabur (766)" body="766" type="0"></Mob>
-  <Mob name="NPC_Blackthorn_Cohort (767)" body="767" type="0"></Mob>
-  <Mob name="Juggernaut (768)" body="768" type="0"></Mob>
-  <Mob name="NPC_Blackthorn (769)" body="769" type="0"></Mob>
-  <Mob name="Meer_Mage (770)" body="770" type="0"></Mob>
-  <Mob name="Meer_Warrior (771)" body="771" type="0"></Mob>
-  <Mob name="NPC_Adranath (772)" body="772" type="0"></Mob>
-  <Mob name="NPC_Cpt_Dasha (773)" body="773" type="0"></Mob>
-  <Mob name="Dawn_Girl (774)" body="774" type="0"></Mob>
-  <Mob name="plague_beast (775)" body="775" type="0"></Mob>
-  <Mob name="horde_demon (776)" body="776" type="0"></Mob>
-  <Mob name="doppleganger (777)" body="777" type="0"></Mob>
-  <Mob name="swarm (778)" body="778" type="0"></Mob>
-  <Mob name="bogling (779)" body="779" type="0"></Mob>
-  <Mob name="bog_thing (780)" body="780" type="0"></Mob>
-  <Mob name="fire_ant_worker (781)" body="781" type="0"></Mob>
-  <Mob name="fire_ant_warrior (782)" body="782" type="0"></Mob>
-  <Mob name="fire_ant_queen (783)" body="783" type="0"></Mob>
-  <Mob name="arcane_demon (784)" body="784" type="0"></Mob>
-  <Mob name="four_armed_demon2 (785)" body="785" type="0"></Mob>
-  <Mob name="chariot (786)" body="786" type="0"></Mob>
-  <Mob name="ant_lion (787)" body="787" type="0"></Mob>
-  <Mob name="sphinx (788)" body="788" type="0"></Mob>
-  <Mob name="quagmire (789)" body="789" type="0"></Mob>
-  <Mob name="sand_vortex (790)" body="790" type="0"></Mob>
-  <Mob name="giant_beetle (791)" body="791" type="2"></Mob>
-  <Mob name="chaos_demon (792)" body="792" type="0"></Mob>
-  <Mob name="skeletal_mount (793)" body="793" type="2"></Mob>
-  <Mob name="swamp_dragon (794)" body="794" type="2"></Mob>
-  <Mob name="horde_demon2 (795)" body="795" type="0"></Mob>
-  <Mob name="horde_demon3 (796)" body="796" type="0"></Mob>
-  <Mob name="mf_dragon_fire (797)" body="797" type="0"></Mob>
-  <Mob name="mf_dragon_rust (798)" body="798" type="0"></Mob>
-  <Mob name="swamp_dragon_armor (799)" body="799" type="2"></Mob>
-  <Mob name="fire_ant_matriarch (804)" body="804" type="0"></Mob>
-  <Mob name="black_ant_worker (805)" body="805" type="0"></Mob>
-  <Mob name="black_ant_warrior (806)" body="806" type="0"></Mob>
-  <Mob name="black_ant_queen (807)" body="807" type="0"></Mob>
-  <Mob name="black_ant_matriarch (808)" body="808" type="0"></Mob>
-  <Mob name="player_ghost5 (970)" body="970" type="3"></Mob>
-  <Mob name="character_lord_british (990)" body="990" type="3"></Mob>
-  <Mob name="character_blackthorn (991)" body="991" type="3"></Mob>
-  <Mob name="character_dupre (994)" body="994" type="3"></Mob>
-  <Mob name="Multi Colored Horde Deamon (999)" body="999" type="0"></Mob>
+  <Mob name="ogres_ogre (1)" body="1" type="0" />
+  <Mob name="ettins_ettin (2)" body="2" type="0" />
+  <Mob name="walking_dead_zombie (3)" body="3" type="0" />
+  <Mob name="gargoyles_gargoyle (4)" body="4" type="0" />
+  <Mob name="birds_eagle (5)" body="5" type="0" />
+  <Mob name="birds_generic (6)" body="6" type="0" />
+  <Mob name="orcs_orc_captain (7)" body="7" type="0" />
+  <Mob name="flails_corpser (8)" body="8" type="0" />
+  <Mob name="daemons_daemon (9)" body="9" type="0" />
+  <Mob name="daemons_daemon2 (10)" body="10" type="0" />
+  <Mob name="arachnids_spider_dread (11)" body="11" type="0" />
+  <Mob name="dragons_dragon_retro_grey (12)" body="12" type="0" />
+  <Mob name="elementals_air_elemental (13)" body="13" type="0" />
+  <Mob name="elementals_earth_elemental (14)" body="14" type="0" />
+  <Mob name="elementals_fire_elemental (15)" body="15" type="0" />
+  <Mob name="elementals_water_elemental (16)" body="16" type="0" />
+  <Mob name="orcs_orc (17)" body="17" type="0" />
+  <Mob name="ettins_ettin2 (18)" body="18" type="0" />
+  <Mob name="arachnids_spider_dread2 (19)" body="19" type="0" />
+  <Mob name="arachnids_spider_frost (20)" body="20" type="0" />
+  <Mob name="serpents_snake_giant (21)" body="21" type="0" />
+  <Mob name="gazers_gazer (22)" body="22" type="0" />
+  <Mob name="canines_wolf_dire (23)" body="23" type="2" />
+  <Mob name="liche_liche_retro (24)" body="24" type="0" />
+  <Mob name="canines_wolf_grey (25)" body="25" type="2" />
+  <Mob name="spirits_ghost (26)" body="26" type="0" />
+  <Mob name="canines_wolf_grey2 (27)" body="27" type="2" />
+  <Mob name="arachnids_spider_giant (28)" body="28" type="0" />
+  <Mob name="gorillas_silverback (29)" body="29" type="0" />
+  <Mob name="harpies_harpy (30)" body="30" type="0" />
+  <Mob name="headless_headless (31)" body="31" type="0" />
+  <Mob name="lizard_race_lizardman (33)" body="33" type="0" />
+  <Mob name="canines_wolf_white (34)" body="34" type="2" />
+  <Mob name="lizard_race_lizardman2 (35)" body="35" type="0" />
+  <Mob name="lizard_race_lizardman3 (36)" body="36" type="0" />
+  <Mob name="canines_wolf_white2 (37)" body="37" type="2" />
+  <Mob name="daemons_daemon_black_gate (38)" body="38" type="0" />
+  <Mob name="mongbats_mongbat (39)" body="39" type="0" />
+  <Mob name="daemons_daemon_elder (40)" body="40" type="0" />
+  <Mob name="orcs_orc2 (41)" body="41" type="0" />
+  <Mob name="rat_race_ratman (42)" body="42" type="0" />
+  <Mob name="daemons_daemon_ice_fiend (43)" body="43" type="0" />
+  <Mob name="rat_race_ratman2 (44)" body="44" type="0" />
+  <Mob name="rat_race_ratman3 (45)" body="45" type="0" />
+  <Mob name="Mf_Dragon_Rust (46)" body="46" type="0" />
+  <Mob name="flails_reaper (47)" body="47" type="0" />
+  <Mob name="scorpions_giant (48)" body="48" type="0" />
+  <Mob name="dragons_wyrm_retro_white (49)" body="49" type="0" />
+  <Mob name="skeletons_skeleton (50)" body="50" type="0" />
+  <Mob name="slimes_slime (51)" body="51" type="0" />
+  <Mob name="serpents_snake (52)" body="52" type="0" />
+  <Mob name="trolls_troll (53)" body="53" type="0" />
+  <Mob name="trolls_troll2 (54)" body="54" type="0" />
+  <Mob name="trolls_troll_frost (55)" body="55" type="0" />
+  <Mob name="skeletons_skeleton2 (56)" body="56" type="0" />
+  <Mob name="skeletons_skeleton3 (57)" body="57" type="0" />
+  <Mob name="ethereals_wisp (58)" body="58" type="0" />
+  <Mob name="dragons_dragon_retro_red (59)" body="59" type="0" />
+  <Mob name="dragons_dragon_retro_grey2 (60)" body="60" type="0" />
+  <Mob name="dragons_dragon_retro_red2 (61)" body="61" type="0" />
+  <Mob name="dragons_wyvern (62)" body="62" type="0" />
+  <Mob name="felines_cougar (63)" body="63" type="2" />
+  <Mob name="felines_leopard_snow (64)" body="64" type="2" />
+  <Mob name="felines_leopard_snow2 (65)" body="65" type="2" />
+  <Mob name="flails_swamp_tentacles (66)" body="66" type="0" />
+  <Mob name="gargoyles_gargoyle_stone (67)" body="67" type="0" />
+  <Mob name="gazers_gazer_elder (68)" body="68" type="0" />
+  <Mob name="gazers_gazer_elder2 (69)" body="69" type="0" />
+  <Mob name="terathan_terathan_warrior (70)" body="70" type="0" />
+  <Mob name="terathan_terathan_drone (71)" body="71" type="0" />
+  <Mob name="terathan_terathan_queen (72)" body="72" type="0" />
+  <Mob name="harpies_harpy_stone (73)" body="73" type="0" />
+  <Mob name="imps_imp (74)" body="74" type="0" />
+  <Mob name="cyclops_cyclops (75)" body="75" type="0" />
+  <Mob name="titans_titan (76)" body="76" type="0" />
+  <Mob name="krakens_kraken (77)" body="77" type="0" />
+  <Mob name="liche_liche_lord_retro (78)" body="78" type="0" />
+  <Mob name="liche_liche_lord_retro2 (79)" body="79" type="0" />
+  <Mob name="frogs_frog_giant (80)" body="80" type="0" />
+  <Mob name="frogs_bullfrog (81)" body="81" type="0" />
+  <Mob name="liche_liche_lord_retro3 (82)" body="82" type="0" />
+  <Mob name="ogres_ogre_lord (83)" body="83" type="0" />
+  <Mob name="ogres_ogre_lord2 (84)" body="84" type="0" />
+  <Mob name="ophidians_ophidian_mage (85)" body="85" type="0" />
+  <Mob name="ophidians_ophidian_warrior (86)" body="86" type="0" />
+  <Mob name="ophidians_ophidian_queen (87)" body="87" type="0" />
+  <Mob name="ruminants_goat_mountain (88)" body="88" type="2" />
+  <Mob name="serpents_snake_giant_ice (89)" body="89" type="0" />
+  <Mob name="serpents_snake_giant_lava (90)" body="90" type="0" />
+  <Mob name="serpents_snake_giant_silver (91)" body="91" type="0" />
+  <Mob name="serpents_snake_giant_silver2 (92)" body="92" type="0" />
+  <Mob name="serpents_snake_giant_silver3 (93)" body="93" type="0" />
+  <Mob name="slimes_slime_frost (94)" body="94" type="0" />
+  <Mob name="slimes_slime_frost2 (96)" body="96" type="0" />
+  <Mob name="canines_hell_hound (97)" body="97" type="2" />
+  <Mob name="canines_hell_hound2 (98)" body="98" type="2" />
+  <Mob name="canines_wolf_dark (99)" body="99" type="2" />
+  <Mob name="canines_wolf_silver (100)" body="100" type="2" />
+  <Mob name="centaurs_centaur (101)" body="101" type="0" />
+  <Mob name="daemons_daemon_exodus (102)" body="102" type="0" />
+  <Mob name="dragons_dragon_asian (103)" body="103" type="0" />
+  <Mob name="dragons_dragon_skeletal (104)" body="104" type="0" />
+  <Mob name="dragons_wyrm_ancient (105)" body="105" type="0" />
+  <Mob name="dragons_wyrm_shadow (106)" body="106" type="0" />
+  <Mob name="elementals_agapite_elemental (107)" body="107" type="0" />
+  <Mob name="elementals_bronze_elemental (108)" body="108" type="0" />
+  <Mob name="elementals_copper_elemental (109)" body="109" type="0" />
+  <Mob name="elementals_copper_dull_elemental (110)" body="110" type="0" />
+  <Mob name="elementals_iron_elemental (111)" body="111" type="0" />
+  <Mob name="elementals_valorite_elemental (112)" body="112" type="0" />
+  <Mob name="elementals_verite_elemental (113)" body="113" type="0" />
+  <Mob name="equines_horse_dark_steed (114)" body="114" type="2" />
+  <Mob name="equines_horse_ethereal (115)" body="115" type="2" />
+  <Mob name="equines_horse_nightmare (116)" body="116" type="2" />
+  <Mob name="equines_horse_silver_steed (117)" body="117" type="2" />
+  <Mob name="equines_horse_war_brittanian (118)" body="118" type="2" />
+  <Mob name="equines_horse_war_mage_council (119)" body="119" type="2" />
+  <Mob name="equines_horse_war_minax (120)" body="120" type="2" />
+  <Mob name="equines_horse_war_shadowlord (121)" body="121" type="2" />
+  <Mob name="equines_unicorn (122)" body="122" type="2" />
+  <Mob name="ethereal_warriors_male (123)" body="123" type="0" />
+  <Mob name="mages_evil_mage (124)" body="124" type="0" />
+  <Mob name="mages_evil_mage_master (125)" body="125" type="0" />
+  <Mob name="mages_evil_mage_master2 (126)" body="126" type="0" />
+  <Mob name="felines_predator_hellcat (127)" body="127" type="2" />
+  <Mob name="fey_race_pixie (128)" body="128" type="0" />
+  <Mob name="flails_swamp_tentacles2 (129)" body="129" type="0" />
+  <Mob name="gargoyles_gargoyle_blistering (130)" body="130" type="0" />
+  <Mob name="genies_efreet (131)" body="131" type="0" />
+  <Mob name="kirin_kirin (132)" body="132" type="2" />
+  <Mob name="lizards_alligator_small (133)" body="133" type="2" />
+  <Mob name="lizards_komodo_dragon (134)" body="134" type="2" />
+  <Mob name="ogres_ogre_lord_arctic (135)" body="135" type="0" />
+  <Mob name="ophidians_ophidian_archmage (136)" body="136" type="0" />
+  <Mob name="ophidians_ophidian_knight (137)" body="137" type="0" />
+  <Mob name="orcs_orc_lord (138)" body="138" type="0" />
+  <Mob name="orcs_orc_lord2 (139)" body="139" type="0" />
+  <Mob name="orcs_orc_shaman (140)" body="140" type="0" />
+  <Mob name="paladins_paladin (141)" body="141" type="0" />
+  <Mob name="rat_race_ratman4 (142)" body="142" type="0" />
+  <Mob name="rat_race_shaman (143)" body="143" type="0" />
+  <Mob name="sea_horse_sea_horse (144)" body="144" type="1" />
+  <Mob name="sea_serpents_sea_serpent (145)" body="145" type="1" />
+  <Mob name="shadowlords_shadowlord (146)" body="146" type="0" />
+  <Mob name="skeletons_skeleton_knight (147)" body="147" type="0" />
+  <Mob name="skeletons_skeleton_mage (148)" body="148" type="0" />
+  <Mob name="succubi_succubus (149)" body="149" type="0" />
+  <Mob name="sea_serpents_sea_serpent2 (150)" body="150" type="1" />
+  <Mob name="dolphins_dolphin (151)" body="151" type="1" />
+  <Mob name="terathan_terathan_avenger (152)" body="152" type="0" />
+  <Mob name="walking_dead_ghoul (153)" body="153" type="0" />
+  <Mob name="walking_dead_mummy (154)" body="154" type="0" />
+  <Mob name="walking_dead_rotting_corpse (155)" body="155" type="0" />
+  <Mob name="arachnids_spider_black_widow (157)" body="157" type="0" />
+  <Mob name="elementals_acid_elemental (158)" body="158" type="0" />
+  <Mob name="elementals_blood_elemental (159)" body="159" type="0" />
+  <Mob name="elementals_blood_elemental2 (160)" body="160" type="0" />
+  <Mob name="elementals_ice_elemental (161)" body="161" type="0" />
+  <Mob name="elementals_poison_elemental (162)" body="162" type="0" />
+  <Mob name="elementals_snow_elemental (163)" body="163" type="0" />
+  <Mob name="ethereals_energy_vortex (164)" body="164" type="0" />
+  <Mob name="ethereals_wisp2 (165)" body="165" type="0" />
+  <Mob name="elementals_gold_elemental (166)" body="166" type="0" />
+  <Mob name="bruins_bear_brown (167)" body="167" type="2" />
+  <Mob name="imps_shadow_fiend (168)" body="168" type="0" />
+  <Mob name="Giant_Beetle_Fire (169)" body="169" type="2" />
+  <Mob name="llamas_llama_ethereal (170)" body="170" type="2" />
+  <Mob name="ostards_ostard_ethereal (171)" body="171" type="2" />
+  <Mob name="dragons_dragon_retro_red3 (172)" body="172" type="0" />
+  <Mob name="arachnids_spider_black_widow2 (173)" body="173" type="0" />
+  <Mob name="succubi_succubus2 (174)" body="174" type="0" />
+  <Mob name="ethereal_warriors_male2 (175)" body="175" type="0" />
+  <Mob name="fey_race_pixie2 (176)" body="176" type="0" />
+  <Mob name="equines_horse_nightmare2 (177)" body="177" type="2" />
+  <Mob name="equines_horse_nightmare3 (178)" body="178" type="2" />
+  <Mob name="equines_horse_nightmare4 (179)" body="179" type="2" />
+  <Mob name="dragons_wyrm_retro_white2 (180)" body="180" type="0" />
+  <Mob name="orcs_orc_scout (181)" body="181" type="0" />
+  <Mob name="orcs_orc_bomber (182)" body="182" type="0" />
+  <Mob name="H_Savage_Male (183)" body="183" type="3" />
+  <Mob name="H_Savage_Female (184)" body="184" type="3" />
+  <Mob name="H_SavageRider_Male (185)" body="185" type="3" />
+  <Mob name="H_Savage_Female2 (186)" body="186" type="3" />
+  <Mob name="ridgeback_ridgeback (187)" body="187" type="2" />
+  <Mob name="ridgeback_savage (188)" body="188" type="2" />
+  <Mob name="orcs_orc_lord3 (189)" body="189" type="0" />
+  <Mob name="equines_horse_firesteed (190)" body="190" type="2" />
+  <Mob name="kirin_kirin_ethereal (191)" body="191" type="2" />
+  <Mob name="equines_unicorn_ethereal (192)" body="192" type="2" />
+  <Mob name="ridgeback_ridgeback_ethereal (193)" body="193" type="2" />
+  <Mob name="swamp_dragon_ethereal (194)" body="194" type="2" />
+  <Mob name="giant_beetle_ethereal (195)" body="195" type="2" />
+  <Mob name="Denkou_Yajuu (196)" body="196" type="0" />
+  <Mob name="Gouzen_Ha (199)" body="199" type="0" />
+  <Mob name="equines_horse_dappled_brown (200)" body="200" type="2" />
+  <Mob name="felines_housecat (201)" body="201" type="2" />
+  <Mob name="lizards_alligator_brown (202)" body="202" type="2" />
+  <Mob name="porcines_pig (203)" body="203" type="2" />
+  <Mob name="equines_horse_dark_brown (204)" body="204" type="2" />
+  <Mob name="rodents_rabbit_cottontail (205)" body="205" type="2" />
+  <Mob name="lizards_lava_lizard (206)" body="206" type="2" />
+  <Mob name="ruminants_sheep (207)" body="207" type="2" />
+  <Mob name="fowl_normal_hen (208)" body="208" type="2" />
+  <Mob name="ruminants_goat_billy (209)" body="209" type="2" />
+  <Mob name="ostards_ostard_desert (210)" body="210" type="2" />
+  <Mob name="bruins_bear_black (211)" body="211" type="2" />
+  <Mob name="bruins_bear_grizzly (212)" body="212" type="2" />
+  <Mob name="bruins_bear_polar (213)" body="213" type="2" />
+  <Mob name="felines_panther (214)" body="214" type="2" />
+  <Mob name="rodents_rat_giant (215)" body="215" type="2" />
+  <Mob name="bovines_cow_brown (216)" body="216" type="2" />
+  <Mob name="canines_dog_hound (217)" body="217" type="2" />
+  <Mob name="ostards_ostard_forest (218)" body="218" type="2" />
+  <Mob name="ostards_ostard_frenzied (219)" body="219" type="2" />
+  <Mob name="llamas_llama (220)" body="220" type="2" />
+  <Mob name="walrus_walrus_male (221)" body="221" type="2" />
+  <Mob name="ruminants_sheep_shorn (223)" body="223" type="2" />
+  <Mob name="canines_wolf_timber (225)" body="225" type="2" />
+  <Mob name="equines_horse_dappled_grey (226)" body="226" type="2" />
+  <Mob name="equines_horse_tan (228)" body="228" type="2" />
+  <Mob name="bovines_cow_spotted (231)" body="231" type="2" />
+  <Mob name="bovines_bull_brown (232)" body="232" type="2" />
+  <Mob name="bovines_bull_spotted (233)" body="233" type="2" />
+  <Mob name="deer_stag (234)" body="234" type="2" />
+  <Mob name="deer_doe (237)" body="237" type="2" />
+  <Mob name="rodents_rat_sewer (238)" body="238" type="2" />
+  <Mob name="Kappa (240)" body="240" type="0" />
+  <Mob name="Oni (241)" body="241" type="0" />
+  <Mob name="Bimbobushi (242)" body="242" type="0" />
+  <Mob name="Hai_Riyo (243)" body="243" type="2" />
+  <Mob name="Rune_Beetle (244)" body="244" type="0" />
+  <Mob name="Yomotsu_Warrior (245)" body="245" type="0" />
+  <Mob name="Kitsun_Tsuki (246)" body="246" type="2" />
+  <Mob name="Fan_Dancer (247)" body="247" type="0" />
+  <Mob name="Wild_Guar (248)" body="248" type="2" />
+  <Mob name="Yamandon (249)" body="249" type="0" />
+  <Mob name="Tri_Wolf (250)" body="250" type="0" />
+  <Mob name="Vampyric_Beast (251)" body="251" type="0" />
+  <Mob name="Lady_of_the_Snow (252)" body="252" type="0" />
+  <Mob name="Yomotsu_Priest (253)" body="253" type="0" />
+  <Mob name="Crane (254)" body="254" type="2" />
+  <Mob name="Yomotsu_Elder (255)" body="255" type="0" />
+  <Mob name="Paroxysmus (256)" body="256" type="0" />
+  <Mob name="DreadHorn (257)" body="257" type="0" />
+  <Mob name="LadyMelisande (258)" body="258" type="0" />
+  <Mob name="MonstrousInterredGrizzle (259)" body="259" type="0" />
+  <Mob name="Shimmering_Effusion (261)" body="261" type="0" />
+  <Mob name="TormentedMinotaur (262)" body="262" type="0" />
+  <Mob name="Minotaur (263)" body="263" type="0" />
+  <Mob name="Changling (264)" body="264" type="0" />
+  <Mob name="Hydra (265)" body="265" type="0" />
+  <Mob name="Dryad (266)" body="266" type="0" />
+  <Mob name="Troglodyte (267)" body="267" type="0" />
+  <Mob name="Satyr (271)" body="271" type="0" />
+  <Mob name="MonstrousInterredGrizzle2 (272)" body="272" type="0" />
+  <Mob name="Fetid_Essence (273)" body="273" type="0" />
+  <Mob name="Raptalon (276)" body="276" type="2" />
+  <Mob name="CuShidhe (277)" body="277" type="2" />
+  <Mob name="Squirrel (278)" body="278" type="2" />
+  <Mob name="Ferret (279)" body="279" type="2" />
+  <Mob name="MinotaurArmored (280)" body="280" type="0" />
+  <Mob name="LeatherMinotaur (281)" body="281" type="0" />
+  <Mob name="Parrot (282)" body="282" type="2" />
+  <Mob name="Crow (283)" body="283" type="2" />
+  <Mob name="MondainSteed01 (284)" body="284" type="2" />
+  <Mob name="ReaperForm (285)" body="285" type="0" />
+  <Mob name="porcines_boar (290)" body="290" type="2" />
+  <Mob name="equines_horse_dappled_brown_pack (291)" body="291" type="2" />
+  <Mob name="llamas_llama_pack (292)" body="292" type="2" />
+  <Mob name="crystal_elemental (300)" body="300" type="0" />
+  <Mob name="treefellow (301)" body="301" type="0" />
+  <Mob name="skittering_hopper (302)" body="302" type="0" />
+  <Mob name="devourer (303)" body="303" type="0" />
+  <Mob name="flesh_golem (304)" body="304" type="0" />
+  <Mob name="gore_fiend (305)" body="305" type="0" />
+  <Mob name="impaler (306)" body="306" type="0" />
+  <Mob name="gibberling (307)" body="307" type="0" />
+  <Mob name="bonedemon (308)" body="308" type="0" />
+  <Mob name="patchskeleton (309)" body="309" type="0" />
+  <Mob name="wailingbanshee (310)" body="310" type="0" />
+  <Mob name="shadow_knight (311)" body="311" type="0" />
+  <Mob name="abysmal_horror (312)" body="312" type="0" />
+  <Mob name="Darknight_Creeper (313)" body="313" type="0" />
+  <Mob name="ravager (314)" body="314" type="0" />
+  <Mob name="flesh_renderer (315)" body="315" type="0" />
+  <Mob name="wander (316)" body="316" type="0" />
+  <Mob name="vampire_bat (317)" body="317" type="0" />
+  <Mob name="demon_knight (318)" body="318" type="0" />
+  <Mob name="mound_of_maggots (319)" body="319" type="0" />
+  <Mob name="h_male (400)" body="400" type="3" />
+  <Mob name="h_female (401)" body="401" type="3" />
+  <Mob name="spirits_blade_spirit (574)" body="574" type="0" />
+  <Mob name="h_male1 (605)" body="605" type="3" />
+  <Mob name="h_female1 (606)" body="606" type="3" />
+  <Mob name="h_male3 (744)" body="744" type="3" />
+  <Mob name="h_female3 (745)" body="745" type="3" />
+  <Mob name="four_armed_demon (746)" body="746" type="0" />
+  <Mob name="wailingbanshee2 (747)" body="747" type="0" />
+  <Mob name="spirits_ghost2 (748)" body="748" type="0" />
+  <Mob name="liche_liche_retro3 (749)" body="749" type="0" />
+  <Mob name="h_savage_male (750)" body="750" type="3" />
+  <Mob name="h_savage_female (751)" body="751" type="3" />
+  <Mob name="golem_iron (752)" body="752" type="0" />
+  <Mob name="gargoyles_gargoyle_slave (753)" body="753" type="0" />
+  <Mob name="gargoyles_gargoyle_enforcer (754)" body="754" type="0" />
+  <Mob name="gargoyles_gargoyle_guard (755)" body="755" type="0" />
+  <Mob name="clockwork_overseer (756)" body="756" type="0" />
+  <Mob name="clockwork_minion (757)" body="757" type="0" />
+  <Mob name="gargoyles_gargoyle_shopkeeper (758)" body="758" type="0" />
+  <Mob name="clockwork_minion2 (763)" body="763" type="0" />
+  <Mob name="Juka_Warrior (764)" body="764" type="0" />
+  <Mob name="Juka_Mage (765)" body="765" type="0" />
+  <Mob name="NPC_Kabur (766)" body="766" type="0" />
+  <Mob name="NPC_Blackthorn_Cohort (767)" body="767" type="0" />
+  <Mob name="Juggernaut (768)" body="768" type="0" />
+  <Mob name="NPC_Blackthorn (769)" body="769" type="0" />
+  <Mob name="Meer_Mage (770)" body="770" type="0" />
+  <Mob name="Meer_Warrior (771)" body="771" type="0" />
+  <Mob name="NPC_Adranath (772)" body="772" type="0" />
+  <Mob name="NPC_Cpt_Dasha (773)" body="773" type="0" />
+  <Mob name="Dawn_Girl (774)" body="774" type="0" />
+  <Mob name="plague_beast (775)" body="775" type="0" />
+  <Mob name="horde_demon (776)" body="776" type="0" />
+  <Mob name="doppleganger (777)" body="777" type="0" />
+  <Mob name="swarm (778)" body="778" type="0" />
+  <Mob name="bogling (779)" body="779" type="0" />
+  <Mob name="bog_thing (780)" body="780" type="0" />
+  <Mob name="fire_ant_worker (781)" body="781" type="0" />
+  <Mob name="fire_ant_warrior (782)" body="782" type="0" />
+  <Mob name="fire_ant_queen (783)" body="783" type="0" />
+  <Mob name="arcane_demon (784)" body="784" type="0" />
+  <Mob name="four_armed_demon2 (785)" body="785" type="0" />
+  <Mob name="chariot (786)" body="786" type="0" />
+  <Mob name="ant_lion (787)" body="787" type="0" />
+  <Mob name="sphinx (788)" body="788" type="0" />
+  <Mob name="quagmire (789)" body="789" type="0" />
+  <Mob name="sand_vortex (790)" body="790" type="0" />
+  <Mob name="giant_beetle (791)" body="791" type="2" />
+  <Mob name="chaos_demon (792)" body="792" type="0" />
+  <Mob name="skeletal_mount (793)" body="793" type="2" />
+  <Mob name="swamp_dragon (794)" body="794" type="2" />
+  <Mob name="horde_demon2 (795)" body="795" type="0" />
+  <Mob name="horde_demon3 (796)" body="796" type="0" />
+  <Mob name="mf_dragon_fire (797)" body="797" type="0" />
+  <Mob name="mf_dragon_rust (798)" body="798" type="0" />
+  <Mob name="swamp_dragon_armor (799)" body="799" type="2" />
+  <Mob name="fire_ant_matriarch (804)" body="804" type="0" />
+  <Mob name="black_ant_worker (805)" body="805" type="0" />
+  <Mob name="black_ant_warrior (806)" body="806" type="0" />
+  <Mob name="black_ant_queen (807)" body="807" type="0" />
+  <Mob name="black_ant_matriarch (808)" body="808" type="0" />
+  <Mob name="player_ghost5 (970)" body="970" type="3" />
+  <Mob name="character_lord_british (990)" body="990" type="3" />
+  <Mob name="character_blackthorn (991)" body="991" type="3" />
+  <Mob name="character_dupre (994)" body="994" type="3" />
+  <Mob name="Multi Colored Horde Deamon (999)" body="999" type="0" />
   <Equip name="floppy hat (404)" body="404" type="3" />
   <Equip name="wide-brim hat (405)" body="405" type="3" />
   <Equip name="cap (406)" body="406" type="3" />

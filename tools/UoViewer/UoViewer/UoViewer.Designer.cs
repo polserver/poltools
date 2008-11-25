@@ -79,6 +79,8 @@ namespace UoViewer
             this.pathSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Skills = new System.Windows.Forms.TabPage();
+            this.controlSkills = new Controls.Skills();
             this.tabControl2.SuspendLayout();
             this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
@@ -96,6 +98,7 @@ namespace UoViewer
             this.Dress.SuspendLayout();
             this.multimap.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.Skills.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -115,6 +118,7 @@ namespace UoViewer
             this.tabControl2.Controls.Add(this.Light);
             this.tabControl2.Controls.Add(this.Dress);
             this.tabControl2.Controls.Add(this.multimap);
+            this.tabControl2.Controls.Add(this.Skills);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 25);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
@@ -412,7 +416,6 @@ namespace UoViewer
             this.controlMultimap.Name = "controlMultimap";
             this.controlMultimap.Size = new System.Drawing.Size(613, 318);
             this.controlMultimap.TabIndex = 0;
-            this.controlMultimap.Text = "control1";
             // 
             // toolStrip1
             // 
@@ -466,6 +469,26 @@ namespace UoViewer
             this.restartNeededMenuItem.Size = new System.Drawing.Size(165, 22);
             this.restartNeededMenuItem.Text = "Restart Needed!";
             // 
+            // Skills
+            // 
+            this.Skills.Controls.Add(this.controlSkills);
+            this.Skills.Location = new System.Drawing.Point(4, 22);
+            this.Skills.Name = "Skills";
+            this.Skills.Padding = new System.Windows.Forms.Padding(3);
+            this.Skills.Size = new System.Drawing.Size(619, 324);
+            this.Skills.TabIndex = 15;
+            this.Skills.Text = "Skills";
+            this.Skills.UseVisualStyleBackColor = true;
+            // 
+            // controlSkills
+            // 
+            this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlSkills.Location = new System.Drawing.Point(3, 3);
+            this.controlSkills.Name = "controlSkills";
+            this.controlSkills.Size = new System.Drawing.Size(613, 318);
+            this.controlSkills.TabIndex = 0;
+            this.controlSkills.Text = "control1";
+            // 
             // UoViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,6 +518,7 @@ namespace UoViewer
             this.multimap.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.Skills.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -540,6 +564,8 @@ namespace UoViewer
         private System.Windows.Forms.ToolStripMenuItem restartNeededMenuItem;
         private System.Windows.Forms.TabPage multimap;
         private Controls.MultiMap controlMultimap;
+        private System.Windows.Forms.TabPage Skills;
+        private Controls.Skills controlSkills;
     }
 }
 

@@ -16,7 +16,7 @@ namespace Ultima
 	{
 		private const int WM_CHAR = 0x102;
 
-		private static ArrayList m_Directories;
+		private static string m_Directory;
 		private static ClientWindowHandle m_Handle = ClientWindowHandle.Invalid;
 
 		private static WindowProcessStream m_ProcStream;
@@ -440,14 +440,14 @@ namespace Ultima
 		/// <summary>
 		/// Gets a list of paths to the Client's data files.
 		/// </summary>
-		public static ArrayList Directories
+		public static string Directory
 		{
 			get
 			{
-				if ( m_Directories == null )
-					m_Directories = LoadDirectories();
+				if ( m_Directory == null )
+					m_Directory = LoadDirectory();
 
-				return m_Directories;
+				return m_Directory;
 			}
 		}
 
@@ -463,22 +463,6 @@ namespace Ultima
                 if (File.Exists(path))
                     return path;
             }
-            else
-            {
-                ArrayList dirs = Client.Directories;
-
-                if (dirs.Count == 0)
-                    throw new DirectoryNotFoundException();
-
-                for (int i = 0; i < dirs.Count; ++i)
-                {
-                    string path = Path.Combine((string)dirs[i], file);
-
-                    if (File.Exists(path))
-                        return path;
-                }
-            }
-
 			return null;
 		}
 
@@ -487,33 +471,29 @@ namespace Ultima
 			return GetFilePath( String.Format( format, args ) );
 		}
 
-		private static ArrayList LoadDirectories()
+		private static string LoadDirectory()
 		{
-			ArrayList list = new ArrayList();
+            string dir;
 
-            string pathReg = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online\1.0");
-			string path3D =  GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            string pathSE =  GetInstallPath(@"SOFTWARE\EA GAMES\Ultima Online Samurai Empire");
+            dir = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online\1.0");
+            if (dir != null)
+                return dir;
+			dir =  GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online Third Dawn\1.0");
+            if (dir != null)
+                return dir;
+            dir = GetInstallPath(@"SOFTWARE\EA GAMES\Ultima Online Samurai Empire");
+            if (dir != null)
+                return dir;
 
-            string pathReg64 = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online\1.0");
-            string path3D64 =  GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            string pathSE64 =  GetInstallPath(@"SOFTWARE\Wow6432Node\EA GAMES\Ultima Online Samurai Empire");
+            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online\1.0");
+            if (dir != null)
+                return dir;
+            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online Third Dawn\1.0");
+            if (dir != null)
+                return dir;
+            dir = GetInstallPath(@"SOFTWARE\Wow6432Node\EA GAMES\Ultima Online Samurai Empire");
 
-			if ( pathReg != null )
-				list.Add( pathReg );
-			if ( path3D != null )
-				list.Add( path3D );
-            if (pathSE != null)
-                list.Add( pathSE );
-
-            if (pathReg64 != null)
-                list.Add(pathReg64);
-            if (path3D64 != null)
-                list.Add(path3D64);
-            if (pathSE64 != null)
-                list.Add(pathSE64);
-
-			return list;
+            return dir;
 		}
 
 		private static string GetExePath( string regkey )
