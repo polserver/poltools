@@ -22,7 +22,7 @@ namespace Ultima
 		public static readonly Map Malas = new Map( 3, 3, 2560, 2048 );
 		public static readonly Map Tokuno = new Map( 4, 4, 1448, 1448 );
 
-		private Map( int fileIndex, int mapID, int width, int height )
+		public Map( int fileIndex, int mapID, int width, int height )
 		{
 			m_FileIndex = fileIndex;
 			m_MapID = mapID;
