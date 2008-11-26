@@ -217,7 +217,7 @@ namespace Controls
                 return;
             
             string FileName = Path.Combine(path, name);
-            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3)+8, (currmap.Height >> 3)+8);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
             extract.Save(FileName, ImageFormat.Tiff);
         }
 
