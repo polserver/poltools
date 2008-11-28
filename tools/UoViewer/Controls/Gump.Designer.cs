@@ -48,6 +48,8 @@ namespace Controls
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.IDLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SizeLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Preload = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -118,7 +120,9 @@ namespace Controls
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.IDLabel,
-            this.SizeLabel});
+            this.SizeLabel,
+            this.Preload,
+            this.ProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(0, 302);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(410, 22);
@@ -135,9 +139,27 @@ namespace Controls
             // 
             // SizeLabel
             // 
+            this.SizeLabel.AutoSize = false;
             this.SizeLabel.Name = "SizeLabel";
-            this.SizeLabel.Size = new System.Drawing.Size(30, 17);
+            this.SizeLabel.Size = new System.Drawing.Size(100, 17);
             this.SizeLabel.Text = "Size:";
+            this.SizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Preload
+            // 
+            this.Preload.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.Preload.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.Preload.Name = "Preload";
+            this.Preload.Size = new System.Drawing.Size(47, 17);
+            this.Preload.Text = "Preload";
+            this.Preload.Click += new System.EventHandler(this.OnClickPreload);
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // Gump
             // 
@@ -168,5 +190,7 @@ namespace Controls
         private System.Windows.Forms.ToolStripStatusLabel SizeLabel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel Preload;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
     }
 }

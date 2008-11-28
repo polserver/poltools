@@ -29,6 +29,9 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            if (!FileIndex.CacheData)
+                Preload.Visible = false;
+            ProgressBar.Visible = false;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -115,6 +118,21 @@ namespace Controls
             string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
             Bitmap bmp = Gumps.GetGump(i);
             bmp.Save(FileName, ImageFormat.Jpeg);
+        }
+
+        private void OnClickPreload(object sender, EventArgs e)
+        {
+            ProgressBar.Minimum = 1;
+            ProgressBar.Maximum = listBox.Items.Count;
+            ProgressBar.Step = 1;
+            ProgressBar.Value = 1;
+            ProgressBar.Visible = true;
+            for (int i = 0; i < listBox.Items.Count; i++)
+            {
+                Gumps.GetGump(int.Parse(listBox.Items[i].ToString()));
+                ProgressBar.PerformStep();
+            }
+            ProgressBar.Visible = false;
         }
     }
 }

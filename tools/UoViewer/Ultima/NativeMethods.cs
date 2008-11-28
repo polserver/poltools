@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using System;
 
 namespace Ultima
 {
@@ -37,6 +38,9 @@ namespace Ultima
 
         [DllImport("user32")]
 		public static extern ClientWindowHandle FindWindowA( string lpClassName, string lpWindowName );
+
+
+        
 
     }
 }

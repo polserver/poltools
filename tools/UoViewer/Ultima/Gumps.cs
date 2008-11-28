@@ -10,13 +10,32 @@ namespace Ultima
 		private static FileIndex m_FileIndex = new FileIndex( "Gumpidx.mul", "Gumpart.mul", 0x10000, 12 );
 		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
+        private static Bitmap[] m_Cache = new Bitmap[0x10000];
+
 		private static byte[] m_PixelBuffer;
 		private static byte[] m_StreamBuffer;
 		private static byte[] m_ColorTable;
 
         public static bool IsValidIndex(int index)
         {
-            return m_FileIndex.Index[index].length != 0;
+            if (FileIndex.CacheData)
+            {
+                if (m_Cache[index] != null)
+                    return true;
+            }
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return false;
+            int width = (extra >> 16) & 0xFFFF;
+            int height = extra & 0xFFFF;
+
+            if (width <= 0 || height <= 0)
+                return false;
+
+            return true;
         }
 
 		public unsafe static Bitmap GetGump( int index, Hue hue, bool onlyHueGrayPixels )
@@ -153,6 +172,11 @@ namespace Ultima
 
 		public unsafe static Bitmap GetGump( int index )
 		{
+            if (FileIndex.CacheData)
+            {
+                if (m_Cache[index] != null)
+                    return m_Cache[index];
+            }
 			int length, extra;
 			bool patched;
 			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
@@ -204,7 +228,10 @@ namespace Ultima
 
 			bmp.UnlockBits( bd );
 
-			return bmp;
+            if (FileIndex.CacheData)
+                return m_Cache[index] = bmp;
+            else
+                return bmp;
 		}
 	}
 }

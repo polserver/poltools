@@ -356,7 +356,7 @@ namespace Controls
                                     TileData.ItemTable[i].Quality,
                                     TileData.ItemTable[i].Name));
                         node.Tag = i;
-                        if (Array.IndexOf(draworder, TileData.ItemTable[i].Quality)==-1)
+                        if (Array.IndexOf(draworder, (int)TileData.ItemTable[i].Quality)==-1)
                             node.ForeColor = Color.DarkRed;
                         else if (!hasani)
                         {
@@ -380,6 +380,7 @@ namespace Controls
             int gump = ani + 50000;
             int gumporig = gump;
             int hue=0;
+            Animations.Translate(ref ani);
             ConvertBody(ref ani, ref gump, ref hue);
             ConvertGump(ref gump, ref hue);
             if (female)
@@ -468,6 +469,7 @@ namespace Controls
             int gumpidorig = ani + 50000;
             int gumpid = gumpidorig;
             int hue = 0;
+            Animations.Translate(ref ani);
             ConvertBody(ref ani, ref gumpid, ref hue);
             ConvertGump(ref gumpid, ref hue);
             if (female)
@@ -706,16 +708,16 @@ namespace Controls
                     try
                     {
                         // <ORIG BODY> {<NEW BODY>} <NEW HUE>
-                        int index1 = line.IndexOf(" {");
-                        int index2 = line.IndexOf("} ");
+                        int index1 = line.IndexOf("{");
+                        int index2 = line.IndexOf("}");
 
                         string param1 = line.Substring(0, index1);
-                        string param2 = line.Substring(index1 + 2, index2 - index1 - 2);
-                        string param3 = line.Substring(index2 + 2);
+                        string param2 = line.Substring(index1 + 1, index2 - index1 - 1);
+                        string param3 = line.Substring(index2 + 1);
 
-                        int iParam1 = Convert.ToInt32(param1);
-                        int iParam2 = Convert.ToInt32(param2);
-                        int iParam3 = Convert.ToInt32(param3);
+                        int iParam1 = Convert.ToInt32(param1.Trim());
+                        int iParam2 = Convert.ToInt32(param2.Trim());
+                        int iParam3 = Convert.ToInt32(param3.Trim());
 
                         m_Entries[iParam1] = new GumpTableEntry(iParam1, iParam2, iParam3);
                     }

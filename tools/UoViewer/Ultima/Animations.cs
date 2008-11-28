@@ -705,21 +705,21 @@ namespace Ultima
 
 				try
 				{
-					int index1 = line.IndexOf( " {" );
-					int index2 = line.IndexOf( "} " );
+					int index1 = line.IndexOf( "{" );
+					int index2 = line.IndexOf( "}" );
 
 					string param1 = line.Substring( 0, index1 );
-					string param2 = line.Substring( index1 + 2, index2 - index1 - 2 );
-					string param3 = line.Substring( index2 + 2 );
+					string param2 = line.Substring( index1 + 1, index2 - index1 - 1 );
+					string param3 = line.Substring( index2 + 1 );
 
 					int indexOf = param2.IndexOf( ',' );
 
 					if ( indexOf > -1 )
 						param2 = param2.Substring( 0, indexOf ).Trim();
 
-					int iParam1 = Convert.ToInt32( param1 );
-					int iParam2 = Convert.ToInt32( param2 );
-					int iParam3 = Convert.ToInt32( param3 );
+					int iParam1 = Convert.ToInt32( param1.Trim() );
+					int iParam2 = Convert.ToInt32( param2.Trim() );
+					int iParam3 = Convert.ToInt32( param3.Trim() );
 
 					m_Entries[iParam1] = new BodyTableEntry( iParam2, iParam1, iParam3 );
 				}

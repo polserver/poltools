@@ -5,10 +5,12 @@
   <!--ItemClip images in items tab shrinked or clipped-->
   <ItemClip active="True" />
   <!--CacheData should mul entries be cached for faster load-->
-  <CacheData active="False" />
+  <CacheData active="True" />
   <!--NewMapSize Felucca/Trammel width 7168?-->
   <NewMapSize active="False" />
   <!--Alternative layout in items tab?-->
   <AlternativeDesign active="False" />
+  <!--Use Hashfile to speed up load?-->
+  <UseHashFile active="True" />
   <!--Pathsettings-->
 </Options>

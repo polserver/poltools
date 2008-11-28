@@ -8,6 +8,7 @@ namespace Ultima
 	public sealed class FileIndex
 	{
         public static bool CacheData = true;
+        public static bool UseHashFile = false;
         public static string[] m_Files = new string[]
 		{
 			"anim.idx",
@@ -236,6 +237,46 @@ namespace Ultima
 				}
 			}
 		}
+
+        public static bool CompareMD5(string file, string hash)
+        {
+            System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
+            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] md5Hash = md5.ComputeHash(FileCheck);
+            FileCheck.Close();
+            string md5string = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
+            if (md5string == hash)
+                return true;
+            else
+                return false;
+        }
+
+        public static byte[] GetMD5(string file)
+        {
+            System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
+            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] md5Hash = md5.ComputeHash(FileCheck);
+            FileCheck.Close();
+            return md5Hash;
+        }
+
+        public static bool CompareHashFile(string what)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("UOViewer{0}.hash",what));
+            if (File.Exists(FileName))
+            {
+                using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                {
+                    int length = bin.ReadInt32();
+                    byte[] buffer = new byte[length];
+                    bin.Read(buffer, 0, length);
+                    string hashold = BitConverter.ToString(buffer).Replace("-", "").ToLower();
+                    return FileIndex.CompareMD5(Client.GetFilePath(String.Format("{0}.mul",what)), hashold);
+                }
+            }
+            return false;
+        }
 	}
 
 	public struct Entry3D
