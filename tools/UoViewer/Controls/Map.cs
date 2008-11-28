@@ -29,6 +29,9 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            if (!FileIndex.CacheData)
+                PreloadMap.Visible = false;
+            ProgressBar.Visible = false;
         }
 
         private Bitmap map;
@@ -437,6 +440,28 @@ namespace Controls
             ZoomMap(ref map);
             pictureBox.Image = map;
             pictureBox.Update();
+        }
+
+        private void OnClickPreloadMap(object sender, EventArgs e)
+        {
+            int width = currmap.Width >> 3;
+            int height = currmap.Height >> 3;
+            width /= 4;
+            height /= 4;
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = 16;
+            ProgressBar.Step = 1;
+            ProgressBar.Value = 0;
+            ProgressBar.Visible = true;
+            for (int x = 0; x <= (currmap.Width >> 3) - width; x += width)
+            {
+                for (int y = 0; y <= (currmap.Height >> 3) - height; y += height)
+                {
+                    currmap.GetImage(x, y, width, height, true);
+                    ProgressBar.PerformStep();
+                }
+            }
+            ProgressBar.Visible = false;
         }
     }
 }

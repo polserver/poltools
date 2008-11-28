@@ -17,6 +17,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using Ultima;
 
 namespace Controls
@@ -38,6 +39,24 @@ namespace Controls
         private int row;
         private int selected = -1;
         private Bitmap bmp;
+
+        private void MakeHashFile()
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "UOViewerArt.hash");
+            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryWriter bin = new BinaryWriter(fs);
+                byte[] md5 = FileIndex.GetMD5(Client.GetFilePath("Art.mul"));
+                int length = md5.Length;
+                bin.Write(length);
+                bin.Write(md5);
+                foreach (int item in ItemList)
+                {
+                    bin.Write(item);
+                }
+            }
+        }
 
         public static bool SearchGraphic(int graphic)
         {
@@ -99,10 +118,33 @@ namespace Controls
         private void OnLoad(object sender, EventArgs e)
         {
             ItemList = new ArrayList();
-            for (int i = 0; i < 0x4000; i++)
+            if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
             {
-                if (Art.IsValidStatic(i))
-                    ItemList.Add((object)i);
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, "UOViewerArt.hash");
+                if (File.Exists(FileName))
+                {
+                    using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    {
+                        int length = bin.ReadInt32();
+                        bin.BaseStream.Seek(length, SeekOrigin.Current);
+                        while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        {
+                            int i = bin.ReadInt32();
+                            ItemList.Add((object)i);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 0x4000; i++)
+                {
+                    if (Art.IsValidStatic(i))
+                        ItemList.Add((object)i);
+                }
+                if (FileIndex.UseHashFile)
+                    MakeHashFile();
             }
             vScrollBar.Maximum = ItemList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
@@ -142,14 +184,14 @@ namespace Controls
 
                 for (int x = 0; x <= col; x++)
                 {
-                    g.DrawLine(Pens.Gray, new Point(x * Art.ItemSizeWidth, 0),
-                        new Point(x * Art.ItemSizeWidth, row * Art.ItemSizeHeight));
+                    g.DrawLine(Pens.Gray, new Point(x * Options.ArtItemSizeWidth, 0),
+                        new Point(x * Options.ArtItemSizeWidth, row * Options.ArtItemSizeHeight));
                 }
 
                 for (int y = 0; y <= row; y++)
                 {
-                    g.DrawLine(Pens.Gray, new Point(0, y * Art.ItemSizeHeight),
-                        new Point(col * Art.ItemSizeWidth, y * Art.ItemSizeHeight));
+                    g.DrawLine(Pens.Gray, new Point(0, y * Options.ArtItemSizeHeight),
+                        new Point(col * Options.ArtItemSizeWidth, y * Options.ArtItemSizeHeight));
                 }
 
                 for (int y = 0; y < row; y++)
@@ -163,8 +205,8 @@ namespace Controls
 
                             if (b != null)
                             {
-                                Point loc = new Point((x * Art.ItemSizeWidth) + 1, (y * Art.ItemSizeHeight) + 1);
-                                Size size = new Size(Art.ItemSizeHeight - 1, Art.ItemSizeWidth - 1);
+                                Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
+                                Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
                                 Rectangle rect = new Rectangle(loc, size);
 
                                 g.Clip = new Region(rect);
@@ -172,7 +214,7 @@ namespace Controls
                                 if (index == selected)
                                     g.FillRectangle(Brushes.LightBlue, rect);
 
-                                if (Art.ItemClip)
+                                if (Options.ArtItemClip)
                                     g.DrawImage(b, loc);
                                 else
                                 {
@@ -202,8 +244,8 @@ namespace Controls
 
         private void OnResize(object sender, EventArgs e)
         {
-            col = pictureBox.Width / Art.ItemSizeWidth;
-            row = pictureBox.Height / Art.ItemSizeHeight;
+            col = pictureBox.Width / Options.ArtItemSizeWidth;
+            row = pictureBox.Height / Options.ArtItemSizeHeight;
             vScrollBar.Maximum = ItemList.Count / col + 1;
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
@@ -216,8 +258,8 @@ namespace Controls
         {
             pictureBox.Focus();
             Point m = PointToClient(Control.MousePosition);
-            int x=m.X/(Art.ItemSizeWidth-1);
-            int y=m.Y/(Art.ItemSizeHeight-1);
+            int x = m.X / (Options.ArtItemSizeWidth - 1);
+            int y = m.Y / (Options.ArtItemSizeHeight - 1);
             int index = GetIndex(x, y);
             if (index >= 0)
             {
@@ -263,8 +305,8 @@ namespace Controls
         private void OnMouseDoubleClick(object sender, MouseEventArgs e)
         {
             Point m = PointToClient(Control.MousePosition);
-            int x=m.X/(Art.ItemSizeWidth-1);
-            int y=m.Y/(Art.ItemSizeHeight-1);
+            int x = m.X / (Options.ArtItemSizeWidth - 1);
+            int y = m.Y / (Options.ArtItemSizeHeight - 1);
             int index = GetIndex(x, y);
             if (index >= 0)
             {
@@ -283,6 +325,21 @@ namespace Controls
                 showform.TopMost = true;
                 showform.Show();
             }
+        }
+
+        private void OnClickPreload(object sender, EventArgs e)
+        {
+            ProgressBar.Minimum = 1;
+            ProgressBar.Maximum = ItemList.Count;
+            ProgressBar.Step = 1;
+            ProgressBar.Value = 1;
+            ProgressBar.Visible = true;
+            foreach (int item in ItemList)
+            {
+                Art.GetStatic(item);
+                ProgressBar.PerformStep();
+            }
+            ProgressBar.Visible = false;
         }
     }
 }

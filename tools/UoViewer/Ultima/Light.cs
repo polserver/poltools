@@ -38,7 +38,12 @@ namespace Ultima
             if (stream == null)
                 return false;
 
-            return true;
+            int width = (extra & 0xFFFF);
+            int height = ((extra >> 16) & 0xFFFF);
+            if ((width > 0) && (height > 0))
+                return true;
+
+            return false;
         }
 
         public unsafe static Bitmap GetLight(int index)

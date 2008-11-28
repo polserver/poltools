@@ -76,15 +76,17 @@ namespace Controls
             this.FlagsLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 302);
             this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip1.Size = new System.Drawing.Size(619, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // FlagsLabel
             // 
+            this.FlagsLabel.AutoSize = false;
             this.FlagsLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(36, 17);
+            this.FlagsLabel.Size = new System.Drawing.Size(270, 17);
             this.FlagsLabel.Text = "Flags:";
             this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 

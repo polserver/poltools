@@ -72,6 +72,10 @@ namespace UoViewer
             this.controldress = new Controls.Dress();
             this.multimap = new System.Windows.Forms.TabPage();
             this.controlMultimap = new Controls.MultiMap();
+            this.Skills = new System.Windows.Forms.TabPage();
+            this.controlSkills = new Controls.Skills();
+            this.TileDatas = new System.Windows.Forms.TabPage();
+            this.controlTileData = new Controls.TileDatas();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
@@ -79,8 +83,6 @@ namespace UoViewer
             this.pathSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Skills = new System.Windows.Forms.TabPage();
-            this.controlSkills = new Controls.Skills();
             this.tabControl2.SuspendLayout();
             this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
@@ -97,8 +99,9 @@ namespace UoViewer
             this.Light.SuspendLayout();
             this.Dress.SuspendLayout();
             this.multimap.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.Skills.SuspendLayout();
+            this.TileDatas.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -119,6 +122,7 @@ namespace UoViewer
             this.tabControl2.Controls.Add(this.Dress);
             this.tabControl2.Controls.Add(this.multimap);
             this.tabControl2.Controls.Add(this.Skills);
+            this.tabControl2.Controls.Add(this.TileDatas);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 25);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
@@ -417,6 +421,43 @@ namespace UoViewer
             this.controlMultimap.Size = new System.Drawing.Size(613, 318);
             this.controlMultimap.TabIndex = 0;
             // 
+            // Skills
+            // 
+            this.Skills.Controls.Add(this.controlSkills);
+            this.Skills.Location = new System.Drawing.Point(4, 22);
+            this.Skills.Name = "Skills";
+            this.Skills.Padding = new System.Windows.Forms.Padding(3);
+            this.Skills.Size = new System.Drawing.Size(619, 324);
+            this.Skills.TabIndex = 15;
+            this.Skills.Text = "Skills";
+            this.Skills.UseVisualStyleBackColor = true;
+            // 
+            // controlSkills
+            // 
+            this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlSkills.Location = new System.Drawing.Point(3, 3);
+            this.controlSkills.Name = "controlSkills";
+            this.controlSkills.Size = new System.Drawing.Size(613, 318);
+            this.controlSkills.TabIndex = 0;
+            // 
+            // TileDatas
+            // 
+            this.TileDatas.Controls.Add(this.controlTileData);
+            this.TileDatas.Location = new System.Drawing.Point(4, 22);
+            this.TileDatas.Name = "TileDatas";
+            this.TileDatas.Size = new System.Drawing.Size(619, 324);
+            this.TileDatas.TabIndex = 16;
+            this.TileDatas.Text = "TileData";
+            this.TileDatas.UseVisualStyleBackColor = true;
+            // 
+            // controlTileData
+            // 
+            this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlTileData.Location = new System.Drawing.Point(0, 0);
+            this.controlTileData.Name = "controlTileData";
+            this.controlTileData.Size = new System.Drawing.Size(619, 324);
+            this.controlTileData.TabIndex = 0;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -469,26 +510,6 @@ namespace UoViewer
             this.restartNeededMenuItem.Size = new System.Drawing.Size(165, 22);
             this.restartNeededMenuItem.Text = "Restart Needed!";
             // 
-            // Skills
-            // 
-            this.Skills.Controls.Add(this.controlSkills);
-            this.Skills.Location = new System.Drawing.Point(4, 22);
-            this.Skills.Name = "Skills";
-            this.Skills.Padding = new System.Windows.Forms.Padding(3);
-            this.Skills.Size = new System.Drawing.Size(619, 324);
-            this.Skills.TabIndex = 15;
-            this.Skills.Text = "Skills";
-            this.Skills.UseVisualStyleBackColor = true;
-            // 
-            // controlSkills
-            // 
-            this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlSkills.Location = new System.Drawing.Point(3, 3);
-            this.controlSkills.Name = "controlSkills";
-            this.controlSkills.Size = new System.Drawing.Size(613, 318);
-            this.controlSkills.TabIndex = 0;
-            this.controlSkills.Text = "control1";
-            // 
             // UoViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -516,9 +537,10 @@ namespace UoViewer
             this.Light.ResumeLayout(false);
             this.Dress.ResumeLayout(false);
             this.multimap.ResumeLayout(false);
+            this.Skills.ResumeLayout(false);
+            this.TileDatas.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.Skills.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -566,6 +588,8 @@ namespace UoViewer
         private Controls.MultiMap controlMultimap;
         private System.Windows.Forms.TabPage Skills;
         private Controls.Skills controlSkills;
+        private System.Windows.Forms.TabPage TileDatas;
+        private Controls.TileDatas controlTileData;
     }
 }
 

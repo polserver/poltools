@@ -41,10 +41,10 @@ namespace Controls
         {
             this.components = new System.ComponentModel.Container();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.CoordsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ClientInteract = new System.Windows.Forms.ToolStripDropDownButton();
             this.showClientLocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoClientLocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CoordsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ClientLocLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ZoomLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
@@ -64,6 +64,8 @@ namespace Controls
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.PreloadMap = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -75,18 +77,14 @@ namespace Controls
             this.ClientInteract,
             this.CoordsLabel,
             this.ClientLocLabel,
-            this.ZoomLabel});
+            this.ZoomLabel,
+            this.PreloadMap,
+            this.ProgressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 302);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(619, 22);
             this.statusStrip.TabIndex = 0;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // CoordsLabel
-            // 
-            this.CoordsLabel.Name = "CoordsLabel";
-            this.CoordsLabel.Size = new System.Drawing.Size(64, 17);
-            this.CoordsLabel.Text = "Coords: 0,0";
             // 
             // ClientInteract
             // 
@@ -114,6 +112,12 @@ namespace Controls
             this.gotoClientLocToolStripMenuItem.Text = "Goto Client Loc";
             this.gotoClientLocToolStripMenuItem.Click += new System.EventHandler(this.onClick_GotoClientLoc);
             // 
+            // CoordsLabel
+            // 
+            this.CoordsLabel.Name = "CoordsLabel";
+            this.CoordsLabel.Size = new System.Drawing.Size(64, 17);
+            this.CoordsLabel.Text = "Coords: 0,0";
+            // 
             // ClientLocLabel
             // 
             this.ClientLocLabel.Name = "ClientLocLabel";
@@ -122,9 +126,11 @@ namespace Controls
             // 
             // ZoomLabel
             // 
+            this.ZoomLabel.AutoSize = false;
             this.ZoomLabel.Name = "ZoomLabel";
-            this.ZoomLabel.Size = new System.Drawing.Size(40, 17);
+            this.ZoomLabel.Size = new System.Drawing.Size(150, 17);
             this.ZoomLabel.Text = "Zoom: ";
+            this.ZoomLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox
             // 
@@ -266,6 +272,22 @@ namespace Controls
             this.timer1.Interval = 2000;
             this.timer1.Tick += new System.EventHandler(this.SyncClientTimer);
             // 
+            // PreloadMap
+            // 
+            this.PreloadMap.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.PreloadMap.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.PreloadMap.Name = "PreloadMap";
+            this.PreloadMap.Size = new System.Drawing.Size(70, 17);
+            this.PreloadMap.Text = "Preload Map";
+            this.PreloadMap.Click += new System.EventHandler(this.OnClickPreloadMap);
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 15);
+            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -314,5 +336,7 @@ namespace Controls
         private System.Windows.Forms.ToolStripDropDownButton ClientInteract;
         private System.Windows.Forms.ToolStripMenuItem showClientLocToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gotoClientLocToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel PreloadMap;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
     }
 }

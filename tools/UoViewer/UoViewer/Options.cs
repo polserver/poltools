@@ -29,7 +29,7 @@ namespace UoViewer
         public Options() 
         {
             FileIndex.LoadMulPath();
-            Options.Load();
+            Load();
         }
 
         public static void Save()
@@ -46,13 +46,13 @@ namespace UoViewer
             XmlComment comment= dom.CreateComment("ItemSize controls the size of images in items tab");
             sr.AppendChild(comment);
             XmlElement elem = dom.CreateElement("ItemSize");
-            elem.SetAttribute("width", Art.ItemSizeWidth.ToString());
-            elem.SetAttribute("height", Art.ItemSizeHeight.ToString());
+            elem.SetAttribute("width", Controls.Options.ArtItemSizeWidth.ToString());
+            elem.SetAttribute("height", Controls.Options.ArtItemSizeHeight.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("ItemClip images in items tab shrinked or clipped");
             sr.AppendChild(comment);
             elem = dom.CreateElement("ItemClip");
-            elem.SetAttribute("active", Art.ItemClip.ToString());
+            elem.SetAttribute("active", Controls.Options.ArtItemClip.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("CacheData should mul entries be cached for faster load");
             sr.AppendChild(comment);
@@ -69,6 +69,11 @@ namespace UoViewer
             elem = dom.CreateElement("AlternativeDesign");
             elem.SetAttribute("active", UoViewer.AlternativeDesign.ToString());
             sr.AppendChild(elem);
+            comment = dom.CreateComment("Use Hashfile to speed up load?");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("UseHashFile");
+            elem.SetAttribute("active", FileIndex.UseHashFile.ToString());
+            sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
 
@@ -84,8 +89,8 @@ namespace UoViewer
             dom.AppendChild(sr);
             dom.Save(FileName);
         }
- 
-        public static void Load()
+
+        private void Load()
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(Path.GetDirectoryName(path), "Options.xml");
@@ -99,12 +104,12 @@ namespace UoViewer
             XmlElement elem = (XmlElement)xOptions.SelectSingleNode("ItemSize");
             if (elem != null)
             {
-                Art.ItemSizeWidth = int.Parse(elem.GetAttribute("width"));
-                Art.ItemSizeHeight = int.Parse(elem.GetAttribute("height"));
+                Controls.Options.ArtItemSizeWidth = int.Parse(elem.GetAttribute("width"));
+                Controls.Options.ArtItemSizeHeight = int.Parse(elem.GetAttribute("height"));
             }
             elem = (XmlElement)xOptions.SelectSingleNode("ItemClip");
             if (elem != null)
-                Art.ItemClip = bool.Parse(elem.GetAttribute("active"));
+                Controls.Options.ArtItemClip = bool.Parse(elem.GetAttribute("active"));
 
             elem = (XmlElement)xOptions.SelectSingleNode("CacheData");
             if (elem != null)
@@ -127,6 +132,13 @@ namespace UoViewer
                     UoViewer.AlternativeDesign = true;
             }
 
+            elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");
+            if (elem != null)
+            {
+                if (bool.Parse(elem.GetAttribute("active")))
+                    FileIndex.UseHashFile = true;
+            }
+
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;
@@ -135,9 +147,10 @@ namespace UoViewer
                 value = xPath.GetAttribute("value");
                 FileIndex.MulPath[key] = value;
             }
-            if (Client.GetFilePath("map1.mul")!=null)
+
+            if (Client.GetFilePath("map1.mul") != null)
             {
-                if (Ultima.Map.Trammel.Width==7168)
+                if (Ultima.Map.Trammel.Width == 7168)
                     Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
                 else
                     Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);

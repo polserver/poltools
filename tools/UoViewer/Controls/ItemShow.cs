@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using Ultima;
 
 namespace Controls
@@ -28,9 +29,30 @@ namespace Controls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refMarker = this;
+            if (!FileIndex.CacheData)
+                PreloadItems.Visible = false;
+            ProgressBar.Visible = false;
         }
 
         private static ItemShow refMarker = null;
+
+        private void MakeHashFile()
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "UOViewerArt.hash");
+            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryWriter bin = new BinaryWriter(fs);
+                byte[] md5 = FileIndex.GetMD5(Client.GetFilePath("Art.mul"));
+                int length = md5.Length;
+                bin.Write(length);
+                bin.Write(md5);
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    bin.Write((int)item.Tag);
+                }
+            }
+        }
 
         public static bool SearchGraphic(int graphic)
         {
@@ -84,16 +106,41 @@ namespace Controls
         {
             listView1.BeginUpdate();
 
-            for (int i = 0; i < 0x4000; i++)
+            if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
             {
-                if (Art.IsValidStatic(i))
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, "UOViewerArt.hash");
+                if (File.Exists(FileName))
                 {
-                    ListViewItem item = new ListViewItem(i.ToString(), 0);
-                    item.Tag = i;
-                    listView1.Items.Add(item);
+                    using (BinaryReader bin = new BinaryReader(new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    {
+                        int length = bin.ReadInt32();
+                        bin.BaseStream.Seek(length, SeekOrigin.Current);
+                        while (bin.BaseStream.Length != bin.BaseStream.Position)
+                        {
+                            int i = bin.ReadInt32();
+                            ListViewItem item = new ListViewItem(i.ToString(), 0);
+                            item.Tag = i;
+                            listView1.Items.Add(item);
+                        }
+                    }
                 }
             }
-            listView1.TileSize = new Size(Art.ItemSizeWidth, Art.ItemSizeHeight);
+            else
+            {
+                for (int i = 0; i < 0x4000; i++)
+                {
+                    if (Art.IsValidStatic(i))
+                    {
+                        ListViewItem item = new ListViewItem(i.ToString(), 0);
+                        item.Tag = i;
+                        listView1.Items.Add(item);
+                    }
+                }
+                if (FileIndex.UseHashFile)
+                    MakeHashFile();
+            }
+            listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
 
             listView1.EndUpdate();
         }
@@ -122,7 +169,7 @@ namespace Controls
                 else
                     e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
 
-                if (Art.ItemClip)
+                if (Options.ArtItemClip)
                 {
                     e.Graphics.DrawImage(bmp, e.Bounds.X + 1, e.Bounds.Y + 1,
                                          new Rectangle(0, 0, e.Bounds.Width - 1, e.Bounds.Height - 1),
@@ -200,6 +247,21 @@ namespace Controls
                 if (info != null)
                     DetailTextBox.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount, info.FrameInterval));
             }
+        }
+
+        private void OnClickPreload(object sender, EventArgs e)
+        {
+            ProgressBar.Minimum = 1;
+            ProgressBar.Maximum = listView1.Items.Count;
+            ProgressBar.Step = 1;
+            ProgressBar.Value = 1;
+            ProgressBar.Visible = true;
+            foreach (ListViewItem item in listView1.Items)
+            {
+                Art.GetStatic((int)item.Tag);
+                ProgressBar.PerformStep();
+            }
+            ProgressBar.Visible = false;
         }
     }
 }

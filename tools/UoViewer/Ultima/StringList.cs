@@ -2,17 +2,18 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections;
+using System.Data;
 
 namespace Ultima
 {
 	public sealed class StringList
 	{
-		private Hashtable m_Table;
-		private StringEntry[] m_Entries;
+		private ArrayList m_Entries;
 		private string m_Language;
+        private int m_Header1;
+        private short m_Header2;
 
-		public StringEntry[] Entries{ get{ return m_Entries; } }
-		public Hashtable Table{ get{ return m_Table; } }
+        public ArrayList Entries { get { return m_Entries; } set { m_Entries = value; } }
 		public string Language{ get{ return m_Language; } }
 
 		private static byte[] m_Buffer = new byte[1024];
@@ -20,27 +21,25 @@ namespace Ultima
 		public StringList( string language )
 		{
 			m_Language = language;
-			m_Table = new Hashtable();
 
 			string path = Client.GetFilePath( String.Format( "cliloc.{0}", language ) );
 
 			if ( path == null )
 			{
-				m_Entries = new StringEntry[0];
+                m_Entries = new ArrayList(0);
 				return;
 			}
-
-			ArrayList list = new ArrayList();
+            m_Entries = new ArrayList();
 
 			using ( BinaryReader bin = new BinaryReader( new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read ) ) )
 			{
-				bin.ReadInt32();
-				bin.ReadInt16();
+				m_Header1=bin.ReadInt32();
+				m_Header2=bin.ReadInt16();
 
 				while ( bin.BaseStream.Length != bin.BaseStream.Position )
 				{
 					int number = bin.ReadInt32();
-					bin.ReadByte();
+					byte flag = bin.ReadByte();
 					int length = bin.ReadInt16();
 
 					if ( length > m_Buffer.Length )
@@ -49,12 +48,123 @@ namespace Ultima
 					bin.Read( m_Buffer, 0, length );
 					string text = Encoding.UTF8.GetString( m_Buffer, 0, length );
 
-					list.Add( new StringEntry( number, text ) );
-					m_Table[number] = text;
+					m_Entries.Add( new StringEntry( number, text, flag ) );
 				}
 			}
-
-			m_Entries = (StringEntry[])list.ToArray( typeof( StringEntry ) );
 		}
+
+        public void SaveStringList(string FileName)
+        {
+            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryWriter bin = new BinaryWriter(fs);
+                bin.Write(m_Header1);
+                bin.Write(m_Header2);
+                Entries.Sort(new StringList.NumberComparerAsc());
+                foreach (StringEntry entry in Entries)
+                {
+                    bin.Write(entry.Number);
+                    bin.Write((byte)entry.Flag);
+                    byte[] utf8String = Encoding.UTF8.GetBytes(entry.Text);
+                    ushort length=(ushort)utf8String.Length;
+                    bin.Write(length);
+                    bin.Write(utf8String);
+                }
+            }
+        }
+
+        public class NumberComparerAsc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                if (entryA.Number == entryB.Number)
+                    return 0;
+                else if (entryA.Number < entryB.Number)
+                    return -1;
+                else
+                    return 1;
+            }
+        }
+
+        public class NumberComparerDesc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                if (entryA.Number == entryB.Number)
+                    return 0;
+                else if (entryA.Number < entryB.Number)
+                    return 1;
+                else
+                    return -1;
+            }
+        }
+
+        public class FlagComparerAsc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                if ((byte)entryA.Flag == (byte)entryB.Flag)
+                {
+                    if (entryA.Number == entryB.Number)
+                        return 0;
+                    else if (entryA.Number < entryB.Number)
+                        return -1;
+                    else
+                        return 1;
+                }
+                else if ((byte)entryA.Flag < (byte)entryB.Flag)
+                    return -1;
+                else
+                    return 1;
+            }
+        }
+
+        public class FlagComparerDesc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                if ((byte)entryA.Flag == (byte)entryB.Flag)
+                {
+                    if (entryA.Number == entryB.Number)
+                        return 0;
+                    else if (entryA.Number < entryB.Number)
+                        return 1;
+                    else
+                        return -1;
+                }
+                else if ((byte)entryA.Flag < (byte)entryB.Flag)
+                    return 1;
+                else
+                    return -1;
+            }
+        }
+
+        public class TextComparerAsc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                return String.Compare(entryA.Text, entryB.Text);
+            }
+        }
+
+        public class TextComparerDesc : IComparer
+        {
+            public int Compare(object objA, object objB)
+            {
+                StringEntry entryA = (StringEntry)objA;
+                StringEntry entryB = (StringEntry)objB;
+                return String.Compare(entryB.Text, entryA.Text);
+            }
+        }
 	}
 }

@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClilocAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClilocAdd.Designer.cs">
+      <DependentUpon>ClilocAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fonts.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -191,6 +197,7 @@
     <Compile Include="Multis.Designer.cs">
       <DependentUpon>Multis.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -221,6 +228,12 @@
     <Compile Include="TextureAlternative.Designer.cs">
       <DependentUpon>TextureAlternative.cs</DependentUpon>
     </Compile>
+    <Compile Include="TileDatas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TileDatas.Designer.cs">
+      <DependentUpon>TileDatas.cs</DependentUpon>
+    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +243,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ClilocAdd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ClilocAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Fonts.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Fonts.cs</DependentUpon>
@@ -330,6 +347,10 @@
     <EmbeddedResource Include="TextureAlternative.resx">
       <SubType>Designer</SubType>
       <DependentUpon>TextureAlternative.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TileDatas.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TileDatas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

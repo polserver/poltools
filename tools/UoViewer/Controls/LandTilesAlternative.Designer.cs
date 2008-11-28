@@ -41,11 +41,11 @@ namespace Controls
         {
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.namelabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.FlagsLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
@@ -72,29 +72,6 @@ namespace Controls
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // pictureBox
-            // 
-            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.pictureBox.Size = new System.Drawing.Size(602, 302);
-            this.pictureBox.TabIndex = 3;
-            this.pictureBox.TabStop = false;
-            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
-            this.pictureBox.Click += new System.EventHandler(this.OnClick);
-            this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.pictureBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(602, 302);
-            this.panel1.TabIndex = 3;
-            // 
             // namelabel
             // 
             this.namelabel.AutoSize = false;
@@ -117,11 +94,35 @@ namespace Controls
             // 
             // FlagsLabel
             // 
+            this.FlagsLabel.AutoSize = false;
             this.FlagsLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(36, 17);
+            this.FlagsLabel.Size = new System.Drawing.Size(270, 17);
             this.FlagsLabel.Text = "Flags:";
             this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.pictureBox.Size = new System.Drawing.Size(602, 302);
+            this.pictureBox.TabIndex = 3;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
+            this.pictureBox.Click += new System.EventHandler(this.OnClick);
+            this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pictureBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(602, 302);
+            this.panel1.TabIndex = 3;
             // 
             // LandTilesAlternative
             // 

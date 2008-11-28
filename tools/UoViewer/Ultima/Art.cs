@@ -7,11 +7,6 @@ namespace Ultima
 {
     public sealed class Art
 	{
-        // Props for ItemControls
-        public static int ItemSizeWidth = 48;
-        public static int ItemSizeHeight = 48;
-        public static bool ItemClip = false;
-
 		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0x10000, 4 );
 		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
