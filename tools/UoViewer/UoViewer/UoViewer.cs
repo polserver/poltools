@@ -26,7 +26,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "2.0";
+        private static string Version = "2.0b";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;

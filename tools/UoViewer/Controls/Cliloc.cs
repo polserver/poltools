@@ -240,5 +240,11 @@ namespace Controls
             }
             dataGridView1.Refresh();
         }
+
+        private void OnChange(object sender, DataGridViewCellEventArgs e)
+        {
+            if (((StringEntry)cliloc.Entries[e.RowIndex]).Text == null)
+                ((StringEntry)cliloc.Entries[e.RowIndex]).Text = "";
+        }
     }
 }
