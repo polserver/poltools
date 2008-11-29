@@ -43,39 +43,39 @@ namespace Controls
             this.tabPageItems = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.pictureBoxItem = new System.Windows.Forms.PictureBox();
-            this.tabPageLand = new System.Windows.Forms.TabPage();
             this.treeViewItem = new System.Windows.Forms.TreeView();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxAnim = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxWeight = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxQuality = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBoxQuantity = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBoxValue = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBoxStackOff = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBoxHue = new System.Windows.Forms.TextBox();
+            this.pictureBoxItem = new System.Windows.Forms.PictureBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxUnk3 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxUnk2 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxUnk1 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.textBoxHeigth = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBoxUnk3 = new System.Windows.Forms.TextBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxValue = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxStackOff = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBoxHue = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxQuantity = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxQuality = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxWeight = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.textBoxAnim = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tabPageLand = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.treeViewLand = new System.Windows.Forms.TreeView();
@@ -99,13 +99,13 @@ namespace Controls
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxItem)).BeginInit();
-            this.tabPageLand.SuspendLayout();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
+            this.tabPageLand.SuspendLayout();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
@@ -200,26 +200,6 @@ namespace Controls
             this.splitContainer2.SplitterDistance = 186;
             this.splitContainer2.TabIndex = 0;
             // 
-            // pictureBoxItem
-            // 
-            this.pictureBoxItem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxItem.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxItem.Name = "pictureBoxItem";
-            this.pictureBoxItem.Size = new System.Drawing.Size(201, 102);
-            this.pictureBoxItem.TabIndex = 0;
-            this.pictureBoxItem.TabStop = false;
-            // 
-            // tabPageLand
-            // 
-            this.tabPageLand.Controls.Add(this.splitContainer5);
-            this.tabPageLand.Location = new System.Drawing.Point(4, 22);
-            this.tabPageLand.Name = "tabPageLand";
-            this.tabPageLand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLand.Size = new System.Drawing.Size(611, 298);
-            this.tabPageLand.TabIndex = 1;
-            this.tabPageLand.Text = "LandTiles";
-            this.tabPageLand.UseVisualStyleBackColor = true;
-            // 
             // treeViewItem
             // 
             this.treeViewItem.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -229,133 +209,30 @@ namespace Controls
             this.treeViewItem.TabIndex = 0;
             this.treeViewItem.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewItem);
             // 
-            // textBoxName
+            // pictureBoxItem
             // 
-            this.textBoxName.Location = new System.Drawing.Point(44, 3);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(135, 20);
-            this.textBoxName.TabIndex = 0;
+            this.pictureBoxItem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxItem.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxItem.Name = "pictureBoxItem";
+            this.pictureBoxItem.Size = new System.Drawing.Size(201, 102);
+            this.pictureBoxItem.TabIndex = 0;
+            this.pictureBoxItem.TabStop = false;
             // 
-            // label1
+            // label12
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(4, 110);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(33, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Unk3";
             // 
-            // label2
+            // textBoxUnk3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(185, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Anim";
-            // 
-            // textBoxAnim
-            // 
-            this.textBoxAnim.Location = new System.Drawing.Point(221, 3);
-            this.textBoxAnim.Name = "textBoxAnim";
-            this.textBoxAnim.Size = new System.Drawing.Size(100, 20);
-            this.textBoxAnim.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 32);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Weight";
-            // 
-            // textBoxWeight
-            // 
-            this.textBoxWeight.Location = new System.Drawing.Point(45, 29);
-            this.textBoxWeight.Name = "textBoxWeight";
-            this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
-            this.textBoxWeight.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(106, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(39, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Quality";
-            // 
-            // textBoxQuality
-            // 
-            this.textBoxQuality.Location = new System.Drawing.Point(161, 29);
-            this.textBoxQuality.Name = "textBoxQuality";
-            this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
-            this.textBoxQuality.TabIndex = 6;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(218, 32);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Quantity";
-            // 
-            // textBoxQuantity
-            // 
-            this.textBoxQuantity.Location = new System.Drawing.Point(270, 29);
-            this.textBoxQuantity.Name = "textBoxQuantity";
-            this.textBoxQuantity.Size = new System.Drawing.Size(51, 20);
-            this.textBoxQuantity.TabIndex = 8;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(218, 58);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Value";
-            // 
-            // textBoxValue
-            // 
-            this.textBoxValue.Location = new System.Drawing.Point(270, 55);
-            this.textBoxValue.Name = "textBoxValue";
-            this.textBoxValue.Size = new System.Drawing.Size(51, 20);
-            this.textBoxValue.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(106, 58);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "StackOff";
-            // 
-            // textBoxStackOff
-            // 
-            this.textBoxStackOff.Location = new System.Drawing.Point(161, 55);
-            this.textBoxStackOff.Name = "textBoxStackOff";
-            this.textBoxStackOff.Size = new System.Drawing.Size(51, 20);
-            this.textBoxStackOff.TabIndex = 12;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 58);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(27, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Hue";
-            // 
-            // textBoxHue
-            // 
-            this.textBoxHue.Location = new System.Drawing.Point(45, 55);
-            this.textBoxHue.Name = "textBoxHue";
-            this.textBoxHue.Size = new System.Drawing.Size(51, 20);
-            this.textBoxHue.TabIndex = 10;
+            this.textBoxUnk3.Location = new System.Drawing.Point(45, 107);
+            this.textBoxUnk3.Name = "textBoxUnk3";
+            this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
+            this.textBoxUnk3.TabIndex = 22;
             // 
             // label9
             // 
@@ -405,31 +282,117 @@ namespace Controls
             this.textBoxHeigth.Size = new System.Drawing.Size(51, 20);
             this.textBoxHeigth.TabIndex = 16;
             // 
-            // label12
+            // label6
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 110);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(33, 13);
-            this.label12.TabIndex = 23;
-            this.label12.Text = "Unk3";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(218, 58);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Value";
             // 
-            // textBoxUnk3
+            // textBoxValue
             // 
-            this.textBoxUnk3.Location = new System.Drawing.Point(45, 107);
-            this.textBoxUnk3.Name = "textBoxUnk3";
-            this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
-            this.textBoxUnk3.TabIndex = 22;
+            this.textBoxValue.Location = new System.Drawing.Point(270, 55);
+            this.textBoxValue.Name = "textBoxValue";
+            this.textBoxValue.Size = new System.Drawing.Size(51, 20);
+            this.textBoxValue.TabIndex = 14;
             // 
-            // checkedListBox1
+            // label7
             // 
-            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(0, 0);
-            this.checkedListBox1.MultiColumn = true;
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(400, 124);
-            this.checkedListBox1.TabIndex = 0;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(106, 58);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(49, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "StackOff";
+            // 
+            // textBoxStackOff
+            // 
+            this.textBoxStackOff.Location = new System.Drawing.Point(161, 55);
+            this.textBoxStackOff.Name = "textBoxStackOff";
+            this.textBoxStackOff.Size = new System.Drawing.Size(51, 20);
+            this.textBoxStackOff.TabIndex = 12;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(4, 58);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(27, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Hue";
+            // 
+            // textBoxHue
+            // 
+            this.textBoxHue.Location = new System.Drawing.Point(45, 55);
+            this.textBoxHue.Name = "textBoxHue";
+            this.textBoxHue.Size = new System.Drawing.Size(51, 20);
+            this.textBoxHue.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(218, 32);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Quantity";
+            // 
+            // textBoxQuantity
+            // 
+            this.textBoxQuantity.Location = new System.Drawing.Point(270, 29);
+            this.textBoxQuantity.Name = "textBoxQuantity";
+            this.textBoxQuantity.Size = new System.Drawing.Size(51, 20);
+            this.textBoxQuantity.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(106, 32);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Quality";
+            // 
+            // textBoxQuality
+            // 
+            this.textBoxQuality.Location = new System.Drawing.Point(161, 29);
+            this.textBoxQuality.Name = "textBoxQuality";
+            this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
+            this.textBoxQuality.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Weight";
+            // 
+            // textBoxWeight
+            // 
+            this.textBoxWeight.Location = new System.Drawing.Point(45, 29);
+            this.textBoxWeight.Name = "textBoxWeight";
+            this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
+            this.textBoxWeight.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Name";
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(44, 3);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(135, 20);
+            this.textBoxName.TabIndex = 0;
             // 
             // splitContainer3
             // 
@@ -453,6 +416,22 @@ namespace Controls
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 25;
             // 
+            // textBoxAnim
+            // 
+            this.textBoxAnim.Location = new System.Drawing.Point(221, 3);
+            this.textBoxAnim.Name = "textBoxAnim";
+            this.textBoxAnim.Size = new System.Drawing.Size(100, 20);
+            this.textBoxAnim.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(185, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Anim";
+            // 
             // splitContainer4
             // 
             this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -472,20 +451,30 @@ namespace Controls
             this.splitContainer4.Panel2.Controls.Add(this.button2);
             this.splitContainer4.Panel2.Controls.Add(this.button1);
             this.splitContainer4.Size = new System.Drawing.Size(400, 157);
-            this.splitContainer4.SplitterDistance = 126;
+            this.splitContainer4.SplitterDistance = 128;
             this.splitContainer4.SplitterWidth = 2;
             this.splitContainer4.TabIndex = 1;
             // 
-            // button1
+            // checkedListBox1
             // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(2, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(87, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Save Changes";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickSaveChangesItem);
+            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(0, 0);
+            this.checkedListBox1.MultiColumn = true;
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(400, 124);
+            this.checkedListBox1.TabIndex = 0;
+            // 
+            // button3
+            // 
+            this.button3.AutoSize = true;
+            this.button3.Location = new System.Drawing.Point(188, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(83, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Save Tiledata";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.OnClickSaveTiledata);
             // 
             // button2
             // 
@@ -498,16 +487,27 @@ namespace Controls
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.OnClickExportItems);
             // 
-            // button3
+            // button1
             // 
-            this.button3.AutoSize = true;
-            this.button3.Location = new System.Drawing.Point(188, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(83, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Save Tiledata";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.OnClickSaveTiledata);
+            this.button1.AutoSize = true;
+            this.button1.Location = new System.Drawing.Point(2, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(87, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Save Changes";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnClickSaveChangesItem);
+            // 
+            // tabPageLand
+            // 
+            this.tabPageLand.Controls.Add(this.splitContainer5);
+            this.tabPageLand.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLand.Name = "tabPageLand";
+            this.tabPageLand.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLand.Size = new System.Drawing.Size(611, 298);
+            this.tabPageLand.TabIndex = 1;
+            this.tabPageLand.Text = "LandTiles";
+            this.tabPageLand.UseVisualStyleBackColor = true;
             // 
             // splitContainer5
             // 
@@ -637,7 +637,7 @@ namespace Controls
             this.splitContainer8.Panel2.Controls.Add(this.button5);
             this.splitContainer8.Panel2.Controls.Add(this.button6);
             this.splitContainer8.Size = new System.Drawing.Size(400, 263);
-            this.splitContainer8.SplitterDistance = 234;
+            this.splitContainer8.SplitterDistance = 236;
             this.splitContainer8.SplitterWidth = 2;
             this.splitContainer8.TabIndex = 1;
             // 
@@ -702,7 +702,6 @@ namespace Controls
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxItem)).EndInit();
-            this.tabPageLand.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -711,6 +710,7 @@ namespace Controls
             this.splitContainer4.Panel2.ResumeLayout(false);
             this.splitContainer4.Panel2.PerformLayout();
             this.splitContainer4.ResumeLayout(false);
+            this.tabPageLand.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             this.splitContainer5.Panel2.PerformLayout();

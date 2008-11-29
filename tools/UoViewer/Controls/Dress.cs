@@ -158,12 +158,18 @@ namespace Controls
                         int gump = ani + 50000;
                         int hue=0;
                         ConvertBody(ref ani, ref gump, ref hue);
-                        ConvertGump(ref gump, ref hue);
                         if (female)
                         {
-                            if (Gumps.IsValidIndex(gump + 10000))
-                                gump += 10000;
+                            gump += 10000;
+                            if (!Gumps.IsValidIndex(gump))  // female gump.def entry?
+                                ConvertGump(ref gump, ref hue);
+                            if (!Gumps.IsValidIndex(gump)) // nope so male gump
+                                gump -= 10000;
                         }
+
+                        if (!Gumps.IsValidIndex(gump)) // male (or invalid female)
+                            ConvertGump(ref gump, ref hue);
+
                         Bitmap bmp = Gumps.GetGump(gump);
                         if (bmp == null)
                             continue;
@@ -348,7 +354,8 @@ namespace Controls
                         int hue = 0;
                         int gump = ani + 50000;
                         ConvertBody(ref ani, ref gump, ref hue);
-                        ConvertGump(ref gump, ref hue);
+                        if (!Gumps.IsValidIndex(gump))
+                            ConvertGump(ref gump, ref hue);
                         bool hasani = Animations.IsActionDefined(ani, 0, 0, 0, false);
                         bool hasgump = Gumps.IsValidIndex(gump);
                         TreeNode node = new TreeNode(String.Format("0x{0:X4} (0x{1:X2}) {2}",
@@ -382,12 +389,17 @@ namespace Controls
             int hue=0;
             Animations.Translate(ref ani);
             ConvertBody(ref ani, ref gump, ref hue);
-            ConvertGump(ref gump, ref hue);
             if (female)
             {
-                if (Gumps.IsValidIndex(gump + 10000))
-                    gump += 10000;
+                gump += 10000;
+                if (!Gumps.IsValidIndex(gump))  // female gump.def entry?
+                    ConvertGump(ref gump, ref hue);
+                if (!Gumps.IsValidIndex(gump)) // nope so male gump
+                    gump -=10000;
             }
+
+            if (!Gumps.IsValidIndex(gump)) // male (or invalid female)
+                ConvertGump(ref gump, ref hue);
 
             Bitmap bmp=Gumps.GetGump(gump);
             Bitmap dress = new Bitmap(pictureBoxDress.Width, pictureBoxDress.Height);
@@ -471,12 +483,18 @@ namespace Controls
             int hue = 0;
             Animations.Translate(ref ani);
             ConvertBody(ref ani, ref gumpid, ref hue);
-            ConvertGump(ref gumpid, ref hue);
             if (female)
             {
-                if (Gumps.IsValidIndex(gumpid + 10000))
-                    gumpid+=10000;
+                gumpid += 10000;
+                if (!Gumps.IsValidIndex(gumpid))  // female gump.def entry?
+                    ConvertGump(ref gumpid, ref hue);
+                if (!Gumps.IsValidIndex(gumpid)) // nope so male gump
+                    gumpid -= 10000;
             }
+
+            if (!Gumps.IsValidIndex(gumpid)) // male (or invalid female)
+                ConvertGump(ref gumpid, ref hue);
+
             TextBox.Clear();
             TextBox.AppendText(String.Format("Objtype: 0x{0:X4}  Layer: 0x{1:X2}\n",
                 objtype,
@@ -688,6 +706,7 @@ namespace Controls
 	{
 		public static Hashtable m_Entries;
 
+        // Seems only used if Gump is invalid
 		static GumpTable()
         {
             string path = Client.GetFilePath("gump.def");
