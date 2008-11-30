@@ -13,30 +13,35 @@ namespace Ultima
 
 		static Verdata()
 		{
-			string path = Client.GetFilePath( "verdata.mul" );
-
-			if ( path == null )
-			{
-				m_Patches = new Entry5D[0];
-				m_Stream = Stream.Null;
-			}
-			else
-			{
-				m_Stream = new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read );
-				BinaryReader bin = new BinaryReader( m_Stream );
-
-				m_Patches = new Entry5D[bin.ReadInt32()];
-
-				for ( int i = 0; i < m_Patches.Length; ++i )
-				{
-					m_Patches[i].file = bin.ReadInt32();
-					m_Patches[i].index = bin.ReadInt32();
-					m_Patches[i].lookup = bin.ReadInt32();
-					m_Patches[i].length = bin.ReadInt32();
-					m_Patches[i].extra = bin.ReadInt32();
-				}
-			}
+            Initialize();
 		}
+
+        public static void Initialize()
+        {
+            string path = Client.GetFilePath("verdata.mul");
+
+            if (path == null)
+            {
+                m_Patches = new Entry5D[0];
+                m_Stream = Stream.Null;
+            }
+            else
+            {
+                m_Stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                BinaryReader bin = new BinaryReader(m_Stream);
+
+                m_Patches = new Entry5D[bin.ReadInt32()];
+
+                for (int i = 0; i < m_Patches.Length; ++i)
+                {
+                    m_Patches[i].file = bin.ReadInt32();
+                    m_Patches[i].index = bin.ReadInt32();
+                    m_Patches[i].lookup = bin.ReadInt32();
+                    m_Patches[i].length = bin.ReadInt32();
+                    m_Patches[i].extra = bin.ReadInt32();
+                }
+            }
+        }
 	}
 
 	public struct Entry5D

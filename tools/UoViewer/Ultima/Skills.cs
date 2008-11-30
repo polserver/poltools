@@ -13,6 +13,10 @@ namespace Ultima
         {
         }
 
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, -1);
+        }
         public struct SkillInfo
         {
             public bool IsAction;

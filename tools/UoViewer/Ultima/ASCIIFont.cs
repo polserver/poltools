@@ -55,53 +55,58 @@ namespace Ultima
 
 		static ASCIIText()
 		{
-			string path = Client.GetFilePath( "fonts.mul" );
-
-			if( path != null )
-			{
-				using( BinaryReader reader = new BinaryReader( new FileStream( path, FileMode.Open ) ) )
-				{
-					for( int i = 0; i < 10; ++i )
-					{
-						Fonts[ i ] = new ASCIIFont();
-
-						byte header = reader.ReadByte();
-
-						for( int k = 0; k < 224; ++k )
-						{
-							byte width = reader.ReadByte();
-							byte height = reader.ReadByte();
-							reader.ReadByte(); // delimeter?
-
-							if( width > 0 && height > 0 )
-							{
-								if( height > Fonts[ i ].Height && k < 96 )
-								{
-									Fonts[ i ].Height = height;
-								}
-
-								Bitmap bmp = new Bitmap( width, height );
-
-								for( int y = 0; y < height; ++y )
-								{
-									for( int x = 0; x < width; ++x )
-									{
-										short pixel = (short)( reader.ReadByte() | ( reader.ReadByte() << 8 ) );
-
-										if( pixel != 0 )
-										{
-											bmp.SetPixel( x, y, Color.FromArgb( ( pixel & 0x7C00 ) >> 7, ( pixel & 0x3E0 ) >> 2, ( pixel & 0x1F ) << 3 ) );
-										}
-									}
-								}
-
-								Fonts[ i ].Characters[ k ] = bmp;
-							}
-						}
-					}
-				}
-			}
+            Initialize();
 		}
+
+        public static void Initialize()
+        {
+            string path = Client.GetFilePath("fonts.mul");
+
+            if (path != null)
+            {
+                using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open)))
+                {
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        Fonts[i] = new ASCIIFont();
+
+                        byte header = reader.ReadByte();
+
+                        for (int k = 0; k < 224; ++k)
+                        {
+                            byte width = reader.ReadByte();
+                            byte height = reader.ReadByte();
+                            reader.ReadByte(); // delimeter?
+
+                            if (width > 0 && height > 0)
+                            {
+                                if (height > Fonts[i].Height && k < 96)
+                                {
+                                    Fonts[i].Height = height;
+                                }
+
+                                Bitmap bmp = new Bitmap(width, height);
+
+                                for (int y = 0; y < height; ++y)
+                                {
+                                    for (int x = 0; x < width; ++x)
+                                    {
+                                        short pixel = (short)(reader.ReadByte() | (reader.ReadByte() << 8));
+
+                                        if (pixel != 0)
+                                        {
+                                            bmp.SetPixel(x, y, Color.FromArgb((pixel & 0x7C00) >> 7, (pixel & 0x3E0) >> 2, (pixel & 0x1F) << 3));
+                                        }
+                                    }
+                                }
+
+                                Fonts[i].Characters[k] = bmp;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 		public unsafe static Bitmap DrawText( int fontId, string text, short hueId )
 		{

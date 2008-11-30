@@ -14,6 +14,12 @@ namespace Ultima
 
         //public static Bitmap[] Cache { get { return m_Cache; } }
 
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("lightidx.mul", "light.mul", 0x100, -1);
+            m_Cache = new Bitmap[0x100];
+        }
+
         public static int GetCount()
         {
             string idxPath=Client.GetFilePath("lightidx.mul");

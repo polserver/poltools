@@ -28,6 +28,13 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
+
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
             int i = (int)e.Item.Tag;
@@ -62,7 +69,9 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             listView1.BeginUpdate();
+            listView1.Clear();
             ListViewItem item;
             for (int i = 0; i < 0x1000; i++)
             {

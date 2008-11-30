@@ -29,9 +29,17 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             listView1.BeginUpdate();
+            listView1.Clear();
 
             for (int i = 0; i < 0x4000; i++)
             {

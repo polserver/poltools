@@ -130,6 +130,7 @@ namespace UoViewer
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(627, 350);
             this.tabControl2.TabIndex = 1;
+            this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.OnSelectedIndexChanged);
             // 
             // Start
             // 
@@ -455,7 +456,7 @@ namespace UoViewer
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
-            this.controlTileData.Size = new System.Drawing.Size(619, 324);
+            this.controlTileData.Size = new System.Drawing.Size(192, 74);
             this.controlTileData.TabIndex = 0;
             // 
             // toolStrip1
@@ -487,28 +488,29 @@ namespace UoViewer
             // 
             this.AlwaysOnTopMenuitem.CheckOnClick = true;
             this.AlwaysOnTopMenuitem.Name = "AlwaysOnTopMenuitem";
-            this.AlwaysOnTopMenuitem.Size = new System.Drawing.Size(165, 22);
+            this.AlwaysOnTopMenuitem.Size = new System.Drawing.Size(157, 22);
             this.AlwaysOnTopMenuitem.Text = "Always On Top";
             this.AlwaysOnTopMenuitem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
             // pathSettingsMenuItem
             // 
             this.pathSettingsMenuItem.Name = "pathSettingsMenuItem";
-            this.pathSettingsMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.pathSettingsMenuItem.Size = new System.Drawing.Size(157, 22);
             this.pathSettingsMenuItem.Text = "Path Settings";
             this.pathSettingsMenuItem.Click += new System.EventHandler(this.click_path);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(162, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(154, 6);
             // 
             // restartNeededMenuItem
             // 
             this.restartNeededMenuItem.ForeColor = System.Drawing.Color.DarkRed;
             this.restartNeededMenuItem.Name = "restartNeededMenuItem";
-            this.restartNeededMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.restartNeededMenuItem.Text = "Restart Needed!";
+            this.restartNeededMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.restartNeededMenuItem.Text = "Reload Files";
+            this.restartNeededMenuItem.Click += new System.EventHandler(this.Restart);
             // 
             // UoViewer
             // 

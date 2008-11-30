@@ -31,30 +31,35 @@ namespace Ultima
 
 		static Sounds()
 		{
-            m_Indexstream = new FileStream(Client.GetFilePath("soundidx.mul"), FileMode.Open,FileAccess.Read,FileShare.Read);
-			m_Index = new BinaryReader( m_Indexstream );
-			m_Stream = new FileStream( Client.GetFilePath( "sound.mul" ), FileMode.Open,FileAccess.Read,FileShare.Read );
-			Regex reg = new Regex( @"(\d{1,3}) \x7B(\d{1,3})\x7D (\d{1,3})", RegexOptions.Compiled );
-
-			m_Translations = new Dictionary<int, int>();
-
-			string line;
-			using( StreamReader reader = new StreamReader( Client.GetFilePath( "Sound.def" ) ) )
-			{
-				while( ( line = reader.ReadLine() ) != null )
-				{
-					if( ( ( line = line.Trim() ).Length != 0 ) && !line.StartsWith( "#" ) )
-					{
-						Match match = reg.Match( line );
-
-						if( match.Success )
-						{
-							m_Translations.Add( int.Parse( match.Groups[ 1 ].Value ), int.Parse( match.Groups[ 2 ].Value ) );
-						}
-					}
-				}
-			}
+            Initialize();
 		}
+
+        public static void Initialize()
+        {
+            m_Indexstream = new FileStream(Client.GetFilePath("soundidx.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            m_Index = new BinaryReader(m_Indexstream);
+            m_Stream = new FileStream(Client.GetFilePath("sound.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            Regex reg = new Regex(@"(\d{1,3}) \x7B(\d{1,3})\x7D (\d{1,3})", RegexOptions.Compiled);
+
+            m_Translations = new Dictionary<int, int>();
+
+            string line;
+            using (StreamReader reader = new StreamReader(Client.GetFilePath("Sound.def")))
+            {
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (((line = line.Trim()).Length != 0) && !line.StartsWith("#"))
+                    {
+                        Match match = reg.Match(line);
+
+                        if (match.Success)
+                        {
+                            m_Translations.Add(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
+                        }
+                    }
+                }
+            }
+        }
 
 		public static UOSound GetSound( int soundID )
 		{

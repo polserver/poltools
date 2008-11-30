@@ -34,13 +34,23 @@ namespace Controls
             ProgressBar.Visible = false;
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(EventArgs.Empty);
+        }
         protected override void OnLoad(EventArgs e)
         {
+            Loaded = true;
+            listBox.BeginUpdate();
+            listBox.Items.Clear();
             for (int i = 0; i < 0xFFFF; i++)
             {
                 if (Gumps.IsValidIndex(i))
                     listBox.Items.Add(i);
             }
+            listBox.EndUpdate();
             pictureBox.BackgroundImage = Gumps.GetGump(0);
             listBox.SelectedIndex = 0;
         }
@@ -122,16 +132,32 @@ namespace Controls
 
         private void OnClickPreload(object sender, EventArgs e)
         {
+            if (PreLoader.IsBusy)
+                return;
             ProgressBar.Minimum = 1;
             ProgressBar.Maximum = listBox.Items.Count;
             ProgressBar.Step = 1;
             ProgressBar.Value = 1;
             ProgressBar.Visible = true;
+            PreLoader.RunWorkerAsync();
+        }
+
+        private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
+        {
             for (int i = 0; i < listBox.Items.Count; i++)
             {
                 Gumps.GetGump(int.Parse(listBox.Items[i].ToString()));
-                ProgressBar.PerformStep();
+                PreLoader.ReportProgress(1);
             }
+        }
+
+        private void PreLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.PerformStep();
+        }
+
+        private void PreLoaderCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             ProgressBar.Visible = false;
         }
     }

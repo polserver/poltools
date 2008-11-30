@@ -11,7 +11,12 @@ namespace Ultima
     public sealed class Animdata
     {
         public static Hashtable AnimData;
-        unsafe static Animdata()
+        static Animdata()
+        {
+            Initialize();
+        }
+
+        public unsafe static void Initialize()
         {
             AnimData = new Hashtable();
             string path = Client.GetFilePath("animdata.mul");
@@ -47,7 +52,7 @@ namespace Ultima
                 }
             }
         }
-        public unsafe static Data GetAnimData(int id)
+        public static Data GetAnimData(int id)
         {
             if (AnimData.Contains(id))
                 return ((Data)AnimData[id]);

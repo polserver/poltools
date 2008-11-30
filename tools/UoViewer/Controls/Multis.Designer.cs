@@ -196,12 +196,12 @@ namespace Controls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 26);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
             // 

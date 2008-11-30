@@ -115,8 +115,15 @@ namespace Controls
                 return -1;
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             ItemList = new ArrayList();
             if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
             {
@@ -329,16 +336,32 @@ namespace Controls
 
         private void OnClickPreload(object sender, EventArgs e)
         {
+            if (PreLoader.IsBusy)
+                return;
             ProgressBar.Minimum = 1;
             ProgressBar.Maximum = ItemList.Count;
             ProgressBar.Step = 1;
             ProgressBar.Value = 1;
             ProgressBar.Visible = true;
+            PreLoader.RunWorkerAsync();
+        }
+
+        private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
+        {
             foreach (int item in ItemList)
             {
                 Art.GetStatic(item);
-                ProgressBar.PerformStep();
+                PreLoader.ReportProgress(1);
             }
+        }
+
+        private void PreLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.PerformStep();
+        }
+
+        private void PreLoaderCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             ProgressBar.Visible = false;
         }
     }

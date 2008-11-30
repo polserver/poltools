@@ -13,6 +13,12 @@ namespace Ultima
         private static Bitmap[] m_Cache = new Bitmap[0x1000];
         //public static Bitmap[] Cache { get { return m_Cache; } }
 
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
+            m_Cache = new Bitmap[0x1000];
+
+        }
         public static bool TestTexture(int index)
         {
             int length, extra;

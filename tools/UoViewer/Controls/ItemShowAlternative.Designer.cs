@@ -51,6 +51,7 @@ namespace Controls
             this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.PreloadItems = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.PreLoader = new System.ComponentModel.BackgroundWorker();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -200,6 +201,13 @@ namespace Controls
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
+            // PreLoader
+            // 
+            this.PreLoader.WorkerReportsProgress = true;
+            this.PreLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreLoaderDoWork);
+            this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
+            this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
+            // 
             // ItemShowAlternative
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,6 +246,7 @@ namespace Controls
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.ToolStripStatusLabel PreloadItems;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
+        private System.ComponentModel.BackgroundWorker PreLoader;
 
     }
 }

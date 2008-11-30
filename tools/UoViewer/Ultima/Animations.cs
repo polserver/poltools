@@ -23,136 +23,142 @@ namespace Ultima
 
 		static BodyConverter()
 		{
-			string path = Client.GetFilePath( "bodyconv.def" );
-
-			if ( path == null )
-				return;
-
-			ArrayList list1 = new ArrayList(), list2 = new ArrayList(), list3 = new ArrayList(), list4 = new ArrayList();
-			int max1 = 0, max2 = 0, max3 = 0, max4 = 0;
-
-			using ( StreamReader ip = new StreamReader( path ) )
-			{
-				string line;
-
-				while ( (line = ip.ReadLine()) != null )
-				{
-					if ( (line=line.Trim()).Length == 0 || line.StartsWith("#") )
-						continue;
-
-					try
-					{
-						string[] split = line.Split( '\t' );
-
-						int original = System.Convert.ToInt32( split[0] );
-						int anim2 = System.Convert.ToInt32( split[1] );
-						int anim3;
-						int anim4;
-						int anim5;
-
-						try
-						{
-							anim3 = System.Convert.ToInt32( split[2] );
-						}
-						catch
-						{
-							anim3 = -1;
-						}
-
-						try
-						{
-							anim4 = System.Convert.ToInt32( split[ 3 ] );
-						} catch
-						{
-							anim4 = -1;
-						}
-						
-						try
-						{
-							anim5 = System.Convert.ToInt32( split[4] );
-						}
-						catch
-						{
-							anim5= -1;
-						}
-
-						if ( anim2 != -1 )
-						{
-							if ( anim2 == 68 )
-								anim2 = 122;
-
-							if ( original > max1 )
-								max1 = original;
-
-							list1.Add( original );
-							list1.Add( anim2 );
-						}
-
-						if ( anim3 != -1 )
-						{
-							if ( original > max2 )
-								max2 = original;
-
-							list2.Add( original );
-							list2.Add( anim3 );
-						}
-						
-						if ( anim4 != -1 )
-						{
-							if ( original > max3 )
-								max3 = original;
-
-							list3.Add( original );
-							list3.Add( anim4 );
-						}
-
-						if( anim5 != -1 )
-						{
-							if( original > max4 )
-								max4 = original;
-
-							list4.Add( original );
-							list4.Add( anim5 );
-						}
-					}
-					catch
-					{
-					}
-				}
-			}
-
-			m_Table1 = new int[max1+1];
-
-			for ( int i = 0; i < m_Table1.Length; ++i )
-				m_Table1[i] = -1;
-
-			for ( int i = 0; i < list1.Count; i += 2 )
-				m_Table1[(int)list1[i]] = (int)list1[i + 1];
-
-			m_Table2 = new int[max2+1];
-
-			for ( int i = 0; i < m_Table2.Length; ++i )
-				m_Table2[i] = -1;
-
-			for ( int i = 0; i < list2.Count; i += 2 )
-				m_Table2[(int)list2[i]] = (int)list2[i + 1];
-				
-			m_Table3 = new int[max3+1];
-
-			for ( int i = 0; i < m_Table3.Length; ++i )
-				m_Table3[i] = -1;
-
-			for ( int i = 0; i < list3.Count; i += 2 )
-				m_Table3[(int)list3[i]] = (int)list3[i + 1];
-
-			m_Table4 = new int[ max4 + 1 ];
-
-			for( int i = 0; i < m_Table4.Length; ++i )
-				m_Table4[ i ] = -1;
-
-			for( int i = 0; i < list4.Count; i += 2 )
-				m_Table4[ (int)list4[ i ] ] = (int)list4[ i + 1 ];
+            Initialize();
 		}
+
+        public static void Initialize()
+        {
+            string path = Client.GetFilePath("bodyconv.def");
+
+            if (path == null)
+                return;
+
+            ArrayList list1 = new ArrayList(), list2 = new ArrayList(), list3 = new ArrayList(), list4 = new ArrayList();
+            int max1 = 0, max2 = 0, max3 = 0, max4 = 0;
+
+            using (StreamReader ip = new StreamReader(path))
+            {
+                string line;
+
+                while ((line = ip.ReadLine()) != null)
+                {
+                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                        continue;
+
+                    try
+                    {
+                        string[] split = line.Split('\t');
+
+                        int original = System.Convert.ToInt32(split[0]);
+                        int anim2 = System.Convert.ToInt32(split[1]);
+                        int anim3;
+                        int anim4;
+                        int anim5;
+
+                        try
+                        {
+                            anim3 = System.Convert.ToInt32(split[2]);
+                        }
+                        catch
+                        {
+                            anim3 = -1;
+                        }
+
+                        try
+                        {
+                            anim4 = System.Convert.ToInt32(split[3]);
+                        }
+                        catch
+                        {
+                            anim4 = -1;
+                        }
+
+                        try
+                        {
+                            anim5 = System.Convert.ToInt32(split[4]);
+                        }
+                        catch
+                        {
+                            anim5 = -1;
+                        }
+
+                        if (anim2 != -1)
+                        {
+                            if (anim2 == 68)
+                                anim2 = 122;
+
+                            if (original > max1)
+                                max1 = original;
+
+                            list1.Add(original);
+                            list1.Add(anim2);
+                        }
+
+                        if (anim3 != -1)
+                        {
+                            if (original > max2)
+                                max2 = original;
+
+                            list2.Add(original);
+                            list2.Add(anim3);
+                        }
+
+                        if (anim4 != -1)
+                        {
+                            if (original > max3)
+                                max3 = original;
+
+                            list3.Add(original);
+                            list3.Add(anim4);
+                        }
+
+                        if (anim5 != -1)
+                        {
+                            if (original > max4)
+                                max4 = original;
+
+                            list4.Add(original);
+                            list4.Add(anim5);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            m_Table1 = new int[max1 + 1];
+
+            for (int i = 0; i < m_Table1.Length; ++i)
+                m_Table1[i] = -1;
+
+            for (int i = 0; i < list1.Count; i += 2)
+                m_Table1[(int)list1[i]] = (int)list1[i + 1];
+
+            m_Table2 = new int[max2 + 1];
+
+            for (int i = 0; i < m_Table2.Length; ++i)
+                m_Table2[i] = -1;
+
+            for (int i = 0; i < list2.Count; i += 2)
+                m_Table2[(int)list2[i]] = (int)list2[i + 1];
+
+            m_Table3 = new int[max3 + 1];
+
+            for (int i = 0; i < m_Table3.Length; ++i)
+                m_Table3[i] = -1;
+
+            for (int i = 0; i < list3.Count; i += 2)
+                m_Table3[(int)list3[i]] = (int)list3[i + 1];
+
+            m_Table4 = new int[max4 + 1];
+
+            for (int i = 0; i < m_Table4.Length; ++i)
+                m_Table4[i] = -1;
+
+            for (int i = 0; i < list4.Count; i += 2)
+                m_Table4[(int)list4[i]] = (int)list4[i + 1];
+        }
 
 		/// <summary>
 		/// Checks to see if <paramref name="body" /> is contained within the mapping table.
@@ -268,6 +274,17 @@ namespace Ultima
 		private Animations()
 		{
 		}
+
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
+            m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
+            m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
+            m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
+            m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+            BodyConverter.Initialize();
+            BodyTable.Initialize();
+        }
 
 		public static Frame[] GetAnimation( int body, int action, int direction, ref int hue, bool preserveHue, bool FirstFrame )
 		{
@@ -687,46 +704,51 @@ namespace Ultima
 
 		static BodyTable()
 		{
-			m_Entries = new Hashtable();
-
-			string filePath = Client.GetFilePath( "body.def" );
-
-			if ( filePath == null )
-				return;
-
-			StreamReader def = new StreamReader( filePath );
-
-			string line;
-
-			while ( (line = def.ReadLine()) != null )
-			{
-				if ( (line=line.Trim()).Length == 0 || line.StartsWith("#") )
-					continue;
-
-				try
-				{
-					int index1 = line.IndexOf( "{" );
-					int index2 = line.IndexOf( "}" );
-
-					string param1 = line.Substring( 0, index1 );
-					string param2 = line.Substring( index1 + 1, index2 - index1 - 1 );
-					string param3 = line.Substring( index2 + 1 );
-
-					int indexOf = param2.IndexOf( ',' );
-
-					if ( indexOf > -1 )
-						param2 = param2.Substring( 0, indexOf ).Trim();
-
-					int iParam1 = Convert.ToInt32( param1.Trim() );
-					int iParam2 = Convert.ToInt32( param2.Trim() );
-					int iParam3 = Convert.ToInt32( param3.Trim() );
-
-					m_Entries[iParam1] = new BodyTableEntry( iParam2, iParam1, iParam3 );
-				}
-				catch
-				{
-				}
-			}
+            Initialize();
 		}
+
+        public static void Initialize()
+        {
+            m_Entries = new Hashtable();
+
+            string filePath = Client.GetFilePath("body.def");
+
+            if (filePath == null)
+                return;
+
+            StreamReader def = new StreamReader(filePath);
+
+            string line;
+
+            while ((line = def.ReadLine()) != null)
+            {
+                if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                    continue;
+
+                try
+                {
+                    int index1 = line.IndexOf("{");
+                    int index2 = line.IndexOf("}");
+
+                    string param1 = line.Substring(0, index1);
+                    string param2 = line.Substring(index1 + 1, index2 - index1 - 1);
+                    string param3 = line.Substring(index2 + 1);
+
+                    int indexOf = param2.IndexOf(',');
+
+                    if (indexOf > -1)
+                        param2 = param2.Substring(0, indexOf).Trim();
+
+                    int iParam1 = Convert.ToInt32(param1.Trim());
+                    int iParam2 = Convert.ToInt32(param2.Trim());
+                    int iParam3 = Convert.ToInt32(param3.Trim());
+
+                    m_Entries[iParam1] = new BodyTableEntry(iParam2, iParam1, iParam3);
+                }
+                catch
+                {
+                }
+            }
+        }
 	}
 }

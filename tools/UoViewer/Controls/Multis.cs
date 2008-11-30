@@ -30,8 +30,15 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
             for (int i = 0; i <= 0x4000; i++)
@@ -118,7 +125,6 @@ namespace Controls
                     for (int i = 0; i < tiles.Length; ++i)
                     {
                         MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2}\n", tiles[i].ID - 0x4000, x, y, tiles[i].Z));
-
                     }
                 }
             }
@@ -131,7 +137,6 @@ namespace Controls
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             bit.Save(FileName, ImageFormat.Jpeg);
-
         }
     }
 }
