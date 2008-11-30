@@ -83,8 +83,19 @@ namespace Controls
             }
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            sortorder = SortOrder.Ascending;
+            sortcolumn = 0;
+            lang = 0;
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             cliloc = new StringList("enu");
             LangComboBox.SelectedIndex=0;
             cliloc.Entries.Sort(new StringList.NumberComparerAsc());
@@ -114,6 +125,8 @@ namespace Controls
                         lang = 1;
                         break;
                 }
+                sortorder = SortOrder.Ascending;
+                sortcolumn = 0;
                 cliloc.Entries.Sort(new StringList.NumberComparerAsc());
                 source.DataSource = cliloc.Entries;
                 dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;

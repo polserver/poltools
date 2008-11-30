@@ -45,8 +45,15 @@ namespace Controls
             checkedListBox2.EndUpdate();
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
             for (int i = 0; i < TileData.ItemTable.Length; ++i)

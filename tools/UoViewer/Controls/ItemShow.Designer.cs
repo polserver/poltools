@@ -43,13 +43,14 @@ namespace Controls
             this.namelabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PreloadItems = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.listView1 = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.DetailPictureBox = new System.Windows.Forms.PictureBox();
             this.DetailTextBox = new System.Windows.Forms.RichTextBox();
-            this.PreloadItems = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.PreLoader = new System.ComponentModel.BackgroundWorker();
             this.statusStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -104,6 +105,22 @@ namespace Controls
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
             this.toolStripStatusLabel1.Text = "Search";
             this.toolStripStatusLabel1.Click += new System.EventHandler(this.Search_Click);
+            // 
+            // PreloadItems
+            // 
+            this.PreloadItems.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.PreloadItems.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.PreloadItems.Name = "PreloadItems";
+            this.PreloadItems.Size = new System.Drawing.Size(77, 17);
+            this.PreloadItems.Text = "Preload Items";
+            this.PreloadItems.Click += new System.EventHandler(this.OnClickPreload);
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // listView1
             // 
@@ -178,21 +195,12 @@ namespace Controls
             this.DetailTextBox.TabIndex = 0;
             this.DetailTextBox.Text = "";
             // 
-            // PreloadItems
+            // PreLoader
             // 
-            this.PreloadItems.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.PreloadItems.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.PreloadItems.Name = "PreloadItems";
-            this.PreloadItems.Size = new System.Drawing.Size(77, 17);
-            this.PreloadItems.Text = "Preload Items";
-            this.PreloadItems.Click += new System.EventHandler(this.OnClickPreload);
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 15);
+            this.PreLoader.WorkerReportsProgress = true;
+            this.PreLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreLoaderDoWork);
+            this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
+            this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
             // 
             // ItemShow
             // 
@@ -230,5 +238,6 @@ namespace Controls
         private System.Windows.Forms.RichTextBox DetailTextBox;
         private System.Windows.Forms.ToolStripStatusLabel PreloadItems;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
+        private System.ComponentModel.BackgroundWorker PreLoader;
     }
 }

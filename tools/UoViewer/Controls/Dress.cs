@@ -100,8 +100,47 @@ namespace Controls
         private int facing = 1;
         private int action = 1;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            layers = new object[25];
+            female = false;
+            elve = false;
+            drawpoint = new Point(0, 0);
+            drawpointAni = new Point(100, 50);
+            showPD = true;
+            animate = false;
+            facing = 1;
+            action = 1;
+            if (m_Timer != null)
+            {
+                if (m_Timer.Enabled)
+                    m_Timer.Stop();
+
+                m_Timer.Dispose();
+                m_Timer = null;
+            }
+
+            if (m_Animation != null)
+            {
+                for (int i = 0; i < m_Animation.Length; i++)
+                {
+                    if (m_Animation[i] != null)
+                        m_Animation[i].Dispose();
+                }
+            }
+
+            m_Animation = null;
+            m_FrameIndex = 0;
+            EquipTable.Initialize();
+            GumpTable.Initialize();
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             bitpic = new Bitmap(DressPic.Width, DressPic.Height);
             graphpic = Graphics.FromImage(bitpic);
 
@@ -709,6 +748,10 @@ namespace Controls
         // Seems only used if Gump is invalid
 		static GumpTable()
         {
+            Initialize();
+        }
+        public static void Initialize()
+        {
             string path = Client.GetFilePath("gump.def");
 
             if (path == null)
@@ -769,6 +812,11 @@ namespace Controls
         public static Hashtable elven_female;
 
         static EquipTable()
+        {
+            Initialize();
+        }
+
+        public static void Initialize()
         {
             string path = Client.GetFilePath("equipconv.def");
 

@@ -14,7 +14,12 @@ namespace Ultima
 
 		static Hues()
 		{
-			string path = Client.GetFilePath( "hues.mul" );
+			Initialize();
+		}
+
+        public static void Initialize()
+        {
+            string path = Client.GetFilePath( "hues.mul" );
 			int index = 0;
 
 			m_List = new Hue[3000];
@@ -42,7 +47,7 @@ namespace Ultima
             
 			for ( ; index < m_List.Length; ++index )
 				m_List[index] = new Hue( index );
-		}
+        }
 
 		public static Hue GetHue( int index )
 		{

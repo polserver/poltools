@@ -14,6 +14,12 @@ namespace Ultima
 		private static FileIndex m_FileIndex = new FileIndex( "Multi.idx", "Multi.mul", 0x4000, 14 );
 		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("Multi.idx", "Multi.mul", 0x4000, 14);
+            m_Components = new MultiComponentList[0x4000];
+        }
+
 		public static MultiComponentList GetComponents( int index )
 		{
 			MultiComponentList mcl;

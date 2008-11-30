@@ -28,10 +28,17 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
-            treeView.Nodes.Clear();
+            Loaded = true;
             treeView.BeginUpdate();
+            treeView.Nodes.Clear();
             TreeNode node = new TreeNode("ASCII");
             node.Tag = 0;
             treeView.Nodes.Add(node);

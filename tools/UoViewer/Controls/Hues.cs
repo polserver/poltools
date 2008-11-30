@@ -28,8 +28,18 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
         private int Selected=0;
+
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            Selected = 0;
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
             foreach (Hue hue in Ultima.Hues.List)

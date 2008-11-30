@@ -34,6 +34,19 @@ namespace Controls
         bool moving = false;
         Point movingpoint;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            buttonGenerate.Visible = true;
+            buttonLoad.Visible = true;
+            hScrollBar.Visible = false;
+            vScrollBar.Visible = false;
+            pictureBox.Image = null;
+            moving = false;
+        }
+
         private void OnResize(object sender, EventArgs e)
         {
             if (pictureBox.Image != null)
@@ -153,6 +166,7 @@ namespace Controls
 
         private void OnClickLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             this.Cursor = Cursors.WaitCursor;
             buttonGenerate.Visible = false;
             buttonLoad.Visible = false;

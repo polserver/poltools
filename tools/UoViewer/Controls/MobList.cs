@@ -66,8 +66,28 @@ namespace Controls
         private bool sortalpha = false;
         private int DisplayType = 0;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            m_MainPicture = null;
+            m_CurrentSelect = 0;
+            m_CurrentSelectAction = 0;
+            m_Animate = false;
+            m_ImageInvalidated = true;
+            StopAnimation();
+            frames = null;
+            customHue = 0;
+            DefHue = 0;
+            facing = 1;
+            sortalpha = false;
+            DisplayType = 0;
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             if (!LoadXml())
                 return;
 

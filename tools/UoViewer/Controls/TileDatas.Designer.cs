@@ -451,7 +451,7 @@ namespace Controls
             this.splitContainer4.Panel2.Controls.Add(this.button2);
             this.splitContainer4.Panel2.Controls.Add(this.button1);
             this.splitContainer4.Size = new System.Drawing.Size(400, 157);
-            this.splitContainer4.SplitterDistance = 128;
+            this.splitContainer4.SplitterDistance = 130;
             this.splitContainer4.SplitterWidth = 2;
             this.splitContainer4.TabIndex = 1;
             // 

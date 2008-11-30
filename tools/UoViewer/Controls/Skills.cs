@@ -28,9 +28,17 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             object[] data = new object[3];
+            dataGridView1.Rows.Clear();
             for (int i = 0; i < 56; i++)
             {
                 Ultima.Skills.SkillInfo skill = Ultima.Skills.GetSkill(i);

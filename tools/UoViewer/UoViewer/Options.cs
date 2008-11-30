@@ -127,17 +127,11 @@ namespace UoViewer
 
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
             if (elem != null)
-            {
-                if (bool.Parse(elem.GetAttribute("active")))
-                    UoViewer.AlternativeDesign = true;
-            }
+                UoViewer.AlternativeDesign = bool.Parse(elem.GetAttribute("active"));
 
             elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");
             if (elem != null)
-            {
-                if (bool.Parse(elem.GetAttribute("active")))
-                    FileIndex.UseHashFile = true;
-            }
+                FileIndex.UseHashFile = bool.Parse(elem.GetAttribute("active"));
 
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {

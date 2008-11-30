@@ -38,6 +38,16 @@ namespace Controls
         private int selected = -1;
         private Bitmap bmp;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            TileList = new ArrayList();
+            selected = -1;
+            OnLoad(this, EventArgs.Empty);
+        }
+
         public int GetIndex(int x, int y)
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
@@ -49,6 +59,7 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             for (int i = 0; i < 0x1000; i++)
             {
                 if (Art.IsValidLand(i))

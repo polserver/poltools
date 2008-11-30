@@ -47,8 +47,18 @@ namespace Controls
         bool moving = false;
         Point movingpoint;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            Zoom = 1;
+            moving = false;
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
             map = currmap.GetImage(0, 0, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
@@ -444,23 +454,39 @@ namespace Controls
 
         private void OnClickPreloadMap(object sender, EventArgs e)
         {
-            int width = currmap.Width >> 3;
-            int height = currmap.Height >> 3;
-            width /= 4;
-            height /= 4;
+            if (PreloadWorker.IsBusy)
+                return;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 16;
             ProgressBar.Step = 1;
             ProgressBar.Value = 0;
             ProgressBar.Visible = true;
+            PreloadWorker.RunWorkerAsync();
+        }
+
+        private void PreLoadDoWork(object sender, DoWorkEventArgs e)
+        {
+            int width = currmap.Width >> 3;
+            int height = currmap.Height >> 3;
+            width /= 4;
+            height /= 4;
             for (int x = 0; x <= (currmap.Width >> 3) - width; x += width)
             {
                 for (int y = 0; y <= (currmap.Height >> 3) - height; y += height)
                 {
                     currmap.GetImage(x, y, width, height, true);
-                    ProgressBar.PerformStep();
+                    PreloadWorker.ReportProgress(1);
                 }
             }
+        }
+
+        private void PreLoadProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.PerformStep();
+        }
+
+        private void PreLoadCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             ProgressBar.Visible = false;
         }
     }

@@ -18,6 +18,12 @@ namespace Ultima
 		{
 		}
 
+        public static void Reload()
+        {
+            m_Cache = new Bitmap[0x10000];
+            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
+        }
+
         public static bool IsValidStatic(int index)
         {
             index += 0x4000;

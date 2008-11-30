@@ -16,6 +16,12 @@ namespace Ultima
 		private static byte[] m_StreamBuffer;
 		private static byte[] m_ColorTable;
 
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+            m_Cache = new Bitmap[0x10000];
+        }
+
         public static bool IsValidIndex(int index)
         {
             if (FileIndex.CacheData)

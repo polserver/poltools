@@ -22,6 +22,7 @@ namespace Ultima
 		public static readonly Map Malas = new Map( 3, 3, 2560, 2048 );
 		public static readonly Map Tokuno = new Map( 4, 4, 1448, 1448 );
 
+        
 		public Map( int fileIndex, int mapID, int width, int height )
 		{
 			m_FileIndex = fileIndex;
@@ -30,6 +31,30 @@ namespace Ultima
 			m_Height = height;
 		}
 
+        public static void Reload()
+        {
+            m_Colors = null;
+            Felucca.m_Black = null;
+            Felucca.m_Cache = null;
+            Felucca.m_Cache_NoStatics = null;
+            Felucca.m_Tiles = null;
+            Trammel.m_Black = null;
+            Trammel.m_Cache = null;
+            Trammel.m_Cache_NoStatics = null;
+            Trammel.m_Tiles = null;
+            Ilshenar.m_Black = null;
+            Ilshenar.m_Cache = null;
+            Ilshenar.m_Cache_NoStatics = null;
+            Ilshenar.m_Tiles = null;
+            Malas.m_Black = null;
+            Malas.m_Cache = null;
+            Malas.m_Cache_NoStatics = null;
+            Malas.m_Tiles = null;
+            Tokuno.m_Black = null;
+            Tokuno.m_Cache = null;
+            Tokuno.m_Cache_NoStatics = null;
+            Tokuno.m_Tiles = null;
+        }
 		public bool LoadedMatrix
 		{
 			get

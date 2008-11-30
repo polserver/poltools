@@ -465,67 +465,72 @@ namespace Ultima
 
 		static TileData()
 		{
-			string filePath = Client.GetFilePath( "tiledata.mul" );
+            Initialize();
+		}
 
-			if ( filePath != null )
-			{
-				using ( FileStream fs = new FileStream( filePath, FileMode.Open, FileAccess.Read, FileShare.Read ) )
-				{
+        public static void Initialize()
+        {
+            string filePath = Client.GetFilePath("tiledata.mul");
+
+            if (filePath != null)
+            {
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
                     landheader = new int[512];
                     int j = 0;
-					BinaryReader bin = new BinaryReader( fs );
+                    BinaryReader bin = new BinaryReader(fs);
 
-					m_LandData = new LandData[0x4000];
+                    m_LandData = new LandData[0x4000];
 
-					for ( int i = 0; i < 0x4000; ++i )
-					{
+                    for (int i = 0; i < 0x4000; ++i)
+                    {
                         if ((i & 0x1F) == 0)
                         {
-                            landheader[j]=bin.ReadInt32(); // header
+                            landheader[j] = bin.ReadInt32(); // header
                             ++j;
                         }
-						TileFlag flags = (TileFlag)bin.ReadInt32();
+                        TileFlag flags = (TileFlag)bin.ReadInt32();
                         int texID = bin.ReadInt16();
 
                         m_LandData[i] = new LandData(ReadNameString(bin), texID, flags);
-					}
+                    }
 
-					m_ItemData = new ItemData[0x4000];
-					m_HeightTable = new int[0x4000];
+                    m_ItemData = new ItemData[0x4000];
+                    m_HeightTable = new int[0x4000];
                     itemheader = new int[512];
-                    j=0;
+                    j = 0;
 
-					for ( int i = 0; i < 0x4000; ++i )
-					{
+                    for (int i = 0; i < 0x4000; ++i)
+                    {
                         if ((i & 0x1F) == 0)
                         {
                             itemheader[j] = bin.ReadInt32(); // header
                             j++;
                         }
 
-						TileFlag flags = (TileFlag)bin.ReadInt32();
-						int weight = bin.ReadByte();
-						int quality = bin.ReadByte();
+                        TileFlag flags = (TileFlag)bin.ReadInt32();
+                        int weight = bin.ReadByte();
+                        int quality = bin.ReadByte();
                         int unk1 = bin.ReadInt16();
                         int unk2 = bin.ReadByte();
-						int quantity = bin.ReadByte();
-						int anim = bin.ReadInt16();
+                        int quantity = bin.ReadByte();
+                        int anim = bin.ReadInt16();
                         int unk3 = bin.ReadByte();
                         int hue = bin.ReadByte();
-						int stackingoffset = bin.ReadByte(); //unk4
-						int value = bin.ReadByte(); //unk5
-						int height = bin.ReadByte();
+                        int stackingoffset = bin.ReadByte(); //unk4
+                        int value = bin.ReadByte(); //unk5
+                        int height = bin.ReadByte();
 
-						m_ItemData[i] = new ItemData( ReadNameString( bin ), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, unk1,unk2,unk3 );
-						m_HeightTable[i] = height;
-					}
-				}
-			}
-			else
-			{
-				throw new FileNotFoundException();
-			}
-		}
+                        m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, unk1, unk2, unk3);
+                        m_HeightTable[i] = height;
+                    }
+                }
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
+        }
 
         public static void SaveTileData(string FileName)
         {

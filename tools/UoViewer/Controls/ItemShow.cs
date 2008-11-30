@@ -102,9 +102,18 @@ namespace Controls
             return false;
         }
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (Loaded)
+                OnLoad(this, EventArgs.Empty);
+        }
+
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             listView1.BeginUpdate();
+            listView1.Clear();
 
             if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
             {
@@ -251,16 +260,32 @@ namespace Controls
 
         private void OnClickPreload(object sender, EventArgs e)
         {
+            if (PreLoader.IsBusy)
+                return;
             ProgressBar.Minimum = 1;
             ProgressBar.Maximum = listView1.Items.Count;
             ProgressBar.Step = 1;
             ProgressBar.Value = 1;
             ProgressBar.Visible = true;
+            PreLoader.RunWorkerAsync();
+        }
+
+        private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
+        {
             foreach (ListViewItem item in listView1.Items)
             {
                 Art.GetStatic((int)item.Tag);
-                ProgressBar.PerformStep();
+                PreLoader.ReportProgress(1);
             }
+        }
+
+        private void PreLoaderProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressBar.PerformStep();
+        }
+
+        private void PreLoaderCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
             ProgressBar.Visible = false;
         }
     }

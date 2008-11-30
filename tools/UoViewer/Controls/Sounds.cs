@@ -31,10 +31,20 @@ namespace Controls
 
         private System.Media.SoundPlayer sp;
 
+        private bool Loaded = false;
+        public void Reload()
+        {
+            if (!Loaded)
+                return;
+            checkBox.Checked = false;
+            OnLoad(this, EventArgs.Empty);
+        }
         private void OnLoad(object sender, EventArgs e)
         {
+            Loaded = true;
             string name = "";
             treeView.BeginUpdate();
+            treeView.Nodes.Clear();
             for (int i = 1; i <= 0xFFF; i++)
             {
                 name = Ultima.Sounds.IsValidSound(i-1);
