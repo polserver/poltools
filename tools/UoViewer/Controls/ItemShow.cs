@@ -57,10 +57,6 @@ namespace Controls
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
-            if (refMarker.listView1.SelectedIndices.Count == 1)
-                index = refMarker.listView1.SelectedIndices[0]+1;
-            if (index >= refMarker.listView1.Items.Count)
-                index = 0;
 
             for (int i = index; i < refMarker.listView1.Items.Count; i++)
             {
@@ -78,13 +74,16 @@ namespace Controls
             return false;
         }
 
-        public static bool SearchName(string name)
+        public static bool SearchName(string name,bool next)
         {
             int index=0;
-            if (refMarker.listView1.SelectedIndices.Count == 1)
-                index = refMarker.listView1.SelectedIndices[0]+1;
-            if (index >= refMarker.listView1.Items.Count)
-                index = 0;
+            if (next)
+            {
+                if (refMarker.listView1.SelectedIndices.Count == 1)
+                    index = refMarker.listView1.SelectedIndices[0] + 1;
+                if (index >= refMarker.listView1.Items.Count)
+                    index = 0;
+            }
 
             for (int i = index; i < refMarker.listView1.Items.Count; i++)
             {
@@ -111,6 +110,7 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             listView1.BeginUpdate();
             listView1.Clear();
@@ -152,6 +152,7 @@ namespace Controls
             listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
 
             listView1.EndUpdate();
+            this.Cursor = Cursors.Default;
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)

@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *
  * $Author: Turley
  * 
@@ -16,20 +16,19 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Controls
 {
-    public partial class ItemSearch : Form
+    public partial class LandTileSearch : Form
     {
         private static bool alt;
-        public ItemSearch(bool alternative)
+        public LandTileSearch(bool alternative)
         {
             InitializeComponent();
             alt = alternative;
         }
 
-        private void Search_Graphic(object sender, EventArgs e)
+        private void SearchGraphic(object sender, EventArgs e)
         {
             int graphic;
             string convert;
@@ -41,33 +40,33 @@ namespace Controls
             }
             else
                 candone = int.TryParse(textBoxGraphic.Text, System.Globalization.NumberStyles.Integer, null, out graphic);
-                
+
             if (candone)
             {
                 bool res;
                 if (alt)
-                    res = ItemShowAlternative.SearchGraphic(graphic);
+                    res = LandTilesAlternative.SearchGraphic(graphic);
                 else
-                    res = ItemShow.SearchGraphic(graphic);
+                    res = LandTiles.SearchGraphic(graphic);
                 if (!res)
                 {
-                    DialogResult result = MessageBox.Show("No item found","Result",MessageBoxButtons.OKCancel);
+                    DialogResult result = MessageBox.Show("No landtile found", "Result", MessageBoxButtons.OKCancel);
                     if (result == DialogResult.Cancel)
                         Close();
                 }
             }
         }
 
-        private void Search_ItemName(object sender, EventArgs e)
+        private void SearchName(object sender, EventArgs e)
         {
             bool res;
             if (alt)
-                res = ItemShowAlternative.SearchName(textBoxItemName.Text,false);
+                res = LandTilesAlternative.SearchName(textBoxItemName.Text,false);
             else
-                res = ItemShow.SearchName(textBoxItemName.Text,false);
+                res = LandTiles.SearchName(textBoxItemName.Text,false);
             if (!res)
             {
-                DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
+                DialogResult result = MessageBox.Show("No landtile found", "Result", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.Cancel)
                     Close();
             }
@@ -77,12 +76,12 @@ namespace Controls
         {
             bool res;
             if (alt)
-                res = ItemShowAlternative.SearchName(textBoxItemName.Text, true);
+                res = LandTilesAlternative.SearchName(textBoxItemName.Text, true);
             else
-                res = ItemShow.SearchName(textBoxItemName.Text, true);
+                res = LandTiles.SearchName(textBoxItemName.Text, true);
             if (!res)
             {
-                DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
+                DialogResult result = MessageBox.Show("No landtile found", "Result", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.Cancel)
                     Close();
             }

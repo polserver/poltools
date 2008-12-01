@@ -43,6 +43,91 @@ namespace Controls
             checkedListBox2.Items.Add(System.Enum.GetName(typeof(TileFlag), TileFlag.Wall), false);
             checkedListBox2.Items.Add(System.Enum.GetName(typeof(TileFlag), TileFlag.Unknown3), false);
             checkedListBox2.EndUpdate();
+            refMarker = this;
+        }
+
+        private static TileDatas refMarker = null;
+
+        public static bool SearchGraphic(int graphic, bool land)
+        {
+            int index = 0;
+            if (land)
+            {
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewLand.Nodes[i];
+                    if ((int)node.Tag == graphic)
+                    {
+                        refMarker.tabcontrol.SelectTab(1);
+                        refMarker.treeViewLand.SelectedNode = node;
+                        node.EnsureVisible();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewItem.Nodes[i];
+                    if ((int)node.Tag == graphic)
+                    {
+                        refMarker.tabcontrol.SelectTab(0);
+                        refMarker.treeViewItem.SelectedNode = node;
+                        node.EnsureVisible();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool SearchName(string name, bool next, bool land)
+        {
+            int index = 0;
+            if (land)
+            {
+                if (next)
+                {
+                    if (refMarker.treeViewLand.SelectedNode.Index >= 0)
+                        index = refMarker.treeViewLand.SelectedNode.Index + 1;
+                    if (index >= refMarker.treeViewLand.Nodes.Count)
+                        index = 0;
+                }
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewLand.Nodes[i];
+                    if (TileData.LandTable[(int)node.Tag].Name.Contains(name))
+                    {
+                        refMarker.tabcontrol.SelectTab(1);
+                        refMarker.treeViewLand.SelectedNode = node;
+                        node.EnsureVisible();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                if (next)
+                {
+                    if (refMarker.treeViewItem.SelectedNode.Index >= 0)
+                        index = refMarker.treeViewItem.SelectedNode.Index + 1;
+                    if (index >= refMarker.treeViewItem.Nodes.Count)
+                        index = 0;
+                }
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewItem.Nodes[i];
+                    if (TileData.ItemTable[(int)node.Tag].Name.Contains(name))
+                    {
+                        refMarker.tabcontrol.SelectTab(0);
+                        refMarker.treeViewItem.SelectedNode = node;
+                        node.EnsureVisible();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private bool Loaded = false;
@@ -53,6 +138,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
@@ -72,6 +158,7 @@ namespace Controls
                 treeViewLand.Nodes.Add(node);
             }
             treeViewLand.EndUpdate();
+            this.Cursor = Cursors.Default;
         }
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)
@@ -250,6 +337,28 @@ namespace Controls
             string FileName = Path.Combine(path, "LandData.csv");
             Ultima.TileData.ExportLandDataToCSV(FileName);
             MessageBox.Show(String.Format("LandData saved to {0}", FileName), "Saved");
+        }
+
+        private TileDatasSearch showform1 = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if ((showform1 == null) || (showform1.IsDisposed))
+            {
+                showform1 = new TileDatasSearch(false);
+                showform1.TopMost = true;
+                showform1.Show();
+            }
+        }
+
+        private TileDatasSearch showform2 = null;
+        private void OnClickSearch2(object sender, EventArgs e)
+        {
+            if ((showform2 == null) || (showform2.IsDisposed))
+            {
+                showform2 = new TileDatasSearch(true);
+                showform2.TopMost = true;
+                showform2.Show();
+            }
         }
     }
 }

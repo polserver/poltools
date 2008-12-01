@@ -27,6 +27,55 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            refMarker = this;
+        }
+
+        private static LandTiles refMarker = null;
+
+        public static bool SearchGraphic(int graphic)
+        {
+            int index = 0;
+            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            {
+                ListViewItem item = refMarker.listView1.Items[i];
+                if ((int)item.Tag == graphic)
+                {
+                    if (refMarker.listView1.SelectedItems.Count == 1)
+                        refMarker.listView1.SelectedItems[0].Selected = false;
+                    item.Selected = true;
+                    item.Focused = true;
+                    item.EnsureVisible();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool SearchName(string name,bool next)
+        {
+            int index = 0;
+            if (next)
+            {
+                if (refMarker.listView1.SelectedIndices.Count == 1)
+                    index = refMarker.listView1.SelectedIndices[0] + 1;
+                if (index >= refMarker.listView1.Items.Count)
+                    index = 0;
+            }
+
+            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            {
+                ListViewItem item = refMarker.listView1.Items[i];
+                if (TileData.LandTable[(int)item.Tag].Name.Contains(name))
+                {
+                    if (refMarker.listView1.SelectedItems.Count == 1)
+                        refMarker.listView1.SelectedItems[0].Selected = false;
+                    item.Selected = true;
+                    item.Focused = true;
+                    item.EnsureVisible();
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool Loaded = false;
@@ -37,6 +86,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             listView1.BeginUpdate();
             listView1.Clear();
@@ -53,6 +103,7 @@ namespace Controls
 
             listView1.TileSize = new Size(49, 49);
             listView1.EndUpdate();
+            this.Cursor = Cursors.Default;
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,6 +127,11 @@ namespace Controls
 
             if (bmp != null)
             {
+                if (listView1.SelectedItems.Contains(e.Item))
+                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                else
+                    e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+
                 int width = bmp.Width;
                 int height = bmp.Height;
 
@@ -95,6 +151,17 @@ namespace Controls
                     e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
 
+        }
+
+        private LandTileSearch showform = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                showform = new LandTileSearch(false);
+                showform.TopMost = true;
+                showform.Show();
+            }
         }
     }
 }

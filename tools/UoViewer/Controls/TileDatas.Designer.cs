@@ -90,6 +90,8 @@ namespace Controls
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -203,6 +205,7 @@ namespace Controls
             // treeViewItem
             // 
             this.treeViewItem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewItem.HideSelection = false;
             this.treeViewItem.Location = new System.Drawing.Point(0, 0);
             this.treeViewItem.Name = "treeViewItem";
             this.treeViewItem.Size = new System.Drawing.Size(201, 186);
@@ -447,6 +450,7 @@ namespace Controls
             // 
             // splitContainer4.Panel2
             // 
+            this.splitContainer4.Panel2.Controls.Add(this.button7);
             this.splitContainer4.Panel2.Controls.Add(this.button3);
             this.splitContainer4.Panel2.Controls.Add(this.button2);
             this.splitContainer4.Panel2.Controls.Add(this.button1);
@@ -549,6 +553,7 @@ namespace Controls
             // treeViewLand
             // 
             this.treeViewLand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewLand.HideSelection = false;
             this.treeViewLand.Location = new System.Drawing.Point(0, 0);
             this.treeViewLand.Name = "treeViewLand";
             this.treeViewLand.Size = new System.Drawing.Size(201, 186);
@@ -633,6 +638,7 @@ namespace Controls
             // 
             // splitContainer8.Panel2
             // 
+            this.splitContainer8.Panel2.Controls.Add(this.button8);
             this.splitContainer8.Panel2.Controls.Add(this.button4);
             this.splitContainer8.Panel2.Controls.Add(this.button5);
             this.splitContainer8.Panel2.Controls.Add(this.button6);
@@ -683,6 +689,26 @@ namespace Controls
             this.button6.Text = "Save Changes";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.OnClickSaveChangesLand);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(277, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 3;
+            this.button7.Text = "Search";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.OnClickSearch);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(277, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 3;
+            this.button8.Text = "Search";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.OnClickSearch2);
             // 
             // TileDatas
             // 
@@ -784,5 +810,7 @@ namespace Controls
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }

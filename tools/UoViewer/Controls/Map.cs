@@ -58,6 +58,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
@@ -67,6 +68,7 @@ namespace Controls
             ZoomLabel.Text = String.Format("Zoom: {0}",Zoom);
             SetScrollBarValues();
             Refresh();
+            this.Cursor = Cursors.Default;
         }
 
         private void HandleScroll(object sender, ScrollEventArgs e)

@@ -36,6 +36,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
@@ -60,7 +61,7 @@ namespace Controls
             treeView.ExpandAll();
             treeView.EndUpdate();
             treeView.SelectedNode = treeView.Nodes[0].Nodes[0];
-            
+            this.Cursor = Cursors.Default;
         }
 
         private void onSelect(object sender, TreeViewEventArgs e)

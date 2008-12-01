@@ -41,6 +41,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             string name = "";
             treeView.BeginUpdate();
@@ -58,6 +59,7 @@ namespace Controls
             treeView.EndUpdate();
             treeView.SelectedNode = treeView.Nodes[0];
             sp = new System.Media.SoundPlayer();
+            this.Cursor = Cursors.Default;
         }
 
         private void PlaySound(object sender, EventArgs e)
@@ -89,6 +91,44 @@ namespace Controls
             if (treeView.SelectedNode == null)
                 return;
             seconds.Text = String.Format("{0}s", Ultima.Sounds.GetSoundLength((int)treeView.SelectedNode.Tag) - 1);
+        }
+
+        private void SearchName(object sender, EventArgs e)
+        {
+            bool res = DoSearchName(textBox1.Text, false);
+            if (!res)
+                MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK);
+        }
+
+        private void SearchNext(object sender, EventArgs e)
+        {
+            bool res = DoSearchName(textBox1.Text, true);
+            if (!res)
+                MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK);
+        }
+
+        private bool DoSearchName(string name, bool next)
+        {
+            int index = 0;
+            if (next)
+            {
+                if (treeView.SelectedNode.Index>=0)
+                    index = treeView.SelectedNode.Index + 1;
+                if (index >= treeView.Nodes.Count)
+                    index = 0;
+            }
+
+            for (int i = index; i < treeView.Nodes.Count; i++)
+            {
+                TreeNode node = treeView.Nodes[i];
+                if (node.Text.Contains(name))
+                {
+                    treeView.SelectedNode = node;
+                    node.EnsureVisible();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

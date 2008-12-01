@@ -42,13 +42,15 @@ namespace Controls
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Label = new System.Windows.Forms.ToolStripStatusLabel();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Label});
+            this.Label,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 302);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(619, 22);
@@ -57,9 +59,11 @@ namespace Controls
             // 
             // Label
             // 
+            this.Label.AutoSize = false;
             this.Label.Name = "Label";
-            this.Label.Size = new System.Drawing.Size(50, 17);
+            this.Label.Size = new System.Drawing.Size(200, 17);
             this.Label.Text = "Graphic: ";
+            this.Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // listView1
             // 
@@ -79,6 +83,17 @@ namespace Controls
             this.listView1.View = System.Windows.Forms.View.Tile;
             this.listView1.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.drawitem);
             this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.istView_SelectedIndexChanged);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
+            this.toolStripStatusLabel1.Text = "Search";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.OnClickSearch);
             // 
             // Texture
             // 
@@ -101,5 +116,6 @@ namespace Controls
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ToolStripStatusLabel Label;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
