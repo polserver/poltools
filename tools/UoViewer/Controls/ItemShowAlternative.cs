@@ -61,20 +61,16 @@ namespace Controls
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
-            if (refMarker.selected >= 0)
-                index = refMarker.selected + 1;
-            if (index >= refMarker.ItemList.Count)
-                index = 0;
 
             for (int i = index; i < refMarker.ItemList.Count; i++)
             {
                 if ((int)refMarker.ItemList[i] == graphic)
                 {
-                    refMarker.selected = i;
+                    refMarker.selected = graphic;
                     refMarker.vScrollBar.Value=i/refMarker.col+1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
-                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", i);
-                    refMarker.UpdateDetail(i);
+                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[graphic].Name);
+                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", graphic);
+                    refMarker.UpdateDetail(graphic);
                     refMarker.PaintBox();
                     return true;
                 }
@@ -82,23 +78,26 @@ namespace Controls
             return false;
         }
 
-        public static bool SearchName(string name)
+        public static bool SearchName(string name,bool next)
         {
             int index = 0;
-            if (refMarker.selected >= 0)
-                index = refMarker.selected + 1;
-            if (index >= refMarker.ItemList.Count)
-                index = 0;
+            if (next)
+            {
+                if (refMarker.selected >= 0)
+                    index = refMarker.ItemList.IndexOf((object)refMarker.selected) + 1;
+                if (index >= refMarker.ItemList.Count)
+                    index = 0;
+            }
 
             for (int i = index; i < refMarker.ItemList.Count; i++)
             {
                 if (TileData.ItemTable[(int)refMarker.ItemList[i]].Name.Contains(name))
                 {
-                    refMarker.selected = i;
+                    refMarker.selected = (int)refMarker.ItemList[i];
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
-                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", i);
-                    refMarker.UpdateDetail(i);
+                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[refMarker.selected].Name);
+                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", refMarker.selected);
+                    refMarker.UpdateDetail(refMarker.selected);
                     refMarker.PaintBox();
                     return true;
                 }
@@ -123,6 +122,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             ItemList = new ArrayList();
             if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
@@ -156,6 +156,7 @@ namespace Controls
             vScrollBar.Maximum = ItemList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            this.Cursor = Cursors.Default;
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)

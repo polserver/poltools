@@ -95,6 +95,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             cliloc = new StringList("enu");
             LangComboBox.SelectedIndex=0;
@@ -108,6 +109,7 @@ namespace Controls
             dataGridView1.Columns[2].Width = 60;
             dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Refresh();
+            this.Cursor = Cursors.Default;
         }
 
         private void onLangChange(object sender, EventArgs e)

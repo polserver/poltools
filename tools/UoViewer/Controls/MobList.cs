@@ -87,9 +87,13 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             if (!LoadXml())
+            {
+                this.Cursor = Cursors.Default;
                 return;
+            }
 
             LoadListView();
 
@@ -97,6 +101,7 @@ namespace Controls
             m_CurrentSelectAction = 0;
             TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
+            this.Cursor = Cursors.Default;
         }
 
         public void ChangeHue(int select)

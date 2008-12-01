@@ -42,6 +42,7 @@ namespace Controls
         }
         protected override void OnLoad(EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
@@ -53,6 +54,7 @@ namespace Controls
             listBox.EndUpdate();
             pictureBox.BackgroundImage = Gumps.GetGump(0);
             listBox.SelectedIndex = 0;
+            this.Cursor = Cursors.Default;
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)

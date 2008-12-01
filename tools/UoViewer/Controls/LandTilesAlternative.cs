@@ -30,6 +30,7 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
             pictureBox.Image = bmp;
+            refMarker = this;
         }
 
         private ArrayList TileList = new ArrayList();
@@ -37,6 +38,55 @@ namespace Controls
         private int row;
         private int selected = -1;
         private Bitmap bmp;
+
+        private static LandTilesAlternative refMarker = null;
+
+        public static bool SearchGraphic(int graphic)
+        {
+            int index = 0;
+
+            for (int i = index; i < refMarker.TileList.Count; i++)
+            {
+                if ((int)refMarker.TileList[i] == graphic)
+                {
+                    refMarker.selected = graphic;
+                    refMarker.vScrollBar.Value = i / refMarker.col + 1;
+                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.LandTable[graphic].Name);
+                    refMarker.graphiclabel.Text = String.Format("ID: 0x{0:X4}", graphic);
+                    refMarker.FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[graphic].Flags);
+                    refMarker.PaintBox();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool SearchName(string name, bool next)
+        {
+            int index = 0;
+            if (next)
+            {
+                if (refMarker.selected >= 0)
+                    index=refMarker.TileList.IndexOf((object)refMarker.selected)+1;
+                if (index >= refMarker.TileList.Count)
+                    index = 0;
+            }
+
+            for (int i = index; i < refMarker.TileList.Count; i++)
+            {
+                if (TileData.LandTable[(int)refMarker.TileList[i]].Name.Contains(name))
+                {
+                    refMarker.selected = (int)refMarker.TileList[i];
+                    refMarker.vScrollBar.Value = i / refMarker.col + 1;
+                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.LandTable[refMarker.selected].Name);
+                    refMarker.graphiclabel.Text = String.Format("ID: 0x{0:X4}", refMarker.selected);
+                    refMarker.FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[refMarker.selected].Flags);
+                    refMarker.PaintBox();
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private bool Loaded = false;
         public void Reload()
@@ -59,6 +109,7 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             for (int i = 0; i < 0x1000; i++)
             {
@@ -68,6 +119,7 @@ namespace Controls
             vScrollBar.Maximum = TileList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            this.Cursor = Cursors.Default;
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
@@ -129,6 +181,8 @@ namespace Controls
                                 Rectangle rect = new Rectangle(loc, size);
 
                                 g.Clip = new Region(rect);
+                                if (index == selected)
+                                    g.FillRectangle(Brushes.LightBlue, rect);
 
                                 int width = b.Width;
                                 int height = b.Height;
@@ -143,8 +197,6 @@ namespace Controls
                                     width = size.Width * b.Width / b.Height;
                                 }
                                 g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
-                                if (index == selected)
-                                    g.DrawRectangle(Pens.LightBlue, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                             }
                         }
                     }
@@ -188,6 +240,17 @@ namespace Controls
         private void OnClick(object sender, EventArgs e)
         {
             pictureBox.Focus();
+        }
+
+        private LandTileSearch showform = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                showform = new LandTileSearch(true);
+                showform.TopMost = true;
+                showform.Show();
+            }
         }
     }
 }

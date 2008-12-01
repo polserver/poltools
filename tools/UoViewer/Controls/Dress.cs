@@ -140,6 +140,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             bitpic = new Bitmap(DressPic.Width, DressPic.Height);
             graphpic = Graphics.FromImage(bitpic);
@@ -160,6 +161,7 @@ namespace Controls
             toolTip1.SetToolTip(FacingBar, FacingBar.Value.ToString());
             BuildDressList();
             DrawPaperdoll();
+            this.Cursor = Cursors.Default;
         }
 
         private void DrawPaperdoll()

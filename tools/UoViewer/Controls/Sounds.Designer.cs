@@ -41,9 +41,12 @@ namespace Controls
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.seconds = new System.Windows.Forms.Label();
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.seconds = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -61,6 +64,9 @@ namespace Controls
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button3);
+            this.splitContainer1.Panel2.Controls.Add(this.button2);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Panel2.Controls.Add(this.seconds);
             this.splitContainer1.Panel2.Controls.Add(this.checkBox);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
@@ -77,6 +83,15 @@ namespace Controls
             this.treeView.Size = new System.Drawing.Size(300, 324);
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.afterSelect);
+            // 
+            // seconds
+            // 
+            this.seconds.AutoSize = true;
+            this.seconds.Location = new System.Drawing.Point(139, 49);
+            this.seconds.Name = "seconds";
+            this.seconds.Size = new System.Drawing.Size(18, 13);
+            this.seconds.TabIndex = 3;
+            this.seconds.Text = "0s";
             // 
             // checkBox
             // 
@@ -99,14 +114,33 @@ namespace Controls
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.PlaySound);
             // 
-            // seconds
+            // textBox1
             // 
-            this.seconds.AutoSize = true;
-            this.seconds.Location = new System.Drawing.Point(139, 49);
-            this.seconds.Name = "seconds";
-            this.seconds.Size = new System.Drawing.Size(18, 13);
-            this.seconds.TabIndex = 3;
-            this.seconds.Text = "0s";
+            this.textBox1.Location = new System.Drawing.Point(46, 135);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 4;
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.Location = new System.Drawing.Point(46, 161);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(82, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Search";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.SearchName);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(134, 161);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Search Next";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.SearchNext);
             // 
             // Sounds
             // 
@@ -131,5 +165,8 @@ namespace Controls
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox;
         private System.Windows.Forms.Label seconds;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

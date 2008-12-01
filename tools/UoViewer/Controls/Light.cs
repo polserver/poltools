@@ -36,6 +36,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
@@ -51,6 +52,7 @@ namespace Controls
             treeView1.EndUpdate();
             treeView1.SelectedNode = treeView1.Nodes[0];
             pictureBox1.BackgroundImage = (Bitmap)treeView1.Nodes[0].Tag;
+            this.Cursor = Cursors.Default;
         }
 
         private void AfterSelect(object sender, TreeViewEventArgs e)

@@ -36,6 +36,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             object[] data = new object[3];
             dataGridView1.Rows.Clear();
@@ -49,6 +50,7 @@ namespace Controls
                 data[2] = skill.Name;
                 dataGridView1.Rows.Add(data);
             }
+            this.Cursor = Cursors.Default;
         }
     }
 }

@@ -29,8 +29,9 @@ namespace Controls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
             pictureBox.Image = bmp;
+            refMarker = this;
         }
-
+        private static TextureAlternative refMarker = null;
         private ArrayList TextureList = new ArrayList();
         private int col;
         private int row;
@@ -47,6 +48,24 @@ namespace Controls
             OnLoad(this, EventArgs.Empty);
         }
 
+        public static bool SearchGraphic(int graphic)
+        {
+            int index = 0;
+
+            for (int i = index; i < refMarker.TextureList.Count; i++)
+            {
+                if ((int)refMarker.TextureList[i] == graphic)
+                {
+                    refMarker.selected = graphic;
+                    refMarker.vScrollBar.Value = i / refMarker.col + 1;
+                    refMarker.Label.Text = String.Format("Graphic: 0x{0:X4} ({0})", graphic);
+                    refMarker.PaintBox();
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public int GetIndex(int x, int y)
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
@@ -58,6 +77,7 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             for (int i = 0; i < 0x1000; i++)
             {
@@ -67,6 +87,7 @@ namespace Controls
             vScrollBar.Maximum = TextureList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            this.Cursor = Cursors.Default;
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
@@ -185,6 +206,17 @@ namespace Controls
         private void OnClick(object sender, EventArgs e)
         {
             pictureBox.Focus();
+        }
+
+        private TextureSearch showform = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                showform = new TextureSearch(true);
+                showform.TopMost = true;
+                showform.Show();
+            }
         }
     }
 }

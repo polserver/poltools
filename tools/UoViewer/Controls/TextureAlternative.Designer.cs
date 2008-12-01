@@ -44,6 +44,7 @@ namespace Controls
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
@@ -52,7 +53,8 @@ namespace Controls
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Label});
+            this.Label,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 302);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(619, 22);
@@ -61,9 +63,11 @@ namespace Controls
             // 
             // Label
             // 
+            this.Label.AutoSize = false;
             this.Label.Name = "Label";
-            this.Label.Size = new System.Drawing.Size(50, 17);
+            this.Label.Size = new System.Drawing.Size(200, 17);
             this.Label.Text = "Graphic: ";
+            this.Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox
             // 
@@ -97,6 +101,17 @@ namespace Controls
             this.panel1.Size = new System.Drawing.Size(602, 302);
             this.panel1.TabIndex = 5;
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
+            this.toolStripStatusLabel1.Text = "Search";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.OnClickSearch);
+            // 
             // TextureAlternative
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,5 +138,6 @@ namespace Controls
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.VScrollBar vScrollBar;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

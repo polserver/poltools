@@ -39,6 +39,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
@@ -48,6 +49,7 @@ namespace Controls
             }
             listBox.EndUpdate();
             listBox.SelectedIndex = Selected;
+            this.Cursor = Cursors.Default;
         }
 
         public int GetSelect()

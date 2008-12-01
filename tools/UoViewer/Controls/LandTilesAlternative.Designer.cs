@@ -46,6 +46,7 @@ namespace Controls
             this.FlagsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panel1.SuspendLayout();
@@ -65,7 +66,8 @@ namespace Controls
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.namelabel,
             this.graphiclabel,
-            this.FlagsLabel});
+            this.FlagsLabel,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 302);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(619, 22);
@@ -124,6 +126,18 @@ namespace Controls
             this.panel1.Size = new System.Drawing.Size(602, 302);
             this.panel1.TabIndex = 3;
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
+            this.toolStripStatusLabel1.Text = "Search";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.OnClickSearch);
+            // 
             // LandTilesAlternative
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,6 +166,7 @@ namespace Controls
         private System.Windows.Forms.ToolStripStatusLabel namelabel;
         private System.Windows.Forms.ToolStripStatusLabel graphiclabel;
         private System.Windows.Forms.ToolStripStatusLabel FlagsLabel;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 
     }
 }

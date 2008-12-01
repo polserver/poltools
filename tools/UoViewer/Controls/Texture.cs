@@ -26,13 +26,35 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            refMarker = this;
         }
 
+        private static Texture refMarker = null;
         private bool Loaded = false;
         public void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
+        }
+
+        public static bool SearchGraphic(int graphic)
+        {
+            int index = 0;
+
+            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            {
+                ListViewItem item = refMarker.listView1.Items[i];
+                if ((int)item.Tag == graphic)
+                {
+                    if (refMarker.listView1.SelectedItems.Count == 1)
+                        refMarker.listView1.SelectedItems[0].Selected = false;
+                    item.Selected = true;
+                    item.Focused = true;
+                    item.EnsureVisible();
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void drawitem(object sender, DrawListViewItemEventArgs e)
@@ -69,6 +91,7 @@ namespace Controls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             listView1.BeginUpdate();
             listView1.Clear();
@@ -85,6 +108,18 @@ namespace Controls
 
             listView1.TileSize = new Size(64, 64);
             listView1.EndUpdate();
+            this.Cursor = Cursors.Default;
+        }
+
+        private TextureSearch showform = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                showform = new TextureSearch(false);
+                showform.TopMost = true;
+                showform.Show();
+            }
         }
     }
 }

@@ -38,6 +38,7 @@ namespace Controls
         }
         private void OnLoad(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.AppStarting;
             Loaded = true;
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
@@ -54,6 +55,7 @@ namespace Controls
             }
             TreeViewMulti.EndUpdate();
             TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
+            this.Cursor = Cursors.Default;
         }
 
         private void afterSelect_Multi(object sender, TreeViewEventArgs e)

@@ -1,4 +1,4 @@
-/***************************************************************************
+﻿/***************************************************************************
  *
  * $Author: Turley
  * 
@@ -16,20 +16,19 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Controls
 {
-    public partial class ItemSearch : Form
+    public partial class TileDatasSearch : Form
     {
-        private static bool alt;
-        public ItemSearch(bool alternative)
+        private bool land;
+        public TileDatasSearch(bool landtile)
         {
             InitializeComponent();
-            alt = alternative;
+            land = landtile;
         }
 
-        private void Search_Graphic(object sender, EventArgs e)
+        private void SearchGraphic(object sender, EventArgs e)
         {
             int graphic;
             string convert;
@@ -41,30 +40,22 @@ namespace Controls
             }
             else
                 candone = int.TryParse(textBoxGraphic.Text, System.Globalization.NumberStyles.Integer, null, out graphic);
-                
+
             if (candone)
             {
-                bool res;
-                if (alt)
-                    res = ItemShowAlternative.SearchGraphic(graphic);
-                else
-                    res = ItemShow.SearchGraphic(graphic);
+                bool res = TileDatas.SearchGraphic(graphic,land);
                 if (!res)
                 {
-                    DialogResult result = MessageBox.Show("No item found","Result",MessageBoxButtons.OKCancel);
+                    DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
                     if (result == DialogResult.Cancel)
                         Close();
                 }
             }
         }
 
-        private void Search_ItemName(object sender, EventArgs e)
+        private void SearchName(object sender, EventArgs e)
         {
-            bool res;
-            if (alt)
-                res = ItemShowAlternative.SearchName(textBoxItemName.Text,false);
-            else
-                res = ItemShow.SearchName(textBoxItemName.Text,false);
+            bool res = TileDatas.SearchName(textBoxItemName.Text, false, land);
             if (!res)
             {
                 DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
@@ -75,11 +66,7 @@ namespace Controls
 
         private void SearchNextName(object sender, EventArgs e)
         {
-            bool res;
-            if (alt)
-                res = ItemShowAlternative.SearchName(textBoxItemName.Text, true);
-            else
-                res = ItemShow.SearchName(textBoxItemName.Text, true);
+            bool res = TileDatas.SearchName(textBoxItemName.Text, true, land);
             if (!res)
             {
                 DialogResult result = MessageBox.Show("No item found", "Result", MessageBoxButtons.OKCancel);
