@@ -527,7 +527,7 @@ namespace Ultima
             }
             else
             {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException("File not found tiledata.mul");
             }
         }
 
