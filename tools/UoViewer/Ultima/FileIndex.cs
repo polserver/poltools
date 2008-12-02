@@ -108,19 +108,12 @@ namespace Ultima
         public static void LoadMulPath()
         {
             MulPath = new Hashtable();
-            string path;
-            try
-            {
-                path = Client.Directory;
-            }
-            catch
-            {
+            string path = Client.Directory;
+            if (path == null)
                 path = "";
-            }
-            string filePath;
             foreach (string file in m_Files)
             {
-                filePath = Path.Combine(path, file);
+                string filePath = Path.Combine(path, file);
                 if (File.Exists(filePath))
                     MulPath[file] = filePath;
                 else
@@ -130,10 +123,9 @@ namespace Ultima
 
         public static void SetMulPath(string path)
         {
-            string filePath;
             foreach (string file in m_Files)
             {
-                filePath = Path.Combine(path, file);
+                string filePath = Path.Combine(path, file);
                 if (File.Exists(filePath))
                     MulPath[file] = filePath;
                 else
@@ -193,9 +185,9 @@ namespace Ultima
                 idxPath = MulPath[idxFile.ToLower()].ToString();
                 mulPath = MulPath[mulFile.ToLower()].ToString();
                 if (!File.Exists(idxPath))
-                    idxPath = Client.GetFilePath(idxFile);
+                    idxPath = null;
                 if (!File.Exists(mulPath))
-                    mulPath = Client.GetFilePath(mulFile);
+                    mulPath = null;
             }
 
 			if ( idxPath != null && mulPath != null )
@@ -222,6 +214,8 @@ namespace Ultima
 					}
 				}
 			}
+            else
+                throw new FileNotFoundException(String.Format("File not found {0} {1}", idxFile,mulFile));
 
 			Entry5D[] patches = Verdata.Patches;
 

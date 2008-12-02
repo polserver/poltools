@@ -25,7 +25,10 @@ namespace UoViewer
         {
             InitializeComponent();
 
-            richTextBox.Text = err.Message+"\n\n"+err.StackTrace;
+            richTextBox.Text = "";
+            if (err.InnerException!=null)
+                richTextBox.Text = err.InnerException.Message + "\n" + err.InnerException.GetType().ToString();
+            richTextBox.Text = richTextBox.Text+"\n\n"+err.Message+"\n\n"+err.StackTrace;
         }
 
         private void onclick(object sender, EventArgs e)
