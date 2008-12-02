@@ -72,6 +72,7 @@ namespace Controls
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -87,11 +88,10 @@ namespace Controls
             this.label24 = new System.Windows.Forms.Label();
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.button8 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -469,6 +469,16 @@ namespace Controls
             this.checkedListBox1.Size = new System.Drawing.Size(400, 124);
             this.checkedListBox1.TabIndex = 0;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(277, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 3;
+            this.button7.Text = "Search";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.OnClickSearch);
+            // 
             // button3
             // 
             this.button3.AutoSize = true;
@@ -657,6 +667,16 @@ namespace Controls
             this.checkedListBox2.Size = new System.Drawing.Size(400, 229);
             this.checkedListBox2.TabIndex = 0;
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(277, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 3;
+            this.button8.Text = "Search";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.OnClickSearch2);
+            // 
             // button4
             // 
             this.button4.AutoSize = true;
@@ -689,26 +709,6 @@ namespace Controls
             this.button6.Text = "Save Changes";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.OnClickSaveChangesLand);
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(277, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 3;
-            this.button7.Text = "Search";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.OnClickSearch);
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(277, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 3;
-            this.button8.Text = "Search";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.OnClickSearch2);
             // 
             // TileDatas
             // 
