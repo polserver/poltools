@@ -443,17 +443,16 @@ namespace Ultima
 			get{ return m_HeightTable; }
 		}
 
-		private static byte[] m_StringBuffer = new byte[20];
-
+        private static byte[] m_StringBuffer = new byte[20];
 		private static string ReadNameString( BinaryReader bin )
 		{
-			bin.Read( m_StringBuffer, 0, 20 );
+            bin.Read(m_StringBuffer, 0, 20);
 
-			int count;
+            int count;
 
-			for ( count = 0; count < 20 && m_StringBuffer[count] != 0; ++count );
+            for (count = 0; count < 20 && m_StringBuffer[count] != 0; ++count) ;
 
-			return Encoding.ASCII.GetString( m_StringBuffer, 0, count );
+            return Encoding.Default.GetString(m_StringBuffer, 0, count);
 		}
 
 		private TileData()
@@ -547,13 +546,15 @@ namespace Ultima
                     }
                     bin.Write((int)m_LandData[i].Flags);
                     bin.Write(m_LandData[i].TextureID);
-                    char[] c = new char[20];
+                    byte[] b = new byte[20];
                     if (m_LandData[i].Name != null)
                     {
-                        char[] cc = m_LandData[i].Name.ToCharArray();
-                        cc.CopyTo(c, 0);
+                        byte[] bb = Encoding.Default.GetBytes(m_LandData[i].Name);
+                        if (bb.Length > 20)
+                            Array.Resize(ref bb, 20);
+                        bb.CopyTo(b, 0);
                     }
-                    bin.Write(c);
+                    bin.Write(b);
                 }
                 j = 0;
                 for (int i = 0; i < 0x4000; ++i)
@@ -575,13 +576,15 @@ namespace Ultima
                     bin.Write(m_ItemData[i].StackingOffset); //unk4
                     bin.Write(m_ItemData[i].Value); //unk5
                     bin.Write(m_ItemData[i].Height);
-                    char[] c = new char[20];
+                    byte[] b = new byte[20];
                     if (m_ItemData[i].Name != null)
                     {
-                        char[] cc = m_ItemData[i].Name.ToCharArray();
-                        cc.CopyTo(c, 0);
+                        byte[] bb =Encoding.Default.GetBytes(m_ItemData[i].Name);
+                        if (bb.Length > 20)
+                            Array.Resize(ref bb, 20);
+                        bb.CopyTo(b, 0);
                     }
-                    bin.Write(c);
+                    bin.Write(b);
                 }
             }
         }

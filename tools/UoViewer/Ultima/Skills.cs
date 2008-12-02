@@ -46,7 +46,7 @@ namespace Ultima
             int count;
             for (count = 0; count < length && m_StringBuffer[count] != 0; ++count) ;
 
-            return Encoding.ASCII.GetString(m_StringBuffer, 0, count);
+            return Encoding.Default.GetString(m_StringBuffer, 0, count);
         }
     }
 }
