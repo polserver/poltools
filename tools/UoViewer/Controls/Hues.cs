@@ -10,11 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using Ultima;
 
@@ -27,14 +23,31 @@ namespace Controls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }
-        private int Selected=0;
-
+        private int selected = 0;
         private bool Loaded = false;
+
+        /// <summary>
+        /// Sets Selected Hue
+        /// </summary>
+        public int Selected
+        {
+            get { return listBox.SelectedIndex; }
+            set
+            {
+                selected = value;
+                if (listBox.Items.Count > 0)
+                    listBox.SelectedIndex = value;
+            }
+        }
+
+        /// <summary>
+        /// Reload when loaded (file changed)
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
                 return;
-            Selected = 0;
+            selected = 0;
             OnLoad(this, EventArgs.Empty);
         }
         private void OnLoad(object sender, EventArgs e)
@@ -43,25 +56,10 @@ namespace Controls
             Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
-            foreach (Hue hue in Ultima.Hues.List)
-            {
-                listBox.Items.Add(hue);
-            }
+            listBox.Items.AddRange(Ultima.Hues.List);
             listBox.EndUpdate();
-            listBox.SelectedIndex = Selected;
+            listBox.SelectedIndex = selected;
             this.Cursor = Cursors.Default;
-        }
-
-        public int GetSelect()
-        {
-            return listBox.SelectedIndex;
-        }
-        public void SetSelect(int sel)
-        {
-            if (listBox.Items.Count > 0)
-                listBox.SelectedIndex = sel;
-            else
-                Selected = sel;
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)

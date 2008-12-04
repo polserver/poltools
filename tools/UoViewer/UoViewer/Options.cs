@@ -10,17 +10,10 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using System.Xml;
-using System.IO;
-using Ultima;
-using Controls;
-using System.Drawing;
-using System.Windows.Forms.Design;
-using System.ComponentModel;
 using System.Collections;
+using System.IO;
+using System.Xml;
+using Ultima;
 
 namespace UoViewer
 {
@@ -67,7 +60,7 @@ namespace UoViewer
             comment = dom.CreateComment("Alternative layout in items tab?");
             sr.AppendChild(comment);
             elem = dom.CreateElement("AlternativeDesign");
-            elem.SetAttribute("active", UoViewer.AlternativeDesign.ToString());
+            elem.SetAttribute("active", Controls.Options.DesignAlternative.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Use Hashfile to speed up load?");
             sr.AppendChild(comment);
@@ -127,7 +120,10 @@ namespace UoViewer
 
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
             if (elem != null)
-                UoViewer.AlternativeDesign = bool.Parse(elem.GetAttribute("active"));
+            {
+                Controls.Options.DesignAlternative = bool.Parse(elem.GetAttribute("active"));
+                UoViewer.AlternativeDesign = Controls.Options.DesignAlternative;
+            }
 
             elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");
             if (elem != null)

@@ -33,10 +33,5 @@ namespace Ultima
             m_Text = text;
             m_Flag = flag;
         }
-
-        public override string ToString()
-        {
-            return String.Format("{0} {1}",m_Number,m_Text);
-        }
 	}
 }

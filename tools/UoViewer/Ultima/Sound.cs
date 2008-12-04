@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Media;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -34,6 +31,9 @@ namespace Ultima
             Initialize();
 		}
 
+        /// <summary>
+        /// Reads Sounds and def
+        /// </summary>
         public static void Initialize()
         {
             m_Indexstream = new FileStream(Client.GetFilePath("soundidx.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -53,14 +53,17 @@ namespace Ultima
                         Match match = reg.Match(line);
 
                         if (match.Success)
-                        {
                             m_Translations.Add(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
-                        }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Returns <see cref="UOSound"/> of ID
+        /// </summary>
+        /// <param name="soundID"></param>
+        /// <returns></returns>
 		public static UOSound GetSound( int soundID )
 		{
 			if( soundID < 0 ) { return null; }
@@ -128,6 +131,11 @@ namespace Ultima
 			return new int[] { 0x46464952, ( length + 12 ), 0x45564157, 0x20746D66, 0x10, 0x010001, 0x5622, 0xAC44, 0x100002, 0x61746164, ( length - 24 ) };
 		}
 
+        /// <summary>
+        /// Returns Soundname and tests if valid
+        /// </summary>
+        /// <param name="soundID"></param>
+        /// <returns></returns>
         public static string IsValidSound(int soundID)
         {
             if( soundID < 0 ) { return ""; }
@@ -157,7 +165,13 @@ namespace Ultima
             return str;
         }
 
-        public static int GetSoundLength(int soundID)
+        /// <summary>
+        /// Returns length of SoundID
+        /// ToDo: not always correct
+        /// </summary>
+        /// <param name="soundID"></param>
+        /// <returns></returns>
+        public static double GetSoundLength(int soundID)
         {
             if (soundID < 0) { return 0; }
 
@@ -178,9 +192,10 @@ namespace Ultima
 
             if ((offset < 0) || (length <= 0)) { return 0; }
 
-            length -= 24;
-            length /= 0xAC44;  // Bytes per Sec
-            return length;
+            double len = (double)length;
+            len /= 0x5622; // Sample Rate
+            len /= 2;
+            return len;
         }
 	}
 }

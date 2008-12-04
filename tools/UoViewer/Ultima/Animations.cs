@@ -1,8 +1,8 @@
 using System;
-using System.IO;
 using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -26,6 +26,9 @@ namespace Ultima
             Initialize();
 		}
 
+        /// <summary>
+        /// Fills bodyconv.def Tables
+        /// </summary>
         public static void Initialize()
         {
             string path = Client.GetFilePath("bodyconv.def");
@@ -202,6 +205,14 @@ namespace Ultima
 		/// <term>3</term>
 		/// <description>Anim3.mul, Anim3.idx (AOS)</description>
 		/// </item>
+        /// <item>
+        /// <term>4</term>
+        /// <description>Anim4.mul, Anim4.idx (SE)</description>
+        /// </item>
+        /// <item>
+        /// <term>5</term>
+        /// <description>Anim5.mul, Anim5.idx (ML)</description>
+        /// </item>
 		/// </list>
 		/// </returns>
 		public static int Convert( ref int body )
@@ -275,6 +286,9 @@ namespace Ultima
 		{
 		}
 
+        /// <summary>
+        /// Rereads AnimX files and bodyconv, body.def
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
@@ -286,6 +300,16 @@ namespace Ultima
             BodyTable.Initialize();
         }
 
+        /// <summary>
+        /// Returns Framelist
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="action"></param>
+        /// <param name="direction"></param>
+        /// <param name="hue"></param>
+        /// <param name="preserveHue">No Hue override <see cref="bodydev"/></param>
+        /// <param name="FirstFrame"></param>
+        /// <returns></returns>
 		public static Frame[] GetAnimation( int body, int action, int direction, ref int hue, bool preserveHue, bool FirstFrame )
 		{
 			if ( preserveHue )
@@ -294,93 +318,17 @@ namespace Ultima
 				Translate( ref body, ref hue );
 
 			int fileType = BodyConverter.Convert( ref body );
-			FileIndex fileIndex;
 
-			int index;
-
-			switch( fileType )
-			{
-				default:
-				case 1:
-					{
-						fileIndex = m_FileIndex;
-
-						if( body < 200 )
-							index = body * 110;
-						else if( body < 400 )
-							index = 22000 + ( ( body - 200 ) * 65 );
-						else
-							index = 35000 + ( ( body - 400 ) * 175 );
-
-						break;
-					}
-				case 2:
-					{
-						fileIndex = m_FileIndex2;
-
-						if( body < 200 )
-							index = body * 110;
-						else
-							index = 22000 + ( ( body - 200 ) * 65 );
-
-						break;
-					}
-				case 3:
-					{
-						fileIndex = m_FileIndex3;
-
-						if( body < 300 )
-							index = body * 65;
-						else if( body < 400 )
-							index = 33000 + ( ( body - 300 ) * 110 );
-						else
-							index = 35000 + ( ( body - 400 ) * 175 );
-
-						break;
-					}
-				case 4:
-					{
-						fileIndex = m_FileIndex4;
-
-						if( body < 200 )
-							index = body * 110;
-						else if( body < 400 )
-							index = 22000 + ( ( body - 200 ) * 65 );
-						else
-							index = 35000 + ( ( body - 400 ) * 175 );
-
-						break;
-					}
-				case 5:
-					{
-						fileIndex = m_FileIndex5;
-
-						if( body < 200 && body != 34 ) // looks strange, though it works.
-							index = body * 110;
-						else if (body < 400)
-                            index = 22000 + ( ( body - 200 ) * 65 );
-                        else
-							index = 35000 + ( ( body - 400 ) * 175 );
-
-						break;
-					}
-			}
-  
-			index += action * 5;
-
-			if ( direction <= 4 )
-				index += direction;
-			else
-				index += direction - (direction - 4) * 2;
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, action, direction, fileType, out fileIndex, out index);
 
 			int length, extra;
 			bool patched;
 			Stream stream = fileIndex.Seek( index, out length, out extra, out patched );
 
 			if( stream == null )
-			{
 				return null;
-			}
 
 			bool flip = ( direction > 4 );
 
@@ -433,6 +381,10 @@ namespace Ultima
 
 		private static int[] m_Table;
 
+        /// <summary>
+        /// Translates body (body.def)
+        /// </summary>
+        /// <param name="body"></param>
 		public static void Translate( ref int body )
 		{
 			if ( m_Table == null )
@@ -447,6 +399,11 @@ namespace Ultima
 			body = ( m_Table[body] & 0x7FFF );
 		}
 
+        /// <summary>
+        /// Translates body and hue (body.def)
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="hue"></param>
 		public static void Translate( ref int body, ref int hue )
 		{
 			if ( m_Table == null )
@@ -494,18 +451,42 @@ namespace Ultima
 			}
 		}
 
-        public static bool IsActionDefined(int body, int action, int direction, int hue, bool preserveHue)
+        /// <summary>
+        /// Is Body with action and direction definied
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="action"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public static bool IsActionDefined(int body, int action, int direction)
         {
-            if (preserveHue)
-                Translate(ref body);
-            else
-                Translate(ref body, ref hue);
-
+            Translate(ref body);
             int fileType = BodyConverter.Convert(ref body);
+
             FileIndex fileIndex;
-
             int index;
+            GetFileIndex(body, action, direction, fileType, out fileIndex, out index);
 
+            int length, extra;
+            bool patched;
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Gets Fileseek index based on fileType,body,action,direction
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="action"></param>
+        /// <param name="direction"></param>
+        /// <param name="fileType">animX</param>
+        /// <param name="fileIndex"></param>
+        /// <param name="index"></param>
+        private static void GetFileIndex(int body, int action, int direction, int fileType, out FileIndex fileIndex, out int index)
+        {
             switch (fileType)
             {
                 default:
@@ -580,18 +561,13 @@ namespace Ultima
                 index += direction;
             else
                 index += direction - (direction - 4) * 2;
-
-            int length, extra;
-            bool patched;
-            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
-
-            if (stream == null)
-            {
-                return false;
-            }
-            return true;
         }
 
+        /// <summary>
+        /// Returns Filename body is in
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns>anim{0}.mul</returns>
         public static string GetFileName(int body)
         {
             Translate( ref body );

@@ -10,22 +10,15 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Controls
 {
     public partial class LandTileSearch : Form
     {
-        private static bool alt;
-        public LandTileSearch(bool alternative)
+        public LandTileSearch()
         {
             InitializeComponent();
-            alt = alternative;
         }
 
         private void SearchGraphic(object sender, EventArgs e)
@@ -44,7 +37,7 @@ namespace Controls
             if (candone)
             {
                 bool res;
-                if (alt)
+                if (Options.DesignAlternative)
                     res = LandTilesAlternative.SearchGraphic(graphic);
                 else
                     res = LandTiles.SearchGraphic(graphic);
@@ -60,7 +53,7 @@ namespace Controls
         private void SearchName(object sender, EventArgs e)
         {
             bool res;
-            if (alt)
+            if (Options.DesignAlternative)
                 res = LandTilesAlternative.SearchName(textBoxItemName.Text,false);
             else
                 res = LandTiles.SearchName(textBoxItemName.Text,false);
@@ -75,7 +68,7 @@ namespace Controls
         private void SearchNextName(object sender, EventArgs e)
         {
             bool res;
-            if (alt)
+            if (Options.DesignAlternative)
                 res = LandTilesAlternative.SearchName(textBoxItemName.Text, true);
             else
                 res = LandTiles.SearchName(textBoxItemName.Text, true);

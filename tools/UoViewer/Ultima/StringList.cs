@@ -1,8 +1,7 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System.Data;
 
 namespace Ultima
 {
@@ -18,6 +17,10 @@ namespace Ultima
 
 		private static byte[] m_Buffer = new byte[1024];
 
+        /// <summary>
+        /// Initialize <see cref="StringList"/> of Language
+        /// </summary>
+        /// <param name="language"></param>
 		public StringList( string language )
 		{
 			m_Language = language;
@@ -53,6 +56,10 @@ namespace Ultima
 			}
 		}
 
+        /// <summary>
+        /// Saves <see cref="SaveStringList"/> to FileName
+        /// </summary>
+        /// <param name="FileName"></param>
         public void SaveStringList(string FileName)
         {
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -73,6 +80,7 @@ namespace Ultima
             }
         }
 
+        #region SortComparer
         public class NumberComparerAsc : IComparer
         {
             public int Compare(object objA, object objB)
@@ -166,5 +174,6 @@ namespace Ultima
                 return String.Compare(entryB.Text, entryA.Text);
             }
         }
-	}
+        #endregion
+    }
 }

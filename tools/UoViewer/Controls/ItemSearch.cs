@@ -10,23 +10,15 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace Controls
 {
     public partial class ItemSearch : Form
     {
-        private static bool alt;
-        public ItemSearch(bool alternative)
+        public ItemSearch()
         {
             InitializeComponent();
-            alt = alternative;
         }
 
         private void Search_Graphic(object sender, EventArgs e)
@@ -45,7 +37,7 @@ namespace Controls
             if (candone)
             {
                 bool res;
-                if (alt)
+                if (Options.DesignAlternative)
                     res = ItemShowAlternative.SearchGraphic(graphic);
                 else
                     res = ItemShow.SearchGraphic(graphic);
@@ -61,7 +53,7 @@ namespace Controls
         private void Search_ItemName(object sender, EventArgs e)
         {
             bool res;
-            if (alt)
+            if (Options.DesignAlternative)
                 res = ItemShowAlternative.SearchName(textBoxItemName.Text,false);
             else
                 res = ItemShow.SearchName(textBoxItemName.Text,false);
@@ -76,7 +68,7 @@ namespace Controls
         private void SearchNextName(object sender, EventArgs e)
         {
             bool res;
-            if (alt)
+            if (Options.DesignAlternative)
                 res = ItemShowAlternative.SearchName(textBoxItemName.Text, true);
             else
                 res = ItemShow.SearchName(textBoxItemName.Text, true);

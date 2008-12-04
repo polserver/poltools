@@ -1,29 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.IO;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
     public sealed class UnicodeFonts
     {
+        private static string[] m_files = new string[]
+        {
+            "unifont.mul",
+            "unifont1.mul",
+            "unifont2.mul",
+            "unifont3.mul",
+            "unifont4.mul",
+            "unifont5.mul",
+            "unifont6.mul"
+        };
+        /// <summary>
+        /// Returns Bitmap of given font and character
+        /// </summary>
+        /// <param name="font"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static Bitmap GetCharImage(int font, int c)
         {
-            string[] files = new string[]
-            {
-                "unifont.mul",
-                "unifont1.mul",
-                "unifont2.mul",
-                "unifont3.mul",
-                "unifont4.mul",
-                "unifont5.mul",
-                "unifont6.mul"
-            };
             Bitmap charImage;
 
-            string filePath = Client.GetFilePath(files[font]);
+            string filePath = Client.GetFilePath(m_files[font]);
             if (filePath != null)
             {
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

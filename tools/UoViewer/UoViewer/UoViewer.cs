@@ -11,23 +11,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Ultima;
-using System.Drawing.Imaging;
-using System.Xml;
-using System.IO;
-using Controls;
-using System.Collections;
 
 namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "2.0f";
+        private static string Version = "2.1";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;

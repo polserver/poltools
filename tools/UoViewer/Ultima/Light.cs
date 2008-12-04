@@ -1,7 +1,6 @@
-using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -14,12 +13,19 @@ namespace Ultima
 
         //public static Bitmap[] Cache { get { return m_Cache; } }
 
+        /// <summary>
+        /// ReReads light.mul
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("lightidx.mul", "light.mul", 0x100, -1);
             m_Cache = new Bitmap[0x100];
         }
 
+        /// <summary>
+        /// Gets count of definied lights
+        /// </summary>
+        /// <returns></returns>
         public static int GetCount()
         {
             string idxPath=Client.GetFilePath("lightidx.mul");
@@ -28,6 +34,11 @@ namespace Ultima
             return (int)(index.Length/12);
         }
 
+        /// <summary>
+        /// Tests if given index is valid
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static bool TestLight(int index)
         {
             if (!FileIndex.CacheData)
@@ -52,6 +63,11 @@ namespace Ultima
             return false;
         }
 
+        /// <summary>
+        /// Returns Bitmap of given index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public unsafe static Bitmap GetLight(int index)
         {
             if (!FileIndex.CacheData)

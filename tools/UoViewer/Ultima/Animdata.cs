@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
 using System.IO;
-using System.Drawing.Imaging;
 
 namespace Ultima
 {
@@ -16,6 +11,9 @@ namespace Ultima
             Initialize();
         }
 
+        /// <summary>
+        /// Reads animdata.mul and fills <see cref="AnimData"/>
+        /// </summary>
         public unsafe static void Initialize()
         {
             AnimData = new Hashtable();
@@ -52,6 +50,11 @@ namespace Ultima
                 }
             }
         }
+        /// <summary>
+        /// Gets Animation <see cref="Data"/>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static Data GetAnimData(int id)
         {
             if (AnimData.Contains(id))
@@ -62,18 +65,25 @@ namespace Ultima
 
         public class Data
         {
-            public sbyte[] FrameData;
-            public byte unknown;
-            public byte FrameCount;
-            public byte FrameInterval;
-            public byte FrameStart;
+            private sbyte[] m_FrameData;
+            private byte m_unknown;
+            private byte m_FrameCount;
+            private byte m_FrameInterval;
+            private byte m_FrameStart;
+
+            public sbyte[] FrameData { get { return m_FrameData; } }
+            public byte Unknown { get { return m_unknown; } }
+            public byte FrameCount { get { return m_FrameCount; } }
+            public byte FrameInterval { get { return m_FrameInterval; } }
+            public byte FrameStart { get { return m_FrameStart; } }
+
             public Data(sbyte[] frame, byte unk, byte fcount, byte finter, byte fstart)
             {
-                FrameData = frame;
-                unknown = unk;
-                FrameCount = fcount;
-                FrameInterval = finter;
-                FrameStart = fstart;
+                m_FrameData = frame;
+                m_unknown = unk;
+                m_FrameCount = fcount;
+                m_FrameInterval = finter;
+                m_FrameStart = fstart;
             }
         }
     }

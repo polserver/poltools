@@ -1,8 +1,7 @@
-using System;
-using System.IO;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Text;
 
 namespace Ultima
 {
@@ -17,6 +16,9 @@ namespace Ultima
 			Initialize();
 		}
 
+        /// <summary>
+        /// Reads hues.mul and fills <see cref="List"/>
+        /// </summary>
         public static void Initialize()
         {
             string path = Client.GetFilePath( "hues.mul" );
@@ -49,6 +51,11 @@ namespace Ultima
 				m_List[index] = new Hue( index );
         }
 
+        /// <summary>
+        /// Returns <see cref="Hue"/>
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public static Hue GetHue( int index )
 		{
 			index &= 0x3FFF;
@@ -110,6 +117,11 @@ namespace Ultima
             m_Name = m_Name.Replace("\n", " ");
 		}
 
+        /// <summary>
+        /// Applies Hue to Bitmap
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="onlyHueGrayPixels"></param>
 		public unsafe void ApplyTo( Bitmap bmp, bool onlyHueGrayPixels )
 		{
 			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.ReadWrite, PixelFormat.Format16bppArgb1555 );

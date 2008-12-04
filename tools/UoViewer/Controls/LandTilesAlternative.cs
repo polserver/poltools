@@ -11,13 +11,8 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using Ultima;
 
 namespace Controls
@@ -38,9 +33,15 @@ namespace Controls
         private int row;
         private int selected = -1;
         private Bitmap bmp;
+        private bool Loaded = false;
 
         private static LandTilesAlternative refMarker = null;
 
+        /// <summary>
+        /// Searches Objtype and Select
+        /// </summary>
+        /// <param name="graphic"></param>
+        /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
@@ -61,6 +62,12 @@ namespace Controls
             return false;
         }
 
+        /// <summary>
+        /// Searches for name and selects
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="next">private bool Loaded = false;</param>
+        /// <returns></returns>
         public static bool SearchName(string name, bool next)
         {
             int index = 0;
@@ -88,7 +95,9 @@ namespace Controls
             return false;
         }
 
-        private bool Loaded = false;
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
@@ -98,7 +107,7 @@ namespace Controls
             OnLoad(this, EventArgs.Empty);
         }
 
-        public int GetIndex(int x, int y)
+        private int GetIndex(int x, int y)
         {
             int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
             if (TileList.Count > value)
@@ -247,7 +256,7 @@ namespace Controls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                showform = new LandTileSearch(true);
+                showform = new LandTileSearch();
                 showform.TopMost = true;
                 showform.Show();
             }

@@ -1,15 +1,26 @@
 using System;
-using System.IO;
 using System.Collections;
-using System.Windows.Forms.Design;
+using System.IO;
 
 namespace Ultima
 {
 	public sealed class FileIndex
 	{
-        public static bool CacheData = true;
-        public static bool UseHashFile = false;
-        public static string[] m_Files = new string[]
+        private static bool m_CacheData = true;
+        private static bool m_UseHashFile = false;
+
+        private Entry3D[] m_Index;
+        private Stream m_Stream;
+        private static IDictionary m_MulPath;
+
+        public static bool CacheData { get { return m_CacheData; } set { m_CacheData = value; } }
+        public static bool UseHashFile { get { return m_UseHashFile; } set { m_UseHashFile = value; } }
+
+        public Entry3D[] Index { get { return m_Index; } }
+        public Stream Stream { get { return m_Stream; } }
+        public static IDictionary MulPath { get { return m_MulPath; } set { m_MulPath = value; } }
+
+        private static string[] m_Files = new string[]
 		{
 			"anim.idx",
 			"anim.mul",
@@ -98,16 +109,12 @@ namespace Ultima
 			"verdata.mul"
         };
 
-		private Entry3D[] m_Index;
-		private Stream m_Stream;
-        public static IDictionary MulPath=new Hashtable();
-
-		public Entry3D[] Index{ get{ return m_Index; } }
-		public Stream Stream{ get{ return m_Stream; } }
-
+        /// <summary>
+        /// Fills <see cref="MulPath"/> with <see cref="Client.Directory"/>
+        /// </summary>
         public static void LoadMulPath()
         {
-            MulPath = new Hashtable();
+            m_MulPath = new Hashtable();
             string path = Client.Directory;
             if (path == null)
                 path = "";
@@ -115,21 +122,25 @@ namespace Ultima
             {
                 string filePath = Path.Combine(path, file);
                 if (File.Exists(filePath))
-                    MulPath[file] = filePath;
+                    m_MulPath[file] = filePath;
                 else
-                    MulPath[file] = "";
+                    m_MulPath[file] = "";
             }
         }
 
+        /// <summary>
+        /// ReSets <see cref="MulPath"/> with given path
+        /// </summary>
+        /// <param name="path"></param>
         public static void SetMulPath(string path)
         {
             foreach (string file in m_Files)
             {
                 string filePath = Path.Combine(path, file);
                 if (File.Exists(filePath))
-                    MulPath[file] = filePath;
+                    m_MulPath[file] = filePath;
                 else
-                    MulPath[file] = "";
+                    m_MulPath[file] = "";
             }
         }
 
@@ -232,6 +243,12 @@ namespace Ultima
 			}
 		}
 
+        /// <summary>
+        /// Compares given MD5 hash with hash of given file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="hash"></param>
+        /// <returns></returns>
         public static bool CompareMD5(string file, string hash)
         {
             System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
@@ -245,6 +262,11 @@ namespace Ultima
                 return false;
         }
 
+        /// <summary>
+        /// Returns MD5 hash from given file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static byte[] GetMD5(string file)
         {
             System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
@@ -254,6 +276,11 @@ namespace Ultima
             return md5Hash;
         }
 
+        /// <summary>
+        /// Compares MD5 hash from given mul file with hash in responsible hash-file
+        /// </summary>
+        /// <param name="what"></param>
+        /// <returns></returns>
         public static bool CompareHashFile(string what)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;

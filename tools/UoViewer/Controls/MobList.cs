@@ -10,17 +10,13 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using Ultima;
-using System.Xml;
-using System.IO;
-using System.Drawing.Imaging;
 using System.Collections;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml;
+using Ultima;
 
 namespace Controls
 {
@@ -30,8 +26,10 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-            
+
         }
+
+        #region AnimNames
         private string[][] AnimNames = {
             new string[]{"Walk","Idle","Die1","Die2","Attack1","Attack2","Attack3","AttackBow","AttackCrossBow",
                          "AttackThrow","GetHit","Pillage","Stomp","Cast2","Cast3","BlockRight","BlockLeft","Idle",
@@ -49,7 +47,7 @@ namespace Controls
                          "Block_Shield_Hard_01","Punch_Punch_Jab_01","Bow_Lesser_01","Salute_Armed1h_01",
                          "Ingest_Eat_01"}//human
         };
-
+        #endregion
 
         private Bitmap m_MainPicture;
         private int m_CurrentSelect = 0;
@@ -67,6 +65,10 @@ namespace Controls
         private int DisplayType = 0;
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
@@ -104,11 +106,16 @@ namespace Controls
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Changes Hue of current Mob
+        /// </summary>
+        /// <param name="select"></param>
         public void ChangeHue(int select)
         {
             customHue = select+1;
             CurrentSelect = CurrentSelect;
         }
+
         private bool Animate
         {
             get { return m_Animate; }
@@ -342,7 +349,6 @@ namespace Controls
             m_Animate = !m_Animate;
         }
 
-
         private bool LoadXml()
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -376,7 +382,7 @@ namespace Controls
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
-                    if (Ultima.Animations.IsActionDefined(value, i, 0, 0, false))
+                    if (Ultima.Animations.IsActionDefined(value, i, 0))
                     {
                         node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
                         node.Tag = i;
@@ -402,7 +408,7 @@ namespace Controls
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
-                    if (Ultima.Animations.IsActionDefined(value, i, 0, 0, false))
+                    if (Ultima.Animations.IsActionDefined(value, i, 0))
                     {
                         node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
                         node.Tag = i;
@@ -438,31 +444,6 @@ namespace Controls
         private void listView_DoubleClick(object sender, MouseEventArgs e)
         {
             tabControl1.SelectTab(tabPage1);
-        }
-
-        private void extract_Image_Click(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Mob {0}.jpg", m_CurrentSelect));
-
-            if (Animate)
-            {
-                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_Animation[0],new Point(0,0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Jpeg);
-            }
-            else
-            {
-                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_MainPicture,new Point(0,0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Jpeg);
-            }
         }
 
         private void listViewdrawItem(object sender, DrawListViewItemEventArgs e)
@@ -518,6 +499,7 @@ namespace Controls
             }
             listView1.EndUpdate();
         }
+
         private void Frames_ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             Bitmap bmp = m_Animation[(int)e.Item.Tag];
@@ -553,6 +535,36 @@ namespace Controls
             TreeViewMobs.EndUpdate();
             LoadListView();
         }
+
+        private void extract_Image_Click(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}.jpg", what,m_CurrentSelect));
+
+            if (Animate)
+            {
+                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_Animation[0], new Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Jpeg);
+            }
+            else
+            {
+                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_MainPicture, new Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Jpeg);
+            }
+            MessageBox.Show(String.Format("{0} saved to {1}", what,FileName), "Saved");
+        }
     }
 
     public class AlphaSorter : IComparer
@@ -561,7 +573,7 @@ namespace Controls
         {
             TreeNode tx = x as TreeNode;
             TreeNode ty = y as TreeNode;
-            if (tx.Parent == null)
+            if (tx.Parent == null)  // dont change Mob and Equipment
                 return 0;
             return string.Compare(tx.Text, ty.Text);
         }

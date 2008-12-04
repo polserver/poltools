@@ -10,15 +10,11 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
-using System.IO;
-using System.Drawing.Imaging;
 
 namespace Controls
 {
@@ -31,6 +27,10 @@ namespace Controls
         }
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (Loaded)
@@ -139,6 +139,7 @@ namespace Controls
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             bit.Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(String.Format("Multi saved to {0}", FileName), "Saved");
         }
     }
 }

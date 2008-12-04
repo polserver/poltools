@@ -1,7 +1,6 @@
-using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -18,12 +17,20 @@ namespace Ultima
 		{
 		}
 
+        /// <summary>
+        /// ReReads Art.mul
+        /// </summary>
         public static void Reload()
         {
             m_Cache = new Bitmap[0x10000];
             m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
         }
 
+        /// <summary>
+        /// Tests if Static is definied (width and hight check)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static bool IsValidStatic(int index)
         {
             index += 0x4000;
@@ -54,6 +61,11 @@ namespace Ultima
             return true;
         }
 
+        /// <summary>
+        /// Tests if LandTile is definied
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static bool IsValidLand(int index)
         {
             index &= 0x3FFF;
@@ -73,6 +85,11 @@ namespace Ultima
             return true;
         }
 
+        /// <summary>
+        /// Returns Bitmap of LandTile (with Cache)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public static Bitmap GetLand( int index )
 		{
 			index &= 0x3FFF;
@@ -96,6 +113,11 @@ namespace Ultima
                 return LoadLand(stream);
 		}
 
+        /// <summary>
+        /// Returns Bitmap of Static (with Cache)
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public static Bitmap GetStatic( int index )
 		{
 			index += 0x4000;

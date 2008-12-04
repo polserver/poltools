@@ -1,8 +1,6 @@
-using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Text;
+using System.IO;
 // ascii text support written by arul
 namespace Ultima
 {
@@ -19,6 +17,11 @@ namespace Ultima
 			Characters	= new Bitmap[ 224 ];
 		}
 
+        /// <summary>
+        /// Gets Bitmap of given character
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
 		public Bitmap GetBitmap( char character )
 		{
 			return m_Characters[ ( ( ( ( (int)character ) - 0x20 ) & 0x7FFFFFFF ) % 224 ) ];
@@ -58,6 +61,9 @@ namespace Ultima
             Initialize();
 		}
 
+        /// <summary>
+        /// Reads fonts.mul
+        /// </summary>
         public static void Initialize()
         {
             string path = Client.GetFilePath("fonts.mul");
@@ -108,6 +114,13 @@ namespace Ultima
             }
         }
 
+        /// <summary>
+        /// Returns Bitmap with Text
+        /// </summary>
+        /// <param name="fontId"></param>
+        /// <param name="text"></param>
+        /// <param name="hueId"></param>
+        /// <returns></returns>
 		public unsafe static Bitmap DrawText( int fontId, string text, short hueId )
 		{
 			ASCIIFont font = ASCIIFont.GetFixed( fontId );
@@ -150,9 +163,7 @@ namespace Ultima
 				Hue hueObject = Hues.List[ hueId ];
 
 				if( hueObject != null )
-				{
 					hueObject.ApplyTo( result, ( ( hueId & 0x8000 ) == 0 ) );
-				}
 			}
 
 			return result;
