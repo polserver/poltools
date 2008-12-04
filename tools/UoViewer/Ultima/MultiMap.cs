@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Ultima
 {
@@ -14,6 +10,10 @@ namespace Ultima
         {
         }
 
+        /// <summary>
+        /// Returns Bitmap
+        /// </summary>
+        /// <returns></returns>
         public unsafe static Bitmap GetMultiMap()
         {
             string path = Client.GetFilePath("Multimap.rle");
@@ -56,6 +56,11 @@ namespace Ultima
             return null;
         }
 
+        /// <summary>
+        /// Saves Bitmap to rle Format
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="bin"></param>
         public unsafe static void SaveMultiMap(Bitmap image, BinaryWriter bin)
         {
             bin.Write(2560); // width

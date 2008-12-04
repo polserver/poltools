@@ -324,7 +324,7 @@ namespace Ultima
 		/// </summary>
 		Bridge			= 0x00000400,
 		/// <summary>
-		/// Not yet documented.
+		/// The tile is stackable
 		/// </summary>
 		Generic			= 0x00000800,
 		/// <summary>
@@ -352,7 +352,7 @@ namespace Ultima
 		/// </summary>
 		Foliage			= 0x00020000,
 		/// <summary>
-		/// Not yet documented.
+		/// Only gray pixels will be hued
 		/// </summary>
 		PartialHue		= 0x00040000,
 		/// <summary>
@@ -531,6 +531,10 @@ namespace Ultima
             }
         }
 
+        /// <summary>
+        /// Saves <see cref="LandData"/> and <see cref="ItemData"/> to tiledata.mul
+        /// </summary>
+        /// <param name="FileName"></param>
         public static void SaveTileData(string FileName)
         {
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -589,6 +593,10 @@ namespace Ultima
             }
         }
 
+        /// <summary>
+        /// Exports <see cref="ItemData"/> to csv file
+        /// </summary>
+        /// <param name="FileName"></param>
         public static void ExportItemDataToCSV(string FileName)
         {
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
@@ -651,6 +659,10 @@ namespace Ultima
             }
         }
 
+        /// <summary>
+        /// Exports <see cref="LandData"/> to csv file
+        /// </summary>
+        /// <param name="FileName"></param>
         public static void ExportLandDataToCSV(string FileName)
         {
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))

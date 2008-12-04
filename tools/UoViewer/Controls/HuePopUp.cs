@@ -10,11 +10,6 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Controls
@@ -30,14 +25,14 @@ namespace Controls
                 hue ^= 0x8000;
                 HueOnlyGray.Checked=true;
             }
-            if (hue!=0)
-                control.SetSelect(hue);
+            if (hue != 0)
+                control.Selected = hue;
             refMob = ref_;
         }
 
         private void Click_OK(object sender, EventArgs e)
         {
-            int Selected=control.GetSelect();
+            int Selected = control.Selected;
             if (HueOnlyGray.Checked)
                 Selected ^= 0x8000;
             refMob.ChangeHue(Selected);

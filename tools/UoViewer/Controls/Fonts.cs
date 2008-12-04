@@ -10,11 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using Ultima;
 
@@ -29,11 +25,16 @@ namespace Controls
         }
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// Reload when loaded (file changed)
+        /// </summary>
         public void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;

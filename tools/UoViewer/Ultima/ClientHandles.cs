@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
-using Ultima;
 
 namespace Ultima
 {

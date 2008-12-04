@@ -1,5 +1,3 @@
-using System;
-
 namespace Ultima
 {
 	public sealed class LocationPointer

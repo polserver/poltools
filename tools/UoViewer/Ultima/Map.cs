@@ -1,8 +1,6 @@
-using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Ultima
 {
@@ -31,6 +29,9 @@ namespace Ultima
 			m_Height = height;
 		}
 
+        /// <summary>
+        /// Sets cache-vars to null
+        /// </summary>
         public static void Reload()
         {
             m_Colors = null;
@@ -85,11 +86,28 @@ namespace Ultima
 			get{ return m_Height; }
 		}
 
+        /// <summary>
+        /// Returns Bitmap with Statics
+        /// </summary>
+        /// <param name="x">8x8 Block</param>
+        /// <param name="y">8x8 Block</param>
+        /// <param name="width">8x8 Block</param>
+        /// <param name="height">8x8 Block</param>
+        /// <returns></returns>
 		public Bitmap GetImage( int x, int y, int width, int height )
 		{
 			return GetImage( x, y, width, height, true );
 		}
 
+        /// <summary>
+        /// Returns Bitmap
+        /// </summary>
+        /// <param name="x">8x8 Block</param>
+        /// <param name="y">8x8 Block</param>
+        /// <param name="width">8x8 Block</param>
+        /// <param name="height">8x8 Block</param>
+        /// <param name="statics">8x8 Block</param>
+        /// <returns></returns>
 		public Bitmap GetImage( int x, int y, int width, int height, bool statics )
 		{
 			Bitmap bmp = new Bitmap( width << 3, height << 3, PixelFormat.Format16bppRgb555 );
@@ -230,11 +248,28 @@ namespace Ultima
 			return data;
 		}
 
+        /// <summary>
+        /// Draws in given Bitmap with Statics 
+        /// </summary>
+        /// <param name="x">8x8 Block</param>
+        /// <param name="y">8x8 Block</param>
+        /// <param name="width">8x8 Block</param>
+        /// <param name="height">8x8 Block</param>
+        /// <param name="bmp">8x8 Block</param>
 		public unsafe void GetImage( int x, int y, int width, int height, Bitmap bmp )
 		{
 			GetImage( x, y, width, height, bmp, true );
 		}
 
+        /// <summary>
+        /// Draws in given Bitmap
+        /// </summary>
+        /// <param name="x">8x8 Block</param>
+        /// <param name="y">8x8 Block</param>
+        /// <param name="width">8x8 Block</param>
+        /// <param name="height">8x8 Block</param>
+        /// <param name="bmp"></param>
+        /// <param name="statics"></param>
 		public unsafe void GetImage( int x, int y, int width, int height, Bitmap bmp, bool statics )
 		{
 			if ( m_Colors == null )

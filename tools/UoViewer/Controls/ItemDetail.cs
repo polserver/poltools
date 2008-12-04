@@ -10,20 +10,23 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
-using System.IO;
-using System.Drawing.Imaging;
 
 namespace Controls
 {
     public partial class ItemDetail : Form
     {
+        public ItemDetail(int i)
+        {
+            InitializeComponent();
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            index = i;
+        }
+
         public int index;
         private int defHue = -1;
         private bool partialHue = false;
@@ -31,12 +34,11 @@ namespace Controls
         private Timer m_Timer;
         int frame;
         Animdata.Data info;
-        public ItemDetail(int i)
-        {
-            InitializeComponent();
-            index = i;
-        }
-        private int DefHue
+
+        /// <summary>
+        /// Sets Hue
+        /// </summary>
+        public int DefHue
         {
             get { return defHue; }
             set
@@ -57,12 +59,20 @@ namespace Controls
 
         private void SetPicture(Bitmap bit)
         {
-            Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.Clear(Color.FromArgb(-1));
-            newgraph.DrawImage(bit, (this.Graphic.Size.Width - bit.Width) / 2, 5);
-
-            this.Graphic.Image = newbit;
+            if (Graphic.Image == null)
+            {
+                Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.Clear(Color.White);
+                newgraph.DrawImage(bit, (this.Graphic.Size.Width - bit.Width) / 2, 5);
+                this.Graphic.Image = newbit;
+            }
+            else
+            {
+                Graphics graph = Graphic.CreateGraphics();
+                graph.Clear(Color.White);
+                graph.DrawImage(bit, (Graphic.Size.Width - bit.Width) / 2, 5);
+            }
         }
         
         private void onLoad(object sender, EventArgs e)
@@ -78,7 +88,7 @@ namespace Controls
             SetPicture(bit);
             
             this.Data.AppendText(String.Format("Name: {0}\n",item.Name));
-            this.Data.AppendText(String.Format("Graphic: 0x{0:X4}\n", index));
+            this.Data.AppendText(String.Format("Graphic: 0x{0:X4} ({0})\n", index));
             this.Data.AppendText(String.Format("Height/Capacity: {0}\n", item.Height));
             this.Data.AppendText(String.Format("Weight: {0}\n", item.Weight));
             this.Data.AppendText(String.Format("Animation: {0}\n",item.Animation));
@@ -121,7 +131,7 @@ namespace Controls
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", index));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
             Graphics newgraph = Graphics.FromImage(bit);
-            newgraph.Clear(Color.FromArgb(-1));
+            newgraph.Clear(Color.White);
             Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
             if (defHue > 0)
             {
@@ -130,6 +140,7 @@ namespace Controls
             }
             newgraph.DrawImage(huebit,0,0);
             bit.Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(String.Format("Item saved to {0}", FileName), "Saved");
         }
 
         private HuePopUpItem showform = null;
@@ -141,11 +152,6 @@ namespace Controls
                 showform.SetHue(DefHue - 1);
             showform.TopMost = true;
             showform.Show();
-        }
-
-        public void ChangeHue(int select)
-        {
-            DefHue = select;
         }
 
         private void OnClickAnimate(object sender, EventArgs e)

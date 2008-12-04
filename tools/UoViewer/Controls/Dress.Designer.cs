@@ -196,12 +196,14 @@ namespace Controls
             // 
             // pictureBoxDress
             // 
+            this.pictureBoxDress.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBoxDress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDress.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDress.Name = "pictureBoxDress";
             this.pictureBoxDress.Size = new System.Drawing.Size(106, 209);
             this.pictureBoxDress.TabIndex = 0;
             this.pictureBoxDress.TabStop = false;
+            this.pictureBoxDress.SizeChanged += new System.EventHandler(this.OnResizepictureDress);
             // 
             // splitContainer4
             // 
@@ -312,7 +314,7 @@ namespace Controls
             this.DressPic.Size = new System.Drawing.Size(193, 250);
             this.DressPic.TabIndex = 0;
             this.DressPic.TabStop = false;
-            this.DressPic.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
+            this.DressPic.SizeChanged += new System.EventHandler(this.OnResizeDressPic);
             // 
             // contextMenuStrip2
             // 

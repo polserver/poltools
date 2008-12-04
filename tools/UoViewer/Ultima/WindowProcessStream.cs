@@ -1,9 +1,3 @@
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
-using Ultima;
-
 namespace Ultima
 {
 	public class WindowProcessStream : ProcessStream

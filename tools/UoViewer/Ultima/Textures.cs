@@ -1,7 +1,6 @@
-using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -13,12 +12,20 @@ namespace Ultima
         private static Bitmap[] m_Cache = new Bitmap[0x1000];
         //public static Bitmap[] Cache { get { return m_Cache; } }
 
+        /// <summary>
+        /// ReReads texmaps
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
             m_Cache = new Bitmap[0x1000];
 
         }
+        /// <summary>
+        /// Tests if index is valid Texture
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static bool TestTexture(int index)
         {
             int length, extra;
@@ -31,6 +38,12 @@ namespace Ultima
 
             return true;
         }
+
+        /// <summary>
+        /// Returns Bitmap of Texture
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public unsafe static Bitmap GetTexture( int index )
 		{
             if (!FileIndex.CacheData)

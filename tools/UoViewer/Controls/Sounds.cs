@@ -10,14 +10,8 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using Ultima;
-using System.Media;
+using System.IO;
 
 namespace Controls
 {
@@ -32,6 +26,10 @@ namespace Controls
         private System.Media.SoundPlayer sp;
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
@@ -71,6 +69,22 @@ namespace Controls
             sp.Play();
         }
 
+        private void OnDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            sp.Stop();
+            if (treeView.SelectedNode == null)
+                return;
+            sp.Stream = Ultima.Sounds.GetSound((int)e.Node.Tag - 1).WAVEStream;
+            sp.Play();
+        }
+
+        private void afterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (treeView.SelectedNode == null)
+                return;
+            seconds.Text = String.Format("{0:f}s", Ultima.Sounds.GetSoundLength((int)treeView.SelectedNode.Tag-1));
+        }
+
         private void OnChangeSort(object sender, EventArgs e)
         {
             string delimiter= " ";
@@ -84,13 +98,6 @@ namespace Controls
             }
             treeView.Sort();
             treeView.EndUpdate();
-        }
-
-        private void afterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (treeView.SelectedNode == null)
-                return;
-            seconds.Text = String.Format("{0}s", Ultima.Sounds.GetSoundLength((int)treeView.SelectedNode.Tag) - 1);
         }
 
         private void SearchName(object sender, EventArgs e)
@@ -129,6 +136,22 @@ namespace Controls
                 }
             }
             return false;
+        }
+
+        private void OnClickExtract(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode == null)
+                return;
+            int id = (int)treeView.SelectedNode.Tag - 1;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string name = name = Ultima.Sounds.IsValidSound(id);
+            string FileName = Path.Combine(path, String.Format("{0}",name));
+            MemoryStream stream= Ultima.Sounds.GetSound(id).WAVEStream;
+            FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write);
+            stream.WriteTo(fs);
+            fs.Close();
+            stream.Dispose();
+            MessageBox.Show(String.Format("Sound saved to {0}", FileName), "Saved");
         }
     }
 }

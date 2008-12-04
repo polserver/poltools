@@ -10,13 +10,8 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using Ultima;
 
 namespace Controls
@@ -31,7 +26,13 @@ namespace Controls
         }
 
         private static LandTiles refMarker = null;
+        private bool Loaded = false;
 
+        /// <summary>
+        /// Searches Objtype and Select
+        /// </summary>
+        /// <param name="graphic"></param>
+        /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
@@ -51,6 +52,12 @@ namespace Controls
             return false;
         }
 
+        /// <summary>
+        /// Searches for name and selects
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="next">starting from current selected</param>
+        /// <returns></returns>
         public static bool SearchName(string name,bool next)
         {
             int index = 0;
@@ -78,7 +85,9 @@ namespace Controls
             return false;
         }
 
-        private bool Loaded = false;
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (Loaded)
@@ -158,7 +167,7 @@ namespace Controls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                showform = new LandTileSearch(false);
+                showform = new LandTileSearch();
                 showform.TopMost = true;
                 showform.Show();
             }

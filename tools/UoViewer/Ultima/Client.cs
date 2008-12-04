@@ -452,7 +452,7 @@ namespace Ultima
 		}
 
 		/// <summary>
-		/// Looks up a given <paramref name="file" /> in the Client's data directories. If there are no directories then <see cref="System.IO.DirectoryNotFoundException" /> will be thrown.
+		/// Looks up a given <paramref name="file" /> in <see cref="FileIndex.MulPath"/>
 		/// </summary>
 		/// <returns>The absolute path to <paramref name="file" /> -or- <c>null</c> if <paramref name="file" /> was not found.</returns>
 		public static string GetFilePath( string file )

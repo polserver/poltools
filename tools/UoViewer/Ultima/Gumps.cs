@@ -1,7 +1,7 @@
 using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -16,12 +16,20 @@ namespace Ultima
 		private static byte[] m_StreamBuffer;
 		private static byte[] m_ColorTable;
 
+        /// <summary>
+        /// ReReads gumpart
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
             m_Cache = new Bitmap[0x10000];
         }
 
+        /// <summary>
+        /// Tests if index is definied
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static bool IsValidIndex(int index)
         {
             if (FileIndex.CacheData)
@@ -44,6 +52,13 @@ namespace Ultima
             return true;
         }
 
+        /// <summary>
+        /// Returns Bitmap of index and applies Hue
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="hue"></param>
+        /// <param name="onlyHueGrayPixels"></param>
+        /// <returns></returns>
 		public unsafe static Bitmap GetGump( int index, Hue hue, bool onlyHueGrayPixels )
 		{
 			int length, extra;
@@ -176,6 +191,11 @@ namespace Ultima
 			}
 		}
 
+        /// <summary>
+        /// Returns Bitmap of index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public unsafe static Bitmap GetGump( int index )
 		{
             if (FileIndex.CacheData)

@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace Ultima
 {
@@ -13,6 +11,9 @@ namespace Ultima
         {
         }
 
+        /// <summary>
+        /// ReReads skills.mul
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, -1);
@@ -23,6 +24,11 @@ namespace Ultima
             public string Name;
         }
 
+        /// <summary>
+        /// Returns <see cref="SkillInfo"/> of index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static SkillInfo GetSkill(int index)
         {
             int length, extra;

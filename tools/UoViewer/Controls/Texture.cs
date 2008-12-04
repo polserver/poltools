@@ -10,11 +10,7 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using Ultima;
 
@@ -116,7 +112,7 @@ namespace Controls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                showform = new TextureSearch(false);
+                showform = new TextureSearch();
                 showform.TopMost = true;
                 showform.Show();
             }

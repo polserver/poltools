@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ultima
 {
@@ -14,12 +12,20 @@ namespace Ultima
 		private static FileIndex m_FileIndex = new FileIndex( "Multi.idx", "Multi.mul", 0x4000, 14 );
 		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
+        /// <summary>
+        /// ReReads multi.mul
+        /// </summary>
         public static void Reload()
         {
             m_FileIndex = new FileIndex("Multi.idx", "Multi.mul", 0x4000, 14);
             m_Components = new MultiComponentList[0x4000];
         }
 
+        /// <summary>
+        /// Gets <see cref="MultiComponentList"/> of multi
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
 		public static MultiComponentList GetComponents( int index )
 		{
 			MultiComponentList mcl;
@@ -83,10 +89,21 @@ namespace Ultima
 			public short m_OffsetX, m_OffsetY, m_OffsetZ;
 			public int m_Flags;
 		}
+
+        /// <summary>
+        /// Returns Bitmap of Multi
+        /// </summary>
+        /// <returns></returns>
         public Bitmap GetImage()
         {
             return GetImage(-1);
         }
+
+        /// <summary>
+        /// Returns Bitmap of Multi to maxheight
+        /// </summary>
+        /// <param name="maxheight"></param>
+        /// <returns></returns>
 		public Bitmap GetImage(int maxheight)
 		{
 			if ( m_Width == 0 || m_Height == 0 )

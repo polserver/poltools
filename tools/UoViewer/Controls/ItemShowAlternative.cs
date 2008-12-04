@@ -11,13 +11,10 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using Ultima;
 
 namespace Controls
@@ -39,6 +36,7 @@ namespace Controls
         private int row;
         private int selected = -1;
         private Bitmap bmp;
+        private bool Loaded = false;
 
         private void MakeHashFile()
         {
@@ -58,6 +56,11 @@ namespace Controls
             }
         }
 
+        /// <summary>
+        /// Searches Objtype and Select
+        /// </summary>
+        /// <param name="graphic"></param>
+        /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
@@ -78,6 +81,12 @@ namespace Controls
             return false;
         }
 
+        /// <summary>
+        /// Searches for name and selects
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="next">starting from current selected</param>
+        /// <returns></returns>
         public static bool SearchName(string name,bool next)
         {
             int index = 0;
@@ -105,21 +114,15 @@ namespace Controls
             return false;
         }
 
-        public int GetIndex(int x, int y)
-        {
-            int value = Math.Max(0,((col * (vScrollBar.Value - 1)) + (x + (y * col))));
-            if (ItemList.Count > value)
-                return (int)ItemList[value];
-            else
-                return -1;
-        }
-
-        private bool Loaded = false;
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
@@ -157,6 +160,15 @@ namespace Controls
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
             this.Cursor = Cursors.Default;
+        }
+
+        private int GetIndex(int x, int y)
+        {
+            int value = Math.Max(0, ((col * (vScrollBar.Value - 1)) + (x + (y * col))));
+            if (ItemList.Count > value)
+                return (int)ItemList[value];
+            else
+                return -1;
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -329,12 +341,13 @@ namespace Controls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                showform = new ItemSearch(true);
+                showform = new ItemSearch();
                 showform.TopMost = true;
                 showform.Show();
             }
         }
 
+        #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {
             if (PreLoader.IsBusy)
@@ -365,5 +378,6 @@ namespace Controls
         {
             ProgressBar.Visible = false;
         }
+        #endregion
     }
 }

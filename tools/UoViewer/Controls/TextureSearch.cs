@@ -10,22 +10,15 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Controls
 {
     public partial class TextureSearch : Form
     {
-        private static bool alt;
-        public TextureSearch(bool alternative)
+        public TextureSearch()
         {
             InitializeComponent();
-            alt = alternative;
         }
 
         private void SearchGraphic(object sender, EventArgs e)
@@ -44,7 +37,7 @@ namespace Controls
             if (candone)
             {
                 bool res;
-                if (alt)
+                if (Options.DesignAlternative)
                     res = TextureAlternative.SearchGraphic(graphic);
                 else
                     res = Texture.SearchGraphic(graphic);

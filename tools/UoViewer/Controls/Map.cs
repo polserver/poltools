@@ -10,16 +10,13 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
-using System.IO;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
 
 namespace Controls
 {
@@ -48,6 +45,10 @@ namespace Controls
         Point movingpoint;
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
@@ -90,7 +91,7 @@ namespace Controls
             bmp0 = bmp1;
         }
 
-        public void SetScrollBarValues()
+        private void SetScrollBarValues()
         {
             vScrollBar.Minimum = 0;
             hScrollBar.Minimum = 0;
@@ -110,7 +111,7 @@ namespace Controls
             hScrollBar.Value = 0;
         }
 
-        public void ChangeScrollBar()
+        private void ChangeScrollBar()
         {
             hScrollBar.Maximum = (int)(currmap.Width);
             hScrollBar.Maximum -= ((int)(pictureBox.ClientSize.Width / Zoom) - 8 >> 3) << 3;
@@ -138,6 +139,15 @@ namespace Controls
                 pictureBox.Image = map;
                 pictureBox.Update();
             }
+        }
+
+        private void ClickShowStatics(object sender, EventArgs e)
+        {
+            ShowStatics = !ShowStatics;
+            map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.ClientSize.Width / Zoom) + 8 >> 3, (int)(pictureBox.ClientSize.Height / Zoom) + 8 >> 3, ShowStatics);
+            ZoomMap(ref map);
+            pictureBox.Image = map;
+            pictureBox.Update();
         }
 
         private void ChangeMap()
@@ -213,27 +223,26 @@ namespace Controls
             }
         }
 
-        private void ExtractMap(object sender, EventArgs e)
+        private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string name="";
-            if (feluccaToolStripMenuItem.Checked)
-                name = "Felucca.tiff";
-            else if (trammelToolStripMenuItem.Checked)
-                name = "Trammel.tiff";
-            else if (malasToolStripMenuItem.Checked)
-                name = "Malas.tiff";
-            else if (ilshenarToolStripMenuItem.Checked)
-                name = "Ilshenar.tiff";
-            else if (tokunoToolStripMenuItem.Checked)
-                name = "Tokuno.tiff";
+            if (e.Button == MouseButtons.Left)
+            {
+                moving = true;
+                movingpoint.X = e.X;
+                movingpoint.Y = e.Y;
+                this.Cursor = Cursors.Hand;
+            }
+            else
+            {
+                moving = false;
+                this.Cursor = Cursors.Default;
+            }
+        }
 
-            if (name == "")
-                return;
-            
-            string FileName = Path.Combine(path, name);
-            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
-            extract.Save(FileName, ImageFormat.Tiff);
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            moving = false;
+            this.Cursor = Cursors.Default;
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -332,7 +341,6 @@ namespace Controls
             ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);   
         }
 
-        
         private void SyncClientTimer(object sender, EventArgs e)
         {
             if (SyncWithClient)
@@ -423,37 +431,33 @@ namespace Controls
             pictureBox.Update();
         }
 
-        private void OnMouseDown(object sender, MouseEventArgs e)
+        private void ExtractMap(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                moving = true;
-                movingpoint.X = e.X;
-                movingpoint.Y = e.Y;
-                this.Cursor = Cursors.Hand;
-            }
-            else
-            {
-                moving = false;
-                this.Cursor = Cursors.Default;
-            }
-        }
+            this.Cursor = Cursors.AppStarting;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string name = "";
+            if (feluccaToolStripMenuItem.Checked)
+                name = "Felucca.tiff";
+            else if (trammelToolStripMenuItem.Checked)
+                name = "Trammel.tiff";
+            else if (malasToolStripMenuItem.Checked)
+                name = "Malas.tiff";
+            else if (ilshenarToolStripMenuItem.Checked)
+                name = "Ilshenar.tiff";
+            else if (tokunoToolStripMenuItem.Checked)
+                name = "Tokuno.tiff";
 
-        private void OnMouseUp(object sender, MouseEventArgs e)
-        {
-            moving = false;
+            if (name == "")
+                return;
+
+            string FileName = Path.Combine(path, name);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
+            extract.Save(FileName, ImageFormat.Tiff);
             this.Cursor = Cursors.Default;
+            MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved");
         }
 
-        private void ClickShowStatics(object sender, EventArgs e)
-        {
-            ShowStatics = !ShowStatics;
-            map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.ClientSize.Width / Zoom) + 8 >> 3, (int)(pictureBox.ClientSize.Height / Zoom) + 8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
-        }
-
+        #region PreLoader
         private void OnClickPreloadMap(object sender, EventArgs e)
         {
             if (PreloadWorker.IsBusy)
@@ -491,5 +495,6 @@ namespace Controls
         {
             ProgressBar.Visible = false;
         }
+        #endregion
     }
 }

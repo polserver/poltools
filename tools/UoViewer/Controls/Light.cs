@@ -10,13 +10,8 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using Ultima;
 
 namespace Controls
 {
@@ -29,6 +24,10 @@ namespace Controls
         }
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// ReLoads if loaded
+        /// </summary>
         public void Reload()
         {
             if (Loaded)

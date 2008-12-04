@@ -10,16 +10,10 @@
  ***************************************************************************/
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using Ultima;
 using System.Globalization;
 using System.IO;
+using System.Windows.Forms;
+using Ultima;
 
 namespace Controls
 {
@@ -33,72 +27,50 @@ namespace Controls
             source = new BindingSource();
         }
 
+        #region Var's
         private static Cliloc refmarker;
         private static StringList cliloc;
         private static BindingSource source;
-        private static int lang=0;
-        private SortOrder sortorder = SortOrder.Ascending;
-        private int sortcolumn = 0;
-
-        public static void SaveEntry(int number, string text)
-        {
-            for (int i = 0; i < cliloc.Entries.Count; i++)
-            {
-                if (((StringEntry)cliloc.Entries[i]).Number==number)
-                {
-                    ((StringEntry)cliloc.Entries[i]).Text = text;
-                    ((StringEntry)cliloc.Entries[i]).Flag = StringEntry.CliLocFlag.Modified;
-                    refmarker.dataGridView1.Refresh();
-                    refmarker.dataGridView1.Rows[i].Selected = true;
-                    refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = i;
-                    return;
-                }
-            }
-        }
-
-        public static bool IsNumberFree(int number)
-        {
-            foreach (StringEntry entry in cliloc.Entries)
-            {
-                if (entry.Number == number)
-                    return false;
-            }
-            return true;
-        }
-
-        public static void AddEntry(int number)
-        {
-            int index = 0;
-            foreach (StringEntry entry in cliloc.Entries)
-            {
-                if (entry.Number > number)
-                {
-                    cliloc.Entries.Insert(index,new StringEntry(number, "", StringEntry.CliLocFlag.Custom));
-                    refmarker.dataGridView1.Refresh();
-                    refmarker.dataGridView1.Rows[index].Selected = true;
-                    refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = index;
-                    return;
-                }
-                ++index;
-            }
-        }
-
+        private static int lang;
+        private SortOrder sortorder;
+        private int sortcolumn;
         private bool Loaded = false;
+
+        /// <summary>
+        /// Sets Language and loads cliloc
+        /// </summary>
+        private static int Lang
+        {
+            get { return lang; }
+            set
+            {
+                lang = value;
+                if (value == 0)
+                    cliloc = new StringList("enu");
+                else
+                    cliloc = new StringList("deu");
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Reload when loaded (file changed)
+        /// </summary>
         public void Reload()
         {
             if (!Loaded)
                 return;
-            sortorder = SortOrder.Ascending;
-            sortcolumn = 0;
-            lang = 0;
             OnLoad(this, EventArgs.Empty);
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
-            cliloc = new StringList("enu");
+            sortorder = SortOrder.Ascending;
+            sortcolumn = 0;
             LangComboBox.SelectedIndex=0;
+            Lang = 0;
             cliloc.Entries.Sort(new StringList.NumberComparerAsc());
             source.DataSource = cliloc.Entries;
             dataGridView1.DataSource = source;
@@ -114,19 +86,9 @@ namespace Controls
 
         private void onLangChange(object sender, EventArgs e)
         {
-            if (LangComboBox.SelectedIndex != lang)
+            if (LangComboBox.SelectedIndex != Lang)
             {
-                switch (LangComboBox.SelectedIndex)
-                {
-                    case 0: 
-                        cliloc = new StringList("enu");
-                        lang = 0;
-                        break;
-                    case 1:
-                        cliloc = new StringList("deu");
-                        lang = 1;
-                        break;
-                }
+                Lang = LangComboBox.SelectedIndex;
                 sortorder = SortOrder.Ascending;
                 sortcolumn = 0;
                 cliloc.Entries.Sort(new StringList.NumberComparerAsc());
@@ -144,9 +106,7 @@ namespace Controls
         private void GotoNr(object sender, EventArgs e)
         {
             int nr;
-            bool result = Int32.TryParse(GotoEntry.Text.ToString(), NumberStyles.Integer, null, out nr);
-
-            if (result)
+            if (Int32.TryParse(GotoEntry.Text.ToString(), NumberStyles.Integer, null, out nr))
             {
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
@@ -261,5 +221,51 @@ namespace Controls
             if (((StringEntry)cliloc.Entries[e.RowIndex]).Text == null)
                 ((StringEntry)cliloc.Entries[e.RowIndex]).Text = "";
         }
+
+        #region Public Interface for ClilocAdd
+
+        public static void SaveEntry(int number, string text)
+        {
+            for (int i = 0; i < cliloc.Entries.Count; i++)
+            {
+                if (((StringEntry)cliloc.Entries[i]).Number == number)
+                {
+                    ((StringEntry)cliloc.Entries[i]).Text = text;
+                    ((StringEntry)cliloc.Entries[i]).Flag = StringEntry.CliLocFlag.Modified;
+                    refmarker.dataGridView1.Refresh();
+                    refmarker.dataGridView1.Rows[i].Selected = true;
+                    refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = i;
+                    return;
+                }
+            }
+        }
+
+        public static bool IsNumberFree(int number)
+        {
+            foreach (StringEntry entry in cliloc.Entries)
+            {
+                if (entry.Number == number)
+                    return false;
+            }
+            return true;
+        }
+
+        public static void AddEntry(int number)
+        {
+            int index = 0;
+            foreach (StringEntry entry in cliloc.Entries)
+            {
+                if (entry.Number > number)
+                {
+                    cliloc.Entries.Insert(index, new StringEntry(number, "", StringEntry.CliLocFlag.Custom));
+                    refmarker.dataGridView1.Refresh();
+                    refmarker.dataGridView1.Rows[index].Selected = true;
+                    refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                    return;
+                }
+                ++index;
+            }
+        }
+        #endregion
     }
 }

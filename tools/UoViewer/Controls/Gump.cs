@@ -10,16 +10,12 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
-using System.Xml;
-using System.IO;
-using System.Drawing.Imaging;
 
 namespace Controls
 {
@@ -35,11 +31,16 @@ namespace Controls
         }
 
         private bool Loaded = false;
+
+        /// <summary>
+        /// Reload when loaded (file changed)
+        /// </summary>
         public void Reload()
         {
             if (Loaded)
                 OnLoad(EventArgs.Empty);
         }
+
         protected override void OnLoad(EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
@@ -65,8 +66,7 @@ namespace Controls
             if (Gumps.IsValidIndex(i))
             {
                 Bitmap bmp = Gumps.GetGump(i);
-                
-                //index 21696 is valid index, but no valid bitmap data?
+
                 if (bmp != null)
                 {
                     int width = bmp.Width;
@@ -130,8 +130,10 @@ namespace Controls
             string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
             Bitmap bmp = Gumps.GetGump(i);
             bmp.Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(String.Format("Gump saved to {0}", FileName), "Saved");
         }
 
+        #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {
             if (PreLoader.IsBusy)
@@ -162,5 +164,6 @@ namespace Controls
         {
             ProgressBar.Visible = false;
         }
+        #endregion
     }
 }
