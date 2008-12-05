@@ -36,15 +36,21 @@ namespace Ultima
         /// </summary>
         public static void Initialize()
         {
-            m_Indexstream = new FileStream(Client.GetFilePath("soundidx.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            string path = Files.GetFilePath("soundidx.mul");
+            if (path == null)
+                return;
+            m_Indexstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             m_Index = new BinaryReader(m_Indexstream);
-            m_Stream = new FileStream(Client.GetFilePath("sound.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            m_Stream = new FileStream(Files.GetFilePath("sound.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
             Regex reg = new Regex(@"(\d{1,3}) \x7B(\d{1,3})\x7D (\d{1,3})", RegexOptions.Compiled);
 
             m_Translations = new Dictionary<int, int>();
 
             string line;
-            using (StreamReader reader = new StreamReader(Client.GetFilePath("Sound.def")))
+            path = Files.GetFilePath("Sound.def");
+            if (path == null)
+                return;
+            using (StreamReader reader = new StreamReader(path))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -136,10 +142,13 @@ namespace Ultima
         /// </summary>
         /// <param name="soundID"></param>
         /// <returns></returns>
-        public static string IsValidSound(int soundID)
+        public static bool IsValidSound(int soundID, out string name)
         {
-            if( soundID < 0 ) { return ""; }
-
+            name = "";
+            if( soundID < 0 ) 
+                return false;
+            if (m_Index == null)
+                return false;
 			m_Index.BaseStream.Seek( (long)( soundID * 12 ), SeekOrigin.Begin );
 
 			int offset = m_Index.ReadInt32();
@@ -147,7 +156,8 @@ namespace Ultima
 
 			if( ( offset < 0 ) || ( length <= 0 ) )
 			{
-				if( !m_Translations.TryGetValue( soundID, out soundID ) ) { return ""; }
+                if (!m_Translations.TryGetValue(soundID, out soundID))
+                    return false;
 
 				m_Index.BaseStream.Seek( (long)( soundID * 12 ), SeekOrigin.Begin );
 
@@ -155,14 +165,15 @@ namespace Ultima
 				length = m_Index.ReadInt32();
 			}
 
-			if( ( offset < 0 ) || ( length <= 0 ) ) { return ""; }
+            if ((offset < 0) || (length <= 0))
+                return false;
 
             byte[] stringBuffer = new byte[40];
             m_Stream.Seek((long)(offset), SeekOrigin.Begin);
             m_Stream.Read(stringBuffer, 0, 40);
-            string str = System.Text.Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
-            str=str.Substring(0, str.IndexOf('\0'));
-            return str;
+            name = System.Text.Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
+            name = name.Substring(0, name.IndexOf('\0'));
+            return true;
         }
 
         /// <summary>

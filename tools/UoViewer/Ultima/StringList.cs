@@ -25,7 +25,7 @@ namespace Ultima
 		{
 			m_Language = language;
 
-			string path = Client.GetFilePath( String.Format( "cliloc.{0}", language ) );
+			string path = Files.GetFilePath( String.Format( "cliloc.{0}", language ) );
 
 			if ( path == null )
 			{
@@ -67,7 +67,7 @@ namespace Ultima
                 BinaryWriter bin = new BinaryWriter(fs);
                 bin.Write(m_Header1);
                 bin.Write(m_Header2);
-                Entries.Sort(new StringList.NumberComparerAsc());
+                Entries.Sort(new StringList.NumberComparer(false));
                 foreach (StringEntry entry in Entries)
                 {
                     bin.Write(entry.Number);
@@ -81,38 +81,38 @@ namespace Ultima
         }
 
         #region SortComparer
-        public class NumberComparerAsc : IComparer
+
+        public class NumberComparer : IComparer
         {
+            private bool m_desc;
+
+            public NumberComparer(bool desc)
+            {
+                m_desc = desc;
+            }
+
             public int Compare(object objA, object objB)
             {
                 StringEntry entryA = (StringEntry)objA;
                 StringEntry entryB = (StringEntry)objB;
                 if (entryA.Number == entryB.Number)
                     return 0;
-                else if (entryA.Number < entryB.Number)
-                    return -1;
+                else if (m_desc)
+                    return (entryA.Number < entryB.Number) ? 1 : -1;
                 else
-                    return 1;
+                    return (entryA.Number < entryB.Number) ? -1 : 1;
             }
         }
 
-        public class NumberComparerDesc : IComparer
+        public class FlagComparer : IComparer
         {
-            public int Compare(object objA, object objB)
+            private bool m_desc;
+
+            public FlagComparer(bool desc)
             {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
-                if (entryA.Number == entryB.Number)
-                    return 0;
-                else if (entryA.Number < entryB.Number)
-                    return 1;
-                else
-                    return -1;
+                m_desc = desc;
             }
-        }
 
-        public class FlagComparerAsc : IComparer
-        {
             public int Compare(object objA, object objB)
             {
                 StringEntry entryA = (StringEntry)objA;
@@ -121,57 +121,35 @@ namespace Ultima
                 {
                     if (entryA.Number == entryB.Number)
                         return 0;
-                    else if (entryA.Number < entryB.Number)
-                        return -1;
+                    else if (m_desc)
+                        return (entryA.Number < entryB.Number) ? 1 : -1;
                     else
-                        return 1;
+                        return (entryA.Number < entryB.Number) ? -1 : 1;
                 }
-                else if ((byte)entryA.Flag < (byte)entryB.Flag)
-                    return -1;
+                else if (m_desc)
+                    return ((byte)entryA.Flag < (byte)entryB.Flag) ? 1 : -1;
                 else
-                    return 1;
+                    return ((byte)entryA.Flag < (byte)entryB.Flag) ? -1 : 1;
             }
         }
 
-        public class FlagComparerDesc : IComparer
+        public class TextComparer : IComparer
         {
+            private bool m_desc;
+
+            public TextComparer(bool desc)
+            {
+                m_desc = desc;
+            }
+
             public int Compare(object objA, object objB)
             {
                 StringEntry entryA = (StringEntry)objA;
                 StringEntry entryB = (StringEntry)objB;
-                if ((byte)entryA.Flag == (byte)entryB.Flag)
-                {
-                    if (entryA.Number == entryB.Number)
-                        return 0;
-                    else if (entryA.Number < entryB.Number)
-                        return 1;
-                    else
-                        return -1;
-                }
-                else if ((byte)entryA.Flag < (byte)entryB.Flag)
-                    return 1;
+                if (m_desc)
+                    return String.Compare(entryB.Text, entryA.Text);
                 else
-                    return -1;
-            }
-        }
-
-        public class TextComparerAsc : IComparer
-        {
-            public int Compare(object objA, object objB)
-            {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
-                return String.Compare(entryA.Text, entryB.Text);
-            }
-        }
-
-        public class TextComparerDesc : IComparer
-        {
-            public int Compare(object objA, object objB)
-            {
-                StringEntry entryA = (StringEntry)objA;
-                StringEntry entryB = (StringEntry)objB;
-                return String.Compare(entryB.Text, entryA.Text);
+                    return String.Compare(entryA.Text, entryB.Text);
             }
         }
         #endregion

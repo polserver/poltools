@@ -17,7 +17,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "2.1";
+        private static string Version = "2.2";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;
@@ -78,6 +78,7 @@ namespace UoViewer
             LoadedUltimaClass.Add("Multis", false);
             LoadedUltimaClass.Add("Skills", false);
             LoadedUltimaClass.Add("Sound", false);
+            LoadedUltimaClass.Add("Speech", false);
             LoadedUltimaClass.Add("StringList", false);
             LoadedUltimaClass.Add("Texture", false);
             LoadedUltimaClass.Add("TileData", false);
@@ -105,7 +106,7 @@ namespace UoViewer
         
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl2.SelectedIndex == 1) // Multis
+            if ((string)tabControl2.SelectedTab.Tag == "Multis") // Multis
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -116,14 +117,14 @@ namespace UoViewer
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if (tabControl2.SelectedIndex == 2) // Animations
+            else if ((string)tabControl2.SelectedTab.Tag == "MobGraphic") // Animations
             {
                 if (!LoadedUltimaClass["Animations"])
                     LoadedUltimaClass["Animations"] = true;
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if (tabControl2.SelectedIndex == 3) // Items
+            else if ((string)tabControl2.SelectedTab.Tag == "Items") // Items
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -134,52 +135,52 @@ namespace UoViewer
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if (tabControl2.SelectedIndex == 4) // LandTiles
+            else if ((string)tabControl2.SelectedTab.Tag == "LandTiles") // LandTiles
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
                 if (!LoadedUltimaClass["Art"])
                     LoadedUltimaClass["Art"] = true;
             }
-            else if (tabControl2.SelectedIndex == 5) // Texture
+            else if ((string)tabControl2.SelectedTab.Tag == "Texture") // Texture
             {
                 if (!LoadedUltimaClass["Texture"])
                     LoadedUltimaClass["Texture"] = true;
             }
-            else if (tabControl2.SelectedIndex == 6) // Gumps
+            else if ((string)tabControl2.SelectedTab.Tag == "Gumps") // Gumps
             {
                 if (!LoadedUltimaClass["Gumps"])
                     LoadedUltimaClass["Gumps"] = true;
             }
-            else if (tabControl2.SelectedIndex == 7) // Sounds
+            else if ((string)tabControl2.SelectedTab.Tag == "Sounds") // Sounds
             {
                 if (!LoadedUltimaClass["Sound"])
                     LoadedUltimaClass["Sound"] = true;
             }
-            else if (tabControl2.SelectedIndex == 8) // Hues
+            else if ((string)tabControl2.SelectedTab.Tag == "Hue") // Hues
             {
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if (tabControl2.SelectedIndex == 9) // Fonts
+            else if ((string)tabControl2.SelectedTab.Tag == "Fonts") // Fonts
             {
                 if (!LoadedUltimaClass["ASCIIFont"])
                     LoadedUltimaClass["ASCIIFONT"] = true;
             }
-            else if (tabControl2.SelectedIndex == 10) // Cliloc
+            else if ((string)tabControl2.SelectedTab.Tag == "Cliloc") // Cliloc
             {
             }
-            else if (tabControl2.SelectedIndex == 11) // Map
+            else if ((string)tabControl2.SelectedTab.Tag == "map") // Map
             {
                 if (!LoadedUltimaClass["Map"])
                     LoadedUltimaClass["Map"] = true;
             }
-            else if (tabControl2.SelectedIndex == 12) // Light
+            else if ((string)tabControl2.SelectedTab.Tag == "Light") // Light
             {
                 if (!LoadedUltimaClass["Light"])
                     LoadedUltimaClass["Light"] = true;
             }
-            else if (tabControl2.SelectedIndex == 13) // Dress
+            else if ((string)tabControl2.SelectedTab.Tag == "Dress") // Dress
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -189,21 +190,28 @@ namespace UoViewer
                     LoadedUltimaClass["Hues"] = true;
                 if (!LoadedUltimaClass["Animations"])
                     LoadedUltimaClass["Animations"] = true;
+                if (!LoadedUltimaClass["Gumps"])
+                    LoadedUltimaClass["Gumps"] = true;
             }
-            else if (tabControl2.SelectedIndex == 14) // MultiMap
+            else if ((string)tabControl2.SelectedTab.Tag == "Multimap") // MultiMap
             {
             }
-            else if (tabControl2.SelectedIndex == 15) // Skills
+            else if ((string)tabControl2.SelectedTab.Tag == "Skills") // Skills
             {
                 if (!LoadedUltimaClass["Skills"])
                     LoadedUltimaClass["Skills"] = true;
             }
-            else if (tabControl2.SelectedIndex == 16) // TileData
+            else if ((string)tabControl2.SelectedTab.Tag == "TileData") // TileData
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
                 if (!LoadedUltimaClass["Art"])
                     LoadedUltimaClass["Art"] = true;
+            }
+            else if ((string)tabControl2.SelectedTab.Tag == "Speech") // Speech
+            {
+                if (!LoadedUltimaClass["Speech"])
+                    LoadedUltimaClass["Speech"] = true;
             }
         }
 
@@ -237,6 +245,8 @@ namespace UoViewer
                 Ultima.Map.Reload();
             if (LoadedUltimaClass["Multis"])
                 Ultima.Multis.Reload();
+            if (LoadedUltimaClass["Speech"])
+                Ultima.SpeechList.Initialize();
 
             this.controlMulti.Reload();
             this.controlMobList.Reload();
@@ -263,6 +273,7 @@ namespace UoViewer
             this.controlMultimap.Reload();
             this.controlSkills.Reload();
             this.controlTileData.Reload();
+            this.controlspeech.Reload();
 
             this.Cursor = Cursors.Default;
         }

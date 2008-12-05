@@ -66,7 +66,7 @@ namespace Ultima
         /// </summary>
         public static void Initialize()
         {
-            string path = Client.GetFilePath("fonts.mul");
+            string path = Files.GetFilePath("fonts.mul");
 
             if (path != null)
             {

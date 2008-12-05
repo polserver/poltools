@@ -16,7 +16,7 @@ namespace Ultima
         /// <returns></returns>
         public unsafe static Bitmap GetMultiMap()
         {
-            string path = Client.GetFilePath("Multimap.rle");
+            string path = Files.GetFilePath("Multimap.rle");
             if (path != null)
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))

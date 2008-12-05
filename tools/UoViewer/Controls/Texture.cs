@@ -11,6 +11,7 @@
 
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
@@ -92,11 +93,12 @@ namespace Controls
             listView1.BeginUpdate();
             listView1.Clear();
             ListViewItem item;
+
             for (int i = 0; i < 0x1000; i++)
             {
                 if (Textures.TestTexture(i))
                 {
-                    item = new ListViewItem(i.ToString(),0);
+                    item = new ListViewItem(i.ToString(), 0);
                     item.Tag = i;
                     listView1.Items.Add(item);
                 }

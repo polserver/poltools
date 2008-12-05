@@ -26,7 +26,7 @@ namespace Ultima
         {
             Bitmap charImage;
 
-            string filePath = Client.GetFilePath(m_files[font]);
+            string filePath = Files.GetFilePath(m_files[font]);
             if (filePath != null)
             {
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

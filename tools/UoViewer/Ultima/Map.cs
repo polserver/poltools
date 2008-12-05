@@ -351,7 +351,7 @@ namespace Ultima
 		{
 			m_Colors = new short[0x8000];
 
-			string path = Client.GetFilePath( "radarcol.mul" );
+            string path = Files.GetFilePath("radarcol.mul");
 
 			if ( path == null )
 				return;

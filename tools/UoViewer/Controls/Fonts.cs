@@ -84,11 +84,14 @@ namespace Controls
             }
             else
             {
-                for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
+                if (ASCIIText.Fonts[font] != null)
                 {
-                    ListViewItem item = new ListViewItem(i.ToString(), 0);
-                    item.Tag = ASCIIText.Fonts[font].Characters[i];
-                    listView1.Items.Add(item);
+                    for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
+                    {
+                        ListViewItem item = new ListViewItem(i.ToString(), 0);
+                        item.Tag = ASCIIText.Fonts[font].Characters[i];
+                        listView1.Items.Add(item);
+                    }
                 }
             }
             listView1.TileSize = new Size(30, 30);

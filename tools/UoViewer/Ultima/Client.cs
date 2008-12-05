@@ -1,11 +1,5 @@
 using System;
-using System.Collections;
 using System.IO;
-using System.Text;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using Microsoft.Win32;
-using Microsoft.Win32.SafeHandles;
 
 namespace Ultima
 {
@@ -16,7 +10,6 @@ namespace Ultima
 	{
 		private const int WM_CHAR = 0x102;
 
-		private static string m_Directory;
 		private static ClientWindowHandle m_Handle = ClientWindowHandle.Invalid;
 
 		private static WindowProcessStream m_ProcStream;
@@ -435,121 +428,6 @@ namespace Ultima
 				return hWnd;
 
 			return ClientWindowHandle.Invalid;
-		}
-
-		/// <summary>
-		/// Gets a list of paths to the Client's data files.
-		/// </summary>
-		public static string Directory
-		{
-			get
-			{
-				if ( m_Directory == null )
-					m_Directory = LoadDirectory();
-
-				return m_Directory;
-			}
-		}
-
-		/// <summary>
-		/// Looks up a given <paramref name="file" /> in <see cref="FileIndex.MulPath"/>
-		/// </summary>
-		/// <returns>The absolute path to <paramref name="file" /> -or- <c>null</c> if <paramref name="file" /> was not found.</returns>
-		public static string GetFilePath( string file )
-		{
-            if (FileIndex.MulPath.Count > 0)
-            {
-                string path = FileIndex.MulPath[file.ToLower()].ToString();
-                if (File.Exists(path))
-                    return path;
-            }
-			return null;
-		}
-
-		internal static string GetFilePath( string format, params object[] args )
-		{
-			return GetFilePath( String.Format( format, args ) );
-		}
-
-		private static string LoadDirectory()
-		{
-            string dir;
-
-            dir = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online\1.0");
-            if (dir != null)
-                return dir;
-			dir =  GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetInstallPath(@"SOFTWARE\EA GAMES\Ultima Online Samurai Empire");
-            if (dir != null)
-                return dir;
-
-            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetInstallPath(@"SOFTWARE\Wow6432Node\EA GAMES\Ultima Online Samurai Empire");
-
-            return dir;
-		}
-
-		private static string GetExePath( string regkey )
-		{
-			try
-			{
-				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( regkey ) )
-				{
-					if ( key == null )
-						return null;
-
-					string v = key.GetValue( "ExePath" ) as string;
-
-					if ( v == null || v.Length <= 0 || !File.Exists( v ) )
-						return null;
-
-					v = Path.GetDirectoryName( v );
-
-					if ( v == null )
-						return null;
-
-					return v;
-				}
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-        private static string GetInstallPath(string regkey)
-		{
-			try
-            {
-				using ( RegistryKey key = Registry.LocalMachine.OpenSubKey( regkey ) )
-				{
-					if ( key == null )
-						return null;
-
-					string v = key.GetValue( "Install Dir" ) as string;
-
-					if ( v == null || v.Length <= 0 )
-						return null;
-
-                    string file = Path.Combine(v, "client.exe");
-
-					if ( !File.Exists( file ) )
-						return null;
-
-					return v;
-				}
-			}
-			catch
-			{
-				return null;
-			}
 		}
 	}
 }

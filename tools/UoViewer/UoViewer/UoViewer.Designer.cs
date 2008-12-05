@@ -76,6 +76,8 @@ namespace UoViewer
             this.controlSkills = new Controls.Skills();
             this.TileDatas = new System.Windows.Forms.TabPage();
             this.controlTileData = new Controls.TileDatas();
+            this.speech = new System.Windows.Forms.TabPage();
+            this.controlspeech = new Controls.Speech();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
@@ -101,6 +103,7 @@ namespace UoViewer
             this.multimap.SuspendLayout();
             this.Skills.SuspendLayout();
             this.TileDatas.SuspendLayout();
+            this.speech.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,9 +122,10 @@ namespace UoViewer
             this.tabControl2.Controls.Add(this.Cliloc);
             this.tabControl2.Controls.Add(this.map);
             this.tabControl2.Controls.Add(this.Light);
-            this.tabControl2.Controls.Add(this.Dress);
-            this.tabControl2.Controls.Add(this.multimap);
+            this.tabControl2.Controls.Add(this.speech);
             this.tabControl2.Controls.Add(this.Skills);
+            this.tabControl2.Controls.Add(this.multimap);
+            this.tabControl2.Controls.Add(this.Dress);
             this.tabControl2.Controls.Add(this.TileDatas);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 25);
@@ -143,6 +147,7 @@ namespace UoViewer
             this.Start.Padding = new System.Windows.Forms.Padding(3);
             this.Start.Size = new System.Drawing.Size(619, 324);
             this.Start.TabIndex = 10;
+            this.Start.Tag = "Start";
             this.Start.Text = "Start";
             this.Start.UseVisualStyleBackColor = true;
             // 
@@ -164,11 +169,13 @@ namespace UoViewer
             this.Multis.Padding = new System.Windows.Forms.Padding(3);
             this.Multis.Size = new System.Drawing.Size(619, 324);
             this.Multis.TabIndex = 1;
+            this.Multis.Tag = "Multis";
             this.Multis.Text = "Multis";
             this.Multis.UseVisualStyleBackColor = true;
             // 
             // controlMulti
             // 
+            this.controlMulti.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlMulti.Location = new System.Drawing.Point(3, 3);
             this.controlMulti.Name = "controlMulti";
@@ -183,11 +190,13 @@ namespace UoViewer
             this.MobGraphic.Padding = new System.Windows.Forms.Padding(3);
             this.MobGraphic.Size = new System.Drawing.Size(619, 324);
             this.MobGraphic.TabIndex = 0;
+            this.MobGraphic.Tag = "MobGraphic";
             this.MobGraphic.Text = "Animations";
             this.MobGraphic.UseVisualStyleBackColor = true;
             // 
             // controlMobList
             // 
+            this.controlMobList.Cursor = System.Windows.Forms.Cursors.Default;
             this.controlMobList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlMobList.Location = new System.Drawing.Point(3, 3);
             this.controlMobList.Name = "controlMobList";
@@ -202,11 +211,13 @@ namespace UoViewer
             this.Items.Padding = new System.Windows.Forms.Padding(3);
             this.Items.Size = new System.Drawing.Size(619, 324);
             this.Items.TabIndex = 2;
+            this.Items.Tag = "Items";
             this.Items.Text = "Items";
             this.Items.UseVisualStyleBackColor = true;
             // 
             // controlItemShow
             // 
+            this.controlItemShow.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlItemShow.Location = new System.Drawing.Point(3, 3);
             this.controlItemShow.Name = "controlItemShow";
@@ -221,11 +232,13 @@ namespace UoViewer
             this.LandTiles.Padding = new System.Windows.Forms.Padding(3);
             this.LandTiles.Size = new System.Drawing.Size(619, 324);
             this.LandTiles.TabIndex = 3;
+            this.LandTiles.Tag = "LandTiles";
             this.LandTiles.Text = "LandTiles";
             this.LandTiles.UseVisualStyleBackColor = true;
             // 
             // controlLandTiles
             // 
+            this.controlLandTiles.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
             this.controlLandTiles.Name = "controlLandTiles";
@@ -240,11 +253,13 @@ namespace UoViewer
             this.Texture.Padding = new System.Windows.Forms.Padding(3);
             this.Texture.Size = new System.Drawing.Size(619, 324);
             this.Texture.TabIndex = 11;
+            this.Texture.Tag = "Texture";
             this.Texture.Text = "Texture";
             this.Texture.UseVisualStyleBackColor = true;
             // 
             // controlTexture
             // 
+            this.controlTexture.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTexture.Location = new System.Drawing.Point(3, 3);
             this.controlTexture.Name = "controlTexture";
@@ -259,11 +274,13 @@ namespace UoViewer
             this.Gumps.Padding = new System.Windows.Forms.Padding(3);
             this.Gumps.Size = new System.Drawing.Size(619, 324);
             this.Gumps.TabIndex = 4;
+            this.Gumps.Tag = "Gumps";
             this.Gumps.Text = "Gumps";
             this.Gumps.UseVisualStyleBackColor = true;
             // 
             // controlGumps
             // 
+            this.controlGumps.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlGumps.Location = new System.Drawing.Point(3, 3);
             this.controlGumps.Name = "controlGumps";
@@ -278,11 +295,13 @@ namespace UoViewer
             this.Sounds.Padding = new System.Windows.Forms.Padding(3);
             this.Sounds.Size = new System.Drawing.Size(619, 324);
             this.Sounds.TabIndex = 5;
+            this.Sounds.Tag = "Sounds";
             this.Sounds.Text = "Sounds";
             this.Sounds.UseVisualStyleBackColor = true;
             // 
             // controlSound
             // 
+            this.controlSound.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlSound.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlSound.Location = new System.Drawing.Point(3, 3);
             this.controlSound.Name = "controlSound";
@@ -297,14 +316,17 @@ namespace UoViewer
             this.Hue.Padding = new System.Windows.Forms.Padding(3);
             this.Hue.Size = new System.Drawing.Size(619, 324);
             this.Hue.TabIndex = 6;
+            this.Hue.Tag = "Hue";
             this.Hue.Text = "Hue";
             this.Hue.UseVisualStyleBackColor = true;
             // 
             // controlHue
             // 
+            this.controlHue.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlHue.Location = new System.Drawing.Point(3, 3);
             this.controlHue.Name = "controlHue";
+            this.controlHue.Selected = -1;
             this.controlHue.Size = new System.Drawing.Size(613, 318);
             this.controlHue.TabIndex = 0;
             // 
@@ -316,11 +338,13 @@ namespace UoViewer
             this.fonts.Padding = new System.Windows.Forms.Padding(3);
             this.fonts.Size = new System.Drawing.Size(619, 324);
             this.fonts.TabIndex = 7;
+            this.fonts.Tag = "Fonts";
             this.fonts.Text = "Fonts";
             this.fonts.UseVisualStyleBackColor = true;
             // 
             // controlfonts
             // 
+            this.controlfonts.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlfonts.Location = new System.Drawing.Point(3, 3);
             this.controlfonts.Name = "controlfonts";
@@ -335,11 +359,13 @@ namespace UoViewer
             this.Cliloc.Padding = new System.Windows.Forms.Padding(3);
             this.Cliloc.Size = new System.Drawing.Size(619, 324);
             this.Cliloc.TabIndex = 8;
+            this.Cliloc.Tag = "Cliloc";
             this.Cliloc.Text = "CliLoc";
             this.Cliloc.UseVisualStyleBackColor = true;
             // 
             // controlCliloc
             // 
+            this.controlCliloc.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlCliloc.Location = new System.Drawing.Point(3, 3);
             this.controlCliloc.Name = "controlCliloc";
@@ -354,11 +380,13 @@ namespace UoViewer
             this.map.Padding = new System.Windows.Forms.Padding(3);
             this.map.Size = new System.Drawing.Size(619, 324);
             this.map.TabIndex = 9;
+            this.map.Tag = "map";
             this.map.Text = "Map";
             this.map.UseVisualStyleBackColor = true;
             // 
             // controlmap
             // 
+            this.controlmap.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlmap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlmap.Location = new System.Drawing.Point(3, 3);
             this.controlmap.Margin = new System.Windows.Forms.Padding(0);
@@ -373,11 +401,13 @@ namespace UoViewer
             this.Light.Name = "Light";
             this.Light.Size = new System.Drawing.Size(619, 324);
             this.Light.TabIndex = 12;
+            this.Light.Tag = "Light";
             this.Light.Text = "Light";
             this.Light.UseVisualStyleBackColor = true;
             // 
             // controlLight
             // 
+            this.controlLight.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlLight.Location = new System.Drawing.Point(0, 0);
             this.controlLight.Name = "controlLight";
@@ -392,11 +422,13 @@ namespace UoViewer
             this.Dress.Padding = new System.Windows.Forms.Padding(3);
             this.Dress.Size = new System.Drawing.Size(619, 324);
             this.Dress.TabIndex = 13;
+            this.Dress.Tag = "Dress";
             this.Dress.Text = "Dress";
             this.Dress.UseVisualStyleBackColor = true;
             // 
             // controldress
             // 
+            this.controldress.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controldress.Location = new System.Drawing.Point(3, 3);
             this.controldress.Name = "controldress";
@@ -411,6 +443,7 @@ namespace UoViewer
             this.multimap.Padding = new System.Windows.Forms.Padding(3);
             this.multimap.Size = new System.Drawing.Size(619, 324);
             this.multimap.TabIndex = 14;
+            this.multimap.Tag = "Multimap";
             this.multimap.Text = "MultiMap";
             this.multimap.UseVisualStyleBackColor = true;
             // 
@@ -430,11 +463,13 @@ namespace UoViewer
             this.Skills.Padding = new System.Windows.Forms.Padding(3);
             this.Skills.Size = new System.Drawing.Size(619, 324);
             this.Skills.TabIndex = 15;
+            this.Skills.Tag = "Skills";
             this.Skills.Text = "Skills";
             this.Skills.UseVisualStyleBackColor = true;
             // 
             // controlSkills
             // 
+            this.controlSkills.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlSkills.Location = new System.Drawing.Point(3, 3);
             this.controlSkills.Name = "controlSkills";
@@ -448,16 +483,37 @@ namespace UoViewer
             this.TileDatas.Name = "TileDatas";
             this.TileDatas.Size = new System.Drawing.Size(619, 324);
             this.TileDatas.TabIndex = 16;
+            this.TileDatas.Tag = "TileData";
             this.TileDatas.Text = "TileData";
             this.TileDatas.UseVisualStyleBackColor = true;
             // 
             // controlTileData
             // 
+            this.controlTileData.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
             this.controlTileData.Size = new System.Drawing.Size(192, 74);
             this.controlTileData.TabIndex = 0;
+            // 
+            // speech
+            // 
+            this.speech.Controls.Add(this.controlspeech);
+            this.speech.Location = new System.Drawing.Point(4, 22);
+            this.speech.Name = "speech";
+            this.speech.Size = new System.Drawing.Size(619, 324);
+            this.speech.TabIndex = 17;
+            this.speech.Tag = "Speech";
+            this.speech.Text = "Speech";
+            this.speech.UseVisualStyleBackColor = true;
+            // 
+            // controlspeech
+            // 
+            this.controlspeech.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlspeech.Location = new System.Drawing.Point(0, 0);
+            this.controlspeech.Name = "controlspeech";
+            this.controlspeech.Size = new System.Drawing.Size(619, 324);
+            this.controlspeech.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -541,6 +597,7 @@ namespace UoViewer
             this.multimap.ResumeLayout(false);
             this.Skills.ResumeLayout(false);
             this.TileDatas.ResumeLayout(false);
+            this.speech.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -592,6 +649,8 @@ namespace UoViewer
         private Controls.Skills controlSkills;
         private System.Windows.Forms.TabPage TileDatas;
         private Controls.TileDatas controlTileData;
+        private System.Windows.Forms.TabPage speech;
+        private Controls.Speech controlspeech;
     }
 }
 

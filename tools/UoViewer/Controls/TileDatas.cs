@@ -138,20 +138,26 @@ namespace Controls
             Loaded = true;
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
-            for (int i = 0; i < TileData.ItemTable.Length; ++i)
+            if (TileData.ItemTable != null)
             {
-                TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}",i,TileData.ItemTable[i].Name));
-                node.Tag=i;
-                treeViewItem.Nodes.Add(node);
+                for (int i = 0; i < TileData.ItemTable.Length; ++i)
+                {
+                    TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}", i, TileData.ItemTable[i].Name));
+                    node.Tag = i;
+                    treeViewItem.Nodes.Add(node);
+                }
             }
             treeViewItem.EndUpdate();
             treeViewLand.BeginUpdate();
             treeViewLand.Nodes.Clear();
-            for (int i = 0; i < TileData.LandTable.Length; ++i)
+            if (TileData.LandTable != null)
             {
-                TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}", i, TileData.LandTable[i].Name));
-                node.Tag = i;
-                treeViewLand.Nodes.Add(node);
+                for (int i = 0; i < TileData.LandTable.Length; ++i)
+                {
+                    TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}", i, TileData.LandTable[i].Name));
+                    node.Tag = i;
+                    treeViewLand.Nodes.Add(node);
+                }
             }
             treeViewLand.EndUpdate();
             this.Cursor = Cursors.Default;

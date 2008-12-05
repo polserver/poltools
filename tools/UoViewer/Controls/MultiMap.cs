@@ -171,8 +171,11 @@ namespace Controls
             buttonGenerate.Visible = false;
             buttonLoad.Visible = false;
             pictureBox.Image = Ultima.MultiMap.GetMultiMap();
-            DisplayScrollBars();
-            SetScrollBarValues();
+            if (pictureBox.Image != null)
+            {
+                DisplayScrollBars();
+                SetScrollBarValues();
+            }
             toolTip1.SetToolTip(pictureBox, "");
             this.Cursor = Cursors.Default;
         }

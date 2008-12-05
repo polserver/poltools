@@ -52,9 +52,11 @@ namespace Controls
                     node.Name = i.ToString();
                     TreeViewMulti.Nodes.Add(node);
                 }
+
             }
             TreeViewMulti.EndUpdate();
-            TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
+            if (TreeViewMulti.Nodes.Count > 0)
+                TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
             this.Cursor = Cursors.Default;
         }
 
@@ -72,6 +74,8 @@ namespace Controls
 
         private void onPaint_MultiPic(object sender, PaintEventArgs e)
         {
+            if (TreeViewMulti.SelectedNode == null)
+                return;
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap m_MainPicture_Multi  = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             Point location = Point.Empty;

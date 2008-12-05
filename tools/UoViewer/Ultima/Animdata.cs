@@ -17,7 +17,7 @@ namespace Ultima
         public unsafe static void Initialize()
         {
             AnimData = new Hashtable();
-            string path = Client.GetFilePath("animdata.mul");
+            string path = Files.GetFilePath("animdata.mul");
             if (path != null)
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
