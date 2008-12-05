@@ -25,7 +25,7 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
                 Preload.Visible = false;
             ProgressBar.Visible = false;
         }
@@ -52,9 +52,10 @@ namespace Controls
                 if (Gumps.IsValidIndex(i))
                     listBox.Items.Add(i);
             }
+
             listBox.EndUpdate();
-            pictureBox.BackgroundImage = Gumps.GetGump(0);
-            listBox.SelectedIndex = 0;
+            if (listBox.Items.Count>0)
+                listBox.SelectedIndex = 0;
             this.Cursor = Cursors.Default;
         }
 

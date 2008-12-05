@@ -25,15 +25,15 @@ namespace Ultima
 
 		public TileMatrixPatch( TileMatrix matrix, int index )
 		{
-			string mapDataPath = Client.GetFilePath( "mapdif{0}.mul", index );
-			string mapIndexPath = Client.GetFilePath( "mapdifl{0}.mul", index );
+            string mapDataPath = Files.GetFilePath("mapdif{0}.mul", index);
+            string mapIndexPath = Files.GetFilePath("mapdifl{0}.mul", index);
 
 			if ( mapDataPath != null && mapIndexPath != null )
 				m_LandBlocks = PatchLand( matrix, mapDataPath, mapIndexPath );
 
-			string staDataPath = Client.GetFilePath( "stadif{0}.mul", index );
-			string staIndexPath = Client.GetFilePath( "stadifl{0}.mul", index );
-			string staLookupPath = Client.GetFilePath( "stadifi{0}.mul", index );
+            string staDataPath = Files.GetFilePath("stadif{0}.mul", index);
+            string staIndexPath = Files.GetFilePath("stadifl{0}.mul", index);
+            string staLookupPath = Files.GetFilePath("stadifi{0}.mul", index);
 
 			if ( staDataPath != null && staIndexPath != null && staLookupPath != null )
 				m_StaticBlocks = PatchStatics( matrix, staDataPath, staIndexPath, staLookupPath );

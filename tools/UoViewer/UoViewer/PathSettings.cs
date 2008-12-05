@@ -22,13 +22,13 @@ namespace UoViewer
         public PathSettings()
         {
             InitializeComponent();
-            propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(FileIndex.MulPath);
+            propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
         }
 
         private void ReloadPath(object sender, EventArgs e)
         {
-            FileIndex.LoadMulPath();
-            propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(FileIndex.MulPath);
+            Files.LoadMulPath();
+            propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
             propertyGrid1.Refresh();
             propertyGrid1.Update();
         }
@@ -40,8 +40,8 @@ namespace UoViewer
             dialog.ShowNewFolderButton = false;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                FileIndex.SetMulPath(dialog.SelectedPath);
-                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(FileIndex.MulPath);
+                Files.SetMulPath(dialog.SelectedPath);
+                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
                 propertyGrid1.Refresh();
                 propertyGrid1.Update();
             }

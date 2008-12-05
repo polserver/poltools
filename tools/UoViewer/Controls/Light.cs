@@ -49,8 +49,8 @@ namespace Controls
                 }
             }
             treeView1.EndUpdate();
-            treeView1.SelectedNode = treeView1.Nodes[0];
-            pictureBox1.BackgroundImage = (Bitmap)treeView1.Nodes[0].Tag;
+            if (treeView1.Nodes.Count > 0)
+                treeView1.SelectedNode = treeView1.Nodes[0];
             this.Cursor = Cursors.Default;
         }
 

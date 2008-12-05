@@ -469,7 +469,7 @@ namespace Ultima
 
         public static void Initialize()
         {
-            string filePath = Client.GetFilePath("tiledata.mul");
+            string filePath = Files.GetFilePath("tiledata.mul");
 
             if (filePath != null)
             {
@@ -527,7 +527,7 @@ namespace Ultima
             }
             else
             {
-                throw new FileNotFoundException("File not found tiledata.mul");
+                
             }
         }
 

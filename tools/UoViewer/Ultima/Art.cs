@@ -36,7 +36,7 @@ namespace Ultima
             index += 0x4000;
             index &= 0xFFFF;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return true;
@@ -70,7 +70,7 @@ namespace Ultima
         {
             index &= 0x3FFF;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return true;
@@ -94,7 +94,7 @@ namespace Ultima
 		{
 			index &= 0x3FFF;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return m_Cache[index];
@@ -107,7 +107,7 @@ namespace Ultima
 			if ( stream == null )
 				return null;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
                 return m_Cache[index] = LoadLand( stream );
             else
                 return LoadLand(stream);
@@ -123,7 +123,7 @@ namespace Ultima
 			index += 0x4000;
 			index &= 0xFFFF;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return m_Cache[index];
@@ -136,7 +136,7 @@ namespace Ultima
 			if ( stream == null )
 				return null;
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
                 return m_Cache[index] = LoadStatic( stream );
             else
                 return LoadStatic(stream);

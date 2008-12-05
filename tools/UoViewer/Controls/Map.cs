@@ -26,7 +26,7 @@ namespace Controls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
                 PreloadMap.Visible = false;
             ProgressBar.Visible = false;
         }

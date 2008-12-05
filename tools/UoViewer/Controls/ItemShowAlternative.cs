@@ -45,7 +45,9 @@ namespace Controls
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 BinaryWriter bin = new BinaryWriter(fs);
-                byte[] md5 = FileIndex.GetMD5(Client.GetFilePath("Art.mul"));
+                byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
+                if (md5 == null)
+                    return;
                 int length = md5.Length;
                 bin.Write(length);
                 bin.Write(md5);
@@ -128,7 +130,7 @@ namespace Controls
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
             ItemList = new ArrayList();
-            if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
+            if ((Files.UseHashFile) && (Files.CompareHashFile("Art")))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, "UOViewerArt.hash");
@@ -153,7 +155,7 @@ namespace Controls
                     if (Art.IsValidStatic(i))
                         ItemList.Add((object)i);
                 }
-                if (FileIndex.UseHashFile)
+                if (Files.UseHashFile)
                     MakeHashFile();
             }
             vScrollBar.Maximum = ItemList.Count / col + 1;

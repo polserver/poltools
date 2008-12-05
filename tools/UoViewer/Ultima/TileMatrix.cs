@@ -73,12 +73,12 @@ namespace Ultima
 
 			if ( fileIndex != 0x7F )
 			{
-				string mapPath = Client.GetFilePath( "map{0}.mul", fileIndex );
+				string mapPath = Files.GetFilePath( "map{0}.mul", fileIndex );
 
 				if ( mapPath != null )
 					m_Map = new FileStream( mapPath, FileMode.Open, FileAccess.Read, FileShare.Read );
 
-				string indexPath = Client.GetFilePath( "staidx{0}.mul", fileIndex );
+                string indexPath = Files.GetFilePath("staidx{0}.mul", fileIndex);
 
 				if ( indexPath != null )
 				{
@@ -86,7 +86,7 @@ namespace Ultima
 					m_IndexReader = new BinaryReader( m_Index );
 				}
 
-				string staticsPath = Client.GetFilePath( "statics{0}.mul", fileIndex );
+                string staticsPath = Files.GetFilePath("statics{0}.mul", fileIndex);
 
 				if ( staticsPath != null )
 					m_Statics = new FileStream( staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read );

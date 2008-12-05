@@ -31,7 +31,7 @@ namespace Ultima
         /// </summary>
         public static void Initialize()
         {
-            string path = Client.GetFilePath("bodyconv.def");
+            string path = Files.GetFilePath("bodyconv.def");
 
             if (path == null)
                 return;
@@ -282,20 +282,19 @@ namespace Ultima
 		private static FileIndex m_FileIndex5 = new FileIndex( "Anim5.idx", "Anim5.mul", 0x20000, -1 );
 		//public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
 
-		private Animations()
-		{
-		}
 
         /// <summary>
         /// Rereads AnimX files and bodyconv, body.def
         /// </summary>
         public static void Reload()
         {
+
             m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
             m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
             m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
             m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
             m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+
             BodyConverter.Initialize();
             BodyTable.Initialize();
         }
@@ -389,7 +388,6 @@ namespace Ultima
 		{
 			if ( m_Table == null )
 				LoadTable();
-
 			if ( body <= 0 || body >= m_Table.Length )
 			{
 				body = 0;
@@ -408,7 +406,6 @@ namespace Ultima
 		{
 			if ( m_Table == null )
 				LoadTable();
-
 			if ( body <= 0 || body >= m_Table.Length )
 			{
 				body = 0;
@@ -570,8 +567,8 @@ namespace Ultima
         /// <returns>anim{0}.mul</returns>
         public static string GetFileName(int body)
         {
-            Translate( ref body );
-			int fileType = BodyConverter.Convert( ref body );
+            Translate(ref body);
+            int fileType = BodyConverter.Convert(ref body);
 
             if (fileType == 1)
                 return "anim.mul";
@@ -687,7 +684,7 @@ namespace Ultima
         {
             m_Entries = new Hashtable();
 
-            string filePath = Client.GetFilePath("body.def");
+            string filePath = Files.GetFilePath("body.def");
 
             if (filePath == null)
                 return;

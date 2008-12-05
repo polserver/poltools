@@ -46,7 +46,7 @@ namespace Ultima
         /// <returns></returns>
 		public unsafe static Bitmap GetTexture( int index )
 		{
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return m_Cache[index];
@@ -80,7 +80,7 @@ namespace Ultima
 
 			bmp.UnlockBits( bd );
 
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else
                 return bmp;

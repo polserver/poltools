@@ -46,8 +46,7 @@ namespace Controls
             treeView.Nodes.Clear();
             for (int i = 1; i <= 0xFFF; i++)
             {
-                name = Ultima.Sounds.IsValidSound(i-1);
-                if (name != "")
+                if (Ultima.Sounds.IsValidSound(i - 1,out name))
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X3} {1}", i, name));
                     node.Tag = i;
@@ -55,7 +54,8 @@ namespace Controls
                 }
             }
             treeView.EndUpdate();
-            treeView.SelectedNode = treeView.Nodes[0];
+            if (treeView.Nodes.Count > 0)
+                treeView.SelectedNode = treeView.Nodes[0];
             sp = new System.Media.SoundPlayer();
             this.Cursor = Cursors.Default;
         }
@@ -144,7 +144,8 @@ namespace Controls
                 return;
             int id = (int)treeView.SelectedNode.Tag - 1;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string name = name = Ultima.Sounds.IsValidSound(id);
+            string name ="";
+            Ultima.Sounds.IsValidSound(id,out name);
             string FileName = Path.Combine(path, String.Format("{0}",name));
             MemoryStream stream= Ultima.Sounds.GetSound(id).WAVEStream;
             FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write);

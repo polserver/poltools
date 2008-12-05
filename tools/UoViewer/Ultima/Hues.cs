@@ -21,7 +21,7 @@ namespace Ultima
         /// </summary>
         public static void Initialize()
         {
-            string path = Client.GetFilePath( "hues.mul" );
+            string path = Files.GetFilePath("hues.mul");
 			int index = 0;
 
 			m_List = new Hue[3000];

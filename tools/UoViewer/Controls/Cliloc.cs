@@ -71,15 +71,18 @@ namespace Controls
             sortcolumn = 0;
             LangComboBox.SelectedIndex=0;
             Lang = 0;
-            cliloc.Entries.Sort(new StringList.NumberComparerAsc());
+            cliloc.Entries.Sort(new StringList.NumberComparer(false));
             source.DataSource = cliloc.Entries;
             dataGridView1.DataSource = source;
-            dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
-            dataGridView1.Columns[0].Width = 60;
-            dataGridView1.Columns[1].HeaderCell.SortGlyphDirection = SortOrder.None;
-            dataGridView1.Columns[2].HeaderCell.SortGlyphDirection = SortOrder.None;
-            dataGridView1.Columns[2].Width = 60;
-            dataGridView1.Columns[2].ReadOnly = true;
+            if (dataGridView1.Columns.Count > 0)
+            {
+                dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                dataGridView1.Columns[0].Width = 60;
+                dataGridView1.Columns[1].HeaderCell.SortGlyphDirection = SortOrder.None;
+                dataGridView1.Columns[2].HeaderCell.SortGlyphDirection = SortOrder.None;
+                dataGridView1.Columns[2].Width = 60;
+                dataGridView1.Columns[2].ReadOnly = true;
+            }
             dataGridView1.Refresh();
             this.Cursor = Cursors.Default;
         }
@@ -91,7 +94,7 @@ namespace Controls
                 Lang = LangComboBox.SelectedIndex;
                 sortorder = SortOrder.Ascending;
                 sortcolumn = 0;
-                cliloc.Entries.Sort(new StringList.NumberComparerAsc());
+                cliloc.Entries.Sort(new StringList.NumberComparer(false));
                 source.DataSource = cliloc.Entries;
                 dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                 dataGridView1.Columns[0].Width = 60;
@@ -188,31 +191,16 @@ namespace Controls
                 sortorder = SortOrder.Ascending;
                 dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
             }
-            dataGridView1.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection =
-                sortorder == SortOrder.Ascending ?
-                SortOrder.Ascending : SortOrder.Descending;
+            dataGridView1.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortorder;
             sortcolumn = e.ColumnIndex;
+
             if (e.ColumnIndex == 0)
-            {
-                if (sortorder == SortOrder.Ascending)
-                    cliloc.Entries.Sort(new StringList.NumberComparerAsc());
-                else
-                    cliloc.Entries.Sort(new StringList.NumberComparerDesc());
-            }
+                cliloc.Entries.Sort(new StringList.NumberComparer(sortorder == SortOrder.Descending));
             else if (e.ColumnIndex == 1)
-            {
-                if (sortorder == SortOrder.Ascending)
-                    cliloc.Entries.Sort(new StringList.TextComparerAsc());
-                else
-                    cliloc.Entries.Sort(new StringList.TextComparerDesc());
-            }
+                cliloc.Entries.Sort(new StringList.TextComparer(sortorder == SortOrder.Descending));
             else
-            {
-                if (sortorder == SortOrder.Ascending)
-                    cliloc.Entries.Sort(new StringList.FlagComparerAsc());
-                else
-                    cliloc.Entries.Sort(new StringList.FlagComparerDesc());
-            }
+                cliloc.Entries.Sort(new StringList.FlagComparer(sortorder == SortOrder.Descending));
+
             dataGridView1.Refresh();
         }
 

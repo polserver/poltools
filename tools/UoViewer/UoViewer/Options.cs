@@ -21,7 +21,7 @@ namespace UoViewer
     {
         public Options() 
         {
-            FileIndex.LoadMulPath();
+ //           Files.LoadMulPath();
             Load();
         }
 
@@ -50,7 +50,7 @@ namespace UoViewer
             comment = dom.CreateComment("CacheData should mul entries be cached for faster load");
             sr.AppendChild(comment);
             elem = dom.CreateElement("CacheData");
-            elem.SetAttribute("active", FileIndex.CacheData.ToString());
+            elem.SetAttribute("active", Files.CacheData.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("NewMapSize Felucca/Trammel width 7168?");
             sr.AppendChild(comment);
@@ -65,18 +65,18 @@ namespace UoViewer
             comment = dom.CreateComment("Use Hashfile to speed up load?");
             sr.AppendChild(comment);
             elem = dom.CreateElement("UseHashFile");
-            elem.SetAttribute("active", FileIndex.UseHashFile.ToString());
+            elem.SetAttribute("active", Files.UseHashFile.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
 
-            ArrayList sorter = new ArrayList(FileIndex.MulPath.Keys);
+            ArrayList sorter = new ArrayList(Files.MulPath.Keys);
             sorter.Sort();
             foreach (string key in sorter)
             {
                 XmlElement path = dom.CreateElement("Paths");
                 path.SetAttribute("key", key.ToString());
-                path.SetAttribute("value", FileIndex.MulPath[key].ToString());
+                path.SetAttribute("value", Files.MulPath[key].ToString());
                 sr.AppendChild(path);
             }
             dom.AppendChild(sr);
@@ -106,7 +106,7 @@ namespace UoViewer
 
             elem = (XmlElement)xOptions.SelectSingleNode("CacheData");
             if (elem != null)
-                FileIndex.CacheData = bool.Parse(elem.GetAttribute("active"));
+                Files.CacheData = bool.Parse(elem.GetAttribute("active"));
 
             elem = (XmlElement)xOptions.SelectSingleNode("NewMapSize");
             if (elem != null)
@@ -127,7 +127,7 @@ namespace UoViewer
 
             elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");
             if (elem != null)
-                FileIndex.UseHashFile = bool.Parse(elem.GetAttribute("active"));
+                Files.UseHashFile = bool.Parse(elem.GetAttribute("active"));
 
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
@@ -135,10 +135,10 @@ namespace UoViewer
                 string value;
                 key = xPath.GetAttribute("key");
                 value = xPath.GetAttribute("value");
-                FileIndex.MulPath[key] = value;
+                Files.MulPath[key] = value;
             }
 
-            if (Client.GetFilePath("map1.mul") != null)
+            if (Files.GetFilePath("map1.mul") != null)
             {
                 if (Ultima.Map.Trammel.Width == 7168)
                     Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);

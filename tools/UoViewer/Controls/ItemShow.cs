@@ -26,7 +26,7 @@ namespace Controls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refMarker = this;
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
                 PreloadItems.Visible = false;
             ProgressBar.Visible = false;
         }
@@ -41,7 +41,9 @@ namespace Controls
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 BinaryWriter bin = new BinaryWriter(fs);
-                byte[] md5 = FileIndex.GetMD5(Client.GetFilePath("Art.mul"));
+                byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
+                if (md5 == null)
+                    return;
                 int length = md5.Length;
                 bin.Write(length);
                 bin.Write(md5);
@@ -126,7 +128,7 @@ namespace Controls
             listView1.BeginUpdate();
             listView1.Clear();
 
-            if ((FileIndex.UseHashFile) && (FileIndex.CompareHashFile("Art")))
+            if ((Files.UseHashFile) && (Files.CompareHashFile("Art")))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, "UOViewerArt.hash");
@@ -157,9 +159,10 @@ namespace Controls
                         listView1.Items.Add(item);
                     }
                 }
-                if (FileIndex.UseHashFile)
+                if (Files.UseHashFile)
                     MakeHashFile();
             }
+
             listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
 
             listView1.EndUpdate();

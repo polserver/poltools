@@ -28,7 +28,9 @@ namespace Ultima
         /// <returns></returns>
         public static int GetCount()
         {
-            string idxPath=Client.GetFilePath("lightidx.mul");
+            string idxPath = Files.GetFilePath("lightidx.mul");
+            if (idxPath == null)
+                return 0;
             FileStream index = new FileStream( idxPath, FileMode.Open, FileAccess.Read, FileShare.Read );
 
             return (int)(index.Length/12);
@@ -41,7 +43,7 @@ namespace Ultima
         /// <returns></returns>
         public static bool TestLight(int index)
         {
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return true;
@@ -70,7 +72,7 @@ namespace Ultima
         /// <returns></returns>
         public unsafe static Bitmap GetLight(int index)
         {
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return m_Cache[index];
@@ -114,7 +116,7 @@ namespace Ultima
 
             bmp.UnlockBits(bd);
 
-            if (!FileIndex.CacheData)
+            if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else
                 return bmp;

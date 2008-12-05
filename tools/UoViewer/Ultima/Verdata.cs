@@ -17,7 +17,7 @@ namespace Ultima
 
         public static void Initialize()
         {
-            string path = Client.GetFilePath("verdata.mul");
+            string path = Files.GetFilePath("verdata.mul");
 
             if (path == null)
             {

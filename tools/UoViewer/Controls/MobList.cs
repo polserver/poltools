@@ -101,7 +101,8 @@ namespace Controls
 
             m_CurrentSelect = 0;
             m_CurrentSelectAction = 0;
-            TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
+            if (TreeViewMobs.Nodes[0].Nodes.Count>0)
+                TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
             this.Cursor = Cursors.Default;
         }
@@ -359,7 +360,6 @@ namespace Controls
             TreeViewMobs.BeginUpdate();
             TreeViewMobs.Nodes.Clear();
 
-            
             XmlDocument dom = new XmlDocument();
             dom.Load(FileName);
             XmlElement xMobs = dom["Graphics"];

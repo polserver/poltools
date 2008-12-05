@@ -172,20 +172,13 @@ namespace Controls
                 graphpic.Clear(Color.Black);
                 if (checkedListBoxWear.GetItemChecked(0))
                 {
+                    Bitmap background;
                     if (!female)
-                    {
-                        if (!elve)
-                            graphpic.DrawImage(Gumps.GetGump(0xC), drawpoint);
-                        else
-                            graphpic.DrawImage(Gumps.GetGump(0xE), drawpoint);
-                    }
+                        background = (!elve) ? Gumps.GetGump(0xC) : Gumps.GetGump(0xE);
                     else
-                    {
-                        if (!elve)
-                            graphpic.DrawImage(Gumps.GetGump(0xD), drawpoint);
-                        else
-                            graphpic.DrawImage(Gumps.GetGump(0xF), drawpoint);
-                    }
+                        background = (!elve) ? Gumps.GetGump(0xD) : Gumps.GetGump(0xF);
+                    if (background != null)
+                        graphpic.DrawImage(background, drawpoint);
                 }
                 for (int i = 1; i < draworder.Length; ++i)
                 {
@@ -243,35 +236,29 @@ namespace Controls
                 if (checkedListBoxWear.GetItemChecked(0))
                 {
                     if (!female)
-                    {
-                        if (!elve)
-                            back = 400;
-                        else
-                            back = 605;
-                    }
+                        back = (!elve) ? 400 : 605;
                     else
-                    {
-                        if (!elve)
-                            back = 401;
-                        else
-                            back = 606;
-                    }
+                        back = (!elve) ? 401 : 606;
                 }
                 Frame[] background = Animations.GetAnimation(back, action, facing, ref hue, false, true);
-                Point draw = new Point(
-                    drawpointAni.X - background[0].Center.X,
-                    drawpointAni.Y - background[0].Center.Y);
+                Point draw=new Point();
+                if (background != null)
+                {
+                    draw.X = drawpointAni.X - background[0].Center.X;
+                    draw.Y = drawpointAni.Y - background[0].Center.Y;
+                    graphpic.DrawImage(background[0].Bitmap, draw);
+                }
                 int[] animorder = draworder2;
                 if (((facing - 3) & 7) >= 4 && ((facing - 3) & 7) <= 6)
                     animorder = draworder;
-
-                graphpic.DrawImage(background[0].Bitmap, draw);
                 for (int i = 1; i < draworder.Length; ++i)
                 {
                     if ((int)layers[animorder[i]] != 0)
                     {
                         if (checkedListBoxWear.GetItemChecked(animorder[i]))
                         {
+                            if (TileData.ItemTable == null)
+                                break;
                             int ani = TileData.ItemTable[(int)layers[animorder[i]]].Animation;
                             int gump = ani + 50000;
                             hue = 0;
@@ -303,19 +290,9 @@ namespace Controls
                 if (checkedListBoxWear.GetItemChecked(0))
                 {
                     if (!female)
-                    {
-                        if (!elve)
-                            back = 400;
-                        else
-                            back = 605;
-                    }
+                        back = (!elve) ? 400 : 605;
                     else
-                    {
-                        if (!elve)
-                            back = 401;
-                        else
-                            back = 606;
-                    }
+                        back = (!elve) ? 401 : 606;
                 }
                 Frame[] mobile = Animations.GetAnimation(back, action, facing, ref hue, false, false);
                 Point draw = new Point();
@@ -568,37 +545,40 @@ namespace Controls
         {
             treeViewItems.BeginUpdate();
             treeViewItems.Nodes.Clear();
-            for (int i = 0; i<TileData.ItemTable.Length; ++i)
+            if (TileData.ItemTable != null)
             {
-                if (TileData.ItemTable[i].Wearable)
+                for (int i = 0; i < TileData.ItemTable.Length; ++i)
                 {
-                    int ani = TileData.ItemTable[i].Animation;
-                    if (ani != 0)
+                    if (TileData.ItemTable[i].Wearable)
                     {
-                        int hue = 0;
-                        int gump = ani + 50000;
-                        ConvertBody(ref ani, ref gump, ref hue);
-                        if (!Gumps.IsValidIndex(gump))
-                            ConvertGump(ref gump, ref hue);
-                        bool hasani = Animations.IsActionDefined(ani, 0, 0);
-                        bool hasgump = Gumps.IsValidIndex(gump);
-                        TreeNode node = new TreeNode(String.Format("0x{0:X4} (0x{1:X2}) {2}",
-                                    i, 
-                                    TileData.ItemTable[i].Quality,
-                                    TileData.ItemTable[i].Name));
-                        node.Tag = i;
-                        if (Array.IndexOf(draworder, (int)TileData.ItemTable[i].Quality)==-1)
-                            node.ForeColor = Color.DarkRed;
-                        else if (!hasani)
+                        int ani = TileData.ItemTable[i].Animation;
+                        if (ani != 0)
                         {
-                            if (!hasgump)
-                                node.ForeColor = Color.Red;
-                            else
-                                node.ForeColor = Color.Orange;
+                            int hue = 0;
+                            int gump = ani + 50000;
+                            ConvertBody(ref ani, ref gump, ref hue);
+                            if (!Gumps.IsValidIndex(gump))
+                                ConvertGump(ref gump, ref hue);
+                            bool hasani = Animations.IsActionDefined(ani, 0, 0);
+                            bool hasgump = Gumps.IsValidIndex(gump);
+                            TreeNode node = new TreeNode(String.Format("0x{0:X4} (0x{1:X2}) {2}",
+                                        i,
+                                        TileData.ItemTable[i].Quality,
+                                        TileData.ItemTable[i].Name));
+                            node.Tag = i;
+                            if (Array.IndexOf(draworder, (int)TileData.ItemTable[i].Quality) == -1)
+                                node.ForeColor = Color.DarkRed;
+                            else if (!hasani)
+                            {
+                                if (!hasgump)
+                                    node.ForeColor = Color.Red;
+                                else
+                                    node.ForeColor = Color.Orange;
+                            }
+                            else if (hasani && !hasgump)
+                                node.ForeColor = Color.Blue;
+                            treeViewItems.Nodes.Add(node);
                         }
-                        else if (hasani && !hasgump)
-                            node.ForeColor = Color.Blue;
-                        treeViewItems.Nodes.Add(node);
                     }
                 }
             }
@@ -772,7 +752,7 @@ namespace Controls
         }
         public static void Initialize()
         {
-            string path = Client.GetFilePath("gump.def");
+            string path = Files.GetFilePath("gump.def");
 
             if (path == null)
                 return;
@@ -847,7 +827,7 @@ namespace Controls
 
         public static void Initialize()
         {
-            string path = Client.GetFilePath("equipconv.def");
+            string path = Files.GetFilePath("equipconv.def");
 
             if (path == null)
                 return;

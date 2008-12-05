@@ -7,7 +7,7 @@ namespace Ultima
 {
 	public sealed class Gumps
 	{
-		private static FileIndex m_FileIndex = new FileIndex( "Gumpidx.mul", "Gumpart.mul", 0x10000, 12 );
+		private static FileIndex m_FileIndex;// = new FileIndex( "Gumpidx.mul", "Gumpart.mul", 0x10000, 12 );
 		//public static FileIndex FileIndex{ get{ return m_FileIndex; } }
 
         private static Bitmap[] m_Cache = new Bitmap[0x10000];
@@ -15,14 +15,34 @@ namespace Ultima
 		private static byte[] m_PixelBuffer;
 		private static byte[] m_StreamBuffer;
 		private static byte[] m_ColorTable;
-
+        static Gumps()
+        {
+            try
+            {
+                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+            }
+            catch
+            {
+                m_FileIndex = null;
+            }
+        }
         /// <summary>
         /// ReReads gumpart
         /// </summary>
         public static void Reload()
         {
-            m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+            try
+            {
+                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+            }
+            catch
+            {
+                m_FileIndex = null;
+            }
             m_Cache = new Bitmap[0x10000];
+            m_PixelBuffer = null;
+            m_StreamBuffer = null;
+            m_ColorTable = null;
         }
 
         /// <summary>
@@ -32,7 +52,9 @@ namespace Ultima
         /// <returns></returns>
         public static bool IsValidIndex(int index)
         {
-            if (FileIndex.CacheData)
+            if (m_FileIndex == null)
+                return false;
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return true;
@@ -198,7 +220,7 @@ namespace Ultima
         /// <returns></returns>
 		public unsafe static Bitmap GetGump( int index )
 		{
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
             {
                 if (m_Cache[index] != null)
                     return m_Cache[index];
@@ -254,7 +276,7 @@ namespace Ultima
 
 			bmp.UnlockBits( bd );
 
-            if (FileIndex.CacheData)
+            if (Files.CacheData)
                 return m_Cache[index] = bmp;
             else
                 return bmp;
