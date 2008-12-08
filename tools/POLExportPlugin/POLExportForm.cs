@@ -43,11 +43,12 @@ namespace POLGumpExport
 		private System.Windows.Forms.GroupBox grp_Saveas;
 		private System.Windows.Forms.Button btn_Browse;
 		private System.Windows.Forms.Button btn_Cancel;
-		private System.Windows.Forms.Button btn_Export;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private System.Windows.Forms.Button btn_Export;
+        private IContainer components;
+        private CheckBox chk_comments;
+        private CheckBox chk_names;
+        private CheckBox chk_DefaultTexts;
+        private ToolTip toolTip1;
 
 		public string GumpName
 		{
@@ -94,6 +95,7 @@ namespace POLGumpExport
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.lbl_Help = new System.Windows.Forms.Label();
             this.grp_Gumptype = new System.Windows.Forms.GroupBox();
             this.rbt_Bare = new System.Windows.Forms.RadioButton();
@@ -106,6 +108,10 @@ namespace POLGumpExport
             this.btn_Browse = new System.Windows.Forms.Button();
             this.btn_Cancel = new System.Windows.Forms.Button();
             this.btn_Export = new System.Windows.Forms.Button();
+            this.chk_names = new System.Windows.Forms.CheckBox();
+            this.chk_comments = new System.Windows.Forms.CheckBox();
+            this.chk_DefaultTexts = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.grp_Gumptype.SuspendLayout();
             this.grp_Properties.SuspendLayout();
             this.grp_Saveas.SuspendLayout();
@@ -141,30 +147,35 @@ namespace POLGumpExport
             this.rbt_Bare.TabIndex = 3;
             this.rbt_Bare.TabStop = true;
             this.rbt_Bare.Text = "Bare gump";
+            this.toolTip1.SetToolTip(this.rbt_Bare, "Create the old and trusty SendDialogGump gump :)");
             // 
             // rbt_Distro
             // 
-            this.rbt_Distro.Enabled = false;
             this.rbt_Distro.Location = new System.Drawing.Point(16, 48);
             this.rbt_Distro.Name = "rbt_Distro";
             this.rbt_Distro.Size = new System.Drawing.Size(128, 24);
             this.rbt_Distro.TabIndex = 3;
             this.rbt_Distro.Text = "Distro Gump pkg";
+            this.toolTip1.SetToolTip(this.rbt_Distro, "Creates the gump using the very nice gump pkg.");
+            this.rbt_Distro.CheckedChanged += new System.EventHandler(this.rbt_Distro_CheckedChanged);
             // 
             // grp_Properties
             // 
+            this.grp_Properties.Controls.Add(this.chk_DefaultTexts);
+            this.grp_Properties.Controls.Add(this.chk_comments);
+            this.grp_Properties.Controls.Add(this.chk_names);
             this.grp_Properties.Controls.Add(this.lbl_Gumpname);
             this.grp_Properties.Controls.Add(this.txt_Gumpname);
             this.grp_Properties.Location = new System.Drawing.Point(168, 40);
             this.grp_Properties.Name = "grp_Properties";
-            this.grp_Properties.Size = new System.Drawing.Size(160, 80);
+            this.grp_Properties.Size = new System.Drawing.Size(160, 142);
             this.grp_Properties.TabIndex = 2;
             this.grp_Properties.TabStop = false;
             this.grp_Properties.Text = "Properties";
             // 
             // lbl_Gumpname
             // 
-            this.lbl_Gumpname.Location = new System.Drawing.Point(16, 24);
+            this.lbl_Gumpname.Location = new System.Drawing.Point(13, 16);
             this.lbl_Gumpname.Name = "lbl_Gumpname";
             this.lbl_Gumpname.Size = new System.Drawing.Size(136, 16);
             this.lbl_Gumpname.TabIndex = 1;
@@ -172,7 +183,7 @@ namespace POLGumpExport
             // 
             // txt_Gumpname
             // 
-            this.txt_Gumpname.Location = new System.Drawing.Point(16, 48);
+            this.txt_Gumpname.Location = new System.Drawing.Point(15, 35);
             this.txt_Gumpname.Name = "txt_Gumpname";
             this.txt_Gumpname.Size = new System.Drawing.Size(136, 20);
             this.txt_Gumpname.TabIndex = 0;
@@ -191,7 +202,7 @@ namespace POLGumpExport
             // 
             this.grp_Saveas.Controls.Add(this.btn_Browse);
             this.grp_Saveas.Controls.Add(this.txt_Savefile);
-            this.grp_Saveas.Location = new System.Drawing.Point(0, 128);
+            this.grp_Saveas.Location = new System.Drawing.Point(0, 177);
             this.grp_Saveas.Name = "grp_Saveas";
             this.grp_Saveas.Size = new System.Drawing.Size(328, 56);
             this.grp_Saveas.TabIndex = 4;
@@ -209,7 +220,7 @@ namespace POLGumpExport
             // 
             // btn_Cancel
             // 
-            this.btn_Cancel.Location = new System.Drawing.Point(136, 200);
+            this.btn_Cancel.Location = new System.Drawing.Point(136, 249);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(88, 24);
             this.btn_Cancel.TabIndex = 5;
@@ -218,17 +229,57 @@ namespace POLGumpExport
             // 
             // btn_Export
             // 
-            this.btn_Export.Location = new System.Drawing.Point(232, 200);
+            this.btn_Export.Location = new System.Drawing.Point(232, 249);
             this.btn_Export.Name = "btn_Export";
             this.btn_Export.Size = new System.Drawing.Size(88, 23);
             this.btn_Export.TabIndex = 6;
             this.btn_Export.Text = "Export";
             this.btn_Export.Click += new System.EventHandler(this.btn_Export_Click);
             // 
+            // chk_names
+            // 
+            this.chk_names.AutoSize = true;
+            this.chk_names.Enabled = false;
+            this.chk_names.Location = new System.Drawing.Point(16, 91);
+            this.chk_names.Name = "chk_names";
+            this.chk_names.Size = new System.Drawing.Size(130, 17);
+            this.chk_names.TabIndex = 2;
+            this.chk_names.Text = "Show Element Names";
+            this.toolTip1.SetToolTip(this.chk_names, "Show element name with a comment over the function that creates it.");
+            this.chk_names.UseVisualStyleBackColor = true;
+            // 
+            // chk_comments
+            // 
+            this.chk_comments.AutoSize = true;
+            this.chk_comments.Enabled = false;
+            this.chk_comments.Location = new System.Drawing.Point(16, 114);
+            this.chk_comments.Name = "chk_comments";
+            this.chk_comments.Size = new System.Drawing.Size(105, 17);
+            this.chk_comments.TabIndex = 3;
+            this.chk_comments.Text = "Show Comments";
+            this.toolTip1.SetToolTip(this.chk_comments, "Show element comment over it. If Show Element Names is checked, both are shown on" +
+                    " the same comment line.");
+            this.chk_comments.UseVisualStyleBackColor = true;
+            // 
+            // chk_DefaultTexts
+            // 
+            this.chk_DefaultTexts.AutoSize = true;
+            this.chk_DefaultTexts.Checked = true;
+            this.chk_DefaultTexts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_DefaultTexts.Enabled = false;
+            this.chk_DefaultTexts.Location = new System.Drawing.Point(16, 68);
+            this.chk_DefaultTexts.Name = "chk_DefaultTexts";
+            this.chk_DefaultTexts.Size = new System.Drawing.Size(123, 17);
+            this.chk_DefaultTexts.TabIndex = 4;
+            this.chk_DefaultTexts.Text = "Create Default Texts";
+            this.toolTip1.SetToolTip(this.chk_DefaultTexts, "Create default texts for controls with no text. Example: HtmlElement, TextEntry, " +
+                    "etc...");
+            this.chk_DefaultTexts.UseVisualStyleBackColor = true;
+            // 
             // POLExportForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(330, 234);
+            this.ClientSize = new System.Drawing.Size(331, 280);
             this.ControlBox = false;
             this.Controls.Add(this.btn_Export);
             this.Controls.Add(this.btn_Cancel);
@@ -260,6 +311,8 @@ namespace POLGumpExport
 		{
 			SaveFileDialog sfd_Savefile = new SaveFileDialog();
 			sfd_Savefile.Filter = "POL Script (*.src)|*.src";
+            if (txt_Gumpname.Text != null)
+                sfd_Savefile.FileName = txt_Gumpname.Text;
 			if (sfd_Savefile.ShowDialog() == DialogResult.OK)
 			{
 				txt_Savefile.Text = sfd_Savefile.FileName;
@@ -281,13 +334,29 @@ namespace POLGumpExport
 
 			using (StreamWriter streamWriter = File.CreateText(txt_Savefile.Text))
 			{
-				using(StringWriter stringWriter = seWorker.GetPOLScript(rbt_Bare.Checked))
+				using(StringWriter stringWriter = seWorker.GetPOLScript(rbt_Distro.Checked, chk_comments.Checked, chk_names.Checked, chk_DefaultTexts.Checked))
 				{
 					streamWriter.Write(stringWriter.ToString());
 				}
 			}
 
 			base.Close();
-		}
+        }
+
+        private void rbt_Distro_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbt_Distro.Checked)
+            {
+                chk_names.Enabled = true;
+                chk_comments.Enabled = true;
+                chk_DefaultTexts.Enabled = true;
+            }
+            else
+            {
+                chk_names.Enabled = false;
+                chk_DefaultTexts.Enabled = false;
+                chk_comments.Enabled = false;
+            }
+        }
 	}
 }

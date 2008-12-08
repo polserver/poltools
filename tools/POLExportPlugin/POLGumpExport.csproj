@@ -122,6 +122,7 @@
     <Compile Include="POLExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="POLExportForm.resx">
       <DependentUpon>POLExportForm.cs</DependentUpon>
     </EmbeddedResource>
