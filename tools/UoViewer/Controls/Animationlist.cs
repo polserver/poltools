@@ -20,13 +20,12 @@ using Ultima;
 
 namespace Controls
 {
-    public partial class MobList : UserControl
+    public partial class Animationlist : UserControl
     {
-        public MobList()
+        public Animationlist()
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-
         }
 
         #region AnimNames
@@ -99,6 +98,7 @@ namespace Controls
 
             LoadListView();
 
+            extractAnimationToolStripMenuItem.Visible = false;
             m_CurrentSelect = 0;
             m_CurrentSelectAction = 0;
             if (TreeViewMobs.Nodes[0].Nodes.Count>0)
@@ -125,6 +125,10 @@ namespace Controls
                 if (m_Animate != value)
                 {
                     m_Animate = value;
+                    if (!m_Animate)
+                        extractAnimationToolStripMenuItem.Visible = false;
+                    else
+                        extractAnimationToolStripMenuItem.Visible = true;
                     StopAnimation();
                     m_ImageInvalidated = true;
                     MainPictureBox.Refresh();
@@ -347,7 +351,7 @@ namespace Controls
 
         private void Animate_Click(object sender, EventArgs e)
         {
-            m_Animate = !m_Animate;
+            Animate = !Animate;
         }
 
         private bool LoadXml()
@@ -382,7 +386,7 @@ namespace Controls
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
-                    if (Ultima.Animations.IsActionDefined(value, i, 0))
+                    if (Animations.IsActionDefined(value, i, 0))
                     {
                         node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
                         node.Tag = i;
@@ -408,7 +412,7 @@ namespace Controls
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
-                    if (Ultima.Animations.IsActionDefined(value, i, 0))
+                    if (Animations.IsActionDefined(value, i, 0))
                     {
                         node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
                         node.Tag = i;
@@ -543,7 +547,7 @@ namespace Controls
             if (DisplayType == 1)
                 what = "Equipment";
 
-            string FileName = Path.Combine(path, String.Format("{0} {1}.jpg", what,m_CurrentSelect));
+            string FileName = Path.Combine(path, String.Format("{0} {1}.tiff", what,m_CurrentSelect));
 
             if (Animate)
             {
@@ -552,7 +556,7 @@ namespace Controls
                 newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
                 newgraph.DrawImage(m_Animation[0], new Point(0, 0));
                 newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Jpeg);
+                newbit.Save(FileName, ImageFormat.Tiff);
             }
             else
             {
@@ -561,9 +565,32 @@ namespace Controls
                 newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
                 newgraph.DrawImage(m_MainPicture, new Point(0, 0));
                 newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Jpeg);
+                newbit.Save(FileName, ImageFormat.Tiff);
             }
             MessageBox.Show(String.Format("{0} saved to {1}", what,FileName), "Saved");
+        }
+
+        private void OnClickExtractAnim(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+            if (Animate)
+            {
+                for (int i = 0; i < m_Animation.Length; ++i)
+                {
+                    Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height);
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[i], new Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(String.Format("{0}-{1}.tiff",FileName,i), ImageFormat.Tiff);
+                }
+                MessageBox.Show(String.Format("{0} saved to '{1}-X.tiff'", what, FileName), "Saved");
+            }
         }
     }
 

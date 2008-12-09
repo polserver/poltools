@@ -141,7 +141,7 @@ namespace UoViewer
 
         public override Type PropertyType
         {
-            get { return typeof(string); }//_dictionary[_key].GetType(); }
+            get { return typeof(string); }
         }
 
         public override void SetValue(object component, object value)

@@ -139,10 +139,10 @@ namespace Controls
         private void extract_Image_Click(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.jpg", int.Parse(TreeViewMulti.SelectedNode.Name)));
+            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.tiff", int.Parse(TreeViewMulti.SelectedNode.Name)));
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap bit = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
-            bit.Save(FileName, ImageFormat.Jpeg);
+            bit.Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName), "Saved");
         }
     }

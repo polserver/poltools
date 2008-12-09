@@ -166,8 +166,6 @@ namespace Ultima
         /// <returns>The absolute path to <paramref name="file" /> -or- <c>null</c> if <paramref name="file" /> was not found.</returns>
         public static string GetFilePath(string file)
         {
-            //if (MulPath == null)
-            //    LoadMulPath();
             if (MulPath.Count > 0)
             {
                 string path = MulPath[file.ToLower()].ToString();

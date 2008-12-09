@@ -12,5 +12,7 @@
   <AlternativeDesign active="False" />
   <!--Use Hashfile to speed up load?-->
   <UseHashFile active="True" />
+  <!--Should an Update Check be done on startup?-->
+  <UpdateCheck active="False" />
   <!--Pathsettings-->
 </Options>

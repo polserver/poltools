@@ -17,7 +17,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        private static string Version = "2.2";
+        public static string Version = "2.3";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;
@@ -117,7 +117,7 @@ namespace UoViewer
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "MobGraphic") // Animations
+            else if ((string)tabControl2.SelectedTab.Tag == "Animations") // Animations
             {
                 if (!LoadedUltimaClass["Animations"])
                     LoadedUltimaClass["Animations"] = true;
@@ -249,7 +249,7 @@ namespace UoViewer
                 Ultima.SpeechList.Initialize();
 
             this.controlMulti.Reload();
-            this.controlMobList.Reload();
+            this.controlAnimations.Reload();
             if (AlternativeDesign)
                 this.controlItemShowAlt.Reload();
             else
@@ -277,5 +277,11 @@ namespace UoViewer
 
             this.Cursor = Cursors.Default;
         }
+
+        private void OnClickAbout(object sender, EventArgs e)
+        {
+            new AboutBox().Show();
+        }
+
     }
 }
