@@ -190,11 +190,11 @@
     <Compile Include="MapDetails.Designer.cs">
       <DependentUpon>MapDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="MobList.cs">
+    <Compile Include="Animationlist.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MobList.Designer.cs">
-      <DependentUpon>MobList.cs</DependentUpon>
+    <Compile Include="Animationlist.Designer.cs">
+      <DependentUpon>Animationlist.cs</DependentUpon>
     </Compile>
     <Compile Include="MultiMap.cs">
       <SubType>UserControl</SubType>
@@ -348,9 +348,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>MapDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MobList.resx">
+    <EmbeddedResource Include="Animationlist.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>MobList.cs</DependentUpon>
+      <DependentUpon>Animationlist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiMap.resx">
       <SubType>Designer</SubType>

@@ -11,7 +11,7 @@
 
 namespace Controls
 {
-    partial class MobList
+    partial class Animationlist
     {
         /// <summary> 
         /// Required designer variable.
@@ -40,7 +40,7 @@ namespace Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MobList));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Animationlist));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TreeViewMobs = new System.Windows.Forms.TreeView();
             this.FacingBar = new System.Windows.Forms.TrackBar();
@@ -54,13 +54,14 @@ namespace Controls
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.GraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.BaseGraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.HueLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SettingsButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.sortAlphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.BaseGraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.HueLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.extractAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -154,14 +155,15 @@ namespace Controls
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extractImageToolStripMenuItem});
+            this.extractImageToolStripMenuItem,
+            this.extractAnimationToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 70);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
             // 
@@ -236,36 +238,6 @@ namespace Controls
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // GraphicLabel
-            // 
-            this.GraphicLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.GraphicLabel.Name = "GraphicLabel";
-            this.GraphicLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GraphicLabel.Size = new System.Drawing.Size(50, 17);
-            this.GraphicLabel.Text = "Graphic: ";
-            this.GraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BaseGraphicLabel
-            // 
-            this.BaseGraphicLabel.AutoSize = false;
-            this.BaseGraphicLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.BaseGraphicLabel.Name = "BaseGraphicLabel";
-            this.BaseGraphicLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BaseGraphicLabel.Size = new System.Drawing.Size(100, 17);
-            this.BaseGraphicLabel.Text = "BaseGraphic:";
-            this.BaseGraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // HueLabel
-            // 
-            this.HueLabel.AutoSize = false;
-            this.HueLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.HueLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.HueLabel.Name = "HueLabel";
-            this.HueLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.HueLabel.Size = new System.Drawing.Size(60, 17);
-            this.HueLabel.Text = "Hue:";
-            this.HueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // SettingsButton
             // 
             this.SettingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -303,13 +275,50 @@ namespace Controls
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
             // 
-            // MobList
+            // GraphicLabel
+            // 
+            this.GraphicLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.GraphicLabel.Name = "GraphicLabel";
+            this.GraphicLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.GraphicLabel.Size = new System.Drawing.Size(50, 17);
+            this.GraphicLabel.Text = "Graphic: ";
+            this.GraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // BaseGraphicLabel
+            // 
+            this.BaseGraphicLabel.AutoSize = false;
+            this.BaseGraphicLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BaseGraphicLabel.Name = "BaseGraphicLabel";
+            this.BaseGraphicLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.BaseGraphicLabel.Size = new System.Drawing.Size(100, 17);
+            this.BaseGraphicLabel.Text = "BaseGraphic:";
+            this.BaseGraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // HueLabel
+            // 
+            this.HueLabel.AutoSize = false;
+            this.HueLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.HueLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.HueLabel.Name = "HueLabel";
+            this.HueLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.HueLabel.Size = new System.Drawing.Size(60, 17);
+            this.HueLabel.Text = "Hue:";
+            this.HueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // extractAnimationToolStripMenuItem
+            // 
+            this.extractAnimationToolStripMenuItem.Name = "extractAnimationToolStripMenuItem";
+            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.extractAnimationToolStripMenuItem.Text = "extract Animation";
+            this.extractAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractAnim);
+            // 
+            // Animationlist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.DoubleBuffered = true;
-            this.Name = "MobList";
+            this.Name = "Animationlist";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -351,6 +360,7 @@ namespace Controls
         private System.Windows.Forms.ToolStripMenuItem sortAlphaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem animateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extractAnimationToolStripMenuItem;
 
     }
 }

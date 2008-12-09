@@ -128,9 +128,9 @@ namespace Controls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
-            string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
+            string FileName = Path.Combine(path, String.Format("Gump {0}.tiff", i));
             Bitmap bmp = Gumps.GetGump(i);
-            bmp.Save(FileName, ImageFormat.Jpeg);
+            bmp.Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(String.Format("Gump saved to {0}", FileName), "Saved");
         }
 

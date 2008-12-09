@@ -16,8 +16,8 @@ namespace Controls
 {
     public partial class HuePopUp : Form
     {
-        private Controls.MobList refMob;
-        public HuePopUp(Controls.MobList ref_, int hue)
+        private Controls.Animationlist refMob;
+        public HuePopUp(Controls.Animationlist ref_, int hue)
         {
             InitializeComponent();
             if ((hue & 0x8000)!=0)

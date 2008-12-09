@@ -128,7 +128,7 @@ namespace Controls
         private void extract_Image_Click(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", index));
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", index));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
             Graphics newgraph = Graphics.FromImage(bit);
             newgraph.Clear(Color.White);
@@ -139,7 +139,7 @@ namespace Controls
                 hue.ApplyTo(huebit, partialHue);
             }
             newgraph.DrawImage(huebit,0,0);
-            bit.Save(FileName, ImageFormat.Jpeg);
+            bit.Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(String.Format("Item saved to {0}", FileName), "Saved");
         }
 

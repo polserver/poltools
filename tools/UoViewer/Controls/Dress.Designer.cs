@@ -61,6 +61,8 @@ namespace Controls
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TextBox = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1.Panel1.SuspendLayout();
@@ -320,23 +322,40 @@ namespace Controls
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showAnimationToolStripMenuItem,
-            this.animateToolStripMenuItem});
+            this.animateToolStripMenuItem,
+            this.extractImageToolStripMenuItem,
+            this.extractAnimationToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(162, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(171, 92);
             // 
             // showAnimationToolStripMenuItem
             // 
             this.showAnimationToolStripMenuItem.Name = "showAnimationToolStripMenuItem";
-            this.showAnimationToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.showAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.showAnimationToolStripMenuItem.Text = "Show Animation";
             this.showAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClick_ChangeDisplay);
             // 
             // animateToolStripMenuItem
             // 
+            this.animateToolStripMenuItem.CheckOnClick = true;
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Animate);
+            // 
+            // extractImageToolStripMenuItem
+            // 
+            this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractImageToolStripMenuItem.Text = "Extract Image";
+            this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractImage);
+            // 
+            // extractAnimationToolStripMenuItem
+            // 
+            this.extractAnimationToolStripMenuItem.Name = "extractAnimationToolStripMenuItem";
+            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractAnimationToolStripMenuItem.Text = "Extract Animation";
+            this.extractAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractAnim);
             // 
             // TextBox
             // 
@@ -409,5 +428,7 @@ namespace Controls
         private System.Windows.Forms.TrackBar FacingBar;
         private System.Windows.Forms.TrackBar ActionBar;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extractAnimationToolStripMenuItem;
     }
 }

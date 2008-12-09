@@ -12,17 +12,40 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Ultima;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
 
 namespace UoViewer
 {
     public class Options 
     {
+        private static bool m_UpdateCheckOnStart = false;
+        /// <summary>
+        /// Definies if an Update Check should be made on startup
+        /// </summary>
+        public static bool UpdateCheckOnStart
+        {
+            get { return m_UpdateCheckOnStart; }
+            set { m_UpdateCheckOnStart = value; }
+        }
+
         public Options() 
         {
- //           Files.LoadMulPath();
             Load();
+            if (m_UpdateCheckOnStart)
+            {
+                BackgroundWorker updater = new BackgroundWorker();
+                updater.DoWork += new DoWorkEventHandler(Updater_DoWork);
+                updater.RunWorkerCompleted+=new RunWorkerCompletedEventHandler(Updater_RunWorkerCompleted);
+                updater.RunWorkerAsync();
+            }
         }
 
         public static void Save()
@@ -66,6 +89,11 @@ namespace UoViewer
             sr.AppendChild(comment);
             elem = dom.CreateElement("UseHashFile");
             elem.SetAttribute("active", Files.UseHashFile.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("Should an Update Check be done on startup?");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("UpdateCheck");
+            elem.SetAttribute("active", UpdateCheckOnStart.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
@@ -129,6 +157,10 @@ namespace UoViewer
             if (elem != null)
                 Files.UseHashFile = bool.Parse(elem.GetAttribute("active"));
 
+            elem = (XmlElement)xOptions.SelectSingleNode("UpdateCheck");
+            if (elem != null)
+                UpdateCheckOnStart = bool.Parse(elem.GetAttribute("active"));
+
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;
@@ -146,5 +178,110 @@ namespace UoViewer
                     Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
             }
         }
+
+        /// <summary>
+        /// Checks polserver forum for updates
+        /// </summary>
+        /// <returns></returns>
+        public static Match CheckForUpdate(out string error)
+        {
+            StringBuilder sb = new StringBuilder();
+            byte[] buf = new byte[8192];
+            Match match;
+            error = "";
+
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)
+                    WebRequest.Create(@"http://forums.polserver.com/viewtopic.php?f=1&t=2351&st=0&sk=t&sd=a");
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream resStream = response.GetResponseStream();
+
+                string tempString = null;
+                int count = 0;
+
+                do
+                {
+                    count = resStream.Read(buf, 0, buf.Length);
+                    if (count != 0)
+                    {
+                        tempString = Encoding.ASCII.GetString(buf, 0, count);
+                        sb.Append(tempString);
+                    }
+                }
+                while (count > 0);
+
+                Regex reg = new Regex(@"<a href=""./download/file.php\?id=(?<id>[\d]+)&amp;sid=(?<sid>[\w]+)"">UOViewer (?<major>\d).(?<minor>\d)(?<sub>\w)?.rar</a>", RegexOptions.Compiled);
+                match = reg.Match(sb.ToString());
+                response.Close();
+                resStream.Dispose();
+            }
+            catch (Exception e)
+            {
+                match = null;
+                error = e.Message;
+            }
+
+            return match;
+        }
+
+        private void Updater_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string error;
+            e.Result = CheckForUpdate(out error);
+            if (e.Result == null)
+                throw new Exception(error);
+
+        }
+
+        private void Updater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error!=null)
+            {
+                MessageBox.Show("Error:\n" + e.Error, "Check for Update");
+                return;
+            }
+            Match match = (Match)e.Result;
+            if (match.Success)
+            {
+                string version = match.Result("${major}.${minor}${sub}");
+                if (UoViewer.Version.Equals(version))
+                    MessageBox.Show("Your Version is up-to-date", "Check for Update");
+                else
+                {
+                    DialogResult result =
+                        MessageBox.Show(String.Format(@"Your version differs: {0} Found: {1}"
+                        , UoViewer.Version, version) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                        DownloadFile(version, match.Result("${id}"));
+                }
+            }
+            else
+                MessageBox.Show("Failed to get Versioninfo", "Check for Update");
+        }
+
+        #region Downloader
+        private void DownloadFile(string version, string id)
+        {
+            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(filepath, String.Format("UoViewer {0}.rar",version));
+
+            WebClient web = new WebClient();
+            web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
+            web.DownloadFileAsync(new Uri(String.Format(@"http://forums.polserver.com/download/file.php\?id={0}", id)), FileName);
+        }
+
+        private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MessageBox.Show("An error occurred while downloading UOViewer\n" + e.Error.Message,
+                    "Updater");
+                return;
+            }
+            MessageBox.Show("Finished Download","Updater");
+        }
+        #endregion
     }
 }

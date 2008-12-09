@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Ultima;
@@ -137,6 +138,7 @@ namespace Controls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            extractAnimationToolStripMenuItem.Visible = false;
 
             DressPic.Image = new Bitmap(DressPic.Width, DressPic.Height);
             pictureBoxDress.Image = new Bitmap(pictureBoxDress.Width, pictureBoxDress.Height);
@@ -434,6 +436,10 @@ namespace Controls
         private void OnClick_Animate(object sender, EventArgs e)
         {
             animate = !animate;
+            if (animate)
+                extractAnimationToolStripMenuItem.Visible = true;
+            else
+                extractAnimationToolStripMenuItem.Visible = false;
             RefreshDrawing();
         }
 
@@ -539,6 +545,37 @@ namespace Controls
                 showAnimationToolStripMenuItem.Text = "Show Paperdoll";
             }
             RefreshDrawing();
+        }
+
+        private void OnClickExtractImage(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (showPD)
+            {
+                string FileName = Path.Combine(path, "Dress PD.tiff");
+                DressPic.Image.Save(FileName, ImageFormat.Tiff);
+                MessageBox.Show(String.Format("Paperdoll saved to {0}", FileName), "Saved");
+            }
+            else
+            {
+                string FileName = Path.Combine(path, "Dress IG.tiff");
+                if (animate)
+                    m_Animation[0].Save(FileName, ImageFormat.Tiff);
+                else
+                    DressPic.Image.Save(FileName, ImageFormat.Tiff);
+                MessageBox.Show(String.Format("InGame saved to {0}", FileName), "Saved");
+            }
+        }
+
+        private void OnClickExtractAnim(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = "Dress Anim";
+            for (int i = 0; i < m_Animation.Length; ++i)
+            {
+                m_Animation[i].Save(String.Format("{0}-{1}.tiff",FileName,i), ImageFormat.Tiff);
+            }
+            MessageBox.Show(String.Format("InGame Anim saved to '{0}-X.tiff'", FileName), "Saved");
         }
 
         private void BuildDressList()
