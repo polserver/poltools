@@ -27,6 +27,7 @@ namespace UoViewer
 
         private void ReloadPath(object sender, EventArgs e)
         {
+            Files.ReLoadDirectory();
             Files.LoadMulPath();
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
             propertyGrid1.Refresh();

@@ -14,7 +14,7 @@ namespace Ultima
         /// Returns Bitmap
         /// </summary>
         /// <returns></returns>
-        public unsafe static Bitmap GetMultiMap()
+        public static Bitmap GetMultiMap()
         {
             string path = Files.GetFilePath("Multimap.rle");
             if (path != null)
@@ -61,7 +61,7 @@ namespace Ultima
         /// </summary>
         /// <param name="image"></param>
         /// <param name="bin"></param>
-        public unsafe static void SaveMultiMap(Bitmap image, BinaryWriter bin)
+        public static void SaveMultiMap(Bitmap image, BinaryWriter bin)
         {
             bin.Write(2560); // width
             bin.Write(2048); // height

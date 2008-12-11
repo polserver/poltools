@@ -1,19 +1,27 @@
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+
 // ascii text support written by arul
 namespace Ultima
 {
 	public sealed class ASCIIFont
 	{
+        private byte m_Header;
+        private byte[] m_Unk;
+        private Bitmap[] m_Characters;
 		private int m_Height;
-		private Bitmap[] m_Characters;
-		public int Height { get { return m_Height; } set { m_Height = value; } }
+		
+        public byte Header { get { return m_Header; } }
+        public byte[] Unk { get { return m_Unk; } set { m_Unk = value; } }
 		public Bitmap[] Characters { get { return m_Characters; } set { m_Characters = value; } }
+        public int Height { get { return m_Height; } set { m_Height = value; } }
+        
 
-		public ASCIIFont()
+		public ASCIIFont(byte header)
 		{
+            m_Header = header;
 			Height		= 0;
+            m_Unk = new byte[224];
 			Characters	= new Bitmap[ 224 ];
 		}
 
@@ -40,6 +48,12 @@ namespace Ultima
 
 			return width;
 		}
+
+        public void ReplaceCharacter(int character, Bitmap import)
+        {
+            m_Characters[character] = import;
+            m_Height = import.Height;
+        }
 
 		public static ASCIIFont GetFixed( int font )
 		{
@@ -74,22 +88,19 @@ namespace Ultima
                 {
                     for (int i = 0; i < 10; ++i)
                     {
-                        Fonts[i] = new ASCIIFont();
-
                         byte header = reader.ReadByte();
+                        Fonts[i] = new ASCIIFont(header);
 
                         for (int k = 0; k < 224; ++k)
                         {
                             byte width = reader.ReadByte();
                             byte height = reader.ReadByte();
-                            reader.ReadByte(); // delimeter?
+                            byte unk = reader.ReadByte(); // delimeter?
 
                             if (width > 0 && height > 0)
                             {
                                 if (height > Fonts[i].Height && k < 96)
-                                {
                                     Fonts[i].Height = height;
-                                }
 
                                 Bitmap bmp = new Bitmap(width, height);
 
@@ -98,15 +109,41 @@ namespace Ultima
                                     for (int x = 0; x < width; ++x)
                                     {
                                         short pixel = (short)(reader.ReadByte() | (reader.ReadByte() << 8));
-
                                         if (pixel != 0)
-                                        {
                                             bmp.SetPixel(x, y, Color.FromArgb((pixel & 0x7C00) >> 7, (pixel & 0x3E0) >> 2, (pixel & 0x1F) << 3));
-                                        }
                                     }
                                 }
 
                                 Fonts[i].Characters[k] = bmp;
+                                Fonts[i].Unk[k] = unk;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void Save(string FileName)
+        {
+            using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryWriter bin = new BinaryWriter(fs);
+
+                for (int i = 0; i < 10; ++i)
+                {
+                    bin.Write(Fonts[i].Header);
+                    for (int k = 0; k < 224; ++k)
+                    {
+                        bin.Write((byte)Fonts[i].Characters[k].Width);
+                        bin.Write((byte)Fonts[i].Characters[k].Height);
+                        bin.Write(Fonts[i].Unk[k]);
+                        for (int y = 0; y < Fonts[i].Characters[k].Height; ++y)
+                        {
+                            for (int x = 0; x < Fonts[i].Characters[k].Width; ++x)
+                            {
+                                Color col = Fonts[i].Characters[k].GetPixel(x, y);
+                                short pixel = (short)(((col.B >> 3) & 0x1f) | ((col.G << 2) & 0x3e0) | ((col.R << 7) & 0x7c00));
+                                bin.Write(pixel);
                             }
                         }
                     }
@@ -115,58 +152,85 @@ namespace Ultima
         }
 
         /// <summary>
-        /// Returns Bitmap with Text
+        /// Draws Text with font in Bitmap and returns
         /// </summary>
         /// <param name="fontId"></param>
         /// <param name="text"></param>
-        /// <param name="hueId"></param>
         /// <returns></returns>
-		public unsafe static Bitmap DrawText( int fontId, string text, short hueId )
-		{
-			ASCIIFont font = ASCIIFont.GetFixed( fontId );
+        public static Bitmap DrawText(int fontId, string text)
+        {
+            ASCIIFont font = ASCIIFont.GetFixed(fontId);
+            Bitmap result = new Bitmap(font.GetWidth(text)+2, font.Height+2);
 
-			Bitmap result		= 
-				new Bitmap( font.GetWidth( text ), font.Height );
-			BitmapData surface	= 
-				result.LockBits( new Rectangle( 0, 0, result.Width, result.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
+            int dx = 2;
+            int dy = font.Height+2;
+            using (Graphics graph = Graphics.FromImage(result))
+            {
+                for (int i = 0; i < text.Length; ++i)
+                {
+                    Bitmap bmp = font.GetBitmap(text[i]);
+                    graph.DrawImage(bmp,dx,dy-bmp.Height);
+                    dx += bmp.Width;
+                }
+            }
+            return result;
+        }
 
-			int dx				= 0;
+        // Funzt nett...
 
-			for( int i = 0; i < text.Length; ++i )
-			{
-				Bitmap bmp		=
-					font.GetBitmap( text[ i ] );				
-				BitmapData chr	= 
-					bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
+        ///// <summary>
+        ///// Returns Bitmap with Text
+        ///// </summary>
+        ///// <param name="fontId"></param>
+        ///// <param name="text"></param>
+        ///// <param name="hueId"></param>
+        ///// <returns></returns>
+        //public unsafe static Bitmap DrawText( int fontId, string text, short hueId )
+        //{
+        //    ASCIIFont font = ASCIIFont.GetFixed( fontId );
 
-				for( int dy = 0; dy < chr.Height; ++dy )
-				{
-					int* src	= 
-						( (int*)chr.Scan0 ) + ( chr.Stride * dy );
-					int* dest  = 
-						( ( (int*)surface.Scan0 ) + ( surface.Stride * ( dy + ( font.Height - chr.Height ) ) ) ) + ( dx << 2 );
+        //    Bitmap result		= 
+        //        new Bitmap( font.GetWidth( text ), font.Height );
+        //    BitmapData surface	= 
+        //        result.LockBits( new Rectangle( 0, 0, result.Width, result.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
 
-					for( int k = 0; k < chr.Width; ++k )
-						*dest++ = *src++;
+        //    int dx				= 0;
+
+        //    for( int i = 0; i < text.Length; ++i )
+        //    {
+        //        Bitmap bmp		=
+        //            font.GetBitmap( text[ i ] );				
+        //        BitmapData chr	= 
+        //            bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb );
+
+        //        for( int dy = 0; dy < chr.Height; ++dy )
+        //        {
+        //            int* src	= 
+        //                ( (int*)chr.Scan0 ) + ( chr.Stride * dy );
+        //            int* dest  = 
+        //                ( ( (int*)surface.Scan0 ) + ( surface.Stride * ( dy + ( font.Height - chr.Height ) ) ) ) + ( dx << 2 );
+
+        //            for( int k = 0; k < chr.Width; ++k )
+        //                *dest++ = *src++;
 					
-				}
+        //        }
 
-				dx += chr.Width;
-				bmp.UnlockBits( chr );
-			}
+        //        dx += chr.Width;
+        //        bmp.UnlockBits( chr );
+        //    }
 
-			result.UnlockBits( surface );
+        //    result.UnlockBits( surface );
 
-			hueId = (short)(( hueId & 0x3FFF ) - 1);
-			if( hueId >= 0 && hueId < Hues.List.Length )
-			{
-				Hue hueObject = Hues.List[ hueId ];
+        //    hueId = (short)(( hueId & 0x3FFF ) - 1);
+        //    if( hueId >= 0 && hueId < Hues.List.Length )
+        //    {
+        //        Hue hueObject = Hues.List[ hueId ];
 
-				if( hueObject != null )
-					hueObject.ApplyTo( result, ( ( hueId & 0x8000 ) == 0 ) );
-			}
+        //        if( hueObject != null )
+        //            hueObject.ApplyTo( result, ( ( hueId & 0x8000 ) == 0 ) );
+        //    }
 
-			return result;
-		}
+        //    return result;
+        //}
 	}
 }

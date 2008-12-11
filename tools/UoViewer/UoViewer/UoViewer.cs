@@ -17,7 +17,7 @@ namespace UoViewer
 {
     public partial class UoViewer : Form
     {
-        public static string Version = "2.3";
+        public static string Version = "2.4";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;
@@ -71,6 +71,7 @@ namespace UoViewer
             LoadedUltimaClass.Add("Animdata", false);
             LoadedUltimaClass.Add("Art", false);
             LoadedUltimaClass.Add("ASCIIFont", false);
+            LoadedUltimaClass.Add("UnicodeFont", false);
             LoadedUltimaClass.Add("Gumps", false);
             LoadedUltimaClass.Add("Hues", false);
             LoadedUltimaClass.Add("Light", false);
@@ -165,7 +166,9 @@ namespace UoViewer
             else if ((string)tabControl2.SelectedTab.Tag == "Fonts") // Fonts
             {
                 if (!LoadedUltimaClass["ASCIIFont"])
-                    LoadedUltimaClass["ASCIIFONT"] = true;
+                    LoadedUltimaClass["ASCIIFont"] = true;
+                if (!LoadedUltimaClass["UnicodeFont"])
+                    LoadedUltimaClass["UnicodeFont"] = true;
             }
             else if ((string)tabControl2.SelectedTab.Tag == "Cliloc") // Cliloc
             {
@@ -225,6 +228,8 @@ namespace UoViewer
                 Ultima.Hues.Initialize();
             if (LoadedUltimaClass["ASCIIFont"])
                 Ultima.ASCIIText.Initialize();
+            if (LoadedUltimaClass["UnicodeFont"])
+                Ultima.UnicodeFonts.Initialize();
             if (LoadedUltimaClass["Animdata"])
                 Ultima.Animdata.Initialize();
             if (LoadedUltimaClass["Light"])

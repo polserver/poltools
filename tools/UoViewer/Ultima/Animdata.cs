@@ -14,7 +14,7 @@ namespace Ultima
         /// <summary>
         /// Reads animdata.mul and fills <see cref="AnimData"/>
         /// </summary>
-        public unsafe static void Initialize()
+        public static void Initialize()
         {
             AnimData = new Hashtable();
             string path = Files.GetFilePath("animdata.mul");

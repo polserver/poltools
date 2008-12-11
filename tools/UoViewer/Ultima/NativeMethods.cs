@@ -39,8 +39,15 @@ namespace Ultima
         [DllImport("user32")]
 		public static extern ClientWindowHandle FindWindowA( string lpClassName, string lpWindowName );
 
-
-        
-
+        /// <summary>
+        /// Swaps from Big to LittleEndian and vise versa
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static short SwapEndian(short x)
+        {
+            ushort y = (ushort)x;
+            return (short)((y >> 8) | (y << 8));
+        }
     }
 }

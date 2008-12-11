@@ -10,14 +10,11 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace UoViewer
 {

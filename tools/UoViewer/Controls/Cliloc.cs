@@ -31,7 +31,7 @@ namespace Controls
         private static Cliloc refmarker;
         private static StringList cliloc;
         private static BindingSource source;
-        private static int lang;
+        private int lang;
         private SortOrder sortorder;
         private int sortcolumn;
         private bool Loaded = false;
@@ -39,16 +39,30 @@ namespace Controls
         /// <summary>
         /// Sets Language and loads cliloc
         /// </summary>
-        private static int Lang
+        private int Lang
         {
             get { return lang; }
             set
             {
                 lang = value;
-                if (value == 0)
-                    cliloc = new StringList("enu");
-                else
-                    cliloc = new StringList("deu");
+                switch (value)
+                {
+                    case 0: 
+                        cliloc = new StringList("enu");
+                        break;
+                    case 1:
+                        cliloc = new StringList("deu");
+                        break;
+                    case 2:
+                        TestCustomLang("cliloc.custom1");
+                        cliloc = new StringList("custom1");
+                        break;
+                    case 3:
+                        TestCustomLang("cliloc.custom2");
+                        cliloc = new StringList("custom2");
+                        break;
+                }
+                    
             }
         }
         #endregion
@@ -84,7 +98,38 @@ namespace Controls
                 dataGridView1.Columns[2].ReadOnly = true;
             }
             dataGridView1.Refresh();
+            if (Files.GetFilePath("cliloc.custom1") != null)
+                LangComboBox.Items[2] = String.Format("Custom 1 ({0})", Path.GetExtension(Files.GetFilePath("cliloc.custom1")));
+            else
+                LangComboBox.Items[2] = "Custom 1";
+            if (Files.GetFilePath("cliloc.custom2") != null)
+                LangComboBox.Items[3] = String.Format("Custom 2 ({0})", Path.GetExtension(Files.GetFilePath("cliloc.custom2")));
+            else
+                LangComboBox.Items[3] = "Custom 2";
+
             this.Cursor = Cursors.Default;
+        }
+
+        private void TestCustomLang(string what)
+        {
+            if (Files.GetFilePath(what) == null)
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Multiselect = false;
+                dialog.Title = "Choose Cliloc file to open";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "cliloc files (cliloc.*)|cliloc.*";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Files.SetMulPath(dialog.FileName, what);
+                    LangComboBox.BeginUpdate();
+                    if (what == "cliloc.custom1")
+                        LangComboBox.Items[2] = String.Format("Custom 1 ({0})", Path.GetExtension(dialog.FileName));
+                    else
+                        LangComboBox.Items[3] = String.Format("Custom 2 ({0})", Path.GetExtension(dialog.FileName));
+                    LangComboBox.EndUpdate();
+                }
+            }
         }
 
         private void onLangChange(object sender, EventArgs e)
@@ -96,12 +141,15 @@ namespace Controls
                 sortcolumn = 0;
                 cliloc.Entries.Sort(new StringList.NumberComparer(false));
                 source.DataSource = cliloc.Entries;
-                dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
-                dataGridView1.Columns[0].Width = 60;
-                dataGridView1.Columns[1].HeaderCell.SortGlyphDirection = SortOrder.None;
-                dataGridView1.Columns[2].HeaderCell.SortGlyphDirection = SortOrder.None;
-                dataGridView1.Columns[2].Width = 60;
-                dataGridView1.Columns[2].ReadOnly = true;
+                if (dataGridView1.Columns.Count > 0)
+                {
+                    dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                    dataGridView1.Columns[0].Width = 60;
+                    dataGridView1.Columns[1].HeaderCell.SortGlyphDirection = SortOrder.None;
+                    dataGridView1.Columns[2].HeaderCell.SortGlyphDirection = SortOrder.None;
+                    dataGridView1.Columns[2].Width = 60;
+                    dataGridView1.Columns[2].ReadOnly = true;
+                }
                 dataGridView1.Refresh();
             }
         }
@@ -143,7 +191,13 @@ namespace Controls
         {
             dataGridView1.CancelEdit();
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Cliloc.{0}",cliloc.Language));
+            string FileName;
+            if (cliloc.Language == "custom1")
+                FileName = Path.Combine(path, String.Format("Cliloc{0}", Path.GetExtension(Files.GetFilePath("cliloc.custom1"))));
+            else if (cliloc.Language=="custom2")
+                FileName = Path.Combine(path, String.Format("Cliloc{0}", Path.GetExtension(Files.GetFilePath("cliloc.custom2"))));
+            else
+                FileName = Path.Combine(path, String.Format("Cliloc.{0}",cliloc.Language));
             cliloc.SaveStringList(FileName);
             dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
             dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
