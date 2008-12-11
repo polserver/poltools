@@ -121,7 +121,9 @@ namespace Controls
             // 
             this.LangComboBox.Items.AddRange(new object[] {
             "English",
-            "German"});
+            "German",
+            "Custom 1",
+            "Custom 2"});
             this.LangComboBox.Name = "LangComboBox";
             this.LangComboBox.Size = new System.Drawing.Size(121, 25);
             this.LangComboBox.SelectedIndexChanged += new System.EventHandler(this.onLangChange);

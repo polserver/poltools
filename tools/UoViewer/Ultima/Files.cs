@@ -46,6 +46,8 @@ namespace Ultima
 			"artidx.mul",
 			"body.def",
 			"bodyconv.def",
+            "cliloc.custom1",
+            "cliloc.custom2",
             "cliloc.deu",
             "cliloc.enu",
             "equipconv.def",
@@ -126,6 +128,14 @@ namespace Ultima
         }
 
         /// <summary>
+        /// ReReads Registry Client dir
+        /// </summary>
+        public static void ReLoadDirectory()
+        {
+            m_Directory = LoadDirectory();
+        }
+
+        /// <summary>
         /// Fills <see cref="MulPath"/> with <see cref="Files.Directory"/>
         /// </summary>
         public static void LoadMulPath()
@@ -158,6 +168,16 @@ namespace Ultima
                 else
                     m_MulPath[file] = "";
             }
+        }
+
+        /// <summary>
+        /// Sets <see cref="MulPath"/> key to path
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="key"></param>
+        public static void SetMulPath(string path, string key)
+        {
+            MulPath[key] = path;
         }
 
         /// <summary>

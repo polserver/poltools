@@ -35,8 +35,8 @@ namespace Ultima
                 int order=0;
                 while (bin.BaseStream.Length != bin.BaseStream.Position)
                 {
-                    short id = SwapEndian(bin.ReadInt16());
-                    short length = SwapEndian(bin.ReadInt16());
+                    short id = NativeMethods.SwapEndian(bin.ReadInt16());
+                    short length = NativeMethods.SwapEndian(bin.ReadInt16());
                     if (length > 128)
                         length = 128;
                     bin.Read(m_Buffer, 0, length);
@@ -59,19 +59,13 @@ namespace Ultima
                 BinaryWriter bin = new BinaryWriter(fs);
                 foreach (SpeechEntry entry in Entries)
                 {
-                    bin.Write(SwapEndian(entry.ID));
+                    bin.Write(NativeMethods.SwapEndian(entry.ID));
                     byte[] utf8String = Encoding.UTF8.GetBytes(entry.KeyWord);
                     short length=(short)utf8String.Length;
-                    bin.Write(SwapEndian(length));
+                    bin.Write(NativeMethods.SwapEndian(length));
                     bin.Write(utf8String);
                 }
             }
-        }
-
-        private static short SwapEndian(short x)
-        {
-            ushort y = (ushort)x;
-            return (short)((y >> 8) | (y << 8));
         }
 
         #region SortComparer
