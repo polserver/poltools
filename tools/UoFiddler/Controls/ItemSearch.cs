@@ -1,0 +1,85 @@
+/***************************************************************************
+ *
+ * $Author: Turley
+ * 
+ * "THE BEER-WARE LICENSE"
+ * As long as you retain this notice you can do whatever you want with 
+ * this stuff. If we meet some day, and you think this stuff is worth it,
+ * you can buy me a beer in return.
+ *
+ ***************************************************************************/
+
+using System;
+using System.Windows.Forms;
+
+namespace Controls
+{
+    public partial class ItemSearch : Form
+    {
+        public ItemSearch()
+        {
+            InitializeComponent();
+        }
+
+        private void Search_Graphic(object sender, EventArgs e)
+        {
+            int graphic;
+            bool candone;
+            if (textBoxGraphic.Text.Contains("0x"))
+            {
+                string convert = textBoxGraphic.Text.Replace("0x", "");
+                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out graphic);
+            }
+            else
+                candone = int.TryParse(textBoxGraphic.Text, System.Globalization.NumberStyles.Integer, null, out graphic);
+                
+            if (candone)
+            {
+                bool res;
+                if (Options.DesignAlternative)
+                    res = ItemShowAlternative.SearchGraphic(graphic);
+                else
+                    res = ItemShow.SearchGraphic(graphic);
+                if (!res)
+                {
+                    DialogResult result = MessageBox.Show("No item found","Result",
+                        MessageBoxButtons.OKCancel,MessageBoxIcon.Error,MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Cancel)
+                        Close();
+                }
+            }
+        }
+
+        private void Search_ItemName(object sender, EventArgs e)
+        {
+            bool res;
+            if (Options.DesignAlternative)
+                res = ItemShowAlternative.SearchName(textBoxItemName.Text,false);
+            else
+                res = ItemShow.SearchName(textBoxItemName.Text,false);
+            if (!res)
+            {
+                DialogResult result = MessageBox.Show("No item found", "Result",
+                    MessageBoxButtons.OKCancel,MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Cancel)
+                    Close();
+            }
+        }
+
+        private void SearchNextName(object sender, EventArgs e)
+        {
+            bool res;
+            if (Options.DesignAlternative)
+                res = ItemShowAlternative.SearchName(textBoxItemName.Text, true);
+            else
+                res = ItemShow.SearchName(textBoxItemName.Text, true);
+            if (!res)
+            {
+                DialogResult result = MessageBox.Show("No item found", "Result",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Cancel)
+                    Close();
+            }
+        }
+    }
+}
