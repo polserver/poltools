@@ -12,20 +12,23 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.5";
+        public static string Version = "2.6";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;
         private Controls.LandTilesAlternative controlLandTilesAlt;
         private Dictionary<string, bool> LoadedUltimaClass = new Dictionary<string, bool>();
+        private static UoFiddler refmarker;
 
         public UoFiddler()
         {
+            refmarker = this;
             InitializeComponent();
             Versionlabel.Text = "Version " + Version;
             if (AlternativeDesign)
@@ -63,6 +66,7 @@ namespace UoFiddler
                 this.LandTiles.Controls.Add(this.controlLandTilesAlt);
                 this.LandTiles.PerformLayout();
             }
+            LoadExternToolStripMenu();
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -104,7 +108,6 @@ namespace UoFiddler
                 this.TopMost = false;
         }
 
-        
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
             if ((string)tabControl2.SelectedTab.Tag == "Multis") // Multis
@@ -288,5 +291,77 @@ namespace UoFiddler
             new AboutBox().Show();
         }
 
+        /// <summary>
+        /// Reloads the Extern Tools DropDown <see cref="Options.ExternTools"/>
+        /// </summary>
+        public static void LoadExternToolStripMenu()
+        {
+            refmarker.ExternToolsDropDown.DropDownItems.Clear();
+            ToolStripMenuItem item = new ToolStripMenuItem();
+            item.Text = "Manage..";
+            item.Click += new System.EventHandler(refmarker.onClickToolManage);
+            refmarker.ExternToolsDropDown.DropDownItems.Add(item);
+            refmarker.ExternToolsDropDown.DropDownItems.Add(new ToolStripSeparator());
+            for (int i = 0; i < Options.ExternTools.Count; i++)
+            {
+                ExternTool tool = (ExternTool)Options.ExternTools[i];
+                item = new ToolStripMenuItem();
+                item.Text = tool.Name;
+                item.Tag = i;
+                item.DropDownItemClicked += new ToolStripItemClickedEventHandler(refmarker.ExternTool_ItemClicked);
+                ToolStripMenuItem sub = new ToolStripMenuItem();
+                sub.Text = "Start";
+                sub.Tag = -1;
+                item.DropDownItems.Add(sub);
+                item.DropDownItems.Add(new ToolStripSeparator());
+                for (int j = 0; j < tool.Args.Count; j++)
+                {
+                    ToolStripMenuItem arg = new ToolStripMenuItem();
+                    arg.Text = (string)tool.ArgsName[j];
+                    arg.Tag = j;
+                    item.DropDownItems.Add(arg);
+                }
+                refmarker.ExternToolsDropDown.DropDownItems.Add(item);
+            }
+        }
+
+        private void ExternTool_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            int arginfo = (int)e.ClickedItem.Tag;
+            int toolinfo = (int)e.ClickedItem.OwnerItem.Tag;
+
+            if (toolinfo >= 0)
+            {
+                if (arginfo >= -1)
+                {
+                    Process P = new Process();
+                    ExternTool tool = (ExternTool)Options.ExternTools[toolinfo];
+                    P.StartInfo.FileName = tool.FileName;
+                    if (arginfo >= 0)
+                        P.StartInfo.Arguments = (string)tool.Args[arginfo];
+                    try
+                    {
+                        P.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error starting tool", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error, 
+                            MessageBoxDefaultButton.Button1);
+                    }
+                }
+            }
+        }
+
+        private ManageTools manageform;
+        private void onClickToolManage(object sender, EventArgs e)
+        {
+            if ((manageform == null) || (manageform.IsDisposed))
+            {
+                manageform = new ManageTools();
+                manageform.TopMost = true;
+                manageform.Show();
+            }
+        }
     }
 }

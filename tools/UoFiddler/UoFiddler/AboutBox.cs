@@ -59,6 +59,8 @@ namespace UoFiddler
                         , UoFiddler.Version, version) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     if (result == DialogResult.Yes)
                         DownloadFile(version, match.Result("${id}"));
+                    else
+                        progresslabel.Text = "";
                 }
             }
             else

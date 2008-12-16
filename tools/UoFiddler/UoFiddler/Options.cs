@@ -27,6 +27,13 @@ namespace UoFiddler
     public class Options 
     {
         private static bool m_UpdateCheckOnStart = false;
+        private static ArrayList m_ExternTools;
+
+        public static ArrayList ExternTools
+        {
+            get { return m_ExternTools; }
+            set { m_ExternTools = value; }
+        }
         /// <summary>
         /// Definies if an Update Check should be made on startup
         /// </summary>
@@ -95,9 +102,29 @@ namespace UoFiddler
             elem = dom.CreateElement("UpdateCheck");
             elem.SetAttribute("active", UpdateCheckOnStart.ToString());
             sr.AppendChild(elem);
+
+            comment = dom.CreateComment("Extern Tools settings");
+            sr.AppendChild(comment);
+            if (ExternTools != null)
+            {
+                foreach (ExternTool tool in ExternTools)
+                {
+                    XmlElement xtool = dom.CreateElement("ExternTool");
+                    xtool.SetAttribute("name", tool.Name);
+                    xtool.SetAttribute("path", tool.FileName);
+                    for (int i=0;i<tool.Args.Count;i++)
+                    {
+                        XmlElement xarg = dom.CreateElement("Args");
+                        xarg.SetAttribute("name", (string)tool.ArgsName[i]);
+                        xarg.SetAttribute("arg", (string)tool.Args[i]);
+                        xtool.AppendChild(xarg);
+                    }
+                    sr.AppendChild(xtool);
+                }
+            }
+
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
-
             ArrayList sorter = new ArrayList(Files.MulPath.Keys);
             sorter.Sort();
             foreach (string key in sorter)
@@ -160,6 +187,22 @@ namespace UoFiddler
             elem = (XmlElement)xOptions.SelectSingleNode("UpdateCheck");
             if (elem != null)
                 UpdateCheckOnStart = bool.Parse(elem.GetAttribute("active"));
+
+            ExternTools = new ArrayList();
+            foreach (XmlElement xTool in xOptions.SelectNodes("ExternTool"))
+            {
+                string name = xTool.GetAttribute("name");
+                string file = xTool.GetAttribute("path");
+                ExternTool tool = new ExternTool(name, file);
+                foreach (XmlElement xArg in xTool.SelectNodes("Args"))
+                {
+                    string argname = xArg.GetAttribute("name");
+                    string arg = xArg.GetAttribute("arg");
+                    tool.Args.Add(arg);
+                    tool.ArgsName.Add(argname);
+                }
+                ExternTools.Add(tool);
+            }
 
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
@@ -283,5 +326,35 @@ namespace UoFiddler
             MessageBox.Show("Finished Download","Updater");
         }
         #endregion
+    }
+
+    public class ExternTool
+    {
+        private string m_Name;
+        private string m_FileName;
+        private ArrayList m_Args;
+        private ArrayList m_ArgsName;
+
+        public string Name { get { return m_Name; } set { m_Name = value; } }
+        public string FileName { get { return m_FileName; } set { m_FileName = value; } }
+        public ArrayList Args { get { return m_Args; } set { m_Args = value; } }
+        public ArrayList ArgsName { get { return m_ArgsName; } set { m_ArgsName = value; } }
+
+        public ExternTool(string name, string filename)
+        {
+            m_Name = name;
+            m_FileName = filename;
+            m_Args = new ArrayList();
+            m_ArgsName = new ArrayList();
+        }
+
+        public string FormatName()
+        {
+            return String.Format("{0}: {1}", m_Name, m_FileName);
+        }
+        public string FormatArg(int i)
+        {
+            return String.Format("{0}: {1}", m_ArgsName[i], m_Args[i]);
+        }
     }
 }
