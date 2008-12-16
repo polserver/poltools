@@ -14,5 +14,6 @@
   <UseHashFile active="True" />
   <!--Should an Update Check be done on startup?-->
   <UpdateCheck active="False" />
+  <!--Extern Tools settings-->
   <!--Pathsettings-->
 </Options>

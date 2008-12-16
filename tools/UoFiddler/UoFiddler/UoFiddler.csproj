@@ -123,6 +123,12 @@
     <Compile Include="ExceptionForm.Designer.cs">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManageTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageTools.Designer.cs">
+      <DependentUpon>ManageTools.cs</DependentUpon>
+    </Compile>
     <Compile Include="Options.cs" />
     <Compile Include="PathSettings.cs">
       <SubType>Form</SubType>
@@ -145,6 +151,10 @@
     <EmbeddedResource Include="ExceptionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageTools.resx">
+      <DependentUpon>ManageTools.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PathSettings.resx">
       <DependentUpon>PathSettings.cs</DependentUpon>

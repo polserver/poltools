@@ -42,51 +42,54 @@ namespace UoFiddler
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UoFiddler));
             this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.Multis = new System.Windows.Forms.TabPage();
-            this.controlMulti = new Controls.Multis();
-            this.Animation = new System.Windows.Forms.TabPage();
-            this.controlAnimations = new Controls.Animationlist();
-            this.Items = new System.Windows.Forms.TabPage();
-            this.controlItemShow = new Controls.ItemShow();
-            this.LandTiles = new System.Windows.Forms.TabPage();
-            this.controlLandTiles = new Controls.LandTiles();
-            this.Texture = new System.Windows.Forms.TabPage();
-            this.controlTexture = new Controls.Texture();
-            this.Gumps = new System.Windows.Forms.TabPage();
-            this.controlGumps = new Controls.Gump();
-            this.Sounds = new System.Windows.Forms.TabPage();
-            this.controlSound = new Controls.Sounds();
-            this.Hue = new System.Windows.Forms.TabPage();
-            this.controlHue = new Controls.Hues();
-            this.fonts = new System.Windows.Forms.TabPage();
-            this.controlfonts = new Controls.Fonts();
-            this.Cliloc = new System.Windows.Forms.TabPage();
-            this.controlCliloc = new Controls.Cliloc();
-            this.map = new System.Windows.Forms.TabPage();
-            this.controlmap = new Controls.Map();
-            this.Light = new System.Windows.Forms.TabPage();
-            this.controlLight = new Controls.Light();
-            this.speech = new System.Windows.Forms.TabPage();
-            this.controlspeech = new Controls.Speech();
-            this.Skills = new System.Windows.Forms.TabPage();
-            this.controlSkills = new Controls.Skills();
-            this.multimap = new System.Windows.Forms.TabPage();
-            this.controlMultimap = new Controls.MultiMap();
-            this.Dress = new System.Windows.Forms.TabPage();
-            this.controldress = new Controls.Dress();
-            this.TileDatas = new System.Windows.Forms.TabPage();
-            this.controlTileData = new Controls.TileDatas();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Start = new System.Windows.Forms.TabPage();
             this.Versionlabel = new System.Windows.Forms.Label();
+            this.Multis = new System.Windows.Forms.TabPage();
+            this.Animation = new System.Windows.Forms.TabPage();
+            this.Items = new System.Windows.Forms.TabPage();
+            this.LandTiles = new System.Windows.Forms.TabPage();
+            this.Texture = new System.Windows.Forms.TabPage();
+            this.Gumps = new System.Windows.Forms.TabPage();
+            this.Sounds = new System.Windows.Forms.TabPage();
+            this.Hue = new System.Windows.Forms.TabPage();
+            this.fonts = new System.Windows.Forms.TabPage();
+            this.Cliloc = new System.Windows.Forms.TabPage();
+            this.map = new System.Windows.Forms.TabPage();
+            this.Light = new System.Windows.Forms.TabPage();
+            this.speech = new System.Windows.Forms.TabPage();
+            this.Skills = new System.Windows.Forms.TabPage();
+            this.multimap = new System.Windows.Forms.TabPage();
+            this.Dress = new System.Windows.Forms.TabPage();
+            this.TileDatas = new System.Windows.Forms.TabPage();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.AlwaysOnTopMenuitem = new System.Windows.Forms.ToolStripMenuItem();
             this.pathSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.ExternToolsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
+            this.controlMulti = new Controls.Multis();
+            this.controlAnimations = new Controls.Animationlist();
+            this.controlItemShow = new Controls.ItemShow();
+            this.controlLandTiles = new Controls.LandTiles();
+            this.controlTexture = new Controls.Texture();
+            this.controlGumps = new Controls.Gump();
+            this.controlSound = new Controls.Sounds();
+            this.controlHue = new Controls.Hues();
+            this.controlfonts = new Controls.Fonts();
+            this.controlCliloc = new Controls.Cliloc();
+            this.controlmap = new Controls.Map();
+            this.controlLight = new Controls.Light();
+            this.controlspeech = new Controls.Speech();
+            this.controlSkills = new Controls.Skills();
+            this.controlMultimap = new Controls.MultiMap();
+            this.controldress = new Controls.Dress();
+            this.controlTileData = new Controls.TileDatas();
+            this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2.SuspendLayout();
+            this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
             this.Animation.SuspendLayout();
             this.Items.SuspendLayout();
@@ -105,7 +108,6 @@ namespace UoFiddler
             this.Dress.SuspendLayout();
             this.TileDatas.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.Start.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -137,372 +139,6 @@ namespace UoFiddler
             this.tabControl2.TabIndex = 1;
             this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.OnSelectedIndexChanged);
             // 
-            // Multis
-            // 
-            this.Multis.Controls.Add(this.controlMulti);
-            this.Multis.Location = new System.Drawing.Point(4, 22);
-            this.Multis.Name = "Multis";
-            this.Multis.Padding = new System.Windows.Forms.Padding(3);
-            this.Multis.Size = new System.Drawing.Size(619, 324);
-            this.Multis.TabIndex = 1;
-            this.Multis.Tag = "Multis";
-            this.Multis.Text = "Multis";
-            this.Multis.UseVisualStyleBackColor = true;
-            // 
-            // controlMulti
-            // 
-            this.controlMulti.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlMulti.Location = new System.Drawing.Point(3, 3);
-            this.controlMulti.Name = "controlMulti";
-            this.controlMulti.Size = new System.Drawing.Size(613, 318);
-            this.controlMulti.TabIndex = 0;
-            // 
-            // Animation
-            // 
-            this.Animation.Controls.Add(this.controlAnimations);
-            this.Animation.Location = new System.Drawing.Point(4, 22);
-            this.Animation.Name = "Animation";
-            this.Animation.Padding = new System.Windows.Forms.Padding(3);
-            this.Animation.Size = new System.Drawing.Size(619, 324);
-            this.Animation.TabIndex = 0;
-            this.Animation.Tag = "Animations";
-            this.Animation.Text = "Animations";
-            this.Animation.UseVisualStyleBackColor = true;
-            // 
-            // controlAnimations
-            // 
-            this.controlAnimations.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlAnimations.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlAnimations.Location = new System.Drawing.Point(3, 3);
-            this.controlAnimations.Name = "controlAnimations";
-            this.controlAnimations.Size = new System.Drawing.Size(613, 318);
-            this.controlAnimations.TabIndex = 0;
-            // 
-            // Items
-            // 
-            this.Items.Controls.Add(this.controlItemShow);
-            this.Items.Location = new System.Drawing.Point(4, 22);
-            this.Items.Name = "Items";
-            this.Items.Padding = new System.Windows.Forms.Padding(3);
-            this.Items.Size = new System.Drawing.Size(619, 324);
-            this.Items.TabIndex = 2;
-            this.Items.Tag = "Items";
-            this.Items.Text = "Items";
-            this.Items.UseVisualStyleBackColor = true;
-            // 
-            // controlItemShow
-            // 
-            this.controlItemShow.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlItemShow.Location = new System.Drawing.Point(3, 3);
-            this.controlItemShow.Name = "controlItemShow";
-            this.controlItemShow.Size = new System.Drawing.Size(613, 318);
-            this.controlItemShow.TabIndex = 0;
-            // 
-            // LandTiles
-            // 
-            this.LandTiles.Controls.Add(this.controlLandTiles);
-            this.LandTiles.Location = new System.Drawing.Point(4, 22);
-            this.LandTiles.Name = "LandTiles";
-            this.LandTiles.Padding = new System.Windows.Forms.Padding(3);
-            this.LandTiles.Size = new System.Drawing.Size(619, 324);
-            this.LandTiles.TabIndex = 3;
-            this.LandTiles.Tag = "LandTiles";
-            this.LandTiles.Text = "LandTiles";
-            this.LandTiles.UseVisualStyleBackColor = true;
-            // 
-            // controlLandTiles
-            // 
-            this.controlLandTiles.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
-            this.controlLandTiles.Name = "controlLandTiles";
-            this.controlLandTiles.Size = new System.Drawing.Size(613, 318);
-            this.controlLandTiles.TabIndex = 0;
-            // 
-            // Texture
-            // 
-            this.Texture.Controls.Add(this.controlTexture);
-            this.Texture.Location = new System.Drawing.Point(4, 22);
-            this.Texture.Name = "Texture";
-            this.Texture.Padding = new System.Windows.Forms.Padding(3);
-            this.Texture.Size = new System.Drawing.Size(619, 324);
-            this.Texture.TabIndex = 11;
-            this.Texture.Tag = "Texture";
-            this.Texture.Text = "Texture";
-            this.Texture.UseVisualStyleBackColor = true;
-            // 
-            // controlTexture
-            // 
-            this.controlTexture.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlTexture.Location = new System.Drawing.Point(3, 3);
-            this.controlTexture.Name = "controlTexture";
-            this.controlTexture.Size = new System.Drawing.Size(613, 318);
-            this.controlTexture.TabIndex = 0;
-            // 
-            // Gumps
-            // 
-            this.Gumps.Controls.Add(this.controlGumps);
-            this.Gumps.Location = new System.Drawing.Point(4, 22);
-            this.Gumps.Name = "Gumps";
-            this.Gumps.Padding = new System.Windows.Forms.Padding(3);
-            this.Gumps.Size = new System.Drawing.Size(619, 324);
-            this.Gumps.TabIndex = 4;
-            this.Gumps.Tag = "Gumps";
-            this.Gumps.Text = "Gumps";
-            this.Gumps.UseVisualStyleBackColor = true;
-            // 
-            // controlGumps
-            // 
-            this.controlGumps.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlGumps.Location = new System.Drawing.Point(3, 3);
-            this.controlGumps.Name = "controlGumps";
-            this.controlGumps.Size = new System.Drawing.Size(613, 318);
-            this.controlGumps.TabIndex = 0;
-            // 
-            // Sounds
-            // 
-            this.Sounds.Controls.Add(this.controlSound);
-            this.Sounds.Location = new System.Drawing.Point(4, 22);
-            this.Sounds.Name = "Sounds";
-            this.Sounds.Padding = new System.Windows.Forms.Padding(3);
-            this.Sounds.Size = new System.Drawing.Size(619, 324);
-            this.Sounds.TabIndex = 5;
-            this.Sounds.Tag = "Sounds";
-            this.Sounds.Text = "Sounds";
-            this.Sounds.UseVisualStyleBackColor = true;
-            // 
-            // controlSound
-            // 
-            this.controlSound.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlSound.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlSound.Location = new System.Drawing.Point(3, 3);
-            this.controlSound.Name = "controlSound";
-            this.controlSound.Size = new System.Drawing.Size(613, 318);
-            this.controlSound.TabIndex = 0;
-            // 
-            // Hue
-            // 
-            this.Hue.Controls.Add(this.controlHue);
-            this.Hue.Location = new System.Drawing.Point(4, 22);
-            this.Hue.Name = "Hue";
-            this.Hue.Padding = new System.Windows.Forms.Padding(3);
-            this.Hue.Size = new System.Drawing.Size(619, 324);
-            this.Hue.TabIndex = 6;
-            this.Hue.Tag = "Hue";
-            this.Hue.Text = "Hue";
-            this.Hue.UseVisualStyleBackColor = true;
-            // 
-            // controlHue
-            // 
-            this.controlHue.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlHue.Location = new System.Drawing.Point(3, 3);
-            this.controlHue.Name = "controlHue";
-            this.controlHue.Selected = -1;
-            this.controlHue.Size = new System.Drawing.Size(613, 318);
-            this.controlHue.TabIndex = 0;
-            // 
-            // fonts
-            // 
-            this.fonts.Controls.Add(this.controlfonts);
-            this.fonts.Location = new System.Drawing.Point(4, 22);
-            this.fonts.Name = "fonts";
-            this.fonts.Padding = new System.Windows.Forms.Padding(3);
-            this.fonts.Size = new System.Drawing.Size(619, 324);
-            this.fonts.TabIndex = 7;
-            this.fonts.Tag = "Fonts";
-            this.fonts.Text = "Fonts";
-            this.fonts.UseVisualStyleBackColor = true;
-            // 
-            // controlfonts
-            // 
-            this.controlfonts.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlfonts.Location = new System.Drawing.Point(3, 3);
-            this.controlfonts.Name = "controlfonts";
-            this.controlfonts.Size = new System.Drawing.Size(613, 318);
-            this.controlfonts.TabIndex = 0;
-            // 
-            // Cliloc
-            // 
-            this.Cliloc.Controls.Add(this.controlCliloc);
-            this.Cliloc.Location = new System.Drawing.Point(4, 22);
-            this.Cliloc.Name = "Cliloc";
-            this.Cliloc.Padding = new System.Windows.Forms.Padding(3);
-            this.Cliloc.Size = new System.Drawing.Size(619, 324);
-            this.Cliloc.TabIndex = 8;
-            this.Cliloc.Tag = "Cliloc";
-            this.Cliloc.Text = "CliLoc";
-            this.Cliloc.UseVisualStyleBackColor = true;
-            // 
-            // controlCliloc
-            // 
-            this.controlCliloc.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlCliloc.Location = new System.Drawing.Point(3, 3);
-            this.controlCliloc.Name = "controlCliloc";
-            this.controlCliloc.Size = new System.Drawing.Size(613, 318);
-            this.controlCliloc.TabIndex = 0;
-            // 
-            // map
-            // 
-            this.map.Controls.Add(this.controlmap);
-            this.map.Location = new System.Drawing.Point(4, 22);
-            this.map.Name = "map";
-            this.map.Padding = new System.Windows.Forms.Padding(3);
-            this.map.Size = new System.Drawing.Size(619, 324);
-            this.map.TabIndex = 9;
-            this.map.Tag = "map";
-            this.map.Text = "Map";
-            this.map.UseVisualStyleBackColor = true;
-            // 
-            // controlmap
-            // 
-            this.controlmap.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlmap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlmap.Location = new System.Drawing.Point(3, 3);
-            this.controlmap.Margin = new System.Windows.Forms.Padding(0);
-            this.controlmap.Name = "controlmap";
-            this.controlmap.Size = new System.Drawing.Size(613, 318);
-            this.controlmap.TabIndex = 0;
-            // 
-            // Light
-            // 
-            this.Light.Controls.Add(this.controlLight);
-            this.Light.Location = new System.Drawing.Point(4, 22);
-            this.Light.Name = "Light";
-            this.Light.Size = new System.Drawing.Size(619, 324);
-            this.Light.TabIndex = 12;
-            this.Light.Tag = "Light";
-            this.Light.Text = "Light";
-            this.Light.UseVisualStyleBackColor = true;
-            // 
-            // controlLight
-            // 
-            this.controlLight.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlLight.Location = new System.Drawing.Point(0, 0);
-            this.controlLight.Name = "controlLight";
-            this.controlLight.Size = new System.Drawing.Size(619, 324);
-            this.controlLight.TabIndex = 0;
-            // 
-            // speech
-            // 
-            this.speech.Controls.Add(this.controlspeech);
-            this.speech.Location = new System.Drawing.Point(4, 22);
-            this.speech.Name = "speech";
-            this.speech.Size = new System.Drawing.Size(619, 324);
-            this.speech.TabIndex = 17;
-            this.speech.Tag = "Speech";
-            this.speech.Text = "Speech";
-            this.speech.UseVisualStyleBackColor = true;
-            // 
-            // controlspeech
-            // 
-            this.controlspeech.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlspeech.Location = new System.Drawing.Point(0, 0);
-            this.controlspeech.Name = "controlspeech";
-            this.controlspeech.Size = new System.Drawing.Size(619, 324);
-            this.controlspeech.TabIndex = 0;
-            // 
-            // Skills
-            // 
-            this.Skills.Controls.Add(this.controlSkills);
-            this.Skills.Location = new System.Drawing.Point(4, 22);
-            this.Skills.Name = "Skills";
-            this.Skills.Padding = new System.Windows.Forms.Padding(3);
-            this.Skills.Size = new System.Drawing.Size(619, 324);
-            this.Skills.TabIndex = 15;
-            this.Skills.Tag = "Skills";
-            this.Skills.Text = "Skills";
-            this.Skills.UseVisualStyleBackColor = true;
-            // 
-            // controlSkills
-            // 
-            this.controlSkills.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlSkills.Location = new System.Drawing.Point(3, 3);
-            this.controlSkills.Name = "controlSkills";
-            this.controlSkills.Size = new System.Drawing.Size(613, 318);
-            this.controlSkills.TabIndex = 0;
-            // 
-            // multimap
-            // 
-            this.multimap.Controls.Add(this.controlMultimap);
-            this.multimap.Location = new System.Drawing.Point(4, 22);
-            this.multimap.Name = "multimap";
-            this.multimap.Padding = new System.Windows.Forms.Padding(3);
-            this.multimap.Size = new System.Drawing.Size(619, 324);
-            this.multimap.TabIndex = 14;
-            this.multimap.Tag = "Multimap";
-            this.multimap.Text = "MultiMap";
-            this.multimap.UseVisualStyleBackColor = true;
-            // 
-            // controlMultimap
-            // 
-            this.controlMultimap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlMultimap.Location = new System.Drawing.Point(3, 3);
-            this.controlMultimap.Name = "controlMultimap";
-            this.controlMultimap.Size = new System.Drawing.Size(613, 318);
-            this.controlMultimap.TabIndex = 0;
-            // 
-            // Dress
-            // 
-            this.Dress.Controls.Add(this.controldress);
-            this.Dress.Location = new System.Drawing.Point(4, 22);
-            this.Dress.Name = "Dress";
-            this.Dress.Padding = new System.Windows.Forms.Padding(3);
-            this.Dress.Size = new System.Drawing.Size(619, 324);
-            this.Dress.TabIndex = 13;
-            this.Dress.Tag = "Dress";
-            this.Dress.Text = "Dress";
-            this.Dress.UseVisualStyleBackColor = true;
-            // 
-            // controldress
-            // 
-            this.controldress.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controldress.Location = new System.Drawing.Point(3, 3);
-            this.controldress.Name = "controldress";
-            this.controldress.Size = new System.Drawing.Size(613, 318);
-            this.controldress.TabIndex = 0;
-            // 
-            // TileDatas
-            // 
-            this.TileDatas.Controls.Add(this.controlTileData);
-            this.TileDatas.Location = new System.Drawing.Point(4, 22);
-            this.TileDatas.Name = "TileDatas";
-            this.TileDatas.Size = new System.Drawing.Size(619, 324);
-            this.TileDatas.TabIndex = 16;
-            this.TileDatas.Tag = "TileData";
-            this.TileDatas.Text = "TileData";
-            this.TileDatas.UseVisualStyleBackColor = true;
-            // 
-            // controlTileData
-            // 
-            this.controlTileData.Cursor = System.Windows.Forms.Cursors.Default;
-            this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlTileData.Location = new System.Drawing.Point(0, 0);
-            this.controlTileData.Name = "controlTileData";
-            this.controlTileData.Size = new System.Drawing.Size(619, 324);
-            this.controlTileData.TabIndex = 0;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SettingsMenu,
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
             // Start
             // 
             this.Start.BackColor = System.Drawing.Color.White;
@@ -526,6 +162,220 @@ namespace UoFiddler
             this.Versionlabel.Size = new System.Drawing.Size(42, 13);
             this.Versionlabel.TabIndex = 1;
             this.Versionlabel.Text = "Version";
+            // 
+            // Multis
+            // 
+            this.Multis.Controls.Add(this.controlMulti);
+            this.Multis.Location = new System.Drawing.Point(4, 22);
+            this.Multis.Name = "Multis";
+            this.Multis.Padding = new System.Windows.Forms.Padding(3);
+            this.Multis.Size = new System.Drawing.Size(619, 324);
+            this.Multis.TabIndex = 1;
+            this.Multis.Tag = "Multis";
+            this.Multis.Text = "Multis";
+            this.Multis.UseVisualStyleBackColor = true;
+            // 
+            // Animation
+            // 
+            this.Animation.Controls.Add(this.controlAnimations);
+            this.Animation.Location = new System.Drawing.Point(4, 22);
+            this.Animation.Name = "Animation";
+            this.Animation.Padding = new System.Windows.Forms.Padding(3);
+            this.Animation.Size = new System.Drawing.Size(619, 324);
+            this.Animation.TabIndex = 0;
+            this.Animation.Tag = "Animations";
+            this.Animation.Text = "Animations";
+            this.Animation.UseVisualStyleBackColor = true;
+            // 
+            // Items
+            // 
+            this.Items.Controls.Add(this.controlItemShow);
+            this.Items.Location = new System.Drawing.Point(4, 22);
+            this.Items.Name = "Items";
+            this.Items.Padding = new System.Windows.Forms.Padding(3);
+            this.Items.Size = new System.Drawing.Size(619, 324);
+            this.Items.TabIndex = 2;
+            this.Items.Tag = "Items";
+            this.Items.Text = "Items";
+            this.Items.UseVisualStyleBackColor = true;
+            // 
+            // LandTiles
+            // 
+            this.LandTiles.Controls.Add(this.controlLandTiles);
+            this.LandTiles.Location = new System.Drawing.Point(4, 22);
+            this.LandTiles.Name = "LandTiles";
+            this.LandTiles.Padding = new System.Windows.Forms.Padding(3);
+            this.LandTiles.Size = new System.Drawing.Size(619, 324);
+            this.LandTiles.TabIndex = 3;
+            this.LandTiles.Tag = "LandTiles";
+            this.LandTiles.Text = "LandTiles";
+            this.LandTiles.UseVisualStyleBackColor = true;
+            // 
+            // Texture
+            // 
+            this.Texture.Controls.Add(this.controlTexture);
+            this.Texture.Location = new System.Drawing.Point(4, 22);
+            this.Texture.Name = "Texture";
+            this.Texture.Padding = new System.Windows.Forms.Padding(3);
+            this.Texture.Size = new System.Drawing.Size(619, 324);
+            this.Texture.TabIndex = 11;
+            this.Texture.Tag = "Texture";
+            this.Texture.Text = "Texture";
+            this.Texture.UseVisualStyleBackColor = true;
+            // 
+            // Gumps
+            // 
+            this.Gumps.Controls.Add(this.controlGumps);
+            this.Gumps.Location = new System.Drawing.Point(4, 22);
+            this.Gumps.Name = "Gumps";
+            this.Gumps.Padding = new System.Windows.Forms.Padding(3);
+            this.Gumps.Size = new System.Drawing.Size(619, 324);
+            this.Gumps.TabIndex = 4;
+            this.Gumps.Tag = "Gumps";
+            this.Gumps.Text = "Gumps";
+            this.Gumps.UseVisualStyleBackColor = true;
+            // 
+            // Sounds
+            // 
+            this.Sounds.Controls.Add(this.controlSound);
+            this.Sounds.Location = new System.Drawing.Point(4, 22);
+            this.Sounds.Name = "Sounds";
+            this.Sounds.Padding = new System.Windows.Forms.Padding(3);
+            this.Sounds.Size = new System.Drawing.Size(619, 324);
+            this.Sounds.TabIndex = 5;
+            this.Sounds.Tag = "Sounds";
+            this.Sounds.Text = "Sounds";
+            this.Sounds.UseVisualStyleBackColor = true;
+            // 
+            // Hue
+            // 
+            this.Hue.Controls.Add(this.controlHue);
+            this.Hue.Location = new System.Drawing.Point(4, 22);
+            this.Hue.Name = "Hue";
+            this.Hue.Padding = new System.Windows.Forms.Padding(3);
+            this.Hue.Size = new System.Drawing.Size(619, 324);
+            this.Hue.TabIndex = 6;
+            this.Hue.Tag = "Hue";
+            this.Hue.Text = "Hue";
+            this.Hue.UseVisualStyleBackColor = true;
+            // 
+            // fonts
+            // 
+            this.fonts.Controls.Add(this.controlfonts);
+            this.fonts.Location = new System.Drawing.Point(4, 22);
+            this.fonts.Name = "fonts";
+            this.fonts.Padding = new System.Windows.Forms.Padding(3);
+            this.fonts.Size = new System.Drawing.Size(619, 324);
+            this.fonts.TabIndex = 7;
+            this.fonts.Tag = "Fonts";
+            this.fonts.Text = "Fonts";
+            this.fonts.UseVisualStyleBackColor = true;
+            // 
+            // Cliloc
+            // 
+            this.Cliloc.Controls.Add(this.controlCliloc);
+            this.Cliloc.Location = new System.Drawing.Point(4, 22);
+            this.Cliloc.Name = "Cliloc";
+            this.Cliloc.Padding = new System.Windows.Forms.Padding(3);
+            this.Cliloc.Size = new System.Drawing.Size(619, 324);
+            this.Cliloc.TabIndex = 8;
+            this.Cliloc.Tag = "Cliloc";
+            this.Cliloc.Text = "CliLoc";
+            this.Cliloc.UseVisualStyleBackColor = true;
+            // 
+            // map
+            // 
+            this.map.Controls.Add(this.controlmap);
+            this.map.Location = new System.Drawing.Point(4, 22);
+            this.map.Name = "map";
+            this.map.Padding = new System.Windows.Forms.Padding(3);
+            this.map.Size = new System.Drawing.Size(619, 324);
+            this.map.TabIndex = 9;
+            this.map.Tag = "map";
+            this.map.Text = "Map";
+            this.map.UseVisualStyleBackColor = true;
+            // 
+            // Light
+            // 
+            this.Light.Controls.Add(this.controlLight);
+            this.Light.Location = new System.Drawing.Point(4, 22);
+            this.Light.Name = "Light";
+            this.Light.Size = new System.Drawing.Size(619, 324);
+            this.Light.TabIndex = 12;
+            this.Light.Tag = "Light";
+            this.Light.Text = "Light";
+            this.Light.UseVisualStyleBackColor = true;
+            // 
+            // speech
+            // 
+            this.speech.Controls.Add(this.controlspeech);
+            this.speech.Location = new System.Drawing.Point(4, 22);
+            this.speech.Name = "speech";
+            this.speech.Size = new System.Drawing.Size(619, 324);
+            this.speech.TabIndex = 17;
+            this.speech.Tag = "Speech";
+            this.speech.Text = "Speech";
+            this.speech.UseVisualStyleBackColor = true;
+            // 
+            // Skills
+            // 
+            this.Skills.Controls.Add(this.controlSkills);
+            this.Skills.Location = new System.Drawing.Point(4, 22);
+            this.Skills.Name = "Skills";
+            this.Skills.Padding = new System.Windows.Forms.Padding(3);
+            this.Skills.Size = new System.Drawing.Size(619, 324);
+            this.Skills.TabIndex = 15;
+            this.Skills.Tag = "Skills";
+            this.Skills.Text = "Skills";
+            this.Skills.UseVisualStyleBackColor = true;
+            // 
+            // multimap
+            // 
+            this.multimap.Controls.Add(this.controlMultimap);
+            this.multimap.Location = new System.Drawing.Point(4, 22);
+            this.multimap.Name = "multimap";
+            this.multimap.Padding = new System.Windows.Forms.Padding(3);
+            this.multimap.Size = new System.Drawing.Size(619, 324);
+            this.multimap.TabIndex = 14;
+            this.multimap.Tag = "Multimap";
+            this.multimap.Text = "MultiMap";
+            this.multimap.UseVisualStyleBackColor = true;
+            // 
+            // Dress
+            // 
+            this.Dress.Controls.Add(this.controldress);
+            this.Dress.Location = new System.Drawing.Point(4, 22);
+            this.Dress.Name = "Dress";
+            this.Dress.Padding = new System.Windows.Forms.Padding(3);
+            this.Dress.Size = new System.Drawing.Size(619, 324);
+            this.Dress.TabIndex = 13;
+            this.Dress.Tag = "Dress";
+            this.Dress.Text = "Dress";
+            this.Dress.UseVisualStyleBackColor = true;
+            // 
+            // TileDatas
+            // 
+            this.TileDatas.Controls.Add(this.controlTileData);
+            this.TileDatas.Location = new System.Drawing.Point(4, 22);
+            this.TileDatas.Name = "TileDatas";
+            this.TileDatas.Size = new System.Drawing.Size(619, 324);
+            this.TileDatas.TabIndex = 16;
+            this.TileDatas.Tag = "TileData";
+            this.TileDatas.Text = "TileData";
+            this.TileDatas.UseVisualStyleBackColor = true;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingsMenu,
+            this.toolStripButton1,
+            this.ExternToolsDropDown});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(627, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
             // 
             // SettingsMenu
             // 
@@ -580,6 +430,177 @@ namespace UoFiddler
             this.toolStripButton1.Text = "About..";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickAbout);
             // 
+            // ExternToolsDropDown
+            // 
+            this.ExternToolsDropDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ExternToolsDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageToolStripMenuItem});
+            this.ExternToolsDropDown.Image = ((System.Drawing.Image)(resources.GetObject("ExternToolsDropDown.Image")));
+            this.ExternToolsDropDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ExternToolsDropDown.Name = "ExternToolsDropDown";
+            this.ExternToolsDropDown.Size = new System.Drawing.Size(80, 22);
+            this.ExternToolsDropDown.Text = "Extern Tools";
+            // 
+            // controlMulti
+            // 
+            this.controlMulti.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlMulti.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlMulti.Location = new System.Drawing.Point(3, 3);
+            this.controlMulti.Name = "controlMulti";
+            this.controlMulti.Size = new System.Drawing.Size(613, 318);
+            this.controlMulti.TabIndex = 0;
+            // 
+            // controlAnimations
+            // 
+            this.controlAnimations.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlAnimations.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlAnimations.Location = new System.Drawing.Point(3, 3);
+            this.controlAnimations.Name = "controlAnimations";
+            this.controlAnimations.Size = new System.Drawing.Size(613, 318);
+            this.controlAnimations.TabIndex = 0;
+            // 
+            // controlItemShow
+            // 
+            this.controlItemShow.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlItemShow.Location = new System.Drawing.Point(3, 3);
+            this.controlItemShow.Name = "controlItemShow";
+            this.controlItemShow.Size = new System.Drawing.Size(613, 318);
+            this.controlItemShow.TabIndex = 0;
+            // 
+            // controlLandTiles
+            // 
+            this.controlLandTiles.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlLandTiles.Location = new System.Drawing.Point(3, 3);
+            this.controlLandTiles.Name = "controlLandTiles";
+            this.controlLandTiles.Size = new System.Drawing.Size(613, 318);
+            this.controlLandTiles.TabIndex = 0;
+            // 
+            // controlTexture
+            // 
+            this.controlTexture.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlTexture.Location = new System.Drawing.Point(3, 3);
+            this.controlTexture.Name = "controlTexture";
+            this.controlTexture.Size = new System.Drawing.Size(613, 318);
+            this.controlTexture.TabIndex = 0;
+            // 
+            // controlGumps
+            // 
+            this.controlGumps.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlGumps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlGumps.Location = new System.Drawing.Point(3, 3);
+            this.controlGumps.Name = "controlGumps";
+            this.controlGumps.Size = new System.Drawing.Size(613, 318);
+            this.controlGumps.TabIndex = 0;
+            // 
+            // controlSound
+            // 
+            this.controlSound.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlSound.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlSound.Location = new System.Drawing.Point(3, 3);
+            this.controlSound.Name = "controlSound";
+            this.controlSound.Size = new System.Drawing.Size(613, 318);
+            this.controlSound.TabIndex = 0;
+            // 
+            // controlHue
+            // 
+            this.controlHue.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlHue.Location = new System.Drawing.Point(3, 3);
+            this.controlHue.Name = "controlHue";
+            this.controlHue.Selected = -1;
+            this.controlHue.Size = new System.Drawing.Size(613, 318);
+            this.controlHue.TabIndex = 0;
+            // 
+            // controlfonts
+            // 
+            this.controlfonts.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlfonts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlfonts.Location = new System.Drawing.Point(3, 3);
+            this.controlfonts.Name = "controlfonts";
+            this.controlfonts.Size = new System.Drawing.Size(613, 318);
+            this.controlfonts.TabIndex = 0;
+            // 
+            // controlCliloc
+            // 
+            this.controlCliloc.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlCliloc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlCliloc.Location = new System.Drawing.Point(3, 3);
+            this.controlCliloc.Name = "controlCliloc";
+            this.controlCliloc.Size = new System.Drawing.Size(613, 318);
+            this.controlCliloc.TabIndex = 0;
+            // 
+            // controlmap
+            // 
+            this.controlmap.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlmap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlmap.Location = new System.Drawing.Point(3, 3);
+            this.controlmap.Margin = new System.Windows.Forms.Padding(0);
+            this.controlmap.Name = "controlmap";
+            this.controlmap.Size = new System.Drawing.Size(613, 318);
+            this.controlmap.TabIndex = 0;
+            // 
+            // controlLight
+            // 
+            this.controlLight.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlLight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlLight.Location = new System.Drawing.Point(0, 0);
+            this.controlLight.Name = "controlLight";
+            this.controlLight.Size = new System.Drawing.Size(619, 324);
+            this.controlLight.TabIndex = 0;
+            // 
+            // controlspeech
+            // 
+            this.controlspeech.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlspeech.Location = new System.Drawing.Point(0, 0);
+            this.controlspeech.Name = "controlspeech";
+            this.controlspeech.Size = new System.Drawing.Size(619, 324);
+            this.controlspeech.TabIndex = 0;
+            // 
+            // controlSkills
+            // 
+            this.controlSkills.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlSkills.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlSkills.Location = new System.Drawing.Point(3, 3);
+            this.controlSkills.Name = "controlSkills";
+            this.controlSkills.Size = new System.Drawing.Size(613, 318);
+            this.controlSkills.TabIndex = 0;
+            // 
+            // controlMultimap
+            // 
+            this.controlMultimap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlMultimap.Location = new System.Drawing.Point(3, 3);
+            this.controlMultimap.Name = "controlMultimap";
+            this.controlMultimap.Size = new System.Drawing.Size(613, 318);
+            this.controlMultimap.TabIndex = 0;
+            // 
+            // controldress
+            // 
+            this.controldress.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controldress.Location = new System.Drawing.Point(3, 3);
+            this.controldress.Name = "controldress";
+            this.controldress.Size = new System.Drawing.Size(613, 318);
+            this.controldress.TabIndex = 0;
+            // 
+            // controlTileData
+            // 
+            this.controlTileData.Cursor = System.Windows.Forms.Cursors.Default;
+            this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlTileData.Location = new System.Drawing.Point(0, 0);
+            this.controlTileData.Name = "controlTileData";
+            this.controlTileData.Size = new System.Drawing.Size(619, 324);
+            this.controlTileData.TabIndex = 0;
+            // 
+            // manageToolStripMenuItem
+            // 
+            this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manageToolStripMenuItem.Text = "Manage..";
+            this.manageToolStripMenuItem.Click += new System.EventHandler(this.onClickToolManage);
+            // 
             // UoFiddler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -591,6 +612,8 @@ namespace UoFiddler
             this.Name = "UoFiddler";
             this.Text = "UOFiddler";
             this.tabControl2.ResumeLayout(false);
+            this.Start.ResumeLayout(false);
+            this.Start.PerformLayout();
             this.Multis.ResumeLayout(false);
             this.Animation.ResumeLayout(false);
             this.Items.ResumeLayout(false);
@@ -610,8 +633,6 @@ namespace UoFiddler
             this.TileDatas.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.Start.ResumeLayout(false);
-            this.Start.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -664,6 +685,8 @@ namespace UoFiddler
         private System.Windows.Forms.TabPage speech;
         private Controls.Speech controlspeech;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripDropDownButton ExternToolsDropDown;
+        private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
     }
 }
 
