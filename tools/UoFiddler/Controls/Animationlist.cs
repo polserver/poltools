@@ -46,6 +46,7 @@ namespace Controls
                          "Block_Shield_Hard_01","Punch_Punch_Jab_01","Bow_Lesser_01","Salute_Armed1h_01",
                          "Ingest_Eat_01"}//human
         };
+        public string[][] GetAnimNames { get { return AnimNames; } }
         #endregion
 
         private Bitmap m_MainPicture;
@@ -62,8 +63,8 @@ namespace Controls
         private int facing = 1;
         private bool sortalpha = false;
         private int DisplayType = 0;
-
         private bool Loaded = false;
+
 
         /// <summary>
         /// ReLoads if loaded
@@ -90,12 +91,13 @@ namespace Controls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
             if (!LoadXml())
             {
                 this.Cursor = Cursors.Default;
                 return;
             }
-
+            
             LoadListView();
 
             extractAnimationToolStripMenuItem.Visible = false;
@@ -115,6 +117,65 @@ namespace Controls
         {
             customHue = select+1;
             CurrentSelect = CurrentSelect;
+        }
+
+        /// <summary>
+        /// Is Graphic already in TreeView
+        /// </summary>
+        /// <param name="graphic"></param>
+        /// <returns></returns>
+        public bool IsAlreadyDefinied(int graphic)
+        {
+            foreach (TreeNode node in TreeViewMobs.Nodes[0].Nodes)
+            {
+                if (((int[])node.Tag)[0] == graphic)
+                    return true;
+            }
+            foreach (TreeNode node in TreeViewMobs.Nodes[1].Nodes)
+            {
+                if (((int[])node.Tag)[0] == graphic)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Adds Graphic with type and name to List
+        /// </summary>
+        /// <param name="graphic"></param>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        public void AddGraphic(int graphic, int type, string name)
+        {
+            TreeViewMobs.BeginUpdate();
+            TreeNode nodeparent = new TreeNode(name);
+            
+            nodeparent.ToolTipText = Animations.GetFileName(graphic);
+            if (type == 4)
+            {
+                TreeViewMobs.Nodes[1].Nodes.Add(nodeparent);
+                type = 3;
+            }
+            else
+                TreeViewMobs.Nodes[0].Nodes.Add(nodeparent);
+            nodeparent.Tag = new int[]{graphic,type};
+
+            TreeNode node;
+            for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
+            {
+                if (Animations.IsActionDefined(graphic, i, 0))
+                {
+                    node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
+                    node.Tag = i;
+                    nodeparent.Nodes.Add(node);
+                }
+            }
+            
+            TreeViewMobs.Sort();
+            TreeViewMobs.EndUpdate();
+            LoadListView();
+            TreeViewMobs.SelectedNode = nodeparent;
+            nodeparent.EnsureVisible();
         }
 
         private bool Animate
@@ -306,7 +367,7 @@ namespace Controls
                 if ((e.Node.Parent.Name == "Mobs") || (e.Node.Parent.Name == "Equipment"))
                 {
                     m_CurrentSelectAction = 0;
-                    CurrentSelect = (int)e.Node.Tag;
+                    CurrentSelect = ((int[])e.Node.Tag)[0];
                     if ((e.Node.Parent.Name == "Mobs") && (DisplayType == 1))
                     {
                         DisplayType = 0;
@@ -321,7 +382,7 @@ namespace Controls
                 else
                 {
                     m_CurrentSelectAction = (int)e.Node.Tag;
-                    CurrentSelect = (int)e.Node.Parent.Tag;
+                    CurrentSelect = ((int[])e.Node.Parent.Tag)[0];
                     if ((e.Node.Parent.Parent.Name == "Mobs") && (DisplayType == 1))
                     {
                         DisplayType = 0;
@@ -346,6 +407,7 @@ namespace Controls
                     DisplayType = 1;
                     LoadListView();
                 }
+                TreeViewMobs.SelectedNode = e.Node.Nodes[0];
             }
         }
 
@@ -358,7 +420,7 @@ namespace Controls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
-            string FileName = Path.Combine(path, "UoFiddler.xml");
+            string FileName = Path.Combine(path, "Animationlist.xml");
             if (!(File.Exists(FileName)))
                 return false;
             TreeViewMobs.BeginUpdate();
@@ -378,12 +440,12 @@ namespace Controls
                 int value;
                 name = xMob.GetAttribute("name");
                 value = int.Parse(xMob.GetAttribute("body"));
+                int type = int.Parse(xMob.GetAttribute("type"));
                 node = new TreeNode(name);
-                node.Tag = value;
+                node.Tag = new int[]{value,type};
                 node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes[0].Nodes.Add(node);
-                int type = int.Parse(xMob.GetAttribute("type"));
-
+                
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
@@ -404,11 +466,12 @@ namespace Controls
                 int value;
                 name = xMob.GetAttribute("name");
                 value = int.Parse(xMob.GetAttribute("body"));
+                int type = int.Parse(xMob.GetAttribute("type"));
                 node = new TreeNode(name);
-                node.Tag = value;
+                node.Tag = new int[]{value,type};
                 node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes[1].Nodes.Add(node);
-                int type = int.Parse(xMob.GetAttribute("type"));
+                
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
@@ -418,7 +481,6 @@ namespace Controls
                         node.Tag = i;
                         TreeViewMobs.Nodes[1].Nodes[TreeViewMobs.Nodes[1].Nodes.Count - 1].Nodes.Add(node);
                     }
-
                 }
             }
             TreeViewMobs.EndUpdate();
@@ -432,8 +494,8 @@ namespace Controls
             ListViewItem item;
             foreach (TreeNode node in TreeViewMobs.Nodes[DisplayType].Nodes)
             {
-                item = new ListViewItem("("+node.Tag+")", 0);
-                item.Tag = node.Tag;
+                item = new ListViewItem("("+((int[])node.Tag)[0]+")", 0);
+                item.Tag = ((int[])node.Tag)[0];
                 listView.Items.Add(item);
             }
             listView.EndUpdate();
@@ -602,6 +664,79 @@ namespace Controls
                     MessageBoxDefaultButton.Button1);
             }
         }
+
+        private void OnClickRemove(object sender, EventArgs e)
+        {
+            if (TreeViewMobs.SelectedNode != null)
+            {
+                TreeNode node = TreeViewMobs.SelectedNode;
+                if (node.Parent == null)
+                    return;
+                if ((node.Parent.Name != "Mobs") && (node.Parent.Name != "Equipment"))
+                    node = node.Parent;
+                node.Remove();
+                LoadListView();
+            }
+        }
+
+        private AnimationlistNewEntries animnewEntry;
+
+        private void OnClickFindNewEntries(object sender, EventArgs e)
+        {
+            if ((animnewEntry == null) || (animnewEntry.IsDisposed))
+            {
+                animnewEntry = new AnimationlistNewEntries(this);
+                animnewEntry.TopMost = true;
+                animnewEntry.Show();
+            }
+        }
+
+        private void RewriteXML(object sender, EventArgs e)
+        {
+            TreeViewMobs.BeginUpdate();
+            TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
+            TreeViewMobs.Sort();
+            TreeViewMobs.EndUpdate();
+
+            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            string FileName = Path.Combine(filepath, "Animationlist.xml");
+
+            XmlDocument dom = new XmlDocument();
+            XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
+            dom.AppendChild(decl);
+            XmlElement sr = dom.CreateElement("Graphics");
+            XmlComment comment = dom.CreateComment("Entries in Mob tab");
+            sr.AppendChild(comment);
+            comment = dom.CreateComment("Name=Displayed name");
+            sr.AppendChild(comment);
+            comment = dom.CreateComment("body=Graphic");
+            sr.AppendChild(comment);
+            comment = dom.CreateComment("type=0:Monster, 1:Sea, 2:Animal, 3:Human/Equipment");
+            sr.AppendChild(comment);
+
+            XmlElement elem;
+            foreach (TreeNode node in TreeViewMobs.Nodes[0].Nodes)
+            {
+                elem = dom.CreateElement("Mob");
+                elem.SetAttribute("name", node.Text);
+                elem.SetAttribute("body", ((int[])node.Tag)[0].ToString());
+                elem.SetAttribute("type", ((int[])node.Tag)[1].ToString());
+
+                sr.AppendChild(elem);
+            }
+            foreach (TreeNode node in TreeViewMobs.Nodes[1].Nodes)
+            {
+                elem = dom.CreateElement("Equip");
+                elem.SetAttribute("name", node.Text);
+                elem.SetAttribute("body", ((int[])node.Tag)[0].ToString());
+                elem.SetAttribute("type", ((int[])node.Tag)[1].ToString());
+                sr.AppendChild(elem);
+            }
+            dom.AppendChild(sr);
+            dom.Save(FileName);
+            MessageBox.Show("XML saved", "Rewrite", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
     }
 
     public class AlphaSorter : IComparer
@@ -611,7 +746,12 @@ namespace Controls
             TreeNode tx = x as TreeNode;
             TreeNode ty = y as TreeNode;
             if (tx.Parent == null)  // dont change Mob and Equipment
-                return 0;
+            {
+                if ((int)tx.Tag == -1) //mob
+                    return -1;
+                else
+                    return 1;
+            }
             return string.Compare(tx.Text, ty.Text);
         }
     }
@@ -623,10 +763,21 @@ namespace Controls
             TreeNode tx = x as TreeNode;
             TreeNode ty = y as TreeNode;
             if (tx.Parent == null)
+            {
+                if ((int)tx.Tag == -1) //mob
+                    return -1;
+                else
+                    return 1;
+            }
+            if ((tx.Parent.Name != "Mobs") || (tx.Parent.Name != "Equipment"))
                 return 0;
-            if ((int)tx.Tag == (int)ty.Tag)
+            if ((ty.Parent.Name != "Mobs") || (ty.Parent.Name != "Equipment"))
                 return 0;
-            else if ((int)tx.Tag < (int)ty.Tag)
+            int[] ix = (int[])tx.Tag;
+            int[] iy = (int[])ty.Tag;
+            if (ix[0] == iy[0])
+                return 0;
+            else if (ix[0] < iy[0])
                 return -1;
             else
                 return 1;

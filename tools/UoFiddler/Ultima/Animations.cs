@@ -12,10 +12,15 @@ namespace Ultima
 	/// </summary>
 	public sealed class BodyConverter
 	{
-		private static int[] m_Table1;
-		private static int[] m_Table2;
-		private static int[] m_Table3;
-		private static int[] m_Table4;
+        private static int[] m_Table1;
+        private static int[] m_Table2;
+        private static int[] m_Table3;
+        private static int[] m_Table4;
+
+        public static int[] Table1 { get { return BodyConverter.m_Table1; } }
+        public static int[] Table2 { get { return BodyConverter.m_Table2; } }
+        public static int[] Table3 { get { return BodyConverter.m_Table3; } }
+        public static int[] Table4 { get { return BodyConverter.m_Table4; } }
 
 		private BodyConverter()
 		{
@@ -689,37 +694,38 @@ namespace Ultima
             if (filePath == null)
                 return;
 
-            StreamReader def = new StreamReader(filePath);
-
-            string line;
-
-            while ((line = def.ReadLine()) != null)
+            using (StreamReader def = new StreamReader(filePath))
             {
-                if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
-                    continue;
+                string line;
 
-                try
+                while ((line = def.ReadLine()) != null)
                 {
-                    int index1 = line.IndexOf("{");
-                    int index2 = line.IndexOf("}");
+                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                        continue;
 
-                    string param1 = line.Substring(0, index1);
-                    string param2 = line.Substring(index1 + 1, index2 - index1 - 1);
-                    string param3 = line.Substring(index2 + 1);
+                    try
+                    {
+                        int index1 = line.IndexOf("{");
+                        int index2 = line.IndexOf("}");
 
-                    int indexOf = param2.IndexOf(',');
+                        string param1 = line.Substring(0, index1);
+                        string param2 = line.Substring(index1 + 1, index2 - index1 - 1);
+                        string param3 = line.Substring(index2 + 1);
 
-                    if (indexOf > -1)
-                        param2 = param2.Substring(0, indexOf).Trim();
+                        int indexOf = param2.IndexOf(',');
 
-                    int iParam1 = Convert.ToInt32(param1.Trim());
-                    int iParam2 = Convert.ToInt32(param2.Trim());
-                    int iParam3 = Convert.ToInt32(param3.Trim());
+                        if (indexOf > -1)
+                            param2 = param2.Substring(0, indexOf).Trim();
 
-                    m_Entries[iParam1] = new BodyTableEntry(iParam2, iParam1, iParam3);
-                }
-                catch
-                {
+                        int iParam1 = Convert.ToInt32(param1.Trim());
+                        int iParam2 = Convert.ToInt32(param2.Trim());
+                        int iParam3 = Convert.ToInt32(param3.Trim());
+
+                        m_Entries[iParam1] = new BodyTableEntry(iParam2, iParam1, iParam3);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
         }
