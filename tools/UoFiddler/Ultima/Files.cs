@@ -73,6 +73,7 @@ namespace Ultima
 			"mapdifl2.mul",
 			"mapdifl3.mul",
 			"mapdifl4.mul",
+            "mobtypes.txt",
             "multi.idx",
             "multi.mul",
             "multimap.rle",

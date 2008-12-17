@@ -200,7 +200,7 @@
     <None Include="Options.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UoFiddler.xml">
+    <None Include="Animationlist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
