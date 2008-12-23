@@ -448,7 +448,7 @@ namespace Ultima
 				{
 					BodyTableEntry bte = (BodyTableEntry)o;
 
-					m_Table[i] = bte.m_OldID | (1 << 31) | (((bte.m_NewHue ^ 0x8000) & 0xFFFF) << 15);
+					m_Table[i] = bte.m_OldID | (1 << 31) | ((bte.m_NewHue & 0xFFFF) << 15);
 				}
 			}
 		}

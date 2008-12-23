@@ -56,7 +56,8 @@ namespace Controls
             Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
-            listBox.Items.AddRange(Ultima.Hues.List);
+            listBox.DataSource = Ultima.Hues.List;
+            //listBox.Items.AddRange(Ultima.Hues.List);
             listBox.EndUpdate();
             listBox.SelectedIndex = selected;
             this.Cursor = Cursors.Default;

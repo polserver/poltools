@@ -37,6 +37,7 @@ namespace Controls
         private int selected = -1;
         private Bitmap bmp;
         private bool Loaded = false;
+        private bool ShowFreeSlots = false;
 
         private void MakeHashFile()
         {
@@ -129,6 +130,8 @@ namespace Controls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            ShowFreeSlots = false;
+            showFreeSlotsToolStripMenuItem.Checked = false;
             ItemList = new ArrayList();
             if ((Files.UseHashFile) && (Files.CompareHashFile("Art")))
             {
@@ -255,6 +258,15 @@ namespace Controls
                                     g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
                                 }
                             }
+                            else
+                            {
+                                Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
+                                Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
+                                Rectangle rect = new Rectangle(loc, size);
+
+                                g.Clip = new Region(rect);
+                                g.FillRectangle(Brushes.Red, rect);
+                            }
                         }
                     }
                 }
@@ -274,6 +286,8 @@ namespace Controls
             vScrollBar.LargeChange = row;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            if (selected!=-1)
+                UpdateDetail(selected);
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -286,8 +300,16 @@ namespace Controls
             if (index >= 0)
             {
                 selected = index;
-                namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                if (!Art.IsValidStatic(index))
+                {
+                    namelabel.Text = "Name: FREE";
+                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                }
+                else
+                {
+                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                }
                 UpdateDetail(selected);
                 PaintBox();
             }
@@ -297,13 +319,23 @@ namespace Controls
         {
             Ultima.ItemData item = Ultima.TileData.ItemTable[id];
             Bitmap bit = Ultima.Art.GetStatic(id);
-            splitContainer2.SplitterDistance = bit.Size.Height + 10;
-            Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.Clear(Color.FromArgb(-1));
-            newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
-
-            DetailPictureBox.Image = newbit;
+            if (bit == null)
+            {
+                splitContainer2.SplitterDistance = 10;
+                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.Clear(Color.FromArgb(-1));
+                DetailPictureBox.Image = newbit;
+            }
+            else
+            {
+                splitContainer2.SplitterDistance = bit.Size.Height + 10;
+                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.Clear(Color.FromArgb(-1));
+                newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
+                DetailPictureBox.Image = newbit;
+            }
 
             DetailTextBox.Clear();
             DetailTextBox.AppendText(String.Format("Name: {0}\n", item.Name));
@@ -351,21 +383,40 @@ namespace Controls
 
         private void onClickFindFree(object sender, EventArgs e)
         {
-            int id = selected;
-            id++;
-            for (int i = ItemList.IndexOf((object)selected) + 1; i < ItemList.Count; i++)
+            if (ShowFreeSlots)
             {
-                if (id < (int)ItemList[i])
+                for (int i = ItemList.IndexOf((object)selected) + 1; i < ItemList.Count; i++)
                 {
-                    selected = (int)ItemList[i];
-                    vScrollBar.Value = i / refMarker.col + 1;
-                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                    UpdateDetail(selected);
-                    PaintBox();
-                    break;
+                    if (!Art.IsValidStatic((int)ItemList[i]))
+                    {
+                        selected = (int)ItemList[i];
+                        vScrollBar.Value = i / refMarker.col + 1;
+                        namelabel.Text = "Name: FREE";
+                        graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                        UpdateDetail(selected);
+                        PaintBox();
+                        break;
+                    }
                 }
+            }
+            else
+            {
+                int id = selected;
                 id++;
+                for (int i = ItemList.IndexOf((object)selected) + 1; i < ItemList.Count; i++)
+                {
+                    if (id < (int)ItemList[i])
+                    {
+                        selected = (int)ItemList[i];
+                        vScrollBar.Value = i / refMarker.col + 1;
+                        namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                        graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                        UpdateDetail(selected);
+                        PaintBox();
+                        break;
+                    }
+                    id++;
+                }
             }
         }
 
@@ -389,6 +440,8 @@ namespace Controls
 
         private void OnClickRemove(object sender, EventArgs e)
         {
+            if (!Art.IsValidStatic(selected))
+                return;
             DialogResult result =
                         MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", selected), 
                         "Save", 
@@ -398,7 +451,8 @@ namespace Controls
             if (result == DialogResult.Yes)
             {
                 Art.RemoveStatic(selected);
-                ItemList.Remove((object)selected);
+                if (!ShowFreeSlots)
+                    ItemList.Remove((object)selected);
                 selected--;
                 PaintBox();
             }
@@ -458,18 +512,30 @@ namespace Controls
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
                         Art.ReplaceStatic(index, bmp);
-                        for (int i = 0; i < ItemList.Count; i++)
+                        if (ShowFreeSlots)
                         {
-                            if (index < (int)ItemList[i])
+                            selected = index;
+                            vScrollBar.Value = index / refMarker.col + 1;
+                            namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                            graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                            UpdateDetail(selected);
+                            PaintBox();
+                        }
+                        else
+                        {
+                            for (int i = 0; i < ItemList.Count; i++)
                             {
-                                selected = index;
-                                ItemList.Insert(i, (object)index);
-                                vScrollBar.Value = i / refMarker.col + 1;
-                                namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                                UpdateDetail(selected);
-                                PaintBox();
-                                break;
+                                if (index < (int)ItemList[i])
+                                {
+                                    selected = index;
+                                    ItemList.Insert(i, (object)index);
+                                    vScrollBar.Value = i / refMarker.col + 1;
+                                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                                    UpdateDetail(selected);
+                                    PaintBox();
+                                    break;
+                                }
                             }
                         }
                     }
@@ -493,6 +559,30 @@ namespace Controls
                     String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
                     "Save", 
                     MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void onClickShowFreeSlots(object sender, EventArgs e)
+        {
+            ShowFreeSlots = !ShowFreeSlots;
+            if (ShowFreeSlots)
+            {
+                for (int j = 0; j < 0x4000; j++)
+                {
+                    if (ItemList.Count > j)
+                    {
+                        if ((int)ItemList[j] != j)
+                            ItemList.Insert(j, (object)j);
+                    }
+                    else
+                        ItemList.Insert(j, (object)j);
+                }
+                vScrollBar.Maximum = ItemList.Count / col + 1;
+                PaintBox();
+            }
+            else
+            {
+                Reload();
             }
         }
 

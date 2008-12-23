@@ -82,10 +82,15 @@ namespace Controls
             Bitmap bit = Ultima.Art.GetStatic(index);
 
             this.Text = String.Format("Item Detail 0x{0:X} '{1}'", index, item.Name);
-            this.Size = new System.Drawing.Size(300, bit.Size.Height + this.Data.Size.Height + 10);
-            this.splitContainer1.SplitterDistance = bit.Size.Height + 10;
-            this.Graphic.Size = new System.Drawing.Size(300, bit.Size.Height + 10);
-            SetPicture(bit);
+            if (bit == null)
+                this.splitContainer1.SplitterDistance = 10;
+            else
+            {
+                this.Size = new System.Drawing.Size(300, bit.Size.Height + this.Data.Size.Height + 10);
+                this.splitContainer1.SplitterDistance = bit.Size.Height + 10;
+                this.Graphic.Size = new System.Drawing.Size(300, bit.Size.Height + 10);
+                SetPicture(bit);
+            }
             
             this.Data.AppendText(String.Format("Name: {0}\n",item.Name));
             this.Data.AppendText(String.Format("Graphic: 0x{0:X4} ({0})\n", index));
@@ -127,6 +132,8 @@ namespace Controls
 
         private void extract_Image_Click(object sender, EventArgs e)
         {
+            if (!Art.IsValidStatic(index))
+                return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", index));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);

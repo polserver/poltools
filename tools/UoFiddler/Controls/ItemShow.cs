@@ -33,6 +33,7 @@ namespace Controls
 
         private static ItemShow refMarker = null;
         private bool Loaded = false;
+        private bool ShowFreeSlots = false;
 
         private void MakeHashFile()
         {
@@ -124,6 +125,8 @@ namespace Controls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            ShowFreeSlots = false;
+            showFreeSlotsToolStripMenuItem.Checked = false;
             listView1.BeginUpdate();
             listView1.Clear();
 
@@ -156,6 +159,7 @@ namespace Controls
                         ListViewItem item = new ListViewItem(i.ToString(), 0);
                         item.Tag = i;
                         listView1.Items.Add(item);
+                        
                     }
                 }
                 if (Files.UseHashFile)
@@ -173,16 +177,29 @@ namespace Controls
             if (listView1.SelectedItems.Count == 1)
             {
                 int i = (int)listView1.SelectedItems[0].Tag;
-                namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
-                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", i);
-                UpdateDetail(i);
+                if (i == -1)
+                {
+                    namelabel.Text = "Name: FREE";
+                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", listView1.SelectedIndices[0]);
+                    UpdateDetail(listView1.SelectedIndices[0]);
+                }
+                else
+                {
+                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[i].Name);
+                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", i);
+                    UpdateDetail(i);
+                }
             }
         }
 
         private void drawitem(object sender, DrawListViewItemEventArgs e)
         {
             int i = (int)e.Item.Tag;
-
+            if (i == -1)
+            {
+                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                return;
+            }
             Bitmap bmp = Art.GetStatic(i);
 
             if (bmp != null)
@@ -224,7 +241,11 @@ namespace Controls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                ItemDetail f = new ItemDetail((int)listView1.SelectedItems[0].Tag);
+                ItemDetail f;
+                if ((int)listView1.SelectedItems[0].Tag == -1)
+                    f = new ItemDetail(listView1.SelectedIndices[0]);
+                else
+                    f = new ItemDetail((int)listView1.SelectedItems[0].Tag);
                 f.TopMost = true;
                 f.Show();
             }
@@ -245,14 +266,24 @@ namespace Controls
         {
             Ultima.ItemData item = Ultima.TileData.ItemTable[id];
             Bitmap bit = Ultima.Art.GetStatic(id);
-            splitContainer2.SplitterDistance = bit.Size.Height + 10;
-            Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.Clear(Color.FromArgb(-1));
-            newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
+            if (bit == null)
+            {
+                splitContainer2.SplitterDistance = 10;
+                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.Clear(Color.FromArgb(-1));
+                DetailPictureBox.Image = newbit;
+            }
+            else
+            {
+                splitContainer2.SplitterDistance = bit.Size.Height + 10;
+                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.Clear(Color.FromArgb(-1));
+                newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
 
-            DetailPictureBox.Image = newbit;
-
+                DetailPictureBox.Image = newbit;
+            }
             DetailTextBox.Clear();
             DetailTextBox.AppendText(String.Format("Name: {0}\n", item.Name));
             DetailTextBox.AppendText(String.Format("Graphic: 0x{0:X4}\n", id));
@@ -269,6 +300,19 @@ namespace Controls
                 Animdata.Data info = Animdata.GetAnimData(id);
                 if (info != null)
                     DetailTextBox.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount, info.FrameInterval));
+            }
+        }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                listView1.SelectedItems[0].EnsureVisible();
+                int i = (int)listView1.SelectedItems[0].Tag;
+                if (i == -1)
+                    UpdateDetail(listView1.SelectedItems[0].Index);
+                else
+                    UpdateDetail(i);
             }
         }
 
@@ -366,20 +410,31 @@ namespace Controls
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
                         Art.ReplaceStatic(index, bmp);
-                        //bug in listview always added to end so...
-                        listView1.BeginUpdate();
-                        listView1.Items.Clear();
-                        for (int i = 0; i < 0x4000; i++)
+                        ListViewItem item = new ListViewItem(index.ToString(), 0);
+                        item.Tag = index;
+                        if (ShowFreeSlots)
                         {
-                            if (Art.IsValidStatic(i))
+                            listView1.Items[index] = item;
+                            listView1.Invalidate();
+                        }
+                        else
+                        {
+                            foreach (ListViewItem i in listView1.Items)
                             {
-                                ListViewItem item = new ListViewItem(i.ToString(), 0);
-                                item.Tag = i;
-                                listView1.Items.Add(item);
+                                if ((int)i.Tag > index)
+                                {
+                                    listView1.Items.Insert(i.Index, item);
+                                    break;
+                                }
                             }
                         }
-                        listView1.EndUpdate();
-                        SearchGraphic(index);
+                        listView1.View = View.Details; // that works faszinating
+                        listView1.View = View.Tile;
+                        if (listView1.SelectedItems.Count == 1)
+                            listView1.SelectedItems[0].Selected = false;
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
                     }
                 }
             }
@@ -388,6 +443,8 @@ namespace Controls
         private void onClickRemove(object sender, EventArgs e)
         {
             int i = (int)listView1.SelectedItems[0].Tag;
+            if (i == -1)
+                return;
             DialogResult result =
                         MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", i), 
                         "Save", 
@@ -398,30 +455,89 @@ namespace Controls
             {
                 Art.RemoveStatic(i);
                 i = listView1.SelectedItems[0].Index;
-                listView1.SelectedItems[0].Selected = false;
-                listView1.Items.RemoveAt(i);
+                if (!ShowFreeSlots)
+                {
+                    listView1.SelectedItems[0].Selected = false;
+                    listView1.Items.RemoveAt(i);
+                }
+                else
+                    listView1.Items[i].Tag = -1;
                 listView1.Invalidate();
             }
         }
 
         private void onClickFindFree(object sender, EventArgs e)
         {
-            int id = (int)listView1.SelectedItems[0].Tag;
-            id++;
-            for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+            if (ShowFreeSlots)
             {
-                if (id < (int)listView1.Items[i].Tag)
+                for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
                 {
-                    ListViewItem item = listView1.Items[i];
-                    if (listView1.SelectedItems.Count == 1)
-                        listView1.SelectedItems[0].Selected = false;
-                    item.Selected = true;
-                    item.Focused = true;
-                    item.EnsureVisible();
-                    break;
+                    if ((int)listView1.Items[i].Tag == -1)
+                    {
+                        ListViewItem item = listView1.Items[i];
+                        if (listView1.SelectedItems.Count == 1)
+                            listView1.SelectedItems[0].Selected = false;
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
+                        break;
+                    }
                 }
-                id++;
             }
+            else
+            {
+                int id = (int)listView1.SelectedItems[0].Tag;
+                id++;
+                for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+                {
+                    if (id < (int)listView1.Items[i].Tag)
+                    {
+                        ListViewItem item = listView1.Items[i];
+                        if (listView1.SelectedItems.Count == 1)
+                            listView1.SelectedItems[0].Selected = false;
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
+                        break;
+                    }
+                    id++;
+                }
+            }
+        }
+
+        private void onClickShowFreeSlots(object sender, EventArgs e)
+        {
+            listView1.BeginUpdate();
+            ShowFreeSlots = !ShowFreeSlots;
+            if (ShowFreeSlots)
+            {
+                ListViewItem item;
+                for (int j = 0; j < 0x4000; j++)
+                {
+                    if (listView1.Items.Count > j)
+                    {
+                        if ((int)listView1.Items[j].Tag != j)
+                        {
+                            item = new ListViewItem(j.ToString(), 0);
+                            item.Tag = -1;
+                            listView1.Items.Insert(j, item);
+                        }
+                    }
+                    else
+                    {
+                        item = new ListViewItem(j.ToString(), 0);
+                        item.Tag = -1;
+                        listView1.Items.Insert(j, item);
+                    }
+                }
+            }
+            else
+            {
+                Reload();
+            }
+            listView1.EndUpdate();
+            listView1.View = View.Details; // that works faszinating
+            listView1.View = View.Tile;
         }
 
         #region Preloader
