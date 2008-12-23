@@ -19,7 +19,7 @@ namespace POLLaunch
 		{
 			InitializeComponent();
 			checkBox1.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
-			if (checkBox1.Checked)
+            if (checkBox1.Checked && verifyConfiguration())
 				tabControl1.SelectedIndex = tabControl1.TabPages.IndexOfKey("tabPage6");
 		}
 
@@ -47,7 +47,20 @@ namespace POLLaunch
 
 		private void checkBox1_CheckStateChanged(object sender, EventArgs e)
 		{
-			Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked.ToString();
+            // We only run this if it's Checked, which means the state changed it to
+            // checked either by the user clicking on it, or Code changing it.
+            if (checkBox1.Checked)
+            {
+                if (!verifyConfiguration())
+                {
+                    MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
+                    checkBox1.Checked = false;
+                }
+                else
+                {
+                    Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked.ToString();
+                }
+            }
 		}
 
 		private void BTN_RunTests_Click(object sender, EventArgs e)
@@ -129,6 +142,30 @@ namespace POLLaunch
             // Auto scrolling
             txtPOLConsole.Select(txtPOLConsole.Text.Length, 0);
             txtPOLConsole.ScrollToCaret();
+        }
+
+        private bool verifyConfiguration()
+        {
+            if (Settings.Global.Properties.Count < 5)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Verifies the Configuration has been set before allowing the user to change
+        /// tabs in the Control TabControl.
+        /// </summary>
+        /// <param name="sender">Windows Form default object sender</param>
+        /// <param name="e">Windows Form default EventArgs e</param>
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab.Name.ToString() != "tabPage1" && !verifyConfiguration())
+            {
+                MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
+                tabControl1.SelectTab(0);
+            }
         }
 	}
 }
