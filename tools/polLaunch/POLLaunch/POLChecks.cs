@@ -21,7 +21,7 @@ namespace POLLaunch
 
 		static public void RealmChecks(ref TextBox textbox)
 		{
-			if (!Directory.Exists((string)Settings.Global.Properties["POLPath"] + "realm"))
+			if (!Directory.Exists((string)Settings.Global.Properties["POLPath"] + "\\realm"))
 				textbox.AppendText("* Fail: Realms have not been generated." + Environment.NewLine);
 			else
 			{
@@ -34,7 +34,7 @@ namespace POLLaunch
 
 			foreach (string s in UOConvert.GetConfigFileNames())
 			{
-				if (File.Exists((string)Settings.Global.Properties["POLPath"] + s))
+                if (File.Exists((string)Settings.Global.Properties["POLPath"] + "\\" + s))
 					textbox.AppendText("* Pass: Found config file '" + s + "'." + Environment.NewLine);
 				else
 					textbox.AppendText("* Fail: Config file '" + s + "' not found." + Environment.NewLine);
