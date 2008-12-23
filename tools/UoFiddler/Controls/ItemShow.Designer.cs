@@ -48,6 +48,7 @@ namespace Controls
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showFreeSlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findNextFreeSlotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,10 +154,12 @@ namespace Controls
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_DoubleClicked);
             this.listView1.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.drawitem);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+            this.listView1.SizeChanged += new System.EventHandler(this.OnResize);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFreeSlotsToolStripMenuItem,
             this.findNextFreeSlotToolStripMenuItem,
             this.toolStripSeparator2,
             this.replaceToolStripMenuItem,
@@ -166,6 +169,14 @@ namespace Controls
             this.saveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(178, 148);
+            // 
+            // showFreeSlotsToolStripMenuItem
+            // 
+            this.showFreeSlotsToolStripMenuItem.CheckOnClick = true;
+            this.showFreeSlotsToolStripMenuItem.Name = "showFreeSlotsToolStripMenuItem";
+            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showFreeSlotsToolStripMenuItem.Text = "Show Free Slots";
+            this.showFreeSlotsToolStripMenuItem.Click += new System.EventHandler(this.onClickShowFreeSlots);
             // 
             // findNextFreeSlotToolStripMenuItem
             // 
@@ -327,5 +338,6 @@ namespace Controls
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findNextFreeSlotToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem showFreeSlotsToolStripMenuItem;
     }
 }

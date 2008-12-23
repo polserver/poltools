@@ -46,13 +46,6 @@ namespace Controls
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.namelabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PreloadItems = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.PreLoader = new System.ComponentModel.BackgroundWorker();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.findNextFreeSlotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -62,6 +55,14 @@ namespace Controls
             this.InsertText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.namelabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PreloadItems = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.PreLoader = new System.ComponentModel.BackgroundWorker();
+            this.showFreeSlotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -70,8 +71,8 @@ namespace Controls
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer2
@@ -152,6 +153,73 @@ namespace Controls
             this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
             this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFreeSlotsToolStripMenuItem,
+            this.findNextFreeSlotToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.replaceToolStripMenuItem,
+            this.removeToolStripMenuItem,
+            this.insertAtToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 170);
+            // 
+            // findNextFreeSlotToolStripMenuItem
+            // 
+            this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
+            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
+            this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindFree);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
+            // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.replaceToolStripMenuItem.Text = "Replace...";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplace);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
+            // 
+            // insertAtToolStripMenuItem
+            // 
+            this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.InsertText});
+            this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
+            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.insertAtToolStripMenuItem.Text = "Insert At..";
+            // 
+            // InsertText
+            // 
+            this.InsertText.Name = "InsertText";
+            this.InsertText.Size = new System.Drawing.Size(100, 21);
+            this.InsertText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownInsertText);
+            this.InsertText.TextChanged += new System.EventHandler(this.onTextChangedInsert);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.onClickSave);
+            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
@@ -220,71 +288,13 @@ namespace Controls
             this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
             this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
             // 
-            // contextMenuStrip1
+            // showFreeSlotsToolStripMenuItem
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.findNextFreeSlotToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.replaceToolStripMenuItem,
-            this.removeToolStripMenuItem,
-            this.insertAtToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.saveToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 148);
-            // 
-            // findNextFreeSlotToolStripMenuItem
-            // 
-            this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
-            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
-            this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindFree);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
-            // 
-            // replaceToolStripMenuItem
-            // 
-            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.replaceToolStripMenuItem.Text = "Replace...";
-            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplace);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
-            // 
-            // insertAtToolStripMenuItem
-            // 
-            this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.InsertText});
-            this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
-            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.insertAtToolStripMenuItem.Text = "Insert At..";
-            // 
-            // InsertText
-            // 
-            this.InsertText.Name = "InsertText";
-            this.InsertText.Size = new System.Drawing.Size(100, 21);
-            this.InsertText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownInsertText);
-            this.InsertText.TextChanged += new System.EventHandler(this.onTextChangedInsert);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.onClickSave);
+            this.showFreeSlotsToolStripMenuItem.CheckOnClick = true;
+            this.showFreeSlotsToolStripMenuItem.Name = "showFreeSlotsToolStripMenuItem";
+            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showFreeSlotsToolStripMenuItem.Text = "Show Free Slots";
+            this.showFreeSlotsToolStripMenuItem.Click += new System.EventHandler(this.onClickShowFreeSlots);
             // 
             // ItemShowAlternative
             // 
@@ -303,9 +313,9 @@ namespace Controls
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -335,6 +345,7 @@ namespace Controls
         private System.Windows.Forms.ToolStripTextBox InsertText;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showFreeSlotsToolStripMenuItem;
 
     }
 }

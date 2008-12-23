@@ -18,7 +18,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.7";
+        public static string Version = "2.7b";
         public static bool AlternativeDesign = false;
         private Controls.ItemShowAlternative controlItemShowAlt;
         private Controls.TextureAlternative controlTextureAlt;

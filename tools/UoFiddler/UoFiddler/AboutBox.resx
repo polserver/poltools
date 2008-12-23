@@ -118,7 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 2.7
+    <value>Version 2.7b
+-fixed Hue only gray in Animations
+-Added ShowFreeSlots in Itemstab
+
+Version 2.7
 -renamed UoFiddler.xml to Animationlist.xml
 -Animationlist:
 Entries can now be renamed
