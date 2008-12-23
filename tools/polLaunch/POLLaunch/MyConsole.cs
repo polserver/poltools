@@ -113,6 +113,39 @@ namespace POLLaunch.Console
             this.BeginOutputReadLine();
         }
 
+        /// <summary>
+        /// Starts "filename" process at "workingdir" directory using "args" arguments.
+        /// </summary>
+        /// <param name="filename">Full path to program</param>
+        /// <param name="workingdir">Full path to working dir</param>
+        /// <param name="args">Arguments to send to the command line.</param>
+        public void Start(string filename, string workingdir, string args)
+        {
+            if (!File.Exists(filename))
+                throw new IOException("File not found");
+
+            if (workingdir != String.Empty && Directory.Exists(workingdir))
+                this.StartInfo.WorkingDirectory = workingdir;
+            else
+                this.StartInfo.WorkingDirectory = String.Empty;
+
+            this.StartInfo.Arguments = args;
+            this.StartInfo.FileName = filename;
+            this.StartInfo.RedirectStandardOutput = true;
+            this.StartInfo.RedirectStandardInput = true;
+            this.StartInfo.CreateNoWindow = true;
+            this.StartInfo.UseShellExecute = false;
+
+            this.EnableRaisingEvents = true;
+
+            this.OutputDataReceived += new DataReceivedEventHandler(MyConsole_OutputDataReceived);
+            this.Exited += new EventHandler(MyConsole_Exited);
+
+            base.Start();
+
+            this.BeginOutputReadLine();
+        }
+
         void MyConsole_Exited(object sender, EventArgs e)
         {
             Win32.FreeConsole();
