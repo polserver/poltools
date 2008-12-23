@@ -167,5 +167,30 @@ namespace POLLaunch
                 tabControl1.SelectTab(0);
             }
         }
+
+        private void CB_BritT2AMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_BritMLMap.Checked)
+            {
+                if (CB_BritT2AMap.Checked)
+                {
+                    CB_BritMLMap.Checked = false;
+                    MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
+                }
+            }
+        }
+
+        private void CB_BritMLMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_BritT2AMap.Checked)
+            {
+                if (CB_BritMLMap.Checked)
+                {
+                    CB_BritT2AMap.Checked = false;
+                    MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
+                }
+            }
+
+        }
 	}
 }

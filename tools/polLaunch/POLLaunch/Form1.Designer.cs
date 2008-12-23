@@ -53,12 +53,42 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.BTN_StartPOL = new System.Windows.Forms.Button();
             this.txtPOLConsole = new System.Windows.Forms.TextBox();
+            this.TB_UOCOutput = new System.Windows.Forms.TextBox();
+            this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.CB_TileData = new System.Windows.Forms.CheckBox();
+            this.CB_LandTiles = new System.Windows.Forms.CheckBox();
+            this.CB_Multis = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CB_MalMap = new System.Windows.Forms.CheckBox();
+            this.CB_TokMap = new System.Windows.Forms.CheckBox();
+            this.CB_IlshMap = new System.Windows.Forms.CheckBox();
+            this.CB_TramMap = new System.Windows.Forms.CheckBox();
+            this.CB_BritT2AMap = new System.Windows.Forms.CheckBox();
+            this.CB_BritMLMap = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CB_BritT2ADif = new System.Windows.Forms.CheckBox();
+            this.CB_BritMLDif = new System.Windows.Forms.CheckBox();
+            this.CB_TramDif = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CB_IlshDif = new System.Windows.Forms.CheckBox();
+            this.CB_MalDif = new System.Windows.Forms.CheckBox();
+            this.CB_TokDif = new System.Windows.Forms.CheckBox();
+            this.BTN_UOConvert = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.UOConvertGroupBox.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -228,6 +258,9 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage3.Controls.Add(this.BTN_UOConvert);
+            this.tabPage3.Controls.Add(this.UOConvertGroupBox);
+            this.tabPage3.Controls.Add(this.TB_UOCOutput);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(676, 392);
@@ -288,6 +321,278 @@
             this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
             this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
             // 
+            // TB_UOCOutput
+            // 
+            this.TB_UOCOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_UOCOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_UOCOutput.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_UOCOutput.ForeColor = System.Drawing.Color.Black;
+            this.TB_UOCOutput.Location = new System.Drawing.Point(7, 6);
+            this.TB_UOCOutput.Multiline = true;
+            this.TB_UOCOutput.Name = "TB_UOCOutput";
+            this.TB_UOCOutput.ReadOnly = true;
+            this.TB_UOCOutput.Size = new System.Drawing.Size(661, 213);
+            this.TB_UOCOutput.TabIndex = 2;
+            // 
+            // UOConvertGroupBox
+            // 
+            this.UOConvertGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.UOConvertGroupBox.Controls.Add(this.panel2);
+            this.UOConvertGroupBox.Controls.Add(this.panel1);
+            this.UOConvertGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UOConvertGroupBox.Location = new System.Drawing.Point(7, 225);
+            this.UOConvertGroupBox.Name = "UOConvertGroupBox";
+            this.UOConvertGroupBox.Size = new System.Drawing.Size(661, 132);
+            this.UOConvertGroupBox.TabIndex = 3;
+            this.UOConvertGroupBox.TabStop = false;
+            this.UOConvertGroupBox.Text = "UOConvert Controls";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.CB_TileData);
+            this.panel2.Controls.Add(this.CB_LandTiles);
+            this.panel2.Controls.Add(this.CB_Multis);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Location = new System.Drawing.Point(414, 19);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(239, 107);
+            this.panel2.TabIndex = 7;
+            // 
+            // CB_TileData
+            // 
+            this.CB_TileData.AutoSize = true;
+            this.CB_TileData.Location = new System.Drawing.Point(15, 31);
+            this.CB_TileData.Name = "CB_TileData";
+            this.CB_TileData.Size = new System.Drawing.Size(69, 17);
+            this.CB_TileData.TabIndex = 3;
+            this.CB_TileData.Text = "Tile Data";
+            this.CB_TileData.UseVisualStyleBackColor = true;
+            // 
+            // CB_LandTiles
+            // 
+            this.CB_LandTiles.AutoSize = true;
+            this.CB_LandTiles.Location = new System.Drawing.Point(149, 31);
+            this.CB_LandTiles.Name = "CB_LandTiles";
+            this.CB_LandTiles.Size = new System.Drawing.Size(75, 17);
+            this.CB_LandTiles.TabIndex = 2;
+            this.CB_LandTiles.Text = "Land Tiles";
+            this.CB_LandTiles.UseVisualStyleBackColor = true;
+            // 
+            // CB_Multis
+            // 
+            this.CB_Multis.AutoSize = true;
+            this.CB_Multis.Location = new System.Drawing.Point(90, 31);
+            this.CB_Multis.Name = "CB_Multis";
+            this.CB_Multis.Size = new System.Drawing.Size(53, 17);
+            this.CB_Multis.TabIndex = 1;
+            this.CB_Multis.Text = "Multis";
+            this.CB_Multis.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(47, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(144, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Config Files to Generate";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.CB_TokDif);
+            this.panel1.Controls.Add(this.CB_MalDif);
+            this.panel1.Controls.Add(this.CB_IlshDif);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.CB_TramDif);
+            this.panel1.Controls.Add(this.CB_BritMLDif);
+            this.panel1.Controls.Add(this.CB_BritT2ADif);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.CB_MalMap);
+            this.panel1.Controls.Add(this.CB_TokMap);
+            this.panel1.Controls.Add(this.CB_IlshMap);
+            this.panel1.Controls.Add(this.CB_TramMap);
+            this.panel1.Controls.Add(this.CB_BritT2AMap);
+            this.panel1.Controls.Add(this.CB_BritMLMap);
+            this.panel1.Location = new System.Drawing.Point(6, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(402, 107);
+            this.panel1.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(149, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Maps To Convert";
+            // 
+            // CB_MalMap
+            // 
+            this.CB_MalMap.AutoSize = true;
+            this.CB_MalMap.Location = new System.Drawing.Point(213, 53);
+            this.CB_MalMap.Name = "CB_MalMap";
+            this.CB_MalMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_MalMap.TabIndex = 4;
+            this.CB_MalMap.UseVisualStyleBackColor = true;
+            // 
+            // CB_TokMap
+            // 
+            this.CB_TokMap.AutoSize = true;
+            this.CB_TokMap.Location = new System.Drawing.Point(213, 73);
+            this.CB_TokMap.Name = "CB_TokMap";
+            this.CB_TokMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_TokMap.TabIndex = 5;
+            this.CB_TokMap.UseVisualStyleBackColor = true;
+            // 
+            // CB_IlshMap
+            // 
+            this.CB_IlshMap.AutoSize = true;
+            this.CB_IlshMap.Location = new System.Drawing.Point(213, 34);
+            this.CB_IlshMap.Name = "CB_IlshMap";
+            this.CB_IlshMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_IlshMap.TabIndex = 3;
+            this.CB_IlshMap.UseVisualStyleBackColor = true;
+            // 
+            // CB_TramMap
+            // 
+            this.CB_TramMap.AutoSize = true;
+            this.CB_TramMap.Location = new System.Drawing.Point(7, 74);
+            this.CB_TramMap.Name = "CB_TramMap";
+            this.CB_TramMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_TramMap.TabIndex = 2;
+            this.CB_TramMap.UseVisualStyleBackColor = true;
+            // 
+            // CB_BritT2AMap
+            // 
+            this.CB_BritT2AMap.AutoSize = true;
+            this.CB_BritT2AMap.Location = new System.Drawing.Point(7, 34);
+            this.CB_BritT2AMap.Name = "CB_BritT2AMap";
+            this.CB_BritT2AMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_BritT2AMap.TabIndex = 0;
+            this.CB_BritT2AMap.UseVisualStyleBackColor = true;
+            this.CB_BritT2AMap.CheckedChanged += new System.EventHandler(this.CB_BritT2AMap_CheckedChanged);
+            // 
+            // CB_BritMLMap
+            // 
+            this.CB_BritMLMap.AutoSize = true;
+            this.CB_BritMLMap.Location = new System.Drawing.Point(7, 54);
+            this.CB_BritMLMap.Name = "CB_BritMLMap";
+            this.CB_BritMLMap.Size = new System.Drawing.Size(15, 14);
+            this.CB_BritMLMap.TabIndex = 1;
+            this.CB_BritMLMap.UseVisualStyleBackColor = true;
+            this.CB_BritMLMap.CheckedChanged += new System.EventHandler(this.CB_BritMLMap_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Map";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "UseDif";
+            // 
+            // CB_BritT2ADif
+            // 
+            this.CB_BritT2ADif.AutoSize = true;
+            this.CB_BritT2ADif.Location = new System.Drawing.Point(41, 34);
+            this.CB_BritT2ADif.Name = "CB_BritT2ADif";
+            this.CB_BritT2ADif.Size = new System.Drawing.Size(143, 17);
+            this.CB_BritT2ADif.TabIndex = 9;
+            this.CB_BritT2ADif.Text = "Britannia (T2A Size Map)";
+            this.CB_BritT2ADif.UseVisualStyleBackColor = true;
+            // 
+            // CB_BritMLDif
+            // 
+            this.CB_BritMLDif.AutoSize = true;
+            this.CB_BritMLDif.Location = new System.Drawing.Point(41, 53);
+            this.CB_BritMLDif.Name = "CB_BritMLDif";
+            this.CB_BritMLDif.Size = new System.Drawing.Size(138, 17);
+            this.CB_BritMLDif.TabIndex = 10;
+            this.CB_BritMLDif.Text = "Britannia (ML Size Map)";
+            this.CB_BritMLDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_TramDif
+            // 
+            this.CB_TramDif.AutoSize = true;
+            this.CB_TramDif.Location = new System.Drawing.Point(41, 74);
+            this.CB_TramDif.Name = "CB_TramDif";
+            this.CB_TramDif.Size = new System.Drawing.Size(66, 17);
+            this.CB_TramDif.TabIndex = 11;
+            this.CB_TramDif.Text = "Trammel";
+            this.CB_TramDif.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(210, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(28, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Map";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(236, 18);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(39, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "UseDif";
+            // 
+            // CB_IlshDif
+            // 
+            this.CB_IlshDif.AutoSize = true;
+            this.CB_IlshDif.Location = new System.Drawing.Point(247, 34);
+            this.CB_IlshDif.Name = "CB_IlshDif";
+            this.CB_IlshDif.Size = new System.Drawing.Size(63, 17);
+            this.CB_IlshDif.TabIndex = 14;
+            this.CB_IlshDif.Text = "Ilshenar";
+            this.CB_IlshDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_MalDif
+            // 
+            this.CB_MalDif.AutoSize = true;
+            this.CB_MalDif.Location = new System.Drawing.Point(247, 54);
+            this.CB_MalDif.Name = "CB_MalDif";
+            this.CB_MalDif.Size = new System.Drawing.Size(54, 17);
+            this.CB_MalDif.TabIndex = 15;
+            this.CB_MalDif.Text = "Malas";
+            this.CB_MalDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_TokDif
+            // 
+            this.CB_TokDif.AutoSize = true;
+            this.CB_TokDif.Location = new System.Drawing.Point(247, 73);
+            this.CB_TokDif.Name = "CB_TokDif";
+            this.CB_TokDif.Size = new System.Drawing.Size(63, 17);
+            this.CB_TokDif.TabIndex = 16;
+            this.CB_TokDif.Text = "Tokuno";
+            this.CB_TokDif.UseVisualStyleBackColor = true;
+            // 
+            // BTN_UOConvert
+            // 
+            this.BTN_UOConvert.Location = new System.Drawing.Point(301, 363);
+            this.BTN_UOConvert.Name = "BTN_UOConvert";
+            this.BTN_UOConvert.Size = new System.Drawing.Size(75, 23);
+            this.BTN_UOConvert.TabIndex = 4;
+            this.BTN_UOConvert.Text = "Convert";
+            this.BTN_UOConvert.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,8 +618,15 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            this.UOConvertGroupBox.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,6 +657,32 @@
         private System.Windows.Forms.Button BTN_StartPOL;
 		private System.Windows.Forms.TextBox textBox3;
         public System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox UOConvertGroupBox;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox CB_TileData;
+        private System.Windows.Forms.CheckBox CB_LandTiles;
+        private System.Windows.Forms.CheckBox CB_Multis;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox CB_MalMap;
+        private System.Windows.Forms.CheckBox CB_TokMap;
+        private System.Windows.Forms.CheckBox CB_IlshMap;
+        private System.Windows.Forms.CheckBox CB_TramMap;
+        private System.Windows.Forms.CheckBox CB_BritT2AMap;
+        private System.Windows.Forms.CheckBox CB_BritMLMap;
+        public System.Windows.Forms.TextBox TB_UOCOutput;
+        private System.Windows.Forms.CheckBox CB_BritT2ADif;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox CB_BritMLDif;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox CB_TramDif;
+        private System.Windows.Forms.CheckBox CB_IlshDif;
+        private System.Windows.Forms.CheckBox CB_TokDif;
+        private System.Windows.Forms.CheckBox CB_MalDif;
+        private System.Windows.Forms.Button BTN_UOConvert;
 	}
 }
 
