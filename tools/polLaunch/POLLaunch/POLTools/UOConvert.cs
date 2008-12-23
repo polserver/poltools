@@ -1,14 +1,18 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace POLLaunch
 {
-	class UOConvert
+	public class UOConvert
 	{
 		static private Form1 _form;
-		public UOConvert(Form1 form)
+
+        public static ArrayList BuildList = new ArrayList();
+
+        public UOConvert(Form1 form)
 		{
 			_form = form;
 		}

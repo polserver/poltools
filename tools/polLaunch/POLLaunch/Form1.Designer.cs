@@ -79,8 +79,10 @@
             this.CB_MalDif = new System.Windows.Forms.CheckBox();
             this.CB_TokDif = new System.Windows.Forms.CheckBox();
             this.BTN_UOConvert = new System.Windows.Forms.Button();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -163,6 +165,8 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(0, 442);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(684, 22);
@@ -592,6 +596,13 @@
             this.BTN_UOConvert.TabIndex = 4;
             this.BTN_UOConvert.Text = "Convert";
             this.BTN_UOConvert.UseVisualStyleBackColor = true;
+            this.BTN_UOConvert.Click += new System.EventHandler(this.BTN_UOConvert_Click);
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(679, 16);
+            this.ProgressBar.Visible = false;
             // 
             // Form1
             // 
@@ -613,6 +624,8 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -683,6 +696,7 @@
         private System.Windows.Forms.CheckBox CB_TokDif;
         private System.Windows.Forms.CheckBox CB_MalDif;
         private System.Windows.Forms.Button BTN_UOConvert;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
 	}
 }
 

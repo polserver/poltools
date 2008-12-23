@@ -192,5 +192,84 @@ namespace POLLaunch
             }
 
         }
+
+        private void BTN_UOConvert_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented Yet! Check back Later.");
+/*            BuildCommandLines();
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = UOConvert.BuildList.Count;
+            ProgressBar.Visible = true;
+            ProgressBar.Step = 1;
+ */
+        }
+
+        private void BuildCommandLines()
+        {
+/*            if (CB_Multis.Checked)
+            {
+                Multis MultiCfg = new Multis();
+                UOConvert.BuildList.Add(MultiCfg.GetUOCCommand());
+            }
+            if (CB_LandTiles.Checked)
+            {
+                Landtiles LandCfg = new Landtiles();
+                UOConvert.BuildList.Add(LandCfg.GetUOCCommand());
+            }
+            if (CB_TileData.Checked)
+            {
+                Tiledata TileCfg = new Tiledata();
+                UOConvert.BuildList.Add(TileCfg.GetUOCCommand());
+            }
+            if (CB_BritT2AMap.Checked)
+            {
+                BritanniaT2A Brit = new BritanniaT2A();
+                Brit.UseDif = CB_BritT2ADif.Checked;
+                UOConvert.BuildList.Add(Brit.GetUOCMapCommand());
+                UOConvert.BuildList.Add(Brit.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(Brit.GetUOCMapTileCommand());
+            }
+            if (CB_BritMLMap.Checked)
+            {
+                BritanniaML BritML = new BritanniaML();
+                BritML.UseDif = CB_BritMLDif.Checked;
+                UOConvert.BuildList.Add(BritML.GetUOCMapCommand());
+                UOConvert.BuildList.Add(BritML.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(BritML.GetUOCMapTileCommand());
+            }
+            if (CB_TramMap.Checked)
+            {
+                Britannia_Alt Tram = new Britannia_Alt();
+                Tram.UseDif = CB_TramDif.Checked;
+                UOConvert.BuildList.Add(Tram.GetUOCMapCommand());
+                UOConvert.BuildList.Add(Tram.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(Tram.GetUOCMapTileCommand());
+            }
+            if (CB_IlshMap.Checked)
+            {
+                Ilshenar Ilsh = new Ilshenar();
+                Ilsh.UseDif = CB_IlshDif.Checked;
+                UOConvert.BuildList.Add(Ilsh.GetUOCMapCommand());
+                UOConvert.BuildList.Add(Ilsh.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(Ilsh.GetUOCMapTileCommand());
+            }
+            if (CB_MalMap.Checked)
+            {
+                Malas Mal = new Malas();
+                Mal.UseDif = CB_MalDif.Checked;
+                UOConvert.BuildList.Add(Mal.GetUOCMapCommand());
+                UOConvert.BuildList.Add(Mal.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(Mal.GetUOCMapTileCommand());
+            }
+            if (CB_TokMap.Checked)
+            {
+                Tokuno Tok = new Tokuno();
+                Tok.UseDif = CB_TokDif.Checked;
+                UOConvert.BuildList.Add(Tok.GetUOCMapCommand());
+                UOConvert.BuildList.Add(Tok.GetUOCStaticCommand());
+                UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
+            }*/
+        }
+
 	}
 }
