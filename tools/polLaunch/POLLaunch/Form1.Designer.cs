@@ -77,9 +77,29 @@
             this.TB_UOCOutput = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.GB_CreateAccount = new System.Windows.Forms.GroupBox();
+            this.TB_CreateEmail = new System.Windows.Forms.TextBox();
+            this.LBL_CreateEmail = new System.Windows.Forms.Label();
+            this.LBX_CreateExpansion = new System.Windows.Forms.ListBox();
+            this.LBL_CreateExpansion = new System.Windows.Forms.Label();
+            this.LBL_CreateCmdlevel = new System.Windows.Forms.Label();
+            this.LBX_CreateCmdlevel = new System.Windows.Forms.ListBox();
+            this.TB_CreatePassword = new System.Windows.Forms.TextBox();
+            this.LBL_CreatePassword = new System.Windows.Forms.Label();
+            this.TB_CreateUsername = new System.Windows.Forms.TextBox();
+            this.LBL_CreateUsername = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.BTN_StartPOL = new System.Windows.Forms.Button();
             this.txtPOLConsole = new System.Windows.Forms.TextBox();
+            this.BTN_CreateAccount = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.LBL_AccountsHeader1 = new System.Windows.Forms.Label();
+            this.LBL_AccountsHeader2 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.GB_AuxSvcSettings = new System.Windows.Forms.GroupBox();
+            this.LBL_CreatePort = new System.Windows.Forms.Label();
+            this.TB_CreateAccountPort = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -90,7 +110,11 @@
             this.UOConvertGroupBox.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            this.GB_CreateAccount.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.GB_AuxSvcSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -188,6 +212,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
@@ -208,6 +233,7 @@
             this.tabPage1.Size = new System.Drawing.Size(676, 392);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Introduction";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // textBox3
             // 
@@ -242,6 +268,7 @@
             this.tabPage2.Size = new System.Drawing.Size(676, 392);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Initial Checks";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // BTN_RunTests
             // 
@@ -276,6 +303,7 @@
             this.tabPage3.Size = new System.Drawing.Size(676, 392);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "UOConvert";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // BTN_UOConvert
             // 
@@ -569,6 +597,7 @@
             this.tabPage4.Size = new System.Drawing.Size(676, 392);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "ECompile";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
@@ -578,6 +607,139 @@
             this.tabPage5.Size = new System.Drawing.Size(676, 392);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "POL Setup";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage7.Controls.Add(this.GB_AuxSvcSettings);
+            this.tabPage7.Controls.Add(this.panel3);
+            this.tabPage7.Controls.Add(this.GB_CreateAccount);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(676, 392);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "Accounts";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // GB_CreateAccount
+            // 
+            this.GB_CreateAccount.Controls.Add(this.BTN_CreateAccount);
+            this.GB_CreateAccount.Controls.Add(this.TB_CreateEmail);
+            this.GB_CreateAccount.Controls.Add(this.LBL_CreateEmail);
+            this.GB_CreateAccount.Controls.Add(this.LBX_CreateExpansion);
+            this.GB_CreateAccount.Controls.Add(this.LBL_CreateExpansion);
+            this.GB_CreateAccount.Controls.Add(this.LBL_CreateCmdlevel);
+            this.GB_CreateAccount.Controls.Add(this.LBX_CreateCmdlevel);
+            this.GB_CreateAccount.Controls.Add(this.TB_CreatePassword);
+            this.GB_CreateAccount.Controls.Add(this.LBL_CreatePassword);
+            this.GB_CreateAccount.Controls.Add(this.TB_CreateUsername);
+            this.GB_CreateAccount.Controls.Add(this.LBL_CreateUsername);
+            this.GB_CreateAccount.Location = new System.Drawing.Point(8, 66);
+            this.GB_CreateAccount.Name = "GB_CreateAccount";
+            this.GB_CreateAccount.Size = new System.Drawing.Size(250, 226);
+            this.GB_CreateAccount.TabIndex = 0;
+            this.GB_CreateAccount.TabStop = false;
+            this.GB_CreateAccount.Text = "Create Account";
+            // 
+            // TB_CreateEmail
+            // 
+            this.TB_CreateEmail.Location = new System.Drawing.Point(78, 83);
+            this.TB_CreateEmail.MaxLength = 30;
+            this.TB_CreateEmail.Name = "TB_CreateEmail";
+            this.TB_CreateEmail.Size = new System.Drawing.Size(155, 20);
+            this.TB_CreateEmail.TabIndex = 9;
+            // 
+            // LBL_CreateEmail
+            // 
+            this.LBL_CreateEmail.AutoSize = true;
+            this.LBL_CreateEmail.Location = new System.Drawing.Point(9, 86);
+            this.LBL_CreateEmail.Name = "LBL_CreateEmail";
+            this.LBL_CreateEmail.Size = new System.Drawing.Size(35, 13);
+            this.LBL_CreateEmail.TabIndex = 8;
+            this.LBL_CreateEmail.Text = "Email:";
+            // 
+            // LBX_CreateExpansion
+            // 
+            this.LBX_CreateExpansion.FormattingEnabled = true;
+            this.LBX_CreateExpansion.Items.AddRange(new object[] {
+            "T2A",
+            "LBR",
+            "AOS",
+            "SE",
+            "ML"});
+            this.LBX_CreateExpansion.Location = new System.Drawing.Point(78, 151);
+            this.LBX_CreateExpansion.Name = "LBX_CreateExpansion";
+            this.LBX_CreateExpansion.Size = new System.Drawing.Size(94, 30);
+            this.LBX_CreateExpansion.TabIndex = 7;
+            // 
+            // LBL_CreateExpansion
+            // 
+            this.LBL_CreateExpansion.AutoSize = true;
+            this.LBL_CreateExpansion.Location = new System.Drawing.Point(9, 151);
+            this.LBL_CreateExpansion.Name = "LBL_CreateExpansion";
+            this.LBL_CreateExpansion.Size = new System.Drawing.Size(59, 13);
+            this.LBL_CreateExpansion.TabIndex = 6;
+            this.LBL_CreateExpansion.Text = "Expansion:";
+            // 
+            // LBL_CreateCmdlevel
+            // 
+            this.LBL_CreateCmdlevel.AutoSize = true;
+            this.LBL_CreateCmdlevel.Location = new System.Drawing.Point(9, 113);
+            this.LBL_CreateCmdlevel.Name = "LBL_CreateCmdlevel";
+            this.LBL_CreateCmdlevel.Size = new System.Drawing.Size(57, 13);
+            this.LBL_CreateCmdlevel.TabIndex = 5;
+            this.LBL_CreateCmdlevel.Text = "CmdLevel:";
+            // 
+            // LBX_CreateCmdlevel
+            // 
+            this.LBX_CreateCmdlevel.FormattingEnabled = true;
+            this.LBX_CreateCmdlevel.Items.AddRange(new object[] {
+            "0 - Player",
+            "1 - Counselor",
+            "2 - Seer",
+            "3 - Game Master",
+            "4 - Admin",
+            "5 - Developer"});
+            this.LBX_CreateCmdlevel.Location = new System.Drawing.Point(78, 113);
+            this.LBX_CreateCmdlevel.Name = "LBX_CreateCmdlevel";
+            this.LBX_CreateCmdlevel.Size = new System.Drawing.Size(94, 30);
+            this.LBX_CreateCmdlevel.TabIndex = 4;
+            // 
+            // TB_CreatePassword
+            // 
+            this.TB_CreatePassword.Location = new System.Drawing.Point(78, 56);
+            this.TB_CreatePassword.MaxLength = 30;
+            this.TB_CreatePassword.Name = "TB_CreatePassword";
+            this.TB_CreatePassword.Size = new System.Drawing.Size(155, 20);
+            this.TB_CreatePassword.TabIndex = 3;
+            // 
+            // LBL_CreatePassword
+            // 
+            this.LBL_CreatePassword.AutoSize = true;
+            this.LBL_CreatePassword.Location = new System.Drawing.Point(9, 59);
+            this.LBL_CreatePassword.Name = "LBL_CreatePassword";
+            this.LBL_CreatePassword.Size = new System.Drawing.Size(56, 13);
+            this.LBL_CreatePassword.TabIndex = 2;
+            this.LBL_CreatePassword.Text = "Password:";
+            // 
+            // TB_CreateUsername
+            // 
+            this.TB_CreateUsername.Location = new System.Drawing.Point(78, 29);
+            this.TB_CreateUsername.MaxLength = 30;
+            this.TB_CreateUsername.Name = "TB_CreateUsername";
+            this.TB_CreateUsername.Size = new System.Drawing.Size(155, 20);
+            this.TB_CreateUsername.TabIndex = 1;
+            // 
+            // LBL_CreateUsername
+            // 
+            this.LBL_CreateUsername.AutoSize = true;
+            this.LBL_CreateUsername.Location = new System.Drawing.Point(9, 32);
+            this.LBL_CreateUsername.Name = "LBL_CreateUsername";
+            this.LBL_CreateUsername.Size = new System.Drawing.Size(58, 13);
+            this.LBL_CreateUsername.TabIndex = 0;
+            this.LBL_CreateUsername.Text = "Username:";
             // 
             // tabPage6
             // 
@@ -589,6 +751,7 @@
             this.tabPage6.Size = new System.Drawing.Size(676, 392);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "POL";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // BTN_StartPOL
             // 
@@ -614,6 +777,85 @@
             this.txtPOLConsole.TextChanged += new System.EventHandler(this.txtPOLConsole_TextChanged);
             this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
             this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
+            // 
+            // BTN_CreateAccount
+            // 
+            this.BTN_CreateAccount.Location = new System.Drawing.Point(169, 197);
+            this.BTN_CreateAccount.Name = "BTN_CreateAccount";
+            this.BTN_CreateAccount.Size = new System.Drawing.Size(75, 23);
+            this.BTN_CreateAccount.TabIndex = 10;
+            this.BTN_CreateAccount.Text = "Create";
+            this.BTN_CreateAccount.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.LBL_AccountsHeader2);
+            this.panel3.Controls.Add(this.LBL_AccountsHeader1);
+            this.panel3.Location = new System.Drawing.Point(9, 7);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(659, 53);
+            this.panel3.TabIndex = 1;
+            // 
+            // LBL_AccountsHeader1
+            // 
+            this.LBL_AccountsHeader1.AutoSize = true;
+            this.LBL_AccountsHeader1.Location = new System.Drawing.Point(27, 0);
+            this.LBL_AccountsHeader1.Name = "LBL_AccountsHeader1";
+            this.LBL_AccountsHeader1.Size = new System.Drawing.Size(602, 13);
+            this.LBL_AccountsHeader1.TabIndex = 0;
+            this.LBL_AccountsHeader1.Text = "The Accounts Tab is usefull for basic account creation and manipulation. This use" +
+                "s the AuxSvc Connection with POL Distro to";
+            // 
+            // LBL_AccountsHeader2
+            // 
+            this.LBL_AccountsHeader2.AutoSize = true;
+            this.LBL_AccountsHeader2.Location = new System.Drawing.Point(27, 13);
+            this.LBL_AccountsHeader2.Name = "LBL_AccountsHeader2";
+            this.LBL_AccountsHeader2.Size = new System.Drawing.Size(602, 13);
+            this.LBL_AccountsHeader2.TabIndex = 1;
+            this.LBL_AccountsHeader2.Text = "Create and make Minor Changes to existing Accounts. Because this uses the Aux Ser" +
+                "vices with Distro, remember to have POL";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(224, 26);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(209, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "running when you try to use these controls.";
+            // 
+            // GB_AuxSvcSettings
+            // 
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAccountPort);
+            this.GB_AuxSvcSettings.Controls.Add(this.LBL_CreatePort);
+            this.GB_AuxSvcSettings.Location = new System.Drawing.Point(8, 298);
+            this.GB_AuxSvcSettings.Name = "GB_AuxSvcSettings";
+            this.GB_AuxSvcSettings.Size = new System.Drawing.Size(660, 88);
+            this.GB_AuxSvcSettings.TabIndex = 2;
+            this.GB_AuxSvcSettings.TabStop = false;
+            this.GB_AuxSvcSettings.Text = "AuxSvc Settings";
+            // 
+            // LBL_CreatePort
+            // 
+            this.LBL_CreatePort.AutoSize = true;
+            this.LBL_CreatePort.Location = new System.Drawing.Point(9, 29);
+            this.LBL_CreatePort.Name = "LBL_CreatePort";
+            this.LBL_CreatePort.Size = new System.Drawing.Size(106, 13);
+            this.LBL_CreatePort.TabIndex = 0;
+            this.LBL_CreatePort.Text = "Create Account Port:";
+            // 
+            // TB_CreateAccountPort
+            // 
+            this.TB_CreateAccountPort.Location = new System.Drawing.Point(121, 26);
+            this.TB_CreateAccountPort.MaxLength = 10;
+            this.TB_CreateAccountPort.Name = "TB_CreateAccountPort";
+            this.TB_CreateAccountPort.Size = new System.Drawing.Size(100, 20);
+            this.TB_CreateAccountPort.TabIndex = 1;
+            this.TB_CreateAccountPort.Text = "5666";
             // 
             // Form1
             // 
@@ -649,8 +891,15 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.GB_CreateAccount.ResumeLayout(false);
+            this.GB_CreateAccount.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.GB_AuxSvcSettings.ResumeLayout(false);
+            this.GB_AuxSvcSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -708,6 +957,26 @@
         private System.Windows.Forms.CheckBox CB_MalDif;
         private System.Windows.Forms.Button BTN_UOConvert;
         private System.Windows.Forms.ToolStripProgressBar ProgressBar;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.GroupBox GB_CreateAccount;
+        private System.Windows.Forms.TextBox TB_CreateUsername;
+        private System.Windows.Forms.Label LBL_CreateUsername;
+        private System.Windows.Forms.TextBox TB_CreatePassword;
+        private System.Windows.Forms.Label LBL_CreatePassword;
+        private System.Windows.Forms.Label LBL_CreateCmdlevel;
+        private System.Windows.Forms.ListBox LBX_CreateCmdlevel;
+        private System.Windows.Forms.ListBox LBX_CreateExpansion;
+        private System.Windows.Forms.Label LBL_CreateExpansion;
+        private System.Windows.Forms.Label LBL_CreateEmail;
+        private System.Windows.Forms.TextBox TB_CreateEmail;
+        private System.Windows.Forms.Button BTN_CreateAccount;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label LBL_AccountsHeader2;
+        private System.Windows.Forms.Label LBL_AccountsHeader1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox GB_AuxSvcSettings;
+        private System.Windows.Forms.TextBox TB_CreateAccountPort;
+        private System.Windows.Forms.Label LBL_CreatePort;
 	}
 }
 
