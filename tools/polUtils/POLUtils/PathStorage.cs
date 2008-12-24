@@ -30,6 +30,7 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Default Constructor. Initializes the following Paths Storage Names:
         ///     UOPath
+        ///     MULPath
         ///     POLPath
         ///     POLExePath
         ///     UOConvertExePath
@@ -46,6 +47,7 @@ namespace POLUtils.PathStorage
         {
             // I am lazy right now, sue me.
             PathSettings.Add("UOPath", null);
+            PathSettings.Add("MULPath", null);
             PathSettings.Add("POLPath", null);
             PathSettings.Add("POLExePath", null);
             PathSettings.Add("UOConvertExePath", null);
