@@ -30,20 +30,20 @@ program AuxService(connection)
 			return 0;
 		endif
 		
-		if ( !settings.AllowWWWAccounts )
-			report := array{"Error", "Web account maker is disabled."};
+		if ( !settings.AllowAuxAccounts )
+			report := array{"Error", "Aux Svc account maker is disabled."};
 			connection.Transmit(report);
 			return 0;
 		endif
 	
 		var event := Wait_For_Event(5);
 		if ( event ) // New account to be made?
-			var username := event[1];
-			var password := event[2];
-			var cmd_lvl := event[3];
-			var expansion := event[4];
-			var email := event[5];
-			var admin_pw := event[6];
+			var username := event.value[1];
+			var password := event.value[2];
+			var cmd_lvl := event.value[3];
+			var expansion := event.value[4];
+			var email := event.value[5];
+			var admin_pw := event.value[6];
 			
 			if ( settings.AuxWebPassword )
 				if ( settings.AuxWebPassword != admin_pw )
