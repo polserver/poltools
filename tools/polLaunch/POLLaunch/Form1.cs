@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +12,8 @@ using POLLaunch.Console;
 using POLUtils.UOConvert;
 using POLUtils.UOConvert.UOCConfigFiles;
 using POLUtils.UOConvert.UOCRealms;
-
+using POLUtils.AuxSvc;
+using POLUtils.PackUnpack;
 
 namespace POLLaunch
 {
@@ -27,6 +29,8 @@ namespace POLLaunch
 			checkBox1.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
             if (checkBox1.Checked && verifyConfiguration())
 				tabControl1.SelectedIndex = tabControl1.TabPages.IndexOfKey("tabPage6");
+            LBX_CreateCmdlevel.SelectedIndex = 0;
+            LBX_CreateExpansion.SelectedIndex = 0;
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -455,7 +459,68 @@ namespace POLLaunch
 
         private void BTN_CreateAccount_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not Implemented Yet! Come Back Later!");
+            if (POLConsole == null)
+            {
+                MessageBox.Show("POL does not appear to be running via POL Launch.");
+                return;
+            }
+
+            // Checks to make sure everything was filled out, or if can use defaults.
+            if (TB_CreateUsername.Text.Length < 3)
+            {
+                MessageBox.Show("Usernames must be at least 3 characters long.");
+                return;
+            }
+            if (TB_CreatePassword.Text.Length < 3)
+            {
+                MessageBox.Show("Passwords must be at least 3 characters long.");
+                return;
+            }
+            if (TB_CreateEmail.Text.IndexOf("@") == -1)
+                TB_CreateEmail.Text = "default.email@yourdomain.com";
+            
+            ArrayList NewAccountInfo = new ArrayList {
+                                      TB_CreateUsername.Text,
+                                      TB_CreatePassword.Text,
+                                      LBX_CreateCmdlevel.SelectedIndex,
+                                      LBX_CreateExpansion.SelectedIndex,
+                                      TB_CreateEmail.Text,
+                                      };
+            if (TB_AuxSvcPassword.Text.Length > 0)
+                NewAccountInfo.Add(TB_AuxSvcPassword.Text);
+            AuxSvcConnection CreateAuxSvc = new AuxSvcConnection("localhost", Convert.ToInt32(TB_CreateAccountPort.Text));
+            if (!CreateAuxSvc.Active)
+            {
+                MessageBox.Show("Server appears to be offline. Make sure Port is correct.");
+                return;
+            }
+            CreateAuxSvc.Write(PackUnpack.Pack(NewAccountInfo));
+            string RcvString = CreateAuxSvc.Read();
+            MessageBox.Show(RcvString);
+            object ResultObject = PackUnpack.Unpack(RcvString);
+            
+            // This is where we convert the Object back to what it needs to be.
+            // Arrays are converted to ArrayList for storage of both Int and String
+            // In the Account Creation only Arrays are being returned. The first
+            // Element says "Error" or "Success", and the second is the string reason.
+            string ResultMsg = "";
+            string CaptionMsg = "";
+            if (ResultObject.GetType() == typeof(ArrayList))
+            {
+                Convert.ChangeType(ResultObject, typeof(ArrayList));
+                foreach (object Elem in (ArrayList)ResultObject)
+                {
+                    string NewElem = Convert.ToString(Elem);
+                    if (NewElem.IndexOf("Error") != -1 || NewElem.IndexOf("Success") != -1)
+                    {
+                        CaptionMsg = Convert.ToString(Elem);
+                    }
+                    else
+                        ResultMsg += NewElem;
+                }
+            }
+
+            MessageBox.Show(ResultMsg, CaptionMsg);
         }
 	}
 }

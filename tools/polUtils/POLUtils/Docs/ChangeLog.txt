@@ -1,4 +1,7 @@
-﻿12-23-2008 - MuadDib
+﻿12-24-2008 - MuadDib
+    Added  : ArrayList checks in Pack();
+    
+12-23-2008 - MuadDib
 	Added  : PathStorage Class Object. Uses a Dictionary<string, string> for main
 			 private storage. Set up to use Methods to access the dictionary. This
 			 storage container is NOT set to be a static set of Paths. The end-user
