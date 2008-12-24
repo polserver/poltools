@@ -18,18 +18,11 @@ using POLUtils.UOConvert.UOCConfigFiles;
 
 namespace POLUtils.UOConvert
 {
+    /// <summary>
+    ///     Root UOConvert Class.
+    /// </summary>
     public class UOConvert
     {
-        /// <summary>
-        ///     Dictionary to contain all the UOConvert Generated \Config\*.cfg storage.
-        /// </summary>
-        public ConfigFiles ConfigFiles = new ConfigFiles();
-
-        /// <summary>
-        ///     Dictionary to contain all the Realms storage.
-        /// </summary>
-        public Realms Realms = new Realms();
-
         /// <summary>
         ///     Default Constructor
         /// </summary>

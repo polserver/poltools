@@ -15,6 +15,9 @@ using System.Text;
 
 namespace POLUtils.PathStorage
 {
+    /// <summary>
+    ///     Class to handle storage/retrieval of Path Settings.
+    /// </summary>
     public class PathStorage
     {
         /// <summary>
@@ -25,7 +28,17 @@ namespace POLUtils.PathStorage
         private static Dictionary<string, string> PathSettings = new Dictionary<string, string>();
 
         /// <summary>
-        ///     Default Constructor
+        ///     Default Constructor. Initializes the following Paths Storage Names:
+        ///     UOPath
+        ///     POLPath
+        ///     POLExePath
+        ///     UOConvertExePath
+        ///     ECompileExePath
+        ///     RunECLExePath
+        ///     POLConfigPath
+        ///     POLDataPath
+        ///     POLLogPath
+        ///     POLRealmPath
         /// </summary>
         public PathStorage() { InitPathSettings(); }
 
@@ -63,7 +76,7 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Get the Path stored for a specific PathName.
         /// </summary>
-        /// <param name="string PathName">PathName to look up the Path for.</param>
+        /// <param name="PathName">PathName to look up the Path for.</param>
         public string GetPath(string PathName)
         {
             if (PathSettings.ContainsKey(PathName))
@@ -77,8 +90,8 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Sets the Path stored for a specific PathName.
         /// </summary>
-        /// <param name="string PathName">PathName to set the Path for.</param>
-        /// <param name="string NewValue">New string value to set the Path for.</param>
+        /// <param name="PathName">PathName to set the Path for.</param>
+        /// <param name="NewValue">New string value to set the Path for.</param>
         public bool SetPath(string PathName, string NewValue)
         {
             if (PathSettings.ContainsKey(PathName))
@@ -93,7 +106,7 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Bool for if a PathName contains any data.
         /// </summary>
-        /// <param name="string PathName">PathName to check.</param>
+        /// <param name="PathName">PathName to check.</param>
         public bool IsSet(string PathName)
         {
             if (PathSettings.ContainsKey(PathName))
@@ -115,8 +128,8 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Adds a new PathName to the Path Settings.
         /// </summary>
-        /// <param name="string PathName">PathName to add.</param>
-        /// <param name="string Value">Value to add to the PathName.</param>
+        /// <param name="PathName">PathName to add.</param>
+        /// <param name="Value">Value to add to the PathName.</param>
         public bool AddPath(string PathName, string Value)
         {
             if (!PathSettings.ContainsKey(PathName))
@@ -140,7 +153,7 @@ namespace POLUtils.PathStorage
         /// <summary>
         ///     Remove a PathName from the Path Settings.
         /// </summary>
-        /// <param name="string PathName">PathName to remove.</param>
+        /// <param name="PathName">PathName to remove.</param>
         public bool RemovePath(string PathName)
         {
             if (PathSettings.ContainsKey(PathName))

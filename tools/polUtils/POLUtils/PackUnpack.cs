@@ -18,6 +18,10 @@ using System.Globalization;
 
 namespace POLUtils.PackUnpack
 {
+    /// <summary>
+    ///     Class for Packing and Unpacking POL Packed Data Strings typcially used
+    ///     in Aux Service Communications and CProp Storage in Config Files.
+    /// </summary>
     public class PackUnpack
     {
 
@@ -31,6 +35,12 @@ namespace POLUtils.PackUnpack
 
         /// <summary>
         ///     Attempts to convert known Objects to a POL Style Packed Data String.
+        ///     Known Objects:
+        ///         Array
+        ///         Dictionary
+        ///         String
+        ///         Integer
+        ///         Double
         /// </summary>
         /// <param name="ob">
         ///     The Object to convert to POL Packed Data (Such as String, Int, Dictionary, etc)
@@ -101,6 +111,11 @@ namespace POLUtils.PackUnpack
 
         /// <summary>
         ///     Attempts to convert a POL Packed Data String to the equivelant C# Object.
+        ///     Known Objects:
+        ///         Array
+        ///         String
+        ///         Integer
+        ///         Double
         /// </summary>
         /// <param name="packed">
         ///     The POL Packed Data String to convert.
