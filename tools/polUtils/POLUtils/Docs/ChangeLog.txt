@@ -1,0 +1,8 @@
+﻿12-18-2008 - MuadDib
+    Changed: Made PackUnpack::Pack(object, bool) private. Forces use of the main
+             single paramitized function.
+    Changed: Made PackUnpack::UnpackHelper(packed) private. Forces use of the main
+             single paramitized function called Unpack(packed).
+    Added :  PackUnpack will now Unpack POL Packed Arrays (single dimension).
+    Added :  Complete AuxSvc Class. For example of useage please see included
+             AuxSvcTestClient Project.

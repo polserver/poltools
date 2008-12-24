@@ -1,0 +1,19 @@
+use uo;
+use os;
+
+program AuxService(connection)
+	var report;
+
+	print("Aux Connection Made, Script Fired");
+	while ( connection )
+		print("Aux Connection Made, Client Sent: ");
+		var event := Wait_For_Event(5);
+		if (event)
+			print(event);
+			report := array{"Array of String + int + double", 34, 37.5};
+			connection.Transmit(report);
+			return 0;
+		endif
+	endwhile
+	print("Aux Connection With Nothing Recieved, Script Exiting");
+endprogram
