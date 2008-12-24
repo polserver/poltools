@@ -75,7 +75,16 @@ namespace POLUtils.PackUnpack
                 }
                 return result.ToString();
             }
-
+            if (objtype == typeof(ArrayList)) // Another array, allows mixing string/int
+            {
+                StringBuilder result = new StringBuilder();
+                result.AppendFormat("a{0}:", ((ArrayList)obj).Count);
+                foreach (object elem in (ArrayList)obj)
+                {
+                    result.Append(Pack(elem, true));
+                }
+                return result.ToString();
+            }
             if (objtype == typeof(Hashtable)) // what are the others that should be here?
             {
                 IDictionary dict = (IDictionary)obj;
