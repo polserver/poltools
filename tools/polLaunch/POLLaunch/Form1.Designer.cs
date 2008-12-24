@@ -105,6 +105,8 @@
             this.LBL_UOCMulFilePath = new System.Windows.Forms.Label();
             this.TB_MULFilePath = new System.Windows.Forms.TextBox();
             this.BTN_MULBrowse = new System.Windows.Forms.Button();
+            this.LBL_AuxSvcPassword = new System.Windows.Forms.Label();
+            this.TB_AuxSvcPassword = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -669,6 +671,8 @@
             // 
             // GB_AuxSvcSettings
             // 
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_AuxSvcPassword);
+            this.GB_AuxSvcSettings.Controls.Add(this.LBL_AuxSvcPassword);
             this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAccountPort);
             this.GB_AuxSvcSettings.Controls.Add(this.LBL_CreatePort);
             this.GB_AuxSvcSettings.Location = new System.Drawing.Point(8, 298);
@@ -752,14 +756,14 @@
             this.GB_CreateAccount.Controls.Add(this.LBL_CreateUsername);
             this.GB_CreateAccount.Location = new System.Drawing.Point(8, 66);
             this.GB_CreateAccount.Name = "GB_CreateAccount";
-            this.GB_CreateAccount.Size = new System.Drawing.Size(250, 226);
+            this.GB_CreateAccount.Size = new System.Drawing.Size(268, 226);
             this.GB_CreateAccount.TabIndex = 0;
             this.GB_CreateAccount.TabStop = false;
             this.GB_CreateAccount.Text = "Create Account";
             // 
             // BTN_CreateAccount
             // 
-            this.BTN_CreateAccount.Location = new System.Drawing.Point(169, 197);
+            this.BTN_CreateAccount.Location = new System.Drawing.Point(187, 197);
             this.BTN_CreateAccount.Name = "BTN_CreateAccount";
             this.BTN_CreateAccount.Size = new System.Drawing.Size(75, 23);
             this.BTN_CreateAccount.TabIndex = 10;
@@ -836,6 +840,7 @@
             this.TB_CreatePassword.Location = new System.Drawing.Point(78, 56);
             this.TB_CreatePassword.MaxLength = 30;
             this.TB_CreatePassword.Name = "TB_CreatePassword";
+            this.TB_CreatePassword.PasswordChar = '*';
             this.TB_CreatePassword.Size = new System.Drawing.Size(155, 20);
             this.TB_CreatePassword.TabIndex = 3;
             // 
@@ -880,11 +885,11 @@
             // 
             this.LBL_UOCSettingsHeader.AutoSize = true;
             this.LBL_UOCSettingsHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_UOCSettingsHeader.Location = new System.Drawing.Point(67, 5);
+            this.LBL_UOCSettingsHeader.Location = new System.Drawing.Point(52, 5);
             this.LBL_UOCSettingsHeader.Name = "LBL_UOCSettingsHeader";
-            this.LBL_UOCSettingsHeader.Size = new System.Drawing.Size(107, 13);
+            this.LBL_UOCSettingsHeader.Size = new System.Drawing.Size(137, 13);
             this.LBL_UOCSettingsHeader.TabIndex = 0;
-            this.LBL_UOCSettingsHeader.Text = "MUL File Settings";
+            this.LBL_UOCSettingsHeader.Text = "Path to UO Client Data";
             // 
             // LBL_UOCMulFilePath
             // 
@@ -912,6 +917,24 @@
             this.BTN_MULBrowse.Text = "Browse";
             this.BTN_MULBrowse.UseVisualStyleBackColor = true;
             this.BTN_MULBrowse.Click += new System.EventHandler(this.BTN_MULBrowse_Click);
+            // 
+            // LBL_AuxSvcPassword
+            // 
+            this.LBL_AuxSvcPassword.AutoSize = true;
+            this.LBL_AuxSvcPassword.Location = new System.Drawing.Point(9, 54);
+            this.LBL_AuxSvcPassword.Name = "LBL_AuxSvcPassword";
+            this.LBL_AuxSvcPassword.Size = new System.Drawing.Size(96, 13);
+            this.LBL_AuxSvcPassword.TabIndex = 2;
+            this.LBL_AuxSvcPassword.Text = "AuxSvc Password:";
+            // 
+            // TB_AuxSvcPassword
+            // 
+            this.TB_AuxSvcPassword.Location = new System.Drawing.Point(121, 52);
+            this.TB_AuxSvcPassword.MaxLength = 30;
+            this.TB_AuxSvcPassword.Name = "TB_AuxSvcPassword";
+            this.TB_AuxSvcPassword.PasswordChar = '*';
+            this.TB_AuxSvcPassword.Size = new System.Drawing.Size(100, 20);
+            this.TB_AuxSvcPassword.TabIndex = 3;
             // 
             // Form1
             // 
@@ -1040,6 +1063,8 @@
         private System.Windows.Forms.Label LBL_UOCMulFilePath;
         private System.Windows.Forms.Button BTN_MULBrowse;
         private System.Windows.Forms.TextBox TB_MULFilePath;
+        private System.Windows.Forms.TextBox TB_AuxSvcPassword;
+        private System.Windows.Forms.Label LBL_AuxSvcPassword;
 	}
 }
 
