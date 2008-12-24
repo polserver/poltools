@@ -13,6 +13,7 @@ namespace POLLaunch
     public partial class Form1 : Form
 	{
         MyConsole POLConsole = null;
+        MyConsole UOCConsole = null;
         bool Ctrl, Alt, Shift; // small kludge... will it work?
 
 		public Form1()
@@ -195,13 +196,22 @@ namespace POLLaunch
 
         private void BTN_UOConvert_Click(object sender, EventArgs e)
         {
+/*            BuildCommandLines();
+            if (UOConvert.BuildList.Count < 1)
+            {
+                MessageBox.Show("You didn't select anything to convert!");
+                return;
+            }
+ */
+            TB_UOCOutput.Text = " ";
             MessageBox.Show("Not Implemented Yet! Check back Later.");
 /*            BuildCommandLines();
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = UOConvert.BuildList.Count;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
- */
+
+            RunUOConvert();*/
         }
 
         private void BuildCommandLines()
@@ -270,6 +280,91 @@ namespace POLLaunch
                 UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
             }*/
         }
+        void RunUOConvert()
+        {
+                string exepath = Settings.Global.Properties["UOConvertExePath"];
+                string dirpath = Settings.Global.Properties["POLPath"];
+
+                if (!File.Exists(exepath))
+                {
+                    MessageBox.Show("File does not exist in UOConvertExePath!");
+                    return;
+                }
+                if (!Directory.Exists(dirpath))
+                {
+                    dirpath = Path.GetDirectoryName(exepath);
+                }
+
+                string Cmd = " ";
+                if (UOConvert.BuildList.Count != 0)
+                    Cmd = UOConvert.BuildList[0].ToString();
+
+                this.UOCConsole = new MyConsole();
+                this.UOCConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
+                this.UOCConsole.Exited += new EventHandler(UOCConsole_Exited);
+                this.UOCConsole.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(UOCConsole_OutputDataReceived);
+                BTN_UOConvert.Enabled = false;
+        }
+
+        void UOCConsole_Exited(object sender, EventArgs e)
+        {
+            TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += "<Conversion Completed>" + System.Environment.NewLine; });
+
+            ((MyConsole)sender).Dispose();
+            this.UOCConsole = null;
+
+            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\multis.cfg"))
+            {
+                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\multis.cfg", Settings.Global.Properties["POLPath"] + "\\config\\multis.cfg");
+            }
+            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg"))
+            {
+                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\landtiles.cfg");
+            }
+            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\tiles.cfg"))
+            {
+                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
+            }
+
+            ProgressBar.PerformStep();
+
+            if (UOConvert.BuildList.Count != 0)
+            {
+                UOConvert.BuildList.RemoveAt(0);
+                if (UOConvert.BuildList.Count != 0)
+                    RunUOConvert();
+                else
+                {
+                    BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
+                    ProgressBar.Value = 0;
+                    MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
+                    ProgressBar.Visible = false;
+                }
+            }
+            else
+            {
+                BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
+                ProgressBar.Value = 0;
+                MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
+                ProgressBar.Visible = false;
+            }
+        }
+
+        private void TB_UOCOutput_TextChanged(object sender, EventArgs e)
+        {
+            // Auto scrolling
+            TB_UOCOutput.Select(TB_UOCOutput.Text.Length, 0);
+            TB_UOCOutput.ScrollToCaret();
+        }
+
+        void UOCConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            if (e.Data != String.Empty)
+            {
+                TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
+            }
+        }
+
 
 	}
 }

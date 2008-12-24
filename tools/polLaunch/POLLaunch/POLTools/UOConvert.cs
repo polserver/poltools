@@ -6,40 +6,64 @@ using System.Windows.Forms;
 
 namespace POLLaunch
 {
-	public class UOConvert
-	{
-		static private Form1 _form;
+    public class UOConvert
+    {
+        static private Form1 _form;
 
         public static ArrayList BuildList = new ArrayList();
 
         public UOConvert(Form1 form)
-		{
-			_form = form;
-		}
+        {
+            _form = form;
+        }
 
-		static public string[] GetConfigFileNames()
-		{
-			string[] names = {
+        public static void MoveConfigFile(string FileToMove, string NewFilePath)
+        {
+            if (File.Exists(NewFilePath))
+            {
+                try
+                {
+                    File.Delete(NewFilePath);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("MoveConfigFile() could not delete the pre-existing " + NewFilePath);
+                }
+            }
+            try
+            {
+                File.Move(FileToMove, NewFilePath);
+            }
+            catch (Exception)
+            {
+                throw new Exception("MoveConfigFile() could not move " + FileToMove + " to " + NewFilePath);
+            }
+        }
+
+        static public string[] GetConfigFileNames()
+        {
+            string[] names = {
 							"config\\multis.cfg",
 							"config\\tiles.cfg",
 							"config\\landtiles.cfg"};
-			return names;
-		}
+            return names;
+        }
 
-		static public string CheckBoxIdtoRealmName(int id)
-		{
-			switch (id)
-			{
-				case 4: return "britannia";
-				case 5: return "britannia ml";
-				case 6: return "trammel";
-				case 7: return "ilshenar";
-				case 8: return "malas";
-				case 9: return "tokuno";
-			}
-			return "";
-		}
-		/*
+        /*        static public string CheckBoxIdtoRealmName(int id)
+                {
+                    switch (id)
+                    {
+                        case 4: return "britannia";
+                        case 5: return "britannia ml";
+                        case 6: return "trammel";
+                        case 7: return "ilshenar";
+                        case 8: return "malas";
+                        case 9: return "tokuno";
+                    }
+                    return "";
+                }*/
+
+        /*
 		static public string[] GetRealmCommands(string realm)
 		{
 			realm = realm.ToLower();
@@ -158,5 +182,5 @@ namespace POLLaunch
 			_form.textBox3.Text += result + Environment.NewLine + error + Environment.NewLine;
 		}
 		*/
-	}
+    }
 }

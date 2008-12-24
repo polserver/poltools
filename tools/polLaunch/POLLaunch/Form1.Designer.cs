@@ -40,6 +40,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -48,12 +49,7 @@
             this.BTN_RunTests = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.BTN_StartPOL = new System.Windows.Forms.Button();
-            this.txtPOLConsole = new System.Windows.Forms.TextBox();
-            this.TB_UOCOutput = new System.Windows.Forms.TextBox();
+            this.BTN_UOConvert = new System.Windows.Forms.Button();
             this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.CB_TileData = new System.Windows.Forms.CheckBox();
@@ -61,6 +57,16 @@
             this.CB_Multis = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CB_TokDif = new System.Windows.Forms.CheckBox();
+            this.CB_MalDif = new System.Windows.Forms.CheckBox();
+            this.CB_IlshDif = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.CB_TramDif = new System.Windows.Forms.CheckBox();
+            this.CB_BritMLDif = new System.Windows.Forms.CheckBox();
+            this.CB_BritT2ADif = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.CB_MalMap = new System.Windows.Forms.CheckBox();
             this.CB_TokMap = new System.Windows.Forms.CheckBox();
@@ -68,18 +74,12 @@
             this.CB_TramMap = new System.Windows.Forms.CheckBox();
             this.CB_BritT2AMap = new System.Windows.Forms.CheckBox();
             this.CB_BritMLMap = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.CB_BritT2ADif = new System.Windows.Forms.CheckBox();
-            this.CB_BritMLDif = new System.Windows.Forms.CheckBox();
-            this.CB_TramDif = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CB_IlshDif = new System.Windows.Forms.CheckBox();
-            this.CB_MalDif = new System.Windows.Forms.CheckBox();
-            this.CB_TokDif = new System.Windows.Forms.CheckBox();
-            this.BTN_UOConvert = new System.Windows.Forms.Button();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.TB_UOCOutput = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.BTN_StartPOL = new System.Windows.Forms.Button();
+            this.txtPOLConsole = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -87,10 +87,10 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.UOConvertGroupBox.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -173,6 +173,12 @@
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(679, 16);
+            this.ProgressBar.Visible = false;
             // 
             // tabControl1
             // 
@@ -271,72 +277,15 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "UOConvert";
             // 
-            // tabPage4
+            // BTN_UOConvert
             // 
-            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(676, 392);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "ECompile";
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(676, 392);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "POL Setup";
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-            this.tabPage6.Controls.Add(this.BTN_StartPOL);
-            this.tabPage6.Controls.Add(this.txtPOLConsole);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(676, 392);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "POL";
-            // 
-            // BTN_StartPOL
-            // 
-            this.BTN_StartPOL.Location = new System.Drawing.Point(301, 358);
-            this.BTN_StartPOL.Name = "BTN_StartPOL";
-            this.BTN_StartPOL.Size = new System.Drawing.Size(75, 23);
-            this.BTN_StartPOL.TabIndex = 2;
-            this.BTN_StartPOL.Text = "Start POL";
-            this.BTN_StartPOL.UseVisualStyleBackColor = true;
-            this.BTN_StartPOL.Click += new System.EventHandler(this.BTN_StartPOL_Click);
-            // 
-            // txtPOLConsole
-            // 
-            this.txtPOLConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.txtPOLConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPOLConsole.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.txtPOLConsole.ForeColor = System.Drawing.Color.Black;
-            this.txtPOLConsole.Location = new System.Drawing.Point(8, 3);
-            this.txtPOLConsole.Multiline = true;
-            this.txtPOLConsole.Name = "txtPOLConsole";
-            this.txtPOLConsole.Size = new System.Drawing.Size(660, 342);
-            this.txtPOLConsole.TabIndex = 1;
-            this.txtPOLConsole.TextChanged += new System.EventHandler(this.txtPOLConsole_TextChanged);
-            this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
-            this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
-            // 
-            // TB_UOCOutput
-            // 
-            this.TB_UOCOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.TB_UOCOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_UOCOutput.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.TB_UOCOutput.ForeColor = System.Drawing.Color.Black;
-            this.TB_UOCOutput.Location = new System.Drawing.Point(7, 6);
-            this.TB_UOCOutput.Multiline = true;
-            this.TB_UOCOutput.Name = "TB_UOCOutput";
-            this.TB_UOCOutput.ReadOnly = true;
-            this.TB_UOCOutput.Size = new System.Drawing.Size(661, 213);
-            this.TB_UOCOutput.TabIndex = 2;
+            this.BTN_UOConvert.Location = new System.Drawing.Point(301, 363);
+            this.BTN_UOConvert.Name = "BTN_UOConvert";
+            this.BTN_UOConvert.Size = new System.Drawing.Size(75, 23);
+            this.BTN_UOConvert.TabIndex = 4;
+            this.BTN_UOConvert.Text = "Convert";
+            this.BTN_UOConvert.UseVisualStyleBackColor = true;
+            this.BTN_UOConvert.Click += new System.EventHandler(this.BTN_UOConvert_Click);
             // 
             // UOConvertGroupBox
             // 
@@ -426,6 +375,102 @@
             this.panel1.Size = new System.Drawing.Size(402, 107);
             this.panel1.TabIndex = 6;
             // 
+            // CB_TokDif
+            // 
+            this.CB_TokDif.AutoSize = true;
+            this.CB_TokDif.Location = new System.Drawing.Point(247, 73);
+            this.CB_TokDif.Name = "CB_TokDif";
+            this.CB_TokDif.Size = new System.Drawing.Size(63, 17);
+            this.CB_TokDif.TabIndex = 16;
+            this.CB_TokDif.Text = "Tokuno";
+            this.CB_TokDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_MalDif
+            // 
+            this.CB_MalDif.AutoSize = true;
+            this.CB_MalDif.Location = new System.Drawing.Point(247, 54);
+            this.CB_MalDif.Name = "CB_MalDif";
+            this.CB_MalDif.Size = new System.Drawing.Size(54, 17);
+            this.CB_MalDif.TabIndex = 15;
+            this.CB_MalDif.Text = "Malas";
+            this.CB_MalDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_IlshDif
+            // 
+            this.CB_IlshDif.AutoSize = true;
+            this.CB_IlshDif.Location = new System.Drawing.Point(247, 34);
+            this.CB_IlshDif.Name = "CB_IlshDif";
+            this.CB_IlshDif.Size = new System.Drawing.Size(63, 17);
+            this.CB_IlshDif.TabIndex = 14;
+            this.CB_IlshDif.Text = "Ilshenar";
+            this.CB_IlshDif.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(236, 18);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(39, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "UseDif";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(210, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(28, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Map";
+            // 
+            // CB_TramDif
+            // 
+            this.CB_TramDif.AutoSize = true;
+            this.CB_TramDif.Location = new System.Drawing.Point(41, 74);
+            this.CB_TramDif.Name = "CB_TramDif";
+            this.CB_TramDif.Size = new System.Drawing.Size(66, 17);
+            this.CB_TramDif.TabIndex = 11;
+            this.CB_TramDif.Text = "Trammel";
+            this.CB_TramDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_BritMLDif
+            // 
+            this.CB_BritMLDif.AutoSize = true;
+            this.CB_BritMLDif.Location = new System.Drawing.Point(41, 53);
+            this.CB_BritMLDif.Name = "CB_BritMLDif";
+            this.CB_BritMLDif.Size = new System.Drawing.Size(138, 17);
+            this.CB_BritMLDif.TabIndex = 10;
+            this.CB_BritMLDif.Text = "Britannia (ML Size Map)";
+            this.CB_BritMLDif.UseVisualStyleBackColor = true;
+            // 
+            // CB_BritT2ADif
+            // 
+            this.CB_BritT2ADif.AutoSize = true;
+            this.CB_BritT2ADif.Location = new System.Drawing.Point(41, 34);
+            this.CB_BritT2ADif.Name = "CB_BritT2ADif";
+            this.CB_BritT2ADif.Size = new System.Drawing.Size(143, 17);
+            this.CB_BritT2ADif.TabIndex = 9;
+            this.CB_BritT2ADif.Text = "Britannia (T2A Size Map)";
+            this.CB_BritT2ADif.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(30, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "UseDif";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Map";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -492,117 +537,73 @@
             this.CB_BritMLMap.UseVisualStyleBackColor = true;
             this.CB_BritMLMap.CheckedChanged += new System.EventHandler(this.CB_BritMLMap_CheckedChanged);
             // 
-            // label3
+            // TB_UOCOutput
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Map";
+            this.TB_UOCOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_UOCOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_UOCOutput.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_UOCOutput.ForeColor = System.Drawing.Color.Black;
+            this.TB_UOCOutput.Location = new System.Drawing.Point(7, 6);
+            this.TB_UOCOutput.Multiline = true;
+            this.TB_UOCOutput.Name = "TB_UOCOutput";
+            this.TB_UOCOutput.ReadOnly = true;
+            this.TB_UOCOutput.Size = new System.Drawing.Size(661, 213);
+            this.TB_UOCOutput.TabIndex = 2;
+            this.TB_UOCOutput.TextChanged += new System.EventHandler(this.TB_UOCOutput_TextChanged);
             // 
-            // label4
+            // tabPage4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(30, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(39, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "UseDif";
+            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(676, 392);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "ECompile";
             // 
-            // CB_BritT2ADif
+            // tabPage5
             // 
-            this.CB_BritT2ADif.AutoSize = true;
-            this.CB_BritT2ADif.Location = new System.Drawing.Point(41, 34);
-            this.CB_BritT2ADif.Name = "CB_BritT2ADif";
-            this.CB_BritT2ADif.Size = new System.Drawing.Size(143, 17);
-            this.CB_BritT2ADif.TabIndex = 9;
-            this.CB_BritT2ADif.Text = "Britannia (T2A Size Map)";
-            this.CB_BritT2ADif.UseVisualStyleBackColor = true;
+            this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(676, 392);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "POL Setup";
             // 
-            // CB_BritMLDif
+            // tabPage6
             // 
-            this.CB_BritMLDif.AutoSize = true;
-            this.CB_BritMLDif.Location = new System.Drawing.Point(41, 53);
-            this.CB_BritMLDif.Name = "CB_BritMLDif";
-            this.CB_BritMLDif.Size = new System.Drawing.Size(138, 17);
-            this.CB_BritMLDif.TabIndex = 10;
-            this.CB_BritMLDif.Text = "Britannia (ML Size Map)";
-            this.CB_BritMLDif.UseVisualStyleBackColor = true;
+            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage6.Controls.Add(this.BTN_StartPOL);
+            this.tabPage6.Controls.Add(this.txtPOLConsole);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(676, 392);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "POL";
             // 
-            // CB_TramDif
+            // BTN_StartPOL
             // 
-            this.CB_TramDif.AutoSize = true;
-            this.CB_TramDif.Location = new System.Drawing.Point(41, 74);
-            this.CB_TramDif.Name = "CB_TramDif";
-            this.CB_TramDif.Size = new System.Drawing.Size(66, 17);
-            this.CB_TramDif.TabIndex = 11;
-            this.CB_TramDif.Text = "Trammel";
-            this.CB_TramDif.UseVisualStyleBackColor = true;
+            this.BTN_StartPOL.Location = new System.Drawing.Point(301, 358);
+            this.BTN_StartPOL.Name = "BTN_StartPOL";
+            this.BTN_StartPOL.Size = new System.Drawing.Size(75, 23);
+            this.BTN_StartPOL.TabIndex = 2;
+            this.BTN_StartPOL.Text = "Start POL";
+            this.BTN_StartPOL.UseVisualStyleBackColor = true;
+            this.BTN_StartPOL.Click += new System.EventHandler(this.BTN_StartPOL_Click);
             // 
-            // label5
+            // txtPOLConsole
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(210, 18);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(28, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Map";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(236, 18);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 13;
-            this.label6.Text = "UseDif";
-            // 
-            // CB_IlshDif
-            // 
-            this.CB_IlshDif.AutoSize = true;
-            this.CB_IlshDif.Location = new System.Drawing.Point(247, 34);
-            this.CB_IlshDif.Name = "CB_IlshDif";
-            this.CB_IlshDif.Size = new System.Drawing.Size(63, 17);
-            this.CB_IlshDif.TabIndex = 14;
-            this.CB_IlshDif.Text = "Ilshenar";
-            this.CB_IlshDif.UseVisualStyleBackColor = true;
-            // 
-            // CB_MalDif
-            // 
-            this.CB_MalDif.AutoSize = true;
-            this.CB_MalDif.Location = new System.Drawing.Point(247, 54);
-            this.CB_MalDif.Name = "CB_MalDif";
-            this.CB_MalDif.Size = new System.Drawing.Size(54, 17);
-            this.CB_MalDif.TabIndex = 15;
-            this.CB_MalDif.Text = "Malas";
-            this.CB_MalDif.UseVisualStyleBackColor = true;
-            // 
-            // CB_TokDif
-            // 
-            this.CB_TokDif.AutoSize = true;
-            this.CB_TokDif.Location = new System.Drawing.Point(247, 73);
-            this.CB_TokDif.Name = "CB_TokDif";
-            this.CB_TokDif.Size = new System.Drawing.Size(63, 17);
-            this.CB_TokDif.TabIndex = 16;
-            this.CB_TokDif.Text = "Tokuno";
-            this.CB_TokDif.UseVisualStyleBackColor = true;
-            // 
-            // BTN_UOConvert
-            // 
-            this.BTN_UOConvert.Location = new System.Drawing.Point(301, 363);
-            this.BTN_UOConvert.Name = "BTN_UOConvert";
-            this.BTN_UOConvert.Size = new System.Drawing.Size(75, 23);
-            this.BTN_UOConvert.TabIndex = 4;
-            this.BTN_UOConvert.Text = "Convert";
-            this.BTN_UOConvert.UseVisualStyleBackColor = true;
-            this.BTN_UOConvert.Click += new System.EventHandler(this.BTN_UOConvert_Click);
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(679, 16);
-            this.ProgressBar.Visible = false;
+            this.txtPOLConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.txtPOLConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPOLConsole.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.txtPOLConsole.ForeColor = System.Drawing.Color.Black;
+            this.txtPOLConsole.Location = new System.Drawing.Point(8, 3);
+            this.txtPOLConsole.Multiline = true;
+            this.txtPOLConsole.Name = "txtPOLConsole";
+            this.txtPOLConsole.Size = new System.Drawing.Size(660, 342);
+            this.txtPOLConsole.TabIndex = 1;
+            this.txtPOLConsole.TextChanged += new System.EventHandler(this.txtPOLConsole_TextChanged);
+            this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
+            this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
             // 
             // Form1
             // 
@@ -633,13 +634,13 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.tabPage6.ResumeLayout(false);
-            this.tabPage6.PerformLayout();
             this.UOConvertGroupBox.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
