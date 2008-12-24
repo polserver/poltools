@@ -378,6 +378,7 @@
             // CB_TokDif
             // 
             this.CB_TokDif.AutoSize = true;
+            this.CB_TokDif.Enabled = false;
             this.CB_TokDif.Location = new System.Drawing.Point(247, 73);
             this.CB_TokDif.Name = "CB_TokDif";
             this.CB_TokDif.Size = new System.Drawing.Size(63, 17);
@@ -388,6 +389,7 @@
             // CB_MalDif
             // 
             this.CB_MalDif.AutoSize = true;
+            this.CB_MalDif.Enabled = false;
             this.CB_MalDif.Location = new System.Drawing.Point(247, 54);
             this.CB_MalDif.Name = "CB_MalDif";
             this.CB_MalDif.Size = new System.Drawing.Size(54, 17);
@@ -398,6 +400,7 @@
             // CB_IlshDif
             // 
             this.CB_IlshDif.AutoSize = true;
+            this.CB_IlshDif.Enabled = false;
             this.CB_IlshDif.Location = new System.Drawing.Point(247, 34);
             this.CB_IlshDif.Name = "CB_IlshDif";
             this.CB_IlshDif.Size = new System.Drawing.Size(63, 17);
@@ -426,6 +429,7 @@
             // CB_TramDif
             // 
             this.CB_TramDif.AutoSize = true;
+            this.CB_TramDif.Enabled = false;
             this.CB_TramDif.Location = new System.Drawing.Point(41, 74);
             this.CB_TramDif.Name = "CB_TramDif";
             this.CB_TramDif.Size = new System.Drawing.Size(66, 17);
@@ -436,6 +440,7 @@
             // CB_BritMLDif
             // 
             this.CB_BritMLDif.AutoSize = true;
+            this.CB_BritMLDif.Enabled = false;
             this.CB_BritMLDif.Location = new System.Drawing.Point(41, 53);
             this.CB_BritMLDif.Name = "CB_BritMLDif";
             this.CB_BritMLDif.Size = new System.Drawing.Size(138, 17);
@@ -446,6 +451,7 @@
             // CB_BritT2ADif
             // 
             this.CB_BritT2ADif.AutoSize = true;
+            this.CB_BritT2ADif.Enabled = false;
             this.CB_BritT2ADif.Location = new System.Drawing.Point(41, 34);
             this.CB_BritT2ADif.Name = "CB_BritT2ADif";
             this.CB_BritT2ADif.Size = new System.Drawing.Size(143, 17);
@@ -489,6 +495,7 @@
             this.CB_MalMap.Size = new System.Drawing.Size(15, 14);
             this.CB_MalMap.TabIndex = 4;
             this.CB_MalMap.UseVisualStyleBackColor = true;
+            this.CB_MalMap.CheckedChanged += new System.EventHandler(this.CB_MalMap_CheckedChanged);
             // 
             // CB_TokMap
             // 
@@ -498,6 +505,7 @@
             this.CB_TokMap.Size = new System.Drawing.Size(15, 14);
             this.CB_TokMap.TabIndex = 5;
             this.CB_TokMap.UseVisualStyleBackColor = true;
+            this.CB_TokMap.CheckedChanged += new System.EventHandler(this.CB_TokMap_CheckedChanged);
             // 
             // CB_IlshMap
             // 
@@ -507,6 +515,7 @@
             this.CB_IlshMap.Size = new System.Drawing.Size(15, 14);
             this.CB_IlshMap.TabIndex = 3;
             this.CB_IlshMap.UseVisualStyleBackColor = true;
+            this.CB_IlshMap.CheckedChanged += new System.EventHandler(this.CB_IlshMap_CheckedChanged);
             // 
             // CB_TramMap
             // 
@@ -516,6 +525,7 @@
             this.CB_TramMap.Size = new System.Drawing.Size(15, 14);
             this.CB_TramMap.TabIndex = 2;
             this.CB_TramMap.UseVisualStyleBackColor = true;
+            this.CB_TramMap.CheckedChanged += new System.EventHandler(this.CB_TramMap_CheckedChanged);
             // 
             // CB_BritT2AMap
             // 
