@@ -1,8 +1,16 @@
-﻿12-18-2008 - MuadDib
+﻿12-23-2008 - MuadDib
+	Added  : PathStorage Class Object. Uses a Dictionary<string, string> for main
+			 private storage. Set up to use Methods to access the dictionary. This
+			 storage container is NOT set to be a static set of Paths. The end-user
+			 CAN add new paths to the setting via Object Methods in their programs.
+			 This way, they can use the DLL's storage for additional Paths without
+			 changing a lot in their code.
+			 
+12-18-2008 - MuadDib
     Changed: Made PackUnpack::Pack(object, bool) private. Forces use of the main
              single paramitized function.
     Changed: Made PackUnpack::UnpackHelper(packed) private. Forces use of the main
              single paramitized function called Unpack(packed).
-    Added :  PackUnpack will now Unpack POL Packed Arrays (single dimension).
-    Added :  Complete AuxSvc Class. For example of useage please see included
+    Added  : PackUnpack will now Unpack POL Packed Arrays (single dimension).
+    Added  : Complete AuxSvc Class. For example of useage please see included
              AuxSvcTestClient Project.
