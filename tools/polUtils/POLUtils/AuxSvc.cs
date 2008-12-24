@@ -55,10 +55,10 @@ namespace POLUtils.AuxSvc
         ///     It then initializes and connects the AuxSocket and uses the AuxSocket to initialize the AuxStream for our Read/Write work.
         /// </summary>
         /// <param name="server_ip">
-        ///     The ip that the <see cref="AuxSvcStream"/> will try to connect to.
+        ///     The ip that the AuxSvcStream will try to connect to.
         /// </param>
-        /// <param name="port">
-        ///     The port that the <see cref="AuxSvcStream"/> will try to connect to.
+        /// <param name="server_port">
+        ///     The port that the AuxSvcStream will try to connect to.
         /// </param>
         public AuxSvcConnection(string server_ip, int server_port)
         {
