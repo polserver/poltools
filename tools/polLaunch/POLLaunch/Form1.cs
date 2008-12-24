@@ -182,6 +182,7 @@ namespace POLLaunch
                 if (CB_BritT2AMap.Checked)
                 {
                     CB_BritMLMap.Checked = false;
+                    CB_BritMLDif.Checked = false;
                     MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
                 }
             }
@@ -194,6 +195,7 @@ namespace POLLaunch
                 if (CB_BritMLMap.Checked)
                 {
                     CB_BritT2AMap.Checked = false;
+                    CB_BritT2ADif.Checked = false;
                     MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
                 }
             }
