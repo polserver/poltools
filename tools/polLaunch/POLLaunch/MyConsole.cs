@@ -15,6 +15,13 @@ namespace POLLaunch.Console
 
         public MyConsole() { }
 
+        ~MyConsole()
+        {
+            // Helps if they close POL Launch while it's Converting or POL running.
+            if (!this.HasExited)
+                this.Kill();
+        }
+
         public bool IsHooked
         {
             get { return _hooked; }
