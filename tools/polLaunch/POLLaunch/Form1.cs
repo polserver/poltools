@@ -5,8 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using POLLaunch.Console;
 using System.IO;
+
+using POLLaunch.Console;
+using POLUtils.UOConvert;
+using POLUtils.UOConvert.UOCConfigFiles;
+using POLUtils.UOConvert.UOCRealms;
+
 
 namespace POLLaunch
 {
@@ -263,89 +268,87 @@ namespace POLLaunch
 
         private void BTN_UOConvert_Click(object sender, EventArgs e)
         {
-/*            BuildCommandLines();
-            if (UOConvert.BuildList.Count < 1)
+            BuildCommandLines();
+            if (PL_UOConvert.BuildList.Count < 1)
             {
                 MessageBox.Show("You didn't select anything to convert!");
                 return;
             }
- */
+
             TB_UOCOutput.Text = " ";
-            MessageBox.Show("Not Implemented Yet! Check back Later.");
-/*            BuildCommandLines();
             ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = UOConvert.BuildList.Count;
+            ProgressBar.Maximum = PL_UOConvert.BuildList.Count;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
 
-            RunUOConvert();*/
+            RunUOConvert();
         }
 
         private void BuildCommandLines()
         {
-/*            if (CB_Multis.Checked)
+            if (CB_Multis.Checked)
             {
                 Multis MultiCfg = new Multis();
-                UOConvert.BuildList.Add(MultiCfg.GetUOCCommand());
+                PL_UOConvert.BuildList.Add(MultiCfg.GetUOCCommand());
             }
             if (CB_LandTiles.Checked)
             {
                 Landtiles LandCfg = new Landtiles();
-                UOConvert.BuildList.Add(LandCfg.GetUOCCommand());
+                PL_UOConvert.BuildList.Add(LandCfg.GetUOCCommand());
             }
             if (CB_TileData.Checked)
             {
                 Tiledata TileCfg = new Tiledata();
-                UOConvert.BuildList.Add(TileCfg.GetUOCCommand());
+                PL_UOConvert.BuildList.Add(TileCfg.GetUOCCommand());
             }
             if (CB_BritT2AMap.Checked)
             {
                 BritanniaT2A Brit = new BritanniaT2A();
                 Brit.UseDif = CB_BritT2ADif.Checked;
-                UOConvert.BuildList.Add(Brit.GetUOCMapCommand());
-                UOConvert.BuildList.Add(Brit.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(Brit.GetUOCMapTileCommand());
+                PL_UOConvert.BuildList.Add(Brit.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(Brit.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(Brit.GetUOCMapTileCommand());
             }
             if (CB_BritMLMap.Checked)
             {
                 BritanniaML BritML = new BritanniaML();
                 BritML.UseDif = CB_BritMLDif.Checked;
-                UOConvert.BuildList.Add(BritML.GetUOCMapCommand());
-                UOConvert.BuildList.Add(BritML.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(BritML.GetUOCMapTileCommand());
+                PL_UOConvert.BuildList.Add(BritML.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(BritML.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(BritML.GetUOCMapTileCommand());
             }
             if (CB_TramMap.Checked)
             {
                 Britannia_Alt Tram = new Britannia_Alt();
                 Tram.UseDif = CB_TramDif.Checked;
-                UOConvert.BuildList.Add(Tram.GetUOCMapCommand());
-                UOConvert.BuildList.Add(Tram.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(Tram.GetUOCMapTileCommand());
+                PL_UOConvert.BuildList.Add(Tram.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(Tram.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(Tram.GetUOCMapTileCommand());
             }
             if (CB_IlshMap.Checked)
             {
                 Ilshenar Ilsh = new Ilshenar();
                 Ilsh.UseDif = CB_IlshDif.Checked;
-                UOConvert.BuildList.Add(Ilsh.GetUOCMapCommand());
-                UOConvert.BuildList.Add(Ilsh.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(Ilsh.GetUOCMapTileCommand());
+                PL_UOConvert.BuildList.Add(Ilsh.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(Ilsh.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(Ilsh.GetUOCMapTileCommand());
             }
             if (CB_MalMap.Checked)
             {
                 Malas Mal = new Malas();
                 Mal.UseDif = CB_MalDif.Checked;
-                UOConvert.BuildList.Add(Mal.GetUOCMapCommand());
-                UOConvert.BuildList.Add(Mal.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(Mal.GetUOCMapTileCommand());
+                PL_UOConvert.BuildList.Add(Mal.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(Mal.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(Mal.GetUOCMapTileCommand());
             }
             if (CB_TokMap.Checked)
             {
                 Tokuno Tok = new Tokuno();
                 Tok.UseDif = CB_TokDif.Checked;
-                UOConvert.BuildList.Add(Tok.GetUOCMapCommand());
-                UOConvert.BuildList.Add(Tok.GetUOCStaticCommand());
-                UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
-            }*/
+                PL_UOConvert.BuildList.Add(Tok.GetUOCMapCommand());
+                PL_UOConvert.BuildList.Add(Tok.GetUOCStaticCommand());
+                PL_UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
+            }
         }
         void RunUOConvert()
         {
@@ -363,8 +366,8 @@ namespace POLLaunch
                 }
 
                 string Cmd = " ";
-                if (UOConvert.BuildList.Count != 0)
-                    Cmd = UOConvert.BuildList[0].ToString();
+                if (PL_UOConvert.BuildList.Count != 0)
+                    Cmd = PL_UOConvert.BuildList[0].ToString();
 
                 this.UOCConsole = new MyConsole();
                 this.UOCConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
@@ -382,23 +385,23 @@ namespace POLLaunch
 
             if (File.Exists(Settings.Global.Properties["POLPath"] + "\\multis.cfg"))
             {
-                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\multis.cfg", Settings.Global.Properties["POLPath"] + "\\config\\multis.cfg");
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\multis.cfg", Settings.Global.Properties["POLPath"] + "\\config\\multis.cfg");
             }
             if (File.Exists(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg"))
             {
-                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\landtiles.cfg");
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\landtiles.cfg");
             }
             if (File.Exists(Settings.Global.Properties["POLPath"] + "\\tiles.cfg"))
             {
-                UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
             }
 
             ProgressBar.PerformStep();
 
-            if (UOConvert.BuildList.Count != 0)
+            if (PL_UOConvert.BuildList.Count != 0)
             {
-                UOConvert.BuildList.RemoveAt(0);
-                if (UOConvert.BuildList.Count != 0)
+                PL_UOConvert.BuildList.RemoveAt(0);
+                if (PL_UOConvert.BuildList.Count != 0)
                     RunUOConvert();
                 else
                 {
@@ -430,6 +433,29 @@ namespace POLLaunch
             {
                 TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
             }
+        }
+
+        private void BTN_MULBrowse_Click(object sender, EventArgs e)
+        {
+            TB_MULFilePath.Text = FilePicker.SelectFolder();
+        }
+
+        private void TB_MULFilePath_TextChanged(object sender, EventArgs e)
+        {
+            foreach (string MulFile in UOConvert.RequiredMul)
+            {
+                if (!File.Exists(TB_MULFilePath.Text + @"\" + MulFile))
+                {
+                    MessageBox.Show(TB_MULFilePath.Text + " does not contain any of the required MUL files for UOConvert!");
+                    TB_MULFilePath.Text = "";
+                    return;
+                }
+            }
+        }
+
+        private void BTN_CreateAccount_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented Yet! Come Back Later!");
         }
 	}
 }

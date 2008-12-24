@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace POLLaunch
 {
-    public class UOConvert
+    public class PL_UOConvert
     {
         static private Form1 _form;
 
         public static ArrayList BuildList = new ArrayList();
 
-        public UOConvert(Form1 form)
+        public PL_UOConvert(Form1 form)
         {
             _form = form;
         }

@@ -51,7 +51,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.BTN_UOConvert = new System.Windows.Forms.Button();
             this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.PNL_UOCConfigFiles = new System.Windows.Forms.Panel();
             this.CB_TileData = new System.Windows.Forms.CheckBox();
             this.CB_LandTiles = new System.Windows.Forms.CheckBox();
             this.CB_Multis = new System.Windows.Forms.CheckBox();
@@ -77,8 +77,19 @@
             this.TB_UOCOutput = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.BTN_StartPOL = new System.Windows.Forms.Button();
+            this.txtPOLConsole = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.GB_AuxSvcSettings = new System.Windows.Forms.GroupBox();
+            this.TB_CreateAccountPort = new System.Windows.Forms.TextBox();
+            this.LBL_CreatePort = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.LBL_AccountsHeader2 = new System.Windows.Forms.Label();
+            this.LBL_AccountsHeader1 = new System.Windows.Forms.Label();
             this.GB_CreateAccount = new System.Windows.Forms.GroupBox();
+            this.BTN_CreateAccount = new System.Windows.Forms.Button();
             this.TB_CreateEmail = new System.Windows.Forms.TextBox();
             this.LBL_CreateEmail = new System.Windows.Forms.Label();
             this.LBX_CreateExpansion = new System.Windows.Forms.ListBox();
@@ -89,17 +100,11 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.BTN_StartPOL = new System.Windows.Forms.Button();
-            this.txtPOLConsole = new System.Windows.Forms.TextBox();
-            this.BTN_CreateAccount = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.LBL_AccountsHeader1 = new System.Windows.Forms.Label();
-            this.LBL_AccountsHeader2 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.GB_AuxSvcSettings = new System.Windows.Forms.GroupBox();
-            this.LBL_CreatePort = new System.Windows.Forms.Label();
-            this.TB_CreateAccountPort = new System.Windows.Forms.TextBox();
+            this.PNL_UOCSettings = new System.Windows.Forms.Panel();
+            this.LBL_UOCSettingsHeader = new System.Windows.Forms.Label();
+            this.LBL_UOCMulFilePath = new System.Windows.Forms.Label();
+            this.TB_MULFilePath = new System.Windows.Forms.TextBox();
+            this.BTN_MULBrowse = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -108,13 +113,14 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.UOConvertGroupBox.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.PNL_UOCConfigFiles.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tabPage7.SuspendLayout();
-            this.GB_CreateAccount.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.GB_AuxSvcSettings.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.GB_CreateAccount.SuspendLayout();
+            this.PNL_UOCSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -318,7 +324,8 @@
             // UOConvertGroupBox
             // 
             this.UOConvertGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-            this.UOConvertGroupBox.Controls.Add(this.panel2);
+            this.UOConvertGroupBox.Controls.Add(this.PNL_UOCSettings);
+            this.UOConvertGroupBox.Controls.Add(this.PNL_UOCConfigFiles);
             this.UOConvertGroupBox.Controls.Add(this.panel1);
             this.UOConvertGroupBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UOConvertGroupBox.Location = new System.Drawing.Point(7, 225);
@@ -328,16 +335,16 @@
             this.UOConvertGroupBox.TabStop = false;
             this.UOConvertGroupBox.Text = "UOConvert Controls";
             // 
-            // panel2
+            // PNL_UOCConfigFiles
             // 
-            this.panel2.Controls.Add(this.CB_TileData);
-            this.panel2.Controls.Add(this.CB_LandTiles);
-            this.panel2.Controls.Add(this.CB_Multis);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Location = new System.Drawing.Point(414, 19);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(239, 107);
-            this.panel2.TabIndex = 7;
+            this.PNL_UOCConfigFiles.Controls.Add(this.CB_TileData);
+            this.PNL_UOCConfigFiles.Controls.Add(this.CB_LandTiles);
+            this.PNL_UOCConfigFiles.Controls.Add(this.CB_Multis);
+            this.PNL_UOCConfigFiles.Controls.Add(this.label2);
+            this.PNL_UOCConfigFiles.Location = new System.Drawing.Point(414, 19);
+            this.PNL_UOCConfigFiles.Name = "PNL_UOCConfigFiles";
+            this.PNL_UOCConfigFiles.Size = new System.Drawing.Size(239, 51);
+            this.PNL_UOCConfigFiles.TabIndex = 7;
             // 
             // CB_TileData
             // 
@@ -609,6 +616,43 @@
             this.tabPage5.Text = "POL Setup";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage6.Controls.Add(this.BTN_StartPOL);
+            this.tabPage6.Controls.Add(this.txtPOLConsole);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(676, 392);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "POL";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // BTN_StartPOL
+            // 
+            this.BTN_StartPOL.Location = new System.Drawing.Point(301, 358);
+            this.BTN_StartPOL.Name = "BTN_StartPOL";
+            this.BTN_StartPOL.Size = new System.Drawing.Size(75, 23);
+            this.BTN_StartPOL.TabIndex = 2;
+            this.BTN_StartPOL.Text = "Start POL";
+            this.BTN_StartPOL.UseVisualStyleBackColor = true;
+            this.BTN_StartPOL.Click += new System.EventHandler(this.BTN_StartPOL_Click);
+            // 
+            // txtPOLConsole
+            // 
+            this.txtPOLConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.txtPOLConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPOLConsole.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.txtPOLConsole.ForeColor = System.Drawing.Color.Black;
+            this.txtPOLConsole.Location = new System.Drawing.Point(8, 3);
+            this.txtPOLConsole.Multiline = true;
+            this.txtPOLConsole.Name = "txtPOLConsole";
+            this.txtPOLConsole.Size = new System.Drawing.Size(660, 342);
+            this.txtPOLConsole.TabIndex = 1;
+            this.txtPOLConsole.TextChanged += new System.EventHandler(this.txtPOLConsole_TextChanged);
+            this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
+            this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
+            // 
             // tabPage7
             // 
             this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
@@ -622,6 +666,76 @@
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Accounts";
             this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // GB_AuxSvcSettings
+            // 
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAccountPort);
+            this.GB_AuxSvcSettings.Controls.Add(this.LBL_CreatePort);
+            this.GB_AuxSvcSettings.Location = new System.Drawing.Point(8, 298);
+            this.GB_AuxSvcSettings.Name = "GB_AuxSvcSettings";
+            this.GB_AuxSvcSettings.Size = new System.Drawing.Size(660, 88);
+            this.GB_AuxSvcSettings.TabIndex = 2;
+            this.GB_AuxSvcSettings.TabStop = false;
+            this.GB_AuxSvcSettings.Text = "AuxSvc Settings";
+            // 
+            // TB_CreateAccountPort
+            // 
+            this.TB_CreateAccountPort.Location = new System.Drawing.Point(121, 26);
+            this.TB_CreateAccountPort.MaxLength = 10;
+            this.TB_CreateAccountPort.Name = "TB_CreateAccountPort";
+            this.TB_CreateAccountPort.Size = new System.Drawing.Size(100, 20);
+            this.TB_CreateAccountPort.TabIndex = 1;
+            this.TB_CreateAccountPort.Text = "5666";
+            // 
+            // LBL_CreatePort
+            // 
+            this.LBL_CreatePort.AutoSize = true;
+            this.LBL_CreatePort.Location = new System.Drawing.Point(9, 29);
+            this.LBL_CreatePort.Name = "LBL_CreatePort";
+            this.LBL_CreatePort.Size = new System.Drawing.Size(106, 13);
+            this.LBL_CreatePort.TabIndex = 0;
+            this.LBL_CreatePort.Text = "Create Account Port:";
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.LBL_AccountsHeader2);
+            this.panel3.Controls.Add(this.LBL_AccountsHeader1);
+            this.panel3.Location = new System.Drawing.Point(9, 7);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(659, 53);
+            this.panel3.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(224, 26);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(209, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "running when you try to use these controls.";
+            // 
+            // LBL_AccountsHeader2
+            // 
+            this.LBL_AccountsHeader2.AutoSize = true;
+            this.LBL_AccountsHeader2.Location = new System.Drawing.Point(27, 13);
+            this.LBL_AccountsHeader2.Name = "LBL_AccountsHeader2";
+            this.LBL_AccountsHeader2.Size = new System.Drawing.Size(602, 13);
+            this.LBL_AccountsHeader2.TabIndex = 1;
+            this.LBL_AccountsHeader2.Text = "Create and make Minor Changes to existing Accounts. Because this uses the Aux Ser" +
+                "vices with Distro, remember to have POL";
+            // 
+            // LBL_AccountsHeader1
+            // 
+            this.LBL_AccountsHeader1.AutoSize = true;
+            this.LBL_AccountsHeader1.Location = new System.Drawing.Point(27, 0);
+            this.LBL_AccountsHeader1.Name = "LBL_AccountsHeader1";
+            this.LBL_AccountsHeader1.Size = new System.Drawing.Size(602, 13);
+            this.LBL_AccountsHeader1.TabIndex = 0;
+            this.LBL_AccountsHeader1.Text = "The Accounts Tab is usefull for basic account creation and manipulation. This use" +
+                "s the AuxSvc Connection with POL Distro to";
             // 
             // GB_CreateAccount
             // 
@@ -642,6 +756,16 @@
             this.GB_CreateAccount.TabIndex = 0;
             this.GB_CreateAccount.TabStop = false;
             this.GB_CreateAccount.Text = "Create Account";
+            // 
+            // BTN_CreateAccount
+            // 
+            this.BTN_CreateAccount.Location = new System.Drawing.Point(169, 197);
+            this.BTN_CreateAccount.Name = "BTN_CreateAccount";
+            this.BTN_CreateAccount.Size = new System.Drawing.Size(75, 23);
+            this.BTN_CreateAccount.TabIndex = 10;
+            this.BTN_CreateAccount.Text = "Create";
+            this.BTN_CreateAccount.UseVisualStyleBackColor = true;
+            this.BTN_CreateAccount.Click += new System.EventHandler(this.BTN_CreateAccount_Click);
             // 
             // TB_CreateEmail
             // 
@@ -741,121 +865,53 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // tabPage6
+            // PNL_UOCSettings
             // 
-            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
-            this.tabPage6.Controls.Add(this.BTN_StartPOL);
-            this.tabPage6.Controls.Add(this.txtPOLConsole);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(676, 392);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "POL";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.PNL_UOCSettings.Controls.Add(this.BTN_MULBrowse);
+            this.PNL_UOCSettings.Controls.Add(this.TB_MULFilePath);
+            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCMulFilePath);
+            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCSettingsHeader);
+            this.PNL_UOCSettings.Location = new System.Drawing.Point(415, 72);
+            this.PNL_UOCSettings.Name = "PNL_UOCSettings";
+            this.PNL_UOCSettings.Size = new System.Drawing.Size(240, 54);
+            this.PNL_UOCSettings.TabIndex = 8;
             // 
-            // BTN_StartPOL
+            // LBL_UOCSettingsHeader
             // 
-            this.BTN_StartPOL.Location = new System.Drawing.Point(301, 358);
-            this.BTN_StartPOL.Name = "BTN_StartPOL";
-            this.BTN_StartPOL.Size = new System.Drawing.Size(75, 23);
-            this.BTN_StartPOL.TabIndex = 2;
-            this.BTN_StartPOL.Text = "Start POL";
-            this.BTN_StartPOL.UseVisualStyleBackColor = true;
-            this.BTN_StartPOL.Click += new System.EventHandler(this.BTN_StartPOL_Click);
+            this.LBL_UOCSettingsHeader.AutoSize = true;
+            this.LBL_UOCSettingsHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_UOCSettingsHeader.Location = new System.Drawing.Point(67, 5);
+            this.LBL_UOCSettingsHeader.Name = "LBL_UOCSettingsHeader";
+            this.LBL_UOCSettingsHeader.Size = new System.Drawing.Size(107, 13);
+            this.LBL_UOCSettingsHeader.TabIndex = 0;
+            this.LBL_UOCSettingsHeader.Text = "MUL File Settings";
             // 
-            // txtPOLConsole
+            // LBL_UOCMulFilePath
             // 
-            this.txtPOLConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.txtPOLConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPOLConsole.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.txtPOLConsole.ForeColor = System.Drawing.Color.Black;
-            this.txtPOLConsole.Location = new System.Drawing.Point(8, 3);
-            this.txtPOLConsole.Multiline = true;
-            this.txtPOLConsole.Name = "txtPOLConsole";
-            this.txtPOLConsole.Size = new System.Drawing.Size(660, 342);
-            this.txtPOLConsole.TabIndex = 1;
-            this.txtPOLConsole.TextChanged += new System.EventHandler(this.txtPOLConsole_TextChanged);
-            this.txtPOLConsole.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPOLConsole_KeyUp);
-            this.txtPOLConsole.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPOLConsole_KeyPress);
+            this.LBL_UOCMulFilePath.AutoSize = true;
+            this.LBL_UOCMulFilePath.Location = new System.Drawing.Point(3, 21);
+            this.LBL_UOCMulFilePath.Name = "LBL_UOCMulFilePath";
+            this.LBL_UOCMulFilePath.Size = new System.Drawing.Size(32, 13);
+            this.LBL_UOCMulFilePath.TabIndex = 1;
+            this.LBL_UOCMulFilePath.Text = "Path:";
             // 
-            // BTN_CreateAccount
+            // TB_MULFilePath
             // 
-            this.BTN_CreateAccount.Location = new System.Drawing.Point(169, 197);
-            this.BTN_CreateAccount.Name = "BTN_CreateAccount";
-            this.BTN_CreateAccount.Size = new System.Drawing.Size(75, 23);
-            this.BTN_CreateAccount.TabIndex = 10;
-            this.BTN_CreateAccount.Text = "Create";
-            this.BTN_CreateAccount.UseVisualStyleBackColor = true;
+            this.TB_MULFilePath.Location = new System.Drawing.Point(41, 19);
+            this.TB_MULFilePath.Name = "TB_MULFilePath";
+            this.TB_MULFilePath.Size = new System.Drawing.Size(115, 20);
+            this.TB_MULFilePath.TabIndex = 2;
+            this.TB_MULFilePath.TextChanged += new System.EventHandler(this.TB_MULFilePath_TextChanged);
             // 
-            // panel3
+            // BTN_MULBrowse
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label7);
-            this.panel3.Controls.Add(this.LBL_AccountsHeader2);
-            this.panel3.Controls.Add(this.LBL_AccountsHeader1);
-            this.panel3.Location = new System.Drawing.Point(9, 7);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(659, 53);
-            this.panel3.TabIndex = 1;
-            // 
-            // LBL_AccountsHeader1
-            // 
-            this.LBL_AccountsHeader1.AutoSize = true;
-            this.LBL_AccountsHeader1.Location = new System.Drawing.Point(27, 0);
-            this.LBL_AccountsHeader1.Name = "LBL_AccountsHeader1";
-            this.LBL_AccountsHeader1.Size = new System.Drawing.Size(602, 13);
-            this.LBL_AccountsHeader1.TabIndex = 0;
-            this.LBL_AccountsHeader1.Text = "The Accounts Tab is usefull for basic account creation and manipulation. This use" +
-                "s the AuxSvc Connection with POL Distro to";
-            // 
-            // LBL_AccountsHeader2
-            // 
-            this.LBL_AccountsHeader2.AutoSize = true;
-            this.LBL_AccountsHeader2.Location = new System.Drawing.Point(27, 13);
-            this.LBL_AccountsHeader2.Name = "LBL_AccountsHeader2";
-            this.LBL_AccountsHeader2.Size = new System.Drawing.Size(602, 13);
-            this.LBL_AccountsHeader2.TabIndex = 1;
-            this.LBL_AccountsHeader2.Text = "Create and make Minor Changes to existing Accounts. Because this uses the Aux Ser" +
-                "vices with Distro, remember to have POL";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(224, 26);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(209, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "running when you try to use these controls.";
-            // 
-            // GB_AuxSvcSettings
-            // 
-            this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAccountPort);
-            this.GB_AuxSvcSettings.Controls.Add(this.LBL_CreatePort);
-            this.GB_AuxSvcSettings.Location = new System.Drawing.Point(8, 298);
-            this.GB_AuxSvcSettings.Name = "GB_AuxSvcSettings";
-            this.GB_AuxSvcSettings.Size = new System.Drawing.Size(660, 88);
-            this.GB_AuxSvcSettings.TabIndex = 2;
-            this.GB_AuxSvcSettings.TabStop = false;
-            this.GB_AuxSvcSettings.Text = "AuxSvc Settings";
-            // 
-            // LBL_CreatePort
-            // 
-            this.LBL_CreatePort.AutoSize = true;
-            this.LBL_CreatePort.Location = new System.Drawing.Point(9, 29);
-            this.LBL_CreatePort.Name = "LBL_CreatePort";
-            this.LBL_CreatePort.Size = new System.Drawing.Size(106, 13);
-            this.LBL_CreatePort.TabIndex = 0;
-            this.LBL_CreatePort.Text = "Create Account Port:";
-            // 
-            // TB_CreateAccountPort
-            // 
-            this.TB_CreateAccountPort.Location = new System.Drawing.Point(121, 26);
-            this.TB_CreateAccountPort.MaxLength = 10;
-            this.TB_CreateAccountPort.Name = "TB_CreateAccountPort";
-            this.TB_CreateAccountPort.Size = new System.Drawing.Size(100, 20);
-            this.TB_CreateAccountPort.TabIndex = 1;
-            this.TB_CreateAccountPort.Text = "5666";
+            this.BTN_MULBrowse.Location = new System.Drawing.Point(162, 19);
+            this.BTN_MULBrowse.Name = "BTN_MULBrowse";
+            this.BTN_MULBrowse.Size = new System.Drawing.Size(75, 23);
+            this.BTN_MULBrowse.TabIndex = 3;
+            this.BTN_MULBrowse.Text = "Browse";
+            this.BTN_MULBrowse.UseVisualStyleBackColor = true;
+            this.BTN_MULBrowse.Click += new System.EventHandler(this.BTN_MULBrowse_Click);
             // 
             // Form1
             // 
@@ -887,19 +943,21 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.UOConvertGroupBox.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.PNL_UOCConfigFiles.ResumeLayout(false);
+            this.PNL_UOCConfigFiles.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tabPage7.ResumeLayout(false);
-            this.GB_CreateAccount.ResumeLayout(false);
-            this.GB_CreateAccount.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
             this.GB_AuxSvcSettings.ResumeLayout(false);
             this.GB_AuxSvcSettings.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.GB_CreateAccount.ResumeLayout(false);
+            this.GB_CreateAccount.PerformLayout();
+            this.PNL_UOCSettings.ResumeLayout(false);
+            this.PNL_UOCSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -931,7 +989,7 @@
 		private System.Windows.Forms.TextBox textBox3;
         public System.Windows.Forms.TextBox TB_RunTests;
         private System.Windows.Forms.GroupBox UOConvertGroupBox;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel PNL_UOCConfigFiles;
         private System.Windows.Forms.CheckBox CB_TileData;
         private System.Windows.Forms.CheckBox CB_LandTiles;
         private System.Windows.Forms.CheckBox CB_Multis;
@@ -977,6 +1035,11 @@
         private System.Windows.Forms.GroupBox GB_AuxSvcSettings;
         private System.Windows.Forms.TextBox TB_CreateAccountPort;
         private System.Windows.Forms.Label LBL_CreatePort;
+        private System.Windows.Forms.Panel PNL_UOCSettings;
+        private System.Windows.Forms.Label LBL_UOCSettingsHeader;
+        private System.Windows.Forms.Label LBL_UOCMulFilePath;
+        private System.Windows.Forms.Button BTN_MULBrowse;
+        private System.Windows.Forms.TextBox TB_MULFilePath;
 	}
 }
 
