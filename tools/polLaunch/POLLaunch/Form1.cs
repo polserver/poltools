@@ -179,12 +179,20 @@ namespace POLLaunch
         {
             if (CB_BritMLMap.Checked)
             {
+                CB_BritMLDif.Enabled = true;
                 if (CB_BritT2AMap.Checked)
                 {
                     CB_BritMLMap.Checked = false;
                     CB_BritMLDif.Checked = false;
                     MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
                 }
+            }
+            if (CB_BritT2AMap.Checked)
+                CB_BritT2ADif.Enabled = true;
+            else
+            {
+                CB_BritT2ADif.Enabled = false;
+                CB_BritT2ADif.Checked = false;
             }
         }
 
@@ -199,7 +207,58 @@ namespace POLLaunch
                     MessageBox.Show("You cannot have both Britannia (The Second Age) and Britannia (Mondain's Legacy) checked.", "Different Map Sizes");
                 }
             }
+            if (CB_BritMLMap.Checked)
+                CB_BritMLDif.Enabled = true;
+            else
+            {
+                CB_BritMLDif.Enabled = false;
+                CB_BritMLDif.Checked = false;
+            }
+        }
 
+        private void CB_TramMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_TramMap.Checked)
+                CB_TramDif.Enabled = true;
+            else
+            {
+                CB_TramDif.Enabled = false;
+                CB_TramDif.Checked = false;
+            }
+
+        }
+
+        private void CB_IlshMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_IlshMap.Checked)
+                CB_IlshDif.Enabled = true;
+            else
+            {
+                CB_IlshDif.Enabled = false;
+                CB_IlshDif.Checked = false;
+            }
+        }
+
+        private void CB_MalMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_MalMap.Checked)
+                CB_MalDif.Enabled = true;
+            else
+            {
+                CB_MalDif.Enabled = false;
+                CB_MalDif.Checked = false;
+            }
+        }
+
+        private void CB_TokMap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CB_TokMap.Checked)
+                CB_TokDif.Enabled = true;
+            else
+            {
+                CB_TokDif.Enabled = false;
+                CB_TokDif.Checked = false;
+            }
         }
 
         private void BTN_UOConvert_Click(object sender, EventArgs e)
@@ -372,7 +431,5 @@ namespace POLLaunch
                 TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
             }
         }
-
-
 	}
 }
