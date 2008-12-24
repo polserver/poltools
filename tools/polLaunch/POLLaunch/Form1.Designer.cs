@@ -47,7 +47,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.BTN_RunTests = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TB_RunTests = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.BTN_UOConvert = new System.Windows.Forms.Button();
             this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
@@ -235,7 +235,7 @@
             // 
             this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
             this.tabPage2.Controls.Add(this.BTN_RunTests);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.TB_RunTests);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -253,17 +253,17 @@
             this.BTN_RunTests.UseVisualStyleBackColor = true;
             this.BTN_RunTests.Click += new System.EventHandler(this.BTN_RunTests_Click);
             // 
-            // textBox1
+            // TB_RunTests
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(7, 6);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(661, 351);
-            this.textBox1.TabIndex = 0;
+            this.TB_RunTests.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_RunTests.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_RunTests.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_RunTests.ForeColor = System.Drawing.Color.Black;
+            this.TB_RunTests.Location = new System.Drawing.Point(7, 6);
+            this.TB_RunTests.Multiline = true;
+            this.TB_RunTests.Name = "TB_RunTests";
+            this.TB_RunTests.Size = new System.Drawing.Size(661, 351);
+            this.TB_RunTests.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -670,7 +670,7 @@
         private System.Windows.Forms.TextBox txtPOLConsole;
         private System.Windows.Forms.Button BTN_StartPOL;
 		private System.Windows.Forms.TextBox textBox3;
-        public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox TB_RunTests;
         private System.Windows.Forms.GroupBox UOConvertGroupBox;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.CheckBox CB_TileData;

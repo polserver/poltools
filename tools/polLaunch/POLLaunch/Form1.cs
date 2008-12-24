@@ -66,14 +66,20 @@ namespace POLLaunch
 
 		private void BTN_RunTests_Click(object sender, EventArgs e)
 		{
-			textBox1.Text = "";
+			TB_RunTests.Text = "";
 			Cursor = Cursors.WaitCursor;
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = 5;
+            ProgressBar.Visible = true;
+            ProgressBar.Step = 1;
 			
-			textBox1.Text += "Analyzing setup in '" + Settings.Global.Properties["POLPath"] + "'" + Environment.NewLine;
-			POLChecks.RealmChecks(ref textBox1);
-			POLChecks.ScriptChecks(ref textBox1);
+			TB_RunTests.Text += "Analyzing setup in '" + Settings.Global.Properties["POLPath"] + "'" + Environment.NewLine;
+			POLChecks.RealmChecks(ref TB_RunTests, ref ProgressBar);
+			POLChecks.ScriptChecks(ref TB_RunTests, ref ProgressBar);
 
 			Cursor = Cursors.Default;
+            ProgressBar.Visible = false;
+            ProgressBar.Value = 0;
 		}
 
         private void BTN_StartPOL_Click(object sender, EventArgs e)
