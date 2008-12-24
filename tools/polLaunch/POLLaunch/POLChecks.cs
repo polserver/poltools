@@ -34,7 +34,7 @@ namespace POLLaunch
 			}
             ProgressBar.PerformStep();
 
-			foreach (string s in UOConvert.GetConfigFileNames())
+			foreach (string s in PL_UOConvert.GetConfigFileNames())
 			{
                 if (File.Exists((string)Settings.Global.Properties["POLPath"] + "\\" + s))
 					textbox.AppendText("* Pass: Found config file '" + s + "'." + Environment.NewLine);
