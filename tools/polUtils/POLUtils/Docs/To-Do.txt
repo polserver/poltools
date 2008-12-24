@@ -1,0 +1,26 @@
+﻿To-Do: (besides making sure we create everything with Threading maybe?)
+
+1.) Add Thread Support to the Pack/Unpack for instancing maybe?
+	Reason: Will allow multiple apps/calls to PackUnpack without it queing.
+2.) Create an Ecompile FrontEnd (no forms, just the class to interact etc)
+	Also include some kinda loader/editor for the ecompile.cfg? Not form, just
+	class handling. (including save/load of)
+3.) Create an UOConvert FrontEnd (no forms, just the class to interact etc)
+	Also include some kinda loader/editor for the uoconvert.cfg? Not form, just
+	class handling. (including save/load of)
+4.) Create a POL FrontEnd (no forms, just the class to interact etc)
+	Also include some kinda loader/editor for the ecompile.cfg? Not form, just
+	class handling. (including save/load of)
+5.) Create a generic POL UOClient Class.
+6.) Create a generic DebugClient Class.
+7.) Create a generic POL Test Suite Class. (seperated from POL FrontEnd for specifics of output, etc etc)
+8.) Create a RunECL FrontEnd Class.
+9.) Create a Storage Class for holding Path related info that POL Tools might want to know.
+	 Such as MUL Path, POL Root, Log Path?, Package Roots.
+10.) Create a generic Data FrontEnd for a formatted Reading of POL Data Files.
+	 This can even include Integrity Checkers like the Core uses during Load, etc.
+11.) Create a generic POL Realm FrontEnd for cleaning statics files, etc etc. (There are
+	 tools out there to do this, but let's add support?)
+12.) Remember, if you can't tell already, this is also being made to help POLLaunch :)
+13.) We could go as far as to create interactive classes for servers.cfg, servspecopts.cfg
+	 and so on. Who knows.
