@@ -5,6 +5,9 @@
 			 CAN add new paths to the setting via Object Methods in their programs.
 			 This way, they can use the DLL's storage for additional Paths without
 			 changing a lot in their code.
+	Added  : Added UOConvert/UOConvert Config Files/UOConvert Realm.. classes and
+			 objects. This is the BASE code for interaction/storage. Does not contain
+			 handling of executing UOConvert as of yet.
 			 
 12-18-2008 - MuadDib
     Changed: Made PackUnpack::Pack(object, bool) private. Forces use of the main
