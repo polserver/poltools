@@ -486,8 +486,8 @@ namespace POLLaunch
                                       LBX_CreateExpansion.SelectedIndex,
                                       TB_CreateEmail.Text,
                                       };
-            if (TB_AuxSvcPassword.Text.Length > 0)
-                NewAccountInfo.Add(TB_AuxSvcPassword.Text);
+            if (TB_CreateAuxPassword.Text.Length > 0)
+                NewAccountInfo.Add(TB_CreateAuxPassword.Text);
             AuxSvcConnection CreateAuxSvc = new AuxSvcConnection("localhost", Convert.ToInt32(TB_CreateAccountPort.Text));
             if (!CreateAuxSvc.Active)
             {

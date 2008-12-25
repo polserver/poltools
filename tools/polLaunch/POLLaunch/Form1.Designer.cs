@@ -106,7 +106,13 @@
             this.TB_MULFilePath = new System.Windows.Forms.TextBox();
             this.BTN_MULBrowse = new System.Windows.Forms.Button();
             this.LBL_AuxSvcPassword = new System.Windows.Forms.Label();
-            this.TB_AuxSvcPassword = new System.Windows.Forms.TextBox();
+            this.TB_CreateAuxPassword = new System.Windows.Forms.TextBox();
+            this.GB_ModifyAccount = new System.Windows.Forms.GroupBox();
+            this.GB_DataBackup = new System.Windows.Forms.GroupBox();
+            this.LBL_ModifyPort = new System.Windows.Forms.Label();
+            this.LBL_ModifyPassword = new System.Windows.Forms.Label();
+            this.TB_ModifyPort = new System.Windows.Forms.TextBox();
+            this.TB_ModifyAuxPassword = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -658,6 +664,8 @@
             // tabPage7
             // 
             this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage7.Controls.Add(this.GB_DataBackup);
+            this.tabPage7.Controls.Add(this.GB_ModifyAccount);
             this.tabPage7.Controls.Add(this.GB_AuxSvcSettings);
             this.tabPage7.Controls.Add(this.panel3);
             this.tabPage7.Controls.Add(this.GB_CreateAccount);
@@ -666,25 +674,29 @@
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(676, 392);
             this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "Accounts";
+            this.tabPage7.Text = "Accounts & Data";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
             // GB_AuxSvcSettings
             // 
-            this.GB_AuxSvcSettings.Controls.Add(this.TB_AuxSvcPassword);
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_ModifyAuxPassword);
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_ModifyPort);
+            this.GB_AuxSvcSettings.Controls.Add(this.LBL_ModifyPassword);
+            this.GB_AuxSvcSettings.Controls.Add(this.LBL_ModifyPort);
+            this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAuxPassword);
             this.GB_AuxSvcSettings.Controls.Add(this.LBL_AuxSvcPassword);
             this.GB_AuxSvcSettings.Controls.Add(this.TB_CreateAccountPort);
             this.GB_AuxSvcSettings.Controls.Add(this.LBL_CreatePort);
-            this.GB_AuxSvcSettings.Location = new System.Drawing.Point(8, 298);
+            this.GB_AuxSvcSettings.Location = new System.Drawing.Point(282, 204);
             this.GB_AuxSvcSettings.Name = "GB_AuxSvcSettings";
-            this.GB_AuxSvcSettings.Size = new System.Drawing.Size(660, 88);
+            this.GB_AuxSvcSettings.Size = new System.Drawing.Size(386, 88);
             this.GB_AuxSvcSettings.TabIndex = 2;
             this.GB_AuxSvcSettings.TabStop = false;
             this.GB_AuxSvcSettings.Text = "AuxSvc Settings";
             // 
             // TB_CreateAccountPort
             // 
-            this.TB_CreateAccountPort.Location = new System.Drawing.Point(121, 26);
+            this.TB_CreateAccountPort.Location = new System.Drawing.Point(78, 26);
             this.TB_CreateAccountPort.MaxLength = 10;
             this.TB_CreateAccountPort.Name = "TB_CreateAccountPort";
             this.TB_CreateAccountPort.Size = new System.Drawing.Size(100, 20);
@@ -696,9 +708,9 @@
             this.LBL_CreatePort.AutoSize = true;
             this.LBL_CreatePort.Location = new System.Drawing.Point(9, 29);
             this.LBL_CreatePort.Name = "LBL_CreatePort";
-            this.LBL_CreatePort.Size = new System.Drawing.Size(106, 13);
+            this.LBL_CreatePort.Size = new System.Drawing.Size(63, 13);
             this.LBL_CreatePort.TabIndex = 0;
-            this.LBL_CreatePort.Text = "Create Account Port:";
+            this.LBL_CreatePort.Text = "Create Port:";
             // 
             // panel3
             // 
@@ -876,9 +888,9 @@
             this.PNL_UOCSettings.Controls.Add(this.TB_MULFilePath);
             this.PNL_UOCSettings.Controls.Add(this.LBL_UOCMulFilePath);
             this.PNL_UOCSettings.Controls.Add(this.LBL_UOCSettingsHeader);
-            this.PNL_UOCSettings.Location = new System.Drawing.Point(415, 72);
+            this.PNL_UOCSettings.Location = new System.Drawing.Point(414, 73);
             this.PNL_UOCSettings.Name = "PNL_UOCSettings";
-            this.PNL_UOCSettings.Size = new System.Drawing.Size(240, 54);
+            this.PNL_UOCSettings.Size = new System.Drawing.Size(239, 54);
             this.PNL_UOCSettings.TabIndex = 8;
             // 
             // LBL_UOCSettingsHeader
@@ -923,18 +935,72 @@
             this.LBL_AuxSvcPassword.AutoSize = true;
             this.LBL_AuxSvcPassword.Location = new System.Drawing.Point(9, 54);
             this.LBL_AuxSvcPassword.Name = "LBL_AuxSvcPassword";
-            this.LBL_AuxSvcPassword.Size = new System.Drawing.Size(96, 13);
+            this.LBL_AuxSvcPassword.Size = new System.Drawing.Size(56, 13);
             this.LBL_AuxSvcPassword.TabIndex = 2;
-            this.LBL_AuxSvcPassword.Text = "AuxSvc Password:";
+            this.LBL_AuxSvcPassword.Text = "Password:";
             // 
-            // TB_AuxSvcPassword
+            // TB_CreateAuxPassword
             // 
-            this.TB_AuxSvcPassword.Location = new System.Drawing.Point(121, 52);
-            this.TB_AuxSvcPassword.MaxLength = 30;
-            this.TB_AuxSvcPassword.Name = "TB_AuxSvcPassword";
-            this.TB_AuxSvcPassword.PasswordChar = '*';
-            this.TB_AuxSvcPassword.Size = new System.Drawing.Size(100, 20);
-            this.TB_AuxSvcPassword.TabIndex = 3;
+            this.TB_CreateAuxPassword.Location = new System.Drawing.Point(78, 52);
+            this.TB_CreateAuxPassword.MaxLength = 30;
+            this.TB_CreateAuxPassword.Name = "TB_CreateAuxPassword";
+            this.TB_CreateAuxPassword.PasswordChar = '*';
+            this.TB_CreateAuxPassword.Size = new System.Drawing.Size(100, 20);
+            this.TB_CreateAuxPassword.TabIndex = 3;
+            // 
+            // GB_ModifyAccount
+            // 
+            this.GB_ModifyAccount.Location = new System.Drawing.Point(282, 66);
+            this.GB_ModifyAccount.Name = "GB_ModifyAccount";
+            this.GB_ModifyAccount.Size = new System.Drawing.Size(386, 132);
+            this.GB_ModifyAccount.TabIndex = 3;
+            this.GB_ModifyAccount.TabStop = false;
+            this.GB_ModifyAccount.Text = "Modify Account";
+            // 
+            // GB_DataBackup
+            // 
+            this.GB_DataBackup.Location = new System.Drawing.Point(8, 298);
+            this.GB_DataBackup.Name = "GB_DataBackup";
+            this.GB_DataBackup.Size = new System.Drawing.Size(660, 88);
+            this.GB_DataBackup.TabIndex = 4;
+            this.GB_DataBackup.TabStop = false;
+            this.GB_DataBackup.Text = "POL Data Backup";
+            // 
+            // LBL_ModifyPort
+            // 
+            this.LBL_ModifyPort.AutoSize = true;
+            this.LBL_ModifyPort.Location = new System.Drawing.Point(195, 29);
+            this.LBL_ModifyPort.Name = "LBL_ModifyPort";
+            this.LBL_ModifyPort.Size = new System.Drawing.Size(63, 13);
+            this.LBL_ModifyPort.TabIndex = 4;
+            this.LBL_ModifyPort.Text = "Modify Port:";
+            // 
+            // LBL_ModifyPassword
+            // 
+            this.LBL_ModifyPassword.AutoSize = true;
+            this.LBL_ModifyPassword.Location = new System.Drawing.Point(195, 54);
+            this.LBL_ModifyPassword.Name = "LBL_ModifyPassword";
+            this.LBL_ModifyPassword.Size = new System.Drawing.Size(56, 13);
+            this.LBL_ModifyPassword.TabIndex = 5;
+            this.LBL_ModifyPassword.Text = "Password:";
+            // 
+            // TB_ModifyPort
+            // 
+            this.TB_ModifyPort.Location = new System.Drawing.Point(264, 26);
+            this.TB_ModifyPort.MaxLength = 10;
+            this.TB_ModifyPort.Name = "TB_ModifyPort";
+            this.TB_ModifyPort.Size = new System.Drawing.Size(100, 20);
+            this.TB_ModifyPort.TabIndex = 6;
+            this.TB_ModifyPort.Text = "5667";
+            // 
+            // TB_ModifyAuxPassword
+            // 
+            this.TB_ModifyAuxPassword.Location = new System.Drawing.Point(264, 52);
+            this.TB_ModifyAuxPassword.MaxLength = 30;
+            this.TB_ModifyAuxPassword.Name = "TB_ModifyAuxPassword";
+            this.TB_ModifyAuxPassword.PasswordChar = '*';
+            this.TB_ModifyAuxPassword.Size = new System.Drawing.Size(100, 20);
+            this.TB_ModifyAuxPassword.TabIndex = 7;
             // 
             // Form1
             // 
@@ -1063,8 +1129,14 @@
         private System.Windows.Forms.Label LBL_UOCMulFilePath;
         private System.Windows.Forms.Button BTN_MULBrowse;
         private System.Windows.Forms.TextBox TB_MULFilePath;
-        private System.Windows.Forms.TextBox TB_AuxSvcPassword;
+        private System.Windows.Forms.TextBox TB_CreateAuxPassword;
         private System.Windows.Forms.Label LBL_AuxSvcPassword;
+        private System.Windows.Forms.GroupBox GB_DataBackup;
+        private System.Windows.Forms.GroupBox GB_ModifyAccount;
+        private System.Windows.Forms.Label LBL_ModifyPort;
+        private System.Windows.Forms.TextBox TB_ModifyAuxPassword;
+        private System.Windows.Forms.TextBox TB_ModifyPort;
+        private System.Windows.Forms.Label LBL_ModifyPassword;
 	}
 }
 
