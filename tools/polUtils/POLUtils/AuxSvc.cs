@@ -8,11 +8,8 @@
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-using System;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace POLUtils.AuxSvc
 {
