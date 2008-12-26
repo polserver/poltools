@@ -1,4 +1,11 @@
-﻿12-24-2008 - MuadDib
+﻿12-25-2008 - MuadDib
+	Note   : Happy Holidays Everyone!
+	Added  : Ecompile Configuration File Reader. Ability to edit settings from the
+			 Ecompile.cfg and save them back. Retains all comments etc from the file.
+			 All settings are tabbed to column 32 in the file for a straight column.
+			 Still need to handle saving PackageRoot settings though.
+	
+12-24-2008 - MuadDib
     Added  : ArrayList checks in Pack();
     
 12-23-2008 - MuadDib
