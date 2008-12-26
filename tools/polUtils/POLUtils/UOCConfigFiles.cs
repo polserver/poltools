@@ -8,13 +8,7 @@
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
 
-using POLUtils.UOConvert;
-using POLUtils.UOConvert.UOCConfigFiles;
 
 namespace POLUtils.UOConvert.UOCConfigFiles
 {
