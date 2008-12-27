@@ -365,9 +365,11 @@ namespace POLLaunch
                     dirpath = Path.GetDirectoryName(exepath);
                 }
 
-                string Cmd = " ";
+                string Cmd = "";
                 if (PL_UOConvert.BuildList.Count != 0)
-                    Cmd = PL_UOConvert.BuildList[0].ToString();
+                    Cmd += PL_UOConvert.BuildList[0].ToString();
+                if (TB_MULFilePath.Text.Length > 0)
+                    Cmd += " uodata=" + TB_MULFilePath.Text;
 
                 this.UOCConsole = new MyConsole();
                 this.UOCConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
