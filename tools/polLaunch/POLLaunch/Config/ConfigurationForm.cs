@@ -45,7 +45,7 @@ namespace POLLaunch.Configuration
 				this.TB_UOCnvrtEXEPath.Text = this.TB_POLPath.Text + @"\uoconvert.exe";
 			if (File.Exists(this.TB_POLPath.Text + @"\scripts\ecompile.exe"))
 				this.TB_ECompileEXEPath.Text = this.TB_POLPath.Text + @"\scripts\ecompile.exe";
-		}
+        }
 
 		private void BTN_BrowsePOLEXEPath_Click(object sender, EventArgs e)
 		{
@@ -69,8 +69,15 @@ namespace POLLaunch.Configuration
 			Settings.Global.Properties["POLPath"] = this.TB_POLPath.Text;
 			Settings.Global.Properties["POLExePath"] = this.TB_POLEXEPath.Text;
 			Settings.Global.Properties["UOConvertExePath"] = this.TB_UOCnvrtEXEPath.Text;
-			Settings.Global.Properties["ECompileExePath"] = this.TB_ECompileEXEPath.Text;
-			Settings.Global.SaveConfiguration();
+            if (File.Exists(this.TB_POLPath.Text + @"\uoconvert.cfg"))
+            {
+                Settings.Global.Properties["UOConvertCfgPath"] = this.TB_POLPath.Text + @"\uoconvert.cfg";
+            }
+            Settings.Global.Properties["ECompileExePath"] = this.TB_ECompileEXEPath.Text;
+            if (File.Exists(this.TB_POLPath.Text + @"\scripts\ecompile.cfg"))
+            {
+                Settings.Global.Properties["ECompileCfgPath"] = this.TB_POLPath.Text + @"\scripts\ecompile.cfg";
+            }
 		}
 
 		private void BTN_OKAY_Click(object sender, EventArgs e)
