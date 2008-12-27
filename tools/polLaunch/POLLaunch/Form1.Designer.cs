@@ -51,6 +51,11 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.BTN_UOConvert = new System.Windows.Forms.Button();
             this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
+            this.PNL_UOCSettings = new System.Windows.Forms.Panel();
+            this.BTN_MULBrowse = new System.Windows.Forms.Button();
+            this.TB_MULFilePath = new System.Windows.Forms.TextBox();
+            this.LBL_UOCMulFilePath = new System.Windows.Forms.Label();
+            this.LBL_UOCSettingsHeader = new System.Windows.Forms.Label();
             this.PNL_UOCConfigFiles = new System.Windows.Forms.Panel();
             this.CB_TileData = new System.Windows.Forms.CheckBox();
             this.CB_LandTiles = new System.Windows.Forms.CheckBox();
@@ -81,7 +86,15 @@
             this.BTN_StartPOL = new System.Windows.Forms.Button();
             this.txtPOLConsole = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.GB_DataBackup = new System.Windows.Forms.GroupBox();
+            this.GB_ModifyAccount = new System.Windows.Forms.GroupBox();
             this.GB_AuxSvcSettings = new System.Windows.Forms.GroupBox();
+            this.TB_ModifyAuxPassword = new System.Windows.Forms.TextBox();
+            this.TB_ModifyPort = new System.Windows.Forms.TextBox();
+            this.LBL_ModifyPassword = new System.Windows.Forms.Label();
+            this.LBL_ModifyPort = new System.Windows.Forms.Label();
+            this.TB_CreateAuxPassword = new System.Windows.Forms.TextBox();
+            this.LBL_AuxSvcPassword = new System.Windows.Forms.Label();
             this.TB_CreateAccountPort = new System.Windows.Forms.TextBox();
             this.LBL_CreatePort = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -100,19 +113,28 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.PNL_UOCSettings = new System.Windows.Forms.Panel();
-            this.LBL_UOCSettingsHeader = new System.Windows.Forms.Label();
-            this.LBL_UOCMulFilePath = new System.Windows.Forms.Label();
-            this.TB_MULFilePath = new System.Windows.Forms.TextBox();
-            this.BTN_MULBrowse = new System.Windows.Forms.Button();
-            this.LBL_AuxSvcPassword = new System.Windows.Forms.Label();
-            this.TB_CreateAuxPassword = new System.Windows.Forms.TextBox();
-            this.GB_ModifyAccount = new System.Windows.Forms.GroupBox();
-            this.GB_DataBackup = new System.Windows.Forms.GroupBox();
-            this.LBL_ModifyPort = new System.Windows.Forms.Label();
-            this.LBL_ModifyPassword = new System.Windows.Forms.Label();
-            this.TB_ModifyPort = new System.Windows.Forms.TextBox();
-            this.TB_ModifyAuxPassword = new System.Windows.Forms.TextBox();
+            this.TB_ECompile = new System.Windows.Forms.TextBox();
+            this.GB_ECompile = new System.Windows.Forms.GroupBox();
+            this.PNL_ECompileSave = new System.Windows.Forms.Panel();
+            this.BTN_ECompileSave = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.LBL_ECompileFlags = new System.Windows.Forms.Label();
+            this.CB_ECompileFlagDBGTXT = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagLST = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDBG = new System.Windows.Forms.CheckBox();
+            this.BTN_ECompile = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.BTN_EcompileLoad = new System.Windows.Forms.Button();
+            this.LBL_ECompileLoad = new System.Windows.Forms.Label();
+            this.CB_ECompileFlagWarnings = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagASP = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagACBD = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagUOOAC = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagOCUS = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDS = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDEP = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDUTDS = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -121,14 +143,19 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.UOConvertGroupBox.SuspendLayout();
+            this.PNL_UOCSettings.SuspendLayout();
             this.PNL_UOCConfigFiles.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.GB_CreateAccount.SuspendLayout();
-            this.PNL_UOCSettings.SuspendLayout();
+            this.GB_ECompile.SuspendLayout();
+            this.PNL_ECompileSave.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -342,6 +369,54 @@
             this.UOConvertGroupBox.TabIndex = 3;
             this.UOConvertGroupBox.TabStop = false;
             this.UOConvertGroupBox.Text = "UOConvert Controls";
+            // 
+            // PNL_UOCSettings
+            // 
+            this.PNL_UOCSettings.Controls.Add(this.BTN_MULBrowse);
+            this.PNL_UOCSettings.Controls.Add(this.TB_MULFilePath);
+            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCMulFilePath);
+            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCSettingsHeader);
+            this.PNL_UOCSettings.Location = new System.Drawing.Point(414, 73);
+            this.PNL_UOCSettings.Name = "PNL_UOCSettings";
+            this.PNL_UOCSettings.Size = new System.Drawing.Size(239, 54);
+            this.PNL_UOCSettings.TabIndex = 8;
+            // 
+            // BTN_MULBrowse
+            // 
+            this.BTN_MULBrowse.Location = new System.Drawing.Point(162, 19);
+            this.BTN_MULBrowse.Name = "BTN_MULBrowse";
+            this.BTN_MULBrowse.Size = new System.Drawing.Size(75, 23);
+            this.BTN_MULBrowse.TabIndex = 3;
+            this.BTN_MULBrowse.Text = "Browse";
+            this.BTN_MULBrowse.UseVisualStyleBackColor = true;
+            this.BTN_MULBrowse.Click += new System.EventHandler(this.BTN_MULBrowse_Click);
+            // 
+            // TB_MULFilePath
+            // 
+            this.TB_MULFilePath.Location = new System.Drawing.Point(41, 19);
+            this.TB_MULFilePath.Name = "TB_MULFilePath";
+            this.TB_MULFilePath.Size = new System.Drawing.Size(115, 20);
+            this.TB_MULFilePath.TabIndex = 2;
+            this.TB_MULFilePath.TextChanged += new System.EventHandler(this.TB_MULFilePath_TextChanged);
+            // 
+            // LBL_UOCMulFilePath
+            // 
+            this.LBL_UOCMulFilePath.AutoSize = true;
+            this.LBL_UOCMulFilePath.Location = new System.Drawing.Point(3, 21);
+            this.LBL_UOCMulFilePath.Name = "LBL_UOCMulFilePath";
+            this.LBL_UOCMulFilePath.Size = new System.Drawing.Size(32, 13);
+            this.LBL_UOCMulFilePath.TabIndex = 1;
+            this.LBL_UOCMulFilePath.Text = "Path:";
+            // 
+            // LBL_UOCSettingsHeader
+            // 
+            this.LBL_UOCSettingsHeader.AutoSize = true;
+            this.LBL_UOCSettingsHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_UOCSettingsHeader.Location = new System.Drawing.Point(52, 5);
+            this.LBL_UOCSettingsHeader.Name = "LBL_UOCSettingsHeader";
+            this.LBL_UOCSettingsHeader.Size = new System.Drawing.Size(137, 13);
+            this.LBL_UOCSettingsHeader.TabIndex = 0;
+            this.LBL_UOCSettingsHeader.Text = "Path to UO Client Data";
             // 
             // PNL_UOCConfigFiles
             // 
@@ -607,6 +682,9 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage4.Controls.Add(this.BTN_ECompile);
+            this.tabPage4.Controls.Add(this.GB_ECompile);
+            this.tabPage4.Controls.Add(this.TB_ECompile);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(676, 392);
@@ -677,6 +755,24 @@
             this.tabPage7.Text = "Accounts & Data";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // GB_DataBackup
+            // 
+            this.GB_DataBackup.Location = new System.Drawing.Point(8, 298);
+            this.GB_DataBackup.Name = "GB_DataBackup";
+            this.GB_DataBackup.Size = new System.Drawing.Size(660, 88);
+            this.GB_DataBackup.TabIndex = 4;
+            this.GB_DataBackup.TabStop = false;
+            this.GB_DataBackup.Text = "POL Data Backup";
+            // 
+            // GB_ModifyAccount
+            // 
+            this.GB_ModifyAccount.Location = new System.Drawing.Point(282, 66);
+            this.GB_ModifyAccount.Name = "GB_ModifyAccount";
+            this.GB_ModifyAccount.Size = new System.Drawing.Size(386, 132);
+            this.GB_ModifyAccount.TabIndex = 3;
+            this.GB_ModifyAccount.TabStop = false;
+            this.GB_ModifyAccount.Text = "Modify Account";
+            // 
             // GB_AuxSvcSettings
             // 
             this.GB_AuxSvcSettings.Controls.Add(this.TB_ModifyAuxPassword);
@@ -693,6 +789,60 @@
             this.GB_AuxSvcSettings.TabIndex = 2;
             this.GB_AuxSvcSettings.TabStop = false;
             this.GB_AuxSvcSettings.Text = "AuxSvc Settings";
+            // 
+            // TB_ModifyAuxPassword
+            // 
+            this.TB_ModifyAuxPassword.Location = new System.Drawing.Point(264, 52);
+            this.TB_ModifyAuxPassword.MaxLength = 30;
+            this.TB_ModifyAuxPassword.Name = "TB_ModifyAuxPassword";
+            this.TB_ModifyAuxPassword.PasswordChar = '*';
+            this.TB_ModifyAuxPassword.Size = new System.Drawing.Size(100, 20);
+            this.TB_ModifyAuxPassword.TabIndex = 7;
+            // 
+            // TB_ModifyPort
+            // 
+            this.TB_ModifyPort.Location = new System.Drawing.Point(264, 26);
+            this.TB_ModifyPort.MaxLength = 10;
+            this.TB_ModifyPort.Name = "TB_ModifyPort";
+            this.TB_ModifyPort.Size = new System.Drawing.Size(100, 20);
+            this.TB_ModifyPort.TabIndex = 6;
+            this.TB_ModifyPort.Text = "5667";
+            // 
+            // LBL_ModifyPassword
+            // 
+            this.LBL_ModifyPassword.AutoSize = true;
+            this.LBL_ModifyPassword.Location = new System.Drawing.Point(195, 54);
+            this.LBL_ModifyPassword.Name = "LBL_ModifyPassword";
+            this.LBL_ModifyPassword.Size = new System.Drawing.Size(56, 13);
+            this.LBL_ModifyPassword.TabIndex = 5;
+            this.LBL_ModifyPassword.Text = "Password:";
+            // 
+            // LBL_ModifyPort
+            // 
+            this.LBL_ModifyPort.AutoSize = true;
+            this.LBL_ModifyPort.Location = new System.Drawing.Point(195, 29);
+            this.LBL_ModifyPort.Name = "LBL_ModifyPort";
+            this.LBL_ModifyPort.Size = new System.Drawing.Size(63, 13);
+            this.LBL_ModifyPort.TabIndex = 4;
+            this.LBL_ModifyPort.Text = "Modify Port:";
+            // 
+            // TB_CreateAuxPassword
+            // 
+            this.TB_CreateAuxPassword.Location = new System.Drawing.Point(78, 52);
+            this.TB_CreateAuxPassword.MaxLength = 30;
+            this.TB_CreateAuxPassword.Name = "TB_CreateAuxPassword";
+            this.TB_CreateAuxPassword.PasswordChar = '*';
+            this.TB_CreateAuxPassword.Size = new System.Drawing.Size(100, 20);
+            this.TB_CreateAuxPassword.TabIndex = 3;
+            // 
+            // LBL_AuxSvcPassword
+            // 
+            this.LBL_AuxSvcPassword.AutoSize = true;
+            this.LBL_AuxSvcPassword.Location = new System.Drawing.Point(9, 54);
+            this.LBL_AuxSvcPassword.Name = "LBL_AuxSvcPassword";
+            this.LBL_AuxSvcPassword.Size = new System.Drawing.Size(56, 13);
+            this.LBL_AuxSvcPassword.TabIndex = 2;
+            this.LBL_AuxSvcPassword.Text = "Password:";
             // 
             // TB_CreateAccountPort
             // 
@@ -882,125 +1032,238 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // PNL_UOCSettings
+            // TB_ECompile
             // 
-            this.PNL_UOCSettings.Controls.Add(this.BTN_MULBrowse);
-            this.PNL_UOCSettings.Controls.Add(this.TB_MULFilePath);
-            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCMulFilePath);
-            this.PNL_UOCSettings.Controls.Add(this.LBL_UOCSettingsHeader);
-            this.PNL_UOCSettings.Location = new System.Drawing.Point(414, 73);
-            this.PNL_UOCSettings.Name = "PNL_UOCSettings";
-            this.PNL_UOCSettings.Size = new System.Drawing.Size(239, 54);
-            this.PNL_UOCSettings.TabIndex = 8;
+            this.TB_ECompile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_ECompile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_ECompile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_ECompile.ForeColor = System.Drawing.Color.Black;
+            this.TB_ECompile.Location = new System.Drawing.Point(7, 3);
+            this.TB_ECompile.Multiline = true;
+            this.TB_ECompile.Name = "TB_ECompile";
+            this.TB_ECompile.ReadOnly = true;
+            this.TB_ECompile.Size = new System.Drawing.Size(661, 169);
+            this.TB_ECompile.TabIndex = 3;
             // 
-            // LBL_UOCSettingsHeader
+            // GB_ECompile
             // 
-            this.LBL_UOCSettingsHeader.AutoSize = true;
-            this.LBL_UOCSettingsHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_UOCSettingsHeader.Location = new System.Drawing.Point(52, 5);
-            this.LBL_UOCSettingsHeader.Name = "LBL_UOCSettingsHeader";
-            this.LBL_UOCSettingsHeader.Size = new System.Drawing.Size(137, 13);
-            this.LBL_UOCSettingsHeader.TabIndex = 0;
-            this.LBL_UOCSettingsHeader.Text = "Path to UO Client Data";
+            this.GB_ECompile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.GB_ECompile.Controls.Add(this.LBL_ECompileFlags);
+            this.GB_ECompile.Controls.Add(this.panel2);
+            this.GB_ECompile.Controls.Add(this.PNL_ECompileSave);
+            this.GB_ECompile.Controls.Add(this.panel5);
+            this.GB_ECompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GB_ECompile.Location = new System.Drawing.Point(7, 178);
+            this.GB_ECompile.Name = "GB_ECompile";
+            this.GB_ECompile.Size = new System.Drawing.Size(661, 176);
+            this.GB_ECompile.TabIndex = 4;
+            this.GB_ECompile.TabStop = false;
+            this.GB_ECompile.Text = "ECompile Controls";
             // 
-            // LBL_UOCMulFilePath
+            // PNL_ECompileSave
             // 
-            this.LBL_UOCMulFilePath.AutoSize = true;
-            this.LBL_UOCMulFilePath.Location = new System.Drawing.Point(3, 21);
-            this.LBL_UOCMulFilePath.Name = "LBL_UOCMulFilePath";
-            this.LBL_UOCMulFilePath.Size = new System.Drawing.Size(32, 13);
-            this.LBL_UOCMulFilePath.TabIndex = 1;
-            this.LBL_UOCMulFilePath.Text = "Path:";
+            this.PNL_ECompileSave.Controls.Add(this.BTN_ECompileSave);
+            this.PNL_ECompileSave.Controls.Add(this.label9);
+            this.PNL_ECompileSave.Location = new System.Drawing.Point(414, 73);
+            this.PNL_ECompileSave.Name = "PNL_ECompileSave";
+            this.PNL_ECompileSave.Size = new System.Drawing.Size(239, 54);
+            this.PNL_ECompileSave.TabIndex = 8;
             // 
-            // TB_MULFilePath
+            // BTN_ECompileSave
             // 
-            this.TB_MULFilePath.Location = new System.Drawing.Point(41, 19);
-            this.TB_MULFilePath.Name = "TB_MULFilePath";
-            this.TB_MULFilePath.Size = new System.Drawing.Size(115, 20);
-            this.TB_MULFilePath.TabIndex = 2;
-            this.TB_MULFilePath.TextChanged += new System.EventHandler(this.TB_MULFilePath_TextChanged);
+            this.BTN_ECompileSave.Location = new System.Drawing.Point(82, 21);
+            this.BTN_ECompileSave.Name = "BTN_ECompileSave";
+            this.BTN_ECompileSave.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompileSave.TabIndex = 3;
+            this.BTN_ECompileSave.Text = "Save";
+            this.BTN_ECompileSave.UseVisualStyleBackColor = true;
+            this.BTN_ECompileSave.Click += new System.EventHandler(this.BTN_ECompileSave_Click);
             // 
-            // BTN_MULBrowse
+            // label9
             // 
-            this.BTN_MULBrowse.Location = new System.Drawing.Point(162, 19);
-            this.BTN_MULBrowse.Name = "BTN_MULBrowse";
-            this.BTN_MULBrowse.Size = new System.Drawing.Size(75, 23);
-            this.BTN_MULBrowse.TabIndex = 3;
-            this.BTN_MULBrowse.Text = "Browse";
-            this.BTN_MULBrowse.UseVisualStyleBackColor = true;
-            this.BTN_MULBrowse.Click += new System.EventHandler(this.BTN_MULBrowse_Click);
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(10, 5);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(218, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Save these settings to ECompile.CFG";
             // 
-            // LBL_AuxSvcPassword
+            // panel5
             // 
-            this.LBL_AuxSvcPassword.AutoSize = true;
-            this.LBL_AuxSvcPassword.Location = new System.Drawing.Point(9, 54);
-            this.LBL_AuxSvcPassword.Name = "LBL_AuxSvcPassword";
-            this.LBL_AuxSvcPassword.Size = new System.Drawing.Size(56, 13);
-            this.LBL_AuxSvcPassword.TabIndex = 2;
-            this.LBL_AuxSvcPassword.Text = "Password:";
+            this.panel5.Controls.Add(this.CB_ECompileFlagDUTDS);
+            this.panel5.Controls.Add(this.CB_ECompileFlagDEP);
+            this.panel5.Controls.Add(this.CB_ECompileFlagDS);
+            this.panel5.Controls.Add(this.CB_ECompileFlagOCUS);
+            this.panel5.Controls.Add(this.CB_ECompileFlagUOOAC);
+            this.panel5.Controls.Add(this.CB_ECompileFlagACBD);
+            this.panel5.Controls.Add(this.CB_ECompileFlagASP);
+            this.panel5.Controls.Add(this.CB_ECompileFlagWarnings);
+            this.panel5.Controls.Add(this.CB_ECompileFlagDBGTXT);
+            this.panel5.Controls.Add(this.CB_ECompileFlagLST);
+            this.panel5.Controls.Add(this.CB_ECompileFlagDBG);
+            this.panel5.Location = new System.Drawing.Point(6, 19);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(402, 107);
+            this.panel5.TabIndex = 6;
             // 
-            // TB_CreateAuxPassword
+            // LBL_ECompileFlags
             // 
-            this.TB_CreateAuxPassword.Location = new System.Drawing.Point(78, 52);
-            this.TB_CreateAuxPassword.MaxLength = 30;
-            this.TB_CreateAuxPassword.Name = "TB_CreateAuxPassword";
-            this.TB_CreateAuxPassword.PasswordChar = '*';
-            this.TB_CreateAuxPassword.Size = new System.Drawing.Size(100, 20);
-            this.TB_CreateAuxPassword.TabIndex = 3;
+            this.LBL_ECompileFlags.AutoSize = true;
+            this.LBL_ECompileFlags.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ECompileFlags.Location = new System.Drawing.Point(157, 7);
+            this.LBL_ECompileFlags.Name = "LBL_ECompileFlags";
+            this.LBL_ECompileFlags.Size = new System.Drawing.Size(89, 13);
+            this.LBL_ECompileFlags.TabIndex = 6;
+            this.LBL_ECompileFlags.Text = "Compiler Flags";
             // 
-            // GB_ModifyAccount
+            // CB_ECompileFlagDBGTXT
             // 
-            this.GB_ModifyAccount.Location = new System.Drawing.Point(282, 66);
-            this.GB_ModifyAccount.Name = "GB_ModifyAccount";
-            this.GB_ModifyAccount.Size = new System.Drawing.Size(386, 132);
-            this.GB_ModifyAccount.TabIndex = 3;
-            this.GB_ModifyAccount.TabStop = false;
-            this.GB_ModifyAccount.Text = "Modify Account";
+            this.CB_ECompileFlagDBGTXT.AutoSize = true;
+            this.CB_ECompileFlagDBGTXT.Location = new System.Drawing.Point(7, 38);
+            this.CB_ECompileFlagDBGTXT.Name = "CB_ECompileFlagDBGTXT";
+            this.CB_ECompileFlagDBGTXT.Size = new System.Drawing.Size(171, 17);
+            this.CB_ECompileFlagDBGTXT.TabIndex = 2;
+            this.CB_ECompileFlagDBGTXT.Text = "Generate Debug Text File (.txt)";
+            this.CB_ECompileFlagDBGTXT.UseVisualStyleBackColor = true;
             // 
-            // GB_DataBackup
+            // CB_ECompileFlagLST
             // 
-            this.GB_DataBackup.Location = new System.Drawing.Point(8, 298);
-            this.GB_DataBackup.Name = "GB_DataBackup";
-            this.GB_DataBackup.Size = new System.Drawing.Size(660, 88);
-            this.GB_DataBackup.TabIndex = 4;
-            this.GB_DataBackup.TabStop = false;
-            this.GB_DataBackup.Text = "POL Data Backup";
+            this.CB_ECompileFlagLST.AutoSize = true;
+            this.CB_ECompileFlagLST.Location = new System.Drawing.Point(7, 6);
+            this.CB_ECompileFlagLST.Name = "CB_ECompileFlagLST";
+            this.CB_ECompileFlagLST.Size = new System.Drawing.Size(130, 17);
+            this.CB_ECompileFlagLST.TabIndex = 0;
+            this.CB_ECompileFlagLST.Text = "Generate List File (.lst)";
+            this.CB_ECompileFlagLST.UseVisualStyleBackColor = true;
             // 
-            // LBL_ModifyPort
+            // CB_ECompileFlagDBG
             // 
-            this.LBL_ModifyPort.AutoSize = true;
-            this.LBL_ModifyPort.Location = new System.Drawing.Point(195, 29);
-            this.LBL_ModifyPort.Name = "LBL_ModifyPort";
-            this.LBL_ModifyPort.Size = new System.Drawing.Size(63, 13);
-            this.LBL_ModifyPort.TabIndex = 4;
-            this.LBL_ModifyPort.Text = "Modify Port:";
+            this.CB_ECompileFlagDBG.AutoSize = true;
+            this.CB_ECompileFlagDBG.Location = new System.Drawing.Point(7, 22);
+            this.CB_ECompileFlagDBG.Name = "CB_ECompileFlagDBG";
+            this.CB_ECompileFlagDBG.Size = new System.Drawing.Size(154, 17);
+            this.CB_ECompileFlagDBG.TabIndex = 1;
+            this.CB_ECompileFlagDBG.Text = "Generate Debug File (.dbg)";
+            this.CB_ECompileFlagDBG.UseVisualStyleBackColor = true;
             // 
-            // LBL_ModifyPassword
+            // BTN_ECompile
             // 
-            this.LBL_ModifyPassword.AutoSize = true;
-            this.LBL_ModifyPassword.Location = new System.Drawing.Point(195, 54);
-            this.LBL_ModifyPassword.Name = "LBL_ModifyPassword";
-            this.LBL_ModifyPassword.Size = new System.Drawing.Size(56, 13);
-            this.LBL_ModifyPassword.TabIndex = 5;
-            this.LBL_ModifyPassword.Text = "Password:";
+            this.BTN_ECompile.Location = new System.Drawing.Point(301, 360);
+            this.BTN_ECompile.Name = "BTN_ECompile";
+            this.BTN_ECompile.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompile.TabIndex = 5;
+            this.BTN_ECompile.Text = "Compile";
+            this.BTN_ECompile.UseVisualStyleBackColor = true;
             // 
-            // TB_ModifyPort
+            // panel2
             // 
-            this.TB_ModifyPort.Location = new System.Drawing.Point(264, 26);
-            this.TB_ModifyPort.MaxLength = 10;
-            this.TB_ModifyPort.Name = "TB_ModifyPort";
-            this.TB_ModifyPort.Size = new System.Drawing.Size(100, 20);
-            this.TB_ModifyPort.TabIndex = 6;
-            this.TB_ModifyPort.Text = "5667";
+            this.panel2.Controls.Add(this.BTN_EcompileLoad);
+            this.panel2.Controls.Add(this.LBL_ECompileLoad);
+            this.panel2.Location = new System.Drawing.Point(414, 19);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(239, 54);
+            this.panel2.TabIndex = 9;
             // 
-            // TB_ModifyAuxPassword
+            // BTN_EcompileLoad
             // 
-            this.TB_ModifyAuxPassword.Location = new System.Drawing.Point(264, 52);
-            this.TB_ModifyAuxPassword.MaxLength = 30;
-            this.TB_ModifyAuxPassword.Name = "TB_ModifyAuxPassword";
-            this.TB_ModifyAuxPassword.PasswordChar = '*';
-            this.TB_ModifyAuxPassword.Size = new System.Drawing.Size(100, 20);
-            this.TB_ModifyAuxPassword.TabIndex = 7;
+            this.BTN_EcompileLoad.Location = new System.Drawing.Point(82, 21);
+            this.BTN_EcompileLoad.Name = "BTN_EcompileLoad";
+            this.BTN_EcompileLoad.Size = new System.Drawing.Size(75, 23);
+            this.BTN_EcompileLoad.TabIndex = 3;
+            this.BTN_EcompileLoad.Text = "Load";
+            this.BTN_EcompileLoad.UseVisualStyleBackColor = true;
+            this.BTN_EcompileLoad.Click += new System.EventHandler(this.BTN_EcompileLoad_Click);
+            // 
+            // LBL_ECompileLoad
+            // 
+            this.LBL_ECompileLoad.AutoSize = true;
+            this.LBL_ECompileLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ECompileLoad.Location = new System.Drawing.Point(25, 5);
+            this.LBL_ECompileLoad.Name = "LBL_ECompileLoad";
+            this.LBL_ECompileLoad.Size = new System.Drawing.Size(189, 13);
+            this.LBL_ECompileLoad.TabIndex = 0;
+            this.LBL_ECompileLoad.Text = "Load settings from ECompile.cfg";
+            // 
+            // CB_ECompileFlagWarnings
+            // 
+            this.CB_ECompileFlagWarnings.AutoSize = true;
+            this.CB_ECompileFlagWarnings.Location = new System.Drawing.Point(194, 70);
+            this.CB_ECompileFlagWarnings.Name = "CB_ECompileFlagWarnings";
+            this.CB_ECompileFlagWarnings.Size = new System.Drawing.Size(108, 17);
+            this.CB_ECompileFlagWarnings.TabIndex = 7;
+            this.CB_ECompileFlagWarnings.Text = "Display Warnings";
+            this.CB_ECompileFlagWarnings.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagASP
+            // 
+            this.CB_ECompileFlagASP.AutoSize = true;
+            this.CB_ECompileFlagASP.Location = new System.Drawing.Point(7, 70);
+            this.CB_ECompileFlagASP.Name = "CB_ECompileFlagASP";
+            this.CB_ECompileFlagASP.Size = new System.Drawing.Size(123, 17);
+            this.CB_ECompileFlagASP.TabIndex = 8;
+            this.CB_ECompileFlagASP.Text = "Compile .ASP Pages";
+            this.CB_ECompileFlagASP.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagACBD
+            // 
+            this.CB_ECompileFlagACBD.AutoSize = true;
+            this.CB_ECompileFlagACBD.Location = new System.Drawing.Point(194, 6);
+            this.CB_ECompileFlagACBD.Name = "CB_ECompileFlagACBD";
+            this.CB_ECompileFlagACBD.Size = new System.Drawing.Size(140, 17);
+            this.CB_ECompileFlagACBD.TabIndex = 9;
+            this.CB_ECompileFlagACBD.Text = "Auto Compile By Default";
+            this.CB_ECompileFlagACBD.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagUOOAC
+            // 
+            this.CB_ECompileFlagUOOAC.AutoSize = true;
+            this.CB_ECompileFlagUOOAC.Location = new System.Drawing.Point(194, 22);
+            this.CB_ECompileFlagUOOAC.Name = "CB_ECompileFlagUOOAC";
+            this.CB_ECompileFlagUOOAC.Size = new System.Drawing.Size(167, 17);
+            this.CB_ECompileFlagUOOAC.TabIndex = 10;
+            this.CB_ECompileFlagUOOAC.Text = "Update Only On Auto Compile";
+            this.CB_ECompileFlagUOOAC.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagOCUS
+            // 
+            this.CB_ECompileFlagOCUS.AutoSize = true;
+            this.CB_ECompileFlagOCUS.Location = new System.Drawing.Point(194, 38);
+            this.CB_ECompileFlagOCUS.Name = "CB_ECompileFlagOCUS";
+            this.CB_ECompileFlagOCUS.Size = new System.Drawing.Size(166, 17);
+            this.CB_ECompileFlagOCUS.TabIndex = 11;
+            this.CB_ECompileFlagOCUS.Text = "Only Compile Updated Scripts";
+            this.CB_ECompileFlagOCUS.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagDS
+            // 
+            this.CB_ECompileFlagDS.AutoSize = true;
+            this.CB_ECompileFlagDS.Location = new System.Drawing.Point(194, 86);
+            this.CB_ECompileFlagDS.Name = "CB_ECompileFlagDS";
+            this.CB_ECompileFlagDS.Size = new System.Drawing.Size(106, 17);
+            this.CB_ECompileFlagDS.TabIndex = 12;
+            this.CB_ECompileFlagDS.Text = "Display Summary";
+            this.CB_ECompileFlagDS.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagDEP
+            // 
+            this.CB_ECompileFlagDEP.AutoSize = true;
+            this.CB_ECompileFlagDEP.Location = new System.Drawing.Point(7, 54);
+            this.CB_ECompileFlagDEP.Name = "CB_ECompileFlagDEP";
+            this.CB_ECompileFlagDEP.Size = new System.Drawing.Size(183, 17);
+            this.CB_ECompileFlagDEP.TabIndex = 13;
+            this.CB_ECompileFlagDEP.Text = "Generate Dependency File (.dep)";
+            this.CB_ECompileFlagDEP.UseVisualStyleBackColor = true;
+            // 
+            // CB_ECompileFlagDUTDS
+            // 
+            this.CB_ECompileFlagDUTDS.AutoSize = true;
+            this.CB_ECompileFlagDUTDS.Location = new System.Drawing.Point(194, 54);
+            this.CB_ECompileFlagDUTDS.Name = "CB_ECompileFlagDUTDS";
+            this.CB_ECompileFlagDUTDS.Size = new System.Drawing.Size(154, 17);
+            this.CB_ECompileFlagDUTDS.TabIndex = 14;
+            this.CB_ECompileFlagDUTDS.Text = "Display Up To Date Scripts";
+            this.CB_ECompileFlagDUTDS.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1032,10 +1295,14 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.UOConvertGroupBox.ResumeLayout(false);
+            this.PNL_UOCSettings.ResumeLayout(false);
+            this.PNL_UOCSettings.PerformLayout();
             this.PNL_UOCConfigFiles.ResumeLayout(false);
             this.PNL_UOCConfigFiles.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
@@ -1045,8 +1312,14 @@
             this.panel3.PerformLayout();
             this.GB_CreateAccount.ResumeLayout(false);
             this.GB_CreateAccount.PerformLayout();
-            this.PNL_UOCSettings.ResumeLayout(false);
-            this.PNL_UOCSettings.PerformLayout();
+            this.GB_ECompile.ResumeLayout(false);
+            this.GB_ECompile.PerformLayout();
+            this.PNL_ECompileSave.ResumeLayout(false);
+            this.PNL_ECompileSave.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1137,6 +1410,28 @@
         private System.Windows.Forms.TextBox TB_ModifyAuxPassword;
         private System.Windows.Forms.TextBox TB_ModifyPort;
         private System.Windows.Forms.Label LBL_ModifyPassword;
+        public System.Windows.Forms.TextBox TB_ECompile;
+        private System.Windows.Forms.Button BTN_ECompile;
+        private System.Windows.Forms.GroupBox GB_ECompile;
+        private System.Windows.Forms.Panel PNL_ECompileSave;
+        private System.Windows.Forms.Button BTN_ECompileSave;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label LBL_ECompileFlags;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDBGTXT;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagLST;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDBG;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button BTN_EcompileLoad;
+        private System.Windows.Forms.Label LBL_ECompileLoad;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagWarnings;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagASP;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagUOOAC;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagACBD;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDEP;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDS;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagOCUS;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDUTDS;
 	}
 }
 

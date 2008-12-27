@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
-
+using System.Windows.Forms;
 using POLLaunch.Console;
+using POLUtils.AuxSvc;
+using POLUtils.ECompile;
+using POLUtils.PackUnpack;
 using POLUtils.UOConvert;
 using POLUtils.UOConvert.UOCConfigFiles;
 using POLUtils.UOConvert.UOCRealms;
-using POLUtils.AuxSvc;
-using POLUtils.PackUnpack;
 
 namespace POLLaunch
 {
@@ -21,6 +16,7 @@ namespace POLLaunch
 	{
         MyConsole POLConsole = null;
         MyConsole UOCConsole = null;
+        EConfig ECompileCFG = null;
         bool Ctrl, Alt, Shift; // small kludge... will it work?
 
 		public Form1()
@@ -446,13 +442,16 @@ namespace POLLaunch
 
         private void TB_MULFilePath_TextChanged(object sender, EventArgs e)
         {
-            foreach (string MulFile in UOConvert.RequiredMul)
+            if (TB_MULFilePath.Text.Length > 0)
             {
-                if (!File.Exists(TB_MULFilePath.Text + @"\" + MulFile))
+                foreach (string MulFile in UOConvert.RequiredMul)
                 {
-                    MessageBox.Show(TB_MULFilePath.Text + " does not contain any of the required MUL files for UOConvert!");
-                    TB_MULFilePath.Text = "";
-                    return;
+                    if (!File.Exists(TB_MULFilePath.Text + @"\" + MulFile))
+                    {
+                        MessageBox.Show(TB_MULFilePath.Text + " does not contain any of the required MUL files for UOConvert!");
+                        TB_MULFilePath.Text = "";
+                        return;
+                    }
                 }
             }
         }
@@ -521,6 +520,41 @@ namespace POLLaunch
             }
 
             MessageBox.Show(ResultMsg, CaptionMsg);
+        }
+
+        private void BTN_EcompileLoad_Click(object sender, EventArgs e)
+        {
+            ECompileCFG = new EConfig();
+            ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+            // Now update all the friggen checkboxes. OH YAY!
+            CB_ECompileFlagACBD.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("AutoCompileByDefault"));
+            CB_ECompileFlagASP.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("CompileAspPages"));
+            CB_ECompileFlagDBG.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDebugInfo"));
+            CB_ECompileFlagDBGTXT.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDebugTextInfo"));
+            CB_ECompileFlagDS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplaySummary"));
+            CB_ECompileFlagDUTDS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplayUpToDateScripts"));
+            CB_ECompileFlagLST.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateListing"));
+            CB_ECompileFlagOCUS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("OnlyCompileUpdatedScripts"));
+            CB_ECompileFlagUOOAC.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("UpdateOnlyOnAutoCompile"));
+            CB_ECompileFlagWarnings.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplayWarnings"));
+            CB_ECompileFlagDEP.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDependencyInfo"));
+        }
+
+        private void BTN_ECompileSave_Click(object sender, EventArgs e)
+        {
+            ECompileCFG.Option("AutoCompileByDefault", CB_ECompileFlagACBD.Checked);
+            ECompileCFG.Option("CompileAspPages", CB_ECompileFlagASP.Checked);
+            ECompileCFG.Option("GenerateDebugInfo", CB_ECompileFlagDBG.Checked);
+            ECompileCFG.Option("GenerateDebugTextInfo", CB_ECompileFlagDBGTXT.Checked);
+            ECompileCFG.Option("DisplaySummary", CB_ECompileFlagDS.Checked);
+            ECompileCFG.Option("DisplayUpToDateScripts", CB_ECompileFlagDUTDS.Checked);
+            ECompileCFG.Option("GenerateListing", CB_ECompileFlagLST.Checked);
+            ECompileCFG.Option("OnlyCompileUpdatedScripts", CB_ECompileFlagOCUS.Checked);
+            ECompileCFG.Option("UpdateOnlyOnAutoCompile", CB_ECompileFlagUOOAC.Checked);
+            ECompileCFG.Option("DisplayWarnings", CB_ECompileFlagWarnings.Checked);
+            ECompileCFG.Option("GenerateDependencyInfo", CB_ECompileFlagDEP.Checked);
+
+            ECompileCFG.SaveConfig();
         }
 	}
 }
