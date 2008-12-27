@@ -25,6 +25,9 @@ namespace POLUtils.ECompile
 
         private Dictionary<string, string> Options = new Dictionary<string, string>();
 
+        // This stores all the command line flags for the options.
+        private Dictionary<string, string> OptionFlag = new Dictionary<string, string>();
+
         private string[] OptionsDirNames = {
                                              "ModuleDirectory",
                                              "IncludeDirectory",
@@ -51,7 +54,21 @@ namespace POLUtils.ECompile
         /// <summary>
         ///     Default Constructor
         /// </summary>
-        public EConfig() { }
+        public EConfig() { BuildFlagList(); }
+
+        private void BuildFlagList()
+        {
+            OptionFlag.Add("GenerateListing", "-l");
+            OptionFlag.Add("GenerateDebugInfo", "-x");
+            OptionFlag.Add("GenerateDebugTextInfo", "-xt");
+            OptionFlag.Add("DisplayWarnings", "-w");
+            OptionFlag.Add("CompileAspPages", "-a");
+            OptionFlag.Add("AutoCompileByDefault", "-A");
+            OptionFlag.Add("UpdateOnlyOnAutoCompile", "-Au");
+            OptionFlag.Add("OnlyCompileUpdatedScripts", "-u");
+            OptionFlag.Add("DisplaySummary", "-s");
+            OptionFlag.Add("GenerateDependencyInfo", "-D");
+        }
 
         /// <summary>
         ///     Opens the Ecompile.Cfg file for reading.
@@ -126,6 +143,16 @@ namespace POLUtils.ECompile
                 else
                     Options.Add(OptionFound, OptionEntry);
             }
+        }
+
+        /// <summary>
+        ///     Reads commandline flag for given Option
+        /// </summary>
+        /// <param name="OptionName">OptionName string</param>
+        /// <returns>Commandline flag in string form</returns>
+        public string CommandFlag(string OptionName)
+        {
+            return OptionFlag[OptionName];
         }
 
         /// <summary>

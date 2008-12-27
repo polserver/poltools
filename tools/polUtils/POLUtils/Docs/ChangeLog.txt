@@ -2,6 +2,10 @@
 	Added  : Added more Paths to PathStorage.
 	Added  : New overload for EConfig.Option() so you can pass a bool as the new value.
 	         Method auto converts bool to string 0/1.
+    Added  : Storage and methods for holding/reading CommandLine flags for ECompile.exe.
+             Some NEW flags was added too (that only existed via ecompile.cfg) and those
+             was added to 098 ECompile. Will be out in a release soon. DisplayUpToDateScripts
+             currently does nothing though hehe.	         
 	         
 12-25-2008 - MuadDib
 	Note   : Happy Holidays Everyone!
