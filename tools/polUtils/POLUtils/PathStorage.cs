@@ -48,8 +48,11 @@ namespace POLUtils.PathStorage
             PathSettings.Add("MULPath", null);
             PathSettings.Add("POLPath", null);
             PathSettings.Add("POLExePath", null);
+            PathSettings.Add("POLCfgPath", null);
             PathSettings.Add("UOConvertExePath", null);
+            PathSettings.Add("UOConvertCfgPath", null);
             PathSettings.Add("ECompileExePath", null);
+            PathSettings.Add("ECompileCfgPath", null);
             PathSettings.Add("RunECLExePath", null);
             PathSettings.Add("POLConfigPath", null);
             PathSettings.Add("POLDataPath", null);

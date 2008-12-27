@@ -1,4 +1,9 @@
-﻿12-25-2008 - MuadDib
+﻿12-26-2008 - MuadDib
+	Added  : Added more Paths to PathStorage.
+	Added  : New overload for EConfig.Option() so you can pass a bool as the new value.
+	         Method auto converts bool to string 0/1.
+	         
+12-25-2008 - MuadDib
 	Note   : Happy Holidays Everyone!
 	Added  : Ecompile Configuration File Reader. Ability to edit settings from the
 			 Ecompile.cfg and save them back. Retains all comments etc from the file.

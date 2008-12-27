@@ -142,10 +142,23 @@ namespace POLUtils.ECompile
         ///     Changes the value for a given Option
         /// </summary>
         /// <param name="OptionName">OptionName string</param>
-        /// <param name="NewValue">New value to place for option</param>
+        /// <param name="NewValue">New string value to place for option</param>
         public void Option(string OptionName, string NewValue)
         {
             Options[OptionName] = NewValue;
+        }
+
+        /// <summary>
+        ///     Changes the value for a given Option
+        /// </summary>
+        /// <param name="OptionName">OptionName string</param>
+        /// <param name="NewValue">Bool Value to be converted to 0/1 String</param>
+        public void Option(string OptionName, bool NewValue)
+        {
+            if (NewValue)
+                Options[OptionName] = "1";
+            else
+                Options[OptionName] = "0";
         }
 
         /// <summary>
