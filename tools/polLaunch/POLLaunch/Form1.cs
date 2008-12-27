@@ -528,33 +528,19 @@ namespace POLLaunch
         {
             ECompileCFG = new EConfig();
             ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-            // Now update all the friggen checkboxes. OH YAY!
-            CB_ECompileFlagACBD.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("AutoCompileByDefault"));
-            CB_ECompileFlagASP.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("CompileAspPages"));
-            CB_ECompileFlagDBG.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDebugInfo"));
-            CB_ECompileFlagDBGTXT.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDebugTextInfo"));
-            CB_ECompileFlagDS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplaySummary"));
-            CB_ECompileFlagDUTDS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplayUpToDateScripts"));
-            CB_ECompileFlagLST.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateListing"));
-            CB_ECompileFlagOCUS.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("OnlyCompileUpdatedScripts"));
-            CB_ECompileFlagUOOAC.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("UpdateOnlyOnAutoCompile"));
-            CB_ECompileFlagWarnings.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("DisplayWarnings"));
-            CB_ECompileFlagDEP.Checked = Settings.Global.ToBoolean(ECompileCFG.Option("GenerateDependencyInfo"));
+
+            foreach ( CheckBox ThisBox in PNL_ECompileFlags.Controls )
+            {
+                ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+            }
         }
 
         private void BTN_ECompileSave_Click(object sender, EventArgs e)
         {
-            ECompileCFG.Option("AutoCompileByDefault", CB_ECompileFlagACBD.Checked);
-            ECompileCFG.Option("CompileAspPages", CB_ECompileFlagASP.Checked);
-            ECompileCFG.Option("GenerateDebugInfo", CB_ECompileFlagDBG.Checked);
-            ECompileCFG.Option("GenerateDebugTextInfo", CB_ECompileFlagDBGTXT.Checked);
-            ECompileCFG.Option("DisplaySummary", CB_ECompileFlagDS.Checked);
-            ECompileCFG.Option("DisplayUpToDateScripts", CB_ECompileFlagDUTDS.Checked);
-            ECompileCFG.Option("GenerateListing", CB_ECompileFlagLST.Checked);
-            ECompileCFG.Option("OnlyCompileUpdatedScripts", CB_ECompileFlagOCUS.Checked);
-            ECompileCFG.Option("UpdateOnlyOnAutoCompile", CB_ECompileFlagUOOAC.Checked);
-            ECompileCFG.Option("DisplayWarnings", CB_ECompileFlagWarnings.Checked);
-            ECompileCFG.Option("GenerateDependencyInfo", CB_ECompileFlagDEP.Checked);
+            foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+            {
+                ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
+            }
 
             ECompileCFG.SaveConfig();
         }

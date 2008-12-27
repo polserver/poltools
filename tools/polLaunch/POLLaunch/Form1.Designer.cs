@@ -118,23 +118,23 @@
             this.PNL_ECompileSave = new System.Windows.Forms.Panel();
             this.BTN_ECompileSave = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.PNL_ECompileFlags = new System.Windows.Forms.Panel();
             this.LBL_ECompileFlags = new System.Windows.Forms.Label();
-            this.CB_ECompileFlagDBGTXT = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagLST = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagDBG = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagGenerateDebugTextInfo = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagGenerateListing = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagGenerateDebugInfo = new System.Windows.Forms.CheckBox();
             this.BTN_ECompile = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.BTN_EcompileLoad = new System.Windows.Forms.Button();
             this.LBL_ECompileLoad = new System.Windows.Forms.Label();
-            this.CB_ECompileFlagWarnings = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagASP = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagACBD = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagUOOAC = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagOCUS = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagDS = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagDEP = new System.Windows.Forms.CheckBox();
-            this.CB_ECompileFlagDUTDS = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDisplayWarnings = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagCompileAspPages = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagAutoCompileByDefault = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDisplaySummary = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagGenerateDependencyInfo = new System.Windows.Forms.CheckBox();
+            this.CB_ECompileFlagDisplayUpToDateScripts = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -154,7 +154,7 @@
             this.GB_CreateAccount.SuspendLayout();
             this.GB_ECompile.SuspendLayout();
             this.PNL_ECompileSave.SuspendLayout();
-            this.panel5.SuspendLayout();
+            this.PNL_ECompileFlags.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1051,7 +1051,7 @@
             this.GB_ECompile.Controls.Add(this.LBL_ECompileFlags);
             this.GB_ECompile.Controls.Add(this.panel2);
             this.GB_ECompile.Controls.Add(this.PNL_ECompileSave);
-            this.GB_ECompile.Controls.Add(this.panel5);
+            this.GB_ECompile.Controls.Add(this.PNL_ECompileFlags);
             this.GB_ECompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GB_ECompile.Location = new System.Drawing.Point(7, 178);
             this.GB_ECompile.Name = "GB_ECompile";
@@ -1089,23 +1089,23 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Save these settings to ECompile.CFG";
             // 
-            // panel5
+            // PNL_ECompileFlags
             // 
-            this.panel5.Controls.Add(this.CB_ECompileFlagDUTDS);
-            this.panel5.Controls.Add(this.CB_ECompileFlagDEP);
-            this.panel5.Controls.Add(this.CB_ECompileFlagDS);
-            this.panel5.Controls.Add(this.CB_ECompileFlagOCUS);
-            this.panel5.Controls.Add(this.CB_ECompileFlagUOOAC);
-            this.panel5.Controls.Add(this.CB_ECompileFlagACBD);
-            this.panel5.Controls.Add(this.CB_ECompileFlagASP);
-            this.panel5.Controls.Add(this.CB_ECompileFlagWarnings);
-            this.panel5.Controls.Add(this.CB_ECompileFlagDBGTXT);
-            this.panel5.Controls.Add(this.CB_ECompileFlagLST);
-            this.panel5.Controls.Add(this.CB_ECompileFlagDBG);
-            this.panel5.Location = new System.Drawing.Point(6, 19);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(402, 107);
-            this.panel5.TabIndex = 6;
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagDisplayUpToDateScripts);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagGenerateDependencyInfo);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagDisplaySummary);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagOnlyCompileUpdatedScripts);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagUpdateOnlyOnAutoCompile);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagAutoCompileByDefault);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagCompileAspPages);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagDisplayWarnings);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagGenerateDebugTextInfo);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagGenerateListing);
+            this.PNL_ECompileFlags.Controls.Add(this.CB_ECompileFlagGenerateDebugInfo);
+            this.PNL_ECompileFlags.Location = new System.Drawing.Point(6, 19);
+            this.PNL_ECompileFlags.Name = "PNL_ECompileFlags";
+            this.PNL_ECompileFlags.Size = new System.Drawing.Size(402, 107);
+            this.PNL_ECompileFlags.TabIndex = 6;
             // 
             // LBL_ECompileFlags
             // 
@@ -1117,35 +1117,35 @@
             this.LBL_ECompileFlags.TabIndex = 6;
             this.LBL_ECompileFlags.Text = "Compiler Flags";
             // 
-            // CB_ECompileFlagDBGTXT
+            // CB_ECompileFlagGenerateDebugTextInfo
             // 
-            this.CB_ECompileFlagDBGTXT.AutoSize = true;
-            this.CB_ECompileFlagDBGTXT.Location = new System.Drawing.Point(7, 38);
-            this.CB_ECompileFlagDBGTXT.Name = "CB_ECompileFlagDBGTXT";
-            this.CB_ECompileFlagDBGTXT.Size = new System.Drawing.Size(171, 17);
-            this.CB_ECompileFlagDBGTXT.TabIndex = 2;
-            this.CB_ECompileFlagDBGTXT.Text = "Generate Debug Text File (.txt)";
-            this.CB_ECompileFlagDBGTXT.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagGenerateDebugTextInfo.AutoSize = true;
+            this.CB_ECompileFlagGenerateDebugTextInfo.Location = new System.Drawing.Point(7, 38);
+            this.CB_ECompileFlagGenerateDebugTextInfo.Name = "CB_ECompileFlagGenerateDebugTextInfo";
+            this.CB_ECompileFlagGenerateDebugTextInfo.Size = new System.Drawing.Size(171, 17);
+            this.CB_ECompileFlagGenerateDebugTextInfo.TabIndex = 2;
+            this.CB_ECompileFlagGenerateDebugTextInfo.Text = "Generate Debug Text File (.txt)";
+            this.CB_ECompileFlagGenerateDebugTextInfo.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagLST
+            // CB_ECompileFlagGenerateListing
             // 
-            this.CB_ECompileFlagLST.AutoSize = true;
-            this.CB_ECompileFlagLST.Location = new System.Drawing.Point(7, 6);
-            this.CB_ECompileFlagLST.Name = "CB_ECompileFlagLST";
-            this.CB_ECompileFlagLST.Size = new System.Drawing.Size(130, 17);
-            this.CB_ECompileFlagLST.TabIndex = 0;
-            this.CB_ECompileFlagLST.Text = "Generate List File (.lst)";
-            this.CB_ECompileFlagLST.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagGenerateListing.AutoSize = true;
+            this.CB_ECompileFlagGenerateListing.Location = new System.Drawing.Point(7, 6);
+            this.CB_ECompileFlagGenerateListing.Name = "CB_ECompileFlagGenerateListing";
+            this.CB_ECompileFlagGenerateListing.Size = new System.Drawing.Size(130, 17);
+            this.CB_ECompileFlagGenerateListing.TabIndex = 0;
+            this.CB_ECompileFlagGenerateListing.Text = "Generate List File (.lst)";
+            this.CB_ECompileFlagGenerateListing.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagDBG
+            // CB_ECompileFlagGenerateDebugInfo
             // 
-            this.CB_ECompileFlagDBG.AutoSize = true;
-            this.CB_ECompileFlagDBG.Location = new System.Drawing.Point(7, 22);
-            this.CB_ECompileFlagDBG.Name = "CB_ECompileFlagDBG";
-            this.CB_ECompileFlagDBG.Size = new System.Drawing.Size(154, 17);
-            this.CB_ECompileFlagDBG.TabIndex = 1;
-            this.CB_ECompileFlagDBG.Text = "Generate Debug File (.dbg)";
-            this.CB_ECompileFlagDBG.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagGenerateDebugInfo.AutoSize = true;
+            this.CB_ECompileFlagGenerateDebugInfo.Location = new System.Drawing.Point(7, 22);
+            this.CB_ECompileFlagGenerateDebugInfo.Name = "CB_ECompileFlagGenerateDebugInfo";
+            this.CB_ECompileFlagGenerateDebugInfo.Size = new System.Drawing.Size(154, 17);
+            this.CB_ECompileFlagGenerateDebugInfo.TabIndex = 1;
+            this.CB_ECompileFlagGenerateDebugInfo.Text = "Generate Debug File (.dbg)";
+            this.CB_ECompileFlagGenerateDebugInfo.UseVisualStyleBackColor = true;
             // 
             // BTN_ECompile
             // 
@@ -1185,85 +1185,85 @@
             this.LBL_ECompileLoad.TabIndex = 0;
             this.LBL_ECompileLoad.Text = "Load settings from ECompile.cfg";
             // 
-            // CB_ECompileFlagWarnings
+            // CB_ECompileFlagDisplayWarnings
             // 
-            this.CB_ECompileFlagWarnings.AutoSize = true;
-            this.CB_ECompileFlagWarnings.Location = new System.Drawing.Point(194, 70);
-            this.CB_ECompileFlagWarnings.Name = "CB_ECompileFlagWarnings";
-            this.CB_ECompileFlagWarnings.Size = new System.Drawing.Size(108, 17);
-            this.CB_ECompileFlagWarnings.TabIndex = 7;
-            this.CB_ECompileFlagWarnings.Text = "Display Warnings";
-            this.CB_ECompileFlagWarnings.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagDisplayWarnings.AutoSize = true;
+            this.CB_ECompileFlagDisplayWarnings.Location = new System.Drawing.Point(194, 70);
+            this.CB_ECompileFlagDisplayWarnings.Name = "CB_ECompileFlagDisplayWarnings";
+            this.CB_ECompileFlagDisplayWarnings.Size = new System.Drawing.Size(108, 17);
+            this.CB_ECompileFlagDisplayWarnings.TabIndex = 7;
+            this.CB_ECompileFlagDisplayWarnings.Text = "Display Warnings";
+            this.CB_ECompileFlagDisplayWarnings.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagASP
+            // CB_ECompileFlagCompileAspPages
             // 
-            this.CB_ECompileFlagASP.AutoSize = true;
-            this.CB_ECompileFlagASP.Location = new System.Drawing.Point(7, 70);
-            this.CB_ECompileFlagASP.Name = "CB_ECompileFlagASP";
-            this.CB_ECompileFlagASP.Size = new System.Drawing.Size(123, 17);
-            this.CB_ECompileFlagASP.TabIndex = 8;
-            this.CB_ECompileFlagASP.Text = "Compile .ASP Pages";
-            this.CB_ECompileFlagASP.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagCompileAspPages.AutoSize = true;
+            this.CB_ECompileFlagCompileAspPages.Location = new System.Drawing.Point(7, 70);
+            this.CB_ECompileFlagCompileAspPages.Name = "CB_ECompileFlagCompileAspPages";
+            this.CB_ECompileFlagCompileAspPages.Size = new System.Drawing.Size(123, 17);
+            this.CB_ECompileFlagCompileAspPages.TabIndex = 8;
+            this.CB_ECompileFlagCompileAspPages.Text = "Compile .ASP Pages";
+            this.CB_ECompileFlagCompileAspPages.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagACBD
+            // CB_ECompileFlagAutoCompileByDefault
             // 
-            this.CB_ECompileFlagACBD.AutoSize = true;
-            this.CB_ECompileFlagACBD.Location = new System.Drawing.Point(194, 6);
-            this.CB_ECompileFlagACBD.Name = "CB_ECompileFlagACBD";
-            this.CB_ECompileFlagACBD.Size = new System.Drawing.Size(140, 17);
-            this.CB_ECompileFlagACBD.TabIndex = 9;
-            this.CB_ECompileFlagACBD.Text = "Auto Compile By Default";
-            this.CB_ECompileFlagACBD.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagAutoCompileByDefault.AutoSize = true;
+            this.CB_ECompileFlagAutoCompileByDefault.Location = new System.Drawing.Point(194, 6);
+            this.CB_ECompileFlagAutoCompileByDefault.Name = "CB_ECompileFlagAutoCompileByDefault";
+            this.CB_ECompileFlagAutoCompileByDefault.Size = new System.Drawing.Size(140, 17);
+            this.CB_ECompileFlagAutoCompileByDefault.TabIndex = 9;
+            this.CB_ECompileFlagAutoCompileByDefault.Text = "Auto Compile By Default";
+            this.CB_ECompileFlagAutoCompileByDefault.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagUOOAC
+            // CB_ECompileFlagUpdateOnlyOnAutoCompile
             // 
-            this.CB_ECompileFlagUOOAC.AutoSize = true;
-            this.CB_ECompileFlagUOOAC.Location = new System.Drawing.Point(194, 22);
-            this.CB_ECompileFlagUOOAC.Name = "CB_ECompileFlagUOOAC";
-            this.CB_ECompileFlagUOOAC.Size = new System.Drawing.Size(167, 17);
-            this.CB_ECompileFlagUOOAC.TabIndex = 10;
-            this.CB_ECompileFlagUOOAC.Text = "Update Only On Auto Compile";
-            this.CB_ECompileFlagUOOAC.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.AutoSize = true;
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.Location = new System.Drawing.Point(194, 22);
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.Name = "CB_ECompileFlagUpdateOnlyOnAutoCompile";
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.Size = new System.Drawing.Size(167, 17);
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.TabIndex = 10;
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.Text = "Update Only On Auto Compile";
+            this.CB_ECompileFlagUpdateOnlyOnAutoCompile.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagOCUS
+            // CB_ECompileFlagOnlyCompileUpdatedScripts
             // 
-            this.CB_ECompileFlagOCUS.AutoSize = true;
-            this.CB_ECompileFlagOCUS.Location = new System.Drawing.Point(194, 38);
-            this.CB_ECompileFlagOCUS.Name = "CB_ECompileFlagOCUS";
-            this.CB_ECompileFlagOCUS.Size = new System.Drawing.Size(166, 17);
-            this.CB_ECompileFlagOCUS.TabIndex = 11;
-            this.CB_ECompileFlagOCUS.Text = "Only Compile Updated Scripts";
-            this.CB_ECompileFlagOCUS.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.AutoSize = true;
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.Location = new System.Drawing.Point(194, 38);
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.Name = "CB_ECompileFlagOnlyCompileUpdatedScripts";
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.Size = new System.Drawing.Size(166, 17);
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.TabIndex = 11;
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.Text = "Only Compile Updated Scripts";
+            this.CB_ECompileFlagOnlyCompileUpdatedScripts.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagDS
+            // CB_ECompileFlagDisplaySummary
             // 
-            this.CB_ECompileFlagDS.AutoSize = true;
-            this.CB_ECompileFlagDS.Location = new System.Drawing.Point(194, 86);
-            this.CB_ECompileFlagDS.Name = "CB_ECompileFlagDS";
-            this.CB_ECompileFlagDS.Size = new System.Drawing.Size(106, 17);
-            this.CB_ECompileFlagDS.TabIndex = 12;
-            this.CB_ECompileFlagDS.Text = "Display Summary";
-            this.CB_ECompileFlagDS.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagDisplaySummary.AutoSize = true;
+            this.CB_ECompileFlagDisplaySummary.Location = new System.Drawing.Point(194, 86);
+            this.CB_ECompileFlagDisplaySummary.Name = "CB_ECompileFlagDisplaySummary";
+            this.CB_ECompileFlagDisplaySummary.Size = new System.Drawing.Size(106, 17);
+            this.CB_ECompileFlagDisplaySummary.TabIndex = 12;
+            this.CB_ECompileFlagDisplaySummary.Text = "Display Summary";
+            this.CB_ECompileFlagDisplaySummary.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagDEP
+            // CB_ECompileFlagGenerateDependencyInfo
             // 
-            this.CB_ECompileFlagDEP.AutoSize = true;
-            this.CB_ECompileFlagDEP.Location = new System.Drawing.Point(7, 54);
-            this.CB_ECompileFlagDEP.Name = "CB_ECompileFlagDEP";
-            this.CB_ECompileFlagDEP.Size = new System.Drawing.Size(183, 17);
-            this.CB_ECompileFlagDEP.TabIndex = 13;
-            this.CB_ECompileFlagDEP.Text = "Generate Dependency File (.dep)";
-            this.CB_ECompileFlagDEP.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagGenerateDependencyInfo.AutoSize = true;
+            this.CB_ECompileFlagGenerateDependencyInfo.Location = new System.Drawing.Point(7, 54);
+            this.CB_ECompileFlagGenerateDependencyInfo.Name = "CB_ECompileFlagGenerateDependencyInfo";
+            this.CB_ECompileFlagGenerateDependencyInfo.Size = new System.Drawing.Size(183, 17);
+            this.CB_ECompileFlagGenerateDependencyInfo.TabIndex = 13;
+            this.CB_ECompileFlagGenerateDependencyInfo.Text = "Generate Dependency File (.dep)";
+            this.CB_ECompileFlagGenerateDependencyInfo.UseVisualStyleBackColor = true;
             // 
-            // CB_ECompileFlagDUTDS
+            // CB_ECompileFlagDisplayUpToDateScripts
             // 
-            this.CB_ECompileFlagDUTDS.AutoSize = true;
-            this.CB_ECompileFlagDUTDS.Location = new System.Drawing.Point(194, 54);
-            this.CB_ECompileFlagDUTDS.Name = "CB_ECompileFlagDUTDS";
-            this.CB_ECompileFlagDUTDS.Size = new System.Drawing.Size(154, 17);
-            this.CB_ECompileFlagDUTDS.TabIndex = 14;
-            this.CB_ECompileFlagDUTDS.Text = "Display Up To Date Scripts";
-            this.CB_ECompileFlagDUTDS.UseVisualStyleBackColor = true;
+            this.CB_ECompileFlagDisplayUpToDateScripts.AutoSize = true;
+            this.CB_ECompileFlagDisplayUpToDateScripts.Location = new System.Drawing.Point(194, 54);
+            this.CB_ECompileFlagDisplayUpToDateScripts.Name = "CB_ECompileFlagDisplayUpToDateScripts";
+            this.CB_ECompileFlagDisplayUpToDateScripts.Size = new System.Drawing.Size(154, 17);
+            this.CB_ECompileFlagDisplayUpToDateScripts.TabIndex = 14;
+            this.CB_ECompileFlagDisplayUpToDateScripts.Text = "Display Up To Date Scripts";
+            this.CB_ECompileFlagDisplayUpToDateScripts.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1316,8 +1316,8 @@
             this.GB_ECompile.PerformLayout();
             this.PNL_ECompileSave.ResumeLayout(false);
             this.PNL_ECompileSave.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
+            this.PNL_ECompileFlags.ResumeLayout(false);
+            this.PNL_ECompileFlags.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -1416,22 +1416,22 @@
         private System.Windows.Forms.Panel PNL_ECompileSave;
         private System.Windows.Forms.Button BTN_ECompileSave;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel PNL_ECompileFlags;
         private System.Windows.Forms.Label LBL_ECompileFlags;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagDBGTXT;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagLST;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagDBG;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateDebugTextInfo;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateListing;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateDebugInfo;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button BTN_EcompileLoad;
         private System.Windows.Forms.Label LBL_ECompileLoad;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagWarnings;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagASP;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagUOOAC;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagACBD;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagDEP;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagDS;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagOCUS;
-        private System.Windows.Forms.CheckBox CB_ECompileFlagDUTDS;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDisplayWarnings;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagCompileAspPages;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagUpdateOnlyOnAutoCompile;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagAutoCompileByDefault;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateDependencyInfo;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDisplaySummary;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagOnlyCompileUpdatedScripts;
+        private System.Windows.Forms.CheckBox CB_ECompileFlagDisplayUpToDateScripts;
 	}
 }
 
