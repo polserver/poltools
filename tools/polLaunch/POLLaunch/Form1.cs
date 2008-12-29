@@ -118,9 +118,20 @@ namespace POLLaunch
             BTN_StartPOL.Enabled = false;
         }
 
+        private void BTN_StopPOL_Click(object sender, EventArgs e)
+        {
+            if (this.POLConsole != null)
+            {
+                MessageBox.Show("Not Implemented Yet");
+                return;
+            }
+        }
+
         void POLConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
-            if (e.Data != String.Empty)
+            if (txtPOLConsole.Text.Length > 32000)
+                txtPOLConsole.Text = "<clearing POL Output Buffer To Avoid Crash>";
+            if (e.Data != String.Empty && e.Data != null)
                 txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += e.Data + System.Environment.NewLine; });
         }
 
@@ -526,17 +537,36 @@ namespace POLLaunch
 
         private void BTN_EcompileLoad_Click(object sender, EventArgs e)
         {
-            ECompileCFG = new EConfig();
-            ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-
-            foreach ( CheckBox ThisBox in PNL_ECompileFlags.Controls )
+            try
             {
-                ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+                ECompileCFG = new EConfig();
+                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+
+                foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+                {
+                    ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message, "Exception Caught");
             }
         }
 
         private void BTN_ECompileSave_Click(object sender, EventArgs e)
         {
+            if (ECompileCFG == null)
+            {
+                try
+                {
+                    ECompileCFG = new EConfig();
+                    ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.InnerException.Message, "Exception Caught");
+                }
+            }
             foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
             {
                 ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
@@ -544,5 +574,15 @@ namespace POLLaunch
 
             ECompileCFG.SaveConfig();
         }
+
+        private void CB_POLScrollBar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (txtPOLConsole.ScrollBars.Equals(ScrollBars.Vertical))
+                txtPOLConsole.ScrollBars = ScrollBars.None;
+            else
+                txtPOLConsole.ScrollBars = ScrollBars.Vertical;
+            txtPOLConsole_TextChanged(sender, e);
+        }
+
 	}
 }
