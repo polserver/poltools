@@ -17,7 +17,7 @@ using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class LandTilesAlternative : UserControl
     {
@@ -383,20 +383,27 @@ namespace Controls
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
                         Art.ReplaceLand(index, bmp);
+                        bool done = false;
                         for (int i = 0; i < TileList.Count; i++)
                         {
                             if (index < (int)TileList[i])
                             {
-                                selected = index;
                                 TileList.Insert(i, (object)index);
                                 vScrollBar.Value = i / refMarker.col + 1;
-                                namelabel.Text = String.Format("Name: {0}", TileData.LandTable[selected].Name);
-                                graphiclabel.Text = String.Format("ID: 0x{0:X4}", selected);
-                                FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[selected].Flags);
-                                PaintBox();
+                                done = true;
                                 break;
                             }
                         }
+                        if (!done)
+                        {
+                            TileList.Add((object)index);
+                            vScrollBar.Value = TileList.Count / refMarker.col + 1;
+                        }
+                        selected = index;
+                        namelabel.Text = String.Format("Name: {0}", TileData.LandTable[selected].Name);
+                        graphiclabel.Text = String.Format("ID: 0x{0:X4}", selected);
+                        FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[selected].Flags);
+                        PaintBox();
                     }
                 }
             }

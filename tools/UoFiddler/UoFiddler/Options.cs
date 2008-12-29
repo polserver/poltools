@@ -11,16 +11,14 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml;
 using Ultima;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading;
 
 namespace UoFiddler
 {
@@ -69,13 +67,13 @@ namespace UoFiddler
             XmlComment comment= dom.CreateComment("ItemSize controls the size of images in items tab");
             sr.AppendChild(comment);
             XmlElement elem = dom.CreateElement("ItemSize");
-            elem.SetAttribute("width", Controls.Options.ArtItemSizeWidth.ToString());
-            elem.SetAttribute("height", Controls.Options.ArtItemSizeHeight.ToString());
+            elem.SetAttribute("width", FiddlerControls.Options.ArtItemSizeWidth.ToString());
+            elem.SetAttribute("height", FiddlerControls.Options.ArtItemSizeHeight.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("ItemClip images in items tab shrinked or clipped");
             sr.AppendChild(comment);
             elem = dom.CreateElement("ItemClip");
-            elem.SetAttribute("active", Controls.Options.ArtItemClip.ToString());
+            elem.SetAttribute("active", FiddlerControls.Options.ArtItemClip.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("CacheData should mul entries be cached for faster load");
             sr.AppendChild(comment);
@@ -87,10 +85,10 @@ namespace UoFiddler
             elem = dom.CreateElement("NewMapSize");
             elem.SetAttribute("active", Ultima.Map.Felucca.Width==7168 ? true.ToString() : false.ToString());
             sr.AppendChild(elem);
-            comment = dom.CreateComment("Alternative layout in items tab?");
+            comment = dom.CreateComment("Alternative layout in item/landtile/texture tab?");
             sr.AppendChild(comment);
             elem = dom.CreateElement("AlternativeDesign");
-            elem.SetAttribute("active", Controls.Options.DesignAlternative.ToString());
+            elem.SetAttribute("active", FiddlerControls.Options.DesignAlternative.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Use Hashfile to speed up load?");
             sr.AppendChild(comment);
@@ -152,12 +150,12 @@ namespace UoFiddler
             XmlElement elem = (XmlElement)xOptions.SelectSingleNode("ItemSize");
             if (elem != null)
             {
-                Controls.Options.ArtItemSizeWidth = int.Parse(elem.GetAttribute("width"));
-                Controls.Options.ArtItemSizeHeight = int.Parse(elem.GetAttribute("height"));
+                FiddlerControls.Options.ArtItemSizeWidth = int.Parse(elem.GetAttribute("width"));
+                FiddlerControls.Options.ArtItemSizeHeight = int.Parse(elem.GetAttribute("height"));
             }
             elem = (XmlElement)xOptions.SelectSingleNode("ItemClip");
             if (elem != null)
-                Controls.Options.ArtItemClip = bool.Parse(elem.GetAttribute("active"));
+                FiddlerControls.Options.ArtItemClip = bool.Parse(elem.GetAttribute("active"));
 
             elem = (XmlElement)xOptions.SelectSingleNode("CacheData");
             if (elem != null)
@@ -176,8 +174,7 @@ namespace UoFiddler
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
             if (elem != null)
             {
-                Controls.Options.DesignAlternative = bool.Parse(elem.GetAttribute("active"));
-                UoFiddler.AlternativeDesign = Controls.Options.DesignAlternative;
+                FiddlerControls.Options.DesignAlternative = bool.Parse(elem.GetAttribute("active"));
             }
 
             elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");

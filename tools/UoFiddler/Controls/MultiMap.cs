@@ -16,7 +16,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class MultiMap : UserControl
     {

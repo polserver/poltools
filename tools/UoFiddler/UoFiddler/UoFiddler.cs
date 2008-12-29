@@ -18,11 +18,10 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.7b";
-        public static bool AlternativeDesign = false;
-        private Controls.ItemShowAlternative controlItemShowAlt;
-        private Controls.TextureAlternative controlTextureAlt;
-        private Controls.LandTilesAlternative controlLandTilesAlt;
+        public static string Version = "2.8";
+        private FiddlerControls.ItemShowAlternative controlItemShowAlt;
+        private FiddlerControls.TextureAlternative controlTextureAlt;
+        private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
         private Dictionary<string, bool> LoadedUltimaClass = new Dictionary<string, bool>();
         private static UoFiddler refmarker;
 
@@ -31,41 +30,7 @@ namespace UoFiddler
             refmarker = this;
             InitializeComponent();
             Versionlabel.Text = "Version " + Version;
-            if (AlternativeDesign)
-            {
-                this.Items.Controls.Clear();
-                this.controlItemShow.Dispose();
-                this.controlItemShowAlt = new Controls.ItemShowAlternative();
-                this.controlItemShowAlt.Dock = System.Windows.Forms.DockStyle.Fill;
-                this.controlItemShowAlt.Location = new System.Drawing.Point(3, 3);
-                this.controlItemShowAlt.Name = "controlItemShow";
-                this.controlItemShowAlt.Size = new System.Drawing.Size(613, 318);
-                this.controlItemShowAlt.TabIndex = 0;
-                this.Items.Controls.Add(this.controlItemShowAlt);
-                this.Items.PerformLayout();
-
-                this.Texture.Controls.Clear();
-                this.controlTexture.Dispose();
-                this.controlTextureAlt = new Controls.TextureAlternative();
-                this.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
-                this.controlTextureAlt.Location = new System.Drawing.Point(3, 3);
-                this.controlTextureAlt.Name = "controlTexture";
-                this.controlTextureAlt.Size = new System.Drawing.Size(613, 318);
-                this.controlTextureAlt.TabIndex = 0;
-                this.Texture.Controls.Add(this.controlTextureAlt);
-                this.Texture.PerformLayout();
-
-                this.LandTiles.Controls.Clear();
-                this.controlLandTiles.Dispose();
-                this.controlLandTilesAlt = new Controls.LandTilesAlternative();
-                this.controlLandTilesAlt.Dock = System.Windows.Forms.DockStyle.Fill;
-                this.controlLandTilesAlt.Location = new System.Drawing.Point(3, 3);
-                this.controlLandTilesAlt.Name = "controlLandTiles";
-                this.controlLandTilesAlt.Size = new System.Drawing.Size(613, 318);
-                this.controlLandTilesAlt.TabIndex = 0;
-                this.LandTiles.Controls.Add(this.controlLandTilesAlt);
-                this.LandTiles.PerformLayout();
-            }
+            ChangeDesign();
             LoadExternToolStripMenu();
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -102,10 +67,7 @@ namespace UoFiddler
 
         private void onClickAlwaysTop(object sender, EventArgs e)
         {
-            if (AlwaysOnTopMenuitem.Checked)
-                this.TopMost = true;
-            else
-                this.TopMost = false;
+            this.TopMost=AlwaysOnTopMenuitem.Checked;
         }
 
         private void OnSelectedIndexChanged(object sender, EventArgs e)
@@ -258,15 +220,15 @@ namespace UoFiddler
 
             this.controlMulti.Reload();
             this.controlAnimations.Reload();
-            if (AlternativeDesign)
+            if (FiddlerControls.Options.DesignAlternative)
                 this.controlItemShowAlt.Reload();
             else
                 this.controlItemShow.Reload();
-            if (AlternativeDesign)
+            if (FiddlerControls.Options.DesignAlternative)
                 this.controlLandTilesAlt.Reload();
             else
                 this.controlLandTiles.Reload();
-            if (AlternativeDesign)
+            if (FiddlerControls.Options.DesignAlternative)
                 this.controlTextureAlt.Reload();
             else
                 this.controlTexture.Reload();
@@ -362,6 +324,115 @@ namespace UoFiddler
                 manageform.TopMost = true;
                 manageform.Show();
             }
+        }
+
+        private OptionsForm optionsform;
+        private void OnClickOptions(object sender, EventArgs e)
+        {
+            if ((optionsform == null) || (optionsform.IsDisposed))
+            {
+                optionsform = new OptionsForm();
+                optionsform.TopMost = true;
+                optionsform.Show();
+            }
+        }
+
+        /// <summary>
+        /// switches Alternative Design
+        /// </summary>
+        public static void ChangeDesign()
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+            {
+                refmarker.Items.Controls.Clear();
+                refmarker.controlItemShow.Dispose();
+                refmarker.controlItemShowAlt = new FiddlerControls.ItemShowAlternative();
+                refmarker.controlItemShowAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlItemShowAlt.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlItemShowAlt.Name = "controlItemShow";
+                refmarker.controlItemShowAlt.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlItemShowAlt.TabIndex = 0;
+                refmarker.Items.Controls.Add(refmarker.controlItemShowAlt);
+                refmarker.Items.PerformLayout();
+
+                refmarker.Texture.Controls.Clear();
+                refmarker.controlTexture.Dispose();
+                refmarker.controlTextureAlt = new FiddlerControls.TextureAlternative();
+                refmarker.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlTextureAlt.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlTextureAlt.Name = "controlTexture";
+                refmarker.controlTextureAlt.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlTextureAlt.TabIndex = 0;
+                refmarker.Texture.Controls.Add(refmarker.controlTextureAlt);
+                refmarker.Texture.PerformLayout();
+
+                refmarker.LandTiles.Controls.Clear();
+                refmarker.controlLandTiles.Dispose();
+                refmarker.controlLandTilesAlt = new FiddlerControls.LandTilesAlternative();
+                refmarker.controlLandTilesAlt.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlLandTilesAlt.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlLandTilesAlt.Name = "controlLandTiles";
+                refmarker.controlLandTilesAlt.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlLandTilesAlt.TabIndex = 0;
+                refmarker.LandTiles.Controls.Add(refmarker.controlLandTilesAlt);
+                refmarker.LandTiles.PerformLayout();
+            }
+            else
+            {
+                refmarker.Items.Controls.Clear();
+                refmarker.controlItemShowAlt.Dispose();
+                refmarker.controlItemShow = new FiddlerControls.ItemShow();
+                refmarker.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlItemShow.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlItemShow.Name = "controlItemShow";
+                refmarker.controlItemShow.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlItemShow.TabIndex = 0;
+                refmarker.Items.Controls.Add(refmarker.controlItemShow);
+                refmarker.Items.PerformLayout();
+
+                refmarker.Texture.Controls.Clear();
+                refmarker.controlTextureAlt.Dispose();
+                refmarker.controlTexture = new FiddlerControls.Texture();
+                refmarker.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlTexture.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlTexture.Name = "controlTexture";
+                refmarker.controlTexture.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlTexture.TabIndex = 0;
+                refmarker.Texture.Controls.Add(refmarker.controlTexture);
+                refmarker.Texture.PerformLayout();
+
+                refmarker.LandTiles.Controls.Clear();
+                refmarker.controlLandTilesAlt.Dispose();
+                refmarker.controlLandTiles = new FiddlerControls.LandTiles();
+                refmarker.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
+                refmarker.controlLandTiles.Location = new System.Drawing.Point(3, 3);
+                refmarker.controlLandTiles.Name = "controlLandTiles";
+                refmarker.controlLandTiles.Size = new System.Drawing.Size(613, 318);
+                refmarker.controlLandTiles.TabIndex = 0;
+                refmarker.LandTiles.Controls.Add(refmarker.controlLandTiles);
+                refmarker.LandTiles.PerformLayout();
+            }
+        }
+
+        /// <summary>
+        /// Reloads Itemtab
+        /// </summary>
+        public static void ReloadItemTab()
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                refmarker.controlItemShowAlt.ChangeTileSize();
+            else
+                refmarker.controlItemShow.ChangeTileSize();
+        }
+
+        /// <summary>
+        /// Updates Map tab
+        /// </summary>
+        public static void ChangeMapSize()
+        {
+            if (refmarker.LoadedUltimaClass["Map"])
+                Ultima.Map.Reload();
+            refmarker.controlmap.Reload();
         }
     }
 }

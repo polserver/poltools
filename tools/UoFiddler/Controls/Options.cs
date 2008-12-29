@@ -9,7 +9,7 @@
  *
  ***************************************************************************/
 
-namespace Controls
+namespace FiddlerControls
 {
     public sealed class Options
     {

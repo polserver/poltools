@@ -29,6 +29,20 @@ namespace UoFiddler
         {
             Files.ReLoadDirectory();
             Files.LoadMulPath();
+            if (Files.GetFilePath("map1.mul") != null)
+            {
+                if (Ultima.Map.Trammel.Width == 7168)
+                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
+                else
+                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
+            }
+            else
+            {
+                if (Ultima.Map.Trammel.Width == 7168)
+                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 7168, 4096);
+                else
+                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 6144, 4096);
+            }
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
             propertyGrid1.Refresh();
             propertyGrid1.Update();

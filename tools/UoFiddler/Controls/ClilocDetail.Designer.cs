@@ -9,7 +9,7 @@
  *
  ***************************************************************************/
 
-namespace Controls
+namespace FiddlerControls
 {
     partial class ClilocDetail
     {

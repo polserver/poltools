@@ -8,7 +8,7 @@
   <CacheData active="True" />
   <!--NewMapSize Felucca/Trammel width 7168?-->
   <NewMapSize active="False" />
-  <!--Alternative layout in items tab?-->
+  <!--Alternative layout in item/landtile/texture tab?-->
   <AlternativeDesign active="False" />
   <!--Use Hashfile to speed up load?-->
   <UseHashFile active="True" />

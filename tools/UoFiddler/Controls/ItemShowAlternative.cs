@@ -17,7 +17,7 @@ using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class ItemShowAlternative : UserControl
     {
@@ -38,6 +38,23 @@ namespace Controls
         private Bitmap bmp;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
+
+        /// <summary>
+        /// Updates if TileSize is changed
+        /// </summary>
+        public void ChangeTileSize()
+        {
+            col = pictureBox.Width / Options.ArtItemSizeWidth;
+            row = pictureBox.Height / Options.ArtItemSizeHeight;
+            vScrollBar.Maximum = ItemList.Count / col + 1;
+            vScrollBar.Minimum = 1;
+            vScrollBar.SmallChange = 1;
+            vScrollBar.LargeChange = row;
+            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
+            PaintBox();
+            if (selected != -1)
+                UpdateDetail(selected);
+        }
 
         private void MakeHashFile()
         {
@@ -523,20 +540,27 @@ namespace Controls
                         }
                         else
                         {
+                            bool done = false;
                             for (int i = 0; i < ItemList.Count; i++)
                             {
                                 if (index < (int)ItemList[i])
                                 {
-                                    selected = index;
                                     ItemList.Insert(i, (object)index);
                                     vScrollBar.Value = i / refMarker.col + 1;
-                                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                                    UpdateDetail(selected);
-                                    PaintBox();
+                                    done = true;
                                     break;
                                 }
                             }
+                            if (!done)
+                            {
+                                ItemList.Add((object)index);
+                                vScrollBar.Value = ItemList.Count / refMarker.col + 1;
+                            }
+                            selected = index;
+                            namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                            graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                            UpdateDetail(selected);
+                            PaintBox();
                         }
                     }
                 }
