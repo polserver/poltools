@@ -9,7 +9,7 @@
  *
  ***************************************************************************/
 
-namespace Controls
+namespace FiddlerControls
 {
     partial class HuePopUpItem
     {
@@ -43,7 +43,7 @@ namespace Controls
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.control = new Controls.Hues();
+            this.control = new FiddlerControls.Hues();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,7 +111,7 @@ namespace Controls
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private Controls.Hues control;
+        private FiddlerControls.Hues control;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
 
     }

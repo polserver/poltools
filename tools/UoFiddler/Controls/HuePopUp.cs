@@ -12,12 +12,12 @@
 using System;
 using System.Windows.Forms;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class HuePopUp : Form
     {
-        private Controls.Animationlist refMob;
-        public HuePopUp(Controls.Animationlist ref_, int hue)
+        private FiddlerControls.Animationlist refMob;
+        public HuePopUp(FiddlerControls.Animationlist ref_, int hue)
         {
             InitializeComponent();
             if ((hue & 0x8000)!=0)

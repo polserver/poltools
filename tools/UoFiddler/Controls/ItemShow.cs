@@ -16,9 +16,8 @@ using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
-    
     public partial class ItemShow : UserControl
     {
         public ItemShow()
@@ -34,6 +33,16 @@ namespace Controls
         private static ItemShow refMarker = null;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
+
+        /// <summary>
+        /// Updates if TileSize is changed
+        /// </summary>
+        public void ChangeTileSize()
+        {
+            listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
+            listView1.View = View.Details; // that works faszinating
+            listView1.View = View.Tile;
+        }
 
         private void MakeHashFile()
         {
@@ -159,7 +168,6 @@ namespace Controls
                         ListViewItem item = new ListViewItem(i.ToString(), 0);
                         item.Tag = i;
                         listView1.Items.Add(item);
-                        
                     }
                 }
                 if (Files.UseHashFile)
@@ -419,14 +427,18 @@ namespace Controls
                         }
                         else
                         {
+                            bool done = false;
                             foreach (ListViewItem i in listView1.Items)
                             {
                                 if ((int)i.Tag > index)
                                 {
                                     listView1.Items.Insert(i.Index, item);
+                                    done = true;
                                     break;
                                 }
                             }
+                            if (!done)
+                                listView1.Items.Add(item);
                         }
                         listView1.View = View.Details; // that works faszinating
                         listView1.View = View.Tile;

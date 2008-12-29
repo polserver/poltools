@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{693F2BBC-7856-4751-9FAD-B06FABAAEE53}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -129,7 +129,14 @@
     <Compile Include="ManageTools.Designer.cs">
       <DependentUpon>ManageTools.cs</DependentUpon>
     </Compile>
-    <Compile Include="Options.cs" />
+    <Compile Include="Options.cs">
+    </Compile>
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PathSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +162,9 @@
     <EmbeddedResource Include="ManageTools.resx">
       <DependentUpon>ManageTools.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PathSettings.resx">
       <DependentUpon>PathSettings.cs</DependentUpon>

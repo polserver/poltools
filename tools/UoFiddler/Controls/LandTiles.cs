@@ -16,7 +16,7 @@ using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class LandTiles : UserControl
     {
@@ -291,20 +291,28 @@ namespace Controls
                             return;
                         }
                         Art.ReplaceLand(index, bmp);
-                        //bug in listview always added to end so...
-                        listView1.BeginUpdate();
-                        listView1.Items.Clear();
-                        for (int i = 0; i < 0x4000; i++)
+
+                        ListViewItem item = new ListViewItem(index.ToString(), 0);
+                        item.Tag = index;
+                        bool done = false;
+                        foreach (ListViewItem i in listView1.Items)
                         {
-                            if (Art.IsValidLand(i))
+                            if ((int)i.Tag > index)
                             {
-                                ListViewItem item = new ListViewItem(i.ToString(), 0);
-                                item.Tag = i;
-                                listView1.Items.Add(item);
+                                listView1.Items.Insert(i.Index, item);
+                                done = true;
+                                break;
                             }
                         }
-                        listView1.EndUpdate();
-                        SearchGraphic(index);
+                        if (!done)
+                            listView1.Items.Add(item);
+                        listView1.View = View.Details; // that works faszinating
+                        listView1.View = View.Tile;
+                        if (listView1.SelectedItems.Count == 1)
+                            listView1.SelectedItems[0].Selected = false;
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
                     }
                 }
             }

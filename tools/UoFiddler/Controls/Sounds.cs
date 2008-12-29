@@ -13,7 +13,7 @@ using System;
 using System.Windows.Forms;
 using System.IO;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class Sounds : UserControl
     {

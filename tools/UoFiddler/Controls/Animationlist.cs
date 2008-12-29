@@ -18,7 +18,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class Animationlist : UserControl
     {

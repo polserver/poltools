@@ -13,7 +13,7 @@ using System;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class FontOffset : Form
     {

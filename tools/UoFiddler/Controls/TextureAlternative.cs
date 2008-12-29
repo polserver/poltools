@@ -17,7 +17,7 @@ using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
-namespace Controls
+namespace FiddlerControls
 {
     public partial class TextureAlternative : UserControl
     {
@@ -340,18 +340,25 @@ namespace Controls
                         if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                         {
                             Textures.Replace(index, bmp);
+                            bool done = false;
                             for (int i = 0; i < TextureList.Count; i++)
                             {
                                 if (index < (int)TextureList[i])
                                 {
-                                    selected = index;
                                     TextureList.Insert(i, (object)index);
                                     vScrollBar.Value = i / refMarker.col + 1;
-                                    Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected,Textures.GetTexture(selected));
-                                    PaintBox();
+                                    done = true;
                                     break;
                                 }
                             }
+                            if (!done)
+                            {
+                                TextureList.Add((object)index);
+                                vScrollBar.Value = TextureList.Count / refMarker.col + 1;
+                            }
+                            selected = index;
+                            Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
+                            PaintBox();
                         }
                         else
                             MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
