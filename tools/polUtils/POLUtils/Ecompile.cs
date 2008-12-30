@@ -255,9 +255,21 @@ namespace POLUtils.ECompile
         /// <returns>Bool for success</returns>
         public bool SaveConfig()
         {
-            // Save Order: Directory Options, Package Roots, Base Options.
-            // We saved the ConfigFile in it's entirety. Let's just parse
-            // through it to retain any custom comments etc. 
+            // Let's Ditch ALL PackageRoot Entries, and mark it's first location
+            int PRBegin = ConfigFile.FindIndex(FindPackageRoots);
+            ConfigFile.RemoveAll(FindPackageRoots);
+            foreach (string PackageRootElem in OptionsPackageRoots)
+            {
+                int i = (28 - "PackageRoot".Length);
+                string TabString = "";
+                while (i > 0)
+                {
+                    TabString += "\t";
+                    i -= 4;
+                }
+                ConfigFile.Insert(PRBegin, "PackageRoot" + TabString + PackageRootElem);
+            }
+
             string[] SaveContents = new string[ConfigFile.Count];
             ConfigFile.CopyTo(SaveContents);
             int LineIndex = 0;
@@ -279,10 +291,6 @@ namespace POLUtils.ECompile
                         break;
                     }
                 }
-                // Now we add all the Package Roots. BOOO
-                // First we need to know how many Package Root Entries there is in the
-                // config. Compare that with how many we must save, and handle as should.
-
                 
                 // Now we add all the Default Option Stuff
                 foreach (string OptionName in OptionsDefaultNames)
@@ -320,5 +328,17 @@ namespace POLUtils.ECompile
             return false;
         }
 
+        // Search predicate returns true if a string contains PackageRoot.
+        private static bool FindPackageRoots(String s)
+        {
+            if (s.ToLower().IndexOf("packageroot") == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
