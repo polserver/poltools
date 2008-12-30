@@ -159,9 +159,9 @@ namespace FiddlerControls
         private void OnClick_Hue(object sender, EventArgs e)
         {
             if ((showform == null) || (showform.IsDisposed))
-                showform = new HuePopUpItem(this, DefHue - 1);
+                showform = new HuePopUpItem(this, DefHue);
             else
-                showform.SetHue(DefHue - 1);
+                showform.SetHue(DefHue);
             showform.TopMost = true;
             showform.Show();
         }
@@ -198,6 +198,8 @@ namespace FiddlerControls
                 m_Timer.Dispose();
                 m_Timer = null;
             }
+            if ((showform != null) || (!showform.IsDisposed))
+                showform.Close();
         }
     }
 }

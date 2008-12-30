@@ -18,7 +18,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.8";
+        public static string Version = "2.8b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -379,6 +379,8 @@ namespace UoFiddler
             }
             else
             {
+                if (refmarker.controlItemShowAlt == null)
+                    return;
                 refmarker.Items.Controls.Clear();
                 refmarker.controlItemShowAlt.Dispose();
                 refmarker.controlItemShow = new FiddlerControls.ItemShow();

@@ -562,7 +562,7 @@ namespace FiddlerControls
             ProgressBar.Step = 1;
             ProgressBar.Value = 1;
             ProgressBar.Visible = true;
-            PreLoader.RunWorkerAsync();
+            PreLoader.RunWorkerAsync(ProgressBar);
         }
 
         private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
@@ -570,7 +570,6 @@ namespace FiddlerControls
             foreach (ListViewItem item in listView1.Items)
             {
                 Art.GetStatic((int)item.Tag);
-                PreLoader.ReportProgress(1);
             }
         }
 

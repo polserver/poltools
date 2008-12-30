@@ -39,35 +39,52 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox = new System.Windows.Forms.ListBox();
+            this.vScrollBar = new System.Windows.Forms.VScrollBar();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // listBox
+            // vScrollBar
             // 
-            this.listBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.listBox.FormattingEnabled = true;
-            this.listBox.ItemHeight = 20;
-            this.listBox.Location = new System.Drawing.Point(0, 0);
-            this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(619, 324);
-            this.listBox.TabIndex = 0;
-            this.listBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox_DrawItem);
+            this.vScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar.Location = new System.Drawing.Point(601, 1);
+            this.vScrollBar.Name = "vScrollBar";
+            this.vScrollBar.Size = new System.Drawing.Size(17, 322);
+            this.vScrollBar.TabIndex = 0;
+            this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.onScroll);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox.Location = new System.Drawing.Point(1, 1);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(600, 322);
+            this.pictureBox.TabIndex = 1;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+            this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
             // Hues
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.listBox);
+            this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.vScrollBar);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "Hues";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox;
+        private System.Windows.Forms.VScrollBar vScrollBar;
+        private System.Windows.Forms.PictureBox pictureBox;
+
+
     }
 }
