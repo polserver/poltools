@@ -118,7 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 2.8
+    <value>Version 2.8b
+-rewrote Huetab to speed it up
+
+Version 2.8
 -Added new Settings Menu to control xml Options
 -Added editor features to lights tab
 (contextmenu export,replace,insert,remove &amp; save)

@@ -13,6 +13,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Ultima;
+using System.Windows.Forms.VisualStyles;
 
 namespace FiddlerControls
 {
@@ -22,21 +23,29 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            pictureBox.Image = bmp;
+            pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
         }
-        private int selected = 0;
+        private const int ITEMHEIGHT = 20;
+        private int selected=0;
         private bool Loaded = false;
+        private Bitmap bmp;
+        private int row;
 
         /// <summary>
         /// Sets Selected Hue
         /// </summary>
         public int Selected
         {
-            get { return listBox.SelectedIndex; }
+            get { return selected; }
             set
             {
                 selected = value;
-                if (listBox.Items.Count > 0)
-                    listBox.SelectedIndex = value;
+                if (Loaded)
+                {
+                    if (Ultima.Hues.List.Length > 0)
+                        PaintBox();
+                }
             }
         }
 
@@ -50,39 +59,120 @@ namespace FiddlerControls
             selected = 0;
             OnLoad(this, EventArgs.Empty);
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
             Loaded = true;
-            listBox.BeginUpdate();
-            listBox.Items.Clear();
-            listBox.DataSource = Ultima.Hues.List;
-            //listBox.Items.AddRange(Ultima.Hues.List);
-            listBox.EndUpdate();
-            listBox.SelectedIndex = selected;
-            this.Cursor = Cursors.Default;
+            vScrollBar.Maximum = Ultima.Hues.List.Length;
+            vScrollBar.Minimum = 0;
+            vScrollBar.Value = 0;
+            vScrollBar.SmallChange = 1;
+            vScrollBar.LargeChange = 10;
+            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
+            
+            PaintBox();
         }
 
-        private void listBox_DrawItem(object sender, DrawItemEventArgs e)
+        private int GetIndex(int y)
         {
-            e.Graphics.FillRectangle(Brushes.White, e.Bounds);
-            Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, 200, listBox.ItemHeight);
-            if ((e.State & DrawItemState.Selected) > DrawItemState.None)
-                e.Graphics.FillRectangle(SystemBrushes.Highlight, rect);
+            int value = vScrollBar.Value +y;
+            if (Ultima.Hues.List.Length > value)
+                return value;
             else
-                e.Graphics.FillRectangle(SystemBrushes.Window, rect);
+                return -1;
+        }
 
-            float num2 = ((float)(e.Bounds.Width - 200)) / 32;
-            Hue hue = (Hue)listBox.Items[e.Index];
-
-            Rectangle stringrect = new Rectangle((e.Bounds.X + 3), e.Bounds.Y, e.Bounds.Width, listBox.ItemHeight);
-            e.Graphics.DrawString(String.Format("{0,-5} {1,-7} {2}",hue.Index+1, String.Format("(0x{0:X})",hue.Index+1), hue.Name), e.Font, Brushes.Black, stringrect);
-
-            for (int i=0;i<hue.Colors.Length;i++)
+        private void PaintBox()
+        {
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                Rectangle rectangle = new Rectangle((e.Bounds.X + 200) + ((int)Math.Round((double)(i * num2))), e.Bounds.Y, (int)Math.Round((double)(num2 + 1f)), e.Bounds.Height);
-                e.Graphics.FillRectangle(new SolidBrush(hue.GetColor(i)), rectangle);
+                g.Clear(Color.White);
+
+                for (int y = 0; y <= row; y++)
+                {
+                    int index = GetIndex(y);
+                    if (index >= 0)
+                    {
+                        Rectangle rect = new Rectangle(0, y * ITEMHEIGHT, 200, ITEMHEIGHT);
+                        if (index == selected)
+                            g.FillRectangle(SystemBrushes.Highlight, rect);
+                        else
+                            g.FillRectangle(SystemBrushes.Window, rect);
+
+                        float num2 = ((float)(pictureBox.Width - 200)) / 32;
+                        Hue hue = Ultima.Hues.List[index];
+                        Rectangle stringrect = new Rectangle(3, y * ITEMHEIGHT, pictureBox.Width, ITEMHEIGHT);
+                        g.DrawString(String.Format("{0,-5} {1,-7} {2}", hue.Index + 1, String.Format("(0x{0:X})", hue.Index + 1), hue.Name), Font, Brushes.Black, stringrect);
+
+                        for (int i = 0; i < hue.Colors.Length; i++)
+                        {
+                            Rectangle rectangle = new Rectangle(200 + ((int)Math.Round((double)(i * num2))), y * ITEMHEIGHT, (int)Math.Round((double)(num2 + 1f)), ITEMHEIGHT);
+                            g.FillRectangle(new SolidBrush(hue.GetColor(i)), rectangle);
+                        }
+                    }
+                }
+            }
+            pictureBox.Image = bmp;
+            pictureBox.Update();
+        }
+
+        private void onScroll(object sender, ScrollEventArgs e)
+        {
+            PaintBox();
+        }
+
+        private void OnMouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta < 0)
+            {
+                if (vScrollBar.Value < vScrollBar.Maximum)
+                {
+                    vScrollBar.Value++;
+                    PaintBox();
+                }
+            }
+            else
+            {
+                if (vScrollBar.Value > 1)
+                {
+                    vScrollBar.Value--;
+                    PaintBox();
+                }
             }
         }
+
+        private void OnResize(object sender, EventArgs e)
+        {
+            row = pictureBox.Height / ITEMHEIGHT;
+            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
+            PaintBox();
+        }
+
+        private void OnMouseClick(object sender, MouseEventArgs e)
+        {
+            pictureBox.Focus();
+            Point m = PointToClient(Control.MousePosition);
+            int index = GetIndex(m.Y / ITEMHEIGHT);
+            if (index >= 0)
+                Selected = index;
+        }
+
+        /// <summary>
+        /// Print a nice border
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            int borderWidth = 1;
+
+            Color borderColor = VisualStyleInformation.TextControlBorder;
+            if (borderColor == null)
+                borderColor = Color.LightBlue;
+            ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, borderColor,
+                      borderWidth, ButtonBorderStyle.Solid, borderColor, borderWidth,
+                      ButtonBorderStyle.Solid, borderColor, borderWidth, ButtonBorderStyle.Solid,
+                      borderColor, borderWidth, ButtonBorderStyle.Solid);
+        } 
     }
 }
