@@ -15,21 +15,16 @@ namespace POLLaunch.Configuration
 		public ConfigurationForm()
 		{
 			InitializeComponent();
-			this.TB_UOPath.Text = (string)Settings.Global.Properties["UOPath"];
 			this.TB_POLPath.Text = (string)Settings.Global.Properties["POLPath"];
 			this.TB_POLEXEPath.Text = (string)Settings.Global.Properties["POLExePath"];
 			this.TB_UOCnvrtEXEPath.Text = (string)Settings.Global.Properties["UOConvertExePath"];
 			this.TB_ECompileEXEPath.Text = (string)Settings.Global.Properties["ECompileExePath"];
+            this.TB_POLTabShutdown.Text = (string)Settings.Global.Properties["POLTabShutdown"];
 		}
 
 		private void ConfigurationForm_Load(object sender, EventArgs e)
 		{
 
-		}
-
-		private void BTN_BrowseUOPath_Click(object sender, EventArgs e)
-		{
-			this.TB_UOPath.Text = FilePicker.SelectFolder();
 		}
 
 		private void BTN_BrowsePOLPath_Click(object sender, EventArgs e)
@@ -65,7 +60,6 @@ namespace POLLaunch.Configuration
 		private void BTN_Apply_Click(object sender, EventArgs e)
 		{
 			// Save settings
-			Settings.Global.Properties["UOPath"] = this.TB_UOPath.Text;
 			Settings.Global.Properties["POLPath"] = this.TB_POLPath.Text;
 			Settings.Global.Properties["POLExePath"] = this.TB_POLEXEPath.Text;
 			Settings.Global.Properties["UOConvertExePath"] = this.TB_UOCnvrtEXEPath.Text;
@@ -78,7 +72,8 @@ namespace POLLaunch.Configuration
             {
                 Settings.Global.Properties["ECompileCfgPath"] = this.TB_POLPath.Text + @"\scripts\ecompile.cfg";
             }
-		}
+            Settings.Global.Properties["POLTabShutdown"] = this.TB_POLTabShutdown.Text;
+        }
 
 		private void BTN_OKAY_Click(object sender, EventArgs e)
 		{

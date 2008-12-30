@@ -27,6 +27,7 @@ namespace POLLaunch
 				tabControl1.SelectedIndex = tabControl1.TabPages.IndexOfKey("tabPage6");
             LBX_CreateCmdlevel.SelectedIndex = 0;
             LBX_CreateExpansion.SelectedIndex = 0;
+            TB_MULFilePath.Text = (string)Settings.Global.Properties["UOPath"];
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -122,7 +123,14 @@ namespace POLLaunch
         {
             if (this.POLConsole != null)
             {
-                MessageBox.Show("Not Implemented Yet");
+                try
+                {
+                    POLConsole.Write(Settings.Global.Properties["POLTabShutdown"]);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("There was an error sending the Shutdown Letter to POL. Be sure you set this in the Configurations!");
+                }
                 return;
             }
         }
@@ -466,6 +474,7 @@ namespace POLLaunch
                         return;
                     }
                 }
+                Settings.Global.Properties["UOPath"] = TB_MULFilePath.Text;
             }
         }
 

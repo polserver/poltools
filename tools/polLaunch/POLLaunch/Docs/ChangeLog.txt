@@ -1,0 +1,664 @@
+﻿12-29-2008 - MuadDib
+    Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN
+              Logs to this point to note all changes related to POL  Launch :)
+    Changed : Moved Console classes over to POLUtil and updated PL to match this new
+              change.
+    Added   : New Configuration item.. POLTabShutdown setting. This is for the letter you
+              wish to send to the POL Console to shut it down. You can use this for the timed
+              shutdowns (1-6) or have it point to a custom console command you added for it.
+    Changed : Stop POL button activated. Warns you if no configuration is set for the letter.
+    Removed : UOPath from Configuration. This is now handled via the UOConvert tab itself. This
+              setting is also NOT required. It is used only as an override for the path to the
+              MUL Files for UOConvert.
+    
+**********************************************************************************************
+**********************************************************************************************
+Revision: 1400
+Author: muaddib_pol
+Date: 3:01:51 PM, Monday, December 29, 2008
+Message:
++Minor changes, nothing major.
++Checkbox flag for scrollbar on POL tab. Scrollbars where needed.
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+
+Revision: 1397
+Author: muaddib_pol
+Date: 8:53:45 PM, Friday, December 26, 2008
+Message:
++Rewrote all ECompile Flag Checkbox names and rewrote code to load/save. It now uses a single line foreach instead of a single line per option. LOL. Much cleaner (keep laughing Adam) LOL
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1396
+Author: muaddib_pol
+Date: 8:33:17 PM, Friday, December 26, 2008
+Message:
++UOConvert now utilizes setting the UO Mul Path textbox
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1395
+Author: muaddib_pol
+Date: 8:03:02 PM, Friday, December 26, 2008
+Message:
++ECompile Tab began. So far it can Load and Save all "Default Options" and has checkboxes to change all the Default Compiler Options. (The 0/1 flagged).
++Added path storage for UOConvert.cfg and ECompile.cfg to Configurations.
+@Need to add Path editing to the Ecompile for Directory Settings and add actual compile functions.
+@Need to actually Implement the Path To UO Client Data to the codebase so it does more than look pretty.
+----
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1391
+Author: muaddib_pol
+Date: 8:39:56 PM, Wednesday, December 24, 2008
+Message:
++Boredom
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1389
+Author: muaddib_pol
+Date: 2:38:58 PM, Wednesday, December 24, 2008
+Message:
++POL Launch can now create accounts via the AuxSvc in Distro.
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polUtils/POLUtils/Docs/ChangeLog.txt
+
+Revision: 1387
+Author: muaddib_pol
+Date: 10:43:24 AM, Wednesday, December 24, 2008
+Message:
++Initial Upgrade to include the POLUtils.DLL. To make use of this during edit/compile, you just need to have the POLUtils Project Compiled. (The Resource Link in POL Launch looks to the bin\Release folder for the DLL under POLUtils).
++Additional Browse added for MulPath. Currently no code utilizes this, but it is for UOConvert to allow you to manually set the "uodata=" flag to use MUL Files in a different location than that given by POL.CFG
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/POLChecks.cs
+Modified : /tools/polLaunch/POLLaunch/POLTools/UOConvert.cs
+
+Revision: 1380
+Author: muaddib_pol
+Date: 8:03:36 PM, Tuesday, December 23, 2008
+Message:
++Added Accounts Tab. This will handle basic account creation and manipulation via localhost AuxSvc written for Distro. (Will require some adjustments to the Distro scriptbase, which means YAY! :x )
++Accounts Tab WILL contain settings so you can adjust it for your own Port settings. It will also contain a section for storing an Administrative Password to send at the end of each Array sent to the AuxSvc (for those who use distro or password protect like distro does).
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+
+Revision: 1379
+Author: muaddib_pol
+Date: 6:49:23 PM, Tuesday, December 23, 2008
+Message:
++Added event handlers for all Map Checkboxes. This is to keep the UseDif disabled unless a Realm is selected. This also unchecks the UseDif when the Map is unchecked and re-disabled. Mainly for visual appeal (although this will interact with the POLUtils UOConvert.Realms handling for the UOConvert Commandlines in the future)
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1378
+Author: muaddib_pol
+Date: 6:38:30 PM, Tuesday, December 23, 2008
+Message:
++Doesn't it make sense to uncheck the Dif setting to? :)
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1377
+Author: muaddib_pol
+Date: 6:31:10 PM, Tuesday, December 23, 2008
+Message:
++Added ProgressBar stepping for "Run Tests".
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/POLChecks.cs
+
+Revision: 1376
+Author: muaddib_pol
+Date: 6:00:47 PM, Tuesday, December 23, 2008
+Message:
++More UOConvert updates. UOConvert portion is ready to link to the upcoming POLUtils.DLL project.
++MyConsole updated to kill any leftover Processes that it is linked to on premature Application Exit.
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/POLTools/UOConvert.cs
+Modified : /tools/polLaunch/POLLaunch/MyConsole.cs
+
+Revision: 1374
+Author: muaddib_pol
+Date: 11:31:43 PM, Monday, December 22, 2008
+Message:
+UOConvert updates. Blah. 
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/POLTools/UOConvert.cs
+
+Revision: 1373
+Author: muaddib_pol
+Date: 10:45:17 PM, Monday, December 22, 2008
+Message:
+Initial UOConvert tab design. Doesn't convert..... yet.
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1372
+Author: muaddib_pol
+Date: 9:59:11 PM, Monday, December 22, 2008
+Message:
+Overloaded function to allow passing of arguments to MyConsole.Start(). Will allow UOConvert, etc use the Console Reader for output.
+----
+Modified : /tools/polLaunch/POLLaunch/MyConsole.cs
+
+Revision: 1371
+Author: muaddib_pol
+Date: 9:56:03 PM, Monday, December 22, 2008
+Message:
+Update to fix paths not reading fully in Config and Realm checks during "Run Tests"
+----
+Modified : /tools/polLaunch/POLLaunch/POLChecks.cs
+
+Revision: 1370
+Author: muaddib_pol
+Date: 9:52:04 PM, Monday, December 22, 2008
+Message:
+Added Configuration verification. This will help block crashes due to people NOT setting the paths. Booo on you!
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1335
+Author: AustinHeilman
+Date: 10:03:50 AM, Wednesday, October 22, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch.sln
+
+Revision: 1334
+Author: rozenblit
+Date: 9:36:09 AM, Wednesday, October 22, 2008
+Message:
+POLLaunch now runs POL and accepts console commands (including Ctrl! But doesn´t raise Ctrl-C signal ...)
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1333
+Author: rozenblit
+Date: 9:39:01 PM, Tuesday, October 21, 2008
+Message:
+MyConsole uses WriteConsoleInput to simulate keypress to POL's Window, redirecting stdout and stdin. You can hook to OutputDataEvent and ExitedEvent. Now I only need to place it in POLLaunch...
+----
+Added : /tools/polLaunch/POLLaunch/MyConsole.cs
+Deleted : /tools/polLaunch/POLLaunch/CmdLine
+
+Revision: 1331
+Author: AustinHeilman
+Date: 5:57:38 PM, Saturday, October 18, 2008
+Message:
+
+----
+Added : /tools/polLaunch/POLLaunch/CmdLine
+Added : /tools/polLaunch/POLLaunch/CmdLine/CommandLineException.cs
+Added : /tools/polLaunch/POLLaunch/CmdLine/CommandLineHelper.cs
+
+Revision: 1329
+Author: rozenblit
+Date: 9:48:38 PM, Friday, October 17, 2008
+Message:
+It´s reading. Just have to change little pieces of it to handle both structured and non-structured configs. Austin should stop being lazy and finish it.
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1328
+Author: AustinHeilman
+Date: 9:36:07 AM, Tuesday, October 14, 2008
+Message:
+This thing is a goddamn headache.
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1327
+Author: AustinHeilman
+Date: 9:33:53 AM, Tuesday, October 14, 2008
+Message:
+Thanks Turley for pointing out this was missing from the svn.
+----
+Added : /tools/polLaunch/POLLaunch/POLChecks.cs
+
+Revision: 1326
+Author: AustinHeilman
+Date: 3:41:53 PM, Monday, October 13, 2008
+Message:
+So yeah.. we remembered an elem could have a prefix and a suffix.
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1325
+Author: AustinHeilman
+Date: 3:16:44 PM, Monday, October 13, 2008
+Message:
+Okay Nando, I think we got it figured out for when we want to write it.
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1324
+Author: AustinHeilman
+Date: 3:08:47 PM, Monday, October 13, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1322
+Author: AustinHeilman
+Date: 1:21:00 PM, Sunday, October 12, 2008
+Message:
+I never went to sleep :o
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1320
+Author: AustinHeilman
+Date: 3:05:34 PM, Saturday, October 11, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1319
+Author: AustinHeilman
+Date: 2:54:10 PM, Saturday, October 11, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1318
+Author: AustinHeilman
+Date: 2:35:36 PM, Saturday, October 11, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1317
+Author: AustinHeilman
+Date: 1:47:40 PM, Saturday, October 11, 2008
+Message:
+Okay Nando.. I used enums. 
+----
+Modified : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+
+Revision: 1316
+Author: AustinHeilman
+Date: 1:14:14 PM, Saturday, October 11, 2008
+Message:
+Working on a POL config parser.
+----
+Added : /tools/polLaunch/POLLaunch/POLConfig
+Added : /tools/polLaunch/POLLaunch/POLConfig/POLConfig.cs
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+
+Revision: 1315
+Author: AustinHeilman
+Date: 11:57:52 PM, Friday, October 10, 2008
+Message:
+
+----
+Added : /tools/polLaunch/POLLaunch/POLTools
+Added : /tools/polLaunch/POLLaunch/POLTools/UOConvert.cs
+
+Revision: 1314
+Author: rozenblit
+Date: 11:35:01 PM, Friday, October 10, 2008
+Message:
+Xml Settings and small fixes (added Realm class in settings.cs, should probably be elsewhere)
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/Settings.cs
+Added : /tools/polLaunch/POLLaunch/StringHash.cs
+
+Revision: 1313
+Author: AustinHeilman
+Date: 4:50:10 PM, Saturday, October 04, 2008
+Message:
+
+----
+Added : /tools/polLaunch/POLLaunch/settings.xml
+
+Revision: 1312
+Author: AustinHeilman
+Date: 11:04:34 AM, Monday, September 29, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.resx
+
+Revision: 1311
+Author: AustinHeilman
+Date: 1:28:22 AM, Monday, September 29, 2008
+Message:
+Added functionality for going straight to the pol tab.
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/Settings.cs
+
+Revision: 1310
+Author: AustinHeilman
+Date: 1:07:18 AM, Monday, September 29, 2008
+Message:
+Settings stuff working, now.
+----
+Modified : /tools/polLaunch/POLLaunch/Settings.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+
+Revision: 1309
+Author: AustinHeilman
+Date: 11:44:27 PM, Sunday, September 28, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Settings.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Settings.Designer.cs
+
+Revision: 1308
+Author: AustinHeilman
+Date: 10:51:55 PM, Sunday, September 28, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Settings.cs
+
+Revision: 1307
+Author: AustinHeilman
+Date: 8:46:06 PM, Saturday, September 27, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Settings.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Settings.settings
+Modified : /tools/polLaunch/POLLaunch/app.config
+
+Revision: 1306
+Author: AustinHeilman
+Date: 6:03:53 PM, Saturday, September 27, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Added : /tools/polLaunch/POLLaunch/Settings.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Settings.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Settings.settings
+Added : /tools/polLaunch/POLLaunch/app.config
+Deleted : /tools/polLaunch/POLLaunch/Config/Settings.cs
+Modified : /tools/polLaunch/POLLaunch/Program.cs
+
+Revision: 1305
+Author: AustinHeilman
+Date: 4:50:42 PM, Saturday, September 27, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/Config/Settings.cs
+
+Revision: 1304
+Author: AustinHeilman
+Date: 4:32:35 PM, Saturday, September 27, 2008
+Message:
+Feeling lazy with the configuration part :(
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Added : /tools/polLaunch/POLLaunch/Config/Settings.cs
+
+Revision: 1302
+Author: AustinHeilman
+Date: 1:37:52 PM, Wednesday, September 24, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+
+Revision: 1301
+Author: AustinHeilman
+Date: 11:11:55 AM, Wednesday, September 24, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+
+Revision: 1300
+Author: AustinHeilman
+Date: 10:41:34 AM, Wednesday, September 24, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Added : /tools/polLaunch/POLLaunch/IPStuff.cs
+
+Revision: 1299
+Author: AustinHeilman
+Date: 10:37:58 AM, Wednesday, September 24, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Added : /tools/polLaunch/POLLaunch/FileLister.cs
+Added : /tools/polLaunch/POLLaunch/FilePicker.cs
+
+Revision: 1298
+Author: AustinHeilman
+Date: 9:54:40 AM, Wednesday, September 24, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/About/AboutForm.cs
+Modified : /tools/polLaunch/POLLaunch/About/AboutForm.resx
+
+Revision: 1297
+Author: AustinHeilman
+Date: 8:08:13 PM, Tuesday, September 23, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.resx
+
+Revision: 1296
+Author: AustinHeilman
+Date: 5:30:03 PM, Tuesday, September 23, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+
+Revision: 1277
+Author: AustinHeilman
+Date: 3:27:40 PM, Friday, September 05, 2008
+Message:
+
+----
+Added : /tools/polLaunch/POLLaunch/Config/Configuration.cs
+
+Revision: 1264
+Author: AustinHeilman
+Date: 8:22:48 PM, Tuesday, September 02, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+
+Revision: 1260
+Author: AustinHeilman
+Date: 3:36:29 PM, Tuesday, September 02, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+
+Revision: 1255
+Author: AustinHeilman
+Date: 3:07:49 PM, Monday, September 01, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+
+Revision: 1254
+Author: AustinHeilman
+Date: 2:48:49 PM, Monday, September 01, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch.suo
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+
+Revision: 1253
+Author: AustinHeilman
+Date: 2:33:29 PM, Monday, September 01, 2008
+Message:
+Completed the UI for configuring paths. Onto the configuration storage class.
+----
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+
+Revision: 1252
+Author: AustinHeilman
+Date: 2:01:28 PM, Monday, September 01, 2008
+Message:
+Working on the configuration form.
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+
+Revision: 1251
+Author: AustinHeilman
+Date: 1:54:13 PM, Monday, September 01, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Form1.cs
+Added : /tools/polLaunch/POLLaunch/Config
+Added : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.Designer.cs
+Added : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.cs
+Added : /tools/polLaunch/POLLaunch/Config/ConfigurationForm.resx
+
+Revision: 1250
+Author: AustinHeilman
+Date: 1:39:30 PM, Monday, September 01, 2008
+Message:
+Added ServersCfgTemplate.txt as an internal resource.
+----
+Modified : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Modified : /tools/polLaunch/POLLaunch/Properties/Resources.Designer.cs
+Modified : /tools/polLaunch/POLLaunch/Properties/Resources.resx
+Added : /tools/polLaunch/POLLaunch/images
+Added : /tools/polLaunch/POLLaunch/images/pol_title_small.png
+Added : /tools/polLaunch/POLLaunch/support
+Added : /tools/polLaunch/POLLaunch/support/ServersCfgTemplate.txt
+
+Revision: 1249
+Author: AustinHeilman
+Date: 1:34:43 PM, Monday, September 01, 2008
+Message:
+
+----
+Modified : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+
+Revision: 1248
+Author: AustinHeilman
+Date: 1:30:30 PM, Monday, September 01, 2008
+Message:
+
+----
+Deleted : /tools/polLaunch/POLLaunch/obj
+
+Revision: 1247
+Author: AustinHeilman
+Date: 1:29:40 PM, Monday, September 01, 2008
+Message:
+Putting the clean 'starter' parts of the code in the SVN.
+----
+Added : /tools/polLaunch
+Added : /tools/polLaunch/POLLaunch
+Added : /tools/polLaunch/POLLaunch/POLLaunch.csproj
+Added : /tools/polLaunch/POLLaunch.suo
+Added : /tools/polLaunch/POLLaunch/Form1.Designer.cs
+Added : /tools/polLaunch/POLLaunch/Form1.cs
+Added : /tools/polLaunch/POLLaunch.sln
+Added : /tools/polLaunch/POLLaunch/Form1.resx
+Added : /tools/polLaunch/POLLaunch/Properties
+Added : /tools/polLaunch/POLLaunch/Properties/Settings.Designer.cs
+Added : /tools/polLaunch/POLLaunch/Properties/Settings.settings
+Added : /tools/polLaunch/POLLaunch/Program.cs
+Added : /tools/polLaunch/POLLaunch/About
+Added : /tools/polLaunch/POLLaunch/About/AboutForm.cs
+Added : /tools/polLaunch/POLLaunch/About/AboutForm.resx
+Added : /tools/polLaunch/POLLaunch/Properties/Resources.Designer.cs
+Added : /tools/polLaunch/POLLaunch/Properties/Resources.resx
+Added : /tools/polLaunch/POLLaunch/obj
+Added : /tools/polLaunch/POLLaunch/Properties/AssemblyInfo.cs
+Added : /tools/polLaunch/POLLaunch/icon.ico
+Added : /tools/polLaunch/POLLaunch/obj/Debug
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.Form1.resources
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.Properties.Resources.resources
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.csproj.FileListAbsolute.txt
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.csproj.GenerateResource.Cache
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.exe
+Added : /tools/polLaunch/POLLaunch/obj/Debug/POLLaunch.pdb
+Added : /tools/polLaunch/POLLaunch/obj/Debug/TempPE
+Added : /tools/polLaunch/POLLaunch/obj/Release
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.AboutForm.resources
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.Form1.resources
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.Properties.Resources.resources
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.csproj.FileListAbsolute.txt
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.csproj.GenerateResource.Cache
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.exe
+Added : /tools/polLaunch/POLLaunch/obj/Release/POLLaunch.pdb
+Added : /tools/polLaunch/POLLaunch/obj/Release/TempPE
+
