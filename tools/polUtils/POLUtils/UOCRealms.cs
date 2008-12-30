@@ -47,11 +47,18 @@ namespace POLUtils.UOConvert.UOCRealms
             return _RealmName;
         }
         /// <summary>
-        ///     Retrieves the Realm Map ID for a Realm Object
+        ///     Gets/Sets the Realm Map ID for a Realm Object
         /// </summary>
-        public int GetMapID()
+        public int MapID
         {
-            return _MapID;
+            get
+            {
+                return _MapID;
+            }
+            set
+            {
+                _MapID = value;
+            }
         }
         /// <summary>
         ///     Gets/Sets the Realm UseDif for a Realm Object
@@ -68,18 +75,32 @@ namespace POLUtils.UOConvert.UOCRealms
             }
         }
         /// <summary>
-        ///     Retrieves the Realm Width for a Realm Object
+        ///     Gets/Sets the Realm Width for a Realm Object
         /// </summary>
-        public int GetWidth()
+        public int Width
         {
-            return _Width;
+            get
+            {
+                return _Width;
+            }
+            set
+            {
+                _Width = value;
+            }
         }
         /// <summary>
-        ///     Retrieves the Realm Height for a Realm Object
+        ///     Gets/Sets the Realm Height for a Realm Object
         /// </summary>
-        public int GetHeight()
+        public int Height
         {
-            return _Height;
+            get
+            {
+                return _Height;
+            }
+            set
+            {
+                _Height = value;
+            }
         }
         /// <summary>
         ///     Retrieves the Realm UOConvert Map Conversion Command for a Realm Object

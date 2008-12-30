@@ -1,4 +1,8 @@
-﻿12-26-2008 - MuadDib
+﻿12-29-2008 - MuadDib
+    Changed: Realm Class no longer uses Getxxx() for Realm Info. All Methods dropped Get and
+             now are Get/Set methods of Height(), Width(), etc.
+             
+12-26-2008 - MuadDib
 	Added  : Added more Paths to PathStorage.
 	Added  : New overload for EConfig.Option() so you can pass a bool as the new value.
 	         Method auto converts bool to string 0/1.
