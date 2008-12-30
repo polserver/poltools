@@ -1,6 +1,8 @@
 ﻿12-29-2008 - MuadDib
     Changed: Realm Class no longer uses Getxxx() for Realm Info. All Methods dropped Get and
              now are Get/Set methods of Height(), Width(), etc.
+    Added  : A generic Realm Object in UOCRealms.
+    Added  : Console Class under Console namespace.
              
 12-26-2008 - MuadDib
 	Added  : Added more Paths to PathStorage.

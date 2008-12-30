@@ -150,7 +150,7 @@ namespace POLUtils.ECompile
         /// </summary>
         /// <param name="OptionName">OptionName string</param>
         /// <returns>Commandline flag in string form</returns>
-        public string CommandFlag(string OptionName)
+        public string Flag(string OptionName)
         {
             return OptionFlag[OptionName];
         }
@@ -280,7 +280,10 @@ namespace POLUtils.ECompile
                     }
                 }
                 // Now we add all the Package Roots. BOOO
+                // First we need to know how many Package Root Entries there is in the
+                // config. Compare that with how many we must save, and handle as should.
 
+                
                 // Now we add all the Default Option Stuff
                 foreach (string OptionName in OptionsDefaultNames)
                 {
