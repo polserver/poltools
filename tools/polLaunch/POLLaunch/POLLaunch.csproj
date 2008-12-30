@@ -65,9 +65,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IPStuff.cs" />
-    <Compile Include="MyConsole.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="POLChecks.cs" />
     <Compile Include="POLConfig\POLConfig.cs" />
     <Compile Include="POLTools\UOConvert.cs" />
@@ -103,6 +100,7 @@
     <Compile Include="StringHash.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docs\ChangeLog.txt" />
     <Content Include="icon.ico" />
     <EmbeddedResource Include="Config\ConfigurationForm.resx">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
