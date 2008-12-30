@@ -130,6 +130,26 @@ namespace POLUtils.UOConvert.UOCRealms
     }
 
     /// <summary>
+    ///     Custom Realm information for UOConvert. Inherits from Realms Class.
+    ///     Mainly useable for custom size realms, or otherwise non-default realms from
+    ///     Ultima Online.
+    /// </summary>
+    public class NewRealm : Realms
+    {
+        /// <summary>
+        ///     Default Constructor to access Britannia (The Second Age) Realm Information
+        /// </summary>
+        public NewRealm()
+        {
+            _RealmName = "this_realm";
+            _MapID = 0;
+            _UseDiff = true;
+            _Width = 6144;
+            _Height = 4096;
+        }
+    }
+
+    /// <summary>
     ///     Britannia T2A Realm information for UOConvert. Inherits from Realms Class
     /// </summary>
     public class BritanniaT2A : Realms

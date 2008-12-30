@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuxSvc.cs" />
+    <Compile Include="Console.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Ecompile.cs" />
     <Compile Include="PackUnpack.cs" />
     <Compile Include="PathStorage.cs" />
