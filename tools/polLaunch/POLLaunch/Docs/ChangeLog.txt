@@ -12,6 +12,9 @@
               Clipboard button for the info, and a link to click on to report this crash
               to the forums. :P
     Changed : Updated existing Try/Catch sets to use new Exception Form.
+    Fixed   : Threading issues with ProgressBar in UOConvert Console.
+    Added   : Check to not display all the Converting: xx% lines etc from UOConvert.
+    Fixed   : Threading issue with Clearing POL Output Textbox buffer.
     
 12-29-2008 - MuadDib
     Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN

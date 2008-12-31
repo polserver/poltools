@@ -179,7 +179,7 @@ namespace POLLaunch
         void POLConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             if (txtPOLConsole.Text.Length > 32000)
-                txtPOLConsole.Text = "<clearing POL Output Buffer To Avoid Crash>";
+                txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text = "<clearing POL Output Buffer To Avoid Crash>" + System.Environment.NewLine; });
             if (e.Data != String.Empty && e.Data != null)
                 txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += e.Data + System.Environment.NewLine; });
         }
@@ -416,7 +416,7 @@ namespace POLLaunch
                 if (PL_UOConvert.BuildList.Count != 0)
                     Cmd += PL_UOConvert.BuildList[0].ToString();
                 if (TB_MULFilePath.Text.Length > 0)
-                    Cmd += " uodata=" + TB_MULFilePath.Text;
+                    Cmd += " uodata=\"" + TB_MULFilePath.Text + "\"";
 
                 this.UOCConsole = new MyConsole();
                 this.UOCConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
@@ -427,7 +427,7 @@ namespace POLLaunch
 
         void UOCConsole_Exited(object sender, EventArgs e)
         {
-            TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += "<Conversion Completed>" + System.Environment.NewLine; });
+            TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += "<Conversion Completed>" + System.Environment.NewLine + System.Environment.NewLine; });
 
             ((MyConsole)sender).Dispose();
             this.UOCConsole = null;
@@ -445,7 +445,10 @@ namespace POLLaunch
                 PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
             }
 
-            ProgressBar.PerformStep();
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate() { ProgressBar.PerformStep(); });
+            else
+                ProgressBar.PerformStep();
 
             if (PL_UOConvert.BuildList.Count != 0)
             {
@@ -455,17 +458,29 @@ namespace POLLaunch
                 else
                 {
                     BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
-                    ProgressBar.Value = 0;
+                    if (this.InvokeRequired)
+                        this.Invoke((MethodInvoker)delegate() { ProgressBar.Value = 0; });
+                    else
+                        ProgressBar.Value = 0;
                     MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
-                    ProgressBar.Visible = false;
+                    if (this.InvokeRequired)
+                        this.Invoke((MethodInvoker)delegate() { ProgressBar.Visible = false; });
+                    else
+                        ProgressBar.Visible = false;
                 }
             }
             else
             {
                 BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
-                ProgressBar.Value = 0;
+                if (this.InvokeRequired)
+                    this.Invoke((MethodInvoker)delegate() { ProgressBar.Value = 0; });
+                else
+                    ProgressBar.Value = 0;
                 MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
-                ProgressBar.Visible = false;
+                if (this.InvokeRequired)
+                    this.Invoke((MethodInvoker)delegate() { ProgressBar.Visible = false; });
+                else
+                    ProgressBar.Visible = false;
             }
         }
 
@@ -478,9 +493,11 @@ namespace POLLaunch
 
         void UOCConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
-            if (e.Data != String.Empty)
+            if (e.Data != String.Empty && e.Data != null)
             {
-                TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
+                // Let's Parse out all the Converting: xx% crap here.
+                if (!e.Data.Contains("%"))
+                    TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
             }
         }
 
