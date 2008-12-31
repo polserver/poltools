@@ -15,6 +15,9 @@
     Fixed   : Threading issues with ProgressBar in UOConvert Console.
     Added   : Check to not display all the Converting: xx% lines etc from UOConvert.
     Fixed   : Threading issue with Clearing POL Output Textbox buffer.
+    Fixed   : Bug where UO Client Data Path would have spaces in the PathName.
+    Changed : Even more code organization for the main form. God I must be bored.
+              I blame Nando aka Mr. Clean.
     
 12-29-2008 - MuadDib
     Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN
