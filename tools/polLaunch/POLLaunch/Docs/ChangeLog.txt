@@ -1,4 +1,19 @@
-﻿12-29-2008 - MuadDib
+﻿12-31-2008 - MuadDib
+    Added   : Much more ECompile Tab work. Both Visual and Code wise.
+              Path Editor in place for Ecompile.cfg. Does not open a new form, but
+              rather makes the information visible in existing tab.
+    Added   : The 3 main Directory Settings are now visible on the main Ecompile Tab
+              and NOT just in the Editor.
+    Added   : #region/#endregion to help organize the code and make it easier to navigate.
+    Changed : Refactored checkbox1 to CB_StraightToPOL.
+    Changed : Reorganized some of the Form Code to go with the new Regions updates.
+    Added   : New Exception Form. In places where we add try/catch, if an Exception is thrown
+              it opens a new form with Details about the Exception. It gives you a Copy To
+              Clipboard button for the info, and a link to click on to report this crash
+              to the forums. :P
+    Changed : Updated existing Try/Catch sets to use new Exception Form.
+    
+12-29-2008 - MuadDib
     Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN
               Logs to this point to note all changes related to POL  Launch :)
     Changed : Moved Console classes over to POLUtil and updated PL to match this new
@@ -10,6 +25,8 @@
     Removed : UOPath from Configuration. This is now handled via the UOConvert tab itself. This
               setting is also NOT required. It is used only as an override for the path to the
               MUL Files for UOConvert.
+    Changed : VS Complained about CR/LF from the paste of SVN Log. So it updated this file. lol
+    
     
 **********************************************************************************************
 **********************************************************************************************

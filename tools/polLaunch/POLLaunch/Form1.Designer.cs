@@ -44,7 +44,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.CB_StraightToPOL = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.BTN_RunTests = new System.Windows.Forms.Button();
             this.TB_RunTests = new System.Windows.Forms.TextBox();
@@ -82,14 +82,21 @@
             this.TB_UOCOutput = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.BTN_ECompile = new System.Windows.Forms.Button();
+            this.TB_ECompile = new System.Windows.Forms.TextBox();
             this.GB_ECompile = new System.Windows.Forms.GroupBox();
+            this.PNL_ECompilePaths = new System.Windows.Forms.Panel();
+            this.TB_ECompilePolScriptRoot = new System.Windows.Forms.TextBox();
+            this.TB_ECompileIncludeDirectory = new System.Windows.Forms.TextBox();
+            this.TB_ECompileModuleDirectory = new System.Windows.Forms.TextBox();
             this.LBL_ECompileFlags = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.BTN_EcompileLoad = new System.Windows.Forms.Button();
-            this.LBL_ECompileLoad = new System.Windows.Forms.Label();
-            this.PNL_ECompileSave = new System.Windows.Forms.Panel();
+            this.PNL_ECompileLoadSave = new System.Windows.Forms.Panel();
             this.BTN_ECompileSave = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
+            this.BTN_EcompileLoad = new System.Windows.Forms.Button();
+            this.LBL_ECompileLoadSave = new System.Windows.Forms.Label();
+            this.PNL_ECompileSave = new System.Windows.Forms.Panel();
+            this.BTN_ECompilePathsEdit = new System.Windows.Forms.Button();
+            this.LBL_ECompilePackageRoots = new System.Windows.Forms.Label();
+            this.BTN_ECompilePackageRoots = new System.Windows.Forms.Button();
             this.PNL_ECompileFlags = new System.Windows.Forms.Panel();
             this.CB_ECompileFlagDisplayUpToDateScripts = new System.Windows.Forms.CheckBox();
             this.CB_ECompileFlagGenerateDependencyInfo = new System.Windows.Forms.CheckBox();
@@ -102,9 +109,22 @@
             this.CB_ECompileFlagGenerateDebugTextInfo = new System.Windows.Forms.CheckBox();
             this.CB_ECompileFlagGenerateListing = new System.Windows.Forms.CheckBox();
             this.CB_ECompileFlagGenerateDebugInfo = new System.Windows.Forms.CheckBox();
-            this.TB_ECompile = new System.Windows.Forms.TextBox();
+            this.GB_ECompilePathsEdit = new System.Windows.Forms.GroupBox();
+            this.BTN_ECompileEditPathsScripts = new System.Windows.Forms.Button();
+            this.BTN_ECompileEditPathsIncludes = new System.Windows.Forms.Button();
+            this.BTN_ECompileEditPathsModules = new System.Windows.Forms.Button();
+            this.PNL_ECompilePathsEditTBS = new System.Windows.Forms.Panel();
+            this.TB_ECompilePathsEditPolScriptRoot = new System.Windows.Forms.TextBox();
+            this.TB_ECompilePathsEditIncludeDirectory = new System.Windows.Forms.TextBox();
+            this.TB_ECompilePathsEditModuleDirectory = new System.Windows.Forms.TextBox();
+            this.LBL_ECompilePathsEditScriptRoot = new System.Windows.Forms.Label();
+            this.LBL_ECompilePathsEditIncludes = new System.Windows.Forms.Label();
+            this.LBL_ECompilePathsEditModules = new System.Windows.Forms.Label();
+            this.BTN_ECompilePathsEditDone = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.BTN_StopPOL = new System.Windows.Forms.Button();
+            this.CB_POLScrollBar = new System.Windows.Forms.CheckBox();
             this.BTN_StartPOL = new System.Windows.Forms.Button();
             this.txtPOLConsole = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -135,8 +155,6 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.CB_POLScrollBar = new System.Windows.Forms.CheckBox();
-            this.BTN_StopPOL = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -150,9 +168,12 @@
             this.panel1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.GB_ECompile.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.PNL_ECompilePaths.SuspendLayout();
+            this.PNL_ECompileLoadSave.SuspendLayout();
             this.PNL_ECompileSave.SuspendLayout();
             this.PNL_ECompileFlags.SuspendLayout();
+            this.GB_ECompilePathsEdit.SuspendLayout();
+            this.PNL_ECompilePathsEditTBS.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.GB_AuxSvcSettings.SuspendLayout();
@@ -269,7 +290,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
             this.tabPage1.Controls.Add(this.textBox3);
-            this.tabPage1.Controls.Add(this.checkBox1);
+            this.tabPage1.Controls.Add(this.CB_StraightToPOL);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -289,16 +310,16 @@
             this.textBox3.TabIndex = 2;
             this.textBox3.Text = resources.GetString("textBox3.Text");
             // 
-            // checkBox1
+            // CB_StraightToPOL
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(9, 362);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(243, 17);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "In future instances, go straight to the POL tab.";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckStateChanged += new System.EventHandler(this.checkBox1_CheckStateChanged);
+            this.CB_StraightToPOL.AutoSize = true;
+            this.CB_StraightToPOL.Location = new System.Drawing.Point(9, 362);
+            this.CB_StraightToPOL.Name = "CB_StraightToPOL";
+            this.CB_StraightToPOL.Size = new System.Drawing.Size(243, 17);
+            this.CB_StraightToPOL.TabIndex = 1;
+            this.CB_StraightToPOL.Text = "In future instances, go straight to the POL tab.";
+            this.CB_StraightToPOL.UseVisualStyleBackColor = true;
+            this.CB_StraightToPOL.CheckStateChanged += new System.EventHandler(this.CB_StraightToPOL_CheckStateChanged);
             // 
             // tabPage2
             // 
@@ -686,8 +707,9 @@
             // 
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
             this.tabPage4.Controls.Add(this.BTN_ECompile);
-            this.tabPage4.Controls.Add(this.GB_ECompile);
             this.tabPage4.Controls.Add(this.TB_ECompile);
+            this.tabPage4.Controls.Add(this.GB_ECompile);
+            this.tabPage4.Controls.Add(this.GB_ECompilePathsEdit);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(676, 392);
@@ -704,11 +726,26 @@
             this.BTN_ECompile.Text = "Compile";
             this.BTN_ECompile.UseVisualStyleBackColor = true;
             // 
+            // TB_ECompile
+            // 
+            this.TB_ECompile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_ECompile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_ECompile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_ECompile.ForeColor = System.Drawing.Color.Black;
+            this.TB_ECompile.Location = new System.Drawing.Point(7, 3);
+            this.TB_ECompile.Multiline = true;
+            this.TB_ECompile.Name = "TB_ECompile";
+            this.TB_ECompile.ReadOnly = true;
+            this.TB_ECompile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TB_ECompile.Size = new System.Drawing.Size(661, 169);
+            this.TB_ECompile.TabIndex = 3;
+            // 
             // GB_ECompile
             // 
             this.GB_ECompile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.GB_ECompile.Controls.Add(this.PNL_ECompilePaths);
             this.GB_ECompile.Controls.Add(this.LBL_ECompileFlags);
-            this.GB_ECompile.Controls.Add(this.panel2);
+            this.GB_ECompile.Controls.Add(this.PNL_ECompileLoadSave);
             this.GB_ECompile.Controls.Add(this.PNL_ECompileSave);
             this.GB_ECompile.Controls.Add(this.PNL_ECompileFlags);
             this.GB_ECompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -718,6 +755,43 @@
             this.GB_ECompile.TabIndex = 4;
             this.GB_ECompile.TabStop = false;
             this.GB_ECompile.Text = "ECompile Controls";
+            // 
+            // PNL_ECompilePaths
+            // 
+            this.PNL_ECompilePaths.Controls.Add(this.TB_ECompilePolScriptRoot);
+            this.PNL_ECompilePaths.Controls.Add(this.TB_ECompileIncludeDirectory);
+            this.PNL_ECompilePaths.Controls.Add(this.TB_ECompileModuleDirectory);
+            this.PNL_ECompilePaths.Location = new System.Drawing.Point(6, 133);
+            this.PNL_ECompilePaths.Name = "PNL_ECompilePaths";
+            this.PNL_ECompilePaths.Size = new System.Drawing.Size(649, 37);
+            this.PNL_ECompilePaths.TabIndex = 10;
+            // 
+            // TB_ECompilePolScriptRoot
+            // 
+            this.TB_ECompilePolScriptRoot.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompilePolScriptRoot.Location = new System.Drawing.Point(471, 11);
+            this.TB_ECompilePolScriptRoot.Name = "TB_ECompilePolScriptRoot";
+            this.TB_ECompilePolScriptRoot.ReadOnly = true;
+            this.TB_ECompilePolScriptRoot.Size = new System.Drawing.Size(175, 20);
+            this.TB_ECompilePolScriptRoot.TabIndex = 5;
+            // 
+            // TB_ECompileIncludeDirectory
+            // 
+            this.TB_ECompileIncludeDirectory.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompileIncludeDirectory.Location = new System.Drawing.Point(239, 11);
+            this.TB_ECompileIncludeDirectory.Name = "TB_ECompileIncludeDirectory";
+            this.TB_ECompileIncludeDirectory.ReadOnly = true;
+            this.TB_ECompileIncludeDirectory.Size = new System.Drawing.Size(175, 20);
+            this.TB_ECompileIncludeDirectory.TabIndex = 2;
+            // 
+            // TB_ECompileModuleDirectory
+            // 
+            this.TB_ECompileModuleDirectory.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompileModuleDirectory.Location = new System.Drawing.Point(3, 11);
+            this.TB_ECompileModuleDirectory.Name = "TB_ECompileModuleDirectory";
+            this.TB_ECompileModuleDirectory.ReadOnly = true;
+            this.TB_ECompileModuleDirectory.Size = new System.Drawing.Size(175, 20);
+            this.TB_ECompileModuleDirectory.TabIndex = 0;
             // 
             // LBL_ECompileFlags
             // 
@@ -729,47 +803,19 @@
             this.LBL_ECompileFlags.TabIndex = 6;
             this.LBL_ECompileFlags.Text = "Compiler Flags";
             // 
-            // panel2
+            // PNL_ECompileLoadSave
             // 
-            this.panel2.Controls.Add(this.BTN_EcompileLoad);
-            this.panel2.Controls.Add(this.LBL_ECompileLoad);
-            this.panel2.Location = new System.Drawing.Point(414, 19);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(239, 54);
-            this.panel2.TabIndex = 9;
-            // 
-            // BTN_EcompileLoad
-            // 
-            this.BTN_EcompileLoad.Location = new System.Drawing.Point(82, 21);
-            this.BTN_EcompileLoad.Name = "BTN_EcompileLoad";
-            this.BTN_EcompileLoad.Size = new System.Drawing.Size(75, 23);
-            this.BTN_EcompileLoad.TabIndex = 3;
-            this.BTN_EcompileLoad.Text = "Load";
-            this.BTN_EcompileLoad.UseVisualStyleBackColor = true;
-            this.BTN_EcompileLoad.Click += new System.EventHandler(this.BTN_EcompileLoad_Click);
-            // 
-            // LBL_ECompileLoad
-            // 
-            this.LBL_ECompileLoad.AutoSize = true;
-            this.LBL_ECompileLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LBL_ECompileLoad.Location = new System.Drawing.Point(25, 5);
-            this.LBL_ECompileLoad.Name = "LBL_ECompileLoad";
-            this.LBL_ECompileLoad.Size = new System.Drawing.Size(189, 13);
-            this.LBL_ECompileLoad.TabIndex = 0;
-            this.LBL_ECompileLoad.Text = "Load settings from ECompile.cfg";
-            // 
-            // PNL_ECompileSave
-            // 
-            this.PNL_ECompileSave.Controls.Add(this.BTN_ECompileSave);
-            this.PNL_ECompileSave.Controls.Add(this.label9);
-            this.PNL_ECompileSave.Location = new System.Drawing.Point(414, 73);
-            this.PNL_ECompileSave.Name = "PNL_ECompileSave";
-            this.PNL_ECompileSave.Size = new System.Drawing.Size(239, 54);
-            this.PNL_ECompileSave.TabIndex = 8;
+            this.PNL_ECompileLoadSave.Controls.Add(this.BTN_ECompileSave);
+            this.PNL_ECompileLoadSave.Controls.Add(this.BTN_EcompileLoad);
+            this.PNL_ECompileLoadSave.Controls.Add(this.LBL_ECompileLoadSave);
+            this.PNL_ECompileLoadSave.Location = new System.Drawing.Point(414, 19);
+            this.PNL_ECompileLoadSave.Name = "PNL_ECompileLoadSave";
+            this.PNL_ECompileLoadSave.Size = new System.Drawing.Size(239, 54);
+            this.PNL_ECompileLoadSave.TabIndex = 9;
             // 
             // BTN_ECompileSave
             // 
-            this.BTN_ECompileSave.Location = new System.Drawing.Point(82, 21);
+            this.BTN_ECompileSave.Location = new System.Drawing.Point(139, 21);
             this.BTN_ECompileSave.Name = "BTN_ECompileSave";
             this.BTN_ECompileSave.Size = new System.Drawing.Size(75, 23);
             this.BTN_ECompileSave.TabIndex = 3;
@@ -777,15 +823,64 @@
             this.BTN_ECompileSave.UseVisualStyleBackColor = true;
             this.BTN_ECompileSave.Click += new System.EventHandler(this.BTN_ECompileSave_Click);
             // 
-            // label9
+            // BTN_EcompileLoad
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(10, 5);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(218, 13);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Save these settings to ECompile.CFG";
+            this.BTN_EcompileLoad.Location = new System.Drawing.Point(28, 21);
+            this.BTN_EcompileLoad.Name = "BTN_EcompileLoad";
+            this.BTN_EcompileLoad.Size = new System.Drawing.Size(75, 23);
+            this.BTN_EcompileLoad.TabIndex = 3;
+            this.BTN_EcompileLoad.Text = "Load";
+            this.BTN_EcompileLoad.UseVisualStyleBackColor = true;
+            this.BTN_EcompileLoad.Click += new System.EventHandler(this.BTN_EcompileLoad_Click);
+            // 
+            // LBL_ECompileLoadSave
+            // 
+            this.LBL_ECompileLoadSave.AutoSize = true;
+            this.LBL_ECompileLoadSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ECompileLoadSave.Location = new System.Drawing.Point(7, 5);
+            this.LBL_ECompileLoadSave.Name = "LBL_ECompileLoadSave";
+            this.LBL_ECompileLoadSave.Size = new System.Drawing.Size(224, 13);
+            this.LBL_ECompileLoadSave.TabIndex = 0;
+            this.LBL_ECompileLoadSave.Text = "Load/Save settings from ECompile.cfg";
+            // 
+            // PNL_ECompileSave
+            // 
+            this.PNL_ECompileSave.Controls.Add(this.BTN_ECompilePathsEdit);
+            this.PNL_ECompileSave.Controls.Add(this.LBL_ECompilePackageRoots);
+            this.PNL_ECompileSave.Controls.Add(this.BTN_ECompilePackageRoots);
+            this.PNL_ECompileSave.Location = new System.Drawing.Point(414, 73);
+            this.PNL_ECompileSave.Name = "PNL_ECompileSave";
+            this.PNL_ECompileSave.Size = new System.Drawing.Size(239, 54);
+            this.PNL_ECompileSave.TabIndex = 8;
+            // 
+            // BTN_ECompilePathsEdit
+            // 
+            this.BTN_ECompilePathsEdit.Location = new System.Drawing.Point(139, 21);
+            this.BTN_ECompilePathsEdit.Name = "BTN_ECompilePathsEdit";
+            this.BTN_ECompilePathsEdit.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePathsEdit.TabIndex = 4;
+            this.BTN_ECompilePathsEdit.Text = "Paths";
+            this.BTN_ECompilePathsEdit.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePathsEdit.Click += new System.EventHandler(this.BTN_ECompilePathsEdit_Click);
+            // 
+            // LBL_ECompilePackageRoots
+            // 
+            this.LBL_ECompilePackageRoots.AutoSize = true;
+            this.LBL_ECompilePackageRoots.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LBL_ECompilePackageRoots.Location = new System.Drawing.Point(26, 5);
+            this.LBL_ECompilePackageRoots.Name = "LBL_ECompilePackageRoots";
+            this.LBL_ECompilePackageRoots.Size = new System.Drawing.Size(187, 13);
+            this.LBL_ECompilePackageRoots.TabIndex = 0;
+            this.LBL_ECompilePackageRoots.Text = "Edit Ecompile.Cfg Path Settings";
+            // 
+            // BTN_ECompilePackageRoots
+            // 
+            this.BTN_ECompilePackageRoots.Location = new System.Drawing.Point(28, 21);
+            this.BTN_ECompilePackageRoots.Name = "BTN_ECompilePackageRoots";
+            this.BTN_ECompilePackageRoots.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRoots.TabIndex = 3;
+            this.BTN_ECompilePackageRoots.Text = "PKG Roots";
+            this.BTN_ECompilePackageRoots.UseVisualStyleBackColor = true;
             // 
             // PNL_ECompileFlags
             // 
@@ -915,19 +1010,128 @@
             this.CB_ECompileFlagGenerateDebugInfo.Text = "Generate Debug File (.dbg)";
             this.CB_ECompileFlagGenerateDebugInfo.UseVisualStyleBackColor = true;
             // 
-            // TB_ECompile
+            // GB_ECompilePathsEdit
             // 
-            this.TB_ECompile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.TB_ECompile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ECompile.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.TB_ECompile.ForeColor = System.Drawing.Color.Black;
-            this.TB_ECompile.Location = new System.Drawing.Point(7, 3);
-            this.TB_ECompile.Multiline = true;
-            this.TB_ECompile.Name = "TB_ECompile";
-            this.TB_ECompile.ReadOnly = true;
-            this.TB_ECompile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TB_ECompile.Size = new System.Drawing.Size(661, 169);
-            this.TB_ECompile.TabIndex = 3;
+            this.GB_ECompilePathsEdit.Controls.Add(this.BTN_ECompileEditPathsScripts);
+            this.GB_ECompilePathsEdit.Controls.Add(this.BTN_ECompileEditPathsIncludes);
+            this.GB_ECompilePathsEdit.Controls.Add(this.BTN_ECompileEditPathsModules);
+            this.GB_ECompilePathsEdit.Controls.Add(this.PNL_ECompilePathsEditTBS);
+            this.GB_ECompilePathsEdit.Controls.Add(this.LBL_ECompilePathsEditScriptRoot);
+            this.GB_ECompilePathsEdit.Controls.Add(this.LBL_ECompilePathsEditIncludes);
+            this.GB_ECompilePathsEdit.Controls.Add(this.LBL_ECompilePathsEditModules);
+            this.GB_ECompilePathsEdit.Controls.Add(this.BTN_ECompilePathsEditDone);
+            this.GB_ECompilePathsEdit.Location = new System.Drawing.Point(7, 178);
+            this.GB_ECompilePathsEdit.Name = "GB_ECompilePathsEdit";
+            this.GB_ECompilePathsEdit.Size = new System.Drawing.Size(661, 176);
+            this.GB_ECompilePathsEdit.TabIndex = 6;
+            this.GB_ECompilePathsEdit.TabStop = false;
+            this.GB_ECompilePathsEdit.Text = "Edit ECompile Path Settings";
+            this.GB_ECompilePathsEdit.Visible = false;
+            // 
+            // BTN_ECompileEditPathsScripts
+            // 
+            this.BTN_ECompileEditPathsScripts.Location = new System.Drawing.Point(324, 78);
+            this.BTN_ECompileEditPathsScripts.Name = "BTN_ECompileEditPathsScripts";
+            this.BTN_ECompileEditPathsScripts.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompileEditPathsScripts.TabIndex = 7;
+            this.BTN_ECompileEditPathsScripts.Text = "Browse";
+            this.BTN_ECompileEditPathsScripts.UseVisualStyleBackColor = true;
+            this.BTN_ECompileEditPathsScripts.Click += new System.EventHandler(this.BTN_ECompileEditPathsScripts_Click);
+            // 
+            // BTN_ECompileEditPathsIncludes
+            // 
+            this.BTN_ECompileEditPathsIncludes.Location = new System.Drawing.Point(324, 52);
+            this.BTN_ECompileEditPathsIncludes.Name = "BTN_ECompileEditPathsIncludes";
+            this.BTN_ECompileEditPathsIncludes.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompileEditPathsIncludes.TabIndex = 6;
+            this.BTN_ECompileEditPathsIncludes.Text = "Browse";
+            this.BTN_ECompileEditPathsIncludes.UseVisualStyleBackColor = true;
+            this.BTN_ECompileEditPathsIncludes.Click += new System.EventHandler(this.BTN_ECompileEditPathsIncludes_Click);
+            // 
+            // BTN_ECompileEditPathsModules
+            // 
+            this.BTN_ECompileEditPathsModules.Location = new System.Drawing.Point(324, 26);
+            this.BTN_ECompileEditPathsModules.Name = "BTN_ECompileEditPathsModules";
+            this.BTN_ECompileEditPathsModules.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompileEditPathsModules.TabIndex = 5;
+            this.BTN_ECompileEditPathsModules.Text = "Browse";
+            this.BTN_ECompileEditPathsModules.UseVisualStyleBackColor = true;
+            this.BTN_ECompileEditPathsModules.Click += new System.EventHandler(this.BTN_ECompileEditPathsModules_Click);
+            // 
+            // PNL_ECompilePathsEditTBS
+            // 
+            this.PNL_ECompilePathsEditTBS.Controls.Add(this.TB_ECompilePathsEditPolScriptRoot);
+            this.PNL_ECompilePathsEditTBS.Controls.Add(this.TB_ECompilePathsEditIncludeDirectory);
+            this.PNL_ECompilePathsEditTBS.Controls.Add(this.TB_ECompilePathsEditModuleDirectory);
+            this.PNL_ECompilePathsEditTBS.Location = new System.Drawing.Point(109, 19);
+            this.PNL_ECompilePathsEditTBS.Name = "PNL_ECompilePathsEditTBS";
+            this.PNL_ECompilePathsEditTBS.Size = new System.Drawing.Size(209, 87);
+            this.PNL_ECompilePathsEditTBS.TabIndex = 4;
+            // 
+            // TB_ECompilePathsEditPolScriptRoot
+            // 
+            this.TB_ECompilePathsEditPolScriptRoot.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompilePathsEditPolScriptRoot.Location = new System.Drawing.Point(3, 59);
+            this.TB_ECompilePathsEditPolScriptRoot.Name = "TB_ECompilePathsEditPolScriptRoot";
+            this.TB_ECompilePathsEditPolScriptRoot.ReadOnly = true;
+            this.TB_ECompilePathsEditPolScriptRoot.Size = new System.Drawing.Size(200, 20);
+            this.TB_ECompilePathsEditPolScriptRoot.TabIndex = 5;
+            // 
+            // TB_ECompilePathsEditIncludeDirectory
+            // 
+            this.TB_ECompilePathsEditIncludeDirectory.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompilePathsEditIncludeDirectory.Location = new System.Drawing.Point(3, 33);
+            this.TB_ECompilePathsEditIncludeDirectory.Name = "TB_ECompilePathsEditIncludeDirectory";
+            this.TB_ECompilePathsEditIncludeDirectory.ReadOnly = true;
+            this.TB_ECompilePathsEditIncludeDirectory.Size = new System.Drawing.Size(200, 20);
+            this.TB_ECompilePathsEditIncludeDirectory.TabIndex = 4;
+            // 
+            // TB_ECompilePathsEditModuleDirectory
+            // 
+            this.TB_ECompilePathsEditModuleDirectory.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_ECompilePathsEditModuleDirectory.Location = new System.Drawing.Point(3, 7);
+            this.TB_ECompilePathsEditModuleDirectory.Name = "TB_ECompilePathsEditModuleDirectory";
+            this.TB_ECompilePathsEditModuleDirectory.ReadOnly = true;
+            this.TB_ECompilePathsEditModuleDirectory.Size = new System.Drawing.Size(200, 20);
+            this.TB_ECompilePathsEditModuleDirectory.TabIndex = 3;
+            // 
+            // LBL_ECompilePathsEditScriptRoot
+            // 
+            this.LBL_ECompilePathsEditScriptRoot.AutoSize = true;
+            this.LBL_ECompilePathsEditScriptRoot.Location = new System.Drawing.Point(10, 81);
+            this.LBL_ECompilePathsEditScriptRoot.Name = "LBL_ECompilePathsEditScriptRoot";
+            this.LBL_ECompilePathsEditScriptRoot.Size = new System.Drawing.Size(84, 13);
+            this.LBL_ECompilePathsEditScriptRoot.TabIndex = 2;
+            this.LBL_ECompilePathsEditScriptRoot.Text = "POL Script Root";
+            // 
+            // LBL_ECompilePathsEditIncludes
+            // 
+            this.LBL_ECompilePathsEditIncludes.AutoSize = true;
+            this.LBL_ECompilePathsEditIncludes.Location = new System.Drawing.Point(10, 55);
+            this.LBL_ECompilePathsEditIncludes.Name = "LBL_ECompilePathsEditIncludes";
+            this.LBL_ECompilePathsEditIncludes.Size = new System.Drawing.Size(92, 13);
+            this.LBL_ECompilePathsEditIncludes.TabIndex = 1;
+            this.LBL_ECompilePathsEditIncludes.Text = "Includes Directory";
+            // 
+            // LBL_ECompilePathsEditModules
+            // 
+            this.LBL_ECompilePathsEditModules.AutoSize = true;
+            this.LBL_ECompilePathsEditModules.Location = new System.Drawing.Point(10, 29);
+            this.LBL_ECompilePathsEditModules.Name = "LBL_ECompilePathsEditModules";
+            this.LBL_ECompilePathsEditModules.Size = new System.Drawing.Size(92, 13);
+            this.LBL_ECompilePathsEditModules.TabIndex = 0;
+            this.LBL_ECompilePathsEditModules.Text = "Modules Directory";
+            // 
+            // BTN_ECompilePathsEditDone
+            // 
+            this.BTN_ECompilePathsEditDone.Location = new System.Drawing.Point(580, 147);
+            this.BTN_ECompilePathsEditDone.Name = "BTN_ECompilePathsEditDone";
+            this.BTN_ECompilePathsEditDone.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePathsEditDone.TabIndex = 0;
+            this.BTN_ECompilePathsEditDone.TabStop = false;
+            this.BTN_ECompilePathsEditDone.Text = "Finished";
+            this.BTN_ECompilePathsEditDone.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePathsEditDone.Click += new System.EventHandler(this.BTN_ECompilePathsEditDone_Click);
             // 
             // tabPage5
             // 
@@ -952,6 +1156,27 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "POL";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // BTN_StopPOL
+            // 
+            this.BTN_StopPOL.Location = new System.Drawing.Point(338, 351);
+            this.BTN_StopPOL.Name = "BTN_StopPOL";
+            this.BTN_StopPOL.Size = new System.Drawing.Size(75, 23);
+            this.BTN_StopPOL.TabIndex = 4;
+            this.BTN_StopPOL.Text = "Stop POL";
+            this.BTN_StopPOL.UseVisualStyleBackColor = true;
+            this.BTN_StopPOL.Click += new System.EventHandler(this.BTN_StopPOL_Click);
+            // 
+            // CB_POLScrollBar
+            // 
+            this.CB_POLScrollBar.AutoSize = true;
+            this.CB_POLScrollBar.Location = new System.Drawing.Point(601, 351);
+            this.CB_POLScrollBar.Name = "CB_POLScrollBar";
+            this.CB_POLScrollBar.Size = new System.Drawing.Size(67, 17);
+            this.CB_POLScrollBar.TabIndex = 3;
+            this.CB_POLScrollBar.Text = "Scrollbar";
+            this.CB_POLScrollBar.UseVisualStyleBackColor = true;
+            this.CB_POLScrollBar.CheckedChanged += new System.EventHandler(this.CB_POLScrollBar_CheckedChanged);
             // 
             // BTN_StartPOL
             // 
@@ -1272,27 +1497,6 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // CB_POLScrollBar
-            // 
-            this.CB_POLScrollBar.AutoSize = true;
-            this.CB_POLScrollBar.Location = new System.Drawing.Point(601, 351);
-            this.CB_POLScrollBar.Name = "CB_POLScrollBar";
-            this.CB_POLScrollBar.Size = new System.Drawing.Size(67, 17);
-            this.CB_POLScrollBar.TabIndex = 3;
-            this.CB_POLScrollBar.Text = "Scrollbar";
-            this.CB_POLScrollBar.UseVisualStyleBackColor = true;
-            this.CB_POLScrollBar.CheckedChanged += new System.EventHandler(this.CB_POLScrollBar_CheckedChanged);
-            // 
-            // BTN_StopPOL
-            // 
-            this.BTN_StopPOL.Location = new System.Drawing.Point(338, 351);
-            this.BTN_StopPOL.Name = "BTN_StopPOL";
-            this.BTN_StopPOL.Size = new System.Drawing.Size(75, 23);
-            this.BTN_StopPOL.TabIndex = 4;
-            this.BTN_StopPOL.Text = "Stop POL";
-            this.BTN_StopPOL.UseVisualStyleBackColor = true;
-            this.BTN_StopPOL.Click += new System.EventHandler(this.BTN_StopPOL_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1333,12 +1537,18 @@
             this.tabPage4.PerformLayout();
             this.GB_ECompile.ResumeLayout(false);
             this.GB_ECompile.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.PNL_ECompilePaths.ResumeLayout(false);
+            this.PNL_ECompilePaths.PerformLayout();
+            this.PNL_ECompileLoadSave.ResumeLayout(false);
+            this.PNL_ECompileLoadSave.PerformLayout();
             this.PNL_ECompileSave.ResumeLayout(false);
             this.PNL_ECompileSave.PerformLayout();
             this.PNL_ECompileFlags.ResumeLayout(false);
             this.PNL_ECompileFlags.PerformLayout();
+            this.GB_ECompilePathsEdit.ResumeLayout(false);
+            this.GB_ECompilePathsEdit.PerformLayout();
+            this.PNL_ECompilePathsEditTBS.ResumeLayout(false);
+            this.PNL_ECompilePathsEditTBS.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
@@ -1372,7 +1582,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
 		private System.Windows.Forms.TabPage tabPage6;
-		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.CheckBox CB_StraightToPOL;
         private System.Windows.Forms.Button BTN_RunTests;
         private System.Windows.Forms.TextBox txtPOLConsole;
         private System.Windows.Forms.Button BTN_StartPOL;
@@ -1443,15 +1653,15 @@
         private System.Windows.Forms.GroupBox GB_ECompile;
         private System.Windows.Forms.Panel PNL_ECompileSave;
         private System.Windows.Forms.Button BTN_ECompileSave;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label LBL_ECompilePackageRoots;
         private System.Windows.Forms.Panel PNL_ECompileFlags;
         private System.Windows.Forms.Label LBL_ECompileFlags;
         private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateDebugTextInfo;
         private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateListing;
         private System.Windows.Forms.CheckBox CB_ECompileFlagGenerateDebugInfo;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel PNL_ECompileLoadSave;
         private System.Windows.Forms.Button BTN_EcompileLoad;
-        private System.Windows.Forms.Label LBL_ECompileLoad;
+        private System.Windows.Forms.Label LBL_ECompileLoadSave;
         private System.Windows.Forms.CheckBox CB_ECompileFlagDisplayWarnings;
         private System.Windows.Forms.CheckBox CB_ECompileFlagCompileAspPages;
         private System.Windows.Forms.CheckBox CB_ECompileFlagUpdateOnlyOnAutoCompile;
@@ -1462,6 +1672,24 @@
         private System.Windows.Forms.CheckBox CB_ECompileFlagDisplayUpToDateScripts;
         private System.Windows.Forms.CheckBox CB_POLScrollBar;
         private System.Windows.Forms.Button BTN_StopPOL;
+        private System.Windows.Forms.TextBox TB_ECompileModuleDirectory;
+        private System.Windows.Forms.Panel PNL_ECompilePaths;
+        private System.Windows.Forms.Button BTN_ECompilePackageRoots;
+        private System.Windows.Forms.TextBox TB_ECompileIncludeDirectory;
+        private System.Windows.Forms.TextBox TB_ECompilePolScriptRoot;
+        private System.Windows.Forms.Button BTN_ECompilePathsEdit;
+        private System.Windows.Forms.GroupBox GB_ECompilePathsEdit;
+        private System.Windows.Forms.Button BTN_ECompilePathsEditDone;
+        private System.Windows.Forms.Label LBL_ECompilePathsEditModules;
+        private System.Windows.Forms.Panel PNL_ECompilePathsEditTBS;
+        private System.Windows.Forms.TextBox TB_ECompilePathsEditModuleDirectory;
+        private System.Windows.Forms.Label LBL_ECompilePathsEditScriptRoot;
+        private System.Windows.Forms.Label LBL_ECompilePathsEditIncludes;
+        private System.Windows.Forms.TextBox TB_ECompilePathsEditPolScriptRoot;
+        private System.Windows.Forms.TextBox TB_ECompilePathsEditIncludeDirectory;
+        private System.Windows.Forms.Button BTN_ECompileEditPathsModules;
+        private System.Windows.Forms.Button BTN_ECompileEditPathsScripts;
+        private System.Windows.Forms.Button BTN_ECompileEditPathsIncludes;
 	}
 }
 

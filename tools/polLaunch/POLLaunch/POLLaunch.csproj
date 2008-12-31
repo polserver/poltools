@@ -56,6 +56,12 @@
     <Compile Include="Config\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExceptionBox\ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionBox\ExceptionForm.Designer.cs">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileLister.cs" />
     <Compile Include="FilePicker.cs" />
     <Compile Include="Form1.cs">
@@ -104,6 +110,9 @@
     <Content Include="icon.ico" />
     <EmbeddedResource Include="Config\ConfigurationForm.resx">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionBox\ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="support\ServersCfgTemplate.txt" />
   </ItemGroup>
