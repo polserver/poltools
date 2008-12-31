@@ -95,7 +95,8 @@ namespace POLLaunch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "LoadConfiguration() Error");
+                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                tmp.ShowDialog();
                 return false;
             }
 
@@ -113,7 +114,8 @@ namespace POLLaunch
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "SaveConfiguration() Error");
+                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                tmp.ShowDialog();
                 return false;
             }
 

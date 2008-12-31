@@ -16,14 +16,15 @@ namespace POLLaunch
 	{
         MyConsole POLConsole = null;
         MyConsole UOCConsole = null;
+        MyConsole ECConsole = null;
         EConfig ECompileCFG = null;
         bool Ctrl, Alt, Shift; // small kludge... will it work?
 
 		public Form1()
 		{
 			InitializeComponent();
-			checkBox1.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
-            if (checkBox1.Checked && verifyConfiguration())
+			CB_StraightToPOL.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
+            if (CB_StraightToPOL.Checked && verifyConfiguration())
 				tabControl1.SelectedIndex = tabControl1.TabPages.IndexOfKey("tabPage6");
             LBX_CreateCmdlevel.SelectedIndex = 0;
             LBX_CreateExpansion.SelectedIndex = 0;
@@ -33,9 +34,10 @@ namespace POLLaunch
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
-		}
+        }
 
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Menu Strip Stuff
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
@@ -50,27 +52,32 @@ namespace POLLaunch
 		{
 			Configuration.ConfigurationForm tmp = new Configuration.ConfigurationForm();
 			tmp.ShowDialog(this);
-		}
+        }
+        #endregion
 
-		private void checkBox1_CheckStateChanged(object sender, EventArgs e)
+        #region Initial Tab Code
+        private void CB_StraightToPOL_CheckStateChanged(object sender, EventArgs e)
 		{
             // We only run this if it's Checked, which means the state changed it to
             // checked either by the user clicking on it, or Code changing it.
-            if (checkBox1.Checked)
+            Settings.Global.Properties["ShowPOLTabOnStart"] = CB_StraightToPOL.Checked.ToString();
+            if (CB_StraightToPOL.Checked)
             {
                 if (!verifyConfiguration())
                 {
                     MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
-                    checkBox1.Checked = false;
+                    CB_StraightToPOL.Checked = false;
                 }
                 else
                 {
-                    Settings.Global.Properties["ShowPOLTabOnStart"] = checkBox1.Checked.ToString();
+                    Settings.Global.Properties["ShowPOLTabOnStart"] = CB_StraightToPOL.Checked.ToString();
                 }
             }
-		}
+        }
+        #endregion
 
-		private void BTN_RunTests_Click(object sender, EventArgs e)
+        #region Run Tests Tab Code
+        private void BTN_RunTests_Click(object sender, EventArgs e)
 		{
 			TB_RunTests.Text = "";
 			Cursor = Cursors.WaitCursor;
@@ -86,8 +93,41 @@ namespace POLLaunch
 			Cursor = Cursors.Default;
             ProgressBar.Visible = false;
             ProgressBar.Value = 0;
-		}
+        }
+        #endregion
 
+        #region Configuration Verification Code
+        /// <summary>
+        ///     Counts the Properties set. If not enough set, they never loaded
+        ///     the Configuration Form and set them! BAD DOG!
+        /// </summary>
+        /// <returns>False if Configurations never been set</returns>
+        private bool verifyConfiguration()
+        {
+            if (Settings.Global.Properties.Count < 5)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Verifies the Configuration has been set before allowing the user to change
+        /// tabs in the Control TabControl.
+        /// </summary>
+        /// <param name="sender">Windows Form default object sender</param>
+        /// <param name="e">Windows Form default EventArgs e</param>
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab.Name.ToString() != "tabPage1" && !verifyConfiguration())
+            {
+                MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
+                tabControl1.SelectTab(0);
+            }
+        }
+        #endregion
+
+        #region POL Tab Code/POLConsole Handling
         private void BTN_StartPOL_Click(object sender, EventArgs e)
         {
             if (this.POLConsole != null)
@@ -127,9 +167,10 @@ namespace POLLaunch
                 {
                     POLConsole.Write(Settings.Global.Properties["POLTabShutdown"]);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("There was an error sending the Shutdown Letter to POL. Be sure you set this in the Configurations!");
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog(this);
                 }
                 return;
             }
@@ -175,30 +216,17 @@ namespace POLLaunch
             txtPOLConsole.ScrollToCaret();
         }
 
-        private bool verifyConfiguration()
+        private void CB_POLScrollBar_CheckedChanged(object sender, EventArgs e)
         {
-            if (Settings.Global.Properties.Count < 5)
-            {
-                return false;
-            }
-            return true;
+            if (txtPOLConsole.ScrollBars.Equals(ScrollBars.Vertical))
+                txtPOLConsole.ScrollBars = ScrollBars.None;
+            else
+                txtPOLConsole.ScrollBars = ScrollBars.Vertical;
+            txtPOLConsole_TextChanged(sender, e);
         }
+        #endregion
 
-        /// <summary>
-        /// Verifies the Configuration has been set before allowing the user to change
-        /// tabs in the Control TabControl.
-        /// </summary>
-        /// <param name="sender">Windows Form default object sender</param>
-        /// <param name="e">Windows Form default EventArgs e</param>
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab.Name.ToString() != "tabPage1" && !verifyConfiguration())
-            {
-                MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
-                tabControl1.SelectTab(0);
-            }
-        }
-
+        #region UOConvert Tab Code
         private void CB_BritT2AMap_CheckedChanged(object sender, EventArgs e)
         {
             if (CB_BritMLMap.Checked)
@@ -477,7 +505,102 @@ namespace POLLaunch
                 Settings.Global.Properties["UOPath"] = TB_MULFilePath.Text;
             }
         }
+        #endregion
 
+        #region ECompile Configuration Main Panel
+        private void BTN_EcompileLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ECompileCFG = new EConfig();
+                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+
+                foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+                {
+                    ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+                }
+                foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
+                {
+                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(11));
+                }
+                foreach (TextBox ThisBox in PNL_ECompilePathsEditTBS.Controls)
+                {
+                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(20));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                tmp.ShowDialog(this);
+            }
+        }
+
+        private void BTN_ECompileSave_Click(object sender, EventArgs e)
+        {
+            if (ECompileCFG == null)
+            {
+                try
+                {
+                    ECompileCFG = new EConfig();
+                    ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog(this);
+                }
+            }
+            foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+            {
+                ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
+            }
+
+            foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
+            {
+                ECompileCFG.Option(ThisBox.Name.Substring(11), ThisBox.Text);
+            }
+
+            ECompileCFG.SaveConfig();
+        }
+
+        private void BTN_ECompilePathsEdit_Click(object sender, EventArgs e)
+        {
+            GB_ECompilePathsEdit.Visible = true;
+            GB_ECompilePathsEdit.BringToFront();
+        }
+        #endregion
+
+        #region ECompile Paths Editing Panel Code
+        private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
+        {
+            TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
+            TB_ECompileIncludeDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
+            TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
+            GB_ECompilePathsEdit.Visible = false;
+            GB_ECompilePathsEdit.SendToBack();
+        }
+
+        private void BTN_ECompileEditPathsModules_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditModuleDirectory.Text = FilePicker.SelectFolder();
+        }
+
+        private void BTN_ECompileEditPathsIncludes_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditIncludeDirectory.Text = FilePicker.SelectFolder();
+        }
+
+        private void BTN_ECompileEditPathsScripts_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
+        }
+        #endregion
+
+        #region Account and Data Tab Code
         private void BTN_CreateAccount_Click(object sender, EventArgs e)
         {
             if (POLConsole == null)
@@ -543,55 +666,6 @@ namespace POLLaunch
 
             MessageBox.Show(ResultMsg, CaptionMsg);
         }
-
-        private void BTN_EcompileLoad_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ECompileCFG = new EConfig();
-                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-
-                foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
-                {
-                    ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.InnerException.Message, "Exception Caught");
-            }
-        }
-
-        private void BTN_ECompileSave_Click(object sender, EventArgs e)
-        {
-            if (ECompileCFG == null)
-            {
-                try
-                {
-                    ECompileCFG = new EConfig();
-                    ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.InnerException.Message, "Exception Caught");
-                }
-            }
-            foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
-            {
-                ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
-            }
-
-            ECompileCFG.SaveConfig();
-        }
-
-        private void CB_POLScrollBar_CheckedChanged(object sender, EventArgs e)
-        {
-            if (txtPOLConsole.ScrollBars.Equals(ScrollBars.Vertical))
-                txtPOLConsole.ScrollBars = ScrollBars.None;
-            else
-                txtPOLConsole.ScrollBars = ScrollBars.Vertical;
-            txtPOLConsole_TextChanged(sender, e);
-        }
-
-	}
+        #endregion
+    }
 }

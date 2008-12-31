@@ -27,7 +27,9 @@ namespace POLLaunch
                 }
                 catch (Exception)
                 {
-                    throw new Exception("MoveConfigFile() could not delete the pre-existing " + NewFilePath);
+                    Exception ex = new Exception("MoveConfigFile() could not delete the pre-existing " + NewFilePath);
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog();
                 }
             }
             try
@@ -36,7 +38,9 @@ namespace POLLaunch
             }
             catch (Exception)
             {
-                throw new Exception("MoveConfigFile() could not move " + FileToMove + " to " + NewFilePath);
+                Exception ex = new Exception("MoveConfigFile() could not move " + FileToMove + " to " + NewFilePath);
+                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                tmp.ShowDialog();
             }
         }
 
