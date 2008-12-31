@@ -13,14 +13,17 @@ using POLUtils.UOConvert.UOCRealms;
 namespace POLLaunch
 {
     public partial class Form1 : Form
-	{
+    {
+        #region Main Variables
         MyConsole POLConsole = null;
         MyConsole UOCConsole = null;
         MyConsole ECConsole = null;
         EConfig ECompileCFG = null;
         bool Ctrl, Alt, Shift; // small kludge... will it work?
+        #endregion
 
-		public Form1()
+        #region Main Form Initializer Code
+        public Form1()
 		{
 			InitializeComponent();
 			CB_StraightToPOL.Checked = Settings.Global.ToBoolean((string)Settings.Global.Properties["ShowPOLTabOnStart"]);
@@ -35,6 +38,38 @@ namespace POLLaunch
 		{
 
         }
+        #endregion
+
+        #region Configuration Verification Code
+        /// <summary>
+        ///     Counts the Properties set. If not enough set, they never loaded
+        ///     the Configuration Form and set them! BAD DOG!
+        /// </summary>
+        /// <returns>False if Configurations never been set</returns>
+        private bool verifyConfiguration()
+        {
+            if (Settings.Global.Properties.Count < 5)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Verifies the Configuration has been set before allowing the user to change
+        /// tabs in the Control TabControl.
+        /// </summary>
+        /// <param name="sender">Windows Form default object sender</param>
+        /// <param name="e">Windows Form default EventArgs e</param>
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab.Name.ToString() != "tabPage1" && !verifyConfiguration())
+            {
+                MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
+                tabControl1.SelectTab(0);
+            }
+        }
+        #endregion
 
         #region Menu Strip Stuff
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -96,137 +131,8 @@ namespace POLLaunch
         }
         #endregion
 
-        #region Configuration Verification Code
-        /// <summary>
-        ///     Counts the Properties set. If not enough set, they never loaded
-        ///     the Configuration Form and set them! BAD DOG!
-        /// </summary>
-        /// <returns>False if Configurations never been set</returns>
-        private bool verifyConfiguration()
-        {
-            if (Settings.Global.Properties.Count < 5)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Verifies the Configuration has been set before allowing the user to change
-        /// tabs in the Control TabControl.
-        /// </summary>
-        /// <param name="sender">Windows Form default object sender</param>
-        /// <param name="e">Windows Form default EventArgs e</param>
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab.Name.ToString() != "tabPage1" && !verifyConfiguration())
-            {
-                MessageBox.Show("You have not set your Configuration yet. Please do so before continuing.");
-                tabControl1.SelectTab(0);
-            }
-        }
-        #endregion
-
-        #region POL Tab Code/POLConsole Handling
-        private void BTN_StartPOL_Click(object sender, EventArgs e)
-        {
-            if (this.POLConsole != null)
-            { // already running
-                MessageBox.Show("POL's already running"); // How?!
-                return;
-            }
-
-            string exepath = Settings.Global.Properties["POLExePath"];
-            string dirpath = Settings.Global.Properties["POLPath"];
-
-            if (!File.Exists(exepath))
-            {
-                MessageBox.Show("File does not exist in POLExePath!");
-                return;
-            }
-
-            if (!Directory.Exists(dirpath))
-            {
-                dirpath = Path.GetDirectoryName(exepath);
-            }
-             
-            // begin pol console...          
-
-            this.POLConsole = new MyConsole();
-            this.POLConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath));
-            this.POLConsole.Exited += new EventHandler(POLConsole_Exited);
-            this.POLConsole.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(POLConsole_OutputDataReceived);
-            BTN_StartPOL.Enabled = false;
-        }
-
-        private void BTN_StopPOL_Click(object sender, EventArgs e)
-        {
-            if (this.POLConsole != null)
-            {
-                try
-                {
-                    POLConsole.Write(Settings.Global.Properties["POLTabShutdown"]);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
-                    tmp.ShowDialog(this);
-                }
-                return;
-            }
-        }
-
-        void POLConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
-        {
-            if (txtPOLConsole.Text.Length > 32000)
-                txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text = "<clearing POL Output Buffer To Avoid Crash>" + System.Environment.NewLine; });
-            if (e.Data != String.Empty && e.Data != null)
-                txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += e.Data + System.Environment.NewLine; });
-        }
-
-        void POLConsole_Exited(object sender, EventArgs e)
-        {
-            txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += "<Process exited>" + System.Environment.NewLine; });
-
-            ((MyConsole)sender).Dispose();
-            this.POLConsole = null;
-
-            BTN_StartPOL.Invoke((MethodInvoker)delegate() { BTN_StartPOL.Enabled = true; });
-        }
-
-        private void txtPOLConsole_KeyUp(object sender, KeyEventArgs e)
-        {
-            this.Ctrl = e.Control;
-            this.Alt = e.Alt;
-            this.Shift = e.Shift;
-        }
-        private void txtPOLConsole_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (this.POLConsole != null)
-            {
-                this.POLConsole.Write(e.KeyChar);
-            }
-            e.Handled = true;
-        }
-
-        private void txtPOLConsole_TextChanged(object sender, EventArgs e)
-        {
-            // Auto scrolling
-            txtPOLConsole.Select(txtPOLConsole.Text.Length, 0);
-            txtPOLConsole.ScrollToCaret();
-        }
-
-        private void CB_POLScrollBar_CheckedChanged(object sender, EventArgs e)
-        {
-            if (txtPOLConsole.ScrollBars.Equals(ScrollBars.Vertical))
-                txtPOLConsole.ScrollBars = ScrollBars.None;
-            else
-                txtPOLConsole.ScrollBars = ScrollBars.Vertical;
-            txtPOLConsole_TextChanged(sender, e);
-        }
-        #endregion
-
         #region UOConvert Tab Code
+            #region Realm Checkbox Code
         private void CB_BritT2AMap_CheckedChanged(object sender, EventArgs e)
         {
             if (CB_BritMLMap.Checked)
@@ -312,7 +218,9 @@ namespace POLLaunch
                 CB_TokDif.Checked = false;
             }
         }
+            #endregion
 
+            #region UOConvert Console Code
         private void BTN_UOConvert_Click(object sender, EventArgs e)
         {
             BuildCommandLines();
@@ -397,6 +305,7 @@ namespace POLLaunch
                 PL_UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
             }
         }
+        
         void RunUOConvert()
         {
                 string exepath = Settings.Global.Properties["UOConvertExePath"];
@@ -500,7 +409,9 @@ namespace POLLaunch
                     TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
             }
         }
+            #endregion
 
+            #region UO Client Data Path Code
         private void BTN_MULBrowse_Click(object sender, EventArgs e)
         {
             TB_MULFilePath.Text = FilePicker.SelectFolder();
@@ -522,9 +433,11 @@ namespace POLLaunch
                 Settings.Global.Properties["UOPath"] = TB_MULFilePath.Text;
             }
         }
+            #endregion
         #endregion
 
-        #region ECompile Configuration Main Panel
+        #region ECompile Tab Code
+            #region ECompile Configurations Panel
         private void BTN_EcompileLoad_Click(object sender, EventArgs e)
         {
             try
@@ -586,9 +499,9 @@ namespace POLLaunch
             GB_ECompilePathsEdit.Visible = true;
             GB_ECompilePathsEdit.BringToFront();
         }
-        #endregion
+            #endregion
 
-        #region ECompile Paths Editing Panel Code
+            #region ECompile Paths Editing Panel Code
         private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
         {
             TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
@@ -615,9 +528,114 @@ namespace POLLaunch
             // We don't set the main TB's Text until Finished button is clicked.
             TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
         }
+            #endregion
+        #endregion
+
+        #region POL Tab Code/POLConsole Handling
+            #region Buttons/Checkbox Code
+        private void BTN_StartPOL_Click(object sender, EventArgs e)
+        {
+            if (this.POLConsole != null)
+            { // already running
+                MessageBox.Show("POL's already running"); // How?!
+                return;
+            }
+
+            string exepath = Settings.Global.Properties["POLExePath"];
+            string dirpath = Settings.Global.Properties["POLPath"];
+
+            if (!File.Exists(exepath))
+            {
+                MessageBox.Show("File does not exist in POLExePath!");
+                return;
+            }
+
+            if (!Directory.Exists(dirpath))
+            {
+                dirpath = Path.GetDirectoryName(exepath);
+            }
+
+            // begin pol console...          
+
+            this.POLConsole = new MyConsole();
+            this.POLConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath));
+            this.POLConsole.Exited += new EventHandler(POLConsole_Exited);
+            this.POLConsole.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(POLConsole_OutputDataReceived);
+            BTN_StartPOL.Enabled = false;
+        }
+
+        private void BTN_StopPOL_Click(object sender, EventArgs e)
+        {
+            if (this.POLConsole != null)
+            {
+                try
+                {
+                    POLConsole.Write(Settings.Global.Properties["POLTabShutdown"]);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog(this);
+                }
+                return;
+            }
+        }
+
+        private void CB_POLScrollBar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (txtPOLConsole.ScrollBars.Equals(ScrollBars.Vertical))
+                txtPOLConsole.ScrollBars = ScrollBars.None;
+            else
+                txtPOLConsole.ScrollBars = ScrollBars.Vertical;
+            txtPOLConsole_TextChanged(sender, e);
+        }
+            #endregion
+
+            #region POL Console Code
+        void POLConsole_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            if (txtPOLConsole.Text.Length > 32000)
+                txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text = "<clearing POL Output Buffer To Avoid Crash>" + System.Environment.NewLine; });
+            if (e.Data != String.Empty && e.Data != null)
+                txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += e.Data + System.Environment.NewLine; });
+        }
+
+        void POLConsole_Exited(object sender, EventArgs e)
+        {
+            txtPOLConsole.Invoke((MethodInvoker)delegate() { txtPOLConsole.Text += "<Process exited>" + System.Environment.NewLine; });
+
+            ((MyConsole)sender).Dispose();
+            this.POLConsole = null;
+
+            BTN_StartPOL.Invoke((MethodInvoker)delegate() { BTN_StartPOL.Enabled = true; });
+        }
+
+        private void txtPOLConsole_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.Ctrl = e.Control;
+            this.Alt = e.Alt;
+            this.Shift = e.Shift;
+        }
+        private void txtPOLConsole_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (this.POLConsole != null)
+            {
+                this.POLConsole.Write(e.KeyChar);
+            }
+            e.Handled = true;
+        }
+
+        private void txtPOLConsole_TextChanged(object sender, EventArgs e)
+        {
+            // Auto scrolling
+            txtPOLConsole.Select(txtPOLConsole.Text.Length, 0);
+            txtPOLConsole.ScrollToCaret();
+        }
+            #endregion
         #endregion
 
         #region Account and Data Tab Code
+            #region Create Account Code
         private void BTN_CreateAccount_Click(object sender, EventArgs e)
         {
             if (POLConsole == null)
@@ -683,6 +701,7 @@ namespace POLLaunch
 
             MessageBox.Show(ResultMsg, CaptionMsg);
         }
+            #endregion
         #endregion
     }
 }
