@@ -499,6 +499,13 @@ namespace POLLaunch
             GB_ECompilePathsEdit.Visible = true;
             GB_ECompilePathsEdit.BringToFront();
         }
+
+        private void BTN_ECompilePackageRoots_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented Yet!");
+            GB_PackageRootEditor.Visible = true;
+            GB_PackageRootEditor.BringToFront();
+        }
             #endregion
 
             #region ECompile Paths Editing Panel Code
@@ -529,10 +536,28 @@ namespace POLLaunch
             TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
         }
             #endregion
+        
+            #region ECompile Console Code
+        private void BTN_ECompile_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not Implemented Yet!");
+            return;
+        }
+            #endregion
+
+            #region Package Root Editor Code
+        private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
+        {
+            // Add code that handles parsing all the Grid Data to add it to POLUtils
+            // PackageRoot Storage.
+            GB_PackageRootEditor.Visible = false;
+            GB_PackageRootEditor.SendToBack();
+        }
+            #endregion
         #endregion
 
         #region POL Tab Code/POLConsole Handling
-            #region Buttons/Checkbox Code
+        #region Buttons/Checkbox Code
         private void BTN_StartPOL_Click(object sender, EventArgs e)
         {
             if (this.POLConsole != null)
@@ -703,5 +728,7 @@ namespace POLLaunch
         }
             #endregion
         #endregion
+
+    
     }
 }

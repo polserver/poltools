@@ -155,6 +155,8 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
+            this.GB_PackageRootEditor = new System.Windows.Forms.GroupBox();
+            this.BTN_ECompilePackageRootEditorFinished = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -179,6 +181,7 @@
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.GB_CreateAccount.SuspendLayout();
+            this.GB_PackageRootEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -710,6 +713,7 @@
             this.tabPage4.Controls.Add(this.TB_ECompile);
             this.tabPage4.Controls.Add(this.GB_ECompile);
             this.tabPage4.Controls.Add(this.GB_ECompilePathsEdit);
+            this.tabPage4.Controls.Add(this.GB_PackageRootEditor);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(676, 392);
@@ -725,6 +729,7 @@
             this.BTN_ECompile.TabIndex = 5;
             this.BTN_ECompile.Text = "Compile";
             this.BTN_ECompile.UseVisualStyleBackColor = true;
+            this.BTN_ECompile.Click += new System.EventHandler(this.BTN_ECompile_Click);
             // 
             // TB_ECompile
             // 
@@ -881,6 +886,7 @@
             this.BTN_ECompilePackageRoots.TabIndex = 3;
             this.BTN_ECompilePackageRoots.Text = "PKG Roots";
             this.BTN_ECompilePackageRoots.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRoots.Click += new System.EventHandler(this.BTN_ECompilePackageRoots_Click);
             // 
             // PNL_ECompileFlags
             // 
@@ -1497,6 +1503,27 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
+            // GB_PackageRootEditor
+            // 
+            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorFinished);
+            this.GB_PackageRootEditor.Location = new System.Drawing.Point(7, 178);
+            this.GB_PackageRootEditor.Name = "GB_PackageRootEditor";
+            this.GB_PackageRootEditor.Size = new System.Drawing.Size(661, 176);
+            this.GB_PackageRootEditor.TabIndex = 7;
+            this.GB_PackageRootEditor.TabStop = false;
+            this.GB_PackageRootEditor.Text = "Package Root Editor";
+            this.GB_PackageRootEditor.Visible = false;
+            // 
+            // BTN_ECompilePackageRootEditorFinished
+            // 
+            this.BTN_ECompilePackageRootEditorFinished.Location = new System.Drawing.Point(580, 144);
+            this.BTN_ECompilePackageRootEditorFinished.Name = "BTN_ECompilePackageRootEditorFinished";
+            this.BTN_ECompilePackageRootEditorFinished.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRootEditorFinished.TabIndex = 0;
+            this.BTN_ECompilePackageRootEditorFinished.Text = "Finished";
+            this.BTN_ECompilePackageRootEditorFinished.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRootEditorFinished.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorFinished_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1558,6 +1585,7 @@
             this.panel3.PerformLayout();
             this.GB_CreateAccount.ResumeLayout(false);
             this.GB_CreateAccount.PerformLayout();
+            this.GB_PackageRootEditor.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1690,6 +1718,8 @@
         private System.Windows.Forms.Button BTN_ECompileEditPathsModules;
         private System.Windows.Forms.Button BTN_ECompileEditPathsScripts;
         private System.Windows.Forms.Button BTN_ECompileEditPathsIncludes;
+        private System.Windows.Forms.GroupBox GB_PackageRootEditor;
+        private System.Windows.Forms.Button BTN_ECompilePackageRootEditorFinished;
 	}
 }
 
