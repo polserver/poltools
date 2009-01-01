@@ -536,9 +536,18 @@ namespace POLLaunch
             #region ECompile Paths Editing Panel Code
         private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
         {
-            TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
-            TB_ECompileIncludeDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
-            TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
+            if (TB_ECompilePathsEditModuleDirectory.Text.Length > 0)
+                TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
+            else
+                TB_ECompilePathsEditModuleDirectory.Text = TB_ECompileModuleDirectory.Text;
+            if (TB_ECompilePathsEditIncludeDirectory.Text.Length > 0)
+                TB_ECompileIncludeDirectory.Text = TB_ECompilePathsEditIncludeDirectory.Text;
+            else
+                TB_ECompilePathsEditIncludeDirectory.Text = TB_ECompileIncludeDirectory.Text;
+            if (TB_ECompilePathsEditPolScriptRoot.Text.Length > 0)
+                TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
+            else
+                TB_ECompilePathsEditPolScriptRoot.Text = TB_ECompilePolScriptRoot.Text;
             GB_ECompilePathsEdit.Visible = false;
             GB_ECompilePathsEdit.SendToBack();
             BTN_ECompile.Enabled = true;
@@ -605,6 +614,11 @@ namespace POLLaunch
             }
             if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootDeleteButton")
             {
+                if (DGV_PackageRoot.Rows.Count == 1)
+                {
+                    MessageBox.Show("You cannot remove all entries from the Package Roots. You must have at least 1");
+                    return;
+                }
                 DialogResult result = MessageBox.Show(this, "Are you sure you want to delete this entry?", "Delete Package Root Entry", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                     DGV_PackageRoot.Rows.RemoveAt(e.RowIndex);
