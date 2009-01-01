@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace POLLaunch
 {
@@ -36,16 +39,24 @@ namespace POLLaunch
 				string currentDir = directoryStack.Pop();
 
 				// Add all files at this directory.
-				foreach (string fileName in Directory.GetFiles(currentDir, filter))
-				{
-					fileResults.Add(fileName);
-				}
+                try
+                {
+                    foreach (string fileName in Directory.GetFiles(currentDir, filter))
+                    {
+                        fileResults.Add(fileName);
+                    }
 
-				// Add all directories at this directory.
-				foreach (string directoryName in Directory.GetDirectories(currentDir))
-				{
-					directoryStack.Push(directoryName);
-				}
+                    // Add all directories at this directory.
+                    foreach (string directoryName in Directory.GetDirectories(currentDir))
+                    {
+                        directoryStack.Push(directoryName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog();
+                }
 			}
 			return fileResults.ToArray();
 		}

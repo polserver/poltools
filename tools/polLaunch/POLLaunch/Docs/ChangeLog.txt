@@ -20,6 +20,21 @@
               I blame Nando aka Mr. Clean.
     Added   : Package Root Editor is now fully functional, including saving of new Package
               Root information to the ECompile.Cfg file.
+    Removed : A Debug message I left in Account Creator.
+    Added   : Referencing to the ICSharp #Zip Library. This will be used later by the Data
+              backup on the last tab to create Zip Archives of selected Data.
+    Fixed   : Shutdown Letter not getting displayed when going back to the Configuration Form
+              correctly.
+    Added   : DataBackup Settings saved to PolLaunch.XML.
+    Added   : Zip Data backup support. Backup is recursive, and backs up all content of
+              the respective locations. Scripts option also backs up POL.Cfg, UOConvert.Cfg,
+              /scripts, /regions, /config besides your Package Roots. Package Roots will be
+              loaded from the current ECompile.Cfg file.
+    Note    : Realms and Log is hardcoded to "realm" and "log" until POL.Cfg Editor and storage
+              is completed.
+    Added   : Try/Catch in FileLister.cs. If it gets a directory name that does not exist,
+              uses the new Exception Form. (Which it never should, unless you have bad paths in
+              your ecompile.cfg!)
     
 12-29-2008 - MuadDib
     Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN
