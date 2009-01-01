@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip.Compression;
 using POLLaunch.Console;
+using POLLaunch.DataBackup;
 using POLUtils.AuxSvc;
 using POLUtils.ECompile;
 using POLUtils.PackUnpack;
@@ -33,6 +37,7 @@ namespace POLLaunch
             LBX_CreateCmdlevel.SelectedIndex = 0;
             LBX_CreateExpansion.SelectedIndex = 0;
             TB_MULFilePath.Text = (string)Settings.Global.Properties["UOPath"];
+            InitializeDataBackup();
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -449,16 +454,18 @@ namespace POLLaunch
                 foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
                 {
                     ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(15)] = ECompileCFG.Option(ThisBox.Name.Substring(15));
                 }
                 foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
                 {
                     ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(11));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(11)] = ECompileCFG.Option(ThisBox.Name.Substring(11));
                 }
                 foreach (TextBox ThisBox in PNL_ECompilePathsEditTBS.Controls)
                 {
                     ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(20));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(20)] = ECompileCFG.Option(ThisBox.Name.Substring(20));
                 }
-
             }
             catch (Exception ex)
             {
@@ -505,14 +512,12 @@ namespace POLLaunch
 
         private void BTN_ECompilePackageRoots_Click(object sender, EventArgs e)
         {
-            // Need to populate the DataGrid with current Package Root Details.
-            // Only Need to do this when going to editor, as DataGridView contents
-            // are ONLY used for editing, not for pulling any Data from except when
-            // the Finished button is clicked. :D
             if (ECompileCFG == null)
             {
-                MessageBox.Show("ECompile.Cfg Does Not Appear To Be Loaded!", "Error Loading Package Root Entries");
-                return;
+                DialogResult result = MessageBox.Show(this, "We need to load ECompile.Cfg for this option. Proceed?", "Load ECompile.Cfg", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                    return;
+                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
             }
             GB_PackageRootEditor.Visible = true;
             GB_PackageRootEditor.BringToFront();
@@ -778,7 +783,6 @@ namespace POLLaunch
             }
             CreateAuxSvc.Write(PackUnpack.Pack(NewAccountInfo));
             string RcvString = CreateAuxSvc.Read();
-            MessageBox.Show(RcvString);
             object ResultObject = PackUnpack.Unpack(RcvString);
             
             // This is where we convert the Object back to what it needs to be.
@@ -805,8 +809,109 @@ namespace POLLaunch
             MessageBox.Show(ResultMsg, CaptionMsg);
         }
             #endregion
+
+            #region Data Backup Code
+        private void InitializeDataBackup()
+        {
+            try
+            {
+                CB_DataBackupData.Checked = bool.Parse(Settings.Global.DataBackup["BackupData"]);
+                CB_DataBackupScripts.Checked = bool.Parse(Settings.Global.DataBackup["BackupScripts"]);
+                CB_DataBackupRealms.Checked = bool.Parse(Settings.Global.DataBackup["BackupRealms"]);
+                CB_DatabackupLogs.Checked = bool.Parse(Settings.Global.DataBackup["BackupLogs"]);
+
+                if (Settings.Global.DataBackup["ArchiveType"].Contains("GZip"))
+                    RD_DataBackupGZip.Checked = true;
+                else
+                    RD_DataBackupZip.Checked = true;
+            }
+            catch (Exception)
+            {
+                // Defaults need to be set!
+                CB_DataBackupData.Checked = true;
+                CB_DataBackupScripts.Checked = true;
+                CB_DataBackupRealms.Checked = true;
+                CB_DatabackupLogs.Checked = true;
+                RD_DataBackupZip.Checked = true;
+            }
+
+            if (Settings.Global.DataBackup["DataBackupPath"] != null)
+                TB_DataBackupPath.Text = Settings.Global.DataBackup["DataBackupPath"];
+            else
+            {
+                if (Settings.Global.Properties["POLPath"] != null)
+                    TB_DataBackupPath.Text = Settings.Global.Properties["POLPath"];
+                else
+                    TB_DataBackupPath.Text = @"C:\";
+            }
+        }
+
+        private void BTN_DataBackupSavePath_Click(object sender, EventArgs e)
+        {
+            TB_DataBackupPath.Text = FilePicker.SelectFolder();
+            if (TB_DataBackupPath.Text.Length > 0)
+                Settings.Global.DataBackup["DataBackupPath"] = TB_DataBackupPath.Text;
+        }
+
+        private void RD_DataBackupGZip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RD_DataBackupGZip.Checked)
+            {
+                Settings.Global.DataBackup["ArchiveType"] = "GZip";
+            }
+        }
+        
+        private void RD_DataBackupZip_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RD_DataBackupZip.Checked)
+            {
+                Settings.Global.DataBackup["ArchiveType"] = "Zip";
+            }
+        }
+
+        private void CB_DataBackupData_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Global.DataBackup["BackupData"] = CB_DataBackupData.Checked.ToString();
+        }
+
+        private void CB_DataBackupScripts_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Global.DataBackup["BackupScripts"] = CB_DataBackupScripts.Checked.ToString();
+        }
+
+        private void CB_DataBackupRealms_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Global.DataBackup["BackupRealms"] = CB_DataBackupRealms.Checked.ToString();
+        }
+
+        private void CB_DatabackupLogs_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Global.DataBackup["BackupLogs"] = CB_DatabackupLogs.Checked.ToString();
+        }
+
+        private void TB_DataBackupPath_TextChanged(object sender, EventArgs e)
+        {
+            if (TB_DataBackupPath.Text.Length > 0)
+                Settings.Global.DataBackup["DataBackupPath"] = TB_DataBackupPath.Text;
+        }
+
+        private void BTN_DataBackupBackupNow_Click(object sender, EventArgs e)
+        {
+            // Oh God Help Us! Dib is coding some crazy crap :(
+            Cursor = Cursors.WaitCursor;
+
+            ZipFileArchiver zf = new ZipFileArchiver();
+
+            // We want to append the DateTimeTicks string to the end to make
+            // each unique based on Exact time of execution.
+
+            zf.Execute(Settings.Global.DataBackup["DataBackupPath"] + @"\PLBackup_" + DateTime.Now.Ticks.ToString() + ".zip", ref ProgressBar);
+
+            Cursor = Cursors.Default;
+
+        }
+            #endregion
         #endregion
 
-    
     }
 }

@@ -15,6 +15,8 @@ namespace POLLaunch
 	{
 		static Settings settings;
 		MyHashtable properties = new MyHashtable();
+        MyHashtable databackup = new MyHashtable();
+        MyHashtable ecompile = new MyHashtable();
         List<Realm> realms = new List<Realm>();
      
 		string filename = Program.GetPath()+"POLLaunch.xml";
@@ -65,6 +67,26 @@ namespace POLLaunch
 				return properties;
 			}
 		}
+
+        [XmlArray("databackup")]
+        [XmlArrayItem("property")]
+        public MyHashtable DataBackup
+        {
+            get
+            {
+                return databackup;
+            }
+        }
+
+        [XmlArray("ecompile")]
+        [XmlArrayItem("property")]
+        public MyHashtable Ecompile
+        {
+            get
+            {
+                return ecompile;
+            }
+        }
 
         public List<Realm> Realms
         {

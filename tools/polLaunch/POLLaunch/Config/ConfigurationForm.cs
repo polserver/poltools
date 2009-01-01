@@ -20,7 +20,8 @@ namespace POLLaunch.Configuration
 			this.TB_UOCnvrtEXEPath.Text = (string)Settings.Global.Properties["UOConvertExePath"];
 			this.TB_ECompileEXEPath.Text = (string)Settings.Global.Properties["ECompileExePath"];
             this.TB_POLTabShutdown.Text = (string)Settings.Global.Properties["POLTabShutdown"];
-		}
+            this.TB_POLTabShutdown.Text = (string)Settings.Global.Properties["POLTabShutdown"];
+        }
 
 		private void ConfigurationForm_Load(object sender, EventArgs e)
 		{
