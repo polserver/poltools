@@ -18,11 +18,8 @@
     Fixed   : Bug where UO Client Data Path would have spaces in the PathName.
     Changed : Even more code organization for the main form. God I must be bored.
               I blame Nando aka Mr. Clean.
-    Added   : Hidden Group Box for the Package Root Editor has been added, and code to
-              hide/unhide it etc like the Paths Editor. Editor Itself is not coded yet.
-              Still trying to decide the best method for this. Possibly will end up using
-              Grid Forms to do this, with cells uneditable and set them via Browse boxes for
-              the paths with ability to add new ones and delete existing ones.
+    Added   : Package Root Editor is now fully functional, including saving of new Package
+              Root information to the ECompile.Cfg file.
     
 12-29-2008 - MuadDib
     Added	: To make Olds Happy, I created the initial Changelog file. Added all SVN

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using POLLaunch.Console;
@@ -498,13 +499,32 @@ namespace POLLaunch
         {
             GB_ECompilePathsEdit.Visible = true;
             GB_ECompilePathsEdit.BringToFront();
+            BTN_ECompile.Enabled = false;
+            BTN_ECompile.Visible = false;
         }
 
         private void BTN_ECompilePackageRoots_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not Implemented Yet!");
+            // Need to populate the DataGrid with current Package Root Details.
+            // Only Need to do this when going to editor, as DataGridView contents
+            // are ONLY used for editing, not for pulling any Data from except when
+            // the Finished button is clicked. :D
+            if (ECompileCFG == null)
+            {
+                MessageBox.Show("ECompile.Cfg Does Not Appear To Be Loaded!", "Error Loading Package Root Entries");
+                return;
+            }
             GB_PackageRootEditor.Visible = true;
             GB_PackageRootEditor.BringToFront();
+            BTN_ECompile.Enabled = false;
+            BTN_ECompile.Visible = false;
+
+            List<string> MyPackageRoots = ECompileCFG.GetPackageRoots();
+            foreach (string PathName in MyPackageRoots)
+            {
+                object[] PathObject = new object[] { PathName.ToString() };
+                int RowIndex = DGV_PackageRoot.Rows.Add(PathObject);
+            }
         }
             #endregion
 
@@ -516,6 +536,8 @@ namespace POLLaunch
             TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
             GB_ECompilePathsEdit.Visible = false;
             GB_ECompilePathsEdit.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
         }
 
         private void BTN_ECompileEditPathsModules_Click(object sender, EventArgs e)
@@ -536,22 +558,78 @@ namespace POLLaunch
             TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
         }
             #endregion
-        
+
+            #region Package Root Editor Code
+        private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
+        {
+            GB_PackageRootEditor.Visible = false;
+            GB_PackageRootEditor.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
+
+            // Now let's store all this useless, I mean useful, information in the
+            // PackageRoot Storage.
+            ECompileCFG.RemoveAllPackageRootItems(); 
+            foreach (DataGridViewRow CurrentRow in DGV_PackageRoot.Rows)
+            {
+                if (CurrentRow.Cells["PackageRootPath"].Value != null)
+                    ECompileCFG.AddPackageRootItem(CurrentRow.Cells["PackageRootPath"].Value.ToString());
+            }
+
+            // After all is said and done, let's erase the Data, since no longer needed.
+            // This will help ensure variables are loaded correctly after loading a new cfg
+            // without a lot of kludging around.
+            DGV_PackageRoot.Rows.Clear();
+        }
+
+        /// <summary>
+        ///     Handles Button Clicks in the Cells for Browse/Delete/Add
+        /// </summary>
+        /// <param name="sender">Grid Form</param>
+        /// <param name="e">DataGridViewCell Event Arguments</param>
+        private void DGV_PackageRoot_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootBrowseButton")
+            {
+                string PathFolder = FilePicker.SelectFolder();
+                if (PathFolder.Length > 1)
+                    DGV_PackageRoot.Rows[e.RowIndex].Cells["PackageRootPath"].Value = PathFolder;
+                return;
+            }
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootDeleteButton")
+            {
+                DialogResult result = MessageBox.Show(this, "Are you sure you want to delete this entry?", "Delete Package Root Entry", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                    DGV_PackageRoot.Rows.RemoveAt(e.RowIndex);
+            }
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootAddButton")
+            {
+                DGV_PackageRoot.Rows.Add();
+            }
+        }
+
+        /// <summary>
+        ///     Cancels the Editor Changes and goes back to main portion of the form
+        /// </summary>
+        /// <param name="sender">Object classed Sender</param>
+        /// <param name="e">Button's Event Arguments</param>
+        private void BTN_ECompilePackageRootEditorCancel_Click(object sender, EventArgs e)
+        {
+            GB_PackageRootEditor.Visible = false;
+            GB_PackageRootEditor.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
+            DGV_PackageRoot.Rows.Clear();
+        }
+            #endregion
+
             #region ECompile Console Code
         private void BTN_ECompile_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not Implemented Yet!");
             return;
-        }
-            #endregion
-
-            #region Package Root Editor Code
-        private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
-        {
-            // Add code that handles parsing all the Grid Data to add it to POLUtils
-            // PackageRoot Storage.
-            GB_PackageRootEditor.Visible = false;
-            GB_PackageRootEditor.SendToBack();
         }
             #endregion
         #endregion
