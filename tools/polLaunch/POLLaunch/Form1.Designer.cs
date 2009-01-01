@@ -30,6 +30,9 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +86,9 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.BTN_ECompile = new System.Windows.Forms.Button();
             this.TB_ECompile = new System.Windows.Forms.TextBox();
+            this.GB_PackageRootEditor = new System.Windows.Forms.GroupBox();
+            this.DGV_PackageRoot = new System.Windows.Forms.DataGridView();
+            this.BTN_ECompilePackageRootEditorFinished = new System.Windows.Forms.Button();
             this.GB_ECompile = new System.Windows.Forms.GroupBox();
             this.PNL_ECompilePaths = new System.Windows.Forms.Panel();
             this.TB_ECompilePolScriptRoot = new System.Windows.Forms.TextBox();
@@ -155,8 +161,11 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.GB_PackageRootEditor = new System.Windows.Forms.GroupBox();
-            this.BTN_ECompilePackageRootEditorFinished = new System.Windows.Forms.Button();
+            this.PackageRootPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PackageRootBrowseButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.PackageRootDeleteButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.PackageRootAddButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.BTN_ECompilePackageRootEditorCancel = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -169,6 +178,8 @@
             this.PNL_UOCConfigFiles.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.GB_PackageRootEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).BeginInit();
             this.GB_ECompile.SuspendLayout();
             this.PNL_ECompilePaths.SuspendLayout();
             this.PNL_ECompileLoadSave.SuspendLayout();
@@ -181,7 +192,6 @@
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.GB_CreateAccount.SuspendLayout();
-            this.GB_PackageRootEditor.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -711,9 +721,9 @@
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
             this.tabPage4.Controls.Add(this.BTN_ECompile);
             this.tabPage4.Controls.Add(this.TB_ECompile);
+            this.tabPage4.Controls.Add(this.GB_PackageRootEditor);
             this.tabPage4.Controls.Add(this.GB_ECompile);
             this.tabPage4.Controls.Add(this.GB_ECompilePathsEdit);
-            this.tabPage4.Controls.Add(this.GB_PackageRootEditor);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(676, 392);
@@ -744,6 +754,49 @@
             this.TB_ECompile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TB_ECompile.Size = new System.Drawing.Size(661, 169);
             this.TB_ECompile.TabIndex = 3;
+            // 
+            // GB_PackageRootEditor
+            // 
+            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorCancel);
+            this.GB_PackageRootEditor.Controls.Add(this.DGV_PackageRoot);
+            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorFinished);
+            this.GB_PackageRootEditor.Location = new System.Drawing.Point(7, 178);
+            this.GB_PackageRootEditor.Name = "GB_PackageRootEditor";
+            this.GB_PackageRootEditor.Size = new System.Drawing.Size(661, 176);
+            this.GB_PackageRootEditor.TabIndex = 7;
+            this.GB_PackageRootEditor.TabStop = false;
+            this.GB_PackageRootEditor.Text = "Package Root Editor";
+            this.GB_PackageRootEditor.Visible = false;
+            // 
+            // DGV_PackageRoot
+            // 
+            this.DGV_PackageRoot.AllowUserToAddRows = false;
+            this.DGV_PackageRoot.AllowUserToDeleteRows = false;
+            this.DGV_PackageRoot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_PackageRoot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PackageRootPath,
+            this.PackageRootBrowseButton,
+            this.PackageRootDeleteButton,
+            this.PackageRootAddButton});
+            this.DGV_PackageRoot.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.DGV_PackageRoot.Location = new System.Drawing.Point(9, 17);
+            this.DGV_PackageRoot.MultiSelect = false;
+            this.DGV_PackageRoot.Name = "DGV_PackageRoot";
+            this.DGV_PackageRoot.ReadOnly = true;
+            this.DGV_PackageRoot.Size = new System.Drawing.Size(643, 121);
+            this.DGV_PackageRoot.TabIndex = 1;
+            this.DGV_PackageRoot.TabStop = false;
+            this.DGV_PackageRoot.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_PackageRoot_CellClick);
+            // 
+            // BTN_ECompilePackageRootEditorFinished
+            // 
+            this.BTN_ECompilePackageRootEditorFinished.Location = new System.Drawing.Point(577, 144);
+            this.BTN_ECompilePackageRootEditorFinished.Name = "BTN_ECompilePackageRootEditorFinished";
+            this.BTN_ECompilePackageRootEditorFinished.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRootEditorFinished.TabIndex = 0;
+            this.BTN_ECompilePackageRootEditorFinished.Text = "Finished";
+            this.BTN_ECompilePackageRootEditorFinished.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRootEditorFinished.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorFinished_Click);
             // 
             // GB_ECompile
             // 
@@ -1503,26 +1556,55 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // GB_PackageRootEditor
+            // PackageRootPath
             // 
-            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorFinished);
-            this.GB_PackageRootEditor.Location = new System.Drawing.Point(7, 178);
-            this.GB_PackageRootEditor.Name = "GB_PackageRootEditor";
-            this.GB_PackageRootEditor.Size = new System.Drawing.Size(661, 176);
-            this.GB_PackageRootEditor.TabIndex = 7;
-            this.GB_PackageRootEditor.TabStop = false;
-            this.GB_PackageRootEditor.Text = "Package Root Editor";
-            this.GB_PackageRootEditor.Visible = false;
+            this.PackageRootPath.HeaderText = "Path";
+            this.PackageRootPath.Name = "PackageRootPath";
+            this.PackageRootPath.ReadOnly = true;
+            this.PackageRootPath.Width = 300;
             // 
-            // BTN_ECompilePackageRootEditorFinished
+            // PackageRootBrowseButton
             // 
-            this.BTN_ECompilePackageRootEditorFinished.Location = new System.Drawing.Point(580, 144);
-            this.BTN_ECompilePackageRootEditorFinished.Name = "BTN_ECompilePackageRootEditorFinished";
-            this.BTN_ECompilePackageRootEditorFinished.Size = new System.Drawing.Size(75, 23);
-            this.BTN_ECompilePackageRootEditorFinished.TabIndex = 0;
-            this.BTN_ECompilePackageRootEditorFinished.Text = "Finished";
-            this.BTN_ECompilePackageRootEditorFinished.UseVisualStyleBackColor = true;
-            this.BTN_ECompilePackageRootEditorFinished.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorFinished_Click);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.NullValue = "Browse";
+            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle1;
+            this.PackageRootBrowseButton.HeaderText = "Select Folder";
+            this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
+            this.PackageRootBrowseButton.ReadOnly = true;
+            this.PackageRootBrowseButton.Text = "Browse";
+            // 
+            // PackageRootDeleteButton
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.NullValue = "Delete";
+            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle2;
+            this.PackageRootDeleteButton.HeaderText = "Delete Entry";
+            this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
+            this.PackageRootDeleteButton.ReadOnly = true;
+            this.PackageRootDeleteButton.Text = "Delete";
+            // 
+            // PackageRootAddButton
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.NullValue = "Add New Path";
+            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle3;
+            this.PackageRootAddButton.HeaderText = "Add New Path";
+            this.PackageRootAddButton.Name = "PackageRootAddButton";
+            this.PackageRootAddButton.ReadOnly = true;
+            this.PackageRootAddButton.Text = "Add New Path";
+            // 
+            // BTN_ECompilePackageRootEditorCancel
+            // 
+            this.BTN_ECompilePackageRootEditorCancel.Location = new System.Drawing.Point(9, 144);
+            this.BTN_ECompilePackageRootEditorCancel.Name = "BTN_ECompilePackageRootEditorCancel";
+            this.BTN_ECompilePackageRootEditorCancel.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRootEditorCancel.TabIndex = 2;
+            this.BTN_ECompilePackageRootEditorCancel.Text = "Cancel";
+            this.BTN_ECompilePackageRootEditorCancel.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRootEditorCancel.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorCancel_Click);
             // 
             // Form1
             // 
@@ -1562,6 +1644,8 @@
             this.panel1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.GB_PackageRootEditor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).EndInit();
             this.GB_ECompile.ResumeLayout(false);
             this.GB_ECompile.PerformLayout();
             this.PNL_ECompilePaths.ResumeLayout(false);
@@ -1585,7 +1669,6 @@
             this.panel3.PerformLayout();
             this.GB_CreateAccount.ResumeLayout(false);
             this.GB_CreateAccount.PerformLayout();
-            this.GB_PackageRootEditor.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1720,6 +1803,12 @@
         private System.Windows.Forms.Button BTN_ECompileEditPathsIncludes;
         private System.Windows.Forms.GroupBox GB_PackageRootEditor;
         private System.Windows.Forms.Button BTN_ECompilePackageRootEditorFinished;
+        private System.Windows.Forms.DataGridView DGV_PackageRoot;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PackageRootPath;
+        private System.Windows.Forms.DataGridViewButtonColumn PackageRootBrowseButton;
+        private System.Windows.Forms.DataGridViewButtonColumn PackageRootDeleteButton;
+        private System.Windows.Forms.DataGridViewButtonColumn PackageRootAddButton;
+        private System.Windows.Forms.Button BTN_ECompilePackageRootEditorCancel;
 	}
 }
 
