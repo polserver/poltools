@@ -1,4 +1,9 @@
-﻿12-31-2008 - MuadDib
+﻿1-1-2009 - MuadDib
+    Fixed   : Removing last Package Root Entry from Editor. You should ALWAYS have at least
+              1 entry in your ecompile.cfg for these!
+    Fixed   : Similar issue with ECompile Paths.
+              
+12-31-2008 - MuadDib
     Added   : Much more ECompile Tab work. Both Visual and Code wise.
               Path Editor in place for Ecompile.cfg. Does not open a new form, but
               rather makes the information visible in existing tab.
