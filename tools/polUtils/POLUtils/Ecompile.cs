@@ -15,6 +15,14 @@ using System.IO;
 namespace POLUtils.ECompile
 {
     /// <summary>
+    ///     Provides an interface to execute the ECompile.Exe from your application.
+    /// </summary>
+    public class EcompileExe
+    {
+
+    }
+
+    /// <summary>
     ///     Provides an interface to manipulate the Ecompile.CFG file
     /// </summary>
     public class EConfig
@@ -152,7 +160,10 @@ namespace POLUtils.ECompile
         /// <returns>Commandline flag in string form</returns>
         public string Flag(string OptionName)
         {
-            return OptionFlag[OptionName];
+            if (OptionFlag.ContainsKey(OptionName))
+                return OptionFlag[OptionName];
+            else
+                return "";
         }
 
         /// <summary>

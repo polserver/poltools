@@ -1,9 +1,13 @@
-﻿12-29-2008 - MuadDib
+﻿1-2-2009 - MuadDib
+    Added  : False return for no key found in Flag() for ecompile class.
+    
+12-29-2008 - MuadDib
     Changed: Realm Class no longer uses Getxxx() for Realm Info. All Methods dropped Get and
              now are Get/Set methods of Height(), Width(), etc.
     Added  : A generic Realm Object in UOCRealms.
     Added  : Console Class under Console namespace.
     Added  : ECompile Saving now handles all PackageRoot instances. Thank you MSDN.
+    Changed: Cleared unused Namespaces from Console.cs.
              
 12-26-2008 - MuadDib
 	Added  : Added more Paths to PathStorage.
