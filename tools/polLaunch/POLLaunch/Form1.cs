@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip.Compression;
 using POLLaunch.Console;
 using POLLaunch.DataBackup;
 using POLUtils.AuxSvc;
@@ -22,7 +20,6 @@ namespace POLLaunch
         #region Main Variables
         MyConsole POLConsole = null;
         MyConsole UOCConsole = null;
-        MyConsole ECConsole = null;
         EConfig ECompileCFG = null;
         bool Ctrl, Alt, Shift; // small kludge... will it work?
         #endregion
@@ -43,6 +40,14 @@ namespace POLLaunch
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.Process_ECompile.StartInfo.FileName != String.Empty)
+            {
+                this.Process_ECompile.Kill();
+            }
         }
         #endregion
 
@@ -442,217 +447,6 @@ namespace POLLaunch
             #endregion
         #endregion
 
-        #region ECompile Tab Code
-            #region ECompile Configurations Panel
-        private void BTN_EcompileLoad_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ECompileCFG = new EConfig();
-                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-
-                foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
-                {
-                    ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
-                    Settings.Global.Ecompile[ThisBox.Name.Substring(15)] = ECompileCFG.Option(ThisBox.Name.Substring(15));
-                }
-                foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
-                {
-                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(11));
-                    Settings.Global.Ecompile[ThisBox.Name.Substring(11)] = ECompileCFG.Option(ThisBox.Name.Substring(11));
-                }
-                foreach (TextBox ThisBox in PNL_ECompilePathsEditTBS.Controls)
-                {
-                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(20));
-                    Settings.Global.Ecompile[ThisBox.Name.Substring(20)] = ECompileCFG.Option(ThisBox.Name.Substring(20));
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
-                tmp.ShowDialog(this);
-            }
-        }
-
-        private void BTN_ECompileSave_Click(object sender, EventArgs e)
-        {
-            if (ECompileCFG == null)
-            {
-                try
-                {
-                    ECompileCFG = new EConfig();
-                    ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-                }
-                catch (Exception ex)
-                {
-                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
-                    tmp.ShowDialog(this);
-                }
-            }
-            foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
-            {
-                ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
-            }
-
-            foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
-            {
-                ECompileCFG.Option(ThisBox.Name.Substring(11), ThisBox.Text);
-            }
-
-            ECompileCFG.SaveConfig();
-        }
-
-        private void BTN_ECompilePathsEdit_Click(object sender, EventArgs e)
-        {
-            GB_ECompilePathsEdit.Visible = true;
-            GB_ECompilePathsEdit.BringToFront();
-            BTN_ECompile.Enabled = false;
-            BTN_ECompile.Visible = false;
-        }
-
-        private void BTN_ECompilePackageRoots_Click(object sender, EventArgs e)
-        {
-            if (ECompileCFG == null)
-            {
-                DialogResult result = MessageBox.Show(this, "We need to load ECompile.Cfg for this option. Proceed?", "Load ECompile.Cfg", MessageBoxButtons.YesNo);
-                if (result == DialogResult.No)
-                    return;
-                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
-            }
-            GB_PackageRootEditor.Visible = true;
-            GB_PackageRootEditor.BringToFront();
-            BTN_ECompile.Enabled = false;
-            BTN_ECompile.Visible = false;
-
-            List<string> MyPackageRoots = ECompileCFG.GetPackageRoots();
-            foreach (string PathName in MyPackageRoots)
-            {
-                object[] PathObject = new object[] { PathName.ToString() };
-                int RowIndex = DGV_PackageRoot.Rows.Add(PathObject);
-            }
-        }
-            #endregion
-
-            #region ECompile Paths Editing Panel Code
-        private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
-        {
-            if (TB_ECompilePathsEditModuleDirectory.Text.Length > 0)
-                TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
-            else
-                TB_ECompilePathsEditModuleDirectory.Text = TB_ECompileModuleDirectory.Text;
-            if (TB_ECompilePathsEditIncludeDirectory.Text.Length > 0)
-                TB_ECompileIncludeDirectory.Text = TB_ECompilePathsEditIncludeDirectory.Text;
-            else
-                TB_ECompilePathsEditIncludeDirectory.Text = TB_ECompileIncludeDirectory.Text;
-            if (TB_ECompilePathsEditPolScriptRoot.Text.Length > 0)
-                TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
-            else
-                TB_ECompilePathsEditPolScriptRoot.Text = TB_ECompilePolScriptRoot.Text;
-            GB_ECompilePathsEdit.Visible = false;
-            GB_ECompilePathsEdit.SendToBack();
-            BTN_ECompile.Enabled = true;
-            BTN_ECompile.Visible = true;
-        }
-
-        private void BTN_ECompileEditPathsModules_Click(object sender, EventArgs e)
-        {
-            // We don't set the main TB's Text until Finished button is clicked.
-            TB_ECompilePathsEditModuleDirectory.Text = FilePicker.SelectFolder();
-        }
-
-        private void BTN_ECompileEditPathsIncludes_Click(object sender, EventArgs e)
-        {
-            // We don't set the main TB's Text until Finished button is clicked.
-            TB_ECompilePathsEditIncludeDirectory.Text = FilePicker.SelectFolder();
-        }
-
-        private void BTN_ECompileEditPathsScripts_Click(object sender, EventArgs e)
-        {
-            // We don't set the main TB's Text until Finished button is clicked.
-            TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
-        }
-            #endregion
-
-            #region Package Root Editor Code
-        private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
-        {
-            GB_PackageRootEditor.Visible = false;
-            GB_PackageRootEditor.SendToBack();
-            BTN_ECompile.Enabled = true;
-            BTN_ECompile.Visible = true;
-
-            // Now let's store all this useless, I mean useful, information in the
-            // PackageRoot Storage.
-            ECompileCFG.RemoveAllPackageRootItems(); 
-            foreach (DataGridViewRow CurrentRow in DGV_PackageRoot.Rows)
-            {
-                if (CurrentRow.Cells["PackageRootPath"].Value != null)
-                    ECompileCFG.AddPackageRootItem(CurrentRow.Cells["PackageRootPath"].Value.ToString());
-            }
-
-            // After all is said and done, let's erase the Data, since no longer needed.
-            // This will help ensure variables are loaded correctly after loading a new cfg
-            // without a lot of kludging around.
-            DGV_PackageRoot.Rows.Clear();
-        }
-
-        /// <summary>
-        ///     Handles Button Clicks in the Cells for Browse/Delete/Add
-        /// </summary>
-        /// <param name="sender">Grid Form</param>
-        /// <param name="e">DataGridViewCell Event Arguments</param>
-        private void DGV_PackageRoot_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex < 0 || e.RowIndex < 0)
-                return;
-            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootBrowseButton")
-            {
-                string PathFolder = FilePicker.SelectFolder();
-                if (PathFolder.Length > 1)
-                    DGV_PackageRoot.Rows[e.RowIndex].Cells["PackageRootPath"].Value = PathFolder;
-                return;
-            }
-            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootDeleteButton")
-            {
-                if (DGV_PackageRoot.Rows.Count == 1)
-                {
-                    MessageBox.Show("You cannot remove all entries from the Package Roots. You must have at least 1");
-                    return;
-                }
-                DialogResult result = MessageBox.Show(this, "Are you sure you want to delete this entry?", "Delete Package Root Entry", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                    DGV_PackageRoot.Rows.RemoveAt(e.RowIndex);
-            }
-            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootAddButton")
-            {
-                DGV_PackageRoot.Rows.Add();
-            }
-        }
-
-        /// <summary>
-        ///     Cancels the Editor Changes and goes back to main portion of the form
-        /// </summary>
-        /// <param name="sender">Object classed Sender</param>
-        /// <param name="e">Button's Event Arguments</param>
-        private void BTN_ECompilePackageRootEditorCancel_Click(object sender, EventArgs e)
-        {
-            GB_PackageRootEditor.Visible = false;
-            GB_PackageRootEditor.SendToBack();
-            BTN_ECompile.Enabled = true;
-            BTN_ECompile.Visible = true;
-            DGV_PackageRoot.Rows.Clear();
-        }
-            #endregion
-
-            #region ECompile Console Code
-        private void BTN_ECompile_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Not Implemented Yet!");
-            return;
-        }
-            #endregion
-        #endregion
-
         #region POL Tab Code/POLConsole Handling
         #region Buttons/Checkbox Code
         private void BTN_StartPOL_Click(object sender, EventArgs e)
@@ -923,6 +717,278 @@ namespace POLLaunch
 
             Cursor = Cursors.Default;
 
+        }
+            #endregion
+        #endregion
+
+        #region ECompile Tab Code
+            #region ECompile Configurations Panel
+        private void BTN_EcompileLoad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ECompileCFG = new EConfig();
+                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+
+                foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+                {
+                    ThisBox.Checked = Settings.Global.ToBoolean(ECompileCFG.Option(ThisBox.Name.Substring(15)));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(15)] = ECompileCFG.Option(ThisBox.Name.Substring(15));
+                }
+                foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
+                {
+                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(11));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(11)] = ECompileCFG.Option(ThisBox.Name.Substring(11));
+                }
+                foreach (TextBox ThisBox in PNL_ECompilePathsEditTBS.Controls)
+                {
+                    ThisBox.Text = ECompileCFG.Option(ThisBox.Name.Substring(20));
+                    Settings.Global.Ecompile[ThisBox.Name.Substring(20)] = ECompileCFG.Option(ThisBox.Name.Substring(20));
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                tmp.ShowDialog(this);
+            }
+        }
+
+        private void BTN_ECompileSave_Click(object sender, EventArgs e)
+        {
+            if (ECompileCFG == null)
+            {
+                try
+                {
+                    ECompileCFG = new EConfig();
+                    ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionBox.ExceptionForm tmp = new ExceptionBox.ExceptionForm(ref ex);
+                    tmp.ShowDialog(this);
+                }
+            }
+            foreach (CheckBox ThisBox in PNL_ECompileFlags.Controls)
+            {
+                ECompileCFG.Option(ThisBox.Name.Substring(15), ThisBox.Checked);
+            }
+
+            foreach (TextBox ThisBox in PNL_ECompilePaths.Controls)
+            {
+                ECompileCFG.Option(ThisBox.Name.Substring(11), ThisBox.Text);
+            }
+
+            ECompileCFG.SaveConfig();
+        }
+
+        private void BTN_ECompilePathsEdit_Click(object sender, EventArgs e)
+        {
+            GB_ECompilePathsEdit.Visible = true;
+            GB_ECompilePathsEdit.BringToFront();
+            BTN_ECompile.Enabled = false;
+            BTN_ECompile.Visible = false;
+        }
+
+        private void BTN_ECompilePackageRoots_Click(object sender, EventArgs e)
+        {
+            if (ECompileCFG == null)
+            {
+                DialogResult result = MessageBox.Show(this, "We need to load ECompile.Cfg for this option. Proceed?", "Load ECompile.Cfg", MessageBoxButtons.YesNo);
+                if (result == DialogResult.No)
+                    return;
+                ECompileCFG.LoadConfig(Settings.Global.Properties["ECompileCfgPath"]);
+            }
+            GB_PackageRootEditor.Visible = true;
+            GB_PackageRootEditor.BringToFront();
+            BTN_ECompile.Enabled = false;
+            BTN_ECompile.Visible = false;
+
+            List<string> MyPackageRoots = ECompileCFG.GetPackageRoots();
+            foreach (string PathName in MyPackageRoots)
+            {
+                object[] PathObject = new object[] { PathName.ToString() };
+                int RowIndex = DGV_PackageRoot.Rows.Add(PathObject);
+            }
+        }
+            #endregion
+
+            #region ECompile Paths Editing Panel Code
+        private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
+        {
+            if (TB_ECompilePathsEditModuleDirectory.Text.Length > 0)
+                TB_ECompileModuleDirectory.Text = TB_ECompilePathsEditModuleDirectory.Text;
+            else
+                TB_ECompilePathsEditModuleDirectory.Text = TB_ECompileModuleDirectory.Text;
+            if (TB_ECompilePathsEditIncludeDirectory.Text.Length > 0)
+                TB_ECompileIncludeDirectory.Text = TB_ECompilePathsEditIncludeDirectory.Text;
+            else
+                TB_ECompilePathsEditIncludeDirectory.Text = TB_ECompileIncludeDirectory.Text;
+            if (TB_ECompilePathsEditPolScriptRoot.Text.Length > 0)
+                TB_ECompilePolScriptRoot.Text = TB_ECompilePathsEditPolScriptRoot.Text;
+            else
+                TB_ECompilePathsEditPolScriptRoot.Text = TB_ECompilePolScriptRoot.Text;
+            GB_ECompilePathsEdit.Visible = false;
+            GB_ECompilePathsEdit.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
+        }
+
+        private void BTN_ECompileEditPathsModules_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditModuleDirectory.Text = FilePicker.SelectFolder();
+        }
+
+        private void BTN_ECompileEditPathsIncludes_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditIncludeDirectory.Text = FilePicker.SelectFolder();
+        }
+
+        private void BTN_ECompileEditPathsScripts_Click(object sender, EventArgs e)
+        {
+            // We don't set the main TB's Text until Finished button is clicked.
+            TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
+        }
+            #endregion
+
+            #region Package Root Editor Code
+        private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
+        {
+            GB_PackageRootEditor.Visible = false;
+            GB_PackageRootEditor.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
+
+            // Now let's store all this useless, I mean useful, information in the
+            // PackageRoot Storage.
+            ECompileCFG.RemoveAllPackageRootItems();
+            foreach (DataGridViewRow CurrentRow in DGV_PackageRoot.Rows)
+            {
+                if (CurrentRow.Cells["PackageRootPath"].Value != null)
+                    ECompileCFG.AddPackageRootItem(CurrentRow.Cells["PackageRootPath"].Value.ToString());
+            }
+
+            // After all is said and done, let's erase the Data, since no longer needed.
+            // This will help ensure variables are loaded correctly after loading a new cfg
+            // without a lot of kludging around.
+            DGV_PackageRoot.Rows.Clear();
+        }
+
+        /// <summary>
+        ///     Handles Button Clicks in the Cells for Browse/Delete/Add
+        /// </summary>
+        /// <param name="sender">Grid Form</param>
+        /// <param name="e">DataGridViewCell Event Arguments</param>
+        private void DGV_PackageRoot_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootBrowseButton")
+            {
+                string PathFolder = FilePicker.SelectFolder();
+                if (PathFolder.Length > 1)
+                    DGV_PackageRoot.Rows[e.RowIndex].Cells["PackageRootPath"].Value = PathFolder;
+                return;
+            }
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootDeleteButton")
+            {
+                if (DGV_PackageRoot.Rows.Count == 1)
+                {
+                    MessageBox.Show("You cannot remove all entries from the Package Roots. You must have at least 1");
+                    return;
+                }
+                DialogResult result = MessageBox.Show(this, "Are you sure you want to delete this entry?", "Delete Package Root Entry", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                    DGV_PackageRoot.Rows.RemoveAt(e.RowIndex);
+            }
+            if (DGV_PackageRoot.Columns[e.ColumnIndex].Name == "PackageRootAddButton")
+            {
+                DGV_PackageRoot.Rows.Add();
+            }
+        }
+
+        /// <summary>
+        ///     Cancels the Editor Changes and goes back to main portion of the form
+        /// </summary>
+        /// <param name="sender">Object classed Sender</param>
+        /// <param name="e">Button's Event Arguments</param>
+        private void BTN_ECompilePackageRootEditorCancel_Click(object sender, EventArgs e)
+        {
+            GB_PackageRootEditor.Visible = false;
+            GB_PackageRootEditor.SendToBack();
+            BTN_ECompile.Enabled = true;
+            BTN_ECompile.Visible = true;
+            DGV_PackageRoot.Rows.Clear();
+        }
+            #endregion
+
+            #region ECompile Console Code
+        private void BTN_ECompile_Click(object sender, EventArgs e)
+        {
+            string exepath = Settings.Global.Properties["ECompileExePath"];
+            string dirpath = Settings.Global.Properties["POLPath"];
+
+            if (!File.Exists(exepath))
+            {
+                MessageBox.Show("File does not exist in EcompileExePath!");
+                return;
+            }
+            if (!Directory.Exists(dirpath))
+            {
+                dirpath = Path.GetDirectoryName(exepath);
+            }
+
+            this.Process_ECompile.StartInfo.WorkingDirectory = Path.GetFullPath(dirpath);
+            this.Process_ECompile.StartInfo.FileName = Path.GetFullPath(exepath);
+            this.Process_ECompile.StartInfo.Arguments = "-A -b -f";
+            this.Process_ECompile.Start();
+            this.Process_ECompile.BeginOutputReadLine();
+
+            BTN_ECompile.Enabled = false;
+            TB_ECompile.Text = " ";
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = 1;
+            ProgressBar.Visible = true;
+            ProgressBar.Step = 1;
+        }
+
+        private void Process_ECompile_Exited(object sender, EventArgs e)
+        {
+            TB_ECompile.Invoke((MethodInvoker)delegate() { TB_ECompile.Text += "<Conversion Completed>" + System.Environment.NewLine + System.Environment.NewLine; });
+
+            this.Process_ECompile.StartInfo.FileName = String.Empty;
+            
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate() { ProgressBar.PerformStep(); });
+            else
+                ProgressBar.PerformStep();
+
+            BTN_ECompile.Invoke((MethodInvoker)delegate() { BTN_ECompile.Enabled = true; });
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate() { ProgressBar.Value = 0; });
+            else
+                ProgressBar.Value = 0;
+            MessageBox.Show("Compile has completed! See text box for details about the compile process.");
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate() { ProgressBar.Visible = false; });
+            else
+                ProgressBar.Visible = false;
+        }
+
+        private void Process_ECompile_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != String.Empty && e.Data != null)
+            {
+                TB_ECompile.Invoke((MethodInvoker)delegate() { TB_ECompile.Text += e.Data + System.Environment.NewLine; });
+            }
+        }
+
+        private void TB_ECompile_TextChanged(object sender, EventArgs e)
+        {
+            // Auto scrolling
+            TB_ECompile.Select(TB_ECompile.Text.Length, 0);
+            TB_ECompile.ScrollToCaret();
         }
             #endregion
         #endregion

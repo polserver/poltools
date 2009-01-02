@@ -86,14 +86,6 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.BTN_ECompile = new System.Windows.Forms.Button();
             this.TB_ECompile = new System.Windows.Forms.TextBox();
-            this.GB_PackageRootEditor = new System.Windows.Forms.GroupBox();
-            this.BTN_ECompilePackageRootEditorCancel = new System.Windows.Forms.Button();
-            this.DGV_PackageRoot = new System.Windows.Forms.DataGridView();
-            this.PackageRootPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PackageRootBrowseButton = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.PackageRootDeleteButton = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.PackageRootAddButton = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.BTN_ECompilePackageRootEditorFinished = new System.Windows.Forms.Button();
             this.GB_ECompile = new System.Windows.Forms.GroupBox();
             this.PNL_ECompilePaths = new System.Windows.Forms.Panel();
             this.TB_ECompilePolScriptRoot = new System.Windows.Forms.TextBox();
@@ -132,6 +124,14 @@
             this.LBL_ECompilePathsEditIncludes = new System.Windows.Forms.Label();
             this.LBL_ECompilePathsEditModules = new System.Windows.Forms.Label();
             this.BTN_ECompilePathsEditDone = new System.Windows.Forms.Button();
+            this.GB_PackageRootEditor = new System.Windows.Forms.GroupBox();
+            this.BTN_ECompilePackageRootEditorCancel = new System.Windows.Forms.Button();
+            this.DGV_PackageRoot = new System.Windows.Forms.DataGridView();
+            this.PackageRootPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PackageRootBrowseButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.PackageRootDeleteButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.PackageRootAddButton = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.BTN_ECompilePackageRootEditorFinished = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.BTN_StopPOL = new System.Windows.Forms.Button();
@@ -140,8 +140,19 @@
             this.txtPOLConsole = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.GB_DataBackup = new System.Windows.Forms.GroupBox();
+            this.BTN_DataBackupBackupNow = new System.Windows.Forms.Button();
+            this.BTN_DataBackupSavePath = new System.Windows.Forms.Button();
+            this.TB_DataBackupPath = new System.Windows.Forms.TextBox();
+            this.PNL_DataBackupArchiveType = new System.Windows.Forms.Panel();
+            this.RD_DataBackupZip = new System.Windows.Forms.RadioButton();
+            this.RD_DataBackupGZip = new System.Windows.Forms.RadioButton();
+            this.LBL_DataBackupArchiveType = new System.Windows.Forms.Label();
             this.LBL_DataBackupFileText = new System.Windows.Forms.Label();
             this.PNL_DataBackupFiles = new System.Windows.Forms.Panel();
+            this.CB_DatabackupLogs = new System.Windows.Forms.CheckBox();
+            this.CB_DataBackupRealms = new System.Windows.Forms.CheckBox();
+            this.CB_DataBackupScripts = new System.Windows.Forms.CheckBox();
+            this.CB_DataBackupData = new System.Windows.Forms.CheckBox();
             this.GB_ModifyAccount = new System.Windows.Forms.GroupBox();
             this.GB_AuxSvcSettings = new System.Windows.Forms.GroupBox();
             this.TB_ModifyAuxPassword = new System.Windows.Forms.TextBox();
@@ -168,17 +179,7 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.CB_DataBackupData = new System.Windows.Forms.CheckBox();
-            this.CB_DataBackupScripts = new System.Windows.Forms.CheckBox();
-            this.CB_DataBackupRealms = new System.Windows.Forms.CheckBox();
-            this.CB_DatabackupLogs = new System.Windows.Forms.CheckBox();
-            this.PNL_DataBackupArchiveType = new System.Windows.Forms.Panel();
-            this.LBL_DataBackupArchiveType = new System.Windows.Forms.Label();
-            this.RD_DataBackupGZip = new System.Windows.Forms.RadioButton();
-            this.RD_DataBackupZip = new System.Windows.Forms.RadioButton();
-            this.TB_DataBackupPath = new System.Windows.Forms.TextBox();
-            this.BTN_DataBackupSavePath = new System.Windows.Forms.Button();
-            this.BTN_DataBackupBackupNow = new System.Windows.Forms.Button();
+            this.Process_ECompile = new System.Diagnostics.Process();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -191,8 +192,6 @@
             this.PNL_UOCConfigFiles.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.GB_PackageRootEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).BeginInit();
             this.GB_ECompile.SuspendLayout();
             this.PNL_ECompilePaths.SuspendLayout();
             this.PNL_ECompileLoadSave.SuspendLayout();
@@ -200,14 +199,16 @@
             this.PNL_ECompileFlags.SuspendLayout();
             this.GB_ECompilePathsEdit.SuspendLayout();
             this.PNL_ECompilePathsEditTBS.SuspendLayout();
+            this.GB_PackageRootEditor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).BeginInit();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.GB_DataBackup.SuspendLayout();
+            this.PNL_DataBackupArchiveType.SuspendLayout();
             this.PNL_DataBackupFiles.SuspendLayout();
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.GB_CreateAccount.SuspendLayout();
-            this.PNL_DataBackupArchiveType.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -770,99 +771,7 @@
             this.TB_ECompile.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TB_ECompile.Size = new System.Drawing.Size(661, 169);
             this.TB_ECompile.TabIndex = 3;
-            // 
-            // GB_PackageRootEditor
-            // 
-            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorCancel);
-            this.GB_PackageRootEditor.Controls.Add(this.DGV_PackageRoot);
-            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorFinished);
-            this.GB_PackageRootEditor.Location = new System.Drawing.Point(7, 178);
-            this.GB_PackageRootEditor.Name = "GB_PackageRootEditor";
-            this.GB_PackageRootEditor.Size = new System.Drawing.Size(661, 176);
-            this.GB_PackageRootEditor.TabIndex = 7;
-            this.GB_PackageRootEditor.TabStop = false;
-            this.GB_PackageRootEditor.Text = "Package Root Editor";
-            this.GB_PackageRootEditor.Visible = false;
-            // 
-            // BTN_ECompilePackageRootEditorCancel
-            // 
-            this.BTN_ECompilePackageRootEditorCancel.Location = new System.Drawing.Point(9, 144);
-            this.BTN_ECompilePackageRootEditorCancel.Name = "BTN_ECompilePackageRootEditorCancel";
-            this.BTN_ECompilePackageRootEditorCancel.Size = new System.Drawing.Size(75, 23);
-            this.BTN_ECompilePackageRootEditorCancel.TabIndex = 2;
-            this.BTN_ECompilePackageRootEditorCancel.Text = "Cancel";
-            this.BTN_ECompilePackageRootEditorCancel.UseVisualStyleBackColor = true;
-            this.BTN_ECompilePackageRootEditorCancel.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorCancel_Click);
-            // 
-            // DGV_PackageRoot
-            // 
-            this.DGV_PackageRoot.AllowUserToAddRows = false;
-            this.DGV_PackageRoot.AllowUserToDeleteRows = false;
-            this.DGV_PackageRoot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_PackageRoot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PackageRootPath,
-            this.PackageRootBrowseButton,
-            this.PackageRootDeleteButton,
-            this.PackageRootAddButton});
-            this.DGV_PackageRoot.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.DGV_PackageRoot.Location = new System.Drawing.Point(9, 17);
-            this.DGV_PackageRoot.MultiSelect = false;
-            this.DGV_PackageRoot.Name = "DGV_PackageRoot";
-            this.DGV_PackageRoot.ReadOnly = true;
-            this.DGV_PackageRoot.Size = new System.Drawing.Size(643, 121);
-            this.DGV_PackageRoot.TabIndex = 1;
-            this.DGV_PackageRoot.TabStop = false;
-            this.DGV_PackageRoot.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_PackageRoot_CellClick);
-            // 
-            // PackageRootPath
-            // 
-            this.PackageRootPath.HeaderText = "Path";
-            this.PackageRootPath.Name = "PackageRootPath";
-            this.PackageRootPath.ReadOnly = true;
-            this.PackageRootPath.Width = 300;
-            // 
-            // PackageRootBrowseButton
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.NullValue = "Browse";
-            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle7;
-            this.PackageRootBrowseButton.HeaderText = "Select Folder";
-            this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
-            this.PackageRootBrowseButton.ReadOnly = true;
-            this.PackageRootBrowseButton.Text = "Browse";
-            // 
-            // PackageRootDeleteButton
-            // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.NullValue = "Delete";
-            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle8;
-            this.PackageRootDeleteButton.HeaderText = "Delete Entry";
-            this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
-            this.PackageRootDeleteButton.ReadOnly = true;
-            this.PackageRootDeleteButton.Text = "Delete";
-            // 
-            // PackageRootAddButton
-            // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.NullValue = "Add New Path";
-            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle9;
-            this.PackageRootAddButton.HeaderText = "Add New Path";
-            this.PackageRootAddButton.Name = "PackageRootAddButton";
-            this.PackageRootAddButton.ReadOnly = true;
-            this.PackageRootAddButton.Text = "Add New Path";
-            // 
-            // BTN_ECompilePackageRootEditorFinished
-            // 
-            this.BTN_ECompilePackageRootEditorFinished.Location = new System.Drawing.Point(577, 144);
-            this.BTN_ECompilePackageRootEditorFinished.Name = "BTN_ECompilePackageRootEditorFinished";
-            this.BTN_ECompilePackageRootEditorFinished.Size = new System.Drawing.Size(75, 23);
-            this.BTN_ECompilePackageRootEditorFinished.TabIndex = 0;
-            this.BTN_ECompilePackageRootEditorFinished.Text = "Finished";
-            this.BTN_ECompilePackageRootEditorFinished.UseVisualStyleBackColor = true;
-            this.BTN_ECompilePackageRootEditorFinished.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorFinished_Click);
+            this.TB_ECompile.TextChanged += new System.EventHandler(this.TB_ECompile_TextChanged);
             // 
             // GB_ECompile
             // 
@@ -1258,6 +1167,99 @@
             this.BTN_ECompilePathsEditDone.UseVisualStyleBackColor = true;
             this.BTN_ECompilePathsEditDone.Click += new System.EventHandler(this.BTN_ECompilePathsEditDone_Click);
             // 
+            // GB_PackageRootEditor
+            // 
+            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorCancel);
+            this.GB_PackageRootEditor.Controls.Add(this.DGV_PackageRoot);
+            this.GB_PackageRootEditor.Controls.Add(this.BTN_ECompilePackageRootEditorFinished);
+            this.GB_PackageRootEditor.Location = new System.Drawing.Point(7, 178);
+            this.GB_PackageRootEditor.Name = "GB_PackageRootEditor";
+            this.GB_PackageRootEditor.Size = new System.Drawing.Size(661, 176);
+            this.GB_PackageRootEditor.TabIndex = 7;
+            this.GB_PackageRootEditor.TabStop = false;
+            this.GB_PackageRootEditor.Text = "Package Root Editor";
+            this.GB_PackageRootEditor.Visible = false;
+            // 
+            // BTN_ECompilePackageRootEditorCancel
+            // 
+            this.BTN_ECompilePackageRootEditorCancel.Location = new System.Drawing.Point(9, 144);
+            this.BTN_ECompilePackageRootEditorCancel.Name = "BTN_ECompilePackageRootEditorCancel";
+            this.BTN_ECompilePackageRootEditorCancel.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRootEditorCancel.TabIndex = 2;
+            this.BTN_ECompilePackageRootEditorCancel.Text = "Cancel";
+            this.BTN_ECompilePackageRootEditorCancel.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRootEditorCancel.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorCancel_Click);
+            // 
+            // DGV_PackageRoot
+            // 
+            this.DGV_PackageRoot.AllowUserToAddRows = false;
+            this.DGV_PackageRoot.AllowUserToDeleteRows = false;
+            this.DGV_PackageRoot.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_PackageRoot.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PackageRootPath,
+            this.PackageRootBrowseButton,
+            this.PackageRootDeleteButton,
+            this.PackageRootAddButton});
+            this.DGV_PackageRoot.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.DGV_PackageRoot.Location = new System.Drawing.Point(9, 17);
+            this.DGV_PackageRoot.MultiSelect = false;
+            this.DGV_PackageRoot.Name = "DGV_PackageRoot";
+            this.DGV_PackageRoot.ReadOnly = true;
+            this.DGV_PackageRoot.Size = new System.Drawing.Size(643, 121);
+            this.DGV_PackageRoot.TabIndex = 1;
+            this.DGV_PackageRoot.TabStop = false;
+            this.DGV_PackageRoot.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_PackageRoot_CellClick);
+            // 
+            // PackageRootPath
+            // 
+            this.PackageRootPath.HeaderText = "Path";
+            this.PackageRootPath.Name = "PackageRootPath";
+            this.PackageRootPath.ReadOnly = true;
+            this.PackageRootPath.Width = 300;
+            // 
+            // PackageRootBrowseButton
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.NullValue = "Browse";
+            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle7;
+            this.PackageRootBrowseButton.HeaderText = "Select Folder";
+            this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
+            this.PackageRootBrowseButton.ReadOnly = true;
+            this.PackageRootBrowseButton.Text = "Browse";
+            // 
+            // PackageRootDeleteButton
+            // 
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.NullValue = "Delete";
+            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle8;
+            this.PackageRootDeleteButton.HeaderText = "Delete Entry";
+            this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
+            this.PackageRootDeleteButton.ReadOnly = true;
+            this.PackageRootDeleteButton.Text = "Delete";
+            // 
+            // PackageRootAddButton
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.NullValue = "Add New Path";
+            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle9;
+            this.PackageRootAddButton.HeaderText = "Add New Path";
+            this.PackageRootAddButton.Name = "PackageRootAddButton";
+            this.PackageRootAddButton.ReadOnly = true;
+            this.PackageRootAddButton.Text = "Add New Path";
+            // 
+            // BTN_ECompilePackageRootEditorFinished
+            // 
+            this.BTN_ECompilePackageRootEditorFinished.Location = new System.Drawing.Point(577, 144);
+            this.BTN_ECompilePackageRootEditorFinished.Name = "BTN_ECompilePackageRootEditorFinished";
+            this.BTN_ECompilePackageRootEditorFinished.Size = new System.Drawing.Size(75, 23);
+            this.BTN_ECompilePackageRootEditorFinished.TabIndex = 0;
+            this.BTN_ECompilePackageRootEditorFinished.Text = "Finished";
+            this.BTN_ECompilePackageRootEditorFinished.UseVisualStyleBackColor = true;
+            this.BTN_ECompilePackageRootEditorFinished.Click += new System.EventHandler(this.BTN_ECompilePackageRootEditorFinished_Click);
+            // 
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
@@ -1361,6 +1363,78 @@
             this.GB_DataBackup.TabStop = false;
             this.GB_DataBackup.Text = "POL Data Backup";
             // 
+            // BTN_DataBackupBackupNow
+            // 
+            this.BTN_DataBackupBackupNow.Location = new System.Drawing.Point(579, 56);
+            this.BTN_DataBackupBackupNow.Name = "BTN_DataBackupBackupNow";
+            this.BTN_DataBackupBackupNow.Size = new System.Drawing.Size(75, 23);
+            this.BTN_DataBackupBackupNow.TabIndex = 8;
+            this.BTN_DataBackupBackupNow.Text = "Backup!";
+            this.BTN_DataBackupBackupNow.UseVisualStyleBackColor = true;
+            this.BTN_DataBackupBackupNow.Click += new System.EventHandler(this.BTN_DataBackupBackupNow_Click);
+            // 
+            // BTN_DataBackupSavePath
+            // 
+            this.BTN_DataBackupSavePath.Location = new System.Drawing.Point(458, 37);
+            this.BTN_DataBackupSavePath.Name = "BTN_DataBackupSavePath";
+            this.BTN_DataBackupSavePath.Size = new System.Drawing.Size(75, 23);
+            this.BTN_DataBackupSavePath.TabIndex = 7;
+            this.BTN_DataBackupSavePath.Text = "Save To";
+            this.BTN_DataBackupSavePath.UseVisualStyleBackColor = true;
+            this.BTN_DataBackupSavePath.Click += new System.EventHandler(this.BTN_DataBackupSavePath_Click);
+            // 
+            // TB_DataBackupPath
+            // 
+            this.TB_DataBackupPath.BackColor = System.Drawing.SystemColors.Window;
+            this.TB_DataBackupPath.Location = new System.Drawing.Point(352, 37);
+            this.TB_DataBackupPath.Name = "TB_DataBackupPath";
+            this.TB_DataBackupPath.ReadOnly = true;
+            this.TB_DataBackupPath.Size = new System.Drawing.Size(100, 20);
+            this.TB_DataBackupPath.TabIndex = 6;
+            this.TB_DataBackupPath.TextChanged += new System.EventHandler(this.TB_DataBackupPath_TextChanged);
+            // 
+            // PNL_DataBackupArchiveType
+            // 
+            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupZip);
+            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupGZip);
+            this.PNL_DataBackupArchiveType.Location = new System.Drawing.Point(232, 34);
+            this.PNL_DataBackupArchiveType.Name = "PNL_DataBackupArchiveType";
+            this.PNL_DataBackupArchiveType.Size = new System.Drawing.Size(114, 48);
+            this.PNL_DataBackupArchiveType.TabIndex = 4;
+            // 
+            // RD_DataBackupZip
+            // 
+            this.RD_DataBackupZip.AutoSize = true;
+            this.RD_DataBackupZip.Location = new System.Drawing.Point(42, 25);
+            this.RD_DataBackupZip.Name = "RD_DataBackupZip";
+            this.RD_DataBackupZip.Size = new System.Drawing.Size(40, 17);
+            this.RD_DataBackupZip.TabIndex = 1;
+            this.RD_DataBackupZip.TabStop = true;
+            this.RD_DataBackupZip.Text = "Zip";
+            this.RD_DataBackupZip.UseVisualStyleBackColor = true;
+            this.RD_DataBackupZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupZip_CheckedChanged);
+            // 
+            // RD_DataBackupGZip
+            // 
+            this.RD_DataBackupGZip.AutoSize = true;
+            this.RD_DataBackupGZip.Location = new System.Drawing.Point(42, 3);
+            this.RD_DataBackupGZip.Name = "RD_DataBackupGZip";
+            this.RD_DataBackupGZip.Size = new System.Drawing.Size(48, 17);
+            this.RD_DataBackupGZip.TabIndex = 0;
+            this.RD_DataBackupGZip.TabStop = true;
+            this.RD_DataBackupGZip.Text = "GZip";
+            this.RD_DataBackupGZip.UseVisualStyleBackColor = true;
+            this.RD_DataBackupGZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupGZip_CheckedChanged);
+            // 
+            // LBL_DataBackupArchiveType
+            // 
+            this.LBL_DataBackupArchiveType.AutoSize = true;
+            this.LBL_DataBackupArchiveType.Location = new System.Drawing.Point(229, 18);
+            this.LBL_DataBackupArchiveType.Name = "LBL_DataBackupArchiveType";
+            this.LBL_DataBackupArchiveType.Size = new System.Drawing.Size(119, 13);
+            this.LBL_DataBackupArchiveType.TabIndex = 1;
+            this.LBL_DataBackupArchiveType.Text = "What Type Of Archive?";
+            // 
             // LBL_DataBackupFileText
             // 
             this.LBL_DataBackupFileText.AutoSize = true;
@@ -1380,6 +1454,50 @@
             this.PNL_DataBackupFiles.Name = "PNL_DataBackupFiles";
             this.PNL_DataBackupFiles.Size = new System.Drawing.Size(179, 48);
             this.PNL_DataBackupFiles.TabIndex = 0;
+            // 
+            // CB_DatabackupLogs
+            // 
+            this.CB_DatabackupLogs.AutoSize = true;
+            this.CB_DatabackupLogs.Location = new System.Drawing.Point(117, 26);
+            this.CB_DatabackupLogs.Name = "CB_DatabackupLogs";
+            this.CB_DatabackupLogs.Size = new System.Drawing.Size(49, 17);
+            this.CB_DatabackupLogs.TabIndex = 3;
+            this.CB_DatabackupLogs.Text = "Logs";
+            this.CB_DatabackupLogs.UseVisualStyleBackColor = true;
+            this.CB_DatabackupLogs.CheckedChanged += new System.EventHandler(this.CB_DatabackupLogs_CheckedChanged);
+            // 
+            // CB_DataBackupRealms
+            // 
+            this.CB_DataBackupRealms.AutoSize = true;
+            this.CB_DataBackupRealms.Location = new System.Drawing.Point(117, 3);
+            this.CB_DataBackupRealms.Name = "CB_DataBackupRealms";
+            this.CB_DataBackupRealms.Size = new System.Drawing.Size(61, 17);
+            this.CB_DataBackupRealms.TabIndex = 2;
+            this.CB_DataBackupRealms.Text = "Realms";
+            this.CB_DataBackupRealms.UseVisualStyleBackColor = true;
+            this.CB_DataBackupRealms.CheckedChanged += new System.EventHandler(this.CB_DataBackupRealms_CheckedChanged);
+            // 
+            // CB_DataBackupScripts
+            // 
+            this.CB_DataBackupScripts.AutoSize = true;
+            this.CB_DataBackupScripts.Location = new System.Drawing.Point(3, 26);
+            this.CB_DataBackupScripts.Name = "CB_DataBackupScripts";
+            this.CB_DataBackupScripts.Size = new System.Drawing.Size(58, 17);
+            this.CB_DataBackupScripts.TabIndex = 1;
+            this.CB_DataBackupScripts.Text = "Scripts";
+            this.CB_DataBackupScripts.UseVisualStyleBackColor = true;
+            this.CB_DataBackupScripts.CheckedChanged += new System.EventHandler(this.CB_DataBackupScripts_CheckedChanged);
+            // 
+            // CB_DataBackupData
+            // 
+            this.CB_DataBackupData.AutoSize = true;
+            this.CB_DataBackupData.Location = new System.Drawing.Point(3, 3);
+            this.CB_DataBackupData.Name = "CB_DataBackupData";
+            this.CB_DataBackupData.Size = new System.Drawing.Size(108, 17);
+            this.CB_DataBackupData.TabIndex = 0;
+            this.CB_DataBackupData.Text = "POL Data (/data)";
+            this.CB_DataBackupData.UseVisualStyleBackColor = true;
+            this.CB_DataBackupData.CheckedChanged += new System.EventHandler(this.CB_DataBackupData_CheckedChanged);
             // 
             // GB_ModifyAccount
             // 
@@ -1649,121 +1767,22 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // CB_DataBackupData
+            // Process_ECompile
             // 
-            this.CB_DataBackupData.AutoSize = true;
-            this.CB_DataBackupData.Location = new System.Drawing.Point(3, 3);
-            this.CB_DataBackupData.Name = "CB_DataBackupData";
-            this.CB_DataBackupData.Size = new System.Drawing.Size(108, 17);
-            this.CB_DataBackupData.TabIndex = 0;
-            this.CB_DataBackupData.Text = "POL Data (/data)";
-            this.CB_DataBackupData.UseVisualStyleBackColor = true;
-            this.CB_DataBackupData.CheckedChanged += new System.EventHandler(this.CB_DataBackupData_CheckedChanged);
-            // 
-            // CB_DataBackupScripts
-            // 
-            this.CB_DataBackupScripts.AutoSize = true;
-            this.CB_DataBackupScripts.Location = new System.Drawing.Point(3, 26);
-            this.CB_DataBackupScripts.Name = "CB_DataBackupScripts";
-            this.CB_DataBackupScripts.Size = new System.Drawing.Size(58, 17);
-            this.CB_DataBackupScripts.TabIndex = 1;
-            this.CB_DataBackupScripts.Text = "Scripts";
-            this.CB_DataBackupScripts.UseVisualStyleBackColor = true;
-            this.CB_DataBackupScripts.CheckedChanged += new System.EventHandler(this.CB_DataBackupScripts_CheckedChanged);
-            // 
-            // CB_DataBackupRealms
-            // 
-            this.CB_DataBackupRealms.AutoSize = true;
-            this.CB_DataBackupRealms.Location = new System.Drawing.Point(117, 3);
-            this.CB_DataBackupRealms.Name = "CB_DataBackupRealms";
-            this.CB_DataBackupRealms.Size = new System.Drawing.Size(61, 17);
-            this.CB_DataBackupRealms.TabIndex = 2;
-            this.CB_DataBackupRealms.Text = "Realms";
-            this.CB_DataBackupRealms.UseVisualStyleBackColor = true;
-            this.CB_DataBackupRealms.CheckedChanged += new System.EventHandler(this.CB_DataBackupRealms_CheckedChanged);
-            // 
-            // CB_DatabackupLogs
-            // 
-            this.CB_DatabackupLogs.AutoSize = true;
-            this.CB_DatabackupLogs.Location = new System.Drawing.Point(117, 26);
-            this.CB_DatabackupLogs.Name = "CB_DatabackupLogs";
-            this.CB_DatabackupLogs.Size = new System.Drawing.Size(49, 17);
-            this.CB_DatabackupLogs.TabIndex = 3;
-            this.CB_DatabackupLogs.Text = "Logs";
-            this.CB_DatabackupLogs.UseVisualStyleBackColor = true;
-            this.CB_DatabackupLogs.CheckedChanged += new System.EventHandler(this.CB_DatabackupLogs_CheckedChanged);
-            // 
-            // PNL_DataBackupArchiveType
-            // 
-            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupZip);
-            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupGZip);
-            this.PNL_DataBackupArchiveType.Location = new System.Drawing.Point(232, 34);
-            this.PNL_DataBackupArchiveType.Name = "PNL_DataBackupArchiveType";
-            this.PNL_DataBackupArchiveType.Size = new System.Drawing.Size(114, 48);
-            this.PNL_DataBackupArchiveType.TabIndex = 4;
-            // 
-            // LBL_DataBackupArchiveType
-            // 
-            this.LBL_DataBackupArchiveType.AutoSize = true;
-            this.LBL_DataBackupArchiveType.Location = new System.Drawing.Point(229, 18);
-            this.LBL_DataBackupArchiveType.Name = "LBL_DataBackupArchiveType";
-            this.LBL_DataBackupArchiveType.Size = new System.Drawing.Size(119, 13);
-            this.LBL_DataBackupArchiveType.TabIndex = 1;
-            this.LBL_DataBackupArchiveType.Text = "What Type Of Archive?";
-            // 
-            // RD_DataBackupGZip
-            // 
-            this.RD_DataBackupGZip.AutoSize = true;
-            this.RD_DataBackupGZip.Location = new System.Drawing.Point(42, 3);
-            this.RD_DataBackupGZip.Name = "RD_DataBackupGZip";
-            this.RD_DataBackupGZip.Size = new System.Drawing.Size(48, 17);
-            this.RD_DataBackupGZip.TabIndex = 0;
-            this.RD_DataBackupGZip.TabStop = true;
-            this.RD_DataBackupGZip.Text = "GZip";
-            this.RD_DataBackupGZip.UseVisualStyleBackColor = true;
-            this.RD_DataBackupGZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupGZip_CheckedChanged);
-            // 
-            // RD_DataBackupZip
-            // 
-            this.RD_DataBackupZip.AutoSize = true;
-            this.RD_DataBackupZip.Location = new System.Drawing.Point(42, 25);
-            this.RD_DataBackupZip.Name = "RD_DataBackupZip";
-            this.RD_DataBackupZip.Size = new System.Drawing.Size(40, 17);
-            this.RD_DataBackupZip.TabIndex = 1;
-            this.RD_DataBackupZip.TabStop = true;
-            this.RD_DataBackupZip.Text = "Zip";
-            this.RD_DataBackupZip.UseVisualStyleBackColor = true;
-            this.RD_DataBackupZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupZip_CheckedChanged);
-            // 
-            // TB_DataBackupPath
-            // 
-            this.TB_DataBackupPath.BackColor = System.Drawing.SystemColors.Window;
-            this.TB_DataBackupPath.Location = new System.Drawing.Point(352, 37);
-            this.TB_DataBackupPath.Name = "TB_DataBackupPath";
-            this.TB_DataBackupPath.ReadOnly = true;
-            this.TB_DataBackupPath.Size = new System.Drawing.Size(100, 20);
-            this.TB_DataBackupPath.TabIndex = 6;
-            this.TB_DataBackupPath.TextChanged += new System.EventHandler(this.TB_DataBackupPath_TextChanged);
-            // 
-            // BTN_DataBackupSavePath
-            // 
-            this.BTN_DataBackupSavePath.Location = new System.Drawing.Point(458, 37);
-            this.BTN_DataBackupSavePath.Name = "BTN_DataBackupSavePath";
-            this.BTN_DataBackupSavePath.Size = new System.Drawing.Size(75, 23);
-            this.BTN_DataBackupSavePath.TabIndex = 7;
-            this.BTN_DataBackupSavePath.Text = "Save To";
-            this.BTN_DataBackupSavePath.UseVisualStyleBackColor = true;
-            this.BTN_DataBackupSavePath.Click += new System.EventHandler(this.BTN_DataBackupSavePath_Click);
-            // 
-            // BTN_DataBackupBackupNow
-            // 
-            this.BTN_DataBackupBackupNow.Location = new System.Drawing.Point(579, 56);
-            this.BTN_DataBackupBackupNow.Name = "BTN_DataBackupBackupNow";
-            this.BTN_DataBackupBackupNow.Size = new System.Drawing.Size(75, 23);
-            this.BTN_DataBackupBackupNow.TabIndex = 8;
-            this.BTN_DataBackupBackupNow.Text = "Backup!";
-            this.BTN_DataBackupBackupNow.UseVisualStyleBackColor = true;
-            this.BTN_DataBackupBackupNow.Click += new System.EventHandler(this.BTN_DataBackupBackupNow_Click);
+            this.Process_ECompile.EnableRaisingEvents = true;
+            this.Process_ECompile.StartInfo.CreateNoWindow = true;
+            this.Process_ECompile.StartInfo.Domain = "";
+            this.Process_ECompile.StartInfo.ErrorDialog = true;
+            this.Process_ECompile.StartInfo.LoadUserProfile = false;
+            this.Process_ECompile.StartInfo.Password = null;
+            this.Process_ECompile.StartInfo.RedirectStandardOutput = true;
+            this.Process_ECompile.StartInfo.StandardErrorEncoding = null;
+            this.Process_ECompile.StartInfo.StandardOutputEncoding = null;
+            this.Process_ECompile.StartInfo.UserName = "";
+            this.Process_ECompile.StartInfo.UseShellExecute = false;
+            this.Process_ECompile.SynchronizingObject = this;
+            this.Process_ECompile.Exited += new System.EventHandler(this.Process_ECompile_Exited);
+            this.Process_ECompile.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(this.Process_ECompile_OutputDataReceived);
             // 
             // Form1
             // 
@@ -1782,6 +1801,7 @@
             this.Name = "Form1";
             this.Text = "POL Launch";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1803,8 +1823,6 @@
             this.panel1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            this.GB_PackageRootEditor.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).EndInit();
             this.GB_ECompile.ResumeLayout(false);
             this.GB_ECompile.PerformLayout();
             this.PNL_ECompilePaths.ResumeLayout(false);
@@ -1819,11 +1837,15 @@
             this.GB_ECompilePathsEdit.PerformLayout();
             this.PNL_ECompilePathsEditTBS.ResumeLayout(false);
             this.PNL_ECompilePathsEditTBS.PerformLayout();
+            this.GB_PackageRootEditor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).EndInit();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
             this.GB_DataBackup.ResumeLayout(false);
             this.GB_DataBackup.PerformLayout();
+            this.PNL_DataBackupArchiveType.ResumeLayout(false);
+            this.PNL_DataBackupArchiveType.PerformLayout();
             this.PNL_DataBackupFiles.ResumeLayout(false);
             this.PNL_DataBackupFiles.PerformLayout();
             this.GB_AuxSvcSettings.ResumeLayout(false);
@@ -1832,8 +1854,6 @@
             this.panel3.PerformLayout();
             this.GB_CreateAccount.ResumeLayout(false);
             this.GB_CreateAccount.PerformLayout();
-            this.PNL_DataBackupArchiveType.ResumeLayout(false);
-            this.PNL_DataBackupArchiveType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1987,6 +2007,7 @@
         private System.Windows.Forms.TextBox TB_DataBackupPath;
         private System.Windows.Forms.Button BTN_DataBackupSavePath;
         private System.Windows.Forms.Button BTN_DataBackupBackupNow;
+        private System.Diagnostics.Process Process_ECompile;
 	}
 }
 

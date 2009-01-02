@@ -47,27 +47,13 @@ namespace POLLaunch
         static public string[] GetConfigFileNames()
         {
             string[] names = {
-							"config\\multis.cfg",
-							"config\\tiles.cfg",
-							"config\\landtiles.cfg"};
+							@"config\multis.cfg",
+							@"config\tiles.cfg",
+							@"config\landtiles.cfg"};
             return names;
         }
 
-        /*        static public string CheckBoxIdtoRealmName(int id)
-                {
-                    switch (id)
-                    {
-                        case 4: return "britannia";
-                        case 5: return "britannia ml";
-                        case 6: return "trammel";
-                        case 7: return "ilshenar";
-                        case 8: return "malas";
-                        case 9: return "tokuno";
-                    }
-                    return "";
-                }*/
-
-        /*
+       /*
 		static public string[] GetRealmCommands(string realm)
 		{
 			realm = realm.ToLower();

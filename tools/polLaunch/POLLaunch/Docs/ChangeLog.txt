@@ -1,7 +1,16 @@
-﻿1-1-2009 - MuadDib
+﻿1-2-2009 - MuadDib
+	Added   : Ecompile Process Controller added. This is not using the POLUtil Console
+	          class. Need to find a better buffer handler for the Output Data, so it's
+	          not updating the textbox every line. Seems to slow the whole process down
+	          due to content amount.
+	Added   : OnFormClosing for main Form. Will be using it to kill unclosed processes that
+	          need to close in case of crash or exit.
+	          
+1-1-2009 - MuadDib
     Fixed   : Removing last Package Root Entry from Editor. You should ALWAYS have at least
               1 entry in your ecompile.cfg for these!
     Fixed   : Similar issue with ECompile Paths.
+    Changed : Just changing "\\" stuff to @"\" for looks.
               
 12-31-2008 - MuadDib
     Added   : Much more ECompile Tab work. Both Visual and Code wise.
