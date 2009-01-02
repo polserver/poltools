@@ -20,7 +20,10 @@ namespace POLLaunch
         #region Main Variables
         MyConsole POLConsole = null;
         MyConsole UOCConsole = null;
+
         EConfig ECompileCFG = null;
+        string ECompileOutput = String.Empty;
+        
         bool Ctrl, Alt, Shift; // small kludge... will it work?
         #endregion
 
@@ -627,11 +630,6 @@ namespace POLLaunch
                 CB_DataBackupScripts.Checked = bool.Parse(Settings.Global.DataBackup["BackupScripts"]);
                 CB_DataBackupRealms.Checked = bool.Parse(Settings.Global.DataBackup["BackupRealms"]);
                 CB_DatabackupLogs.Checked = bool.Parse(Settings.Global.DataBackup["BackupLogs"]);
-
-                if (Settings.Global.DataBackup["ArchiveType"].Contains("GZip"))
-                    RD_DataBackupGZip.Checked = true;
-                else
-                    RD_DataBackupZip.Checked = true;
             }
             catch (Exception)
             {
@@ -640,7 +638,6 @@ namespace POLLaunch
                 CB_DataBackupScripts.Checked = true;
                 CB_DataBackupRealms.Checked = true;
                 CB_DatabackupLogs.Checked = true;
-                RD_DataBackupZip.Checked = true;
             }
 
             if (Settings.Global.DataBackup["DataBackupPath"] != null)
@@ -659,22 +656,6 @@ namespace POLLaunch
             TB_DataBackupPath.Text = FilePicker.SelectFolder();
             if (TB_DataBackupPath.Text.Length > 0)
                 Settings.Global.DataBackup["DataBackupPath"] = TB_DataBackupPath.Text;
-        }
-
-        private void RD_DataBackupGZip_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RD_DataBackupGZip.Checked)
-            {
-                Settings.Global.DataBackup["ArchiveType"] = "GZip";
-            }
-        }
-        
-        private void RD_DataBackupZip_CheckedChanged(object sender, EventArgs e)
-        {
-            if (RD_DataBackupZip.Checked)
-            {
-                Settings.Global.DataBackup["ArchiveType"] = "Zip";
-            }
         }
 
         private void CB_DataBackupData_CheckedChanged(object sender, EventArgs e)
@@ -945,24 +926,32 @@ namespace POLLaunch
             this.Process_ECompile.Start();
             this.Process_ECompile.BeginOutputReadLine();
 
+            TB_ECompile.Text = " "; 
             BTN_ECompile.Enabled = false;
-            TB_ECompile.Text = " ";
+            Cursor = Cursors.WaitCursor;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 1;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
+            TB_ECompile.Text = "Ecompile Process Started... This May Take A While....";
         }
 
         private void Process_ECompile_Exited(object sender, EventArgs e)
         {
-            TB_ECompile.Invoke((MethodInvoker)delegate() { TB_ECompile.Text += "<Conversion Completed>" + System.Environment.NewLine + System.Environment.NewLine; });
-
             this.Process_ECompile.StartInfo.FileName = String.Empty;
-            
+
             if (this.InvokeRequired)
+            {
                 this.Invoke((MethodInvoker)delegate() { ProgressBar.PerformStep(); });
+                this.Invoke((MethodInvoker)delegate() { TB_ECompile.Text = ECompileOutput; });
+                this.Invoke((MethodInvoker)delegate() { Cursor = Cursors.Default; });
+            }
             else
+            {
                 ProgressBar.PerformStep();
+                TB_ECompile.Text = ECompileOutput;
+                Cursor = Cursors.Default;
+            }
 
             BTN_ECompile.Invoke((MethodInvoker)delegate() { BTN_ECompile.Enabled = true; });
             if (this.InvokeRequired)
@@ -980,7 +969,7 @@ namespace POLLaunch
         {
             if (e.Data != String.Empty && e.Data != null)
             {
-                TB_ECompile.Invoke((MethodInvoker)delegate() { TB_ECompile.Text += e.Data + System.Environment.NewLine; });
+                ECompileOutput += e.Data + System.Environment.NewLine;
             }
         }
 

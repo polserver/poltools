@@ -30,9 +30,9 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,10 +143,6 @@
             this.BTN_DataBackupBackupNow = new System.Windows.Forms.Button();
             this.BTN_DataBackupSavePath = new System.Windows.Forms.Button();
             this.TB_DataBackupPath = new System.Windows.Forms.TextBox();
-            this.PNL_DataBackupArchiveType = new System.Windows.Forms.Panel();
-            this.RD_DataBackupZip = new System.Windows.Forms.RadioButton();
-            this.RD_DataBackupGZip = new System.Windows.Forms.RadioButton();
-            this.LBL_DataBackupArchiveType = new System.Windows.Forms.Label();
             this.LBL_DataBackupFileText = new System.Windows.Forms.Label();
             this.PNL_DataBackupFiles = new System.Windows.Forms.Panel();
             this.CB_DatabackupLogs = new System.Windows.Forms.CheckBox();
@@ -204,7 +200,6 @@
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.GB_DataBackup.SuspendLayout();
-            this.PNL_DataBackupArchiveType.SuspendLayout();
             this.PNL_DataBackupFiles.SuspendLayout();
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -787,7 +782,7 @@
             this.GB_ECompile.Size = new System.Drawing.Size(661, 176);
             this.GB_ECompile.TabIndex = 4;
             this.GB_ECompile.TabStop = false;
-            this.GB_ECompile.Text = "ECompile Controls";
+            this.GB_ECompile.Text = "ECompile.Cfg Settings";
             // 
             // PNL_ECompilePaths
             // 
@@ -1219,10 +1214,10 @@
             // 
             // PackageRootBrowseButton
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.NullValue = "Browse";
-            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.NullValue = "Browse";
+            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle7;
             this.PackageRootBrowseButton.HeaderText = "Select Folder";
             this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
             this.PackageRootBrowseButton.ReadOnly = true;
@@ -1230,10 +1225,10 @@
             // 
             // PackageRootDeleteButton
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.NullValue = "Delete";
-            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.NullValue = "Delete";
+            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle8;
             this.PackageRootDeleteButton.HeaderText = "Delete Entry";
             this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
             this.PackageRootDeleteButton.ReadOnly = true;
@@ -1241,10 +1236,10 @@
             // 
             // PackageRootAddButton
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.NullValue = "Add New Path";
-            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.NullValue = "Add New Path";
+            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle9;
             this.PackageRootAddButton.HeaderText = "Add New Path";
             this.PackageRootAddButton.Name = "PackageRootAddButton";
             this.PackageRootAddButton.ReadOnly = true;
@@ -1352,8 +1347,6 @@
             this.GB_DataBackup.Controls.Add(this.BTN_DataBackupBackupNow);
             this.GB_DataBackup.Controls.Add(this.BTN_DataBackupSavePath);
             this.GB_DataBackup.Controls.Add(this.TB_DataBackupPath);
-            this.GB_DataBackup.Controls.Add(this.PNL_DataBackupArchiveType);
-            this.GB_DataBackup.Controls.Add(this.LBL_DataBackupArchiveType);
             this.GB_DataBackup.Controls.Add(this.LBL_DataBackupFileText);
             this.GB_DataBackup.Controls.Add(this.PNL_DataBackupFiles);
             this.GB_DataBackup.Location = new System.Drawing.Point(8, 298);
@@ -1365,7 +1358,7 @@
             // 
             // BTN_DataBackupBackupNow
             // 
-            this.BTN_DataBackupBackupNow.Location = new System.Drawing.Point(579, 56);
+            this.BTN_DataBackupBackupNow.Location = new System.Drawing.Point(579, 60);
             this.BTN_DataBackupBackupNow.Name = "BTN_DataBackupBackupNow";
             this.BTN_DataBackupBackupNow.Size = new System.Drawing.Size(75, 23);
             this.BTN_DataBackupBackupNow.TabIndex = 8;
@@ -1375,7 +1368,7 @@
             // 
             // BTN_DataBackupSavePath
             // 
-            this.BTN_DataBackupSavePath.Location = new System.Drawing.Point(458, 37);
+            this.BTN_DataBackupSavePath.Location = new System.Drawing.Point(386, 33);
             this.BTN_DataBackupSavePath.Name = "BTN_DataBackupSavePath";
             this.BTN_DataBackupSavePath.Size = new System.Drawing.Size(75, 23);
             this.BTN_DataBackupSavePath.TabIndex = 7;
@@ -1386,54 +1379,12 @@
             // TB_DataBackupPath
             // 
             this.TB_DataBackupPath.BackColor = System.Drawing.SystemColors.Window;
-            this.TB_DataBackupPath.Location = new System.Drawing.Point(352, 37);
+            this.TB_DataBackupPath.Location = new System.Drawing.Point(216, 35);
             this.TB_DataBackupPath.Name = "TB_DataBackupPath";
             this.TB_DataBackupPath.ReadOnly = true;
-            this.TB_DataBackupPath.Size = new System.Drawing.Size(100, 20);
+            this.TB_DataBackupPath.Size = new System.Drawing.Size(164, 20);
             this.TB_DataBackupPath.TabIndex = 6;
             this.TB_DataBackupPath.TextChanged += new System.EventHandler(this.TB_DataBackupPath_TextChanged);
-            // 
-            // PNL_DataBackupArchiveType
-            // 
-            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupZip);
-            this.PNL_DataBackupArchiveType.Controls.Add(this.RD_DataBackupGZip);
-            this.PNL_DataBackupArchiveType.Location = new System.Drawing.Point(232, 34);
-            this.PNL_DataBackupArchiveType.Name = "PNL_DataBackupArchiveType";
-            this.PNL_DataBackupArchiveType.Size = new System.Drawing.Size(114, 48);
-            this.PNL_DataBackupArchiveType.TabIndex = 4;
-            // 
-            // RD_DataBackupZip
-            // 
-            this.RD_DataBackupZip.AutoSize = true;
-            this.RD_DataBackupZip.Location = new System.Drawing.Point(42, 25);
-            this.RD_DataBackupZip.Name = "RD_DataBackupZip";
-            this.RD_DataBackupZip.Size = new System.Drawing.Size(40, 17);
-            this.RD_DataBackupZip.TabIndex = 1;
-            this.RD_DataBackupZip.TabStop = true;
-            this.RD_DataBackupZip.Text = "Zip";
-            this.RD_DataBackupZip.UseVisualStyleBackColor = true;
-            this.RD_DataBackupZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupZip_CheckedChanged);
-            // 
-            // RD_DataBackupGZip
-            // 
-            this.RD_DataBackupGZip.AutoSize = true;
-            this.RD_DataBackupGZip.Location = new System.Drawing.Point(42, 3);
-            this.RD_DataBackupGZip.Name = "RD_DataBackupGZip";
-            this.RD_DataBackupGZip.Size = new System.Drawing.Size(48, 17);
-            this.RD_DataBackupGZip.TabIndex = 0;
-            this.RD_DataBackupGZip.TabStop = true;
-            this.RD_DataBackupGZip.Text = "GZip";
-            this.RD_DataBackupGZip.UseVisualStyleBackColor = true;
-            this.RD_DataBackupGZip.CheckedChanged += new System.EventHandler(this.RD_DataBackupGZip_CheckedChanged);
-            // 
-            // LBL_DataBackupArchiveType
-            // 
-            this.LBL_DataBackupArchiveType.AutoSize = true;
-            this.LBL_DataBackupArchiveType.Location = new System.Drawing.Point(229, 18);
-            this.LBL_DataBackupArchiveType.Name = "LBL_DataBackupArchiveType";
-            this.LBL_DataBackupArchiveType.Size = new System.Drawing.Size(119, 13);
-            this.LBL_DataBackupArchiveType.TabIndex = 1;
-            this.LBL_DataBackupArchiveType.Text = "What Type Of Archive?";
             // 
             // LBL_DataBackupFileText
             // 
@@ -1674,7 +1625,7 @@
             this.TB_CreateEmail.MaxLength = 30;
             this.TB_CreateEmail.Name = "TB_CreateEmail";
             this.TB_CreateEmail.Size = new System.Drawing.Size(155, 20);
-            this.TB_CreateEmail.TabIndex = 9;
+            this.TB_CreateEmail.TabIndex = 4;
             // 
             // LBL_CreateEmail
             // 
@@ -1730,7 +1681,7 @@
             this.LBX_CreateCmdlevel.Location = new System.Drawing.Point(78, 113);
             this.LBX_CreateCmdlevel.Name = "LBX_CreateCmdlevel";
             this.LBX_CreateCmdlevel.Size = new System.Drawing.Size(94, 30);
-            this.LBX_CreateCmdlevel.TabIndex = 4;
+            this.LBX_CreateCmdlevel.TabIndex = 5;
             // 
             // TB_CreatePassword
             // 
@@ -1844,8 +1795,6 @@
             this.tabPage7.ResumeLayout(false);
             this.GB_DataBackup.ResumeLayout(false);
             this.GB_DataBackup.PerformLayout();
-            this.PNL_DataBackupArchiveType.ResumeLayout(false);
-            this.PNL_DataBackupArchiveType.PerformLayout();
             this.PNL_DataBackupFiles.ResumeLayout(false);
             this.PNL_DataBackupFiles.PerformLayout();
             this.GB_AuxSvcSettings.ResumeLayout(false);
@@ -2000,10 +1949,6 @@
         private System.Windows.Forms.CheckBox CB_DatabackupLogs;
         private System.Windows.Forms.CheckBox CB_DataBackupRealms;
         private System.Windows.Forms.CheckBox CB_DataBackupScripts;
-        private System.Windows.Forms.Panel PNL_DataBackupArchiveType;
-        private System.Windows.Forms.RadioButton RD_DataBackupZip;
-        private System.Windows.Forms.RadioButton RD_DataBackupGZip;
-        private System.Windows.Forms.Label LBL_DataBackupArchiveType;
         private System.Windows.Forms.TextBox TB_DataBackupPath;
         private System.Windows.Forms.Button BTN_DataBackupSavePath;
         private System.Windows.Forms.Button BTN_DataBackupBackupNow;
