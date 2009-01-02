@@ -33,6 +33,7 @@ namespace FiddlerControls
 
         private Bitmap map;
         private Ultima.Map currmap;
+        private int currmapint = 0;
         private bool ShowStatics = true;
         private bool SyncWithClient = false;
         private int ClientX = 0;
@@ -41,8 +42,8 @@ namespace FiddlerControls
         private int ClientMap = 0;
         private Point currPoint;
         private double Zoom = 1;
-        bool moving = false;
-        Point movingpoint;
+        private bool moving = false;
+        private Point movingpoint;
 
         private bool Loaded = false;
 
@@ -63,21 +64,36 @@ namespace FiddlerControls
             Loaded = true;
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
-            map = currmap.GetImage(0, 0, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
+            ChangeMapNames();
             ZoomLabel.Text = String.Format("Zoom: {0}",Zoom);
             SetScrollBarValues();
             Refresh();
+            pictureBox.Refresh();
             this.Cursor = Cursors.Default;
+        }
+
+        /// <summary>
+        /// Changes the Names of maps
+        /// </summary>
+        public void ChangeMapNames()
+        {
+            if (!Loaded)
+                return;
+            feluccaToolStripMenuItem.Text = Options.MapNames[0];
+            trammelToolStripMenuItem.Text = Options.MapNames[1];
+            ilshenarToolStripMenuItem.Text = Options.MapNames[2];
+            malasToolStripMenuItem.Text = Options.MapNames[3];
+            tokunoToolStripMenuItem.Text = Options.MapNames[4];
         }
 
         private void HandleScroll(object sender, ScrollEventArgs e)
         {
-            map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
+            pictureBox.Refresh();
+        }
+
+        private int Round(int x)
+        {
+            return (int)((x>>3)<<3);
         }
         
         private void ZoomMap(ref Bitmap bmp0)
@@ -98,13 +114,13 @@ namespace FiddlerControls
             hScrollBar.Maximum = (int)(currmap.Width);
             hScrollBar.Maximum -= (int)(pictureBox.ClientSize.Width);
             hScrollBar.Maximum += (int)(40);
-            hScrollBar.Maximum = (hScrollBar.Maximum >> 3) << 3;
+            hScrollBar.Maximum = Round(hScrollBar.Maximum);
             hScrollBar.LargeChange = 40;
             hScrollBar.SmallChange = 8;
             vScrollBar.Maximum = (int)(currmap.Height);
             vScrollBar.Maximum -= (int)(pictureBox.ClientSize.Height);
             vScrollBar.Maximum += (int)(40);
-            vScrollBar.Maximum = (vScrollBar.Maximum >> 3) << 3;
+            vScrollBar.Maximum = Round(vScrollBar.Maximum);
             vScrollBar.LargeChange = 40;
             vScrollBar.SmallChange = 8;
             vScrollBar.Value = 0;
@@ -114,19 +130,19 @@ namespace FiddlerControls
         private void ChangeScrollBar()
         {
             hScrollBar.Maximum = (int)(currmap.Width);
-            hScrollBar.Maximum -= ((int)(pictureBox.ClientSize.Width / Zoom) - 8 >> 3) << 3;
+            hScrollBar.Maximum -= Round((int)(pictureBox.ClientSize.Width / Zoom) - 8);
             if (Zoom >= 1)
                 hScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 hScrollBar.Maximum += (int)(40 / Zoom);
-            hScrollBar.Maximum = (hScrollBar.Maximum >> 3) << 3;
+            hScrollBar.Maximum = Round(hScrollBar.Maximum);
             vScrollBar.Maximum = (int)(currmap.Height);
-            vScrollBar.Maximum -= ((int)(pictureBox.ClientSize.Height / Zoom) - 8 >> 3) << 3;
+            vScrollBar.Maximum -= Round((int)(pictureBox.ClientSize.Height / Zoom) - 8);
             if (Zoom >= 1)
                 vScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 vScrollBar.Maximum += (int)(40 / Zoom);
-            vScrollBar.Maximum = (vScrollBar.Maximum >> 3) << 3;
+            vScrollBar.Maximum = Round(vScrollBar.Maximum);
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -134,29 +150,20 @@ namespace FiddlerControls
             if (pictureBox.Image != null)
             {
                 ChangeScrollBar();
-                map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.ClientSize.Width / Zoom)+8 >> 3, (int)(pictureBox.ClientSize.Height / Zoom)+8 >> 3, ShowStatics);
-                ZoomMap(ref map);
-                pictureBox.Image = map;
-                pictureBox.Update();
+                pictureBox.Refresh();
             }
         }
 
         private void ClickShowStatics(object sender, EventArgs e)
         {
             ShowStatics = !ShowStatics;
-            map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.ClientSize.Width / Zoom) + 8 >> 3, (int)(pictureBox.ClientSize.Height / Zoom) + 8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
+            pictureBox.Refresh();
         }
 
         private void ChangeMap()
         {
-            map = currmap.GetImage(0, 0, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
             SetScrollBarValues();
+            pictureBox.Refresh();
         }
 
         private void ResetCheckedMap()
@@ -175,6 +182,7 @@ namespace FiddlerControls
                 ResetCheckedMap();
                 feluccaToolStripMenuItem.Checked = true;
                 currmap = Ultima.Map.Felucca;
+                currmapint = 0;
                 ChangeMap();
             }
         }
@@ -186,17 +194,7 @@ namespace FiddlerControls
                 ResetCheckedMap();
                 trammelToolStripMenuItem.Checked = true;
                 currmap = Ultima.Map.Trammel;
-                ChangeMap();
-            }
-        }
-
-        private void ChangeMapMalas(object sender, EventArgs e)
-        {
-            if (!malasToolStripMenuItem.Checked)
-            {
-                ResetCheckedMap();
-                malasToolStripMenuItem.Checked = true;
-                currmap = Ultima.Map.Malas;
+                currmapint = 1;
                 ChangeMap();
             }
         }
@@ -208,6 +206,19 @@ namespace FiddlerControls
                 ResetCheckedMap();
                 ilshenarToolStripMenuItem.Checked = true;
                 currmap = Ultima.Map.Ilshenar;
+                currmapint = 2;
+                ChangeMap();
+            }
+        }
+
+        private void ChangeMapMalas(object sender, EventArgs e)
+        {
+            if (!malasToolStripMenuItem.Checked)
+            {
+                ResetCheckedMap();
+                malasToolStripMenuItem.Checked = true;
+                currmap = Ultima.Map.Malas;
+                currmapint = 3;
                 ChangeMap();
             }
         }
@@ -219,6 +230,7 @@ namespace FiddlerControls
                 ResetCheckedMap();
                 tokunoToolStripMenuItem.Checked = true;
                 currmap = Ultima.Map.Tokuno;
+                currmapint = 4;
                 ChangeMap();
             }
         }
@@ -247,8 +259,8 @@ namespace FiddlerControls
 
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            int xDelta = Math.Min(currmap.Width,(int)(e.X / Zoom) + hScrollBar.Value);
-            int yDelta = Math.Min(currmap.Height,(int)(e.Y / Zoom) + vScrollBar.Value);
+            int xDelta = Math.Min(currmap.Width, (int)(e.X / Zoom) + Round(hScrollBar.Value));
+            int yDelta = Math.Min(currmap.Height, (int)(e.Y / Zoom) + Round(vScrollBar.Value));
             CoordsLabel.Text=String.Format("Coords: {0},{1}",xDelta,yDelta);
             if (moving)
             {
@@ -258,10 +270,7 @@ namespace FiddlerControls
                 movingpoint.Y = e.Y;
                 hScrollBar.Value = Math.Max(0, Math.Min(hScrollBar.Maximum, hScrollBar.Value + deltax));
                 vScrollBar.Value = Math.Max(0, Math.Min(vScrollBar.Maximum, vScrollBar.Value + deltay));
-                map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3, (int)(pictureBox.Right / Zoom) + 8 >> 3, (int)(pictureBox.Bottom / Zoom) + 8 >> 3, ShowStatics);
-                ZoomMap(ref map);
-                pictureBox.Image = map;
-                pictureBox.Update();
+                pictureBox.Refresh();
             }
         }
 
@@ -281,64 +290,43 @@ namespace FiddlerControls
             Ultima.Client.Calibrate();
             if (!Ultima.Client.FindLocation(ref x, ref y, ref z, ref mapClient))
                 return;
-            tokunoToolStripMenuItem.Checked = false;
-            trammelToolStripMenuItem.Checked = false;
-            malasToolStripMenuItem.Checked = false;
-            ilshenarToolStripMenuItem.Checked = false;
-            feluccaToolStripMenuItem.Checked = false;
-            switch (mapClient)
+            if (currmapint != mapClient)
             {
-                case 0:
-                    feluccaToolStripMenuItem.Checked = true;
-                    currmap = Ultima.Map.Felucca;
-                    break;
-                case 1:
-                    trammelToolStripMenuItem.Checked = true;
-                    currmap = Ultima.Map.Trammel;
-                    break;
-                case 2:
-                    ilshenarToolStripMenuItem.Checked = true;
-                    currmap = Ultima.Map.Ilshenar;
-                    break;
-                case 3:
-                    malasToolStripMenuItem.Checked = true;
-                    currmap = Ultima.Map.Malas;
-                    break;
-                case 4:
-                    tokunoToolStripMenuItem.Checked = true;
-                    currmap = Ultima.Map.Tokuno;
-                    break;
+                ResetCheckedMap();
+                switch (mapClient)
+                {
+                    case 0:
+                        feluccaToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Felucca;
+                        break;
+                    case 1:
+                        trammelToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Trammel;
+                        break;
+                    case 2:
+                        ilshenarToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Ilshenar;
+                        break;
+                    case 3:
+                        malasToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Malas;
+                        break;
+                    case 4:
+                        tokunoToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Tokuno;
+                        break;
+                }
+                currmapint = mapClient;
             }
-            int screenX = (int)Math.Max(0,x-pictureBox.Right/Zoom/2);
-            int screenY = (int)Math.Max(0,y-pictureBox.Bottom/Zoom/2);
+            ClientX = x;
+            ClientY = y;
+            ClientZ = z;
+            ClientMap = mapClient;
             SetScrollBarValues();
-            hScrollBar.Value = screenX;
-            vScrollBar.Value = screenY;
-            map = currmap.GetImage(screenX >> 3, screenY >> 3, (int)(pictureBox.Right / Zoom)+8 >> 3, (int)(pictureBox.Bottom / Zoom)+8 >> 3, ShowStatics);
-            ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
-            string mapname = "";
-            switch (mapClient)
-            {
-                case 0:
-                    mapname = "Felucca";
-                    break;
-                case 1:
-                    mapname = "Trammel";
-                    break;
-                case 2:
-                    mapname = "Ilshenar";
-                    break;
-                case 3:
-                    mapname = "Malas";
-                    break;
-                case 4:
-                    mapname = "Tokuno";
-                    break;
-            }
-
-            ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);   
+            hScrollBar.Value = (int)Math.Max(0,x-pictureBox.Right/Zoom/2);
+            vScrollBar.Value = (int)Math.Max(0,y-pictureBox.Bottom/Zoom/2);
+            pictureBox.Refresh();
+            ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, Options.MapNames[mapClient]);   
         }
 
         private void SyncClientTimer(object sender, EventArgs e)
@@ -361,34 +349,23 @@ namespace FiddlerControls
                         ClientY = y;
                         ClientZ = z;
                         ClientMap = mapClient;
-                        switch (mapClient)
-                        {
-                            case 0:
-                                mapname = "Felucca";
-                                break;
-                            case 1:
-                                mapname = "Trammel";
-                                break;
-                            case 2:
-                                mapname = "Ilshenar";
-                                break;
-                            case 3:
-                                mapname = "Malas";
-                                break;
-                            case 4:
-                                mapname = "Tokuno";
-                                break;
-                        }
+                        mapname = Options.MapNames[mapClient];
                     }
                 }
 
-                ClientLocLabel.Text=String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);               
+                ClientLocLabel.Text=String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);
+                pictureBox.Refresh();
             }
         }
 
         private void GetMapInfo(object sender, EventArgs e)
         {
             new MapDetails(currmap, currPoint).Show();
+        }
+
+        private void onClickShowXCross(object sender, EventArgs e)
+        {
+            pictureBox.Refresh();
         }
 
         private void OnOpenContext(object sender, CancelEventArgs e)  // Speichern für GetMapInfo
@@ -398,6 +375,11 @@ namespace FiddlerControls
             currPoint.Y = (int)(currPoint.Y / Zoom);
             currPoint.X += hScrollBar.Value;
             currPoint.Y += vScrollBar.Value;
+        }
+
+        private void onContextClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            pictureBox.Refresh();
         }
 
         private void OnZoomMinus(object sender, EventArgs e)
@@ -421,41 +403,122 @@ namespace FiddlerControls
             y = Math.Max(0,currPoint.Y - (int)(pictureBox.ClientSize.Height / Zoom) / 2);
             x = Math.Min(x, hScrollBar.Maximum);
             y = Math.Min(y, vScrollBar.Maximum);
-            x >>= 3;
-            y >>= 3;
-            hScrollBar.Value = x << 3;
-            vScrollBar.Value = y << 3;
-            map = currmap.GetImage(x, y, (int)(pictureBox.ClientSize.Width / Zoom) + 8 >> 3, (int)(pictureBox.ClientSize.Height / Zoom) + 8 >> 3, ShowStatics);
+            hScrollBar.Value = Round(x);
+            vScrollBar.Value = Round(y);
+            pictureBox.Refresh();
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3,
+                (int)((e.ClipRectangle.Width / Zoom) + 8) >> 3, (int)((e.ClipRectangle.Height / Zoom) + 8) >> 3,
+                ShowStatics);
             ZoomMap(ref map);
-            pictureBox.Image = map;
-            pictureBox.Update();
+            e.Graphics.DrawImageUnscaledAndClipped(map, e.ClipRectangle);
+
+            if (showCenterCrossToolStripMenuItem.Checked)
+            {
+                Brush brush = new SolidBrush(Color.FromArgb(180, Color.White));
+                Pen pen = new Pen(brush);
+                int x = Round((int)(pictureBox.Width/2));
+                int y = Round((int)(pictureBox.Height/2));
+                e.Graphics.DrawLine(pen, x - 4, y, x + 4, y);
+                e.Graphics.DrawLine(pen, x, y - 4, x, y + 4);
+                pen.Dispose();
+                brush.Dispose();
+            }
+
+            if (showClientCrossToolStripMenuItem.Checked)
+            {
+                if (Client.Running)
+                {
+                    if ((ClientX > hScrollBar.Value) &&
+                        (ClientX < hScrollBar.Value + e.ClipRectangle.Width * Zoom) &&
+                        (ClientY > vScrollBar.Value) &&
+                        (ClientX < vScrollBar.Value + e.ClipRectangle.Height * Zoom) &&
+                        (ClientMap == currmapint))
+                    {
+                        Brush brush = new SolidBrush(Color.FromArgb(180, Color.Yellow));
+                        Pen pen = new Pen(brush);
+                        int x = (int)((ClientX - Round(hScrollBar.Value)) * Zoom);
+                        int y = (int)((ClientY - Round(vScrollBar.Value)) * Zoom);
+                        e.Graphics.DrawLine(pen, x - 4, y, x + 4, y);
+                        e.Graphics.DrawLine(pen, x, y - 4, x, y + 4);
+                        e.Graphics.DrawEllipse(pen, x - 2, y - 2, 2 * 2, 2 * 2);
+                        pen.Dispose();
+                        brush.Dispose();
+                    }
+                }
+            }
         }
 
         private void ExtractMap(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string name = "";
-            if (feluccaToolStripMenuItem.Checked)
-                name = "Felucca.tiff";
-            else if (trammelToolStripMenuItem.Checked)
-                name = "Trammel.tiff";
-            else if (malasToolStripMenuItem.Checked)
-                name = "Malas.tiff";
-            else if (ilshenarToolStripMenuItem.Checked)
-                name = "Ilshenar.tiff";
-            else if (tokunoToolStripMenuItem.Checked)
-                name = "Tokuno.tiff";
-
-            if (name == "")
-                return;
-
+            string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
             Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
             extract.Save(FileName, ImageFormat.Tiff);
             this.Cursor = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+        }
+
+        private void onKeyDownGoto(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string line = TextBoxGoto.Text.Trim();
+                if (line.Length > 0)
+                {
+                    string[] args = line.Split(' ');
+                    if (args.Length != 2)
+                        args = line.Split(',');
+                    if (args.Length == 2)
+                    {
+                        int x, y;
+                        if (int.TryParse(args[0], out x) && (int.TryParse(args[1], out y)))
+                        {
+                            if ((x >= 0) && (y >= 0))
+                            {
+                                if ((x <= currmap.Width) && (x <= currmap.Height))
+                                {
+                                    contextMenuStrip1.Close();
+                                    hScrollBar.Value = (int)Math.Max(0, x - pictureBox.Right / Zoom / 2);
+                                    vScrollBar.Value = (int)Math.Max(0, y - pictureBox.Bottom / Zoom / 2);
+                                }
+                            }
+                        }
+                    }
+                }
+                pictureBox.Refresh();
+            }
+        }
+
+        private void onClickSendClient(object sender, EventArgs e)
+        {
+            if (Client.Running)
+            {
+                int x = (int)(pictureBox.Width / Zoom / 2);
+                int y = (int)(pictureBox.Height / Zoom / 2);
+                x += hScrollBar.Value;
+                y += vScrollBar.Value;
+                SendCharTo(x, y);
+            }
+        }
+
+        private void onClickSendClientToPos(object sender, EventArgs e)
+        {
+            if (Client.Running)
+                SendCharTo(currPoint.X, currPoint.Y);
+        }
+
+        private void SendCharTo(int x, int y)
+        {
+            string format = "{0} " + Options.MapArgs;
+            int z = currmap.Tiles.GetLandTile(x, y).Z;
+            Client.SendText(String.Format(format, Options.MapCmd, x, y, z, currmapint, Options.MapNames[currmapint]));
         }
 
         #region PreLoader

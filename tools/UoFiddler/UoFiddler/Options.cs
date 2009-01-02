@@ -101,6 +101,25 @@ namespace UoFiddler
             elem.SetAttribute("active", UpdateCheckOnStart.ToString());
             sr.AppendChild(elem);
 
+            comment = dom.CreateComment("Definies the cmd to send Client to loc");
+            sr.AppendChild(comment);
+            comment = dom.CreateComment("{1} = x, {2} = y, {3} = z, {4} = mapid, {5} = mapname");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("SendCharToLoc");
+            elem.SetAttribute("cmd", FiddlerControls.Options.MapCmd);
+            elem.SetAttribute("args", FiddlerControls.Options.MapArgs);
+            sr.AppendChild(elem);
+
+            comment = dom.CreateComment("Definies the map names");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("MapNames");
+            elem.SetAttribute("map0", FiddlerControls.Options.MapNames[0]);
+            elem.SetAttribute("map1", FiddlerControls.Options.MapNames[1]);
+            elem.SetAttribute("map2", FiddlerControls.Options.MapNames[2]);
+            elem.SetAttribute("map3", FiddlerControls.Options.MapNames[3]);
+            elem.SetAttribute("map4", FiddlerControls.Options.MapNames[4]);
+            sr.AppendChild(elem);
+
             comment = dom.CreateComment("Extern Tools settings");
             sr.AppendChild(comment);
             if (ExternTools != null)
@@ -184,6 +203,23 @@ namespace UoFiddler
             elem = (XmlElement)xOptions.SelectSingleNode("UpdateCheck");
             if (elem != null)
                 UpdateCheckOnStart = bool.Parse(elem.GetAttribute("active"));
+
+            elem = (XmlElement)xOptions.SelectSingleNode("SendCharToLoc");
+            if (elem != null)
+            {
+                FiddlerControls.Options.MapCmd = elem.GetAttribute("cmd");
+                FiddlerControls.Options.MapArgs = elem.GetAttribute("args");
+            }
+
+            elem = (XmlElement)xOptions.SelectSingleNode("MapNames");
+            if (elem != null)
+            {
+                FiddlerControls.Options.MapNames[0] = elem.GetAttribute("map0");
+                FiddlerControls.Options.MapNames[1] = elem.GetAttribute("map1");
+                FiddlerControls.Options.MapNames[2] = elem.GetAttribute("map2");
+                FiddlerControls.Options.MapNames[3] = elem.GetAttribute("map3");
+                FiddlerControls.Options.MapNames[4] = elem.GetAttribute("map4");
+            }
 
             ExternTools = new ArrayList();
             foreach (XmlElement xTool in xOptions.SelectNodes("ExternTool"))

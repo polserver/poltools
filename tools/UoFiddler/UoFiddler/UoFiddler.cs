@@ -18,7 +18,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.8b";
+        public static string Version = "2.9";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -435,6 +435,14 @@ namespace UoFiddler
             if (refmarker.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
             refmarker.controlmap.Reload();
+        }
+
+        /// <summary>
+        /// Updates in Map tab the mapnames
+        /// </summary>
+        public static void ChangeMapNames()
+        {
+            refmarker.controlmap.ChangeMapNames();
         }
     }
 }
