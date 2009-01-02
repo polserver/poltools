@@ -27,6 +27,13 @@ namespace UoFiddler
             numericUpDownItemSizeHeight.Value = FiddlerControls.Options.ArtItemSizeHeight;
             checkBoxItemClip.Checked = FiddlerControls.Options.ArtItemClip;
             checkBoxUseHash.Checked = Files.UseHashFile;
+            map0Nametext.Text=FiddlerControls.Options.MapNames[0];
+            map1Nametext.Text = FiddlerControls.Options.MapNames[1];
+            map2Nametext.Text = FiddlerControls.Options.MapNames[2];
+            map3Nametext.Text = FiddlerControls.Options.MapNames[3];
+            map4Nametext.Text = FiddlerControls.Options.MapNames[4];
+            cmdtext.Text = FiddlerControls.Options.MapCmd;
+            argstext.Text = FiddlerControls.Options.MapArgs;
         }
 
         private void OnClickApply(object sender, System.EventArgs e)
@@ -64,6 +71,22 @@ namespace UoFiddler
                 UoFiddler.ReloadItemTab();
             }
             Files.UseHashFile = checkBoxUseHash.Checked;
+
+            if ((map0Nametext.Text != FiddlerControls.Options.MapNames[0])
+                || (map1Nametext.Text != FiddlerControls.Options.MapNames[1])
+                || (map2Nametext.Text != FiddlerControls.Options.MapNames[2])
+                || (map3Nametext.Text != FiddlerControls.Options.MapNames[3])
+                || (map4Nametext.Text != FiddlerControls.Options.MapNames[4]))
+            {
+                FiddlerControls.Options.MapNames[0] = map0Nametext.Text;
+                FiddlerControls.Options.MapNames[1] = map1Nametext.Text;
+                FiddlerControls.Options.MapNames[2] = map2Nametext.Text;
+                FiddlerControls.Options.MapNames[3] = map3Nametext.Text;
+                FiddlerControls.Options.MapNames[4] = map4Nametext.Text;
+                UoFiddler.ChangeMapNames();
+            }
+            FiddlerControls.Options.MapCmd = cmdtext.Text;
+            FiddlerControls.Options.MapArgs = argstext.Text;
         }
     }
 }

@@ -17,6 +17,10 @@ namespace FiddlerControls
         private static int m_ArtItemSizeHeight = 48;
         private static bool m_ArtItemClip = true;
         private static bool m_DesignAlternative = false;
+        private static string m_MapCmd = ".goforce";
+        // {1} x {2} y {3} z {4} mapid {5} mapname
+        private static string m_MapArgs = "{1} {2} {3} {4}";
+        private static string[] m_MapNames = { "Felucca", "Trammel", "Ilshenar", "Malas", "Tokuno" };
 
         /// <summary>
         /// Definies Element Width in ItemShow
@@ -52,6 +56,33 @@ namespace FiddlerControls
         {
             get { return m_DesignAlternative; }
             set { m_DesignAlternative = value; }
+        }
+
+        /// <summary>
+        /// Definies the cmd to Send Client to Loc
+        /// </summary>
+        public static string MapCmd
+        {
+            get { return m_MapCmd; }
+            set { m_MapCmd = value; }
+        }
+
+        /// <summary>
+        /// Definies the args for Send Client
+        /// </summary>
+        public static string MapArgs
+        {
+            get { return m_MapArgs; }
+            set { m_MapArgs = value; }
+        }
+
+        /// <summary>
+        /// Definies the MapNames
+        /// </summary>
+        public static string[] MapNames 
+        { 
+            get { return m_MapNames; } 
+            set { m_MapNames = value; } 
         }
     }
 }

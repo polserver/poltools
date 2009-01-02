@@ -16,10 +16,12 @@ namespace Ultima
 			handle = value;
 		}
 
-		protected override bool ReleaseHandle()
-		{
-			return ReleaseHandle();
-		}
+        protected override bool ReleaseHandle()
+        {
+            if (!this.IsClosed)
+                return ReleaseHandle();
+            return true;
+        }
 	}
 
 	public class ClientProcessHandle : CriticalHandleZeroOrMinusOneIsInvalid
