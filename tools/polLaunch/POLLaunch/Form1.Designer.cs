@@ -30,9 +30,9 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -1219,10 +1219,10 @@
             // 
             // PackageRootBrowseButton
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.NullValue = "Browse";
-            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.NullValue = "Browse";
+            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle1;
             this.PackageRootBrowseButton.HeaderText = "Select Folder";
             this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
             this.PackageRootBrowseButton.ReadOnly = true;
@@ -1230,10 +1230,10 @@
             // 
             // PackageRootDeleteButton
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.NullValue = "Delete";
-            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.NullValue = "Delete";
+            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle2;
             this.PackageRootDeleteButton.HeaderText = "Delete Entry";
             this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
             this.PackageRootDeleteButton.ReadOnly = true;
@@ -1241,10 +1241,10 @@
             // 
             // PackageRootAddButton
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.NullValue = "Add New Path";
-            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.NullValue = "Add New Path";
+            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle3;
             this.PackageRootAddButton.HeaderText = "Add New Path";
             this.PackageRootAddButton.Name = "PackageRootAddButton";
             this.PackageRootAddButton.ReadOnly = true;
