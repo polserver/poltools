@@ -5,6 +5,11 @@
 	          due to content amount.
 	Added   : OnFormClosing for main Form. Will be using it to kill unclosed processes that
 	          need to close in case of crash or exit.
+	Changed : TabIndex on Create Account Panel for easier Tabbing through boxes.
+	Changed : TypeOf Archive Removed. Just live with Zip :P
+	Changed : Handling of OutputReceived Text for Ecompile. Now gives message at begin of
+	          ECompile and waits to display results till end of session. Result is a MUCH
+	          faster Compile Time.
 	          
 1-1-2009 - MuadDib
     Fixed   : Removing last Package Root Entry from Editor. You should ALWAYS have at least

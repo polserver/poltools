@@ -8,10 +8,3 @@
 6.) Add Service configuration for POL.Exe and minor interaction (will require some
     core updates for Shutdown/Stop Initialization via PL).
 7.) Add Default Checkboxes to be checked on UOConvert Tab to simplify initial setups.
-8.) Remove Type of Archive from Data Backup. Do we really need multiple type support??
-9.) Update TabIndex Orders on Accounts Tab so user can tab through Create Controls 
-    easily.
-10.) ECompile needs a buffer and check for updating the Text Output. Updating every
-     single line seems to cause the programs to slow down once so much information
-     has been added at such a high rate. Possibly update the textbox from a buffer
-     after it reaches 20 lines in length then clear the buffer for more storage?
