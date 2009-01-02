@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Docs\ChangeLog.txt" />
+    <Content Include="Docs\To-Do.txt" />
     <Content Include="icon.ico" />
     <EmbeddedResource Include="Config\ConfigurationForm.resx">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
