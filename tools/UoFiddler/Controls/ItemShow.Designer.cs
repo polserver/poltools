@@ -168,39 +168,39 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 148);
             // 
             // showFreeSlotsToolStripMenuItem
             // 
             this.showFreeSlotsToolStripMenuItem.CheckOnClick = true;
             this.showFreeSlotsToolStripMenuItem.Name = "showFreeSlotsToolStripMenuItem";
-            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.showFreeSlotsToolStripMenuItem.Text = "Show Free Slots";
             this.showFreeSlotsToolStripMenuItem.Click += new System.EventHandler(this.onClickShowFreeSlots);
             // 
             // findNextFreeSlotToolStripMenuItem
             // 
             this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
-            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
             this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindFree);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.replaceToolStripMenuItem.Text = "Replace...";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplace);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.onClickRemove);
             // 
@@ -209,7 +209,7 @@ namespace FiddlerControls
             this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.InsertText});
             this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
-            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.insertAtToolStripMenuItem.Text = "Insert At..";
             // 
             // InsertText
@@ -222,12 +222,12 @@ namespace FiddlerControls
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(174, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
             // 

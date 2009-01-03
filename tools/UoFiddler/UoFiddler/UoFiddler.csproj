@@ -143,6 +143,12 @@
     <Compile Include="PathSettings.Designer.cs">
       <DependentUpon>PathSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UnDocked.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UnDocked.Designer.cs">
+      <DependentUpon>UnDocked.cs</DependentUpon>
+    </Compile>
     <Compile Include="UoFiddler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +180,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnDocked.resx">
+      <DependentUpon>UnDocked.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UoFiddler.resx">
       <SubType>Designer</SubType>

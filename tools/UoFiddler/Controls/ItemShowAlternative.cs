@@ -28,6 +28,7 @@ namespace FiddlerControls
             refMarker = this;
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
             pictureBox.Image = bmp;
+            
         }
 
         private static ItemShowAlternative refMarker = null;
@@ -38,6 +39,23 @@ namespace FiddlerControls
         private Bitmap bmp;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
+
+        public int Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                if (!Art.IsValidStatic(value))
+                    namelabel.Text = "Name: FREE";
+                else
+                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[value].Name);
+                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", value);
+
+                UpdateDetail(value);
+                PaintBox();
+            }
+        }
 
         /// <summary>
         /// Updates if TileSize is changed
@@ -89,12 +107,8 @@ namespace FiddlerControls
             {
                 if ((int)refMarker.ItemList[i] == graphic)
                 {
-                    refMarker.selected = graphic;
                     refMarker.vScrollBar.Value=i/refMarker.col+1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[graphic].Name);
-                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", graphic);
-                    refMarker.UpdateDetail(graphic);
-                    refMarker.PaintBox();
+                    refMarker.Selected = graphic;
                     return true;
                 }
             }
@@ -122,12 +136,8 @@ namespace FiddlerControls
             {
                 if (TileData.ItemTable[(int)refMarker.ItemList[i]].Name.Contains(name))
                 {
-                    refMarker.selected = (int)refMarker.ItemList[i];
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[refMarker.selected].Name);
-                    refMarker.graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", refMarker.selected);
-                    refMarker.UpdateDetail(refMarker.selected);
-                    refMarker.PaintBox();
+                    refMarker.Selected = (int)refMarker.ItemList[i];
                     return true;
                 }
             }
@@ -315,21 +325,7 @@ namespace FiddlerControls
             int y = m.Y / (Options.ArtItemSizeHeight - 1);
             int index = GetIndex(x, y);
             if (index >= 0)
-            {
-                selected = index;
-                if (!Art.IsValidStatic(index))
-                {
-                    namelabel.Text = "Name: FREE";
-                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                }
-                else
-                {
-                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                    graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                }
-                UpdateDetail(selected);
-                PaintBox();
-            }
+                Selected = index;
         }
 
         private void UpdateDetail(int id)
@@ -406,12 +402,8 @@ namespace FiddlerControls
                 {
                     if (!Art.IsValidStatic((int)ItemList[i]))
                     {
-                        selected = (int)ItemList[i];
                         vScrollBar.Value = i / refMarker.col + 1;
-                        namelabel.Text = "Name: FREE";
-                        graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                        UpdateDetail(selected);
-                        PaintBox();
+                        Selected = (int)ItemList[i];
                         break;
                     }
                 }
@@ -424,12 +416,8 @@ namespace FiddlerControls
                 {
                     if (id < (int)ItemList[i])
                     {
-                        selected = (int)ItemList[i];
                         vScrollBar.Value = i / refMarker.col + 1;
-                        namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                        graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                        UpdateDetail(selected);
-                        PaintBox();
+                        Selected = (int)ItemList[i];
                         break;
                     }
                     id++;

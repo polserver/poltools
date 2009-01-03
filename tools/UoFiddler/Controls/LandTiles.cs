@@ -123,7 +123,7 @@ namespace FiddlerControls
             {
                 int i = (int)listView1.SelectedItems[0].Tag;
                 namelabel.Text = String.Format("Name: {0}", TileData.LandTable[i].Name);
-                graphiclabel.Text = String.Format("ID: 0x{0:X4}", i);
+                graphiclabel.Text = String.Format("ID: 0x{0:X4} ({0})", i);
                 FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[i].Flags);
             }
         }

@@ -42,6 +42,8 @@ namespace UoFiddler
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UoFiddler));
             this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.unDockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Start = new System.Windows.Forms.TabPage();
             this.Versionlabel = new System.Windows.Forms.Label();
             this.Multis = new System.Windows.Forms.TabPage();
@@ -82,14 +84,15 @@ namespace UoFiddler
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.AlwaysOnTopMenuitem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pathSettingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.restartNeededMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.ExternToolsDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.Start.SuspendLayout();
             this.Multis.SuspendLayout();
             this.Animation.SuspendLayout();
@@ -113,6 +116,7 @@ namespace UoFiddler
             // 
             // tabControl2
             // 
+            this.tabControl2.ContextMenuStrip = this.contextMenuStrip1;
             this.tabControl2.Controls.Add(this.Start);
             this.tabControl2.Controls.Add(this.Multis);
             this.tabControl2.Controls.Add(this.Animation);
@@ -140,6 +144,20 @@ namespace UoFiddler
             this.tabControl2.TabIndex = 1;
             this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.OnSelectedIndexChanged);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.unDockToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(122, 26);
+            // 
+            // unDockToolStripMenuItem
+            // 
+            this.unDockToolStripMenuItem.Name = "unDockToolStripMenuItem";
+            this.unDockToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.unDockToolStripMenuItem.Text = "UnDock";
+            this.unDockToolStripMenuItem.Click += new System.EventHandler(this.OnClickUndock);
+            // 
             // Start
             // 
             this.Start.BackColor = System.Drawing.Color.White;
@@ -151,7 +169,7 @@ namespace UoFiddler
             this.Start.Padding = new System.Windows.Forms.Padding(3);
             this.Start.Size = new System.Drawing.Size(619, 324);
             this.Start.TabIndex = 10;
-            this.Start.Tag = "Start";
+            this.Start.Tag = "0";
             this.Start.Text = "Start";
             // 
             // Versionlabel
@@ -172,7 +190,7 @@ namespace UoFiddler
             this.Multis.Padding = new System.Windows.Forms.Padding(3);
             this.Multis.Size = new System.Drawing.Size(619, 324);
             this.Multis.TabIndex = 1;
-            this.Multis.Tag = "Multis";
+            this.Multis.Tag = "1";
             this.Multis.Text = "Multis";
             this.Multis.UseVisualStyleBackColor = true;
             // 
@@ -193,7 +211,7 @@ namespace UoFiddler
             this.Animation.Padding = new System.Windows.Forms.Padding(3);
             this.Animation.Size = new System.Drawing.Size(619, 324);
             this.Animation.TabIndex = 0;
-            this.Animation.Tag = "Animations";
+            this.Animation.Tag = "2";
             this.Animation.Text = "Animations";
             this.Animation.UseVisualStyleBackColor = true;
             // 
@@ -214,7 +232,7 @@ namespace UoFiddler
             this.Items.Padding = new System.Windows.Forms.Padding(3);
             this.Items.Size = new System.Drawing.Size(619, 324);
             this.Items.TabIndex = 2;
-            this.Items.Tag = "Items";
+            this.Items.Tag = "3";
             this.Items.Text = "Items";
             this.Items.UseVisualStyleBackColor = true;
             // 
@@ -235,7 +253,7 @@ namespace UoFiddler
             this.LandTiles.Padding = new System.Windows.Forms.Padding(3);
             this.LandTiles.Size = new System.Drawing.Size(619, 324);
             this.LandTiles.TabIndex = 3;
-            this.LandTiles.Tag = "LandTiles";
+            this.LandTiles.Tag = "4";
             this.LandTiles.Text = "LandTiles";
             this.LandTiles.UseVisualStyleBackColor = true;
             // 
@@ -256,7 +274,7 @@ namespace UoFiddler
             this.Texture.Padding = new System.Windows.Forms.Padding(3);
             this.Texture.Size = new System.Drawing.Size(619, 324);
             this.Texture.TabIndex = 11;
-            this.Texture.Tag = "Texture";
+            this.Texture.Tag = "5";
             this.Texture.Text = "Texture";
             this.Texture.UseVisualStyleBackColor = true;
             // 
@@ -277,7 +295,7 @@ namespace UoFiddler
             this.Gumps.Padding = new System.Windows.Forms.Padding(3);
             this.Gumps.Size = new System.Drawing.Size(619, 324);
             this.Gumps.TabIndex = 4;
-            this.Gumps.Tag = "Gumps";
+            this.Gumps.Tag = "6";
             this.Gumps.Text = "Gumps";
             this.Gumps.UseVisualStyleBackColor = true;
             // 
@@ -298,7 +316,7 @@ namespace UoFiddler
             this.Sounds.Padding = new System.Windows.Forms.Padding(3);
             this.Sounds.Size = new System.Drawing.Size(619, 324);
             this.Sounds.TabIndex = 5;
-            this.Sounds.Tag = "Sounds";
+            this.Sounds.Tag = "7";
             this.Sounds.Text = "Sounds";
             this.Sounds.UseVisualStyleBackColor = true;
             // 
@@ -319,7 +337,7 @@ namespace UoFiddler
             this.Hue.Padding = new System.Windows.Forms.Padding(3);
             this.Hue.Size = new System.Drawing.Size(619, 324);
             this.Hue.TabIndex = 6;
-            this.Hue.Tag = "Hue";
+            this.Hue.Tag = "8";
             this.Hue.Text = "Hue";
             this.Hue.UseVisualStyleBackColor = true;
             // 
@@ -327,8 +345,10 @@ namespace UoFiddler
             // 
             this.controlHue.Cursor = System.Windows.Forms.Cursors.Default;
             this.controlHue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlHue.ForeColor = System.Drawing.SystemColors.ControlText;
             this.controlHue.Location = new System.Drawing.Point(3, 3);
             this.controlHue.Name = "controlHue";
+            this.controlHue.Padding = new System.Windows.Forms.Padding(1);
             this.controlHue.Selected = -1;
             this.controlHue.Size = new System.Drawing.Size(613, 318);
             this.controlHue.TabIndex = 0;
@@ -341,7 +361,7 @@ namespace UoFiddler
             this.fonts.Padding = new System.Windows.Forms.Padding(3);
             this.fonts.Size = new System.Drawing.Size(619, 324);
             this.fonts.TabIndex = 7;
-            this.fonts.Tag = "Fonts";
+            this.fonts.Tag = "9";
             this.fonts.Text = "Fonts";
             this.fonts.UseVisualStyleBackColor = true;
             // 
@@ -362,7 +382,7 @@ namespace UoFiddler
             this.Cliloc.Padding = new System.Windows.Forms.Padding(3);
             this.Cliloc.Size = new System.Drawing.Size(619, 324);
             this.Cliloc.TabIndex = 8;
-            this.Cliloc.Tag = "Cliloc";
+            this.Cliloc.Tag = "10";
             this.Cliloc.Text = "CliLoc";
             this.Cliloc.UseVisualStyleBackColor = true;
             // 
@@ -383,7 +403,7 @@ namespace UoFiddler
             this.map.Padding = new System.Windows.Forms.Padding(3);
             this.map.Size = new System.Drawing.Size(619, 324);
             this.map.TabIndex = 9;
-            this.map.Tag = "map";
+            this.map.Tag = "11";
             this.map.Text = "Map";
             this.map.UseVisualStyleBackColor = true;
             // 
@@ -404,7 +424,7 @@ namespace UoFiddler
             this.Light.Name = "Light";
             this.Light.Size = new System.Drawing.Size(619, 324);
             this.Light.TabIndex = 12;
-            this.Light.Tag = "Light";
+            this.Light.Tag = "12";
             this.Light.Text = "Light";
             this.Light.UseVisualStyleBackColor = true;
             // 
@@ -424,7 +444,7 @@ namespace UoFiddler
             this.speech.Name = "speech";
             this.speech.Size = new System.Drawing.Size(619, 324);
             this.speech.TabIndex = 17;
-            this.speech.Tag = "Speech";
+            this.speech.Tag = "13";
             this.speech.Text = "Speech";
             this.speech.UseVisualStyleBackColor = true;
             // 
@@ -444,7 +464,7 @@ namespace UoFiddler
             this.Skills.Padding = new System.Windows.Forms.Padding(3);
             this.Skills.Size = new System.Drawing.Size(619, 324);
             this.Skills.TabIndex = 15;
-            this.Skills.Tag = "Skills";
+            this.Skills.Tag = "14";
             this.Skills.Text = "Skills";
             this.Skills.UseVisualStyleBackColor = true;
             // 
@@ -465,7 +485,7 @@ namespace UoFiddler
             this.multimap.Padding = new System.Windows.Forms.Padding(3);
             this.multimap.Size = new System.Drawing.Size(619, 324);
             this.multimap.TabIndex = 14;
-            this.multimap.Tag = "Multimap";
+            this.multimap.Tag = "15";
             this.multimap.Text = "MultiMap";
             this.multimap.UseVisualStyleBackColor = true;
             // 
@@ -485,7 +505,7 @@ namespace UoFiddler
             this.Dress.Padding = new System.Windows.Forms.Padding(3);
             this.Dress.Size = new System.Drawing.Size(619, 324);
             this.Dress.TabIndex = 13;
-            this.Dress.Tag = "Dress";
+            this.Dress.Tag = "16";
             this.Dress.Text = "Dress";
             this.Dress.UseVisualStyleBackColor = true;
             // 
@@ -505,7 +525,7 @@ namespace UoFiddler
             this.TileDatas.Name = "TileDatas";
             this.TileDatas.Size = new System.Drawing.Size(619, 324);
             this.TileDatas.TabIndex = 16;
-            this.TileDatas.Tag = "TileData";
+            this.TileDatas.Tag = "17";
             this.TileDatas.Text = "TileData";
             this.TileDatas.UseVisualStyleBackColor = true;
             // 
@@ -554,6 +574,13 @@ namespace UoFiddler
             this.AlwaysOnTopMenuitem.Text = "Always On Top";
             this.AlwaysOnTopMenuitem.Click += new System.EventHandler(this.onClickAlwaysTop);
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.optionsToolStripMenuItem.Text = "Options..";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OnClickOptions);
+            // 
             // pathSettingsMenuItem
             // 
             this.pathSettingsMenuItem.Name = "pathSettingsMenuItem";
@@ -599,16 +626,9 @@ namespace UoFiddler
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.manageToolStripMenuItem.Text = "Manage..";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.onClickToolManage);
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.optionsToolStripMenuItem.Text = "Options..";
-            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.OnClickOptions);
             // 
             // UoFiddler
             // 
@@ -621,6 +641,7 @@ namespace UoFiddler
             this.Name = "UoFiddler";
             this.Text = "UOFiddler";
             this.tabControl2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.Start.ResumeLayout(false);
             this.Start.PerformLayout();
             this.Multis.ResumeLayout(false);
@@ -697,6 +718,8 @@ namespace UoFiddler
         private System.Windows.Forms.ToolStripDropDownButton ExternToolsDropDown;
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem unDockToolStripMenuItem;
     }
 }
 

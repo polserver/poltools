@@ -380,7 +380,7 @@ namespace FiddlerControls
             this.Name = "Map";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
-            this.Resize += new System.EventHandler(this.OnResize);
+            this.SizeChanged += new System.EventHandler(this.OnResize);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
