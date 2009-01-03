@@ -23,7 +23,6 @@ namespace UoFiddler
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
         private Dictionary<string, bool> LoadedUltimaClass = new Dictionary<string, bool>();
-        private static UnDocked[] undockedforms = new UnDocked[18];
         private static UoFiddler refmarker;
 
         public UoFiddler()
@@ -346,138 +345,82 @@ namespace UoFiddler
         {
             if (FiddlerControls.Options.DesignAlternative)
             {
-                refmarker.controlItemShow.Dispose();
                 refmarker.controlItemShowAlt = new FiddlerControls.ItemShowAlternative();
                 refmarker.controlItemShowAlt.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlItemShowAlt.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlItemShowAlt.Name = "controlItemShow";
                 refmarker.controlItemShowAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlItemShowAlt.TabIndex = 0;
-
-                bool done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text == "Items")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlItemShowAlt);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[3].ChangeControl(refmarker.controlItemShowAlt);
-
-                refmarker.controlTexture.Dispose();
+                Control parent = refmarker.controlItemShow.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlItemShowAlt);
+                parent.PerformLayout();
+                refmarker.controlItemShow.Dispose();
+                
                 refmarker.controlTextureAlt = new FiddlerControls.TextureAlternative();
                 refmarker.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlTextureAlt.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlTextureAlt.Name = "controlTexture";
                 refmarker.controlTextureAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlTextureAlt.TabIndex = 0;
+                parent = refmarker.controlTexture.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlTextureAlt);
+                parent.PerformLayout();
+                refmarker.controlTexture.Dispose();
 
-                done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text == "Texture")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlTextureAlt);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[5].ChangeControl(refmarker.controlTextureAlt);
-
-                refmarker.controlLandTiles.Dispose();
                 refmarker.controlLandTilesAlt = new FiddlerControls.LandTilesAlternative();
                 refmarker.controlLandTilesAlt.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlLandTilesAlt.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlLandTilesAlt.Name = "controlLandTiles";
                 refmarker.controlLandTilesAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlLandTilesAlt.TabIndex = 0;
-
-                done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text == "LandTiles")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlLandTilesAlt);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[4].ChangeControl(refmarker.controlLandTilesAlt);
+                parent = refmarker.controlLandTiles.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlLandTilesAlt);
+                parent.PerformLayout();
+                refmarker.controlLandTiles.Dispose();
             }
             else
             {
                 if (refmarker.controlItemShowAlt == null)
                     return;
-                refmarker.controlItemShowAlt.Dispose();
+                
                 refmarker.controlItemShow = new FiddlerControls.ItemShow();
                 refmarker.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlItemShow.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlItemShow.Name = "controlItemShow";
                 refmarker.controlItemShow.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlItemShow.TabIndex = 0;
-                bool done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text=="Items")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlItemShow);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[3].ChangeControl(refmarker.controlItemShow);
-
-                refmarker.controlTextureAlt.Dispose();
+                Control parent = refmarker.controlItemShowAlt.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlItemShow);
+                parent.PerformLayout();
+                refmarker.controlItemShowAlt.Dispose();
+                
                 refmarker.controlTexture = new FiddlerControls.Texture();
                 refmarker.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlTexture.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlTexture.Name = "controlTexture";
                 refmarker.controlTexture.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlTexture.TabIndex = 0;
-                done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text == "Texture")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlTexture);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[5].ChangeControl(refmarker.controlTexture);
+                parent = refmarker.controlTextureAlt.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlTexture);
+                parent.PerformLayout();
+                refmarker.controlTextureAlt.Dispose();
 
-                refmarker.controlLandTilesAlt.Dispose();
                 refmarker.controlLandTiles = new FiddlerControls.LandTiles();
                 refmarker.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlLandTiles.Location = new System.Drawing.Point(3, 3);
                 refmarker.controlLandTiles.Name = "controlLandTiles";
                 refmarker.controlLandTiles.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlLandTiles.TabIndex = 0;
-                done = false;
-                foreach (TabPage p in refmarker.tabControl2.TabPages)
-                {
-                    if (p.Text == "LandTiles")
-                    {
-                        p.Controls.Clear();
-                        p.Controls.Add(refmarker.controlLandTiles);
-                        p.PerformLayout();
-                        done = true;
-                    }
-                }
-                if (!done)
-                    undockedforms[4].ChangeControl(refmarker.controlLandTiles);
+                parent = refmarker.controlLandTilesAlt.Parent;
+                parent.Controls.Clear();
+                parent.Controls.Add(refmarker.controlLandTiles);
+                parent.PerformLayout();
+                refmarker.controlLandTilesAlt.Dispose();
             }
         }
 
@@ -515,10 +458,8 @@ namespace UoFiddler
             int tag = int.Parse((string)tabControl2.SelectedTab.Tag);
             if (tag > 0)
             {
-                undockedforms[tag]=
                     new UnDocked(tabControl2.SelectedTab.Controls[0], 
-                        tabControl2.SelectedTab.Text, tag);
-                undockedforms[tag].Show();
+                        tabControl2.SelectedTab.Text, tag).Show();
                 tabControl2.TabPages.Remove(tabControl2.SelectedTab);
             }
         }
@@ -547,7 +488,6 @@ namespace UoFiddler
             if (!done)
                 refmarker.tabControl2.TabPages.Add(p);
             refmarker.tabControl2.SelectedTab = p;
-            undockedforms[index] = null;
         }
     }
 }
