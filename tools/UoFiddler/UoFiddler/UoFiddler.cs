@@ -18,11 +18,12 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "2.9";
+        public static string Version = "2.9b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
         private Dictionary<string, bool> LoadedUltimaClass = new Dictionary<string, bool>();
+        private static UnDocked[] undockedforms = new UnDocked[18];
         private static UoFiddler refmarker;
 
         public UoFiddler()
@@ -72,7 +73,7 @@ namespace UoFiddler
 
         private void OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((string)tabControl2.SelectedTab.Tag == "Multis") // Multis
+            if (int.Parse((string)tabControl2.SelectedTab.Tag) == 1) // Multis
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -83,14 +84,14 @@ namespace UoFiddler
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Animations") // Animations
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 2) // Animations
             {
                 if (!LoadedUltimaClass["Animations"])
                     LoadedUltimaClass["Animations"] = true;
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Items") // Items
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 3) // Items
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -101,54 +102,67 @@ namespace UoFiddler
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "LandTiles") // LandTiles
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 4) // LandTiles
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
                 if (!LoadedUltimaClass["Art"])
                     LoadedUltimaClass["Art"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Texture") // Texture
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 5) // Texture
             {
                 if (!LoadedUltimaClass["Texture"])
                     LoadedUltimaClass["Texture"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Gumps") // Gumps
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 6) // Gumps
             {
                 if (!LoadedUltimaClass["Gumps"])
                     LoadedUltimaClass["Gumps"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Sounds") // Sounds
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 7) // Sounds
             {
                 if (!LoadedUltimaClass["Sound"])
                     LoadedUltimaClass["Sound"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Hue") // Hues
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 8) // Hues
             {
                 if (!LoadedUltimaClass["Hues"])
                     LoadedUltimaClass["Hues"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Fonts") // Fonts
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 9) // Fonts
             {
                 if (!LoadedUltimaClass["ASCIIFont"])
                     LoadedUltimaClass["ASCIIFont"] = true;
                 if (!LoadedUltimaClass["UnicodeFont"])
                     LoadedUltimaClass["UnicodeFont"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Cliloc") // Cliloc
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 10) // Cliloc
             {
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "map") // Map
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 11) // Map
             {
                 if (!LoadedUltimaClass["Map"])
                     LoadedUltimaClass["Map"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Light") // Light
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 12) // Light
             {
                 if (!LoadedUltimaClass["Light"])
                     LoadedUltimaClass["Light"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Dress") // Dress
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 13) // Speech
+            {
+                if (!LoadedUltimaClass["Speech"])
+                    LoadedUltimaClass["Speech"] = true;
+            }
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 14) // Skills
+            {
+                if (!LoadedUltimaClass["Skills"])
+                    LoadedUltimaClass["Skills"] = true;
+            }
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 15) // MultiMap
+            {
+            }
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 16) // Dress
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
@@ -161,26 +175,14 @@ namespace UoFiddler
                 if (!LoadedUltimaClass["Gumps"])
                     LoadedUltimaClass["Gumps"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Multimap") // MultiMap
-            {
-            }
-            else if ((string)tabControl2.SelectedTab.Tag == "Skills") // Skills
-            {
-                if (!LoadedUltimaClass["Skills"])
-                    LoadedUltimaClass["Skills"] = true;
-            }
-            else if ((string)tabControl2.SelectedTab.Tag == "TileData") // TileData
+            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 17) // TileData
             {
                 if (!LoadedUltimaClass["TileData"])
                     LoadedUltimaClass["TileData"] = true;
                 if (!LoadedUltimaClass["Art"])
                     LoadedUltimaClass["Art"] = true;
             }
-            else if ((string)tabControl2.SelectedTab.Tag == "Speech") // Speech
-            {
-                if (!LoadedUltimaClass["Speech"])
-                    LoadedUltimaClass["Speech"] = true;
-            }
+            
         }
 
         private void Restart(object sender, EventArgs e)
@@ -338,13 +340,12 @@ namespace UoFiddler
         }
 
         /// <summary>
-        /// switches Alternative Design
+        /// switches Alternative Design aka Hack'n'Slay attack damn...
         /// </summary>
         public static void ChangeDesign()
         {
             if (FiddlerControls.Options.DesignAlternative)
             {
-                refmarker.Items.Controls.Clear();
                 refmarker.controlItemShow.Dispose();
                 refmarker.controlItemShowAlt = new FiddlerControls.ItemShowAlternative();
                 refmarker.controlItemShowAlt.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -352,10 +353,21 @@ namespace UoFiddler
                 refmarker.controlItemShowAlt.Name = "controlItemShow";
                 refmarker.controlItemShowAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlItemShowAlt.TabIndex = 0;
-                refmarker.Items.Controls.Add(refmarker.controlItemShowAlt);
-                refmarker.Items.PerformLayout();
 
-                refmarker.Texture.Controls.Clear();
+                bool done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text == "Items")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlItemShowAlt);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[3].ChangeControl(refmarker.controlItemShowAlt);
+
                 refmarker.controlTexture.Dispose();
                 refmarker.controlTextureAlt = new FiddlerControls.TextureAlternative();
                 refmarker.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -363,10 +375,21 @@ namespace UoFiddler
                 refmarker.controlTextureAlt.Name = "controlTexture";
                 refmarker.controlTextureAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlTextureAlt.TabIndex = 0;
-                refmarker.Texture.Controls.Add(refmarker.controlTextureAlt);
-                refmarker.Texture.PerformLayout();
 
-                refmarker.LandTiles.Controls.Clear();
+                done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text == "Texture")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlTextureAlt);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[5].ChangeControl(refmarker.controlTextureAlt);
+
                 refmarker.controlLandTiles.Dispose();
                 refmarker.controlLandTilesAlt = new FiddlerControls.LandTilesAlternative();
                 refmarker.controlLandTilesAlt.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -374,14 +397,25 @@ namespace UoFiddler
                 refmarker.controlLandTilesAlt.Name = "controlLandTiles";
                 refmarker.controlLandTilesAlt.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlLandTilesAlt.TabIndex = 0;
-                refmarker.LandTiles.Controls.Add(refmarker.controlLandTilesAlt);
-                refmarker.LandTiles.PerformLayout();
+
+                done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text == "LandTiles")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlLandTilesAlt);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[4].ChangeControl(refmarker.controlLandTilesAlt);
             }
             else
             {
                 if (refmarker.controlItemShowAlt == null)
                     return;
-                refmarker.Items.Controls.Clear();
                 refmarker.controlItemShowAlt.Dispose();
                 refmarker.controlItemShow = new FiddlerControls.ItemShow();
                 refmarker.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -389,10 +423,20 @@ namespace UoFiddler
                 refmarker.controlItemShow.Name = "controlItemShow";
                 refmarker.controlItemShow.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlItemShow.TabIndex = 0;
-                refmarker.Items.Controls.Add(refmarker.controlItemShow);
-                refmarker.Items.PerformLayout();
+                bool done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text=="Items")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlItemShow);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[3].ChangeControl(refmarker.controlItemShow);
 
-                refmarker.Texture.Controls.Clear();
                 refmarker.controlTextureAlt.Dispose();
                 refmarker.controlTexture = new FiddlerControls.Texture();
                 refmarker.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -400,10 +444,20 @@ namespace UoFiddler
                 refmarker.controlTexture.Name = "controlTexture";
                 refmarker.controlTexture.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlTexture.TabIndex = 0;
-                refmarker.Texture.Controls.Add(refmarker.controlTexture);
-                refmarker.Texture.PerformLayout();
+                done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text == "Texture")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlTexture);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[5].ChangeControl(refmarker.controlTexture);
 
-                refmarker.LandTiles.Controls.Clear();
                 refmarker.controlLandTilesAlt.Dispose();
                 refmarker.controlLandTiles = new FiddlerControls.LandTiles();
                 refmarker.controlLandTiles.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -411,8 +465,19 @@ namespace UoFiddler
                 refmarker.controlLandTiles.Name = "controlLandTiles";
                 refmarker.controlLandTiles.Size = new System.Drawing.Size(613, 318);
                 refmarker.controlLandTiles.TabIndex = 0;
-                refmarker.LandTiles.Controls.Add(refmarker.controlLandTiles);
-                refmarker.LandTiles.PerformLayout();
+                done = false;
+                foreach (TabPage p in refmarker.tabControl2.TabPages)
+                {
+                    if (p.Text == "LandTiles")
+                    {
+                        p.Controls.Clear();
+                        p.Controls.Add(refmarker.controlLandTiles);
+                        p.PerformLayout();
+                        done = true;
+                    }
+                }
+                if (!done)
+                    undockedforms[4].ChangeControl(refmarker.controlLandTiles);
             }
         }
 
@@ -443,6 +508,46 @@ namespace UoFiddler
         public static void ChangeMapNames()
         {
             refmarker.controlmap.ChangeMapNames();
+        }
+
+        private void OnClickUndock(object sender, EventArgs e)
+        {
+            int tag = int.Parse((string)tabControl2.SelectedTab.Tag);
+            if (tag > 0)
+            {
+                undockedforms[tag]=
+                    new UnDocked(tabControl2.SelectedTab.Controls[0], 
+                        tabControl2.SelectedTab.Text, tag);
+                undockedforms[tag].Show();
+                tabControl2.TabPages.Remove(tabControl2.SelectedTab);
+            }
+        }
+
+        /// <summary>
+        /// ReDocks closed Form
+        /// </summary>
+        /// <param name="contr"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        public static void ReDock(Control contr, int index, string name)
+        {
+            bool done = false;
+            TabPage p = new TabPage(name);
+            p.Tag = index.ToString();
+            p.Controls.Add(contr);
+            foreach (TabPage page in refmarker.tabControl2.TabPages)
+            {
+                if (int.Parse((string)page.Tag)>index)
+                {
+                    refmarker.tabControl2.TabPages.Insert(refmarker.tabControl2.TabPages.IndexOf(page), p);
+                    done = true;
+                    break;
+                }
+            }
+            if (!done)
+                refmarker.tabControl2.TabPages.Add(p);
+            refmarker.tabControl2.SelectedTab = p;
+            undockedforms[index] = null;
         }
     }
 }

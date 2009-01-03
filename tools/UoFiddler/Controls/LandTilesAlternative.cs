@@ -39,6 +39,19 @@ namespace FiddlerControls
 
         private static LandTilesAlternative refMarker = null;
 
+        public int Selected
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                namelabel.Text = String.Format("Name: {0}", TileData.LandTable[value].Name);
+                graphiclabel.Text = String.Format("ID: 0x{0:X4} ({0})", value);
+                FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[value].Flags);
+                PaintBox();
+            }
+        }
+
         /// <summary>
         /// Searches Objtype and Select
         /// </summary>
@@ -52,12 +65,8 @@ namespace FiddlerControls
             {
                 if ((int)refMarker.TileList[i] == graphic)
                 {
-                    refMarker.selected = graphic;
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.LandTable[graphic].Name);
-                    refMarker.graphiclabel.Text = String.Format("ID: 0x{0:X4}", graphic);
-                    refMarker.FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[graphic].Flags);
-                    refMarker.PaintBox();
+                    refMarker.Selected = graphic;
                     return true;
                 }
             }
@@ -85,12 +94,8 @@ namespace FiddlerControls
             {
                 if (TileData.LandTable[(int)refMarker.TileList[i]].Name.Contains(name))
                 {
-                    refMarker.selected = (int)refMarker.TileList[i];
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.namelabel.Text = String.Format("Name: {0}", TileData.LandTable[refMarker.selected].Name);
-                    refMarker.graphiclabel.Text = String.Format("ID: 0x{0:X4}", refMarker.selected);
-                    refMarker.FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[refMarker.selected].Flags);
-                    refMarker.PaintBox();
+                    refMarker.Selected = (int)refMarker.TileList[i];
                     return true;
                 }
             }
@@ -238,13 +243,7 @@ namespace FiddlerControls
             if (index >= 0)
             {
                 if (selected != index)
-                {
-                    selected = index;
-                    namelabel.Text = String.Format("Name: {0}", TileData.LandTable[index].Name);
-                    graphiclabel.Text = String.Format("ID: 0x{0:X4}", index);
-                    FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[index].Flags);
-                    PaintBox();
-                }
+                    Selected = index;
             }
         }
 
@@ -285,12 +284,8 @@ namespace FiddlerControls
             {
                 if (id < (int)TileList[i])
                 {
-                    selected = (int)TileList[i];
                     vScrollBar.Value = i / refMarker.col + 1;
-                    namelabel.Text = String.Format("Name: {0}", TileData.LandTable[selected].Name);
-                    graphiclabel.Text = String.Format("ID: 0x{0:X4}", selected);
-                    FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[selected].Flags);
-                    PaintBox();
+                    Selected = (int)TileList[i];
                     break;
                 }
                 id++;
@@ -399,11 +394,7 @@ namespace FiddlerControls
                             TileList.Add((object)index);
                             vScrollBar.Value = TileList.Count / refMarker.col + 1;
                         }
-                        selected = index;
-                        namelabel.Text = String.Format("Name: {0}", TileData.LandTable[selected].Name);
-                        graphiclabel.Text = String.Format("ID: 0x{0:X4}", selected);
-                        FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[selected].Flags);
-                        PaintBox();
+                        Selected = index;
                     }
                 }
             }

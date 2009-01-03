@@ -147,7 +147,7 @@ namespace FiddlerControls
 
         private void OnResize(object sender, EventArgs e)
         {
-            if (pictureBox.Image != null)
+            if (Loaded)
             {
                 ChangeScrollBar();
                 pictureBox.Refresh();
