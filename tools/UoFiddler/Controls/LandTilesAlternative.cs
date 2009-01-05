@@ -234,8 +234,9 @@ namespace FiddlerControls
             PaintBox();
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnClick(object sender, EventArgs e)
         {
+            pictureBox.Focus();
             Point m = PointToClient(Control.MousePosition);
             int x = m.X / (49 - 1);
             int y = m.Y / (49 - 1);
@@ -245,11 +246,6 @@ namespace FiddlerControls
                 if (selected != index)
                     Selected = index;
             }
-        }
-
-        private void OnClick(object sender, EventArgs e)
-        {
-            pictureBox.Focus();
         }
 
         private LandTileSearch showform = null;

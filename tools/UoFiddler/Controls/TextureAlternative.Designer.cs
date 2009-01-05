@@ -103,7 +103,6 @@ namespace FiddlerControls
             this.pictureBox.Size = new System.Drawing.Size(602, 302);
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
-            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.pictureBox.Click += new System.EventHandler(this.OnClick);
             this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
@@ -119,7 +118,7 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 148);
             // 
             // exportImageToolStripMenuItem
             // 

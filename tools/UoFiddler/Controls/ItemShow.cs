@@ -28,6 +28,7 @@ namespace FiddlerControls
             if (!Files.CacheData)
                 PreloadItems.Visible = false;
             ProgressBar.Visible = false;
+            
         }
 
         private static ItemShow refMarker = null;

@@ -142,7 +142,7 @@ namespace FiddlerControls
             {
                 for (int i = 0; i < TileData.ItemTable.Length; ++i)
                 {
-                    TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}", i, TileData.ItemTable[i].Name));
+                    TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
                     node.Tag = i;
                     treeViewItem.Nodes.Add(node);
                 }
@@ -154,7 +154,7 @@ namespace FiddlerControls
             {
                 for (int i = 0; i < TileData.LandTable.Length; ++i)
                 {
-                    TreeNode node = new TreeNode(String.Format("0x{0:X4} {1}", i, TileData.LandTable[i].Name));
+                    TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.LandTable[i].Name));
                     node.Tag = i;
                     treeViewLand.Nodes.Add(node);
                 }
