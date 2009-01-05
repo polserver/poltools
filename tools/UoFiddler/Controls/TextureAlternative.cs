@@ -184,8 +184,9 @@ namespace FiddlerControls
             PaintBox();
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnClick(object sender, EventArgs e)
         {
+            pictureBox.Focus();
             Point m = PointToClient(Control.MousePosition);
             int x = m.X / (64 - 1);
             int y = m.Y / (64 - 1);
@@ -195,15 +196,10 @@ namespace FiddlerControls
                 if (selected != index)
                 {
                     selected = index;
-                    Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
+                    Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected).Width);
                     PaintBox();
                 }
             }
-        }
-
-        private void OnClick(object sender, EventArgs e)
-        {
-            pictureBox.Focus();
         }
 
         private TextureSearch showform = null;

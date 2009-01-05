@@ -349,7 +349,7 @@ namespace UoFiddler
             this.controlHue.Location = new System.Drawing.Point(3, 3);
             this.controlHue.Name = "controlHue";
             this.controlHue.Padding = new System.Windows.Forms.Padding(1);
-            this.controlHue.Selected = -1;
+            this.controlHue.Selected = 0;
             this.controlHue.Size = new System.Drawing.Size(613, 318);
             this.controlHue.TabIndex = 0;
             // 
