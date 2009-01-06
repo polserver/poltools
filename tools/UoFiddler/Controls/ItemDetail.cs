@@ -59,20 +59,11 @@ namespace FiddlerControls
 
         private void SetPicture(Bitmap bit)
         {
-            if (Graphic.Image == null)
-            {
-                Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                //newgraph.Clear(Color.White);
-                newgraph.DrawImage(bit, (this.Graphic.Size.Width - bit.Width) / 2, 5);
-                this.Graphic.Image = newbit;
-            }
-            else
-            {
-                Graphics graph = Graphic.CreateGraphics();
-                //graph.Clear(Color.White);
-                graph.DrawImage(bit, (Graphic.Size.Width - bit.Width) / 2, 5);
-            }
+            Bitmap newbit = new Bitmap(this.Graphic.Size.Width, this.Graphic.Size.Height);
+            Graphics newgraph = Graphics.FromImage(newbit);
+            newgraph.DrawImage(bit, (this.Graphic.Size.Width - bit.Width) / 2, 5);
+            this.Graphic.Image = newbit;
+            newgraph.Dispose();
         }
         
         private void onLoad(object sender, EventArgs e)
@@ -121,7 +112,7 @@ namespace FiddlerControls
             if (frame >= info.FrameCount)
                 frame = 0;
 
-            Bitmap animbit = Ultima.Art.GetStatic(index+info.FrameData[frame]);
+            Bitmap animbit = new Bitmap(Ultima.Art.GetStatic(index+info.FrameData[frame]));
             if (defHue >= 0)
             {
                 Hue hue = Ultima.Hues.List[defHue];
@@ -198,7 +189,7 @@ namespace FiddlerControls
                 m_Timer.Dispose();
                 m_Timer = null;
             }
-            if ((showform != null) || (!showform.IsDisposed))
+            if ((showform != null) && (!showform.IsDisposed))
                 showform.Close();
         }
     }

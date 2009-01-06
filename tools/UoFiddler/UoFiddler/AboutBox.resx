@@ -118,7 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.0
+    <value>Version 3.0b
+-Bugfixes in ItemDetail form
+
+Version 3.0
 -Select on Click in Texture/Landtile
 -Tiledata Decimalnumbers..
 -Hue tab:
