@@ -140,6 +140,18 @@ namespace UoFiddler
                 }
             }
 
+            comment = dom.CreateComment("Loaded Plugins");
+            sr.AppendChild(comment);
+            if (FiddlerControls.Options.PluginsToLoad != null)
+            {
+                foreach (string plug in FiddlerControls.Options.PluginsToLoad)
+                {
+                    XmlElement xplug = dom.CreateElement("Plugin");
+                    xplug.SetAttribute("name", plug);
+                    sr.AppendChild(xplug);
+                }
+            }
+
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
             ArrayList sorter = new ArrayList(Files.MulPath.Keys);
@@ -235,6 +247,13 @@ namespace UoFiddler
                     tool.ArgsName.Add(argname);
                 }
                 ExternTools.Add(tool);
+            }
+
+            FiddlerControls.Options.PluginsToLoad = new ArrayList();
+            foreach (XmlElement xPlug in xOptions.SelectNodes("Plugin"))
+            {
+                string name = xPlug.GetAttribute("name");
+                FiddlerControls.Options.PluginsToLoad.Add(name);
             }
 
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))

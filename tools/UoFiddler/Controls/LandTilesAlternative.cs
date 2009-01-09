@@ -188,7 +188,8 @@ namespace FiddlerControls
                         int index = GetIndex(x, y);
                         if (index >= 0)
                         {
-                            Bitmap b = Art.GetLand(index);
+                            bool patched;
+                            Bitmap b = Art.GetLand(index, out patched);
 
                             if (b != null)
                             {
@@ -199,6 +200,8 @@ namespace FiddlerControls
                                 g.Clip = new Region(rect);
                                 if (index == selected)
                                     g.FillRectangle(Brushes.LightBlue, rect);
+                                else if (patched)
+                                    g.FillRectangle(Brushes.LightCoral, rect);
 
                                 int width = b.Width;
                                 int height = b.Height;

@@ -93,10 +93,9 @@ namespace Ultima
         /// <param name="hue"></param>
         /// <param name="onlyHueGrayPixels"></param>
         /// <returns></returns>
-		public unsafe static Bitmap GetGump( int index, Hue hue, bool onlyHueGrayPixels )
+		public unsafe static Bitmap GetGump( int index, Hue hue, bool onlyHueGrayPixels, out bool patched )
 		{
 			int length, extra;
-			bool patched;
 			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
 
 			if ( stream == null )
@@ -232,12 +231,24 @@ namespace Ultima
         /// <returns></returns>
         public unsafe static Bitmap GetGump(int index)
         {
+            bool patched;
+            return GetGump(index, out patched);
+        }
+
+        /// <summary>
+        /// Returns Bitmap of index and if verdata patched
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="patched"></param>
+        /// <returns></returns>
+        public unsafe static Bitmap GetGump(int index, out bool patched)
+        {
+            patched = false;
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
                 return m_Cache[index];
             int length, extra;
-            bool patched;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
             if (stream == null)

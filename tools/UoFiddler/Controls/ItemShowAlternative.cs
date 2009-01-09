@@ -16,6 +16,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Ultima;
+using PluginInterface;
+using Host;
 
 namespace FiddlerControls
 {
@@ -28,7 +30,6 @@ namespace FiddlerControls
             refMarker = this;
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
             pictureBox.Image = bmp;
-            
         }
 
         private static ItemShowAlternative refMarker = null;
@@ -39,6 +40,8 @@ namespace FiddlerControls
         private Bitmap bmp;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
+
+        public static ItemShowAlternative RefMarker { get { return refMarker; } }
 
         public int Selected
         {
@@ -156,6 +159,14 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            if (!Loaded) // only once
+            {
+                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
+                {
+                    if (plug.Loaded)
+                        plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
+                }
+            }
             Loaded = true;
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
@@ -253,7 +264,8 @@ namespace FiddlerControls
                         int index = GetIndex(x, y);
                         if (index >= 0)
                         {
-                            Bitmap b = Art.GetStatic(index);
+                            bool patched;
+                            Bitmap b = Art.GetStatic(index, out patched);
 
                             if (b != null)
                             {
@@ -265,6 +277,8 @@ namespace FiddlerControls
 
                                 if (index == selected)
                                     g.FillRectangle(Brushes.LightBlue, rect);
+                                else if (patched)
+                                    g.FillRectangle(Brushes.LightCoral, rect);
 
                                 if (Options.ArtItemClip)
                                     g.DrawImage(b, loc);

@@ -66,7 +66,8 @@ namespace FiddlerControls
             int i = int.Parse(listBox.Items[e.Index].ToString());
             if (Gumps.IsValidIndex(i))
             {
-                Bitmap bmp = Gumps.GetGump(i);
+                bool patched;
+                Bitmap bmp = Gumps.GetGump(i, out patched);
 
                 if (bmp != null)
                 {
@@ -81,6 +82,8 @@ namespace FiddlerControls
 
                     if (listBox.SelectedIndex == e.Index)
                         e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
+                    else if (patched)
+                        e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, 105, 60);
 
                     e.Graphics.DrawImage(bmp,new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, width, height));
                 }

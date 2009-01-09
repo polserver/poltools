@@ -20,9 +20,11 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            source = new BindingSource();
         }
 
         private bool Loaded = false;
+        private static BindingSource source;
 
         /// <summary>
         /// ReLoads if loaded
@@ -36,19 +38,37 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
-            object[] data = new object[3];
-            dataGridView1.Rows.Clear();
-            for (int i = 0; i < 56; i++)
+            source.DataSource = Ultima.Skills.SkillEntries;
+            dataGridView1.DataSource = source;
+            dataGridView1.Refresh();
+            if (dataGridView1.Columns.Count > 0)
             {
-                Ultima.Skills.SkillInfo skill = Ultima.Skills.GetSkill(i);
-                if (skill.Name == null)
-                    break;
-                data[0] = i;
-                data[1] = skill.IsAction;
-                data[2] = skill.Name;
-                dataGridView1.Rows.Add(data);
-            }
+                dataGridView1.Columns[0].MinimumWidth = 40;
+                dataGridView1.Columns[0].FillWeight = 10.82822F;
+                dataGridView1.Columns[0].ReadOnly = true;
+                dataGridView1.Columns[0].HeaderText = "ID";
+                dataGridView1.Columns[1].MinimumWidth = 60;
+                dataGridView1.Columns[1].FillWeight = 10.80126F;
+                dataGridView1.Columns[1].ReadOnly = false;
+                dataGridView1.Columns[1].HeaderText = "is Action";
+                dataGridView1.Columns[2].FillWeight = 54.86799F;
+                dataGridView1.Columns[2].ReadOnly = false;
+                dataGridView1.Columns[3].Visible = false; // extraFlag
+             }
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnClickSave(object sender, EventArgs e)
+        {
+            dataGridView1.CancelEdit();
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            Ultima.Skills.Save(path);
+            MessageBox.Show(
+                String.Format("Skills saved to {0}", path),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }

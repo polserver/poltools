@@ -17,7 +17,17 @@ namespace Ultima
         private CliLocFlag m_Flag;
 
         public int Number { get { return m_Number; } }
-        public string Text { get { return m_Text; } set { m_Text = value; } }
+        public string Text
+        {
+            get { return m_Text; }
+            set
+            {
+                if (value == null)
+                    m_Text = "";
+                else
+                    m_Text = value;
+            }
+        }
         public CliLocFlag Flag { get { return m_Flag; } set { m_Flag = value; } }
 
 		public StringEntry( int number, string text, byte flag )
