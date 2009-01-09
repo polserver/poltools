@@ -152,7 +152,131 @@ namespace FiddlerControls
             stream.WriteTo(fs);
             fs.Close();
             stream.Dispose();
-            MessageBox.Show(String.Format("Sound saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Sound saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickSave(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            Ultima.Sounds.Save(path);
+            this.Cursor = Cursors.Default;
+            MessageBox.Show(
+                    String.Format("Saved to {0}", path),
+                    "Save",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickRemove(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode == null)
+                return;
+            int id = (int)treeView.SelectedNode.Tag - 1;
+            DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure to remove {0}", treeView.SelectedNode.Text), "Remove",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                Ultima.Sounds.Remove(id);
+                treeView.SelectedNode.Remove();
+            }
+        }
+
+        private void OnClickAddReplace(object sender, EventArgs e)
+        {
+            int id;
+            string convert;
+            bool candone;
+            if (textBoxID.Text.Contains("0x"))
+            {
+                convert = textBoxID.Text.Replace("0x", "");
+                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out id);
+            }
+            else
+                candone = int.TryParse(textBoxID.Text, System.Globalization.NumberStyles.Integer, null, out id);
+            if ((id > 0xFFF) || (id<1))
+                candone = false;
+
+            if (candone)
+            {
+                string name = textBoxName.Text;
+                if (name != null)
+                {
+                    if (name.Length > 40)
+                        name = name.Substring(0, 40);
+                    string filename = textBoxWav.Text;
+                    if (File.Exists(filename))
+                    {
+                        Ultima.Sounds.Add(id-1, name, filename);
+
+                        TreeNode node = new TreeNode(String.Format("0x{0:X3} {1}", id, name));
+                        if (checkBox.Checked)
+                            node.Text = String.Format("{1} 0x{0:X3}", id, name);
+                        node.Tag = id;
+                        bool done = false;
+                        for (int i = 0; i < treeView.Nodes.Count; i++)
+                        {
+                            if ((int)treeView.Nodes[i].Tag == id)
+                            {
+                                done = true;
+                                treeView.Nodes.RemoveAt(i);
+                                treeView.Nodes.Insert(i,node);
+                                break;
+                            }
+                        }
+                        if (!done)
+                        {
+                            treeView.Nodes.Add(node);
+                            treeView.Sort();
+                        }
+
+                        node.EnsureVisible();
+                        treeView.SelectedNode = node;
+                        treeView.Refresh();
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Invalid Filename",
+                            "Add/Replace",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Invalid Name",
+                        "Add/Replace",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Invalid ID",
+                    "Add/Replace",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void OnClickSelectWav(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose wave file to add";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "wav file (*.wav)|*.wav";
+            if (dialog.ShowDialog() == DialogResult.OK)
+                textBoxWav.Text = dialog.FileName;
         }
     }
 }

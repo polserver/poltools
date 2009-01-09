@@ -59,7 +59,8 @@ namespace FiddlerControls
         {
             int i = (int)e.Item.Tag;
 
-            Bitmap bmp = Textures.GetTexture(i);
+            bool patched;
+            Bitmap bmp = Textures.GetTexture(i, out patched);
 
             if (bmp != null)
             {
@@ -76,6 +77,8 @@ namespace FiddlerControls
 
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.DrawFocusRectangle();
+                else if (patched)
+                    e.Graphics.DrawRectangle(Pens.LightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }

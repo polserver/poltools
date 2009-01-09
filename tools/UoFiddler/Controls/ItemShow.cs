@@ -15,6 +15,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Ultima;
+using PluginInterface;
+using Host;
 
 namespace FiddlerControls
 {
@@ -28,12 +30,14 @@ namespace FiddlerControls
             if (!Files.CacheData)
                 PreloadItems.Visible = false;
             ProgressBar.Visible = false;
-            
         }
 
         private static ItemShow refMarker = null;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
+
+        public static ItemShow RefMarker { get { return refMarker; } }
+        public static ListView ItemListView { get { return refMarker.listView1; } }
 
         /// <summary>
         /// Updates if TileSize is changed
@@ -134,6 +138,14 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            if (!Loaded) // only once
+            {
+                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
+                {
+                    if (plug.Loaded)
+                        plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
+                }
+            }
             Loaded = true;
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
@@ -209,12 +221,15 @@ namespace FiddlerControls
                 e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 return;
             }
-            Bitmap bmp = Art.GetStatic(i);
+            bool patched;
+            Bitmap bmp = Art.GetStatic(i, out patched);
 
             if (bmp != null)
             {
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
+                else if (patched)
+                    e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
 

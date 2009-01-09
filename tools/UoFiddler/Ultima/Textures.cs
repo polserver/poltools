@@ -66,15 +66,26 @@ namespace Ultima
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-		public unsafe static Bitmap GetTexture( int index )
+        public unsafe static Bitmap GetTexture(int index)
+        {
+            bool patched;
+            return GetTexture(index, out patched);
+        }
+        /// <summary>
+        /// Returns Bitmap of Texture with verdata bool
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="patched"></param>
+        /// <returns></returns>
+		public unsafe static Bitmap GetTexture( int index, out bool patched )
 		{
+            patched = false;
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
                 return m_Cache[index];
 
 			int length, extra;
-			bool patched;
 
 			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
 

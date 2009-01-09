@@ -132,7 +132,8 @@ namespace FiddlerControls
         {
             int i = (int)listView1.Items[e.ItemIndex].Tag;
 
-            Bitmap bmp = Art.GetLand(i);
+            bool patched;
+            Bitmap bmp = Art.GetLand(i, out patched);
 
             //index 21696 is valid index, but no valid bitmap data?
 
@@ -140,6 +141,8 @@ namespace FiddlerControls
             {
                 if (listView1.SelectedItems.Contains(e.Item))
                     e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                else if (patched)
+                    e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.FillRectangle(Brushes.White, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
 

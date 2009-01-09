@@ -138,7 +138,8 @@ namespace FiddlerControls
                         int index = GetIndex(x, y);
                         if (index >= 0)
                         {
-                            Bitmap b = Textures.GetTexture(index);
+                            bool patched;
+                            Bitmap b = Textures.GetTexture(index, out patched);
 
                             if (b != null)
                             {
@@ -163,6 +164,8 @@ namespace FiddlerControls
                                 g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
                                 if (index == selected)
                                     g.DrawRectangle(Pens.LightBlue,rect.X,rect.Y,rect.Width-1,rect.Height-1);
+                                else if (patched)
+                                    g.DrawRectangle(Pens.LightCoral, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                             }
                         }
                     }

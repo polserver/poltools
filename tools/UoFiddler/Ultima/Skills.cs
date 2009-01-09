@@ -1,14 +1,35 @@
 using System.IO;
 using System.Text;
+using System.Collections;
+using System;
 
 namespace Ultima
 {
     public sealed class Skills
     {
-        private static FileIndex m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, -1);
+        private static FileIndex m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, 16);
+
+        private static ArrayList m_SkillEntries;
+        public static ArrayList SkillEntries
+        {
+            get
+            {
+                if (m_SkillEntries == null)
+                {
+                    m_SkillEntries = new ArrayList();
+                    for (int i = 0; i < 55; i++)
+                    {
+                        m_SkillEntries.Add(GetSkill(i));
+                    }
+                }
+                return m_SkillEntries;
+            }
+            set { m_SkillEntries = value; }
+        }
 
         public Skills()
         {
+            
         }
 
         /// <summary>
@@ -16,12 +37,12 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, -1);
-        }
-        public struct SkillInfo
-        {
-            public bool IsAction;
-            public string Name;
+            m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, 16);
+            m_SkillEntries = new ArrayList();
+            for (int i = 0; i < 55; i++)
+            {
+                m_SkillEntries.Add(GetSkill(i));
+            }
         }
 
         /// <summary>
@@ -33,19 +54,19 @@ namespace Ultima
         {
             int length, extra;
             bool patched;
-            SkillInfo info=new SkillInfo();
+            
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
             if (stream == null)
-                return info;
+                return null;
+
 
             BinaryReader bin = new BinaryReader(stream);
-            info.IsAction = bin.ReadBoolean();
-            info.Name = ReadNameString(bin,length-1);
-
-            return info;
+            bool action= bin.ReadBoolean();
+            string name=ReadNameString(bin,length-1);
+            return new SkillInfo(index, name, action, extra);
         }
 
-        private static byte[] m_StringBuffer = new byte[40];
+        private static byte[] m_StringBuffer = new byte[1024];
         private static string ReadNameString(BinaryReader bin,int length)
         {
             bin.Read(m_StringBuffer, 0, length);
@@ -53,6 +74,76 @@ namespace Ultima
             for (count = 0; count < length && m_StringBuffer[count] != 0; ++count) ;
 
             return Encoding.Default.GetString(m_StringBuffer, 0, count);
+        }
+
+        public static void Save(string path)
+        {
+            string idx = Path.Combine(path, "skills.idx");
+            string mul = Path.Combine(path, "skills.mul");
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                BinaryWriter binidx = new BinaryWriter(fsidx);
+                using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    BinaryWriter binmul = new BinaryWriter(fsmul);
+                    for (int i=0;i<55;i++)
+                    {
+                        SkillInfo skill = (SkillInfo)m_SkillEntries[i];
+                        if (skill == null)
+                        {
+                            binidx.Write((int)-1); // lookup
+                            binidx.Write((int)-1); // length
+                            binidx.Write((int)-1); // extra
+                        }
+                        else
+                        {
+                            binidx.Write((int)fsmul.Position); //lookup
+                            int length = (int)fsmul.Position;
+                            binmul.Write(skill.IsAction);
+
+                            byte[] namebytes = Encoding.Default.GetBytes(skill.Name);
+                            binmul.Write(namebytes);
+                            binmul.Write((byte)0); //nullterminated
+
+                            length = (int)fsmul.Position - length;
+                            binidx.Write(length);
+                            binidx.Write(skill.Extra);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public sealed class SkillInfo
+    {
+        private int m_Index;
+        private bool m_IsAction;
+        private string m_Name;
+        private int m_Extra;
+
+        public int Index { get { return m_Index; }}
+        public bool IsAction { get { return m_IsAction; } set { m_IsAction = value; } }
+        public string Name 
+        { 
+            get { return m_Name; }
+            set
+            {
+                if (value == null)
+                    m_Name = "";
+                else
+                    m_Name = value;
+            }
+        }
+        public int Extra { get { return m_Extra; }}
+        
+
+        public SkillInfo(int nr, string name, bool action, int extra)
+        {
+            m_Index = nr;
+            m_Name = name;
+            m_IsAction = action;
+            m_Extra = extra;
         }
     }
 }

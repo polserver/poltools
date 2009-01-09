@@ -133,6 +133,18 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap GetLand(int index)
         {
+            bool patched;
+            return GetLand(index, out patched);
+        }
+        /// <summary>
+        /// Returns Bitmap of LandTile (with Cache) and verdata bool
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="patched"></param>
+        /// <returns></returns>
+        public static Bitmap GetLand(int index, out bool patched)
+        {
+            patched = false;
             index &= 0x3FFF;
 
             if (m_Removed[index])
@@ -141,7 +153,6 @@ namespace Ultima
                 return m_Cache[index];
 
             int length, extra;
-            bool patched;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
             if (stream == null)
@@ -160,6 +171,18 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap GetStatic(int index)
         {
+            bool patched;
+            return GetStatic(index, out patched);
+        }
+        /// <summary>
+        /// Returns Bitmap of Static (with Cache) and verdata bool
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="patched"></param>
+        /// <returns></returns>
+        public static Bitmap GetStatic(int index, out bool patched)
+        {
+            patched = false;
             index += 0x4000;
             index &= 0xFFFF;
 
@@ -170,7 +193,6 @@ namespace Ultima
                 return m_Cache[index];
 
             int length, extra;
-            bool patched;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
             if (stream == null)

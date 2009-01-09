@@ -13,12 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Reflection;
+using System.IO;
+using PluginInterface;
+using Host;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.0b";
+        public static string Version = "3.1";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -32,6 +36,7 @@ namespace UoFiddler
             Versionlabel.Text = "Version " + Version;
             ChangeDesign();
             LoadExternToolStripMenu();
+            GlobalPlugins.Plugins.FindPlugins(Application.StartupPath + @"\plugins");
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -52,6 +57,15 @@ namespace UoFiddler
             LoadedUltimaClass.Add("StringList", false);
             LoadedUltimaClass.Add("Texture", false);
             LoadedUltimaClass.Add("TileData", false);
+
+            foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
+            {
+                if (plug.Loaded)
+                {
+                    plug.Instance.ModifyPluginToolStrip(this.toolStripDropDownButtonPlugins);
+                    plug.Instance.ModifyTabPages(this.tabControl2);
+                }
+            }
         }
 
         private PathSettings m_Path = new PathSettings();
@@ -488,6 +502,22 @@ namespace UoFiddler
             if (!done)
                 refmarker.tabControl2.TabPages.Add(p);
             refmarker.tabControl2.SelectedTab = p;
+        }
+
+        private ManagePlugins pluginsform;
+        private void onClickManagePlugins(object sender, EventArgs e)
+        {
+            if ((pluginsform == null) || (pluginsform.IsDisposed))
+            {
+                pluginsform = new ManagePlugins();
+                pluginsform.TopMost = true;
+                pluginsform.Show();
+            }
+        }
+
+        private void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            GlobalPlugins.Plugins.ClosePlugins();
         }
     }
 }
