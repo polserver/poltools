@@ -44,6 +44,7 @@ namespace FiddlerControls
         protected override void OnLoad(EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["Gumps"] = true;
             Loaded = true;
             listBox.BeginUpdate();
             listBox.Items.Clear();
@@ -214,18 +215,7 @@ namespace FiddlerControls
         private void onTextChanged_InsertAt(object sender, EventArgs e)
         {
             int index;
-            string convert;
-            bool candone;
-            if (InsertText.Text.Contains("0x"))
-            {
-                convert = InsertText.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-            }
-            else
-                candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-            if (index > 0xFFFF)
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
             {
                 if (Gumps.IsValidIndex(index))
                     InsertText.ForeColor = Color.Red;
@@ -241,19 +231,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                string convert;
-                bool candone;
-                if (InsertText.Text.Contains("0x"))
-                {
-                    convert = InsertText.Text.Replace("0x", "");
-                    candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-                }
-                else
-                    candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-
-                if (index > 0xFFFF)
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
                 {
                     if (Gumps.IsValidIndex(index))
                         return;

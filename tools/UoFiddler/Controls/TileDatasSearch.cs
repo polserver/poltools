@@ -26,17 +26,7 @@ namespace FiddlerControls
         private void SearchGraphic(object sender, EventArgs e)
         {
             int graphic;
-            string convert;
-            bool candone;
-            if (textBoxGraphic.Text.Contains("0x"))
-            {
-                convert = textBoxGraphic.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out graphic);
-            }
-            else
-                candone = int.TryParse(textBoxGraphic.Text, System.Globalization.NumberStyles.Integer, null, out graphic);
-
-            if (candone)
+            if (Utils.ConvertStringToInt(textBoxGraphic.Text,out graphic,0,0x3FFF))
             {
                 bool res = TileDatas.SearchGraphic(graphic,land);
                 if (!res)

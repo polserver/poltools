@@ -61,6 +61,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["Map"] = true;
             Loaded = true;
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;

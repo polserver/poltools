@@ -137,6 +137,11 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["TileData"] = true;
+            Options.LoadedUltimaClass["Art"] = true;
+            Options.LoadedUltimaClass["Hues"] = true;
+            Options.LoadedUltimaClass["Animations"] = true;
+            Options.LoadedUltimaClass["Gumps"] = true;
             Loaded = true;
             extractAnimationToolStripMenuItem.Visible = false;
 

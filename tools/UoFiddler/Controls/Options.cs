@@ -11,6 +11,7 @@
 
 using System.Collections;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace FiddlerControls
 {
@@ -25,7 +26,26 @@ namespace FiddlerControls
         private static string m_MapArgs = "{1} {2} {3} {4}";
         private static string[] m_MapNames = { "Felucca", "Trammel", "Ilshenar", "Malas", "Tokuno" };
         private static ArrayList m_PluginsToLoad;
-        
+        private static Dictionary<string, bool> m_LoadedUltimaClass = new Dictionary<string, bool>()
+        {
+            {"Animations",false},
+            {"Animdata", false},
+            {"Art", false},
+            {"ASCIIFont", false},
+            {"UnicodeFont", false},
+            {"Gumps", false},
+            {"Hues", false},
+            {"Light", false},
+            {"Map", false},
+            {"Multis", false},
+            {"Skills", false},
+            {"Sound", false},
+            {"Speech", false},
+            {"StringList", false},
+            {"Texture", false},
+            {"TileData", false}
+        };
+
         /// <summary>
         /// Definies Element Width in ItemShow
         /// </summary>
@@ -96,6 +116,15 @@ namespace FiddlerControls
         {
             get { return m_PluginsToLoad; }
             set { m_PluginsToLoad = value; }
+        }
+
+        /// <summary>
+        /// Definies which muls are loaded
+        /// </summary>
+        public static Dictionary<string, bool> LoadedUltimaClass
+        {
+            get { return m_LoadedUltimaClass; }
+            set { m_LoadedUltimaClass = value; }
         }
     }
 }

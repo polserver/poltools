@@ -138,6 +138,10 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["TileData"] = true;
+            Options.LoadedUltimaClass["Art"] = true;
+            Options.LoadedUltimaClass["Animdata"] = true;
+            Options.LoadedUltimaClass["Hues"] = true;
             if (!Loaded) // only once
             {
                 foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
@@ -383,18 +387,7 @@ namespace FiddlerControls
         private void onTextChanged_Insert(object sender, EventArgs e)
         {
             int index;
-            bool candone;
-            if (InsertText.Text.Contains("0x"))
-            {
-                string convert = InsertText.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-            }
-            else
-                candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-
-            if (index > 0xBFFF)
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0x3FFF))
             {
                 if (Art.IsValidStatic(index))
                     InsertText.ForeColor = Color.Red;
@@ -410,17 +403,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone;
-                if (InsertText.Text.Contains("0x"))
-                {
-                    string convert = InsertText.Text.Replace("0x", "");
-                    candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-                }
-                else
-                    candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-                if (index > 0x3FFF)
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0x3FFF))
                 {
                     if (Art.IsValidStatic(index))
                         return;

@@ -63,6 +63,8 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["ASCIIFont"] = true;
+            Options.LoadedUltimaClass["UnicodeFont"] = true;
             Loaded = true;
             treeView.BeginUpdate();
             treeView.Nodes.Clear();

@@ -40,6 +40,11 @@ namespace PluginInterface
         /// </summary>
         /// <param name="strip"></param>
         virtual public void ModifyItemShowContextMenu(ContextMenuStrip strip) { }
+
+        /// <summary>
+        /// Called if mul Pathes have changed
+        /// </summary>
+        virtual public void Reload() { }
     }
 
     public interface IPluginHost

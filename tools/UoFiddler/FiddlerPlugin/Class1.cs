@@ -67,10 +67,15 @@ namespace FiddlerPlugin
         {
         }
 
+        public override void Reload()
+        {
+            // muls have changed do something usefull
+        }
+
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();
-            page.Tag = "18"; // at end used for undock/dock feature to define the order
+            page.Tag = 19; // at end used for undock/dock feature to define the order
             page.Text = "PluginTest";
             page.Controls.Add(new UserControl1());
             tabcontrol.TabPages.Add(page);
