@@ -57,7 +57,8 @@ namespace Host
         public void FindPlugins(string Path)
         {
             colAvailablePlugins.Clear();
-
+            if (!Directory.Exists(Path))
+                return;
             foreach (string fileOn in Directory.GetFiles(Path))
             {
                 FileInfo file = new FileInfo(fileOn);
@@ -67,6 +68,7 @@ namespace Host
                         this.AddPlugin(fileOn);
                 }
             }
+
         }
 
         /// <summary>

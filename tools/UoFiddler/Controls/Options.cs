@@ -120,6 +120,26 @@ namespace FiddlerControls
 
         /// <summary>
         /// Definies which muls are loaded
+        /// <para>
+        /// <list type="bullet">
+        /// <item>Animations</item>
+        /// <item>Animdata</item>
+        /// <item>Art</item>
+        /// <item>ASCIIFont</item>
+        /// <item>Gumps</item>
+        /// <item>Hues</item>
+        /// <item>Light</item>
+        /// <item>Map</item>
+        /// <item>Multis</item>
+        /// <item>Skills</item>
+        /// <item>Sound</item>
+        /// <item>Speech</item>
+        /// <item>StringList</item>
+        /// <item>Texture</item>
+        /// <item>TileData</item>
+        /// <item>UnicodeFont</item>
+        /// </list>
+        /// </para>
         /// </summary>
         public static Dictionary<string, bool> LoadedUltimaClass
         {
