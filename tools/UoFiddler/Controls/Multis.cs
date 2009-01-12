@@ -40,6 +40,11 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            Options.LoadedUltimaClass["TileData"]=true;
+            Options.LoadedUltimaClass["Art"] = true;
+            Options.LoadedUltimaClass["Multis"] = true;
+            Options.LoadedUltimaClass["Hues"] = true;
+
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
             for (int i = 0; i <= 0x4000; i++)

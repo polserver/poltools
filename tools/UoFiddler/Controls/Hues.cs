@@ -73,6 +73,7 @@ namespace FiddlerControls
 
         private void OnLoad(object sender, EventArgs e)
         {
+            Options.LoadedUltimaClass["Hues"] = true;
             if ((Parent.GetType() == typeof(HuePopUpItem)) || (Parent.GetType() == typeof(HuePopUp)))
             {
                 pictureBox.MouseDoubleClick -= new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
@@ -199,18 +200,7 @@ namespace FiddlerControls
         private void OnTextChangedReplace(object sender, EventArgs e)
         {
             int index;
-            bool candone;
-            if (ReplaceText.Text.Contains("0x"))
-            {
-                string convert = ReplaceText.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-            }
-            else
-                candone = int.TryParse(ReplaceText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-
-            if ((index > 3000)|| (index<1))
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(ReplaceText.Text,out index,1,3000))
                 ReplaceText.ForeColor = Color.Black;
             else
                 ReplaceText.ForeColor = Color.Red;
@@ -221,17 +211,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone;
-                if (ReplaceText.Text.Contains("0x"))
-                {
-                    string convert = ReplaceText.Text.Replace("0x", "");
-                    candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-                }
-                else
-                    candone = int.TryParse(ReplaceText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-                if ((index > 3000)|| (index<1))
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(ReplaceText.Text, out index, 1, 3000))
                 {
                     contextMenuStrip1.Close();
                     Ultima.Hues.List[selected] = Ultima.Hues.List[index - 1];

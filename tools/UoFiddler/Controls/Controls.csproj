@@ -83,6 +83,12 @@
     <Compile Include="AnimationlistNewEntries.Designer.cs">
       <DependentUpon>AnimationlistNewEntries.cs</DependentUpon>
     </Compile>
+    <Compile Include="AnimData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AnimData.Designer.cs">
+      <DependentUpon>AnimData.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClilocAdd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,6 +296,7 @@
     <Compile Include="TileDatasSearch.Designer.cs">
       <DependentUpon>TileDatasSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +309,9 @@
     <EmbeddedResource Include="AnimationlistNewEntries.resx">
       <DependentUpon>AnimationlistNewEntries.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnimData.resx">
+      <DependentUpon>AnimData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClilocAdd.resx">
       <SubType>Designer</SubType>

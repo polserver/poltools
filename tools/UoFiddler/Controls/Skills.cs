@@ -37,6 +37,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["Skills"] = true;
             Loaded = true;
             source.DataSource = Ultima.Skills.SkillEntries;
             dataGridView1.DataSource = source;

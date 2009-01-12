@@ -22,11 +22,10 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.1";
+        public static string Version = "3.1b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
-        private Dictionary<string, bool> LoadedUltimaClass = new Dictionary<string, bool>();
         private static UoFiddler refmarker;
 
         public UoFiddler()
@@ -41,23 +40,7 @@ namespace UoFiddler
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            LoadedUltimaClass.Add("Animations", false);
-            LoadedUltimaClass.Add("Animdata", false);
-            LoadedUltimaClass.Add("Art", false);
-            LoadedUltimaClass.Add("ASCIIFont", false);
-            LoadedUltimaClass.Add("UnicodeFont", false);
-            LoadedUltimaClass.Add("Gumps", false);
-            LoadedUltimaClass.Add("Hues", false);
-            LoadedUltimaClass.Add("Light", false);
-            LoadedUltimaClass.Add("Map", false);
-            LoadedUltimaClass.Add("Multis", false);
-            LoadedUltimaClass.Add("Skills", false);
-            LoadedUltimaClass.Add("Sound", false);
-            LoadedUltimaClass.Add("Speech", false);
-            LoadedUltimaClass.Add("StringList", false);
-            LoadedUltimaClass.Add("Texture", false);
-            LoadedUltimaClass.Add("TileData", false);
-
+ 
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {
                 if (plug.Loaded)
@@ -84,153 +67,39 @@ namespace UoFiddler
             this.TopMost=AlwaysOnTopMenuitem.Checked;
         }
 
-        private void OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (int.Parse((string)tabControl2.SelectedTab.Tag) == 1) // Multis
-            {
-                if (!LoadedUltimaClass["TileData"])
-                    LoadedUltimaClass["TileData"] = true;
-                if (!LoadedUltimaClass["Art"])
-                    LoadedUltimaClass["Art"] = true;
-                if (!LoadedUltimaClass["Multis"])
-                    LoadedUltimaClass["Multis"] = true;
-                if (!LoadedUltimaClass["Hues"])
-                    LoadedUltimaClass["Hues"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 2) // Animations
-            {
-                if (!LoadedUltimaClass["Animations"])
-                    LoadedUltimaClass["Animations"] = true;
-                if (!LoadedUltimaClass["Hues"])
-                    LoadedUltimaClass["Hues"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 3) // Items
-            {
-                if (!LoadedUltimaClass["TileData"])
-                    LoadedUltimaClass["TileData"] = true;
-                if (!LoadedUltimaClass["Art"])
-                    LoadedUltimaClass["Art"] = true;
-                if (!LoadedUltimaClass["Animdata"])
-                    LoadedUltimaClass["Animdata"] = true;
-                if (!LoadedUltimaClass["Hues"])
-                    LoadedUltimaClass["Hues"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 4) // LandTiles
-            {
-                if (!LoadedUltimaClass["TileData"])
-                    LoadedUltimaClass["TileData"] = true;
-                if (!LoadedUltimaClass["Art"])
-                    LoadedUltimaClass["Art"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 5) // Texture
-            {
-                if (!LoadedUltimaClass["Texture"])
-                    LoadedUltimaClass["Texture"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 6) // Gumps
-            {
-                if (!LoadedUltimaClass["Gumps"])
-                    LoadedUltimaClass["Gumps"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 7) // Sounds
-            {
-                if (!LoadedUltimaClass["Sound"])
-                    LoadedUltimaClass["Sound"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 8) // Hues
-            {
-                if (!LoadedUltimaClass["Hues"])
-                    LoadedUltimaClass["Hues"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 9) // Fonts
-            {
-                if (!LoadedUltimaClass["ASCIIFont"])
-                    LoadedUltimaClass["ASCIIFont"] = true;
-                if (!LoadedUltimaClass["UnicodeFont"])
-                    LoadedUltimaClass["UnicodeFont"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 10) // Cliloc
-            {
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 11) // Map
-            {
-                if (!LoadedUltimaClass["Map"])
-                    LoadedUltimaClass["Map"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 12) // Light
-            {
-                if (!LoadedUltimaClass["Light"])
-                    LoadedUltimaClass["Light"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 13) // Speech
-            {
-                if (!LoadedUltimaClass["Speech"])
-                    LoadedUltimaClass["Speech"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 14) // Skills
-            {
-                if (!LoadedUltimaClass["Skills"])
-                    LoadedUltimaClass["Skills"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 15) // MultiMap
-            {
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 16) // Dress
-            {
-                if (!LoadedUltimaClass["TileData"])
-                    LoadedUltimaClass["TileData"] = true;
-                if (!LoadedUltimaClass["Art"])
-                    LoadedUltimaClass["Art"] = true;
-                if (!LoadedUltimaClass["Hues"])
-                    LoadedUltimaClass["Hues"] = true;
-                if (!LoadedUltimaClass["Animations"])
-                    LoadedUltimaClass["Animations"] = true;
-                if (!LoadedUltimaClass["Gumps"])
-                    LoadedUltimaClass["Gumps"] = true;
-            }
-            else if (int.Parse((string)tabControl2.SelectedTab.Tag) == 17) // TileData
-            {
-                if (!LoadedUltimaClass["TileData"])
-                    LoadedUltimaClass["TileData"] = true;
-                if (!LoadedUltimaClass["Art"])
-                    LoadedUltimaClass["Art"] = true;
-            }
-            
-        }
-
         private void Restart(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
             Ultima.Verdata.Initialize();
-            if (LoadedUltimaClass["TileData"])
+            if (FiddlerControls.Options.LoadedUltimaClass["TileData"])
                 Ultima.TileData.Initialize();
-            if (LoadedUltimaClass["Hues"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Hues"])
                 Ultima.Hues.Initialize();
-            if (LoadedUltimaClass["ASCIIFont"])
+            if (FiddlerControls.Options.LoadedUltimaClass["ASCIIFont"])
                 Ultima.ASCIIText.Initialize();
-            if (LoadedUltimaClass["UnicodeFont"])
+            if (FiddlerControls.Options.LoadedUltimaClass["UnicodeFont"])
                 Ultima.UnicodeFonts.Initialize();
-            if (LoadedUltimaClass["Animdata"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Animdata"])
                 Ultima.Animdata.Initialize();
-            if (LoadedUltimaClass["Light"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Light"])
                 Ultima.Light.Reload();
-            if (LoadedUltimaClass["Skills"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Skills"])
                 Ultima.Skills.Reload();
-            if (LoadedUltimaClass["Sound"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Sound"])
                 Ultima.Sounds.Initialize();
-            if (LoadedUltimaClass["Texture"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Texture"])
                 Ultima.Textures.Reload();
-            if (LoadedUltimaClass["Gumps"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Gumps"])
                 Ultima.Gumps.Reload();
-            if (LoadedUltimaClass["Animations"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Animations"])
                 Ultima.Animations.Reload();
-            if (LoadedUltimaClass["Art"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Art"])
                 Ultima.Art.Reload();
-            if (LoadedUltimaClass["Map"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
-            if (LoadedUltimaClass["Multis"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Multis"])
                 Ultima.Multis.Reload();
-            if (LoadedUltimaClass["Speech"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Speech"])
                 Ultima.SpeechList.Initialize();
 
             this.controlMulti.Reload();
@@ -259,7 +128,13 @@ namespace UoFiddler
             this.controlSkills.Reload();
             this.controlTileData.Reload();
             this.controlspeech.Reload();
+            this.controlAnimdata.Reload();
 
+            foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
+            {
+                if (plug.Loaded)
+                    plug.Instance.Reload();
+            }
             this.Cursor = Cursors.Default;
         }
 
@@ -454,7 +329,7 @@ namespace UoFiddler
         /// </summary>
         public static void ChangeMapSize()
         {
-            if (refmarker.LoadedUltimaClass["Map"])
+            if (FiddlerControls.Options.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
             refmarker.controlmap.Reload();
         }
@@ -469,7 +344,7 @@ namespace UoFiddler
 
         private void OnClickUndock(object sender, EventArgs e)
         {
-            int tag = int.Parse((string)tabControl2.SelectedTab.Tag);
+            int tag = (int)tabControl2.SelectedTab.Tag;
             if (tag > 0)
             {
                     new UnDocked(tabControl2.SelectedTab.Controls[0], 
@@ -492,7 +367,7 @@ namespace UoFiddler
             p.Controls.Add(contr);
             foreach (TabPage page in refmarker.tabControl2.TabPages)
             {
-                if (int.Parse((string)page.Tag)>index)
+                if ((int)page.Tag>index)
                 {
                     refmarker.tabControl2.TabPages.Insert(refmarker.tabControl2.TabPages.IndexOf(page), p);
                     done = true;

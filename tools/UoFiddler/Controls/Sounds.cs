@@ -40,6 +40,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["Sound"] = true;
             Loaded = true;
             string name = "";
             treeView.BeginUpdate();
@@ -187,19 +188,7 @@ namespace FiddlerControls
         private void OnClickAddReplace(object sender, EventArgs e)
         {
             int id;
-            string convert;
-            bool candone;
-            if (textBoxID.Text.Contains("0x"))
-            {
-                convert = textBoxID.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out id);
-            }
-            else
-                candone = int.TryParse(textBoxID.Text, System.Globalization.NumberStyles.Integer, null, out id);
-            if ((id > 0xFFF) || (id<1))
-                candone = false;
-
-            if (candone)
+            if (Utils.ConvertStringToInt(textBoxID.Text,out id,1,0xFFF))
             {
                 string name = textBoxName.Text;
                 if (name != null)

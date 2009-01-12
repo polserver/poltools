@@ -91,6 +91,8 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
+            Options.LoadedUltimaClass["Animations"] = true;
+            Options.LoadedUltimaClass["Hues"] = true;
             TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
             if (!LoadXml())
             {

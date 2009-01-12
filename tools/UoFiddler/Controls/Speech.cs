@@ -44,6 +44,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             Loaded = true;
+            Options.LoadedUltimaClass["Speech"] = true;
             sortorder = SortOrder.Ascending;
             sortcolumn = 2;
             source.DataSource = SpeechList.Entries;

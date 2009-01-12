@@ -38,6 +38,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["Light"] = true;
             Loaded = true;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
@@ -120,18 +121,7 @@ namespace FiddlerControls
         private void OnTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            bool candone;
-            if (InsertText.Text.Contains("0x"))
-            {
-                string convert = InsertText.Text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-            }
-            else
-                candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-
-            if (index > 99)
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(InsertText.Text,out index,0,99))
             {
                 if (Ultima.Light.TestLight(index))
                     InsertText.ForeColor = Color.Red;
@@ -147,17 +137,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone;
-                if (InsertText.Text.Contains("0x"))
-                {
-                    string convert = InsertText.Text.Replace("0x", "");
-                    candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-                }
-                else
-                    candone = int.TryParse(InsertText.Text, System.Globalization.NumberStyles.Integer, null, out index);
-                if (index > 99)
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 99))
                 {
                     if (Ultima.Light.TestLight(index))
                         return;

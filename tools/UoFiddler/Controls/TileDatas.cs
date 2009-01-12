@@ -135,6 +135,8 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            Options.LoadedUltimaClass["TileData"] = true;
+            Options.LoadedUltimaClass["Art"] = true;
             Loaded = true;
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();

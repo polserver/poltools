@@ -263,28 +263,11 @@ namespace FiddlerControls
             RefreshPreview();
         }
 
-        private bool CanConvert(string text, out int index)
-        {
-            bool candone;
-            if (text.Contains("0x"))
-            {
-                string convert = text.Replace("0x", "");
-                candone = int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out index);
-            }
-            else
-                candone = int.TryParse(text, System.Globalization.NumberStyles.Integer, null, out index);
-
-            return candone;
-        }
 
         private void onTextChangedArt(object sender, EventArgs e)
         {
             int index;
-            bool candone=CanConvert(TextBoxArt.Text,out index);
-
-            if (index > 0xBFFF)
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(TextBoxArt.Text, out index, 0, 0x3FFF))
             {
                 if (Art.IsValidStatic(index))
                     TextBoxArt.ForeColor = Color.Black;
@@ -300,11 +283,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone = CanConvert(TextBoxArt.Text, out index);
-               
-                if (index > 0xBFFF)
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(TextBoxArt.Text, out index, 0, 0x3FFF))
                 {
                     if (!Art.IsValidStatic(index))
                         return;
@@ -318,9 +297,7 @@ namespace FiddlerControls
         private void onTextChangedAnim(object sender, EventArgs e)
         {
             int index;
-            bool candone = CanConvert(TextBoxAnim.Text, out index);
-
-            if (candone)
+            if (Utils.ConvertStringToInt(TextBoxAnim.Text, out index, 1, 10000))
             {
                 if (Animations.IsActionDefined(index, 0, 0))
                     TextBoxAnim.ForeColor = Color.Black;
@@ -336,8 +313,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone = CanConvert(TextBoxAnim.Text, out index);
-                if (candone)
+                if (Utils.ConvertStringToInt(TextBoxAnim.Text, out index, 1, 10000))
                 {
                     if (!Animations.IsActionDefined(index, 0, 0))
                         return;
@@ -355,11 +331,7 @@ namespace FiddlerControls
         private void onTextChangedGump(object sender, EventArgs e)
         {
             int index;
-            bool candone = CanConvert(TextBoxGump.Text, out index);
-
-            if (index > 0xFFFE)
-                candone = false;
-            if (candone)
+            if (Utils.ConvertStringToInt(TextBoxGump.Text, out index, 0, 0xFFFE))
             {
                 if (Gumps.IsValidIndex(index))
                     TextBoxGump.ForeColor = Color.Black;
@@ -375,11 +347,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                bool candone = CanConvert(TextBoxGump.Text, out index);
-
-                if (index > 0xFFFE)
-                    candone = false;
-                if (candone)
+                if (Utils.ConvertStringToInt(TextBoxGump.Text, out index, 0, 0xFFFE))
                 {
                     if (!Gumps.IsValidIndex(index))
                         return;
@@ -390,11 +358,5 @@ namespace FiddlerControls
             }
         }
         #endregion
-
-        
-
-        
-
-
     }
 }
