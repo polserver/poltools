@@ -363,7 +363,7 @@ namespace UoFiddler
         {
             bool done = false;
             TabPage p = new TabPage(name);
-            p.Tag = index.ToString();
+            p.Tag = index;
             p.Controls.Add(contr);
             foreach (TabPage page in refmarker.tabControl2.TabPages)
             {
