@@ -10,10 +10,6 @@
     <RootNamespace>UoFiddler</RootNamespace>
     <AssemblyName>UoFiddler</AssemblyName>
     <ApplicationIcon>UOFiddler.ico</ApplicationIcon>
-    <ManifestCertificateThumbprint>A68D9FDA8EAE913DE51EAE72EAFDB04ACE6D75E1</ManifestCertificateThumbprint>
-    <ManifestKeyFile>UoViewer_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
