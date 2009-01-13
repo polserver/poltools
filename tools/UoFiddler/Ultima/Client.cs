@@ -360,7 +360,7 @@ namespace Ultima
 			int value = (int)c;
             int lParam = 1 | ((NativeMethods.OemKeyScan(value) & 0xFF) << 16) | (0x3 << 30);
 
-            NativeMethods.SendMessage(hWnd, WM_CHAR, value, lParam);
+            NativeMethods.PostMessage(hWnd, WM_CHAR, value, lParam);
 		}
 
 		/// <summary>
