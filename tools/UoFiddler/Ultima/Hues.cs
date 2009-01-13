@@ -135,23 +135,6 @@ namespace Ultima
             ushort* pLineEnd = pBuffer + width;
             ushort* pImageEnd = pBuffer + (stride * height);
 
-            ushort* pColors = stackalloc ushort[0x40];
-
-            fixed (short* pOriginal = Colors)
-            {
-                ushort* pSource = (ushort*)pOriginal;
-                ushort* pDest = pColors;
-                ushort* pEnd = pDest + 32;
-
-                while (pDest < pEnd)
-                    *pDest++ = 0;
-
-                pEnd += 32;
-
-                while (pDest < pEnd)
-                    *pDest++ = *pSource++;
-            }
-
             if (onlyHueGrayPixels)
             {
                 int c;
@@ -164,14 +147,15 @@ namespace Ultima
                     while (pBuffer < pLineEnd)
                     {
                         c = *pBuffer;
-                        r = (c >> 10) & 0x1F;
-                        g = (c >> 5) & 0x1F;
-                        b = c & 0x1F;
-
-                        if (r == g && r == b)
-                            *pBuffer++ = pColors[c >> 10];
-                        else
-                            ++pBuffer;
+                        if (c != 0)
+                        {
+                            r = (c >> 10) & 0x1F;
+                            g = (c >> 5) & 0x1F;
+                            b = c & 0x1F;
+                            if (r == g && r == b)
+                                *pBuffer = (ushort)Colors[(c >> 10) & 0x1F];
+                        }
+                        ++pBuffer;
                     }
 
                     pBuffer += delta;
@@ -184,7 +168,8 @@ namespace Ultima
                 {
                     while (pBuffer < pLineEnd)
                     {
-                        *pBuffer = pColors[(*pBuffer) >> 10];
+                        if (*pBuffer!=0)
+                            *pBuffer = (ushort)Colors[(*pBuffer >> 10) & 0x1F];
                         ++pBuffer;
                     }
 
@@ -264,23 +249,6 @@ namespace Ultima
 			ushort *pLineEnd = pBuffer + width;
 			ushort *pImageEnd = pBuffer + (stride * height);
 
-			ushort *pColors = stackalloc ushort[0x40];
-
-			fixed ( short *pOriginal = m_Colors )
-			{
-				ushort *pSource = (ushort *)pOriginal;
-				ushort *pDest = pColors;
-				ushort *pEnd = pDest + 32;
-
-				while ( pDest < pEnd )
-					*pDest++ = 0;
-
-				pEnd += 32;
-
-				while ( pDest < pEnd )
-					*pDest++ = *pSource++;
-			}
-
 			if ( onlyHueGrayPixels )
 			{
 				int c;
@@ -293,14 +261,15 @@ namespace Ultima
 					while ( pBuffer < pLineEnd )
 					{
 						c = *pBuffer;
-						r = (c >> 10) & 0x1F;
-						g = (c >>  5) & 0x1F;
-						b =  c        & 0x1F;
-
-						if ( r == g && r == b )
-							*pBuffer++ = pColors[c >> 10];
-						else
-							++pBuffer;
+                        if (c != 0)
+                        {
+                            r = (c >> 10) & 0x1F;
+                            g = (c >> 5) & 0x1F;
+                            b = c & 0x1F;
+                            if (r == g && r == b)
+                                *pBuffer = (ushort)m_Colors[(c >> 10) & 0x1F];
+                        }
+                        ++pBuffer;
 					}
 
 					pBuffer += delta;
@@ -313,7 +282,8 @@ namespace Ultima
 				{
 					while ( pBuffer < pLineEnd )
 					{
-						*pBuffer = pColors[(*pBuffer) >> 10];
+                        if (*pBuffer!=0)
+                            *pBuffer=(ushort)m_Colors[(*pBuffer >> 10) & 0x1F];
 						++pBuffer;
 					}
 

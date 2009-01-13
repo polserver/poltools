@@ -310,6 +310,12 @@ namespace FiddlerControls
                                 Rectangle rect = new Rectangle(loc, size);
 
                                 g.Clip = new Region(rect);
+                                if (index == selected)
+                                    g.FillRectangle(Brushes.LightBlue, rect);
+                                rect.X += 5;
+                                rect.Y += 5;
+                                rect.Width -= 10;
+                                rect.Height -= 10;
                                 g.FillRectangle(Brushes.Red, rect);
                             }
                         }
@@ -416,7 +422,12 @@ namespace FiddlerControls
         {
             if (ShowFreeSlots)
             {
-                for (int i = ItemList.IndexOf((object)selected) + 1; i < ItemList.Count; i++)
+                int i;
+                if (selected > -1)
+                    i = ItemList.IndexOf((object)selected) + 1;
+                else
+                    i = 0;
+                for (; i < ItemList.Count; i++)
                 {
                     if (!Art.IsValidStatic((int)ItemList[i]))
                     {
@@ -428,9 +439,18 @@ namespace FiddlerControls
             }
             else
             {
-                int id = selected;
-                id++;
-                for (int i = ItemList.IndexOf((object)selected) + 1; i < ItemList.Count; i++)
+                int id, i;
+                if (selected > -1)
+                {
+                    id = selected + 1;
+                    i = ItemList.IndexOf((object)selected) + 1;
+                }
+                else
+                {
+                    id = 0;
+                    i = 0;
+                }
+                for (; i < ItemList.Count; i++)
                 {
                     if (id < (int)ItemList[i])
                     {

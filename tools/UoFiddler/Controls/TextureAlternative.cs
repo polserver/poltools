@@ -233,9 +233,18 @@ namespace FiddlerControls
 
         private void onClickFindNext(object sender, EventArgs e)
         {
-            int id = selected;
-            id++;
-            for (int i = TextureList.IndexOf((object)selected) + 1; i < TextureList.Count; i++)
+            int id, i;
+            if (selected > -1)
+            {
+                id = selected + 1;
+                i = TextureList.IndexOf((object)selected) + 1;
+            }
+            else
+            {
+                id = 1;
+                i = 0;
+            }
+            for (; i < TextureList.Count; i++)
             {
                 if (id < (int)TextureList[i])
                 {
@@ -251,6 +260,8 @@ namespace FiddlerControls
 
         private void onClickRemove(object sender, EventArgs e)
         {
+            if (selected < 0)
+                return;
             DialogResult result =
                         MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", selected),
                         "Save",

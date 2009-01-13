@@ -10,19 +10,15 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.Reflection;
-using System.IO;
-using PluginInterface;
+using System.Windows.Forms;
 using Host;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.1b";
+        public static string Version = "3.1c";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;

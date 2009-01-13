@@ -118,7 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.1b
+    <value>Version 3.1c
+-Bugfixes in FindNextFreeSlot
+
+Version 3.1b
 -Added AnimData Tab with editing features
 (Color Red = Animdefinition for a non valid art
  Color Blue = Animdefinition but no Anim flag)
