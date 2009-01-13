@@ -32,7 +32,7 @@ namespace Ultima
 		public static extern int SetForegroundWindow( ClientWindowHandle hWnd );
 
         [DllImport("User32")]
-		public static extern int SendMessage( ClientWindowHandle hWnd, int wMsg, int wParam, int lParam );
+        public static extern bool PostMessage(ClientWindowHandle hWnd, int wMsg, int wParam, int lParam);
 
         [DllImport("User32")]
         public static extern int OemKeyScan(int wOemChar);
