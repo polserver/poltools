@@ -137,8 +137,6 @@ namespace FiddlerControls
             bool patched;
             Bitmap bmp = Art.GetLand(i, out patched);
 
-            //index 21696 is valid index, but no valid bitmap data?
-
             if (bmp != null)
             {
                 if (listView1.SelectedItems.Contains(e.Item))
@@ -320,9 +318,18 @@ namespace FiddlerControls
 
         private void onClickFindFree(object sender, EventArgs e)
         {
-            int id = (int)listView1.SelectedItems[0].Tag;
-            id++;
-            for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+            int id, i;
+            if (listView1.SelectedItems.Count > 0)
+            {
+                id = (int)listView1.SelectedItems[0].Tag + 1;
+                i = listView1.SelectedItems[0].Index + 1;
+            }
+            else
+            {
+                id = 0;
+                i = 0;
+            }
+            for (; i < listView1.Items.Count; i++)
             {
                 if (id < (int)listView1.Items[i].Tag)
                 {

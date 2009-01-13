@@ -222,7 +222,11 @@ namespace FiddlerControls
             int i = (int)e.Item.Tag;
             if (i == -1)
             {
-                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                if (listView1.SelectedItems.Contains(e.Item))
+                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                else
+                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X+5, e.Bounds.Y+5, e.Bounds.Width-10, e.Bounds.Height-10);
                 return;
             }
             bool patched;
@@ -481,7 +485,12 @@ namespace FiddlerControls
         {
             if (ShowFreeSlots)
             {
-                for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+                int i;
+                if (listView1.SelectedItems.Count > 0)
+                    i = listView1.SelectedItems[0].Index + 1;
+                else
+                    i = 0;
+                for (; i < listView1.Items.Count; i++)
                 {
                     if ((int)listView1.Items[i].Tag == -1)
                     {
@@ -497,9 +506,18 @@ namespace FiddlerControls
             }
             else
             {
-                int id = (int)listView1.SelectedItems[0].Tag;
-                id++;
-                for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+                int id, i;
+                if (listView1.SelectedItems.Count > 0)
+                {
+                    id = (int)listView1.SelectedItems[0].Tag + 1;
+                    i = listView1.SelectedItems[0].Index + 1;
+                }
+                else
+                {
+                    id = 0;
+                    i = 0;
+                }
+                for (; i < listView1.Items.Count; i++)
                 {
                     if (id < (int)listView1.Items[i].Tag)
                     {

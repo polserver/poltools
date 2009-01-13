@@ -154,9 +154,18 @@ namespace FiddlerControls
 
         private void onClickFindNext(object sender, EventArgs e)
         {
-            int id = (int)listView1.SelectedItems[0].Tag;
-            id++;
-            for (int i = listView1.SelectedItems[0].Index + 1; i < listView1.Items.Count; i++)
+            int id, i;
+            if (listView1.SelectedItems.Count > 0)
+            {
+                id = (int)listView1.SelectedItems[0].Tag + 1;
+                i = listView1.SelectedItems[0].Index + 1;
+            }
+            else
+            {
+                id = 1;
+                i = 0;
+            }
+            for (; i < listView1.Items.Count; i++)
             {
                 if (id < (int)listView1.Items[i].Tag)
                 {
@@ -174,6 +183,8 @@ namespace FiddlerControls
 
         private void onClickRemove(object sender, EventArgs e)
         {
+            if (listView1.SelectedItems.Count == 0)
+                return;
             int i = (int)listView1.SelectedItems[0].Tag;
             DialogResult result =
                         MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", i),
