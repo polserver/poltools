@@ -1,10 +1,10 @@
-﻿1-2-2009 - MuadDib
-	Added   : Ecompile Process Controller added. This is not using the POLUtil Console
-	          class. Need to find a better buffer handler for the Output Data, so it's
-	          not updating the textbox every line. Seems to slow the whole process down
-	          due to content amount.
-	Added   : OnFormClosing for main Form. Will be using it to kill unclosed processes that
-	          need to close in case of crash or exit.
+﻿1-13-2009 - MuadDib
+    Changed : ECompile/UOConvert using the updated MyConsole that allows disabling of the
+              Standard Input Redirect.
+    Changed : ECompile/UOConvert now give output to PL after each process has completed.
+    Changed : ECompile.CFG is now loaded into the form by default when PL is loaded.
+    
+1-2-2009 - MuadDib
 	Changed : TabIndex on Create Account Panel for easier Tabbing through boxes.
 	Changed : TypeOf Archive Removed. Just live with Zip :P
 	Changed : Handling of OutputReceived Text for Ecompile. Now gives message at begin of

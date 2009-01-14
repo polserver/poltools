@@ -1,4 +1,7 @@
-﻿1-2-2009 - MuadDib
+﻿1-13-2009 - MuadDib
+    Added  : Overloads in Console class for using Standard Input Redirect.
+    
+1-2-2009 - MuadDib
     Added  : False return for no key found in Flag() for ecompile class.
     
 12-29-2008 - MuadDib

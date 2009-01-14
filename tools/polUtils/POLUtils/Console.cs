@@ -143,7 +143,39 @@ namespace POLLaunch.Console
 
             this.StartInfo.FileName = filename;
             this.StartInfo.RedirectStandardOutput = true;
-            this.StartInfo.RedirectStandardInput = true;
+            this.StartInfo.CreateNoWindow = true;
+            this.StartInfo.UseShellExecute = false;
+
+            this.EnableRaisingEvents = true;
+
+            this.OutputDataReceived += new DataReceivedEventHandler(MyConsole_OutputDataReceived);
+            this.Exited += new EventHandler(MyConsole_Exited);
+
+            base.Start();
+
+            this.BeginOutputReadLine();
+        }
+
+        /// <summary>
+        /// Starts "filename" process at "workingdir" directory with Standard Output Redirected.
+        /// </summary>
+        /// <param name="filename">Full path to program</param>
+        /// <param name="workingdir">Full path to working dir</param>
+        /// <param name="redirectinput">Bool to use Stanard Input Redirect</param>
+        public void Start(string filename, string workingdir, bool redirectinput)
+        {
+            if (!File.Exists(filename))
+                throw new IOException("File not found");
+
+            if (workingdir != String.Empty && Directory.Exists(workingdir))
+                this.StartInfo.WorkingDirectory = workingdir;
+            else
+                this.StartInfo.WorkingDirectory = String.Empty;
+
+            this.StartInfo.FileName = filename;
+            this.StartInfo.RedirectStandardOutput = true;
+            if (redirectinput)
+                this.StartInfo.RedirectStandardInput = true;
             this.StartInfo.CreateNoWindow = true;
             this.StartInfo.UseShellExecute = false;
 
@@ -176,7 +208,41 @@ namespace POLLaunch.Console
             this.StartInfo.Arguments = args;
             this.StartInfo.FileName = filename;
             this.StartInfo.RedirectStandardOutput = true;
-            this.StartInfo.RedirectStandardInput = true;
+            this.StartInfo.CreateNoWindow = true;
+            this.StartInfo.UseShellExecute = false;
+
+            this.EnableRaisingEvents = true;
+
+            this.OutputDataReceived += new DataReceivedEventHandler(MyConsole_OutputDataReceived);
+            this.Exited += new EventHandler(MyConsole_Exited);
+
+            base.Start();
+
+            this.BeginOutputReadLine();
+        }
+
+        /// <summary>
+        /// Starts "filename" process at "workingdir" directory using "args" arguments.
+        /// </summary>
+        /// <param name="filename">Full path to program</param>
+        /// <param name="workingdir">Full path to working dir</param>
+        /// <param name="args">Arguments to send to the command line</param>
+        /// <param name="redirectinput">To use the Standard Input Redirect</param>
+        public void Start(string filename, string workingdir, string args, bool redirectinput)
+        {
+            if (!File.Exists(filename))
+                throw new IOException("File not found");
+
+            if (workingdir != String.Empty && Directory.Exists(workingdir))
+                this.StartInfo.WorkingDirectory = workingdir;
+            else
+                this.StartInfo.WorkingDirectory = String.Empty;
+
+            this.StartInfo.Arguments = args;
+            this.StartInfo.FileName = filename;
+            this.StartInfo.RedirectStandardOutput = true;
+            if (redirectinput)
+                this.StartInfo.RedirectStandardInput = true;
             this.StartInfo.CreateNoWindow = true;
             this.StartInfo.UseShellExecute = false;
 

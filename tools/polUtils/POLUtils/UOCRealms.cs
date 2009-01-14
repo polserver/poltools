@@ -40,11 +40,18 @@ namespace POLUtils.UOConvert.UOCRealms
         protected int _Height;
 
         /// <summary>
-        ///     Retrieves the Realm Name for a Realm Object
+        ///     Gets/Sets the Realm Name for a Realm Object
         /// </summary>
-        public string GetRealmname()
+        public string Realmname
         {
-            return _RealmName;
+            get
+            {
+                return _RealmName;
+            }
+            set
+            {
+                _RealmName = value;
+            }
         }
         /// <summary>
         ///     Gets/Sets the Realm Map ID for a Realm Object

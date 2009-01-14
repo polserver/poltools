@@ -19,8 +19,11 @@ namespace POLLaunch
     {
         #region Main Variables
         MyConsole POLConsole = null;
-        MyConsole UOCConsole = null;
 
+        MyConsole Process_UOConvert = null;
+        string UOConvertOutput = String.Empty;
+
+        MyConsole Process_ECompile = null;
         EConfig ECompileCFG = null;
         string ECompileOutput = String.Empty;
         
@@ -37,20 +40,13 @@ namespace POLLaunch
             LBX_CreateCmdlevel.SelectedIndex = 0;
             LBX_CreateExpansion.SelectedIndex = 0;
             TB_MULFilePath.Text = (string)Settings.Global.Properties["UOPath"];
+            BTN_EcompileLoad_Click(null, null);
             InitializeDataBackup();
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (this.Process_ECompile.StartInfo.FileName != String.Empty)
-            {
-                this.Process_ECompile.Kill();
-            }
         }
         #endregion
 
@@ -232,7 +228,7 @@ namespace POLLaunch
                 CB_TokDif.Checked = false;
             }
         }
-            #endregion
+        #endregion
 
             #region UOConvert Console Code
         private void BTN_UOConvert_Click(object sender, EventArgs e)
@@ -244,12 +240,13 @@ namespace POLLaunch
                 return;
             }
 
-            TB_UOCOutput.Text = " ";
+            TB_UOCOutput.Text = String.Empty;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = PL_UOConvert.BuildList.Count;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
-
+            BTN_UOConvert.Enabled = false;
+            Cursor = Cursors.WaitCursor;
             RunUOConvert();
         }
 
@@ -319,53 +316,68 @@ namespace POLLaunch
                 PL_UOConvert.BuildList.Add(Tok.GetUOCMapTileCommand());
             }
         }
-        
+
         void RunUOConvert()
         {
-                string exepath = Settings.Global.Properties["UOConvertExePath"];
-                string dirpath = Settings.Global.Properties["POLPath"];
+            if (this.Process_UOConvert != null)
+            { // already running
+                MessageBox.Show("UOConvert's already running"); // How?!
+                return;
+            }
 
-                if (!File.Exists(exepath))
-                {
-                    MessageBox.Show("File does not exist in UOConvertExePath!");
-                    return;
-                }
-                if (!Directory.Exists(dirpath))
-                {
-                    dirpath = Path.GetDirectoryName(exepath);
-                }
+            string exepath = Settings.Global.Properties["UOConvertExePath"];
+            string dirpath = Settings.Global.Properties["POLPath"];
 
-                string Cmd = "";
-                if (PL_UOConvert.BuildList.Count != 0)
-                    Cmd += PL_UOConvert.BuildList[0].ToString();
-                if (TB_MULFilePath.Text.Length > 0)
-                    Cmd += " uodata=\"" + TB_MULFilePath.Text + "\"";
+            if (!File.Exists(exepath))
+            {
+                MessageBox.Show("File does not exist in UOConvertExePath!");
+                return;
+            }
+            if (!Directory.Exists(dirpath))
+            {
+                dirpath = Path.GetDirectoryName(exepath);
+            }
 
-                this.UOCConsole = new MyConsole();
-                this.UOCConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
-                this.UOCConsole.Exited += new EventHandler(UOCConsole_Exited);
-                this.UOCConsole.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(UOCConsole_OutputDataReceived);
-                BTN_UOConvert.Enabled = false;
+            TB_UOCOutput.Text += "A New UOConvert Process Has Started... This May Take A While....";
+
+            UOConvertOutput = String.Empty;
+            string Cmd = String.Empty;
+            if (PL_UOConvert.BuildList.Count != 0)
+                Cmd += PL_UOConvert.BuildList[0].ToString();
+            if (TB_MULFilePath.Text.Length > 0)
+                Cmd += " uodata=\"" + TB_MULFilePath.Text + "\"";
+
+            this.Process_UOConvert = new MyConsole();
+            this.Process_UOConvert.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), Cmd);
+            this.Process_UOConvert.Exited += new EventHandler(UOCConsole_Exited);
+            this.Process_UOConvert.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(UOCConsole_OutputDataReceived);
         }
 
         void UOCConsole_Exited(object sender, EventArgs e)
         {
-            TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += "<Conversion Completed>" + System.Environment.NewLine + System.Environment.NewLine; });
-
             ((MyConsole)sender).Dispose();
-            this.UOCConsole = null;
+            Process_UOConvert = null;
 
-            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\multis.cfg"))
+            if (this.InvokeRequired)
             {
-                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\multis.cfg", Settings.Global.Properties["POLPath"] + "\\config\\multis.cfg");
+                this.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += UOConvertOutput + System.Environment.NewLine + System.Environment.NewLine; });
             }
-            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg"))
+            else
             {
-                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\landtiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\landtiles.cfg");
+                TB_UOCOutput.Text += UOConvertOutput + System.Environment.NewLine + System.Environment.NewLine;
             }
-            if (File.Exists(Settings.Global.Properties["POLPath"] + "\\tiles.cfg"))
+
+            if (File.Exists(Settings.Global.Properties["POLPath"] + @"\multis.cfg"))
             {
-                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + "\\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + @"\multis.cfg", Settings.Global.Properties["POLPath"] + "\\config\\multis.cfg");
+            }
+            if (File.Exists(Settings.Global.Properties["POLPath"] + @"\landtiles.cfg"))
+            {
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + @"\landtiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\landtiles.cfg");
+            }
+            if (File.Exists(Settings.Global.Properties["POLPath"] + @"\tiles.cfg"))
+            {
+                PL_UOConvert.MoveConfigFile(Settings.Global.Properties["POLPath"] + @"\tiles.cfg", Settings.Global.Properties["POLPath"] + "\\config\\tiles.cfg");
             }
 
             if (this.InvokeRequired)
@@ -380,30 +392,40 @@ namespace POLLaunch
                     RunUOConvert();
                 else
                 {
-                    BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
                     if (this.InvokeRequired)
+                    {
+                        BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
                         this.Invoke((MethodInvoker)delegate() { ProgressBar.Value = 0; });
-                    else
-                        ProgressBar.Value = 0;
-                    MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
-                    if (this.InvokeRequired)
                         this.Invoke((MethodInvoker)delegate() { ProgressBar.Visible = false; });
+                        this.Invoke((MethodInvoker)delegate() { Cursor = Cursors.Default; });
+                    }
                     else
+                    {
+                        BTN_UOConvert.Enabled = true;
+                        ProgressBar.Value = 0;
                         ProgressBar.Visible = false;
+                        Cursor = Cursors.Default;
+                    }
+                    MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
                 }
             }
             else
             {
-                BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
                 if (this.InvokeRequired)
+                {
+                    BTN_UOConvert.Invoke((MethodInvoker)delegate() { BTN_UOConvert.Enabled = true; });
                     this.Invoke((MethodInvoker)delegate() { ProgressBar.Value = 0; });
-                else
-                    ProgressBar.Value = 0;
-                MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
-                if (this.InvokeRequired)
                     this.Invoke((MethodInvoker)delegate() { ProgressBar.Visible = false; });
+                    this.Invoke((MethodInvoker)delegate() { Cursor = Cursors.Default; });
+                }
                 else
+                {
+                    BTN_UOConvert.Enabled = true;
+                    ProgressBar.Value = 0;
                     ProgressBar.Visible = false;
+                    Cursor = Cursors.Default;
+                }
+                MessageBox.Show("Conversion has completed! See text box for details about the conversion process.");
             }
         }
 
@@ -420,10 +442,10 @@ namespace POLLaunch
             {
                 // Let's Parse out all the Converting: xx% crap here.
                 if (!e.Data.Contains("%"))
-                    TB_UOCOutput.Invoke((MethodInvoker)delegate() { TB_UOCOutput.Text += e.Data + System.Environment.NewLine; });
+                    UOConvertOutput += e.Data + System.Environment.NewLine;
             }
         }
-            #endregion
+        #endregion
 
             #region UO Client Data Path Code
         private void BTN_MULBrowse_Click(object sender, EventArgs e)
@@ -447,11 +469,11 @@ namespace POLLaunch
                 Settings.Global.Properties["UOPath"] = TB_MULFilePath.Text;
             }
         }
-            #endregion
+        #endregion
         #endregion
 
         #region POL Tab Code/POLConsole Handling
-        #region Buttons/Checkbox Code
+            #region Buttons/Checkbox Code
         private void BTN_StartPOL_Click(object sender, EventArgs e)
         {
             if (this.POLConsole != null)
@@ -477,7 +499,7 @@ namespace POLLaunch
             // begin pol console...          
 
             this.POLConsole = new MyConsole();
-            this.POLConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath));
+            this.POLConsole.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), true);
             this.POLConsole.Exited += new EventHandler(POLConsole_Exited);
             this.POLConsole.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(POLConsole_OutputDataReceived);
             BTN_StartPOL.Enabled = false;
@@ -791,7 +813,7 @@ namespace POLLaunch
                 int RowIndex = DGV_PackageRoot.Rows.Add(PathObject);
             }
         }
-            #endregion
+        #endregion
 
             #region ECompile Paths Editing Panel Code
         private void BTN_ECompilePathsEditDone_Click(object sender, EventArgs e)
@@ -831,7 +853,7 @@ namespace POLLaunch
             // We don't set the main TB's Text until Finished button is clicked.
             TB_ECompilePathsEditPolScriptRoot.Text = FilePicker.SelectFolder();
         }
-            #endregion
+        #endregion
 
             #region Package Root Editor Code
         private void BTN_ECompilePackageRootEditorFinished_Click(object sender, EventArgs e)
@@ -902,11 +924,17 @@ namespace POLLaunch
             BTN_ECompile.Visible = true;
             DGV_PackageRoot.Rows.Clear();
         }
-            #endregion
+        #endregion
 
             #region ECompile Console Code
         private void BTN_ECompile_Click(object sender, EventArgs e)
         {
+            if (this.Process_ECompile != null)
+            { // already running
+                MessageBox.Show("ECompile's already running"); // How?!
+                return;
+            }
+
             string exepath = Settings.Global.Properties["ECompileExePath"];
             string dirpath = Settings.Global.Properties["POLPath"];
 
@@ -920,36 +948,36 @@ namespace POLLaunch
                 dirpath = Path.GetDirectoryName(exepath);
             }
 
-            this.Process_ECompile.StartInfo.WorkingDirectory = Path.GetFullPath(dirpath);
-            this.Process_ECompile.StartInfo.FileName = Path.GetFullPath(exepath);
-            this.Process_ECompile.StartInfo.Arguments = "-A -b -f";
-            this.Process_ECompile.Start();
-            this.Process_ECompile.BeginOutputReadLine();
+            this.Process_ECompile = new MyConsole();
+            this.Process_ECompile.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), "-A -b -f");
+            this.Process_ECompile.Exited += new EventHandler(Process_ECompile_Exited);
+            this.Process_ECompile.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(Process_ECompile_OutputDataReceived);
 
-            TB_ECompile.Text = " "; 
+            TB_ECompile.Text = String.Empty;
             BTN_ECompile.Enabled = false;
             Cursor = Cursors.WaitCursor;
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 1;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
-            TB_ECompile.Text = "Ecompile Process Started... This May Take A While....";
+            TB_ECompile.Text = "Ecompile Process Started... This May Take A While...." + System.Environment.NewLine + System.Environment.NewLine;
         }
 
         private void Process_ECompile_Exited(object sender, EventArgs e)
         {
-            this.Process_ECompile.StartInfo.FileName = String.Empty;
+            ((MyConsole)sender).Dispose();
+            Process_ECompile = null;
 
             if (this.InvokeRequired)
             {
                 this.Invoke((MethodInvoker)delegate() { ProgressBar.PerformStep(); });
-                this.Invoke((MethodInvoker)delegate() { TB_ECompile.Text = ECompileOutput; });
+                this.Invoke((MethodInvoker)delegate() { TB_ECompile.Text += ECompileOutput; });
                 this.Invoke((MethodInvoker)delegate() { Cursor = Cursors.Default; });
             }
             else
             {
                 ProgressBar.PerformStep();
-                TB_ECompile.Text = ECompileOutput;
+                TB_ECompile.Text += ECompileOutput;
                 Cursor = Cursors.Default;
             }
 
