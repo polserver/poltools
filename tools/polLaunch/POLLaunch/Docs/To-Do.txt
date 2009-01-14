@@ -1,10 +1,13 @@
 ﻿1.) Add Enumeration Object that will store total count of SRC files and ASP
     files for ECompile Progress Bar Handling.
-2.) Change UOConvert to use Designer form of Process Control. No need to use the
-    custom Console Class for this.
-3.) Add Realms Editor for editing Realm Info to allow settings for custom maps.
-4.) Make sure Realms information is added to POLLaunch.XML settings.
-5.) Add Tooltips and Help Information.
-6.) Add Service configuration for POL.Exe and minor interaction (will require some
+2.) Add Realms Editor for editing Realm Info to allow settings for custom maps.
+3.) Make sure Realms information is added to POLLaunch.XML settings.
+4.) Add Tooltips and Help Information.
+5.) Add Service configuration for POL.Exe and minor interaction (will require some
     core updates for Shutdown/Stop Initialization via PL).
-7.) Add Default Checkboxes to be checked on UOConvert Tab to simplify initial setups.
+6.) Add Default Checkboxes to be checked on UOConvert Tab to simplify initial setups.
+7.) Add Intial Launch Wizard for UOConvert. Triggered when there is no Settings XML or
+    no Realm Information stored in the Settings XML.
+8.) Rename all Realm stuff to be Realm 1, Realm 2, etc instead of Britannia, etc. Include
+    with this, the Name for the buttons/checkboxes will be the realm Name provided by the
+    Realm Editor.

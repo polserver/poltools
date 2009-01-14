@@ -30,9 +30,9 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +53,9 @@
             this.TB_RunTests = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.BTN_UOConvert = new System.Windows.Forms.Button();
+            this.TB_UOCOutput = new System.Windows.Forms.TextBox();
             this.UOConvertGroupBox = new System.Windows.Forms.GroupBox();
+            this.BTN_UOConvertEditRealms = new System.Windows.Forms.Button();
             this.PNL_UOCSettings = new System.Windows.Forms.Panel();
             this.BTN_MULBrowse = new System.Windows.Forms.Button();
             this.TB_MULFilePath = new System.Windows.Forms.TextBox();
@@ -82,7 +84,58 @@
             this.CB_TramMap = new System.Windows.Forms.CheckBox();
             this.CB_BritT2AMap = new System.Windows.Forms.CheckBox();
             this.CB_BritMLMap = new System.Windows.Forms.CheckBox();
-            this.TB_UOCOutput = new System.Windows.Forms.TextBox();
+            this.GB_UOConvertRealmEditor = new System.Windows.Forms.GroupBox();
+            this.BTN_RealmEditorSave = new System.Windows.Forms.Button();
+            this.LBL_RealmEditorRealmFive = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmFour = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmThree = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmTwo = new System.Windows.Forms.Label();
+            this.PNL_RealmEditorRealmFour = new System.Windows.Forms.Panel();
+            this.LBL_RealmEditorRealmFourUseDif = new System.Windows.Forms.Label();
+            this.CB_RealmEditorRealmFourUseDif = new System.Windows.Forms.CheckBox();
+            this.LBL_RealmEditorRealmFourHeight = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmFourHeight = new System.Windows.Forms.TextBox();
+            this.TB_RealmEditorRealmFourWidth = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmFourWidth = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmFourName = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmFourName = new System.Windows.Forms.TextBox();
+            this.PNL_RealmEditorRealmFive = new System.Windows.Forms.Panel();
+            this.LBL_RealmEditorRealmFiveUseDif = new System.Windows.Forms.Label();
+            this.CB_RealmEditorRealmFiveUseDif = new System.Windows.Forms.CheckBox();
+            this.LBL_RealmEditorRealmFiveHeight = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmFiveHeight = new System.Windows.Forms.TextBox();
+            this.TB_RealmEditorRealmFiveWidth = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmFiveWidth = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmFiveName = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmFiveName = new System.Windows.Forms.TextBox();
+            this.PNL_RealmEditorRealmThree = new System.Windows.Forms.Panel();
+            this.LBL_RealmEditorRealmThreeUseDif = new System.Windows.Forms.Label();
+            this.CB_RealmEditorRealmThreeUseDif = new System.Windows.Forms.CheckBox();
+            this.LBL_RealmEditorRealmThreeHeight = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmThreeHeight = new System.Windows.Forms.TextBox();
+            this.TB_RealmEditorRealmThreeWidth = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmThreeWidth = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmThreeName = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmThreeName = new System.Windows.Forms.TextBox();
+            this.PNL_RealmEditorRealmTwo = new System.Windows.Forms.Panel();
+            this.LBL_RealmEditorRealmTwoUseDif = new System.Windows.Forms.Label();
+            this.CB_RealmEditorRealmTwoUseDif = new System.Windows.Forms.CheckBox();
+            this.LBL_RealmEditorRealmTwoHeight = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmTwoHeight = new System.Windows.Forms.TextBox();
+            this.TB_RealmEditorRealmTwoWidth = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmTwoWidth = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmTwoName = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmTwoName = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmOne = new System.Windows.Forms.Label();
+            this.PNL_RealmEditorRealmOne = new System.Windows.Forms.Panel();
+            this.LBL_RealmEditorRealmOneUseDif = new System.Windows.Forms.Label();
+            this.CB_RealmEditorRealmOneUseDif = new System.Windows.Forms.CheckBox();
+            this.LBL_RealmEditorRealmOneHeight = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmOneHeight = new System.Windows.Forms.TextBox();
+            this.TB_RealmEditorRealmOneWidth = new System.Windows.Forms.TextBox();
+            this.LBL_RealmEditorRealmOneWidth = new System.Windows.Forms.Label();
+            this.LBL_RealmEditorRealmOneName = new System.Windows.Forms.Label();
+            this.TB_RealmEditorRealmOneName = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.BTN_ECompile = new System.Windows.Forms.Button();
             this.TB_ECompile = new System.Windows.Forms.TextBox();
@@ -175,7 +228,6 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
-            this.Process_ECompile = new System.Diagnostics.Process();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -187,6 +239,12 @@
             this.PNL_UOCSettings.SuspendLayout();
             this.PNL_UOCConfigFiles.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.GB_UOConvertRealmEditor.SuspendLayout();
+            this.PNL_RealmEditorRealmFour.SuspendLayout();
+            this.PNL_RealmEditorRealmFive.SuspendLayout();
+            this.PNL_RealmEditorRealmThree.SuspendLayout();
+            this.PNL_RealmEditorRealmTwo.SuspendLayout();
+            this.PNL_RealmEditorRealmOne.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.GB_ECompile.SuspendLayout();
             this.PNL_ECompilePaths.SuspendLayout();
@@ -385,8 +443,9 @@
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
             this.tabPage3.Controls.Add(this.BTN_UOConvert);
-            this.tabPage3.Controls.Add(this.UOConvertGroupBox);
             this.tabPage3.Controls.Add(this.TB_UOCOutput);
+            this.tabPage3.Controls.Add(this.UOConvertGroupBox);
+            this.tabPage3.Controls.Add(this.GB_UOConvertRealmEditor);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(676, 392);
@@ -404,9 +463,25 @@
             this.BTN_UOConvert.UseVisualStyleBackColor = true;
             this.BTN_UOConvert.Click += new System.EventHandler(this.BTN_UOConvert_Click);
             // 
+            // TB_UOCOutput
+            // 
+            this.TB_UOCOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
+            this.TB_UOCOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_UOCOutput.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
+            this.TB_UOCOutput.ForeColor = System.Drawing.Color.Black;
+            this.TB_UOCOutput.Location = new System.Drawing.Point(7, 6);
+            this.TB_UOCOutput.Multiline = true;
+            this.TB_UOCOutput.Name = "TB_UOCOutput";
+            this.TB_UOCOutput.ReadOnly = true;
+            this.TB_UOCOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TB_UOCOutput.Size = new System.Drawing.Size(661, 213);
+            this.TB_UOCOutput.TabIndex = 2;
+            this.TB_UOCOutput.TextChanged += new System.EventHandler(this.TB_UOCOutput_TextChanged);
+            // 
             // UOConvertGroupBox
             // 
             this.UOConvertGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.UOConvertGroupBox.Controls.Add(this.BTN_UOConvertEditRealms);
             this.UOConvertGroupBox.Controls.Add(this.PNL_UOCSettings);
             this.UOConvertGroupBox.Controls.Add(this.PNL_UOCConfigFiles);
             this.UOConvertGroupBox.Controls.Add(this.panel1);
@@ -417,6 +492,15 @@
             this.UOConvertGroupBox.TabIndex = 3;
             this.UOConvertGroupBox.TabStop = false;
             this.UOConvertGroupBox.Text = "UOConvert Controls";
+            // 
+            // BTN_UOConvertEditRealms
+            // 
+            this.BTN_UOConvertEditRealms.Location = new System.Drawing.Point(333, 92);
+            this.BTN_UOConvertEditRealms.Name = "BTN_UOConvertEditRealms";
+            this.BTN_UOConvertEditRealms.Size = new System.Drawing.Size(75, 23);
+            this.BTN_UOConvertEditRealms.TabIndex = 9;
+            this.BTN_UOConvertEditRealms.Text = "Edit Realms";
+            this.BTN_UOConvertEditRealms.UseVisualStyleBackColor = true;
             // 
             // PNL_UOCSettings
             // 
@@ -538,7 +622,7 @@
             this.panel1.Controls.Add(this.CB_BritMLMap);
             this.panel1.Location = new System.Drawing.Point(6, 19);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(402, 107);
+            this.panel1.Size = new System.Drawing.Size(321, 107);
             this.panel1.TabIndex = 6;
             // 
             // CB_TokDif
@@ -647,7 +731,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(149, 4);
+            this.label1.Location = new System.Drawing.Point(102, 4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 13);
             this.label1.TabIndex = 6;
@@ -713,20 +797,485 @@
             this.CB_BritMLMap.UseVisualStyleBackColor = true;
             this.CB_BritMLMap.CheckedChanged += new System.EventHandler(this.CB_BritMLMap_CheckedChanged);
             // 
-            // TB_UOCOutput
+            // GB_UOConvertRealmEditor
             // 
-            this.TB_UOCOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(180)))), ((int)(((byte)(209)))));
-            this.TB_UOCOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_UOCOutput.Font = new System.Drawing.Font("Trebuchet MS", 8.25F);
-            this.TB_UOCOutput.ForeColor = System.Drawing.Color.Black;
-            this.TB_UOCOutput.Location = new System.Drawing.Point(7, 6);
-            this.TB_UOCOutput.Multiline = true;
-            this.TB_UOCOutput.Name = "TB_UOCOutput";
-            this.TB_UOCOutput.ReadOnly = true;
-            this.TB_UOCOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TB_UOCOutput.Size = new System.Drawing.Size(661, 213);
-            this.TB_UOCOutput.TabIndex = 2;
-            this.TB_UOCOutput.TextChanged += new System.EventHandler(this.TB_UOCOutput_TextChanged);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.BTN_RealmEditorSave);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.LBL_RealmEditorRealmFive);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.LBL_RealmEditorRealmFour);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.LBL_RealmEditorRealmThree);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.LBL_RealmEditorRealmTwo);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.PNL_RealmEditorRealmFour);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.PNL_RealmEditorRealmFive);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.PNL_RealmEditorRealmThree);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.PNL_RealmEditorRealmTwo);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.LBL_RealmEditorRealmOne);
+            this.GB_UOConvertRealmEditor.Controls.Add(this.PNL_RealmEditorRealmOne);
+            this.GB_UOConvertRealmEditor.Location = new System.Drawing.Point(7, 6);
+            this.GB_UOConvertRealmEditor.Name = "GB_UOConvertRealmEditor";
+            this.GB_UOConvertRealmEditor.Size = new System.Drawing.Size(661, 351);
+            this.GB_UOConvertRealmEditor.TabIndex = 5;
+            this.GB_UOConvertRealmEditor.TabStop = false;
+            this.GB_UOConvertRealmEditor.Text = "Custom Realm Editor";
+            this.GB_UOConvertRealmEditor.Visible = false;
+            // 
+            // BTN_RealmEditorSave
+            // 
+            this.BTN_RealmEditorSave.Location = new System.Drawing.Point(293, 301);
+            this.BTN_RealmEditorSave.Name = "BTN_RealmEditorSave";
+            this.BTN_RealmEditorSave.Size = new System.Drawing.Size(75, 23);
+            this.BTN_RealmEditorSave.TabIndex = 14;
+            this.BTN_RealmEditorSave.Text = "Save";
+            this.BTN_RealmEditorSave.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmFive
+            // 
+            this.LBL_RealmEditorRealmFive.AutoSize = true;
+            this.LBL_RealmEditorRealmFive.Location = new System.Drawing.Point(342, 160);
+            this.LBL_RealmEditorRealmFive.Name = "LBL_RealmEditorRealmFive";
+            this.LBL_RealmEditorRealmFive.Size = new System.Drawing.Size(46, 13);
+            this.LBL_RealmEditorRealmFive.TabIndex = 13;
+            this.LBL_RealmEditorRealmFive.Text = "Realm 5";
+            // 
+            // LBL_RealmEditorRealmFour
+            // 
+            this.LBL_RealmEditorRealmFour.AutoSize = true;
+            this.LBL_RealmEditorRealmFour.Location = new System.Drawing.Point(113, 160);
+            this.LBL_RealmEditorRealmFour.Name = "LBL_RealmEditorRealmFour";
+            this.LBL_RealmEditorRealmFour.Size = new System.Drawing.Size(46, 13);
+            this.LBL_RealmEditorRealmFour.TabIndex = 12;
+            this.LBL_RealmEditorRealmFour.Text = "Realm 4";
+            // 
+            // LBL_RealmEditorRealmThree
+            // 
+            this.LBL_RealmEditorRealmThree.AutoSize = true;
+            this.LBL_RealmEditorRealmThree.Location = new System.Drawing.Point(452, 20);
+            this.LBL_RealmEditorRealmThree.Name = "LBL_RealmEditorRealmThree";
+            this.LBL_RealmEditorRealmThree.Size = new System.Drawing.Size(46, 13);
+            this.LBL_RealmEditorRealmThree.TabIndex = 11;
+            this.LBL_RealmEditorRealmThree.Text = "Realm 3";
+            // 
+            // LBL_RealmEditorRealmTwo
+            // 
+            this.LBL_RealmEditorRealmTwo.AutoSize = true;
+            this.LBL_RealmEditorRealmTwo.Location = new System.Drawing.Point(227, 20);
+            this.LBL_RealmEditorRealmTwo.Name = "LBL_RealmEditorRealmTwo";
+            this.LBL_RealmEditorRealmTwo.Size = new System.Drawing.Size(46, 13);
+            this.LBL_RealmEditorRealmTwo.TabIndex = 10;
+            this.LBL_RealmEditorRealmTwo.Text = "Realm 2";
+            // 
+            // PNL_RealmEditorRealmFour
+            // 
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.LBL_RealmEditorRealmFourUseDif);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.CB_RealmEditorRealmFourUseDif);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.LBL_RealmEditorRealmFourHeight);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.TB_RealmEditorRealmFourHeight);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.TB_RealmEditorRealmFourWidth);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.LBL_RealmEditorRealmFourWidth);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.LBL_RealmEditorRealmFourName);
+            this.PNL_RealmEditorRealmFour.Controls.Add(this.TB_RealmEditorRealmFourName);
+            this.PNL_RealmEditorRealmFour.Location = new System.Drawing.Point(116, 176);
+            this.PNL_RealmEditorRealmFour.Name = "PNL_RealmEditorRealmFour";
+            this.PNL_RealmEditorRealmFour.Size = new System.Drawing.Size(200, 93);
+            this.PNL_RealmEditorRealmFour.TabIndex = 8;
+            // 
+            // LBL_RealmEditorRealmFourUseDif
+            // 
+            this.LBL_RealmEditorRealmFourUseDif.AutoSize = true;
+            this.LBL_RealmEditorRealmFourUseDif.Location = new System.Drawing.Point(4, 67);
+            this.LBL_RealmEditorRealmFourUseDif.Name = "LBL_RealmEditorRealmFourUseDif";
+            this.LBL_RealmEditorRealmFourUseDif.Size = new System.Drawing.Size(69, 13);
+            this.LBL_RealmEditorRealmFourUseDif.TabIndex = 7;
+            this.LBL_RealmEditorRealmFourUseDif.Text = "Use Dif Files:";
+            // 
+            // CB_RealmEditorRealmFourUseDif
+            // 
+            this.CB_RealmEditorRealmFourUseDif.AutoSize = true;
+            this.CB_RealmEditorRealmFourUseDif.Location = new System.Drawing.Point(75, 68);
+            this.CB_RealmEditorRealmFourUseDif.Name = "CB_RealmEditorRealmFourUseDif";
+            this.CB_RealmEditorRealmFourUseDif.Size = new System.Drawing.Size(15, 14);
+            this.CB_RealmEditorRealmFourUseDif.TabIndex = 6;
+            this.CB_RealmEditorRealmFourUseDif.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmFourHeight
+            // 
+            this.LBL_RealmEditorRealmFourHeight.AutoSize = true;
+            this.LBL_RealmEditorRealmFourHeight.Location = new System.Drawing.Point(4, 48);
+            this.LBL_RealmEditorRealmFourHeight.Name = "LBL_RealmEditorRealmFourHeight";
+            this.LBL_RealmEditorRealmFourHeight.Size = new System.Drawing.Size(41, 13);
+            this.LBL_RealmEditorRealmFourHeight.TabIndex = 5;
+            this.LBL_RealmEditorRealmFourHeight.Text = "Height:";
+            // 
+            // TB_RealmEditorRealmFourHeight
+            // 
+            this.TB_RealmEditorRealmFourHeight.Location = new System.Drawing.Point(75, 45);
+            this.TB_RealmEditorRealmFourHeight.Name = "TB_RealmEditorRealmFourHeight";
+            this.TB_RealmEditorRealmFourHeight.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFourHeight.TabIndex = 4;
+            // 
+            // TB_RealmEditorRealmFourWidth
+            // 
+            this.TB_RealmEditorRealmFourWidth.Location = new System.Drawing.Point(75, 24);
+            this.TB_RealmEditorRealmFourWidth.Name = "TB_RealmEditorRealmFourWidth";
+            this.TB_RealmEditorRealmFourWidth.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFourWidth.TabIndex = 3;
+            // 
+            // LBL_RealmEditorRealmFourWidth
+            // 
+            this.LBL_RealmEditorRealmFourWidth.AutoSize = true;
+            this.LBL_RealmEditorRealmFourWidth.Location = new System.Drawing.Point(4, 27);
+            this.LBL_RealmEditorRealmFourWidth.Name = "LBL_RealmEditorRealmFourWidth";
+            this.LBL_RealmEditorRealmFourWidth.Size = new System.Drawing.Size(38, 13);
+            this.LBL_RealmEditorRealmFourWidth.TabIndex = 2;
+            this.LBL_RealmEditorRealmFourWidth.Text = "Width:";
+            // 
+            // LBL_RealmEditorRealmFourName
+            // 
+            this.LBL_RealmEditorRealmFourName.AutoSize = true;
+            this.LBL_RealmEditorRealmFourName.Location = new System.Drawing.Point(3, 6);
+            this.LBL_RealmEditorRealmFourName.Name = "LBL_RealmEditorRealmFourName";
+            this.LBL_RealmEditorRealmFourName.Size = new System.Drawing.Size(71, 13);
+            this.LBL_RealmEditorRealmFourName.TabIndex = 1;
+            this.LBL_RealmEditorRealmFourName.Text = "Realm Name:";
+            // 
+            // TB_RealmEditorRealmFourName
+            // 
+            this.TB_RealmEditorRealmFourName.Location = new System.Drawing.Point(75, 3);
+            this.TB_RealmEditorRealmFourName.Name = "TB_RealmEditorRealmFourName";
+            this.TB_RealmEditorRealmFourName.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFourName.TabIndex = 0;
+            // 
+            // PNL_RealmEditorRealmFive
+            // 
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.LBL_RealmEditorRealmFiveUseDif);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.CB_RealmEditorRealmFiveUseDif);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.LBL_RealmEditorRealmFiveHeight);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.TB_RealmEditorRealmFiveHeight);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.TB_RealmEditorRealmFiveWidth);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.LBL_RealmEditorRealmFiveWidth);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.LBL_RealmEditorRealmFiveName);
+            this.PNL_RealmEditorRealmFive.Controls.Add(this.TB_RealmEditorRealmFiveName);
+            this.PNL_RealmEditorRealmFive.Location = new System.Drawing.Point(345, 176);
+            this.PNL_RealmEditorRealmFive.Name = "PNL_RealmEditorRealmFive";
+            this.PNL_RealmEditorRealmFive.Size = new System.Drawing.Size(200, 93);
+            this.PNL_RealmEditorRealmFive.TabIndex = 9;
+            // 
+            // LBL_RealmEditorRealmFiveUseDif
+            // 
+            this.LBL_RealmEditorRealmFiveUseDif.AutoSize = true;
+            this.LBL_RealmEditorRealmFiveUseDif.Location = new System.Drawing.Point(4, 67);
+            this.LBL_RealmEditorRealmFiveUseDif.Name = "LBL_RealmEditorRealmFiveUseDif";
+            this.LBL_RealmEditorRealmFiveUseDif.Size = new System.Drawing.Size(69, 13);
+            this.LBL_RealmEditorRealmFiveUseDif.TabIndex = 7;
+            this.LBL_RealmEditorRealmFiveUseDif.Text = "Use Dif Files:";
+            // 
+            // CB_RealmEditorRealmFiveUseDif
+            // 
+            this.CB_RealmEditorRealmFiveUseDif.AutoSize = true;
+            this.CB_RealmEditorRealmFiveUseDif.Location = new System.Drawing.Point(75, 68);
+            this.CB_RealmEditorRealmFiveUseDif.Name = "CB_RealmEditorRealmFiveUseDif";
+            this.CB_RealmEditorRealmFiveUseDif.Size = new System.Drawing.Size(15, 14);
+            this.CB_RealmEditorRealmFiveUseDif.TabIndex = 6;
+            this.CB_RealmEditorRealmFiveUseDif.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmFiveHeight
+            // 
+            this.LBL_RealmEditorRealmFiveHeight.AutoSize = true;
+            this.LBL_RealmEditorRealmFiveHeight.Location = new System.Drawing.Point(4, 48);
+            this.LBL_RealmEditorRealmFiveHeight.Name = "LBL_RealmEditorRealmFiveHeight";
+            this.LBL_RealmEditorRealmFiveHeight.Size = new System.Drawing.Size(41, 13);
+            this.LBL_RealmEditorRealmFiveHeight.TabIndex = 5;
+            this.LBL_RealmEditorRealmFiveHeight.Text = "Height:";
+            // 
+            // TB_RealmEditorRealmFiveHeight
+            // 
+            this.TB_RealmEditorRealmFiveHeight.Location = new System.Drawing.Point(75, 45);
+            this.TB_RealmEditorRealmFiveHeight.Name = "TB_RealmEditorRealmFiveHeight";
+            this.TB_RealmEditorRealmFiveHeight.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFiveHeight.TabIndex = 4;
+            // 
+            // TB_RealmEditorRealmFiveWidth
+            // 
+            this.TB_RealmEditorRealmFiveWidth.Location = new System.Drawing.Point(75, 24);
+            this.TB_RealmEditorRealmFiveWidth.Name = "TB_RealmEditorRealmFiveWidth";
+            this.TB_RealmEditorRealmFiveWidth.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFiveWidth.TabIndex = 3;
+            // 
+            // LBL_RealmEditorRealmFiveWidth
+            // 
+            this.LBL_RealmEditorRealmFiveWidth.AutoSize = true;
+            this.LBL_RealmEditorRealmFiveWidth.Location = new System.Drawing.Point(4, 27);
+            this.LBL_RealmEditorRealmFiveWidth.Name = "LBL_RealmEditorRealmFiveWidth";
+            this.LBL_RealmEditorRealmFiveWidth.Size = new System.Drawing.Size(38, 13);
+            this.LBL_RealmEditorRealmFiveWidth.TabIndex = 2;
+            this.LBL_RealmEditorRealmFiveWidth.Text = "Width:";
+            // 
+            // LBL_RealmEditorRealmFiveName
+            // 
+            this.LBL_RealmEditorRealmFiveName.AutoSize = true;
+            this.LBL_RealmEditorRealmFiveName.Location = new System.Drawing.Point(3, 6);
+            this.LBL_RealmEditorRealmFiveName.Name = "LBL_RealmEditorRealmFiveName";
+            this.LBL_RealmEditorRealmFiveName.Size = new System.Drawing.Size(71, 13);
+            this.LBL_RealmEditorRealmFiveName.TabIndex = 1;
+            this.LBL_RealmEditorRealmFiveName.Text = "Realm Name:";
+            // 
+            // TB_RealmEditorRealmFiveName
+            // 
+            this.TB_RealmEditorRealmFiveName.Location = new System.Drawing.Point(75, 3);
+            this.TB_RealmEditorRealmFiveName.Name = "TB_RealmEditorRealmFiveName";
+            this.TB_RealmEditorRealmFiveName.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmFiveName.TabIndex = 0;
+            // 
+            // PNL_RealmEditorRealmThree
+            // 
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.LBL_RealmEditorRealmThreeUseDif);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.CB_RealmEditorRealmThreeUseDif);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.LBL_RealmEditorRealmThreeHeight);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.TB_RealmEditorRealmThreeHeight);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.TB_RealmEditorRealmThreeWidth);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.LBL_RealmEditorRealmThreeWidth);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.LBL_RealmEditorRealmThreeName);
+            this.PNL_RealmEditorRealmThree.Controls.Add(this.TB_RealmEditorRealmThreeName);
+            this.PNL_RealmEditorRealmThree.Location = new System.Drawing.Point(455, 36);
+            this.PNL_RealmEditorRealmThree.Name = "PNL_RealmEditorRealmThree";
+            this.PNL_RealmEditorRealmThree.Size = new System.Drawing.Size(200, 93);
+            this.PNL_RealmEditorRealmThree.TabIndex = 8;
+            // 
+            // LBL_RealmEditorRealmThreeUseDif
+            // 
+            this.LBL_RealmEditorRealmThreeUseDif.AutoSize = true;
+            this.LBL_RealmEditorRealmThreeUseDif.Location = new System.Drawing.Point(4, 67);
+            this.LBL_RealmEditorRealmThreeUseDif.Name = "LBL_RealmEditorRealmThreeUseDif";
+            this.LBL_RealmEditorRealmThreeUseDif.Size = new System.Drawing.Size(69, 13);
+            this.LBL_RealmEditorRealmThreeUseDif.TabIndex = 7;
+            this.LBL_RealmEditorRealmThreeUseDif.Text = "Use Dif Files:";
+            // 
+            // CB_RealmEditorRealmThreeUseDif
+            // 
+            this.CB_RealmEditorRealmThreeUseDif.AutoSize = true;
+            this.CB_RealmEditorRealmThreeUseDif.Location = new System.Drawing.Point(75, 68);
+            this.CB_RealmEditorRealmThreeUseDif.Name = "CB_RealmEditorRealmThreeUseDif";
+            this.CB_RealmEditorRealmThreeUseDif.Size = new System.Drawing.Size(15, 14);
+            this.CB_RealmEditorRealmThreeUseDif.TabIndex = 6;
+            this.CB_RealmEditorRealmThreeUseDif.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmThreeHeight
+            // 
+            this.LBL_RealmEditorRealmThreeHeight.AutoSize = true;
+            this.LBL_RealmEditorRealmThreeHeight.Location = new System.Drawing.Point(4, 48);
+            this.LBL_RealmEditorRealmThreeHeight.Name = "LBL_RealmEditorRealmThreeHeight";
+            this.LBL_RealmEditorRealmThreeHeight.Size = new System.Drawing.Size(41, 13);
+            this.LBL_RealmEditorRealmThreeHeight.TabIndex = 5;
+            this.LBL_RealmEditorRealmThreeHeight.Text = "Height:";
+            // 
+            // TB_RealmEditorRealmThreeHeight
+            // 
+            this.TB_RealmEditorRealmThreeHeight.Location = new System.Drawing.Point(75, 45);
+            this.TB_RealmEditorRealmThreeHeight.Name = "TB_RealmEditorRealmThreeHeight";
+            this.TB_RealmEditorRealmThreeHeight.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmThreeHeight.TabIndex = 4;
+            // 
+            // TB_RealmEditorRealmThreeWidth
+            // 
+            this.TB_RealmEditorRealmThreeWidth.Location = new System.Drawing.Point(75, 24);
+            this.TB_RealmEditorRealmThreeWidth.Name = "TB_RealmEditorRealmThreeWidth";
+            this.TB_RealmEditorRealmThreeWidth.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmThreeWidth.TabIndex = 3;
+            // 
+            // LBL_RealmEditorRealmThreeWidth
+            // 
+            this.LBL_RealmEditorRealmThreeWidth.AutoSize = true;
+            this.LBL_RealmEditorRealmThreeWidth.Location = new System.Drawing.Point(4, 27);
+            this.LBL_RealmEditorRealmThreeWidth.Name = "LBL_RealmEditorRealmThreeWidth";
+            this.LBL_RealmEditorRealmThreeWidth.Size = new System.Drawing.Size(38, 13);
+            this.LBL_RealmEditorRealmThreeWidth.TabIndex = 2;
+            this.LBL_RealmEditorRealmThreeWidth.Text = "Width:";
+            // 
+            // LBL_RealmEditorRealmThreeName
+            // 
+            this.LBL_RealmEditorRealmThreeName.AutoSize = true;
+            this.LBL_RealmEditorRealmThreeName.Location = new System.Drawing.Point(3, 6);
+            this.LBL_RealmEditorRealmThreeName.Name = "LBL_RealmEditorRealmThreeName";
+            this.LBL_RealmEditorRealmThreeName.Size = new System.Drawing.Size(71, 13);
+            this.LBL_RealmEditorRealmThreeName.TabIndex = 1;
+            this.LBL_RealmEditorRealmThreeName.Text = "Realm Name:";
+            // 
+            // TB_RealmEditorRealmThreeName
+            // 
+            this.TB_RealmEditorRealmThreeName.Location = new System.Drawing.Point(75, 3);
+            this.TB_RealmEditorRealmThreeName.Name = "TB_RealmEditorRealmThreeName";
+            this.TB_RealmEditorRealmThreeName.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmThreeName.TabIndex = 0;
+            // 
+            // PNL_RealmEditorRealmTwo
+            // 
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.LBL_RealmEditorRealmTwoUseDif);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.CB_RealmEditorRealmTwoUseDif);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.LBL_RealmEditorRealmTwoHeight);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.TB_RealmEditorRealmTwoHeight);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.TB_RealmEditorRealmTwoWidth);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.LBL_RealmEditorRealmTwoWidth);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.LBL_RealmEditorRealmTwoName);
+            this.PNL_RealmEditorRealmTwo.Controls.Add(this.TB_RealmEditorRealmTwoName);
+            this.PNL_RealmEditorRealmTwo.Location = new System.Drawing.Point(230, 36);
+            this.PNL_RealmEditorRealmTwo.Name = "PNL_RealmEditorRealmTwo";
+            this.PNL_RealmEditorRealmTwo.Size = new System.Drawing.Size(200, 93);
+            this.PNL_RealmEditorRealmTwo.TabIndex = 8;
+            // 
+            // LBL_RealmEditorRealmTwoUseDif
+            // 
+            this.LBL_RealmEditorRealmTwoUseDif.AutoSize = true;
+            this.LBL_RealmEditorRealmTwoUseDif.Location = new System.Drawing.Point(4, 67);
+            this.LBL_RealmEditorRealmTwoUseDif.Name = "LBL_RealmEditorRealmTwoUseDif";
+            this.LBL_RealmEditorRealmTwoUseDif.Size = new System.Drawing.Size(69, 13);
+            this.LBL_RealmEditorRealmTwoUseDif.TabIndex = 7;
+            this.LBL_RealmEditorRealmTwoUseDif.Text = "Use Dif Files:";
+            // 
+            // CB_RealmEditorRealmTwoUseDif
+            // 
+            this.CB_RealmEditorRealmTwoUseDif.AutoSize = true;
+            this.CB_RealmEditorRealmTwoUseDif.Location = new System.Drawing.Point(75, 68);
+            this.CB_RealmEditorRealmTwoUseDif.Name = "CB_RealmEditorRealmTwoUseDif";
+            this.CB_RealmEditorRealmTwoUseDif.Size = new System.Drawing.Size(15, 14);
+            this.CB_RealmEditorRealmTwoUseDif.TabIndex = 6;
+            this.CB_RealmEditorRealmTwoUseDif.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmTwoHeight
+            // 
+            this.LBL_RealmEditorRealmTwoHeight.AutoSize = true;
+            this.LBL_RealmEditorRealmTwoHeight.Location = new System.Drawing.Point(4, 48);
+            this.LBL_RealmEditorRealmTwoHeight.Name = "LBL_RealmEditorRealmTwoHeight";
+            this.LBL_RealmEditorRealmTwoHeight.Size = new System.Drawing.Size(41, 13);
+            this.LBL_RealmEditorRealmTwoHeight.TabIndex = 5;
+            this.LBL_RealmEditorRealmTwoHeight.Text = "Height:";
+            // 
+            // TB_RealmEditorRealmTwoHeight
+            // 
+            this.TB_RealmEditorRealmTwoHeight.Location = new System.Drawing.Point(75, 45);
+            this.TB_RealmEditorRealmTwoHeight.Name = "TB_RealmEditorRealmTwoHeight";
+            this.TB_RealmEditorRealmTwoHeight.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmTwoHeight.TabIndex = 4;
+            // 
+            // TB_RealmEditorRealmTwoWidth
+            // 
+            this.TB_RealmEditorRealmTwoWidth.Location = new System.Drawing.Point(75, 24);
+            this.TB_RealmEditorRealmTwoWidth.Name = "TB_RealmEditorRealmTwoWidth";
+            this.TB_RealmEditorRealmTwoWidth.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmTwoWidth.TabIndex = 3;
+            // 
+            // LBL_RealmEditorRealmTwoWidth
+            // 
+            this.LBL_RealmEditorRealmTwoWidth.AutoSize = true;
+            this.LBL_RealmEditorRealmTwoWidth.Location = new System.Drawing.Point(4, 27);
+            this.LBL_RealmEditorRealmTwoWidth.Name = "LBL_RealmEditorRealmTwoWidth";
+            this.LBL_RealmEditorRealmTwoWidth.Size = new System.Drawing.Size(38, 13);
+            this.LBL_RealmEditorRealmTwoWidth.TabIndex = 2;
+            this.LBL_RealmEditorRealmTwoWidth.Text = "Width:";
+            // 
+            // LBL_RealmEditorRealmTwoName
+            // 
+            this.LBL_RealmEditorRealmTwoName.AutoSize = true;
+            this.LBL_RealmEditorRealmTwoName.Location = new System.Drawing.Point(3, 6);
+            this.LBL_RealmEditorRealmTwoName.Name = "LBL_RealmEditorRealmTwoName";
+            this.LBL_RealmEditorRealmTwoName.Size = new System.Drawing.Size(71, 13);
+            this.LBL_RealmEditorRealmTwoName.TabIndex = 1;
+            this.LBL_RealmEditorRealmTwoName.Text = "Realm Name:";
+            // 
+            // TB_RealmEditorRealmTwoName
+            // 
+            this.TB_RealmEditorRealmTwoName.Location = new System.Drawing.Point(75, 3);
+            this.TB_RealmEditorRealmTwoName.Name = "TB_RealmEditorRealmTwoName";
+            this.TB_RealmEditorRealmTwoName.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmTwoName.TabIndex = 0;
+            // 
+            // LBL_RealmEditorRealmOne
+            // 
+            this.LBL_RealmEditorRealmOne.AutoSize = true;
+            this.LBL_RealmEditorRealmOne.Location = new System.Drawing.Point(3, 20);
+            this.LBL_RealmEditorRealmOne.Name = "LBL_RealmEditorRealmOne";
+            this.LBL_RealmEditorRealmOne.Size = new System.Drawing.Size(46, 13);
+            this.LBL_RealmEditorRealmOne.TabIndex = 1;
+            this.LBL_RealmEditorRealmOne.Text = "Realm 1";
+            // 
+            // PNL_RealmEditorRealmOne
+            // 
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.LBL_RealmEditorRealmOneUseDif);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.CB_RealmEditorRealmOneUseDif);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.LBL_RealmEditorRealmOneHeight);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.TB_RealmEditorRealmOneHeight);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.TB_RealmEditorRealmOneWidth);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.LBL_RealmEditorRealmOneWidth);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.LBL_RealmEditorRealmOneName);
+            this.PNL_RealmEditorRealmOne.Controls.Add(this.TB_RealmEditorRealmOneName);
+            this.PNL_RealmEditorRealmOne.Location = new System.Drawing.Point(6, 36);
+            this.PNL_RealmEditorRealmOne.Name = "PNL_RealmEditorRealmOne";
+            this.PNL_RealmEditorRealmOne.Size = new System.Drawing.Size(200, 93);
+            this.PNL_RealmEditorRealmOne.TabIndex = 0;
+            // 
+            // LBL_RealmEditorRealmOneUseDif
+            // 
+            this.LBL_RealmEditorRealmOneUseDif.AutoSize = true;
+            this.LBL_RealmEditorRealmOneUseDif.Location = new System.Drawing.Point(4, 67);
+            this.LBL_RealmEditorRealmOneUseDif.Name = "LBL_RealmEditorRealmOneUseDif";
+            this.LBL_RealmEditorRealmOneUseDif.Size = new System.Drawing.Size(69, 13);
+            this.LBL_RealmEditorRealmOneUseDif.TabIndex = 7;
+            this.LBL_RealmEditorRealmOneUseDif.Text = "Use Dif Files:";
+            // 
+            // CB_RealmEditorRealmOneUseDif
+            // 
+            this.CB_RealmEditorRealmOneUseDif.AutoSize = true;
+            this.CB_RealmEditorRealmOneUseDif.Location = new System.Drawing.Point(75, 68);
+            this.CB_RealmEditorRealmOneUseDif.Name = "CB_RealmEditorRealmOneUseDif";
+            this.CB_RealmEditorRealmOneUseDif.Size = new System.Drawing.Size(15, 14);
+            this.CB_RealmEditorRealmOneUseDif.TabIndex = 6;
+            this.CB_RealmEditorRealmOneUseDif.UseVisualStyleBackColor = true;
+            // 
+            // LBL_RealmEditorRealmOneHeight
+            // 
+            this.LBL_RealmEditorRealmOneHeight.AutoSize = true;
+            this.LBL_RealmEditorRealmOneHeight.Location = new System.Drawing.Point(4, 48);
+            this.LBL_RealmEditorRealmOneHeight.Name = "LBL_RealmEditorRealmOneHeight";
+            this.LBL_RealmEditorRealmOneHeight.Size = new System.Drawing.Size(41, 13);
+            this.LBL_RealmEditorRealmOneHeight.TabIndex = 5;
+            this.LBL_RealmEditorRealmOneHeight.Text = "Height:";
+            // 
+            // TB_RealmEditorRealmOneHeight
+            // 
+            this.TB_RealmEditorRealmOneHeight.Location = new System.Drawing.Point(75, 45);
+            this.TB_RealmEditorRealmOneHeight.Name = "TB_RealmEditorRealmOneHeight";
+            this.TB_RealmEditorRealmOneHeight.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmOneHeight.TabIndex = 4;
+            // 
+            // TB_RealmEditorRealmOneWidth
+            // 
+            this.TB_RealmEditorRealmOneWidth.Location = new System.Drawing.Point(75, 24);
+            this.TB_RealmEditorRealmOneWidth.Name = "TB_RealmEditorRealmOneWidth";
+            this.TB_RealmEditorRealmOneWidth.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmOneWidth.TabIndex = 3;
+            // 
+            // LBL_RealmEditorRealmOneWidth
+            // 
+            this.LBL_RealmEditorRealmOneWidth.AutoSize = true;
+            this.LBL_RealmEditorRealmOneWidth.Location = new System.Drawing.Point(4, 27);
+            this.LBL_RealmEditorRealmOneWidth.Name = "LBL_RealmEditorRealmOneWidth";
+            this.LBL_RealmEditorRealmOneWidth.Size = new System.Drawing.Size(38, 13);
+            this.LBL_RealmEditorRealmOneWidth.TabIndex = 2;
+            this.LBL_RealmEditorRealmOneWidth.Text = "Width:";
+            // 
+            // LBL_RealmEditorRealmOneName
+            // 
+            this.LBL_RealmEditorRealmOneName.AutoSize = true;
+            this.LBL_RealmEditorRealmOneName.Location = new System.Drawing.Point(3, 6);
+            this.LBL_RealmEditorRealmOneName.Name = "LBL_RealmEditorRealmOneName";
+            this.LBL_RealmEditorRealmOneName.Size = new System.Drawing.Size(71, 13);
+            this.LBL_RealmEditorRealmOneName.TabIndex = 1;
+            this.LBL_RealmEditorRealmOneName.Text = "Realm Name:";
+            // 
+            // TB_RealmEditorRealmOneName
+            // 
+            this.TB_RealmEditorRealmOneName.Location = new System.Drawing.Point(75, 3);
+            this.TB_RealmEditorRealmOneName.Name = "TB_RealmEditorRealmOneName";
+            this.TB_RealmEditorRealmOneName.Size = new System.Drawing.Size(122, 20);
+            this.TB_RealmEditorRealmOneName.TabIndex = 0;
             // 
             // tabPage4
             // 
@@ -1214,10 +1763,10 @@
             // 
             // PackageRootBrowseButton
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.NullValue = "Browse";
-            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.NullValue = "Browse";
+            this.PackageRootBrowseButton.DefaultCellStyle = dataGridViewCellStyle1;
             this.PackageRootBrowseButton.HeaderText = "Select Folder";
             this.PackageRootBrowseButton.Name = "PackageRootBrowseButton";
             this.PackageRootBrowseButton.ReadOnly = true;
@@ -1225,10 +1774,10 @@
             // 
             // PackageRootDeleteButton
             // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.NullValue = "Delete";
-            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.NullValue = "Delete";
+            this.PackageRootDeleteButton.DefaultCellStyle = dataGridViewCellStyle2;
             this.PackageRootDeleteButton.HeaderText = "Delete Entry";
             this.PackageRootDeleteButton.Name = "PackageRootDeleteButton";
             this.PackageRootDeleteButton.ReadOnly = true;
@@ -1236,10 +1785,10 @@
             // 
             // PackageRootAddButton
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.NullValue = "Add New Path";
-            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.NullValue = "Add New Path";
+            this.PackageRootAddButton.DefaultCellStyle = dataGridViewCellStyle3;
             this.PackageRootAddButton.HeaderText = "Add New Path";
             this.PackageRootAddButton.Name = "PackageRootAddButton";
             this.PackageRootAddButton.ReadOnly = true;
@@ -1718,23 +2267,6 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
-            // Process_ECompile
-            // 
-            this.Process_ECompile.EnableRaisingEvents = true;
-            this.Process_ECompile.StartInfo.CreateNoWindow = true;
-            this.Process_ECompile.StartInfo.Domain = "";
-            this.Process_ECompile.StartInfo.ErrorDialog = true;
-            this.Process_ECompile.StartInfo.LoadUserProfile = false;
-            this.Process_ECompile.StartInfo.Password = null;
-            this.Process_ECompile.StartInfo.RedirectStandardOutput = true;
-            this.Process_ECompile.StartInfo.StandardErrorEncoding = null;
-            this.Process_ECompile.StartInfo.StandardOutputEncoding = null;
-            this.Process_ECompile.StartInfo.UserName = "";
-            this.Process_ECompile.StartInfo.UseShellExecute = false;
-            this.Process_ECompile.SynchronizingObject = this;
-            this.Process_ECompile.Exited += new System.EventHandler(this.Process_ECompile_Exited);
-            this.Process_ECompile.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler(this.Process_ECompile_OutputDataReceived);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1752,7 +2284,6 @@
             this.Name = "Form1";
             this.Text = "POL Launch";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1772,6 +2303,18 @@
             this.PNL_UOCConfigFiles.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.GB_UOConvertRealmEditor.ResumeLayout(false);
+            this.GB_UOConvertRealmEditor.PerformLayout();
+            this.PNL_RealmEditorRealmFour.ResumeLayout(false);
+            this.PNL_RealmEditorRealmFour.PerformLayout();
+            this.PNL_RealmEditorRealmFive.ResumeLayout(false);
+            this.PNL_RealmEditorRealmFive.PerformLayout();
+            this.PNL_RealmEditorRealmThree.ResumeLayout(false);
+            this.PNL_RealmEditorRealmThree.PerformLayout();
+            this.PNL_RealmEditorRealmTwo.ResumeLayout(false);
+            this.PNL_RealmEditorRealmTwo.PerformLayout();
+            this.PNL_RealmEditorRealmOne.ResumeLayout(false);
+            this.PNL_RealmEditorRealmOne.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.GB_ECompile.ResumeLayout(false);
@@ -1952,7 +2495,59 @@
         private System.Windows.Forms.TextBox TB_DataBackupPath;
         private System.Windows.Forms.Button BTN_DataBackupSavePath;
         private System.Windows.Forms.Button BTN_DataBackupBackupNow;
-        private System.Diagnostics.Process Process_ECompile;
+        private System.Windows.Forms.Button BTN_UOConvertEditRealms;
+        private System.Windows.Forms.GroupBox GB_UOConvertRealmEditor;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmOne;
+        private System.Windows.Forms.Panel PNL_RealmEditorRealmOne;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmOneName;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmOneName;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmOneWidth;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmOneHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmOneWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmOneUseDif;
+        private System.Windows.Forms.CheckBox CB_RealmEditorRealmOneUseDif;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmOneHeight;
+        private System.Windows.Forms.Panel PNL_RealmEditorRealmFive;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFiveUseDif;
+        private System.Windows.Forms.CheckBox CB_RealmEditorRealmFiveUseDif;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFiveHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFiveHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFiveWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFiveWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFiveName;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFiveName;
+        private System.Windows.Forms.Panel PNL_RealmEditorRealmThree;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmThreeUseDif;
+        private System.Windows.Forms.CheckBox CB_RealmEditorRealmThreeUseDif;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmThreeHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmThreeHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmThreeWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmThreeWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmThreeName;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmThreeName;
+        private System.Windows.Forms.Panel PNL_RealmEditorRealmTwo;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmTwoUseDif;
+        private System.Windows.Forms.CheckBox CB_RealmEditorRealmTwoUseDif;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmTwoHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmTwoHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmTwoWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmTwoWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmTwoName;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmTwoName;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFive;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFour;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmThree;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmTwo;
+        private System.Windows.Forms.Panel PNL_RealmEditorRealmFour;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFourUseDif;
+        private System.Windows.Forms.CheckBox CB_RealmEditorRealmFourUseDif;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFourHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFourHeight;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFourWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFourWidth;
+        private System.Windows.Forms.Label LBL_RealmEditorRealmFourName;
+        private System.Windows.Forms.TextBox TB_RealmEditorRealmFourName;
+        private System.Windows.Forms.Button BTN_RealmEditorSave;
 	}
 }
 
