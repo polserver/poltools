@@ -1,4 +1,13 @@
-﻿1-13-2009 - MuadDib
+﻿1-14-2009 - MuadDib
+    Added   : ScriptCount Dictionary to track ECL/SRC/ASP counts. This will be initialized
+              during Ecompile Use and if you use the Run Tests tab also.
+    Added   : Integration to SCM In Windows for POL Services. Currently no way to read POL
+              Output from a service, but this allows you to send a Beep (HA Nando!) or initiate
+              start/stop on the POL Service from within POL Launch. More to come as Core
+              supports more. Still need to write code in POLUtils.Dll to install/uninstall
+              service (rather do it that way, than make it trigger pol.exe -i. I am picky)
+              
+1-13-2009 - MuadDib
     Changed : ECompile/UOConvert using the updated MyConsole that allows disabling of the
               Standard Input Redirect.
     Changed : ECompile/UOConvert now give output to PL after each process has completed.

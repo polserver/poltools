@@ -1,15 +1,24 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace POLLaunch
 {
 	static class POLChecks
 	{
+        public static Dictionary<string, int> ScriptCount = new Dictionary<string, int>();
+
         static public void ScriptChecks(ref TextBox textbox, ref ToolStripProgressBar ProgressBar)
 		{
 			string[] src = FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.src");
 			string[] ecl = FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.ecl");
+            string[] asp = FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.asp");
+
+            ScriptCount.Add("ECL", ecl.Length);
+            ScriptCount.Add("SRC", src.Length);
+            ScriptCount.Add("ASP", asp.Length);
+
 			if (ecl.Length < src.Length)
 				textbox.AppendText("* Warning: Not all scripts are compiled." + Environment.NewLine);
 			else if (ecl.Length > src.Length)
@@ -19,6 +28,13 @@ namespace POLLaunch
 			textbox.AppendText("Found " + src.Length.ToString() + " .src files and " + ecl.Length.ToString() + " .ecl files." + Environment.NewLine);
             ProgressBar.PerformStep();
 		}
+
+        static public void ScriptCounts()
+        {
+            ScriptCount.Add("ECL", FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.ecl").Length);
+            ScriptCount.Add("SRC", FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.src").Length);
+            ScriptCount.Add("ASP", FileSystemUtil.GetAllFileNames((string)Settings.Global.Properties["POLPath"], "*.asp").Length);
+        }
 
 		static public void RealmChecks(ref TextBox textbox, ref ToolStripProgressBar ProgressBar)
 		{
