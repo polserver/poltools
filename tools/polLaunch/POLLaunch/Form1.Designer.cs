@@ -228,6 +228,13 @@
             this.LBL_CreatePassword = new System.Windows.Forms.Label();
             this.TB_CreateUsername = new System.Windows.Forms.TextBox();
             this.LBL_CreateUsername = new System.Windows.Forms.Label();
+            this.POLService = new System.ServiceProcess.ServiceController();
+            this.GB_POLService = new System.Windows.Forms.GroupBox();
+            this.BTN_POLServiceInstall = new System.Windows.Forms.Button();
+            this.BTN_POLServiceUninstall = new System.Windows.Forms.Button();
+            this.BTN_POLServiceStart = new System.Windows.Forms.Button();
+            this.BTN_POLServiceStop = new System.Windows.Forms.Button();
+            this.BTN_POLServiceNando = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -255,6 +262,7 @@
             this.PNL_ECompilePathsEditTBS.SuspendLayout();
             this.GB_PackageRootEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.GB_DataBackup.SuspendLayout();
@@ -262,6 +270,7 @@
             this.GB_AuxSvcSettings.SuspendLayout();
             this.panel3.SuspendLayout();
             this.GB_CreateAccount.SuspendLayout();
+            this.GB_POLService.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon1
@@ -1807,6 +1816,7 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(218)))), ((int)(((byte)(229)))));
+            this.tabPage5.Controls.Add(this.GB_POLService);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(676, 392);
@@ -2267,6 +2277,74 @@
             this.LBL_CreateUsername.TabIndex = 0;
             this.LBL_CreateUsername.Text = "Username:";
             // 
+            // POLService
+            // 
+            this.POLService.ServiceName = "POL";
+            // 
+            // GB_POLService
+            // 
+            this.GB_POLService.Controls.Add(this.BTN_POLServiceNando);
+            this.GB_POLService.Controls.Add(this.BTN_POLServiceStop);
+            this.GB_POLService.Controls.Add(this.BTN_POLServiceStart);
+            this.GB_POLService.Controls.Add(this.BTN_POLServiceUninstall);
+            this.GB_POLService.Controls.Add(this.BTN_POLServiceInstall);
+            this.GB_POLService.Location = new System.Drawing.Point(3, 313);
+            this.GB_POLService.Name = "GB_POLService";
+            this.GB_POLService.Size = new System.Drawing.Size(332, 76);
+            this.GB_POLService.TabIndex = 0;
+            this.GB_POLService.TabStop = false;
+            this.GB_POLService.Text = "POL Service Management";
+            // 
+            // BTN_POLServiceInstall
+            // 
+            this.BTN_POLServiceInstall.Location = new System.Drawing.Point(6, 19);
+            this.BTN_POLServiceInstall.Name = "BTN_POLServiceInstall";
+            this.BTN_POLServiceInstall.Size = new System.Drawing.Size(75, 23);
+            this.BTN_POLServiceInstall.TabIndex = 0;
+            this.BTN_POLServiceInstall.Text = "Install";
+            this.BTN_POLServiceInstall.UseVisualStyleBackColor = true;
+            this.BTN_POLServiceInstall.Click += new System.EventHandler(this.BTN_POLServiceInstall_Click);
+            // 
+            // BTN_POLServiceUninstall
+            // 
+            this.BTN_POLServiceUninstall.Location = new System.Drawing.Point(5, 48);
+            this.BTN_POLServiceUninstall.Name = "BTN_POLServiceUninstall";
+            this.BTN_POLServiceUninstall.Size = new System.Drawing.Size(75, 23);
+            this.BTN_POLServiceUninstall.TabIndex = 1;
+            this.BTN_POLServiceUninstall.Text = "Uninstall";
+            this.BTN_POLServiceUninstall.UseVisualStyleBackColor = true;
+            this.BTN_POLServiceUninstall.Click += new System.EventHandler(this.BTN_POLServiceUninstall_Click);
+            // 
+            // BTN_POLServiceStart
+            // 
+            this.BTN_POLServiceStart.Location = new System.Drawing.Point(251, 19);
+            this.BTN_POLServiceStart.Name = "BTN_POLServiceStart";
+            this.BTN_POLServiceStart.Size = new System.Drawing.Size(75, 23);
+            this.BTN_POLServiceStart.TabIndex = 2;
+            this.BTN_POLServiceStart.Text = "Start";
+            this.BTN_POLServiceStart.UseVisualStyleBackColor = true;
+            this.BTN_POLServiceStart.Click += new System.EventHandler(this.BTN_POLServiceStart_Click);
+            // 
+            // BTN_POLServiceStop
+            // 
+            this.BTN_POLServiceStop.Location = new System.Drawing.Point(251, 47);
+            this.BTN_POLServiceStop.Name = "BTN_POLServiceStop";
+            this.BTN_POLServiceStop.Size = new System.Drawing.Size(75, 23);
+            this.BTN_POLServiceStop.TabIndex = 3;
+            this.BTN_POLServiceStop.Text = "Stop";
+            this.BTN_POLServiceStop.UseVisualStyleBackColor = true;
+            this.BTN_POLServiceStop.Click += new System.EventHandler(this.BTN_POLServiceStop_Click);
+            // 
+            // BTN_POLServiceNando
+            // 
+            this.BTN_POLServiceNando.Location = new System.Drawing.Point(129, 27);
+            this.BTN_POLServiceNando.Name = "BTN_POLServiceNando";
+            this.BTN_POLServiceNando.Size = new System.Drawing.Size(75, 23);
+            this.BTN_POLServiceNando.TabIndex = 4;
+            this.BTN_POLServiceNando.Text = "Beep Me!";
+            this.BTN_POLServiceNando.UseVisualStyleBackColor = true;
+            this.BTN_POLServiceNando.Click += new System.EventHandler(this.BTN_POLServiceNando_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2333,6 +2411,7 @@
             this.PNL_ECompilePathsEditTBS.PerformLayout();
             this.GB_PackageRootEditor.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_PackageRoot)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
@@ -2346,6 +2425,7 @@
             this.panel3.PerformLayout();
             this.GB_CreateAccount.ResumeLayout(false);
             this.GB_CreateAccount.PerformLayout();
+            this.GB_POLService.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2548,6 +2628,13 @@
         private System.Windows.Forms.Label LBL_RealmEditorRealmFourName;
         private System.Windows.Forms.TextBox TB_RealmEditorRealmFourName;
         private System.Windows.Forms.Button BTN_RealmEditorSave;
+        private System.ServiceProcess.ServiceController POLService;
+        private System.Windows.Forms.GroupBox GB_POLService;
+        private System.Windows.Forms.Button BTN_POLServiceStop;
+        private System.Windows.Forms.Button BTN_POLServiceStart;
+        private System.Windows.Forms.Button BTN_POLServiceUninstall;
+        private System.Windows.Forms.Button BTN_POLServiceInstall;
+        private System.Windows.Forms.Button BTN_POLServiceNando;
 	}
 }
 

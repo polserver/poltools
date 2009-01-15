@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.ServiceProcess;
 using System.Windows.Forms;
 using POLLaunch.Console;
 using POLLaunch.DataBackup;
@@ -42,6 +43,7 @@ namespace POLLaunch
             TB_MULFilePath.Text = (string)Settings.Global.Properties["UOPath"];
             BTN_EcompileLoad_Click(null, null);
             InitializeDataBackup();
+            InitializePOLServiceTab();
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -948,6 +950,8 @@ namespace POLLaunch
                 dirpath = Path.GetDirectoryName(exepath);
             }
 
+            POLChecks.ScriptCounts();
+
             this.Process_ECompile = new MyConsole();
             this.Process_ECompile.Start(Path.GetFullPath(exepath), Path.GetFullPath(dirpath), "-A -b -f");
             this.Process_ECompile.Exited += new EventHandler(Process_ECompile_Exited);
@@ -960,7 +964,7 @@ namespace POLLaunch
             ProgressBar.Maximum = 1;
             ProgressBar.Visible = true;
             ProgressBar.Step = 1;
-            TB_ECompile.Text = "Ecompile Process Started... This May Take A While...." + System.Environment.NewLine + System.Environment.NewLine;
+            TB_ECompile.Text = "Ecompile Process Started for " + POLChecks.ScriptCount["SRC"] + " Scripts... This May Take A While...." + System.Environment.NewLine + System.Environment.NewLine;
         }
 
         private void Process_ECompile_Exited(object sender, EventArgs e)
@@ -1009,6 +1013,169 @@ namespace POLLaunch
         }
             #endregion
         #endregion
+
+        #region POL Service Management
+        private void InitializePOLServiceTab()
+        {
+            try
+            {// if it exists
+                if (POLService.Status.Equals(ServiceControllerStatus.Stopped) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StopPending))
+                {
+                    // Let's keep them from clicking on crap.
+                    // Let's see if the Service is Running, and set accordingly
+                    // shall we?
+                    BTN_POLServiceStop.Enabled = false;
+                    BTN_POLServiceStart.Enabled = true;
+                    BTN_POLServiceInstall.Enabled = false;
+                    BTN_POLServiceUninstall.Enabled = true;
+                    BTN_StartPOL.Enabled = false;
+                    BTN_StopPOL.Enabled = false;
+                }
+                else if (POLService.Status.Equals(ServiceControllerStatus.Running) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StartPending))
+                {
+                    BTN_POLServiceStop.Enabled = true;
+                    BTN_POLServiceStart.Enabled = false;
+                    BTN_POLServiceInstall.Enabled = false;
+                    BTN_POLServiceUninstall.Enabled = false;
+                    BTN_StartPOL.Enabled = false;
+                    BTN_StopPOL.Enabled = false;
+                }
+            }
+            catch (Exception)
+            {
+                // This is done as it is not installed.
+                BTN_POLServiceStop.Enabled = false;
+                BTN_POLServiceStart.Enabled = false;
+                BTN_POLServiceInstall.Enabled = true;
+                BTN_POLServiceUninstall.Enabled = false;
+                BTN_StartPOL.Enabled = true;
+                BTN_StopPOL.Enabled = false;
+            }
+        }
+
+        private void BTN_POLServiceInstall_Click(object sender, EventArgs e)
+        {
+            try
+            {// it exists
+                if (POLService.Status.Equals(ServiceControllerStatus.Stopped) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StopPending) ||
+                    POLService.Status.Equals(ServiceControllerStatus.Running) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StartPending))
+                {
+                    MessageBox.Show("POL Service Is Already Installed!"); // HOW?!
+                    return;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("POL Service Installation is not supported yet."); // HOW?!
+                return;
+            }
+        }
+
+        #endregion
+
+        private void BTN_POLServiceUninstall_Click(object sender, EventArgs e)
+        {
+            try
+            {// it exists
+                if (POLService.Status.Equals(ServiceControllerStatus.Stopped) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StopPending) ||
+                    POLService.Status.Equals(ServiceControllerStatus.Running) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StartPending))
+                {
+                    MessageBox.Show("POL Service Uninstall is not supported yet.");
+                    return;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("POL Service Is Not Installed Yet!");
+                return;
+            }
+        }
+
+        private void BTN_POLServiceStart_Click(object sender, EventArgs e)
+        {
+            try
+            {// it exists
+                if (POLService.Status.Equals(ServiceControllerStatus.Stopped))
+                {
+                    BTN_POLServiceStop.Enabled = true;
+                    // Let's keep them from clicking on crap.
+                    BTN_POLServiceStart.Enabled = false;
+                    BTN_POLServiceInstall.Enabled = false;
+                    BTN_POLServiceUninstall.Enabled = false;
+                    BTN_StartPOL.Enabled = false;
+                    BTN_StopPOL.Enabled = false;
+                    POLService.Start();
+                    POLService.WaitForStatus(ServiceControllerStatus.Running);
+                    MessageBox.Show("POL Service Has Been Started.");
+                    return;
+                }
+                else if (POLService.Status.Equals(ServiceControllerStatus.Running) ||
+                    POLService.Status.Equals(ServiceControllerStatus.StartPending))
+                {
+                    MessageBox.Show("POL Service Is Already Running/Loading!");
+                    return;
+                }
+                else if (POLService.Status.Equals(ServiceControllerStatus.StopPending))
+                {
+                    MessageBox.Show("POL Service Is Already Shutting Down!");
+                    return;
+                }
+
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("POL Service Is Not Installed Yet!");
+                return;
+            }
+        }
+
+        private void BTN_POLServiceStop_Click(object sender, EventArgs e)
+        {
+            try
+            {// it exists
+                if (POLService.Status.Equals(ServiceControllerStatus.Running))
+                {
+                    BTN_POLServiceStop.Enabled = false;
+                    BTN_POLServiceStart.Enabled = true;
+                    BTN_POLServiceInstall.Enabled = false;
+                    BTN_POLServiceUninstall.Enabled = true;
+                    BTN_StartPOL.Enabled = true;
+                    BTN_StopPOL.Enabled = true;
+                    POLService.Stop();
+                    POLService.WaitForStatus(ServiceControllerStatus.Stopped);
+                    MessageBox.Show("POL Service Has Been Stopped.");
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("POL Service Has Not Fully Loaded Yet!");
+                    return;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("POL Service Is Not Installed Yet!");
+                return;
+            }
+        }
+
+        private void BTN_POLServiceNando_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                POLService.ExecuteCommand((int)1200);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
 
     }
 }
