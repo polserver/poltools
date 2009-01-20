@@ -268,6 +268,64 @@ namespace Ultima
 
 			return 1;
 		}
+
+        /// <summary>
+        /// Converts backward
+        /// </summary>
+        /// <param name="FileType"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static int GetTrueBody(int FileType, int index)
+        {
+            switch (FileType)
+            {
+                default:
+                case 1:
+                    return index;
+                case 2:
+                    if (m_Table1 != null && index >= 0)
+                    {
+                        for (int i = 0; i < m_Table1.Length; i++)
+                        {
+                            if (m_Table1[i] == index)
+                                return i;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (m_Table2 != null && index >= 0)
+                    {
+                        for (int i = 0; i < m_Table2.Length; i++)
+                        {
+                            if (m_Table2[i] == index)
+                                return i;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (m_Table3 != null && index >= 0)
+                    {
+                        for (int i = 0; i < m_Table3.Length; i++)
+                        {
+                            if (m_Table3[i] == index)
+                                return i;
+                        }
+                    }
+                    break;
+                case 5:
+                    if (m_Table4 != null && index >= 0)
+                    {
+                        for (int i = 0; i < m_Table4.Length; i++)
+                        {
+                            if (m_Table4[i] == index)
+                                return i;
+                        }
+                    }
+                    break;
+
+            }
+            return -1;
+        }
 	}
 
     public sealed class Animations
@@ -383,7 +441,49 @@ namespace Ultima
 			return frames;
 		}
 
-		private static int[] m_Table;
+        public static Frame[] GetAnimation(int body, int action, int direction, int fileType)
+        {
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, action, direction, fileType, out fileIndex, out index);
+
+            int length, extra;
+            bool patched;
+          
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return null;
+
+            bool flip = (direction > 4);
+
+            BinaryReader bin = new BinaryReader(stream);
+
+            ushort[] palette = new ushort[0x100];
+
+            for (int i = 0; i < 0x100; ++i)
+                palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
+
+            int start = (int)bin.BaseStream.Position;
+            int frameCount = bin.ReadInt32();
+
+            int[] lookups = new int[frameCount];
+
+            for (int i = 0; i < frameCount; ++i)
+                lookups[i] = start + bin.ReadInt32();
+
+            Frame[] frames = new Frame[frameCount];
+
+            for (int i = 0; i < frameCount; ++i)
+            {
+                bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
+                frames[i] = new Frame(palette, bin, flip);
+            }
+
+            return frames;
+        }
+
+        private static int[] m_Table;
 
         /// <summary>
         /// Translates body (body.def)
@@ -479,6 +579,112 @@ namespace Ultima
         }
 
         /// <summary>
+        /// Is Animation in given animfile definied
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="action"></param>
+        /// <param name="dir"></param>
+        /// <param name="fileType"></param>
+        /// <returns></returns>
+        public static bool IsAnimDefinied(int body, int action, int dir,int fileType)
+        {
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, action, dir, fileType, out fileIndex, out index);
+
+            int length, extra;
+            bool patched;
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+            if ((stream == null) || (length == 0))
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Returns Animationcount in given animfile
+        /// </summary>
+        /// <param name="fileType"></param>
+        /// <returns></returns>
+        public static int GetAnimCount(int fileType)
+        {
+            int count;
+            switch (fileType)
+            {
+                default:
+                case 1:
+                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    break;
+                case 2:
+                    count = (m_FileIndex.Index.Length - 22000) / 65 + 200;
+                    break;
+                case 3:
+                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    break;
+                case 4:
+                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    break;
+                case 5:
+                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    break;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Actioncount of given Body in given anim file
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="fileType"></param>
+        /// <returns></returns>
+        public static int GetAnimLength(int body, int fileType)
+        {
+            int length=0;
+            switch (fileType)
+            {
+                default:
+                case 1:
+                    if (body < 200)
+                        length = 22; //high
+                    else if (body < 400)
+                        length = 13; //low
+                    else
+                        length = 35; //people
+                    break;
+                case 2:
+                    if (body < 200)
+                        length = 22; //high
+                    else
+                        length = 13; //low
+                    break;
+                case 3:
+                    if (body < 300)
+                        length=13;
+                    else if (body <400)
+                        length=22;
+                    else
+                        length=35;
+                    break;
+                case 4:
+                    if (body < 200)
+                        length = 22;
+                    else if (body < 400)
+                        length = 13;
+                    else
+                        length = 35;
+                    break;
+                case 5:
+                    if (body < 200)
+                        length = 22;
+                    else if (body < 400)
+                        length = 13;
+                    else
+                        length = 35;
+                    break;
+            }
+            return length;
+        }
+
+        /// <summary>
         /// Gets Fileseek index based on fileType,body,action,direction
         /// </summary>
         /// <param name="body"></param>
@@ -493,9 +699,7 @@ namespace Ultima
             {
                 default:
                 case 1:
-                    {
                         fileIndex = m_FileIndex;
-
                         if (body < 200)
                             index = body * 110;
                         else if (body < 400)
@@ -504,22 +708,16 @@ namespace Ultima
                             index = 35000 + ((body - 400) * 175);
 
                         break;
-                    }
                 case 2:
-                    {
                         fileIndex = m_FileIndex2;
-
                         if (body < 200)
                             index = body * 110;
                         else
                             index = 22000 + ((body - 200) * 65);
 
                         break;
-                    }
                 case 3:
-                    {
                         fileIndex = m_FileIndex3;
-
                         if (body < 300)
                             index = body * 65;
                         else if (body < 400)
@@ -528,11 +726,8 @@ namespace Ultima
                             index = 35000 + ((body - 400) * 175);
 
                         break;
-                    }
                 case 4:
-                    {
                         fileIndex = m_FileIndex4;
-
                         if (body < 200)
                             index = body * 110;
                         else if (body < 400)
@@ -541,12 +736,9 @@ namespace Ultima
                             index = 35000 + ((body - 400) * 175);
 
                         break;
-                    }
                 case 5:
-                    {
                         fileIndex = m_FileIndex5;
-
-                        if (body < 200 && body != 34) // looks strange, though it works.
+                        if ((body < 200) && (body != 34)) // looks strange, though it works.
                             index = body * 110;
                         else if (body < 400)
                             index = 22000 + ((body - 200) * 65);
@@ -554,7 +746,6 @@ namespace Ultima
                             index = 35000 + ((body - 400) * 175);
 
                         break;
-                    }
             }
 
             index += action * 5;
@@ -588,8 +779,8 @@ namespace Ultima
 		private Point m_Center;
 		private Bitmap m_Bitmap;
 
-		public Point Center{ get{ return m_Center; } }
-		public Bitmap Bitmap{ get{ return m_Bitmap; } }
+        public Point Center { get { return m_Center; } set { m_Center = value; } }
+        public Bitmap Bitmap { get { return m_Bitmap; } set { m_Bitmap = value; } }
 
 		private const int DoubleXor = (0x200 << 22) | (0x200 << 12);
 

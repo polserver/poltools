@@ -65,10 +65,24 @@ namespace Ultima
             {
                 idxPath = Files.MulPath[idxFile.ToLower()].ToString();
                 mulPath = Files.MulPath[mulFile.ToLower()].ToString();
-                if (!File.Exists(idxPath))
+                if (idxPath == "")
                     idxPath = null;
-                if (!File.Exists(mulPath))
+                else
+                {
+                    if (Path.GetDirectoryName(idxPath) == "")
+                        idxPath = Path.Combine(Files.RootDir, idxPath);
+                    if (!File.Exists(idxPath))
+                        idxPath = null;
+                }
+                if (mulPath == "")
                     mulPath = null;
+                else
+                {
+                    if (Path.GetDirectoryName(mulPath) == "")
+                        mulPath = Path.Combine(Files.RootDir, mulPath);
+                    if (!File.Exists(mulPath))
+                        mulPath = null;
+                }
             }
 
             if (idxPath != null && mulPath != null)

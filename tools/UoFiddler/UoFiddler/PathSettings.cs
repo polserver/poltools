@@ -23,29 +23,19 @@ namespace UoFiddler
         {
             InitializeComponent();
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
+            TextBoxRoot.Text = Files.RootDir;
         }
 
         private void ReloadPath(object sender, EventArgs e)
         {
             Files.ReLoadDirectory();
             Files.LoadMulPath();
-            if (Files.GetFilePath("map1.mul") != null)
-            {
-                if (Ultima.Map.Trammel.Width == 7168)
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
-                else
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
-            }
-            else
-            {
-                if (Ultima.Map.Trammel.Width == 7168)
-                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 7168, 4096);
-                else
-                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 6144, 4096);
-            }
+            Files.CheckForNewMapSize();
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
             propertyGrid1.Refresh();
             propertyGrid1.Update();
+            TextBoxRoot.Text = Files.RootDir;
+
         }
 
         private void OnClickManual(object sender, EventArgs e)
@@ -59,6 +49,21 @@ namespace UoFiddler
                 propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
                 propertyGrid1.Refresh();
                 propertyGrid1.Update();
+                TextBoxRoot.Text = Files.RootDir;
+                Files.CheckForNewMapSize();
+            }
+        }
+
+        private void onKeyDownDir(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Files.SetMulPath(TextBoxRoot.Text);
+                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
+                propertyGrid1.Refresh();
+                propertyGrid1.Update();
+                TextBoxRoot.Text = Files.RootDir;
+                Files.CheckForNewMapSize();
             }
         }
     }

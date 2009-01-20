@@ -163,6 +163,8 @@ namespace FiddlerControls
         {
             row = pictureBox.Height / ITEMHEIGHT;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
+            if (!Loaded)
+                return;
             PaintBox();
         }
 

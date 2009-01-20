@@ -44,6 +44,7 @@ namespace UoFiddler
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.TextBoxRoot = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +63,8 @@ namespace UoFiddler
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2});
+            this.toolStripButton2,
+            this.TextBoxRoot});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -90,6 +92,12 @@ namespace UoFiddler
             this.toolStripButton2.Text = "Set Path Manual";
             this.toolStripButton2.Click += new System.EventHandler(this.OnClickManual);
             // 
+            // TextBoxRoot
+            // 
+            this.TextBoxRoot.Name = "TextBoxRoot";
+            this.TextBoxRoot.Size = new System.Drawing.Size(130, 25);
+            this.TextBoxRoot.KeyDown += new System.Windows.Forms.KeyEventHandler(this.onKeyDownDir);
+            // 
             // PathSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -113,6 +121,7 @@ namespace UoFiddler
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripTextBox TextBoxRoot;
 
 
 

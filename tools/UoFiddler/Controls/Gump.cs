@@ -72,20 +72,14 @@ namespace FiddlerControls
 
                 if (bmp != null)
                 {
-                    int width = bmp.Width;
-                    int height = bmp.Height;
-
-                    if (width > 100)
-                        width = 100;
-
-                    if (height > 54)
-                        height = 54;
+                    int width = bmp.Width > 100 ? 100 : bmp.Width;
+                    int height = bmp.Height > 54 ? 54 : bmp.Height;
 
                     if (listBox.SelectedIndex == e.Index)
                         e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
                     else if (patched)
                         e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, 105, 60);
-
+                    
                     e.Graphics.DrawImage(bmp,new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, width, height));
                 }
                 else
