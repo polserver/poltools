@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections;
 
 namespace Ultima
 {
@@ -9,6 +10,7 @@ namespace Ultima
 		private static FileIndex m_FileIndex = new FileIndex( "Texidx.mul", "Texmaps.mul", 0x1000, 10 );
         private static Bitmap[] m_Cache = new Bitmap[0x1000];
         private static bool[] m_Removed = new bool[0x1000];
+        private static Hashtable m_patched = new Hashtable();
 
         /// <summary>
         /// ReReads texmaps
@@ -18,6 +20,7 @@ namespace Ultima
             m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
             m_Cache = new Bitmap[0x1000];
             m_Removed = new bool[0x1000];
+            m_patched.Clear();
         }
 
         /// <summary>
@@ -38,6 +41,8 @@ namespace Ultima
         {
             m_Cache[index] = bmp;
             m_Removed[index] = false;
+            if (m_patched.Contains(index))
+                m_patched.Remove(index);
         }
 
         /// <summary>
@@ -80,17 +85,19 @@ namespace Ultima
 		public unsafe static Bitmap GetTexture( int index, out bool patched )
 		{
             patched = false;
+            if (m_patched.Contains(index))
+                patched = (bool)m_patched[index];
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
                 return m_Cache[index];
 
 			int length, extra;
-
 			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
-
 			if ( stream == null )
 				return null;
+            if (patched)
+                m_patched[index] = true;
 
 			int size = extra == 0 ? 64 : 128;
 

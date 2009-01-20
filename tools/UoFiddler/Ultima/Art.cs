@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections;
 
 namespace Ultima
 {
@@ -9,6 +10,7 @@ namespace Ultima
 		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0x10000, 4 );
 		private static Bitmap[] m_Cache = new Bitmap[0x10000];
         private static bool[] m_Removed = new bool[0x10000];
+        private static Hashtable m_patched = new Hashtable();
 
 		private Art()
 		{
@@ -22,6 +24,7 @@ namespace Ultima
             m_Cache = new Bitmap[0x10000];
             m_Removed = new bool[0x10000];
             m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
+            m_patched.Clear();
         }
 
         /// <summary>
@@ -35,6 +38,8 @@ namespace Ultima
             index &= 0xFFFF;
             m_Cache[index] = bmp;
             m_Removed[index] = false;
+            if (m_patched.Contains(index))
+                m_patched.Remove(index);
         }
 
         /// <summary>
@@ -47,6 +52,8 @@ namespace Ultima
             index &= 0x3FFF;
             m_Cache[index] = bmp;
             m_Removed[index] = false;
+            if (m_patched.Contains(index))
+                m_patched.Remove(index);
         }
 
         /// <summary>
@@ -146,6 +153,8 @@ namespace Ultima
         {
             patched = false;
             index &= 0x3FFF;
+            if (m_patched.Contains(index))
+                patched = (bool)m_patched[index];
 
             if (m_Removed[index])
                 return null;
@@ -154,9 +163,10 @@ namespace Ultima
 
             int length, extra;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
             if (stream == null)
                 return null;
+            if (patched)
+                m_patched[index] = true;
 
             if (Files.CacheData)
                 return m_Cache[index] = LoadLand(stream);
@@ -185,18 +195,20 @@ namespace Ultima
             patched = false;
             index += 0x4000;
             index &= 0xFFFF;
+            if (m_patched.Contains(index))
+                patched = (bool)m_patched[index];
 
             if (m_Removed[index])
                 return null;
-
             if (m_Cache[index] != null)
                 return m_Cache[index];
 
             int length, extra;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
             if (stream == null)
                 return null;
+            if (patched)
+                m_patched[index] = true;
 
             if (Files.CacheData)
                 return m_Cache[index] = LoadStatic(stream);

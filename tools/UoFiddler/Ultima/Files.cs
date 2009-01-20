@@ -11,6 +11,7 @@ namespace Ultima
         private static bool m_UseHashFile = false;
         private static IDictionary m_MulPath;
         private static string m_Directory;
+        private static string m_RootDir;
 
         /// <summary>
         /// Should loaded Data be cached
@@ -28,6 +29,10 @@ namespace Ultima
         /// Gets a list of paths to the Client's data files.
         /// </summary>
         public static string Directory { get { return m_Directory; } }
+        /// <summary>
+        /// Contains the rootDir (so relative values are possible for <see cref="MulPath"/>
+        /// </summary>
+        public static string RootDir { get { return m_RootDir; } set { m_RootDir = value; } }
 
         private static string[] m_Files = new string[]
 		{
@@ -142,14 +147,14 @@ namespace Ultima
         public static void LoadMulPath()
         {
             m_MulPath = new Hashtable();
-            string path = Directory;
-            if (path == null)
-                path = "";
+            m_RootDir = Directory;
+            if (m_RootDir == null)
+                m_RootDir = "";
             foreach (string file in m_Files)
             {
-                string filePath = Path.Combine(path, file);
+                string filePath = Path.Combine(m_RootDir, file);
                 if (File.Exists(filePath))
-                    m_MulPath[file] = filePath;
+                    m_MulPath[file] = file;
                 else
                     m_MulPath[file] = "";
             }
@@ -161,11 +166,27 @@ namespace Ultima
         /// <param name="path"></param>
         public static void SetMulPath(string path)
         {
+            m_RootDir = path;
             foreach (string file in m_Files)
             {
-                string filePath = Path.Combine(path, file);
+                string filePath;
+                if (m_MulPath[file].ToString() != "") //file was set
+                {
+                    if (Path.GetDirectoryName(m_MulPath[file].ToString()) == "") //and relative
+                    {
+                        filePath = Path.Combine(m_RootDir, m_MulPath[file].ToString());
+                        if (File.Exists(filePath)) // exists in new Root?
+                        {
+                            m_MulPath[file] = m_MulPath[file].ToString();
+                            continue;
+                        }
+                    }
+                    else // absolut dir ignore
+                        continue;
+                }
+                filePath = Path.Combine(m_RootDir, file); //file was not set, or relative and non existent
                 if (File.Exists(filePath))
-                    m_MulPath[file] = filePath;
+                    m_MulPath[file] = file;
                 else
                     m_MulPath[file] = "";
             }
@@ -190,6 +211,10 @@ namespace Ultima
             if (MulPath.Count > 0)
             {
                 string path = MulPath[file.ToLower()].ToString();
+                if (path == "")
+                    return null;
+                if (Path.GetDirectoryName(path) == "")
+                    path = Path.Combine(m_RootDir, path);
                 if (File.Exists(path))
                     return path;
             }
@@ -347,6 +372,27 @@ namespace Ultima
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Checks if map1.mul exists and sets <see cref="Ultima.Map"/>
+        /// </summary>
+        public static void CheckForNewMapSize()
+        {
+            if (Files.GetFilePath("map1.mul") != null)
+            {
+                if (Ultima.Map.Trammel.Width == 7168)
+                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
+                else
+                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
+            }
+            else
+            {
+                if (Ultima.Map.Trammel.Width == 7168)
+                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 7168, 4096);
+                else
+                    Ultima.Map.Trammel = new Ultima.Map(0, 1, 6144, 4096);
+            }
         }
     }
 }

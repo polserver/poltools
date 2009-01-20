@@ -43,6 +43,8 @@ namespace FiddlerControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Animationlist));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TreeViewMobs = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FacingBar = new System.Windows.Forms.TrackBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -59,17 +61,17 @@ namespace FiddlerControls
             this.sortAlphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.rewriteXmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tryToFindNewGraphicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animationEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.BaseGraphicLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.HueLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tryToFindNewGraphicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rewriteXmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FacingBar)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -78,7 +80,6 @@ namespace FiddlerControls
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -112,6 +113,20 @@ namespace FiddlerControls
             this.TreeViewMobs.Size = new System.Drawing.Size(203, 324);
             this.TreeViewMobs.TabIndex = 0;
             this.TreeViewMobs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewMobs_AfterSelect);
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 26);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
             // 
             // FacingBar
             // 
@@ -166,19 +181,19 @@ namespace FiddlerControls
             this.extractImageToolStripMenuItem,
             this.extractAnimationToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(171, 48);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
             // 
             // extractAnimationToolStripMenuItem
             // 
             this.extractAnimationToolStripMenuItem.Name = "extractAnimationToolStripMenuItem";
-            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.extractAnimationToolStripMenuItem.Text = "extract Animation";
             this.extractAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractAnim);
             // 
@@ -262,7 +277,8 @@ namespace FiddlerControls
             this.animateToolStripMenuItem,
             this.toolStripSeparator1,
             this.rewriteXmlToolStripMenuItem,
-            this.tryToFindNewGraphicsToolStripMenuItem});
+            this.tryToFindNewGraphicsToolStripMenuItem,
+            this.animationEditToolStripMenuItem});
             this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
             this.SettingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SettingsButton.Name = "SettingsButton";
@@ -274,14 +290,14 @@ namespace FiddlerControls
             this.sortAlphaToolStripMenuItem.CheckOnClick = true;
             this.sortAlphaToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.sortAlphaToolStripMenuItem.Name = "sortAlphaToolStripMenuItem";
-            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.sortAlphaToolStripMenuItem.Text = "Sort alphabetically";
             this.sortAlphaToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Sort);
             // 
             // hueToolStripMenuItem
             // 
             this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
-            this.hueToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.hueToolStripMenuItem.Text = "Hue";
             this.hueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
             // 
@@ -289,9 +305,36 @@ namespace FiddlerControls
             // 
             this.animateToolStripMenuItem.CheckOnClick = true;
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+            // 
+            // rewriteXmlToolStripMenuItem
+            // 
+            this.rewriteXmlToolStripMenuItem.Name = "rewriteXmlToolStripMenuItem";
+            this.rewriteXmlToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.rewriteXmlToolStripMenuItem.Text = "Rewrite xml";
+            this.rewriteXmlToolStripMenuItem.Click += new System.EventHandler(this.RewriteXML);
+            // 
+            // tryToFindNewGraphicsToolStripMenuItem
+            // 
+            this.tryToFindNewGraphicsToolStripMenuItem.Name = "tryToFindNewGraphicsToolStripMenuItem";
+            this.tryToFindNewGraphicsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.tryToFindNewGraphicsToolStripMenuItem.Text = "Try to find new Graphics";
+            this.tryToFindNewGraphicsToolStripMenuItem.Click += new System.EventHandler(this.OnClickFindNewEntries);
+            // 
+            // animationEditToolStripMenuItem
+            // 
+            this.animationEditToolStripMenuItem.Name = "animationEditToolStripMenuItem";
+            this.animationEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.animationEditToolStripMenuItem.Text = "Animation Edit";
+            this.animationEditToolStripMenuItem.Visible = false;
+            this.animationEditToolStripMenuItem.Click += new System.EventHandler(this.onClickAnimationEdit);
             // 
             // GraphicLabel
             // 
@@ -323,39 +366,6 @@ namespace FiddlerControls
             this.HueLabel.Text = "Hue:";
             this.HueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tryToFindNewGraphicsToolStripMenuItem
-            // 
-            this.tryToFindNewGraphicsToolStripMenuItem.Name = "tryToFindNewGraphicsToolStripMenuItem";
-            this.tryToFindNewGraphicsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.tryToFindNewGraphicsToolStripMenuItem.Text = "Try to find new Graphics";
-            this.tryToFindNewGraphicsToolStripMenuItem.Click += new System.EventHandler(this.OnClickFindNewEntries);
-            // 
-            // rewriteXmlToolStripMenuItem
-            // 
-            this.rewriteXmlToolStripMenuItem.Name = "rewriteXmlToolStripMenuItem";
-            this.rewriteXmlToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.rewriteXmlToolStripMenuItem.Text = "Rewrite xml";
-            this.rewriteXmlToolStripMenuItem.Click += new System.EventHandler(this.RewriteXML);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 26);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
-            // 
             // Animationlist
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,6 +379,7 @@ namespace FiddlerControls
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FacingBar)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -378,7 +389,6 @@ namespace FiddlerControls
             this.tabPage3.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -411,6 +421,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem rewriteXmlToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem animationEditToolStripMenuItem;
 
     }
 }

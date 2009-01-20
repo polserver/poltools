@@ -15,6 +15,8 @@ namespace Ultima
 		private static WindowProcessStream m_ProcStream;
 		private static LocationPointer m_LocationPointer;
 
+        private static bool m_Is_Iris2 = false;
+
 		private Client()
 		{
 		}
@@ -355,6 +357,15 @@ namespace Ultima
 			}
 		}
 
+        /// <summary>
+        /// Is Client Iris2
+        /// </summary>
+        public static bool Is_Iris2
+        {
+            get { return m_Is_Iris2; }
+            set { m_Is_Iris2 = value; }
+        }
+
 		private static void SendChar( ClientWindowHandle hWnd, char c )
 		{
 			int value = (int)c;
@@ -419,13 +430,19 @@ namespace Ultima
 
 		private static ClientWindowHandle FindHandle()
 		{
-			ClientWindowHandle hWnd;
+            ClientWindowHandle hWnd;
 
             if (NativeMethods.IsWindow(hWnd = NativeMethods.FindWindowA("Ultima Online", null)) != 0)
 				return hWnd;
 
             if (NativeMethods.IsWindow(hWnd = NativeMethods.FindWindowA("Ultima Online Third Dawn", null)) != 0)
 				return hWnd;
+            if (NativeMethods.IsWindow(hWnd = NativeMethods.FindWindowA("OgreGLWindow", null)) != 0)
+            {
+                m_Is_Iris2 = true;
+                return hWnd;
+            }
+
 
 			return ClientWindowHandle.Invalid;
 		}

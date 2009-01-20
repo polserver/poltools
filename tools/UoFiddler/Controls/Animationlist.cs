@@ -681,8 +681,18 @@ namespace FiddlerControls
             }
         }
 
-        private AnimationlistNewEntries animnewEntry;
+        private AnimationEdit animEditEntry;
+        private void onClickAnimationEdit(object sender, EventArgs e)
+        {
+            if ((animEditEntry == null) || (animEditEntry.IsDisposed))
+            {
+                animEditEntry = new AnimationEdit();
+                animEditEntry.TopMost = true;
+                animEditEntry.Show();
+            }
+        }
 
+        private AnimationlistNewEntries animnewEntry;
         private void OnClickFindNewEntries(object sender, EventArgs e)
         {
             if ((animnewEntry == null) || (animnewEntry.IsDisposed))

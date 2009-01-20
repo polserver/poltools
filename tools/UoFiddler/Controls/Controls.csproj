@@ -77,6 +77,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnimationEdit.Designer.cs">
+      <DependentUpon>AnimationEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="AnimationlistNewEntries.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -306,6 +312,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AnimationEdit.resx">
+      <DependentUpon>AnimationEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AnimationlistNewEntries.resx">
       <DependentUpon>AnimationlistNewEntries.cs</DependentUpon>
       <SubType>Designer</SubType>

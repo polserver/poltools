@@ -154,6 +154,9 @@ namespace UoFiddler
 
             comment = dom.CreateComment("Pathsettings");
             sr.AppendChild(comment);
+            elem = dom.CreateElement("RootPath");
+            elem.SetAttribute("path", Files.RootDir);
+            sr.AppendChild(elem);
             ArrayList sorter = new ArrayList(Files.MulPath.Keys);
             sorter.Sort();
             foreach (string key in sorter)
@@ -256,6 +259,10 @@ namespace UoFiddler
                 FiddlerControls.Options.PluginsToLoad.Add(name);
             }
 
+            elem = (XmlElement)xOptions.SelectSingleNode("RootPath");
+            if (elem != null)
+                Files.RootDir = elem.GetAttribute("path");
+
             foreach (XmlElement xPath in xOptions.SelectNodes("Paths"))
             {
                 string key;
@@ -264,14 +271,7 @@ namespace UoFiddler
                 value = xPath.GetAttribute("value");
                 Files.MulPath[key] = value;
             }
-
-            if (Files.GetFilePath("map1.mul") != null)
-            {
-                if (Ultima.Map.Trammel.Width == 7168)
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 7168, 4096);
-                else
-                    Ultima.Map.Trammel = new Ultima.Map(1, 1, 6144, 4096);
-            }
+            Files.CheckForNewMapSize();
         }
 
         /// <summary>

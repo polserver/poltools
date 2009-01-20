@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections;
 
 namespace Ultima
 {
@@ -11,6 +12,7 @@ namespace Ultima
 
         private static Bitmap[] m_Cache = new Bitmap[0x10000];
         private static bool[] m_Removed = new bool[0x10000];
+        private static Hashtable m_patched=new Hashtable();
 
 		private static byte[] m_PixelBuffer;
 		private static byte[] m_StreamBuffer;
@@ -36,6 +38,7 @@ namespace Ultima
             m_PixelBuffer = null;
             m_StreamBuffer = null;
             m_ColorTable = null;
+            m_patched.Clear();
         }
 
         /// <summary>
@@ -47,6 +50,9 @@ namespace Ultima
         {
             m_Cache[index] = bmp;
             m_Removed[index] = false;
+            if (m_patched.Contains(index))
+                m_patched.Remove(index);
+
         }
 
         /// <summary>
@@ -244,15 +250,18 @@ namespace Ultima
         public unsafe static Bitmap GetGump(int index, out bool patched)
         {
             patched = false;
+            if (m_patched.Contains(index))
+                patched = (bool)m_patched[index];
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
                 return m_Cache[index];
             int length, extra;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
             if (stream == null)
                 return null;
+            if (patched)
+                m_patched[index] = true;
 
             int width = (extra >> 16) & 0xFFFF;
             int height = extra & 0xFFFF;

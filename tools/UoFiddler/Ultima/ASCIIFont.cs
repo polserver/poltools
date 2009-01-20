@@ -85,7 +85,7 @@ namespace Ultima
 
             if (path != null)
             {
-                using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open)))
+                using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open,FileAccess.Read,FileShare.Read)))
                 {
                     for (int i = 0; i < 10; ++i)
                     {
