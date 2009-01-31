@@ -119,12 +119,12 @@ namespace FiddlerControls
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(120, 26);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
             // 
@@ -181,19 +181,19 @@ namespace FiddlerControls
             this.extractImageToolStripMenuItem,
             this.extractAnimationToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(171, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 48);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_Click);
             // 
             // extractAnimationToolStripMenuItem
             // 
             this.extractAnimationToolStripMenuItem.Name = "extractAnimationToolStripMenuItem";
-            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.extractAnimationToolStripMenuItem.Text = "extract Animation";
             this.extractAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractAnim);
             // 
@@ -290,14 +290,14 @@ namespace FiddlerControls
             this.sortAlphaToolStripMenuItem.CheckOnClick = true;
             this.sortAlphaToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.sortAlphaToolStripMenuItem.Name = "sortAlphaToolStripMenuItem";
-            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.sortAlphaToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.sortAlphaToolStripMenuItem.Text = "Sort alphabetically";
             this.sortAlphaToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Sort);
             // 
             // hueToolStripMenuItem
             // 
             this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
-            this.hueToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.hueToolStripMenuItem.Text = "Hue";
             this.hueToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Hue);
             // 
@@ -305,33 +305,33 @@ namespace FiddlerControls
             // 
             this.animateToolStripMenuItem.CheckOnClick = true;
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.Animate_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
             // 
             // rewriteXmlToolStripMenuItem
             // 
             this.rewriteXmlToolStripMenuItem.Name = "rewriteXmlToolStripMenuItem";
-            this.rewriteXmlToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.rewriteXmlToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.rewriteXmlToolStripMenuItem.Text = "Rewrite xml";
             this.rewriteXmlToolStripMenuItem.Click += new System.EventHandler(this.RewriteXML);
             // 
             // tryToFindNewGraphicsToolStripMenuItem
             // 
             this.tryToFindNewGraphicsToolStripMenuItem.Name = "tryToFindNewGraphicsToolStripMenuItem";
-            this.tryToFindNewGraphicsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.tryToFindNewGraphicsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.tryToFindNewGraphicsToolStripMenuItem.Text = "Try to find new Graphics";
             this.tryToFindNewGraphicsToolStripMenuItem.Click += new System.EventHandler(this.OnClickFindNewEntries);
             // 
             // animationEditToolStripMenuItem
             // 
             this.animationEditToolStripMenuItem.Name = "animationEditToolStripMenuItem";
-            this.animationEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.animationEditToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.animationEditToolStripMenuItem.Text = "Animation Edit";
             this.animationEditToolStripMenuItem.Visible = false;
             this.animationEditToolStripMenuItem.Click += new System.EventHandler(this.onClickAnimationEdit);

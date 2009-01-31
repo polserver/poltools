@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using Ntx.GD;
 using Ultima;
 
 namespace FiddlerControls
@@ -81,8 +82,8 @@ namespace FiddlerControls
             0x15 // - BackPack
         };
         #endregion
-        private Point drawpoint = new Point(0, 0);
-        private Point drawpointAni = new Point(100, 50);
+        private System.Drawing.Point drawpoint = new System.Drawing.Point(0, 0);
+        private System.Drawing.Point drawpointAni = new System.Drawing.Point(100, 100);
 
         private object[] layers=new object[25];
         private bool female = false;
@@ -95,6 +96,8 @@ namespace FiddlerControls
         private int facing = 1;
         private int action = 1;
         private bool Loaded = false;
+        private int[] hues = new int[25];
+        public int[] Hues { get { return hues; } set { hues = value; } }
 
         /// <summary>
         /// Reload when loaded
@@ -144,6 +147,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Gumps"] = true;
             Loaded = true;
             extractAnimationToolStripMenuItem.Visible = false;
+            extractAnimatedAnimationToolStripMenuItem.Visible = false;
 
             DressPic.Image = new Bitmap(DressPic.Width, DressPic.Height);
             pictureBoxDress.Image = new Bitmap(pictureBoxDress.Width, pictureBoxDress.Height);
@@ -185,7 +189,22 @@ namespace FiddlerControls
                     else
                         background = (!elve) ? Gumps.GetGump(0xD) : Gumps.GetGump(0xF);
                     if (background != null)
+                    {
+                        if (hues[0] > 0)
+                        {
+                            Bitmap b = new Bitmap(background);
+                            int hue = hues[0];
+                            bool gray=false;
+                            if ((hue & 0x8000) != 0)
+                            {
+                                hue ^= 0x8000;
+                                gray = true;
+                            }
+                            Ultima.Hues.List[hue].ApplyTo(b, gray);
+                            background = b;
+                        }
                         graphpic.DrawImage(background, drawpoint);
+                    }
                 }
                 for (int i = 1; i < draworder.Length; ++i)
                 {
@@ -209,9 +228,11 @@ namespace FiddlerControls
                             if (!Gumps.IsValidIndex(gump)) // male (or invalid female)
                                 ConvertGump(ref gump, ref hue);
 
-                            Bitmap bmp = Gumps.GetGump(gump);
+                            Bitmap bmp = new Bitmap(Gumps.GetGump(gump));
                             if (bmp == null)
                                 continue;
+                            if (hues[draworder[i]] > 0)
+                                hue = hues[draworder[i]];
                             bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
                             hue = (hue & 0x3FFF) - 1;
                             Hue hueObject = null;
@@ -247,12 +268,20 @@ namespace FiddlerControls
                     else
                         back = (!elve) ? 401 : 606;
                 }
-                Frame[] background = Animations.GetAnimation(back, action, facing, ref hue, false, true);
-                Point draw=new Point();
+                Frame[] background;
+                if (hues[0] > 0)
+                {
+                    hue = hues[0];
+                    background = Animations.GetAnimation(back, action, facing, ref hue, true, true);
+                }
+                else
+                    background = Animations.GetAnimation(back, action, facing, ref hue, false, true);
+
+                System.Drawing.Point draw = new System.Drawing.Point();
                 if (background != null)
                 {
                     draw.X = drawpointAni.X - background[0].Center.X;
-                    draw.Y = drawpointAni.Y - background[0].Center.Y;
+                    draw.Y = drawpointAni.Y - background[0].Center.Y - background[0].Bitmap.Height;
                     graphpic.DrawImage(background[0].Bitmap, draw);
                 }
                 int[] animorder = draworder2;
@@ -273,12 +302,19 @@ namespace FiddlerControls
                             if (!Animations.IsActionDefined(ani, action, facing))
                                 continue;
 
-                            Frame[] frames = Animations.GetAnimation(ani, action, facing, ref hue, false, true);
+                            Frame[] frames;
+                            if (hues[animorder[i]] > 0)
+                            {
+                                hue = hues[animorder[i]];
+                                frames = Animations.GetAnimation(ani, action, facing, ref hue, true, true);
+                            }
+                            else
+                                frames = Animations.GetAnimation(ani, action, facing, ref hue, false, true);
                             Bitmap bmp = frames[0].Bitmap;
                             if (bmp == null)
                                 continue;
                             draw.X = drawpointAni.X - frames[0].Center.X;
-                            draw.Y = drawpointAni.Y + background[0].Bitmap.Height - frames[0].Center.Y - frames[0].Bitmap.Height;
+                            draw.Y = drawpointAni.Y - frames[0].Center.Y - frames[0].Bitmap.Height;
 
                             graphpic.DrawImage(bmp, draw);
                         }
@@ -301,8 +337,15 @@ namespace FiddlerControls
                     else
                         back = (!elve) ? 401 : 606;
                 }
-                Frame[] mobile = Animations.GetAnimation(back, action, facing, ref hue, false, false);
-                Point draw = new Point();
+                Frame[] mobile;
+                if (hues[0] > 0)
+                {
+                    hue = hues[0];
+                    mobile = Animations.GetAnimation(back, action, facing, ref hue, true, false);
+                }
+                else
+                    mobile = Animations.GetAnimation(back, action, facing, ref hue, false, false);
+                System.Drawing.Point draw = new System.Drawing.Point();
 
                 int count = mobile.Length;
                 m_Animation = new Bitmap[count];
@@ -317,7 +360,7 @@ namespace FiddlerControls
                     {
                         graph.Clear(Color.WhiteSmoke);
                         draw.X = drawpointAni.X - mobile[i].Center.X;
-                        draw.Y = drawpointAni.Y - mobile[i].Center.Y;
+                        draw.Y = drawpointAni.Y - mobile[i].Center.Y - mobile[i].Bitmap.Height;
                         graph.DrawImage(mobile[i].Bitmap, draw);
                         for (int j = 1; j < animorder.Length; ++j)
                         {
@@ -332,11 +375,19 @@ namespace FiddlerControls
                                     if (!Animations.IsActionDefined(ani, action, facing))
                                         continue;
 
-                                    Frame[] frames = Animations.GetAnimation(ani, action, facing, ref hue, false, false);
-                                    if (frames[i].Bitmap == null)
+                                    Frame[] frames;
+                                    if (hues[animorder[j]] > 0)
+                                    {
+                                        hue = hues[animorder[j]];
+                                        frames = Animations.GetAnimation(ani, action, facing, ref hue, true, false);
+                                    }
+                                    else
+                                        frames = Animations.GetAnimation(ani, action, facing, ref hue, false, false);
+                                    draw.X = draw.X;
+                                    if ((frames.Length<i) || (frames[i].Bitmap == null))
                                         continue;
                                     draw.X = drawpointAni.X - frames[i].Center.X;
-                                    draw.Y = drawpointAni.Y + mobile[i].Bitmap.Height - frames[i].Center.Y - frames[i].Bitmap.Height;
+                                    draw.Y = drawpointAni.Y - frames[i].Center.Y - frames[i].Bitmap.Height;
 
                                     graph.DrawImage(frames[i].Bitmap, draw);
                                 }
@@ -346,7 +397,7 @@ namespace FiddlerControls
                 }
                 m_FrameIndex = 0;
                 m_Timer = new Timer();
-                m_Timer.Interval = 1000 / count;
+                m_Timer.Interval = 150;// 1000 / count;
                 m_Timer.Tick += new EventHandler(AnimTick);
                 m_Timer.Start();
             }
@@ -442,9 +493,15 @@ namespace FiddlerControls
         {
             animate = !animate;
             if (animate)
+            {
                 extractAnimationToolStripMenuItem.Visible = true;
+                extractAnimatedAnimationToolStripMenuItem.Visible = true;
+            }
             else
+            {
                 extractAnimationToolStripMenuItem.Visible = false;
+                extractAnimatedAnimationToolStripMenuItem.Visible = false;
+            }
             RefreshDrawing();
         }
 
@@ -586,12 +643,43 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = "Dress Anim";
+
             for (int i = 0; i < m_Animation.Length; ++i)
             {
-                m_Animation[i].Save(String.Format("{0}-{1}.tiff",FileName,i), ImageFormat.Tiff);
+                m_Animation[i].Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
             }
             MessageBox.Show(
                 String.Format("InGame Anim saved to '{0}-X.tiff'", FileName), 
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void onClickExtractAnimatedAnimation(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string gif = Path.Combine(path, "Dress Anim.gif");
+            string temp = Path.Combine(path, "temp.png");
+            using (FileStream fs = File.OpenWrite(gif))
+            {
+                m_Animation[0].Save(temp, ImageFormat.Png);
+                GD host = new GD(GD.FileType.Png, temp);
+                host.GifAnimBegin(fs);
+                GD prev = null;
+                for (int i = 0; i < m_Animation.Length; ++i)
+                {
+                    m_Animation[i].Save(temp, ImageFormat.Png);
+                    GD frame = new GD(GD.FileType.Png, temp);
+                    frame.GifAnimAdd(fs, 1, 0, 0, 15, GD.Disposal.None, prev);
+                    prev = frame;
+                }
+                File.Delete(temp);
+                host.GifAnimEnd(fs);
+                fs.Close();
+            }
+            MessageBox.Show(
+                String.Format("InGame Anim saved to '{0}'", gif),
                 "Saved",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
@@ -642,7 +730,7 @@ namespace FiddlerControls
             treeViewItems.EndUpdate();
         }
 
-        private void RefreshDrawing()
+        public void RefreshDrawing()
         {
             if (m_Timer != null)
             {
@@ -766,6 +854,21 @@ namespace FiddlerControls
                         animId = entry.NewAnim;
                     }
                 }
+            }
+        }
+
+        private HuePopUpDress showform = null;
+        private void onClickHue(object sender, EventArgs e)
+        {
+            if (checkedListBoxWear.SelectedIndex == -1)
+                return;
+
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                int layer = checkedListBoxWear.SelectedIndex;
+                showform = new HuePopUpDress(this, hues[layer],layer);
+                showform.TopMost = true;
+                showform.Show();
             }
         }
     }

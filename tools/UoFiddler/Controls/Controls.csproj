@@ -70,6 +70,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GD-Sharp, Version=1.0.4.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\UoFiddler\GD-Sharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -191,6 +195,12 @@
     </Compile>
     <Compile Include="ItemShowAlternative.Designer.cs">
       <DependentUpon>ItemShowAlternative.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HuePopUpDress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HuePopUpDress.Designer.cs">
+      <DependentUpon>HuePopUpDress.cs</DependentUpon>
     </Compile>
     <Compile Include="LandTiles.cs">
       <SubType>UserControl</SubType>
@@ -384,6 +394,10 @@
     <EmbeddedResource Include="ItemShowAlternative.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ItemShowAlternative.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HuePopUpDress.resx">
+      <DependentUpon>HuePopUpDress.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LandTiles.resx">
       <SubType>Designer</SubType>

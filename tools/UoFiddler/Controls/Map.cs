@@ -386,16 +386,16 @@ namespace FiddlerControls
         private void OnZoomMinus(object sender, EventArgs e)
         {
             Zoom /= 2;
-            DoZoom(true);
+            DoZoom();
         }
 
         private void OnZoomPlus(object sender, EventArgs e)
         {
             Zoom *= 2;
-            DoZoom(false);
+            DoZoom();
         }
 
-        private void DoZoom(bool minus)
+        private void DoZoom()
         {
             ChangeScrollBar();
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
@@ -434,9 +434,9 @@ namespace FiddlerControls
                 if (Client.Running)
                 {
                     if ((ClientX > hScrollBar.Value) &&
-                        (ClientX < hScrollBar.Value + e.ClipRectangle.Width * Zoom) &&
+                        (ClientX < hScrollBar.Value + e.ClipRectangle.Width / Zoom) &&
                         (ClientY > vScrollBar.Value) &&
-                        (ClientX < vScrollBar.Value + e.ClipRectangle.Height * Zoom) &&
+                        (ClientY < vScrollBar.Value + e.ClipRectangle.Height / Zoom) &&
                         (ClientMap == currmapint))
                     {
                         Brush brush = new SolidBrush(Color.FromArgb(180, Color.Yellow));
@@ -501,10 +501,10 @@ namespace FiddlerControls
         {
             if (Client.Running)
             {
-                int x = (int)(pictureBox.Width / Zoom / 2);
-                int y = (int)(pictureBox.Height / Zoom / 2);
-                x += hScrollBar.Value;
-                y += vScrollBar.Value;
+                int x = Round((int)(pictureBox.Width / Zoom / 2));
+                int y = Round((int)(pictureBox.Height / Zoom / 2));
+                x += Round(hScrollBar.Value);
+                y += Round(vScrollBar.Value);
                 SendCharTo(x, y);
             }
         }

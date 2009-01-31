@@ -81,6 +81,9 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Art"] = true;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
+
+            treeView1.TreeViewNodeSorter = new AnimdataSorter();
+
             foreach (int id in Animdata.AnimData.Keys)
             {
                 Animdata.Data data = (Animdata.Data)Animdata.AnimData[id];
@@ -105,8 +108,6 @@ namespace FiddlerControls
                         break;
                 }
             }
-            treeView1.TreeViewNodeSorter = new AnimdataSorter();
-            treeView1.Sort();
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
@@ -133,28 +134,15 @@ namespace FiddlerControls
         {
             curframe = treeViewFrames.SelectedNode.Index;
             if (m_Timer != null)
-            {
-                if (m_Timer.Enabled)
-                    m_Timer.Stop();
-
-                m_Timer.Dispose();
-                m_Timer = null;
-                Timer_frame = 0;
-            }
+                StopTimer();
+            
             CurrAnim = CurrAnim;
         }
 
         private void onClickStartStop(object sender, EventArgs e)
         {
             if (m_Timer != null)
-            {
-                if (m_Timer.Enabled)
-                    m_Timer.Stop();
-
-                m_Timer.Dispose();
-                m_Timer = null;
-                Timer_frame = 0;
-            }
+                StopTimer();
             else
             {
                 m_Timer = new Timer();
@@ -325,7 +313,6 @@ namespace FiddlerControls
                             treeView1.SelectedNode.Nodes.Add(subnode);
                         else
                             treeView1.SelectedNode.Parent.Nodes.Add(subnode);
-
                     }
                 }
             }
@@ -440,6 +427,16 @@ namespace FiddlerControls
                     }
                 }
             }
+        }
+
+        private void StopTimer()
+        {
+            if (m_Timer.Enabled)
+                m_Timer.Stop();
+
+            m_Timer.Dispose();
+            m_Timer = null;
+            Timer_frame = 0;
         }
     }
 

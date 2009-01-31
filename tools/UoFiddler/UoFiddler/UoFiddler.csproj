@@ -222,6 +222,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UOFiddler.jpg" />
+    <Content Include="bgd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GD-Import.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GD-Sharp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="UOFiddler.ico" />
     <None Include="Options.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
