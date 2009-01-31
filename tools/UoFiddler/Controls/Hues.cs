@@ -10,10 +10,11 @@
  ***************************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Ultima;
 using System.Windows.Forms.VisualStyles;
+using Ultima;
 
 namespace FiddlerControls
 {
@@ -38,6 +39,7 @@ namespace FiddlerControls
         /// <summary>
         /// Sets Selected Hue
         /// </summary>
+        [Browsable(false)]
         public int Selected
         {
             get { return selected; }
@@ -74,7 +76,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             Options.LoadedUltimaClass["Hues"] = true;
-            if ((Parent.GetType() == typeof(HuePopUpItem)) || (Parent.GetType() == typeof(HuePopUp)))
+            if ((Parent.GetType() == typeof(HuePopUpItem)) || (Parent.GetType() == typeof(HuePopUp)) || (Parent.GetType()==typeof(HuePopUpDress)))
             {
                 pictureBox.MouseDoubleClick -= new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
                 pictureBox.ContextMenu = new ContextMenu();
@@ -87,7 +89,8 @@ namespace FiddlerControls
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = 10;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            
+            if (selected>0)
+                vScrollBar.Value = selected;
             PaintBox();
         }
 

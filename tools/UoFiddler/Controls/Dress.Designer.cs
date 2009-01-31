@@ -53,6 +53,7 @@ namespace FiddlerControls
             this.checkedListBoxWear = new System.Windows.Forms.CheckedListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.unDressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.huToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBoxAnimate = new System.Windows.Forms.GroupBox();
             this.ActionBar = new System.Windows.Forms.TrackBar();
@@ -63,6 +64,7 @@ namespace FiddlerControls
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractAnimatedAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TextBox = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1.Panel1.SuspendLayout();
@@ -238,9 +240,10 @@ namespace FiddlerControls
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unDressToolStripMenuItem});
+            this.unDressToolStripMenuItem,
+            this.huToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(126, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(126, 48);
             // 
             // unDressToolStripMenuItem
             // 
@@ -248,6 +251,13 @@ namespace FiddlerControls
             this.unDressToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.unDressToolStripMenuItem.Text = "UnDress";
             this.unDressToolStripMenuItem.Click += new System.EventHandler(this.OnClick_UnDress);
+            // 
+            // huToolStripMenuItem
+            // 
+            this.huToolStripMenuItem.Name = "huToolStripMenuItem";
+            this.huToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.huToolStripMenuItem.Text = "Hue";
+            this.huToolStripMenuItem.Click += new System.EventHandler(this.onClickHue);
             // 
             // splitContainer5
             // 
@@ -324,14 +334,15 @@ namespace FiddlerControls
             this.showAnimationToolStripMenuItem,
             this.animateToolStripMenuItem,
             this.extractImageToolStripMenuItem,
-            this.extractAnimationToolStripMenuItem});
+            this.extractAnimationToolStripMenuItem,
+            this.extractAnimatedAnimationToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(171, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(219, 114);
             // 
             // showAnimationToolStripMenuItem
             // 
             this.showAnimationToolStripMenuItem.Name = "showAnimationToolStripMenuItem";
-            this.showAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.showAnimationToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.showAnimationToolStripMenuItem.Text = "Show Animation";
             this.showAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClick_ChangeDisplay);
             // 
@@ -339,23 +350,30 @@ namespace FiddlerControls
             // 
             this.animateToolStripMenuItem.CheckOnClick = true;
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.OnClick_Animate);
             // 
             // extractImageToolStripMenuItem
             // 
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.extractImageToolStripMenuItem.Text = "Extract Image";
             this.extractImageToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractImage);
             // 
             // extractAnimationToolStripMenuItem
             // 
             this.extractAnimationToolStripMenuItem.Name = "extractAnimationToolStripMenuItem";
-            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.extractAnimationToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.extractAnimationToolStripMenuItem.Text = "Extract Animation";
             this.extractAnimationToolStripMenuItem.Click += new System.EventHandler(this.OnClickExtractAnim);
+            // 
+            // extractAnimatedAnimationToolStripMenuItem
+            // 
+            this.extractAnimatedAnimationToolStripMenuItem.Name = "extractAnimatedAnimationToolStripMenuItem";
+            this.extractAnimatedAnimationToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.extractAnimatedAnimationToolStripMenuItem.Text = "Extract Animated Animation";
+            this.extractAnimatedAnimationToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractAnimatedAnimation);
             // 
             // TextBox
             // 
@@ -430,5 +448,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extractAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extractAnimatedAnimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem huToolStripMenuItem;
     }
 }
