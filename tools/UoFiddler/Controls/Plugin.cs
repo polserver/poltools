@@ -45,6 +45,11 @@ namespace PluginInterface
         /// Called if mul Pathes have changed
         /// </summary>
         virtual public void Reload() { }
+
+        /// <summary>
+        /// Called if DesignAlternative is switched
+        /// </summary>
+        virtual public void OnDesignChange() { }
     }
 
     public interface IPluginHost
@@ -74,6 +79,11 @@ namespace PluginInterface
         /// </summary>
         /// <returns></returns>
         ListView GetItemShowListView();
+        /// <summary>
+        /// Gets the PictureBox of ItemShowAlt
+        /// </summary>
+        /// <returns></returns>
+        PictureBox GetItemShowAltPictureBox();
     }
 }
 

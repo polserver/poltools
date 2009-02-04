@@ -11,6 +11,7 @@
 
 using System.Windows.Forms;
 using Ultima;
+using Host;
 
 namespace UoFiddler
 {
@@ -42,6 +43,11 @@ namespace UoFiddler
             {
                 FiddlerControls.Options.DesignAlternative = checkBoxAltDesign.Checked;
                 UoFiddler.ChangeDesign();
+                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
+                {
+                    if (plug.Loaded)
+                        plug.Instance.OnDesignChange();
+                }
             }
             Files.CacheData = checkBoxCacheData.Checked;
             if (checkBoxNewMapSize.Checked != (Ultima.Map.Felucca.Width == 7168))
