@@ -141,6 +141,11 @@ namespace Host
             return FiddlerControls.ItemShowAlternative.RefMarker;
         }
 
+        public PictureBox GetItemShowAltPictureBox()
+        {
+            return FiddlerControls.ItemShowAlternative.ItemPictureBox;
+        }
+
         public int GetSelectedItemShowAlternative()
         {
             return FiddlerControls.ItemShowAlternative.RefMarker.Selected;

@@ -42,6 +42,7 @@ namespace FiddlerControls
         private bool ShowFreeSlots = false;
 
         public static ItemShowAlternative RefMarker { get { return refMarker; } }
+        public static PictureBox ItemPictureBox { get { return refMarker.pictureBox; } }
 
         public int Selected
         {
@@ -393,7 +394,7 @@ namespace FiddlerControls
             }
         }
 
-        private void OnMouseDoubleClick(object sender, MouseEventArgs e)
+        public void OnMouseDoubleClick(object sender, MouseEventArgs e)
         {
             Point m = PointToClient(Control.MousePosition);
             int x = m.X / (Options.ArtItemSizeWidth - 1);

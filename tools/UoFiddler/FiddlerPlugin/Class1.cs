@@ -72,6 +72,11 @@ namespace FiddlerPlugin
             // muls have changed do something usefull
         }
 
+        public override void OnDesignChange()
+        {
+            // Design has changed
+        }
+
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();

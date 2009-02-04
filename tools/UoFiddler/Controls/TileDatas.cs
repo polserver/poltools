@@ -255,7 +255,7 @@ namespace FiddlerControls
             if (name.Length > 20)
                 name = name.Substring(0, 20);
             item.Name = name;
-            treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} {1}", index, name);
+            treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
             byte byteres;
             short shortres;
             if (short.TryParse(textBoxAnim.Text, out shortres))
@@ -288,6 +288,9 @@ namespace FiddlerControls
                     item.Flags |= (TileFlag)EnumValues.GetValue(i + 1);
             }
             TileData.ItemTable[index] = item;
+            MessageBox.Show(
+                String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index),
+                "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickSaveTiledata(object sender, EventArgs e)
@@ -295,7 +298,10 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, "tiledata.mul");
             Ultima.TileData.SaveTileData(FileName);
-            MessageBox.Show(String.Format("TileData saved to {0}", FileName), "Saved",MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+            MessageBox.Show(
+                String.Format("TileData saved to {0}", FileName),
+                "Saved",MessageBoxButtons.OK,MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickExportItems(object sender, EventArgs e)

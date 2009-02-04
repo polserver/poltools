@@ -269,7 +269,7 @@ namespace FiddlerControls
             }
         }
 
-        private void listView_DoubleClicked(object sender, MouseEventArgs e)
+        public void listView_DoubleClicked(object sender, MouseEventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)
             {
