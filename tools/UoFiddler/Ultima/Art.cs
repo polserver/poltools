@@ -7,9 +7,9 @@ namespace Ultima
 {
     public sealed class Art
 	{
-		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0x10000, 4 );
-		private static Bitmap[] m_Cache = new Bitmap[0x10000];
-        private static bool[] m_Removed = new bool[0x10000];
+		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0xC000, 4 );
+		private static Bitmap[] m_Cache = new Bitmap[0xC000];
+        private static bool[] m_Removed = new bool[0xC000];
         private static Hashtable m_patched = new Hashtable();
 
 		private Art()
@@ -21,9 +21,9 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_Cache = new Bitmap[0x10000];
-            m_Removed = new bool[0x10000];
-            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0x10000, 4);
+            m_Cache = new Bitmap[0xC000];
+            m_Removed = new bool[0xC000];
+            m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0xC000, 4);
             m_patched.Clear();
         }
 
@@ -448,7 +448,7 @@ namespace Ultima
 
                                 binidx.Write((int)fsmul.Position); //lookup
                                 int length = (int)fsmul.Position;
-                                binmul.Write((int)0); // header
+                                binmul.Write((int)1234); // header
                                 binmul.Write((short)bmp.Width);
                                 binmul.Write((short)bmp.Height);
                                 int lookup = (int)fsmul.Position;

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Ultima;
@@ -31,11 +32,14 @@ namespace FiddlerControls
         private Timer m_Timer;
         private int Timer_frame;
 
+        [Browsable(false)]
         public int CurrAnim
         {
             get { return m_currAnim; }
             set
             {
+                if (!Loaded)
+                    return;
                 selData = (Animdata.Data)Animdata.AnimData[value];
                 if (m_currAnim != value)
                 {

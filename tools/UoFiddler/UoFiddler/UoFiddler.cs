@@ -18,7 +18,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.2b";
+        public static string Version = "3.3";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -389,6 +389,17 @@ namespace UoFiddler
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
             GlobalPlugins.Plugins.ClosePlugins();
+        }
+
+        private HelpPage helppage;
+        private void OnClickHelp(object sender, EventArgs e)
+        {
+            if ((helppage == null) || (helppage.IsDisposed))
+            {
+                helppage = new HelpPage();
+                helppage.TopMost = true;
+                helppage.Show();
+            }
         }
     }
 }
