@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -97,6 +98,7 @@ namespace FiddlerControls
         private int action = 1;
         private bool Loaded = false;
         private int[] hues = new int[25];
+        [Browsable(false)]
         public int[] Hues { get { return hues; } set { hues = value; } }
 
         /// <summary>

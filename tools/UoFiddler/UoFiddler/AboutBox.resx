@@ -118,7 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.2b
+    <value>Version 3.3
+-Fixed art.mul Staticart header (to fix issue with InsideUO)
+-Added ComparePlugin to compare 2 art.mul's
+-Added senseless Helpbutton
+
+Version 3.2b
 -Added SendItem Plugin (with option to override DoubleClick behavior)
 -Added PluginInterface OnDesignChange()
 -Added PluginHost function GetItemShowAltPictureBox()
