@@ -1,0 +1,42 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":timedscripts:poisonUtil";
+
+program SpellScript_Cure(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+
+	// Get poison level
+	var poison_names := TS_GetTimerNames(targ, "P");
+	var poison_level := 1;
+	
+	foreach timer_name in ( poison_names )
+		var timer_info := TS_GetTimerInfo(targ, timer_name);
+		if ( timer_info.level > poison_level )
+				poison_level := timer_info.level;
+		endif
+	endforeach
+
+	//% Chance to cure: (Magery * 0.75) + (110 - (Poison level * 33)) .
+	var chance := CInt(AP_GetSkill(mobile, MAGERY) * 0.75) + (110 - (poison_level * 33));
+	if ( chance >= RandomInt(100) + 1 )
+		// NOTE: There is still a 1 in 100 chance that this wont work..
+		TS_CurePoison(targ, 10000, "P", poison_level);
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	return 1;
+endprogram

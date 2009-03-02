@@ -1,0 +1,12 @@
+/* $Id$
+ *
+ * Purpose
+ * This script allows code to run when the player logs in after having recently logged off.
+ *
+ */
+use os;
+
+program ReconnectScript(mobile)
+	SysLog("Character:'"+mobile.name+"' on account '"+mobile.acctname+"' reconnecting.");
+	return 1;
+endprogram

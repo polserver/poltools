@@ -1,0 +1,11 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+program cleanup_vomit(vomit)
+	Sleep(60);
+	DestroyItem(vomit);
+endprogram

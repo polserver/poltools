@@ -1,0 +1,21 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":containers:checks";
+
+
+program canRemove(mobile, container, item, move_type)
+	if ( mobile.cmdlevel >= 2 )
+		return 1;
+	elseif ( move_type == MOVETYPE_COREMOVE )
+		return 1;
+	elseif ( CP_IsLocked(container) )
+		SendSysMessage(mobile, "You can't remove items from locked containers.");
+		return 0;
+	endif
+
+	return 1;
+endprogram

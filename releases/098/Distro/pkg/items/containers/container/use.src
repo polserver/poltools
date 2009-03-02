@@ -1,0 +1,48 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use cfgfile;
+
+include ":keys:key";
+include ":traps:traps";
+
+
+program useContainer(mobile, container)
+	var item_cfg := ReadConfigFile(":*:itemdesc");
+	item_cfg := item_cfg[container.graphic];
+
+	if ( mobile.cmdlevel >= 2 )
+		SendSysMessage(mobile, "Command level is present - container is skipping locks, traps, etc.");
+		SendViewContainer(mobile, container);
+		return 1;
+	elseif ( ContainerIsLocked(mobile, container) )
+		RunTraps(container, mobile);
+		return 0;
+	endif
+
+	SendViewContainer(mobile, container);
+
+	if ( (item_cfg.OpenGraphic) && (item_cfg.CloseGraphic) )
+		container.graphic := item_cfg.OpenGraphic;
+		Sleep(2);
+		container.graphic := item_cfg.CloseGraphic;
+	endif
+
+	return 1;
+endprogram
+
+function ContainerIsLocked(mobile, container)
+	if ( !container.locked )
+		// Nothing to worry about.
+		return 0;
+	elseif ( KP_HasKeyForLock(mobile, container) )
+		SendSysMessage(mobile, "You use your key to open the container.");
+		return 0;
+	else
+		PrintTextAbovePrivate(container, "That is locked.", mobile);
+		return 1;
+	endif
+endfunction

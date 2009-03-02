@@ -1,0 +1,12 @@
+// $Id$
+
+use uo;
+
+program useBook(who,book)
+	if ( !ReserveItem(book) )
+		SendSysMessage(who, "Someone else is already reading this book.");
+		return 0;
+	endif
+
+	SendOpenBook(who, book);
+endprogram

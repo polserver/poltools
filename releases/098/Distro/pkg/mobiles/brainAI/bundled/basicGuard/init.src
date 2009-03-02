@@ -1,0 +1,41 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":attributes:attributes";
+include ":brainAI:npcNerves";
+include ":brainAI:npcInit";
+include ":brainAI:npcCommands";
+include ":dyes:dyes";
+
+program BrainCriticalScript(params)
+	var npc		:= params[1];
+	//var settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+
+	NPC_SetupName(npc);
+	NPC_SetupEquipment(npc);
+
+	var weapons := array
+	{
+		"Halberd",
+		"LongSword",
+		"BroadSword",
+		"VikingSword"
+	};
+
+	npc.speech_color := RandomDyeColor();
+
+	var objtype := GetObjTypeByName(weapons[RandomInt(weapons.Size())+1]);
+	var weapon := CreateItemAtLocation(npc.x, npc.y, npc.z, objtype, 1, npc.realm);
+	EquipItem(npc, weapon);
+
+	var attribute := (npc.weapon).attribute;
+	AP_SetTrueSkill(npc, attribute, 500);
+
+	return 1;
+endprogram

@@ -1,0 +1,13 @@
+/*
+ * $Id$
+ *
+ */
+ 
+use uo;
+use os;
+
+program TimedScript_EndParalysis(mobile)
+	mobile.paralyzed := 0;
+	
+	return 1;
+endprogram

@@ -1,0 +1,127 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":decay:report";
+include ":datafile:datafile";
+
+// Check 20x20 tiles at a time.
+CONST RECT_SIZE	:= 32;
+
+program DecayCycle(realm)
+	// Make sure there isn't already a decay cycler running for this realm.
+	Set_Critical(1);
+	if ( GetProcess(CInt(GetGlobalProperty("#DecayPid-"+realm.name))) )
+		return 0;
+	else
+		SetGlobalProperty("#DecayPid-"+realm.name, GetPid());
+	endif
+	Set_Critical(0);
+	var data_file := DFOpenDataFile("DecayInfo", DF_CREATE);
+	var data_elem := DFFindElement(data_file, "Status-"+realm.name, DF_CREATE);
+	Set_Priority(1);
+
+	// Wait 15 minutes before the first sweep.
+	Sleep(900);
+
+	/* Start from the last place the decayer was at.
+	 * This is to ensure that if there are a lot of crashes,
+	 * it doesn't decay the start of the realm over and over.
+	 */
+	var cur_x := CInt(data_elem.GetProp("X"));
+	var cur_y := CInt(data_elem.GetProp("Y"));
+
+	while ( 1 )
+		// Report the starting position of the decay cycle for this realm.
+		DECAY_ReportText("Starting "+realm.name+" decayer at X:"+cur_x+" Y:"+cur_y, DECAY_REPORT_CONSOLE+DECAY_REPORT_SYSLOG);
+
+		// Loop vars need to be re-initialized here - some sorta core bug with double FOR loops.
+		//
+		for ( cur_x:=CInt(data_elem.GetProp("X")); cur_x<=realm.width; cur_x := cur_x + RECT_SIZE )
+			for ( cur_y:=CInt(data_elem.GetProp("Y")); cur_y<=realm.height; cur_y := cur_y + RECT_SIZE )
+				 //
+				 // Note:
+				 //  ListObjectsInBox() is ruthless and will list everything that is in that rect.
+				 //Print("Decayer: sweeing ("+realm.name+") "+cur_x+" "+cur_y+" "+(cur_x+RECT_SIZE)+" "+(cur_y+RECT_SIZE));
+				 //
+				foreach	object in ( ListObjectsInBox(cur_x, cur_y, -130, cur_x+RECT_SIZE, cur_y+RECT_SIZE, 130, realm.name) )
+					if ( CanRemove(object) )
+						RemoveObject(object);
+					endif
+					SleepMS(100);
+				endforeach
+
+				data_elem.SetProp("Y", cur_y);
+
+				SleepMS(500);
+			endfor
+
+			// Full Y axis sweep was done, reset it for the next X axis.
+			cur_y := 0;
+			data_elem.SetProp("Y", cur_y);
+			data_elem.SetProp("X", cur_x);
+
+			SleepMS(500);
+		endfor
+
+		// A full realm sweep has been done.
+		cur_x := 0;
+		cur_y := 0;
+		data_elem.SetProp("X", 0);
+		data_elem.SetProp("Y", 0);
+
+		DECAY_ReportText("Decayer: Completed sweeping realm "+realm.name, DECAY_REPORT_CONSOLE+DECAY_REPORT_SYSLOG);
+
+		//Wait 15 minutes for the next world sweep to begin.
+		Sleep(900);
+	endwhile
+
+	return 1;
+endprogram
+
+function CanRemove(object)
+	if ( object.IsA(POLCLASS_ITEM) )
+		if ( object.decayat > 0 )
+			if ( ReadGameClock() > object.decayat )
+				if ( object.movable || object.IsA(POLCLASS_CORPSE) )
+					return 1;
+				endif
+			endif
+		endif
+	endif
+
+	return 0;
+endfunction
+
+function RemoveObject(object)
+	if ( object.IsA(POLCLASS_CONTAINER) )
+		//Empty out containers before destroying them.
+		EmptyContainer(object);
+	endif
+
+	/* The item isnt guaranteed to be removed here.
+	 * If it has a DestroyScript, it depends on the return value of it.
+	 */
+	var serial := object.serial;
+	var desc := object.desc;
+	var realm := object.realm;
+	if ( DestroyItem(object) )
+		DECAY_ReportText("Decaying Serial["+serial+"] Desc["+desc+"] Realm["+realm+"]", DECAY_REPORT_SYSLOG);
+	endif
+
+	return 1;
+endfunction
+
+function EmptyContainer(object)
+	foreach item in ( EnumerateItemsInContainer(object) )
+		if ( item.container == object )
+			MoveObjectToLocation(item, object.x, object.y, object.z, object.realm, MOVEOBJECT_FORCELOCATION);
+		endif
+		SleepMS(10);
+	endforeach
+
+	return 1;
+endfunction

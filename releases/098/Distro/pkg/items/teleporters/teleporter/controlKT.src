@@ -1,0 +1,56 @@
+/*
+ * $Id$
+ *
+ * Purpose
+ * Speech control script for keyword telepads.
+ *
+ */
+
+use uo;
+use os;
+
+include "include/sysEvent";
+
+program controlScript(tile)
+	SetObjProperty(tile, "#Pid", GetPid());
+
+	RegisterForSpeechEvents(tile, 0);
+	EnableEvents(SYSEVENT_SPEECH, 0); //range = 0 so you have to be on the item
+
+	var event;
+	while ( tile )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent(tile, event);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(60);
+	endwhile
+	
+	return 1;
+endprogram
+
+function SpeechEvent(tile, event)
+
+	var text    := lower(event.text);
+	var mobile  := event.source;
+	var keyword := GetObjProperty(tile, "Keyword");
+
+	if(text[keyword])
+		sleep(1);
+		var result := tile.SendToDestination(mobile);
+		if ( result.errortext )
+			SendSysMessage(mobile, "Error teleporting ->"+result.errortext);
+		endif
+		sleep(1);
+	endif
+
+endfunction

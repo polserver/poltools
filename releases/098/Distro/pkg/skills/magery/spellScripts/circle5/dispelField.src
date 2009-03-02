@@ -1,0 +1,28 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+
+program SpellScript_DispelField(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	var area_size := GetConfigInt(info.spell_config, "AreaSize");
+	var items := ListItemsNearLocation(targ.x, targ.y, targ.z, area_size, targ.realm);
+	
+	foreach item in items
+		if ( GetObjProperty(item, "SummonedField") )
+			DestroyItem(item);
+		endif
+	endforeach
+	
+	return 1;
+endprogram

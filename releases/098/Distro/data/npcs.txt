@@ -1,0 +1,6 @@
+#
+#  NPCS.TXT: Nonplayer-Character Data
+#
+#  If you delete this file to perform an NPC wipe,
+#  be sure to also delete NPCEQUIP.TXT
+#

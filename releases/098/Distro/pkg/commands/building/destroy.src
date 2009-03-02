@@ -1,0 +1,26 @@
+/*
+ * $Id$
+ *
+ */
+
+use uo;
+
+
+program textcmd_Destroy(mobile)
+	SendSysMessage(mobile, "What do you want to destroy?");
+
+	var targ := Target(mobile);
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
+	var result := DestroyItem(targ);
+	if ( result.errortext )
+		SendSysMessage(mobile, "DestroyItem() Error - "+result.errortext);
+		return 0;
+	endif
+
+	return 1;
+endprogram

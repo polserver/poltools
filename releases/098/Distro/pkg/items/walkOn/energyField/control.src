@@ -1,0 +1,18 @@
+/*
+ * $Id$
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(field)
+	while ( field )
+		Sleep(1);
+		if ( field.IsExpired() )
+			DestroyItem(field);
+		endif
+	endwhile
+
+	return 1;
+endprogram

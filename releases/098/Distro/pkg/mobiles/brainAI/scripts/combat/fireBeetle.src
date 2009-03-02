@@ -1,0 +1,147 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:commonFunctions";
+include ":attributes:attributes";
+include "include/shapes";
+include "include/client";
+include "include/sounds";
+include "include/facings";
+include ":damage:damage";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	var nerve_name	:= params[2];
+	var event	:= params[3];
+	var settings	:= params[4];
+	var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := NPC_GetFleeLevel(npc, settings["FleeLevel"]);
+
+	var opponent := event.source;
+
+	AI_SetOpponent(npc, opponent);
+
+	while( npc )
+		var dist := Distance(npc, opponent);
+		if ( ShouldFlee(npc, flee_level) )
+			AI_WarMode(npc, 0);
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
+		elseif ( DoneFighting(npc, opponent, dist) )
+			if ( scripts.Exists("EndFight") )
+				params := array{opponent, settings, scripts};
+				AI_StartNerve(npc, "EndFight", scripts["EndFight"].script, params);
+			else
+				AI_WarMode(npc, 0);
+			endif
+			AI_EndNerve(npc, nerve_name);
+		elseif ( dist <= settings["MinRange"] )
+			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, (settings["MinRange"]-dist));
+		elseif( dist > settings["MaxRange"] )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, (dist-settings["MaxRange"]));
+		else
+			npc.facing := GetFacing(npc.x, npc.y, opponent.x, opponent.y);
+		endif
+
+		SpecialAttack(npc, opponent, dist);
+
+		SleepMS(400);
+		AI_ClearThoughts(npc, CLR_NERVE);
+	endwhile
+endprogram
+
+function DoneFighting(npc, opponent, byref dist)
+	if ( opponent.dead )
+		return 1;
+	elseif ( !opponent )
+		return 1;
+	elseif ( opponent.hidden )
+		return 1;
+	elseif ( opponent.concealed > npc.cmdlevel )
+		return 1;
+	elseif ( dist > 20 )
+		return 1;
+	elseif ( dist > 10 && !CheckLineOfSight(npc, opponent) )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function ShouldFlee(npc, byref flee_level)
+	if ( AP_GetVital(npc, "Hits") < flee_level )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function SpecialAttack(npc, opponent, byref dist)
+	if ( dist < 5 || dist > 14 )
+		return 0;
+	elseif ( !CheckLineOfSight(npc, opponent) )
+		return 0;
+	elseif ( RandomInt(3) != 1 )
+		return 0;
+	endif
+
+	var next_shoot := CInt(GetObjProperty(npc, "#NextShoot"));
+	if ( next_shoot > ReadGameClock() )
+		return 0;
+	endif
+
+	AI_Turn(npc, opponent, NETURN_TOWARD);
+	npc.frozen := 1;
+
+	PerformAction(npc, 0x6);
+	SleepMS(80);
+	PrintTextAbove(npc, "*"+npc.name+" spits a ball of fire*");
+	PlayMovingEffect(npc, opponent, GFX_SMALL_FIREBALL, 10, 10, 1);
+
+	var coord_list := GetCoordsInLine(npc.x, npc.y, opponent.x, opponent.y);
+	foreach coord in coord_list
+		if ( _coord_iter == 1 ) // Dont make one where its standing
+			continue;
+		endif
+
+		var field := CreateItemAtLocation(coord.x, coord.y, npc.z, "FireField_NS", 1, npc.realm);
+		field.SetDuration(2);
+		SleepMS(105);
+	endforeach
+
+	PlaySoundEffect(opponent, 0x208);
+	ApplyRawDamageEX(opponent, RandomDiceRoll("3d7"), DMG_FIRE, npc);
+
+	foreach coord in ( GetCoordsInSquare(opponent.x, opponent.y, 3) )
+		if ( RandomInt(2) != 1 ) // Don't place a fire field
+			continue;
+		endif
+		case( RandomInt(3) )
+			default:
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_1, 10, 10, 0, npc.realm);
+				break;
+			1:
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_2, 10, 10, 0, npc.realm);
+				break;
+			2:
+				PlayStationaryEffect(coord.x, coord.y, npc.z, GFX_EXPLODE_3, 10, 10, 0, npc.realm);
+				break;
+		endcase
+		var field := CreateItemAtLocation(coord.x, coord.y, opponent.z, "FireFieldNS", 1, npc.realm);
+		field.SetDuration(5);
+		SleepMS(5);
+	endforeach
+
+	npc.frozen := 0;
+	SetObjProperty(npc, "#NextShoot", ReadGameClock()+15);
+
+	return 1;
+endfunction

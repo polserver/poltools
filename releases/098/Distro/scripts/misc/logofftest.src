@@ -1,0 +1,42 @@
+/* $Id$
+ *
+ * Purpose
+ * This script allows the scripter to control how long the character lingers in the world
+ * after logoff.
+ *
+ */
+use uo;
+
+include ":timeutils:time";
+include ":coords:innFunctions";
+include ":timedscripts:timedScripts";
+
+program LogOffTest(mobile)
+	// Send event to the 'timed scripts' package to run log off scripts.
+	TS_LogOff(mobile);
+
+	if ( (mobile.cmdlevel >=2) || (GetObjProperty(mobile, "Delete")) )
+		// Let staff or characters being deleted/banned logout immediately.
+		return 10;
+	endif
+
+	var logout_delay := SECONDS_IN_MINUTE * 5;
+
+	// Check if player is camping
+	// Prop may exist if fire done successfully, but will only
+	// be set to 1 if bedroll is used!
+	if( CInt(GetObjProperty(mobile, "#camped")) == 1 )
+		EraseObjProperty(mobile, "#camped");
+		logout_delay := 10;
+	// Check if player is in an inn
+	elseif( IsInInn(mobile) )
+		logout_delay := 10;
+	// Check if player is in a house
+	// Then check if player is the owner or  friend of the owner.
+	// elseif ( IsInHouse(mobile) )
+	endif
+
+	SysLog("Character:'"+mobile.name+"' on account '"+mobile.acctname+"' logging out.");
+
+	return logout_delay;
+endprogram

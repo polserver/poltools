@@ -1,0 +1,20 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainCriticalScript(params)
+	var npc		:= params[1];
+	//var settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+
+	KillNerves(npc);
+
+	return 1;
+endprogram

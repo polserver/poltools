@@ -1,0 +1,55 @@
+// $Id$
+
+/*
+ * Uo.com:
+ * Players under the protection spell effect can no longer have their spells "disrupted" when hit.
+ * Players under the protection spell have decreased physical resistance stat value, a decreased
+ * "resisting spells" skill value by -35, and a slower casting speed modifier (technically, a negative
+ * "faster cast speed") of 2 points. The protection spell has an indefinite duration, becoming active
+ * when cast, and deactivated when re-cast. Reactive Armor, Protection, and Magic Reflection will
+ * stay on—even after logging out, even after dying—until you “turn them off” by casting them again.
+ */
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program SpellScript_Protection(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+	
+	if ( GetObjProperty(mobile, "Protection") )
+		RemoveProtection(mobile);
+	else
+		ApplyProtection(mobile);
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+
+	return 1;
+endprogram
+
+function ApplyProtection(mobile)
+	ModifyResistance(mobile, DMG_PHYSICAL, -35);
+	AP_ModifySkillMod(mobile, RESISTING_SPELLS, -35);
+	
+	// At present there is no determined way to modify casting speed and other stats:
+	// ModifyMagicProperties(mobile, "FasterCastSpeed", -2);
+	
+	SetObjProperty(mobile, "Protection", 1);
+endfunction
+
+function RemoveProtection(mobile)
+	ModifyResistance(mobile, DMG_PHYSICAL, 35);
+	AP_ModifySkillMod(mobile, RESISTING_SPELLS, 35);
+	
+	// At present there is no determined way to modify casting speed and other stats:
+	// ModifyMagicProperties(mobile, "FasterCastSpeed", 2);
+	
+	EraseObjProperty(mobile, "Protection");
+endfunction

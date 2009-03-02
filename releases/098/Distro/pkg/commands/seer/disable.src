@@ -1,0 +1,12 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+
+program disable( who, priv )
+	who.Disable( priv );
+	SendSysMessage( who, "Setting '"+priv+"' is disabled." );
+	
+	return 1;
+endprogram

@@ -1,0 +1,1554 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Latest Core Changes</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<body>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">
+            Home
+				  </a></div>
+<h1>Latest Core Changes</h1>
+<b>
+          Last Modified:
+          02/26/2009</b>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2"><div class="doc-smallbox-gold"><center>
+<h2>Releases:</h2>
+<span id="span_Functions"><ul>
+<li><a href="#POL098">POL098</a></li>
+<li><a href="#POL098%20Beta%20#4">POL098 Beta #4</a></li>
+<li><a href="#POL098%20Beta%20#3">POL098 Beta #3</a></li>
+<li><a href="#POL098%20Beta%20#2">POL098 Beta #2</a></li>
+<li><a href="#POL098%20Beta%20#1">POL098 Beta #1</a></li>
+<li><a href="#POL097.4">POL097.4</a></li>
+<li><a href="#POL097.3">POL097.3</a></li>
+<li><a href="#POL097.2">POL097.2</a></li>
+<li><a href="#POL097.1">POL097.1</a></li>
+</ul></span>
+</center></div></div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL098" href="#TOP">[^]</a></div>
+<h1>POL098</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-28-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">UO::DestroyItem(). Now sends a Destroy Item packet to the script controller for
+        the item destroyed. This is in addition to sending in range of the item. Reason
+        for this, is for Storage Containers across realms.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">New flag for uopacket.cfg of "Is6017 0/1". This is show the defined packet entry
+        is explicity for a 6.0.1.7 and higher packet type. Will let you define packethooks
+        for the same packet, that is different based on client version.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-27-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Clothing on corpses. COMPLETELY! This age old bug is now 100% fixed. If it was
+        equipped at time of death, it will be on the corpse until the on remove script
+        check for the corpse is triggered for taking the item out (on remove, not can)
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Base 6.0.1.7 and up Incoming Packet Handling ability to core.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Packets 0x3C updated for supporting clients 6.0.1.7. and newer.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Grid index support (KR and 6.0.1.7) for Drop item Packet and sending. Grid
+        Index is still not set on Container Add by scripts and core yet (since this is
+        only truly needed for KR support for slotted bags).
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Updated Secure Trade Drop Item packet to support 6.0.1.7 and newer clients.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Updated sending of packet 0x25  to support 6.0.1.7 and newer clients.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-26-2009</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Bug where a player / npc moving in a diagonal direction 'd' wasn't blocked by items on direction
+        'd+1' and 'd-1'. (For example, moving in direction NE while having items blocking on N and E was allowed by core,
+        while disallowed by client)
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-26-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">uo::CheckLosBetween( x1, y1, z1, x2, y2, z2, realm := _DEFAULT_REALM )
+        Same like uo::CheckLosAt and uo::CheckLineOfSight
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-25-2009</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">New attributes.em functions: SetAttributeLock(who, attrname, lockstate)
+        and GetAttributeLock(who, attrname). With new constants: ATTRIBUTE_LOCK_UP,
+        ATTRIBUTE_LOCK_DOWN, ATTRIBUTE_LOCK_LOCKED. This works for any attribute.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-25-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Support for UOKR Poisoned Status bar updates. Core will now update UOKR clients correctly
+        when poisoned set to true or false for a character.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Packets 0x3C updated for sending UOKR Grid Index.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Base UOKR Incoming Packet Handling ability to core. Will Begin adding UOKR specific packets
+        such as Drop Item and so on, very soon.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-24-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">SendPacket() now returns an error if packet string passed is not valid size (Divisible by 2).</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">SendPacket() buffer size now allows max packet size. No more need to worry bout length.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Issue where equipped spellbooks would not open to the correct bookmarked page when opened.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Support of 0x25 Packet (Send item in container) with Client version &gt;= 6.0.1.7.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Support for Grid Index with Trade Container Packet sending.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-22-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Updating of worn items will be handled by sending Delete Item packet to those
+        in range, then sending the worn item packets. This is to address an issue with
+        client not updating worn items on other players when graphics.color.etc are changed.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Removed</td>
+<td class="changelog">Saving of base AOS Resistances to pcs.txt. This is not truly needed, as core will handle
+        updating these live based on the armor etc. resist mods only thing needing saved now at
+        this point. Just like AR. Same with Items.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-22-2009</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">New servspecopt.cfg option: CoreHandledLocks, default to false. If enabled, core will
+        handle the change of skill locks and stat locks from the client (setting the attribute
+      locks).</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Every Attribute now have a lock state. Later, this lock state will
+        be read/changed via eScripts methods.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-21-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Ability to use Dice strings for AOS Resistances in itemdesc.cfg entries.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Bug allowing two players to open trade window, walk away, and continue trading. If players
+        get more than 4 tiles away, it will now cancel the trade upon walking to 5th tile away.
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">ServSpecOpt::AllowMovingTrade=0/1(default 0). 0 = Disable moving more than 4 tiles with
+        an open trade window. If you move more than 4 tiles from who trading with, cancels trade.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Removed</td>
+<td class="changelog">UOClient::Listener::Statcap</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Character.statcap = Replaces the Listener::Statcap. Default 225 r/w<br>
+        Character.skillcap = This is for storage, of overall skillcap. Default 700 r/w<br>
+        Character.followers_max = Max followers for statmsg packet. Default 0 r/w<br>
+        Character.luck = Luck for statmsg packet. Default 0 r/w<br>
+        Character.tithing = Tithing for statmsg packet. Default 0 r/w
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Min/Max Damage added as per OSI Standards to Statmsg packet. This is done by the min and
+      max of the dice roll for a weapon before any mods etc.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Now cannot request stats for chars not visible to you, concealed from you, and over 20 tiles away.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-20-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Priv "plogany". Used with new startlog and stoplog commands to activate target cursor.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Built-in textcommand .startlog and .stoplog for packet logging. If character has the
+        plogany priv they get a target cursor to select who to set packet logging for.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-18-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Fixed Physical Resist not showing correctly with AOS Resistances in Statbar in place of AR.</td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL098%20Beta%20#4" href="#TOP">[^]</a></div>
+<h1>POL098 Beta #4</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-18-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">..Boat Fix Drunken Coder syndrome?</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-17-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Instances where core uses UO::ClearGottenItem() type code caused ghosted item on client
+        cursor. Will require more feedback from users after publish for remaining instances
+        where this still occurs (outside of ClearGottenItem()).
+      </td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL098%20Beta%20#3" href="#TOP">[^]</a></div>
+<h1>POL098 Beta #3</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-16-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Hold again part of boat multi</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-07-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Removed</td>
+<td class="changelog">SystemFindObjectBySerial() flag SYSFIND_SEARCH_STORAGE_AREAS (was obsolete since years)</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-05-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">UOClient::Listener::AOSResistances 0/1. This flag aids in deciding which version
+        of Armor to send in the StatMsg packets. With this enabled, a client who uses
+        an account with AOS Expansion enabled will see their Physical Resist instead
+        of AR member.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-03-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Character.resist_fire_mod/resist_cold_mod/resist_energy_mod/resist_poison_mod/resist_physical_mod as R/W.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Item.resist_fire_mod/resist_cold_mod/resist_energy_mod/resist_poison_mod/resist_physical_mod as R/W.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">GetItemDescriptor() Handles new AOS Resistance Entries.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">POL Debug Port has access to Mobile/Item resist members.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-02-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Anytime AR will get refreshed (armor damaged, equip/unequip, etc), Resistances
+        for Character will also get updated based on the items worn.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Noted</td>
+<td class="changelog">UO::EquipItem() and UO::EquipItemFromTemplate() trigger the same Equip Code in
+        core as dropping it on your paperdoll. So should be up to date with new resistance
+        code in equipping also.
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Noted</td>
+<td class="changelog">AOS Physical Resist is NOT the same as AR. Keep that in mind, when writing syshooks
+        for combat, equip scripts, spells, etc. Eventually Core Combat will differentiate
+        between these based on Expansion (on which to use for a client or npc). But as of
+        right now, they will always use AR for combat, etc.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-01-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Character.resist_fire/resist_cold/resist_energy/resist_poison/resist_physical members
+        as R/O. All these are for is storage. No core implementation for resists is present.
+        These ARE sent with the Full Stat Msg packet also, based on Expansion. These are also
+        stored to pcs.txt.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Item.resist_fire/resist_cold/resist_energy/resist_poison/resist_physical members as R/O.
+        This was added at item level, to cover armor, weapons, clothing, containers, etc for
+        broad spectrum use on any item class that could be equipped. Such as Quivers and Totems
+        in AOS.
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">NPC.resist_fire/resist_cold/resist_energy/resist_poison/resist_physical members as R/O.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">NPCTemplate::FireResist/ColdResist/EnergyResist/PoisonResist/PhysicalResist. These work
+        just like NPCTemplate::AR. You CAN use diceroll strings for these just like AR, or a set
+        number for it's amount.
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Noted</td>
+<td class="changelog">These are only written to file if the amount is != 0.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Itemdesc FireResist/ColdResist/EnergyResist/PoisonResist/PhysicalResist.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-29-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">NPC.saveonexit 0/1. Same as for Items. When set to 0 (1 default), the NPC and all
+        items contained within it's wornitems container are IGNORED during save.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Parry will now only refresh the AR if a shield is equipped, as was intended.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Removed</td>
+<td class="changelog">Some ... Drunken Coder syndromes. :)</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-28-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Rewrote ObjCache Building. Now constructs the packet for uokr/aos once when sending
+        to a group (send to in range). Previous method built this packet per client requiring
+        it. Should improve handling in populated areas.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Client bug where AOS Expansion accounts could not see normal magery books without
+        UOFeatureEnable 0x20 bit set. Although this IS a client bug, found a way to fix this
+        VERY common bug server-side. As a feature of this fix, you can now have the AOS
+        features that do NOT require 0x20 (tooltips etc), AND the magery books work without
+        packet hooks.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-28-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Optional parameter flags:=FACE_NORMAL/FACE_FORCE added to TurnToward(),
+        TurnAwayFrom(), TurnTowardLocation(), TurnAwayFromLocation()
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">servspecopt option HiddenTurnsCount check readded in facing change</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Privilege "freemove" can now also be used for NPCs</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-27-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">uoclient.cfg::General::Statcap is deprecated now. Please change to now use
+        uoclient.cfg::Listener::Statcap. This is for the new upcoming Listener Seperate
+        settings. This new step in POL will allow custom settings for clients based on the
+        Listener (uoclient.cfg) they are connecting through. Upcoming changes (but not yet
+        done) will include such things as UOFeatureEnable, TotalStatsAtCreation, ItemColorMask,
+        and so on. This is to make it so you can configure different ports for different client
+        configurations and expansions. One use of this, is to allow both 2.0.0 clients on your
+        shard, AOS Clients with Tooltips, ML Clients without tooltips, and so on. The
+        possibilities will be good, and really expand the support you can give with your
+        scripts.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Magery Books will now be viewable for AOS enabled accounts on servers that do NOT have
+        the UOFeatureEnable 0x20 bitflag to enable AOS style books. This was implemented to fix
+        a CLIENT BUG. But, since so many people do not seem to realize you MUST have 0x20 on for
+        AOS style book handling on AOS activated accounts, we must do this. Boo to you :(
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-27-2009</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">math::Min/Max now accepts Array as first parameter, if given returns the biggest/lowest
+        Integer/Double entry (second parameter is ignored).<br>
+        Errors: "Array empty"&amp;"No Integer/Double elements"<br>
+        Second parameter has now default value of 0
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-25-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Rewrote entire core handling of config/bannedips.cfg
+        This should address a small memory leak caused by the cfg system (leak still exists
+        I just changed how it is done with this file). It also will increase POL speed for
+        login/account verification. Remember, the larger your bannedips.cfg, the longer it takes
+        for the loginserver to verify the client IP is not banned.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">ReloadConfiguration() will cause the bannedips.cfg to get reloaded. YAY.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Item.saveonexit member. Does what it says. All items default to 1. If you set this
+        to 0 the item and (if container, it's contents) will NOT be saved to datafile.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-23</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">polcore().bytes_sent and polcore().bytes_received are now Doubles. This will fix some
+        problems with negative values after some time... (internally they are now 64 bit integers).
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Note</td>
+<td class="changelog">Lots of small leaks fixed, and more to come. Too much to list here,
+        but you will feel the difference.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-16</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Filled PolCore().iostats.received with sense</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-16</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">UOConvert was always reading map0.mul when uomapid is 1. It will now try to read map1.mul,
+        and if not found read map0.mul. (The same for staidx1 and statics1)
+      </td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL098%20Beta%20#2" href="#TOP">[^]</a></div>
+<h1>POL098 Beta #2</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-07</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Due to Ecompile always breaking for single file and right click compile useage when
+        no absolute path is given in the ecompile.cfg, added redundant code to verify drive
+        letter path in Windows environments. (aka, if you use "scripts" for include directory
+        instead of "c:\pol\scripts"). This should help in most cases. (Win32 Cores only right now)
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Noted</td>
+<td class="changelog">This works by checking if the core simply looked for "ecompile.cfg" or if it used the
+        -C &lt;path to config&gt; and handled accordingly. If you pass -C &lt;path&gt; it uses that to append
+        to the beginning of the dir structure in the config. Otherwise it appens the structure
+        based on the location of ecompile.exe being executed (since it's looking there for the cfg).
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Noted</td>
+<td class="changelog">In case people never realized. If you set the Evironment Variable called ECOMPILE_CFG_PATH
+        to point directly to the path where ecompile.cfg is kept, Ecompile.exe will use this to
+        locate your config file (Read core-changes people :D )
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">ECompile.exe Flag "-E&lt;path to ecompile cfg&gt;". Correct, no space between them just like the
+        -Ppath Option. This is for Windows machines. It sets/changes the ECOMPILE_CFG_PATH Environment
+        Variable via the commandline so no need to add/edit it via the System Properties of the machine.
+        Remember, you must be logged in with Admin rights to change Environment Variables and this won't
+        show in the System Properties until Reboot. But it IS accessible WITHOUT rebooting.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-03</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Ability to send two commands to the POL Service via SCM (Service Control Manager).
+        Command 1200 is a Beep (just for Nando), and 1201 will initial POL Shutdown just like
+        via Script or clicking on Stop on the POL System Tray Icon.
+        More to come later.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Drunken coder syndrome in the AOS Tooltip handling and oldschool Tooltip code too.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Removed</td>
+<td class="changelog">Logging/Reporting of empty Attack Request Packets. Useless information that is unreliable.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Removed</td>
+<td class="changelog">References to unused portions of POL.cfg (things no longer supported
+        that was still being checked for).
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-02</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Scriptname &amp; PC info in .setprop log entry "wtf, setprop w/ an error"</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-26</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Ecompile.exe flag -xt defined in /? output.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Ecompile.exe flag -Au added. This is same as -A but to only compile Updated Src.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Ecompile.exe flag -s to Display Summary if -q is not set.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Ecompile.exe flag -D to create .dep files (Dependency information).</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-20</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">new char member .clientver_detail returns struct of ints {major;minor;rev;patch}
+        new char method .compareversion(string) returns 1 if clientversion is &gt;= then given version string
+        else 0 or error "Not enough parameters"/"Invalid parameter type"/"No client attached"
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">new ssopt "ForceNewObjCachePackets" default false</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">support for new ObjectCacheInfos introduced in 5.0.0<br>
+        old behavior: Server sends 0xBF Sub 0x10 per object -&gt;Client response also with 0xBF Sub 0x10 per item<br>
+        new behavior: Server sends 0xDC per object -&gt; Client response with 0xD6 (there can be more then one serial up to ~16)<br>
+        intern check is<br>
+        if ((ssopt.ForceNewObjCachePackets) || (isUOKR) || (clientversion.major&gt;=5))<br>
+        since the client sends his clientversion not instantly the first few ObjCacheInfos are sent
+        the old way (thats why the new ssopt is added)
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Noted</td>
+<td class="changelog">since client 6.0.5.0 the clientversion is instantly known (new seed packet)</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">support of new seed packet (&gt;=6.0.5.0)</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Noted</td>
+<td class="changelog">right now no new packet is implementend (some packetsizes have changed)</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-19</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Extended PerformAction() it is now:<br>
+        PerformAction(character,action,framecount:=5,repeatcount:=1, backward:=ACTION_DIR_FORWARD,
+        repeatflag:=ACTION_NOREPEAT, delay:=1);
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-18</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Aux Client now sends "Connection closed" to a client that attempts to connect
+        from an invalid IP according to IPMATCH settings before closing the socket.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-18</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Setting for servspecopt.cfg 'PrivacyPaperdoll' Default is disabled.
+        if enabled, Paperdoll gives only char name for others (See Luth 09-28)
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-17</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Item.layer gets reset to 0 when unequipped.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">When loading Realms, POL will shutdown if it cannot find any realms and say so.</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">Item.tile_layer returns the Layer setting in the Tiles.cfg/Tiledata.
+        This was added to always give the layer it uses, while leaving the
+        internal handling both of Core and Scripts that utilize the fact of
+        "if layer is set, it's equipped". This is ALWAYS set from the tile info
+        at server load. So changing your tiledata, re-creating tiles.cfg will
+        auto update your items.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Note</td>
+<td class="changelog">Item.layer gets internally reset on server load if it is equipped, via tiles.cfg entry as well.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-16</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">AuxSvc Configs now accept an IPMATCH entry identical to /config/servers.cfg.
+        This is only an additional security feature, and not required to be in the .CFG :)
+        The illegal ip will be treated by immediately closing the connection.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-14</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Characters/Starting Location packet wasn't sending the correct characters number. This
+        was causing problems when enabling the 6th &amp; 7th slot (or limiting to 1 slot). Characters
+        number will now be set to Max(CharacterSlot, 5). The number of CharacterSlots shown will
+        depend on the acct expansion. (If it's more than AOS, it'll send &gt; 6, else 5).
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Flags in the Characters/Starting Location packet and the Enable Features (0xB9) are
+        now being set according to the CharacterSlots option in pol.cfg. It only works now
+        with 1, 5, 6 and 7 slots, as this is a client limitation. You can hook the 0xB9 packet
+        to change this in the future.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-10</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Removed</td>
+<td class="changelog">POL's Windows-systray-icon beep when right-clicking is now gone.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Region's internal tile zone is now 4x4 (was 32x32).</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-05</th>
+<th>Luth</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">A bug in Run_Script caused when a Parent script ended before the child script.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>10-29</th>
+<th>Luth</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">PrintTextAbove*() now takes one more optional parameter, journal_print, with acceptible values:<br>
+        JOURNAL_[UC_]PRINT_NAME:    In the journal, it prints the item's description / npc's name, colon, the message (POL standard)<br>
+        JOURNAL_[UC_]PRINT_YOU_SEE: In the journal, it prints "You see: " followed by the message (UO standard)
+        This does not affect the text that is printed above the item, ONLY what is shown in the Journal.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">OnRemoveScript and OnInsertScript now called with all appropriate parameters<br>
+        program onremovescript(character, container, item, item_amount, movetype)<br>
+        program oninsertscript(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>10-28</th>
+<th>Luth</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Set_Script_Option() now returns the previous value that was set for that option</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-28</th>
+<th>Luth</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">npc::Face( direction );</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">mobile.SetFacing( direction, flags := FACE_NORMAL );</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Noted</td>
+<td class="changelog">mobile.facing := [0-7];  is the same as calling:  mobile.SetFacing( [0-7], FACE_NORMAL );</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">MOVEOBJECT_IGNOREMOVALBE flag to move an object regardless of its .movable property</td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Paperdolls now give all information for self, and less information for others</td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL098%20Beta%20#1" href="#TOP">[^]</a></div>
+<h1>POL098 Beta #1</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-23</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">uo::PlaySoundEffectXYZ( x, y, z, effect, realm := _DEFAULT_REALM );</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-17</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">uo::CreateNPCFromTemplate param override_properties can now
+        contain .CProps Dictionary (key=cpropname value=cpropvalue)
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-08</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">uo::UpdateMobile(mob)
+        Sends to mobiles in visual range UpdatePlayer packet of mob, for example to
+        inform of notority changes
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Packet 0xC Functions:<br>
+        uo::PlayMovingEffectEx( source, target, effect, speed, duration := 0,
+        hue := 0, render := 0, fixeddirection := 0, explode := 0,
+        effect3d := 0, effect3dexplode := 0, effect3dsound := 0 );<br>
+        uo::PlayMovingEffectXYZEx( srcx, srcy, srcz, dstx, dsty, dstz, realm := _DEFAULT_REALM,
+        effect, speed, duration := 0, hue := 0, render := 0,
+        fixeddirection := 0, explode := 0,
+        effect3d := 0, effect3dexplode := 0, effect3dsound := 0 );<br>
+        uo::PlayObjectCenteredEffectEx( center, effect, speed, duration := 0, hue := 0,
+        render := 0, layer := 0, effect3d := 0 );<br>
+        uo::PlayStationaryEffectEx( x, y, z, realm := _DEFAULT_REALM, effect, speed,
+        duration := 0, hue := 0, render := 0,
+        layer := 0, effect3d := 0 );<br>
+        layer,effect3d,effect3dexplode,effect3dsound are only interpreted by the 3D client<br>
+        (current known) render values are:<br>
+        0 no change<br>
+        1 It becomes dark<br>
+        2 It becomes bright<br>
+        3 Bright color is emphasized and dark color is converted transparently<br>
+        4 The translucency (transparency is high)<br>
+        5 The translucency (it is close to primary color)<br>
+        6 Negative positive reversal<br>
+        7 The background which is transparent negative positive reversal<br>
+        layer values are:<br>
+        0 Head<br>
+        1 RightHand<br>
+        2 LeftHand<br>
+        3 Waist<br>
+        4 LeftFoot<br>
+        5 RightFoot<br>
+        7 CenterFeet<br>
+        effect3dexplode and effect3dsound are only interpreted if explode is set
+        effect3d and effect3dexplode values can be found in client/particles dir<br>
+        Examples:<br>
+        CastAnimation only seen by 3D clients:<br>
+        PlayObjectCenteredEffectEx( chr, 0, 10, 5, 0, 0, 1, 9041 ); //firesparkle on right hand<br>
+        PerformAction(chr,0xCB);  // moves with char<br>
+        Fireball with explosion and sound:<br>
+        PlayMovingEffectEx( chr,tar,0x36d4,7,0,0,0,0,1,9502,4019,0x160);
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">StatRequest 0x34 checks if target is visible to char (e.g. Injection exploit)</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>08-29</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">uo::GetGlobalPropertyNames()</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">uo::FindSubstance( container, objtype, amount, makeinuse := 0 );<br>
+        to FindSubstance( container, objtype, amount, makeinuse := 0, flags := 0 );<br>
+        flags are:<br>
+        FINDSUBSTANCE_IGNORE_LOCKED : Find matches in locked containers<br>
+        FINDSUBSTANCE_ROOT_ONLY     : Do not find matches in sub-containers<br>
+        FINDSUBSTANCE_FIND_ALL      : Find all matches ignoring given amount
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">new Char methods:<br>
+        .attack_once([opp])<br>
+        attacks once without modifing the swingtimer
+        if no opp is given attacks current attackable opponent, else attacks given opponent (and
+        but checks if opponent is attackable<br>
+        .setswingtimer(time)<br>
+        if opponent is set sets swingtimer to given ms time<br>
+        .kill([killer])<br>
+        kills character ignoring invul, if killer is set repsys:OnDamage is called
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">new Char members:<br>
+        .hitchance_mod +-int in thousandth<br>
+        additive modificator of the hitchance from the attacker<br>
+        .evasionchance_mod +-int in thousandth<br>
+        subtractive modificator of the hitchance from the defender
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">new privilages:<br>
+        "firewhilemoving" : swingtimer will not be reset if char is moving with projectile weapon<br>
+        "attackhidden"    : char can attack hidden opponents<br>
+        "hiddenattack"    : char can attack while hidden
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">new systemhook script 'HitMiss'<br>
+        function HitMiss(attacker, defender)<br>
+        is called if hitchance check fails no overriding of corefunctions or resultcheck
+      </td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL097.4" href="#TOP">[^]</a></div>
+<h1>POL097.4</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-28-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">NPC.ar bug where ar was not reading intrinsic ar correctly when using ar_mod for the NPC.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-25-2009</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Removed a stray '\n' that was being sent at the end of a binary transfer in browser, causing
+        some images to be corrupted. (This will finally solve the problem with some 'blank' images)
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>02-22-2009</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Internal webserver will now handle binary files correctly. This was causing sporadic fails
+        when loading a webpage which had images, stylesheets or any other of those fancy things...
+      </td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL097.3" href="#TOP">[^]</a></div>
+<h1>POL097.3</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-31-2009</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">POL.Cfg::MiniDumpType=variable. This is a new DMP file version. For now, I HIGHLY
+        RECOMMEND USING THIS IF YOU EXPERIENCE A LOT OF CRASHES OR ONES YOU CAN'T FIGURE OUT!
+        The reason for this, is it is a small dump PLUS it stores all variable information
+        from internal core functions in relation to the crash. This is information that
+        could be VERY crucial to us Core Developers when you send the DMP file to the forums.
+        So please, try to start using this one (We know the large option can be horendous.
+        This is an alternative to that).
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Null Package fix (Luth did this one a while back in 098)</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-14</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">Highest allowed mobile graphic is now 0x800 (2048). Was 1024 since POL070.. wow... :)</td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL097.2" href="#TOP">[^]</a></div>
+<h1>POL097.2</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>01-05</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">URL percent decoding (like %2F= '/')</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-31</th>
+<th>Nando</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Internal webserver's threads weren't being reported in case there were threads
+        hanging when shutting down. This might not solve the "zombie connections" bug,
+        but will at least change it's name to "internal webserver bug", I'm hoping.
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-30</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Added</td>
+<td class="changelog">POL.Cfg::ReportMissingConfigs 0/1 (Default 1). Handles if Missing Config File
+        reports are printed to the Debug.Log file. These are reports for example, when
+        you use :*:npcdesc to open all npcdesc files in a script but not all packages
+        of course will have this file.
+      </td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Changed</td>
+<td class="changelog">Weapons now have a Default Speed of 35 if no entry for Speed is in the itemdesc.cfg
+        file if Delay is used. If no Delay, then will still throw an error and fail to load.
+      </td>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Typo on spellbook reports.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-17</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Possible memory leak with AOS Tooltips.</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>12-16</th>
+<th>MuadDib</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Memory leak in Packet Class using .Setxxxx Methods on Variable Length Packets.</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Added</td>
+<td class="changelog">Error Struct "Offset value out of range on a fixed length packet" when trying
+        to use packet.Setxxxx() whose value is out of range in a fixed length packet.
+      </td>
+</tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a name="POL097.1" href="#TOP">[^]</a></div>
+<h1>POL097.1</h1>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-17</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Changed</td>
+<td class="changelog">To simplify usage util::RandonIntMinMax() now accepts
+        negative Integers and if parameters in wrong order swaps them
+      </td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-12</th>
+<th>Turley</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Memoryleak in PathFind</td>
+</tr></tbody>
+<tbody><tr>
+<td class="changelog-type">Fixed</td>
+<td class="changelog">If only PacketHook SendFunction is defined on receive default handler is called if exists</td>
+</tr></tbody>
+</table>
+<table class="doc-changelog-table" frame="void" rules="groups" width="100%" border="1" cellpadding="1" cellspacing="0">
+<colgroup align="left">
+<col width="100px">
+<col>
+</colgroup>
+<tbody><tr>
+<th>09-09-2008</th>
+<th>Austin</th>
+</tr></tbody>
+<tbody><tr id="doc-table-light">
+<td class="changelog-type">Fixed</td>
+<td class="changelog">Usernames and passwords will accept all characters except control characters
+        '\t','\f','\v','\n','\r' the characters '{' '}' and spaces.
+      </td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   

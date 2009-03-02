@@ -1,0 +1,27 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+program cmd_Fetch(who)
+	if( (who.cmdlevel <= 2) && (who.multi) )
+		SendSysMessage(who, "You cannot move players into houses.");
+		return 0;
+	endif
+
+	SendSysMessage(who, "Who do you want to fetch?");
+	var targ := Target(who, TGTOPT_NOCHECK_LOS);
+
+	if( !targ.acctname )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+
+	var result := MoveObjectToLocation(targ, who.x, who.y, who.z, who.realm, MOVEOBJECT_FORCELOCATION);
+	if( !result )
+		SendSysMessage(who, "Error Moving:"+result.errortext);
+	endif
+
+	return 1;
+endprogram

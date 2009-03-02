@@ -1,0 +1,9 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+program UseBoard(mobile, board)
+	return 1;
+endprogram

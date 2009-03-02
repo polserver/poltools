@@ -1,0 +1,293 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use boat;
+use cfgfile;
+
+include ":boat:cmdParser";
+include ":boat:autoPilot";
+include "include/sysEvent";
+include "include/sounds";
+
+// Global Variables
+var g_cmd_cfg;
+var g_cmd_list;
+var g_wrap_cfg;
+
+program BoatController(boat)
+	var sleep_mode := 0; // Boolean
+	var last_sound := 0; // Tracks time (integer)
+	var cur_cmd := 0;    // Config elem or struct.
+	var cur_map := 0;    // Struct, cur_pin and an array of coordinates.
+
+	if ( !Initialize(boat) )
+		return 0;
+	endif
+
+	while ( boat )
+		var ev;
+
+		if ( sleep_mode )
+			if ( last_sound < POLCore().systime-120 )
+				PlaySoundEffect(boat, SFX_WAVE_2);
+				last_sound := POLCore().systime;
+			endif
+
+			ev := Wait_For_Event(120);
+		else
+			ev := Wait_For_Event(0);
+			var delay := (boat.tillerman).GetSpeed();
+			SleepMS(delay);
+		endif
+
+		if ( ev )
+			ProcessEvent(boat, ev, cur_cmd, cur_map);
+			sleep_mode := 0;
+		elseif ( cur_map )
+			FollowMap(boat, cur_cmd, cur_map);
+		elseif ( cur_cmd )
+			DoCommand(boat, cur_cmd, cur_cmd);
+			sleep_mode := 0;
+		elseif ( ShouldSleep() )
+			sleep_mode := 1;
+		endif
+	endwhile
+
+	return 1;
+endprogram
+
+function Initialize(boat)
+	g_cmd_cfg := ReadConfigFile(":boat:commands");
+	if ( !g_cmd_cfg )
+		PrintTextAbove(boat.tillerman, "Unable to open config :boat:commands ->"+g_cmd_cfg.errortext);
+		return 0;
+	endif
+	g_cmd_list := GetConfigStringArray(g_cmd_cfg["Heirarchy"], "CMD");
+	if ( !g_cmd_list )
+		PrintTextAbove(boat.tillerman, "Unable to load command list heirarchy. "+g_cmd_list.errortext);
+		return 0;
+	endif
+
+	g_wrap_cfg := ReadConfigFile(":boat:worldWrap");
+	if ( !g_wrap_cfg )
+		PrintTextAbove(boat.tillerman, "Unable to open config :boat:worldWrap ->"+g_wrap_cfg.errortext);
+		return 0;
+	endif
+
+	SetObjProperty(boat.tillerman, "#PID", GetPid());
+
+	if ( !(boat.tillerman).GetOwner() )
+		SetName(boat.tillerman, "a tiller man [awaiting owner]");
+		while ( !(boat.tillerman).GetOwner() )
+			Sleep(2);
+		endwhile
+		var name := (boat.tillerman).desc;
+		name[" [awaiting owner]"] := "";
+		SetName(boat.tillerman, name);
+	endif
+
+	// Ensures the boat only listens as far as it needs to from its mid-point (usually the mast)
+	var foot_print := boat.footprint;
+	var bow_dist := CoordinateDistance(foot_print.xmin, foot_print.ymin, boat.x, boat.y);
+	var stern_dist := CoordinateDistance(foot_print.xmax, foot_print.ymax, boat.x, boat.y);
+	if ( bow_dist > stern_dist )
+		foot_print := bow_dist;
+	else
+		foot_print := stern_dist;
+	endif
+	RegisterForSpeechEvents(boat, foot_print);
+
+	return 1;
+endfunction
+
+function ShouldSleep()
+	if ( Events_Waiting() )
+		return 0;
+	else
+		return 1;
+	endif
+endfunction
+
+function ProcessEvent(boat, byref ev, byref cur_cmd, byref cur_map)
+	if ( !(boat.tillerman).IsOnBoat(ev.source) )
+		//PrintTextAbove(boat.tillerman, "Not on the boat!");
+		return 0;
+	elseif ( !(boat.tillerman).CanCommand(ev.source) )
+		//PrintTextAbove(boat.tillerman, "Not able to command me!");
+		return 0;
+	elseif ( ev.text )
+		var commands := ParseCommands(ev.text, g_cmd_list);
+		if ( commands.Size() <= 0 )
+			//PrintTextAbove(boat.tillerman, "No valid commands found.");
+			return 0;
+		else
+			// Valid speech commands would stop a map from being used.
+			cur_map := 0;
+		endif
+
+		// Run the command(s) in the order spoken.
+		PrintTextAbove(boat.tillerman, "Aye captain.");
+		foreach command in ( commands )
+			var new_cmd := g_cmd_cfg[command];
+			DoCommand(boat, cur_cmd, new_cmd);
+			SleepMS(2);
+		endforeach
+
+		return 1;
+	elseif ( ev.item )
+		// Cancel the current command, load the pin coordinates.
+		cur_cmd := 0;
+		cur_map := struct;
+		cur_map.+PinId := 1;
+		cur_map.+Coords := (ev.item).GetPins();
+		// Store the map pins and the current pin # on the tillerman.
+		// This is to support the commands 'Continue', 'Goto #' 'Nav' 'Single #' and 'Start'
+		SetObjProperty(boat.tillerman, "MapInfo", cur_map);
+		//PrintTextAbove(boat.tillerman, "Lets follow the "+cur_map.Size()+" pins on the map...");
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function FollowMap(boat, byref cur_cmd, byref cur_map)
+	// Still working on this part.
+	var cur_pin := cur_map.Coords[cur_map.PinId];
+	if ( boat.x == cur_pin.x && boat.y == cur_pin.y )
+		cur_map.PinId += 1;
+		cur_cmd := 0;
+		// Update the map info with the new pin ID for the "continue" command.
+		SetObjProperty(boat.tillerman, "MapInfo", cur_map);
+		//PrintTextAbove(boat.tillerman, "Onto the next pin.");
+		//PrintTextAbove(boat.tillerman, "Heading for pin "+cur_map.PinID);
+		return 1;
+	elseif ( cur_map.PinId > cur_map.Coords.Size() )
+		cur_map := 0;
+		cur_cmd := 0;
+		//PrintTextAbove(boat.tillerman, "We have reached the last pin.");
+		return 1;
+	endif
+
+	//To-Do:
+	// Make it more intelligent to:
+	// Determine if it is faster to world-wrap to a location.
+	// Determine if it is better to go "forward-left" or "forward-right" rather than turn a bunch of times.
+	//
+
+	var next_spot := BresenhamLine(boat.x, boat.y, cur_pin.x, cur_pin.y);
+	var facing := GetFacing(boat.x, boat.y, next_spot.x, next_spot.y);
+
+	// Its dirty.. but it works, heh.
+	cur_cmd := struct;
+	cur_cmd.+Direction := 0; //Forward movement.
+	cur_cmd.+Move := 1;
+	if ( facing != boat.facing )
+		cur_cmd.+Turn := DetermineTurnCode(boat, facing);
+	endif
+
+	DoCommand(boat, cur_cmd, cur_cmd);
+	if ( !cur_cmd )
+		cur_map := 0;
+	endif
+
+	return 1;
+endfunction
+
+function DoCommand(boat, byref cur_cmd, new_cmd)
+	if ( new_cmd.Anchor == 2 )
+		if ( !(boat.tillerman).IsAnchored() )
+			(boat.tillerman).SetAnchorStatus(1);
+			PrintTextAbove(boat.tillerman, "The anchor has been lowered.");
+		else
+			PrintTextAbove(boat.tillerman, "The anchor has already been lowered.");
+		endif
+
+		cur_cmd := 0;
+	elseif ( new_cmd.Anchor == 1 )
+		if ( (boat.tillerman).IsAnchored() )
+			(boat.tillerman).SetAnchorStatus(0);
+			PrintTextAbove(boat.tillerman, "The anchor has been raised.");
+		else
+			PrintTextAbove(boat.tillerman, "The anchor is already raised.");
+		endif
+
+		cur_cmd := 0;
+	elseif ( !(boat.tillerman).IsAnchored() )
+		if ( new_cmd.Turn )
+			ClosePlanks(boat);
+			TurnBoat(boat, new_cmd.Turn);
+			// Maintain the current command.
+		endif
+
+		if ( new_cmd.Move )
+			var orig_x := boat.x;
+			var orig_y := boat.y;
+			MoveBoatRelative(boat, new_cmd.Direction);
+			if ( orig_x == boat.x && orig_y == boat.y )
+				// Unable to move.
+				PrintTextAbove(boat.tillerman, "Arrr we hit land!");
+				cur_cmd := 0;
+			else
+				CheckWorldWrap(boat);
+				// Keep following this command
+				cur_cmd := new_cmd;
+			endif
+		endif
+
+		if ( new_cmd.Stop )
+			cur_cmd := 0;
+		endif
+	endif
+
+	return 1;
+endfunction
+
+function CheckWorldWrap(boat)
+	var realm_elem := g_wrap_cfg[boat.realm];
+	if ( !realm_elem )
+		return 0;
+	endif
+
+	var new_x := boat.x;
+	var new_y := boat.y;
+
+	if ( boat.x >= realm_elem.MaxX )
+		new_x := realm_elem.MinX;
+	elseif ( boat.x <= realm_elem.MinX )
+		new_x := realm_elem.MaxX;
+	elseif ( boat.y >= realm_elem.MaxY )
+		new_y := realm_elem.MinY;
+	elseif ( boat.y <= realm_elem.MinY )
+		new_y := realm_elem.MaxY;
+	else
+		return 0;
+	endif
+
+	var result := MoveObjectToLocation(boat, new_x, new_y, boat.z, boat.realm);
+	if ( result.errortext )
+		PrintTextAbove(boat.tillerman, "Unable to move to "+new_x+" "+new_y+" "+boat.z+" "+boat.realm);
+		PrintTextAbove(boat.tillerman, "Reason ->"+result.errortext);
+	else
+		PrintTextAbove(boat.tillerman, "Yar.. around tha' world we go!");
+	endif
+
+	return result;
+endfunction
+
+function ClosePlanks(boat)
+	var plank_a := boat.starboardplank;
+	var plank_b := boat.portplank;
+
+	if ( plank_a.Extended() )
+		plank_a.Retract();
+	endif
+
+	if ( plank_b.Extended() )
+		plank_b.Retract();
+	endif
+
+	return 1;
+endfunction

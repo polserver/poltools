@@ -1,0 +1,55 @@
+/*
+ * $Id$
+ *
+ * Purpose - Tests / Uses new uo.em function MoveObjectToLocation(object, x, y, z, flags, realm)
+ *
+ */
+
+use uo;
+use os;
+
+program textcmd_MoveObject(mobile, text)
+	var targ;
+
+	text := CInt(text);
+	if ( text )
+		targ := SystemFindObjectBySerial(text);
+		if ( !targ )
+			SendSysMessage(mobile, "No object found with that serial.");
+			return 0;
+		endif
+	else
+		targ := Target(mobile);
+	endif
+
+	if ( !targ )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	elseif ( targ.multi )
+		SendSysMessage(mobile, "Changing "+targ+" to its multi "+targ.multi);
+		targ := targ.multi;
+	endif
+
+	SendSysMessage(mobile, "Place where?");
+	var coords := TargetCoordinates(mobile);
+	if ( !coords )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
+	Set_Critical(1);
+	var movable := targ.movable;
+	if ( !targ.movable )
+		targ.movable := 1;
+	endif
+
+	var result := MoveObjectToLocation(targ, coords.x, coords.y, coords.z, mobile.realm, MOVEOBJECT_FORCELOCATION);
+
+	targ.movable := movable;
+
+	Set_Critical(0);
+
+	SendSysMessage(mobile, "Result: "+result);
+
+	return 1;
+endprogram

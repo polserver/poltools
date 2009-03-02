@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL System Events Reference</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<body>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">
+            Home
+				  </a></div>
+<h1>
+<a name="TOP"></a>POL System Events<br>
+</h1>
+<p>Description:</p>
+<p>This document describes all the "System Events" (Sysevents) that the POL core uses. These are enabled in Control Scripts using the EnableEvents() function. Only these events listed here should be used in the EnableEvents() function. You may not define User Events with any of these values (or any of the reserved values in sysEvent.inc). To use a user event in your script, you must not use EnableEvents(), just send it using SendEvent() (or process_obj.sendevent()) and look for it normally in the receiving script. Some of the Sysevents below are ranged, meaning you may specify a world distance in EnableEvents() beyond which the script will not receive the event. Use DisableEvents() to disable any of the Sysevents.
+    <br><br></p>
+<b>
+					Last Modified:
+					10/27/2007</b>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2"><div class="doc-smallbox"><ul>
+<li><a href="#SYSEVENT_SPEECH">SYSEVENT_SPEECH</a></li>
+<li><a href="#SYSEVENT_ENGAGED">SYSEVENT_ENGAGED</a></li>
+<li><a href="#SYSEVENT_DISENGAGED">SYSEVENT_DISENGAGED</a></li>
+<li><a href="#SYSEVENT_DAMAGED">SYSEVENT_DAMAGED</a></li>
+<li><a href="#SYSEVENT_ENTEREDAREA">SYSEVENT_ENTEREDAREA</a></li>
+<li><a href="#SYSEVENT_LEFTAREA">SYSEVENT_LEFTAREA</a></li>
+<li><a href="#SYSEVENT_OPPONENT_MOVED">SYSEVENT_OPPONENT_MOVED</a></li>
+<li><a href="#SYSEVENT_HOSTILE_MOVED">SYSEVENT_HOSTILE_MOVED</a></li>
+<li><a href="#SYSEVENT_MERCHANT_BOUGHT">SYSEVENT_MERCHANT_BOUGHT</a></li>
+<li><a href="#SYSEVENT_MERCHANT_SOLD">SYSEVENT_MERCHANT_SOLD</a></li>
+<li><a href="#SYSEVENT_ITEM_GIVEN">SYSEVENT_ITEM_GIVEN</a></li>
+<li><a href="#SYSEVENT_DOUBLECLICKED">SYSEVENT_DOUBLECLICKED</a></li>
+<li><a href="#SYSEVENT_GHOST_SPEECH">SYSEVENT_GHOST_SPEECH</a></li>
+<li><a href="#SYSEVENT_GONE_CRIMINAL">SYSEVENT_GONE_CRIMINAL</a></li>
+<li><a href="#AUX_Connection_Receive_Event">AUX_Connection_Receive_Event</a></li>
+</ul></div></div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_SPEECH">SYSEVENT_SPEECH</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">This event comes in two types: Normal and Unicode. The latter is sent when the source is a client speaking in Unicode speech.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000001</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_SPEECH (0x00000001)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>text</var></td>
+<td>string normal text (junk if unicode)</td>
+</tr>
+<tr>
+<td width="50%"><var>texttype</var></td>
+<td>type of speech: "yell", "whisper", "emote", or "default"</td>
+</tr>
+<tr>
+<td width="50%"><var>uc_text</var></td>
+<td>(Unicode only) a "Unicode array" of 2-byte "Big Endian" integers corresponding to the unicode characters sent. will be an 'error' type if the Unicode input is "bad".  will be uninitialized if no Unicode text is available (ie, when a non-Unicode client types the command)</td>
+</tr>
+<tr>
+<td width="50%"><var>langcode</var></td>
+<td>(Unicode only) string 3-character, uppercase language code, i.e. "ENU", "DEU", etc.</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">When a player speaks in range of an item listening point, or NPC that has enabled the event. Note Ghost speech is a seperate event.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_ENGAGED">SYSEVENT_ENGAGED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Combat Engaged event.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000002</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_ENGAGED (0x00000002)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">When an attack is initiated against an NPC. (set opponent, or Target with the Harmful flag set)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_DISENGAGED">SYSEVENT_DISENGAGED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Combat Disengaged event.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000004</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_DISENGAGED (0x00000004)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">When an attack is stopped against an NPC. (set opponent null, attacker dies)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_DAMAGED">SYSEVENT_DAMAGED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">The NPC was damaged.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000008</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_DAMAGED (0x00000008)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference, or 0 if no character source</td>
+</tr>
+<tr>
+<td width="50%"><var>damage</var></td>
+<td>integer damage amount</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">The NPC recevied damage.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_ENTEREDAREA">SYSEVENT_ENTEREDAREA</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">A character entered inside a range around the NPC. Note, ignores Z distance.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000010</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_ENTEREDAREA (0x00000010)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">The mobile walked into the range, a new NPC was created inside the range, or a character un-hid inside the range.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_LEFTAREA">SYSEVENT_LEFTAREA</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">A character left the range around the NPC. Note, ignores Z distance.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000020</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_LEFTAREA (0x00000020)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">The mobile walked out of the range. Not sent if mobile hides, dies, or deleted.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_OPPONENT_MOVED">SYSEVENT_OPPONENT_MOVED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">The NPC's opponent moved.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000040</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_OPPONENT_MOVED (0x00000040)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">The NPC's current opponent moved. Inhibits the Enter/Leave events for the NPC's opponent.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_HOSTILE_MOVED">SYSEVENT_HOSTILE_MOVED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Not Implimented.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000080</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">Not Implimented</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_MERCHANT_BOUGHT">SYSEVENT_MERCHANT_BOUGHT</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Only sent to the merchant NPC that bought the items.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000100</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_MERCHANT_BOUGHT (0x00000100)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>amount</var></td>
+<td>amount of gold items sold for</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">After an NPC merchant buys items from a player.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_MERCHANT_SOLD">SYSEVENT_MERCHANT_SOLD</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Only sent to the merchant NPC that sold the items.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000200</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_MERCHANT_SOLD (0x00000200)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>amount</var></td>
+<td>amount of gold items sold for</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">After an NPC merchant sells items to a player.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_ITEM_GIVEN">SYSEVENT_ITEM_GIVEN</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Item dropped on an NPC generates this event. Also sets the following cprops on the item: "GivenBy": PC's serial, "GivenTo":NPC's serial, "GivenTime":gameclock value when item was given.</td></tr>
+<tr><td colspan="2">Important: The item is moved to a storage area until the script handling the event moves it to a real container. If the item is not before by the time the event object goes out of scope (including passed to a subroutine! use 'byref' to prevent the event from being destroyed before it can be passed to the handling subroutine), the item will automatically be moved back to its old container, and the aformentioned cprops are erased.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000400</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_ITEM_GIVEN (0x00000400)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">A player drops an item on an NPC.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_DOUBLECLICKED">SYSEVENT_DOUBLECLICKED</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Allows the NPC to receive double-click events (i.e. for mounting horses, pack llamas, etc.)</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00000800</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_DOUBLECLICKED (0x00000800)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">A player double-clicked on an NPC.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">No</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_GHOST_SPEECH">SYSEVENT_GHOST_SPEECH</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Dead players generate this event when speaking, not SYSEVENT_SPEECH. Otherwise, see SYSEVENT_SPEECH for the struct members.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00001000</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">A dead player speaks.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SYSEVENT_GONE_CRIMINAL">SYSEVENT_GONE_CRIMINAL</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">The GONE_CRIMINAL event lets the system tell the NPC when a mobile has become a criminal (from a previously non-criminal state) by firing this event and placing a character reference to the new criminal in the source field of the event. If used in conjunction with the ENTERED_AREA system event, then guards should be able to do their guarding work without needing to do polling scans of the area around them periodically. On ENTERED_AREA events, you check to see if the person entering the area is a criminal or not.  On GONE_CRIMINAL events, you know that the person who was already in the area has become a criminal from previously being innocent.</td></tr></tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">0x00002000</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>SYSEVENT_GONE_CRIMINAL (0x00002000)</td>
+</tr>
+<tr>
+<td width="50%"><var>source</var></td>
+<td>Character Reference</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">A player inrange has become a criminal.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="AUX_Connection_Receive_Event">AUX_Connection_Receive_Event</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">This event is the method by which the AUX connection script received data from an external application. (Data may be sent with aux_connection.send())</td></tr>
+<tr><td colspan="2">Note: ONLY received in AUX connection handler scripts.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark">
+<th align="left">ID#:</th>
+<td align="left">n/a</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Struct Members:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>string "recv"</td>
+</tr>
+<tr>
+<td width="50%"><var>value</var></td>
+<td>unpacked scripting object</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">When sent:</th></tr></tbody>
+<tbody><tr><td colspan="2">When an external application connected to an AUX handler script sends packed data, wait_for_event() will return this struct.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Ranged?</th></tr></tbody>
+<tbody><tr><td colspan="2">Yes</td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   
