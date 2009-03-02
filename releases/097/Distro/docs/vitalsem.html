@@ -1,97 +1,476 @@
-<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><title>POL Scripting Reference</title>
-<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator">
-<meta name="description" content="Penultima Online Documentation website."> <meta name="Author" content="Racalac, Rykard"> <meta name="Generator" content="POL Doc-o-matic"> <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> <meta http-equiv="Content-Style-Type" content="text/css"> <style type="text/css"><!-- body,td,p { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: normal; color: #000000} --></style></head>
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference VITALS.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
 
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
 
-	<body style="background-color: rgb(240, 240, 240);">
-<p style="font-size: 14pt; font-weight: bold; text-align: left;">
-File: Vitals.em</p><p style="font-size: 10pt; font-weight: bold; text-align: left;">
-Description: Functions for working with mobile vitals.<br> Last
-Modified: 10/27/2007</p><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="ApplyDamage">ApplyDamage(
-Character, Hits )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>Character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>Hits</var></td><td>Real
-(0.0 to 30000.0)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Decreases a character's hit points, after
-reducing damage due to armor.</td></tr><tr><td colspan="2">(Old notes:) The steps taken are as follows: A
-piece of armor is chosen randomly, based on probabilities in
-ARMRZONE.CFG. Damage is reduced by 50% to 100% of the armor's AR.
-Remaining damage is halved. "I'm Hit" animation is played. Damage is
-applied. Mobile is killed if hit points are now zero. Invokes
-Reputation system effects.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 on success</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type"</td></tr><tr><td colspan="2">"Damage is out of range"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="ApplyRawDamage">ApplyRawDamage(
-Character, Hits )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>Character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>Hits</var></td><td>Integer
-(0..255)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Decreases a character's hit points. If this
-causes hit points to drop to zero, kills the character.</td></tr><tr><td colspan="2">Notes: Armor is ignored.</td></tr><tr><td colspan="2">Invokes Reputation system effects.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 on success</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">none (returns 0 on invalid parameter)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="ConsumeMana">ConsumeMana(
-who, spellid )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>who</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>spellid</var></td><td>Integer</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Consumes amount of "Mana" for "who" for the
-spell as defined in spells.cfg</td></tr><tr><td colspan="2">Notes: spells.cfg files define spells and spell
-ids.</td></tr><tr><td colspan="2">Consumes
-from "Mana" vital.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 on success</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter"</td></tr><tr><td colspan="2">"No such spell"</td></tr><tr><td colspan="2">"Spell ID out of range"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="ConsumeVital">ConsumeVital(
-who, vital, hundredths )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>who</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vital</var></td><td>String
-(vital name)</td></tr><tr><td width="50%"><var>hundreths</var></td><td>Integer</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Consumes an amount of vital "vital" in
-hundreths. for example, ConsumeVital(who, "Stamina", 100) consumes one
-point of stamina.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 on consume success or 0 on failure
-(insufficient value for the vital)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type" including if vital was
-not found as a vital name</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="GetVital">GetVital(
-character, vitalname )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vitalname</var></td><td>String
-(vital name)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Gets the current value of "vitalname" on
-"character".</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Integer current value of the vital on success or
-Error</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname
-was not found as a vital</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="GetVitalMaximumValue">GetVitalMaximumValue( character,
-vitalname )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vitalname</var></td><td>String
-(vital name)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Gets the maximum value of "vitalname" on
-"character" </td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Integer maximum value of the vital on success or
-Error</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname
-was not found as a vital</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="GetVitalName">GetVitalName(
-alias_name )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>alias_name</var></td><td>String</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Returns the real vital name from an alias</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">String</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="GetVitalRegenRate">GetVitalRegenRate( character,
-vitalname )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vitalname</var></td><td>String
-(vital name)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Returns the regeneration rate for "vitalname" on
-"character"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Integer regeneration rate of the vital on success</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname
-was not found as a vital</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr><tr><td colspan="2"><a href="objref.php#String"><b>String</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="HealDamage">HealDamage(
-Character, Hits )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>Character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>Hits</var></td><td>Integer
-(0..255)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Increases a character's hit points, up to the
-character's maximum.</td></tr><tr><td colspan="2">Notes:
-Invokes Reputation system effects.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 if some part of the damage could be healed.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="RecalcVitals">RecalcVitals(
-character )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vitalname</var></td><td>String
-(vital name)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Recalculates regen rates and maximum values from
-the exported functions in vitals.cfg for all vitals on a mobile</td></tr><tr><td colspan="2">Call this if you changed the regen rates or
-maximums for a vital, or the intrinsic modifier exported function for
-an attribute.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">true</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Mobile must not be offline"</td></tr><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="SetVital">SetVital(
-character, vitalname, value )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>character</var></td><td>Character
-Reference</td></tr><tr><td width="50%"><var>vitalname</var></td><td>String
-(vital name)</td></tr><tr><td width="50%"><var>value</var></td><td>Integer
-(in hundreths)</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Sets the current value for "vitalname" on
-"character" in hundreths.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">1 on success</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname
-was not found as a vital</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related</th></tr></tbody><tbody><tr><td colspan="2"><a href="objref.php#Character"><b>Character</b></a></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Related
-Configs</th></tr></tbody><tbody><tr><td colspan="2"><a href="configfiles.php#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody></table><br><br><br>
-<hr> <p style="font-size: 9pt; font-weight: bold; text-align: center;">
-If you <i>know</i> if any information is incorrect on
-these pages, mail your corrections to polteam@polserver.com </p>
-<p style="font-size: 7pt; font-weight: bold; text-align: center;">
-Copyright ©2003-2006 David Carpman and POL Development Team, all rights
-reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT
-ON. </p> </body></html>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">Home</a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						Vitals.em</h1>
+<p>
+						Description:
+						Functions for working with mobile vitals.<br><b>
+							Last Modified:
+							10/27/2007</b></p>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#ApplyDamage">ApplyDamage</a></li>
+<li><a href="#ApplyRawDamage">ApplyRawDamage</a></li>
+<li><a href="#ConsumeMana">ConsumeMana</a></li>
+<li><a href="#ConsumeVital">ConsumeVital</a></li>
+<li><a href="#GetVital">GetVital</a></li>
+<li><a href="#GetVitalMaximumValue">GetVitalMaximumValue</a></li>
+<li><a href="#GetVitalName">GetVitalName</a></li>
+<li><a href="#GetVitalRegenRate">GetVitalRegenRate</a></li>
+<li><a href="#HealDamage">HealDamage</a></li>
+<li><a href="#RecalcVitals">RecalcVitals</a></li>
+<li><a href="#SetVital">SetVital</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">Attributes</a></li>
+<li><a href="basicem.html">Basic</a></li>
+<li><a href="boatem.html">Boat</a></li>
+<li><a href="cfgfileem.html">CfgFile</a></li>
+<li><a href="clilocem.html">CliLoc</a></li>
+<li><a href="datafileem.html">DataFile</a></li>
+<li><a href="fileem.html">File</a></li>
+<li><a href="guildsem.html">Guild</a></li>
+<li><a href="httpem.html">Http</a></li>
+<li><a href="mathem.html">Math</a></li>
+<li><a href="npcem.html">Npc</a></li>
+<li><a href="osem.html">OS</a></li>
+<li><a href="polsysem.html">PolSys</a></li>
+<li><a href="storageem.html">Storage</a></li>
+<li><a href="unicodeem.html">Unicode</a></li>
+<li><a href="uoem.html">UO</a></li>
+<li><a href="utilem.html">Util</a></li>
+<li><a href="vitalsem.html">Vitals</a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ApplyDamage">ApplyDamage( Character, Hits )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>Character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>Hits</var></td>
+<td>Real (0.0 to 30000.0)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Decreases a character's hit points, after reducing damage due to armor.</td></tr>
+<tr><td colspan="2">(Old notes:) The steps taken are as follows:
+			A piece of armor is chosen randomly, based on probabilities in ARMRZONE.CFG. 
+			Damage is reduced by 50% to 100% of the armor's AR. 
+			Remaining damage is halved. 
+			"I'm Hit" animation is played. 
+			Damage is applied. 
+			Mobile is killed if hit points are now zero. 
+		   Invokes Reputation system effects.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Real damage applied to mobile on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Damage is out of range"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ApplyRawDamage">ApplyRawDamage( Character, Hits )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>Character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>Hits</var></td>
+<td>Integer (0..255)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Decreases a character's hit points.  If this causes hit points to drop to zero, kills the character.</td></tr>
+<tr><td colspan="2">Notes: Armor is ignored.</td></tr>
+<tr><td colspan="2">Invokes Reputation system effects.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">none (returns 0 on invalid parameter)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ConsumeMana">ConsumeMana( who, spellid )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>who</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>spellid</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Consumes amount of "Mana" for "who" for the spell as defined in spells.cfg</td></tr>
+<tr><td colspan="2">Notes: spells.cfg files define spells and spell ids.</td></tr>
+<tr><td colspan="2">Consumes from "Mana" vital.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter"</td></tr>
+<tr><td colspan="2">"No such spell"</td></tr>
+<tr><td colspan="2">"Spell ID out of range"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ConsumeVital">ConsumeVital( who, vital, hundredths )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>who</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vital</var></td>
+<td>String (vital name)</td>
+</tr>
+<tr>
+<td width="50%"><var>hundreths</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Consumes an amount of vital "vital" in hundreths. for example, ConsumeVital(who, "Stamina", 100) 
+consumes one point of stamina.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on consume success or 0 on failure (insufficient value for the vital)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if vital was not found as a vital name</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetVital">GetVital( character, vitalname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vitalname</var></td>
+<td>String (vital name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Gets the current value of "vitalname" on "character".</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer current value of the vital on success or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname was not found as a vital</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetVitalMaximumValue">GetVitalMaximumValue( character, vitalname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vitalname</var></td>
+<td>String (vital name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Gets the maximum value of "vitalname" on "character" </td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer maximum value of the vital on success or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname was not found as a vital</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetVitalName">GetVitalName( alias_name )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>alias_name</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns the real vital name from an alias</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">String</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetVitalRegenRate">GetVitalRegenRate( character, vitalname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vitalname</var></td>
+<td>String (vital name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns the regeneration rate for "vitalname" on "character"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer regeneration rate of the vital on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname was not found as a vital</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#String"><b>String</b></a></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="HealDamage">HealDamage( Character, Hits )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>Character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>Hits</var></td>
+<td>Integer (0..255)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Increases a character's hit points, up to the character's maximum.</td></tr>
+<tr><td colspan="2">Notes: Invokes Reputation system effects.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 if some part of the damage could be healed.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RecalcVitals">RecalcVitals( character )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vitalname</var></td>
+<td>String (vital name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Recalculates regen rates and maximum values from the exported functions in vitals.cfg for all vitals on a mobile</td></tr>
+<tr><td colspan="2">Call this if you changed the regen rates or maximums for a vital, or the intrinsic modifier exported function for an attribute.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">true</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Mobile must not be offline"</td></tr>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetVital">SetVital( character, vitalname, value )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>vitalname</var></td>
+<td>String (vital name)</td>
+</tr>
+<tr>
+<td width="50%"><var>value</var></td>
+<td>Integer (in hundreths)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Sets the current value for "vitalname" on "character" in hundreths.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if vitalname was not found as a vital</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   
