@@ -1,38 +1,230 @@
-<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><title>POL Scripting Reference</title>
-<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator">
-<meta name="description" content="Penultima Online Documentation website."> <meta name="Author" content="Racalac, Rykard"> <meta name="Generator" content="POL Doc-o-matic"> <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> <meta http-equiv="Content-Style-Type" content="text/css"> <style type="text/css"><!-- body,td,p { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; font-weight: normal; color: #000000} --></style></head>
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference UTIL.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
 
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
 
-	<body style="background-color: rgb(240, 240, 240);">
-<p style="font-size: 14pt; font-weight: bold; text-align: left;">
-File: Util.em</p><p style="font-size: 10pt; font-weight: bold; text-align: left;">
-Description: Utility functions<br> Last Modified: 10/27/2007</p><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="RandomDiceRoll">RandomDiceRoll(String
-dice_string)</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>dice_string</var></td><td>String</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Returns a random number according to the passed
-die roll string. This is standard NdS+X format. N=number of dies to
-roll, S=number of sides per die, X=integer to add(or subtract) after
-roll.</td></tr><tr><td colspan="2">Here's
-some acceptable examples:
-</td></tr><tr><td colspan="2"><pre>4<br>d4<br>d6+6<br>d6-2<br>2d12<br>2d8+12<br>2d8-4<br></pre></td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Valkyrie's pedantic wording: "returns an integer
-greater or equal to N+X and not more than N*S+X"</td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="RandomFloat">RandomFloat(real
-below_this_number)</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>below_this_number</var></td><td>Real</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Returns a random real below the passed parameter
-and greater or equal to zero.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Real R such that 0 less or equal to R less than
-below_this_number</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"RandomFloat() expects a Real parameter"</td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="RandomInt">RandomInt(integer
-below_this_number)</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>below_this_number</var></td><td>Integer</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Returns a random integer below the passed
-parameter and greater or equal to zero.</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">Integer R such that 0 less or equal to R less
-than below_this_number</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"RandomInt() expects a positive integer"</td></tr></tbody></table><br><br><br><table align="center" bgcolor="#dddddd" border="1" cellpadding="1" cellspacing="0" frame="box" rules="groups" width="75%"><tbody><tr><th colspan="2" align="center"><a name="StrFormatTime">StrFormatTime(
-format_string, time_stamp:=0 )</a></th></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Parameters:</th></tr></tbody><tbody><tr bgcolor="#d4d4d4"><td>Name</td><td>Type</td></tr></tbody><tbody><tr><td width="50%"><var>format_string</var></td><td>String</td></tr><tr><td width="50%"><var>time_stamp</var></td><td>Integer</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Explanation</th></tr></tbody><tbody><tr><td colspan="2">Takes in the StrFTime() specifiers for the
-format string.</td></tr><tr><td colspan="2">If
-time_stamp is 0, it will use POLCore().systime.</td></tr><tr><td colspan="2">For format_string information, please go to
-http://www.cppreference.com/stddate/strftime.html</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Return
-values</th></tr></tbody><tbody><tr><td colspan="2">String</td></tr></tbody><tbody><tr bgcolor="#cccccc"><th colspan="2" align="left">Errors</th></tr></tbody><tbody><tr><td colspan="2">"RandomFloat() expects a Real parameter"</td></tr><tr><td colspan="2">"Format string exceeded 100 characters."</td></tr></tbody></table><br><br><br>
-<hr> <p style="font-size: 9pt; font-weight: bold; text-align: center;">
-If you <i>know</i> if any information is incorrect on
-these pages, mail your corrections to polteam@polserver.com </p>
-<p style="font-size: 7pt; font-weight: bold; text-align: center;">
-Copyright ©2003-2006 David Carpman and POL Development Team, all rights
-reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT
-ON. </p> </body></html>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">Home</a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						Util.em</h1>
+<p>
+						Description:
+						Utility functions<br><b>
+							Last Modified:
+							10/27/2007</b></p>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#RandomDiceRoll">RandomDiceRoll</a></li>
+<li><a href="#RandomFloat">RandomFloat</a></li>
+<li><a href="#RandomInt">RandomInt</a></li>
+<li><a href="#RandomIntMinMax">RandomIntMinMax</a></li>
+<li><a href="#StrFormatTime">StrFormatTime</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">Attributes</a></li>
+<li><a href="basicem.html">Basic</a></li>
+<li><a href="boatem.html">Boat</a></li>
+<li><a href="cfgfileem.html">CfgFile</a></li>
+<li><a href="clilocem.html">CliLoc</a></li>
+<li><a href="datafileem.html">DataFile</a></li>
+<li><a href="fileem.html">File</a></li>
+<li><a href="guildsem.html">Guild</a></li>
+<li><a href="httpem.html">Http</a></li>
+<li><a href="mathem.html">Math</a></li>
+<li><a href="npcem.html">Npc</a></li>
+<li><a href="osem.html">OS</a></li>
+<li><a href="polsysem.html">PolSys</a></li>
+<li><a href="storageem.html">Storage</a></li>
+<li><a href="unicodeem.html">Unicode</a></li>
+<li><a href="uoem.html">UO</a></li>
+<li><a href="utilem.html">Util</a></li>
+<li><a href="vitalsem.html">Vitals</a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RandomDiceRoll">RandomDiceRoll(String dice_string)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>dice_string</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Returns a random number according to the passed die roll string. This is standard NdS+X format. N=number of dies to roll, S=number of sides per die, X=integer to add(or subtract) after roll.</td></tr>
+<tr><td colspan="2">Here's some acceptable examples:
+</td></tr>
+<tr><td colspan="2"><pre>
+4
+d4
+d6+6
+d6-2
+2d12
+2d8+12
+2d8-4
+</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Valkyrie's pedantic wording: "returns an integer greater or equal to N+X and not more than N*S+X"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RandomFloat">RandomFloat(real below_this_number)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>below_this_number</var></td>
+<td>Real</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns a random real below the passed parameter and greater or equal to zero.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Real R such that 0 less or equal to R less than below_this_number</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"RandomFloat() expects a Real parameter"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RandomInt">RandomInt(integer below_this_number)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>below_this_number</var></td>
+<td>Integer</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns a random integer below the passed parameter and greater or equal to zero.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer R such that 0 less or equal to R less than below_this_number</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"RandomInt() expects a positive integer"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RandomIntMinMax">RandomIntMinMax(integer min_integer, integer max_integer)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>min_integer</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>max_integer</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns a random integer between the Min and Max integers passed. Accepts negative Integers and if parameters in wrong order swaps them.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer Randomly between Min and Max parameters</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2"></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="StrFormatTime">StrFormatTime( format_string, time_stamp:=0 )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>format_string</var></td>
+<td>String</td>
+</tr>
+<tr>
+<td width="50%"><var>time_stamp</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Takes in the StrFTime() specifiers for the format string.</td></tr>
+<tr><td colspan="2">If time_stamp is 0, it will use POLCore().systime.</td></tr>
+<tr><td colspan="2">For format_string information, please go to http://www.cppreference.com/stddate/strftime.html</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">String</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Format string exceeded 100 characters."</td></tr>
+<tr><td colspan="2">"RandomFloat() expects a Real parameter"</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   
