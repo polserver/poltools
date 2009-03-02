@@ -1,0 +1,2320 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Script Types Reference</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">Home</a></div>
+<h1>
+<a name="TOP"></a>POL Script Types</h1>
+<p>This is a list of all the different script types used in the POL system. Some only pertain to specific objects, and/or specifc events, as described.</p>
+<b>
+						Last Modified:
+						02/11/2009</b>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2"><div class="doc-smallbox"><ul>
+<li><a href="#AIScript">AIScript</a></li>
+<li><a href="#AttackHitScript">AttackHitScript</a></li>
+<li><a href="#AuxServiceScript">AuxServiceScript</a></li>
+<li><a href="#BoatScript">BoatScript</a></li>
+<li><a href="#CanDeleteScript">CanDeleteScript</a></li>
+<li><a href="#CanInsertScript">CanInsertScript</a></li>
+<li><a href="#CanRemoveScript">CanRemoveScript</a></li>
+<li><a href="#ChrDeathScript">ChrDeathScript</a></li>
+<li><a href="#ConsoleScript">ConsoleScript</a></li>
+<li><a href="#ControlScript">ControlScript</a></li>
+<li><a href="#CreateScript">CreateScript</a></li>
+<li><a href="#DblClickOtherScript">DblClickOtherScript</a></li>
+<li><a href="#DblClickSelfScript">DblClickSelfScript</a></li>
+<li><a href="#DeathScript">DeathScript</a></li>
+<li><a href="#DestroyScript">DestroyScript</a></li>
+<li><a href="#EnterScript">EnterScript</a></li>
+<li><a href="#EquipScript">EquipScript</a></li>
+<li><a href="#EquipTestScript">EquipTestScript</a></li>
+<li><a href="#ExportedVitalsFunction">ExportedVitalsFunction</a></li>
+<li><a href="#HelpScript">HelpScript</a></li>
+<li><a href="#HitScript">HitScript</a></li>
+<li><a href="#LeaveScript">LeaveScript</a></li>
+<li><a href="#LogoffScript">LogoffScript</a></li>
+<li><a href="#LogoffTestScript">LogoffTestScript</a></li>
+<li><a href="#LogonScript">LogonScript</a></li>
+<li><a href="#MethodScript">MethodScript</a></li>
+<li><a href="#OnCreateScript">OnCreateScript</a></li>
+<li><a href="#OnDeleteScript">OnDeleteScript</a></li>
+<li><a href="#OnInsertScript">OnInsertScript</a></li>
+<li><a href="#OnRemoveScript">OnRemoveScript</a></li>
+<li><a href="#ReconnectScript">ReconnectScript</a></li>
+<li><a href="#SkillScript">SkillScript</a></li>
+<li><a href="#SkillWinScript">SkillWinScript</a></li>
+<li><a href="#SpellScript">SpellScript</a></li>
+<li><a href="#StartScript">StartScript</a></li>
+<li><a href="#SyshookScript">SyshookScript</a></li>
+<li><a href="#TextCommandScript">TextCommandScript</a></li>
+<li><a href="#UnEquipScript">UnEquipScript</a></li>
+<li><a href="#UnEquipTestScript">UnEquipTestScript</a></li>
+<li><a href="#UseScript">UseScript</a></li>
+<li><a href="#WalkOnScript">WalkOnScript</a></li>
+</ul></div></div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="AIScript">AIScript</a></th></tr>
+<tr><th align="center" colspan="2">program AIscript()</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When an NPC is created (either new or from world save on startup)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/ai</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the NPC's npcdesc.cfg entry, the 'Script' property defines the location of the AI script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/ai. Also, setting npc.script allows you to change the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script acts as an NPC's control script, allowing it to move, fight, and react to events. This script should not exit until the NPC dies, or the NPC will become 'braindead'. Normally there exists a loop where events are processed and other actions are performed.</td></tr>
+<tr><td colspan="2">This is the only script type where NPC.EM functions are allowed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//Not a completely usable AI script, for example, doesn't close the distance to an opponent
+// or react to other sysevents.
+use uo;
+use npc;
+use os;
+include "include/sysEvent";
+var me;
+program my_example_aicript()
+    var me := Self();
+    var event;
+    EnableEvents(SYSEVENT_SPEECH,5);
+    EnableEvents(SYSEVENT_ENGAGED);
+    while(me)
+        event := wait_for_event(15);
+        if(event)
+            case(event.type)
+                SYSEVENT_SPEECH: Say( event.source.name + " said: " + event.text );
+                SYSEVENT_ENGAGED: SetOpponent( event.source );
+            endcase
+        endif
+        Wander();
+    endwhile
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#npcdesc.cfg"><b>npcdesc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="AttackHitScript">AttackHitScript</a></th></tr>
+<tr><th align="center" colspan="2">program attackhitscript(attacker, defender, weapon, armor, basedamage, rawdamage )</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>attacker</var></td>
+<td>Character Ref of player attacking with weapon</td>
+</tr>
+<tr>
+<td width="50%"><var>defender</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>weapon</var></td>
+<td>Weapon Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>armor</var></td>
+<td>Armor Ref, or 0 if no armor was hit.</td>
+</tr>
+<tr>
+<td width="50%"><var>basedamage</var></td>
+<td>Integer damage amount due to random weapon damage, strength, and tactics.</td>
+</tr>
+<tr>
+<td width="50%"><var>rawdamage</var></td>
+<td>Integer damage amount due basedamage, minus amount absorbed by armor.</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a weapon with a hit script defined successfully hits an opponent. (note not called automatically if Attack syshook is called)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/items</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the NPC's npcdesc.cfg entry, the 'AttackHitScript' property defines the location of the NPC's intrinsic weapon hit script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/items.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script acts the same as a HitScript, but it is for an NPC's "intrinsic weapon" which is a fake weapon for NPCs that attack with bare fists. See HitScript and npcdesc.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
+	//
+	// Cheat checker
+	//
+	if ( attacker == defender )
+		ApplyRawDamage(attacker, 1000);
+	elseif ( attacker.hidden || defender.hidden )
+		return 0;
+	elseif ( !attacker.npctemplate )
+		if ( !attacker.warmode )
+			basedamage := CInt(basedamage/2);
+			rawdamage := CInt(rawdamage/2);
+		endif
+	endif
+endprogram
+    </pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Weapon"><b>Weapon</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#npcdesc.cfg"><b>npcdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#HitScript"><b>HitScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="AuxServiceScript">AuxServiceScript</a></th></tr>
+<tr><th align="center" colspan="2">program auxservice(connection)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>connection</var></td>
+<td>Aux Connection Object</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored, exiting aux service script closes connection.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a network connection is created on the defined port in auxsvc.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Define the 'Script' property in auxsvc.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows a scripter to communicate with an external TCP/IP application, using the normal POL packed string format for communcation.</td></tr>
+<tr><td colspan="2">wait_for_event allows packet reads, with ev.type == "recv" and ev.value the unpacked data.</td></tr>
+<tr><td colspan="2">connection.transmit(unpacked object) is the interface for sending data to the external application.</td></tr>
+<tr><td colspan="2">If you save the service script PID to a global variable, other scripts may communicate with the external application via your service script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//auxsvc.cfg:
+AuxService
+{
+    Port 5009
+    Script aux1
+}
+//aux1.src:
+use uo;
+use os;
+program auxtest( connection )
+	var ev;
+	print( "aux service is running" );
+	while (connection)
+		ev := wait_for_event( 5 );
+		if (ev)
+			print(ev.value);
+		endif
+	endwhile
+	print( "aux connection closed" );
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#AuxConnection"><b>AuxConnection</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#auxsvc.cfg"><b>auxsvc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="BoatScript">BoatScript</a></th></tr>
+<tr><th align="center" colspan="2">program boatcontrol(boat)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>boat</var></td>
+<td>Boat Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">Immediately after the item is created (includes boot-up).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in the boat.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Always called when a boat is created/started.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script acts as a control script for a boat. Use it for navigation commands (e.g. the tillerman control script), boat decay, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use os;
+program my_example_boatscript(boat)
+    RegisterForSpeechEvents(boat.tillerman, 5);
+    var who;
+    while(boat) //exit loop if boat is destroyed
+        ev := wait_for_event(120);
+        if(ev)
+            who := ev.source;
+            PrintTextAbove(boat.tillerman, who.name + " is a scurvy dog for saying: " + ev.text);
+        endif
+    endwhile
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Boat"><b>Boat</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#ControlScript"><b>ControlScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="CanDeleteScript">CanDeleteScript</a></th></tr>
+<tr><th align="center" colspan="2">program candelete( character, deleteby )</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>deleteby</var></td>
+<td>Integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">If 1, character is allowed to be removed from account, else it is not removed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">Before character deletion.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">This script is called for all Players.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows control over what character may be removed by returning 1 or 0. This script is run critical, so try not to do too many calculations in it.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+UO.EM constants used with the 'deleteby' parameter:    
+const DELETE_BY_PLAYER := 0; // Delete-Request by Player
+const DELETE_BY_SCRIPT := 1; // Delete-Request by account.DeleteCharacter( index )
+</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Account"><b>Account</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnDeleteScript"><b>OnDeleteScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="CanInsertScript">CanInsertScript</a></th></tr>
+<tr><th align="center" colspan="2">program caninsertscript(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>container</var></td>
+<td>Container Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>movetype</var></td>
+<td>integer</td>
+</tr>
+<tr>
+<td width="50%"><var>inserttype</var></td>
+<td>integer</td>
+</tr>
+<tr>
+<td width="50%"><var>adding_item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>existing_stack</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>amt_to_add</var></td>
+<td>integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">If 1, item is allowed to be inserted into the container, else it is not inserted.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">While the item is being moved into (or created in) a container, by user dragging, script function, or the core.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'CanInsertScript' property defines the location of the can insert script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows control over what items may be inserted into a container by returning 1 or 0. This script is called fairly often, and is run critical, so try not to do too many calculations in it.</td></tr>
+<tr><td colspan="2">IMPORTANT: the first parameter (character) MAY be passed as an uninitialized object if the item was not moved by character (i.e. by a script function or the core), so please check it before you use it.</td></tr>
+<tr><td colspan="2">inserttype will be INSERT_ADD_ITEM if a new item is being inserted into the container (existing_stack and amt_to_add are uninit), or INSERT_INCREASE_STACK if an existing item's amount is merely being increased (note 'adding_item' can be uninit if one of the CreateItem functions is merely adding to an existing stack, as opposed to a client action)</td></tr>
+<tr><td colspan="2">These are the times when canInsert scripts are called: Client drag/drop, vendor buy: when moving items to the player's backpack, vendor sell: when putting gold in the player's backpack, secure trade, when cancelling or confirming a trade, MoveItemToContainer, CreateItemInContainer, CreateItemInInventory, CreateItemInBackpack.</td></tr>
+<tr><td colspan="2">You should not destroy the adding_item in the CanInsert script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+const MAX_WEIGHT := 400;
+program my_example_caninsertscript(character, container, movetype, inserttype, 
+                                   adding_item, existing_stack, amount_to_add)
+    if(character != error)
+      if(inserttype == INSERT_ADD_ITEM)
+        if(character.weight + adding_item.weight &gt; MAX_WEIGHT)
+            return 0;
+        else
+            return 1;
+        endif
+      else
+        if(adding_item)
+          if(character.weight + adding_item.weight &gt; MAX_WEIGHT)
+            return 0;
+          else
+            return 1;
+          endif
+        else //need to go by the amount to add
+          var weight_per_item := CDbl(existing_stack.weight) / CDbl(existing_stack.amount);         
+          if(character.weight + (weight_per_item * amount_to_add) &gt; MAX_WEIGHT)
+            return 0;
+          else
+            return 1;
+          endif
+        endif
+      endif          
+    else
+        return 1;
+    endif
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToContainer().)
+Insert scripts only:
+const MOVETYPE_CORECREATE := 2; // created by core (eg, CreateItemInBackpack().)</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.em constants used with the 'inserttype' parameter:
+const INSERT_ADD_ITEM        := 1;
+const INSERT_INCREASE_STACK  := 2;</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnInsertScript"><b>OnInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanRemoveScript"><b>CanRemoveScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnRemoveScript"><b>OnRemoveScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="CanRemoveScript">CanRemoveScript</a></th></tr>
+<tr><th align="center" colspan="2">program canremovescript(character, container, item, movetype)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>container</var></td>
+<td>Container Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>movetype</var></td>
+<td>Integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">If 1, item is allowed to be removed from the container, else it is not removed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">While the item is being moved out of a container, by user dragging, script function, or the core.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'CanRemoveScript' property defines the location of the can remove script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows control over what items may be removed from a container by returning 1 or 0. This script is called fairly often, and is run critical, so try not to do too many calculations in it.</td></tr>
+<tr><td colspan="2">IMPORTANT: the first parameter (character) MAY be passed as an uninitialized object if the item was not moved by character (i.e. by a script function or the core), so please check it before you use it.</td></tr>
+<tr><td colspan="2">You should not destroy the item in the CanRemove script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_canremovescript(character, container, item)
+    var cursed := GetObjPropert(item,"cursed");
+    if(cursed == 1)
+        return 0;
+    else
+        return 1;
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToLocation().)</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnInsertScript"><b>OnInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanInsertScript"><b>CanInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnRemoveScript"><b>OnRemoveScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="ChrDeathScript">ChrDeathScript</a></th></tr>
+<tr><th align="center" colspan="2">program chrdeath(corpse, ghost)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>corpse</var></td>
+<td>Player corpse ref</td>
+</tr>
+<tr>
+<td width="50%"><var>ghost</var></td>
+<td>Character Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When an Player Character is killed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in the chrdeath.src file, only in /scripts/misc (only one should exist in the system)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">This script is called for all Players.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of Player death, like unmounting players off their mount, allowing ghosts to report their murderer, Auto-Resurrect choices, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_chrdeath(corpse,ghost)
+    Broadcast(ghost.name + "'s death cry is heard throughout the realm!");
+    //useful stuff here...
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Corpse"><b>Corpse</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#death.ecl"><b>death.ecl</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="ConsoleScript">ConsoleScript</a></th></tr>
+<tr><th align="center" colspan="2">program consolescript(cmd)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>cmd</var></td>
+<td>command string, i.e. 'B'</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a character is entered into the POL Console, i.e. 'B'.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, only in /scripts/console</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Map a command character to a console script in /config/console.cfg</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows an administrator to activate POL scripts without needing to log into the game. The scripts could be used to shut down theserver after a time, or print a online character list, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+There are four special command script names:
+[lock]              lock the console
+[unlock]            unlock the console
+[lock/unlock]       toggle the lock status of the console
+[threadstatus]      will display thread status and checkpoints</pre></td></tr>
+<tr><td colspan="2"><pre>
+// Print number of toplevel items in the world.
+use uo;
+program consolescript( cmd )
+    print( "System Message: Current # of Toplevel Items - " + polcore().itemcount );
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#console.cfg"><b>console.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="ControlScript">ControlScript</a></th></tr>
+<tr><th align="center" colspan="2">program controlscript(item)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">Immediately after the item is created (includes boot-up).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'ControlScript' property defines the location of the control script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script is called when the item is created and stays attached to the item. Usually control scripts do not exit until the item is destroyed (note, you must handle this yourself). They generally use a loop to process events or do some housecleaning after some sleeping, or wait_for_event.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use os;
+program my_example_controlscript(item)
+    RegisterForSpeechEvents(item, 5);
+    var who;
+    while(item) //exit loop if item is destroyed
+        ev := wait_for_event(120);
+        if(ev)
+            who := ev.source;
+            PrintTextAbove(item, who.name + " said: " + ev.text);
+        endif
+    endwhile
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#AIScript"><b>AIScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="CreateScript">CreateScript</a></th></tr>
+<tr><th align="center" colspan="2">program createscript(item)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">If 0, item is destroyed, else item is added to the world.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">While the item is being created (via uo.em create item functions, or by the core).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'CreateScript' property defines the location of the create script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script is called when the item is created. Return 1 to allow the item to be created, 0 to destroy the item.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_createscript(item)
+    if(item.x &gt;= 500 &amp;&amp; item.x &lt;= 600)
+        print("Item created in illegal location");
+        return 0;
+    endif
+    return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#DestroyScript"><b>DestroyScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="DblClickOtherScript">DblClickOtherScript</a></th></tr>
+<tr><th align="center" colspan="2">program dblclickother(character, mobile_clicked)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr>
+<td width="50%"><var>mobile_clicked</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player double clicks another player or npc. Will not run if the npc has the double click event enabled.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in dblclickother.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called on doubleclick.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows an alternate behavior other than the default 'open paperdoll' behavior.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use os;
+use npc;
+
+program core_dblClickSelf(who, clicked)
+	if ( HasPDGraphic(clicked) )
+		return OPenPaperDoll(who, clicked);
+	endif
+	
+	return 0;
+endprogram
+
+function HasPDGraphic(clicked)
+	case ( clicked.graphic )
+		400:	return 1; break; // Male
+		401:	return 1; break; // Female
+		402:	return 1; break; // Male ghost
+		403:	return 1; break; // Female ghost
+		987:	return 1; break; // GM robe
+	endcase
+	
+	return 0;
+endfunction
+    </pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="DblClickSelfScript">DblClickSelfScript</a></th></tr>
+<tr><th align="center" colspan="2">program dblclickself(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player character double clicks on himself or herself. Not called with the "open paperdoll" client macro.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in dblclickself.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called on doubleclick.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows an alternate behavior other than the default 'open paperdoll' behavior. Useful for things like dismounting.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+include "include/client";
+program dblclickself( me )
+	var mount := GetEquipmentByLayer( me, LAYER_MOUNT );
+	if (!mount)
+		OpenPaperdoll( me, me );
+		return;
+	endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="DeathScript">DeathScript</a></th></tr>
+<tr><th align="center" colspan="2">program death(corpse)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>corpse</var></td>
+<td>NPC corpse ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When an NPC is killed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in the death.src file, only in /scripts/misc (only one should exist in the system)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">This script is called for all NPCs.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of NPC death, like unmounting players off their dying mount, playing death sounds, etc.</td></tr>
+<tr><td colspan="2">This script is common for all NPCs, and is called for each.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_death(corpse)
+    PrintTextAbove(corpse,"ARRRRGH");
+    PlaySoundEffect(SFX_VICTORY); //fake constant
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Corpse"><b>Corpse</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#npcdesc.cfg"><b>npcdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#ChrDeathScript"><b>ChrDeathScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="DestroyScript">DestroyScript</a></th></tr>
+<tr><th align="center" colspan="2">program destroyscript(item)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">If 1, item is allowed to be destroyed, else it is not destroyed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">While the item is being destroyed (UO.EM::DestroyItem() or core decay).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'DestroyScript' property defines the location of the create script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script is called while the item is being destroyed. Return 1 to allow the item to be destroy, 0 to not allow destruction.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_destroyscript(item)
+    var gm_flag := GetObjProperty(item,"GM_FLAG");
+    if(gm_flag != error)
+        return 0;
+    else
+        return 1;
+    endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="EnterScript">EnterScript</a></th></tr>
+<tr><th align="center" colspan="2">program enterscript(mobile, region_name)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>mobile</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>region_name</var></td>
+<td>String</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">Critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player enters the region.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the regions's region.cfg or justice.cfg entry, the 'EnterScript' property defines the location of the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script is called when the player enters the region.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program EnterRegionZone(mobile, region_name)
+    ApplyRawDamage(mobile, 10000);
+    SendSysMessage(mobile, "You just died because you entered an area that makes you dead!");
+    return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#regions.cfg"><b>regions.cfg</b></a></td></tr>
+<tr><td colspan="2"><a href="configfiles.html#justice.cfg"><b>justice.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LeaveScript"><b>LeaveScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="EquipScript">EquipScript</a></th></tr>
+<tr><th align="center" colspan="2">program equipscript(character, item, startup)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>startup</var></td>
+<td>Integer 0/1 if item is being equipped due to server start</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">1 if the item should be equipped, 0 to disallow equipping.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When the item is being equipped on character, either by client dragging or script function, after the equiptest.ecl check is passed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'EquipScript' property defines the location of the equip script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control. Also, setting item.equipscript allows you to change the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item being equipped on a character.</td></tr>
+<tr><td colspan="2">Also can be used to disallow equipping, by the return value.</td></tr>
+<tr><td colspan="2">Doesn't make sense for items that cannot be equipped, like walls or doors and such.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+const FOR_CLASS := "warrior";
+program my_example_equipscript(character, item, startup)
+    var class := GetObjProperty(character, "class");
+    if(class != FOR_CLASS)
+        if(!startup)
+            SendSysmessage(character,"Your class may not equip that item.");
+        endif
+        return 0;
+    else
+        return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipScript"><b>UnEquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EquipTestScript"><b>EquipTestScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipTestScript"><b>UnEquipTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="EquipTestScript">EquipTestScript</a></th></tr>
+<tr><th align="center" colspan="2">program equiptest(character, item, startup)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>startup</var></td>
+<td>Integer 0/1 if item is being equiped on startup</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">1 if the item can be equipped, 0 to disallow equipping.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When the item is being equipped by character, either by client dragging or script function.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in the equiptest.src file, in a package or /scripts/misc (only one should exist in the system)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2"></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item being equipped by a character.</td></tr>
+<tr><td colspan="2">This script is common for all items, and is called for each. useful for equip checks that are the same for all items, so the code does not need to be replicated in all EquipScripts.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_equiptest(character, item, startup)
+    var firstletter := lower(character.name[1]);
+    if(firstletter == "t")
+        SendSysmessage(character,"Sorry, character name starting with 
+                       't' can't equip any items, for some reason.");
+        return 0;
+    else
+        return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EquipScript"><b>EquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipScript"><b>UnEquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipTestScript"><b>UnEquipTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="ExportedVitalsFunction">ExportedVitalsFunction</a></th></tr>
+<tr><th align="center" colspan="2">exported function vitalsfunc(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Integer return used by core, see below</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">Both exported functions on character create and when a script calls RecalcVitals()</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">As exported functions in a .src, as defined in vitals.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Define vitals functions in vitals.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">There exists 2 exported functions for vitals calculation: RegenRateFunction and MaximumFunction.</td></tr>
+<tr><td colspan="2">Each vital defined should have both of these functions. RegenRateFunction should return the regeneration rate for that vital for that character (see vitals.cfg for format)</td></tr>
+<tr><td colspan="2">MaximumFunction should return the maximum vital value for the character in hundreths of a point</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//In a .src file, like regen.src:
+//vitals.cfg defines MaximumFunction regen:GetLifeMaximumValueExported , etc.
+//Life vital funcs:
+use uo;
+exported function GetLifeMaximumValueExported(mob) 
+	return (GetAttribute(mob, ATTRIBUTEID_STRENGTH) * 100);
+endfunction</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#vitals.cfg"><b>vitals.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="HelpScript">HelpScript</a></th></tr>
+<tr><th align="center" colspan="2">program help(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player presses the "Help" button on the paperdoll.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in help.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Automatically called if file exists.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script type handles help button on the paperdoll. Useful for implimenting a help gump or staff paging system.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program help( character )
+    SendSysmessage(character,"You're helpless.");
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="HitScript">HitScript</a></th></tr>
+<tr><th align="center" colspan="2">program hitscript(attacker, defender, weapon, armor, basedamage, rawdamage )</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>attacker</var></td>
+<td>Character Ref of player attacking with weapon</td>
+</tr>
+<tr>
+<td width="50%"><var>defender</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>weapon</var></td>
+<td>Weapon Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>armor</var></td>
+<td>Armor Ref, or 0 if no armor was hit.</td>
+</tr>
+<tr>
+<td width="50%"><var>basedamage</var></td>
+<td>Integer damage amount due to random weapon damage, strength, and tactics.</td>
+</tr>
+<tr>
+<td width="50%"><var>rawdamage</var></td>
+<td>Integer damage amount due basedamage, minus amount absorbed by armor.</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a weapon with a hit script defined successfully hits an opponent. (note not called automatically if Attack syshook is called)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/items</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the weapon's itemdesc.cfg entry, the 'HitScript' property defines the location of the hit script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control. Also, setting weapon.hitscript allows you to change the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to control damage dealt to a defender, equipment, and to trigger extra effects like poisoned weapons.</td></tr>
+<tr><td colspan="2">Only one core-called hitscript may be defined per weapon.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use util;
+program my_example_hitscript(attacker, defender, weapon, armor, basedamage, rawdamage)
+    ApplyDamage(defender,rawdamage);
+    if(RandomInt(20) == 2)
+        armor.hp := armor.hp - 1;
+    endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Weapon"><b>Weapon</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="LeaveScript">LeaveScript</a></th></tr>
+<tr><th align="center" colspan="2">program leavescript(mobile, region_name)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>mobile</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>region_name</var></td>
+<td>String</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">Critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player leaves the region.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the regions's region.cfg or justice.cfg entry, the 'LeaveScript' property defines the location of the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script is called when the player leaves the region.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+see EnterScript</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#regions.cfg"><b>regions.cfg</b></a></td></tr>
+<tr><td colspan="2"><a href="configfiles.html#justice.cfg"><b>justice.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EnterScript"><b>EnterScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="LogoffScript">LogoffScript</a></th></tr>
+<tr><th align="center" colspan="2">program logoff(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">After the linger time expires after a client logs off.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in logoff.src file, in /scripts/misc or any package</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to run cleanup code after a character exits the world. Useful for stuff like cleaning up summoned NPCs, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program logoff( character )
+	Broadcast(character.name + " exited the world." );
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogonScript"><b>LogonScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffTestScript"><b>LogoffTestScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#ReconnectScript"><b>ReconnectScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="LogoffTestScript">LogoffTestScript</a></th></tr>
+<tr><th align="center" colspan="2">program logofftest(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Integer value returned is number of seconds to have the character 'linger' in the world.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a client logs out.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in logofftest.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to control how long the character lingers in the world after logoff.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program logofftest( character )
+	if(character.cmdlevel &gt; 0)
+	    return 0;
+	else
+	    return 300;
+	endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogonScript"><b>LogonScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffScript"><b>LogoffScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#ReconnectScript"><b>ReconnectScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="LogonScript">LogonScript</a></th></tr>
+<tr><th align="center" colspan="2">program logon(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a client logs into the game server.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in logon.src file, in /scripts/misc or any package</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows code to run when the player logs in. Can be used for welcome messages, etc.</td></tr>
+<tr><td colspan="2">This script runs critical, so be careful how much code you run!</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program logon( character )
+	SendSysmessage(character, "Welcome to POL.");
+	Broadcast( character.name + " has entered the world.");
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#ReconnectScript"><b>ReconnectScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffScript"><b>LogoffScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffTestScript"><b>LogoffTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="MethodScript">MethodScript</a></th></tr>
+<tr><th align="center" colspan="2">exported function methodname(params,...)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">core ignores return value, except for Install() see below</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Install() Run To Completion, methods normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">Install() critical, methods 1</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a script calls the method for the item, i.e. item.methodname()</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">In a .src file, and MUST BE in a package.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'MethodScript' property defines the location of the create script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">Method Scripts allow new object methods to be defined, and can override built-in methods. For example, you may define a method door.wackymethod() or override door.open().</td></tr>
+<tr><td colspan="2">To enable the exported functions in the script, the 'program' in the file must return 1. This is the 'Install()' program that enables the exported methods.</td></tr>
+<tr><td colspan="2">The exported functions may take any number of parameters</td></tr>
+<tr><td colspan="2">To instead call the built-in methods for an object, preceed the name with an underscore '_'. So if you override door.close(), use door._close() to instead call the built-in version.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+// This simple example shows how to override the door.open() method
+pkg/.../door/itemdesc.cfg:
+Door 0x0675
+{
+    xmod -1
+    ymod +1
+    script door
+    doortype metal
+    MethodScript cdoor.ecl  //note .ecl extension
+}
+
+pkg/.../door/cdoor.src:
+exported function open( door )
+    print( "cdoor::open(" + door.serial + ")" );
+    return door._open();
+endfunction
+
+program install()
+    print( "installing cdoor" );
+    return 1;
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+// This example shows how to define your own methods
+//pkg/.../mypkg/itemdesc.cfg:
+Item 0xE000
+{
+    //normal itemdesc.cfg entries, graphic, etc.
+    Name widget
+    MethodScript widget_methods.ecl
+}
+
+// pkg/.../mypkg/widget_methods.src:
+program install()
+    print("installing widget");
+    return 1;
+endprogram
+
+exported function discombobulate(flag1, message) //pass by reference here is ok too!
+    if(flag1 &gt; 3)
+        print(message);
+        return 1;
+    endif
+    return 0;
+endfunction
+
+// So now, in another script, if 'widget' is a reference to 
+// item 0xE000, call like this:
+widget.discombobulate(4,"Meaningless message");</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="OnCreateScript">OnCreateScript</a></th></tr>
+<tr><th align="center" colspan="2">program oncreate(character, skillids)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr>
+<td width="50%"><var>skillids</var></td>
+<td>Array of the 3 integer skill IDs chosen.</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a new player character is created.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in oncreate.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to run code when a new character is created. Useful for giving out starting equipment, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+include "include/startEqp";
+program oncreate( character )
+	CreateStartingEquipment(character, skillids);
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnDeleteScript"><b>OnDeleteScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="OnDeleteScript">OnDeleteScript</a></th></tr>
+<tr><th align="center" colspan="2">program ondelete(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player character is deleted.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in ondelete.src file, in /scripts/misc or any package</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to run code when a character is deleted.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program ondelete( character )
+	Broadcast(character.name + " was deleted.");
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnCreateScript"><b>OnCreateScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="OnInsertScript">OnInsertScript</a></th></tr>
+<tr><th align="center" colspan="2">program oninsertscript(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>container</var></td>
+<td>Container Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>movetype</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>inserttype</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>adding_item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>existing_stack</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>amount_to_add</var></td>
+<td>Integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run-To-Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">After the item is moved into (or created in) a container, by user dragging, script function, or the core.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'OnInsertScript' property defines the location of the on-insert script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item insertion.</td></tr>
+<tr><td colspan="2">IMPORTANT: the first parameter (character) MAY be passed as an uninitialized object if the item was not moved by character (i.e. by a script function or the core), so please check it before you use it.</td></tr>
+<tr><td colspan="2">inserttype will be INSERT_ADD_ITEM if a new item is being inserted into the container (existing_stack and amt_to_add are uninit), or INSERT_INCREASE_STACK if an existing item's amount is merely being increased (and adding_item is uninit).</td></tr>
+<tr><td colspan="2">These are the times when onInsert scripts are called: Client drag/drop, vendor buy: when moving items to the player's backpack, vendor sell: when putting gold in the player's backpack, secure trade, when cancelling or confirming a trade, MoveItemToContainer, CreateItemInContainer, CreateItemInInventory, CreateItemInBackpack.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_oninsertscript(character, container, movetype, inserttype, adding_item, 
+                                  existing_stack, amount_to_add)
+    if(inserttype == INSERT_INCREASE_STACK )
+      SendSysmessage(character,"You insert " + amount_to_add + " more " 
+                   + existing_stack.desc + " into the container.");
+    else
+      SendSysmessage(character,"You insert a " + adding_item.desc + " into the container.");
+    endif
+    PlaySoundEffectPrivate(character, SFX_INSERT, character);
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToContainer().)
+Insert scripts only:
+const MOVETYPE_CORECREATE := 2; // created by core (eg, CreateItemInBackpack().)</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.em constants used with the 'inserttype' parameter:
+const INSERT_ADD_ITEM        := 1;
+const INSERT_INCREASE_STACK  := 2;</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanInsertScript"><b>CanInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanRemoveScript"><b>CanRemoveScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnRemoveScript"><b>OnRemoveScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="OnRemoveScript">OnRemoveScript</a></th></tr>
+<tr><th align="center" colspan="2">program onremovescript(character, container, item, item_amount, movetype)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>container</var></td>
+<td>Container Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>item_amount</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>movetype</var></td>
+<td>Integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run-To-Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">After the item is out of a container, by user dragging, script function, or the core.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'OnRemoveScript' property defines the location of the on-remove script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item removal.</td></tr>
+<tr><td colspan="2">IMPORTANT: the first parameter (character) MAY be passed as an uninitialized object if the item was not moved by character (i.e. by a script function or the core), so please check it before you use it.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_onremovescript(character, container, item, item_amount)
+    SendSysmessage(character,"You removed " + item_amount + " " 
+                   + item.desc + " from the container.");
+    PlaySoundEffectPrivate(character, SFX_REMOVE, character);
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+UO.EM constants used with the 'movetype' parameter:    
+const MOVETYPE_PLAYER     := 0; // physically moved (dragged) by a player
+const MOVETYPE_COREMOVE   := 1; // moved by the core (eg, MoveItemToLocation().)</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Container"><b>Container</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanInsertScript"><b>CanInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#OnInsertScript"><b>OnInsertScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#CanRemoveScript"><b>CanRemoveScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="ReconnectScript">ReconnectScript</a></th></tr>
+<tr><th align="center" colspan="2">program reconnect(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a client re-logs into the game server before his/her character is removed from the world (5 minutes default).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in reconnect.src file, in /scripts/misc or any package</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows code to run when the player logs in after having recently logged off.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program reconnect( character )
+	Broadcast( character.name + " has reconnected.");
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogonScript"><b>LogonScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffScript"><b>LogoffScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#LogoffTestScript"><b>LogoffTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="SkillScript">SkillScript</a></th></tr>
+<tr><th align="center" colspan="2">program skillscript(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a uses a "direct" skill like Hiding, Cartography, etc. (a blue 'crystal' appears next to the skill name on the default skill scroll gump) Also called with the client macros UseSkill, LastSkill, etc.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/skills</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Define a "Script" property in the attributes.cfg entry for the appropriate skill number.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script type handles the directly-usable skills in UO. It is not used for skills used via an item (like blacksmithy).</td></tr>
+<tr><td colspan="2">The script is 'attached' to the character, and he/she cannot use another skill or use an item until this skill script exits or calls Detach().</td></tr>
+<tr><td colspan="2">The attributes.cfg entry defines the time delay for starting subsequent skill scripts</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//example hide skill script   
+use uo;
+program hideskill( character )
+	if(character.cmdlevel &gt; 0)
+	    character.hidden := 1;
+	else
+	    //obviously some skill checks go here, etc.
+	endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="SkillWinScript">SkillWinScript</a></th></tr>
+<tr><th align="center" colspan="2">program skillwin(character)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player character requests the skills scroll gump to be displayed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in skillwin.src file, only in /scripts/misc</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows an alternate behavior other than the default skills window behavior. Useful for implimenting your own skills gump for your custom shard.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program skillwin( character )
+	if(character.cmdlevel &gt; 0)
+	    SendSkillWindow( character, character );
+	else
+	    SendMySkillGump( character );
+	endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="SpellScript">SpellScript</a></th></tr>
+<tr><th align="center" colspan="2">program spellscript(character, spell_id)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Caster Character ref</td>
+</tr>
+<tr>
+<td width="50%"><var>spell_id</var></td>
+<td>Integer</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player casts a spell from the normal UO spellbook.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/spells</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Define a "Script" property in the spells.cfg entry for the appropriate spell number.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script type handles the 'cast spell #' action in UO, via a spellbook or client macro. spell_id is taken from 'SPELLID' entry in '::spells.cfg'.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//example Lightning spell (#30), too simple to use directly!
+use uo;
+program lightning( character, spell_id )
+	var tgt := Target(character, TGTOPT_HARMFUL);
+	if(tgt)
+	    if(tgt.isa(POLCLASS_MOBILE))
+	        PlayLightningBoltEffect(tgt);
+	        //some damage
+	    endif
+	endif
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#spells.cfg"><b>spells.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="StartScript">StartScript</a></th></tr>
+<tr><th align="center" colspan="2">no prototype, exists as inline code at global scope</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">Once, during server start.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">As inline code outside any function scope in start.src file, in any package and in /scripts</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">If the compiled file exists in /scripts or an enabled package it is automatically called.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows the scripter to run code when the server starts, for housekeeping or starting background scripts like NPC spawners.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+print("my package starting..");
+//etc, your startup code! I'm so bad at examples.</pre></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="SyshookScript">SyshookScript</a></th></tr>
+<tr><th align="center" colspan="2">exported function syshookname(params vary, see below)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value usage varies, see below</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">At various times, depending on the syshook, see below.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">As exported functions in a .src, as defined in syshook.cfg or uopacket.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Define a system hook script in a syshook.cfg or a packet hook script in a uopacket.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">The valid system hook names are: CheckSkill, OpenSpellbook, GetBookPage, CombatAdvancement, ParryAdvancement, Attack, Pushthrough, SpeechMul. You can use any name in packet hook script (ReceiveFunction/SendFunction - you can find examples in packethooks.txt).</td></tr>
+<tr><td colspan="2">Note: You must define a "program" named scriptname in the file scriptname. This program should perform any substantive initialization for supporting the individual hooks in the file. Return 1 to install the hooks, or 0 to disable. This will be run only once on startup.</td></tr>
+<tr><td colspan="2">CheckSkill: params: CharRef character, Int skillid, Int difficulty, Int pointvalue. When called: UO.EM::CheckSkill() is called. Return: true/false for skill use success.</td></tr>
+<tr><td colspan="2">OpenSpellbook: params: CharRef character. When called: A Character uses a spellbook object. Used to override normal spellbook behavior.</td></tr>
+<tr><td colspan="2">GetBookPage: not implimented</td></tr>
+<tr><td colspan="2">CombatAdvancement: params: CharRef character, WeaponRef weapon, CharRef opponent. When called: Whenever a character attacks another, before hit is determined. Used to override normal combat skill advancement.</td></tr>
+<tr><td colspan="2">ParryAdvancement: params: CharRef character, WeaponRef weapon, CharRef opponent, ItemRef opponent_shield. When called: A Character attacks another whom wields a shield, before parry success is determined. Used to override 'parry' skill advancement.</td></tr>
+<tr><td colspan="2">Attack: params: CharRef character, CharRef opponent. When called: A Character attacks another. IMPORTANT: completely overrides core handling of combat, including the above advancement hooks. You must handle all of combat yourself in a script if you use this hook (determining hits, applying damage, destroying ammo, skill advancement, etc). Since it is called every attack, this is a very CPU expensive hook to impliment.</td></tr>
+<tr><td colspan="2">Pushthrough: params: CharRef character, Array of CharRefs in destination tile. When called: on EVERY move of EVERY character. Return: true if walk ok, false to block walk. Used to override core behavior for walking through tiles with other mobiles on them. Since this critical script is called so often, it is a very CPU expensive one to impliment.</td></tr>
+<tr><td colspan="2">SpeechMul: params: CharRef character, Array of speechtokens. When called: When someone says a speech.mul keyword (one or more).</td></tr>
+<tr><td colspan="2">ReceiveFunction: params: CharRef character, Packet byref packet. When called: When the server receives a packet by client. Return: 0 if you wish POL to perform its normal data processing on the packet (if any default packet handler exists for this packet ID), or 1 if you wish POL to do no processing on the packet (i.e. your script handled it fully).</td></tr>
+<tr><td colspan="2">SendFunction: params: CharRef character, Packet byref packet. When called: When the server will send a packet to the client. Return: 0 if you wish POL to perform its normal data processing on the packet (if any default packet handler exists for this packet ID), or 1 if you wish POL to do no processing on the packet (i.e. your script handled it fully). You MUST NOT use the SendPacket or SendAreaPacket methods on the passed-in packet with SendFunction. Rather, edit the packet as you wish, and return 0. POL will send the packet as normal. You may create and send a different packet (NOT the same Packet ID, else the send functions will loop) from within this function, but note the sending order will be created packet, then hooked packet (if you return 0).</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+//Pushthrough hook example    
+//syshook.cfg defines: 
+SystemHookScript pushhook.ecl
+{
+	Pushthrough Pushthrough
+}
+//in pushhook.src:
+use uo;
+program PushthroughHook()
+	return 1;
+endprogram
+
+exported function Pushthrough(walker, obstructors)
+	//print(walker.name);
+	//foreach mob in obstructors   //note, obstructors is an array of char refs
+	//	print(mob.name);
+	//endforeach
+	
+	if(GetVital(walker,"Stamina") &lt; GetVitalMaximumValue(walker,"Stamina"))
+		return 0;
+	else
+		return ConsumeVital(walker,"Stamina",1000);
+	endif
+endfunction</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#syshook.cfg"><b>syshook.cfg</b></a></td></tr>
+<tr><td colspan="2"><a href="configfiles.html#uopacket.cfg"><b>uopacket.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="TextCommandScript">TextCommandScript</a></th></tr>
+<tr><th align="center" colspan="2">program textcommand(character, text, uc_text, langcode)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character ref activating this script</td>
+</tr>
+<tr>
+<td width="50%"><var>text</var></td>
+<td>String after command name</td>
+</tr>
+<tr>
+<td width="50%"><var>uc_text</var></td>
+<td>a Unicode array of the text string typed after the command (exist if client used unicode speech)</td>
+</tr>
+<tr>
+<td width="50%"><var>langcode</var></td>
+<td>3-character string, representing the client's language code, i.e. 'ENU', 'DEU', 'RUS', etc.(exist if client used unicode speech)</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a player character 'speaks' a command string, i.e. '.online'</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a command level subdir of a package or /scripts/textcmd</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">Place the script in a command level subdir or /scripts/textcmd, or a package after defining the command level path in cmds.cfg.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows a player to activate a script, according to their command level. I.e. 'admin' level can activate admin and below (gm, seer, etc), but a GM could not activate 'admin' commands.</td></tr>
+<tr><td colspan="2">Lots of things can be done with this script type, including creating objects, destroying them, showing gump menus, teleporting, or anything that the core functions allow!</td></tr>
+<tr><td colspan="2">'text' is all the text after the command name. I.e. '.createstack 0xEED 100' would make 'text' be '0xEED 100'. This is a great place to use SplitWords (note result is still a string, so use Cint() if expecting integers).</td></tr>
+<tr><td colspan="2">Only one text command script may be active on a player at a time.</td></tr>
+<tr><td colspan="2">Unicode array: array of integers representing unicode characters</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+// a teleport script. Should be entered with x y z numbers after the name.    
+use uo;
+program textcmd( character, text )
+    var arr := SplitWords( text );
+    MoveCharacterToLocation( character,Cint(arr[1]),Cint(arr[2]),Cint(arr[3]) );
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#cmds.cfg"><b>cmds.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="UnEquipScript">UnEquipScript</a></th></tr>
+<tr><th align="center" colspan="2">program unequipscript(character, item)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">1 if the item should be unequipped, 0 to disallow unequipping.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When the item is being unequipped by character, either by client dragging or script function, after the unequiptest.ecl check is passed.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/control</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'UnEquipScript' property defines the location of the unequip script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/control. Also, setting item.unequipscript allows you to change the script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item being unequipped by a character.</td></tr>
+<tr><td colspan="2">Also can be used to disallow unequipping, by the return value.</td></tr>
+<tr><td colspan="2">Doesn't make sense for items that cannot be equipped, like walls or doors and such.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_equipscript(character, item, startup)
+    var cursed := GetObjProperty(item, "cursed");
+    if(cursed == 1)
+        SendSysmessage(character,"That item is cursed! Gwuahahahaha!!");
+        return 0;
+    else
+        return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipScript"><b>UnEquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EquipTestScript"><b>EquipTestScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipTestScript"><b>UnEquipTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="UnEquipTestScript">UnEquipTestScript</a></th></tr>
+<tr><th align="center" colspan="2">program unequiptest(character, item, startup)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref, or uninitialized, see below</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>startup</var></td>
+<td>always false</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">1 if the item can be unequipped, 0 to disallow unequipping.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Run To Completion</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">critical</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When the item is being unequipped by character, either by client dragging or script function.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in the unequiptest.src file, in a package or /scripts/misc (only one should exist in the system)</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2"></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This script allows side effects to be triggered as a result of the item being unequipped by a character.</td></tr>
+<tr><td colspan="2">This script is common for all items, and is called for each. useful for unequip checks that are the same for all items, so the code does not need to be replicated in all UnEquipScripts.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+program my_example_unequiptest(character, item, startup)
+    var cursed := GetObjProperty(item, "cursed");
+    if(cursed == 1)
+        SendSysmessage(character,"That item is cursed! Gwuahahahaha!!");
+        return 0;
+    else
+        return 1;
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Script Types</th></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EquipScript"><b>EquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#UnEquipScript"><b>UnEquipScript</b></a></td></tr>
+<tr><td colspan="2"><a href="scripttypes.html#EquipTestScript"><b>EquipTestScript</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="UseScript">UseScript</a></th></tr>
+<tr><th align="center" colspan="2">program usescript(character, item)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a client double clicks on an item with a defined use script.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/items</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'Script' property defines the location of the double-click script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/items. Also item.usescript is writable in the same format.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This interactive script is called when a client double clicks on an item. This script is then attached to the character (meaning, no other script may be attached to the character until this script exits or calls Detach()).
+             If the itemdesc.cfg entry also defines 'RequiresAttention 1' then using that item will cause the player to unhide. </td></tr>
+<tr><td colspan="2">By default the player needs to have line-of-sight to the item. Use the 'UseRequiresLOS' property in the itemdesc.cfg entry to change this per-item template.</td></tr>
+<tr><td colspan="2">By default ghosts may not use items. Use the 'GhostsCanUse' property in the itemdesc.cfg entry to change this per-item template.</td></tr>
+<tr><td colspan="2">The default maximum distance away from the item to use it is 2 or the defined 'DefaultDoubleclickRange' in servspecopt.cfg. To override this, use the 'DoubleclickRange' property in the itemdesc.cfg entry to change this per-item template.</td></tr>
+<tr><td colspan="2">Can be used to override the default double-click behaviors of Containers, Maps, etc.</td></tr>
+<tr><td colspan="2">Doesn't work with Multis.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use util;
+program my_example_usescript(character, item)
+    PrintTextAbove(item, character.name + " used me!");
+    item.color := RandomInt(50);
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+<tr><td colspan="2"><a href="configfiles.html#servspecopt.cfg"><b>servspecopt.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0"><tbody>
+<tr><th align="center" colspan="2"><a name="WalkOnScript">WalkOnScript</a></th></tr>
+<tr><th align="center" colspan="2">program walkonscript(character, item, lastx, lasty, lastz)</th></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr>
+<tr>
+<td>Name</td>
+<td>Type</td>
+</tr>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>item</var></td>
+<td>Item Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>lastx</var></td>
+<td>Character's previous integer world coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>lasty</var></td>
+<td>Character's previous integer world coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>lastz</var></td>
+<td>Character's previous integer world coordinate</td>
+</tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr>
+<tr><td colspan="2">Return value ignored</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Scheduler Type</th></tr>
+<tr><td colspan="2">Normal</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Default Priority</th></tr>
+<tr><td colspan="2">100</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">When Is It Called?</th></tr>
+<tr><td colspan="2">When a character moves onto this item.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Where Does It Live?</th></tr>
+<tr><td colspan="2">The 'program' in a .src file, in a package or /scripts/items</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">To Define</th></tr>
+<tr><td colspan="2">In the item's itemdesc.cfg entry, the 'WalkOnScript' property defines the location of the walk-on script. This is in package format ':pkgname:scriptname', or if just 'scriptname' in the same package, or /scripts/items.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr>
+<tr><td colspan="2">This interactive script is called when a client moves on an item (walk or teleports). This script is NOT attached to the character.</td></tr>
+<tr><td colspan="2">Doesn't work with Multis.</td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Examples</th></tr>
+<tr><td colspan="2"><pre>
+use uo;
+use util;
+program my_example_walkonscript(character, item, lastx, lasty, lastz)
+    PrintTextAbove(item, "Ouch! " + character.name + ", don't step on me!");
+    MoveItemToLocation( item, lastx, lasty, lastz );
+endprogram</pre></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Objects</th></tr>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#Item"><b>Item</b></a></td></tr>
+<tr id="doc-table-dark"><th align="left" colspan="2">Related Config Files</th></tr>
+<tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr>
+</tbody></table>
+</div>
+</div>
+</div></div>
+
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   

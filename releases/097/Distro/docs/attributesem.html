@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference ATTRIBUTES.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">Home</a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						Attributes.em</h1>
+<p>
+						Description:
+						Functions for working with mobile's attributes/skills.<br><b>
+							Last Modified:
+							10/27/2007</b></p>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#AlterAttributeTemporaryMod">AlterAttributeTemporaryMod</a></li>
+<li><a href="#BaseSkillToRawSkill">BaseSkillToRawSkill</a></li>
+<li><a href="#CheckSkill">CheckSkill</a></li>
+<li><a href="#GetAttribute">GetAttribute</a></li>
+<li><a href="#GetAttributeBaseValue">GetAttributeBaseValue</a></li>
+<li><a href="#GetAttributeIntrinsicMod">GetAttributeIntrinsicMod</a></li>
+<li><a href="#GetAttributeName">GetAttributeName</a></li>
+<li><a href="#GetAttributeTemporaryMod">GetAttributeTemporaryMod</a></li>
+<li><a href="#RawSkillToBaseSkill">RawSkillToBaseSkill</a></li>
+<li><a href="#SetAttributeBaseValue">SetAttributeBaseValue</a></li>
+<li><a href="#SetAttributeTemporaryMod">SetAttributeTemporaryMod</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">Attributes</a></li>
+<li><a href="basicem.html">Basic</a></li>
+<li><a href="boatem.html">Boat</a></li>
+<li><a href="cfgfileem.html">CfgFile</a></li>
+<li><a href="clilocem.html">CliLoc</a></li>
+<li><a href="datafileem.html">DataFile</a></li>
+<li><a href="fileem.html">File</a></li>
+<li><a href="guildsem.html">Guild</a></li>
+<li><a href="httpem.html">Http</a></li>
+<li><a href="mathem.html">Math</a></li>
+<li><a href="npcem.html">Npc</a></li>
+<li><a href="osem.html">OS</a></li>
+<li><a href="polsysem.html">PolSys</a></li>
+<li><a href="storageem.html">Storage</a></li>
+<li><a href="unicodeem.html">Unicode</a></li>
+<li><a href="uoem.html">UO</a></li>
+<li><a href="utilem.html">Util</a></li>
+<li><a href="vitalsem.html">Vitals</a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="AlterAttributeTemporaryMod">AlterAttributeTemporaryMod( character, attrname, delta_tenths )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+<tr>
+<td width="50%"><var>delta_tenths</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Changes the temporary modification value for attribute named "attrname".
+ 	delta_tenths is in tenths, obviously. So "1" would increase the temp mod by 0.1 points.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type" including if attrname was not found as an attribute</td></tr>
+<tr><td colspan="2">"New modifier value is out of range"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="BaseSkillToRawSkill">BaseSkillToRawSkill( baseskill )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>baseskill</var></td>
+<td>Integer</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Converts an old-style "base skill" value to old-style "raw skill" value.</td></tr>
+<tr><td colspan="2">Notes: OBSOLETE</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Raw skill value representation</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="CheckSkill">CheckSkill( character, skillid, difficulty, points )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Ref</td>
+</tr>
+<tr>
+<td width="50%"><var>skillid</var></td>
+<td>Integer skill/attribute ID</td>
+</tr>
+<tr>
+<td width="50%"><var>difficulty</var></td>
+<td>Integer skill use difficulty</td>
+</tr>
+<tr>
+<td width="50%"><var>points</var></td>
+<td>Integer skill gain on success</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">NOTE: Calls the Syshook script CheckSkill. If it doesn't exist, always returns false.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Return value of CheckSkill syshook.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter"</td></tr>
+<tr><td colspan="2">"No such skill"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetAttribute">GetAttribute( character, attrname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns the current effective value for the specified attribute on character.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer "Effective" attribute value on success (base + temporary mod + intrinsic mod) or 
+Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if attrname was not found as an attribute</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetAttributeBaseValue">GetAttributeBaseValue( character, attrname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2"> Returns the base value for the specified attribute on character. </td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2"> Integer "Base" attribute value on success or Error </td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2"> "Invalid parameter type" including if attrname was not found as an attribute</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetAttributeIntrinsicMod">GetAttributeIntrinsicMod( character, attrname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Returns the intrinsic value for the specified attribute on character.</td></tr>
+<tr><td colspan="2">You set intrinsic Mod via exported GetIntrinsicModFunction in attributes.cfg</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer "Intrinsic" attribute value on success or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if attrname was not found as an attribute</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetAttributeName">GetAttributeName( alias_name )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>alias_name</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns the real attribute name from an alias</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">String</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetAttributeTemporaryMod">GetAttributeTemporaryMod( character, attrname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2"> Returns the temporary modification value for the specified attribute on character.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Integer "temporary" attribute value on success or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if attrname was not found as an attribute</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RawSkillToBaseSkill">RawSkillToBaseSkill( rawskill )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>rawskill</var></td>
+<td>Integer</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Converts an old-style "raw skill" value to old-style "base skill" value.</td></tr>
+<tr><td colspan="2">Notes: OBSOLETE</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Base skill value representation</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetAttributeBaseValue">SetAttributeBaseValue( character, attrname, basevalue_tenths ); // obsoletes 
+SetRawSkill</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+<tr>
+<td width="50%"><var>basevalue_tenths</var></td>
+<td>Integer (0..60000)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Sets the "base" value of "attrname" on "character"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetAttributeTemporaryMod">SetAttributeTemporaryMod( character, attrname, tempmod_tenths ); // obsoletes mob.strength_mod 
+etc</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>character</var></td>
+<td>Character Reference</td>
+</tr>
+<tr>
+<td width="50%"><var>attrname</var></td>
+<td>String (attribute name)</td>
+</tr>
+<tr>
+<td width="50%"><var>tempmod_tenths</var></td>
+<td>Integer (-30000..30000)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Sets the "temporary modification" value of "attrname" on "character"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type" including if attrname was not found as an attribute</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#attributes.cfg"><b>attributes.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   
