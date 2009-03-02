@@ -1,0 +1,26 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+include ":datafile:datafile";
+include "include/uo_extend";
+
+
+program Logon(who)
+	var data_file := DFOpenDataFile(":email:emails", DF_CREATE);
+	var data_elem := DFFindElement(data_file, Hex(who.serial), DF_CREATE);
+
+	if ( !data_elem.GetProp("NextMsgID") )
+		data_elem.SetProp("NextMsgID", 1);
+	endif
+
+	var mail_props := data_elem.PropNames();
+	//Dont count the prop "NextMsgID"
+	var num_props := mail_props.size()-1;
+
+	if ( num_props > 0 )
+		SendSysMessage(who, "You have " + num_props + " messages in your mail box. Type .email to view them.");
+	endif
+endprogram

@@ -1,0 +1,32 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Agility(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+	
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+	
+	// Dex increase % = (Eval / 10 + 1)
+	var percent := CDbl(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 1;
+	var points := CInt(AP_GetStat(targ, DEXTERITY) * (percent / 100));
+	
+	// Duration: ((Eval / 5) + 1) * 6
+	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
+	TS_StartTimer(targ, "Agility", duration, points, mobile);
+	
+	return 1;
+endprogram

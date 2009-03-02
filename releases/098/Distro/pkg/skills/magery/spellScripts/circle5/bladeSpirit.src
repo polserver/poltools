@@ -1,0 +1,27 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+
+program SpellScript_BladeSpirit(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Duration = 120 seconds
+	var duration := 120;
+	
+	var summoned := CreateNPCFromTemplate(":brainai:bladespirit", targ.x, targ.y, targ.z);
+	if ( summoned )
+		SetObjProperty(summoned, "SummonedBy", mobile.serial);
+	endif
+	
+	return 1;
+endprogram

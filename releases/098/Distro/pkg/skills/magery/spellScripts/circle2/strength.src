@@ -1,0 +1,32 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Strength(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0; // No longer needed
+	
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Str increase % = (Eval / 10 + 1)
+	var percent := CDbl(AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 1;
+	var points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
+	
+	// Duration: 120% Magery seconds
+	var duration := CInt(AP_GetSkill(mobile, MAGERY) * 1.2);
+	TS_StartTimer(targ, "Strength", duration, points, mobile);
+	
+	return 1;
+endprogram

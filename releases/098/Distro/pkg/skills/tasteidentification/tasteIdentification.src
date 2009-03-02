@@ -1,0 +1,111 @@
+// $Id: tasteID.src 1054 2007-04-28 13:30:16Z tekproxy $
+
+use uo;
+use cfgfile;
+
+include ":attributes:attributes";
+
+program skill_TasteID(mobile)
+	SendSysMessage(mobile, "What would you like to taste?");
+
+	var targ := Target(mobile);
+	if ( !targ )
+		return 0;
+	elseif ( targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(mobile, "You feel that such an action would be inappropriate.");
+		return 0;
+	elseif ( !targ.IsA(POLCLASS_ITEM) )
+		SendSysMessage(mobile, "That's not something you can taste.");
+		return 0;
+	elseif ( Distance(mobile, targ) > 1 )
+		SendSysMessage(mobile, "You are too far away to taste that.");
+		return 0;
+	elseif ( GetObjProperty(targ, "Vendored") )
+		SendSysMessage(mobile, "You cannot taste someone else's goods!");
+		return 0;
+	endif
+	
+	var tasted := GetObjProperty(targ, "TasteIDed");
+	if ( !tasted )
+		tasted := array{};
+	endif
+	
+	var tasteable := ReadConfigFile(":tasteID:tasteable");
+	if ( targ.objtype in (tasteable["Kegs"].GetConfigIntKeys()) )
+		var kegType := GetObjProperty(targ, "PotionType");
+		var amt	:= 0;
+		foreach obj in EnumerateItemsInContainer(targ)
+			if ( obj.objtype == 0xF0E )
+				amt := amt + obj.amount;
+			endif
+		endforeach
+
+		if ( !amt )
+			SendSysMessage(mobile, "There seems to be nothing in the keg.");
+			return 0;
+		endif
+		
+		if ( mobile.serial in tasted )
+			SendSysMessage(mobile, "You are already familiar with this keg's contents.");
+			return 0;
+		endif
+		
+		if ( SkillCheck(mobile, TASTE_IDENTIFICATION, -1) > 0 )
+			SendSysMessage(mobile, "You were able to identify the contents.");
+			// TODO: Identify contents?
+		else
+			SendSysMessage(mobile, "You are unable to identify the contents.");
+			return 0;
+		endif
+	elseif ( targ.objtype in (tasteable["Potions"].GetConfigIntKeys()) )
+		if ( mobile.serial in tasted )
+			SendSysMessage(mobile, "You already know what kind of potion that is.");
+			return 0;
+		endif
+
+		if ( SkillCheck(mobile, TASTE_IDENTIFICATION, -1) > 0 )
+			/*
+			The potion tastes familiar to you.
+			A slight taste tells you the properties of the potion.
+			*/
+			SendSysMessage(mobile, "A slight taste tells you the properties of the potion.");
+			SendSysMessage(mobile, "It appears to be a "+targ.desc+".");
+		else
+      var item_config := ReadConfigFile(":alchemy:itemdesc");
+      var config_elem := FindConfigElem(item_config, targ.objtype);
+      var item_script := GetConfigString(item_config, targ.script);
+
+			if ( targ.usescript == ":alchemy:greenPotion" || item_script == ":alchemy:greenPotion" )
+				SendSysMessage(mobile, "You do not recognize the potion, but it appears to be toxic!");
+			else
+				SendSysMessage(mobile, "You are unable to recognize the potion.");
+			endif
+			
+			return 0;
+		endif
+	elseif ( targ.objtype == 0 ) // todo: replace with food check
+		if ( mobile.serial in tasted )
+			return 0;
+		endif
+
+		if ( SkillCheck(mobile, TASTE_IDENTIFICATION, -1) > 0 )
+			SendSysMessage(mobile, "Tastes like chicken!");
+		else
+      var item_config := ReadConfigFile(":alchemy:itemdesc");
+      var config_elem := FindConfigElem(item_config, targ.objtype);
+      var item_script := GetConfigString(item_config, targ.script);
+
+			if ( targ.usescript == ":alchemy:greenPotion" || item_script == ":alchemy:greenPotion" )
+				SendSysMessage(mobile, "You did not detect the poison in time!");
+			else
+				SendSysMessage(mobile, "You cannot discern anything about this substance.");
+				return 0;
+			endif
+		endif
+	endif
+	
+	tasted.append(mobile.serial);
+	SetObjProperty(targ, "TastIDed", tasted);
+
+	return 1;
+endprogram

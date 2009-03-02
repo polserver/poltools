@@ -1,0 +1,13 @@
+/* $Id$
+ *
+ */
+
+use uo;
+
+program OnDestroy(chessboard)
+	foreach item in ( EnumerateItemsInContainer(chessboard) )
+		DestroyItem(item);
+	endforeach
+	
+	return 1;
+endprogram

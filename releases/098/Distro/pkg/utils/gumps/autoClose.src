@@ -1,0 +1,17 @@
+/* $Id$
+ *
+ */
+
+include ":gumps:gumps_ex";
+
+program CloseGump(params)
+	var mobile	:= params[1];
+	var pid		:= params[2];
+	var timer	:= params[3];
+	var ret_val	:= params[4];
+	params := 0; // Not needed anymore.
+
+	Sleep(CInt(timer));
+
+	GFCloseGump(mobile, pid, ret_val);
+endprogram

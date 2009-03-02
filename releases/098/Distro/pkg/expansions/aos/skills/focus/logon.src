@@ -1,0 +1,8 @@
+// $Id$
+
+use uo;
+use os;
+
+program LogOn(character)
+	Start_Script("focusControl", character);
+endprogram

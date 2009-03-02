@@ -1,0 +1,11 @@
+/* $Id$
+ *
+ */
+
+program DestroyScript(corpse)
+	if ( corpse.CanDestroy() )
+		return 1;
+	else
+		return 0;
+	endif
+endprogram

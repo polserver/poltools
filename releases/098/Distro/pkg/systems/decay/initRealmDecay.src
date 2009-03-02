@@ -1,0 +1,26 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use os;
+use polsys;
+
+program InitRealmDecay()
+	Sleep(5);
+
+	Set_Critical(1);
+	foreach realm in ( Realms() )
+		realm.+name := _realm_iter;
+
+		var script := Start_Script("decayCycle", realm);
+		if ( script.errortext )
+			SysLog("ERROR - Could not start decayCycle for realm "+realm.name+" -> "+script.errortext);
+			return 0;
+		endif
+	endforeach
+	Set_Critical(0);
+
+	return 1;
+endprogram
+

@@ -1,0 +1,32 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Weaken(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+	
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+	
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Str decrease % = (Eval / 10) + 8) - (Resist / 10)
+	var percent := CDbl((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10) + 8) - (AP_GetSkill(targ, RESISTING_SPELLS) / 10);
+	var points := CInt(AP_GetStat(targ, STRENGTH) * (percent / 100));
+	
+	// Duration: ((Eval / 5) + 1) * 6
+	var duration := ((AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 5) + 1) * 6;
+	TS_StartTimer(targ, "Weaken", duration, points, mobile);
+	
+	return 1;
+endprogram

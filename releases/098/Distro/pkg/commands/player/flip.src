@@ -1,0 +1,43 @@
+/* $Id$
+ *
+ */
+
+use uo;
+use cfgfile;
+
+program textcmd_Flip(me)
+
+	var furniture := 0;
+
+	if( TypeOf(me) == "Array" )
+		furniture := me[2];
+		me := me[1];
+	endif
+
+	if( !furniture )
+		SendSysMessage(me, "Select the furniture you wish to re-orient.");
+		furniture := Target(me);
+
+		if ( !furniture.isA(POLCLASS_ITEM) )
+			SendSysMessage(me, "You must select an item!");
+			return 0;
+		endif
+
+		if (furniture.movable == 0)
+			SendSysMessage(me, "That item is locked down.");
+			return 0;
+		endif
+	endif
+
+	var flipConfig  := ReadConfigFile(":commands:flip");
+	var flipGraphic := flipConfig[CInt(furniture.graphic)].ChangeTo;
+
+	if( !flipGraphic )
+		SendSysMessage(me, "That item cannot be re-orientated.");
+		return 0;
+	endif
+
+	furniture.graphic := flipGraphic;
+
+	return 1;
+endprogram

@@ -1,0 +1,141 @@
+/* $Id$
+ *
+ */
+ 
+use uo;
+use os;
+use cfgfile;
+use polsys;
+
+include ":spawnsystem:groups";
+include ":spawnsystem:realms";
+include ":spawnsystem:regions";
+include ":spawnsystem:report";
+
+program FirstRun()
+	SS_ReportText("Setting up spawner for first time use...", SPAWN_REPORT_SYSLOG);
+
+	if ( !SetupDefaultGroups() )
+		return 0;
+	endif
+	
+	foreach realm_name in ( Realms().Keys() )
+		SetupRealm(realm_name);
+		SleepMS(2);
+	endforeach
+	
+	SS_ReportText("Spawner setup initialization complete.", SPAWN_REPORT_SYSLOG);
+	
+	return 1;
+endprogram
+
+function SetupDefaultGroups()
+	var cfg_file := ReadConfigFile(":spawnsystem:defaultGroups");
+	if ( !cfg_file )
+		SS_ReportText("Error: Could not load defaultGroups.cfg ->"+cfg_file.errortext, SPAWN_REPORT_SYSLOG);
+		return 0;
+	else
+		SS_ReportText("Setting up spawn groups.", SPAWN_REPORT_SYSLOG);
+	endif
+
+	foreach group_name in ( GetConfigStringKeys(cfg_file) )
+		if ( SS_GetGroupDataElem(group_name) )
+			//Group has already been set up.
+			continue;
+		endif
+		
+		SS_ReportText("Setting up spawn group ("+group_name+")", SPAWN_REPORT_SYSLOG);
+		
+		var group_info := cfg_file[group_name];
+		if ( !group_info.Engine )
+			SS_ReportText("Error: No engine name was set for group ("+group_name+").", SPAWN_REPORT_SYSLOG);
+			continue;
+		endif
+
+		SS_AddGroup(group_name, group_info.Engine);
+
+		foreach entry in ( GetConfigStringArray(group_info, "Entry") )
+			SS_AddEntryToGroup(group_name, entry);
+			SleepMS(2);
+		endforeach
+
+		SleepMS(2);
+	endforeach
+	
+	UnloadConfigFile(":spawnsystem:defaultGroups");
+
+	return 1;
+endfunction
+
+function SetupRealm(realm_name)
+	var cfg_file := ReadConfigFile(":spawnsystem:setup-"+realm_name);
+	if ( !cfg_file )
+		SS_ReportText("Skipping realm "+realm_name+". No config file.", SPAWN_REPORT_SYSLOG);
+		return 0;
+	else
+		SS_AddRealm(realm_name);
+		SS_ReportText("Setting up regions for realm "+realm_name+".", SPAWN_REPORT_SYSLOG);
+	endif
+	
+	foreach region_name in ( GetConfigStringKeys(cfg_file) )
+		if ( SS_GetRegionDataElem(region_name) )
+			//Region has already been set up.
+			continue;
+		endif
+		
+		SS_ReportText("Setting up spawn region ("+region_name+")", SPAWN_REPORT_SYSLOG);
+		var elem_info := cfg_file[region_name];
+		
+		SS_AddRegion(region_name);
+		var coords := SplitWords(elem_info.Coordinates);
+		SS_SetRegionCoordinates(region_name, CInt(coords[1]), CInt(coords[2]), CInt(coords[3]), CInt(coords[4]));
+		SS_SetRegionSpawnWait(region_name, elem_info.SpawnWait);
+		
+		SS_AddRegionToRealm(realm_name, region_name);
+		SS_SetRegionRealm(region_name, realm_name);
+		
+		foreach entry in ( GetConfigStringArray(elem_info, "Group") )
+			entry := SplitWords(entry);
+			var group_name := entry[1];
+			var max_amt := CInt(entry[2]);
+			
+			if ( !SS_GetGroupDataElem(group_name) )
+				SS_ReportText("Adding group ("+group_name+") to region ("+region_name+")... failed!", SPAWN_REPORT_SYSLOG);
+			else
+				SS_AddGroupToRegion(region_name, group_name, max_amt, 1);			
+				SS_ReportText("Adding group ("+group_name+") to region ("+region_name+")... okay.", SPAWN_REPORT_SYSLOG);
+			endif
+			
+			SleepMS(2);
+		endforeach
+		
+		SleepMS(2);
+	endforeach
+	
+	UnloadConfigFile(":spawnsystem:setup-"+realm_name);
+	
+	return 1; 
+endfunction
+
+/*
+function Test_WipeSpawner()
+	foreach realm_name in SS_GetRealmNames()
+		Print("* Erasing Realm ("+realm_name+") ["+SS_RemoveRealm(realm_name)+"]");
+		SleepMS(2);
+	endforeach
+
+	foreach region_name in SS_GetRegionNames()
+		Print("* Erasing Region ("+region_name+") ["+SS_RemoveRegion(region_name)+"]");
+		SleepMS(2);
+	endforeach
+
+	foreach group_name in SS_GetGroupNames()
+		Print("* Erasing Group ("+group_name+") ["+SS_RemoveGroup(group_name)+"]");
+		SleepMS(2);
+	endforeach
+
+	Sleep(1);
+
+	return 1;
+endfunction
+*/

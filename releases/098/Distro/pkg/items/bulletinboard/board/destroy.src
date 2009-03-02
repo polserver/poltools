@@ -1,0 +1,7 @@
+/* $Id$
+ *
+ */
+
+program OnDestroy(board)
+	return board.CleanUpData();
+endprogram

@@ -1,0 +1,49 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program SpellScript_MagicReflection(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	
+	if ( GetObjProperty(mobile, "MagicReflection") )
+		RemoveMagicReflection(mobile);
+	else
+		var points := 25 - (AP_GetSkill(mobile, INSCRIPTION) / 20);
+		ApplyMagicReflection(mobile, points);
+	endif
+
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+	
+	return 1;
+endprogram
+
+function ApplyMagicReflection(mobile, points)
+	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
+	ModifyResistance(mobile, DMG_FIRE, 10);
+	ModifyResistance(mobile, DMG_COLD, 10);
+	ModifyResistance(mobile, DMG_POISON, 10);
+	ModifyResistance(mobile, DMG_ENERGY, 10);
+
+	SetObjProperty(mobile, "MagicReflection", points);
+endfunction
+
+function RemoveMagicReflection(mobile)
+	var points := GetObjProperty(mobile, "MagicReflection");
+	
+	ModifyResistance(mobile, DMG_PHYSICAL, points);
+	ModifyResistance(mobile, DMG_FIRE, -10);
+	ModifyResistance(mobile, DMG_COLD, -10);
+	ModifyResistance(mobile, DMG_POISON, -10);
+	ModifyResistance(mobile, DMG_ENERGY, -10);
+
+	EraseObjProperty(mobile, "MagicReflection");
+endfunction

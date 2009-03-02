@@ -1,0 +1,27 @@
+// $Id$
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+
+program SpellScript_SummonWaterElemental(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Duration = Magery * 4 seconds (max 480)
+	var duration := AP_GetSkill(mobile, MAGERY) * 4;
+	if ( duration > 480 )
+			duration := 480;
+	endif
+
+	SendSysMessage(mobile, "This spell has not been implemented yet, but I'm working on it.");
+	
+	return 1;
+endprogram

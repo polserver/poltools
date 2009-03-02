@@ -1,0 +1,23 @@
+/*
+ * $Id$
+ *
+ */
+use uo;
+
+include ":attributes:attributes";
+
+program textcmd_Kill(who)
+	SendSysMessage(who, "Select a target to kill.");
+	var targ := Target(who);
+
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+
+	targ.Disable("invul");
+
+	ApplyRawDamage(targ, CInt(AP_GetVitalMaximumValue(targ, "Hits")));
+
+	return 1;
+endprogram

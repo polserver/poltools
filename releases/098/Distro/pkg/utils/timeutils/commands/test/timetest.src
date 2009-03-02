@@ -1,0 +1,32 @@
+/* $Id$
+ *
+ * Note:
+ * See http://www.cppreference.com/stddate/strftime.html
+ * for %X codes to use with the StrFormatTime() function.
+ *
+ */
+
+use uo;
+use util;
+
+include ":gumps:gumpprompt";
+include ":gumps:requestgump";
+
+program Command_TimeTest(mobile)
+	var time_stamp := RequestGump(mobile, "Enter time stamp", "Unix Epoch Time", POLCore().systime, CANCEL_BTN_ON);
+	if ( !time_stamp )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	var format_string := RequestGump(mobile, "Enter format string", "", "%m-%d-%Y %I:%M:%S %p", CANCEL_BTN_ON);
+	if ( !format_string )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+	
+	var time := StrFormatTime(format_string, CInt(time_stamp));
+	GumpPrompt(mobile, ""+time);
+	
+	return 1;
+endprogram

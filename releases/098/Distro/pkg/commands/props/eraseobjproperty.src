@@ -1,0 +1,21 @@
+/* $Id$
+ *
+ */
+use uo;
+
+program textcmd_eraseobjproperty(who, propname)
+	var targ := Target(who);
+	if ( !targ )
+		SendSysMessage(who, "Cancelled.");
+		return 0;
+	endif
+
+	var res := EraseObjProperty( targ, propname );
+	if (res != error)
+		SendSysMessage( who, "Property "+propname+" erased." );
+	else
+		SendSysMessage( who, "Error erasing property: "+res.errortext );
+	endif
+
+	return 1;
+endprogram

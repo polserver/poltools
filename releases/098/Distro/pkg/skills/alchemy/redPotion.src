@@ -1,0 +1,34 @@
+include ":alchemy:drinkPotion";
+
+program use_redpotion(who, potion)
+
+	if( (!potion.movable) || !ReserveItem(potion) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif( !(potion in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+	if( !CheckToDrink(who, "#red") )
+		return 0;
+	endif
+
+	if(potion.objtype == 0xdc0f)
+		AP_SetVital(who, "Stamina", AP_GetVitalMaximumValue(who, "Stamina"));
+	else
+		var heal_amount := RandomDiceRoll("5d6+3");
+		if((heal_amount + AP_GetVital(who, "Stamina"))  > AP_GetVitalMaximumValue(who, "Stamina"))
+			heal_amount := AP_GetVitalMaximumValue(who, "Stamina") - AP_GetVital(who, "Stamina");
+		endif
+		AP_SetVital(who, "Stamina", AP_GetVital(who, "Stamina") + heal_amount);
+	endif
+	empty_bottle(who, potion);
+	PlayObjectCenteredEffect(who, EFFECT_SPARKLE, 10,10);
+	return 1;
+	
+endprogram
