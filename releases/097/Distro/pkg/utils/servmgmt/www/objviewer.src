@@ -492,7 +492,7 @@ function StorageLister(area_name:="")
 endfunction
 
 function ShowSerialInfo(serial)
-	var object := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_STORAGE_AREAS+SYSFIND_SEARCH_OFFLINE_MOBILES);
+	var object := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
 	if ( object.errortext )
 		DoError("Could not find serial "+serial+"<BR> "+object.errortext);
 		return 0;
