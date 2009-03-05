@@ -351,7 +351,7 @@ namespace POLGumpExport
 
             string hue = (elem.Hue != null) ? elem.Hue.ToString() : "0";
 
-            return String.Format("GFTextEntry({0}, {1}, {2}, {3}, {4}, {5}, \"{6}\");", gump_name, elem.X, elem.Y, elem.Width, elem.Height, hue, text);
+            return String.Format("GFTextEntry({0}, {1}, {2}, {3}, {4}, {5}, \"{6}\", {7});", gump_name, elem.X, elem.Y, elem.Width, elem.Height, hue, text, elem.ID);
         }
 
         private string DistroGump_GFAddHTMLLocalized(string gump_name, HTMLElement elem)
