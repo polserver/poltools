@@ -19,6 +19,8 @@ program core_CanDelete(character, method)
 endprogram
 
 function DeleteByScript(character)
+	// Stop Compiler Warnings.
+	character := character;
 	return 1;
 endfunction
 

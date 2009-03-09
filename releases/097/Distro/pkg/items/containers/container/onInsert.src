@@ -7,6 +7,15 @@ use os;
 
 
 program onInsert(mobile, container, move_type, insert_type, adding_item, existing_stack, amount_to_add)
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	existing_stack := existing_stack;
+	adding_item := adding_item;
+	insert_type := insert_type;
+	movetype := move_type;
+	character := character;
+	container := container;
+	
 	//To-do
 	//Play sound effect now that item is being added.
 

@@ -8,6 +8,9 @@ include ":containers:checks";
 
 
 program canRemove(mobile, container, item, move_type)
+	if ( item.errortext )
+		return 0;
+	endif
 	if ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( move_type == MOVETYPE_COREMOVE )

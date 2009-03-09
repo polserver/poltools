@@ -8,7 +8,13 @@ include ":containers:checks";
 
 
 program CanInsert(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)
-	if ( adding_item.IsBook() )
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	existing_stack := existing_stack;
+	inserttype := inserttype;
+	if ( move_type == MOVETYPE_CORECREATE )
+		return 1;
+	elseif ( adding_item.IsBook() )
 		return 1;
 	elseif ( CP_IsLocked(container) )
 		SendSysMessage(character, "You can't insert items into locked containers.");

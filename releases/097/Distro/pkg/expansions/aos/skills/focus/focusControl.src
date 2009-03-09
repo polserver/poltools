@@ -3,7 +3,10 @@
 include ":attributes:attributes";
 
 program focusControl(mobile)
-	var regen_rate := 0;
+	// Stop Compiler Warnings.
+	mobile := mobile;
+	// Stop Compiler Warnings. Why is this here anyway?
+//	var regen_rate := 0;
 	var cfg_elem := AP_GetSettingsCfgElem("Regen");
 	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, STAMINA));
 	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, MANA));
