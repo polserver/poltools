@@ -15,7 +15,7 @@ program Initializemerchants()
 	endif
 
 	MERC_ReportText("---=[ MERCHANT INITIALIZER HAS STARTED UP ]=---", MERC_REPORT_SYSLOG);
-	SetGlobalProperty("MerchantInitialized", 1);
+	SetGlobalProperty("MerchantsInitialized", 1);
 
 	var cfg_file := ReadConfigFile(":merchants:init");
 	foreach realm_name in ( Realms().Keys() )
