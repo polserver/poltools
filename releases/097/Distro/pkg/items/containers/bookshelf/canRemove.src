@@ -8,6 +8,8 @@ include ":containers:checks";
 
 
 program canRemoveScript(character, container, item, movetype)
+	if ( movetype == MOVETYPE_CORECREATE && !item.errortext )
+		return 1;
 	if ( CP_IsLocked(container) )
 		SendSysMessage(character, "You can't remove items from locked containers.");
 		return 0;

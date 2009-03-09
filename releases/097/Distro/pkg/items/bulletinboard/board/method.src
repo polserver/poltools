@@ -12,6 +12,8 @@ program Install()
 endprogram
 
 exported function IsBulletinBoard(board)
+	// Stop Compiler Warnings.
+	board := board;
 	return 1;
 endfunction
 

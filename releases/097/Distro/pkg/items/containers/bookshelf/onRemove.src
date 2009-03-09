@@ -8,6 +8,12 @@ use util;
 
 
 program OnRemove(character, container, item, item_amount, movetype)
+	// Stop Compiler Warnings
+	item_amount := item_amount;
+	item := item;
+	movetype := movetype;
+	character := character;
+	
 	var shelf_cfg := ReadConfigFile(":containers:bookshelf");
 	if ( !shelf_cfg )
 		return 1;

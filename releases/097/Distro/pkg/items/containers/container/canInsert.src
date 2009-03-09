@@ -8,6 +8,12 @@ include ":containers:checks";
 
 
 program canInsert(mobile, container, move_type, inserttype, adding_item, existing_stack, amount_to_add)
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	adding_item := adding_item;
+	existing_stack := existing_stack;
+	inserttype := inserttype;
+	
 	if ( move_type == MOVETYPE_COREMOVE )
 		return 1;
 	elseif ( mobile.cmdlevel >= 2 )

@@ -6,6 +6,8 @@ use uo;
 
 
 program canDestroy(container)
+	// Stop Compiler Warnings
+	container := container;
 	/*
 	foreach item in ( EnumerateItemsInContainer(container) )
 		if ( item.container == container )
