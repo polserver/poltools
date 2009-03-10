@@ -213,7 +213,7 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose an imagefile to import";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap import = new Bitmap(dialog.FileName);

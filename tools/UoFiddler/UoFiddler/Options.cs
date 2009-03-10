@@ -278,17 +278,17 @@ namespace UoFiddler
         /// Checks polserver forum for updates
         /// </summary>
         /// <returns></returns>
-        public static Match CheckForUpdate(out string error)
+        public static string[] CheckForUpdate(out string error)
         {
             StringBuilder sb = new StringBuilder();
             byte[] buf = new byte[8192];
-            Match match;
             error = "";
+            string[] match;
 
             try
             {
                 HttpWebRequest request = (HttpWebRequest)
-                    WebRequest.Create(@"http://forums.polserver.com/viewtopic.php?f=1&t=2351&st=0&sk=t&sd=a");
+                    WebRequest.Create(@"http://uofiddler.polserver.com/latestversion");
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream resStream = response.GetResponseStream();
@@ -307,8 +307,8 @@ namespace UoFiddler
                 }
                 while (count > 0);
 
-                Regex reg = new Regex(@"<a href=""./download/file.php\?id=(?<id>[\d]+)&amp;sid=(?<sid>[\w]+)"">UOFiddler (?<major>\d).(?<minor>\d)(?<sub>\w)?.rar</a>", RegexOptions.Compiled);
-                match = reg.Match(sb.ToString());
+                match=sb.ToString().Split(new string[]{ "\r\n" },StringSplitOptions.None);
+                
                 response.Close();
                 resStream.Dispose();
             }
@@ -337,19 +337,18 @@ namespace UoFiddler
                 MessageBox.Show("Error:\n" + e.Error, "Check for Update");
                 return;
             }
-            Match match = (Match)e.Result;
-            if (match.Success)
+            string[] match = (string[])e.Result;
+            if (match!=null)
             {
-                string version = match.Result("${major}.${minor}${sub}");
-                if (UoFiddler.Version.Equals(version))
+                if (UoFiddler.Version.Equals(match[0]))
                     MessageBox.Show("Your Version is up-to-date", "Check for Update");
                 else
                 {
                     DialogResult result =
                         MessageBox.Show(String.Format(@"Your version differs: {0} Found: {1}"
-                        , UoFiddler.Version, version) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo);
+                        , UoFiddler.Version, match[0]) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
-                        DownloadFile(version, match.Result("${id}"));
+                        DownloadFile(match[1]);
                 }
             }
             else
@@ -357,14 +356,14 @@ namespace UoFiddler
         }
 
         #region Downloader
-        private void DownloadFile(string version, string id)
+        private void DownloadFile(string file)
         {
             string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(filepath, String.Format("UOFiddler {0}.rar", version));
+            string FileName = Path.Combine(filepath, file);
 
             WebClient web = new WebClient();
             web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
-            web.DownloadFileAsync(new Uri(String.Format(@"http://forums.polserver.com/download/file.php\?id={0}", id)), FileName);
+            web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
         }
 
         private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)

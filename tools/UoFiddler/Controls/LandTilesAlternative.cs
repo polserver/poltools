@@ -264,19 +264,6 @@ namespace FiddlerControls
             }
         }
 
-        private void onClickExport(object sender, EventArgs e)
-        {
-            if (selected >= 0)
-            {
-                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-                string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", selected));
-                Bitmap bmp = Art.GetLand(selected);
-                bmp.Save(FileName, ImageFormat.Tiff);
-                MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
-                    MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
-            }
-        }
-
         private void onClickFindFree(object sender, EventArgs e)
         {
             int id = selected;
@@ -315,10 +302,12 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose image file to replace";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp = Utils.ConvertBmp(bmp);
                     Art.ReplaceLand(selected, bmp);
                     PaintBox();
                 }
@@ -353,7 +342,7 @@ namespace FiddlerControls
                     dialog.Multiselect = false;
                     dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
                     dialog.CheckFileExists = true;
-                    dialog.Filter = "image file (*.tiff)|*.tiff";
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
@@ -394,6 +383,32 @@ namespace FiddlerControls
                     String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
                     "Save", 
                     MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void onClickExportBmp(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", selected));
+                Bitmap bmp = Art.GetLand(selected);
+                bmp.Save(FileName, ImageFormat.Bmp);
+                MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void onClickExportTiff(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", selected));
+                Bitmap bmp = Art.GetLand(selected);
+                bmp.Save(FileName, ImageFormat.Tiff);
+                MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
     }

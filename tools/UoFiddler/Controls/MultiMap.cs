@@ -180,15 +180,6 @@ namespace FiddlerControls
             this.Cursor = Cursors.Default;
         }
 
-        private void OnClickExport(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "MultiMap.tiff");
-            pictureBox.Image.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
-                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        }
-
         private void OnClickRLE(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -220,6 +211,24 @@ namespace FiddlerControls
                     MessageBox.Show("No image found","Error",MessageBoxButtons.OK,MessageBoxIcon.Error,
                         MessageBoxDefaultButton.Button1);
             }
+        }
+
+        private void OnClickExportBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "MultiMap.bmp");
+            pictureBox.Image.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExportTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "MultiMap.tiff");
+            pictureBox.Image.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
     }
 }

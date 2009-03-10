@@ -137,21 +137,6 @@ namespace FiddlerControls
                 MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
-        private void onClickExport(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            int i = (int)listView1.SelectedItems[0].Tag;
-            string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", i));
-            Bitmap bmp = Textures.GetTexture(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(
-                String.Format("Texture saved to {0}", FileName),
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
         private void onClickFindNext(object sender, EventArgs e)
         {
             int id, i;
@@ -210,12 +195,14 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose image file to replace";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
                     if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                     {
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
                         int i = (int)listView1.SelectedItems[0].Tag;
                         Textures.Replace(i, bmp);
                         listView1.Invalidate();
@@ -256,7 +243,7 @@ namespace FiddlerControls
                     dialog.Multiselect = false;
                     dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
                     dialog.CheckFileExists = true;
-                    dialog.Filter = "image file (*.tiff)|*.tiff";
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
@@ -291,6 +278,36 @@ namespace FiddlerControls
                     }
                 }
             }
+        }
+
+        private void onClickExportBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = (int)listView1.SelectedItems[0].Tag;
+            string FileName = Path.Combine(path, String.Format("Texture {0}.bmp", i));
+            Bitmap bmp = Textures.GetTexture(i);
+            bmp.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Texture saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void onClickExportTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = (int)listView1.SelectedItems[0].Tag;
+            string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", i));
+            Bitmap bmp = Textures.GetTexture(i);
+            bmp.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Texture saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }

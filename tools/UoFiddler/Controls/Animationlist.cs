@@ -17,6 +17,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using Ultima;
+using Ntx.GD;
 
 namespace FiddlerControls
 {
@@ -348,7 +349,7 @@ namespace FiddlerControls
                 SetPicture();
             if (m_MainPicture != null)
             {
-                Point location = Point.Empty;
+                System.Drawing.Point location = System.Drawing.Point.Empty;
                 Size size = Size.Empty;
                 size = m_MainPicture.Size;
                 location.X = (MainPictureBox.Width - m_MainPicture.Width) / 2;
@@ -604,69 +605,6 @@ namespace FiddlerControls
             LoadListView();
         }
 
-        private void extract_Image_Click(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string what = "Mob";
-            if (DisplayType == 1)
-                what = "Equipment";
-
-            string FileName = Path.Combine(path, String.Format("{0} {1}.tiff", what,m_CurrentSelect));
-
-            if (Animate)
-            {
-                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_Animation[0], new Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Tiff);
-            }
-            else
-            {
-                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_MainPicture, new Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Tiff);
-            }
-            MessageBox.Show(
-                String.Format("{0} saved to {1}", what,FileName), 
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
-        private void OnClickExtractAnim(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string what = "Mob";
-            if (DisplayType == 1)
-                what = "Equipment";
-
-            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
-            if (Animate)
-            {
-                for (int i = 0; i < m_Animation.Length; ++i)
-                {
-                    Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height);
-                    Graphics newgraph = Graphics.FromImage(newbit);
-                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                    newgraph.DrawImage(m_Animation[i], new Point(0, 0));
-                    newgraph.Save();
-                    newbit.Save(String.Format("{0}-{1}.tiff",FileName,i), ImageFormat.Tiff);
-                }
-                MessageBox.Show(
-                    String.Format("{0} saved to '{1}-X.tiff'", what, FileName), 
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-            }
-        }
-
         private void OnClickRemove(object sender, EventArgs e)
         {
             if (TreeViewMobs.SelectedNode != null)
@@ -748,6 +686,132 @@ namespace FiddlerControls
             dom.AppendChild(sr);
             dom.Save(FileName);
             MessageBox.Show("XML saved", "Rewrite", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void extract_Image_ClickBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}.bmp", what, m_CurrentSelect));
+
+            if (Animate)
+            {
+                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Bmp);
+            }
+            else
+            {
+                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Bmp);
+            }
+            MessageBox.Show(
+                String.Format("{0} saved to {1}", what, FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void extract_Image_ClickTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}.tiff", what, m_CurrentSelect));
+
+            if (Animate)
+            {
+                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Tiff);
+            }
+            else
+            {
+                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(FileName, ImageFormat.Tiff);
+            }
+            MessageBox.Show(
+                String.Format("{0} saved to {1}", what, FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExtractAnimBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+            if (Animate)
+            {
+                for (int i = 0; i < m_Animation.Length; ++i)
+                {
+                    Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height);
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[i], new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(String.Format("{0}-{1}.bmp", FileName, i), ImageFormat.Bmp);
+                }
+                MessageBox.Show(
+                    String.Format("{0} saved to '{1}-X.bmp'", what, FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void OnClickExtractAnimTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+            if (Animate)
+            {
+                for (int i = 0; i < m_Animation.Length; ++i)
+                {
+                    Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height);
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[i], new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
+                }
+                MessageBox.Show(
+                    String.Format("{0} saved to '{1}-X.tiff'", what, FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
         }
     }
 

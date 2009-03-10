@@ -453,19 +453,6 @@ namespace FiddlerControls
             }
         }
 
-        private void ExtractMap(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.AppStarting;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
-            string FileName = Path.Combine(path, name);
-            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
-            extract.Save(FileName, ImageFormat.Tiff);
-            this.Cursor = Cursors.Default;
-            MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
-                MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
-        }
-
         private void onKeyDownGoto(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -520,6 +507,32 @@ namespace FiddlerControls
             string format = "{0} " + Options.MapArgs;
             int z = currmap.Tiles.GetLandTile(x, y).Z;
             Client.SendText(String.Format(format, Options.MapCmd, x, y, z, currmapint, Options.MapNames[currmapint]));
+        }
+
+        private void ExtractMapBmp(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.AppStarting;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string name = String.Format("{0}.bmp", Options.MapNames[currmapint]);
+            string FileName = Path.Combine(path, name);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
+            extract.Save(FileName, ImageFormat.Bmp);
+            this.Cursor = Cursors.Default;
+            MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void ExtractMapTiff(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.AppStarting;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
+            string FileName = Path.Combine(path, name);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
+            extract.Save(FileName, ImageFormat.Tiff);
+            this.Cursor = Cursors.Default;
+            MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         #region PreLoader

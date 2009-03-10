@@ -78,6 +78,8 @@ namespace FiddlerControls
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.PreloadWorker = new System.ComponentModel.BackgroundWorker();
+            this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -220,7 +222,7 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.extractMapToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 302);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 324);
             this.contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.onContextClosed);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.OnOpenContext);
             // 
@@ -332,10 +334,12 @@ namespace FiddlerControls
             // 
             // extractMapToolStripMenuItem
             // 
+            this.extractMapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.asBmpToolStripMenuItem,
+            this.asTiffToolStripMenuItem});
             this.extractMapToolStripMenuItem.Name = "extractMapToolStripMenuItem";
             this.extractMapToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.extractMapToolStripMenuItem.Text = "Extract Map";
-            this.extractMapToolStripMenuItem.Click += new System.EventHandler(this.ExtractMap);
+            this.extractMapToolStripMenuItem.Text = "Extract Map..";
             // 
             // hScrollBar
             // 
@@ -367,6 +371,20 @@ namespace FiddlerControls
             this.PreloadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreLoadDoWork);
             this.PreloadWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoadCompleted);
             this.PreloadWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoadProgressChanged);
+            // 
+            // asBmpToolStripMenuItem
+            // 
+            this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asBmpToolStripMenuItem.Text = "As Bmp";
+            this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.ExtractMapBmp);
+            // 
+            // asTiffToolStripMenuItem
+            // 
+            this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asTiffToolStripMenuItem.Text = "As Tiff";
+            this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.ExtractMapTiff);
             // 
             // Map
             // 
@@ -426,5 +444,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem sendClientToPosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showClientCrossToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
     }
 }

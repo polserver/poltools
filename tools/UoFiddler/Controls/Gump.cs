@@ -122,21 +122,6 @@ namespace FiddlerControls
             listBox.Refresh();
         }
 
-        private void extract_Image_Click(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
-            string FileName = Path.Combine(path, String.Format("Gump {0}.tiff", i));
-            Bitmap bmp = Gumps.GetGump(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(
-                String.Format("Gump saved to {0}", FileName),
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
         private void onClickReplace(object sender, EventArgs e)
         {
             if (listBox.SelectedItems.Count == 1)
@@ -145,10 +130,12 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose image file to replace";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp=Utils.ConvertBmp(bmp);
                     int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
                     Gumps.ReplaceGump(i, bmp);
                     listBox.Invalidate();
@@ -234,7 +221,7 @@ namespace FiddlerControls
                     dialog.Multiselect = false;
                     dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
                     dialog.CheckFileExists = true;
-                    dialog.Filter = "image file (*.tiff)|*.tiff";
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
@@ -252,6 +239,36 @@ namespace FiddlerControls
                     }
                 }
             }
+        }
+
+        private void extract_Image_ClickBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+            string FileName = Path.Combine(path, String.Format("Gump {0}.bmp", i));
+            Bitmap bmp = Gumps.GetGump(i);
+            bmp.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Gump saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void extract_Image_ClickTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+            string FileName = Path.Combine(path, String.Format("Gump {0}.tiff", i));
+            Bitmap bmp = Gumps.GetGump(i);
+            bmp.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Gump saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
 
         #region Preloader

@@ -10,14 +10,14 @@ namespace Ultima
 	public sealed class UOSound
 	{
 		public string Name;
-		public MemoryStream WAVEStream;
         public int ID;
+        public byte[] buffer;
 
-		public UOSound( string name, MemoryStream stream, int id )
+		public UOSound( string name, int id, byte[] buff )
 		{
 			Name = name;
-			WAVEStream = stream;
             ID = id;
+            buffer = buff;
 		}
 	};
 
@@ -136,7 +136,7 @@ namespace Ultima
 			string str = Encoding.ASCII.GetString( stringBuffer ); // seems that the null terminator's not being properly recognized :/
             if (str.IndexOf('\0') > 0)
                 str = str.Substring(0, str.IndexOf('\0'));
-            UOSound sound = new UOSound( str, new MemoryStream( resultBuffer ),soundID );
+            UOSound sound = new UOSound( str, soundID, resultBuffer );
 
             if (Files.CacheData)
             {
@@ -224,7 +224,7 @@ namespace Ultima
             double len;
             if (m_Cache[soundID] != null)
             {
-                len = (double)m_Cache[soundID].WAVEStream.Length;
+                len = (double)m_Cache[soundID].buffer.Length;
                 len -= 44; //wavheaderlength
             }
             else
@@ -263,7 +263,7 @@ namespace Ultima
                 wav.Seek(0, SeekOrigin.Begin);
                 wav.Read(resultBuffer,0,(int)wav.Length);
 
-                m_Cache[id] = new UOSound(name, new MemoryStream(resultBuffer), id);
+                m_Cache[id] = new UOSound(name, id, resultBuffer);
                 m_Removed[id] = false;
             }
         }
@@ -317,9 +317,10 @@ namespace Ultima
                                 bb.CopyTo(b, 0);
                             }
                             binmul.Write(b);
-                            sound.WAVEStream.Seek(Headerlength, SeekOrigin.Begin);
-                            byte[] resultBuffer = new byte[sound.WAVEStream.Length - Headerlength];
-                            sound.WAVEStream.Read(resultBuffer, 0, (int)sound.WAVEStream.Length - Headerlength);
+                            MemoryStream m = new MemoryStream(sound.buffer);
+                            m.Seek(Headerlength, SeekOrigin.Begin);
+                            byte[] resultBuffer = new byte[m.Length - Headerlength];
+                            m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
                             binmul.Write(resultBuffer);
 
                             length = (int)fsmul.Position - length;
@@ -328,6 +329,25 @@ namespace Ultima
                         }
                     }
                 }
+            }
+        }
+
+        public static void SaveSoundListToCSV(string FileName)
+        {
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine("ID;Name;Length");
+                string name = "";
+                for (int i = 1; i <= 0xFFF; i++)
+                {
+                    if (IsValidSound(i-1, out name))
+                    {
+                        Tex.Write(String.Format("0x{0:X3}", i));
+                        Tex.Write(";" + name);
+                        Tex.WriteLine(String.Format(";{0:f}",GetSoundLength(i - 1)));
+                    }
+                }
+
             }
         }
 	}
