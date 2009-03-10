@@ -50,6 +50,8 @@ namespace FiddlerControls
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
+            this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -76,26 +78,28 @@ namespace FiddlerControls
             this.exportToolStripMenuItem,
             this.saveTorleToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(246, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 92);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.loadToolStripMenuItem.Text = "Load...";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.OnClickLoad);
             // 
             // exportToolStripMenuItem
             // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.asBmpToolStripMenuItem,
+            this.asTiffToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.exportToolStripMenuItem.Text = "Export...";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.OnClickExport);
             // 
             // saveTorleToolStripMenuItem
             // 
             this.saveTorleToolStripMenuItem.Name = "saveTorleToolStripMenuItem";
-            this.saveTorleToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.saveTorleToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.saveTorleToolStripMenuItem.Text = "Generate Multimap from Image...";
             this.saveTorleToolStripMenuItem.Click += new System.EventHandler(this.OnClickRLE);
             // 
@@ -138,6 +142,20 @@ namespace FiddlerControls
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.OnClickRLE);
             // 
+            // asBmpToolStripMenuItem
+            // 
+            this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asBmpToolStripMenuItem.Text = "As Bmp";
+            this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportBmp);
+            // 
+            // asTiffToolStripMenuItem
+            // 
+            this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asTiffToolStripMenuItem.Text = "As Tiff";
+            this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportTiff);
+            // 
             // MultiMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,5 +186,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem saveTorleToolStripMenuItem;
         private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.Button buttonGenerate;
+        private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
     }
 }

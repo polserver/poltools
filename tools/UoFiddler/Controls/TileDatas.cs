@@ -43,6 +43,14 @@ namespace FiddlerControls
         }
 
         private static TileDatas refMarker = null;
+        private bool m_ShowNervingMsg=true;
+
+        public bool ShowNervingMsg
+        {
+            get { return refMarker.m_ShowNervingMsg; }
+            set { refMarker.m_ShowNervingMsg = value; }
+        }
+
 
         public static bool SearchGraphic(int graphic, bool land)
         {
@@ -288,9 +296,9 @@ namespace FiddlerControls
                     item.Flags |= (TileFlag)EnumValues.GetValue(i + 1);
             }
             TileData.ItemTable[index] = item;
-            MessageBox.Show(
-                String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index),
-                "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            treeViewItem.SelectedNode.ForeColor = Color.Red;
+            if (m_ShowNervingMsg)
+                new TileDataNerving(refMarker, index).Show();
         }
 
         private void OnClickSaveTiledata(object sender, EventArgs e)

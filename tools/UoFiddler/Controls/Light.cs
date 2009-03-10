@@ -62,23 +62,6 @@ namespace FiddlerControls
             pictureBox1.Image = Ultima.Light.GetLight((int)treeView1.SelectedNode.Tag);
         }
 
-        private void OnClickExport(object sender, EventArgs e)
-        {
-            if (treeView1.SelectedNode == null)
-                return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            int i = (int)treeView1.SelectedNode.Tag;
-            string FileName = Path.Combine(path, String.Format("Light {0}.tiff", i));
-            Bitmap bmp = Ultima.Light.GetLight(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(
-                String.Format("Light saved to {0}", FileName),
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
         private void OnClickRemove(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode == null)
@@ -106,10 +89,12 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose image file to replace";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp = Utils.ConvertBmp(bmp);
                     int i = (int)treeView1.SelectedNode.Tag;
                     Ultima.Light.Replace(i, bmp);
                     treeView1.Invalidate();
@@ -146,7 +131,7 @@ namespace FiddlerControls
                     dialog.Multiselect = false;
                     dialog.Title = String.Format("Choose image file to insert at {0} (0x{0:X})", index);
                     dialog.CheckFileExists = true;
-                    dialog.Filter = "image file (*.tiff)|*.tiff";
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
@@ -181,6 +166,40 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExportBmp(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = (int)treeView1.SelectedNode.Tag;
+            string FileName = Path.Combine(path, String.Format("Light {0}.bmp", i));
+            Bitmap bmp = Ultima.Light.GetLight(i);
+            bmp.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Light saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExportTiff(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = (int)treeView1.SelectedNode.Tag;
+            string FileName = Path.Combine(path, String.Format("Light {0}.tiff", i));
+            Bitmap bmp = Ultima.Light.GetLight(i);
+            bmp.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Light saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }

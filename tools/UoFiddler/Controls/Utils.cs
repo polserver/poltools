@@ -9,6 +9,11 @@
  *
  ***************************************************************************/
 
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Collections;
+
 namespace FiddlerControls
 {
     public static class Utils
@@ -55,6 +60,34 @@ namespace FiddlerControls
             else
                 candone = int.TryParse(text, System.Globalization.NumberStyles.Integer, null, out result);
             return candone;
+        }
+
+        public static unsafe Bitmap ConvertBmp(Bitmap bmp)
+        {
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
+
+            Bitmap bmpnew = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format16bppArgb1555);
+            BitmapData bdnew = bmpnew.LockBits(new Rectangle(0, 0, bmpnew.Width, bmpnew.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+
+            ushort* linenew = (ushort*)bdnew.Scan0;
+            int deltanew = bdnew.Stride >> 1;
+
+            for (int Y = 0; Y < bmp.Height; ++Y, line += delta, linenew += deltanew)
+            {
+                ushort* cur = line;
+                ushort* curnew = linenew;
+                for (int X = 0; X < bmp.Width; X++)
+                {
+                    if (cur[X] != 32768)
+                        curnew[X] = cur[X];
+                }
+            }
+            bmp.UnlockBits(bd);
+            bmpnew.UnlockBits(bdnew);
+            return bmpnew;
+
         }
     }
 }

@@ -121,31 +121,6 @@ namespace FiddlerControls
             SetPicture(animbit);
         }
 
-        private void extract_Image_Click(object sender, EventArgs e)
-        {
-            if (!Art.IsValidStatic(index))
-                return;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", index));
-            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
-            Graphics newgraph = Graphics.FromImage(bit);
-            newgraph.Clear(Color.Transparent);
-            Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
-            if (defHue > 0)
-            {
-                Hue hue = Ultima.Hues.List[defHue];
-                hue.ApplyTo(huebit, partialHue);
-            }
-            newgraph.DrawImage(huebit,0,0);
-            bit.Save(FileName, ImageFormat.Tiff);
-            MessageBox.Show(
-                String.Format("Item saved to {0}", FileName), 
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
         private HuePopUpItem showform = null;
         private void OnClick_Hue(object sender, EventArgs e)
         {
@@ -191,6 +166,56 @@ namespace FiddlerControls
             }
             if ((showform != null) && (!showform.IsDisposed))
                 showform.Close();
+        }
+
+        private void extract_Image_ClickBmp(object sender, EventArgs e)
+        {
+            if (!Art.IsValidStatic(index))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", index));
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
+            Graphics newgraph = Graphics.FromImage(bit);
+            newgraph.Clear(Color.Transparent);
+            Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
+            if (defHue > 0)
+            {
+                Hue hue = Ultima.Hues.List[defHue];
+                hue.ApplyTo(huebit, partialHue);
+            }
+            newgraph.DrawImage(huebit, 0, 0);
+            bit.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void extract_Image_ClickTiff(object sender, EventArgs e)
+        {
+            if (!Art.IsValidStatic(index))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", index));
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index).Width, Ultima.Art.GetStatic(index).Height);
+            Graphics newgraph = Graphics.FromImage(bit);
+            newgraph.Clear(Color.Transparent);
+            Bitmap huebit = new Bitmap(Ultima.Art.GetStatic(index));
+            if (defHue > 0)
+            {
+                Hue hue = Ultima.Hues.List[defHue];
+                hue.ApplyTo(huebit, partialHue);
+            }
+            newgraph.DrawImage(huebit, 0, 0);
+            bit.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }

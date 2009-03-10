@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using Ultima;
 using PluginInterface;
 using Host;
+using System.Drawing.Imaging;
 
 namespace FiddlerControls
 {
@@ -377,10 +378,12 @@ namespace FiddlerControls
                 dialog.Multiselect = false;
                 dialog.Title = "Choose image file to replace";
                 dialog.CheckFileExists = true;
-                dialog.Filter = "image file (*.tiff)|*.tiff";
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp=Utils.ConvertBmp(bmp);
                     Art.ReplaceStatic((int)listView1.SelectedItems[0].Tag, bmp);
                     listView1.Invalidate();
                     UpdateDetail((int)listView1.SelectedItems[0].Tag);
@@ -416,7 +419,7 @@ namespace FiddlerControls
                     dialog.Multiselect = false;
                     dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
                     dialog.CheckFileExists = true;
-                    dialog.Filter = "image file (*.tiff)|*.tiff";
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
@@ -567,6 +570,44 @@ namespace FiddlerControls
             listView1.EndUpdate();
             listView1.View = View.Details; // that works faszinating
             listView1.View = View.Tile;
+        }
+
+        private void extract_Image_ClickBmp(object sender, EventArgs e)
+        {
+            int i = (int)listView1.SelectedItems[0].Tag;
+            if (i == -1)
+                return;
+            if (!Art.IsValidStatic(i))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", i));
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
+            bit.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void extract_Image_ClickTiff(object sender, EventArgs e)
+        {
+            int i = (int)listView1.SelectedItems[0].Tag;
+            if (i == -1)
+                return;
+            if (!Art.IsValidStatic(i))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", i));
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
+            bit.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
 
         #region Preloader

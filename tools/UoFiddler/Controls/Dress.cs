@@ -611,53 +611,6 @@ namespace FiddlerControls
             RefreshDrawing();
         }
 
-        private void OnClickExtractImage(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            if (showPD)
-            {
-                string FileName = Path.Combine(path, "Dress PD.tiff");
-                DressPic.Image.Save(FileName, ImageFormat.Tiff);
-                MessageBox.Show(
-                    String.Format("Paperdoll saved to {0}", FileName), 
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-            }
-            else
-            {
-                string FileName = Path.Combine(path, "Dress IG.tiff");
-                if (animate)
-                    m_Animation[0].Save(FileName, ImageFormat.Tiff);
-                else
-                    DressPic.Image.Save(FileName, ImageFormat.Tiff);
-                MessageBox.Show(
-                    String.Format("InGame saved to {0}", FileName), 
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-            }
-        }
-
-        private void OnClickExtractAnim(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = "Dress Anim";
-
-            for (int i = 0; i < m_Animation.Length; ++i)
-            {
-                m_Animation[i].Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
-            }
-            MessageBox.Show(
-                String.Format("InGame Anim saved to '{0}-X.tiff'", FileName), 
-                "Saved",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1);
-        }
-
         private void onClickExtractAnimatedAnimation(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -872,6 +825,100 @@ namespace FiddlerControls
                 showform.TopMost = true;
                 showform.Show();
             }
+        }
+
+        private void OnClickExtractImageBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (showPD)
+            {
+                string FileName = Path.Combine(path, "Dress PD.bmp");
+                DressPic.Image.Save(FileName, ImageFormat.Bmp);
+                MessageBox.Show(
+                    String.Format("Paperdoll saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                string FileName = Path.Combine(path, "Dress IG.bmp");
+                if (animate)
+                    m_Animation[0].Save(FileName, ImageFormat.Bmp);
+                else
+                    DressPic.Image.Save(FileName, ImageFormat.Bmp);
+                MessageBox.Show(
+                    String.Format("InGame saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void OnClickExtractImageTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (showPD)
+            {
+                string FileName = Path.Combine(path, "Dress PD.tiff");
+                DressPic.Image.Save(FileName, ImageFormat.Tiff);
+                MessageBox.Show(
+                    String.Format("Paperdoll saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                string FileName = Path.Combine(path, "Dress IG.tiff");
+                if (animate)
+                    m_Animation[0].Save(FileName, ImageFormat.Tiff);
+                else
+                    DressPic.Image.Save(FileName, ImageFormat.Tiff);
+                MessageBox.Show(
+                    String.Format("InGame saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void OnClickExtractAnimBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = "Dress Anim";
+
+            for (int i = 0; i < m_Animation.Length; ++i)
+            {
+                m_Animation[i].Save(String.Format("{0}-{1}.bmp", FileName, i), ImageFormat.Bmp);
+            }
+            MessageBox.Show(
+                String.Format("InGame Anim saved to '{0}-X.bmp'", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExtractAnimTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = "Dress Anim";
+
+            for (int i = 0; i < m_Animation.Length; ++i)
+            {
+                m_Animation[i].Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
+            }
+            MessageBox.Show(
+                String.Format("InGame Anim saved to '{0}-X.tiff'", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 

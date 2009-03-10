@@ -37,17 +37,16 @@ namespace UoFiddler
             progresslabel.Text = "Checking...";
             progresslabel.Visible = true;
             string error;
-            Match match=Options.CheckForUpdate(out error);
+            string[] match=Options.CheckForUpdate(out error);
             if (match == null)
             {
                 MessageBox.Show("Error:\n"+error, "Check for Update",MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 progresslabel.Text = "";
                 return;
             }
-            if (match.Success)
+            else if (match.Length==2)
             {
-                string version = match.Result("${major}.${minor}${sub}");
-                if (UoFiddler.Version.Equals(version))
+                if (UoFiddler.Version.Equals(match[0]))
                 {
                     MessageBox.Show("Your Version is up-to-date", "Check for Update");
                     progresslabel.Text = "";
@@ -56,9 +55,9 @@ namespace UoFiddler
                 {
                     DialogResult result =
                         MessageBox.Show(String.Format(@"Your version differs: {0} Found: {1}"
-                        , UoFiddler.Version, version) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                        , UoFiddler.Version, match[0]) + "\nDownload now?", "Check for Update", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     if (result == DialogResult.Yes)
-                        DownloadFile(version, match.Result("${id}"));
+                        DownloadFile(match[1]);
                     else
                         progresslabel.Text = "";
                 }
@@ -70,16 +69,16 @@ namespace UoFiddler
             }
         }
 
-        private void DownloadFile(string version,string id)
+        private void DownloadFile(string file)
         {
             progresslabel.Text = "Starting download...";
             string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(filepath, String.Format("UOFiddler {0}.rar", version));
+            string FileName = Path.Combine(filepath, file);
 
             WebClient web = new WebClient();
             web.DownloadProgressChanged += new DownloadProgressChangedEventHandler(OnDownloadProgressChanged);
             web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
-            web.DownloadFileAsync(new Uri(String.Format(@"http://forums.polserver.com/./download/file.php\?id={0}", id)),FileName);
+            web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -100,7 +99,7 @@ namespace UoFiddler
 
         private void OnClickLink(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"http://forums.polserver.com/viewtopic.php?f=1&t=2351&st=0&sk=t&sd=a");
+            System.Diagnostics.Process.Start(@"http://uofiddler.polserver.com/");
         }
     }
 }
