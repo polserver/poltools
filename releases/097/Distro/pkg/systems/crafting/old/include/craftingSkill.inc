@@ -64,12 +64,28 @@ function CraftCheckSkill(who, craft_skill, difficulty, points, report:=0)
 	if(GainCheck >= GainCap)
 		points := 0;
 	endif
-	if ( CDbl(AP_GetSkill(who, craft_skill)) < 10.0 )
+	if ( CDbl(AP_GetSkill(who, craft_skill)) < 35.0 )
 		points := points * 2;
 		chance := 100;
 	endif
 
-	return CheckSkillAdvance(who, craft_skill, points, chance);
+	if(RandomInt(1000) < chance)
+		if(points > 0)
+			CheckSkillAdvance(who, craft_skill, points, chance);
+		endif
+		return 1;
+	else
+		if(effective < 10)
+			if(points > 0)
+				chance := chance / 2;
+				points := points / 2;
+				CheckSkillAdvance(who, craft_skill, points, chance);
+			endif
+		endif
+		return 0;
+	endif
+	
+	return 1;
 
 endfunction
 

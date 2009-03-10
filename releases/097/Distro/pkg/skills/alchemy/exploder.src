@@ -13,6 +13,10 @@ program exploder(parms)
 	endwhile
 
 	SetScriptController(who);
+	if ( who.cursor )
+		CancelTarget(who);
+	endif
+	ReleaseItem(potion); // allows bomb to be destroyed
 	var dmg := 3;
   
 	// creating a location variable to store the item data so we can destroy the item.
@@ -36,6 +40,14 @@ program exploder(parms)
 			0xdc09: dmg := (RandomInt(4) + 6 );
 			0xdc07: dmg := (RandomInt(9) + 11 );
 		endcase
+		// It's obvious people are gonna try using stacked potions to make a bigger bang. Bastids.
+		if ( potion.stackable )
+			dmg := (dmg * potion.amount) / 2;
+		endif
+		// Stacked potions can be abused with npcs. Nerf the crap outta them for this
+		if ( critter.npctemplate )
+			dmg := dmg / 5;
+		endif
 		ApplyRawDamage(critter, dmg);
 	endforeach
 
