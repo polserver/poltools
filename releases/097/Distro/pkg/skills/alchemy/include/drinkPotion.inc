@@ -45,7 +45,11 @@ endfunction
 function empty_bottle(character, potion)
 	PlaySoundEffect(character, DRINK_SOUND);
 	CreateItemInBackpack(character, UOBJ_EMPTY_BOTTLE, 1);
-	DestroyItem(potion);
+	if ( potion.stackable && potion.amount > 1 )
+		SubtractAmount(potion, 1);
+	else
+		DestroyItem(potion);
+	endif
 endfunction
 
 function is_poison(potion)
