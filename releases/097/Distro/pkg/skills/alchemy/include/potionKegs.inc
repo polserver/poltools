@@ -3,35 +3,19 @@ var potion_config := ReadConfigFile(":alchemy:alchemy");
 function rename_keg(keg, potion)
 	var itemdesc := ReadConfigFile(":alchemy:itemdesc");
 	var obj := FindConfigElem(itemdesc, potion);
-	var amt  := 0;
-	foreach thing in EnumerateItemsInContainer(keg)
-		if(thing.objtype == 0xf0e)
-			amt := amt + thing.amount;
-		endif
-	endforeach
+	var amt  := CInt(GetObjProperty(keg, "PotionAmount"));
 	if(amt > 0)
-		var str := "a keg of " + obj.desc + "s. " + GetFullness(keg);
-		SetObjProperty(keg, "PotionName", obj.desc);
+		var str := "a keg of " + obj.desc + "s. " + GetFullness(amt);
 		SetName(keg, str);
 	else
-		var str := "specially lined keg for holding potions. " + GetFullness(keg);
-		EraseObjProperty(keg, "PotionName");
-		EraseObjProperty(keg, "PotionType");
-		EraseObjProperty(keg, "OwnerSerial");
-		EraseObjProperty(keg, "houseserial");
+		var str := "specially lined keg for holding potions. " + GetFullness(amt);
 		SetName(keg, str);
 	endif
 	return 0;
 endfunction
 
 
-function GetFullness( pkeg )
-	var amt := 0;
-	foreach thing in EnumerateItemsInContainer(pkeg)
-		if(thing.objtype == 0xf0e)
-			amt := amt + thing.amount;
-		endif
-	endforeach
+function GetFullness(amt)
 	var str;
 	if (amt == 0)
 		str := "The keg is empty.";
@@ -58,7 +42,7 @@ function GetFullness( pkeg )
 	else
 		str := "The keg is completely full.";
 	endif
-	
+
 	return str;
 endfunction
 

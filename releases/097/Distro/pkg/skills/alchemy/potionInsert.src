@@ -9,9 +9,11 @@ program on_insert(who, keg, movetype, inserttype, potion, existing_stack, amt_to
 	amt_to_add := amt_to_add; // stops ecompile "not used" warnings
 	existing_stack := existing_stack;  // stops ecompile "not used" warnings
 
+	// Makes sure move type is 0
 	if (movetype)
 		return 0;
 	endif
+
 	var vendorserial := GetObjProperty(keg,"Vendored");
 	if((vendorserial) && (who.cmdlevel < 3))
 		SendSysMessage(who, "You can't fill a keg while it's on a vendor.");
@@ -20,36 +22,37 @@ program on_insert(who, keg, movetype, inserttype, potion, existing_stack, amt_to
 	endif
 
 	var type := GetObjProperty(keg, "PotionType");
-	var amt  := 0;
-	foreach thing in EnumerateItemsInContainer(keg)
-		if(thing.objtype == 0xf0e)
-			amt := amt + thing.amount;
-		endif
-	endforeach
-	if(is_potion(potion))
-		if(!amt)
-			SetObjProperty(keg, "PotionType", CInt(potion.objtype));
+	var amt  := CInt(GetObjProperty(keg, "PotionAmount"));
+
+	if(is_potion(potion.objtype))
+		if(amt <= 0)
+			type := CInt(potion.objtype);
+			SetObjProperty(keg, "PotionType", type);
 			SetObjProperty(keg, "OwnerSerial", who.serial);
-		elseif(type != potion.objtype)
+			amt := 0;
+		endif
+		if(type != CInt(potion.objtype))
 			SendSysMessage(who, "You don't think it would be a good idea to mix these types of potions together.");
 			MoveItemToContainer(potion, who.backpack);
 			return 0;
-		elseif(amt >= 100)
+		endif
+		if(amt >= 100)
 			SendSysMessage(who, "The keg can't hold any more.");
 			MoveItemToContainer(potion, who.backpack);
 			return 0;
 		endif
-		if(SubtractAmount(potion, 1))
-			amt := amt + 1;
-			CreateItemInBackpack(who, 0xf0e, 1);
-			CreateItemInContainer(keg, 0xf0e, 1);
+
+		var potion_count := potion.amount; // For stackables. Boooo.
+		if(SubtractAmount(potion, potion_count))
+			amt += potion_count;
+			SetObjProperty(keg, "PotionAmount", amt);
+			CreateItemInBackpack(who, 0xf0e, potion_count);
 			PlaySoundEffect(who, 0x241);
-			SendSysMessage(who, potion.objtype);
+			SendSysMessage(who, type);
 			rename_keg(keg, CInt(GetObjProperty(keg, "PotionType")));
 			SendSysMessage(who, "You empty the contents of the bottle into the keg.");
+			return 1;
 		endif
-	elseif(who.cmdlevel > 2)
-		return 1;
 	else
 		SendSysMessage(who, "You cannot put that in a potion keg.");
 		MoveItemToContainer(potion, who.backpack);
