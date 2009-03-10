@@ -12,7 +12,7 @@ program CanInsert(character, container, movetype, inserttype, adding_item, exist
 	amount_to_add := amount_to_add;
 	existing_stack := existing_stack;
 	inserttype := inserttype;
-	if ( move_type == MOVETYPE_CORECREATE )
+	if ( movetype == MOVETYPE_CORECREATE )
 		return 1;
 	elseif ( adding_item.IsBook() )
 		return 1;

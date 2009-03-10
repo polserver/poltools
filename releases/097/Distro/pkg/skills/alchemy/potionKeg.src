@@ -24,17 +24,13 @@ program use_potionkeg(who, keg)
 	EraseObjProperty(who, "#HealTimer");
 
 	var type := GetObjProperty(keg, "PotionType");
-	var amt  := 0;
-	foreach thing in EnumerateItemsInContainer(keg)
-		if(thing.objtype == 0xf0e)
-			amt := amt + thing.amount;
-		endif
-	endforeach
+	var amt  := CInt(GetObjProperty(keg, "PotionAmount"));
+
 	if(GetObjProperty(keg, "Vendored"))
 		SendSysMessage(who, "You cannot use that while it's on a vendor.");
 		return 0;
 	endif
-	if(amt == 0)
+	if(amt <= 0)
 		SendSysMessage(who, "That keg is empty.");
 		return 0;
 	else
@@ -76,17 +72,15 @@ program use_potionkeg(who, keg)
 		endif
 	endif
 
-	if(!amt)
+	if(amt <= 0)
 		SendSysMessage(who, "The keg is currently empty.");
 		return;
 	endif
 	var potion := 0;
 	foreach thingie in EnumerateItemsInContainer(who.backpack)
-		if(thingie.container.objtype != 0x1940)
-			if(thingie.objtype == 0xf0e)
-				potion := thingie;
-				break;
-			endif
+		if(thingie.objtype == 0xf0e)
+			potion := thingie;
+			break;
 		endif
 	endforeach
 	if(potion == 0)
@@ -94,26 +88,26 @@ program use_potionkeg(who, keg)
 		return 0;
 	endif
 	if(SubtractAmount(potion, 1))
-		var check := 0;
-		foreach thing in EnumerateItemsInContainer(keg)
-			if(thing.objtype == 0xf0e)
-				if(SubtractAmount(thing, 1))
-					check := 1;
-					break;
-				endif
-			endif
-		endforeach
-		if(check == 1)
-			PlaySoundEffect(who, 0x241);
-			var the_potion := CreateItemInBackpack(who, type, 1);
-			SetName(the_potion, lower(GetObjProperty(keg, "PotionName")));
-			if(amt)
-				rename_keg(keg, type);
-			else
-				SetName(keg, "a potion keg");
-			endif
-			SendSysMessage(who, "You fill a bottle with liquid from the keg.");
+		PlaySoundEffect(who, 0x241);
+		var the_potion := CreateItemInBackpack(who, type, 1);
+		if( TypeOf(the_potion) != "ItemRef" )
+			SendSysMessage(who, "There is not enough room for this in your pack!");
+			return 0;
 		endif
+		amt -= 1;
+		SetObjProperty(keg, "PotionAmount", amt);
+		if(amt >= 1)
+			rename_keg(keg, type);
+		else
+			SetName(keg, "specially lined keg for holding potions");
+		endif
+		SendSysMessage(who, "You fill a bottle with liquid from the keg.");
+		return 1;
+	else
+		SendSysMessage(who, "That item is being used");
+		return 0;
 	endif
+
+	return 1;
 
 endprogram
