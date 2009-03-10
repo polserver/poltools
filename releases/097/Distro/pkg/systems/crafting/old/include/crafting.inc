@@ -48,6 +48,10 @@ include ":crafting:old/include/craftingSkill";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
 
+CONST CRAFT_CYCLE_ATTEMPT := 1;
+CONST CRAFT_CYCLE_SUCCESS := 2;
+CONST CRAFT_CYCLE_FAILED  := 3;
+
 var resource_config := ReadConfigFile(":crafting:old/config/resourceList");
 
 var craft_skill;
@@ -126,12 +130,7 @@ endfunction
 // special resources for crafting here also.
 function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amount, itemname, reqd)
 
-	var craft_sound	:= menu_config[craft_skill].CraftSound;
-	var craft_loops	:= menu_config[craft_skill].CraftLoops;
-	var craft_delay	:= menu_config[craft_skill].CraftDelay;
-	var craft_action := menu_config[craft_skill].CraftAnim;
-	playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
-
+	playCraftWork(who, craft_skill, CRAFT_CYCLE_SUCCESS);
 	var theitem := CreateItemInBackpack(who, objtype, 1);
 	var elem := FindConfigElem(resource_config, use_onobjtype);
 	if( theitem )
@@ -168,11 +167,11 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 			wpower := 0;
 		endif
 		if( (craft_config[objtype].Exceptional == 1) && (ExceptionalCraft(myskill, reqd, aidskill)) )
-	//		AwardPoints(who, craft_skill, 1);
+			CheckSkillAdvance(who, craft_skill, 1, 50);
 			SetObjProperty(theitem, "Exceptional", 1);
-	//		if( TypeOf(craft_config[objtype].skillID) == "String" )
-	//			AwardPoints(who, Cint(craft_config[objtype].skillID), 1);
-	//		endif
+			if( TypeOf(craft_config[objtype].SkillID) == "String" )
+				CheckSkillAdvance(who, craft_config[objtype].SkillID, 1, 50);
+			endif
 			if((craft_config[objtype].Mark == 1))
 				if((makermark == 1) && (myskill >= 100))
 					nme := "an exceptional "+nme+" ["+
@@ -199,7 +198,7 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 				reqd := 3;
 			endif
 			if(rint < reqd)
-				SendSysMessage(who, "You were barely able to make this item.	Its quality is below average.");
+				SendSysMessage(who, "You were barely able to make this item. It's quality is below average.");
 				if(theitem.isA(POLCLASS_WEAPON))
 					theitem.dmg_mod := CInt(temp[1])-(RandomInt(2)+1);
 				elseif(theitem.isA(POLCLASS_ARMOR))
@@ -256,11 +255,6 @@ endfunction
 // crafting configs. Reads a prop from the cfg entry for a list of parts and
 // their amounts then checks the player's backpack for the items and works it.
 function CraftAssembly(who, craft_skill, tool, objtype, amt)
-
-	var craft_sound	:= menu_config[craft_skill].CraftSound;
-	var craft_loops	:= menu_config[craft_skill].CraftLoops;
-	var craft_delay	:= menu_config[craft_skill].CraftDelay;
-	var craft_action := menu_config[craft_skill].CraftAnim;
 
 	var skill := craft_config[objtype].skill;
 	var theitem;
@@ -322,8 +316,9 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 		endforeach
 
 		Sleep(1);
+
 		if( CraftCheckSkill(who, craft_skill, diff, pts) )
-			playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
+			playCraftWork(who, craft_skill, CRAFT_CYCLE_SUCCESS);
 			Set_Critical(1);
 			foreach material_objtype in ( parts_list.Keys() )
 				var amount := parts_list[material_objtype];
@@ -346,6 +341,20 @@ function CraftAssembly(who, craft_skill, tool, objtype, amt)
 			if( theitem.isA(POLCLASS_CONTAINER) )
 				SetObjProperty(theitem, "trappable", 1);
 			endif
+		else
+			playCraftWork(who, craft_skill, CRAFT_CYCLE_FAILED);
+			Set_Critical(1);
+			foreach material_objtype in ( parts_list.Keys() )
+				var amount := parts_list[material_objtype];
+				if ( amount > 0 )
+					if( !ConsumeSubstance(who.backpack, material_objtype, amount) )
+						SendSysMessage(who, "Error - Unable to consume ["+amount+"] of material ["+material_objtype+"]");
+						return 0;
+					endif
+				endif
+			endforeach
+			Set_Critical(0);
+			SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
 		endif
 		counter := counter + 1;
 	endwhile
@@ -357,12 +366,7 @@ endfunction
 
 function CreateCraftedMap(who, craft_skill, use_on, objtype, amount, itemname, reqd)
 
-	var craft_sound	:= menu_config[craft_skill].CraftSound;
-	var craft_loops	:= menu_config[craft_skill].CraftLoops;
-	var craft_delay	:= menu_config[craft_skill].CraftDelay;
-	var craft_action := menu_config[craft_skill].CraftAnim;
-	playCraftWork(who, craft_sound, craft_loops, craft_delay, craft_action);
-
+	playCraftWork(who, craft_skill, CRAFT_CYCLE_SUCCESS);
 	var theitem := CreateItemInBackpack(who, objtype, 1);
 	if( theitem )
 		if( !SubtractAmount(use_on, amount) )
@@ -435,21 +439,39 @@ endfunction
 
 // This function is used to display a craft skill's action,
 // sound, the loops to do it in, and the delay between loops.
-// Sound is required, loops defaults to 0 if none sent, and delay
-// defaults to 2 seconds if none sent, Action defaults to 0
-// (none) if none sent. Who is who the info is to be sent to.
 // All delays are in seconds.
-function playCraftWork(who, craftSound, loops:=0, delay:=2, craftAction:=0)
+function playCraftWork(who, craft_skill, sound_type)
+
+	var craftSound;
+	case (sound_type)
+		1: craftSound := menu_config[craft_skill].CraftSound1;
+		2: craftSound := menu_config[craft_skill].CraftSound2;
+		3: craftSound := menu_config[craft_skill].CraftSound3;
+		default: craftSound := menu_config[craft_skill].CraftSound1;
+	endcase
+	
+	var loops	:= menu_config[craft_skill].CraftLoops;
+	var delay	:= menu_config[craft_skill].CraftDelay;
+	var craftAction := menu_config[craft_skill].CraftAnim;
+
 	if( loops )
 		for i := 1 to loops
+			Sleep(delay);
 			if( craftAction )
 				PerformAction( who, craftAction );
 			endif
-			PlaySoundEffect(who, craftSound);
-			Sleep(delay);
+			if( craftSound )
+				PlaySoundEffect(who, craftSound);
+			endif
 		endfor
 	else
-		PlaySoundEffect(who, craftSound);
+		Sleep(delay);
+		if( craftAction )
+			PerformAction( who, craftAction );
+		endif
+		if( craftSound )
+			PlaySoundEffect(who, craftSound);
+		endif
 		Sleep(delay);
 	endif
 

@@ -353,6 +353,7 @@ function GFCraftInfoPage(who, objtype, skill_config)
 	else
 		if(skillreq > temp1)
 			schance := "0%";
+			SendSysMessage(who, "0? HOW!? Skill: " + skillreq + " : Cfg : "+temp1);
 		else
 			schance := CStr(CraftCheckSkill(who, craft_skill, diff, 0, 1))+"%";
 		endif
