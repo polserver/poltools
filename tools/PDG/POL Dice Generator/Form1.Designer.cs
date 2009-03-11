@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyForm));
             this.TB_MinValue = new System.Windows.Forms.TextBox();
             this.TB_MaxValue = new System.Windows.Forms.TextBox();
             this.TB_Result = new System.Windows.Forms.TextBox();
@@ -44,6 +45,7 @@
             this.grpOptions = new System.Windows.Forms.GroupBox();
             this.chkOnTop = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.BTN_Options = new System.Windows.Forms.Button();
             this.grpOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,16 +136,14 @@
             // chkUniform
             // 
             this.chkUniform.AutoSize = true;
-            this.chkUniform.Enabled = false;
             this.chkUniform.Location = new System.Drawing.Point(89, 19);
             this.chkUniform.Name = "chkUniform";
             this.chkUniform.Size = new System.Drawing.Size(62, 17);
             this.chkUniform.TabIndex = 9;
             this.chkUniform.Text = "Uniform";
-            this.toolTip1.SetToolTip(this.chkUniform, "The more dices you have, the closest the probability distribution\r\nwill get to a " +
-                    "normal curve.\r\nIf you don\'t want this, enabling \"Uniform\" will do one dice with " +
-                    "a\r\nbig number of faces. ");
+            this.toolTip1.SetToolTip(this.chkUniform, resources.GetString("chkUniform.ToolTip"));
             this.chkUniform.UseVisualStyleBackColor = true;
+            this.chkUniform.CheckedChanged += new System.EventHandler(this.chkUniform_CheckedChanged);
             // 
             // chkAutocopy
             // 
@@ -200,11 +200,22 @@
             // 
             this.toolTip1.IsBalloon = true;
             // 
+            // BTN_Options
+            // 
+            this.BTN_Options.Location = new System.Drawing.Point(3, 113);
+            this.BTN_Options.Name = "BTN_Options";
+            this.BTN_Options.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Options.TabIndex = 13;
+            this.BTN_Options.Text = "Options <<";
+            this.BTN_Options.UseVisualStyleBackColor = true;
+            this.BTN_Options.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(158, 202);
+            this.Controls.Add(this.BTN_Options);
             this.Controls.Add(this.grpOptions);
             this.Controls.Add(this.BTN_Copy);
             this.Controls.Add(this.BTN_Exit);
@@ -241,6 +252,7 @@
         private System.Windows.Forms.GroupBox grpOptions;
         private System.Windows.Forms.CheckBox chkOnTop;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button BTN_Options;
     }
 }
 

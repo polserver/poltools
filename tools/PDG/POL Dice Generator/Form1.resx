@@ -123,4 +123,12 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="chkUniform.ToolTip" xml:space="preserve">
+    <value>The more dice you have, the closest the probability
+distribution function will get to a normal curve 
+(bell shaped curve).
+
+If you enable "Uniform", it will use only one die. 
+(Uniform Distribution) </value>
+  </data>
 </root>
