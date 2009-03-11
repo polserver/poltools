@@ -34,11 +34,15 @@ program skill_Begging( who )
   		return 0;
 	endif
 	if( (!beggee.isa(POLCLASS_NPC)) )
-		SendSysMessage(who, "You might look a little silly doing that.");
+		SendSysMessage(who, "You would better odds begging from a starving rat.");
 		return 0;
 	endif
-	if( !(beggee.graphic in MOB_APPROVED) )
-		SendSysMessage(who, "You might look a little silly doing that.");
+	if( !(beggee.graphic in MOB_APPROVED) && beggee.isa(POLCLASS_NPC) )
+		SendSysMessage(who, "I think they would rather eat you for dinner.");
+		return 0;
+	endif
+	if( beggee.isA(POLCLASS_ITEM) )
+		SendSysMessage(who, "I think you need to talk to a therapist.");
 		return 0;
 	endif
 	if( TypeOf(beggee.acctname) == "String" )
@@ -62,13 +66,13 @@ program skill_Begging( who )
 	endif
 
 	var bTemplate := NPC_GetNPCConfig(beggee.npctemplate);
-	var wealth := bTemplate.wealth;
+	var wealth := Lower(bTemplate.wealth);
 	if( !wealth )
 		PrintBeggingMessage(beggee, Broke );
 		return 0;
 	endif
-	var lb := Cint(GetObjProperty(beggee, "begpurse"));
-	if( lb < 10 )
+	var lb := CInt(GetObjProperty(beggee, "begpurse"));
+	if( lb < 10 || lb.errortext )
 		PrintBeggingMessage(beggee, Broke );
 		return 0;
 	endif
@@ -87,6 +91,9 @@ program skill_Begging( who )
 		endcase
 		if( (GetObjProperty(who, "Karma") > MINKARMA) and (GetObjProperty(who, "Fame") > MINFAME) )
 			gold := CInt(gold*1.3);
+		endif
+		if ( lb < gold )
+			gold := lb;
 		endif
 		lb := Cint(lb - gold);
 		SetObjProperty(beggee, "begpurse", lb);

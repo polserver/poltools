@@ -105,6 +105,12 @@ function CPM_GetMerchantType(npc)
 	return type;
 endfunction
 
+function CPM_GetMerchantWealth(npc)
+	var npc_cfg := NPC_GetNPCConfig(npc);
+	var type := Lower(npc_cfg.wealth);
+	return type;
+endfunction
+
 function RestockInventory(merchanttype, byref inventory)
 	var buysell_cfg := ReadConfigFile(":merchants:buySell");
 
