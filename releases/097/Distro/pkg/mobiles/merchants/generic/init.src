@@ -12,6 +12,7 @@ include ":brainAI:npcCommands";
 include ":dyes:dyes";
 include ":merchants:merchant";
 include ":merchants:storage";
+include ":begging:begging";
 
 program BrainCriticalScript(params)
 	var npc		:= params[1];
@@ -47,6 +48,8 @@ program BrainCriticalScript(params)
 	var merchant_type := CPM_GetMerchantType(npc);
 	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
 	RestockInventory(merchant_type, forsale);
+
+	BegPurse(npc, CPM_GetMerchantWealth(npc));
 
 	return 1;
 endprogram

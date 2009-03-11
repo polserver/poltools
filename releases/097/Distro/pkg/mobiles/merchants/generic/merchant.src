@@ -8,6 +8,8 @@ use os;
 include ":brainAI:eventid";
 include ":brainAI:npcNerves";
 include ":brainAI:npcCommands";
+include ":merchants:merchant";
+include ":begging:begging";
 
 program BrainNerve(params)
 	var npc		:= params[1];
@@ -40,12 +42,12 @@ endprogram
 
 function SoldEvent(npc, byref event)
 	PrintTextAbovePrivate(npc, "The total of thy purchase is " + event.amount, event.source, 3, npc.speech_color);
-
+	BegPurse(npc, CPM_GetMerchantWealth(npc));
 	return 1;
 endfunction
 
 function BoughtEvent(npc, byref event)
 	PrintTextAbovePrivate(npc, "The total of thy sell is " + event.amount, event.source, 3, npc.speech_color);
-
+	BegPurse(npc, CPM_GetMerchantWealth(npc));
 	return 1;
 endfunction

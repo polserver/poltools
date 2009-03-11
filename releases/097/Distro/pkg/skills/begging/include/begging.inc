@@ -7,7 +7,8 @@ var Pleade := { "Spare some change?",
 		"Donate to my charity?",
 		"Wanna buy a rock?",
 		"C'mon...   please?",
-		"Spare a few gold?"
+		"Spare a few gold?",
+		"Donation for the cause?"
 	      };
 
 var Failed := { "I think not",
@@ -42,24 +43,28 @@ var NegKarma := { "I will not give money to such as thee!",
 		};
 
 
-function begpurse(me)
-  var amt := Cint(GetObjProperty(me, "begpurse"));
-  if(!amt)
-    amt := 50;
-  endif
-  var cnfg := ReadConfigFile("::npcdesc");
-  var wealth := cnfg[me.npctemplate].wealth;
-  var cap := 50;
-  case(wealth)
-    "upper":  cap := 150;
-    "middle": cap := 100;
-    "poor":   cap := 50;
-    "broke":  cap := 0;
-  endcase
-  if(amt < cap)
-    amt := amt + 1;
-    SetObjProperty(me, "begpurse", amt);
-  endif
+function begpurse(npc, wealth)
+	if (!wealth || wealth.errortext)
+		wealth := "broke";
+	endif
+	var amt := GetObjProperty(npc, "begpurse");
+	if ( amt.errortext )
+		amt := 0;
+	endif
+	var cap := 50;
+	case( wealth )
+		"upper":  cap := 150;
+		"middle": cap := 100;
+		"poor":   cap := 50;
+		"broke":  cap := 0;
+	endcase
+	if ( amt < cap )
+		amt += RandomInt(cap-amt);
+		SetObjProperty(npc, "begpurse", amt);
+	elseif ( amt > cap )
+		amt := cap;
+	endif
+	SetObjProperty(npc, "begpurse", amt);
 endfunction
 
 
