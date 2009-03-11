@@ -58,8 +58,6 @@ namespace POL_Dice_Generator
             InitializeComponent();
         }
 
-        private ulong x = 0, y = 0, z = 0; //dice string part
-
         private void BTN_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -67,67 +65,59 @@ namespace POL_Dice_Generator
 
         private void BTN_Create_Click(object sender, EventArgs e)
         {
-            if ( TB_MinValue.Text == "" || TB_MaxValue.Text == "" )
-            {
-                return;
-            }
-            if ( (Convert.ToInt64(TB_MinValue.Text) < 0) || (Convert.ToInt64(TB_MaxValue.Text) < 0) )
-            {
-                MessageBox.Show("Min and Max Values must be positive integers!");
-                return;
-            }
-
-            ulong min = 0;
-            ulong max = 0;
-
-            min = Convert.ToUInt64(TB_MinValue.Text);
-            max = Convert.ToUInt64(TB_MaxValue.Text);
-
-            if (min == max)
-            {
-                TB_Result.Text = min + "d1";
-                return;
-            }
-
-            if (min > max)
-            {
-                find_dice(max, min); // inverted min/max
-            }
-            else
-            {
-                find_dice(min, max); // normal min/max
-            }
-
-            if (z == 0)
-            {
-                TB_Result.Text = x + "d" + y;
-            }
-            else
-            {
-                TB_Result.Text = x + "d" + y + "+" + z;
-            }
-            return;
+            update_result(true, chkUniform.Checked, chkAutocopy.Checked);
         }
 
-        /* Fernando Rozenblit (rozenblit@gmail.com) - 2009-03-10 */
-        void find_dice(ulong min, ulong max)
+        private void update_result(bool should_msg, bool uniform, bool autocopy)
         {
-
-            for (z = 0; z < min; ++z)
+            if (TB_MinValue.Text == "" || TB_MaxValue.Text == "")
             {
-                x = (min - z);
-                if ((max - z) % (x) == 0)
-                {
-                    y = (max - z) / (x);
-                    return;
-                }
+                return;
+            }
+
+            ulong min = 0, max = 0;
+            try
+            {
+                min = Convert.ToUInt64(TB_MinValue.Text);
+                max = Convert.ToUInt64(TB_MaxValue.Text);
+
+                TB_Result.Text = Dice.dicestring(min, max);
+                if (autocopy)
+                    copy_result();
+
+            }
+            catch (OverflowException)
+            {
+                if (should_msg)
+                    MessageBox.Show("Min and Max Values must be less than 2^64!!");
+            }
+            catch (FormatException)
+            {
+                if (should_msg)
+                    MessageBox.Show("Min and Max Values must be positive integers!");
             }
         }
 
         private void BTN_Copy_Click(object sender, EventArgs e)
         {
+            copy_result();
+        }
+
+        private void copy_result()
+        {
             TB_Result.SelectAll();
             TB_Result.Copy();
+        }
+
+        private void TB_MaxMinValue_TextChanged(object sender, EventArgs e)
+        {
+            if (chkUpdate.Checked)
+                update_result(false, chkUniform.Checked, chkAutocopy.Checked);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            MyForm.ActiveForm.TopMost = chkOnTop.Checked;
         }
     }
 }
