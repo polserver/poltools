@@ -92,8 +92,8 @@ endfunction
 function CreateRepairDeed(who, scroll, craft_skill)
 
 	var type, title, color;
-	case(CInt(craft_skill))
-		 BLACKSMITHY: 		type := "Blacksmith"; color := CInt(2107);
+	case( craft_skill )
+		 BLACKSMITHY: 		type := "Blacksmith"; color := CInt(2110);
 		 BOWCRAFT_FLETCHING: 	type := "Bowyer"; color := CInt(2116);
 		 CARPENTRY: 		type := "Carpenter"; color := CInt(2113);
 		 TAILORING: 		type := "Tailor"; color := CInt(2128);
@@ -124,8 +124,8 @@ function CreateRepairDeed(who, scroll, craft_skill)
 	var ret := GetItemDescriptor(0xee09);
 	ret.Color := color;
 	ret.CProps.Insert("type", type);
-	ret.CProps.Insert("skillid", craft_skill);
-	ret.CProps.Insert("ramt", ramt);
+	ret.CProps.Insert("skill", craft_skill);
+	ret.CProps.Insert("level", ramt);
 	var theitem := CreateItemInBackpack(who, ret, 1);
 	if(theitem)
 		SubtractAmount(scroll, 1);
@@ -138,6 +138,10 @@ endfunction
 function repair_this(who, craft_skill := BLACKSMITHY)
 	SendSysMessage(who, "Select item to repair.");
 	var use_on := Target(who);
+	if ( !use_on || use_on.errortext )
+		return 0;
+	endif
+
 	if(use_on.movable == 0)
 		SendSysMessage(who, "You cannot repair that.");
 		return 0;
@@ -146,7 +150,7 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 		return 0;
 	endif
 	if(CInt(use_on.objtype) == CInt(0xe34))
-		case(CInt(craft_skill))
+		case( craft_skill )
 			 BLACKSMITHY:		CreateRepairDeed(who, use_on, craft_skill); break;
 			 BOWCRAFT_FLETCHING:	CreateRepairDeed(who, use_on, craft_skill); break;
 			 CARPENTRY:		CreateRepairDeed(who, use_on, craft_skill); break;
@@ -155,20 +159,20 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 		return 0;
 	endif
 	var forge := 0;
-	case(CInt(craft_skill))
+	case( CInt(craft_skill) )
 		 BLACKSMITHY: forge := 1;
 	endcase
-	if(!forge)
-		if(is_weapon_armor(use_on.objtype))
+	if ( !forge )
+		if ( is_weapon_armor(use_on.objtype) )
 			repair_item( who, use_on, craft_skill);
 		else
 			SendSysMessage(who, "You cannot repair that.");
 		endif
 	else
-		if(is_weapon_armor(use_on.objtype))
+		if ( is_weapon_armor(use_on.objtype) )
 			var near_items := ListItemsNearLocation(who.x, who.y, who.z,3);
 			foreach item in near_items
-				if ((item.objtype == 0xFAF) || (item.objtype == 0xFB0))
+				if ( (item.objtype == 0xFAF) || (item.objtype == 0xFB0) )
 					repair_item( who, use_on, craft_skill);
 					return 0;
 				endif
@@ -183,10 +187,10 @@ function repair_this(who, craft_skill := BLACKSMITHY)
 endfunction
 
 function is_weapon_armor(what)
-	var combatcfg := ReadConfigFile(":combat:itemdesc");
+	var combatcfg := ReadConfigFile(":*:itemdesc");
 	var elem := FindConfigElem(combatcfg, what);
 	var repairable := GetConfigInt(elem, "repairable");
-	if (repairable == 1)
+	if ( repairable == 1 )
 		return 1;
 	else
 		return 0;
@@ -198,34 +202,34 @@ function resmelt(who, the_attribute)
 	var near_items := ListItemsNearLocation(who.x, who.y, who.z, 3);
 	var forge_near := 0;
 	foreach forge in near_items
-		if((forge.objtype == 0xfb1) || ((forge.objtype >= 0x197a) && (forge.objtype <= 0x19a9)))
+		if ( (forge.objtype == 0xfb1) || ((forge.objtype >= 0x197a) && (forge.objtype <= 0x19a9)) )
 			forge_near := 1;
 			break;
 		endif
 	endforeach
-	if(forge_near == 0)
+	if ( forge_near == 0 )
 		SendSysMessage(who, "You must be near a forge.");
 		return 0;
 	endif
 
 	SendSysMessage(who, "Select the item you wish to melt.");
 	var use_on := Target(who, TGTOPT_CHECK_LOS);
-	if(!use_on )
+	if ( !use_on || use_on.errortext )
 		return 0;
 	endif
-	if(use_on.container.serial != who.backpack.serial)
+	if ( use_on.container.serial != who.backpack.serial )
 		SendSysMessage(who, "That is not in your backpack.");
 		return 0;
 	endif
-	if(!Accessible(who, use_on) || !ReserveItem( use_on ))
+	if ( !Accessible(who, use_on) || !ReserveItem( use_on ) )
 		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	endif
-	if(use_on.movable == 0)
+	if ( use_on.movable == 0 )
 		SendSysMessage(who, "You cannot use that while it is locked down.");
 		return 0;
 	endif
-	if(use_on in ListEquippedItems(who))
+	if ( use_on in ListEquippedItems(who) )
 		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	endif
