@@ -1,0 +1,18 @@
+You need NSIS (http://nsis.sourceforge.net) to compile the 
+installer.nsi script.
+
+There must be these folders:
+
+(1) 097\release
+(2) 097\Distro
+
+
+"Distro" is the SVN export from the SVN's "Distro" folder
+"release" is the usual .zip from www.polserver.com of a POL release
+(this means: pol.exe, uoconvert.exe, em modules, etc...)
+
+When releasing 098, just change all the "097" to "098". :)
+
+--
+Nando_k
+
