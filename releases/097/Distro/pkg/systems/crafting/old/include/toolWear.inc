@@ -46,7 +46,7 @@ function SetToolDurability(who, tool, craft_skill)
 	var toolfile := ReadConfigFile(":*:itemdesc");
 	var toolscript := toolfile[tool.objtype].Script;
 
-	if(!toolscript.errortext)
+	if ( TypeOf(toolscript) == "String" )
 		if(!tool.isA(POLCLASS_CONTAINER) && !tool.isA(POLCLASS_ARMOR))
 			var myskill := AP_GetSkill(who, craft_skill);
 			var swings := 0;
