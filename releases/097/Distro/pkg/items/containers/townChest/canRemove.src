@@ -1,4 +1,4 @@
-/* $Id
+/* $Id$
  *
  */
 
@@ -8,7 +8,10 @@ include ":containers:checks";
 
 
 program canRemove(mobile, container, item, move_type)
+
+	// Stop Compiler Warnings
 	item := item;
+
 	if ( mobile.cmdlevel >= 2 )
 		return 1;
 	elseif ( move_type == MOVETYPE_COREMOVE )
@@ -22,4 +25,5 @@ program canRemove(mobile, container, item, move_type)
 	endif
 
 	return 1;
+
 endprogram
