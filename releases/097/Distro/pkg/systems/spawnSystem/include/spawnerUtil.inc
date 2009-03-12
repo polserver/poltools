@@ -26,8 +26,25 @@ include ":datafile:datafile";
  */
 function SS_SelectCoordsInArea(x1, y1, x2, y2)
 	var coord := struct;
-	coord.+x := RandomInt(x2-x1)+x1;
-	coord.+y := RandomInt(y2-y1)+y1;
+	if(x1 == x2)
+		x2 := x2 + 1;
+	endif
+
+	if(y1 == y2)
+		y2 := y2 + 1;
+	endif
+
+	if(x2 > x1)
+		coord.+x := RandomInt(x2-x1)+x1;
+	else
+		coord.+x := RandomInt(x1-x2)+x2;
+	endif
+
+	if(y2 > y1)
+		coord.+y := RandomInt(y2-y1)+y1;
+	else
+		coord.+y := RandomInt(y1-y2)+y2;
+	endif
 
 	return coord;
 endfunction
