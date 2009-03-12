@@ -9,32 +9,18 @@
 //	Purpose: Functions for creating crafting menus, info menus, item creation, resource selection,
 //					 skill gain, etc.
 //
-//	To-Do:	 1.) Break this down even more. Such as "crafting_menu.inc", "crafting_skill.inc",
-//							 "crafting_util.inc", and so on.
-//					 2.) Centralize Crafting Package. Move the skills.cfg information BACK into the
-//							 central skills.cfg in /config. Directory layout as follows:
-//							 pkg -> Crafting -> Include
-//															 -> Repair
-//															 -> Util		-> textcmd/admin
-//									 -> Skills	 -> Alchemy		 -> mortar
-//															 -> Blacksmithy -> smithing
-//															 -> Etc etc.		-> usescripts, etc etc.
-//					 3.) Finish up repair contracts and tool wear.
-//					 4.) Create some cusotmized crafting includes for inscription, etc that require it.
-//					 5.) Create textcmds for editing the Menu and item configs, to add new items ingame.
-//					 6.) Create MethodScript system for Toolwear!
-//					 7.) UPGRADE to use the new gumps package by Austin for the newest distro.
-//					 8.) UPGRADE all buttons (except ones to make the item, which uses the button's objtype)
-//							 to use the 0xF000 - 0xFFFF range. That range is CORE RESERVED for objtypes, thus,
-//							 should NEVER contain custom items added by shard admins. Therefore anything in that
-//							 range should not be craftable and thus, not in these menus.
-//					 9.) Remove all sound and animation function calls from crafting. Change it to use a
-//							 single function called as "playCraftWork(anim, sound, loop:=0;, delay:=0;)"
-//
-// Strings to find and fix under new attributes:
-// AwardPoints(who, Cint(craft_config[objtype].skillID), 1);
-// AwardPoints(who, skillid, 1);
-//
+//	To-Do:	1.) Create some cusotmized crafting includes for inscription, etc that require it.
+//			2.) Create textcmds for editing the Menu and item configs, to add new items ingame.
+//			3.) Create MethodScript system for Toolwear!
+//			4.) UPGRADE all buttons (except ones to make the item, which uses the button's objtype)
+//				to use the 0xF000 - 0xFFFF range. That range is CORE RESERVED for objtypes, thus,
+//				should NEVER contain custom items added by shard admins. Therefore anything in that
+//				range should not be craftable and thus, not in these menus.
+//			5.)	Add Recipe ability for items.
+//			6.)	Add Required Object entry for Items
+//				Item Level means that objtype is required to be near for this individual item.
+//				This is mostly for Cooking only, but could be used in any other skill for other
+//				skills for example, to ensure near a loom for Tailoring for certain items, etc.
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 use polsys;
