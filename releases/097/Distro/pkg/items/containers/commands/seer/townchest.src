@@ -1,3 +1,7 @@
+/* $Id$
+ *
+ */
+
 use polsys;
 use uo;
 use os;

@@ -1,6 +1,7 @@
-/* $Id: goGumps.inc 539 2006-07-03 21:18:36Z austinheilman $
+/* $Id$
  *
  */
+
 // Gump backgrounds - Used in various functions - easier to use globally.
 var BKGND_SILVERTRIM := GFGetCfgConst("Defaults", "BackGround");
 var BKGND_DARK_STONE := GFGetCfgConst("Defaults", "ForeGround");
