@@ -100,8 +100,7 @@ function makeAlchemyItems(who, what, amt, tool)
 			endif
 		else
 			SendSysMessage(who, "You don't have the resources required to make that item.");
-			counter := 100;
-			break;
+			return 0;
 		endif
 		counter := counter + 1;
 	endwhile

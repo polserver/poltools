@@ -4,7 +4,7 @@
 //       moved that setup too!!
 use cfgfile;
 use util;
- 
+
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
@@ -33,7 +33,7 @@ program use_carptool(who, tool)
 
 	EraseObjProperty(who, "#IsMeditating");
 	EraseObjProperty(who, "#HealTimer");
-	
+
 	var rinfo := sendCraftGump(who, CARPENTRY);
 
 	// OK was pressed, close it on out
@@ -83,7 +83,7 @@ function CreateBoards(who, tool, objtype)
 	endif
 
 	sleep(2);
-	var theitem := 0, chk := 0;
+	var theitem := 0;
 	if( SkillCheck(who, craft_skill, 0, (ptmod/2)) > 0 )
 		var amt := item1.amount;
 		if( SubtractAmount(item1, 1) )
@@ -91,7 +91,7 @@ function CreateBoards(who, tool, objtype)
 			ret.Color := resource_config[item1objtype].Color;
 			ret.CProps.insert(lower(craft_config[objtype].type), item1objtype); //assuming the existing stack have this color and cprop
 			theitem := CreateItemInBackpack(who, ret, 1);
-			if( theitem )
+			if( TypeOf(theitem) == "ItemRef" )
 				set_critical(1);
 				SubtractAmount(item1, (amt - 1));
 				if( resource_config[item1objtype].Name != "plain" )
@@ -101,14 +101,14 @@ function CreateBoards(who, tool, objtype)
 				AddAmount(theitem, (amt - 1));
 				set_critical(0);
 				CheckToolWear (who, tool, craft_skill);
-				chk := 1;
+			else
+				SendSysMessage(who, "You don't have enough room in your backpack!");
+				return 0;
 			endif
 		endif
 	endif
-	if( chk == 0 )
-		SendSysMessage(who, "You don't have enough room in your backpack!");
-		return 0;
-	endif
+
+	return 1;
 
 endfunction
 
@@ -136,7 +136,7 @@ function CarpentryItems(who, tool, objtype, amt)
 		ptmod := ptmod + CInt(itemchk[3]);
 	endif
 
-	var theitem, chk := 0;
+	var theitem;
 	var itemname  := craft_config[objtype].name;
 	var material  := Cint(craft_config[objtype].material);
 	var material2 := Cint(craft_config[objtype].material2);
@@ -149,70 +149,71 @@ function CarpentryItems(who, tool, objtype, amt)
 
 	var counter := 0;
 
+	if( skillid2 )
+		if( (skill2 <= AP_GetSkill(who, skillid2)) )
+			SendSysMessage(who, "You do not have the required skill.");
+			return 0;
+		endif
+	endif
+
 	while(counter < amt)
 		if((who.x != x) || (who.y != y))
 			SendSysMessage(who, "You stop woodworking.");
 			break;
 		endif
+
 		if( !tool )
 			break;
 		endif
-		sleep(2);
+
 		if( GetAmount(item1) >= material )
 			if( item2 != 0 && GetAmount(item2) < material2 )
 				SendSysMessage(who, "You do not have enough materials.");
 				return 0;
 			endif
 			if( CraftCheckSkill(who, craft_skill, diff, pts) > 0 )
-				if( skillid2 )
-					if( (skill2 <= AP_GetSkill(who, skillid2)) )
-						theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
-					else
-						SendSysMessage(who, "You do not have the required skill.");
+				if( TypeOf(item2) == "ItemRef" )
+					if( !SubtractAmount(item2, material2) )
+						SendSysMessage(who, "You do not have enough materials.");
 						return 0;
 					endif
-				else
-					theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
-					if( theitem && theitem != 0 && !theitem.errortext )
-						if( item2 != 0 )
-							if( !SubtractAmount(item2, material2) )
-								DestroyItem(theitem);
-								SendSysMessage(who, "You do not have enough materials.");
-								return 0;
-							endif
-						else
-							CheckToolWear (who, tool, craft_skill);
-							chk := 1;
-						endif
-					else
-						chk := 0;
-					endif
 				endif
-			endif
-		endif
-		if( chk == 0 )
-			SubtractAmount(item1, Ceil(material / 2));
-			if( material2 )
-				if( !SubtractAmount(item2, Ceil(material2 / 2)) )
+				theitem := CreateCraftItem(who, craft_skill, item1, item1objtype, objtype, material, itemname, reqd);
+				if( TypeOf(theitem) == "ItemRef" )
+					theitem.movable := 1;
+					if( craft_config[theitem.objtype].lockable )
+						if( SkillCheck(who, TINKERING, 40, 40) > 0 )
+							SetObjProperty(theitem, "Lockable","1");
+							var lockid := CreateLockID();
+							var thekey := CreateItemInContainer(theitem, 0x100E, 1 );
+							SetObjProperty(thekey, "LockId", lockid);
+							SetObjProperty(theitem,"LockId", lockid);
+							SetObjProperty(theitem,"LockPickDiff", AP_GetSkill(who, TINKERING));
+							SendSysMessage(who, "Your tinker skill was sufficient to make the item lockable.");
+						endif
+					endif
+					CheckToolWear (who, tool, craft_skill);
+				endif
+			else
+				var num := CInt(RandomInt(material)/2) + 1;
+				if(!SubtractAmount(item1, num))
 					SendSysMessage(who, "You do not have enough materials.");
 					return 0;
 				endif
+				if( material2 )
+					num := CInt(RandomInt(material2)/2) + 1;
+					if( !SubtractAmount(item2, num) )
+						SendSysMessage(who, "You do not have enough materials.");
+						return 0;
+					endif
+				endif
+				SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
+				counter := counter + 1;
+				continue;
 			endif
-			SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
-			counter := counter + 1;
-			continue;
-		endif
-		theitem.movable := 1;
-		if( craft_config[theitem.objtype].lockable )
-			if( SkillCheck(who, TINKERING, 40, 40) > 0 )
-				SetObjProperty(theitem, "Lockable","1");
-				var lockid := CreateLockID();
-				var thekey := CreateItemInContainer(theitem, 0x100E, 1 );
-				SetObjProperty(thekey, "LockId", lockid);
-				SetObjProperty(theitem,"LockId", lockid);
-				SetObjProperty(theitem,"LockPickDiff", AP_GetSkill(who, TINKERING));
-				SendSysMessage(who, "Your tinker skill was sufficient to make the item lockable.");
-			endif
+		else
+			SendSysMessage(who, "You do not have enough materials.");
+			return 0;
 		endif
 		counter := counter + 1;
 	endwhile
