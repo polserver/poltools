@@ -85,8 +85,6 @@ function makeCartographyMap(who, objtype, amt, tool)
 			break;
 		endif
 
-		sleep(2);
-
 		if(GetAmount(use_on) >= material)
 			if(CraftCheckSkill(who, craft_skill, diff, pts))
 				theitem := CreateCraftItem(who, craft_skill, use_on, use_on.objtype, objtype, material, itemname, reqd);
@@ -106,15 +104,14 @@ function makeCartographyMap(who, objtype, amt, tool)
 					endcase
 				endif
 			else
-				num := CInt(randomint(material)/2) + 1;
+				num := CInt(RandomInt(material)/2) + 1;
 				if(SubtractAmount(use_on, num))
 					SendSysMessage(who, "You lost some material");
 				endif
 			endif
 		else
 			SendSysMessage(who, "You don't have the resources required to make that item.");
-			counter := 100;
-			break;
+			return 0;
 		endif
 		counter := counter + 1;
 	endwhile
