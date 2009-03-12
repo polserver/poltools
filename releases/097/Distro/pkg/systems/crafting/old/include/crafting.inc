@@ -68,7 +68,7 @@ var makermark := 1;
 // was originally colored logs. The colored log objtype is stored
 // in the cprop, and is used to get it's "ResourceList" reference.
 function MaterialSelection(who, craft_skill, type)
-	
+
 	SendSysMessage(who, "Select the "+Lower(type)+" you would like to work with.");
 	var material := Target(who);
 	if( !material )
@@ -80,7 +80,7 @@ function MaterialSelection(who, craft_skill, type)
 		SendSysMessage(who, "You cannot use that.");
 		return 0;
 	endif
-	
+
 	var materialobjtype := 0;
 	if(CInt(GetObjProperty(material, type)) > 0)
 		materialobjtype := GetObjProperty(material, type);
@@ -232,15 +232,19 @@ function CreateCraftItem(who, craft_skill, use_on, use_onobjtype, objtype, amoun
 			SetToolDurability(who, theitem, craft_skill);
 		endif
 		if( (power) && (theitem.IsA(POLCLASS_ARMOR)) )
-			SetObjProperty(theitem, "power", power);
-	//		theitem.equipscript := "equiparmor";
-	//		theitem.unequipscript := "unequiparmor";
+			if ( TypeOf(power) == "String" || TypeOf(power) == "Integer" )
+				SetObjProperty(theitem, "power", power);
+		//		theitem.equipscript := "equiparmor";
+		//		theitem.unequipscript := "unequiparmor";\
+			endif
 		elseif( (wpower == "SILVER") && theitem.isA(POLCLASS_WEAPON) )
 			SetObjProperty(theitem, "SilverHit", 1);
 		elseif( wpower && theitem.isA(POLCLASS_WEAPON) )
-			SetObjProperty(theitem, "wpower", wpower);
-	//		theitem.equipscript := "equipweapon";
-	//		theitem.unequipscript := "unequipweapon";
+			if ( TypeOf(wpower) == "String" || TypeOf(wpower) == "Integer" )
+				SetObjProperty(theitem, "wpower", wpower);
+		//		theitem.equipscript := "equipweapon";
+		//		theitem.unequipscript := "unequipweapon";
+			endif
 		endif
 	else
 		SendSysMessage(who, "You don't have enough room in your backpack!");
@@ -449,7 +453,7 @@ function playCraftWork(who, craft_skill, sound_type)
 		3: craftSound := menu_config[craft_skill].CraftSound3;
 		default: craftSound := menu_config[craft_skill].CraftSound1;
 	endcase
-	
+
 	var loops	:= menu_config[craft_skill].CraftLoops;
 	var delay	:= menu_config[craft_skill].CraftDelay;
 	var craftAction := menu_config[craft_skill].CraftAnim;

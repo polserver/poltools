@@ -2,7 +2,7 @@
 
 use cfgfile;
 use util;
- 
+
 include ":attributes:attributeConstants";
 include ":attributes:attributes";
 include ":attributes:skillCheck";
@@ -80,7 +80,6 @@ function makeAlchemyItems(who, what, amt, tool)
 			break;
 		endif
 
-		sleep(2);
 
 		if(GetAmount(use_on) >= material)
 			if(CraftCheckSkill(who, craft_skill, diff, pts))
