@@ -33,6 +33,7 @@ include ":crafting:old/include/craftGumps";
 include ":crafting:old/include/craftingSkill";
 include ":gumps:gumps";
 include ":gumps:gumps_ex";
+include ":itemutils:itemdesc";
 
 CONST CRAFT_CYCLE_ATTEMPT := 1;
 CONST CRAFT_CYCLE_SUCCESS := 2;
@@ -404,6 +405,39 @@ function canUseMaterial(who, use_on, craft_skill)
 		return 0;
 	endif
 
+endfunction
+
+// Used to check if near the required objects to craft the item.
+// Can be used for anvils, forges, flour mills, or whatever.
+// Returns:
+//			-1 = Not required for this craftable.
+//			 1 = Success. Near one of the object types!
+//			 0 = Fail. Not near any of the required objtypes.
+function isNearRequiredObject(who, objtype)
+
+	var ObjectList := SplitWords(craft_config[objtype].craftnear);
+	if( TypeOf(ObjectList) != "Array" || !ObjectList || ObjectList.errortext )
+		return -1; // -1 = not required.
+	endif
+	foreach item in ( ListItemsNearLocation(who.x, who.y, who.z, 3) )
+		if( (Hex(item.objtype) in ObjectList) )
+			return 1;
+			break;
+		endif
+	endforeach
+	return 0;
+endfunction
+
+// Used to send message about not being near a custom required object.
+function RequiredObjectMissing(who, objtype)
+
+	var ObjectList := SplitWords(craft_config[objtype].craftnear);
+	if( TypeOf(ObjectList) != "Array" || !ObjectList || ObjectList.errortext )
+		return -1; // -1 = not required. Should never happen unless you misuse this function.
+	endif
+	var ObjectName := GetObjTypeDesc(CInt(ObjectList[1]));
+	SendSysMessage(who, "You must be near a "+ObjectName+" in order to create this.");
+	return 1;
 endfunction
 
 // This function is used for those who have items from objtype 0 to 16383 the same
