@@ -34,17 +34,10 @@ function SS_SelectCoordsInArea(x1, y1, x2, y2)
 		y2 := y2 + 1;
 	endif
 
-	if(x2 > x1)
-		coord.+x := RandomInt(x2-x1)+x1;
-	else
-		coord.+x := RandomInt(x1-x2)+x2;
-	endif
-
-	if(y2 > y1)
-		coord.+y := RandomInt(y2-y1)+y1;
-	else
-		coord.+y := RandomInt(y1-y2)+y2;
-	endif
+	// Read Docs about RIMM. This function swaps the params if
+	// they are backwards for min and max values. Oh yeah bebe.
+	coord.+x := RandomIntMinMax(x1,x2);
+	coord.+y := RandomIntMinMax(y1,y2);
 
 	return coord;
 endfunction
