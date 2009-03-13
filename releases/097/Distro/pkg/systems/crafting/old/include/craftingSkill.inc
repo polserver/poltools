@@ -9,12 +9,15 @@ function CraftCheckSkill(who, craft_skill, difficulty, points, report:=0)
 	if(difficulty == error)
 		return 0;
 	elseif(difficulty == 0.0)
-		return 1;
+		return 100;
 	endif
 	var chance;
 	var GainCap := 1200;
 	// I'm Lazy. Change this later.
 	var effective := CDbl(AP_GetSkill(who, craft_skill));
+	if ( !effective || effective.errortext )
+		effective := 1.0;
+	endif
 	var hunger  := CInt(GetObjProperty(who, "hunger"));
 	if(!hunger || hunger.errortext)
 		hunger := 2;
@@ -48,7 +51,7 @@ function CraftCheckSkill(who, craft_skill, difficulty, points, report:=0)
 			return CDbl(chance/10.0);
 		endif
 	endif
-	
+
 	playCraftWork(who, craft_skill, CRAFT_CYCLE_ATTEMPT);
 
 	var temp_chance;
@@ -84,7 +87,7 @@ function CraftCheckSkill(who, craft_skill, difficulty, points, report:=0)
 		endif
 		return 0;
 	endif
-	
+
 	return 1;
 
 endfunction
