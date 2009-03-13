@@ -118,7 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.4
+    <value>Version 3.5
+-Fixed Crash in Speech tab
+-Added Copy CliLoc Number/Text to CliLocTab contextmenu
+-Added editor features in multi tab
+Show Free Slots
+Import from txt file
+Import from wsc file
+Import from wsc file and create an invisible center item
+Export to txt file
+Export to wsc file
+Remove
+Save
+(more file formates tobedone)
+
+Version 3.4
 -Updated AutoUpdater/Check for Updates
 -Fixed Sound playing crash
 -Added Extract Soundlist to csv
