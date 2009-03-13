@@ -27,6 +27,7 @@ namespace FiddlerControls
         }
 
         private bool Loaded = false;
+        private bool ShowFreeSlots = false;
 
         /// <summary>
         /// ReLoads if loaded
@@ -47,7 +48,7 @@ namespace FiddlerControls
 
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
-            for (int i = 0; i <= 0x4000; i++)
+            for (int i = 0; i < 0x2000; i++)
             {
                 MultiComponentList multi = Ultima.Multis.GetComponents(i);
                 if (multi != MultiComponentList.Empty)
@@ -67,12 +68,22 @@ namespace FiddlerControls
 
         private void afterSelect_Multi(object sender, TreeViewEventArgs e)
         {
-            HeightChangeMulti.Maximum = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight;
-            toolTip.SetToolTip(HeightChangeMulti, String.Format("MaxHeight: {0}", HeightChangeMulti.Maximum - HeightChangeMulti.Value));
-            StatusMultiText.Text = String.Format("Size: {0},{1} MaxHeight: {2}",
-                                               ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Width,
-                                               ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Height,
-                                               ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight);
+            if ((MultiComponentList)TreeViewMulti.SelectedNode.Tag == MultiComponentList.Empty)
+            {
+                HeightChangeMulti.Maximum = 0;
+                toolTip.SetToolTip(HeightChangeMulti, "MaxHeight: 0");
+                StatusMultiText.Text = "Size: 0,0 MaxHeight: 0";
+            }
+            else
+            {
+                HeightChangeMulti.Maximum = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight;
+                toolTip.SetToolTip(HeightChangeMulti, String.Format("MaxHeight: {0}", HeightChangeMulti.Maximum - HeightChangeMulti.Value));
+                StatusMultiText.Text = String.Format("Size: {0},{1} MaxHeight: {2}",
+                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Width,
+                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Height,
+                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight);
+                
+            }
             ChangeComponentList((MultiComponentList)TreeViewMulti.SelectedNode.Tag);
             MultiPictureBox.Refresh();
         }
@@ -81,6 +92,11 @@ namespace FiddlerControls
         {
             if (TreeViewMulti.SelectedNode == null)
                 return;
+            if ((MultiComponentList)TreeViewMulti.SelectedNode.Tag == MultiComponentList.Empty)
+            {
+                e.Graphics.Clear(Color.White);
+                return;
+            }
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap m_MainPicture_Multi  = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             Point location = Point.Empty;
@@ -128,14 +144,17 @@ namespace FiddlerControls
         private void ChangeComponentList(MultiComponentList multi)
         {
             MultiComponentBox.Clear();
-            for (int x = 0; x < multi.Width; ++x)
+            if (multi != MultiComponentList.Empty)
             {
-                for (int y = 0; y < multi.Height; ++y)
+                for (int x = 0; x < multi.Width; ++x)
                 {
-                    Tile[] tiles = multi.Tiles[x][y];
-                    for (int i = 0; i < tiles.Length; ++i)
+                    for (int y = 0; y < multi.Height; ++y)
                     {
-                        MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2}\n", tiles[i].ID - 0x4000, x, y, tiles[i].Z));
+                        Tile[] tiles = multi.Tiles[x][y];
+                        for (int i = 0; i < tiles.Length; ++i)
+                        {
+                            MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2}\n", tiles[i].ID - 0x4000, x, y, tiles[i].Z));
+                        }
                     }
                 }
             }
@@ -161,6 +180,199 @@ namespace FiddlerControls
             bit.Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickFreeSlots(object sender, EventArgs e)
+        {
+            ShowFreeSlots = !ShowFreeSlots;
+            TreeViewMulti.BeginUpdate();
+            TreeViewMulti.Nodes.Clear();
+            if (ShowFreeSlots)
+            {
+                for (int i = 0; i < 0x2000; i++)
+                {
+                    MultiComponentList multi = Ultima.Multis.GetComponents(i);
+                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    node.Name = i.ToString();
+                    node.Tag = multi;
+                    if (multi == MultiComponentList.Empty)
+                        node.ForeColor = Color.Red;
+                    TreeViewMulti.Nodes.Add(node);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 0x2000; i++)
+                {
+                    MultiComponentList multi = Ultima.Multis.GetComponents(i);
+                    if (multi != MultiComponentList.Empty)
+                    {
+                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                        node.Tag = multi;
+                        node.Name = i.ToString();
+                        TreeViewMulti.Nodes.Add(node);
+                    }
+                }
+            }
+            TreeViewMulti.EndUpdate();
+        }
+
+        private void OnImportTextFile(object sender, EventArgs e)
+        {
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+            if (multi != MultiComponentList.Empty)
+            {
+                DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure to replace {0} (0x{0:X})", id),
+                        "Import",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+                if (result != DialogResult.Yes)
+                    return;
+            }
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose txt file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "text file (*.txt)|*.txt";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                multi = Ultima.Multis.ImportFromFile(id, dialog.FileName, Ultima.Multis.ImportType.TXT);
+                TreeViewMulti.SelectedNode.Tag = multi;
+                TreeViewMulti.SelectedNode.ForeColor = Color.Black;
+                afterSelect_Multi(this, null);
+            }
+        }
+
+        private void OnExportTextFile(object sender, EventArgs e)
+        {
+            if (TreeViewMulti.SelectedNode == null)
+                return;
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            if (multi == MultiComponentList.Empty)
+                return;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+            
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.txt",id));
+            multi.ExportToTextFile(FileName);
+            MessageBox.Show(String.Format("Multi saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnImportWsc(object sender, EventArgs e)
+        {
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+            if (multi != MultiComponentList.Empty)
+            {
+                DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure to replace {0} (0x{0:X})", id),
+                        "Import",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+                if (result != DialogResult.Yes)
+                    return;
+            }
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose wsc file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "wsc file (*.wsc)|*.wsc";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                multi = Ultima.Multis.ImportFromFile(id, dialog.FileName,Ultima.Multis.ImportType.WSC);
+                TreeViewMulti.SelectedNode.Tag = multi;
+                TreeViewMulti.SelectedNode.ForeColor = Color.Black;
+                afterSelect_Multi(this, null);
+            }
+        }
+
+        private void OnImportWscInvis(object sender, EventArgs e)
+        {
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+            if (multi != MultiComponentList.Empty)
+            {
+                DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure to replace {0} (0x{0:X})", id),
+                        "Import",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+                if (result != DialogResult.Yes)
+                    return;
+            }
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose wsc file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "wsc file (*.wsc)|*.wsc";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                multi = Ultima.Multis.ImportFromFile(id, dialog.FileName, Ultima.Multis.ImportType.WSC_CENTER);
+                TreeViewMulti.SelectedNode.Tag = multi;
+                TreeViewMulti.SelectedNode.ForeColor = Color.Black;
+                afterSelect_Multi(this, null);
+            }
+        }
+
+        private void OnExportWscFile(object sender, EventArgs e)
+        {
+            if (TreeViewMulti.SelectedNode == null)
+                return;
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            if (multi == MultiComponentList.Empty)
+                return;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.wsc", id));
+            multi.ExportToWscFile(FileName);
+            MessageBox.Show(String.Format("Multi saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+
+        private void OnClickSave(object sender, EventArgs e)
+        {
+            Ultima.Multis.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            MessageBox.Show(
+                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickRemove(object sender, EventArgs e)
+        {
+            if (TreeViewMulti.SelectedNode == null)
+                return;
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            if (multi == MultiComponentList.Empty)
+                return;
+            int id = int.Parse(TreeViewMulti.SelectedNode.Name);
+            DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure to remove {0} (0x{0:X})", id),
+                        "Remove",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                Ultima.Multis.Remove(id);
+                TreeViewMulti.SelectedNode.Remove();
+            }
         }
     }
 }

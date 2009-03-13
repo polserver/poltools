@@ -66,7 +66,8 @@ namespace FiddlerControls
             else
             {
                 sortorder = SortOrder.Ascending;
-                dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
+                if (sortcolumn!=2)
+                    dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
             }
             dataGridView1.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortorder;
             sortcolumn = e.ColumnIndex;

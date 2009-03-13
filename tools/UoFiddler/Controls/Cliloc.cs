@@ -273,6 +273,20 @@ namespace FiddlerControls
             dataGridView1.Refresh();
         }
 
+        private void OnCLick_CopyClilocNumber(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+                Clipboard.SetDataObject(
+                    ((int)dataGridView1.SelectedCells[0].OwningRow.Cells[0].Value).ToString(), true);
+        }
+
+        private void OnCLick_CopyClilocText(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedCells.Count > 0)
+                Clipboard.SetDataObject(
+                    (string)dataGridView1.SelectedCells[0].OwningRow.Cells[1].Value, true);
+        }
+
         #region Public Interface for ClilocAdd
 
         public static void SaveEntry(int number, string text)

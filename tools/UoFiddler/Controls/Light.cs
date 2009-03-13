@@ -69,7 +69,7 @@ namespace FiddlerControls
             int i = (int)treeView1.SelectedNode.Tag;
             DialogResult result =
                         MessageBox.Show(String.Format("Are you sure to remove {0} (0x{0:X})", i),
-                        "Save",
+                        "Remove",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button2);
