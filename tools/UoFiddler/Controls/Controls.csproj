@@ -248,6 +248,12 @@
     <Compile Include="Animationlist.Designer.cs">
       <DependentUpon>Animationlist.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultiImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultiImport.Designer.cs">
+      <DependentUpon>MultiImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="MultiMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -436,6 +442,9 @@
     <EmbeddedResource Include="Animationlist.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Animationlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultiImport.resx">
+      <DependentUpon>MultiImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiMap.resx">
       <SubType>Designer</SubType>
