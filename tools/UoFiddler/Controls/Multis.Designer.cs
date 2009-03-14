@@ -45,9 +45,12 @@ namespace FiddlerControls
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromTextfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toTextfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toWscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -63,12 +66,7 @@ namespace FiddlerControls
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.MultiComponentBox = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.fromWscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromWscaddInvisCentralToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toWscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toUOAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -128,48 +126,65 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(163, 142);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(158, 142);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.CheckOnClick = true;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(162, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem4.Text = "Show Free Slots";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.OnClickFreeSlots);
             // 
             // importToolStripMenuItem
             // 
-            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fromTextfileToolStripMenuItem,
-            this.fromWscToolStripMenuItem,
-            this.fromWscaddInvisCentralToolStripMenuItem});
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.importToolStripMenuItem.Text = "Import..";
-            // 
-            // fromTextfileToolStripMenuItem
-            // 
-            this.fromTextfileToolStripMenuItem.Name = "fromTextfileToolStripMenuItem";
-            this.fromTextfileToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.fromTextfileToolStripMenuItem.Text = "From Textfile";
-            this.fromTextfileToolStripMenuItem.Click += new System.EventHandler(this.OnImportTextFile);
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.OnClickImport);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toTextfileToolStripMenuItem,
+            this.toUOAToolStripMenuItem,
             this.toWscToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.exportToolStripMenuItem.Text = "Export..";
             // 
             // toTextfileToolStripMenuItem
             // 
             this.toTextfileToolStripMenuItem.Name = "toTextfileToolStripMenuItem";
-            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.toTextfileToolStripMenuItem.Text = "To Textfile";
             this.toTextfileToolStripMenuItem.Click += new System.EventHandler(this.OnExportTextFile);
+            // 
+            // toWscToolStripMenuItem
+            // 
+            this.toWscToolStripMenuItem.Name = "toWscToolStripMenuItem";
+            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.toWscToolStripMenuItem.Text = "To Wsc";
+            this.toWscToolStripMenuItem.Click += new System.EventHandler(this.OnExportWscFile);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
             // 
             // tabControl3
             // 
@@ -265,7 +280,7 @@ namespace FiddlerControls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 26);
             // 
             // extractImageToolStripMenuItem
             // 
@@ -273,20 +288,20 @@ namespace FiddlerControls
             this.asBmpToolStripMenuItem,
             this.asTiffToolStripMenuItem});
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
             // 
@@ -327,45 +342,12 @@ namespace FiddlerControls
             this.MultiComponentBox.TabIndex = 0;
             this.MultiComponentBox.Text = "";
             // 
-            // saveToolStripMenuItem
+            // toUOAToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
-            // 
-            // fromWscToolStripMenuItem
-            // 
-            this.fromWscToolStripMenuItem.Name = "fromWscToolStripMenuItem";
-            this.fromWscToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.fromWscToolStripMenuItem.Text = "From Wsc";
-            this.fromWscToolStripMenuItem.Click += new System.EventHandler(this.OnImportWsc);
-            // 
-            // fromWscaddInvisCentralToolStripMenuItem
-            // 
-            this.fromWscaddInvisCentralToolStripMenuItem.Name = "fromWscaddInvisCentralToolStripMenuItem";
-            this.fromWscaddInvisCentralToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.fromWscaddInvisCentralToolStripMenuItem.Text = "From Wsc (add invis central)";
-            this.fromWscaddInvisCentralToolStripMenuItem.Click += new System.EventHandler(this.OnImportWscInvis);
-            // 
-            // toWscToolStripMenuItem
-            // 
-            this.toWscToolStripMenuItem.Name = "toWscToolStripMenuItem";
-            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.toWscToolStripMenuItem.Text = "To Wsc";
-            this.toWscToolStripMenuItem.Click += new System.EventHandler(this.OnExportWscFile);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
+            this.toUOAToolStripMenuItem.Name = "toUOAToolStripMenuItem";
+            this.toUOAToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.toUOAToolStripMenuItem.Text = "To UOA";
+            this.toUOAToolStripMenuItem.Click += new System.EventHandler(this.OnExportUOAFile);
             // 
             // Multis
             // 
@@ -422,13 +404,11 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromTextfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toTextfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromWscToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromWscaddInvisCentralToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toWscToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toUOAToolStripMenuItem;
     }
 }
