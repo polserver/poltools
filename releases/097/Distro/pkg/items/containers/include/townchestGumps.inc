@@ -38,10 +38,6 @@ function TC_Build_Gump()
 	endif
 
 	GFPage(gump, 1);
-	GFTextLine(gump, 137, 39, 1700, "Town Chest Spawn Command");
-	GFHTMLArea(gump, 30, 75, 391, 293, text, 1, 1);
-
-	GFPage(gump, 2);
 	GFResizePic(gump, 30, 30, 9270, 390, 40);
 	GFTextLine(gump, 122, 39, 1700, "Town Chest Spawn Configuration");
 	GFResizePic(gump, 30, 74, 9270, 390, 108);
@@ -86,7 +82,7 @@ function TC_Build_Gump()
 	// generated from the townchest.cfg file to list all the
 	// types of chest groups we can display. Max is 27, because
 	// I didn't feel like there being more pages than this. :P
-	GFPage(gump, 3);
+	GFPage(gump, 2);
 	GFTextLine(gump, 149, 39, 1700, "Town Chest Spawn Types");
 	GFResizePic(gump, 30, 75, 9270, 390, 293);
 	GFSetRadioGroup(gump, 3);
@@ -114,6 +110,10 @@ function TC_Build_Gump()
 			chestid += 1;
 		endif
 	endforeach
+
+	GFPage(gump, 3);
+	GFTextLine(gump, 137, 39, 1700, "Town Chest Spawn Command");
+	GFHTMLArea(gump, 30, 75, 391, 293, text, 1, 1);
 
 	return gump;
 
