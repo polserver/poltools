@@ -5232,6 +5232,483 @@ Item
 
 Item
 {
+	Serial	0x400001a7
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001a8
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	5
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001a9
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	10
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001aa
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	15
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001ab
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	20
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001ac
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2616
+	Y	977
+	Z	25
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001ad
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2617
+	Y	977
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001ae
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2617
+	Y	977
+	Z	30
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001af
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2618
+	Y	977
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b0
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2618
+	Y	977
+	Z	30
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b1
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2618
+	Y	977
+	Z	35
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b2
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2619
+	Y	977
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b3
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2619
+	Y	977
+	Z	30
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b4
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b5
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	5
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b6
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	10
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b7
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	15
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b8
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	20
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001b9
+	ObjType	0x7a3
+	Graphic	0x7a3
+	X	2620
+	Y	977
+	Z	25
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001ba
+	ObjType	0x7a4
+	Graphic	0x7a4
+	X	2617
+	Y	978
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001bb
+	ObjType	0x7a4
+	Graphic	0x7a4
+	X	2618
+	Y	978
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001bc
+	ObjType	0x7a4
+	Graphic	0x7a4
+	X	2619
+	Y	978
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001bd
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	2619
+	Y	977
+	Z	35
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001be
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	2620
+	Y	977
+	Z	30
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001bf
+	ObjType	0x7a6
+	Graphic	0x7a6
+	X	2617
+	Y	976
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c0
+	ObjType	0x7a6
+	Graphic	0x7a6
+	X	2618
+	Y	976
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c1
+	ObjType	0x7a6
+	Graphic	0x7a6
+	X	2619
+	Y	976
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c2
+	ObjType	0x7a7
+	Graphic	0x7a7
+	X	2616
+	Y	977
+	Z	30
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c3
+	ObjType	0x7a7
+	Graphic	0x7a7
+	X	2617
+	Y	977
+	Z	35
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c4
+	ObjType	0x7a8
+	Graphic	0x7a8
+	X	2616
+	Y	976
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c5
+	ObjType	0x7a9
+	Graphic	0x7a9
+	X	2620
+	Y	978
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c6
+	ObjType	0x7aa
+	Graphic	0x7aa
+	X	2620
+	Y	976
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Serial	0x400001c7
+	ObjType	0x7ab
+	Graphic	0x7ab
+	X	2616
+	Y	978
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
+	Name	to Buccaneer's Den
+	Serial	0x400001c8
+	ObjType	0xbcf
+	Graphic	0xbcf
+	X	2618
+	Y	978
+	Z	25
+	Revision	3
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
 	Serial	0x40000181
 	ObjType	0x51e
 	Graphic	0x51e
@@ -5694,6 +6171,21 @@ Item
 
 Item
 {
+	Name	to the Mainland
+	Serial	0x400001c9
+	ObjType	0xbd0
+	Graphic	0xbd0
+	X	2728
+	Y	2133
+	Z	25
+	Revision	3
+	Realm	britannia
+	Movable	0
+	DecayAt	1674
+}
+
+Item
+{
 	Serial	0x400001a2
 	ObjType	0x14fa
 	Graphic	0x14fa
@@ -5746,5 +6238,257 @@ Item
 	Realm	britannia
 	Movable	0
 	DecayAt	1666
+}
+
+Item
+{
+	Serial	0x400001d2
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6057
+	Y	88
+	Z	32
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d3
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6057
+	Y	89
+	Z	32
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d4
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6057
+	Y	90
+	Z	32
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d5
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6056
+	Y	88
+	Z	37
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d6
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6056
+	Y	89
+	Z	37
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d7
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6056
+	Y	90
+	Z	37
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d8
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6041
+	Y	192
+	Z	5
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d9
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6041
+	Y	193
+	Z	5
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001da
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6041
+	Y	194
+	Z	5
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001db
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6042
+	Y	192
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001dc
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6042
+	Y	193
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001dd
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6042
+	Y	194
+	Z	0
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001cc
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6081
+	Y	144
+	Z	-12
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001cd
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6081
+	Y	145
+	Z	-12
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001ce
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6081
+	Y	146
+	Z	-12
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001cf
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6080
+	Y	144
+	Z	-7
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d0
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6080
+	Y	145
+	Z	-7
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
+}
+
+Item
+{
+	Serial	0x400001d1
+	ObjType	0x7a5
+	Graphic	0x7a5
+	X	6080
+	Y	146
+	Z	-7
+	Revision	2
+	Realm	britannia
+	Movable	0
+	DecayAt	2392
 }
 
