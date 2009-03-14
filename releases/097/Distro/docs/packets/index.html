@@ -1,0 +1,6840 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Packets</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+  <body>
+    <div class="container">
+			<div id="doc-mini-header">
+				<h1>
+					POL Packet's Guide - Saved on 2009-03-06				</h1>
+				<p>
+					Offline versions are outdated as soon as they're saved, keep that in mind. Check online version for changes.
+				</p>
+			</div>
+		</div>
+  <div id="main">
+	<div class="container">
+    <div class="col_12">
+			<div class="mainbox-gold">
+			  <a  name="TOP"></a>
+				<h1>Description</h1>
+				<div id="packet-info">
+				  <P>
+<div class='doc-anchor'><a name="0x15" href='#TOP'>[^]</a></div><b>Packet Name: </b>Follow<BR />
+Last Modified: 2009-02-22 12:36:34<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x15<BR />
+</b>Sent By:
+Both<BR />
+Size: 9 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[4] Serial of what is being followed.<br/>
+BYTE[4] Serial of who is doing the following.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x22" href='#TOP'>[^]</a></div><b>Packet Name: </b>Character Move ACK/ Resync Request<BR />
+Last Modified: 2009-02-22 12:36:24<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x22<BR />
+</b>Sent By:
+Both<BR />
+Size: 3 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[1] sequence (matches sent sequence)<br/>
+BYTE[1] notoriety<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+<u>Notoriety</u><br/>
+<br/>
+0 = invalid/across server line<br/>
+1 = innocent (blue)<br/>
+2 = guilded/ally (green)<br/>
+3 = attackable but not criminal (gray)<br/>
+4 = criminal (gray)<br/>
+5 = enemy (orange)<br/>
+6 = murderer (red)<br/>
+7 = unknown use (translucent (like 0x4000 hue))<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Resurrection Menu<BR />
+Last Modified: 2009-02-22 12:37:18<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2C<BR />
+</b>Sent By:
+Both<BR />
+Size: 2 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[1] Action<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The only use on OSI for this packet is now sending "2C02" for the "You Are Dead" screen upon character death.<br/>
+<br/>
+<u>Action</u><br/>
+0: Server sent<br/>
+1: Resurrect<br/>
+2: Ghost<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x39" href='#TOP'>[^]</a></div><b>Packet Name: </b>Remove (Group)<BR />
+Last Modified: 2009-02-17 20:21:53<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x39<BR />
+</b>Sent By:
+Both<BR />
+Size: 9 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[4] Player serial<br/>
+BYTE[4] Target serial<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Outdated packet, no longer seen to be in use on OSI recently.<br/>
+<br/>
+If player serial is zeroed, then it removes the target serial from a group?<br/>
+<br/>
+If player serial and target serial are the same, it reports removed from group to the client.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x3A" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Skills<BR />
+Last Modified: 2009-03-02 05:23:55<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x3A<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Server Version:<br/>
+BYTE[1] Command<br/>
+BYTE[2] Length<br/>
+BYTE[1] Type<br/>
+<b>Repeat next for each skill</b><br/>
+<ul>
+<li>BYTE[2] Skill ID Number</li>
+<li>BYTE[2] Skill Value * 10</li>
+<li>BYTE[2] Unmodified Value * 10</li>
+<li>BYTE[1] Skill Lock</li>
+</ul>
+<b>If (Type==2 || Type==0xDF)</b><br/>
+<ul><li>BYTE[2] Skill Cap</li></ul>
+<br/>
+BYTE[2] Null Terminated(0000) (ONLY IF TYPE == 0x00)<br/>
+<br/>
+Client Version (sets skill lock states):<br/>
+BYTE[1] Command<br/>
+BYTE[2] Length<br/>
+BYTE[2] Skill ID Number<br/>
+BYTE[1] Skill Lock State<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+<u>Type</u><br/>
+<br/>
+0x00: Full List of skills<br/>
+0xFF: Single skill update<br/>
+0x02: Full List of skills with skill cap for each skill<br/>
+0xDF: Single skill update with skill cap for skill<br/>
+<br/>
+<u>Skill Lock State</u><br/>
+0x0: Up<br/>
+0x1: Down<br/>
+0x2: Locked<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x56" href='#TOP'>[^]</a></div><b>Packet Name: </b>Map Packet (cartography/treasure)<BR />
+Last Modified: 2009-02-28 17:07:06<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x56<BR />
+</b>Sent By:
+Both<BR />
+Size: 11 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] id<br/>
+BYTE[1] command<br/>
+        1 = add map point.<br/>
+        2 = add new pin with pin number.(insertion. other pins after the number are pushed back.)<br/>
+        3 = change pin<br/>
+        4 = remove pin<br/>
+        5 = remove all pins on the map<br/>
+        6 = toggle the 'editable' state of the map.<br/>
+        7 = return msg from the server to the request 6 of the client.<br/>
+BYTE[1] plotting state (1=on, 0=off, valid only if command 7)<br/>
+BYTE[2] x location (relative to upper left corner of the map, in pixels, for points)<br/>
+BYTE[2] y location (relative to upper left corner of the map, in pixels, for points)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x66" href='#TOP'>[^]</a></div><b>Packet Name: </b>Books (Pages, Old Packet)<BR />
+Last Modified: 2009-03-01 08:02:30<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x66<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] bookID<br/>
+BYTE[2] # of pages in this packet<br/>
+<br/>
+<b>For each page:</b><br/>
+<ul>
+<li>BYTE[2] page #
+<li>BYTE[2] # of lines on page
+<li><b>Repeated for each line:</b>
+<li><ul><li>BYTE[var] null terminated line</li></ul>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+server side: # of pages equals value given in 0x93/0xd4<br><br/>
+EACH page # given. If empty: # lines: 0 + terminator (=3 0's)<br><br/>
+client side:  # of pages always 1. if 2 pages changed, client generates 2 packets.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x6C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Target Cursor Commands<BR />
+Last Modified: 2009-03-01 08:04:21<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x6C<BR />
+</b>Sent By:
+Both<BR />
+Size: 19 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[1] type<br/>
+<ul>
+<li>0x00 = Select Object</li>
+<li>0x01 = Select X, Y, Z</li>
+</ul>
+BYTE[4] cursorID <br/>
+BYTE[1] Cursor Type<br/>
+<ul>
+<li>0 = ?</li>
+<li>1 = ?</li>
+<li>2 = ?</li>
+<li>3 = Cancel current targetting</li>
+</ul>
+The following are always sent but are only valid if sent by client <br/>
+<ul>
+<li>BYTE[4] Clicked On ID </li>
+<li>BYTE[2] click xLoc </li>
+<li>BYTE[2] click yLoc </li>
+<li>BYTE unknown (0x00) </li>
+<li>BYTE click zLoc </li>
+<li>BYTE[2] model # (if a static tile, 0 if a map/landscape tile)</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The model # should never be trusted.<br/>
+<br/>
+Once the server requests the client to target something, the server can undo this also. You can "kill" the targetting cursor faithfully and without any bugs. Send another Packet with Type set to 0 (Object), Cursor ID 00000000, and Cursor Type as 3. The client will respond to this by sending a response to the original request just as if the user had hit ESC to cancel targetting.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x6F" href='#TOP'>[^]</a></div><b>Packet Name: </b>Secure Trading<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x6F<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] blockSize <br/>
+BYTE[1] action<br/>
+BYTE[4] id1<br/>
+BYTE[4] id2<br/>
+BYTE[4] id3<br/>
+BYTE[1] nameFollowing (0 or 1)<br/>
+If (nameFollowing = 1) <br/>
+BYTE[?] charName<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x71" href='#TOP'>[^]</a></div><b>Packet Name: </b>Bulletin Board Messages<BR />
+Last Modified: 2009-03-01 08:09:45<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x71<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] len<br/>
+BYTE[1] subcmd<br/>
+BYTE[len-4] submessage<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+Subcommand 0 - Display Bulletin Board (Server)<br/>
+BYTE[4] BoardID<br/>
+BYTE[22] board name (default is "bulletin board", the rest nulls)<br/>
+BYTE[4] ID (0x402000FF)<br/>
+BYTE[4] zero (0)<br/>
+<br/>
+Subcommand 1 - Message Summary (Server)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] MessageID<br/>
+BYTE[4] ParentID (0 if top level)<br/>
+BYTE[1] posterLen<br/>
+BYTE[posterLen] poster (null terminated string)<br/>
+BYTE[1] subjectLen<br/>
+BYTE[subjectLen] subject (null terminated string)<br/>
+BYTE[1] timeLen<br/>
+BYTE[timeLen] time (null terminated string with time of posting) ("Day 1 @ 11:28")<br/>
+<br/>
+Subcommand 2 - Message (Server)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] MessageID<br/>
+BYTE[1] posterLen<br/>
+BYTE[posterLen] poster (null terminated string)<br/>
+BYTE[1] subjectLen<br/>
+BYTE[subjectLen] subject (null terminated string)<br/>
+BYTE[1] timeLen<br/>
+BYTE[timeLen] time (null terminated string with time of posting) ("Day 1 @ 11:28")<br/>
+BYTE[29] constant: (01 91 84 0A 06 1E FD 01 0B 15 2E 01 0B 17 0B 01 BB 20 46 04 66 13 F8 00 00 0E 75 00 00)<br/>
+BYTE[1] numlines<br/>
+For each line:<br/>
+BYTE[1] linelen<br/>
+BYTE[linelen] body (null terminated)<br/>
+<br/>
+Subcommand 3 - Request Message (Client)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] MessageID<br/>
+<br/>
+Subcommand 4 - Request Message Summary (Client)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] MessageID<br/>
+<br/>
+Subcommand 5 - Post a message (Client)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] Replying to ID (0 if this is a top level / non-reply post)<br/>
+BYTE[1] subjectLen  (length of the subject, includes null termination)<br/>
+BYTE[subjectLen] subject (null terminated)<br/>
+BYTE[1] numlines<br/>
+<b>For each line:</b><br/>
+<ul>
+<li>BYTE linelen</li>
+<li>BYTE[linelen] body (null terminated)</li>
+</ul>
+<br/>
+Subcommand 6 - Remove Posted Message (Client)<br/>
+BYTE[4] BoardID<br/>
+BYTE[4] MessageID<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x93" href='#TOP'>[^]</a></div><b>Packet Name: </b>Books (Title Page, Old Packet)<BR />
+Last Modified: 2009-03-01 08:10:43<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x93<BR />
+</b>Sent By:
+Both<BR />
+Size: 99 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Server Version:<br/>
+BYTE[1] cmd <br/>
+BYTE[4] bookID <br/>
+BYTE[1] write flag <br/>
+<ul>
+<li>0x00 - non-writable</li>
+<li>0x01 - writable</li>
+</ul>
+BYTE[1] new flag<br/>
+BYTE[2] # of pages <br/>
+BYTE[60] title <br/>
+BYTE[30] author <br/>
+<br/>
+Client Version:<br/>
+BYTE[1] cmd<br/>
+BYTE[4] bookID<br/>
+BYTE[4] unknown (0)<br/>
+BYTE[60] title (zero terminated, garbage after terminator)<br/>
+BYTE[30] author (zero terminated, garbage after terminator)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Client sends a 0x93 message on book close. Tis an Update packet for the server to handle changes etc for this.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x95" href='#TOP'>[^]</a></div><b>Packet Name: </b>Dye Window<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x95<BR />
+</b>Sent By:
+Both<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] itemID of dye target<br/>
+BYTE[2] ignored on send, model on return<br/>
+BYTE[2] model on send, color on return from client (default on server send is 0x0FAB)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x98" href='#TOP'>[^]</a></div><b>Packet Name: </b>All Names (3D Client Only)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x98<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] blocksize<br/>
+BYTE[4] ID<br/>
+If (server-reply)<br/>
+BYTE[30] name (0 terminated)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Only 3D clients send this packet. Server and client packet.<br/>
+Unsure as of when, 2D client added this ability also.<br/>
+<br/>
+Client asks for name of object with ID x. Server has to reply with ID + name. Client automatically knows names of items. Hence it only asks only for NPC/Player names nearby, but shows bars of items plus NPCs.<br/>
+<br/>
+Client request has 7 bytes, server-reply 37. Triggered by Crtl + Shift.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x99" href='#TOP'>[^]</a></div><b>Packet Name: </b>Give Boat/House Placement View<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x99<BR />
+</b>Sent By:
+Both<BR />
+Size: 26 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[1] request (0x01 from server, 0x00 from client) <br/>
+BYTE[4] ID of deed <br/>
+BYTE[12] unknown (all 0)<br/>
+BYTE[2] multi model (item model - 0x4000)<br/>
+BYTE[6] unknown (all 0)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB3" href='#TOP'>[^]</a></div><b>Packet Name: </b>Chat Text<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB3<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] Length<br/>
+BYTE[3] Unicode Language<br/>
+BYTE[2] UnKNOWN(00 00)<br/>
+BYTE[1] Text/Command Type<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+Type 0x41 (Change Password):<br/>
+BYTE[?] Unicode Password<br/>
+BYTE[2] Null Terminator (00 00)<br/>
+<br/>
+Type 0x58 (Close):<br/>
+BYTE[2] Null Terminator (00 00)<br/>
+<br/>
+Type 0x61 (Message):<br/>
+BYTE[?] Unicode Message<br/>
+BYTE[2] Null Terminator (00 00)<br/>
+<br/>
+Text 0x62 (Join Conference):<br/>
+BYTE[2] Holder (0x0022)<br/>
+BYTE[?] Unicode conference name<br/>
+BYTE[2] Holder (0x0022)<br/>
+BYTE[2] Holder (0x0020)<br/>
+BYTE[?] Unicode password if pass req'd<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x63 (Create New Conference):<br/>
+BYTE[?] Unicode conference name<br/>
+BYTE[2] Holder (0x007b) if pass entered<br/>
+BYTE[?] Unicode conference pass if pass entered<br/>
+BYTE[2] Holder (0x007d) if pass entered<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x64 (Rename Conference):<br/>
+BYTE[?] Unicode conference name (all text after /rename )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x65 (Send Private Message):<br/>
+BYTE[?] Unicode name (all text after /msg )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x66 (Ignore):<br/>
+BYTE[?] Unicode name (all text after +ignore )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x67 (Stop Ignoring):<br/>
+BYTE[?] Unicode name (all text after -ignore )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x68 (Toggle Ignore):<br/>
+BYTE[?] Unicode name (all text after /ignore )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x69 (Grant Speaking Priveleges):<br/>
+BYTE[?] Unicode name (all text after +voice )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6A (Remove Speaking Priveleges):<br/>
+BYTE[?] Unicode name (all text after -voice )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6B (Toggle Speaking Priveleges):<br/>
+BYTE[?] Unicode name (all text after /voice )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6C (Grant Moderator Status):<br/>
+BYTE[?] Unicode name (all text after +ops )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6D (Remove Moderator Status):<br/>
+BYTE[?] Unicode name (all text after -ops )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6E (Toggle Moderator Status):<br/>
+BYTE[?] Unicode name (all text after /ops )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x6F (not receiving messages):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x70 (receiving messages):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x71 (Toggle receiving messages):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x72 (show my character name):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x73 (don't show my character name):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x74 (Toggle showing my character name):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x75 (Who is this player?):<br/>
+BYTE[?] Unicode text (all text after /whois )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x76 (Kick out of the conference?):<br/>
+BYTE[?] Unicode text (all text after /kick )<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x77 (only moderators have speaking priveleges by default):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x78 (everyone has speaking priveleges by default):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x79 (Toggle default speaking priveleges):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+<br/>
+Text 0x7A (emote)<br/>
+BYTE[?] Unicode text (all text after /emote or /em ):<br/>
+BYTE[2] Null Teriminator (0x0000)<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB8" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request/Char Profile<BR />
+Last Modified: 2009-03-01 08:15:24<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB8<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[1] mode (CLIENT ONLY! Does not exist in server message.)<br/>
+BYTE[4] id<br/>
+<b>If request, ends here.<br/>
+If Update request</b><br/>
+<ul>
+<li>BYTE[2] cmdType (0x0001 - Update)</li>
+<li>BYTE[2] msglen (# of unicode characters)</li>
+<li>BYTE[msglen][2] new profile, in unicode, not null terminated.</li>
+</ul>
+<b>Else If from server</b><br/>
+<ul>
+<li>BYTE[?] title (not unicode, null terminated.)</li>
+<li>BYTE[?][2] static profile  ( unicode string can't be edited )</li>
+<li>BYTE[2] (0x0000) (static profile terminator)</li>
+<li>BYTE[?][2] profile (in unicode, can be edited)</li>
+<li>BYTE[2] (0x0000) (profile terminator)</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBB" href='#TOP'>[^]</a></div><b>Packet Name: </b>Ultima Messenger<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBB<BR />
+</b>Sent By:
+Both<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] id1<br/>
+BYTE[4] id2<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBD" href='#TOP'>[^]</a></div><b>Packet Name: </b>Client Version<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBD<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+If (client-version of packet)<br/>
+BYTE[len-3] string stating the client version (0 terminated)  (like: "1.26.4")<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Client version : client sends its version string (e.g "3.0.8j")<br/>
+Server version : 0xbd 0x0 0x3 (client replies with client version of this packet)<br/>
+<br/>
+Clients sends a client version of this packet ONCE at login (without server request.)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBE" href='#TOP'>[^]</a></div><b>Packet Name: </b>Assist Version<BR />
+Last Modified: 2009-03-01 08:36:37<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBE<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+<b>If (client-version of packet)</b> <br/>
+<ul>
+<li>BYTE[4] Assist version (numeric)</li>
+<li>BYTE[?] string stating the client version (0 terminated)  (like: "1.26.4")</li></ul>
+<b>If (server-version of packet)</b><br/>
+<ul><li>BYTE[4] Allowed Assist version (numeric)</li></ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Server requests assist version via server side version of this packet, client replies with client side version of packet. If it's a client without Assist, allowed Assists version from server is relayed in client version packet. Because assist never has assist version 0, that would be a way to disallow it.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBF" href='#TOP'>[^]</a></div><b>Packet Name: </b>General Information Packet<BR />
+Last Modified: 2009-03-02 05:29:11<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBF<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[2] subcmd<br/>
+BYTE[length-5] submessage/commands<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+<b>Subcommand 1: Initialize Fast Walk Prevention</b><br/>
+BYTE[4] key1<br/>
+BYTE[4] key2<br/>
+BYTE[4] key3<br/>
+BYTE[4] key4<br/>
+BYTE[4] key5<br/>
+BYTE[4] key6<br/>
+<br/>
+<b>Subcommand 2: Add key to Fast Walk Stack</b><br/>
+BYTE[4] newkey<br/>
+<br/>
+<b>Subcommand 4: "Close Generic Gump"</b><br/>
+BYTE[4] dialogID // which gump to destroy (second ID in 0xB0 packet)<br/>
+BYTE[4] buttonId // response buttonID for packet 0xB1<br/>
+<br/>
+<b>Subcommand 5: Screen size </b><br/>
+BYTE[2] unknown1 , always 0 ?<br/>
+BYTE[2] X<br/>
+BYTE[2] Y<br/>
+BYTE[2] unknown2<br/>
+<br/>
+<b>---- Start of Subcommand 0x6 ----</b><br/>
+<b>Subcommand 6: Party System</b><br/>
+Subsubcommands for 6:<br/>
+Subsubcommand 1: Add a party member (4 bytes)<br/>
+BYTE[4] id (if 0, a targeting cursor appears)Client Message<br/>
+<br/>
+<b>Subsubcommand 1: Add party member(s) (1+ numMembers*4)</b><br/>
+BYTE[1] number of Members (total number of members in the party)<br/>
+Then, for each member in numMembers:<br/>
+BYTE[4] id<br/>
+Server Message<br/>
+<br/>
+<b>Subsubcommand 2: Remove a party member (4 bytes)</b><br/>
+BYTE[4] id (if 0, a targeting cursor appears)<br/>
+Client message<br/>
+<br/>
+<b>Subsubcommand 2: Remove a party member (? Bytes)</b><br/>
+BYTE[1] number of Members (total number of members in the new party)<br/>
+BYTE[4] idofPlayerRemoved<br/>
+Then, for each member in numMembers:<br/>
+BYTE[4] id<br/>
+Server message<br/>
+<br/>
+<b>Subsubcommand 3: Tell party member a message (Variable # of bytes)</b><br/>
+BYTE[4] id (of target, from client, of source, from server)<br/>
+BYTE[n][2] Null terminated Unicode message.<br/>
+Client & Server Message<br/>
+<br/>
+<b>Subsubcommand 4: Tell full party a message (Variable # of bytes)</b><br/>
+BYTE[n][2] Null terminated Unicode message.<br/>
+Client Message.<br/>
+<br/>
+<b>Subsubcommand 4: Tell full party a message (Variable # of bytes)</b><br/>
+BYTE[4] id (of source)<br/>
+BYTE[n][2] Null terminated Unicode message.<br/>
+Server Message<br/>
+<br/>
+<b>Subsubcommand 6: Party Can Loot Me?  (1 byte)</b><br/>
+BYTE[1] canloot (0=no, 1=yes)<br/>
+Client message<br/>
+<br/>
+<b>Subsubcommand 7: party invitation?</b><br/>
+BYTE[4] serial (party leader)<br/>
+<br/>
+<b>Subsubcommand 8: Accept join party invitation (4 bytes)</b><br/>
+BYTE[4] serial (party leader)<br/>
+Client message<br/>
+<br/>
+<b>Subsubcommand 9: Decline join party invitation (4 bytes)</b><br/>
+BYTE[4] serial (party leader)<br/>
+Client message<br/>
+<b>---- End of Subcommand 0x6 ----</b><br/>
+<br/>
+<b>Subcommand 8: Set cursor hue / Set MAP</b><br/>
+BYTE[1] hue  (0 = Felucca, unhued / BRITANNIA map.  1 = Trammel, hued gold / BRITANNIA map, 2 = (switch to) ILSHENAR map)<br/>
+<br/>
+<b>Subcommand 0x0a: wrestling stun</b><br/>
+Sent by using the client Wrestle Stun Macro key in Options. This is no longer used since AoS was introduced. The Macro selection that used it was removed.<br/>
+<br/>
+<b>Subcommand 0x0b: Client Language</b><br/>
+BYTE[3] language  (ENU, for English) <br/>
+<br/>
+<b>Subcommand 0x0c: Closed Status Gump</b><br/>
+BYTE[4] id (character id)<br/>
+<br/>
+<b>Subcommand 0x0e: 3D Client Action</b><br/>
+BYTE[4] Animation ID. See Notes for list.<br/>
+<br/>
+<b>Subcommand 0x0f: unknown , send once at login</b><br/>
+BYTE[5] unknown (0a 00 00 00 07) here<br/>
+<br/>
+<b>Subcommand 0x10: unknown, related to 0xD6 Mega Cliloc somehow</b><br/>
+BYTE[4] Item ID<br/>
+BYTE[4] Unknown<br/>
+<br/>
+<b>Subcommand 0x13: Request popup menu</b><br/>
+BYTE[4] id (character id)<br/>
+<br/>
+<b>Subcommand 0x14: Display Popup/context menu (2D and KR)</b><br/>
+BYTE[1]  unknown (0x00)<br/>
+BYTE[1]  subsubcommand (0x01 for 2D, 0x02 for KR)<br/>
+BYTE[4]  Serial <br/>
+BYTE[1]  Number of entries in the popup/context<br/>
+<br/>
+2D-client:<br/>
+loop Entries <br/>
+BYTE[2]  Entry  Tag (this will be returned by the client on selection)<br/>
+BYTE[2]  Text ID   ID is the file number for intloc#.language e.g intloc6.enu and the index into that<br/>
+BYTE[2]  Flags 0x00=enabled, 0x01=disabled, 0x02=arrow, 0x20 = color<br/>
+If (Flags = 0x20)<br/>
+ BYTE[2] color/hue; // rgb 1555 color (ex, 0 = transparent, 0x8000 = solid black, 0x1F = blue, 0x3E0 = green, 0x7C00 = red)<br/>
+Endif<br/>
+endloop(entries)<br/>
+<br/>
+KR-client:<br/>
+loop Entries <br/>
+BYTE[4]  Text ID Number?<br/>
+BYTE[2]  Index of entry (entry tag)?<br/>
+BYTE[2]  Flags 0x00=enabled, 0x01=disabled, 0x04 = highlighted<br/>
+endloop(entries)<br/>
+<br/>
+<b>Subcommand 0x15: Popup Entry Selection</b><br/>
+BYTE[4]   Character ID <br/>
+BYTE[2]   Entry Tag for line selected provided in subcommand 0x14 <br/>
+<br/>
+<b>Subcommand 0x17: Codex of wisdom</b><br/>
+BYTE[1]  unknown, always 1. if not 1, packet seems to have no effect <br/>
+BYTE[4]   msg number <br/>
+BYTE[1]   presentation (0: flashing, 1: directly opening)<br/>
+<br/>
+<b>Subcommand 0x18: Enable map-diff (files)</b><br/>
+BYTE[4]   Number of maps <br/>
+<b>For each map</b><br/>
+<ul>
+<li>BYTE[4] Number of map patches in this map</li>
+<li>BYTE[4] Number of static patches in this map</li>
+</ul>
+<br/>
+<b>Subcommand: 0x19: Extended stats</b><br/>
+BYTE[1]  subsubcommand (0x2 for 2D client, 0x5 KR) <br/>
+BYTE[4]  serial <br/>
+BYTE[1] unknown (always 0) <br/>
+BYTE[1] Lock flags (0 = up, 1 = down, 2 = locked, FF??)<br/>
+If(subsubcommand = 0x05 (KR))<br/>
+ If(Lock flags = 0xFF) //Update mobile status animation<br/>
+  BYTE[1] Status <br/>
+  BYTE[1] unknown (0x00) <br/>
+  BYTE[1] Animation <br/>
+  BYTE[1] unknown (0x00) <br/>
+  BYTE[1] Frame <br/>
+ else<br/>
+  BYTE[1] unknown (0x00) <br/>
+  BYTE[4] unknown (0x00000000)<br/>
+ endif<br/>
+endif<br/>
+<br/>
+<b>Subcommand: 0x1a: Extended stats</b><br/>
+BYTE[1]  stat // 0: str, 1: dex, 2:int <br/>
+BYTE[1]  status // 0: up, 1:down, 2: locked <br/>
+<br/>
+<b>Subcommand 0x1b: New Spellbook</b><br/>
+BYTE[2] unknown, always 1 <br/>
+BYTE[4] Spellbook serial <br/>
+BYTE[2] Item Id<br/>
+BYTE[2] scroll offset // 1==regular, 101=necro, 201=paladin, 401=bushido, 501=ninjitsu, 601=spellweaving<br/>
+BYTE[8] spellbook content // first bit of first byte = spell #1, second bit of first byte = spell #2, first bit of second byte = spell #8, etc <br/>
+<br/>
+<b>Subcommand 0x1c: Spell selected, client side</b><br/>
+BYTE[2]   unknown, always 2 <br/>
+BYTE[2]   selected spell(0-indexed)+scroll offset from sub 0x1b<br/>
+<br/>
+<b>Subcommand 0x1D: Send House Revision State</b><br/>
+byte[4] houseserial<br/>
+byte[4] revision state<br/>
+<br/>
+<b>Subcommand 0x1E: </b><br/>
+byte[4] houseserial<br/>
+<br/>
+<b>Subcommand 0x21: (AOS) Ability icon confirm.</b><br/>
+Note: no data, just (bf 00 05 21)<br/>
+<br/>
+<b>Subcommand  0x22: Damage</b><br/>
+BYTE[2] unknown, always 1 <br/>
+BYTE[4] Serial <br/>
+BYTE[1] Damage // how much damage was done ?<br/>
+<br/>
+<b>Subcommand  0x24: UnKnown</b><br/>
+BYTE[1] unknown. UOSE Introduced<br/>
+<br/>
+<b>Subcommand 0x25: SE Ability Change</b><br/>
+BYTE[1] Ability ID<br/>
+BYTE[1] 0/1 On/Off<br/>
+<br/>
+<b>Subcommand 0x26: Mount Speed</b><br/>
+BYTE[1] 0=normal,1=fast,2=slow, >2=Hybrid movement?<br/>
+<br/>
+<b>Subcommand 0x2A: Change Race Request (only 2D, Server packet)</b><br/>
+BYTE[1] Female (1=true, 0=false)<br/>
+BYTE[1] Race (1=human, 2=elf, 255=error)<br/>
+<br/>
+<b>Subcommand 0x2A: Change Race Response (only 2D, Client packet)</b><br/>
+BYTE[2] Skin color<br/>
+BYTE[2] Hair style<br/>
+BYTE[2] Hair color<br/>
+BYTE[2] Beard style<br/>
+BYTE[2] Beard color<br/>
+<br/>
+<b>Subcommand 0x2C: Use targeted item (client side packet)</b><br/>
+Byte[4] Item Serial<br/>
+Byte[4] Target Serial<br/>
+<br/>
+<b>Subcommand 0x2D: Cast targeted spell (client side packet)</b><br/>
+Byte[2] Spell ID<br/>
+Byte[4] Target Serial<br/>
+<br/>
+<b>Subcommand 0x2E: Use targeted skill (client side packet)</b><br/>
+Byte[2] Skill ID (1 to 55, if Skill Id = 0 -> last skill)<br/>
+Byte[4] Target Serial<br/>
+<br/>
+<b>Subcommand 0x2F: KR House Menu Gump</b><br/>
+todo: there are a lot of subsub commands...<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+<b>Subcommand 1:</b> Server Sent. This sets up stack on the client and whenever it moves, it takes the top value from this stack and uses it.  (key1 starts at the top, key6 at the bottom)<br/>
+<br/>
+<b>Subcommand 2:</b> Server Sent. This key is added to the top of the stack.  In other words, it's the one that will be used next.  Basically, the other 5 only get used when the client is sending moves faster than the server is responding.<br/>
+<br/>
+<b>Subcommand 4:</b> Server Sent.<br/>
+<br/>
+<b>Subcommand 5:</b> Client Sent.<br/>
+<br/>
+<b>Subcommand 6:</b> Sent by both. Contains subcommands for 0x6 for the party system. Be sure you check the packet listing good before attempting these.<br/>
+<br/>
+<b>Subcommand 8:</b> Server Sent.<br/>
+<br/>
+<b>Subcommand a:</b> Read above. Client Sent.<br/>
+<br/>
+<b>Subcommand b:</b> Client Sent once at login of character.<br/>
+<br/>
+<b>Subcommand c:</b> Client Sent when they close their status bar.<br/>
+<br/>
+<b>Subcommand e:</b> Client Sent. Server responds with Play Animation packets.<br/>
+List of animation IDs:<br/>
+00 00 00 06 - Yawn<br/>
+00 00 00 15 - Faint<br/>
+00 00 00 20 - Bow<br/>
+00 00 00 21 - Salute<br/>
+00 00 00 64 - Applaud<br/>
+00 00 00 66 - Argue<br/>
+00 00 00 68 - Blow Kiss<br/>
+00 00 00 69 - Formal Bow<br/>
+00 00 00 6B - Cover Ears<br/>
+00 00 00 6C - Curtsey<br/>
+00 00 00 6D - Jig<br/>
+00 00 00 6E - Folk Dance<br/>
+00 00 00 6F - Dance<br/>
+00 00 00 70 - Tribal Dance<br/>
+00 00 00 71 - Fold Arms<br/>
+00 00 00 72 - Impatient<br/>
+00 00 00 73 - Lecture<br/>
+00 00 00 74 - Nod<br/>
+00 00 00 75 - Point<br/>
+00 00 00 77 - Greet Salute<br/>
+00 00 00 79 - Shake Head<br/>
+00 00 00 7B - Victory<br/>
+00 00 00 7C - Celebrate<br/>
+00 00 00 7D - Wave<br/>
+00 00 00 7E - Two Handed Wave<br/>
+00 00 00 7F - Long Distance Wave<br/>
+00 00 00 80 - What?<br/>
+<br/>
+<b>Subcommand f:</b> Client Sent.<br/>
+<br/>
+<b>Subcommand 13:</b> Client Sent.<br/>
+<br/>
+<b>Subcommand 14:</b> Server Sent. TextID is broken into two decimal parts:<br/>
+stringID / 1000: intloc fileID<br/>
+stringID % 1000: text index<br/>
+<br/>
+So, say you want the 123rd text entry of intloc06, the stringID would be 6123<br/>
+<br/>
+<b>Subcommand 15:</b> Client Sent.<br/>
+<br/>
+<b>Subcommand 17:</b> Server Sent. Shows codex of wisdom's text #msg.  (msg is linearised (including sub indices) index number starting with 1).<br/>
+<br/>
+<b>Subcommand 18:</b> Server Sent. Number of maps: currently 3 (0 = Fellucca, 1 = Trammel, and 2 = Ilshenar). This packet is sent by the server to the client, telling the client to use the mapdif* and stadif* files for patching map and statics.<br/>
+<br/>
+<b>Subcommand 19:</b> Server Sent. Is sent after the 0x11 packet to enable the stat locks and show their states on 4.x+ clients.<br/>
+<br/>
+<b>Subcommand 1a:</b> Client Sent. Stat Lock change packet. Sent when client changes the lock state for a stat on the status bar.<br/>
+<br/>
+<b>Subcommand 1b:</b> Server Sent. Related to new spell packet 0xBF Subcommand 0x1C.<br/>
+<br/>
+<b>Subcommand 1c:</b> Client Sent. Related to new spellbook packet 0xBF Subcommand 0x1b.<br/>
+<br/>
+<b>Subcommand 1d:</b> Server Sent. Part of AoS Custom Housing. Sends a house Revision number for handling client multi cache. If revision is newer than what client has it asks for the new multi packets to cache it.<br/>
+<br/>
+<b>Subcommand 1e:</b> Client Sent. Part of AoS Custom Housing. Sends a houses ID number back after recieving the 0x1D subcommand<br/>
+<br/>
+<b>Subcommand 21:</b> Server Sent. This is sent to reset the color of the icons, and also sent when the server denies the ability attempt (not enough skill or mana).<br/>
+<br/>
+<b>Subcommand 22:</b> Server Sent. Packet for displaying damage dealt above the mobs head.<br/>
+<br/>
+<b>Subcommand 24:</b>  Client Sent. Unknown.<br/>
+<br/>
+<b>Subcommand 0x25:</b> Server Sent. Toggles SE Abilities.<br/>
+<br/>
+<b>Subcommand 0x26:</b> Server Sent. Toggles Running at mount speed, even when not mounted.<br/>
+<br/>
+<b>Subcommand 0x2C:</b> Client Sent. For use with the new Bandage Self client macro. Introduced in 5.0.4x<br/>
+<br/>
+<b>Subcommand 0x2D:</b> Spell Ids<br/>
+0x01 - 0x40 - Mage Spells<br/>
+0x65 - 0x75 - Necromancer Spells<br/>
+0xC9 - 0xD2 - Paladin Spells<br/>
+0x91 - 0x96 - Samurai Spells<br/>
+0xF5 - 0xFC - Ninja Spells<br/>
+0x59 - 0x68 - Spellweaving Spells<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC2" href='#TOP'>[^]</a></div><b>Packet Name: </b>Unicode TextEntry<BR />
+Last Modified: 2009-03-01 07:58:48<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC2<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] length<br/>
+BYTE[4] player id <br/>
+BYTE[4] message id<br/>
+If (server_version of this packet)<br/>
+<ul>
+<li>BYTE[10] all 0's .. have to be there, otherwise client crash</li>
+</ul>
+If (client_version)<br/>
+<ul>
+<li>BYTE[4] unknown, always 1</li>
+<li>BYTE[3] language code, i.e. DEA, ENU etc.</li>
+<li>BYTE[?] unicode Text</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Client version is the reply packet. Server starts with a server side 0xc2. server can pick any message id to identify it. The next text entry from client after 0xc2 server side is client reply with a 0xc2 sent back.  First 11 bytes relayed from server packet, plus 0 0 0 1 plus 3 bytes language code + Unicode text. Server side packet always has length 0x15.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC8" href='#TOP'>[^]</a></div><b>Packet Name: </b>Client View Range<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC8<BR />
+</b>Sent By:
+Both<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] range<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Range: how far away client wants to see (=get send) items/npcs<br/>
+Since client 3.0.8o it actually got activated.(in a useful way) When increase/decrease macro send, client sends a 0xc8. If and only if erver "relays" the packet (sending back the same data) range stuff gets activated client side.<br/>
+<br/>
+"Greying" has no packet, purely client internal.<br/>
+<br/>
+Minimal value:5, maximal: 18<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC9" href='#TOP'>[^]</a></div><b>Packet Name: </b>Get Area Server Ping<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC9<BR />
+</b>Sent By:
+Both<BR />
+Size: 6 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] sequence // initially 1, wraps after 255 to 0<br/>
+BYTE[4] tickcount<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Client sends packet with it's tick count. Server replies with same packetID/sequence and it's own tick count. Over a few packets, the client can deduct a reasonably accurate ping number. Currently only used/ implemented in god client<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xCA" href='#TOP'>[^]</a></div><b>Packet Name: </b>Get User Server Ping<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xCA<BR />
+</b>Sent By:
+Both<BR />
+Size: 6 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1]  sequence // initially 1, wraps after 255 to 0<br/>
+BYTE[4] tickcount<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+See 0xC9<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Configuration File<BR />
+Last Modified: 2009-03-01 08:40:15<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD0<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] length<br/>
+BYTE[1] type - file type, not sure of precise values <br/>
+BYTE[length-4] unknown encoded in some form<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Sent if (flag & 0x02) in packet 0xA9<br/>
+Probably used for saving client configuration files server side. OSI used it for the IGR shard only that is not anymore. Not sure what configuration files are, perhaps those in /desktop/player dir<br/>
+<br/>
+Encoding/(compression?) completely unknown<br/>
+Note: there's a client and server version of it.<br/>
+If on, client sends them 5 times (5 files)  at login.<br/>
+After logout (0xd1) it expects server versions of 0xd0 and finally a server version of 0xd1<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Logout Status<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD1<BR />
+</b>Sent By:
+Both<BR />
+Size: 2 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] unknown // always 1<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Client sends on logout if (flag & 0x02) in packet 0xA9, <br/>
+when server responds with same packet, client finishes logging out<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD4" href='#TOP'>[^]</a></div><b>Packet Name: </b>*New* Book Header<BR />
+Last Modified: 2009-03-01 08:40:56<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD4<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] length <br/>
+BYTE[4] book ID <br/>
+BYTE[1] flag1 <br/>
+BYTE[1] flag2 <br/>
+BYTE[2] number of pages <br/>
+BYTE[2] length of author string (0 terminator included) <br/>
+BYTE[?] author (ASCII, 0 terminated) <br/>
+BYTE[2] length of title string (0 terminator included) <br/>
+BYTE[?] title string<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Packet sent from server when opening a book: opening book writeable: flag1+flag2 both 1 (opening readonly book: flag1+flag2 0, unverified though)<br/>
+<br/>
+client side: flag1+flag2 both 0, number of pages 0.<br/>
+<br/>
+Example::<br/>
+Opening books goes like this:<br/>
+open book -> <br/>
+server sends 0xd4(title + author)<br/>
+server sends 0x66 with all book data "beyond" title + author<br/>
+<br/>
+if title + author changed: client side 0xd4 send<br/>
+<br/>
+if other book pages changed: 0x66 client side send.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD7" href='#TOP'>[^]</a></div><b>Packet Name: </b>Generic AOS Commands<BR />
+Last Modified: 2009-03-06 04:46:05<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD7<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[2] Length<br/>
+BYTE[4] Player Serial<br/>
+BYTE[2] SubCommand to Follow<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+<b>SubCommand 0x02: Backup</b><br/>
+BYTE[1] 07<br/>
+<br/>
+SubCommand 0x03: Restore<br/>
+BYTE[1] 07<br/>
+<br/>
+SubCommand 0x04: Commit<br/>
+BYTE[1] 07<br/>
+<br/>
+SubCommand 0x05: DeleteItem<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[2] unknown (0)<br/>
+BYTE[2] item graphic<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] X Pos<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] Y Pos<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] z Pos (7)<br/>
+BYTE[1] terminator (0x07)<br/>
+<br/>
+SubCommand 0x06: AddItem<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[2] unknown (0)<br/>
+BYTE[2] itemGraphic<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] XPos<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] YPos<br/>
+BYTE[1] terminator (0x07)<br/>
+<br/>
+SubCommand 0x0C: Exit House Tool<br/>
+BYTE[1] unknwon (0x07)<br/>
+<br/>
+SubCommand 0x0D: Change Stairs<br/>
+BYTE[1] unknown (0x00)<br/>
+BYTE[2] X Position (Relative to center of house)<br/>
+BYTE[1] unknown (0x00)<br/>
+BYTE[2] Y Position (Relative to center of house)<br/>
+BYTE[1] unknown (0x00)<br/>
+<br/>
+SubCommand 0x0E: Synch Button<br/>
+BYTE[1] Unknown (0x07)<br/>
+<br/>
+SubCommand 0x10: Clear Button<br/>
+BYTE[1] Unknown (0x07)<br/>
+<br/>
+SubCommand 0x12: ChangeFloor<br/>
+BYTE[4] unknown (0)<br/>
+BYTE[1] Floor#<br/>
+BYTE[1] terminator (0x07)<br/>
+<br/>
+SubCommand 0x1A: Revert Button<br/>
+BYTE[1] Unknown (0x07)<br/>
+<br/>
+SubCommand 0x19: Combat Book Abilities<br/>
+BYTE[4] 00 00 00 00  = Unknown. Always like this in all my testing <br/>
+BYTE[1] The ability "number" used<br/>
+BYTE[1] 0A<br/>
+<br/>
+SubCommand 0x28: Guild Button<br/>
+BYTE[1] Unknown (0x07)<br/>
+<br/>
+SubCommand 0x32: Quest Button<br/>
+BYTE[1] Unknown (0x07)<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Submitted information. untested and unverified.<br/>
+<br/>
+Subcommand 0x02: This is sent when the client pushed the Backup button in the customization screen. Unsure what it triggers on the server since house building is totally handled client side until submitted.<br/>
+<br/>
+SubCommand 0x03: Sent when client pushes the Restore button in the customization menu. Will need testing to see exact purpose of 2 and 3 subs. Possible the server could request current "layout" that is not yet commited to save the design without commiting to be later restored with this command.<br/>
+<br/>
+SubCommand 0x04: Sent when client pushes the Commit Button.<br/>
+<br/>
+SubCommand 0x05: Sent when client chooses to destroy items.<br/>
+<br/>
+SubCommand 0x06: Sent when client Chooses to add items.<br/>
+<br/>
+SubCommand 0x0C: Sent when client pushes the Exit Button.<br/>
+<br/>
+SubCommand 0x0D: Sent when client adds stairs to the multi in edit mode.<br/>
+<br/>
+SubCommand 0x0E: Sent when client pushes the Synch Button.<br/>
+<br/>
+SubCommand 0x10: Sent when client pushes the Clear Button.<br/>
+<br/>
+SubCommand 0x12: Sent when client pushes the Change Floor Buttons.<br/>
+<br/>
+SubCommand 0x1A: Sent when client pushes the Revert Button.<br/>
+<br/>
+SubCommand 0x19: Sent when client pushes the icones from the combat book.<br/>
+The server uses an 0xBF Subcommand 0x21 Packet to cancel the red color of<br/>
+icons, and reset the status of them on client.<br/>
+Valid Ability Numbers:<br/>
+0x00 = Cancel Ability Attempt <br/>
+0x01 = Armor Ignore <br/>
+0x02 = Bleed Attack <br/>
+0x03 = Concusion Blow <br/>
+0x04 = Crushing Blow <br/>
+0x05 = Disarm <br/>
+0x06 = Dismount <br/>
+0x07 = Double Strike <br/>
+0x08 = Infecting <br/>
+0x09 = Mortal Strike <br/>
+0x0A = Moving Shot <br/>
+0x0B = Paralyzing Blow <br/>
+0x0C = Shadow Strike <br/>
+0x0D = Whirlwind Attack <br/>
+0x0E = Riding Swipe <br/>
+0x0F = Frenzied Whirlwind <br/>
+0x10 = Block <br/>
+0x11 = Defense Mastery <br/>
+0x12 = Nerve Strike <br/>
+0x13 = Talon Strike <br/>
+0x14 = Feint <br/>
+0x15 = Dual Wield <br/>
+0x16 = Double shot <br/>
+0x17 = Armor Peirce <br/>
+0x18 = Bladeweave <br/>
+0x19 = Force Arrow <br/>
+0x1A = Lightning Arrow <br/>
+0x1B = Psychic Attack <br/>
+0x1C = Serpent Arrow <br/>
+0x1D = Force of Nature<br/>
+<br/>
+SubCommand 0x28: Sent when client pushes the Guild Button on the paperdoll.<br/>
+<br/>
+SubCommand 0x32: Sent when client pushes the Quest Button on the paperdoll.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xF1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Freeshard List<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xF1<BR />
+</b>Sent By:
+Both<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] Length<br/>
+BYTE[1] Sub command<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+Subcommand 0xFF:<br/>
+ From Client (UOG or CUO):<br/>
+<br/>
+ From Server:<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x73" href='#TOP'>[^]</a></div><b>Packet Name: </b>Ping Message<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x73<BR />
+</b>Sent By:
+Both?<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] seq<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x9A" href='#TOP'>[^]</a></div><b>Packet Name: </b>Console Entry Prompt<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x9A<BR />
+</b>Sent By:
+Both?<BR />
+Size: 16 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] objectID<br/>
+BYTE[4] prompt#<br/>
+BYTE[4] 0=request/esc, 1=reply<br/>
+BYTE[?] textstring (optional)<br/>
+BYTE terminator (0x00)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x00" href='#TOP'>[^]</a></div><b>Packet Name: </b>Create Character<BR />
+Last Modified: 2009-02-26 15:30:12<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x00<BR />
+</b>Sent By:
+Client<BR />
+Size: 104 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1]   Command<br/>
+BYTE[4]   pattern1 (0xedededed) <br/>
+BYTE[4]   pattern2 (0xffffffff) <br/>
+BYTE[1]   pattern3 (0x00) <br/>
+BYTE[30] char name <br/>
+BYTE[30] char password <br/>
+BYTE[1]    sex (see notes)<br/>
+BYTE[1]    str <br/>
+BYTE[1]    dex <br/>
+BYTE[1]    int <br/>
+BYTE[1]    skill1 <br/>
+BYTE[1]    skill1value <br/>
+BYTE[1]    skill2 <br/>
+BYTE[1]    skill2value <br/>
+BYTE[1]    skill3 <br/>
+BYTE[1]    skill3value <br/>
+BYTE[2]    skinColor <br/>
+BYTE[2]    hairStyle <br/>
+BYTE[2]    hairColor <br/>
+BYTE[2]    facial hair <br/>
+BYTE[2]    facial hair color <br/>
+BYTE[2]    location # from starting list <br/>
+BYTE[2]    unknown1 (Usually 0x00 in testing)<br/>
+BYTE[2]    slot<br/>
+BYTE[4]    clientIP <br/>
+BYTE[2]    shirt color<br/>
+BYTE[2]    pants color<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Note: pattern3 is set to 0xFF to early signal a Krrios client user, where it expects a 0xF0 | 0x00 before login confirm<br/>
+<br/>
+Sex: 0=Male Human, 1=Female Human, 2=Male Elf, 3=Female Elf<br/>
+Str, dex and int should always sum to 65.<br/>
+Str, dex and int should always be between 10 and 45, inclusive.<br/>
+Skill1, skill2, and skill3 should never be the same value.  <br/>
+Skill1, skill2, and skill3 should always be between 0 and 45, inclusive.<br/>
+Skill1value, skill2value, and skill3value should always sum to 100.<br/>
+Skill1value, skill2value, and skill3value should always be between 0 and 50, inclusive.<br/>
+SkinColor should always be between 0x3EA and 0x422, exclusive.<br/>
+HairColor and facialHairColor should always be between 0x44E and 0x4AD, exclusive.<br/>
+HairStyle should be between 0x203B and 0x204A, exclusive, and it should also exclude 0x203D to 0x2044, exclusive.<br/>
+FacialHairStyle should be between 0x203E and 0x204D<br/>
+Shirt color and Pants color need bounds checking too.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x01" href='#TOP'>[^]</a></div><b>Packet Name: </b>Disconnect Notification<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x01<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] 0xFFFFFFFF<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Sent only when client selects "Log Off" ingame, and returns to the main menu.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x02" href='#TOP'>[^]</a></div><b>Packet Name: </b>Move Request<BR />
+Last Modified: 2009-03-02 03:46:22<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x02<BR />
+</b>Sent By:
+Client<BR />
+Size: 7 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] direction<br/>
+BYTE[1] sequence number <br/>
+BYTE[4] fastwalk prevention key<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Sequence number starts at 0, after a reset.  However, if 255 is reached, the next seq # is 1, not 0.<br/>
+<br/>
+Fastwalk prevention notes: each 0x02 pops the top element from fastwalk key stack. (0xbf sub1 init. fastwalk stack, 0xbf sub2 pushes an element to stack)<br/>
+If stack is empty key value is 0. (-> never set keys to 0 in 0xbf sub 1/2)<br/>
+Because client sometimes sends bursts of 0x02's DON'T check for a certain top stack value.<br/>
+The only safe way to detect fastwalk: push a key after EACH 0x21, 0x22, (=send 0xbf sub 2) check in 0x02 for stack emptyness.<br/>
+<br/>
+If empty -> fastwalk alert.<br/>
+Note that actual key values are irrelevant. (just don't use 0)<br/>
+Of course without perfect 0x02/0x21/0x22 synch (serverside) it's useless to use fastwalk detection.<br/>
+Last but not least: fastwalk detection adds 9 bytes per step and player !<br/>
+<br/>
+Direction Notes:<br/>
+0x00 - North<br/>
+0x01 - Northeast<br/>
+0x02 - East<br/>
+0x03 - Southeast<br/>
+0x04 - South<br/>
+0x05 - Southwest<br/>
+0x06 - West<br/>
+0x07 - Northwest<br/>
+<br/>
+Running affects the Direction number also. When running, it is Direction|0x80. Therefore direction becomes 0x80, 0x81, and so on.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x03" href='#TOP'>[^]</a></div><b>Packet Name: </b>Talk Request<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x03<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[1] SpeechType <br/>
+BYTE[2] Color<br/>
+BYTE[2] SpeechFont <br/>
+BYTE[?] msg - Null Terminated (blockSize - 8)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The various types of text is as follows:<br/>
+0x00 - Normal <br/>
+0x01 - Broadcast/System<br/>
+0x02 - Emote <br/>
+0x06 - System/Lower Corner<br/>
+0x07 - Message/Corner With Name<br/>
+0x08 - Whisper<br/>
+0x09 - Yell<br/>
+0x0A - Spell<br/>
+0x0D - Guild Chat<br/>
+0x0E - Alliance Chat<br/>
+0x0F - Command Prompts<br/>
+0xC0 - Encoded Commands<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x04" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request God Mode (God Client)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x04<BR />
+</b>Sent By:
+Client<BR />
+Size: 2 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1]  cmd<br/>
+BYTE[1]  mode (0=off, 1=on)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x05" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request Attack<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x05<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[4] ID to be attacked<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x06" href='#TOP'>[^]</a></div><b>Packet Name: </b>Double Click<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x06<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] ID of double clicked object<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x07" href='#TOP'>[^]</a></div><b>Packet Name: </b>Pick Up Item<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x07<BR />
+</b>Sent By:
+Client<BR />
+Size: 7 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[4] Item Serial<br/>
+BYTE[2] # of items in stack<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x08" href='#TOP'>[^]</a></div><b>Packet Name: </b>Drop Item<BR />
+Last Modified: 2009-03-02 03:49:49<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x08<BR />
+</b>Sent By:
+Client<BR />
+Size: 15 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[4] Item Serial<br/>
+BYTE[2] X Location <br/>
+BYTE[2] Y Location<br/>
+BYTE[1] Z Location<br/>
+BYTE[1] Backpack grid index (see notes)<br/>
+BYTE[4] Move Into Container Serial (FF FF FF FF drop to ground)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The backpack grid index exists since 6.0.1.7 2D and 2.45.5.6 KR.<br/>
+Older clients are sending 14 bytes without this grid index byte!<br/>
+<br/>
+Older Notes:<br/>
+3D clients sometimes sends 2 of them (bursts) for ONE drop action. The last one having -1's in X/Y locs.<br/>
+<br/>
+Be very careful how to handle this odd "bursts" server side, neither always process, nor always skipping is correct.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x09" href='#TOP'>[^]</a></div><b>Packet Name: </b>Single Click<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x09<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] ID of single clicked object<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x0A" href='#TOP'>[^]</a></div><b>Packet Name: </b>Edit (God Client)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x0A<BR />
+</b>Sent By:
+Client<BR />
+Size: 11<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[1] Subcommand<br/>
+BYTE[2] The new object's x-axis position. If Command is HackMove Request, this will be a boolean value (still 16-bit) representing the requested mode.<br/>
+BYTE[2] The new object's y-axis position.<br/>
+BYTE[2] The new object's id. If Command is Add New NPC, this is the template number.<br/>
+BYTE[1] The new object's z-axis position.<br/>
+BYTE[2] Hue/Color.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+Subcommand 4: Add New Dynamic Item.<br/>
+Subcommand 6: Hackmove Request.<br/>
+Subcommand 7: Add New NPC.<br/>
+Subcommand A: Add New Static Item.<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x12" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request Skill etc use<BR />
+Last Modified: 2009-03-02 04:21:47<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x12<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[2] blockSize <br/>
+BYTE[1] type <br/>
+Types Listed:<br/>
+<ul>
+  <li<b>0x24 ($) - skill</b></li>
+  <ul>
+    <li>BYTE[blockSize-4] skill (null terminated strings)</li>
+    <ul>
+      <li>"1 0" - anatomy</li>
+      <li>"2 0" - animal lore </li>
+      <li>"3 0" - item identification </li>
+      <li>"4 0" - arms lore </li>
+      <li>"6 0" - begging </li>
+      <li>"9 0" - peacemaking </li>
+      <li>"12 0" - cartography </li>
+      <li>"14 0" - detect hidden </li>
+      <li>"15 0" - entice </li>
+      <li>"16 0" - evaluate intelligence </li>
+      <li>"19 0" - forensic evaluation </li>
+      <li>"21 0" - hiding </li>
+      <li>"22 0" - provocation </li>
+      <li>"23 0" - inscription </li>
+      <li>"30 0" - poisoning </li>
+      <li>"32 0" - spirit speak </li>
+      <li>"33 0" - stealing </li>
+      <li>"35 0" - taming </li>
+      <li>"36 0" - taste identification </li>
+      <li>"38 0" - tracking </li>
+    </ul>
+  </ul>
+  <li><b>0x56 (V) - Macro'd Spell </b></li>
+  <ul>
+    <li>BYTE[blockSize-4] Spell (null terminated strings) </li>
+    <ul>
+      <li>"2" - Create Food </li>
+      <li>"3" - Feeblemind </li>
+      <li>"4" - Heal </li>
+      <li>"5" - Magic Arrow </li>
+      <li>"6" - Night Sight </li>
+      <li>"7" - Reactive Armor </li>
+      <li>"8" - Weaken </li>
+      <li>"9" - Agility </li>
+      <li>"10" - Cunning </li>
+      <li>"11" - Cure </li>
+      <li>"12" - Harm </li>
+      <li>"13" - Magic Trap </li>
+      <li>"14" - Magic Untrap </li>
+      <li>"15" - Protection </li>
+      <li>"16" - Strength </li>
+      <li>"17" - Bless </li>
+      <li>"18" - Fireball </li>
+      <li>"19" - Magic Lock </li>
+      <li>"20" - Poison </li>
+      <li>"21" - Telekenisis </li>
+      <li>"22" - Teleport </li>
+      <li>"23" - Unlock </li>
+      <li>"24" - Wall of Stone </li>
+      <li>"25" - Arch Cure </li>
+      <li>"26" - Arch Protection </li>
+      <li>"27" - Curse </li>
+      <li>"28" - Fire Field </li>
+      <li>"29" - Greater Heal </li>
+      <li>"30" - Lightning </li>
+      <li>"31" - Mana Drain </li>
+      <li>"32" - Recall </li>
+      <li>"33" - Blade Spirit </li>
+      <li>"34" - Dispel Field </li>
+      <li>"35" - Incognito </li>
+      <li>"36" - Reflection </li>
+      <li>"37" - Mind Blast </li>
+      <li>"38" - Paralyze </li>
+      <li>"39" - Poison Field </li>
+      <li>"40" - Summon Creature </li>
+      <li>"41" - Dispel </li>
+      <li>"42" - Energy Bolt </li>
+      <li>"43" - Explosion </li>
+      <li>"44" - Invisibility </li>
+      <li>"45" - Mark </li>
+      <li>"46" - Mass Curse </li>
+      <li>"47" - Paralyze Field </li>
+      <li>"48" - Reveal </li>
+      <li>"49" - Chain Lightning </li>
+      <li>"50" - Energy Field </li>
+      <li>"51" - Flame Strike </li>
+      <li>"52" - Gate </li>
+      <li>"53" - Mana Vampire </li>
+      <li>"54" - Mass Dispel </li>
+      <li>"55" - Meteor Shower </li>
+      <li>"56" - Polymorph </li>
+      <li>"57" - Earthquake </li>
+      <li>"58" - Energy Vortex </li>
+      <li>"59" - Ressurection </li>
+      <li>"60" - Summon Air Elemental </li>
+      <li>"61" - Summon Daemon </li>
+      <li>"62" - Summon Earth Elemental </li>
+      <li>"63" - Summon Fire Elemental </li>
+      <li>"64" - Summon Water Elemental </li>
+    </ul>
+  </ul>
+  <li><b>0x58 (X) - Open Door</b> </li>
+  <ul>
+    <li>BYTE[1] null termination (0x00) </li>
+  </ul>
+  <li><b>0xc7 - action</b></li>
+  <ul>
+    <li>BYTE[blockSize-4] Action (null terminated strings) </li>
+    <ul>
+      <li>"bow" </li>
+      <li>"salute"</li>
+    </ul>
+  </ul>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x13" href='#TOP'>[^]</a></div><b>Packet Name: </b>Drop->Wear Item<BR />
+Last Modified: 2009-03-02 05:08:35<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x13<BR />
+</b>Sent By:
+Client<BR />
+Size: 10 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[4] itemid <br/>
+BYTE layer (layer of player) <br/>
+BYTE[4] playerID<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+1.) The Layer should not be trusted.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x14" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Elevation (God Client)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x14<BR />
+</b>Sent By:
+Client<BR />
+Size: 6<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[2] Map X Coord<br/>
+BYTE[2] Map Y Coord<br/>
+BYTE[1] Z Amount to alter the map tile's elevation by<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x16" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request Script Names<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x16<BR />
+</b>Sent By:
+Client<BR />
+Size: 1<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x34" href='#TOP'>[^]</a></div><b>Packet Name: </b>Get Player Status<BR />
+Last Modified: 2009-02-17 20:13:39<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x34<BR />
+</b>Sent By:
+Client<BR />
+Size: 10 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[4] Unknown(0xedededed) <br/>
+BYTE[1] Type <br/>
+BYTE[4] Mobile Serial<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Types:<br/>
+0x00: God Client (packet unknown)<br/>
+0x04: Basic Status (Packet 0x11)<br/>
+0x05: Request Skills (Packet 0x3A)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x35" href='#TOP'>[^]</a></div><b>Packet Name: </b>Add Resource (God Client)<BR />
+Last Modified: 2009-02-17 20:14:52<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x35<BR />
+</b>Sent By:
+Client<BR />
+Size: 653<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[1] 0 (Unknown)<br/>
+BYTE[1] 1 (Unknown)<br/>
+BYTE[2] Tile Type to attach new resource too. If 0x8000+ is for map tiles.<br/>
+BYTE[127] Internal Resource Name.<br/>
+BYTE[1] 00 Null Terminator.<br/>
+BYTE[127] Food Resource Name.<br/>
+BYTE[1] 00 Null Terminator.<br/>
+BYTE[127] Shelter Resource Name.<br/>
+BYTE[1] 00 Null Terminator.<br/>
+BYTE[127] Desire Resource Name.<br/>
+BYTE[1] 00 Null Terminator.<br/>
+BYTE[127] Production Resource Name.<br/>
+BYTE[1] 00 Null Terminator.<br/>
+BYTE[4] If set to one, then make a consumer if excess in world.<br/>
+BYTE[4] If set to one, then make a producer if excess in bank.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x37" href='#TOP'>[^]</a></div><b>Packet Name: </b>Move Item (God Client)<BR />
+Last Modified: 2009-02-17 20:17:31<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x37<BR />
+</b>Sent By:
+Client<BR />
+Size: 8<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[4] Serial to move<br/>
+BYTE[1] Z To alter by ?<br/>
+BYTE[1] Y to alter by ?<br/>
+BYTE[1] X to alter by ?<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x38" href='#TOP'>[^]</a></div><b>Packet Name: </b>Pathfinding in Client<BR />
+Last Modified: 2009-02-17 20:20:54<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x38<BR />
+</b>Sent By:
+Client<BR />
+Size: 7 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[2] X<br/>
+BYTE[2] Y<br/>
+BYTE[2] Z<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Only works for player played by client.<br/>
+x,y,z have to be in range (check packet 0xc8 for range details) from players current location. Packet has to be sent 19 times or more in a row, otherwise it does not do anything, relatively speaking, on OSI servers.<br/>
+<br/>
+If all this satisfied it does a path finding like action for the character.<br/>
+<br/>
+location of destination is displayed above players head (cannot be disabled).<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x3B" href='#TOP'>[^]</a></div><b>Packet Name: </b>Buy Item(s)<BR />
+Last Modified: 2009-03-02 04:23:47<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x3B<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] vendorID<br/>
+BYTE[1] flag<br/>
+<ul>
+<li>0x00 - no items following</li>
+<li>0x02 - items following</li>
+</ul>
+<b>For each item</b><br/>
+<ul>
+<li>BYTE[1] (0x1A)</li>
+<li>BYTE[4] itemID (from 3C packet)</li>
+<li>BYTE[2] # bought </li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x5D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Login Character<BR />
+Last Modified: 2009-03-02 04:24:27<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x5D<BR />
+</b>Sent By:
+Client<BR />
+Size: 73 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] pattern1 (0xedededed)<br/>
+BYTE[30] char name (0 terminated)<br/>
+BYTE[33] unknown, mostly 0's  <br/>
+(Byte# 0x27, 0x28, 0x30  seem to be the only non 0's of these 33 bytes. Perhaps password data that's not send anymore)<br/>
+BYTE slot choosen (0-based)<br/>
+BYTE[4] clientIP<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x69" href='#TOP'>[^]</a></div><b>Packet Name: </b>Change Text/Emote Colors<BR />
+Last Modified: 2009-03-02 05:09:03<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x69<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[2] unknown1<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The client sends two of these independent of the color chosen. It sends two of them in quick succession as part of the "same" packet. The unknown1 is 0x00 0x01 in the first and 0x00 0x02 in the second.<br><br/>
+This message has been removed.  It is no longer used.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x72" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request War Mode<BR />
+Last Modified: 2009-03-02 05:05:48<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x72<BR />
+</b>Sent By:
+Client<BR />
+Size: 5 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] flag<br/>
+<ul>
+<li>0x00 - Normal</li>
+<li>0x01 - Fighting</li>
+</ul>
+BYTE[3] unknown1 (always 00 32 00 in testing)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Server replies with 0x77 packet<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x75" href='#TOP'>[^]</a></div><b>Packet Name: </b>Rename Character<BR />
+Last Modified: 2009-03-02 05:09:22<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x75<BR />
+</b>Sent By:
+Client<BR />
+Size: 35 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] id<br/>
+BYTE[30] new name<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x7D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Response To Dialog Box<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x7D<BR />
+</b>Sent By:
+Client<BR />
+Size: 13 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br />BYTE[4] dialogID (echoed back from 7C packet) <br />BYTE[2] menuid (echoed back from 7C packet) <br />BYTE[2] 1-based index of choice <br />BYTE[2] model # of choice <br />BYTE[2] color<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x80" href='#TOP'>[^]</a></div><b>Packet Name: </b>Login Request<BR />
+Last Modified: 2009-02-28 15:42:51<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x80<BR />
+</b>Sent By:
+Client<BR />
+Size: 62 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[30] Account Name<br/>
+BYTE[30] Password<br/>
+BYTE[1] NextLoginKey value from uo.cfg on client machine.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x83" href='#TOP'>[^]</a></div><b>Packet Name: </b>Delete Character<BR />
+Last Modified: 2009-03-02 05:09:36<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x83<BR />
+</b>Sent By:
+Client<BR />
+Size: 39 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[30] password<br/>
+BYTE[4] charIndex<br/>
+BYTE[4] clientIP<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x8D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Character Creation (KR)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x8D<BR />
+</b>Sent By:
+Client<BR />
+Size: 146 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1]   cmd <br/>
+BYTE[2]   packet length <br/>
+BYTE[4]   pattern1 (0xedededed) <br/>
+BYTE[4]   character index <br/>
+BYTE[30]  character name <br/>
+BYTE[30]  unknown (character password?)<br/>
+BYTE[1]   profession<br/>
+BYTE[1]   client flags <br/>
+BYTE[1]   gender (male=0, female=1) <br/>
+BYTE[1]   race (human=0, elf=1)<br/>
+BYTE[1]   strength <br/>
+BYTE[1]   dexterity <br/>
+BYTE[1]   intelligence <br/>
+BYTE[2]   skin color <br/>
+BYTE[4]   unknown (0) <br/>
+BYTE[4]   unknown (0) <br/>
+BYTE[1]   skill1 <br/>
+BYTE[1]   skill1 value <br/>
+BYTE[1]   skill2 <br/>
+BYTE[1]   skill2 value <br/>
+BYTE[1]   skill3 <br/>
+BYTE[1]   skill3 value <br/>
+BYTE[1]   skill4 <br/>
+BYTE[1]   skill4 value <br/>
+BYTE[25]  unknown (0) <br/>
+BYTE[1]   unknown (0x0B) <br/>
+BYTE[2]   hair style <br/>
+BYTE[2]   hair color <br/>
+BYTE[1]   unknown (0x0C) <br/>
+BYTE[4]   unknown (0) <br/>
+BYTE[1]   unknown (0x0D) <br/>
+BYTE[2]   shirt color <br/>
+BYTE[2]   shirt ID or serial?<br/>
+BYTE[1]   unknown (0x0F) <br/>
+BYTE[2]   face color <br/>
+BYTE[2]   face ID?<br/>
+BYTE[1]   unknown (0x10) <br/>
+BYTE[2]   beard style <br/>
+BYTE[2]   beard color<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+KR clients send this packet on character creation.<br/>
+Client Flags = 0x41 or 0x3F? Possibly there is a need to use the<br/>
+offset value from packet 0xE1.<br/>
+This packet needs to be tested and verified!!<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x91" href='#TOP'>[^]</a></div><b>Packet Name: </b>Game Server Login<BR />
+Last Modified: 2009-03-02 05:09:49<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x91<BR />
+</b>Sent By:
+Client<BR />
+Size: 65 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] key used<br/>
+BYTE[30] sid<br/>
+BYTE[30] password<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x9B" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request Help<BR />
+Last Modified: 2009-03-02 05:10:02<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x9B<BR />
+</b>Sent By:
+Client<BR />
+Size: 258 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[257] (0x00)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x9F" href='#TOP'>[^]</a></div><b>Packet Name: </b>Sell List Reply<BR />
+Last Modified: 2009-03-02 04:25:59<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x9F<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] shopkeeperID<br/>
+BYTE[2] itemCount<br/>
+<b>For each item, a structure containing:</b><br/>
+<ul>
+<li>BYTE[4] itemID</li>
+<li>BYTE[2] quantity</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Select Server<BR />
+Last Modified: 2009-03-02 05:10:12<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA0<BR />
+</b>Sent By:
+Client<BR />
+Size: 3 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] server # chosen<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA4" href='#TOP'>[^]</a></div><b>Packet Name: </b>Client Spy<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA4<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[148] Unknown (previously, this has had info such as your graphics card name, free HD space, number of processors, etc.)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA7" href='#TOP'>[^]</a></div><b>Packet Name: </b>Request Tip/Notice Window<BR />
+Last Modified: 2009-03-02 04:26:46<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA7<BR />
+</b>Sent By:
+Client<BR />
+Size: 4 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] last tip #<br/>
+BYTE[1] flag<br/>
+<ul>
+<li>0x00 - tips window</li>
+<li>0x01 - notice window</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAC" href='#TOP'>[^]</a></div><b>Packet Name: </b>Gump Text Entry Dialog Reply<BR />
+Last Modified: 2009-03-02 05:10:33<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAC<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[4] ID<br/>
+BYTE[1] type<br/>
+BYTE[1] index<br/>
+BYTE[3] unkown?<br/>
+BYTE[?] reply<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAD" href='#TOP'>[^]</a></div><b>Packet Name: </b>Unicode/Ascii speech request<BR />
+Last Modified: 2009-03-02 04:30:44<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAD<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[1] Type <br/>
+BYTE[2] Color <br/>
+BYTE[2] Font <br/>
+BYTE[4] Language (Null Terminated)<br/>
+<ul>
+<li>"enu" - United States English</li>
+<li>"des" - German Swiss</li>
+<li>"dea" - German Austria</li>
+<li>"deu" - German Germany</li>
+<li>... for a complete list see langcode.iff</li>
+</ul>
+<b>if (Type & 0xc0) </b><br/>
+<ul>
+<li>BYTE[1,5] Number of distinct Trigger words (NUMWORDS). 12 Bit number, Byte #13  = Bit 11..4 of NUMWORDS, Hi-Nibble of Byte #14 (Bit 7..4)  = Bit  0..3 of NUMWORDS</li>
+<li>BYTE[1,5] Index to speech.mul. 12 Bit number, Low Nibble of Byte #14 (Bits ..0) = Bits 11..8 of Index, Byte #15  = Bits 7..0 of Index
+<li>UNKNOWNS = ( (NUMWORDS div 2) *3 ) + (NUMWORDS % 2)  - 1. div = Integeger division, % = modulo operation, NUMWORDS >= 1. examples: UNKNOWNS(1)=0, UNKNOWNS(2)=2, UNKNOWNS(3)=3, UNKNOWNS(4)=5, UNKNOWNS(5)=6, UNKNOWNS(6)=8, UNKNOWNS(7)=9, UNKNOWNS(8)=11, UNKNOWNS(9)=12 </li>
+<li>BYTE[UNKNOWNS] Idea behind this is getting speech parsing load client side.</li>
+Thus this contains data OSI server use for easier parsing. It's client side hardcoded and exact details are unkown.<br/>
+<li>BYTE[?] Ascii Msg - Null Terminated(blockSize - (15+UNKNOWNS) )</li>
+else <br/>
+<li>BYTE[?][2] Unicode Msg - Null Terminated (blockSize - 12)</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+For pre 2.0.7 clients Type is always < 0xc0. Uox based emus convert post 2.0.7 data of this packet to pre 2.0.7 data if Type >=0xc0.<br/>
+<br/>
+(different view of it)<br/>
+If Mode&0xc0 then there are keywords (from speech.mul) present. <br/>
+Keywords:<br/>
+The first 12 bits = the number of keywords present. The keywords are included right after this, each one is 12 bits also. <br/>
+The keywords are padded to the closest byte. For example, if there are 2 keywords, it will take up 5 bytes. 12bits for the number, and 12 bits for each keyword. 12+12+12=36. Which will be padded 4 bits to 40 bits or 5 bytes.<br/>
+<br/>
+The various types of text is as follows:<br/>
+0x00 - Normal <br/>
+0x01 - Broadcast/System<br/>
+0x02 - Emote <br/>
+0x06 - System/Lower Corner<br/>
+0x07 - Message/Corner With Name<br/>
+0x08 - Whisper<br/>
+0x09 - Yell<br/>
+0x0A - Spell<br/>
+0x0D - Guild Chat<br/>
+0x0E - Alliance Chat<br/>
+0x0F - Command Prompts<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Gump Menu Selection<BR />
+Last Modified: 2009-03-02 04:32:14<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB1<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] length<br/>
+BYTE[4] id (first Id in 0xb0)<br/>
+BYTE[4] gumpId (second Id in 0xb0)<br/>
+BYTE[4] buttonId (which button perssed ? 0 if closed)<br/>
+BYTE[4] switchcount  (response info for radio buttons and checkboxes, any switches listed here are switched on)<br/>
+<b>For each switch</b><br/>
+<ul>
+<li>BYTE[4] SwitchId</li>
+</ul>
+BYTE[4] textcount  (response info for textentries)<br/>
+<b>For each textentry</b><br/>
+<ul>
+<li>BYTE[2] textId</li>
+<li>BYTE[2] textlength</li>
+<li>BYTE[length*2] Unicode text (not nullterminated)</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB5" href='#TOP'>[^]</a></div><b>Packet Name: </b>Open Chat Window<BR />
+Last Modified: 2009-03-02 05:10:50<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB5<BR />
+</b>Sent By:
+Client<BR />
+Size: 64 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[63] chatname, if known by client (all 00 if unknown) (name in unicode)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This message is very incomplete.  From the server, just know that it is 0xB5 len len, and pass the data through as is appropriate.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB6" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Help/Tip Request<BR />
+Last Modified: 2009-03-02 04:32:56<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB6<BR />
+</b>Sent By:
+Client<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] id<br/>
+BYTE[1] language # (1 for enu)<br/>
+BYTE[3] language name (enu for English - United states)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD9" href='#TOP'>[^]</a></div><b>Packet Name: </b>Spy On Client<BR />
+Last Modified: 2009-03-02 05:11:13<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD9<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] unknown (02) Always 0x02 in my tests<br/>
+BYTE[4] Unique Instance ID of UO<br/>
+BYTE[4] OS Major<br/>
+BYTE[4] OS Minor<br/>
+BYTE[4] OS Revision<br/>
+BYTE[1] CPU Manufacturer<br/>
+BYTE[4] CPU Family<br/>
+BYTE[4] CPU Model <br/>
+BYTE[4] CPU Clock Speed<br/>
+BYTE[1] CPU Quantity<br/>
+BYTE[4] Memory<br/>
+BYTE[4] Screen Width<br/>
+BYTE[4] Screen Height<br/>
+BYTE[4] Screen Depth<br/>
+BYTE[2] Direct X Version<br/>
+BYTE[2] Direct X Minor<br/>
+BYTE[76?] Video Card Description<br/>
+BYTE[4] Video Card Vendor ID<br/>
+BYTE[4] Video Card Device ID <br/>
+BYTE[4] Video Card Memory<br/>
+BYTE[1] Distribution<br/>
+BYTE[1] Clients Running<br/>
+BYTE[1] Clients Installed<br/>
+BYTE[1] Partial Insstalled<br/>
+BYTE[1] Unknown<br/>
+BYTE[4] Language Code<br/>
+BYTE[67] Unknown Ending<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Older clients, from mid-late 2003 was set at 149 bytes length, whereas newest clients 4.01+ are set to 199 ??<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xE0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Bug Report (KR)<BR />
+Last Modified: 2009-03-02 04:33:47<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xE0<BR />
+</b>Sent By:
+Client<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[2] packet length<br/>
+BYTE[3] unicode language<br/>
+BYTE[1] unknown (0x00)<br/>
+BYTE[2] Bug category (see notes)<br/>
+Byte[*] Bug Description in Unicode<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Bug categories:<br/>
+0x01 - World Environment<br/>
+0x02 - Wearables<br/>
+0x03 - Combat<br/>
+0x04 - UI<br/>
+0x05 - Crash<br/>
+0x06 - Stuck<br/>
+0x07 - Animations<br/>
+0x08 - Performance<br/>
+0x09 - NPCs<br/>
+0x0A - Creatures<br/>
+0x0B - Pets<br/>
+0x0C - Housing<br/>
+0x0D - Lost Item<br/>
+0x0E - Exploit<br/>
+0x0F - Other<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xE1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Character List Update (KR)<BR />
+Last Modified: 2009-03-02 04:34:39<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xE1<BR />
+</b>Sent By:
+Client<BR />
+Size: 9 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[2] packet length<br/>
+BYTE[2] unknown (0x0001)<br/>
+BYTE[4] KR client flags<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Probably KR Client Flags (always 0x2) is offset for 0x8D packet flags - character creation<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xEC" href='#TOP'>[^]</a></div><b>Packet Name: </b>Equip Macro (KR)<BR />
+Last Modified: 2009-03-02 04:35:14<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xEC<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[2] Length<br/>
+BYTE[2] Item Count<br/>
+Item Segments:<br/>
+<ul>
+<li>BYTE[4] Item Serial</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xED" href='#TOP'>[^]</a></div><b>Packet Name: </b>Unequip Item Macro (KR)<BR />
+Last Modified: 2009-03-02 04:35:39<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xED<BR />
+</b>Sent By:
+Client<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[2] Length<br/>
+BYTE[1] Layer Count<br/>
+Layer Segments:<br/>
+<ul>
+<li>BYTE[1] Layer ID </li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xEF" href='#TOP'>[^]</a></div><b>Packet Name: </b>KR/2D Client Login/Seed<BR />
+Last Modified: 2008-12-16 07:57:46<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xEF<BR />
+</b>Sent By:
+Client<BR />
+Size: 21 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] seed, usually the client local ip<br/>
+BYTE[4] client major version<br/>
+BYTE[4] client minor version<br/>
+BYTE[4] client revision version<br/>
+BYTE[4] client prototype version<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Normally older client send a 4 byte seed (local ip).<br/>
+Newer clients 2.48.0.3+ (KR) and 6.0.5.0+ (2D) are sending<br/>
+this packet.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x0B" href='#TOP'>[^]</a></div><b>Packet Name: </b>Damage<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x0B<BR />
+</b>Sent By:
+Server<BR />
+Size: 0x07<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br />BYTE[4] Serial to display above<br />BYTE[2] Damage dealt. 0xFFFF is max damage that can be displayed.<br /><br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+New damage dealt packet to display damage above a mob's head. This packet was introduced somewhere around 4.0.7a<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x11" href='#TOP'>[^]</a></div><b>Packet Name: </b>Status Bar Info<BR />
+Last Modified: 2009-02-28 15:27:04<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x11<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[2] Length<br/>
+BYTE[4] Player Serial<br/>
+BYTE[30] Player Name<br/>
+BYTE[2] Current Hit Points<br/>
+BYTE[2] Max Hit Points<br/>
+BYTE[1] Name change flag (0x1 = allowed, 0 = not allowed)<br/>
+BYTE[1] Status Type Flag<br/>
+BYTE[1] sex (0=male, 1=female)<br/>
+BYTE[2] Strength<br/>
+BYTE[2] Dexterity<br/>
+BYTE[2] Intelligence<br/>
+BYTE[2] Current Stamina<br/>
+BYTE[2] Max Stamina<br/>
+BYTE[2] Current Mana<br/>
+BYTE[2] Max Mana<br/>
+BYTE[4] Gold in backpack<br/>
+BYTE[2] Armor Rating<br/>
+BYTE[2] Weight<br/>
+<b>If (flag 5 or higher)</b><br/>
+<ul>
+<li>BYTE[2] Max Weight</li>
+<li>BYTE[1] Race</li>
+</ul>
+<b>If (flag 3 or higher )</b><br/>
+<ul>
+<li>BYTE[2] Statcap</li>
+<li>BYTE[1] Followers (Pets)</li>
+<li>BYTE[1] Followers Max Possible (Pets)</li>
+</ul>
+<b>If (flag 4 or higher)</b><br/>
+<ul>
+<li>BYTE[2] Fire Resist</li>
+<li>BYTE[2] Cold Resist</li>
+<li>BYTE[2] Poison Resist</li>
+<li>BYTE[2] Energy Resist</li>
+<li>BYTE[2] Luck</li>
+<li>BYTE[2] Damage Minimum</li>
+<li>BYTE[2] Damage Maximum</li>
+<li>BYTE[4] Tithing points (Paladin Books)</li>
+</ul>
+<b>If (flag 6 or higher)</b><br/>
+<ul>
+<li>BYTE[2] Hit Chance Increase</li>
+<li>BYTE[2] Swing Speed Increase</li>
+<li>BYTE[2] Damage Chance Increase</li>
+<li>BYTE[2] Lower Reagent Cost</li>
+<li>BYTE[2] Hit Points Regeneration</li>
+<li>BYTE[2] Stamina Regeneration</li>
+<li>BYTE[2] Mana Regeneration</li>
+<li>BYTE[2] Reflect Physical Damage</li>
+<li>BYTE[2] Enhance Potions</li>
+<li>BYTE[2] Defense Chance Increase</li>
+<li>BYTE[2] Spell Damage Increase</li>
+<li>BYTE[2] Faster Cast Recovery</li>
+<li>BYTE[2] Faster Casting</li>
+<li>BYTE[2] Lower Mana Cost</li>
+<li>BYTE[2] Strength Increase</li>
+<li>BYTE[2] Dexterity Increase</li>
+<li>BYTE[2] Intelligence Increase</li>
+<li>BYTE[2] Hit Points Increase</li>
+<li>BYTE[2] Stamina Increase</li>
+<li>BYTE[2] Mana Increase</li>
+<li>BYTE[2] Maximum Hit Points Increase</li>
+<li>BYTE[2] Maximum Stamina Increase</li>
+<li>BYTE[2] Maximum Mana Increase</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+For characters other than the player, Current Hitpoints and Max Hitpoints are not the actual values. Max Hitpoints is a fixed value, and Current Hitpoints works like a percentage. This is to assist in blocking injection style tools from seeing real hitpoint values.<br/>
+<br/>
+<b>Status Flag</b><br/>
+0x00: no more data following (end of packet here).<br/>
+0x01: More data after this flag following<br/>
+0x03: like 1, extended info<br/>
+0x04: even more extended info (client 4.0 and above)<br/>
+0x05: UOML introduced. 5.0?<br/>
+0x06: KR junk.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x17" href='#TOP'>[^]</a></div><b>Packet Name: </b>Health bar status update (KR)<BR />
+Last Modified: 2009-02-28 06:26:22<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x17<BR />
+</b>Sent By:
+Server<BR />
+Size: 12 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd <br/>
+BYTE[2] packet length<br/>
+BYTE[4] mobile serial <br/>
+BYTE[2] unknown 0x0001<br/>
+BYTE[2] health bar color (1=green, 2=yellow, >2=red?)<br/>
+BYTE[1] Flag (0=Remove health bar color, 1=Enable health bar color)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This packet is send to both 2D and KR client.<br/>
+When mobile is poisoned (green health bar), flag is determined as:<br/>
+0: remove poison, 1: poison level<br/>
+<br/>
+Green (Poison) overrides yellow. If both are set yellow appears only if green is disabled.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x1A" href='#TOP'>[^]</a></div><b>Packet Name: </b>Object Info<BR />
+Last Modified: 2009-03-01 20:18:57<BR />
+Modified By: Nando<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x1A<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] blockSize <br/>
+BYTE[4] itemID <br/>
+BYTE[2] model # <br/>
+<b>If (itemID & 0x80000000)</b><br/>
+<ul><li>BYTE[2] item count (or model # for corpses)</li></ul>
+<b>If (model & 0x8000)</b> <br/>
+<ul><li> BYTE Incr Counter (increment model by this #) </li></ul>
+BYTE[2] xLoc (only use lowest significant 15 bits) <br/>
+BYTE[2] yLoc <br/>
+<b>If (xLoc & 0x8000)</b> <br/>
+<ul><li> BYTE direction </li></ul>
+BYTE zLoc <br/>
+<b>If (yLoc & 0x8000)</b> <br/>
+<ul><li> BYTE[2] dye </li></ul> 
+<b>If (yLoc & 0x4000)</b><br/>
+<ul><li> BYTE flag byte (See top)</li></ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x1B" href='#TOP'>[^]</a></div><b>Packet Name: </b>Char Locale and Body<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x1B<BR />
+</b>Sent By:
+Server<BR />
+Size: 37 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[4] player serial<br/>
+BYTE[4] unknown. always 0<br/>
+BYTE[2] body type<br/>
+BYTE[2] xLoc <br/>
+BYTE[2] yLoc <br/>
+BYTE[1] Unknown 0<br/>
+BYTE[1] zLoc <br/>
+BYTE[1] facing<br/>
+BYTE[4] unknown 0x0<br/>
+BYTE[4] unknown 0x0<br/>
+BYTE[1] unknown 0x0<br/>
+BYTE[2] server boundary width minus eight.<br/>
+BYTE[2] server boundary Height<br/>
+BYTE[2] unknown 0x0<br/>
+BYTE[4] unknown 0x0<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Also known as "Login Confirmation". This packet must be sent by the server once during login in order to confirm the login happened fully.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x1C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Speech<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x1C<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] Packet len<br/>
+BYTE[4] itemID (FF FF FF FF = system) <br/>
+BYTE[2] model (item # - FF FF = system) <br/>
+BYTE[1] Type of Text<br/>
+BYTE[2] Text Color <br/>
+BYTE[2] Font <br/>
+BYTE[30] Name <br/>
+BYTE[?] Null-Terminated Msg (? = Packet length - 44)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This is the packet POL uses to send names when you single click on items or NPCs. This is a much more optimized method (packet size) than OSI's method by using 0xC1<br/>
+<br/>
+The various types of text is as follows:<br/>
+0x00 - Normal <br/>
+0x01 - Broadcast/System<br/>
+0x02 - Emote <br/>
+0x06 - System/Lower Corner<br/>
+0x07 - Message/Corner With Name<br/>
+0x08 - Whisper<br/>
+0x09 - Yell<br/>
+0x0A - Spell<br/>
+0x0D - Guild Chat<br/>
+0x0E - Alliance Chat<br/>
+0x0F - Command Prompts<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x1D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Delete Object<BR />
+Last Modified: 2009-03-02 05:11:38<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x1D<BR />
+</b>Sent By:
+Server<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[4] item/char id<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x20" href='#TOP'>[^]</a></div><b>Packet Name: </b>Draw Game Player<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x20<BR />
+</b>Sent By:
+Server<BR />
+Size: 19 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[4] creature id<br/>
+BYTE[2] bodyType<br/>
+BYTE[1] unknown1 (0)<br/>
+BYTE[2] skin color / hue<br/>
+BYTE[1] flag byte<br/>
+BYTE[2] xLoc<br/>
+BYTE[2] yLoc<br/>
+BYTE[2] unknown2 (0)<br/>
+BYTE[1] direction<br/>
+BYTE[1] zLoc<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Only used with the character being played by the client.<br/>
+<br/>
+01-10-2007<br/>
+Interesting, 0x12 Status Flag was a guild mates mount not in war mode.<br/>
+0x52 is for the same pets status flag while in war mode. Poisoned it stayed the same appropriately in each. 0x12 and 0x52<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x21" href='#TOP'>[^]</a></div><b>Packet Name: </b>Char Move Rejection<BR />
+Last Modified: 2009-03-02 05:11:57<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x21<BR />
+</b>Sent By:
+Server<BR />
+Size: 8 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[1] sequence #<br/>
+BYTE[2] xLoc<br/>
+BYTE[2] yLoc<br/>
+BYTE[1] direction<br/>
+BYTE[1] zLoc<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x23" href='#TOP'>[^]</a></div><b>Packet Name: </b>Dragging Of Item<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x23<BR />
+</b>Sent By:
+Server<BR />
+Size: 26 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[2] model #<br/>
+BYTE[3] unknown1<br/>
+BYTE[2] stack count<br/>
+BYTE[4] Source ID<br/>
+BYTE[2] Source xLoc<br/>
+BYTE[2] Source yLoc<br/>
+BYTE[1] Source zLoc<br/>
+BYTE[4] Target id<br/>
+BYTE[2] Target xLoc<br/>
+BYTE[2] Target yLoc<br/>
+BYTE[1] Target zLoc<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This does not actually move the item, it just displays an animation.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x24" href='#TOP'>[^]</a></div><b>Packet Name: </b>Draw Container<BR />
+Last Modified: 2009-03-02 05:12:21<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x24<BR />
+</b>Sent By:
+Server<BR />
+Size: 7 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE[4] item id <br/>
+BYTE[2] model-Gump (0x003c is  backpack)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x25" href='#TOP'>[^]</a></div><b>Packet Name: </b>Add Item To Container<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x25<BR />
+</b>Sent By:
+Server<BR />
+Size: 21 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] item serial to add<br/>
+BYTE[2] item ID (objtype)<br/>
+BYTE[1] unknown (00)<br/>
+BYTE[2] item amount<br/>
+BYTE[2] xLoc in container<br/>
+BYTE[2] yLoc in container<br/>
+BYTE[1] backpack grid index (see notes)<br/>
+BYTE[4] container serial<br/>
+BYTE[2] color<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The backpack grid index exists since 6.0.1.7 2D and 2.45.5.6 KR.<br/>
+For older clients server has to send 20 bytes without this grid index byte!!<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x26" href='#TOP'>[^]</a></div><b>Packet Name: </b>Kick Player<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x26<BR />
+</b>Sent By:
+Server<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[4] ID of GM who issued kick?<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x27" href='#TOP'>[^]</a></div><b>Packet Name: </b>Reject Move Item Request<BR />
+Last Modified: 2009-02-17 20:00:20<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x27<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[1] Reason (0x00)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Known Reason Bytes:<br/>
+0x0: Cannot lift the item<br/>
+0x1: Out of range<br/>
+0x2: Out of sight<br/>
+0x3: Belongs to another<br/>
+0x4: Already holding something<br/>
+0x5: empty message on client?<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x28" href='#TOP'>[^]</a></div><b>Packet Name: </b>Drop Item Failed/Clear Square (God Client?)<BR />
+Last Modified: 2009-02-17 20:05:29<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x28<BR />
+</b>Sent By:
+Server<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Byte[1] Command<br/>
+Byte[4] Serial of Item<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This is an older god client packet also according to Jerrith's original guide. Below is the packet info for history:<br/>
+<br/>
+BYTE[1] cmd<br/>
+BYTE[2] xLoc <br/>
+BYTE[2] yLoc<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x29" href='#TOP'>[^]</a></div><b>Packet Name: </b>Paperdoll Clothing Add Ack<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x29<BR />
+</b>Sent By:
+Server<BR />
+Size: 1 byte<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2A" href='#TOP'>[^]</a></div><b>Packet Name: </b>Blood<BR />
+Last Modified: 2009-02-17 20:07:53<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2A<BR />
+</b>Sent By:
+Server<BR />
+Size: 5 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Byte[1] Command<br/>
+Byte[4] Serial<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2B" href='#TOP'>[^]</a></div><b>Packet Name: </b>God Mode (God Client)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2B<BR />
+</b>Sent By:
+Server<BR />
+Size: 2<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[1] 0/1 For Disable/Enable God Mode in client.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Send this packet after receiving a Request God Mode packet.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Mob Attributes<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2D<BR />
+</b>Sent By:
+Server<BR />
+Size: 17 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] serial<br/>
+BYTE[2] hitsMax<br/>
+BYTE[2] hitsCurrent<br/>
+BYTE[2] manaMax<br/>
+BYTE[2] manaCurrent<br/>
+BYTE[2] stamMax<br/>
+BYTE[2] stamCurrent<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2E" href='#TOP'>[^]</a></div><b>Packet Name: </b>Worn Item<BR />
+Last Modified: 2009-03-02 05:12:43<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2E<BR />
+</b>Sent By:
+Server<BR />
+Size: 15 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd <br/>
+BYTE[4] itemid (always starts 0x40 in my data) <br/>
+BYTE[2] model (item hex #) <br/>
+BYTE[1] (0x00) <br/>
+BYTE[1] layer<br/>
+BYTE[4] playerID <br/>
+BYTE[2] color/hue<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x2F" href='#TOP'>[^]</a></div><b>Packet Name: </b>Fight Occuring<BR />
+Last Modified: 2009-03-02 05:12:56<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x2F<BR />
+</b>Sent By:
+Server<BR />
+Size: 10 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE cmd<br/>
+BYTE unknown1 (0)<br/>
+BYTE[4] ID of attacker <br/>
+BYTE[4] ID of attacked<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x30" href='#TOP'>[^]</a></div><b>Packet Name: </b>Attack Ok<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x30<BR />
+</b>Sent By:
+Server<BR />
+Size: 5<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[4] Serial being attacked<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x32" href='#TOP'>[^]</a></div><b>Packet Name: </b>Unknown<BR />
+Last Modified: 2009-02-17 20:10:15<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x32<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[1] 0x0 (Unknown)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x33" href='#TOP'>[^]</a></div><b>Packet Name: </b>Pause Client<BR />
+Last Modified: 2009-02-17 20:12:04<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x33<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[1] pause/resume (1=pause, 0=resume)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Unpause does not seem to work.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x36" href='#TOP'>[^]</a></div><b>Packet Name: </b>Resource Tile Data (God Client<BR />
+Last Modified: 2009-02-17 20:16:36<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x36<BR />
+</b>Sent By:
+Server<BR />
+Size: Unknown<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Byte[1] Command<br/>
+Byte[2] Length<br/>
+Byte[] Unknown<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x3C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Add multiple Items In Container<BR />
+Last Modified: 2009-03-02 05:15:23<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x3C<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] packet length <br/>
+BYTE[2] number of Items to add <br/>
+loop items: <br/>
+<ul>
+<li>BYTE[4] item serial </li>
+<li>BYTE[2] item ID (objtype) </li>
+<li>BYTE[1] unknown (0x00) </li>
+<li>BYTE[2] item amount (stack) </li>
+<li>BYTE[2] xLoc </li>
+<li>BYTE[2] yLoc </li>
+<li>BYTE[1] Backpack grid index (see notes) </li>
+<li>BYTE[4] Container serial </li>
+<li>BYTE[2] item color</li>
+</ul>
+endloop<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The backpack grid index exists since 6.0.1.7 2D and 2.45.5.6 KR.<br/>
+For older clients server has to send the loop without this grid index byte:<br/>
+<br/>
+loop items:<br/>
+<ul> 
+<li>BYTE[4] item serial </li>
+<li>BYTE[2] item ID (objtype) </li>
+<li>BYTE[1] unknown (0x00) </li>
+<li>BYTE[2] item amount (stack) </li>
+<li>BYTE[2] xLoc </li>
+<li>BYTE[2] yLoc </li>
+<li>BYTE[4] Container serial </li>
+<li>BYTE[2] item color</li>
+</ul>
+endloop<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x3E" href='#TOP'>[^]</a></div><b>Packet Name: </b>Versions (God Client)<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x3E<BR />
+</b>Sent By:
+Server<BR />
+Size: 37<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+BYTE[4] Unknown<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x3F" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Statics (God Client)<BR />
+Last Modified: 2009-03-02 05:16:01<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x3F<BR />
+</b>Sent By:
+Server<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[2] Length<br/>
+BYTE[4] The block number of the statics grid. This can be derived by the following formula: Block_Num = X / 8 * MapHeight + Y / 8 .... MapHeight is equal to the total number of tiles in the Y-axis divided by eight (0x0200 for map0.mul).<br/>
+BYTE[4] # of static items in grid.<br/>
+BYTE[4] "Extra" Value in statics index file.<br/>
+Item Loop:<br/>
+<ul>
+<li>BYTE[2] Item ID</li>
+<li>BYTE[1] Item's X pos relative to top left corner of grid.</li>
+<li>BYTE[1] Item's Y pos relative to top left corner of grid.</li>
+<li>BYTE[1] Item's Z pos.</li>
+<li>BYTE[2] Item's Hue.</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x4E" href='#TOP'>[^]</a></div><b>Packet Name: </b>Personal Light Level<BR />
+Last Modified: 2009-03-02 05:16:12<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x4E<BR />
+</b>Sent By:
+Server<BR />
+Size: 6 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] creature id<br/>
+BYTE[1] level<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x4F" href='#TOP'>[^]</a></div><b>Packet Name: </b>Overall Light Level<BR />
+Last Modified: 2009-03-02 04:38:40<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x4F<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] level<br/>
+<ul>
+<li>0x00 - day</li>
+<li>0x09 - OSI night</li>
+<li>0x1F - Black</li>
+<li>Max normal val = 0x1F</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x53" href='#TOP'>[^]</a></div><b>Packet Name: </b>Idle Warning<BR />
+Last Modified: 2009-03-02 04:39:10<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x53<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] value (0x07 - idle, 0x05 - another character is online)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x54" href='#TOP'>[^]</a></div><b>Packet Name: </b>Play Sound Effect<BR />
+Last Modified: 2009-03-02 05:16:35<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x54<BR />
+</b>Sent By:
+Server<BR />
+Size: 12 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] mode (0x00=quiet, repeating, 0x01=single normally played sound effect)<br/>
+BYTE[2] SoundModel<br/>
+BYTE[2] unknown3 (speed/volume modifier? Line of sight stuff?)<br/>
+BYTE[2] xLoc<br/>
+BYTE[2] yLoc<br/>
+BYTE[2] zLoc<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x55" href='#TOP'>[^]</a></div><b>Packet Name: </b>Login Complete<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x55<BR />
+</b>Sent By:
+Server<BR />
+Size: 1 byte<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x5B" href='#TOP'>[^]</a></div><b>Packet Name: </b>Time<BR />
+Last Modified: 2009-03-02 05:16:47<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x5B<BR />
+</b>Sent By:
+Server<BR />
+Size: 4 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] hour<br/>
+BYTE[1] minute<br/>
+BYTE[1] second<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x65" href='#TOP'>[^]</a></div><b>Packet Name: </b>Set Weather<BR />
+Last Modified: 2009-03-02 05:17:15<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x65<BR />
+</b>Sent By:
+Server<BR />
+Size: 4 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] type (See Notes)<br/>
+BYTE[1] num (number of weather effects on screen)<br/>
+BYTE[1] temperature<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Types: 0x00 - "It starts to rain", 0x01 - "A fierce storm approaches.", 0x02 - "It begins to snow", 0x03 - "A storm is brewing.", 0xFF - None (turns off sound effects), 0xFE (no effect?? Set temperature?) <br><br/>
+<br/>
+Maximum number of weather effects on screen is 70.<br><br/>
+If it is raining, you can add snow by setting the num to the num of rain currently going, plus the number of snow you want. <br><br/>
+Weather messages are only displayed when weather starts.<br><br/>
+Weather will end automatically after 6 minutes without any weather change packets.<br><br/>
+You can totally end weather (to display a new message) by teleporting.  I think it's either the 0x78 or 0x20 messages that reset it, though I haven't checked to be sure (other possibilities, 0x4F or 0x4E)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x6D" href='#TOP'>[^]</a></div><b>Packet Name: </b>Play Midi Music<BR />
+Last Modified: 2009-03-02 05:17:30<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x6D<BR />
+</b>Sent By:
+Server<BR />
+Size: 3 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] musicID<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x6E" href='#TOP'>[^]</a></div><b>Packet Name: </b>Character Animation<BR />
+Last Modified: 2009-03-02 04:43:03<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x6E<BR />
+</b>Sent By:
+Server<BR />
+Size: 14 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] item/char ID<br/>
+BYTE[2] movement model<br/>
+<ul>
+<li>0x00 = walk </li>
+<li>0x01 = walk faster </li>
+<li>0x02 = run </li>
+<li>0x03 = run (faster?) </li>
+<li>0x04 = nothing </li>
+<li>0x05 = shift shoulders </li>
+<li>0x06 = hands on hips </li>
+<li>0x07 = attack stance (short) </li>
+<li>0x08 = attack stance (longer) </li>
+<li>0x09 = swing (attack with knife) </li>
+<li>0x0a = stab (underhanded) </li>
+<li>0x0b = swing (attack overhand with sword) </li>
+<li>0x0c = swing (attack with sword over and side) </li>
+<li>0x0d = swing (attack with sword side) </li>
+<li>0x0e = stab with point of sword </li>
+<li>0x0f = ready stance </li>
+<li>0x10 = magic (butter churn!) </li>
+<li>0x11 = hands over head (balerina) </li>
+<li>0x12 = bow shot </li>
+<li>0x13 = crossbow </li>
+<li>0x14 = get hit </li>
+<li>0x15 = fall down and die (backwards) </li>
+<li>0x16 = fall down and die (forwards) </li>
+<li>0x17 = ride horse (long) </li>
+<li>0x18 = ride horse (medium) </li>
+<li>0x19 = ride horse (short) </li>
+<li>0x1a = swing sword from horse </li>
+<li>0x1b = normal bow shot on horse </li>
+<li>0x1c = crossbow shot </li>
+<li>0x1d = block #2 on horse with shield </li>
+<li>0x1e = block on ground with shield </li>
+<li>0x1f = swing, and get hit in middle </li>
+<li>0x20 = bow (deep) </li>
+<li>0x21 = salute </li>
+<li>0x22 = scratch head </li>
+<li>0x23 = 1 foot forward for 2 secs </li>
+<li>0x24 = same </li>
+</ul>
+BYTE[1] unknown1 (0x00) <br/>
+BYTE[1] direction <br/>
+BYTE[2] repeat (1 = once / 2 = twice / 0 = repeat forever) <br/>
+BYTE[1] forward/backwards(0x00=forward, 0x01=backwards) <br/>
+BYTE[1] repeat Flag (0 - Don't repeat / 1 repeat) <br/>
+BYTE[1] frame Delay (0x00 - fastest / 0xFF - Too slow to watch)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x70" href='#TOP'>[^]</a></div><b>Packet Name: </b>Graphical Effect<BR />
+Last Modified: 2009-03-02 04:44:00<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x70<BR />
+</b>Sent By:
+Server<BR />
+Size: 28 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[1] direction type <br/>
+<ul>
+<li>00 = go from source to dest </li>
+<li>01 = lightning strike at source </li>
+<li>02 = stay at current x,y,z </li>
+<li>03 = stay with current source character id </li>
+</ul>
+BYTE[4] character id <br/>
+BYTE[4] target id<br/>
+BYTE[2] model of the first frame of the effect<br/>
+BYTE[2] xLoc <br/>
+BYTE[2] yLoc <br/>
+BYTE zLoc <br/>
+BYTE[2] xLoc of target <br/>
+BYTE[2] yLoc of target <br/>
+BYTE[1] zLoc of target <br/>
+BYTE[1] speed of the animation<br/>
+BYTE[1] duration (0=really long, 1= shortest)<br/>
+BYTE[2] unknown2 (0 works)<br/>
+BYTE[1] adjust direction during animation (1=no)<br/>
+BYTE[1] explode on impact<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x74" href='#TOP'>[^]</a></div><b>Packet Name: </b>Open Buy Window<BR />
+Last Modified: 2009-03-02 04:44:50<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x74<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[2] blockSize <br/>
+BYTE[4] (vendorID | 0x40000000) <br/>
+BYTE[1] # of items <br/>
+# of items worth of item segments <br/>
+<ul>
+<li>BYTE[4] price </li>
+<li>BYTE length of text description </li>
+<li>BYTE[text length] item description</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This packet is always preceded by a describe contents packet (0x3c) with the container id as the (vendorID | 0x40000000) and then an open container packet (0x24?) with the vendorID only and a model number of 0x0030 (probably the model # for the buy screen)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x76" href='#TOP'>[^]</a></div><b>Packet Name: </b>New Subserver<BR />
+Last Modified: 2009-03-02 05:17:51<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x76<BR />
+</b>Sent By:
+Server<BR />
+Size: 16 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] xLoc<br/>
+BYTE[2] yLoc<br/>
+BYTE[2] zLoc<br/>
+BYTE[1] unknown (always 0)<br/>
+BYTE[2] server boundry X<br/>
+BYTE[2] server boundry Y<br/>
+BYTE[2] server boundry Width<br/>
+BYTE[2] server boundry Height<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x77" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Player<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x77<BR />
+</b>Sent By:
+Server<BR />
+Size: 17 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd <br/>
+BYTE[4] player id <br/>
+BYTE[2] model<br/>
+BYTE[2] xLoc <br/>
+BYTE[2] yLoc <br/>
+BYTE[1] zLoc <br/>
+BYTE[1] direction <br/>
+BYTE[2] hue/skin color <br/>
+BYTE[1] status flag (bit field) <br/>
+BYTE[1] highlight color<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+01-10-2007<br/>
+Interesting, 0x12 Status Flag was a guild mates mount not in war mode.<br/>
+0x52 is for the same pets status flag while in war mode. Poisoned it stayed the same appropriately in each. 0x12 and 0x52<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x78" href='#TOP'>[^]</a></div><b>Packet Name: </b>Draw Object<BR />
+Last Modified: 2009-03-01 12:30:16<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x78<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[2] Length<br/>
+BYTE[4] Object Serial<br/>
+BYTE[2] Graphic ID<br/>
+BYTE[2] X<br/>
+BYTE[2] Y<br/>
+BYTE[1] Z<br/>
+BYTE[1] Direction/Facing<br/>
+BYTE[2] Color<br/>
+BYTE[1] Status Flag (bitwise flag)<br/>
+BYTE[1] Notoriety<br/>
+<b>If (BYTE[4] == 0x00 0x00 0x00 0x00)</b><br/>
+BYTE[1] 0x0<br/>
+<b>Otherwise loop until above BYTE[4] is satisfied.</b><br/>
+<ul>
+<li>BYTE[4] Serial</li>
+<li>BYTE[2] Graphic</li>
+<li>BYTE[1] Layer</li>
+<li>BYTE[2] Color (this byte only needed if (Graphic&0x8000)</li>
+</ul>
+BYTE[4] 0x00000000<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+<b>Status Options</b><br/>
+0x00: Normal<br/>
+0x01: Unknown<br/>
+0x02: Can Alter Paperdoll<br/>
+0x04: Poisoned<br/>
+0x08: Golden Health<br/>
+0x10: Unknown<br/>
+0x20: Unknown<br/>
+0x40: War Mode<br/>
+<br/>
+<b>Notoriety</b><br/>
+0x1: Innocent (Blue)<br/>
+0x2: Friend (Green)<br/>
+0x3: Grey (Grey - Animal)<br/>
+0x4: Criminal (Grey)<br/>
+0x5: Enemy (Orange)<br/>
+0x6: Murderer (Red)<br/>
+0x7: Invulnerable (Yellow)<br/>
+<br/>
+01-10-2007<br/>
+Interesting, 0x12 Status Flag was a guild mates mount not in war mode. <br/>
+0x52 is for the same pets status flag while in war mode. Poisoned it stayed the same appropriately in each. 0x12 and 0x52<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x7C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Open Dialog Box<BR />
+Last Modified: 2009-03-02 04:47:44<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x7C<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] dialogID (echo'd back to the server in 7d)<br/>
+BYTE[2] menuid (echo'd back to server in 7d)<br/>
+BYTE[1] length of question<br/>
+BYTE[length of question] question text<br/>
+BYTE[1] # of responses<br/>
+<b>Then for each response:</b><br/>
+<ul>
+<li>BYTE[2] model id # of shown item (if grey menu -- then always 0x00 as msb)</li>
+<li>BYTE[2] color of shown item</li>
+<li>BYTE response text length</li>
+<li>BYTE[response text length] response text</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x82" href='#TOP'>[^]</a></div><b>Packet Name: </b>Login Denied<BR />
+Last Modified: 2009-03-02 05:18:11<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x82<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] reason<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Login denied reasons (gump message):<br/>
+<br/>
+0x00 - Incorrect name/password.<br/>
+0x01 - Someone is already using this account.<br/>
+0x02 - Your account has been blocked.<br/>
+0x03 - Your account credentials are invalid.<br/>
+0x04 - Communication problem.<br/>
+0x05 - The IGR concurrency limit has been met.<br/>
+0x06 - The IGR time limit has been met.<br/>
+0x07 - General IGR authentication failure.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x86" href='#TOP'>[^]</a></div><b>Packet Name: </b>Resend Characters After Delete<BR />
+Last Modified: 2009-03-02 04:48:32<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x86<BR />
+</b>Sent By:
+Server<BR />
+Size: 304 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[1] # of characters<br/>
+<b>Following repeated 5 times</b><br/>
+<ul>
+<li>BYTE[30] character name</li>
+<li>BYTE[30] character password</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x88" href='#TOP'>[^]</a></div><b>Packet Name: </b>Open Paperdoll<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x88<BR />
+</b>Sent By:
+Server<BR />
+Size: 66 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] charid<br/>
+BYTE[60] text<br/>
+BYTE[1] flag byte<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Flag Notes:<br/>
+Normal = 0x00,<br/>
+Unknown = 0x01,<br/>
+Can Alter Paperdoll = 0x02,<br/>
+Poisoned = 0x04,<br/>
+Golden Health = 0x08,<br/>
+Unknown2 = 0x10,<br/>
+Unknown3 = 0x20,<br/>
+War Mode = 0x40,<br/>
+Hidden = 0x80<br/>
+<br/>
+Can Alter Paperdoll only exists in 3.x+ clients? Verified up to 2.0.4 does not use this.<br/>
+As Of AOS Clients (above 3.0.8z, and initial, the buggy ones), these have changed. Warmode is now 0x01.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x89" href='#TOP'>[^]</a></div><b>Packet Name: </b>Corpse Clothing<BR />
+Last Modified: 2009-03-02 05:18:38<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x89<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] corpseID<br/>
+BYTE[1] itemLayer<br/>
+BYTE[4] itemID<br/>
+BYTE[1] terminator (0x00)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Followed by a 0x3C message with the contents.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x8C" href='#TOP'>[^]</a></div><b>Packet Name: </b>Connect To Game Server<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x8C<BR />
+</b>Sent By:
+Server<BR />
+Size: 11 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br />BYTE[4] gameServer IP <br />BYTE[2] gameServer port <br />BYTE[4] new key<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x90" href='#TOP'>[^]</a></div><b>Packet Name: </b>Map Message<BR />
+Last Modified: 2009-03-02 05:18:55<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x90<BR />
+</b>Sent By:
+Server<BR />
+Size: 19 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] key used<br/>
+BYTE[2] gump art id (0x139D)<br/>
+BYTE[2] upper left x location<br/>
+BYTE[2] upper left y location<br/>
+BYTE[2] lower right x location<br/>
+BYTE[2] lower right y location<br/>
+BYTE[2] gump width in pixels<br/>
+BYTE[2] gump height in pixels<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x97" href='#TOP'>[^]</a></div><b>Packet Name: </b>Move Player<BR />
+Last Modified: 2009-03-02 04:49:16<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x97<BR />
+</b>Sent By:
+Server<BR />
+Size: 2 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] direction<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Moves player played by client one step in requested direction. Doesn't move if there are obstacles.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x9E" href='#TOP'>[^]</a></div><b>Packet Name: </b>Sell List<BR />
+Last Modified: 2009-03-02 04:50:17<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x9E<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] shopkeeperID<br/>
+BYTE[2] numItems<br/>
+<b>For each item, a structure containing:</b><br/>
+<ul>
+<li>BYTE[4] itemID</li>
+<li>BYTE[2] itemModel</li>
+<li>BYTE[2] itemHue/Color</li>
+<li>BYTE[2] itemAmount</li>
+<li>BYTE[2] value</li>
+<li>BYTE[2] nameLength</li>
+<li>BYTE[?] name</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Current Health<BR />
+Last Modified: 2009-03-02 05:19:08<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA1<BR />
+</b>Sent By:
+Server<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] playerID<br/>
+BYTE[2] maxHealth<br/>
+BYTE[2] currentHealth<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA2" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Current Mana<BR />
+Last Modified: 2009-03-02 05:19:17<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA2<BR />
+</b>Sent By:
+Server<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] playerID<br/>
+BYTE[2] maxMana<br/>
+BYTE[2] currentMana<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA3" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Current Stamina<BR />
+Last Modified: 2009-03-02 05:19:32<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA3<BR />
+</b>Sent By:
+Server<BR />
+Size: 9 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] playerID<br/>
+BYTE[2] maxStamina<br/>
+BYTE[2] currentStamina<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA5" href='#TOP'>[^]</a></div><b>Packet Name: </b>Open Web Browser<BR />
+Last Modified: 2009-03-02 05:19:41<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA5<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[blockSize-3] null terminated full web address<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA6" href='#TOP'>[^]</a></div><b>Packet Name: </b>Tip/Notice Window<BR />
+Last Modified: 2009-03-02 04:51:22<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA6<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[1] flag<br/>
+<ul>
+<li>0x00 - tips window</li>
+<li>0x01 - ignored</li>
+<li>0x02 - updates</li>
+</ul>
+BYTE[4] tip #<br/>
+BYTE[2] msgSize<br/>
+BYTE[msgSize] message (ascii, not null terminated)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA8" href='#TOP'>[^]</a></div><b>Packet Name: </b>Game Server List<BR />
+Last Modified: 2009-03-02 04:52:25<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA8<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[1] System Info Flag<br/>
+BYTE[2] # of servers<br/>
+<br/>
+<b>Then each server --</b><br/>
+<ul>
+<li>BYTE[2] server index (0-based)</li>
+<li>BYTE[32] server name</li>
+<li>BYTE percent full</li>
+<li>BYTE timezone</li>
+<li>BYTE[4] server ip to ping</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+System Info Flags: 0xCC - Do not send video card info. 0x64 - Send Video card. RunUO And SteamEngine both send 0x5D.<br/>
+<br/>
+Server IP has to be sent in reverse order. For example, 192.168.0.1 is sent as 0100A8C0.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xA9" href='#TOP'>[^]</a></div><b>Packet Name: </b>Characters / Starting Locations<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xA9<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1]  cmd<br/>
+BYTE[2]  packet length<br/>
+BYTE[1]  number of characters (slots 5 or if activated 6 slots)<br/>
+loop characters (5 or 6):<br/>
+BYTE[30] character name<br/>
+BYTE[30] character password<br/>
+endloop(characters)<br/>
+BYTE[1]  number of starting locations (cities)<br/>
+loop # of cities:<br/>
+BYTE[1]  locationIndex (0-based)<br/>
+BYTE[31] city name(general name)<br/>
+BYTE[31] area of city or town<br/>
+endloop(# of cities)<br/>
+BYTE[4]  Flags (see notes)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Flags list:<br/>
+0x02:   send config/req logout (IGR?, overwrite configuration button?)<br/>
+0x04:   single character (siege - limit 1 character/account)<br/>
+0x08:   enable npcpopup/context menus<br/>
+0x10:   limit character slots?<br/>
+0x20:   enable common AOS features (tooltip thing/fight system book, but not AOS monsters/map/skills, necromancer/paladin classes)<br/>
+0x40:   6th character slot<br/>
+0x80:   samurai and ninja classes<br/>
+0x100:  elven race<br/>
+0x200:  KR support flag1 ?<br/>
+0x400:  KR support flag2 ?<br/>
+0x1000: 7th character slot, only 2D client<br/>
+<br/>
+Flags can be combined as literals to view. Such as to have NPC Popup Menus AND Common AOS Features, send as 0x28, not 0x8 plus 0x20 form.<br/>
+Another example: elven race, samurai classes and AOS will be 0x1A0.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAA" href='#TOP'>[^]</a></div><b>Packet Name: </b>Allow/Refuse Attack<BR />
+Last Modified: 2009-03-02 05:20:01<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAA<BR />
+</b>Sent By:
+Server<BR />
+Size: 5 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] CharID being attacked<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+ID is set to 00 00 00 00 when attack is refused.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAB" href='#TOP'>[^]</a></div><b>Packet Name: </b>Gump Text Entry Dialog<BR />
+Last Modified: 2009-03-02 05:20:25<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAB<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] id<br/>
+BYTE[1] parentID<br/>
+BYTE[1] buttonID<br/>
+BYTE[1] textlen<br/>
+BYTE[?] text<br/>
+BYTE[1] cancel (0=disable, 1=enable)<br/>
+BYTE[1] style (0=disable, 1=normal, 2=numerical)<br/>
+BYTE[4] format (if style 1, max text len, if style2, max numeric value)<br/>
+BYTE[1] text2 length<br/>
+BYTE[?] text2<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAE" href='#TOP'>[^]</a></div><b>Packet Name: </b>Unicode Speech message<BR />
+Last Modified: 2009-03-02 04:53:10<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAE<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[4] ID<br/>
+BYTE[2] Model<br/>
+BYTE[1] Type<br/>
+BYTE[2] Color<br/>
+BYTE[2] Font<br/>
+BYTE[4] Language<br/>
+BYTE[30] Name<br/>
+BYTE[?][2] Msg - Null Terminated (blockSize - 48)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+The various types of text is as follows:<br/>
+0x00 - Normal <br/>
+0x01 - Broadcast/System<br/>
+0x02 - Emote <br/>
+0x06 - System/Lower Corner<br/>
+0x07 - Message/Corner With Name<br/>
+0x08 - Whisper<br/>
+0x09 - Yell<br/>
+0x0A - Spell<br/>
+0x0D - Guild Chat<br/>
+0x0E - Alliance Chat<br/>
+0x0F - Command Prompts<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xAF" href='#TOP'>[^]</a></div><b>Packet Name: </b>Display Death Action<BR />
+Last Modified: 2009-03-02 05:20:36<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xAF<BR />
+</b>Sent By:
+Server<BR />
+Size: 13 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] player id<br/>
+BYTE[4] corpse id<br/>
+BYTE[4] unknown (all 0)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Gump Menu Dialog<BR />
+Last Modified: 2009-03-02 04:53:51<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB0<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] blockSize<br/>
+BYTE[4] id<br/>
+BYTE[4] gumpid<br/>
+BYTE[4] x<br/>
+BYTE[4] y<br/>
+BYTE[2] command section length<br/>
+BYTE[?] commands (zero terminated)<br/>
+BYTE[2] numTextLines<br/>
+<ul>
+<li>BYTE[2] text length (in unicode (2 byte) characters.)</li>
+<li>BYTE[?] text (in unicode)</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+In gump packets, and with any EMU (POL for sure) the "ID" is the # of the script's PID that fired the gump. This can be used via specific 0xBF packets to send the ID to the client to force closing of the gump from the server. When this is done, the client Auto Responds as if it had "exited" the menu normally so the serverside script will handle it as such.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB2" href='#TOP'>[^]</a></div><b>Packet Name: </b>Chat Message<BR />
+Last Modified: 2009-03-02 04:56:24<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB2<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[2] messageType<br/>
+Messagetypes will be listed as Subcommands.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+<b>Messagetypes 0x0001 - 0x0024:</b><br/>
+BYTE[4] unknown (00 00 00 00)<br/>
+BYTE[len-9] Unicode for %1 if the message type has a %1 variable for inputting text.<br/>
+BYTE[2] Null Terminator if there is a %2 Unicode element. (00 00)<br/>
+BYTE[len-(2+%1+9)] Unicode for %2 if the message type has a %2 variable for inputting text.<br/>
+BYTE[2] Null Terminator for Packet (00 00)<br/>
+<br/>
+<b>Messagetypes 0x0028 - 0x002C:</b><br/>
+BYTE[4] unknown (00 00 00 00)<br/>
+BYTE[len-9] Unicode for %1 if the message type has a %1 variable for inputting text.<br/>
+BYTE[2] Null Terminator if there is a %2 Unicode element. (00 00)<br/>
+BYTE[len-(2+%1+9)] Unicode for %2 if the message type has a %2 variable for inputting text.<br/>
+BYTE[2] Null Terminator for Packet (00 00)<br/>
+<br/>
+<b>MessageType 0x0025 (Message), 0x0026 (Emote), 0x0027 (OOC):</b><br/>
+BYTE[3] Language Code (ENU for english)<br/>
+BYTE[1] Null Terminator (00)<br/>
+BYTE[2] Message from (see notes)<br/>
+BYTE[?] Username in Unicode<br/>
+BYTE[2] Null Terminator for Username (00 00)<br/>
+BYTE[?] Unicode Message Sent<br/>
+BYTE[2] Null Terminator for Message<br/>
+<br/>
+<b>MessageType 0x03E8 (create conference):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[?] Unicode Channel Name<br/>
+BYTE[2] Null Terminator for Channel Name (00 00)<br/>
+BYTE[2] Password Setting (00 30 = No Pass, 00 31 = Password required)<br/>
+BYTE[2] Null Terminator for packet (00 00)<br/>
+<br/>
+<b>MessageType 0x03E9 (Destroy conference):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[?] Unicode Channel Name<br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+<br/>
+<b>MessageType 0x03EB (Display Enter Username window):</b><br/>
+BYTE[8] Unknown (00 00 00 00 00 00 00 00)<br/>
+<br/>
+<b>MessageType 0x03EC (Close Chat):</b><br/>
+BYTE[8] Unknown (00 00 00 00 00 00 00 00)<br/>
+<br/>
+<b>MessageType 0x03ED (Username accepted, display chat):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[?] Unicode Username<br/>
+BYTE[4] Null Terminator (00 00 00 00)<br/>
+<br/>
+<b>MessageType 0x03EE (Add User):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[2] User Type (see notes)<br/>
+BYTE[?] Unicode Username<br/>
+BYTE[2] Null Terminator (00 00)<br/>
+<br/>
+<b>MessageType 0x03EF (Remove User):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[?] Unicode Username<br/>
+BYTE[2] Null Terminator (00 00)<br/>
+<br/>
+<b>MessageType 0x03F0 (Clear All Players):</b><br/>
+BYTE[8] Unknown (00 00 00 00 00 00 00 00)<br/>
+<br/>
+<b>MessageType 0x03F1 (You have joined the %1 Conference):</b><br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+BYTE[?] Unicode Conference Name (%1)<br/>
+BYTE[4] Unknown (00 00 00 00)<br/>
+</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+<b>MessageTypes 0x0001 - 0x0024 and 0x0028 - 0x002C: Directly from Chat.enu file:</b><br/>
+0x0001: You are already ignoring the maximum number of peolpe.<br/>
+0x0002: You are already ignoring %1.<br/>
+0x0003: You are now ignoring %1.<br/>
+0x0004: You are no longer ignoring %1.<br/>
+0x0005: You are not ignoring %1.<br/>
+0x0006: You are no longer ignoring anyone.<br/>
+0x0007: That is not a valid conference name.<br/>
+0x0008: There is already a conference of that name.<br/>
+0x0009: You must have operator status to do this.<br/>
+0x000A: Conference %1 renamed to %2.<br/>
+0x000B: You must be in a conference to do this. To join a conference, select one from the Conference menu.<br/>
+0x000C: There is no player named '%1'.<br/>
+0x000D: There is no conference named '%1'.<br/>
+0x000E: That is not the correct password.<br/>
+0x000F: %1 has chosen to ignore you. None of your messages to them will get through.<br/>
+0x0010: The moderator of this conference has not given you speaking privileges.<br/>
+0x0011: You can now receive private messages.<br/>
+0x0012: You will no longer receive private messages. Those who send you a message will be notified that you are blocking incoming messages.<br/>
+0x0013: You are now showing your character name to any players who inquire with the whois command.<br/>
+0x0014: You are no longer showing your character name to any players who inquire with the whois command.<br/>
+0x0015: %1 is remaining anonymous.<br/>
+0x0016: %1 has chosen to not receive private messages at the moment.<br/>
+0x0017: %1 is known in the lands of Britannia as %2.<br/>
+0x0018: %1 has been kicked out of the conference.<br/>
+0x0019: %1, a conference moderator, has kicked you out of the conference.<br/>
+0x001A: You are already in the conference '%1'.<br/>
+0x001B: %1 is no longer a conference moderator.<br/>
+0x001C: %1 is now a conference moderator.<br/>
+0x001D: %1 has removed you from the list of conference moderators.<br/>
+0x001E: %1 has made you a conference moderator.<br/>
+0x001F: %1 no longer has speaking privileges in this conference.<br/>
+0x0020: %1 now has speaking privileges in this conference.<br/>
+0x0021: %1, a conference moderator, has removed your speaking privileges for this conference.<br/>
+0x0022: %1, a conference moderator, has granted you speaking privileges in this conference.<br/>
+0x0023: From now on, everyone in the conference will have speaking privileges by default.<br/>
+0x0024: From now on, only moderators will have speaking privileges in this conference by default.<br/>
+0x0028: The password to the conference has been changed.<br/>
+0x0029: Sorry--the conference named '%1' is full and no more players are allowed in.<br/>
+0x002A: You are banning %1 from this conference.<br/>
+0x002B: %1, a conference moderator, has banned you from the conference.<br/>
+0x002C: You have been banned from this conference.<br/>
+<br/>
+<b>MessageTypes 0025, 0026, and 0027: Message from is as follows:</b><br/>
+0x0030 = user, 0x0031 = moderator, 0x0032 = muted, 0x0034 = me, 0x0035 = system<br/>
+<br/>
+<b>MessageType 03EE: </b><br/>
+User types are 0030 for User, 0031 for Moderator, and 0032 for Muted User.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB7" href='#TOP'>[^]</a></div><b>Packet Name: </b>Help/Tip Data<BR />
+Last Modified: 2009-03-02 05:20:54<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB7<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[4] id<br/>
+BYTE[?][2] message, in unicode<br/>
+BYTE[2] null terminator (0x0000)<br/>
+BYTE[2] message terminator (0x3300)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xB9" href='#TOP'>[^]</a></div><b>Packet Name: </b>Enable locked client features<BR />
+Last Modified: 2009-03-02 04:57:48<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xB9<BR />
+</b>Sent By:
+Server<BR />
+Size: 3 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] feature # (see notes)<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+feature flags:<br/>
+<br/>
+0x01:   enable T2A features: chat, regions<br/>
+0x02:   enable renaissance features<br/>
+0x04:   enable third dawn features<br/>
+0x08:   enable LBR features: skills, map<br/>
+0x10:   enable AOS features: skills, map, spells, fightbook<br/>
+0x20:   6th character slot<br/>
+0x40:   enable SE features<br/>
+0x80:   enable ML features: elven race, spells, skills<br/>
+0x100:  enable 8th age splash screen<br/>
+0x200:  enable 9th age splash screen<br/>
+0x1000: 7th character slot<br/>
+0x2000: 10th age KR faces<br/>
+<br/>
+This packet is send immediatly after login.<br/>
+If you need several features you have to summ the flags.<br/>
+<br/>
+<br/>
+Older notes (not sure which are correct!):<br/>
+<br/>
+if (MSB not set) <br/>
+Bit# 1 T2A upgrade, enables chatbutton <br/>
+Bit# 2 enables LBR update. (of course LBR installation is required)(plays MP3 instead of midis, 2D LBR client shows new LBR monsters,...) <br/>
+if (MSB set) <br/>
+Bit# 3 T2A upgrade, enables chatbutton <br/>
+Bit# 4 enables LBR update <br/>
+Bit#5 enables AOS update (Aos monsters/map (AOS installation required for that) , AOS skills/necro/paladin/fight book stuff - works for ALL clients 4.0 and above) <br/>
+<br/>
+<br/>
+Examples: <br/>
+ML: B980FB <br/>
+AOS-7AV: B9803B <br/>
+AOS: B9801B <br/>
+LBR: B90003<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBA" href='#TOP'>[^]</a></div><b>Packet Name: </b>Quest Arrow<BR />
+Last Modified: 2009-03-02 05:21:09<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBA<BR />
+</b>Sent By:
+Server<BR />
+Size: 6 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] active (1=on, 0=off)<br/>
+BYTE[2] xLoc<br/>
+BYTE[2] yLoc<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xBC" href='#TOP'>[^]</a></div><b>Packet Name: </b>Seasonal Information<BR />
+Last Modified: 2009-03-02 05:21:20<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xBC<BR />
+</b>Sent By:
+Server<BR />
+Size: 3 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[1] id1<br/>
+BYTE[1] id2<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+If id2 = 1, then this is a season change. If season change, then id1 = (0=spring, 1=summer, 2=fall, 3=winter, 4 = desolation)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Graphical Effect<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC0<BR />
+</b>Sent By:
+Server<BR />
+Size: 36 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br />BYTE[1] type<br />BYTE[4] sourceSerial <br />BYTE[4] targetSerial <br />BYTE[2] itemID <br />BYTE[2] xSource <br />BYTE[2] ySource <br />BYTE[1] zSource <br />BYTE[2] xTarget <br />BYTE[2] yTarget <br />BYTE[1] zTarget <br />BYTE[1] speed <br />BYTE[1] duration <br />BYTE[2] unk // On OSI, flamestrikes are 0x0100 <br />BYTE[1] fixedDirection <br />BYTE[1] explodes <br />BYTE[4] hue <br />BYTE[4] renderMode<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Packet seems to work fine with even 2.0.0 clients<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC1" href='#TOP'>[^]</a></div><b>Packet Name: </b>Cliloc Message<BR />
+Last Modified: 2009-03-02 04:58:53<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC1<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[4] id (0xffff for system message)<br/>
+BYTE[2] body (0xff for system message)<br/>
+BYTE[1] type (6 - lower left, 7 on player)<br/>
+BYTE[2] hue<br/>
+BYTE[2] font<br/>
+BYTE[4] Message number<br/>
+BYTE[30] - speaker's name<br/>
+BYTE[?*2] - arguments // _little-endian_ unicode string, tabs ('\t') seperate the arguments. Null Terminated 0x0000<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Argument example:<br/>
+take number 1042762:<br/>
+"Only ~1_AMOUNT~ gold could be deposited. A check for ~2_CHECK_AMOUNT~ gold was returned to you."<br/>
+the arguments string may have "100 thousand\t25 hundred", which in turn would modify the string:<br/>
+"Only 100 thousand gold could be deposited. A check for 25 hundred gold was returned to you."<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC4" href='#TOP'>[^]</a></div><b>Packet Name: </b>Semivisible (Smurf it!)<BR />
+Last Modified: 2009-03-02 05:21:31<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC4<BR />
+</b>Sent By:
+Server<BR />
+Size: 6 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[4] ID<br/>
+BYTE[1] intensity ?<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+It sets target more or less blue (dependant on intensity value). Only for 2d clients, for 3d clients it does nothing in last attempts (pre-4.x client test)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC6" href='#TOP'>[^]</a></div><b>Packet Name: </b>Invalid Map Enable<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC6<BR />
+</b>Sent By:
+Server<BR />
+Size: 0x1<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Sent to client to let it know it tried to enable/use an invalid map. Exact purpose unknown to myself.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xC7" href='#TOP'>[^]</a></div><b>Packet Name: </b>3D Particle Effect<BR />
+Last Modified: 2009-03-02 05:00:21<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xC7<BR />
+</b>Sent By:
+Server<BR />
+Size: 49 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[35] ...Preamble .. exactly like 0xC0<br/>
+BYTE[2] effect # (tile ID)<br/>
+BYTE[2] explode effect # (0 if no explosion)<br/>
+BYTE[2] additional effect # that's only used for moving effects, 0 otherwise<br/>
+BYTE[4]  if target is item (type 2) that's itemId, 0 otherwise<br/>
+BYTE[1]  layer (of the character, e.g left hand, right hand, ... 0-4, 0xff: moving effect or target is no char)<br/>
+BYTE[2] yet another (unknown) additional effect that's only set for moving effect, 0 otherwise<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xCB" href='#TOP'>[^]</a></div><b>Packet Name: </b>Global Que Count<BR />
+Last Modified: 2009-03-02 05:21:44<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xCB<BR />
+</b>Sent By:
+Server<BR />
+Size: 7 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] unknown<br/>
+BYTE[4] count<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+displays the message:  There are currently [count] available calls in the global queue<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xCC" href='#TOP'>[^]</a></div><b>Packet Name: </b>Cliloc Message Affix<BR />
+Last Modified: 2009-03-02 05:01:08<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xCC<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[4] id  (0xffff for system message)<br/>
+BYTE[2] body (0xff for system message)<br/>
+BYTE[1] type (6 - lower left, 7 on player)<br/>
+BYTE[2] hue<br/>
+BYTE[2] font<br/>
+BYTE[4] Message number<br/>
+BYTE[1] flags (0x02 is unknown, 0x04 signals the message doesn't move on screen) (flags & 0x1) == 0 signals affix is appended to the localization string, (flags & 0x1) == 1 signals to prepend.<br/>
+BYTE[30] - speaker's name<br/>
+BYTE[?]  affix / null terminated<br/>
+BYTE[?]*2] arguments; // _big-endian_ unicode string, tabs ('\t') seperate arguments, see 0xC1 for argument example<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD2" href='#TOP'>[^]</a></div><b>Packet Name: </b>Extended 0x20<BR />
+Last Modified: 2009-03-02 05:21:59<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD2<BR />
+</b>Sent By:
+Server<BR />
+Size: 25 Bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+Preamble: Exactly like 0x20<br/>
+BYTE[2] unknown 1<br/>
+BYTE[2] unknown 2<br/>
+BYTE[2] unknown 3<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD3" href='#TOP'>[^]</a></div><b>Packet Name: </b>Extended 0x78<BR />
+Last Modified: 2009-03-02 05:22:13<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD3<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+Preamble: Exactly like 0x78<br/>
+BYTE[2] unknown 1<br/>
+BYTE[2] unknown 2<br/>
+BYTE[2] unknown 3<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD6" href='#TOP'>[^]</a></div><b>Packet Name: </b>Mega Cliloc<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD6<BR />
+</b>Sent By:
+Server<BR />
+Size: vaiable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[2] Length of packet<br/>
+BYTE[2] 0001<br/>
+BYTE[4] Serial of item/creature<br/>
+BYTE[2] 0000<br/>
+BYTE[4] Serial of item/creature in all tests. This could be the serial of the item the entry to appear over.<br/>
+<br/>
+Loop of all the item/creature's properties to display in the order to display them. The name is always the first entry.<br/>
+BYTE[4] Cliloc ID<br/>
+BYTE[2] Length of (if any) Text to add into/with the cliloc<br/>
+BYTE[?] Unicode text to be added into the cliloc. Not sent if Length of text above is 0<br/>
+<br/>
+BYTE[4] 00000000 - Sent as end of packet/loop<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xD8" href='#TOP'>[^]</a></div><b>Packet Name: </b>Send Custom House<BR />
+Last Modified: 2009-03-02 05:02:47<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xD8<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length<br/>
+BYTE[1] CompressionType (0=nothing, 3=zlib)<br/>
+BYTE[1] unknown (0)<br/>
+BYTE[4] HouseSerial<br/>
+BYTE[4] Revision State<br/>
+BYTE[2] Number of Tiles<br/>
+BYTE[2] Buffer length (Number of tiles * 5)<br/>
+<b>For Each Component</b><br/>
+<ul>
+<li>BYTE[2] component graphic</li>
+<li>BYTE[1] X</li>
+<li>BYTE[1] Y</li>
+<li>BYTE[1] Z</li>
+</ul>
+<br/>
+X/Y of this packet is probably wrong. May be 2 Byte portions instead of 1. Information was submitted and as of yet untested.<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xDB" href='#TOP'>[^]</a></div><b>Packet Name: </b>Character Transfer Log<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xDB<BR />
+</b>Sent By:
+Server<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] cmd<br/>
+BYTE[2] length of packet<br/>
+BYTE[4] Unknown, always 000000BB in my testing.<br/>
+BYTE[?] Length - 7 of packet<br/>
+BYTE[4] Transfer ID<br/>
+BYTE[4] Unknown, all zeros<br/>
+BYTE[4] Unknown, all zeros<br/>
+For each item in transfer log, this loop is performed:<br/>
+  BYTE[4] Item's Serial<br/>
+  BYTE[4] Size of next loop (Big Endian)<br/>
+    BYTE[4] The cliloc of the item's name or property. If zero, defaults to 'Transfer Crate.'<br/>
+    BYTE[1] Length of Cliloc Addon Text<br/>
+      BYTE[?] Text to affix/insert into the cliloc<br/>
+      BYTE[2] 0009 - Ends the loop for cliloc addon text and item<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+When a character transfer is confirmed, the server sends this to create a log of all the items being included in the transfer.<br/>
+This log is saved to translog.txt.<br/>
+Item properties are also included in this packet.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xDC" href='#TOP'>[^]</a></div><b>Packet Name: </b>SE Introduced Revision<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xDC<BR />
+</b>Sent By:
+Server<BR />
+Size: 9<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] CMD<br/>
+BYTE[4] Item/Mob Serial<br/>
+BYTE[4] Item Revision Hash<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Newer packet as of late 2004. Is now used on OSI to handle the Revision of Tooltips instead of the original 0xBF methods it appears.<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xDD" href='#TOP'>[^]</a></div><b>Packet Name: </b>Compressed Gump<BR />
+Last Modified: 2008-10-11 09:57:22<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xDD<BR />
+</b>Sent By:
+Server<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br />BYTE[2] len<br />BYTE[4] Player Serial<br />BYTE[4] Gump ID<br />BYTE[4] x<br />BYTE[4] y<br />BYTE[4] Compressed Gump Layout Length (CLen)<br />BYTE[4] Decompressed Gump Layout Length (DLen)<br />BYTE[CLen] Gump Data, zlib compressed<br />BYTE[4] Number of text lines<br />BYTE[4] Compressed Text Line Length (CTxtLen)<br />BYTE[4] Decompressed Text Line Length (DTxtLen)<br />BYTE[CTxtLen] Gump's Compressed Text data, zlib compressed<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xDE" href='#TOP'>[^]</a></div><b>Packet Name: </b>Update Mobile Status<BR />
+Last Modified: 2009-03-01 05:48:56<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xDE<BR />
+</b>Sent By:
+Server<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[2] Packet Length<br/>
+BYTE[4] Player Serial<br/>
+BYTE[1] Status<br/>
+<b>If status is 1</b><br/>
+<ul>
+<li>BYTE[4] Attacker Serial?</li>
+</ul>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Packet exists since buff/debuff system was published.<br/>
+<br/>
+<b>Status</b><br/>
+0: Normal<br/>
+1: Being Attacked<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xDF" href='#TOP'>[^]</a></div><b>Packet Name: </b>Buff/Debuff System<BR />
+Last Modified: 2008-10-18 11:46:59<BR />
+Modified By: Pierce<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xDF<BR />
+</b>Sent By:
+Server<BR />
+Size: variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Cmd<br/>
+BYTE[2] Length<br/>
+BYTE[4] Serial of player<br/>
+BYTE[2] Icon Number to show<br/>
+BYTE[2] 0x1 = Show, 0x0 = Remove. On remove byte, packet ends here.<br/>
+BYTE[4] 0x00000000<br/>
+BYTE[2] Icon Number to show.<br/>
+BYTE[2] 0x1 = Show<br/>
+BYTE[4] 0x00000000<br/>
+BYTE[2] Time in seconds (simple countdown without automatic remove)<br/>
+BYTE[2] 0x0000<br/>
+BYTE[1] 0x00<br/>
+BYTE[4] Cliloc message ID1<br/>
+BYTE[4] Cliloc message ID2<br/>
+BYTE[4] 0x00000000<br/>
+BYTE[2] 0x0001<br/>
+BYTE[len(str)*2] Flipped Unicode String ("	"+str) (To seperate the entrys add "	")<br/>
+BYTE[2] 0x0000<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+This is a submitted packet, information here is yet to be verified. Use at own risk. <br/>
+<br/>
+List of current Icon Names:<br/>
+(cliloc message numbers in brackets)<br/>
+<br/>
+1001: Dismount (cliloc1=1075635,cliloc2=1075636)<br/>
+1002: Disarm (cliloc1=1075637,cliloc2=1075638)<br/>
+1005: Nightsight (cliloc1=1075643,cliloc2=1075644)<br/>
+1006: Death Strike <br/>
+1007: Evil Omen <br/>
+1008: unknown? (GumpID 0x7556)<br/>
+1009: Regeneration (cliloc1=1044106,cliloc2=1075106)<br/>
+1010: Divine Fury <br/>
+1011: Enemy Of One <br/>
+1012: Stealth (cliloc1=1044107,cliloc2=1075655)<br/>
+1013: Active Meditation (cliloc1=1044106,cliloc2=1075106)<br/>
+1014: Blood Oath caster <br/>
+1015: Blood Oath curse <br/>
+1016: Corpse Skin <br/>
+1017: Mindrot <br/>
+1018: Pain Spike <br/>
+1019: Strangle <br/>
+1020: Gift of Renewal <br/>
+1021: Attune Weapon <br/>
+1022: Thunderstorm <br/>
+1023: Essence of Wind <br/>
+1024: Ethereal Voyage <br/>
+1025: Gift Of Life <br/>
+1026: Arcane Empowerment <br/>
+1027: Mortal Strike <br/>
+1028: Reactive Armor (cliloc1=1075812,cliloc2=1075813)<br/>
+1029: Protection (cliloc1=1075814,cliloc2=1075815)<br/>
+1030: Arch Protection (cliloc1=1075816,cliloc2=1075816)<br/>
+1031: Magic Reflection (cliloc1=1075817,cliloc2=1075818)<br/>
+1032: Incognito (cliloc1=1075819,cliloc2=1075820)<br/>
+1033: Disguised <br/>
+1034: Animal Form <br/>
+1035: Polymorph (cliloc1=1075824,cliloc2=1075820)<br/>
+1036: Invisibility (cliloc1=1075825,cliloc2=1075826)<br/>
+1037: Paralyze (cliloc1=1075827,cliloc2=1075828)<br/>
+1038: Poison (cliloc1=0x0F8627,	cliloc2=0x1069B1)<br/>
+1039: Bleed (cliloc1=0x106a75,cliloc2=0x106a76)<br/>
+1040: Clumsy (cliloc1=0x106a77,cliloc2=0x106a78)<br/>
+1041: Feeble Mind (cliloc1=0x106a79,cliloc2=0x106a7a)<br/>
+1042: Weaken (cliloc1=1075837,cliloc2=1075838)<br/>
+1043: Curse (cliloc1=1075835,cliloc2=1075836)<br/>
+1044: Mass Curse (cliloc1=0x106a7f,cliloc2=0x106a80)<br/>
+1045: Agility (cliloc1=0x106a81,cliloc2=0x106a82)<br/>
+1046: Cunning (cliloc1=0x106a83,cliloc2=0x106a84)<br/>
+1047: Strength (cliloc1=0x106a85,cliloc2=0x106a86)<br/>
+1048: Bless (cliloc1=0x106a87,cliloc2=0x106a88)<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xE2" href='#TOP'>[^]</a></div><b>Packet Name: </b>Mobile status/Animation update (KR)<BR />
+Last Modified: 2009-02-28 19:17:40<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xE2<BR />
+</b>Sent By:
+Server<BR />
+Size: 10 bytes<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[1] Command<br/>
+BYTE[4] Mobile serial<br/>
+BYTE[2] Action<br/>
+BYTE[1] unknown (0x00)<br/>
+BYTE[1] Secondary/Sub Action<br/>
+BYTE[1] Unknown<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Last byte appears a random number from 0 to 59. Could this be a loop or timer?<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0xF0" href='#TOP'>[^]</a></div><b>Packet Name: </b>Krrios client special<BR />
+Last Modified: 2009-03-02 05:22:34<BR />
+Modified By: Turley<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0xF0<BR />
+</b>Sent By:
+Server<BR />
+Size: Variable<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+BYTE[2] len<br/>
+BYTE[1] subcmd<br/>
+BYTE[len - 4] data<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+Subcommand 0: Acknowledge login (1 byte (for 5 total))<br><br/>
+BYTE[1] ack  (0 = Rejected, unauthorized.  1 = Accepted, GM priviledges. 2 = Accepted, player priviledges)<br><br/>
+<br/>
+Note: GM priviledges unlock movement rate configurations<br/>
+</P>
+<BR/><HR/><BR/>
+<P>
+<div class='doc-anchor'><a name="0x31" href='#TOP'>[^]</a></div><b>Packet Name: </b>Attack End<BR />
+Last Modified: 2009-02-17 20:11:20<BR />
+Modified By: MuadDib<BR />
+</P>
+<BR />
+<P>
+<b>Packet: 0x31<BR />
+</b>Sent By:
+Unknown<BR />
+Size: 1 Byte<BR />
+</P>
+<BR />
+<P>
+<B>Packet Build</B><BR />
+Byte[1] Command<br/>
+</P>
+<BR />
+<P>
+<B>Subcommand Build</B><BR />
+N/A</P>
+<BR />
+<P>
+<B>Notes</B><BR />
+N/A</P>
+<BR/><HR/><BR/>
+				</div>
+			</div>
+		</div>
+
+		<div class="col_3">
+			<div class="smallbox">
+				<h1>Packets</h1>
+				<A HREF=http://docs.polserver.com/packets>Show Online Version</A><BR/>
+<BR><B>Both</B><BR />
+<A HREF=#0x15>[0x15] Follow</A><BR />
+<A HREF=#0x22>[0x22] Character Move ACK/ Resync Request</A><BR />
+<A HREF=#0x2C>[0x2C] Resurrection Menu</A><BR />
+<A HREF=#0x39>[0x39] Remove (Group)</A><BR />
+<A HREF=#0x3A>[0x3A] Send Skills</A><BR />
+<A HREF=#0x56>[0x56] Map Packet (cartography/treasure)</A><BR />
+<A HREF=#0x66>[0x66] Books (Pages, Old Packet)</A><BR />
+<A HREF=#0x6C>[0x6C] Target Cursor Commands</A><BR />
+<A HREF=#0x6F>[0x6F] Secure Trading</A><BR />
+<A HREF=#0x71>[0x71] Bulletin Board Messages</A><BR />
+<A HREF=#0x93>[0x93] Books (Title Page, Old Packet)</A><BR />
+<A HREF=#0x95>[0x95] Dye Window</A><BR />
+<A HREF=#0x98>[0x98] All Names (3D Client Only)</A><BR />
+<A HREF=#0x99>[0x99] Give Boat/House Placement View</A><BR />
+<A HREF=#0xB3>[0xB3] Chat Text</A><BR />
+<A HREF=#0xB8>[0xB8] Request/Char Profile</A><BR />
+<A HREF=#0xBB>[0xBB] Ultima Messenger</A><BR />
+<A HREF=#0xBD>[0xBD] Client Version</A><BR />
+<A HREF=#0xBE>[0xBE] Assist Version</A><BR />
+<A HREF=#0xBF>[0xBF] General Information Packet</A><BR />
+<A HREF=#0xC2>[0xC2] Unicode TextEntry</A><BR />
+<A HREF=#0xC8>[0xC8] Client View Range</A><BR />
+<A HREF=#0xC9>[0xC9] Get Area Server Ping</A><BR />
+<A HREF=#0xCA>[0xCA] Get User Server Ping</A><BR />
+<A HREF=#0xD0>[0xD0] Configuration File</A><BR />
+<A HREF=#0xD1>[0xD1] Logout Status</A><BR />
+<A HREF=#0xD4>[0xD4] *New* Book Header</A><BR />
+<A HREF=#0xD7>[0xD7] Generic AOS Commands</A><BR />
+<A HREF=#0xF1>[0xF1] Freeshard List</A><BR />
+<BR><B>Both?</B><BR />
+<A HREF=#0x73>[0x73] Ping Message</A><BR />
+<A HREF=#0x9A>[0x9A] Console Entry Prompt</A><BR />
+<BR><B>Client</B><BR />
+<A HREF=#0x00>[0x00] Create Character</A><BR />
+<A HREF=#0x01>[0x01] Disconnect Notification</A><BR />
+<A HREF=#0x02>[0x02] Move Request</A><BR />
+<A HREF=#0x03>[0x03] Talk Request</A><BR />
+<A HREF=#0x04>[0x04] Request God Mode (God Client)</A><BR />
+<A HREF=#0x05>[0x05] Request Attack</A><BR />
+<A HREF=#0x06>[0x06] Double Click</A><BR />
+<A HREF=#0x07>[0x07] Pick Up Item</A><BR />
+<A HREF=#0x08>[0x08] Drop Item</A><BR />
+<A HREF=#0x09>[0x09] Single Click</A><BR />
+<A HREF=#0x0A>[0x0A] Edit (God Client)</A><BR />
+<A HREF=#0x12>[0x12] Request Skill etc use</A><BR />
+<A HREF=#0x13>[0x13] Drop->Wear Item</A><BR />
+<A HREF=#0x14>[0x14] Send Elevation (God Client)</A><BR />
+<A HREF=#0x16>[0x16] Request Script Names</A><BR />
+<A HREF=#0x34>[0x34] Get Player Status</A><BR />
+<A HREF=#0x35>[0x35] Add Resource (God Client)</A><BR />
+<A HREF=#0x37>[0x37] Move Item (God Client)</A><BR />
+<A HREF=#0x38>[0x38] Pathfinding in Client</A><BR />
+<A HREF=#0x3B>[0x3B] Buy Item(s)</A><BR />
+<A HREF=#0x5D>[0x5D] Login Character</A><BR />
+<A HREF=#0x69>[0x69] Change Text/Emote Colors</A><BR />
+<A HREF=#0x72>[0x72] Request War Mode</A><BR />
+<A HREF=#0x75>[0x75] Rename Character</A><BR />
+<A HREF=#0x7D>[0x7D] Response To Dialog Box</A><BR />
+<A HREF=#0x80>[0x80] Login Request</A><BR />
+<A HREF=#0x83>[0x83] Delete Character</A><BR />
+<A HREF=#0x8D>[0x8D] Character Creation (KR)</A><BR />
+<A HREF=#0x91>[0x91] Game Server Login</A><BR />
+<A HREF=#0x9B>[0x9B] Request Help</A><BR />
+<A HREF=#0x9F>[0x9F] Sell List Reply</A><BR />
+<A HREF=#0xA0>[0xA0] Select Server</A><BR />
+<A HREF=#0xA4>[0xA4] Client Spy</A><BR />
+<A HREF=#0xA7>[0xA7] Request Tip/Notice Window</A><BR />
+<A HREF=#0xAC>[0xAC] Gump Text Entry Dialog Reply</A><BR />
+<A HREF=#0xAD>[0xAD] Unicode/Ascii speech request</A><BR />
+<A HREF=#0xB1>[0xB1] Gump Menu Selection</A><BR />
+<A HREF=#0xB5>[0xB5] Open Chat Window</A><BR />
+<A HREF=#0xB6>[0xB6] Send Help/Tip Request</A><BR />
+<A HREF=#0xD9>[0xD9] Spy On Client</A><BR />
+<A HREF=#0xE0>[0xE0] Bug Report (KR)</A><BR />
+<A HREF=#0xE1>[0xE1] Character List Update (KR)</A><BR />
+<A HREF=#0xEC>[0xEC] Equip Macro (KR)</A><BR />
+<A HREF=#0xED>[0xED] Unequip Item Macro (KR)</A><BR />
+<A HREF=#0xEF>[0xEF] KR/2D Client Login/Seed</A><BR />
+<BR><B>Server</B><BR />
+<A HREF=#0x0B>[0x0B] Damage</A><BR />
+<A HREF=#0x11>[0x11] Status Bar Info</A><BR />
+<A HREF=#0x17>[0x17] Health bar status update (KR)</A><BR />
+<A HREF=#0x1A>[0x1A] Object Info</A><BR />
+<A HREF=#0x1B>[0x1B] Char Locale and Body</A><BR />
+<A HREF=#0x1C>[0x1C] Send Speech</A><BR />
+<A HREF=#0x1D>[0x1D] Delete Object</A><BR />
+<A HREF=#0x20>[0x20] Draw Game Player</A><BR />
+<A HREF=#0x21>[0x21] Char Move Rejection</A><BR />
+<A HREF=#0x23>[0x23] Dragging Of Item</A><BR />
+<A HREF=#0x24>[0x24] Draw Container</A><BR />
+<A HREF=#0x25>[0x25] Add Item To Container</A><BR />
+<A HREF=#0x26>[0x26] Kick Player</A><BR />
+<A HREF=#0x27>[0x27] Reject Move Item Request</A><BR />
+<A HREF=#0x28>[0x28] Drop Item Failed/Clear Square (God Client?)</A><BR />
+<A HREF=#0x29>[0x29] Paperdoll Clothing Add Ack</A><BR />
+<A HREF=#0x2A>[0x2A] Blood</A><BR />
+<A HREF=#0x2B>[0x2B] God Mode (God Client)</A><BR />
+<A HREF=#0x2D>[0x2D] Mob Attributes</A><BR />
+<A HREF=#0x2E>[0x2E] Worn Item</A><BR />
+<A HREF=#0x2F>[0x2F] Fight Occuring</A><BR />
+<A HREF=#0x30>[0x30] Attack Ok</A><BR />
+<A HREF=#0x32>[0x32] Unknown</A><BR />
+<A HREF=#0x33>[0x33] Pause Client</A><BR />
+<A HREF=#0x36>[0x36] Resource Tile Data (God Client</A><BR />
+<A HREF=#0x3C>[0x3C] Add multiple Items In Container</A><BR />
+<A HREF=#0x3E>[0x3E] Versions (God Client)</A><BR />
+<A HREF=#0x3F>[0x3F] Update Statics (God Client)</A><BR />
+<A HREF=#0x4E>[0x4E] Personal Light Level</A><BR />
+<A HREF=#0x4F>[0x4F] Overall Light Level</A><BR />
+<A HREF=#0x53>[0x53] Idle Warning</A><BR />
+<A HREF=#0x54>[0x54] Play Sound Effect</A><BR />
+<A HREF=#0x55>[0x55] Login Complete</A><BR />
+<A HREF=#0x5B>[0x5B] Time</A><BR />
+<A HREF=#0x65>[0x65] Set Weather</A><BR />
+<A HREF=#0x6D>[0x6D] Play Midi Music</A><BR />
+<A HREF=#0x6E>[0x6E] Character Animation</A><BR />
+<A HREF=#0x70>[0x70] Graphical Effect</A><BR />
+<A HREF=#0x74>[0x74] Open Buy Window</A><BR />
+<A HREF=#0x76>[0x76] New Subserver</A><BR />
+<A HREF=#0x77>[0x77] Update Player</A><BR />
+<A HREF=#0x78>[0x78] Draw Object</A><BR />
+<A HREF=#0x7C>[0x7C] Open Dialog Box</A><BR />
+<A HREF=#0x82>[0x82] Login Denied</A><BR />
+<A HREF=#0x86>[0x86] Resend Characters After Delete</A><BR />
+<A HREF=#0x88>[0x88] Open Paperdoll</A><BR />
+<A HREF=#0x89>[0x89] Corpse Clothing</A><BR />
+<A HREF=#0x8C>[0x8C] Connect To Game Server</A><BR />
+<A HREF=#0x90>[0x90] Map Message</A><BR />
+<A HREF=#0x97>[0x97] Move Player</A><BR />
+<A HREF=#0x9E>[0x9E] Sell List</A><BR />
+<A HREF=#0xA1>[0xA1] Update Current Health</A><BR />
+<A HREF=#0xA2>[0xA2] Update Current Mana</A><BR />
+<A HREF=#0xA3>[0xA3] Update Current Stamina</A><BR />
+<A HREF=#0xA5>[0xA5] Open Web Browser</A><BR />
+<A HREF=#0xA6>[0xA6] Tip/Notice Window</A><BR />
+<A HREF=#0xA8>[0xA8] Game Server List</A><BR />
+<A HREF=#0xA9>[0xA9] Characters / Starting Locations</A><BR />
+<A HREF=#0xAA>[0xAA] Allow/Refuse Attack</A><BR />
+<A HREF=#0xAB>[0xAB] Gump Text Entry Dialog</A><BR />
+<A HREF=#0xAE>[0xAE] Unicode Speech message</A><BR />
+<A HREF=#0xAF>[0xAF] Display Death Action</A><BR />
+<A HREF=#0xB0>[0xB0] Send Gump Menu Dialog</A><BR />
+<A HREF=#0xB2>[0xB2] Chat Message</A><BR />
+<A HREF=#0xB7>[0xB7] Help/Tip Data</A><BR />
+<A HREF=#0xB9>[0xB9] Enable locked client features</A><BR />
+<A HREF=#0xBA>[0xBA] Quest Arrow</A><BR />
+<A HREF=#0xBC>[0xBC] Seasonal Information</A><BR />
+<A HREF=#0xC0>[0xC0] Graphical Effect</A><BR />
+<A HREF=#0xC1>[0xC1] Cliloc Message</A><BR />
+<A HREF=#0xC4>[0xC4] Semivisible (Smurf it!)</A><BR />
+<A HREF=#0xC6>[0xC6] Invalid Map Enable</A><BR />
+<A HREF=#0xC7>[0xC7] 3D Particle Effect</A><BR />
+<A HREF=#0xCB>[0xCB] Global Que Count</A><BR />
+<A HREF=#0xCC>[0xCC] Cliloc Message Affix</A><BR />
+<A HREF=#0xD2>[0xD2] Extended 0x20</A><BR />
+<A HREF=#0xD3>[0xD3] Extended 0x78</A><BR />
+<A HREF=#0xD6>[0xD6] Mega Cliloc</A><BR />
+<A HREF=#0xD8>[0xD8] Send Custom House</A><BR />
+<A HREF=#0xDB>[0xDB] Character Transfer Log</A><BR />
+<A HREF=#0xDC>[0xDC] SE Introduced Revision</A><BR />
+<A HREF=#0xDD>[0xDD] Compressed Gump</A><BR />
+<A HREF=#0xDE>[0xDE] Update Mobile Status</A><BR />
+<A HREF=#0xDF>[0xDF] Buff/Debuff System</A><BR />
+<A HREF=#0xE2>[0xE2] Mobile status/Animation update (KR)</A><BR />
+<A HREF=#0xF0>[0xF0] Krrios client special</A><BR />
+<BR><B>Unknown</B><BR />
+<A HREF=#0x31>[0x31] Attack End</A><BR />
+			</div>
+		</div>
+  </body>
+</html>
+
+	</div>
+</div>
+
+<div id="footer">
+	<div class="container">
+		Copyright © 1998-2009 POL Development Team.
+	</div>
+</div>
+
+</body>
