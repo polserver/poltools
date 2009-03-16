@@ -25,7 +25,7 @@ namespace FiddlerControls
             InitializeComponent();
             checkedListBox1.BeginUpdate();
             checkedListBox1.Items.Clear();
-            string[] EnumNames=System.Enum.GetNames(typeof(TileFlag));
+            string[] EnumNames = System.Enum.GetNames(typeof(TileFlag));
             for (int i = 1; i < EnumNames.Length; ++i)
             {
                 checkedListBox1.Items.Add(EnumNames[i], false);
@@ -43,7 +43,7 @@ namespace FiddlerControls
         }
 
         private static TileDatas refMarker = null;
-        private bool m_ShowNervingMsg=true;
+        private bool m_ShowNervingMsg = true;
 
         public bool ShowNervingMsg
         {
@@ -51,7 +51,10 @@ namespace FiddlerControls
             set { refMarker.m_ShowNervingMsg = value; }
         }
 
-
+        public static void Select(int graphic, bool land)
+        {
+            SearchGraphic(graphic, land);
+        }
         public static bool SearchGraphic(int graphic, bool land)
         {
             int index = 0;
@@ -175,7 +178,7 @@ namespace FiddlerControls
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)
         {
-            int index=(int)e.Node.Tag;
+            int index = (int)e.Node.Tag;
             try
             {
                 Bitmap bit = Ultima.Art.GetStatic(index);
@@ -189,7 +192,7 @@ namespace FiddlerControls
             {
                 pictureBoxItem.Image = new Bitmap(pictureBoxItem.Width, pictureBoxItem.Height);
             }
-            ItemData data=TileData.ItemTable[index];
+            ItemData data = TileData.ItemTable[index];
             textBoxName.Text = data.Name;
             textBoxAnim.Text = data.Animation.ToString();
             textBoxWeight.Text = data.Weight.ToString();
@@ -202,13 +205,13 @@ namespace FiddlerControls
             textBoxUnk1.Text = data.Unk1.ToString();
             textBoxUnk2.Text = data.Unk2.ToString();
             textBoxUnk3.Text = data.Unk3.ToString();
-            Array EnumValues=System.Enum.GetValues(typeof(TileFlag));
+            Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
             for (int i = 1; i < EnumValues.Length; i++)
             {
-                if ((data.Flags & (TileFlag)EnumValues.GetValue(i))!=0)
-                    checkedListBox1.SetItemChecked(i-1,true);
+                if ((data.Flags & (TileFlag)EnumValues.GetValue(i)) != 0)
+                    checkedListBox1.SetItemChecked(i - 1, true);
                 else
-                    checkedListBox1.SetItemChecked(i-1,false);
+                    checkedListBox1.SetItemChecked(i - 1, false);
             }
         }
 
@@ -289,7 +292,7 @@ namespace FiddlerControls
             if (byte.TryParse(textBoxUnk3.Text, out byteres))
                 item.Unk3 = byteres;
             item.Flags = TileFlag.None;
-            Array EnumValues=System.Enum.GetValues(typeof(TileFlag));
+            Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
                 if (checkedListBox1.GetItemChecked(i))
@@ -297,6 +300,7 @@ namespace FiddlerControls
             }
             TileData.ItemTable[index] = item;
             treeViewItem.SelectedNode.ForeColor = Color.Red;
+            Options.ChangedUltimaClass["TileData"] = true;
             if (m_ShowNervingMsg)
                 new TileDataNerving(refMarker, index).Show();
         }
@@ -308,8 +312,9 @@ namespace FiddlerControls
             Ultima.TileData.SaveTileData(FileName);
             MessageBox.Show(
                 String.Format("TileData saved to {0}", FileName),
-                "Saved",MessageBoxButtons.OK,MessageBoxIcon.Information,
+                "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["TileData"] = false;
         }
 
         private void OnClickExportItems(object sender, EventArgs e)
@@ -347,6 +352,7 @@ namespace FiddlerControls
                 land.Flags |= TileFlag.Unknown3;
 
             TileData.LandTable[index] = land;
+            Options.ChangedUltimaClass["TileData"] = true;
         }
 
         private void OnClickExportLand(object sender, EventArgs e)

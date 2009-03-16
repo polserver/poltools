@@ -55,7 +55,7 @@ namespace FiddlerControls
             }
 
             listBox.EndUpdate();
-            if (listBox.Items.Count>0)
+            if (listBox.Items.Count > 0)
                 listBox.SelectedIndex = 0;
             this.Cursor = Cursors.Default;
         }
@@ -79,8 +79,8 @@ namespace FiddlerControls
                         e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
                     else if (patched)
                         e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, 105, 60);
-                    
-                    e.Graphics.DrawImage(bmp,new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, width, height));
+
+                    e.Graphics.DrawImage(bmp, new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, width, height));
                 }
                 else
                     fontBrush = Brushes.Red;
@@ -135,11 +135,12 @@ namespace FiddlerControls
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
                     if (dialog.FileName.Contains(".bmp"))
-                        bmp=Utils.ConvertBmp(bmp);
+                        bmp = Utils.ConvertBmp(bmp);
                     int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
                     Gumps.ReplaceGump(i, bmp);
                     listBox.Invalidate();
                     listBox_SelectedIndexChanged(this, EventArgs.Empty);
+                    Options.ChangedUltimaClass["Gumps"] = true;
                 }
             }
         }
@@ -147,19 +148,20 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             DialogResult result =
-                        MessageBox.Show("Are you sure? Will take a while", "Save", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2);
+                        MessageBox.Show("Are you sure? Will take a while", "Save",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
                 this.Cursor = Cursors.WaitCursor;
                 Gumps.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
-                    "Save", 
+                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["Gumps"] = false;
             }
         }
 
@@ -167,14 +169,15 @@ namespace FiddlerControls
         {
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             DialogResult result =
-                        MessageBox.Show(String.Format("Are you sure to remove {0}",i), "Remove", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button2);
+                        MessageBox.Show(String.Format("Are you sure to remove {0}", i), "Remove",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
                 Gumps.RemoveGump(i);
                 listBox.Items.RemoveAt(listBox.SelectedIndex);
                 pictureBox.BackgroundImage = null;
                 listBox.Invalidate();
+                Options.ChangedUltimaClass["Gumps"] = true;
             }
         }
 
@@ -182,9 +185,9 @@ namespace FiddlerControls
         {
             int id = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             id++;
-            for (int i = listBox.SelectedIndex+1; i < listBox.Items.Count; i++)
+            for (int i = listBox.SelectedIndex + 1; i < listBox.Items.Count; i++)
             {
-                if (id <int.Parse(listBox.Items[i].ToString()))
+                if (id < int.Parse(listBox.Items[i].ToString()))
                 {
                     listBox.SelectedIndex = i;
                     break;
@@ -209,34 +212,37 @@ namespace FiddlerControls
 
         private void onKeydown_InsertText(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            int index;
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
             {
-                int index;
-                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
+                if (Gumps.IsValidIndex(index))
+                    return;
+                contextMenuStrip1.Close();
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Multiselect = false;
+                dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                dialog.CheckFileExists = true;
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (Gumps.IsValidIndex(index))
-                        return;
-                    contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp = Utils.ConvertBmp(bmp);
+                    Gumps.ReplaceGump(index, bmp);
+                    for (int i = 0; i < listBox.Items.Count; i++)
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        Gumps.ReplaceGump(index, bmp);
-                        for (int i = 0; i < listBox.Items.Count; i++)
+                        int j = int.Parse(listBox.Items[i].ToString());
+                        if (j > index)
                         {
-                            int j = int.Parse(listBox.Items[i].ToString());
-                            if (j > index)
-                            {
-                                listBox.Items.Insert(i, index);
-                                listBox.SelectedIndex = i;
-                                break;
-                            }
+                            listBox.Items.Insert(i, index);
+                            listBox.SelectedIndex = i;
+                            break;
                         }
                     }
+                    Options.ChangedUltimaClass["Gumps"] = true;
                 }
             }
         }
@@ -246,8 +252,8 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.bmp", i));
-            Bitmap bmp = Gumps.GetGump(i);
-            bmp.Save(FileName, ImageFormat.Bmp);
+            Bitmap bit = new Bitmap(Gumps.GetGump(i));
+            bit.Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Gump saved to {0}", FileName),
                 "Saved",
@@ -261,8 +267,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.tiff", i));
-            Bitmap bmp = Gumps.GetGump(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
+            Gumps.GetGump(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Gump saved to {0}", FileName),
                 "Saved",

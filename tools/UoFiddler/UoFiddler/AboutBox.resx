@@ -118,7 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.5
+    <value>Version 3.5c
+-Warning dialog if there are unsafed changes
+-Multi tab now shows Sphere MultiRegion and used Surface
+-Items/Landtiles contextmenu added "Select in Tiledata"
+
+Version 3.5b
+-rewrote Multi Import
+shows extra form with (current) txt,uoa,wsc format
+checkbox to insert (client needed) center item
+
+Version 3.5
 -Fixed Crash in Speech tab
 -Added Copy CliLoc Number/Text to CliLocTab contextmenu
 -Added editor features in multi tab

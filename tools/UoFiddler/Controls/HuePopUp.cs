@@ -20,10 +20,10 @@ namespace FiddlerControls
         public HuePopUp(FiddlerControls.Animationlist ref_, int hue)
         {
             InitializeComponent();
-            if ((hue & 0x8000)!=0)
+            if ((hue & 0x8000) != 0)
             {
                 hue ^= 0x8000;
-                HueOnlyGray.Checked=true;
+                HueOnlyGray.Checked = true;
             }
             if (hue != 0)
                 control.Selected = hue;

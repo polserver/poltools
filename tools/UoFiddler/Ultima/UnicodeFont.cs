@@ -7,12 +7,11 @@ namespace Ultima
 {
     public sealed class UnicodeFont
     {
-        private UnicodeChar[] m_chars;
-        public UnicodeChar[] Chars { get { return m_chars; } set { m_chars = value; } }
+        public UnicodeChar[] Chars { get; set; }
 
         public UnicodeFont()
         {
-            m_chars = new UnicodeChar[0x10000];
+            Chars = new UnicodeChar[0x10000];
         }
 
         /// <summary>
@@ -28,8 +27,8 @@ namespace Ultima
             for (int i = 0; i < text.Length; ++i)
             {
                 int c = (int)text[i] % 0x10000;
-                width += m_chars[c].Width;
-                width += m_chars[c].XOffset;
+                width += Chars[c].Width;
+                width += Chars[c].XOffset;
             }
             return width;
         }
@@ -47,7 +46,7 @@ namespace Ultima
             for (int i = 0; i < text.Length; ++i)
             {
                 int c = (int)text[i] % 0x10000;
-                height = Math.Max(height, m_chars[c].Height + m_chars[c].YOffset);
+                height = Math.Max(height, Chars[c].Height + Chars[c].YOffset);
             }
             return height;
         }
@@ -55,17 +54,11 @@ namespace Ultima
 
     public sealed class UnicodeChar
     {
-        private byte[] m_Bytes;
-        private sbyte m_xOffset;
-        private sbyte m_yOffset;
-        private int m_Height;
-        private int m_Width;
-
-        public byte[] Bytes { get { return m_Bytes; } set { m_Bytes = value; } }
-        public sbyte XOffset { get { return m_xOffset; } set { m_xOffset = value; } }
-        public sbyte YOffset { get { return m_yOffset; } set { m_yOffset = value; } }
-        public int Height { get { return m_Height; } set { m_Height = value; } }
-        public int Width { get { return m_Width; } set { m_Width = value; } }
+        public byte[] Bytes { get; set; }
+        public sbyte XOffset { get; set; }
+        public sbyte YOffset { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
 
         public UnicodeChar()
         {
@@ -88,18 +81,18 @@ namespace Ultima
         /// <returns></returns>
         public unsafe Bitmap GetImage(bool fill)
         {
-            if ((m_Width == 0) || (m_Height == 0))
+            if ((Width == 0) || (Height == 0))
                 return null;
-            Bitmap bmp = new Bitmap(m_Width, m_Height, PixelFormat.Format16bppArgb1555);
+            Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             int delta = bd.Stride >> 1;
-            for (int y = 0; y < m_Height; y++,line+=delta)
+            for (int y = 0; y < Height; y++, line += delta)
             {
                 ushort* cur = line;
-                for (int x = 0; x < m_Width; x++)
+                for (int x = 0; x < Width; x++)
                 {
-                    if (IsPixelSet(m_Bytes, m_Width, x, y))
+                    if (IsPixelSet(Bytes, Width, x, y))
                         cur[x] = 0x8000;
                     else if (fill)
                         cur[x] = 0xffff;
@@ -123,7 +116,7 @@ namespace Ultima
         /// <param name="bmp"></param>
         public unsafe void SetBuffer(Bitmap bmp)
         {
-            m_Bytes = new byte[bmp.Height * (((bmp.Width - 1) / 8) + 1)];
+            Bytes = new byte[bmp.Height * (((bmp.Width - 1) / 8) + 1)];
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             int delta = bd.Stride >> 1;
@@ -135,7 +128,7 @@ namespace Ultima
                     if (cur[x] == 0x8000)
                     {
                         int offset = x / 8 + y * ((bmp.Width + 7) / 8);
-                        m_Bytes[offset] |= (byte)(1 << (7 - (x % 8)));
+                        Bytes[offset] |= (byte)(1 << (7 - (x % 8)));
                     }
                 }
             }
@@ -207,7 +200,7 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap WriteText(int fontId, string text)
         {
-            Bitmap result = new Bitmap(Fonts[fontId].GetWidth(text)+2, Fonts[fontId].GetHeight(text)+2);
+            Bitmap result = new Bitmap(Fonts[fontId].GetWidth(text) + 2, Fonts[fontId].GetHeight(text) + 2);
 
             int dx = 2;
             int dy = 2;
@@ -218,7 +211,7 @@ namespace Ultima
                     int c = (int)text[i] % 0x10000;
                     Bitmap bmp = Fonts[fontId].Chars[c].GetImage();
                     dx += Fonts[fontId].Chars[c].XOffset;
-                    graph.DrawImage(bmp, dx, dy+Fonts[fontId].Chars[c].YOffset);
+                    graph.DrawImage(bmp, dx, dy + Fonts[fontId].Chars[c].YOffset);
                     dx += bmp.Width;
                 }
             }

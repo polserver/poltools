@@ -47,7 +47,7 @@ namespace FiddlerControls
             treeView.Nodes.Clear();
             for (int i = 1; i <= 0xFFF; i++)
             {
-                if (Ultima.Sounds.IsValidSound(i - 1,out name))
+                if (Ultima.Sounds.IsValidSound(i - 1, out name))
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X3} {1}", i, name));
                     node.Tag = i;
@@ -87,14 +87,14 @@ namespace FiddlerControls
         {
             if (treeView.SelectedNode == null)
                 return;
-            seconds.Text = String.Format("{0:f}s", Ultima.Sounds.GetSoundLength((int)treeView.SelectedNode.Tag-1));
+            seconds.Text = String.Format("{0:f}s", Ultima.Sounds.GetSoundLength((int)treeView.SelectedNode.Tag - 1));
         }
 
         private void OnChangeSort(object sender, EventArgs e)
         {
-            string delimiter= " ";
+            string delimiter = " ";
             char[] delim = delimiter.ToCharArray();
-            string [] name;
+            string[] name;
             treeView.BeginUpdate();
             for (int i = 0; i < treeView.Nodes.Count; i++)
             {
@@ -109,7 +109,7 @@ namespace FiddlerControls
         {
             bool res = DoSearchName(textBox1.Text, false);
             if (!res)
-                MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK,MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+                MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
         private void SearchNext(object sender, EventArgs e)
@@ -124,7 +124,7 @@ namespace FiddlerControls
             int index = 0;
             if (next)
             {
-                if (treeView.SelectedNode.Index>=0)
+                if (treeView.SelectedNode.Index >= 0)
                     index = treeView.SelectedNode.Index + 1;
                 if (index >= treeView.Nodes.Count)
                     index = 0;
@@ -149,10 +149,10 @@ namespace FiddlerControls
                 return;
             int id = (int)treeView.SelectedNode.Tag - 1;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string name ="";
-            Ultima.Sounds.IsValidSound(id,out name);
-            string FileName = Path.Combine(path, String.Format("{0}",name));
-            MemoryStream stream= new MemoryStream(Ultima.Sounds.GetSound(id).buffer);
+            string name = "";
+            Ultima.Sounds.IsValidSound(id, out name);
+            string FileName = Path.Combine(path, String.Format("{0}", name));
+            MemoryStream stream = new MemoryStream(Ultima.Sounds.GetSound(id).buffer);
             FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write);
             stream.WriteTo(fs);
             fs.Close();
@@ -172,6 +172,7 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Sound"] = false;
         }
 
         private void OnClickRemove(object sender, EventArgs e)
@@ -186,13 +187,14 @@ namespace FiddlerControls
             {
                 Ultima.Sounds.Remove(id);
                 treeView.SelectedNode.Remove();
+                Options.ChangedUltimaClass["Sound"] = true;
             }
         }
 
         private void OnClickAddReplace(object sender, EventArgs e)
         {
             int id;
-            if (Utils.ConvertStringToInt(textBoxID.Text,out id,1,0xFFF))
+            if (Utils.ConvertStringToInt(textBoxID.Text, out id, 1, 0xFFF))
             {
                 string name = textBoxName.Text;
                 if (name != null)
@@ -202,7 +204,7 @@ namespace FiddlerControls
                     string filename = textBoxWav.Text;
                     if (File.Exists(filename))
                     {
-                        Ultima.Sounds.Add(id-1, name, filename);
+                        Ultima.Sounds.Add(id - 1, name, filename);
 
                         TreeNode node = new TreeNode(String.Format("0x{0:X3} {1}", id, name));
                         if (checkBox.Checked)
@@ -215,7 +217,7 @@ namespace FiddlerControls
                             {
                                 done = true;
                                 treeView.Nodes.RemoveAt(i);
-                                treeView.Nodes.Insert(i,node);
+                                treeView.Nodes.Insert(i, node);
                                 break;
                             }
                         }
@@ -228,6 +230,7 @@ namespace FiddlerControls
                         node.EnsureVisible();
                         treeView.SelectedNode = node;
                         treeView.Refresh();
+                        Options.ChangedUltimaClass["Sound"] = true;
                     }
                     else
                     {
@@ -277,10 +280,10 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, "SoundList.csv");
             Ultima.Sounds.SaveSoundListToCSV(FileName);
-            MessageBox.Show(String.Format("SoundList saved to {0}", FileName), 
-                "Saved", 
-                MessageBoxButtons.OK, 
-                MessageBoxIcon.Information, 
+            MessageBox.Show(String.Format("SoundList saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
     }

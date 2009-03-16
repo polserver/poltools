@@ -31,7 +31,7 @@ namespace Host
         public PluginServices()
         {
         }
-        
+
         private Types.AvailablePlugins colAvailablePlugins = new Types.AvailablePlugins();
 
         /// <summary>

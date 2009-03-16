@@ -60,7 +60,7 @@ namespace FiddlerControls
         /// <param name="name"></param>
         /// <param name="next">starting from current selected</param>
         /// <returns></returns>
-        public static bool SearchName(string name,bool next)
+        public static bool SearchName(string name, bool next)
         {
             int index = 0;
             if (next)
@@ -192,14 +192,15 @@ namespace FiddlerControls
                     Bitmap bmp = new Bitmap(dialog.FileName);
                     if ((bmp.Height != 44) || (bmp.Width != 44))
                     {
-                        MessageBox.Show("Height or Width Invalid", "Error",MessageBoxButtons.OK,
-                            MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+                        MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
+                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                         return;
                     }
                     if (dialog.FileName.Contains(".bmp"))
                         bmp = Utils.ConvertBmp(bmp);
                     Art.ReplaceLand((int)listView1.SelectedItems[0].Tag, bmp);
                     listView1.Invalidate();
+                    Options.ChangedUltimaClass["Art"] = true;
                 }
             }
         }
@@ -207,18 +208,19 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             DialogResult result =
-                        MessageBox.Show("Are you sure? Will take a while", "Save", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2);
+                        MessageBox.Show("Are you sure? Will take a while", "Save",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
                 this.Cursor = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
-                    "Save", 
+                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+                    MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["Art"] = false;
             }
         }
 
@@ -256,12 +258,14 @@ namespace FiddlerControls
                         Bitmap bmp = new Bitmap(dialog.FileName);
                         if ((bmp.Height != 44) || (bmp.Width != 44))
                         {
-                            MessageBox.Show("Height or Width Invalid", "Error",MessageBoxButtons.OK,
-                                MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                             return;
                         }
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand(index, bmp);
-
+                        Options.ChangedUltimaClass["Art"] = true;
                         ListViewItem item = new ListViewItem(index.ToString(), 0);
                         item.Tag = index;
                         bool done = false;
@@ -292,8 +296,8 @@ namespace FiddlerControls
         {
             int i = (int)listView1.SelectedItems[0].Tag;
             DialogResult result =
-                        MessageBox.Show(String.Format("Are you sure to remove {0}", i), "Save", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button2);
+                        MessageBox.Show(String.Format("Are you sure to remove {0}", i), "Save",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
                 Art.RemoveLand(i);
@@ -301,6 +305,7 @@ namespace FiddlerControls
                 listView1.SelectedItems[0].Selected = false;
                 listView1.Items.RemoveAt(i);
                 listView1.Invalidate();
+                Options.ChangedUltimaClass["Art"] = true;
             }
         }
 
@@ -359,6 +364,12 @@ namespace FiddlerControls
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
+        }
+
+        private void OnClickSelectTiledata(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 1)
+                FiddlerControls.TileDatas.Select((int)listView1.SelectedItems[0].Tag, true);
         }
     }
 }

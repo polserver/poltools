@@ -20,7 +20,7 @@ namespace UoFiddler
         /// The main entry point for the application.
         /// </summary>
 
-        
+
         public static Options opt = new Options();
         [STAThread]
         static void Main()
@@ -34,7 +34,7 @@ namespace UoFiddler
             }
             catch (Exception err)
             {
-                Clipboard.SetDataObject(err.ToString(), true);
+                //Clipboard.SetDataObject(err.ToString(), true);
                 Application.Run(new ExceptionForm(err));
             }
         }

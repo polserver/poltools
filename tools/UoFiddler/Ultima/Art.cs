@@ -6,15 +6,15 @@ using System.Collections;
 namespace Ultima
 {
     public sealed class Art
-	{
-		private static FileIndex m_FileIndex = new FileIndex( "Artidx.mul", "Art.mul", 0xC000, 4 );
-		private static Bitmap[] m_Cache = new Bitmap[0xC000];
+    {
+        private static FileIndex m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0xC000, 4);
+        private static Bitmap[] m_Cache = new Bitmap[0xC000];
         private static bool[] m_Removed = new bool[0xC000];
         private static Hashtable m_patched = new Hashtable();
 
-		private Art()
-		{
-		}
+        private Art()
+        {
+        }
 
         /// <summary>
         /// ReReads Art.mul
@@ -32,7 +32,7 @@ namespace Ultima
         /// </summary>
         /// <param name="index"></param>
         /// <param name="bmp"></param>
-        public static void ReplaceStatic(int index,Bitmap bmp)
+        public static void ReplaceStatic(int index, Bitmap bmp)
         {
             index += 0x4000;
             index &= 0xFFFF;
@@ -104,9 +104,9 @@ namespace Ultima
             bin.ReadInt32();
             int width = bin.ReadInt16();
             int height = bin.ReadInt16();
-
             if (width <= 0 || height <= 0)
                 return false;
+
 
             return true;
         }
@@ -126,9 +126,7 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
-            if (stream == null)
+            if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
                 return false;
             return true;
         }
@@ -151,10 +149,11 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap GetLand(int index, out bool patched)
         {
-            patched = false;
             index &= 0x3FFF;
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
+            else
+                patched = false;
 
             if (m_Removed[index])
                 return null;
@@ -192,11 +191,12 @@ namespace Ultima
         /// <returns></returns>
         public static Bitmap GetStatic(int index, out bool patched)
         {
-            patched = false;
             index += 0x4000;
             index &= 0xFFFF;
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
+            else
+                patched = false;
 
             if (m_Removed[index])
                 return null;
@@ -216,154 +216,152 @@ namespace Ultima
                 return LoadStatic(stream);
         }
 
-		public unsafe static void Measure( Bitmap bmp, out int xMin, out int yMin, out int xMax, out int yMax )
-		{
-			xMin = yMin = 0;
-			xMax = yMax = -1;
+        public unsafe static void Measure(Bitmap bmp, out int xMin, out int yMin, out int xMax, out int yMax)
+        {
+            xMin = yMin = 0;
+            xMax = yMax = -1;
 
-			if ( bmp == null || bmp.Width <= 0 || bmp.Height <= 0 )
-				return;
+            if (bmp == null || bmp.Width <= 0 || bmp.Height <= 0)
+                return;
 
-			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555 );
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
 
-			int delta = ((bd.Stride) >> 1) - bd.Width;
-			int lineDelta = bd.Stride >> 1;
+            int delta = ((bd.Stride) >> 1) - bd.Width;
+            int lineDelta = bd.Stride >> 1;
 
-			ushort *pBuffer = (ushort *)bd.Scan0;
-			ushort *pLineEnd = pBuffer + bd.Width;
-			ushort *pEnd = pBuffer + (bd.Height * lineDelta);
+            ushort* pBuffer = (ushort*)bd.Scan0;
+            ushort* pLineEnd = pBuffer + bd.Width;
+            ushort* pEnd = pBuffer + (bd.Height * lineDelta);
 
-			bool foundPixel = false;
+            bool foundPixel = false;
 
-			int x = 0, y = 0;
+            int x = 0, y = 0;
 
-			while ( pBuffer < pEnd )
-			{
-				while ( pBuffer < pLineEnd )
-				{
-					ushort c = *pBuffer++;
+            while (pBuffer < pEnd)
+            {
+                while (pBuffer < pLineEnd)
+                {
+                    ushort c = *pBuffer++;
 
-					if ( (c & 0x8000) != 0 )
-					{
-						if ( !foundPixel )
-						{
-							foundPixel = true;
-							xMin = xMax = x;
-							yMin = yMax = y;
-						}
-						else
-						{
-							if ( x < xMin )
-								xMin = x;
+                    if ((c & 0x8000) != 0)
+                    {
+                        if (!foundPixel)
+                        {
+                            foundPixel = true;
+                            xMin = xMax = x;
+                            yMin = yMax = y;
+                        }
+                        else
+                        {
+                            if (x < xMin)
+                                xMin = x;
 
-							if ( y < yMin )
-								yMin = y;
+                            if (y < yMin)
+                                yMin = y;
 
-							if ( x > xMax )
-								xMax = x;
+                            if (x > xMax)
+                                xMax = x;
 
-							if ( y > yMax )
-								yMax = y;
-						}
-					}
+                            if (y > yMax)
+                                yMax = y;
+                        }
+                    }
+                    ++x;
+                }
 
-					++x;
-				}
+                pBuffer += delta;
+                pLineEnd += lineDelta;
+                ++y;
+                x = 0;
+            }
 
-				pBuffer += delta;
-				pLineEnd += lineDelta;
-				++y;
-				x = 0;
-			}
+            bmp.UnlockBits(bd);
+        }
 
-			bmp.UnlockBits( bd );
-		}
+        private static unsafe Bitmap LoadStatic(Stream stream)
+        {
+            BinaryReader bin = new BinaryReader(stream);
 
-		private static unsafe Bitmap LoadStatic( Stream stream )
-		{
-			BinaryReader bin = new BinaryReader( stream );
+            bin.ReadInt32();
+            int width = bin.ReadInt16();
+            int height = bin.ReadInt16();
 
-			bin.ReadInt32();
-			int width = bin.ReadInt16();
-			int height = bin.ReadInt16();
+            if (width <= 0 || height <= 0)
+                return null;
 
-			if ( width <= 0 || height <= 0 )
-				return null;
+            int[] lookups = new int[height];
 
-			int[] lookups = new int[height];
+            int start = (int)bin.BaseStream.Position + (height * 2);
 
-			int start = (int)bin.BaseStream.Position + (height * 2);
+            for (int i = 0; i < height; ++i)
+                lookups[i] = (int)(start + (bin.ReadUInt16() * 2));
 
-			for ( int i = 0; i < height; ++i )
-				lookups[i] = (int)(start + (bin.ReadUInt16() * 2));
+            Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
 
-			Bitmap bmp = new Bitmap( width, height, PixelFormat.Format16bppArgb1555 );
-			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, width, height ), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555 );
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
 
-			ushort *line = (ushort *)bd.Scan0;
-			int delta = bd.Stride >> 1;
+            for (int y = 0; y < height; ++y, line += delta)
+            {
+                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
 
-			for ( int y = 0; y < height; ++y, line += delta )
-			{
-				bin.BaseStream.Seek( lookups[y], SeekOrigin.Begin );
+                ushort* cur = line;
+                ushort* end;
 
-				ushort *cur = line;
-				ushort *end;
+                int xOffset, xRun;
 
-				int xOffset, xRun;
-
-				while ( ((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0 )
-				{
-					cur += xOffset;
-					end = cur + xRun;
+                while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
+                {
+                    cur += xOffset;
+                    end = cur + xRun;
 
                     while (cur < end)
                         *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
-				}
-			}
+                }
+            }
 
-			bmp.UnlockBits( bd );
+            bmp.UnlockBits(bd);
+            return bmp;
+        }
 
-			return bmp;
-		}
+        private static unsafe Bitmap LoadLand(Stream stream)
+        {
+            Bitmap bmp = new Bitmap(44, 44, PixelFormat.Format16bppArgb1555);
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 44, 44), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+            BinaryReader bin = new BinaryReader(stream);
 
-		private static unsafe Bitmap LoadLand( Stream stream )
-		{
-			Bitmap bmp = new Bitmap( 44, 44, PixelFormat.Format16bppArgb1555 );
-			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, 44, 44 ), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555 );
-			BinaryReader bin = new BinaryReader( stream );
+            int xOffset = 21;
+            int xRun = 2;
 
-			int xOffset = 21;
-			int xRun = 2;
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
 
-			ushort *line = (ushort *)bd.Scan0;
-			int delta = bd.Stride >> 1;
+            for (int y = 0; y < 22; ++y, --xOffset, xRun += 2, line += delta)
+            {
+                ushort* cur = line + xOffset;
+                ushort* end = cur + xRun;
 
-			for ( int y = 0; y < 22; ++y, --xOffset, xRun += 2, line += delta )
-			{
-				ushort *cur = line + xOffset;
-				ushort *end = cur + xRun;
+                while (cur < end)
+                    *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
+            }
 
-				while ( cur < end )
-					*cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
-			}
+            xOffset = 0;
+            xRun = 44;
 
-			xOffset = 0;
-			xRun = 44;
+            for (int y = 0; y < 22; ++y, ++xOffset, xRun -= 2, line += delta)
+            {
+                ushort* cur = line + xOffset;
+                ushort* end = cur + xRun;
 
-			for ( int y = 0; y < 22; ++y, ++xOffset, xRun -= 2, line += delta )
-			{
-				ushort *cur = line + xOffset;
-				ushort *end = cur + xRun;
+                while (cur < end)
+                    *cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
+            }
 
-				while ( cur < end )
-					*cur++ = (ushort)(bin.ReadUInt16() | 0x8000);
-			}
+            bmp.UnlockBits(bd);
 
-			bmp.UnlockBits( bd );
-
-			return bmp;
-		}
+            return bmp;
+        }
 
         /// <summary>
         /// Saves mul
@@ -375,140 +373,132 @@ namespace Ultima
             string mul = Path.Combine(path, "art.mul");
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter binidx = new BinaryWriter(fsidx);
-                using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (BinaryWriter binidx = new BinaryWriter(fsidx))
                 {
-                    BinaryWriter binmul = new BinaryWriter(fsmul);
-                    for (int index = 0; index < m_Cache.Length; index++)
+                    using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
                     {
-                        if (m_Cache[index] == null)
+                        using (BinaryWriter binmul = new BinaryWriter(fsmul))
                         {
-                            if (index < 0x4000)
-                                m_Cache[index] = GetLand(index);
-                            else
-                                m_Cache[index] = GetStatic(index - 0x4000);
-                        }
-                        Bitmap bmp = m_Cache[index];
-
-                        if ((bmp == null) || (m_Removed[index]))
-                        {
-                            binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
-                        }
-                        else
-                        {
-                            if (index < 0x4000) //land
+                            for (int index = 0; index < m_Cache.Length; index++)
                             {
-                                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
-                                ushort* line = (ushort*)bd.Scan0;
-                                int delta = bd.Stride >> 1;
-
-                                binidx.Write((int)fsmul.Position); //lookup
-                                int length = (int)fsmul.Position;
-                                int x = 22;
-                                int y = 0;
-                                int linewidth = 2;
-
-                                for (int m = 0; m < 22; m++, y++, line += delta)
+                                if (m_Cache[index] == null)
                                 {
-                                    x--;
-                                    ushort* cur = line;
-                                    for (int n = 0; n < linewidth; n++)
+                                    if (index < 0x4000)
+                                        m_Cache[index] = GetLand(index);
+                                    else
+                                        m_Cache[index] = GetStatic(index - 0x4000);
+                                }
+                                Bitmap bmp = m_Cache[index];
+                                if ((bmp == null) || (m_Removed[index]))
+                                {
+                                    binidx.Write((int)-1); // lookup
+                                    binidx.Write((int)-1); // length
+                                    binidx.Write((int)-1); // extra
+                                }
+                                else if (index < 0x4000)
+                                {
+                                    //land
+                                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
+                                    ushort* line = (ushort*)bd.Scan0;
+                                    int delta = bd.Stride >> 1;
+                                    binidx.Write((int)fsmul.Position); //lookup
+                                    int length = (int)fsmul.Position;
+                                    int x = 22;
+                                    int y = 0;
+                                    int linewidth = 2;
+                                    for (int m = 0; m < 22; m++, y++, line += delta)
                                     {
-                                        binmul.Write((ushort)(cur[x + n] ^ 0x8000));
+                                        x--;
+                                        ushort* cur = line;
+                                        for (int n = 0; n < linewidth; n++)
+                                            binmul.Write((ushort)(cur[x + n] ^ 0x8000));
+                                        linewidth += 2;
                                     }
-                                    linewidth += 2;
-                                }
-                                x = 0;
-                                linewidth = 44;
-                                y = 22;
-                                line = (ushort*)bd.Scan0;
-                                line += delta * 22;
-                                for (int m = 0; m < 22; m++, y++, line += delta)
-                                {
-                                    ushort* cur = line;
-                                    for (int n = 0; n < linewidth; n++)
+                                    x = 0;
+                                    linewidth = 44;
+                                    y = 22;
+                                    line = (ushort*)bd.Scan0;
+                                    line += delta * 22;
+                                    for (int m = 0; m < 22; m++, y++, line += delta)
                                     {
-                                        binmul.Write((ushort)(cur[x + n] ^ 0x8000));
+                                        ushort* cur = line;
+                                        for (int n = 0; n < linewidth; n++)
+                                            binmul.Write((ushort)(cur[x + n] ^ 0x8000));
+                                        x++;
+                                        linewidth -= 2;
                                     }
-                                    x++;
-                                    linewidth -= 2;
+                                    length = (int)fsmul.Position - length;
+                                    binidx.Write(length);
+                                    binidx.Write((int)0);
+                                    bmp.UnlockBits(bd);
                                 }
-                                length = (int)fsmul.Position - length;
-                                binidx.Write(length);
-                                binidx.Write((int)0);
-                                bmp.UnlockBits(bd);
-                            }
-                            else // art
-                            {
-                                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
-                                ushort* line = (ushort*)bd.Scan0;
-                                int delta = bd.Stride >> 1;
-
-                                binidx.Write((int)fsmul.Position); //lookup
-                                int length = (int)fsmul.Position;
-                                binmul.Write((int)1234); // header
-                                binmul.Write((short)bmp.Width);
-                                binmul.Write((short)bmp.Height);
-                                int lookup = (int)fsmul.Position;
-                                int streamloc = lookup + bmp.Height * 2;
-                                int width = 0;
-                                for (int i = 0; i < bmp.Height; ++i) // fill lookup
+                                else
                                 {
-                                    binmul.Write(width);
-                                }
-                                int X = 0;
-                                for (int Y = 0; Y < bmp.Height; ++Y, line += delta)
-                                {
-                                    ushort* cur = line;
-                                    width = (int)(fsmul.Position - streamloc) / 2;
-                                    fsmul.Seek(lookup + Y * 2, SeekOrigin.Begin);
-                                    binmul.Write(width);
-                                    fsmul.Seek(streamloc + width * 2, SeekOrigin.Begin);
-
-                                    int i = 0;
-                                    int j = 0;
-                                    X = 0;
-                                    while (i < bmp.Width)
+                                    // art
+                                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
+                                    ushort* line = (ushort*)bd.Scan0;
+                                    int delta = bd.Stride >> 1;
+                                    binidx.Write((int)fsmul.Position); //lookup
+                                    int length = (int)fsmul.Position;
+                                    binmul.Write((int)1234); // header
+                                    binmul.Write((short)bmp.Width);
+                                    binmul.Write((short)bmp.Height);
+                                    int lookup = (int)fsmul.Position;
+                                    int streamloc = lookup + bmp.Height * 2;
+                                    int width = 0;
+                                    for (int i = 0; i < bmp.Height; ++i)// fill lookup
+                                        binmul.Write(width);
+                                    int X = 0;
+                                    for (int Y = 0; Y < bmp.Height; ++Y, line += delta)
                                     {
-                                        i = X;
-                                        for (i = X; i <= bmp.Width; ++i) //first pixel set
+                                        ushort* cur = line;
+                                        width = (int)(fsmul.Position - streamloc) / 2;
+                                        fsmul.Seek(lookup + Y * 2, SeekOrigin.Begin);
+                                        binmul.Write(width);
+                                        fsmul.Seek(streamloc + width * 2, SeekOrigin.Begin);
+                                        int i = 0;
+                                        int j = 0;
+                                        X = 0;
+                                        while (i < bmp.Width)
                                         {
+                                            i = X;
+                                            for (i = X; i <= bmp.Width; ++i)
+                                            {
+                                                //first pixel set
+                                                if (i < bmp.Width)
+                                                {
+                                                    if (cur[i] != 0)
+                                                        break;
+                                                }
+                                            }
                                             if (i < bmp.Width)
                                             {
-                                                if (cur[i]!=0)
-                                                    break;
+                                                for (j = (i + 1); j < bmp.Width; ++j)
+                                                {
+                                                    //next non set pixel
+                                                    if (cur[j] == 0)
+                                                        break;
+                                                }
+                                                binmul.Write((short)(i - X)); //xoffset
+                                                binmul.Write((short)(j - i)); //run
+                                                for (int p = i; p < j; ++p)
+                                                    binmul.Write((ushort)(cur[p] ^ 0x8000));
+                                                X = j;
                                             }
                                         }
-                                        if (i < bmp.Width)
-                                        {
-                                            for (j = (i + 1); j < bmp.Width; ++j) //next non set pixel
-                                            {
-                                                if (cur[j]==0)
-                                                    break;
-                                            }
-                                            binmul.Write((short)(i - X)); //xoffset
-                                            binmul.Write((short)(j - i)); //run
-                                            for (int p = i; p < j; ++p)
-                                            {
-                                                binmul.Write((ushort)(cur[p] ^ 0x8000));
-                                            }
-                                            X = j;
-                                        }
+                                        binmul.Write((short)0); //xOffset
+                                        binmul.Write((short)0); //Run
                                     }
-                                    binmul.Write((short)0); //xOffset
-                                    binmul.Write((short)0); //Run
+                                    length = (int)fsmul.Position - length;
+                                    binidx.Write(length);
+                                    binidx.Write((int)0);
+                                    bmp.UnlockBits(bd);
                                 }
-                                length = (int)fsmul.Position - length;
-                                binidx.Write(length);
-                                binidx.Write((int)0);
-                                bmp.UnlockBits(bd);
                             }
                         }
                     }
                 }
             }
         }
-	}
+    }
 }

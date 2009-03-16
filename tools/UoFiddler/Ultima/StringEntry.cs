@@ -2,8 +2,8 @@ using System;
 
 namespace Ultima
 {
-	public sealed class StringEntry
-	{
+    public sealed class StringEntry
+    {
         [Flags]
         public enum CliLocFlag
         {
@@ -11,12 +11,9 @@ namespace Ultima
             Custom = 0x1,
             Modified = 0x2
         }
+        private string m_Text;
 
-		private int m_Number;
-		private string m_Text;
-        private CliLocFlag m_Flag;
-
-        public int Number { get { return m_Number; } }
+        public int Number { get; private set; }
         public string Text
         {
             get { return m_Text; }
@@ -28,20 +25,20 @@ namespace Ultima
                     m_Text = value;
             }
         }
-        public CliLocFlag Flag { get { return m_Flag; } set { m_Flag = value; } }
+        public CliLocFlag Flag { get; set; }
 
-		public StringEntry( int number, string text, byte flag )
-		{
-			m_Number = number;
-			m_Text = text;
-            m_Flag = (CliLocFlag)flag;
-		}
+        public StringEntry(int number, string text, byte flag)
+        {
+            Number = number;
+            m_Text = text;
+            Flag = (CliLocFlag)flag;
+        }
 
         public StringEntry(int number, string text, CliLocFlag flag)
         {
-            m_Number = number;
+            Number = number;
             m_Text = text;
-            m_Flag = flag;
+            Flag = flag;
         }
-	}
+    }
 }

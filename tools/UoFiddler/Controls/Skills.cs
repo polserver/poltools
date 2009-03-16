@@ -55,7 +55,7 @@ namespace FiddlerControls
                 dataGridView1.Columns[2].FillWeight = 54.86799F;
                 dataGridView1.Columns[2].ReadOnly = false;
                 dataGridView1.Columns[3].Visible = false; // extraFlag
-             }
+            }
             this.Cursor = Cursors.Default;
         }
 

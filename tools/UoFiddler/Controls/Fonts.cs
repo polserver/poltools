@@ -51,9 +51,9 @@ namespace FiddlerControls
                 if (refmarker.listView1.SelectedItems.Count > 0)
                 {
                     int i = int.Parse(refmarker.listView1.SelectedItems[0].Text.ToString());
-                    refmarker.toolStripStatusLabel1.Text = 
-                        String.Format("'{0}' : {1} (0x{1:X}) XOffset: {2} YOffset: {3}", 
-                        (char)i, i, 
+                    refmarker.toolStripStatusLabel1.Text =
+                        String.Format("'{0}' : {1} (0x{1:X}) XOffset: {2} YOffset: {3}",
+                        (char)i, i,
                         UnicodeFonts.Fonts[(int)refmarker.treeView.SelectedNode.Tag].Chars[i].XOffset,
                         UnicodeFonts.Fonts[(int)refmarker.treeView.SelectedNode.Tag].Chars[i].YOffset);
                 }
@@ -115,10 +115,10 @@ namespace FiddlerControls
                 setOffsetsToolStripMenuItem.Visible = false;
                 if (ASCIIText.Fonts[font] != null)
                 {
-                    for (int i = 32; i < ASCIIText.Fonts[font].Characters.Length+32; i++)
+                    for (int i = 32; i < ASCIIText.Fonts[font].Characters.Length + 32; i++)
                     {
                         ListViewItem item = new ListViewItem(i.ToString(), 0);
-                        item.Tag = ASCIIText.Fonts[font].Characters[i-32];
+                        item.Tag = ASCIIText.Fonts[font].Characters[i - 32];
                         listView1.Items.Add(item);
                     }
                 }
@@ -178,11 +178,11 @@ namespace FiddlerControls
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string filetype;
                 if ((int)treeView.SelectedNode.Parent.Tag == 1)
-                    filetype ="Unicode";
+                    filetype = "Unicode";
                 else
-                    filetype ="ASCII";
+                    filetype = "ASCII";
 
-                string filename =String.Format("{0} {1} 0x{2:X}.tiff",
+                string filename = String.Format("{0} {1} 0x{2:X}.tiff",
                     filetype,
                     (int)treeView.SelectedNode.Tag,
                     int.Parse(listView1.SelectedItems[0].Text.ToString()));
@@ -197,7 +197,7 @@ namespace FiddlerControls
                 else
                     ((Bitmap)listView1.SelectedItems[0].Tag).Save(filename, ImageFormat.Tiff);
                 MessageBox.Show(
-                    String.Format("Character saved to {0}", filename), 
+                    String.Format("Character saved to {0}", filename),
                     "Saved",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
@@ -227,15 +227,17 @@ namespace FiddlerControls
                         return;
                     }
                     int font = (int)treeView.SelectedNode.Tag;
-                    int character = int.Parse(listView1.SelectedItems[0].Text.ToString())-32;
+                    int character = int.Parse(listView1.SelectedItems[0].Text.ToString()) - 32;
                     if ((int)treeView.SelectedNode.Parent.Tag == 1)
                     {
                         UnicodeFonts.Fonts[font].Chars[(int)listView1.SelectedItems[0].Tag].SetBuffer(import);
+                        Options.ChangedUltimaClass["UnicodeFont"] = true;
                     }
                     else
                     {
                         ASCIIText.Fonts[font].ReplaceCharacter(character, import);
                         listView1.SelectedItems[0].Tag = import;
+                        Options.ChangedUltimaClass["ASCIIFont"] = true;
                     }
                     listView1.Invalidate();
                 }
@@ -249,22 +251,24 @@ namespace FiddlerControls
             {
                 string FileName = UnicodeFonts.Save(path, (int)treeView.SelectedNode.Tag);
                 MessageBox.Show(
-                    String.Format("Unicode saved to {0}", FileName), 
+                    String.Format("Unicode saved to {0}", FileName),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["UnicodeFont"] = false;
             }
             else
             {
                 string FileName = Path.Combine(path, "fonts.mul");
                 ASCIIText.Save(FileName);
                 MessageBox.Show(
-                    String.Format("Fonts saved to {0}", FileName), 
+                    String.Format("Fonts saved to {0}", FileName),
                     "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["ASCIIFont"] = false;
             }
         }
 
@@ -287,7 +291,7 @@ namespace FiddlerControls
         private void OnClickWriteText(object sender, EventArgs e)
         {
             int type = (int)treeView.SelectedNode.Parent.Tag;
-            int font=(int)treeView.SelectedNode.Tag;
+            int font = (int)treeView.SelectedNode.Tag;
             new FontText(type, font).Show();
         }
     }

@@ -86,7 +86,7 @@ namespace FiddlerControls
         private System.Drawing.Point drawpoint = new System.Drawing.Point(0, 0);
         private System.Drawing.Point drawpointAni = new System.Drawing.Point(100, 100);
 
-        private object[] layers=new object[25];
+        private object[] layers = new object[25];
         private bool female = false;
         private bool elve = false;
         private bool showPD = true;
@@ -196,7 +196,7 @@ namespace FiddlerControls
                         {
                             Bitmap b = new Bitmap(background);
                             int hue = hues[0];
-                            bool gray=false;
+                            bool gray = false;
                             if ((hue & 0x8000) != 0)
                             {
                                 hue ^= 0x8000;
@@ -386,7 +386,7 @@ namespace FiddlerControls
                                     else
                                         frames = Animations.GetAnimation(ani, action, facing, ref hue, false, false);
                                     draw.X = draw.X;
-                                    if ((frames.Length<i) || (frames[i].Bitmap == null))
+                                    if ((frames.Length < i) || (frames[i].Bitmap == null))
                                         continue;
                                     draw.X = drawpointAni.X - frames[i].Center.X;
                                     draw.Y = drawpointAni.Y - frames[i].Center.Y - frames[i].Bitmap.Height;
@@ -418,7 +418,7 @@ namespace FiddlerControls
                 return;
             using (Graphics graph = Graphics.FromImage(DressPic.Image))
             {
-                graph.DrawImage(m_Animation[m_FrameIndex],drawpoint);
+                graph.DrawImage(m_Animation[m_FrameIndex], drawpoint);
             }
             DressPic.Invalidate();
         }
@@ -720,7 +720,7 @@ namespace FiddlerControls
 
         private void OnScroll_Action(object sender, EventArgs e)
         {
-            string[] tip =new string[]{"Walk_01","WalkStaff_01","Run_01","RunStaff_01","Idle_01","Idle_01",
+            string[] tip = new string[]{"Walk_01","WalkStaff_01","Run_01","RunStaff_01","Idle_01","Idle_01",
                          "Fidget_Yawn_Stretch_01","CombatIdle1H_01","CombatIdle1H_01","AttackSlash1H_01",
                          "AttackPierce1H_01","AttackBash1H_01","AttackBash2H_01","AttackSlash2H_01",
                          "AttackPierce2H_01","CombatAdvance_1H_01","Spell1","Spell2","AttackBow_01",
@@ -729,7 +729,7 @@ namespace FiddlerControls
                          "Horse_AttackBow_01","Horse_AttackCrossbow_01","Horse_Attack2H_SlashRight_01",
                          "Block_Shield_Hard_01","Punch_Punch_Jab_01","Bow_Lesser_01","Salute_Armed1h_01",
                          "Ingest_Eat_01"};
-            toolTip1.SetToolTip(ActionBar,ActionBar.Value.ToString()+" "+tip[ActionBar.Value]);
+            toolTip1.SetToolTip(ActionBar, ActionBar.Value.ToString() + " " + tip[ActionBar.Value]);
             action = ActionBar.Value;
             RefreshDrawing();
         }
@@ -821,7 +821,7 @@ namespace FiddlerControls
             if ((showform == null) || (showform.IsDisposed))
             {
                 int layer = checkedListBoxWear.SelectedIndex;
-                showform = new HuePopUpDress(this, hues[layer],layer);
+                showform = new HuePopUpDress(this, hues[layer], layer);
                 showform.TopMost = true;
                 showform.Show();
             }
@@ -945,17 +945,17 @@ namespace FiddlerControls
             else if (layerx < layery)
                 return -1;
             else
-                return 1; 
+                return 1;
         }
     }
 
     public class GumpTable
-	{
+    {
         private static Hashtable m_Entries;
         public static Hashtable Entries { get { return m_Entries; } }
 
         // Seems only used if Gump is invalid
-		static GumpTable()
+        static GumpTable()
         {
             Initialize();
         }

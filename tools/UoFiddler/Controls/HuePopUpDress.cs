@@ -27,14 +27,14 @@ namespace FiddlerControls
                 HueOnlyGray.Checked = true;
             }
             if (hue >= 0)
-                control.Selected = hue-1;
+                control.Selected = hue - 1;
             refItem = ref_;
             layer = l;
         }
 
         private void Click_OK(object sender, EventArgs e)
         {
-            int Selected = control.Selected+1;
+            int Selected = control.Selected + 1;
             if (HueOnlyGray.Checked)
                 Selected ^= 0x8000;
             refItem.Hues[layer] = Selected;

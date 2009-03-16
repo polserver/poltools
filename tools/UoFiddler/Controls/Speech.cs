@@ -49,7 +49,7 @@ namespace FiddlerControls
             sortcolumn = 2;
             source.DataSource = SpeechList.Entries;
             dataGridView1.DataSource = source;
-            if (dataGridView1.Columns.Count>0)
+            if (dataGridView1.Columns.Count > 0)
                 dataGridView1.Columns[0].Width = 60;
             dataGridView1.Refresh();
         }
@@ -66,16 +66,16 @@ namespace FiddlerControls
             else
             {
                 sortorder = SortOrder.Ascending;
-                if (sortcolumn!=2)
+                if (sortcolumn != 2)
                     dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
             }
             dataGridView1.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortorder;
             sortcolumn = e.ColumnIndex;
 
             if (e.ColumnIndex == 0)
-                SpeechList.Entries.Sort(new SpeechList.IDComparer(sortorder==SortOrder.Descending));
+                SpeechList.Entries.Sort(new SpeechList.IDComparer(sortorder == SortOrder.Descending));
             else if (e.ColumnIndex == 1)
-                SpeechList.Entries.Sort(new SpeechList.KeyWordComparer(sortorder==SortOrder.Descending));
+                SpeechList.Entries.Sort(new SpeechList.KeyWordComparer(sortorder == SortOrder.Descending));
 
             dataGridView1.Refresh();
         }
@@ -84,6 +84,7 @@ namespace FiddlerControls
         {
             if (((SpeechEntry)SpeechList.Entries[e.RowIndex]).KeyWord == null)
                 ((SpeechEntry)SpeechList.Entries[e.RowIndex]).KeyWord = "";
+            Options.ChangedUltimaClass["Speech"] = true;
         }
 
         private void FindID(int index)
@@ -101,7 +102,7 @@ namespace FiddlerControls
                     }
                 }
             }
-            MessageBox.Show("ID not found.", "Goto", MessageBoxButtons.OK,MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+            MessageBox.Show("ID not found.", "Goto", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
         private void FindKeyWord(int index)
@@ -116,7 +117,7 @@ namespace FiddlerControls
                     return;
                 }
             }
-            MessageBox.Show("KeyWord not found.", "Entry", MessageBoxButtons.OK,MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            MessageBox.Show("KeyWord not found.", "Entry", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickFindID(object sender, EventArgs e)
@@ -127,7 +128,7 @@ namespace FiddlerControls
         private void OnClickNextID(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-                FindID(dataGridView1.SelectedRows[0].Index+1);
+                FindID(dataGridView1.SelectedRows[0].Index + 1);
             else
                 FindID(0);
         }
@@ -152,15 +153,17 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, "speech.mul");
             SpeechList.SaveSpeechList(FileName);
             dataGridView1.Refresh();
-            MessageBox.Show(String.Format("Speech saved to {0}", FileName), "Saved",MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+            MessageBox.Show(String.Format("Speech saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Speech"] = false;
         }
 
         private void OnAddEntry(object sender, EventArgs e)
         {
             source.Add(new SpeechEntry(0, "", SpeechList.Entries.Count));
             dataGridView1.Refresh();
-            dataGridView1.Rows[dataGridView1.Rows.Count-1].Selected = true;
+            dataGridView1.Rows[dataGridView1.Rows.Count - 1].Selected = true;
             dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.Rows.Count - 1;
+            Options.ChangedUltimaClass["Speech"] = true;
         }
 
         private void OnDeleteEntry(object sender, EventArgs e)
@@ -169,6 +172,7 @@ namespace FiddlerControls
             {
                 source.RemoveCurrent();
                 dataGridView1.Refresh();
+                Options.ChangedUltimaClass["Speech"] = true;
             }
         }
     }

@@ -26,7 +26,7 @@ namespace UoFiddler
         private void OnLoad(object sender, EventArgs e)
         {
             listBoxTools.BeginUpdate();
-            for(int i=0;i<Options.ExternTools.Count;i++)
+            for (int i = 0; i < Options.ExternTools.Count; i++)
             {
                 listBoxTools.Items.Add(i);
             }
@@ -54,7 +54,7 @@ namespace UoFiddler
                 textBoxToolFile.Text = tool.FileName;
                 textBoxArgName.Text = "";
                 textBoxArgParam.Text = "";
-                
+
             }
             else
             {

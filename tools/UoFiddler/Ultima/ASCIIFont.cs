@@ -5,76 +5,71 @@ using System.IO;
 // ascii text support written by arul
 namespace Ultima
 {
-	public sealed class ASCIIFont
-	{
-        private byte m_Header;
-        private byte[] m_Unk;
-        private Bitmap[] m_Characters;
-		private int m_Height;
-		
-        public byte Header { get { return m_Header; } }
-        public byte[] Unk { get { return m_Unk; } set { m_Unk = value; } }
-		public Bitmap[] Characters { get { return m_Characters; } set { m_Characters = value; } }
-        public int Height { get { return m_Height; } set { m_Height = value; } }
-        
+    public sealed class ASCIIFont
+    {
+        public byte Header { get; private set; }
+        public byte[] Unk { get; set; }
+        public Bitmap[] Characters { get; set; }
+        public int Height { get; set; }
 
-		public ASCIIFont(byte header)
-		{
-            m_Header = header;
-			Height		= 0;
-            m_Unk = new byte[224];
-			Characters	= new Bitmap[ 224 ];
-		}
+
+        public ASCIIFont(byte header)
+        {
+            Header = header;
+            Height = 0;
+            Unk = new byte[224];
+            Characters = new Bitmap[224];
+        }
 
         /// <summary>
         /// Gets Bitmap of given character
         /// </summary>
         /// <param name="character"></param>
         /// <returns></returns>
-		public Bitmap GetBitmap( char character )
-		{
-			return m_Characters[ ( ( ( ( (int)character ) - 0x20 ) & 0x7FFFFFFF ) % 224 ) ];
-		}
+        public Bitmap GetBitmap(char character)
+        {
+            return Characters[(((((int)character) - 0x20) & 0x7FFFFFFF) % 224)];
+        }
 
-		public int GetWidth( string text )
-		{
-			if( text == null || text.Length == 0 ) { return 0; }
+        public int GetWidth(string text)
+        {
+            if (text == null || text.Length == 0) { return 0; }
 
-			int width = 0;
+            int width = 0;
 
-			for( int i = 0; i < text.Length; ++i )
-			{
-				width += GetBitmap( text[ i ] ).Width;
-			}
+            for (int i = 0; i < text.Length; ++i)
+            {
+                width += GetBitmap(text[i]).Width;
+            }
 
-			return width;
-		}
+            return width;
+        }
 
         public void ReplaceCharacter(int character, Bitmap import)
         {
-            m_Characters[character] = import;
-            m_Height = import.Height;
+            Characters[character] = import;
+            Height = import.Height;
         }
 
-		public static ASCIIFont GetFixed( int font )
-		{
-			if( font < 0 || font > 9 )
-			{
-				return ASCIIText.Fonts[ 3 ];
-			}
+        public static ASCIIFont GetFixed(int font)
+        {
+            if (font < 0 || font > 9)
+            {
+                return ASCIIText.Fonts[3];
+            }
 
-			return ASCIIText.Fonts[ font ];
-		}
-	}
+            return ASCIIText.Fonts[font];
+        }
+    }
 
-	public static class ASCIIText
-	{
-		public static ASCIIFont[] Fonts = new ASCIIFont[ 10 ];
+    public static class ASCIIText
+    {
+        public static ASCIIFont[] Fonts = new ASCIIFont[10];
 
-		static ASCIIText()
-		{
+        static ASCIIText()
+        {
             Initialize();
-		}
+        }
 
         /// <summary>
         /// Reads fonts.mul
@@ -85,7 +80,7 @@ namespace Ultima
 
             if (path != null)
             {
-                using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open,FileAccess.Read,FileShare.Read)))
+                using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
                 {
                     for (int i = 0; i < 10; ++i)
                     {
@@ -148,7 +143,7 @@ namespace Ultima
                         BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
                         ushort* line = (ushort*)bd.Scan0;
                         int delta = bd.Stride >> 1;
-                        for (int y = 0; y < bmp.Height; ++y,line+=delta)
+                        for (int y = 0; y < bmp.Height; ++y, line += delta)
                         {
                             ushort* cur = line;
                             for (int x = 0; x < bmp.Width; ++x)
@@ -174,16 +169,16 @@ namespace Ultima
         public static Bitmap DrawText(int fontId, string text)
         {
             ASCIIFont font = ASCIIFont.GetFixed(fontId);
-            Bitmap result = new Bitmap(font.GetWidth(text)+2, font.Height+2);
+            Bitmap result = new Bitmap(font.GetWidth(text) + 2, font.Height + 2);
 
             int dx = 2;
-            int dy = font.Height+2;
+            int dy = font.Height + 2;
             using (Graphics graph = Graphics.FromImage(result))
             {
                 for (int i = 0; i < text.Length; ++i)
                 {
                     Bitmap bmp = font.GetBitmap(text[i]);
-                    graph.DrawImage(bmp,dx,dy-bmp.Height);
+                    graph.DrawImage(bmp, dx, dy - bmp.Height);
                     dx += bmp.Width;
                 }
             }
@@ -226,7 +221,7 @@ namespace Ultima
 
         //            for( int k = 0; k < chr.Width; ++k )
         //                *dest++ = *src++;
-					
+
         //        }
 
         //        dx += chr.Width;
@@ -246,5 +241,5 @@ namespace Ultima
 
         //    return result;
         //}
-	}
+    }
 }

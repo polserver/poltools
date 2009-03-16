@@ -65,7 +65,7 @@ namespace FiddlerControls
             this.Graphic.Image = newbit;
             newgraph.Dispose();
         }
-        
+
         private void onLoad(object sender, EventArgs e)
         {
             this.animateToolStripMenuItem.Visible = false;
@@ -82,26 +82,26 @@ namespace FiddlerControls
                 this.Graphic.Size = new System.Drawing.Size(300, bit.Size.Height + 10);
                 SetPicture(bit);
             }
-            
-            this.Data.AppendText(String.Format("Name: {0}\n",item.Name));
+
+            this.Data.AppendText(String.Format("Name: {0}\n", item.Name));
             this.Data.AppendText(String.Format("Graphic: 0x{0:X4} ({0})\n", index));
             this.Data.AppendText(String.Format("Height/Capacity: {0}\n", item.Height));
             this.Data.AppendText(String.Format("Weight: {0}\n", item.Weight));
-            this.Data.AppendText(String.Format("Animation: {0}\n",item.Animation));
-            this.Data.AppendText(String.Format("Quality/Layer/Light: {0}\n",item.Quality));
-            this.Data.AppendText(String.Format("Quantity: {0}\n",item.Quantity));
+            this.Data.AppendText(String.Format("Animation: {0}\n", item.Animation));
+            this.Data.AppendText(String.Format("Quality/Layer/Light: {0}\n", item.Quality));
+            this.Data.AppendText(String.Format("Quantity: {0}\n", item.Quantity));
             this.Data.AppendText(String.Format("Hue: {0}\n", item.Hue));
             this.Data.AppendText(String.Format("StackingOffset/Unk4: {0}\n", item.StackingOffset));
             this.Data.AppendText(String.Format("Flags: {0}\n", item.Flags));
             if ((item.Flags & TileFlag.PartialHue) != 0)
                 partialHue = true;
-            if ((item.Flags & TileFlag.Animation) != 0 )
+            if ((item.Flags & TileFlag.Animation) != 0)
             {
                 info = Animdata.GetAnimData(index);
                 if (info != null)
                 {
                     this.animateToolStripMenuItem.Visible = true;
-                    this.Data.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount,info.FrameInterval));
+                    this.Data.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount, info.FrameInterval));
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace FiddlerControls
             if (frame >= info.FrameCount)
                 frame = 0;
 
-            Bitmap animbit = new Bitmap(Ultima.Art.GetStatic(index+info.FrameData[frame]));
+            Bitmap animbit = new Bitmap(Ultima.Art.GetStatic(index + info.FrameData[frame]));
             if (defHue >= 0)
             {
                 Hue hue = Ultima.Hues.List[defHue];

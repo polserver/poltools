@@ -5,9 +5,9 @@ using System.Collections;
 
 namespace Ultima
 {
-	public sealed class Textures
-	{
-		private static FileIndex m_FileIndex = new FileIndex( "Texidx.mul", "Texmaps.mul", 0x1000, 10 );
+    public sealed class Textures
+    {
+        private static FileIndex m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
         private static Bitmap[] m_Cache = new Bitmap[0x1000];
         private static bool[] m_Removed = new bool[0x1000];
         private static Hashtable m_patched = new Hashtable();
@@ -58,9 +58,7 @@ namespace Ultima
                 return false;
             if (m_Cache[index] != null)
                 return true;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
-            if (stream == null)
+            if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
                 return false;
 
             return true;
@@ -82,48 +80,49 @@ namespace Ultima
         /// <param name="index"></param>
         /// <param name="patched"></param>
         /// <returns></returns>
-		public unsafe static Bitmap GetTexture( int index, out bool patched )
-		{
-            patched = false;
+        public unsafe static Bitmap GetTexture(int index, out bool patched)
+        {
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
+            else
+                patched = false;
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
                 return m_Cache[index];
 
-			int length, extra;
-			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
-			if ( stream == null )
-				return null;
+            int length, extra;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+            if (stream == null)
+                return null;
             if (patched)
                 m_patched[index] = true;
 
-			int size = extra == 0 ? 64 : 128;
+            int size = extra == 0 ? 64 : 128;
 
-			Bitmap bmp = new Bitmap( size, size, PixelFormat.Format16bppArgb1555 );
-			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, size, size ), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555 );
-			BinaryReader bin = new BinaryReader( stream );
+            Bitmap bmp = new Bitmap(size, size, PixelFormat.Format16bppArgb1555);
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, size, size), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+            BinaryReader bin = new BinaryReader(stream);
 
-			ushort *line = (ushort *)bd.Scan0;
-			int delta = bd.Stride >> 1;
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
 
-			for ( int y = 0; y < size; ++y, line += delta )
-			{
-				ushort *cur = line;
-				ushort *end = cur + size;
+            for (int y = 0; y < size; ++y, line += delta)
+            {
+                ushort* cur = line;
+                ushort* end = cur + size;
 
-				while ( cur < end )
-					*cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
-			}
+                while (cur < end)
+                    *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+            }
 
-			bmp.UnlockBits( bd );
+            bmp.UnlockBits(bd);
 
             if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else
                 return bmp;
-		}
+        }
 
         public unsafe static void Save(string path)
         {
@@ -173,5 +172,5 @@ namespace Ultima
                 }
             }
         }
-	}
+    }
 }

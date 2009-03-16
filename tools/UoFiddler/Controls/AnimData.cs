@@ -49,13 +49,13 @@ namespace FiddlerControls
                     {
                         TreeNode node = new TreeNode();
                         int frame = value + selData.FrameData[i];
-                        node.Text=String.Format("0x{0:X4} {1}", frame, TileData.ItemTable[frame].Name);
+                        node.Text = String.Format("0x{0:X4} {1}", frame, TileData.ItemTable[frame].Name);
                         treeViewFrames.Nodes.Add(node);
                     }
                     treeViewFrames.EndUpdate();
                 }
                 m_currAnim = value;
-                
+
                 if (m_Timer == null)
                 {
                     int graphic = value;
@@ -93,7 +93,7 @@ namespace FiddlerControls
                 Animdata.Data data = (Animdata.Data)Animdata.AnimData[id];
                 TreeNode node = new TreeNode();
                 node.Tag = id;
-                node.Text = String.Format("0x{0:X4} {1}",id,TileData.ItemTable[id].Name);
+                node.Text = String.Format("0x{0:X4} {1}", id, TileData.ItemTable[id].Name);
                 if (!Art.IsValidStatic(id))
                     node.ForeColor = Color.Red;
                 else if ((TileData.ItemTable[id].Flags & TileFlag.Animation) == 0)
@@ -125,7 +125,7 @@ namespace FiddlerControls
                 {
                     curframe = -1;
                     CurrAnim = (int)treeView1.SelectedNode.Tag;
-                 }
+                }
                 else
                 {
                     curframe = treeView1.SelectedNode.Index;
@@ -139,7 +139,7 @@ namespace FiddlerControls
             curframe = treeViewFrames.SelectedNode.Index;
             if (m_Timer != null)
                 StopTimer();
-            
+
             CurrAnim = CurrAnim;
         }
 
@@ -150,7 +150,7 @@ namespace FiddlerControls
             else
             {
                 m_Timer = new Timer();
-                m_Timer.Interval = 100 * selData.FrameInterval+1;
+                m_Timer.Interval = 100 * selData.FrameInterval + 1;
                 m_Timer.Tick += new EventHandler(m_Timer_Tick);
                 Timer_frame = 0;
                 m_Timer.Start();
@@ -168,7 +168,10 @@ namespace FiddlerControls
         private void onValueChangedStartDelay(object sender, EventArgs e)
         {
             if (selData != null)
+            {
                 selData.FrameStart = (byte)numericUpDownStartDelay.Value;
+                Options.ChangedUltimaClass["Animdata"] = true;
+            }
         }
 
         private void onValueChangedFrameDelay(object sender, EventArgs e)
@@ -178,6 +181,7 @@ namespace FiddlerControls
                 selData.FrameInterval = (byte)numericUpDownFrameDelay.Value;
                 if (m_Timer != null)
                     m_Timer.Interval = 100 * selData.FrameInterval + 1;
+                Options.ChangedUltimaClass["Animdata"] = true;
             }
         }
 
@@ -190,7 +194,7 @@ namespace FiddlerControls
                     if (treeViewFrames.SelectedNode != null)
                     {
                         int index = treeViewFrames.SelectedNode.Index;
-                        if (index < selData.FrameCount-1)
+                        if (index < selData.FrameCount - 1)
                         {
                             sbyte temp = selData.FrameData[index];
                             selData.FrameData[index] = selData.FrameData[index + 1];
@@ -219,6 +223,7 @@ namespace FiddlerControls
                                 TileData.ItemTable[frame].Name);
 
                             treeViewFrames.SelectedNode = treeViewFrames.Nodes[index + 1];
+                            Options.ChangedUltimaClass["Animdata"] = true;
                         }
                     }
                 }
@@ -231,10 +236,10 @@ namespace FiddlerControls
             {
                 if (treeViewFrames.Nodes.Count > 1)
                 {
-                    if (treeViewFrames.SelectedNode!=null)
+                    if (treeViewFrames.SelectedNode != null)
                     {
                         int index = treeViewFrames.SelectedNode.Index;
-                        if (index >0)
+                        if (index > 0)
                         {
                             sbyte temp = selData.FrameData[index];
                             selData.FrameData[index] = selData.FrameData[index - 1];
@@ -245,7 +250,7 @@ namespace FiddlerControls
                                 listnode = treeView1.SelectedNode;
                             else
                                 listnode = treeView1.SelectedNode.Parent;
-                            int frame=CurrAnim+selData.FrameData[index];
+                            int frame = CurrAnim + selData.FrameData[index];
                             treeViewFrames.Nodes[index].Text = String.Format("0x{0:X4} {1}",
                                 frame,
                                 TileData.ItemTable[frame].Name);
@@ -253,14 +258,15 @@ namespace FiddlerControls
                                 frame,
                                 TileData.ItemTable[frame].Name);
 
-                            frame = CurrAnim + selData.FrameData[index-1];
-                            treeViewFrames.Nodes[index-1].Text = String.Format("0x{0:X4} {1}",
+                            frame = CurrAnim + selData.FrameData[index - 1];
+                            treeViewFrames.Nodes[index - 1].Text = String.Format("0x{0:X4} {1}",
                                 frame,
                                 TileData.ItemTable[frame].Name);
                             listnode.Nodes[index - 1].Text = String.Format("0x{0:X4} {1}",
                                 frame,
                                 TileData.ItemTable[frame].Name);
                             treeViewFrames.SelectedNode = treeViewFrames.Nodes[index - 1];
+                            Options.ChangedUltimaClass["Animdata"] = true;
                         }
                     }
                 }
@@ -273,7 +279,7 @@ namespace FiddlerControls
             bool candone = Utils.ConvertStringToInt(textBoxAddFrame.Text, out index);
             if (checkBoxRelative.Checked)
                 index += CurrAnim;
-            if ((index > 0x3FFF) || (index<0))
+            if ((index > 0x3FFF) || (index < 0))
                 candone = false;
             if (candone)
             {
@@ -305,18 +311,19 @@ namespace FiddlerControls
                 {
                     if (Art.IsValidStatic(index))
                     {
-                        selData.FrameData[selData.FrameCount] = (sbyte)(index-CurrAnim);
+                        selData.FrameData[selData.FrameCount] = (sbyte)(index - CurrAnim);
                         selData.FrameCount += 1;
                         TreeNode node = new TreeNode();
                         node.Text = String.Format("0x{0:X4} {1}", index, TileData.ItemTable[index].Name);
                         treeViewFrames.Nodes.Add(node);
                         TreeNode subnode = new TreeNode();
-                        subnode.Tag = selData.FrameCount-1;
+                        subnode.Tag = selData.FrameCount - 1;
                         subnode.Text = String.Format("0x{0:X4} {1}", index, TileData.ItemTable[index].Name);
                         if (treeView1.SelectedNode.Parent == null)
                             treeView1.SelectedNode.Nodes.Add(subnode);
                         else
                             treeView1.SelectedNode.Parent.Nodes.Add(subnode);
+                        Options.ChangedUltimaClass["Animdata"] = true;
                     }
                 }
             }
@@ -330,7 +337,7 @@ namespace FiddlerControls
                 {
                     int index = treeViewFrames.SelectedNode.Index;
                     int i;
-                    for (i = index; i < selData.FrameCount-1; i++)
+                    for (i = index; i < selData.FrameCount - 1; i++)
                     {
                         selData.FrameData[i] = selData.FrameData[i + 1];
                     }
@@ -362,6 +369,7 @@ namespace FiddlerControls
                     }
                     treeViewFrames.EndUpdate();
                     treeView1.EndUpdate();
+                    Options.ChangedUltimaClass["Animdata"] = true;
                 }
             }
         }
@@ -376,6 +384,7 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Animdata"] = false;
         }
 
         private void onClickRemoveAnim(object sender, EventArgs e)
@@ -384,6 +393,7 @@ namespace FiddlerControls
                 return;
 
             Animdata.AnimData.Remove(CurrAnim);
+            Options.ChangedUltimaClass["Animdata"] = true;
             treeView1.SelectedNode.Remove();
         }
 
@@ -396,9 +406,9 @@ namespace FiddlerControls
         private void onTextChangeAdd(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(AddTextBox.Text, out index,0,0x3FFF))
+            if (Utils.ConvertStringToInt(AddTextBox.Text, out index, 0, 0x3FFF))
             {
-                if (Animdata.GetAnimData(index)!=null)
+                if (Animdata.GetAnimData(index) != null)
                     AddTextBox.ForeColor = Color.Red;
                 else
                     AddTextBox.ForeColor = Color.Black;
@@ -428,6 +438,7 @@ namespace FiddlerControls
                         node.Nodes.Add(subnode);
                         node.EnsureVisible();
                         treeView1.SelectedNode = node;
+                        Options.ChangedUltimaClass["Animdata"] = true;
                     }
                 }
             }

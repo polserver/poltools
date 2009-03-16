@@ -28,7 +28,7 @@ namespace UoFiddler
             numericUpDownItemSizeHeight.Value = FiddlerControls.Options.ArtItemSizeHeight;
             checkBoxItemClip.Checked = FiddlerControls.Options.ArtItemClip;
             checkBoxUseHash.Checked = Files.UseHashFile;
-            map0Nametext.Text=FiddlerControls.Options.MapNames[0];
+            map0Nametext.Text = FiddlerControls.Options.MapNames[0];
             map1Nametext.Text = FiddlerControls.Options.MapNames[1];
             map2Nametext.Text = FiddlerControls.Options.MapNames[2];
             map3Nametext.Text = FiddlerControls.Options.MapNames[3];

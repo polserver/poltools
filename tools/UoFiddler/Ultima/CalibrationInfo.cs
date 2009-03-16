@@ -4,72 +4,65 @@ using System.IO;
 
 namespace Ultima
 {
-	public sealed class CalibrationInfo
-	{
-		private byte[] m_Mask;
-		private byte[] m_Vals;
-		private byte[] m_DetX;
-		private byte[] m_DetY;
-		private byte[] m_DetZ;
-		private byte[] m_DetF;
+    public sealed class CalibrationInfo
+    {
+        public byte[] Mask { get; private set; }
+        public byte[] Vals { get; private set; }
+        public byte[] DetX { get; private set; }
+        public byte[] DetY { get; private set; }
+        public byte[] DetZ { get; private set; }
+        public byte[] DetF { get; private set; }
 
-		public byte[] Mask{ get{ return m_Mask; } }
-		public byte[] Vals{ get{ return m_Vals; } }
-		public byte[] DetX{ get{ return m_DetX; } }
-		public byte[] DetY{ get{ return m_DetY; } }
-		public byte[] DetZ{ get{ return m_DetZ; } }
-		public byte[] DetF{ get{ return m_DetF; } }
+        public CalibrationInfo(byte[] mask, byte[] vals, byte[] detx, byte[] dety, byte[] detz, byte[] detf)
+        {
+            Mask = mask;
+            Vals = vals;
+            DetX = detx;
+            DetY = dety;
+            DetZ = detz;
+            DetF = detf;
+        }
 
-		public CalibrationInfo( byte[] mask, byte[] vals, byte[] detx, byte[] dety, byte[] detz, byte[] detf )
-		{
-			m_Mask = mask;
-			m_Vals = vals;
-			m_DetX = detx;
-			m_DetY = dety;
-			m_DetZ = detz;
-			m_DetF = detf;
-		}
+        private static byte[] ReadBytes(StreamReader ip)
+        {
+            string line = ip.ReadLine();
 
-		private static byte[] ReadBytes( StreamReader ip )
-		{
-			string line = ip.ReadLine();
+            if (line == null)
+                return null;
 
-			if ( line == null )
-				return null;
+            byte[] buffer = new byte[(line.Length + 2) / 3];
+            int index = 0;
 
-			byte[] buffer = new byte[(line.Length + 2) / 3];
-			int index = 0;
+            for (int i = 0; (i + 1) < line.Length; i += 3)
+            {
+                char ch = line[i + 0];
+                char cl = line[i + 1];
 
-			for ( int i = 0; (i + 1) < line.Length; i += 3 )
-			{
-				char ch = line[i + 0];
-				char cl = line[i + 1];
+                if (ch >= '0' && ch <= '9')
+                    ch -= '0';
+                else if (ch >= 'a' && ch <= 'f')
+                    ch -= (char)('a' - 10);
+                else if (ch >= 'A' && ch <= 'F')
+                    ch -= (char)('A' - 10);
+                else
+                    return null;
 
-				if ( ch >= '0' && ch <= '9' )
-					ch -= '0';
-				else if ( ch >= 'a' && ch <= 'f' )
-					ch -= (char)('a' - 10);
-				else if ( ch >= 'A' && ch <= 'F' )
-					ch -= (char)('A' - 10);
-				else
-					return null;
+                if (cl >= '0' && cl <= '9')
+                    cl -= '0';
+                else if (cl >= 'a' && cl <= 'f')
+                    cl -= (char)('a' - 10);
+                else if (cl >= 'A' && cl <= 'F')
+                    cl -= (char)('A' - 10);
+                else
+                    return null;
 
-				if ( cl >= '0' && cl <= '9' )
-					cl -= '0';
-				else if ( cl >= 'a' && cl <= 'f' )
-					cl -= (char)('a' - 10);
-				else if ( cl >= 'A' && cl <= 'F' )
-					cl -= (char)('A' - 10);
-				else
-					return null;
+                buffer[index++] = (byte)((ch << 4) | cl);
+            }
 
-				buffer[index++] = (byte)((ch << 4) | cl);
-			}
+            return buffer;
+        }
 
-			return buffer;
-		}
-
-		private static CalibrationInfo[] m_DefaultList = new CalibrationInfo[]
+        private static CalibrationInfo[] m_DefaultList = new CalibrationInfo[]
 			{
 				new CalibrationInfo( /* (arul) 6.0.9.x+ : Calibrates both  */
 					new byte[]{ 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF },
@@ -105,60 +98,60 @@ namespace Ultima
 
 			};
 
-		public static CalibrationInfo[] DefaultList
-		{
-			get{ return m_DefaultList; }
-			set{ m_DefaultList = value; }
-		}
+        public static CalibrationInfo[] DefaultList
+        {
+            get { return m_DefaultList; }
+            set { m_DefaultList = value; }
+        }
 
-		public static CalibrationInfo[] GetList()
-		{
-			ArrayList list = new ArrayList();
+        public static CalibrationInfo[] GetList()
+        {
+            ArrayList list = new ArrayList();
 
-			string path = Path.GetDirectoryName( Environment.GetCommandLineArgs()[0] );
-			path = Path.Combine( path, "calibration.cfg" );
+            string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+            path = Path.Combine(path, "calibration.cfg");
 
-			if ( File.Exists( path ) )
-			{
-				using ( StreamReader ip = new StreamReader( path ) )
-				{
-					string line;
+            if (File.Exists(path))
+            {
+                using (StreamReader ip = new StreamReader(path))
+                {
+                    string line;
 
-					while ( (line = ip.ReadLine()) != null )
-					{
-						line = line.Trim();
+                    while ((line = ip.ReadLine()) != null)
+                    {
+                        line = line.Trim();
 
-						if ( line.Equals("Begin", StringComparison.OrdinalIgnoreCase) )
-						{
-							byte[] mask, vals, detx, dety, detz, detf;
+                        if (line.Equals("Begin", StringComparison.OrdinalIgnoreCase))
+                        {
+                            byte[] mask, vals, detx, dety, detz, detf;
 
-							if ( (mask = ReadBytes( ip )) == null )
-								continue;
+                            if ((mask = ReadBytes(ip)) == null)
+                                continue;
 
-							if ( (vals = ReadBytes( ip )) == null )
-								continue;
+                            if ((vals = ReadBytes(ip)) == null)
+                                continue;
 
-							if ( (detx = ReadBytes( ip )) == null )
-								continue;
+                            if ((detx = ReadBytes(ip)) == null)
+                                continue;
 
-							if ( (dety = ReadBytes( ip )) == null )
-								continue;
+                            if ((dety = ReadBytes(ip)) == null)
+                                continue;
 
-							if ( (detz = ReadBytes( ip )) == null )
-								continue;
+                            if ((detz = ReadBytes(ip)) == null)
+                                continue;
 
-							if ( (detf = ReadBytes( ip )) == null )
-								continue;
+                            if ((detf = ReadBytes(ip)) == null)
+                                continue;
 
-							list.Add( new CalibrationInfo( mask, vals, detx, dety, detz, detf ) );
-						}
-					}
-				}
-			}
+                            list.Add(new CalibrationInfo(mask, vals, detx, dety, detz, detf));
+                        }
+                    }
+                }
+            }
 
-			list.AddRange( DefaultList );
+            list.AddRange(DefaultList);
 
-			return (CalibrationInfo[])list.ToArray( typeof( CalibrationInfo ) );
-		}
-	}
+            return (CalibrationInfo[])list.ToArray(typeof(CalibrationInfo));
+        }
+    }
 }

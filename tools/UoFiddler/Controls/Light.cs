@@ -78,6 +78,7 @@ namespace FiddlerControls
                 Ultima.Light.Remove(i);
                 treeView1.Nodes.Remove(treeView1.SelectedNode);
                 treeView1.Invalidate();
+                Options.ChangedUltimaClass["Light"] = true;
             }
         }
 
@@ -99,6 +100,7 @@ namespace FiddlerControls
                     Ultima.Light.Replace(i, bmp);
                     treeView1.Invalidate();
                     AfterSelect(this, (TreeViewEventArgs)null);
+                    Options.ChangedUltimaClass["Light"] = true;
                 }
             }
         }
@@ -106,7 +108,7 @@ namespace FiddlerControls
         private void OnTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text,out index,0,99))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 99))
             {
                 if (Ultima.Light.TestLight(index))
                     InsertText.ForeColor = Color.Red;
@@ -135,16 +137,16 @@ namespace FiddlerControls
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
-                        Ultima.Light.Replace(index,bmp);
+                        Ultima.Light.Replace(index, bmp);
                         TreeNode treeNode = new TreeNode(index.ToString());
                         treeNode.Tag = index;
-                        bool done=false;
+                        bool done = false;
                         foreach (TreeNode node in treeView1.Nodes)
                         {
-                            if ((int)node.Tag>index)
+                            if ((int)node.Tag > index)
                             {
-                                treeView1.Nodes.Insert(node.Index,treeNode);
-                                done=true;
+                                treeView1.Nodes.Insert(node.Index, treeNode);
+                                done = true;
                                 break;
                             }
                         }
@@ -152,6 +154,7 @@ namespace FiddlerControls
                             treeView1.Nodes.Add(treeNode);
                         treeView1.Invalidate();
                         treeView1.SelectedNode = treeNode;
+                        Options.ChangedUltimaClass["Light"] = true;
                     }
                 }
             }
@@ -166,6 +169,7 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Light"] = false;
         }
 
         private void OnClickExportBmp(object sender, EventArgs e)

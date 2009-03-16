@@ -37,14 +37,14 @@ namespace UoFiddler
             progresslabel.Text = "Checking...";
             progresslabel.Visible = true;
             string error;
-            string[] match=Options.CheckForUpdate(out error);
+            string[] match = Options.CheckForUpdate(out error);
             if (match == null)
             {
-                MessageBox.Show("Error:\n"+error, "Check for Update",MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Error:\n" + error, "Check for Update", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 progresslabel.Text = "";
                 return;
             }
-            else if (match.Length==2)
+            else if (match.Length == 2)
             {
                 if (UoFiddler.Version.Equals(match[0]))
                 {
@@ -83,7 +83,7 @@ namespace UoFiddler
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            progresslabel.Text=String.Format("Downloading... bytes {0}/{1}", e.BytesReceived, e.TotalBytesToReceive);
+            progresslabel.Text = String.Format("Downloading... bytes {0}/{1}", e.BytesReceived, e.TotalBytesToReceive);
         }
 
         private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -91,7 +91,7 @@ namespace UoFiddler
             if (e.Error != null)
             {
                 MessageBox.Show("An error occurred while downloading UOFiddler\n" + e.Error.Message,
-                    "Updater",MessageBoxButtons.OK,MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+                    "Updater", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 return;
             }
             progresslabel.Text = "Finished Download";

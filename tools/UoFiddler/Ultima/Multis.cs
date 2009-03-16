@@ -4,10 +4,10 @@ using System.IO;
 
 namespace Ultima
 {
-	public sealed class Multis
-	{
-		private static MultiComponentList[] m_Components = new MultiComponentList[0x2000];
-		private static FileIndex m_FileIndex = new FileIndex( "Multi.idx", "Multi.mul", 0x2000, 14 );
+    public sealed class Multis
+    {
+        private static MultiComponentList[] m_Components = new MultiComponentList[0x2000];
+        private static FileIndex m_FileIndex = new FileIndex("Multi.idx", "Multi.mul", 0x2000, 14);
 
         public enum ImportType
         {
@@ -30,54 +30,54 @@ namespace Ultima
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-		public static MultiComponentList GetComponents( int index )
-		{
-			MultiComponentList mcl;
+        public static MultiComponentList GetComponents(int index)
+        {
+            MultiComponentList mcl;
 
-			index &= 0x1FFF;
+            index &= 0x1FFF;
 
-			if ( index >= 0 && index < m_Components.Length )
-			{
-				mcl = m_Components[index];
+            if (index >= 0 && index < m_Components.Length)
+            {
+                mcl = m_Components[index];
 
-				if ( mcl == null )
-					m_Components[index] = mcl = Load( index );
-			}
-			else
-				mcl = MultiComponentList.Empty;
+                if (mcl == null)
+                    m_Components[index] = mcl = Load(index);
+            }
+            else
+                mcl = MultiComponentList.Empty;
 
-			return mcl;
-		}
+            return mcl;
+        }
 
-		public static MultiComponentList Load( int index )
-		{
-			try
-			{
-				int length, extra;
-				bool patched;
-				Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
+        public static MultiComponentList Load(int index)
+        {
+            try
+            {
+                int length, extra;
+                bool patched;
+                Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
-				if ( stream == null )
-					return MultiComponentList.Empty;
+                if (stream == null)
+                    return MultiComponentList.Empty;
 
-				return new MultiComponentList( new BinaryReader( stream ), length / 12 );
-			}
-			catch
-			{
-				return MultiComponentList.Empty;
-			}
-		}
+                return new MultiComponentList(new BinaryReader(stream), length / 12);
+            }
+            catch
+            {
+                return MultiComponentList.Empty;
+            }
+        }
 
         public static void Remove(int index)
         {
             m_Components[index] = MultiComponentList.Empty;
         }
 
-        public static MultiComponentList ImportFromFile(int index, string FileName,Multis.ImportType type, bool centeritem)
+        public static MultiComponentList ImportFromFile(int index, string FileName, Multis.ImportType type, bool centeritem)
         {
             try
             {
-                return m_Components[index] = new MultiComponentList(FileName,type, centeritem);
+                return m_Components[index] = new MultiComponentList(FileName, type, centeritem);
             }
             catch
             {
@@ -124,33 +124,33 @@ namespace Ultima
                 }
             }
         }
-	}
+    }
 
-	public sealed class MultiComponentList
-	{
-		private Point m_Min, m_Max, m_Center;
-		private int m_Width, m_Height, m_maxHeight;
-		private Tile[][][] m_Tiles;
+    public sealed class MultiComponentList
+    {
+        private Point m_Min, m_Max, m_Center;
+        private int m_Width, m_Height, m_maxHeight, m_Surface;
+        private Tile[][][] m_Tiles;
         private MultiTileEntry[] m_SortedTiles;
 
-		public static readonly MultiComponentList Empty = new MultiComponentList();
+        public static readonly MultiComponentList Empty = new MultiComponentList();
 
-		public Point Min{ get{ return m_Min; } }
-		public Point Max{ get{ return m_Max; } }
-		public Point Center{ get{ return m_Center; } }
-		public int Width{ get{ return m_Width; } }
-		public int Height{ get{ return m_Height; } }
-		public Tile[][][] Tiles{ get{ return m_Tiles; } }
+        public Point Min { get { return m_Min; } }
+        public Point Max { get { return m_Max; } }
+        public Point Center { get { return m_Center; } }
+        public int Width { get { return m_Width; } }
+        public int Height { get { return m_Height; } }
+        public Tile[][][] Tiles { get { return m_Tiles; } }
         public int maxHeight { get { return m_maxHeight; } }
         public MultiTileEntry[] SortedTiles { get { return m_SortedTiles; } }
-        
+        public int Surface { get { return m_Surface; } }
 
-		public struct MultiTileEntry
-		{
-			public short m_ItemID;
-			public short m_OffsetX, m_OffsetY, m_OffsetZ;
-			public int m_Flags;
-		}
+        public struct MultiTileEntry
+        {
+            public short m_ItemID;
+            public short m_OffsetX, m_OffsetY, m_OffsetZ;
+            public int m_Flags;
+        }
 
         /// <summary>
         /// Returns Bitmap of Multi
@@ -166,93 +166,93 @@ namespace Ultima
         /// </summary>
         /// <param name="maxheight"></param>
         /// <returns></returns>
-		public Bitmap GetImage(int maxheight)
-		{
-			if ( m_Width == 0 || m_Height == 0 )
-				return null;
+        public Bitmap GetImage(int maxheight)
+        {
+            if (m_Width == 0 || m_Height == 0)
+                return null;
 
-			int xMin = 1000, yMin = 1000;
-			int xMax =-1000, yMax =-1000;
+            int xMin = 1000, yMin = 1000;
+            int xMax = -1000, yMax = -1000;
 
-			for ( int x = 0; x < m_Width; ++x )
-			{
-				for ( int y = 0; y < m_Height; ++y )
-				{
-					Tile[] tiles = m_Tiles[x][y];
+            for (int x = 0; x < m_Width; ++x)
+            {
+                for (int y = 0; y < m_Height; ++y)
+                {
+                    Tile[] tiles = m_Tiles[x][y];
 
-					for ( int i = 0; i < tiles.Length; ++i )
-					{
-						Bitmap bmp = Art.GetStatic( tiles[i].ID - 0x4000 );
+                    for (int i = 0; i < tiles.Length; ++i)
+                    {
+                        Bitmap bmp = Art.GetStatic(tiles[i].ID - 0x4000);
 
-						if ( bmp == null )
-							continue;
+                        if (bmp == null)
+                            continue;
 
-						int px = (x - y) * 22;
-						int py = (x + y) * 22;
+                        int px = (x - y) * 22;
+                        int py = (x + y) * 22;
 
-						px -= (bmp.Width / 2);
-						py -= tiles[i].Z * 4;
-						py -= bmp.Height;
+                        px -= (bmp.Width / 2);
+                        py -= tiles[i].Z * 4;
+                        py -= bmp.Height;
 
-						if ( px < xMin )
-							xMin = px;
+                        if (px < xMin)
+                            xMin = px;
 
-						if ( py < yMin )
-							yMin = py;
+                        if (py < yMin)
+                            yMin = py;
 
-						px += bmp.Width;
-						py += bmp.Height;
+                        px += bmp.Width;
+                        py += bmp.Height;
 
-						if ( px > xMax )
-							xMax = px;
+                        if (px > xMax)
+                            xMax = px;
 
-						if ( py > yMax )
-							yMax = py;
-					}
-				}
-			}
+                        if (py > yMax)
+                            yMax = py;
+                    }
+                }
+            }
 
-			Bitmap canvas = new Bitmap( xMax - xMin, yMax - yMin );
-			Graphics gfx = Graphics.FromImage( canvas );
+            Bitmap canvas = new Bitmap(xMax - xMin, yMax - yMin);
+            Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.White);
-			for ( int x = 0; x < m_Width; ++x )
-			{
-				for ( int y = 0; y < m_Height; ++y )
-				{
-					Tile[] tiles = m_Tiles[x][y];
+            for (int x = 0; x < m_Width; ++x)
+            {
+                for (int y = 0; y < m_Height; ++y)
+                {
+                    Tile[] tiles = m_Tiles[x][y];
 
-					for ( int i = 0; i < tiles.Length; ++i )
-					{
-                        
-						Bitmap bmp = Art.GetStatic( tiles[i].ID - 0x4000 );
+                    for (int i = 0; i < tiles.Length; ++i)
+                    {
 
-						if ( bmp == null )
-							continue;
+                        Bitmap bmp = Art.GetStatic(tiles[i].ID - 0x4000);
+
+                        if (bmp == null)
+                            continue;
                         if ((tiles[i].Z) > maxheight)
                             continue;
-						int px = (x - y) * 22;
-						int py = (x + y) * 22;
+                        int px = (x - y) * 22;
+                        int py = (x + y) * 22;
 
-						px -= (bmp.Width / 2);
-						py -= tiles[i].Z * 4;
-						py -= bmp.Height;
-						px -= xMin;
-						py -= yMin;
+                        px -= (bmp.Width / 2);
+                        py -= tiles[i].Z * 4;
+                        py -= bmp.Height;
+                        px -= xMin;
+                        py -= yMin;
 
-						gfx.DrawImageUnscaled( bmp, px, py, bmp.Width, bmp.Height );
-					}
+                        gfx.DrawImageUnscaled(bmp, px, py, bmp.Width, bmp.Height);
+                    }
 
-					int tx = (x - y) * 22;
-					int ty = (x + y) * 22;
-					tx -= xMin;
-					ty -= yMin;
-				}
-			}
+                    int tx = (x - y) * 22;
+                    int ty = (x + y) * 22;
+                    tx -= xMin;
+                    ty -= yMin;
+                }
+            }
 
-			gfx.Dispose();
+            gfx.Dispose();
 
-			return canvas;
-		}
+            return canvas;
+        }
 
         public MultiComponentList(BinaryReader reader, int count)
         {
@@ -478,7 +478,7 @@ namespace Ultima
                     using (StreamReader ip = new StreamReader(FileName))
                     {
                         string line;
-                        MultiTileEntry tempitem=new MultiTileEntry();
+                        MultiTileEntry tempitem = new MultiTileEntry();
                         tempitem.m_ItemID = -1;
                         tempitem.m_Flags = 1;
                         while ((line = ip.ReadLine()) != null)
@@ -529,11 +529,11 @@ namespace Ultima
 
                             }
                         }
-                        if (tempitem.m_ItemID!=-1)
+                        if (tempitem.m_ItemID != -1)
                             m_SortedTiles[itemcount] = tempitem;
 
-                        int centerx = m_Max.X - ( m_Max.X - m_Min.X ) / 2;
-                        int centery = m_Max.Y - ( m_Max.Y - m_Min.Y ) / 2;
+                        int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
+                        int centery = m_Max.Y - (m_Max.Y - m_Min.Y) / 2;
 
                         m_Min = m_Max = Point.Empty;
                         int i = 0;
@@ -568,46 +568,48 @@ namespace Ultima
 
         private void ConvertList()
         {
-            m_Center = new Point( -m_Min.X, -m_Min.Y );
-			m_Width = (m_Max.X - m_Min.X) + 1;
-			m_Height = (m_Max.Y - m_Min.Y) + 1;
+            m_Center = new Point(-m_Min.X, -m_Min.Y);
+            m_Width = (m_Max.X - m_Min.X) + 1;
+            m_Height = (m_Max.Y - m_Min.Y) + 1;
 
-			TileList[][] tiles = new TileList[m_Width][];
-			m_Tiles = new Tile[m_Width][][];
+            TileList[][] tiles = new TileList[m_Width][];
+            m_Tiles = new Tile[m_Width][][];
 
-			for ( int x = 0; x < m_Width; ++x )
-			{
-				tiles[x] = new TileList[m_Height];
-				m_Tiles[x] = new Tile[m_Height][];
+            for (int x = 0; x < m_Width; ++x)
+            {
+                tiles[x] = new TileList[m_Height];
+                m_Tiles[x] = new Tile[m_Height][];
 
-				for ( int y = 0; y < m_Height; ++y )
-					tiles[x][y] = new TileList();
-			}
+                for (int y = 0; y < m_Height; ++y)
+                    tiles[x][y] = new TileList();
+            }
 
             for (int i = 0; i < m_SortedTiles.Length; ++i)
-			{
+            {
                 int xOffset = m_SortedTiles[i].m_OffsetX + m_Center.X;
                 int yOffset = m_SortedTiles[i].m_OffsetY + m_Center.Y;
 
                 tiles[xOffset][yOffset].Add((short)(m_SortedTiles[i].m_ItemID + 0x4000), (sbyte)m_SortedTiles[i].m_OffsetZ);
-			}
+            }
 
-			for ( int x = 0; x < m_Width; ++x )
-			{
-				for ( int y = 0; y < m_Height; ++y )
-				{
-					m_Tiles[x][y] = tiles[x][y].ToArray();
-
-					if ( m_Tiles[x][y].Length > 1 )
-						Array.Sort( m_Tiles[x][y] );
-				}
-			}
+            m_Surface = 0;
+            for (int x = 0; x < m_Width; ++x)
+            {
+                for (int y = 0; y < m_Height; ++y)
+                {
+                    m_Tiles[x][y] = tiles[x][y].ToArray();
+                    if (m_Tiles[x][y].Length > 1)
+                        Array.Sort(m_Tiles[x][y]);
+                    if (m_Tiles[x][y].Length > 0)
+                        m_Surface++;
+                }
+            }
         }
 
-		private MultiComponentList()
-		{
-			m_Tiles = new Tile[0][][];
-		}
+        private MultiComponentList()
+        {
+            m_Tiles = new Tile[0][][];
+        }
 
         public void ExportToTextFile(string FileName)
         {
@@ -631,9 +633,9 @@ namespace Ultima
             {
                 for (int i = 0; i < m_SortedTiles.Length; ++i)
                 {
-                    Tex.WriteLine(String.Format("SECTION WORLDITEM {0}",i));
+                    Tex.WriteLine(String.Format("SECTION WORLDITEM {0}", i));
                     Tex.WriteLine("{");
-                    Tex.WriteLine(String.Format("\tID\t{0}",m_SortedTiles[i].m_ItemID));
+                    Tex.WriteLine(String.Format("\tID\t{0}", m_SortedTiles[i].m_ItemID));
                     Tex.WriteLine(String.Format("\tX\t{0}", m_SortedTiles[i].m_OffsetX));
                     Tex.WriteLine(String.Format("\tY\t{0}", m_SortedTiles[i].m_OffsetY));
                     Tex.WriteLine(String.Format("\tZ\t{0}", m_SortedTiles[i].m_OffsetZ));
@@ -663,5 +665,5 @@ namespace Ultima
                 }
             }
         }
-	}
+    }
 }

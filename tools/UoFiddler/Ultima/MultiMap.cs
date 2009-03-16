@@ -25,8 +25,8 @@ namespace Ultima
                     int width, height;
                     byte pixel;
                     int count;
-                    int x,i;
-                    x=0;
+                    int x, i;
+                    x = 0;
                     ushort c = 0;
                     width = bin.ReadInt32();
                     height = bin.ReadInt32();
@@ -40,7 +40,7 @@ namespace Ultima
                     {
                         pixel = bin.ReadByte();
                         count = (pixel & 0x7f);
-                        
+
                         if ((pixel & 0x80) != 0)
                             c = 0x8000;//Color.Black;
                         else
@@ -72,14 +72,13 @@ namespace Ultima
         {
             bin.Write(2560); // width
             bin.Write(2048); // height
-            byte data, mask;
-            ushort curcolor=0;
+            byte data = 1;
+            byte mask = 0x0;
+            ushort curcolor = 0;
             BitmapData bd = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             int delta = bd.Stride >> 1;
             ushort* cur = line;
-            data = 1;
-            mask = 0x0;
             curcolor = cur[0]; //init
             for (int y = 0; y < image.Height; y++, line += delta)
             {
@@ -87,7 +86,7 @@ namespace Ultima
                 for (int x = 0; x < image.Width; x++)
                 {
                     ushort c = cur[x];
-                    
+
                     if (c == curcolor)
                     {
                         data++;

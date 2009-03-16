@@ -22,7 +22,7 @@ using Ultima;
 
 namespace UoFiddler
 {
-    public class Options 
+    public class Options
     {
         private static bool m_UpdateCheckOnStart = false;
         private static ArrayList m_ExternTools;
@@ -41,14 +41,14 @@ namespace UoFiddler
             set { m_UpdateCheckOnStart = value; }
         }
 
-        public Options() 
+        public Options()
         {
             Load();
             if (m_UpdateCheckOnStart)
             {
                 BackgroundWorker updater = new BackgroundWorker();
                 updater.DoWork += new DoWorkEventHandler(Updater_DoWork);
-                updater.RunWorkerCompleted+=new RunWorkerCompletedEventHandler(Updater_RunWorkerCompleted);
+                updater.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Updater_RunWorkerCompleted);
                 updater.RunWorkerAsync();
             }
         }
@@ -64,7 +64,7 @@ namespace UoFiddler
             dom.AppendChild(decl);
             XmlElement sr = dom.CreateElement("Options");
 
-            XmlComment comment= dom.CreateComment("ItemSize controls the size of images in items tab");
+            XmlComment comment = dom.CreateComment("ItemSize controls the size of images in items tab");
             sr.AppendChild(comment);
             XmlElement elem = dom.CreateElement("ItemSize");
             elem.SetAttribute("width", FiddlerControls.Options.ArtItemSizeWidth.ToString());
@@ -83,7 +83,7 @@ namespace UoFiddler
             comment = dom.CreateComment("NewMapSize Felucca/Trammel width 7168?");
             sr.AppendChild(comment);
             elem = dom.CreateElement("NewMapSize");
-            elem.SetAttribute("active", Ultima.Map.Felucca.Width==7168 ? true.ToString() : false.ToString());
+            elem.SetAttribute("active", Ultima.Map.Felucca.Width == 7168 ? true.ToString() : false.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Alternative layout in item/landtile/texture tab?");
             sr.AppendChild(comment);
@@ -129,7 +129,7 @@ namespace UoFiddler
                     XmlElement xtool = dom.CreateElement("ExternTool");
                     xtool.SetAttribute("name", tool.Name);
                     xtool.SetAttribute("path", tool.FileName);
-                    for (int i=0;i<tool.Args.Count;i++)
+                    for (int i = 0; i < tool.Args.Count; i++)
                     {
                         XmlElement xarg = dom.CreateElement("Args");
                         xarg.SetAttribute("name", (string)tool.ArgsName[i]);
@@ -307,8 +307,8 @@ namespace UoFiddler
                 }
                 while (count > 0);
 
-                match=sb.ToString().Split(new string[]{ "\r\n" },StringSplitOptions.None);
-                
+                match = sb.ToString().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
                 response.Close();
                 resStream.Dispose();
             }
@@ -332,13 +332,13 @@ namespace UoFiddler
 
         private void Updater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (e.Error!=null)
+            if (e.Error != null)
             {
                 MessageBox.Show("Error:\n" + e.Error, "Check for Update");
                 return;
             }
             string[] match = (string[])e.Result;
-            if (match!=null)
+            if (match != null)
             {
                 if (UoFiddler.Version.Equals(match[0]))
                     MessageBox.Show("Your Version is up-to-date", "Check for Update");
@@ -374,7 +374,7 @@ namespace UoFiddler
                     "Updater");
                 return;
             }
-            MessageBox.Show("Finished Download","Updater");
+            MessageBox.Show("Finished Download", "Updater");
         }
         #endregion
     }

@@ -24,7 +24,7 @@ namespace FiddlerControls
         private void Search_Graphic(object sender, EventArgs e)
         {
             int graphic;
-            if (Utils.ConvertStringToInt(textBoxGraphic.Text,out graphic,0,0x3FFF))
+            if (Utils.ConvertStringToInt(textBoxGraphic.Text, out graphic, 0, 0x3FFF))
             {
                 bool res;
                 if (Options.DesignAlternative)
@@ -33,8 +33,8 @@ namespace FiddlerControls
                     res = ItemShow.SearchGraphic(graphic);
                 if (!res)
                 {
-                    DialogResult result = MessageBox.Show("No item found","Result",
-                        MessageBoxButtons.OKCancel,MessageBoxIcon.Error,MessageBoxDefaultButton.Button2);
+                    DialogResult result = MessageBox.Show("No item found", "Result",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
                     if (result == DialogResult.Cancel)
                         Close();
                 }
@@ -45,13 +45,13 @@ namespace FiddlerControls
         {
             bool res;
             if (Options.DesignAlternative)
-                res = ItemShowAlternative.SearchName(textBoxItemName.Text,false);
+                res = ItemShowAlternative.SearchName(textBoxItemName.Text, false);
             else
-                res = ItemShow.SearchName(textBoxItemName.Text,false);
+                res = ItemShow.SearchName(textBoxItemName.Text, false);
             if (!res)
             {
                 DialogResult result = MessageBox.Show("No item found", "Result",
-                    MessageBoxButtons.OKCancel,MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Cancel)
                     Close();
             }

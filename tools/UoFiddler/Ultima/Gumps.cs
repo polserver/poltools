@@ -6,17 +6,17 @@ using System.Collections;
 
 namespace Ultima
 {
-	public sealed class Gumps
-	{
-		private static FileIndex m_FileIndex=new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+    public sealed class Gumps
+    {
+        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
 
         private static Bitmap[] m_Cache = new Bitmap[0x10000];
         private static bool[] m_Removed = new bool[0x10000];
-        private static Hashtable m_patched=new Hashtable();
+        private static Hashtable m_patched = new Hashtable();
 
-		private static byte[] m_PixelBuffer;
-		private static byte[] m_StreamBuffer;
-		private static byte[] m_ColorTable;
+        private static byte[] m_PixelBuffer;
+        private static byte[] m_StreamBuffer;
+        private static byte[] m_ColorTable;
         static Gumps()
         {
         }
@@ -79,9 +79,7 @@ namespace Ultima
                 return true;
             int length, extra;
             bool patched;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
-
-            if (stream == null)
+            if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
                 return false;
             int width = (extra >> 16) & 0xFFFF;
             int height = extra & 0xFFFF;
@@ -99,136 +97,136 @@ namespace Ultima
         /// <param name="hue"></param>
         /// <param name="onlyHueGrayPixels"></param>
         /// <returns></returns>
-		public unsafe static Bitmap GetGump( int index, Hue hue, bool onlyHueGrayPixels, out bool patched )
-		{
-			int length, extra;
-			Stream stream = m_FileIndex.Seek( index, out length, out extra, out patched );
+        public unsafe static Bitmap GetGump(int index, Hue hue, bool onlyHueGrayPixels, out bool patched)
+        {
+            int length, extra;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
-			if ( stream == null )
-				return null;
+            if (stream == null)
+                return null;
 
-			int width = (extra >> 16) & 0xFFFF;
-			int height = extra & 0xFFFF;
+            int width = (extra >> 16) & 0xFFFF;
+            int height = extra & 0xFFFF;
 
-			if ( width <= 0 || height <= 0 )
-				return null;
+            if (width <= 0 || height <= 0)
+                return null;
 
-			int bytesPerLine = width << 1;
-			int bytesPerStride = (bytesPerLine + 3) & ~3;
-			int bytesForImage = height * bytesPerStride;
+            int bytesPerLine = width << 1;
+            int bytesPerStride = (bytesPerLine + 3) & ~3;
+            int bytesForImage = height * bytesPerStride;
 
-			int pixelsPerStride = (width + 1) & ~1;
-			int pixelsPerStrideDelta = pixelsPerStride - width;
+            int pixelsPerStride = (width + 1) & ~1;
+            int pixelsPerStrideDelta = pixelsPerStride - width;
 
-			byte[] pixelBuffer = m_PixelBuffer;
+            byte[] pixelBuffer = m_PixelBuffer;
 
-			if ( pixelBuffer == null || pixelBuffer.Length < bytesForImage )
-				m_PixelBuffer = pixelBuffer = new byte[(bytesForImage + 2047) & ~2047];
+            if (pixelBuffer == null || pixelBuffer.Length < bytesForImage)
+                m_PixelBuffer = pixelBuffer = new byte[(bytesForImage + 2047) & ~2047];
 
-			byte[] streamBuffer = m_StreamBuffer;
+            byte[] streamBuffer = m_StreamBuffer;
 
-			if ( streamBuffer == null || streamBuffer.Length < length )
-				m_StreamBuffer = streamBuffer = new byte[(length + 2047) & ~2047];
+            if (streamBuffer == null || streamBuffer.Length < length)
+                m_StreamBuffer = streamBuffer = new byte[(length + 2047) & ~2047];
 
-			byte[] colorTable = m_ColorTable;
+            byte[] colorTable = m_ColorTable;
 
-			if ( colorTable == null )
-				m_ColorTable = colorTable = new byte[128];
+            if (colorTable == null)
+                m_ColorTable = colorTable = new byte[128];
 
-			stream.Read( streamBuffer, 0, length );
+            stream.Read(streamBuffer, 0, length);
 
-			fixed ( short *psHueColors = hue.Colors )
-			{
-				fixed ( byte *pbStream = streamBuffer )
-				{
-					fixed ( byte *pbPixels = pixelBuffer )
-					{
-						fixed ( byte *pbColorTable = colorTable )
-						{
-							ushort *pHueColors = (ushort *)psHueColors;
-							ushort *pHueColorsEnd = pHueColors + 32;
+            fixed (short* psHueColors = hue.Colors)
+            {
+                fixed (byte* pbStream = streamBuffer)
+                {
+                    fixed (byte* pbPixels = pixelBuffer)
+                    {
+                        fixed (byte* pbColorTable = colorTable)
+                        {
+                            ushort* pHueColors = (ushort*)psHueColors;
+                            ushort* pHueColorsEnd = pHueColors + 32;
 
-							ushort *pColorTable = (ushort *)pbColorTable;
+                            ushort* pColorTable = (ushort*)pbColorTable;
 
-							ushort *pColorTableOpaque = pColorTable;
+                            ushort* pColorTableOpaque = pColorTable;
 
-							while ( pHueColors < pHueColorsEnd )
-								*pColorTableOpaque++ = *pHueColors++;
+                            while (pHueColors < pHueColorsEnd)
+                                *pColorTableOpaque++ = *pHueColors++;
 
-							ushort *pPixelDataStart = (ushort *)pbPixels;
+                            ushort* pPixelDataStart = (ushort*)pbPixels;
 
-							int *pLookup = (int *)pbStream;
-							int *pLookupEnd = pLookup + height;
-							int *pPixelRleStart = pLookup;
-							int *pPixelRle;
+                            int* pLookup = (int*)pbStream;
+                            int* pLookupEnd = pLookup + height;
+                            int* pPixelRleStart = pLookup;
+                            int* pPixelRle;
 
-							ushort *pPixel = pPixelDataStart;
-							ushort *pRleEnd = pPixel;
-							ushort *pPixelEnd = pPixel + width;
+                            ushort* pPixel = pPixelDataStart;
+                            ushort* pRleEnd = pPixel;
+                            ushort* pPixelEnd = pPixel + width;
 
-							ushort color, count;
+                            ushort color, count;
 
-							if ( onlyHueGrayPixels )
-							{
-								while ( pLookup < pLookupEnd )
-								{
-									pPixelRle = pPixelRleStart + *pLookup++;
-									pRleEnd = pPixel;
+                            if (onlyHueGrayPixels)
+                            {
+                                while (pLookup < pLookupEnd)
+                                {
+                                    pPixelRle = pPixelRleStart + *pLookup++;
+                                    pRleEnd = pPixel;
 
-									while ( pPixel < pPixelEnd )
-									{
-										color = *(ushort *)pPixelRle;
-										count = *(1 + (ushort *)pPixelRle);
-										++pPixelRle;
+                                    while (pPixel < pPixelEnd)
+                                    {
+                                        color = *(ushort*)pPixelRle;
+                                        count = *(1 + (ushort*)pPixelRle);
+                                        ++pPixelRle;
 
-										pRleEnd += count;
+                                        pRleEnd += count;
 
-										if ( color != 0 && (color & 0x1F) == ((color >> 5) & 0x1F) && (color & 0x1F) == ((color >> 10) & 0x1F) )
-											color = pColorTable[color >> 10];
-										else if ( color != 0 )
-											color ^= 0x8000;
+                                        if (color != 0 && (color & 0x1F) == ((color >> 5) & 0x1F) && (color & 0x1F) == ((color >> 10) & 0x1F))
+                                            color = pColorTable[color >> 10];
+                                        else if (color != 0)
+                                            color ^= 0x8000;
 
-										while ( pPixel < pRleEnd )
-											*pPixel++ = color;
-									}
+                                        while (pPixel < pRleEnd)
+                                            *pPixel++ = color;
+                                    }
 
-									pPixel += pixelsPerStrideDelta;
-									pPixelEnd += pixelsPerStride;
-								}
-							}
-							else
-							{
-								while ( pLookup < pLookupEnd )
-								{
-									pPixelRle = pPixelRleStart + *pLookup++;
-									pRleEnd = pPixel;
+                                    pPixel += pixelsPerStrideDelta;
+                                    pPixelEnd += pixelsPerStride;
+                                }
+                            }
+                            else
+                            {
+                                while (pLookup < pLookupEnd)
+                                {
+                                    pPixelRle = pPixelRleStart + *pLookup++;
+                                    pRleEnd = pPixel;
 
-									while ( pPixel < pPixelEnd )
-									{
-										color = *(ushort *)pPixelRle;
-										count = *(1 + (ushort *)pPixelRle);
-										++pPixelRle;
+                                    while (pPixel < pPixelEnd)
+                                    {
+                                        color = *(ushort*)pPixelRle;
+                                        count = *(1 + (ushort*)pPixelRle);
+                                        ++pPixelRle;
 
-										pRleEnd += count;
+                                        pRleEnd += count;
 
-										if ( color != 0 )
-											color = pColorTable[color >> 10];
+                                        if (color != 0)
+                                            color = pColorTable[color >> 10];
 
-										while ( pPixel < pRleEnd )
-											*pPixel++ = color;
-									}
+                                        while (pPixel < pRleEnd)
+                                            *pPixel++ = color;
+                                    }
 
-									pPixel += pixelsPerStrideDelta;
-									pPixelEnd += pixelsPerStride;
-								}
-							}
+                                    pPixel += pixelsPerStrideDelta;
+                                    pPixelEnd += pixelsPerStride;
+                                }
+                            }
 
-							return new Bitmap( width, height, bytesPerStride, PixelFormat.Format16bppArgb1555, (IntPtr) pPixelDataStart );
-						}
-					}
-				}
-			}
-		}
+                            return new Bitmap(width, height, bytesPerStride, PixelFormat.Format16bppArgb1555, (IntPtr)pPixelDataStart);
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Returns Bitmap of index
@@ -249,9 +247,10 @@ namespace Ultima
         /// <returns></returns>
         public unsafe static Bitmap GetGump(int index, out bool patched)
         {
-            patched = false;
             if (m_patched.Contains(index))
                 patched = (bool)m_patched[index];
+            else
+                patched = false;
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
@@ -355,34 +354,34 @@ namespace Ultima
                                 fsmul.Seek(length + Y * 4, SeekOrigin.Begin);
                                 int offset = (current - length) / 4;
                                 binmul.Write(offset);
-                                fsmul.Seek(length + offset*4, SeekOrigin.Begin);
-                                
-                                while (X<bd.Width)
+                                fsmul.Seek(length + offset * 4, SeekOrigin.Begin);
+
+                                while (X < bd.Width)
                                 {
                                     int Run = 1;
                                     ushort c = cur[X];
-                                    while ((X+Run) < bd.Width)
+                                    while ((X + Run) < bd.Width)
                                     {
-                                        if (c != cur[X+Run])
+                                        if (c != cur[X + Run])
                                             break;
                                         Run++;
                                     }
                                     if (c == 0)
                                         binmul.Write(c);
                                     else
-                                        binmul.Write((ushort)(c^0x8000));
+                                        binmul.Write((ushort)(c ^ 0x8000));
                                     binmul.Write((short)Run);
                                     X += Run;
                                 }
                             }
                             length = (int)fsmul.Position - length;
                             binidx.Write(length);
-                            binidx.Write((int)( bmp.Width << 16 ) + bmp.Height);
+                            binidx.Write((int)(bmp.Width << 16) + bmp.Height);
                             bmp.UnlockBits(bd);
                         }
                     }
                 }
             }
         }
-	}
+    }
 }

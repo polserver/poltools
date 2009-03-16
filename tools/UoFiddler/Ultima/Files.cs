@@ -318,14 +318,16 @@ namespace Ultima
             if (file == null)
                 return false;
             System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
-            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] md5Hash = md5.ComputeHash(FileCheck);
-            FileCheck.Close();
-            string md5string = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
-            if (md5string == hash)
-                return true;
-            else
-                return false;
+            using (System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider())
+            {
+                byte[] md5Hash = md5.ComputeHash(FileCheck);
+                FileCheck.Close();
+                string md5string = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
+                if (md5string == hash)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         /// <summary>
@@ -338,10 +340,12 @@ namespace Ultima
             if (file == null)
                 return null;
             System.IO.FileStream FileCheck = System.IO.File.OpenRead(file);
-            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] md5Hash = md5.ComputeHash(FileCheck);
-            FileCheck.Close();
-            return md5Hash;
+            using (System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider())
+            {
+                byte[] md5Hash = md5.ComputeHash(FileCheck);
+                FileCheck.Close();
+                return md5Hash;
+            }
         }
 
         /// <summary>

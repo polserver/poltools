@@ -5,10 +5,9 @@ namespace Ultima
 {
     public sealed class Animdata
     {
-        private static Hashtable m_AnimData;
         private static int[] m_Header;
 
-        public static Hashtable AnimData { get { return m_AnimData; } set { m_AnimData = value; } }
+        public static Hashtable AnimData { get; set; }
         static Animdata()
         {
             Initialize();
@@ -19,39 +18,41 @@ namespace Ultima
         /// </summary>
         public static void Initialize()
         {
-            m_AnimData = new Hashtable();
+            AnimData = new Hashtable();
             string path = Files.GetFilePath("animdata.mul");
             if (path != null)
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    BinaryReader bin = new BinaryReader(fs);
-                    int id=0;
-                    int h=0;
-                    byte unk, fcount, finter, fstart;
-                    sbyte[] fdata;
-                    m_Header = new int[bin.BaseStream.Length/(4+8*(64+4))];
-                    while (bin.BaseStream.Length != bin.BaseStream.Position)
+                    using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        m_Header[h]=bin.ReadInt32(); // chunk header
-
-                        // Read 8 tiles
-                        for (int i = 0; i < 8; ++i)
+                        int id = 0;
+                        int h = 0;
+                        byte unk;
+                        byte fcount;
+                        byte finter;
+                        byte fstart;
+                        sbyte[] fdata;
+                        m_Header = new int[bin.BaseStream.Length / (4 + 8 * (64 + 4))];
+                        while (bin.BaseStream.Length != bin.BaseStream.Position)
                         {
-                            fdata = new sbyte[64];
-                            for (int j = 0; j < 64; ++j)
+                            m_Header[h] = bin.ReadInt32(); // chunk header
+                            // Read 8 tiles
+                            for (int i = 0; i < 8; ++i)
                             {
-                                fdata[j] = bin.ReadSByte();
+                                fdata = new sbyte[64];
+                                for (int j = 0; j < 64; ++j)
+                                    fdata[j] = bin.ReadSByte();
+                                unk = bin.ReadByte();
+                                fcount = bin.ReadByte();
+                                finter = bin.ReadByte();
+                                fstart = bin.ReadByte();
+                                if (fcount > 0)
+                                    AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
+                                ++id;
                             }
-                            unk = bin.ReadByte();
-                            fcount = bin.ReadByte();
-                            finter = bin.ReadByte();
-                            fstart = bin.ReadByte();
-                            if (fcount > 0)
-                                m_AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
-                            ++id;
+                            ++h;
                         }
-                        ++h;
                     }
                 }
             }
@@ -63,8 +64,8 @@ namespace Ultima
         /// <returns></returns>
         public static Data GetAnimData(int id)
         {
-            if (m_AnimData.Contains(id))
-                return ((Data)m_AnimData[id]);
+            if (AnimData.Contains(id))
+                return ((Data)AnimData[id]);
             else
                 return null;
         }
@@ -85,7 +86,7 @@ namespace Ultima
                         Data data = GetAnimData(id);
                         for (int j = 0; j < 64; ++j)
                         {
-                            if (data!=null)
+                            if (data != null)
                                 bin.Write(data.FrameData[j]);
                             else
                                 bin.Write((sbyte)0);
@@ -113,25 +114,19 @@ namespace Ultima
 
         public class Data
         {
-            private sbyte[] m_FrameData;
-            private byte m_unknown;
-            private byte m_FrameCount;
-            private byte m_FrameInterval;
-            private byte m_FrameStart;
-
-            public sbyte[] FrameData { get { return m_FrameData; } set { m_FrameData = value; } }
-            public byte Unknown { get { return m_unknown; } }
-            public byte FrameCount { get { return m_FrameCount; } set { m_FrameCount = value; } }
-            public byte FrameInterval { get { return m_FrameInterval; } set { m_FrameInterval = value; } }
-            public byte FrameStart { get { return m_FrameStart; } set { m_FrameStart = value; } }
+            public sbyte[] FrameData { get; set; }
+            public byte Unknown { get; private set; }
+            public byte FrameCount { get; set; }
+            public byte FrameInterval { get; set; }
+            public byte FrameStart { get; set; }
 
             public Data(sbyte[] frame, byte unk, byte fcount, byte finter, byte fstart)
             {
-                m_FrameData = frame;
-                m_unknown = unk;
-                m_FrameCount = fcount;
-                m_FrameInterval = finter;
-                m_FrameStart = fstart;
+                FrameData = frame;
+                Unknown = unk;
+                FrameCount = fcount;
+                FrameInterval = finter;
+                FrameStart = fstart;
             }
         }
     }

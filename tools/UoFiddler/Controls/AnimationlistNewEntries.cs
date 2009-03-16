@@ -248,7 +248,7 @@ namespace FiddlerControls
                                 if (!Form.IsAlreadyDefinied(graphic))
                                 {
                                     node = new TreeNode(graphic.ToString());
-                                    
+
                                     node.ToolTipText = String.Format("Found in mobtype.txt {0}", Animations.GetFileName(graphic));
                                     int type = 0;
                                     switch (split[1])
@@ -259,9 +259,9 @@ namespace FiddlerControls
                                         case "HUMAN": type = 3; break;
                                         case "EQUIPMENT": type = 3; break;
                                     }
-                                    node.Tag = new int[]{graphic,type};
+                                    node.Tag = new int[] { graphic, type };
                                     treeView1.Nodes.Add(node);
-                                    SetActionType(node, graphic,type);
+                                    SetActionType(node, graphic, type);
                                 }
                             }
                         }
@@ -271,7 +271,7 @@ namespace FiddlerControls
             }
         }
 
-        private void SetActionType(TreeNode parent, int graphic,int type)
+        private void SetActionType(TreeNode parent, int graphic, int type)
         {
             parent.Nodes.Clear();
             TreeNode node;
@@ -371,7 +371,7 @@ namespace FiddlerControls
                 TreeNode node = treeView1.SelectedNode;
                 if (node.Parent != null)
                     node = node.Parent;
-                Form.AddGraphic(((int[])node.Tag)[0], ((int[])node.Tag)[1],node.Text);
+                Form.AddGraphic(((int[])node.Tag)[0], ((int[])node.Tag)[1], node.Text);
                 treeView1.SelectedNode.Remove();
             }
         }

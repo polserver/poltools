@@ -46,6 +46,26 @@ namespace FiddlerControls
             {"TileData", false}
         };
 
+        private static Dictionary<string, bool> m_ChangedUltimaClass = new Dictionary<string, bool>()
+        {
+            {"Animations",false},
+            {"Animdata", false},
+            {"Art", false},
+            {"ASCIIFont", false},
+            {"UnicodeFont", false},
+            {"Gumps", false},
+            {"Hues", false},
+            {"Light", false},
+            {"Map", false},
+            {"Multis", false},
+            {"Skills", false},
+            {"Sound", false},
+            {"Speech", false},
+            {"CliLoc", false},
+            {"Texture", false},
+            {"TileData", false}
+        };
+
         /// <summary>
         /// Definies Element Width in ItemShow
         /// </summary>
@@ -54,7 +74,7 @@ namespace FiddlerControls
             get { return m_ArtItemSizeWidth; }
             set { m_ArtItemSizeWidth = value; }
         }
-        
+
         /// <summary>
         /// Definies Element Height in ItemShow
         /// </summary>
@@ -103,10 +123,10 @@ namespace FiddlerControls
         /// <summary>
         /// Definies the MapNames
         /// </summary>
-        public static string[] MapNames 
-        { 
-            get { return m_MapNames; } 
-            set { m_MapNames = value; } 
+        public static string[] MapNames
+        {
+            get { return m_MapNames; }
+            set { m_MapNames = value; }
         }
 
         /// <summary>
@@ -146,5 +166,36 @@ namespace FiddlerControls
             get { return m_LoadedUltimaClass; }
             set { m_LoadedUltimaClass = value; }
         }
+
+        /// <summary>
+        /// Definies which muls have unsaved changes
+        /// <para>
+        /// <list type="bullet">
+        /// <item>Animations</item>
+        /// <item>Animdata</item>
+        /// <item>Art</item>
+        /// <item>ASCIIFont</item>
+        /// <item>Gumps</item>
+        /// <item>Hues</item>
+        /// <item>Light</item>
+        /// <item>Map</item>
+        /// <item>Multis</item>
+        /// <item>Skills</item>
+        /// <item>Sound</item>
+        /// <item>Speech</item>
+        /// <item>StringList</item>
+        /// <item>Texture</item>
+        /// <item>TileData</item>
+        /// <item>UnicodeFont</item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        public static Dictionary<string, bool> ChangedUltimaClass
+        {
+            get { return Options.m_ChangedUltimaClass; }
+            set { Options.m_ChangedUltimaClass = value; }
+        }
+
+
     }
 }
