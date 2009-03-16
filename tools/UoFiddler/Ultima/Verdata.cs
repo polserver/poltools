@@ -23,18 +23,18 @@ using System.IO;
 
 namespace Ultima
 {
-	public sealed class Verdata
-	{
-		private static Entry5D[] m_Patches;
-		private static Stream m_Stream;
+    public sealed class Verdata
+    {
+        private static Entry5D[] m_Patches;
+        private static Stream m_Stream;
 
-		public static Stream Stream{ get{ return m_Stream; } }
-		public static Entry5D[] Patches{ get{ return m_Patches; } }
+        public static Stream Stream { get { return m_Stream; } }
+        public static Entry5D[] Patches { get { return m_Patches; } }
 
-		static Verdata()
-		{
+        static Verdata()
+        {
             Initialize();
-		}
+        }
 
         public static void Initialize()
         {
@@ -62,14 +62,14 @@ namespace Ultima
                 }
             }
         }
-	}
+    }
 
-	public struct Entry5D
-	{
-		public int file;
-		public int index;
-		public int lookup;
-		public int length;
-		public int extra;
-	}
+    public struct Entry5D
+    {
+        public int file;
+        public int index;
+        public int lookup;
+        public int length;
+        public int extra;
+    }
 }

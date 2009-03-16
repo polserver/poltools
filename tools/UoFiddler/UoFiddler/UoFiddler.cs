@@ -13,12 +13,13 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Host;
+using System.Collections.Generic;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.5";
+        public static string Version = "3.5c";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -36,7 +37,7 @@ namespace UoFiddler
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
- 
+
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {
                 if (plug.Loaded)
@@ -60,7 +61,7 @@ namespace UoFiddler
 
         private void onClickAlwaysTop(object sender, EventArgs e)
         {
-            this.TopMost=AlwaysOnTopMenuitem.Checked;
+            this.TopMost = AlwaysOnTopMenuitem.Checked;
         }
 
         private void Restart(object sender, EventArgs e)
@@ -193,8 +194,8 @@ namespace UoFiddler
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Error starting tool", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error, 
+                        MessageBox.Show(ex.Message, "Error starting tool",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error,
                             MessageBoxDefaultButton.Button1);
                     }
                 }
@@ -241,7 +242,7 @@ namespace UoFiddler
                 parent.Controls.Add(refmarker.controlItemShowAlt);
                 parent.PerformLayout();
                 refmarker.controlItemShow.Dispose();
-                
+
                 refmarker.controlTextureAlt = new FiddlerControls.TextureAlternative();
                 refmarker.controlTextureAlt.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlTextureAlt.Location = new System.Drawing.Point(3, 3);
@@ -270,7 +271,7 @@ namespace UoFiddler
             {
                 if (refmarker.controlItemShowAlt == null)
                     return;
-                
+
                 refmarker.controlItemShow = new FiddlerControls.ItemShow();
                 refmarker.controlItemShow.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlItemShow.Location = new System.Drawing.Point(3, 3);
@@ -282,7 +283,7 @@ namespace UoFiddler
                 parent.Controls.Add(refmarker.controlItemShow);
                 parent.PerformLayout();
                 refmarker.controlItemShowAlt.Dispose();
-                
+
                 refmarker.controlTexture = new FiddlerControls.Texture();
                 refmarker.controlTexture.Dock = System.Windows.Forms.DockStyle.Fill;
                 refmarker.controlTexture.Location = new System.Drawing.Point(3, 3);
@@ -343,8 +344,8 @@ namespace UoFiddler
             int tag = (int)tabControl2.SelectedTab.Tag;
             if (tag > 0)
             {
-                    new UnDocked(tabControl2.SelectedTab.Controls[0], 
-                        tabControl2.SelectedTab.Text, tag).Show();
+                new UnDocked(tabControl2.SelectedTab.Controls[0],
+                    tabControl2.SelectedTab.Text, tag).Show();
                 tabControl2.TabPages.Remove(tabControl2.SelectedTab);
             }
         }
@@ -363,7 +364,7 @@ namespace UoFiddler
             p.Controls.Add(contr);
             foreach (TabPage page in refmarker.tabControl2.TabPages)
             {
-                if ((int)page.Tag>index)
+                if ((int)page.Tag > index)
                 {
                     refmarker.tabControl2.TabPages.Insert(refmarker.tabControl2.TabPages.IndexOf(page), p);
                     done = true;
@@ -388,6 +389,26 @@ namespace UoFiddler
 
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
+            string files="";
+            foreach (KeyValuePair<string, bool> key in FiddlerControls.Options.ChangedUltimaClass)
+            {
+                if (key.Value)
+                    files += key.Key + " ";
+            }
+            if (files.Length>0)
+            {
+                DialogResult result =
+                        MessageBox.Show(String.Format("Are you sure you want to quit?\r\n{0}", files),
+                        "UnSaved Changes",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
             GlobalPlugins.Plugins.ClosePlugins();
         }
 

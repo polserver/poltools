@@ -100,9 +100,9 @@ namespace FiddlerControls
         /// <param name="name"></param>
         /// <param name="next">starting from current selected</param>
         /// <returns></returns>
-        public static bool SearchName(string name,bool next)
+        public static bool SearchName(string name, bool next)
         {
-            int index=0;
+            int index = 0;
             if (next)
             {
                 if (refMarker.listView1.SelectedIndices.Count == 1)
@@ -227,7 +227,7 @@ namespace FiddlerControls
                     e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
                     e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
-                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X+5, e.Bounds.Y+5, e.Bounds.Width-10, e.Bounds.Height-10);
+                e.Graphics.FillRectangle(Brushes.Red, e.Bounds.X + 5, e.Bounds.Y + 5, e.Bounds.Width - 10, e.Bounds.Height - 10);
                 return;
             }
             bool patched;
@@ -236,7 +236,7 @@ namespace FiddlerControls
             if (bmp != null)
             {
                 if (listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
+                    e.Graphics.FillRectangle(Brushes.LightBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else if (patched)
                     e.Graphics.FillRectangle(Brushes.LightCoral, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
                 else
@@ -250,12 +250,12 @@ namespace FiddlerControls
                 }
                 else
                 {
-                    int width=bmp.Width;
-                    int height=bmp.Height;
+                    int width = bmp.Width;
+                    int height = bmp.Height;
                     if (width > e.Bounds.Width)
                     {
                         width = e.Bounds.Width;
-                        height = e.Bounds.Height * bmp.Height/ bmp.Width;
+                        height = e.Bounds.Height * bmp.Height / bmp.Width;
                     }
                     if (height > e.Bounds.Height)
                     {
@@ -266,7 +266,7 @@ namespace FiddlerControls
                                          new Rectangle(e.Bounds.X + 1, e.Bounds.Y + 1, width, height));
                 }
                 if (!listView1.SelectedItems.Contains(e.Item))
-                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width,e.Bounds.Height);
+                    e.Graphics.DrawRectangle(Pens.Gray, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             }
         }
 
@@ -284,7 +284,7 @@ namespace FiddlerControls
             }
         }
 
-        private ItemSearch showform=null;
+        private ItemSearch showform = null;
         private void Search_Click(object sender, EventArgs e)
         {
             if ((showform == null) || (showform.IsDisposed))
@@ -352,8 +352,8 @@ namespace FiddlerControls
         private void OnClickSave(object sender, EventArgs e)
         {
             DialogResult result =
-                        MessageBox.Show("Are you sure? Will take a while", 
-                        "Save", 
+                        MessageBox.Show("Are you sure? Will take a while",
+                        "Save",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning,
                         MessageBoxDefaultButton.Button2);
@@ -362,8 +362,9 @@ namespace FiddlerControls
                 this.Cursor = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 this.Cursor = Cursors.Default;
-                MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
-                    "Save", 
+                Options.ChangedUltimaClass["Art"] = false;
+                MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
@@ -383,10 +384,14 @@ namespace FiddlerControls
                 {
                     Bitmap bmp = new Bitmap(dialog.FileName);
                     if (dialog.FileName.Contains(".bmp"))
-                        bmp=Utils.ConvertBmp(bmp);
-                    Art.ReplaceStatic((int)listView1.SelectedItems[0].Tag, bmp);
+                        bmp = Utils.ConvertBmp(bmp);
+                    int id = (int)listView1.SelectedItems[0].Tag;
+                    if (id == -1)
+                        listView1.SelectedItems[0].Tag = id = listView1.SelectedItems[0].Index;
+                    Art.ReplaceStatic(id, bmp);
                     listView1.Invalidate();
-                    UpdateDetail((int)listView1.SelectedItems[0].Tag);
+                    UpdateDetail(id);
+                    Options.ChangedUltimaClass["Art"] = true;
                 }
             }
         }
@@ -423,6 +428,8 @@ namespace FiddlerControls
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceStatic(index, bmp);
                         ListViewItem item = new ListViewItem(index.ToString(), 0);
                         item.Tag = index;
@@ -453,6 +460,7 @@ namespace FiddlerControls
                         item.Selected = true;
                         item.Focused = true;
                         item.EnsureVisible();
+                        Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
             }
@@ -464,8 +472,8 @@ namespace FiddlerControls
             if (i == -1)
                 return;
             DialogResult result =
-                        MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", i), 
-                        "Save", 
+                        MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", i),
+                        "Save",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button2);
@@ -481,6 +489,7 @@ namespace FiddlerControls
                 else
                     listView1.Items[i].Tag = -1;
                 listView1.Invalidate();
+                Options.ChangedUltimaClass["Art"] = true;
             }
         }
 
@@ -608,6 +617,17 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickSelectTiledata(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                int id = (int)listView1.SelectedItems[0].Tag;
+                if (id == -1)
+                    id = listView1.SelectedItems[0].Index;
+                FiddlerControls.TileDatas.Select(id, false);
+            }
         }
 
         #region Preloader

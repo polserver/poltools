@@ -28,7 +28,7 @@ namespace UoFiddler
                     plug.CreateInstance();
                     loaded = false;
                 }
-                checkedListBox1.Items.Add(plug.Instance.Name,loaded);
+                checkedListBox1.Items.Add(plug.Instance.Name, loaded);
             }
         }
 

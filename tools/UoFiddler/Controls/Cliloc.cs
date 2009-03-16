@@ -47,7 +47,7 @@ namespace FiddlerControls
                 lang = value;
                 switch (value)
                 {
-                    case 0: 
+                    case 0:
                         cliloc = new StringList("enu");
                         break;
                     case 1:
@@ -62,7 +62,7 @@ namespace FiddlerControls
                         cliloc = new StringList("custom2");
                         break;
                 }
-                    
+
             }
         }
         #endregion
@@ -83,7 +83,7 @@ namespace FiddlerControls
             Loaded = true;
             sortorder = SortOrder.Ascending;
             sortcolumn = 0;
-            LangComboBox.SelectedIndex=0;
+            LangComboBox.SelectedIndex = 0;
             Lang = 0;
             cliloc.Entries.Sort(new StringList.NumberComparer(false));
             source.DataSource = cliloc.Entries;
@@ -170,8 +170,8 @@ namespace FiddlerControls
                 }
             }
             MessageBox.Show(
-                "Number not found.", 
-                "Goto", 
+                "Number not found.",
+                "Goto",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1);
@@ -180,9 +180,9 @@ namespace FiddlerControls
         private void FindEntryClick(object sender, EventArgs e)
         {
             string find = FindEntry.Text.ToString();
-            for (int i = (dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Selected)+1); i < dataGridView1.Rows.Count; i++)
+            for (int i = (dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Selected) + 1); i < dataGridView1.Rows.Count; i++)
             {
-                if ((dataGridView1.Rows[i].Cells[1].Value.ToString().IndexOf(find))!=-1)
+                if ((dataGridView1.Rows[i].Cells[1].Value.ToString().IndexOf(find)) != -1)
                 {
                     dataGridView1.Rows[i].Selected = true;
                     dataGridView1.FirstDisplayedScrollingRowIndex = i;
@@ -190,8 +190,8 @@ namespace FiddlerControls
                 }
             }
             MessageBox.Show(
-                "Entry not found.", 
-                "Find Entry", 
+                "Entry not found.",
+                "Find Entry",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error,
                 MessageBoxDefaultButton.Button1);
@@ -204,10 +204,10 @@ namespace FiddlerControls
             string FileName;
             if (cliloc.Language == "custom1")
                 FileName = Path.Combine(path, String.Format("Cliloc{0}", Path.GetExtension(Files.GetFilePath("cliloc.custom1"))));
-            else if (cliloc.Language=="custom2")
+            else if (cliloc.Language == "custom2")
                 FileName = Path.Combine(path, String.Format("Cliloc{0}", Path.GetExtension(Files.GetFilePath("cliloc.custom2"))));
             else
-                FileName = Path.Combine(path, String.Format("Cliloc.{0}",cliloc.Language));
+                FileName = Path.Combine(path, String.Format("Cliloc.{0}", cliloc.Language));
             cliloc.SaveStringList(FileName);
             dataGridView1.Columns[sortcolumn].HeaderCell.SortGlyphDirection = SortOrder.None;
             dataGridView1.Columns[0].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
@@ -215,11 +215,12 @@ namespace FiddlerControls
             sortorder = SortOrder.Ascending;
             dataGridView1.Refresh();
             MessageBox.Show(
-                String.Format("CliLoc saved to {0}",FileName),
+                String.Format("CliLoc saved to {0}", FileName),
                 "Saved",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["CliLoc"] = false;
         }
 
         private void onCell_dbClick(object sender, DataGridViewCellEventArgs e)
@@ -243,6 +244,7 @@ namespace FiddlerControls
             {
                 cliloc.Entries.RemoveAt(dataGridView1.SelectedCells[0].OwningRow.Index);
                 dataGridView1.Refresh();
+                Options.ChangedUltimaClass["CliLoc"] = true;
             }
         }
 
@@ -300,6 +302,7 @@ namespace FiddlerControls
                     refmarker.dataGridView1.Refresh();
                     refmarker.dataGridView1.Rows[i].Selected = true;
                     refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = i;
+                    Options.ChangedUltimaClass["CliLoc"] = true;
                     return;
                 }
             }
@@ -326,6 +329,7 @@ namespace FiddlerControls
                     refmarker.dataGridView1.Refresh();
                     refmarker.dataGridView1.Rows[index].Selected = true;
                     refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                    Options.ChangedUltimaClass["CliLoc"] = true;
                     return;
                 }
                 ++index;

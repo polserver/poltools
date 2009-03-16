@@ -100,13 +100,13 @@ namespace FiddlerControls
                 this.Cursor = Cursors.Default;
                 return;
             }
-            
+
             LoadListView();
 
             extractAnimationToolStripMenuItem.Visible = false;
             m_CurrentSelect = 0;
             m_CurrentSelectAction = 0;
-            if (TreeViewMobs.Nodes[0].Nodes.Count>0)
+            if (TreeViewMobs.Nodes[0].Nodes.Count > 0)
                 TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
             this.Cursor = Cursors.Default;
@@ -118,7 +118,7 @@ namespace FiddlerControls
         /// <param name="select"></param>
         public void ChangeHue(int select)
         {
-            customHue = select+1;
+            customHue = select + 1;
             CurrentSelect = CurrentSelect;
         }
 
@@ -152,7 +152,7 @@ namespace FiddlerControls
         {
             TreeViewMobs.BeginUpdate();
             TreeNode nodeparent = new TreeNode(name);
-            
+
             nodeparent.ToolTipText = Animations.GetFileName(graphic);
             if (type == 4)
             {
@@ -161,7 +161,7 @@ namespace FiddlerControls
             }
             else
                 TreeViewMobs.Nodes[0].Nodes.Add(nodeparent);
-            nodeparent.Tag = new int[]{graphic,type};
+            nodeparent.Tag = new int[] { graphic, type };
 
             TreeNode node;
             for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
@@ -173,7 +173,7 @@ namespace FiddlerControls
                     nodeparent.Nodes.Add(node);
                 }
             }
-            
+
             TreeViewMobs.Sort();
             TreeViewMobs.EndUpdate();
             LoadListView();
@@ -445,10 +445,10 @@ namespace FiddlerControls
                 value = int.Parse(xMob.GetAttribute("body"));
                 int type = int.Parse(xMob.GetAttribute("type"));
                 node = new TreeNode(name);
-                node.Tag = new int[]{value,type};
+                node.Tag = new int[] { value, type };
                 node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes[0].Nodes.Add(node);
-                
+
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
@@ -471,10 +471,10 @@ namespace FiddlerControls
                 value = int.Parse(xMob.GetAttribute("body"));
                 int type = int.Parse(xMob.GetAttribute("type"));
                 node = new TreeNode(name);
-                node.Tag = new int[]{value,type};
+                node.Tag = new int[] { value, type };
                 node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes[1].Nodes.Add(node);
-                
+
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
                 {
@@ -497,7 +497,7 @@ namespace FiddlerControls
             ListViewItem item;
             foreach (TreeNode node in TreeViewMobs.Nodes[DisplayType].Nodes)
             {
-                item = new ListViewItem("("+((int[])node.Tag)[0]+")", 0);
+                item = new ListViewItem("(" + ((int[])node.Tag)[0] + ")", 0);
                 item.Tag = ((int[])node.Tag)[0];
                 listView.Items.Add(item);
             }
@@ -546,10 +546,10 @@ namespace FiddlerControls
         {
             if ((showform == null) || (showform.IsDisposed))
             {
-                if (customHue==0)
-                    showform = new HuePopUp(this,DefHue+1);
+                if (customHue == 0)
+                    showform = new HuePopUp(this, DefHue + 1);
                 else
-                    showform = new HuePopUp(this, customHue-1);
+                    showform = new HuePopUp(this, customHue - 1);
                 showform.TopMost = true;
                 showform.Show();
             }
@@ -560,9 +560,9 @@ namespace FiddlerControls
             listView1.BeginUpdate();
             listView1.Clear();
             ListViewItem item;
-            for (int frame = 0; frame < m_Animation.Length;frame++ )
+            for (int frame = 0; frame < m_Animation.Length; frame++)
             {
-                item = new ListViewItem(frame.ToString(),0);
+                item = new ListViewItem(frame.ToString(), 0);
                 item.Tag = frame;
                 listView1.Items.Add(item);
             }

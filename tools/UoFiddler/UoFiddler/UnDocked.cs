@@ -17,7 +17,7 @@ namespace UoFiddler
     {
         private int m_index;
         private string m_name;
-        public UnDocked(Control contr,string name, int index)
+        public UnDocked(Control contr, string name, int index)
         {
             this.Controls.Clear();
             this.Controls.Add(contr);

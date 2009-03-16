@@ -27,7 +27,7 @@ namespace FiddlerControls
             type = m_type;
             font = m_font;
             pictureBox1.BackColor = Color.White;
-            if (type == 1) 
+            if (type == 1)
                 this.Text = String.Format("Unicode Font:{0}", m_font);
             else
                 this.Text = String.Format("ASCII Font:{0}", m_font);

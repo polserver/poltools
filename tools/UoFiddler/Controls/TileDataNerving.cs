@@ -16,7 +16,7 @@ namespace FiddlerControls
             InitializeComponent();
             refTileData = ref_;
             checkBox1.Checked = refTileData.ShowNervingMsg;
-            label1.Text=String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", id);
+            label1.Text = String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", id);
         }
 
         private void onExit(object sender, EventArgs e)

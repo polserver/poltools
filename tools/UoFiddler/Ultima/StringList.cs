@@ -5,56 +5,54 @@ using System.Text;
 
 namespace Ultima
 {
-	public sealed class StringList
-	{
-		private ArrayList m_Entries;
-		private string m_Language;
+    public sealed class StringList
+    {
         private int m_Header1;
         private short m_Header2;
 
-        public ArrayList Entries { get { return m_Entries; } set { m_Entries = value; } }
-		public string Language{ get{ return m_Language; } }
+        public ArrayList Entries { get; set; }
+        public string Language { get; private set; }
 
-		private static byte[] m_Buffer = new byte[1024];
+        private static byte[] m_Buffer = new byte[1024];
 
         /// <summary>
         /// Initialize <see cref="StringList"/> of Language
         /// </summary>
         /// <param name="language"></param>
-		public StringList( string language )
-		{
-			m_Language = language;
+        public StringList(string language)
+        {
+            Language = language;
 
-			string path = Files.GetFilePath( String.Format( "cliloc.{0}", language ) );
+            string path = Files.GetFilePath(String.Format("cliloc.{0}", language));
 
-			if ( path == null )
-			{
-                m_Entries = new ArrayList(0);
-				return;
-			}
-            m_Entries = new ArrayList();
+            if (path == null)
+            {
+                Entries = new ArrayList(0);
+                return;
+            }
+            Entries = new ArrayList();
 
-			using ( BinaryReader bin = new BinaryReader( new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read ) ) )
-			{
-				m_Header1=bin.ReadInt32();
-				m_Header2=bin.ReadInt16();
+            using (BinaryReader bin = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            {
+                m_Header1 = bin.ReadInt32();
+                m_Header2 = bin.ReadInt16();
 
-				while ( bin.BaseStream.Length != bin.BaseStream.Position )
-				{
-					int number = bin.ReadInt32();
-					byte flag = bin.ReadByte();
-					int length = bin.ReadInt16();
+                while (bin.BaseStream.Length != bin.BaseStream.Position)
+                {
+                    int number = bin.ReadInt32();
+                    byte flag = bin.ReadByte();
+                    int length = bin.ReadInt16();
 
-					if ( length > m_Buffer.Length )
-						m_Buffer = new byte[(length + 1023) & ~1023];
+                    if (length > m_Buffer.Length)
+                        m_Buffer = new byte[(length + 1023) & ~1023];
 
-					bin.Read( m_Buffer, 0, length );
-					string text = Encoding.UTF8.GetString( m_Buffer, 0, length );
+                    bin.Read(m_Buffer, 0, length);
+                    string text = Encoding.UTF8.GetString(m_Buffer, 0, length);
 
-					m_Entries.Add( new StringEntry( number, text, flag ) );
-				}
-			}
-		}
+                    Entries.Add(new StringEntry(number, text, flag));
+                }
+            }
+        }
 
         /// <summary>
         /// Saves <see cref="SaveStringList"/> to FileName
@@ -73,7 +71,7 @@ namespace Ultima
                     bin.Write(entry.Number);
                     bin.Write((byte)entry.Flag);
                     byte[] utf8String = Encoding.UTF8.GetBytes(entry.Text);
-                    ushort length=(ushort)utf8String.Length;
+                    ushort length = (ushort)utf8String.Length;
                     bin.Write(length);
                     bin.Write(utf8String);
                 }

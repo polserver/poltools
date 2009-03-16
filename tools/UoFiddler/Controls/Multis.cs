@@ -43,7 +43,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Loaded = true;
-            Options.LoadedUltimaClass["TileData"]=true;
+            Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["Multis"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
@@ -95,23 +95,28 @@ namespace FiddlerControls
 
         private void afterSelect_Multi(object sender, TreeViewEventArgs e)
         {
-            if ((MultiComponentList)TreeViewMulti.SelectedNode.Tag == MultiComponentList.Empty)
+            MultiComponentList multi = (MultiComponentList)TreeViewMulti.SelectedNode.Tag;
+            if (multi == MultiComponentList.Empty)
             {
                 HeightChangeMulti.Maximum = 0;
                 toolTip.SetToolTip(HeightChangeMulti, "MaxHeight: 0");
-                StatusMultiText.Text = "Size: 0,0 MaxHeight: 0";
+                StatusMultiText.Text = "Size: 0,0 MaxHeight: 0 MultiRegion: 0,0,0,0";
             }
             else
             {
-                HeightChangeMulti.Maximum = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight;
+                HeightChangeMulti.Maximum = multi.maxHeight;
                 toolTip.SetToolTip(HeightChangeMulti, String.Format("MaxHeight: {0}", HeightChangeMulti.Maximum - HeightChangeMulti.Value));
-                StatusMultiText.Text = String.Format("Size: {0},{1} MaxHeight: {2}",
-                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Width,
-                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).Height,
-                                                   ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).maxHeight);
-                
+                StatusMultiText.Text = String.Format("Size: {0},{1} MaxHeight: {2} MultiRegion: {3},{4},{5},{6} Surface: {7}",
+                                                   multi.Width,
+                                                   multi.Height,
+                                                   multi.maxHeight,
+                                                   multi.Min.X,
+                                                   multi.Min.Y,
+                                                   multi.Max.X,
+                                                   multi.Max.Y,
+                                                   multi.Surface);
             }
-            ChangeComponentList((MultiComponentList)TreeViewMulti.SelectedNode.Tag);
+            ChangeComponentList(multi);
             MultiPictureBox.Refresh();
         }
 
@@ -125,11 +130,10 @@ namespace FiddlerControls
                 return;
             }
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
-            Bitmap m_MainPicture_Multi  = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
+            Bitmap m_MainPicture_Multi = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
             Point location = Point.Empty;
-            Size size = Size.Empty;
+            Size size = MultiPictureBox.Size;
             Rectangle destRect = Rectangle.Empty;
-            size = MultiPictureBox.Size;
             if ((m_MainPicture_Multi.Height < size.Height) && (m_MainPicture_Multi.Width < size.Width))
             {
                 location.X = (MultiPictureBox.Width - m_MainPicture_Multi.Width) / 2;
@@ -159,7 +163,7 @@ namespace FiddlerControls
 
 
             e.Graphics.DrawImage(m_MainPicture_Multi, destRect, 0, 0, m_MainPicture_Multi.Width, m_MainPicture_Multi.Height, System.Drawing.GraphicsUnit.Pixel);
-            
+
         }
 
         private void onValue_HeightChangeMulti(object sender, EventArgs e)
@@ -252,9 +256,9 @@ namespace FiddlerControls
             if (multi == MultiComponentList.Empty)
                 return;
             int id = int.Parse(TreeViewMulti.SelectedNode.Name);
-            
+
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.txt",id));
+            string FileName = Path.Combine(path, String.Format("Multi 0x{0:X}.txt", id));
             multi.ExportToTextFile(FileName);
             MessageBox.Show(String.Format("Multi saved to {0}", FileName),
                 "Saved",
@@ -311,6 +315,7 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Multis"] = false;
         }
 
         private void OnClickRemove(object sender, EventArgs e)
@@ -331,10 +336,11 @@ namespace FiddlerControls
             {
                 Ultima.Multis.Remove(id);
                 TreeViewMulti.SelectedNode.Remove();
+                Options.ChangedUltimaClass["Multis"] = true;
             }
         }
 
-        FiddlerControls.MultiImport multiimport=null;
+        FiddlerControls.MultiImport multiimport = null;
         private void OnClickImport(object sender, EventArgs e)
         {
             if ((multiimport == null) || (multiimport.IsDisposed))
@@ -353,12 +359,10 @@ namespace FiddlerControls
                         return;
                 }
 
-                multiimport = new MultiImport(this,id);
+                multiimport = new MultiImport(this, id);
                 multiimport.TopMost = true;
                 multiimport.Show();
             }
         }
-
-        
     }
 }

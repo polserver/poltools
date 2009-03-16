@@ -112,7 +112,7 @@ namespace FiddlerControls
             {
                 if ((int)refMarker.ItemList[i] == graphic)
                 {
-                    refMarker.vScrollBar.Value=i/refMarker.col+1;
+                    refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.Selected = graphic;
                     return true;
                 }
@@ -126,7 +126,7 @@ namespace FiddlerControls
         /// <param name="name"></param>
         /// <param name="next">starting from current selected</param>
         /// <returns></returns>
-        public static bool SearchName(string name,bool next)
+        public static bool SearchName(string name, bool next)
         {
             int index = 0;
             if (next)
@@ -339,7 +339,7 @@ namespace FiddlerControls
             vScrollBar.LargeChange = row;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
-            if (selected!=-1)
+            if (selected != -1)
                 UpdateDetail(selected);
         }
 
@@ -481,6 +481,7 @@ namespace FiddlerControls
                         bmp = Utils.ConvertBmp(bmp);
                     Art.ReplaceStatic(selected, bmp);
                     PaintBox();
+                    Options.ChangedUltimaClass["Art"] = true;
                 }
             }
         }
@@ -490,8 +491,8 @@ namespace FiddlerControls
             if (!Art.IsValidStatic(selected))
                 return;
             DialogResult result =
-                        MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", selected), 
-                        "Save", 
+                        MessageBox.Show(String.Format("Are you sure to remove 0x{0:X}", selected),
+                        "Save",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button2);
@@ -502,6 +503,7 @@ namespace FiddlerControls
                     ItemList.Remove((object)selected);
                 selected--;
                 PaintBox();
+                Options.ChangedUltimaClass["Art"] = true;
             }
         }
 
@@ -537,7 +539,10 @@ namespace FiddlerControls
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceStatic(index, bmp);
+                        Options.ChangedUltimaClass["Art"] = true;
                         if (ShowFreeSlots)
                         {
                             selected = index;
@@ -588,10 +593,11 @@ namespace FiddlerControls
                 this.Cursor = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 this.Cursor = Cursors.Default;
+                Options.ChangedUltimaClass["Art"] = false;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
-                    "Save", 
-                    MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
 
@@ -653,6 +659,12 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickSelectTiledata(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+                FiddlerControls.TileDatas.Select(selected, false);
         }
 
         #region Preloader

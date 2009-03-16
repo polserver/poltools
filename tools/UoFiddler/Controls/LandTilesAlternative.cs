@@ -85,7 +85,7 @@ namespace FiddlerControls
             if (next)
             {
                 if (refMarker.selected >= 0)
-                    index=refMarker.TileList.IndexOf((object)refMarker.selected)+1;
+                    index = refMarker.TileList.IndexOf((object)refMarker.selected) + 1;
                 if (index >= refMarker.TileList.Count)
                     index = 0;
             }
@@ -283,14 +283,15 @@ namespace FiddlerControls
         private void onClickRemove(object sender, EventArgs e)
         {
             DialogResult result =
-                        MessageBox.Show(String.Format("Are you sure to remove {0}", selected), "Save", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Question,MessageBoxDefaultButton.Button1);
+                        MessageBox.Show(String.Format("Are you sure to remove {0}", selected), "Save",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
             if (result == DialogResult.Yes)
             {
                 Art.RemoveLand(selected);
                 TileList.Remove((object)selected);
                 selected--;
                 PaintBox();
+                Options.ChangedUltimaClass["Art"] = true;
             }
         }
 
@@ -310,6 +311,7 @@ namespace FiddlerControls
                         bmp = Utils.ConvertBmp(bmp);
                     Art.ReplaceLand(selected, bmp);
                     PaintBox();
+                    Options.ChangedUltimaClass["Art"] = true;
                 }
             }
         }
@@ -317,7 +319,7 @@ namespace FiddlerControls
         private void onTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text,out index,0,0x3FFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0x3FFF))
             {
                 if (Art.IsValidLand(index))
                     InsertText.ForeColor = Color.Red;
@@ -346,6 +348,8 @@ namespace FiddlerControls
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand(index, bmp);
                         bool done = false;
                         for (int i = 0; i < TileList.Count; i++)
@@ -364,6 +368,7 @@ namespace FiddlerControls
                             vScrollBar.Value = TileList.Count / refMarker.col + 1;
                         }
                         Selected = index;
+                        Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
             }
@@ -372,17 +377,18 @@ namespace FiddlerControls
         private void onClickSave(object sender, EventArgs e)
         {
             DialogResult result =
-                        MessageBox.Show("Are you sure? Will take a while", "Save", 
-                        MessageBoxButtons.YesNo,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2);
+                        MessageBox.Show("Are you sure? Will take a while", "Save",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
                 this.Cursor = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show(
-                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), 
-                    "Save", 
-                    MessageBoxButtons.OK,MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+                    String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["Art"] = false;
             }
         }
 
@@ -410,6 +416,12 @@ namespace FiddlerControls
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
+        }
+
+        private void OnClickSelectTiledata(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+                FiddlerControls.TileDatas.Select(selected, true);
         }
     }
 }

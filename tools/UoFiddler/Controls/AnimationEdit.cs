@@ -44,13 +44,13 @@ namespace FiddlerControls
 
             for (int i = 0; i < count; i++)
             {
-                if (Animations.IsAnimDefinied(i,0,0,FileType))
+                if (Animations.IsAnimDefinied(i, 0, 0, FileType))
                 {
                     int animlength = Animations.GetAnimLength(i, FileType);
                     string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
                     TreeNode node = new TreeNode();
                     node.Tag = i;
-                    node.Text = String.Format("{0}: {1} ({2})",type,i,BodyConverter.GetTrueBody(FileType,i));
+                    node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
                     treeView1.Nodes.Add(node);
                     for (int j = 0; j < animlength; j++)
                     {
@@ -159,16 +159,16 @@ namespace FiddlerControls
             }
             for (int i = 0; i < CurrFrames.Length; i++)
             {
-                string FileName = Path.Combine(path, String.Format("Animation {0} {1}-{2}.tiff", body, action,i));
+                string FileName = Path.Combine(path, String.Format("Animation {0} {1}-{2}.tiff", body, action, i));
                 CurrFrames[i].Bitmap.Save(FileName, ImageFormat.Tiff);
             }
             MessageBox.Show(
-                    String.Format("Frames saved to {0}",path),
+                    String.Format("Frames saved to {0}", path),
                     "Saved",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
-            
+
         }
 
         private void OnClickSave(object sender, EventArgs e)

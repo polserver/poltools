@@ -87,7 +87,7 @@ namespace FiddlerControls
         private void listView_SelectedIndexChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)
-                Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", (int)listView1.SelectedItems[0].Tag,Textures.GetTexture((int)listView1.SelectedItems[0].Tag).Width);
+                Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", (int)listView1.SelectedItems[0].Tag, Textures.GetTexture((int)listView1.SelectedItems[0].Tag).Width);
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -135,6 +135,7 @@ namespace FiddlerControls
                 "Save",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Texture"] = false;
         }
 
         private void onClickFindNext(object sender, EventArgs e)
@@ -184,6 +185,7 @@ namespace FiddlerControls
                 listView1.SelectedItems[0].Selected = false;
                 listView1.Items.RemoveAt(i);
                 listView1.Invalidate();
+                Options.ChangedUltimaClass["Texture"] = true;
             }
         }
 
@@ -207,6 +209,7 @@ namespace FiddlerControls
                         Textures.Replace(i, bmp);
                         listView1.Invalidate();
                         listView_SelectedIndexChanged(this, (ListViewItemSelectionChangedEventArgs)null);
+                        Options.ChangedUltimaClass["Texture"] = true;
                     }
                     else
                         MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
@@ -271,6 +274,7 @@ namespace FiddlerControls
                             item.Selected = true;
                             item.Focused = true;
                             item.EnsureVisible();
+                            Options.ChangedUltimaClass["Texture"] = true;
                         }
                         else
                             MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,

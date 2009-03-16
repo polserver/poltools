@@ -13,7 +13,7 @@ namespace UoFiddler
         private void OnLoad(object sender, EventArgs e)
         {
             string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            webBrowser.Navigate("file://"+filepath+"help/index.html");
+            webBrowser.Navigate("file://" + filepath + "help/index.html");
         }
     }
 }

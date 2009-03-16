@@ -59,7 +59,7 @@ namespace FiddlerControls
                 using (Graphics g = Graphics.FromImage(pictureBoxPreview.Image))
                 {
                     g.Clear(Color.White);
-                    int x,y;
+                    int x, y;
                     x = (int)(pictureBoxPreview.Image.Width / 2 - bmp.Width / 2);
                     y = (int)(pictureBoxPreview.Image.Height / 2 - bmp.Height / 2);
                     g.DrawImage(bmp, x, y);
@@ -74,17 +74,17 @@ namespace FiddlerControls
             refmarker = m_refmarker;
             hue = Ultima.Hues.GetHue(index);
             Colors = new short[32];
-            hue.Colors.CopyTo(Colors,0);
+            hue.Colors.CopyTo(Colors, 0);
             textBoxName.Text = hue.Name;
             this.Text = String.Format("HueEdit {0}", index);
             Selected = 0;
             Second_Selected = -1;
-            pictureBoxPreview.Image = new Bitmap(pictureBoxPreview.Width,pictureBoxPreview.Height);
+            pictureBoxPreview.Image = new Bitmap(pictureBoxPreview.Width, pictureBoxPreview.Height);
         }
 
         private int GetIndex(int x)
         {
-            return (x / (pictureBox.Width/Colors.Length));
+            return (x / (pictureBox.Width / Colors.Length));
         }
 
         private void OnPaintPicture(object sender, PaintEventArgs e)
@@ -94,11 +94,11 @@ namespace FiddlerControls
             {
                 Rectangle rectangle = new Rectangle(((int)Math.Round((double)(i * size))), 5, (int)Math.Round((double)(size + 1f)), pictureBox.Height - 10);
                 e.Graphics.FillRectangle(new SolidBrush(Ultima.Hues.HueToColor(Colors[i])), rectangle);
-                if (rectangle.X>0)
+                if (rectangle.X > 0)
                     e.Graphics.DrawLine(new Pen(Color.Black), rectangle.X, 5, rectangle.X, pictureBox.Height - 7);
             }
             e.Graphics.FillRectangle(Brushes.LightBlue, (int)Math.Round((double)(selected * size)), pictureBox.Height - 4, (int)Math.Round((double)(size + 1f)), 4);
-            if (Second_Selected>-1)
+            if (Second_Selected > -1)
                 e.Graphics.FillRectangle(Brushes.LightBlue, (int)Math.Round((double)(second_sel * size)), 0, (int)Math.Round((double)(size + 1f)), 4);
 
         }
@@ -138,6 +138,7 @@ namespace FiddlerControls
             hue.TableStart = Colors[0];
             hue.TableEnd = Colors[hue.Colors.Length - 1];
             refmarker.Refreshlist();
+            Options.ChangedUltimaClass["Hues"] = true;
         }
 
         private void OnClickSpread(object sender, EventArgs e)
@@ -161,11 +162,11 @@ namespace FiddlerControls
                             (int)(startc.R + i * Rdiv),
                             (int)(startc.G + i * Gdiv),
                             (int)(startc.B + i * Bdiv));
-                        Colors[start+i] = Ultima.Hues.ColorToHue(newc);
-                    }  
+                        Colors[start + i] = Ultima.Hues.ColorToHue(newc);
+                    }
                     pictureBox.Refresh();
                     RefreshPreview();
-                 }
+                }
             }
         }
 
@@ -221,7 +222,7 @@ namespace FiddlerControls
             {
                 int start = Math.Min(Second_Selected, Selected);
                 int end = Math.Max(Second_Selected, Selected);
-                while (start<end)
+                while (start < end)
                 {
                     short temp = Colors[start];
                     Colors[start] = Colors[end];

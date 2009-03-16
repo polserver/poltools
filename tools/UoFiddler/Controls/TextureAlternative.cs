@@ -164,7 +164,7 @@ namespace FiddlerControls
                                 }
                                 g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
                                 if (index == selected)
-                                    g.DrawRectangle(Pens.LightBlue,rect.X,rect.Y,rect.Width-1,rect.Height-1);
+                                    g.DrawRectangle(Pens.LightBlue, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                                 else if (patched)
                                     g.DrawRectangle(Pens.LightCoral, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                             }
@@ -260,6 +260,7 @@ namespace FiddlerControls
                 TextureList.Remove((object)selected);
                 selected--;
                 PaintBox();
+                Options.ChangedUltimaClass["Texture"] = true;
             }
         }
 
@@ -279,6 +280,7 @@ namespace FiddlerControls
                         bmp = Utils.ConvertBmp(bmp);
                     Textures.Replace(selected, bmp);
                     PaintBox();
+                    Options.ChangedUltimaClass["Texture"] = true;
                 }
             }
         }
@@ -286,7 +288,7 @@ namespace FiddlerControls
         private void onTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text,out index,0,0xFFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFF))
             {
                 if (Textures.TestTexture(index))
                     InsertText.ForeColor = Color.Red;
@@ -317,6 +319,8 @@ namespace FiddlerControls
                         Bitmap bmp = new Bitmap(dialog.FileName);
                         if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                         {
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
                             Textures.Replace(index, bmp);
                             bool done = false;
                             for (int i = 0; i < TextureList.Count; i++)
@@ -337,6 +341,7 @@ namespace FiddlerControls
                             selected = index;
                             Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
                             PaintBox();
+                            Options.ChangedUltimaClass["Texture"] = true;
                         }
                         else
                             MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
@@ -356,6 +361,7 @@ namespace FiddlerControls
                 "Save",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Texture"] = false;
         }
 
         private void onClickExportTiff(object sender, EventArgs e)

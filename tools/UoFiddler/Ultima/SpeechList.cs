@@ -8,8 +8,7 @@ namespace Ultima
 {
     public sealed class SpeechList
     {
-        private static ArrayList m_Entries;
-        public static ArrayList Entries { get { return m_Entries; } set { m_Entries = value; } }
+        public static ArrayList Entries { get; set; }
 
         private static byte[] m_Buffer = new byte[128];
 
@@ -26,13 +25,13 @@ namespace Ultima
             string path = Files.GetFilePath("speech.mul");
             if (path == null)
             {
-                m_Entries = new ArrayList(0);
+                Entries = new ArrayList(0);
                 return;
             }
-            m_Entries = new ArrayList();
+            Entries = new ArrayList();
             using (BinaryReader bin = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
-                int order=0;
+                int order = 0;
                 while (bin.BaseStream.Length != bin.BaseStream.Position)
                 {
                     short id = NativeMethods.SwapEndian(bin.ReadInt16());
@@ -41,7 +40,7 @@ namespace Ultima
                         length = 128;
                     bin.Read(m_Buffer, 0, length);
                     string keyword = Encoding.UTF8.GetString(m_Buffer, 0, length);
-                    m_Entries.Add(new SpeechEntry(id, keyword,order));
+                    Entries.Add(new SpeechEntry(id, keyword, order));
                     ++order;
                 }
             }
@@ -61,7 +60,7 @@ namespace Ultima
                 {
                     bin.Write(NativeMethods.SwapEndian(entry.ID));
                     byte[] utf8String = Encoding.UTF8.GetBytes(entry.KeyWord);
-                    short length=(short)utf8String.Length;
+                    short length = (short)utf8String.Length;
                     bin.Write(NativeMethods.SwapEndian(length));
                     bin.Write(utf8String);
                 }
@@ -130,33 +129,17 @@ namespace Ultima
 
     public sealed class SpeechEntry
     {
-        private short m_ID;
-        private string m_KeyWord;
-        private int m_Order;
-
-        public short ID
-        {
-            get { return m_ID; }
-            set { m_ID = value; }
-        }
-
-        public string KeyWord
-        {
-            get { return m_KeyWord; }
-            set { m_KeyWord = value; }
-        }
+        public short ID { get; set; }
+        public string KeyWord { get; set; }
 
         [Browsable(false)]
-        public int Order
-        {
-            get { return m_Order; }
-        }
+        public int Order { get; private set; }
 
-        public SpeechEntry(short id, string keyword,int order)
+        public SpeechEntry(short id, string keyword, int order)
         {
-            m_ID = id;
-            m_KeyWord = keyword;
-            m_Order = order;
+            ID = id;
+            KeyWord = keyword;
+            Order = order;
         }
     }
 }

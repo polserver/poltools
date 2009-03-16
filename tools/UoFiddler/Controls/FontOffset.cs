@@ -22,7 +22,7 @@ namespace FiddlerControls
         public FontOffset(int font, int ch)
         {
             InitializeComponent();
-            CharLabel.Text=String.Format("Character: '{0}' 0x{1:X}",(char)ch,ch);
+            CharLabel.Text = String.Format("Character: '{0}' 0x{1:X}", (char)ch, ch);
             offsetx.Value = UnicodeFonts.Fonts[font].Chars[ch].XOffset;
             offsety.Value = UnicodeFonts.Fonts[font].Chars[ch].YOffset;
             m_font = font;

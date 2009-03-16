@@ -11,8 +11,6 @@
 
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Collections;
 
 namespace FiddlerControls
 {
@@ -87,7 +85,6 @@ namespace FiddlerControls
             bmp.UnlockBits(bd);
             bmpnew.UnlockBits(bdnew);
             return bmpnew;
-
         }
     }
 }

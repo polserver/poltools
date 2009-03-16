@@ -186,13 +186,13 @@ namespace FiddlerControls
             dialog.Title = "Select Image to convert";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Bitmap image =new Bitmap(dialog.FileName);
-                if (image!=null)
+                Bitmap image = new Bitmap(dialog.FileName);
+                if (image != null)
                 {
                     if ((image.Height != 2048) || (image.Width != 2560))
                     {
-                        MessageBox.Show("Invalid image height or width","Error",MessageBoxButtons.OK,
-                            MessageBoxIcon.Error,MessageBoxDefaultButton.Button1);
+                        MessageBox.Show("Invalid image height or width", "Error", MessageBoxButtons.OK,
+                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                         return;
                     }
                     this.Cursor = Cursors.WaitCursor;
@@ -208,7 +208,7 @@ namespace FiddlerControls
                         MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
                 else
-                    MessageBox.Show("No image found","Error",MessageBoxButtons.OK,MessageBoxIcon.Error,
+                    MessageBox.Show("No image found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error,
                         MessageBoxDefaultButton.Button1);
             }
         }

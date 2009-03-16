@@ -30,7 +30,7 @@ namespace FiddlerControls
         }
 
         private const int ITEMHEIGHT = 20;
-        private int selected=0;
+        private int selected = 0;
         private bool Loaded = false;
         private Bitmap bmp;
         private int row;
@@ -76,12 +76,12 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             Options.LoadedUltimaClass["Hues"] = true;
-            if ((Parent.GetType() == typeof(HuePopUpItem)) || (Parent.GetType() == typeof(HuePopUp)) || (Parent.GetType()==typeof(HuePopUpDress)))
+            if ((Parent.GetType() == typeof(HuePopUpItem)) || (Parent.GetType() == typeof(HuePopUp)) || (Parent.GetType() == typeof(HuePopUpDress)))
             {
                 pictureBox.MouseDoubleClick -= new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
                 pictureBox.ContextMenu = new ContextMenu();
             }
-            
+
             Loaded = true;
             vScrollBar.Maximum = Ultima.Hues.List.Length;
             vScrollBar.Minimum = 0;
@@ -89,14 +89,14 @@ namespace FiddlerControls
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = 10;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            if (selected>0)
+            if (selected > 0)
                 vScrollBar.Value = selected;
             PaintBox();
         }
 
         private int GetIndex(int y)
         {
-            int value = vScrollBar.Value +y;
+            int value = vScrollBar.Value + y;
             if (Ultima.Hues.List.Length > value)
                 return value;
             else
@@ -200,12 +200,13 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Hues"] = false;
         }
 
         private void OnTextChangedReplace(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(ReplaceText.Text,out index,1,3000))
+            if (Utils.ConvertStringToInt(ReplaceText.Text, out index, 1, 3000))
                 ReplaceText.ForeColor = Color.Black;
             else
                 ReplaceText.ForeColor = Color.Red;

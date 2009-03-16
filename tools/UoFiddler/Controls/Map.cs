@@ -66,7 +66,7 @@ namespace FiddlerControls
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
             ChangeMapNames();
-            ZoomLabel.Text = String.Format("Zoom: {0}",Zoom);
+            ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
             SetScrollBarValues();
             Refresh();
             pictureBox.Refresh();
@@ -92,18 +92,18 @@ namespace FiddlerControls
             pictureBox.Refresh();
         }
 
-        private int Round(int x)
+        private static int Round(int x)
         {
-            return (int)((x>>3)<<3);
+            return (int)((x >> 3) << 3);
         }
-        
+
         private void ZoomMap(ref Bitmap bmp0)
         {
-            Bitmap bmp1 = new Bitmap((int)(map.Width*Zoom),(int)(map.Height*Zoom));
+            Bitmap bmp1 = new Bitmap((int)(map.Width * Zoom), (int)(map.Height * Zoom));
             Graphics graph = Graphics.FromImage(bmp1);
             graph.InterpolationMode = InterpolationMode.NearestNeighbor;
             graph.PixelOffsetMode = PixelOffsetMode.Half;
-            graph.DrawImage(bmp0,new Rectangle(0,0,bmp1.Width,bmp1.Height));
+            graph.DrawImage(bmp0, new Rectangle(0, 0, bmp1.Width, bmp1.Height));
             graph.Dispose();
             bmp0 = bmp1;
         }
@@ -262,7 +262,7 @@ namespace FiddlerControls
         {
             int xDelta = Math.Min(currmap.Width, (int)(e.X / Zoom) + Round(hScrollBar.Value));
             int yDelta = Math.Min(currmap.Height, (int)(e.Y / Zoom) + Round(vScrollBar.Value));
-            CoordsLabel.Text=String.Format("Coords: {0},{1}",xDelta,yDelta);
+            CoordsLabel.Text = String.Format("Coords: {0},{1}", xDelta, yDelta);
             if (moving)
             {
                 int deltax = (int)(-1 * (e.X - movingpoint.X) / Zoom);
@@ -324,10 +324,10 @@ namespace FiddlerControls
             ClientZ = z;
             ClientMap = mapClient;
             SetScrollBarValues();
-            hScrollBar.Value = (int)Math.Max(0,x-pictureBox.Right/Zoom/2);
-            vScrollBar.Value = (int)Math.Max(0,y-pictureBox.Bottom/Zoom/2);
+            hScrollBar.Value = (int)Math.Max(0, x - pictureBox.Right / Zoom / 2);
+            vScrollBar.Value = (int)Math.Max(0, y - pictureBox.Bottom / Zoom / 2);
             pictureBox.Refresh();
-            ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, Options.MapNames[mapClient]);   
+            ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, Options.MapNames[mapClient]);
         }
 
         private void SyncClientTimer(object sender, EventArgs e)
@@ -354,7 +354,7 @@ namespace FiddlerControls
                     }
                 }
 
-                ClientLocLabel.Text=String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);
+                ClientLocLabel.Text = String.Format("ClientLoc: {0},{1},{2},{3}", x, y, z, mapname);
                 pictureBox.Refresh();
             }
         }
@@ -400,8 +400,8 @@ namespace FiddlerControls
             ChangeScrollBar();
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
             int x, y;
-            x = Math.Max(0,currPoint.X - (int)(pictureBox.ClientSize.Width / Zoom) / 2);
-            y = Math.Max(0,currPoint.Y - (int)(pictureBox.ClientSize.Height / Zoom) / 2);
+            x = Math.Max(0, currPoint.X - (int)(pictureBox.ClientSize.Width / Zoom) / 2);
+            y = Math.Max(0, currPoint.Y - (int)(pictureBox.ClientSize.Height / Zoom) / 2);
             x = Math.Min(x, hScrollBar.Maximum);
             y = Math.Min(y, vScrollBar.Maximum);
             hScrollBar.Value = Round(x);
@@ -421,8 +421,8 @@ namespace FiddlerControls
             {
                 Brush brush = new SolidBrush(Color.FromArgb(180, Color.White));
                 Pen pen = new Pen(brush);
-                int x = Round((int)(pictureBox.Width/2));
-                int y = Round((int)(pictureBox.Height/2));
+                int x = Round((int)(pictureBox.Width / 2));
+                int y = Round((int)(pictureBox.Height / 2));
                 e.Graphics.DrawLine(pen, x - 4, y, x + 4, y);
                 e.Graphics.DrawLine(pen, x, y - 4, x, y + 4);
                 pen.Dispose();
