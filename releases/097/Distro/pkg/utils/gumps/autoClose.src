@@ -4,7 +4,7 @@
 
 include ":gumps:gumps_ex";
 
-program CloseGump(params)
+program AutoCloseGump(params)
 	var mobile	:= params[1];
 	var pid		:= params[2];
 	var timer	:= params[3];
