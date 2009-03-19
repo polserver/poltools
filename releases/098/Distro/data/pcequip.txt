@@ -1,6 +1,0 @@
-#
-#  PCEQUIP.TXT: Player-Character Equipment Data
-#
-#  This file can be deleted to wipe all items held/equipped by characters
-#  Note that hair, beards, empty backpacks, and death shrouds are in PCS.TXT.
-#
