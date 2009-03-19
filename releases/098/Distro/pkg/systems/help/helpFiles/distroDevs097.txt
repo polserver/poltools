@@ -1,5 +1,0 @@
-<CENTER><U>097 Distro Developers</U></CENTER>
-
-<B>o</B> Austin<BR>
-<B>o</B> tekproxy<BR>
-<B>o</B> MontuZ<BR>
