@@ -1,0 +1,6 @@
+use uo;
+
+program core_guildButton(mobile)
+
+	return 1;
+endprogram
