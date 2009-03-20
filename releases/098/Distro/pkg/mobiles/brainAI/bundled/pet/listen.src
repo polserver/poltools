@@ -1,0 +1,99 @@
+use uo;
+use os;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					if ( npc.master && event.source == npc.master )
+						SpeechEvent(npc, event);
+					endif
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(900000);
+	endwhile
+endprogram
+
+function SpeechEvent(npc, byref event)
+	var command := SplitWords(Lower(event.text));
+	
+	if ( Len(command) < 2 )
+		return 1;
+	endif
+	
+	// Get a target, if we need it
+	if ( command[3] == "me" )
+		command[3] := event.source;
+	endif
+	
+	if ( command[1] == "all" || command[1] == npc.name )
+		case ( command[2] )
+			"stop":
+				// Run script to kill all nerves
+				AI_Speak(npc, "I should stop.", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"kill":
+			"attack":
+				if ( !command[3] )
+					command[3] := Target(event.source);
+				endif
+				AI_Speak(npc, "I should attack "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"release":
+				// If summoned, dispel, else, go untamed - probably have to change ai scripts
+				AI_Speak(npc, "I should be released.", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"fetch":
+				// Go get the item if it's an object and bring it back
+				if ( !command[3] )
+					command[3] := Target(event.source);
+				endif
+				AI_Speak(npc, "I should get "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"bark":
+				// Make a little noise, raise the roof all up in here
+				AI_Speak(npc, "WOOF", SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"follow":
+				if ( !command[3] )
+					command[3] := Target(event.source);
+				endif
+				AI_Speak(npc, "I should follow "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"guard":
+				if ( !command[3] )
+					command[3] := Target(event.source);
+				endif
+				AI_Speak(npc, "I should guard "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+			"transfer":
+				if ( !command[3] )
+					command[3] := Target(event.source);
+				endif
+				npc.setmaster(event.source);
+				AI_Speak(npc, "I should transfer to "+command[3].name, SPEAK_TEXTTYPE_DEFAULT, SPEAK_DOEVENT_DISABLE, WAKEUP);
+				break;
+		endcase
+	endif
+	
+	return 1;
+endfunction

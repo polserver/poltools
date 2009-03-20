@@ -1,0 +1,28 @@
+/* $Id: canInsert.src 1475 2009-03-12 03:19:58Z muaddib_pol $
+ *
+ */
+
+use uo;
+
+include ":containers:checks";
+
+
+program canInsert(mobile, container, move_type, inserttype, adding_item, existing_stack, amount_to_add)
+
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	existing_stack := existing_stack;
+	adding_item := adding_item;
+	inserttype := inserttype;
+
+	if ( move_type == MOVETYPE_CORECREATE )
+		return 1;
+	elseif ( mobile.cmdlevel >= 2 )
+		return 1;
+	elseif ( CP_IsLocked(container) )
+		SendSysMessage(mobile, "You can't insert items into locked containers.");
+		return 0;
+	endif
+
+	return 1;
+endprogram

@@ -1,0 +1,54 @@
+// $Id: reactiveArmor.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+/*
+ * Increases caster's Physical Resistance by ((Inscription / 20) + 15) points,
+ * and decreases caster's Fire, Cold, Energy and Poison Resistance by 5 points each.
+ * Lasts until cast again.
+ */
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":damage:damage";
+
+program SpellScript_ReactiveArmor(params)
+	var mobile := params[1];
+	var info := params[2];
+	params := 0;
+
+	if ( GetObjProperty(mobile, "ReactiveArmor") )
+		RemoveReactiveArmor(mobile);
+	else
+		var points := (AP_GetSkill(mobile, INSCRIPTION) / 20) + 15;
+		ApplyReactiveArmor(mobile, points);
+	endif
+
+	MS_PlaySpellSFX(info.spell_id, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+	
+	return 1;
+endprogram
+
+function ApplyReactiveArmor(mobile, points)
+	ModifyResistance(mobile, DMG_PHYSICAL, points);
+	ModifyResistance(mobile, DMG_FIRE, -5);
+	ModifyResistance(mobile, DMG_COLD, -5);
+	ModifyResistance(mobile, DMG_POISON, -5);
+	ModifyResistance(mobile, DMG_ENERGY, -5);
+
+	SetObjProperty(mobile, "ReactiveArmor", points);
+endfunction
+
+function RemoveReactiveArmor(mobile)
+	var points := GetObjProperty(mobile, "ReactiveArmor");
+
+	ModifyResistance(mobile, DMG_PHYSICAL, -(points));
+	ModifyResistance(mobile, DMG_FIRE, 5);
+	ModifyResistance(mobile, DMG_COLD, 5);
+	ModifyResistance(mobile, DMG_POISON, 5);
+	ModifyResistance(mobile, DMG_ENERGY, 5);
+
+	EraseObjProperty(mobile, "ReactiveArmor");
+endfunction

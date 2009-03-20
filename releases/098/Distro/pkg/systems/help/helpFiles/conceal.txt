@@ -1,0 +1,9 @@
+<CENTER><U>.conceal</U></CENTER>
+
+Syntax:<BR>
+.conceal <I>level</I><BR>
+<BR>
+Purpose:<BR>
+Let's you conceal yourself at various levels (up to your command level).<BR>
+<BR>
+Anyone with a command level lower than your conceal level, will not be able to see/hear you.<BR>

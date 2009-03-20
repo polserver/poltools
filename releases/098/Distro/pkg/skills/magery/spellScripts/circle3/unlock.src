@@ -1,0 +1,30 @@
+// $Id: unlock.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+include ":keys:key";
+
+program SpellScript_Unlock(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	if ( !KP_IsLockable(targ) )
+		SendSysMessage(mobile, "That is not lockable.");
+		return 0;
+	endif
+	
+	if ( targ.locked )
+		// Note: No lock levels, but you could if ( CInt(GetObjProperty(targ, "LockLevel")) <= 1 )
+		if ( GetObjProperty(targ, "MagicLock") != error )
+			EraseObjProperty(targ, "MagicLock");
+			targ.locked := 0;
+		endif
+	endif
+	
+	return 1;
+endprogram

@@ -1,0 +1,55 @@
+/*
+ * $Id: init.src 1469 2009-03-11 18:47:02Z muaddib_pol $
+ *
+ */
+
+use uo;
+use os;
+
+include ":brainAI:npcNerves";
+include ":brainAI:npcInit";
+include ":brainAI:npcCommands";
+include ":dyes:dyes";
+include ":merchants:merchant";
+include ":merchants:storage";
+include ":begging:begging";
+
+program BrainCriticalScript(params)
+	var npc		:= params[1];
+	//var settings	:= params[2];
+	//var scripts	:= params[3];
+	params := 0; // Not needed anymore.
+
+	npc.color := 1056 - RandomInt(55); // 1002-1056
+	npc.truecolor := npc.color;
+
+	var result;
+
+	result := NPC_SetupName(npc);
+	if ( result.errortext )
+		PrintTextAbove(npc, result.errortext);
+		return 0;
+	endif
+
+	result := NPC_SetupRandomEquipment(npc);
+	if ( result.errortext )
+		PrintTextAbove(npc, result.errortext);
+		return 0;
+	endif
+
+	foreach item in ( ListEquippedItems(npc) )
+		if ( CanDye(item) )
+			item.color := RandomDyeColor();
+		endif
+
+		SleepMS(2);
+	endforeach
+
+	var merchant_type := CPM_GetMerchantType(npc);
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	RestockInventory(merchant_type, forsale);
+
+	BegPurse(npc, CPM_GetMerchantWealth(npc));
+
+	return 1;
+endprogram

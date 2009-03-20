@@ -1,0 +1,16 @@
+/* $Id: respawn.src 1475 2009-03-12 03:19:58Z muaddib_pol $
+ *
+ */
+
+use uo;
+use polsys;
+use os;
+
+program respawnTownChest(info)
+
+	var chest_descriptor := info.descriptor;
+
+	CreateItemAtLocation(info.x, info.y, info.z, chest_descriptor, 1, info.realm);
+	return 1;
+
+endprogram

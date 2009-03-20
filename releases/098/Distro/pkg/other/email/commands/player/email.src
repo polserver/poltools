@@ -1,0 +1,16 @@
+/* $Id: email.src 640 2006-08-02 09:12:23Z austinheilman $
+ *
+ */
+
+use uo;
+use os;
+
+program command_ReadMail(who)
+	var result := Start_Script("email", array{who, who.serial});
+
+	if ( result.errortext )
+		SendSysMessage(who, "Unable to start email reader ->"+result.errortext);
+	endif
+
+	return result;
+endprogram

@@ -1,0 +1,55 @@
+// $Id: wallOfStone.src 1172 2008-02-05 20:09:05Z AustinHeilman $
+
+use uo;
+use os;
+
+include "include/client";
+include ":magery:spells";
+include ":magery:fields";
+
+program SpellScript_WallOfStone(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+
+	var objtype := 0x80;
+	var direction := GetDirectionByFacing(mobile);
+	case ( direction )
+		FIELD_SHAPE_HORIZONTAL: objtype := "WallofStoneEW"; break;
+		FIELD_SHAPE_VERTICAL: objtype := "WallofStoneNS"; break;
+	endcase
+
+	var size := GetConfigInt(info.spell_config, "AreaSize");
+	var coordinates := GetCoordinatesForField(targ.x, targ.y, direction, CInt(size/2));
+
+	foreach coord in ( coordinates )
+		var z := targ.z;
+		if ( z < GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm) )
+			z := GetStandingHeight(coord.x, coord.y, targ.z, mobile.realm);
+		endif
+
+		var mobiles := ListMobilesNearLocationEx(coord.x, coord.y, z, 0, LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, mobile.realm);
+		if (  mobiles.Size() > 0 )
+			continue; // Dont create walls on top of mobiles.
+		elseif ( !CheckLosAt(mobile, coord.x, coord.y, z ) )
+			continue; // Only create a field piece if the caster has line of sight.
+		endif
+
+		var item := CreateItemAtLocation(coord.x, coord.y, z, objtype, 1, mobile.realm);
+		if ( item.errortext )
+			SendSysMessage(mobile, "Error - "+item.errortext);
+			continue;
+		endif
+
+		SetObjProperty(item, "SummonedField", mobile.serial);
+		item.SetOwner(mobile);
+		item.SetDuration(10);
+
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endprogram

@@ -1,0 +1,80 @@
+/* $Id: online.src 1220 2008-05-23 19:10:25Z AustinHeilman $
+ *
+ */
+
+use uo;
+use http;
+
+include "include/uo_extend";
+
+Program HTMLPage()
+	if ( QueryParam("XML") )
+		OutputXML();
+	else
+		OutputHTML();
+	endif
+
+	return 1;
+endprogram
+
+function OutputXML()
+	var online := EnumerateOnlineCharactersABC();
+	
+	WriteHTML("<CONTENT>");
+	WriteHTML("<TOTAL>"+online.Size()+"</TOTAL>");
+	foreach player in ( online )
+		WriteHTML("<PLAYER>");
+		WriteHTML("<NAME>"+player.name+"</NAME>");
+		WriteHTML("</PLAYER>");
+		SleepMS(2);
+	endforeach	
+	WriteHTML("</CONTENT>");
+	return 1;
+endfunction
+
+function OutputHTML()
+	
+	WriteHTML("<HTML>");
+	WriteHTML("<HEAD>");
+	WriteHTML("<TITLE>POL Internal Web Server</TITLE>");
+	WriteHTML("<LINK REL='stylesheet' TYPE='text/css' HREF='/stylesheets/main.css'>");
+	WriteHTML("</HEAD>");
+
+	WriteHTML("<BODY>");
+
+	WriteHTML("<DIV ID='container'>");
+
+	WriteHTML("<DIV ID='header'></DIV>");
+
+
+	WriteHTML("<DIV ID='content'>");
+
+	var online := EnumerateOnlineCharactersABC();
+	WriteHTML("<TABLE WIDTH='400' CELLSPACING='1' CELLPADDING='2'>");
+	WriteHTML("<TR>");
+	WriteHTML("<TH>");
+	WriteHTML("<B>Total Online: "+online.Size()+"</B>");
+	WriteHTML("</TH>");
+	WriteHTML("</TR>");
+	foreach player in ( online )
+	WriteHTML("<TR>");
+	WriteHTML("<TD>");
+		WriteHTML(""+player.name);
+		SleepMS(2);
+	WriteHTML("</TD>");
+	WriteHTML("</TR>");
+	endforeach
+	WriteHTML("</TABLE>");
+
+	WriteHTML("</DIV>");
+
+	WriteHTML("<DIV ID='footer'>");
+	WriteHTML("<P>Copyright &copy; 1998-2008 - POL Development Team.</P>");
+	WriteHTML("</DIV>");
+	WriteHTML("</DIV>");
+	WriteHTML("</BODY>");
+	WriteHTML("</HTML>");
+	
+	return 1;
+endfunction
+

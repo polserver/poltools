@@ -1,0 +1,12 @@
+/*
+ * $Id
+ *
+ */
+
+use uo;
+use os;
+
+program ControlScript(blood)
+	Sleep(60);
+	DestroyItem(blood);
+endprogram
