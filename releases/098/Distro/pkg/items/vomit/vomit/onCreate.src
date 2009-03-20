@@ -18,7 +18,7 @@ program OnCreate(vomit)
 	endif
 
 	var color_elem := setting_cfg["Colors"];
-	vomit.color := RandomIntRange(color_elem.MinColor, color_elem.MaxColor);
+	vomit.color := RandomIntMinMax(color_elem.MinColor, (color_elem.MaxColor+1));
 	/*
 	var color_elem := setting_cfg["Colors"];
 	var min_color := CInt(color_elem.MinColor);

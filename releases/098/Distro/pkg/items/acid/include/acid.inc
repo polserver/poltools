@@ -28,7 +28,7 @@ function SpitAcid(spitter, spit_on)
 	if( !CheckLineOfSight(spitter, spit_on) )
 		return 0;
 	endif
-	PlayMovingEffectXYZHued(spitter, spit_on, 0x36d4, 5, 1, 1, 0x47, 0);
+	PlayMovingEffectEx(spitter, spit_on, 0x36d4, 5, 1, 0x47, 0, 0, 1);
 	var acid_pool := CreateItemAtLocation(spit_on.x, spit_on.y, GetMapInfo(spit_on.x, spit_on.y).z, "acid",  1, spit_on.realm);
 	var dice_dealt := DealAcidDamage(spitter, spit_on, acid_pool);
 	if( TypeOf(dice_dealt) == "String" && !GetObjProperty(acid_pool, "%AcidDice%") )
