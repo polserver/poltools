@@ -43,7 +43,8 @@ namespace FiddlerControls
             {"Speech", false},
             {"StringList", false},
             {"Texture", false},
-            {"TileData", false}
+            {"TileData", false},
+            {"RadarColor",false}
         };
 
         private static Dictionary<string, bool> m_ChangedUltimaClass = new Dictionary<string, bool>()
@@ -63,7 +64,8 @@ namespace FiddlerControls
             {"Speech", false},
             {"CliLoc", false},
             {"Texture", false},
-            {"TileData", false}
+            {"TileData", false},
+            {"RadarColor",false}
         };
 
         /// <summary>
@@ -158,6 +160,7 @@ namespace FiddlerControls
         /// <item>Texture</item>
         /// <item>TileData</item>
         /// <item>UnicodeFont</item>
+        /// <item>RadarColor</item>
         /// </list>
         /// </para>
         /// </summary>
@@ -187,6 +190,7 @@ namespace FiddlerControls
         /// <item>Texture</item>
         /// <item>TileData</item>
         /// <item>UnicodeFont</item>
+        /// <item>RadarColor</item>
         /// </list>
         /// </para>
         /// </summary>

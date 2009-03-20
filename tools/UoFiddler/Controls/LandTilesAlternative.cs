@@ -14,6 +14,7 @@ using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
 
@@ -90,9 +91,10 @@ namespace FiddlerControls
                     index = 0;
             }
 
+            Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             for (int i = index; i < refMarker.TileList.Count; i++)
             {
-                if (TileData.LandTable[(int)refMarker.TileList[i]].Name.Contains(name))
+                if (regex.IsMatch(TileData.LandTable[(int)refMarker.TileList[i]].Name))
                 {
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.Selected = (int)refMarker.TileList[i];

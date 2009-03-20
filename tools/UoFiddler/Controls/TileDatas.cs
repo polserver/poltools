@@ -12,6 +12,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
 
@@ -92,6 +93,7 @@ namespace FiddlerControls
         public static bool SearchName(string name, bool next, bool land)
         {
             int index = 0;
+            Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             if (land)
             {
                 if (next)
@@ -104,7 +106,7 @@ namespace FiddlerControls
                 for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
-                    if (TileData.LandTable[(int)node.Tag].Name.Contains(name))
+                    if (regex.IsMatch(TileData.LandTable[(int)node.Tag].Name))
                     {
                         refMarker.tabcontrol.SelectTab(1);
                         refMarker.treeViewLand.SelectedNode = node;
@@ -125,7 +127,7 @@ namespace FiddlerControls
                 for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
                 {
                     TreeNode node = refMarker.treeViewItem.Nodes[i];
-                    if (TileData.ItemTable[(int)node.Tag].Name.Contains(name))
+                    if (regex.IsMatch(TileData.ItemTable[(int)node.Tag].Name))
                     {
                         refMarker.tabcontrol.SelectTab(0);
                         refMarker.treeViewItem.SelectedNode = node;

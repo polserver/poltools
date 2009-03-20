@@ -39,6 +39,7 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClilocAdd));
             this.NumberBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Add_Button = new System.Windows.Forms.Button();
@@ -90,6 +91,7 @@ namespace FiddlerControls
             this.Controls.Add(this.Add_Button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NumberBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClilocAdd";
             this.Text = "Add CliLoc";
             this.ResumeLayout(false);

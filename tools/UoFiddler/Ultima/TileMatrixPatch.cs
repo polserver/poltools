@@ -67,6 +67,7 @@ namespace Ultima
                         matrix.SetLandBlock(x, y, tiles);
                     }
 
+                    indexReader.Close();
                     return count;
                 }
             }
@@ -142,6 +143,9 @@ namespace Ultima
                                 matrix.SetStaticBlock(blockX, blockY, tiles);
                             }
                         }
+
+                        indexReader.Close();
+                        lookupReader.Close();
 
                         return count;
                     }

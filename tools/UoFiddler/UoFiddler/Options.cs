@@ -83,7 +83,12 @@ namespace UoFiddler
             comment = dom.CreateComment("NewMapSize Felucca/Trammel width 7168?");
             sr.AppendChild(comment);
             elem = dom.CreateElement("NewMapSize");
-            elem.SetAttribute("active", Ultima.Map.Felucca.Width == 7168 ? true.ToString() : false.ToString());
+            elem.SetAttribute("active", Map.Felucca.Width == 7168 ? true.ToString() : false.ToString());
+            sr.AppendChild(elem);
+            comment = dom.CreateComment("UseMapDiff should mapdiff files be used");
+            sr.AppendChild(comment);
+            elem = dom.CreateElement("UseMapDiff");
+            elem.SetAttribute("active", Map.UseDiff.ToString());
             sr.AppendChild(elem);
             comment = dom.CreateComment("Alternative layout in item/landtile/texture tab?");
             sr.AppendChild(comment);
@@ -174,7 +179,7 @@ namespace UoFiddler
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(Path.GetDirectoryName(path), "Options.xml");
-            if (!System.IO.File.Exists(FileName))
+            if (!File.Exists(FileName))
                 return;
 
             XmlDocument dom = new XmlDocument();
@@ -200,9 +205,14 @@ namespace UoFiddler
             {
                 if (bool.Parse(elem.GetAttribute("active")))
                 {
-                    Ultima.Map.Felucca.Width = 7168;
-                    Ultima.Map.Trammel.Width = 7168;
+                    Map.Felucca.Width = 7168;
+                    Map.Trammel.Width = 7168;
                 }
+            }
+            elem = (XmlElement)xOptions.SelectSingleNode("UseMapDiff");
+            if (elem != null)
+            {
+                Map.UseDiff = bool.Parse(elem.GetAttribute("active"));
             }
 
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");

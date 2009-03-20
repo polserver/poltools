@@ -12,6 +12,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
 
@@ -25,6 +26,7 @@ namespace FiddlerControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refmarker = this;
             source = new BindingSource();
+            FindEntry.TextBox.PreviewKeyDown+=new PreviewKeyDownEventHandler(FindEntry_PreviewKeyDown);
         }
 
         #region Var's
@@ -179,10 +181,10 @@ namespace FiddlerControls
 
         private void FindEntryClick(object sender, EventArgs e)
         {
-            string find = FindEntry.Text.ToString();
+            Regex regex = new Regex(@FindEntry.Text.ToString(), RegexOptions.IgnoreCase);
             for (int i = (dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Selected) + 1); i < dataGridView1.Rows.Count; i++)
             {
-                if ((dataGridView1.Rows[i].Cells[1].Value.ToString().IndexOf(find)) != -1)
+                if (regex.IsMatch(dataGridView1.Rows[i].Cells[1].Value.ToString()))
                 {
                     dataGridView1.Rows[i].Selected = true;
                     dataGridView1.FirstDisplayedScrollingRowIndex = i;
@@ -336,5 +338,11 @@ namespace FiddlerControls
             }
         }
         #endregion
+
+        private void FindEntry_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            //if (e.KeyData == Keys.Control) || (e.Ke Keys.Alt | Keys.Tab | Keys.a))
+                e.IsInputKey = true;
+        }
     }
 }

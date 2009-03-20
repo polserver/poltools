@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.5c
+    <value>Version 3.6
+-all textsearches are now Regexp (with preset ignorecase)
+-UnDress All added to Dress Tab  contextmenu
+-Added RadarColor tab(with editing)
+-Added new Option MapUseDiff to control if diff files should be used
+
+Version 3.5c
 -Warning dialog if there are unsafed changes
 -Multi tab now shows Sphere MultiRegion and used Surface
 -Items/Landtiles contextmenu added "Select in Tiledata"

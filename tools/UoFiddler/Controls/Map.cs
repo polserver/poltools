@@ -62,9 +62,14 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Map"] = true;
+            Options.LoadedUltimaClass["RadarColor"] = true;
             Loaded = true;
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
+            trammelToolStripMenuItem.Checked = false;
+            ilshenarToolStripMenuItem.Checked = false;
+            malasToolStripMenuItem.Checked = false;
+            tokunoToolStripMenuItem.Checked = false;
             ChangeMapNames();
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
             SetScrollBarValues();

@@ -72,7 +72,8 @@ namespace Ultima
             m_LandTiles = new Tile[BlockWidth][][];
             m_StaticTiles = new HuedTile[BlockWidth][][][][];
 
-            Patch = new TileMatrixPatch(this, mapID);
+            if (Map.UseDiff)
+                Patch = new TileMatrixPatch(this, mapID);
 
             /*for ( int i = 0; i < m_BlockWidth; ++i )
             {
@@ -112,9 +113,7 @@ namespace Ultima
 
         public HuedTile[] GetStaticTiles(int x, int y)
         {
-            HuedTile[][][] tiles = GetStaticBlock(x >> 3, y >> 3);
-
-            return tiles[x & 0x7][y & 0x7];
+            return GetStaticBlock(x >> 3, y >> 3)[x & 0x7][y & 0x7];
         }
 
         public void SetLandBlock(int x, int y, Tile[] value)

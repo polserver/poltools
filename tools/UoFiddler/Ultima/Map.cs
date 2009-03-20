@@ -10,9 +10,9 @@ namespace Ultima
         private int m_FileIndex, m_MapID;
         private int m_Width, m_Height;
 
-        private static short[] m_Colors;
+        private static bool m_UseDiff;
 
-        //public static short[] Colors{ get{ return m_Colors; } set{ m_Colors = value; } }
+        public static bool UseDiff { get { return m_UseDiff; } set { m_UseDiff = value; } }
 
         public static Map Felucca = new Map(0, 0, 6144, 4096);
         public static Map Trammel = new Map(0, 1, 6144, 4096);
@@ -34,7 +34,6 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_Colors = null;
             Felucca.m_Black = null;
             Felucca.m_Cache = null;
             Felucca.m_Cache_NoStatics = null;
@@ -160,7 +159,7 @@ namespace Ultima
 
             Tile[] tiles = m_Tiles.GetLandBlock(x, y);
 
-            fixed (short* pColors = m_Colors)
+            fixed (short* pColors = RadarCol.Colors)
             {
                 fixed (int* pHeight = TileData.HeightTable)
                 {
@@ -269,9 +268,6 @@ namespace Ultima
         /// <param name="statics"></param>
         public unsafe void GetImage(int x, int y, int width, int height, Bitmap bmp, bool statics)
         {
-            if (m_Colors == null)
-                LoadColors();
-
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width << 3, height << 3), ImageLockMode.WriteOnly, PixelFormat.Format16bppRgb555);
             int stride = bd.Stride;
             int blockStride = stride << 3;
@@ -342,22 +338,6 @@ namespace Ultima
             }
 
             bmp.UnlockBits(bd);
-        }
-
-        private unsafe static void LoadColors()
-        {
-            m_Colors = new short[0x8000];
-
-            string path = Files.GetFilePath("radarcol.mul");
-
-            if (path == null)
-                return;
-
-            fixed (short* pColors = m_Colors)
-            {
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    NativeMethods._lread(fs.SafeFileHandle, pColors, 0x10000);
-            }
         }
     }
 }

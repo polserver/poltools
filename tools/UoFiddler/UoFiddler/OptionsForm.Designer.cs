@@ -53,21 +53,22 @@ namespace UoFiddler
             this.checkBoxNewMapSize = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.map0Nametext = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.map1Nametext = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.map2Nametext = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.map3Nametext = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.map4Nametext = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.cmdtext = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.argstext = new System.Windows.Forms.TextBox();
+            this.cmdtext = new System.Windows.Forms.TextBox();
+            this.map4Nametext = new System.Windows.Forms.TextBox();
+            this.map3Nametext = new System.Windows.Forms.TextBox();
+            this.map2Nametext = new System.Windows.Forms.TextBox();
+            this.map1Nametext = new System.Windows.Forms.TextBox();
+            this.map0Nametext = new System.Windows.Forms.TextBox();
+            this.checkBoxuseDiff = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeWidth)).BeginInit();
@@ -93,7 +94,7 @@ namespace UoFiddler
             this.groupBox1.Controls.Add(this.checkBoxItemClip);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.numericUpDownItemSizeWidth);
-            this.groupBox1.Location = new System.Drawing.Point(14, 111);
+            this.groupBox1.Location = new System.Drawing.Point(14, 117);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 100);
             this.groupBox1.TabIndex = 1;
@@ -161,12 +162,13 @@ namespace UoFiddler
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBoxuseDiff);
             this.groupBox2.Controls.Add(this.checkBoxNewMapSize);
             this.groupBox2.Controls.Add(this.checkBoxAltDesign);
             this.groupBox2.Controls.Add(this.checkBoxCacheData);
             this.groupBox2.Location = new System.Drawing.Point(14, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 100);
+            this.groupBox2.Size = new System.Drawing.Size(200, 111);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Misc";
@@ -184,43 +186,13 @@ namespace UoFiddler
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(189, 217);
+            this.button1.Location = new System.Drawing.Point(189, 223);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "Apply";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.OnClickApply);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.argstext);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.cmdtext);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.map4Nametext);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.map3Nametext);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.map2Nametext);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.map1Nametext);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.map0Nametext);
-            this.groupBox3.Location = new System.Drawing.Point(220, 5);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 206);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Map";
-            // 
-            // map0Nametext
-            // 
-            this.map0Nametext.Location = new System.Drawing.Point(76, 17);
-            this.map0Nametext.Name = "map0Nametext";
-            this.map0Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map0Nametext.TabIndex = 0;
             // 
             // label2
             // 
@@ -242,13 +214,6 @@ namespace UoFiddler
             this.label3.Text = "map1 Name";
             this.toolTip1.SetToolTip(this.label3, "Definies the map name");
             // 
-            // map1Nametext
-            // 
-            this.map1Nametext.Location = new System.Drawing.Point(76, 43);
-            this.map1Nametext.Name = "map1Nametext";
-            this.map1Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map1Nametext.TabIndex = 2;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -258,13 +223,6 @@ namespace UoFiddler
             this.label4.TabIndex = 5;
             this.label4.Text = "map2 Name";
             this.toolTip1.SetToolTip(this.label4, "Definies the map name");
-            // 
-            // map2Nametext
-            // 
-            this.map2Nametext.Location = new System.Drawing.Point(76, 69);
-            this.map2Nametext.Name = "map2Nametext";
-            this.map2Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map2Nametext.TabIndex = 4;
             // 
             // label5
             // 
@@ -276,13 +234,6 @@ namespace UoFiddler
             this.label5.Text = "map3 Name";
             this.toolTip1.SetToolTip(this.label5, "Definies the map name");
             // 
-            // map3Nametext
-            // 
-            this.map3Nametext.Location = new System.Drawing.Point(76, 95);
-            this.map3Nametext.Name = "map3Nametext";
-            this.map3Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map3Nametext.TabIndex = 6;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -292,13 +243,6 @@ namespace UoFiddler
             this.label6.TabIndex = 9;
             this.label6.Text = "map4 Name";
             this.toolTip1.SetToolTip(this.label6, "Definies the map name");
-            // 
-            // map4Nametext
-            // 
-            this.map4Nametext.Location = new System.Drawing.Point(76, 120);
-            this.map4Nametext.Name = "map4Nametext";
-            this.map4Nametext.Size = new System.Drawing.Size(100, 20);
-            this.map4Nametext.TabIndex = 8;
             // 
             // label7
             // 
@@ -310,13 +254,6 @@ namespace UoFiddler
             this.label7.Text = "Cmd";
             this.toolTip1.SetToolTip(this.label7, "Definies the cmd to send Client to loc");
             // 
-            // cmdtext
-            // 
-            this.cmdtext.Location = new System.Drawing.Point(76, 151);
-            this.cmdtext.Name = "cmdtext";
-            this.cmdtext.Size = new System.Drawing.Size(100, 20);
-            this.cmdtext.TabIndex = 10;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -327,6 +264,29 @@ namespace UoFiddler
             this.label8.Text = "Args";
             this.toolTip1.SetToolTip(this.label8, "{1} = x, {2} = y, {3} = z, {4} = mapid, {5} = mapname");
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.argstext);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.cmdtext);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.map4Nametext);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.map3Nametext);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.map2Nametext);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.map1Nametext);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.map0Nametext);
+            this.groupBox3.Location = new System.Drawing.Point(220, 5);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 212);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Map";
+            // 
             // argstext
             // 
             this.argstext.Location = new System.Drawing.Point(76, 177);
@@ -334,11 +294,64 @@ namespace UoFiddler
             this.argstext.Size = new System.Drawing.Size(100, 20);
             this.argstext.TabIndex = 12;
             // 
+            // cmdtext
+            // 
+            this.cmdtext.Location = new System.Drawing.Point(76, 151);
+            this.cmdtext.Name = "cmdtext";
+            this.cmdtext.Size = new System.Drawing.Size(100, 20);
+            this.cmdtext.TabIndex = 10;
+            // 
+            // map4Nametext
+            // 
+            this.map4Nametext.Location = new System.Drawing.Point(76, 120);
+            this.map4Nametext.Name = "map4Nametext";
+            this.map4Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map4Nametext.TabIndex = 8;
+            // 
+            // map3Nametext
+            // 
+            this.map3Nametext.Location = new System.Drawing.Point(76, 95);
+            this.map3Nametext.Name = "map3Nametext";
+            this.map3Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map3Nametext.TabIndex = 6;
+            // 
+            // map2Nametext
+            // 
+            this.map2Nametext.Location = new System.Drawing.Point(76, 69);
+            this.map2Nametext.Name = "map2Nametext";
+            this.map2Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map2Nametext.TabIndex = 4;
+            // 
+            // map1Nametext
+            // 
+            this.map1Nametext.Location = new System.Drawing.Point(76, 43);
+            this.map1Nametext.Name = "map1Nametext";
+            this.map1Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map1Nametext.TabIndex = 2;
+            // 
+            // map0Nametext
+            // 
+            this.map0Nametext.Location = new System.Drawing.Point(76, 17);
+            this.map0Nametext.Name = "map0Nametext";
+            this.map0Nametext.Size = new System.Drawing.Size(100, 20);
+            this.map0Nametext.TabIndex = 0;
+            // 
+            // checkBoxuseDiff
+            // 
+            this.checkBoxuseDiff.AutoSize = true;
+            this.checkBoxuseDiff.Location = new System.Drawing.Point(6, 88);
+            this.checkBoxuseDiff.Name = "checkBoxuseDiff";
+            this.checkBoxuseDiff.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxuseDiff.TabIndex = 4;
+            this.checkBoxuseDiff.Text = "Use Map diff Files";
+            this.toolTip1.SetToolTip(this.checkBoxuseDiff, "Should map diff files be used");
+            this.checkBoxuseDiff.UseVisualStyleBackColor = true;
+            // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 248);
+            this.ClientSize = new System.Drawing.Size(434, 258);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
@@ -390,6 +403,7 @@ namespace UoFiddler
         private System.Windows.Forms.TextBox argstext;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox cmdtext;
+        private System.Windows.Forms.CheckBox checkBoxuseDiff;
 
     }
 }

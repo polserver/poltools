@@ -1,8 +1,8 @@
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
-using System;
 
 namespace Ultima
 {
@@ -106,7 +106,20 @@ namespace Ultima
         /// <returns></returns>
         public static short ColorToHue(Color c)
         {
-            return (short)((((c.R & 0xF8) << 7) | ((c.G & 0xF8) << 2) | (c.B >> 3)) ^ 0x8000);
+            ushort origred = c.R;
+            ushort origgreen = c.G;
+            ushort origblue = c.B;
+            ushort newred = (ushort)(origred * 31 / 255);
+            if (newred == 0 && origred != 0)
+                newred = 1;
+            ushort newgreen = (ushort)(origgreen * 31 / 255);
+            if (newgreen == 0 && origgreen != 0)
+                newgreen = 1;
+            ushort newblue = (ushort)(origblue * 31 / 255);
+            if (newblue == 0 && origblue != 0)
+                newblue = 1;
+
+            return (short)((newred << 10) | (newgreen << 5) | (newblue));
         }
 
         /// <summary>
@@ -116,9 +129,27 @@ namespace Ultima
         /// <returns></returns>
         public static Color HueToColor(short hue)
         {
-            int c16 = hue;
+            int scale = 255 / 31;
+            return Color.FromArgb(
+                (((hue & 0x7c00) >> 10) * scale),
+                (((hue & 0x3e0) >> 5) * scale),
+                ((hue & 0x1f) * scale)
+                );
+        }
 
-            return Color.FromArgb((c16 & 0x7C00) >> 7, (c16 & 0x3E0) >> 2, (c16 & 0x1F) << 3);
+        public static int HueToColorR(short hue)
+        {
+            return (((hue & 0x7c00) >> 10) * (255 / 31));
+        }
+
+        public static int HueToColorG(short hue)
+        {
+            return (((hue & 0x3e0) >> 5) * (255 / 31));
+        }
+
+        public static int HueToColorB(short hue)
+        {
+            return ((hue & 0x1f) * (255 / 31));
         }
 
         public unsafe static void ApplyTo(Bitmap bmp, short[] Colors, bool onlyHueGrayPixels)
@@ -201,9 +232,7 @@ namespace Ultima
 
         public Color GetColor(int index)
         {
-            int c16 = Colors[index];
-
-            return Color.FromArgb((c16 & 0x7C00) >> 7, (c16 & 0x3E0) >> 2, (c16 & 0x1F) << 3);
+            return Hues.HueToColor(Colors[index]);
         }
 
         private static byte[] m_StringBuffer = new byte[20];
