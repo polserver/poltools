@@ -25,32 +25,6 @@ CONST ALIGN_CENTER	:= 0x1;
 CONST ALIGN_RIGHT	:= 0x2;
 
 /*
- * GFCloseGump(mobile, pid, ret_val:=0)
- *
- * Purpose
- * Instructs a client to close a gump.
- *
- * Parameters
- * mobile:		Player that has the gump open.
- * pid:		Pid of the script that has the open gump.
- * ret_val:	What return value the gump should send when closed.
- *
- * Return Value
- * Returns 1 on success.
- * Returns error on failure.
- *
- */
-function GFCloseGump(mobile, pid, ret_val:=0)
-	var packet := CreatePacket(0xBF, 13);
-	packet.SetInt16(1, 13);
-	packet.SetInt16(3, 4);
-	packet.SetInt32(5, pid);
-	packet.SetInt32(9, ret_val);
-
-	return packet.SendPacket(mobile);
-endfunction
-
-/*
  * GFCloseGumpTimed(mobile, pid, timer, ret_val:=0)
  *
  * Purpose
