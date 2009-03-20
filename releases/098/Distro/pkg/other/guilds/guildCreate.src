@@ -183,7 +183,6 @@ function AddGuild(guild_gm, guild_abbr, guild_name)
 		guild.SetProp("Website", null_space);
 		guild.SetProp("Faction", "Neutral");
 		guild.AddMember(guild_gm);
-		SetObjProperty(guild_gm, "Guild_ID", guild_id); // Should I just remove this? There is who.guildid....
 		SetGuildRank(guild_gm, 5);
 		SetObjProperty(guild_gm, "Fealty", guild_gm.serial);
 		SendSysMessage(guild_gm, "Guild was successfully created.");
