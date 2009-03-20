@@ -13,5 +13,5 @@ program AutoCloseGump(params)
 
 	Sleep(CInt(timer));
 
-	GFCloseGump(mobile, pid, ret_val);
+	CloseGump(mobile, pid, ret_val);
 endprogram
