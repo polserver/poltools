@@ -337,7 +337,7 @@ function ChopFurniture(who, furniture)
 	foreach serial in the_serials
 		// We search both flags, in case a key exists for the furniture,
 		// and needs to be found and destroyed!
-		var part := SystemFindObjectBySerial( serial, SYSFIND_SEARCH_OFFLINE_MOBILES + SYSFIND_SEARCH_STORAGE_AREAS );
+		var part := SystemFindObjectBySerial( serial, SYSFIND_SEARCH_OFFLINE_MOBILES );
 		if( part )
 			created.append( part );
 		endif

@@ -6,33 +6,6 @@ use uo;
 use util;
 
 /*
- * RandomIntRange(min, max)
- *
- * Purpose
- * Generates a random number >= min and <= max
- *
- * Parameters
- * min_val:	The minimum number that can be generated.
- * max_val: The maximum number that can be generated.
- *
- * Return Value:
- * Returns an integer on success.
- *
- */
-function RandomIntRange(min_val:=0, max_val:=1)
-	if ( min_val < 0 || max_val < 0 )
-		return error{"errortext":="Values must be >= 0"};
-	elseif ( max_val <= min_val )
-		return error{"errortext":="Min is not < max."};
-	endif
-
-	var difference := CInt(max_val) - CInt(min_val);
-	var random := RandomInt(difference);
-
-	return ( random + min_val );
-endfunction
-
-/*
  * RandomFloatRange(min, max)
  *
  * Purpose

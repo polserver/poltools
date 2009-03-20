@@ -86,5 +86,5 @@ function RandomDyeColor()
 	//var color := RandomInt(MAX_COLOR - MIN_COLOR);
 	//color := color+MIN_COLOR;
 	//return color;
-	return RandomIntRange(MIN_COLOR, MAX_COLOR);
+	return RandomIntMinMax(MIN_COLOR, (MAX_COLOR+1));
 endfunction
