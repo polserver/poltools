@@ -38,7 +38,7 @@ program Guild_Menu(who)
 
 	var who_rank := GetGuildRank(who);
 	var guild := who.guild;
-	var guild_id := GetObjProperty(who, "Guild_ID");
+	var guild_id := who.guildid
 	var guild_name := guild.GetProp("Name");
 	var guild_abbr := guild.GetProp("Abbr");
 
@@ -191,7 +191,7 @@ function ShowMembers(who, guild_id)
 	if ( result[0] == 0 )
 		return 0;
 	elseif ( result[0] == 555 )
-		if ( GetObjProperty(who, "Guild_ID") != guild_id )
+		if ( who.guildid != guild_id )
 			ViewGuild(who, guild_id);
 			return 1;
 		else
@@ -789,7 +789,7 @@ function InviteMember(recruiter)
 	elseif ( !new_member.IsA(POLCLASS_MOBILE) )
 		SendSysMessage(recruiter, "Aborted. You must select a player.");
 		return 0;
-	elseif ( GetObjProperty(new_member, "Guild_ID" ) )
+	elseif ( new_member.guildid )
 		SendSysMessage(recruiter, "Aborted. That player already belongs to a guild.");
 		return 0;
 	elseif ( GetObjProperty(new_member, "Guild_Invites" ) == "OFF" )
@@ -803,7 +803,6 @@ function InviteMember(recruiter)
 			return 0;
 		else
 			guild.AddMember(new_member);
-			SetObjProperty(new_member, "Guild_ID", guild.guildid);
 			SetGuildRank(new_member, 1);
 			SetObjProperty(new_member, "Fealty", new_member.serial);
 			SendSysMessage(new_member, "You're now a member of "+guild_name+".");
@@ -824,7 +823,6 @@ function LeaveGuild(member)
 		return 0;
 	else
 		guild.RemoveMember(member);
-		EraseObjProperty(member, "Guild_ID");
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
@@ -851,7 +849,6 @@ function RemoveGuild(who, guild)
 
 	foreach member in (guild.members)
 		guild.RemoveMember(member);
-		EraseObjProperty(member, "Guild_ID");
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
@@ -995,7 +992,6 @@ function KickMember(character, member)
 		return 0;
 	else
 		guild.RemoveMember(member);
-		EraseObjProperty(member, "Guild_ID");
 		EraseObjProperty(member, "Guild_Rank");
 		EraseObjProperty(member, "Fealty");
 		member.title_guild := "";
