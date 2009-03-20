@@ -1,0 +1,26 @@
+/* $Id: canInsert.src 1463 2009-03-10 18:27:18Z muaddib_pol $
+ *
+ */
+
+use uo;
+
+include ":containers:checks";
+
+
+program CanInsert(character, container, movetype, inserttype, adding_item, existing_stack, amount_to_add)
+	// Stop Compiler Warnings
+	amount_to_add := amount_to_add;
+	existing_stack := existing_stack;
+	inserttype := inserttype;
+	if ( movetype == MOVETYPE_CORECREATE )
+		return 1;
+	elseif ( adding_item.IsBook() )
+		return 1;
+	elseif ( CP_IsLocked(container) )
+		SendSysMessage(character, "You can't insert items into locked containers.");
+		return 0;
+	else
+		SendSysMessage(character, "That is not a book.");
+		return 0;
+	endif
+endprogram

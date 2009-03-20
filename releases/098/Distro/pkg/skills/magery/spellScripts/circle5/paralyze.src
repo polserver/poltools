@@ -1,0 +1,30 @@
+// $Id: paralyze.src 1121 2008-01-13 16:12:56Z AustinHeilman $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":timedscripts:timedScripts";
+
+program SpellScript_Paralyze(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	if ( !MS_MobileCheck(mobile, targ) )
+		return 0;
+	endif
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, targ, mobile);
+
+	// Duration: ((caster Eval Int/10) - ((target Resist Magic/10)) * 3 seconds
+	var attack := AP_GetSkill(mobile, EVALUATING_INTELLIGENCE) / 10;
+	var defense := AP_GetSkill(targ, RESISTING_SPELLS) / 10;
+	var duration := CInt((attack - defense) * 3);
+
+	TS_StartTimer(targ, "Paralysis", duration);
+
+	return 1;
+endprogram

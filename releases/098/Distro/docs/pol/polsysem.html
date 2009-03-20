@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference POLSYS.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<body>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">
+              Home
+  				  </a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						POLsys.em</h1>
+<p>
+						Description:
+						Functions to access POL system data.<br><b>
+							Last Modified:
+							02/10/2009</b></p>
+</div></div><div class="container"><div class="doc-mainbox">
+<div class="expander"><a href="javascript:ExpandContract('Constants')" id="bullet_Constants">[-]</a></div>
+<center><h2>File Constants:</h2></center>
+<span id="span_Constants"><pre>const MSGLEN_VARIABLE := -1;</pre></span>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#CreatePacket">CreatePacket</a></li>
+<li><a href="#GetCmdLevelName">GetCmdLevelName</a></li>
+<li><a href="#GetCmdLevelNumber">GetCmdLevelNumber</a></li>
+<li><a href="#GetItemDescriptor">GetItemDescriptor</a></li>
+<li><a href="#GetPackageByName">GetPackageByName</a></li>
+<li><a href="#IncRevision">IncRevision</a></li>
+<li><a href="#ListTextCommands">ListTextCommands</a></li>
+<li><a href="#ListenPoints">ListenPoints</a></li>
+<li><a href="#Packages">Packages</a></li>
+<li><a href="#ReadMillisecondClock">ReadMillisecondClock</a></li>
+<li><a href="#Realms">Realms</a></li>
+<li><a href="#ReloadConfiguration">ReloadConfiguration</a></li>
+<li><a href="#SetSysTrayPopupText">SetSysTrayPopupText</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">
+                      Attributes
+          				  </a></li>
+<li><a href="basicem.html">
+                      Basic
+          				  </a></li>
+<li><a href="boatem.html">
+                      Boat
+          				  </a></li>
+<li><a href="cfgfileem.html">
+                      CfgFile
+          				  </a></li>
+<li><a href="clilocem.html">
+                      CliLoc
+          				  </a></li>
+<li><a href="datafileem.html">
+                      DataFile
+          				  </a></li>
+<li><a href="fileem.html">
+                      File
+          				  </a></li>
+<li><a href="guildsem.html">
+                      Guild
+          				  </a></li>
+<li><a href="httpem.html">
+                      Http
+          				  </a></li>
+<li><a href="mathem.html">
+                      Math
+          				  </a></li>
+<li><a href="npcem.html">
+                      Npc
+          				  </a></li>
+<li><a href="osem.html">
+                      OS
+          				  </a></li>
+<li><a href="polsysem.html">
+                      PolSys
+          				  </a></li>
+<li><a href="storageem.html">
+                      Storage
+          				  </a></li>
+<li><a href="unicodeem.html">
+                      Unicode
+          				  </a></li>
+<li><a href="uoem.html">
+                      UO
+          				  </a></li>
+<li><a href="utilem.html">
+                      Util
+          				  </a></li>
+<li><a href="vitalsem.html">
+                      Vitals
+          				  </a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="CreatePacket">CreatePacket(type, size)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>type</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>size</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Creates a new packet object. Type is the byte command id that always is set as the first byte (no need to set it yourself). Size is the fixed-length size for this packet, or MSGLEN_VARIABLE if it is variable length (no need to figure out the size in advance, the packet buffer will be resized as need by using the Set* methods).</td></tr>
+<tr><td colspan="2">Notes: polsys.em constants for this function:
+</td></tr>
+<tr><td colspan="2"><pre>
+const MSGLEN_VARIABLE := -1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">A new packet object or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type."</td></tr>
+<tr><td colspan="2">"Packet type too high"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Packet"><b>Packet</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetCmdLevelName">GetCmdLevelName(number)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>number</var></td>
+<td>Integer</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Will get a command level's name.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">CmdLevelName or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type."</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#cmds.cfg"><b>cmds.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetCmdLevelNumber">GetCmdLevelNumber(name)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>name</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Will get the numeric value of a command level.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">CmdLevel or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type."</td></tr>
+<tr><td colspan="2">"Could not find a command level with that name."</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#cmds.cfg"><b>cmds.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetItemDescriptor">GetItemDescriptor(objtype)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>objtype</var></td>
+<td>int Objtype OR string ObjtypeName</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Returns a struct of all itemdesc.cfg properties for the objtype.</td></tr>
+<tr><td colspan="2">The keys are the property names, i.e. "Color", "Desc", etc. The values can be String, Integer, Real. The exceptions are "CProps" and "StackingIgnoresCProps". "CProps" is a dictionary where the CProp name is the key, and the value can be any packable type (i.e. array, struct, etc.). "StackingIgnoresCProps" is an array of strings.</td></tr>
+<tr><td colspan="2">Note: Descriptor of Weapon will return MinDamage and MaxDamage calculated from Damage-Dice too.</td></tr>
+<tr><td colspan="2">The primary use of this function is to pass it to any of the item creation functions, and the values in the struct will be used in place of the static itemdesc.cfg values. Use it to assign specific properties to an item during creation, rather than after. This allows easier stacking with existing item stacks.</td></tr>
+<tr><td colspan="2">Note: Not all properties can be assigned per-item, so editing the value in the descriptor struct will not be passed to the new item.
+</td></tr>
+<tr><td colspan="2"><pre>
+//For example, to stack with an existing stack with color 0x10 and cprop
+use uo;
+use polsys;
+program testdesc(who,objtype)
+    var ret := GetItemDescriptor(CInt(objtype));
+    ret.Color := 0x10;
+    ret.CProps.insert("blah","1"); //assuming the existing stack have this color and cprop
+    ret.StackingIgnoresCProps.append("blingbling");    
+    var item := CreateItemInBackpack(who,ret,10);
+    if(item)
+        print("OK!");
+    endif
+endprogram</pre></td></tr>
+<tr><td colspan="2"><pre>
+To print the contents of the struct:
+var ret := GetItemDescriptor(objtype);
+foreach thing in ret
+    print(_thing_iter + ": " + thing);
+endforeach</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">A struct of all itemdesc.cfg properties and values.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Itemdesc.cfg entry for objtype X not found."</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related Configs</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="configfiles.html#itemdesc.cfg"><b>itemdesc.cfg</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetPackageByName">GetPackageByName(name)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>name</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Will return a package reference.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">PackageRef or Error</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type."</td></tr>
+<tr><td colspan="2">"No package found by that name."</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#Package"><b>Package</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="IncRevision">IncRevision( object )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>object</var></td>
+<td>UObject Ref</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Increases the internal "Revision" number of an UObject. Used to manually increase this number for scripted changes to things such as mob.race and such where core does not auto increase it.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type."</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ListTextCommands">ListTextCommands( )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Returns a dict of a dict of structs.</td></tr>
+<tr><td colspan="2">Dict 1 - Package names Dict 2 - Command levels Struct - .dir .script</td></tr>
+<tr><td colspan="2">
+    </td></tr>
+<tr><td colspan="2"><pre>
+	Example:
+	foreach package in ( commands )
+		Print("Pkg:"+_package_iter);
+		foreach level in ( package )
+			Print(" CmdLvl:"+_level_iter);
+			foreach command in ( level )
+				Print("     "+command);
+				SleepMS(2);
+			endforeach
+			SleepMS(2);
+		endforeach
+		SleepMS(2);
+	endforeach
+    </pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type."</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ListenPoints">ListenPoints( )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Array of listen points...</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Array</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type."</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Packages">Packages()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Get an array of "package objects", with "name", "supports_http" and "npcdesc" members. (more info TBD)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">An array of package objects.</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ReadMillisecondClock">ReadMillisecondClock()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Returns a long integer of the current millisecond clock. TBD: timebase of clock, saved with server?</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Current time in milliseconds.</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Realms">Realms(realms:="")</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Returns a dictionary of structs.</td></tr>
+<tr><td colspan="2">If a single case-sensitive realm name is passed, will return the information for only that realm.</td></tr>
+<tr><td colspan="2">example:
+</td></tr>
+<tr><td colspan="2"><pre>    "realm_name" -&gt; "width"
+                    "height"
+                    "mapid"
+                    "toplevel_item_count"
+                    "mobile_count"
+                    "season"</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">A dictionary of structs of Realms.</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="ReloadConfiguration">ReloadConfiguration()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">reloads pol.cfg (most entries), npcdesc.cfg and bannedips.cfg</td></tr>
+<tr><td colspan="2">Linux: HUP signal will cause ReloadConfiguration to be called.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetSysTrayPopupText">SetSysTrayPopupText(text)</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>text</var></td>
+<td>String tooltip text for systray icon</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Sets the systray icon's tooltip text (win32 only)</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1</td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   

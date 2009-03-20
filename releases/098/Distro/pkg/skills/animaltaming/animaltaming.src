@@ -1,0 +1,148 @@
+use uo;
+use os;
+
+include ":brainAI:npcUtil";
+include ":attributes:attributes";
+include ":brainAI:npcNerves";
+include ":brainAI:tamedUtil";
+include ":brainai:npcCommands";
+include ":timeutils:time";
+include "include/facings";
+include "include/string";
+
+program skill_AnimalTaming( mobile )
+        
+	EraseObjProperty(mobile, "#IsMeditating");
+	EraseObjProperty(mobile, "#HealTimer");
+
+	SendSysMessage( mobile, "What would you like to tame?" );
+ 	var the_creature := Target( mobile );
+	var difficulty := CInt( NPC_GetNPCConfig( the_creature.npctemplate ).TameSkill );
+
+	if( !the_creature || the_creature.errortext )
+		SendSysMessage( mobile, "Cancelled." );
+		return 0;
+    elseif( Distance( mobile, the_creature ) > 5 )
+		SendSysMessage( mobile, "You are too far away from the creature!" );
+		return 0;
+	elseif( !the_creature.IsA( POLCLASS_NPC ) || !difficulty )
+		SendSysMessage( mobile, "That can not be tamed!" );
+		return 0;
+	elseif( difficulty > AP_GetSkill( mobile, ANIMAL_TAMING ))
+		SendSysMessage( mobile, "You have no chances of taming this creature!" );
+		return 0;
+	elseif( the_creature.master )
+		SendSysMessage( mobile, "That creature looks tame already." );
+		return 0;
+	endif
+ 
+	TurnObjectToward( mobile, the_creature.x, the_creature.y );
+ 
+	var C_name := the_creature.name,
+		prev_tame := GetObjProperty( the_creature, "PreviouslyTamed" ),
+		chance := 75;
+            
+	if( !prev_tame || prev_tame.errortext )
+		prev_tame := array{ 0, 0 };
+	endif
+
+	// Difficulty raises with each tame.
+	difficulty := CInt( difficulty + ( 2 * prev_tame ));
+	if( difficulty < 1 )
+		difficulty := 1;
+	endif
+	if( difficulty > 120 )
+		difficulty := 120;
+	endif
+
+	// Will be much easier to make angry if high numner
+	var calming_diff := difficulty + 10;
+
+	if( prev_tame[2] && prev_tame[2] > ReadGameClock() )
+		if( IsEvil( the_creature ))
+			if( RandomInt( 100 ) < CInt( chance ))
+				PrintTextAbove( the_creature, mobile.name+" has angered the beast!" );
+				AI_Attack( the_creature, mobile );
+				return 0;
+			endif
+		endif
+	endif
+        
+	if( SkillCheck( mobile, ANIMAL_TAMING, CInt( calming_diff )))
+		if( GetNerveProcess( the_creature, "Combat" ).pid )
+			PrintTextAbove( the_creature, mobile.name+" has calmed the beast!" );
+			SetObjProperty( the_creature, "#Peacemaking", ReadGameClock() + 10 );
+			AI_WarMode( the_creature, 0 );
+		endif
+	else
+		if( IsEvil( the_creature ))
+			if( RandomInt( 100 ) < CInt( chance ))
+				PrintTextAbove( the_creature, mobile.name+" has angered the beast!" );
+				AI_Attack( the_creature, mobile );
+				return 0;
+			endif
+		endif
+	endif
+        
+	PrintTextAbove( mobile, "What a nice "+TruncateArticle( C_name ));
+	if( !WaitAndCheckTheTamer( mobile, the_creature ))
+		return 0;
+	endif
+
+	PrintTextAbove( mobile, "I've always wanted "+C_name+" like you." );
+	if( !WaitAndCheckTheTamer( mobile, the_creature ))
+		return 0;
+	endif
+
+	PrintTextAbove( mobile, C_name+", will you be my friend?" );
+	if( !WaitAndCheckTheTamer( mobile, the_creature ))
+		return 0;
+	endif
+ 
+	if( prev_tame[2] && prev_tame[2] > ReadGameClock() )
+		SendSysMessage( mobile, "You failed to tame the creature." );
+		return 0;
+	endif
+ 
+	if( SkillCheck( mobile, ANIMAL_TAMING, difficulty, difficulty * 15 ))
+		SendSysMessage( mobile, "You successfully tame "+C_name );
+		the_creature.SetMaster( mobile );
+		RestartScript( the_creature );
+		SetObjProperty( the_creature, "PreviouslyTamed", array{mobile.serial, ReadGameClock() + 300} );
+	else
+		SendSysMessage( mobile, "You failed to tame the creature." );
+		if( RandomInt( 100 ) < CInt( chance ))
+			SendSysMessage( mobile, "And have made the creature unresponsive to taming." );
+		endif
+	endif
+        
+	return 1;
+endprogram
+
+function IsEvil( the_creature )
+
+	var npc_cfg := NPC_GetNPCConfig( the_creature.npctemplate );
+	if( npc_cfg.Alignment == "evil" )
+		return 1;
+	endif
+
+	return 0;
+endfunction
+
+function WaitAndCheckTheTamer( mobile, the_creature )
+
+	Sleep( 5 );
+
+	if( Distance( mobile, the_creature ) > 5 )
+		SendSysMessage( mobile, "You're too far away to continue taming." );
+		return 0;
+	elseif( the_creature.master.IsA(POLCLASS_MOBILE))
+		SendSysMessage( mobile, the_creature.name + " belongs to someone else!" );
+		return 0;
+	elseif( !CheckLineOfSight( mobile, the_creature ))
+		SendSysMessage( mobile, "The creature isn't in your line of sight." );
+		return 0;
+	endif
+
+	return 1;
+endfunction

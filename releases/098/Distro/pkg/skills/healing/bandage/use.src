@@ -1,0 +1,92 @@
+/* $Id: use.src 767 2006-08-28 08:16:27Z AustinHeilman $
+ *
+ * http://uo.stratics.com/content/skills/healing.php
+ *
+ */
+
+use uo;
+use os;
+use math;
+
+include ":attributes:attributes";
+include ":death:resurrection";
+include ":timedscripts:poisonUtil";
+
+program UseBandage(mobile, bandage)
+	if ( !(bandage in EnumerateItemsInContainer(mobile.backpack)) )
+		SendSysMessage(mobile, "The bandages must be in your backpack in order to be used.");
+		return 0;
+	endif
+
+	SendSysMessage(mobile, "Who do you want to heal?");
+	var targ := Target(mobile, TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
+	if ( !targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(mobile, "Cancelled.");
+		return 0;
+	endif
+
+	SubtractAmount(bandage, 1);
+	var heal_skill := AP_GetSkill(mobile, HEALING);
+	var anat_skill := AP_GetSkill(mobile, ANATOMY);
+
+	if ( targ.dead )
+		ResurrectGhost(mobile, targ, heal_skill, anat_skill);
+	else
+		HealPatient(mobile, targ, heal_skill, anat_skill);
+	endif
+
+	return 1;
+endprogram
+
+function ResurrectGhost(mobile, targ, heal_skill, anat_skill)
+	if ( heal_skill < 81 || anat_skill < 81 )
+		SendSysMessage(mobile, "You are not skilled enough to restore life to "+targ.name);
+		return 0;
+	endif
+
+	Sleep(5);
+
+	Resurrection(targ);
+
+	return 1;
+endfunction
+
+function HealPatient(mobile, targ, heal_skill, anat_skill)
+	var heal_wait := CalcHealDelay(mobile, targ);
+	var can_cure := ( (heal_skill > 61) && (anat_skill > 61) );
+
+	for ( heal_wait; heal_wait>=0; heal_wait-=1 )
+		if ( Distance(mobile, targ) > 2 )
+			SendSysMessage(mobile, "Your patient has moved too far away.");
+			return 0;
+		endif
+
+		Sleep(1);
+	endfor
+
+	var heal_amt := GetHealingAmt(heal_skill, anat_skill);
+	if ( can_cure )
+		// Should be enough to cure all poison.
+		TS_CurePoison(targ, 10000, "P", 10);
+	endif
+
+	HealDamage(targ, heal_amt);
+
+	return 1;
+endfunction
+
+function GetHealingAmt(heal_skill, anat_skill)
+	var min_amt := CInt(Ceil((anat_skill / 6) + (heal_skill / 6) + 3));
+	var max_amt := CInt(Ceil((anat_skill / 6) + (heal_skill / 3) + 10));
+
+	return (RandomInt(max_amt - min_amt)+min_amt);
+endfunction
+
+function CalcHealDelay(mobile, targ)
+	if ( mobile == targ )
+		return 11 - CInt(Ceil(AP_GetStat(mobile, DEXTERITY) / 20.0));
+	else
+		return 4 - CInt(Ceil(AP_GetStat(mobile, DEXTERITY) / 60.0));
+	endif
+endfunction
+

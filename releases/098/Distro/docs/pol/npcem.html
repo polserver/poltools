@@ -1,0 +1,1046 @@
+<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.0 Transitional" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>POL Scripting Reference NPC.EM</title>
+		<meta name="keyword" content="POL, EScript, documentation, Ultima Online, UO, packets, client, ultima online client, emulator" />
+		<meta name="description" content="Penultima Online Documentation website." />
+		<meta name="Author" content="Racalac, Rykard" />
+		<meta name="Generator" content="POL Doc-o-matic" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css"  media="all"  />
+	</head>
+	<script language="JavaScript1.2" type="text/javascript">
+function ExpandContract(s) {
+  var bulletE = document.getElementById("bullet_"+s);
+  var spanE = document.getElementById("span_"+s);
+  var Expanded = bulletE.innerHTML;
+
+  if(Expanded == '[+]') {
+    spanE.style.display = 'block';
+    bulletE.innerHTML = '[-]';
+  }
+  else { 
+    spanE.style.display = 'none'; 
+    bulletE.innerHTML = '[+]';
+  }
+}
+</script>
+
+<body>
+<div class="container"><div id="doc-mini-header">
+<div class="doc-home"><a href="index.html">
+              Home
+  				  </a></div>
+<h1>
+<a name="TOP"></a>
+						File:
+						NPC.em</h1>
+<p>
+						Description:
+						Functions for manipulating non-player character mobiles. All (most?) these functions are limited to use in an NPC context (meaning an AI script).<br><b>
+							Last Modified:
+							02/10/2009</b></p>
+</div></div><div class="container"><div class="doc-mainbox">
+<div class="expander"><a href="javascript:ExpandContract('Constants')" id="bullet_Constants">[-]</a></div>
+<center><h2>File Constants:</h2></center>
+<span id="span_Constants"><pre>// Constants for texttype flags in the Say() function<br>const SAY_TEXTTYPE_DEFAULT := "default";<br>const SAY_TEXTTYPE_WHISPER := "whisper";<br>const SAY_TEXTTYPE_YELL := "yell";<br> <br>// Constant for Unicode Language flag in the SayUC() function<br>const SAY_LANG := "ENU";<br> <br>// Constants for doevent flag in Say() function<br>const SAY_DOEVENT_DISABLE := 0x0;<br>const SAY_DOEVENT_ENABLE := 0x1;<br> <br>const FACE_NORMAL := 0x0;<br>const FACE_FORCE := 0x1;</pre></span>
+</div></div><div id="main"><div class="container">
+<div class="doc-col_2">
+<div class="doc-smallbox">
+<div class="expander"><a href="javascript:ExpandContract('Functions')" id="bullet_Functions">[-]</a></div>
+<center><h2>Functions:</h2></center>
+<span id="span_Functions"><ul>
+<li><a href="#CanMove">CanMove</a></li>
+<li><a href="#Face">Face</a></li>
+<li><a href="#GetProperty">GetProperty</a></li>
+<li><a href="#IsLegalMove">IsLegalMove</a></li>
+<li><a href="#MakeBoundingBox">MakeBoundingBox</a></li>
+<li><a href="#Move">Move</a></li>
+<li><a href="#Position">Position</a></li>
+<li><a href="#RunAwayFrom">RunAwayFrom</a></li>
+<li><a href="#RunAwayFromLocation">RunAwayFromLocation</a></li>
+<li><a href="#RunToward">RunToward</a></li>
+<li><a href="#RunTowardLocation">RunTowardLocation</a></li>
+<li><a href="#Say">Say</a></li>
+<li><a href="#SayUC">SayUC</a></li>
+<li><a href="#Self">Self</a></li>
+<li><a href="#SetAnchor">SetAnchor</a></li>
+<li><a href="#SetOpponent">SetOpponent</a></li>
+<li><a href="#SetProperty">SetProperty</a></li>
+<li><a href="#SetWarMode">SetWarMode</a></li>
+<li><a href="#TurnAwayFrom">TurnAwayFrom</a></li>
+<li><a href="#TurnAwayFromLocation">TurnAwayFromLocation</a></li>
+<li><a href="#TurnToward">TurnToward</a></li>
+<li><a href="#TurnTowardLocation">TurnTowardLocation</a></li>
+<li><a href="#WalkAwayFrom">WalkAwayFrom</a></li>
+<li><a href="#WalkAwayFromLocation">WalkAwayFromLocation</a></li>
+<li><a href="#WalkToward">WalkToward</a></li>
+<li><a href="#WalkTowardLocation">WalkTowardLocation</a></li>
+<li><a href="#Wander">Wander</a></li>
+</ul></span>
+</div>
+<div class="doc-smallbox-gold">
+<div class="expander"><a href="javascript:ExpandContract('Modules')" id="bullet_Modules">[-]</a></div>
+<center><h2>Modules:</h2></center>
+<span id="span_Modules"><ul>
+<li><a href="attributesem.html">
+                      Attributes
+          				  </a></li>
+<li><a href="basicem.html">
+                      Basic
+          				  </a></li>
+<li><a href="boatem.html">
+                      Boat
+          				  </a></li>
+<li><a href="cfgfileem.html">
+                      CfgFile
+          				  </a></li>
+<li><a href="clilocem.html">
+                      CliLoc
+          				  </a></li>
+<li><a href="datafileem.html">
+                      DataFile
+          				  </a></li>
+<li><a href="fileem.html">
+                      File
+          				  </a></li>
+<li><a href="guildsem.html">
+                      Guild
+          				  </a></li>
+<li><a href="httpem.html">
+                      Http
+          				  </a></li>
+<li><a href="mathem.html">
+                      Math
+          				  </a></li>
+<li><a href="npcem.html">
+                      Npc
+          				  </a></li>
+<li><a href="osem.html">
+                      OS
+          				  </a></li>
+<li><a href="polsysem.html">
+                      PolSys
+          				  </a></li>
+<li><a href="storageem.html">
+                      Storage
+          				  </a></li>
+<li><a href="unicodeem.html">
+                      Unicode
+          				  </a></li>
+<li><a href="uoem.html">
+                      UO
+          				  </a></li>
+<li><a href="utilem.html">
+                      Util
+          				  </a></li>
+<li><a href="vitalsem.html">
+                      Vitals
+          				  </a></li>
+</ul></span>
+</div>
+</div>
+<div class="doc-col_23">
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="CanMove">CanMove( direction )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>direction</var></td>
+<td>String, one of N, S, E, W, NW, NE, SW, SE</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Given current position and direction, would it be possible to move there?</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0 on invalid parameter, or illegal move. 1 on legal move</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Face">Face( direction, flags := FACE_NORMAL )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>direction</var></td>
+<td>Integer (0 - 7) or String, one of N, S, E, W, NW, NE, SW, SE</td>
+</tr>
+<tr>
+<td width="50%"><var>flags</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Sets Facing to given direction. If FACE_FORCE is set frozen/paralysed is not checked.
+    </td></tr>
+<tr><td colspan="2"><pre>
+const FACE_NORMAL := 0x0;
+const FACE_FORCE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0 on invalid parameter, illegal direction, or failed to face. New direction on success.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="GetProperty">GetProperty( propertyname )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>propertyname</var></td>
+<td>String</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Deprecated. Equivalent to GetObjProperty( Self(), propertyname )</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">An unpacked object. See GetObjProperty in UO.EM</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Property not found"</td></tr>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="IsLegalMove">IsLegalMove( move, boundingbox )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>move</var></td>
+<td>String, one of N, S, E, W, NW, NE, SW, SE</td>
+</tr>
+<tr>
+<td width="50%"><var>boundingbox</var></td>
+<td>Bounding box, from CreateBoundingBox</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Given your position, and a tentative move, would it fall within a bounding box. This function ignores facing. It checks explicity for moving in a given direction, regardless of facing.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0 on invalid parameter, or illegal move. 1 on legal move</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="MakeBoundingBox">MakeBoundingBox( areastring )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>areastring</var></td>
+<td>String, see explanation</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Make a bounding box from an area string.  An area string is a number of 'x1 y1 x2 y2' world coordinate entries.</td></tr>
+<tr><td colspan="2">"1 1 4 4 2 5 3 7" would create a walk area something like this:
+</td></tr>
+<tr><td colspan="2"><pre>
+   XXXX
+   XXXXXXX
+   XXXXXXX
+   XXXX
+</pre></td></tr>
+<tr><td colspan="2">Used with Move() and IsLegalMove() functions</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">boundingbox on success, empty string on invalid param (ick). Careful, not much error checking!</td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Move">Move( direction )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>direction</var></td>
+<td>Direction String, Facing Integer, or Bounding Box</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">A Direction String is one of: N, S, E, W, NW, NE, SW, SE</td></tr>
+<tr><td colspan="2">A Facing Integer is 0 through 7 where 0 is North, 1 is NorthEast, etc.</td></tr>
+<tr><td colspan="2">See MakeBoundingBox for info on the bounding box.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success, or Direction String if bounding box was used</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">none, returns 0 on failures</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Position">Position()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Deprecated. Use Self().x, Self().y, Self().z instead.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">A struct with x,y, and z members.</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RunAwayFrom">RunAwayFrom( object )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Runs away from object one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RunAwayFromLocation">RunAwayFromLocation( x, y )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Runs away from the given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RunToward">RunToward( object )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Runs toward object one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="RunTowardLocation">RunTowardLocation( x, y )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Runs toward the given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Say">Say( text, text_type:=SAY_TEXTTYPE_DEFAULT, do_event:=SAY_DOEVENT_DISABLE )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>text</var></td>
+<td>String</td>
+</tr>
+<tr>
+<td width="50%"><var>text_type</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>do_event</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Makes the NPC print text above its head. Uses the NPC member speech_font and speech_color.</td></tr>
+<tr><td colspan="2">If do_event is enabled with SAY_DOEVENT_ENABLE, it will send a speech event to nearby npcs.</td></tr>
+<tr><td colspan="2">Notes: npc.em constant for this function:
+</td></tr>
+<tr><td colspan="2"><pre>
+// Constants for texttype flags in the Say() function
+const SAY_TEXTTYPE_DEFAULT := "default";
+const SAY_TEXTTYPE_WHISPER := "whisper";
+const SAY_TEXTTYPE_YELL := "yell";
+
+// Constants for doevent flag in Say() function
+const SAY_DOEVENT_DISABLE := 0x0;
+const SAY_DOEVENT_ENABLE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"NPC is squelched"</td></tr>
+<tr><td colspan="2">"texttype string param must be either 'default', 'whisper', or 'yell'"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SayUC">SayUC( uc_text, text_type:=SAY_TEXTTYPE_DEFAULT, langcode:=SAY_LANG, do_event:=SAY_DOEVENT_DISABLE )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>uc_text</var></td>
+<td>Array of 2-byte integers, where each integer is a Unicode character</td>
+</tr>
+<tr>
+<td width="50%"><var>text_type</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>langcode</var></td>
+<td>3-character 'Originating Language' string code  e.g. ENU, CHT, DEU, RUS, KOR, etc.</td>
+</tr>
+<tr>
+<td width="50%"><var>do_event</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Makes the NPC print text above its head. Uses the NPC member speech_font and speech_color.</td></tr>
+<tr><td colspan="2">If do_event is enabled with SAY_DOEVENT_ENABLE, it will send a speech event to nearby npcs.</td></tr>
+<tr><td colspan="2">uc_text MUST be an array of integers representing unicode characters.</td></tr>
+<tr><td colspan="2">Integers must be "Big Endian" (0x1234) and not "Little Endian" (0x3412).</td></tr>
+<tr><td colspan="2">Integers will be clipped internally to 2-bytes (value masked with 0xFFFF)</td></tr>
+<tr><td colspan="2">The Array must be terminated with zero. (0x0000)</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"A parameter was invalid"</td></tr>
+<tr><td colspan="2">"NPC is squelched"</td></tr>
+<tr><td colspan="2">"texttype string param must be either 'default', 'whisper', or 'yell'"</td></tr>
+<tr><td colspan="2">"Unicode array exceeds maximum size."</td></tr>
+<tr><td colspan="2">"langcode must be a 3-character code."</td></tr>
+<tr><td colspan="2">"Invalid value in Unicode array."</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Self">Self()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">return a mobileref to self</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">A Character Reference to this NPC</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetAnchor">SetAnchor( centerx, centery, distance_start, percent_subtract )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>centerx</var></td>
+<td>Integer world coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>centery</var></td>
+<td>Integer world coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>distance_start</var></td>
+<td>Integer</td>
+</tr>
+<tr>
+<td width="50%"><var>percent_subtract</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Sets the NPC's 'anchor' point. The NPC will have difficulty moving far away from this coordinate, and will generally stay near it.</td></tr>
+<tr><td colspan="2">centerx and centery define the anchor point.</td></tr>
+<tr><td colspan="2">distance_start is the distance away from the anchor point at which the npc may not be able to move beyond. Under this distance there is a 100% chance the move will succeed. If 0, it disables the anchor point.</td></tr>
+<tr><td colspan="2">percent_subtract is how much to subtract from the normal 100% chance for each move beyond the distance_start boundary. So if this value is "20", the first move beyond the distance_start range (and away from the anchor point) will only have an 80% chance of succeeding. The next one will have a 60% chance. So the NPC will tend to move back toward its anchor point.</td></tr>
+<tr><td colspan="2">The anchor point has no effect as long as the NPC is in war mode.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetOpponent">SetOpponent( character )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>character</var></td>
+<td>CharacterRef</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Set your opponent.  If you are in range (or are carrying a projectile weapon and have LOS), you will attack. If a player character is connected, the NPC will highlight.</td></tr>
+<tr><td colspan="2">Implicitly sets war mode.</td></tr>
+<tr><td colspan="2">pass 0 to clear the opponent.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">0 on invalid param or clear, 1 on successful set</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#Character"><b>Character</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetProperty">SetProperty( propertyname, propertyvalue )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>propertyname</var></td>
+<td>String</td>
+</tr>
+<tr>
+<td width="50%"><var>propertyvalue</var></td>
+<td>Packable script object (int, string, array, etc)</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">Deprecated. Equivalent to SetObjProperty( Self(), propertyname, propertyvalue )</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1. See SetObjProperty in UO.EM</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody><tr><td colspan="2">"Invalid parameter type"</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="SetWarMode">SetWarMode( warmode )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>warmode</var></td>
+<td>Integer 1/0</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Usually used to leave warmode, but can be used to enter warmode independently of setting an opponent.</td></tr>
+<tr><td colspan="2">Setting war mode to 0 clears your opponent.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 on success, 0 on invalid param or clear</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="TurnAwayFrom">TurnAwayFrom( object, flags := FACE_NORMAL )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr>
+<tr>
+<td width="50%"><var>flags</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Adjust facing to turn away from object. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">See Face() for flags explanation</td></tr>
+<tr><td colspan="2"><pre>
+const FACE_NORMAL := 0x0;
+const FACE_FORCE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="TurnAwayFromLocation">TurnAwayFromLocation( x, y, flags := FACE_NORMAL )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>flags</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Adjust facing to turn away from given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">See Face() for flags explanation</td></tr>
+<tr><td colspan="2"><pre>
+const FACE_NORMAL := 0x0;
+const FACE_FORCE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="TurnToward">TurnToward( object, flags := FACE_NORMAL )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr>
+<tr>
+<td width="50%"><var>flags</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Adjust facing to turn toward object. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">See Face() for flags explanation</td></tr>
+<tr><td colspan="2"><pre>
+const FACE_NORMAL := 0x0;
+const FACE_FORCE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="TurnTowardLocation">TurnTowardLocation( x, y, flags := FACE_NORMAL )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>flags</var></td>
+<td>Integer</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Adjust facing to turn toward given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">See Face() for flags explanation</td></tr>
+<tr><td colspan="2"><pre>
+const FACE_NORMAL := 0x0;
+const FACE_FORCE := 0x1;</pre></td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="WalkAwayFrom">WalkAwayFrom( object )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Walk away from object one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="WalkAwayFromLocation">WalkAwayFromLocation( x, y )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Walk away from the given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="WalkToward">WalkToward( object )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody><tr>
+<td width="50%"><var>object</var></td>
+<td>UObject</td>
+</tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Walk toward object one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Mobile specified cannot be seen" if object is a character and invisible</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody>
+<tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr>
+<tr><td colspan="2"><a href="objref.html#UObject"><b>UObject</b></a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="WalkTowardLocation">WalkTowardLocation( x, y )</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Parameters:</th></tr></tbody>
+<tbody><tr id="doc-table-med">
+<td>Name</td>
+<td>Type</td>
+</tr></tbody>
+<tbody>
+<tr>
+<td width="50%"><var>x</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+<tr>
+<td width="50%"><var>y</var></td>
+<td>Integer World Coordinate</td>
+</tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">Walk toward the given coordinates one tile. Puts the script to sleep for a period of time proportional to the NPC's run_speed (or dexterity if not defined).</td></tr>
+<tr><td colspan="2">Note also, walking in range of your opponent may cause you to attack.</td></tr>
+<tr><td colspan="2">See the NPC members run_speed and use_adjustments. If use_adjustments is 1 the NPC will adjust the direction of the move to attempt to avoid small obsticles. Also, this function will always return true as a result. If it is 0, the NPC will not attempt to adjust the move, and the function will return false.</td></tr>
+<tr><td colspan="2">The success of this function is affected by the NPC's anchor point. See SetAnchor().</td></tr>
+<tr><td colspan="2">In the future, this function will activate a pathfinding system.</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">Boolean for move success</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Errors</th></tr></tbody>
+<tbody>
+<tr><td colspan="2">"Invalid parameter type"</td></tr>
+<tr><td colspan="2">"Invalid Coordinates for Realm"</td></tr>
+</tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+<div class="doc-mainbox-gold">
+<div class="doc-anchor"><a href="#TOP">[^]</a></div>
+<table class="doc-table" frame="void" rules="groups" width="100%" border="1" CELLPADDING="1" CELLSPACING="0">
+<tbody><tr><th align="center" colspan="2"><a name="Wander">Wander()</a></th></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Explanation</th></tr></tbody>
+<tbody><tr><td colspan="2">walk, usually forward, sometimes turning</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Return values</th></tr></tbody>
+<tbody><tr><td colspan="2">1 if the move succeeded, 0 if it failed</td></tr></tbody>
+<tbody><tr id="doc-table-dark"><th align="left" colspan="2">Related</th></tr></tbody>
+<tbody><tr><td colspan="2"><a href="objref.html#NPC"><b>NPC</b></a></td></tr></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div></div>
+<div id="footer">
+	<div class="container">
+    <p >
+      If you <i>know</i> if any information is incorrect on these pages, mail your corrections to polteam@polserver.com
+    </p>
+    <p >
+      Copyright &copy;2003-2009 David Carpman and POL Development Team, all rights reserved. DO NOT REPRODUCE, MIRROR, ALTER, SPINDLE, MUTILATE, OR SIT ON.
+    </p>
+    </div>
+    </div>
+    </body>
+    </html>
+   

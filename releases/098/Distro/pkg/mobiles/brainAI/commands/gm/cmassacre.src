@@ -1,0 +1,26 @@
+/* $Id: cmassacre.src 502 2006-06-29 15:07:25Z austinheilman $
+ *
+ */
+//Example: .massacre [radius] - Kills npcs within the radius and leaves the corpses.
+
+use uo;
+use vitals;
+
+include ":gumps:requestgump";
+
+program textcmd_massacre(who, range)
+	
+	range := CInt(range);
+	if ( !range )
+		range := CInt(RequestGump(who, "Enter the radius to kill npcs.", "", 0));
+	endif
+	
+	foreach mobile in ( ListMobilesNearLocationEX(who.x, who.y, who.z, CInt(range), LISTEX_FLAG_NORMAL+LISTEX_FLAG_HIDDEN, who.realm) )
+		if ( mobile.npctemplate )
+			ApplyRawDamage(mobile, 6000);
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return 1;
+endprogram

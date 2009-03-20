@@ -1,0 +1,62 @@
+// $Id$
+//
+
+use uo;
+use os;
+use polsys;
+use cfgfile;
+
+include ":merchants:report";
+include ":merchants:storage";
+
+program Initializemerchants()
+	if ( GetGlobalProperty("MerchantsInitialized") )
+		return 1;
+	endif
+
+	MERC_ReportText("---=[ MERCHANT INITIALIZER HAS STARTED UP ]=---", MERC_REPORT_SYSLOG);
+	SetGlobalProperty("MerchantsInitialized", 1);
+
+	var cfg_file := ReadConfigFile(":merchants:init");
+	foreach realm_name in ( Realms().Keys() )
+		var cfg_elem := cfg_file[realm_name];
+		if ( cfg_elem )
+			SetupMerchantsInRealm(realm_name, cfg_elem);
+		endif
+
+		SleepMS(2);
+	endforeach
+	UnloadConfigFile(":merchants:unit");
+
+	MERC_ReportText("---=[ MERCHANT INITIALIZER HAS FINISHED ]=---", MERC_REPORT_SYSLOG);
+
+	return 1;
+endprogram
+
+function SetupMerchantsInRealm(realm_name, cfg_elem)
+	foreach entry in ( GetConfigStringArray(cfg_elem, "Merchant") )
+		entry := SplitWords(entry);
+
+		var x := CInt(entry[1]);
+		var y := CInt(entry[2]);
+		var z := CInt(entry[3]);
+
+		var template := CStr(entry[4]);
+		var shared := entry[5];
+
+		var result := CreateNpcFromTemplate(template, x, y, z, 0, realm_name);
+		if ( !result )
+			MERC_ReportText("Error: Could not create merchant '"+result.errortext+"'", MERC_REPORT_SYSLOG);
+			continue;
+		elseif ( shared )
+			var area_names := array{CPM_FORSALE, CPM_BUYING, CPM_SHOPPINGCART, CPM_HOLDING};
+			foreach area_name in ( area_names )
+				SetObjProperty(result, "Shared-"+area_name, shared);
+				SleepMS(2);
+			endforeach
+		endif
+		SleepMS(2);
+	endforeach
+
+	return 1;
+endfunction

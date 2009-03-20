@@ -1,0 +1,66 @@
+// $Id: teleport.src 1033 2007-04-12 19:46:12Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":attributes:attributes";
+
+/*
+Some clilocs, for use later
+502360	You cannot teleport into that area.
+502361	You cannot teleport into that area from here.
+502457	Not a supported teleporter location.
+502828	Cannot teleport to that spot.
+502829	Cannot teleport to that spot.
+502830	Someone is standing there!
+502831	Cannot teleport to that spot.
+502832	I can't teleport there!
+503361	This ability cannot be used to teleport in houses or boats.
+*/
+
+program SpellScript_Teleport(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0; // No longer needed
+	
+	if ( CoordinateDistance(mobile.x, mobile.y, targ.x, targ.y) > 11 )
+		SendSysMessage(mobile, "That is too far away.");
+		return 0;
+	endif
+	
+	if ( !CheckLosAt(mobile, targ.x, targ.y, targ.z) )
+		SendSysMessage(mobile, "You can't see that!");
+		return 0;
+	endif
+	
+	// It isn't easy putting multis up yet, so I'll have to figure this out later.
+	//foreach mult in ListMultisInBox( targ.x, targ.y, targ.z, targ.x, targ.y, targ.z, mobile.realm)
+	//	Print("multi: " + mult);
+	//endforeach
+	
+	if ( 0 ) // TODO: multi-check
+		SendSysMessage(mobile, "This ability cannot be used to teleport in houses or boats.");
+		return 0;
+	endif
+	
+	var orig_pos := struct;
+	orig_pos.+x := mobile.x;
+	orig_pos.+y := mobile.y;
+	orig_pos.+z := mobile.z;
+	orig_pos.+realm := mobile.realm;
+	
+	if ( !MoveObjectToLocation(mobile, targ.x, targ.y, targ.z, targ.realm) );
+		SendSysMessage(mobile, "Not a supported teleporter location.");
+		return 0;
+	endif
+
+	MS_PlaySpellSFX(info.spell_id, targ);
+	MS_PlaySpellGFX(info.spell_id, orig_pos, mobile);
+	MS_PlaySpellGFX(info.spell_id, mobile, mobile);
+
+	//PlayStationaryEffect( mobile.x, mobile.y, mobile.z, GFX_SMOKE, 10, 10, 0, mobile.realm );
+
+	return 1;
+endprogram

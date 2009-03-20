@@ -1,0 +1,56 @@
+// $Id: resurrection.src 1013 2007-03-05 22:46:11Z tekproxy $
+
+use uo;
+use os;
+
+include ":magery:spells";
+include ":death:resurrection";
+
+program SpellScript_Resurrection(params)
+	var mobile := params[1];
+	var info := params[2];
+	var targ := params[3];
+	params := 0;
+
+	// Do some checks
+	if ( mobile.serial == targ.serial )
+		SendSysMessage(mobile, "Thou cannot resurrect thyself.");
+		return 0;
+	elseif ( !targ.dead )
+		SendSysMessage(mobile, "Target is not dead.");
+		return 0;
+	elseif ( mobile.dead )
+		SendSysMessage(mobile, "The resurrecter must be alive.");
+		return 0;
+	elseif ( Distance(mobile, targ) > 1 )
+		SendSysMessage(mobile, "Target is not close enough.");
+		return 0;
+	elseif ( targ.hidden )
+		SendSysMessage(mobile, "Target cannot be seen.");
+		return 0;
+	elseif ( !targ.IsA(POLCLASS_MOBILE) || targ.IsA(POLCLASS_NPC) )
+		SendSysMessage(mobile, "Target is not a being.");
+		return 0;
+	endif
+
+	var settings_elem := MS_GetSettingsCfgElem("Settings");
+	
+	// Ask targ if they want to res
+	if ( CInt(settings_elem.AskToRes) )
+		if ( !ResurrectionGump(targ) )
+			return 0;
+		else
+			MS_PlaySpellSFX(info.spell_id, targ);
+			MS_PlaySpellGFX(info.spell_id, targ, mobile);
+		endif
+	endif
+	
+	// Make the caster criminal for ressing a criminal
+	if ( Resurrection(targ) )
+		if ( targ.criminal )
+			mobile.SetCriminal(1);
+		endif
+	endif
+
+	return 1;
+endprogram

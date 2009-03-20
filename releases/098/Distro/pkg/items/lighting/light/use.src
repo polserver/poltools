@@ -1,0 +1,11 @@
+/* $Id: use.src 817 2006-09-14 09:45:39Z austinheilman $
+ *
+ */
+
+use uo;
+
+program useLight(mobile, light)
+	light.Toggle();
+
+	return 1;
+endprogram

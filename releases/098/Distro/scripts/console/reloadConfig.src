@@ -1,0 +1,13 @@
+/* $Id: reloadConfig.src 373 2006-06-17 18:27:33Z austinheilman $
+ *
+ */
+use polsys;
+
+program console_reloadConfig()
+
+	print("System Message: Reloading configuration.");
+	ReloadConfiguration();
+
+	return 1;
+
+endprogram

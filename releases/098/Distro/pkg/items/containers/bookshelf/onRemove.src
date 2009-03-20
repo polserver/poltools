@@ -1,0 +1,38 @@
+/* $Id: onRemove.src 1455 2009-03-09 20:43:51Z muaddib_pol $
+ *
+ */
+
+use uo;
+use cfgfile;
+use util;
+
+
+program OnRemove(character, container, item, item_amount, movetype)
+	// Stop Compiler Warnings
+	item_amount := item_amount;
+	item := item;
+	movetype := movetype;
+	character := character;
+	
+	var shelf_cfg := ReadConfigFile(":containers:bookshelf");
+	if ( !shelf_cfg )
+		return 1;
+	endif
+
+	shelf_cfg := shelf_cfg[container.graphic];
+
+	var num_items := EnumerateItemsInContainer(container).Size();
+	if ( num_items > 0 )
+		// There are still other books left in the shelf.
+		// Change the book shelf to a random compatable filled graphic.
+		// Ooo special effects.
+		var graphics := GetConfigStringArray(shelf_cfg, "FilledGraphic");
+		var graphic := CInt(graphics[RandomInt(graphics.Size())+1]);
+		container.graphic := graphic;
+	else
+		// No more books left - set to an empty shelf graphic.
+		container.graphic := shelf_cfg.EmptyGraphic;
+	endif
+
+	return 1;
+endprogram

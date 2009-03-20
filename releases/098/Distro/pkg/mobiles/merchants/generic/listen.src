@@ -1,0 +1,87 @@
+/* $Id: listen.src 1092 2007-10-22 12:48:57Z sroyalty $
+ *
+ */
+
+use uo;
+use os;
+use util;
+use cfgfile;
+
+include ":brainAI:eventid";
+include ":brainAI:npcNerves";
+include ":brainAI:npcCommands";
+include ":brainAI:npcUtil";
+include ":merchants:merchant";
+include ":merchants:storage";
+
+program BrainNerve(params)
+	var npc		:= params[1];
+	//var nerve_name:= params[2];
+	var event	:= params[3];
+	//var settings	:= params[4];
+	//var scripts	:= params[5];
+	params := 0; // Not needed anymore.
+	
+	
+	var forsale := CPM_GetMerchantContainer(npc, CPM_FORSALE, CP_CREATE);
+	var buyable := CPM_GetMerchantContainer(npc, CPM_BUYING, CP_CREATE);
+	var shopping_cart := CPM_GetMerchantContainer(npc, CPM_SHOPPINGCART, CP_CREATE);
+
+	while ( npc )
+		if ( event )
+			case ( event.type )
+				SYSEVENT_SPEECH:
+					SpeechEvent(npc, event, forsale, buyable, shopping_cart);
+					break;
+				default:
+					break;
+			endcase
+
+			event := 0;
+		endif
+
+		SleepMS(5);
+		event := Wait_For_Event(900000);
+	endwhile
+endprogram
+
+function SpeechEvent(npc, byref event, forsale, buyable, shopping_cart)
+	if ( event.text["buy"] )
+		BuyStuff(npc, event.source, forsale, shopping_cart);
+		return 1;
+	elseif ( event.text["sell"] )
+		SellStuff(npc, event.source, forsale, buyable, shopping_cart);
+		return 1;
+	endif
+
+	return 1;
+endfunction
+
+function BuyStuff(npc, mobile, forsale, shopping_cart)
+
+	AI_Turn(npc, mobile, NETURN_TOWARD);
+	var result := SendBuyWindow(mobile, forsale, npc, shopping_cart, 1);
+	if ( result.errortext )
+		PrintTextAbove(npc, "SendBuyWindow() error - "+result.errortext);
+	endif
+
+	return 1;
+endfunction
+
+function SellStuff(npc, mobile, forsale, buyable, shopping_cart)
+
+	var merchant_type := CPM_GetMerchantType(npc);
+	
+	AI_Turn(npc, mobile, NETURN_TOWARD);
+	if ( !HasSellableItems(merchant_type, mobile.backpack) )
+		AI_Speak(npc, "You don't have anything that I am interested in buying.");
+		return 1;
+	endif
+	
+	var result := SendSellWindow(mobile, npc, forsale, shopping_cart, buyable);
+	if ( result.errortext )
+		PrintTextAbove(npc, "SendSellWindow() error - "+result.errortext);
+	endif
+
+	return 1;
+endfunction
