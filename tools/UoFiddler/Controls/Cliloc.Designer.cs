@@ -43,6 +43,9 @@ namespace FiddlerControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliloc));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyCliLocNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyCliLocTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -54,9 +57,6 @@ namespace FiddlerControls
             this.FindButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.copyCliLocNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyCliLocTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -88,7 +88,26 @@ namespace FiddlerControls
             this.addEntryToolStripMenuItem,
             this.deleteEntryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
+            // 
+            // copyCliLocNumberToolStripMenuItem
+            // 
+            this.copyCliLocNumberToolStripMenuItem.Name = "copyCliLocNumberToolStripMenuItem";
+            this.copyCliLocNumberToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyCliLocNumberToolStripMenuItem.Text = "Copy CliLoc Number";
+            this.copyCliLocNumberToolStripMenuItem.Click += new System.EventHandler(this.OnCLick_CopyClilocNumber);
+            // 
+            // copyCliLocTextToolStripMenuItem
+            // 
+            this.copyCliLocTextToolStripMenuItem.Name = "copyCliLocTextToolStripMenuItem";
+            this.copyCliLocTextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyCliLocTextToolStripMenuItem.Text = "Copy CliLoc Text";
+            this.copyCliLocTextToolStripMenuItem.Click += new System.EventHandler(this.OnCLick_CopyClilocText);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // addEntryToolStripMenuItem
             // 
@@ -157,7 +176,9 @@ namespace FiddlerControls
             // 
             // FindEntry
             // 
+            this.FindEntry.AcceptsTab = true;
             this.FindEntry.Name = "FindEntry";
+            this.FindEntry.ShortcutsEnabled = false;
             this.FindEntry.Size = new System.Drawing.Size(100, 25);
             this.FindEntry.Text = "Entry";
             // 
@@ -185,25 +206,6 @@ namespace FiddlerControls
             this.toolStripButton1.Size = new System.Drawing.Size(35, 22);
             this.toolStripButton1.Text = "Save";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickSave);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
-            // copyCliLocNumberToolStripMenuItem
-            // 
-            this.copyCliLocNumberToolStripMenuItem.Name = "copyCliLocNumberToolStripMenuItem";
-            this.copyCliLocNumberToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.copyCliLocNumberToolStripMenuItem.Text = "Copy CliLoc Number";
-            this.copyCliLocNumberToolStripMenuItem.Click += new System.EventHandler(this.OnCLick_CopyClilocNumber);
-            // 
-            // copyCliLocTextToolStripMenuItem
-            // 
-            this.copyCliLocTextToolStripMenuItem.Name = "copyCliLocTextToolStripMenuItem";
-            this.copyCliLocTextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.copyCliLocTextToolStripMenuItem.Text = "Copy CliLoc Text";
-            this.copyCliLocTextToolStripMenuItem.Click += new System.EventHandler(this.OnCLick_CopyClilocText);
             // 
             // Cliloc
             // 

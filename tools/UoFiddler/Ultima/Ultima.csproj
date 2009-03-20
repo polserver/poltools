@@ -175,6 +175,7 @@
     <Compile Include="ProcessStream.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RadarCol.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="SpeechList.cs" />

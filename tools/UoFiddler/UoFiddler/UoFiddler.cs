@@ -19,7 +19,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.5c";
+        public static string Version = "3.6";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -92,6 +92,8 @@ namespace UoFiddler
                 Ultima.Animations.Reload();
             if (FiddlerControls.Options.LoadedUltimaClass["Art"])
                 Ultima.Art.Reload();
+            if (FiddlerControls.Options.LoadedUltimaClass["RadarColor"])
+                Ultima.RadarCol.Initialize();
             if (FiddlerControls.Options.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
             if (FiddlerControls.Options.LoadedUltimaClass["Multis"])
@@ -126,6 +128,7 @@ namespace UoFiddler
             this.controlTileData.Reload();
             this.controlspeech.Reload();
             this.controlAnimdata.Reload();
+            this.controlRadarCol.Reload();
 
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {

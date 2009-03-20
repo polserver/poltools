@@ -12,12 +12,12 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using Ultima;
-using PluginInterface;
-using Host;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using Host;
+using Ultima;
 
 namespace FiddlerControls
 {
@@ -111,10 +111,11 @@ namespace FiddlerControls
                     index = 0;
             }
 
+            Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             for (int i = index; i < refMarker.listView1.Items.Count; i++)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
-                if (TileData.ItemTable[(int)item.Tag].Name.Contains(name))
+                if (regex.IsMatch(TileData.ItemTable[(int)item.Tag].Name))
                 {
                     if (refMarker.listView1.SelectedItems.Count == 1)
                         refMarker.listView1.SelectedItems[0].Selected = false;

@@ -544,6 +544,17 @@ namespace FiddlerControls
             RefreshDrawing();
         }
 
+        private void OnClickUndressAll(object sender, EventArgs e)
+        {
+            for (int i = 0; i < layers.Length; i++)
+            {
+                layers[i] = (object)0;
+                checkedListBoxWear.Items[i] = String.Format("0x{0:X2}", i);
+            }
+
+            RefreshDrawing();
+        }
+
         private void checkedListBox_Change(object sender, EventArgs e)
         {
             RefreshDrawing();

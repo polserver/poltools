@@ -13,6 +13,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
 
@@ -71,10 +72,11 @@ namespace FiddlerControls
                     index = 0;
             }
 
+            Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
             for (int i = index; i < refMarker.listView1.Items.Count; i++)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
-                if (TileData.LandTable[(int)item.Tag].Name.Contains(name))
+                if (regex.IsMatch(TileData.LandTable[(int)item.Tag].Name))
                 {
                     if (refMarker.listView1.SelectedItems.Count == 1)
                         refMarker.listView1.SelectedItems[0].Selected = false;

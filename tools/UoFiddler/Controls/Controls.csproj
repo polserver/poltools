@@ -274,6 +274,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RadarColor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RadarColor.Designer.cs">
+      <DependentUpon>RadarColor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Skills.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -458,6 +464,9 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RadarColor.resx">
+      <DependentUpon>RadarColor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Skills.resx">
       <SubType>Designer</SubType>

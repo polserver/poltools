@@ -82,6 +82,8 @@ namespace UoFiddler
             this.controldress = new FiddlerControls.Dress();
             this.TileDatas = new System.Windows.Forms.TabPage();
             this.controlTileData = new FiddlerControls.TileDatas();
+            this.RadarCol = new System.Windows.Forms.TabPage();
+            this.controlRadarCol = new FiddlerControls.RadarColor();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripDropDownButton();
@@ -118,6 +120,7 @@ namespace UoFiddler
             this.multimap.SuspendLayout();
             this.Dress.SuspendLayout();
             this.TileDatas.SuspendLayout();
+            this.RadarCol.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,6 +146,7 @@ namespace UoFiddler
             this.tabControl2.Controls.Add(this.multimap);
             this.tabControl2.Controls.Add(this.Dress);
             this.tabControl2.Controls.Add(this.TileDatas);
+            this.tabControl2.Controls.Add(this.RadarCol);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 25);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
@@ -178,6 +182,7 @@ namespace UoFiddler
             this.Start.TabIndex = 10;
             this.Start.Tag = 0;
             this.Start.Text = "Start";
+            this.Start.UseVisualStyleBackColor = false;
             // 
             // Versionlabel
             // 
@@ -497,6 +502,7 @@ namespace UoFiddler
             // 
             // controlAnimdata
             // 
+            this.controlAnimdata.CurrAnim = 60;
             this.controlAnimdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlAnimdata.Location = new System.Drawing.Point(0, 0);
             this.controlAnimdata.Name = "controlAnimdata";
@@ -587,8 +593,28 @@ namespace UoFiddler
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
+            this.controlTileData.ShowNervingMsg = true;
             this.controlTileData.Size = new System.Drawing.Size(619, 324);
             this.controlTileData.TabIndex = 0;
+            // 
+            // RadarCol
+            // 
+            this.RadarCol.Controls.Add(this.controlRadarCol);
+            this.RadarCol.Location = new System.Drawing.Point(4, 22);
+            this.RadarCol.Name = "RadarCol";
+            this.RadarCol.Size = new System.Drawing.Size(619, 324);
+            this.RadarCol.TabIndex = 19;
+            this.RadarCol.Tag = 19;
+            this.RadarCol.Text = "RadarColor";
+            this.RadarCol.UseVisualStyleBackColor = true;
+            // 
+            // controlRadarCol
+            // 
+            this.controlRadarCol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.controlRadarCol.Location = new System.Drawing.Point(0, 0);
+            this.controlRadarCol.Name = "controlRadarCol";
+            this.controlRadarCol.Size = new System.Drawing.Size(619, 324);
+            this.controlRadarCol.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -752,6 +778,7 @@ namespace UoFiddler
             this.multimap.ResumeLayout(false);
             this.Dress.ResumeLayout(false);
             this.TileDatas.ResumeLayout(false);
+            this.RadarCol.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -817,6 +844,8 @@ namespace UoFiddler
         private System.Windows.Forms.TabPage AnimData;
         private FiddlerControls.AnimData controlAnimdata;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.TabPage RadarCol;
+        private FiddlerControls.RadarColor controlRadarCol;
     }
 }
 

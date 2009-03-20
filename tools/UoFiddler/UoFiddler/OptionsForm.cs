@@ -23,7 +23,8 @@ namespace UoFiddler
 
             checkBoxAltDesign.Checked = FiddlerControls.Options.DesignAlternative;
             checkBoxCacheData.Checked = Files.CacheData;
-            checkBoxNewMapSize.Checked = (Ultima.Map.Felucca.Width == 7168);
+            checkBoxNewMapSize.Checked = (Map.Felucca.Width == 7168);
+            checkBoxuseDiff.Checked = Map.UseDiff;
             numericUpDownItemSizeWidth.Value = FiddlerControls.Options.ArtItemSizeWidth;
             numericUpDownItemSizeHeight.Value = FiddlerControls.Options.ArtItemSizeHeight;
             checkBoxItemClip.Checked = FiddlerControls.Options.ArtItemClip;
@@ -50,18 +51,23 @@ namespace UoFiddler
                 }
             }
             Files.CacheData = checkBoxCacheData.Checked;
-            if (checkBoxNewMapSize.Checked != (Ultima.Map.Felucca.Width == 7168))
+            if (checkBoxNewMapSize.Checked != (Map.Felucca.Width == 7168))
             {
                 if (checkBoxNewMapSize.Checked)
                 {
-                    Ultima.Map.Felucca.Width = 7168;
-                    Ultima.Map.Trammel.Width = 7168;
+                    Map.Felucca.Width = 7168;
+                    Map.Trammel.Width = 7168;
                 }
                 else
                 {
-                    Ultima.Map.Felucca.Width = 6144;
-                    Ultima.Map.Trammel.Width = 6144;
+                    Map.Felucca.Width = 6144;
+                    Map.Trammel.Width = 6144;
                 }
+                UoFiddler.ChangeMapSize();
+            }
+            if (checkBoxuseDiff.Checked != Map.UseDiff)
+            {
+                Map.UseDiff = checkBoxuseDiff.Checked;
                 UoFiddler.ChangeMapSize();
             }
             if ((numericUpDownItemSizeWidth.Value != FiddlerControls.Options.ArtItemSizeWidth)
