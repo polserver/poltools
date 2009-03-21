@@ -42,8 +42,8 @@ function NearbyHostiles(mobile)
 	var skill := AP_GetSkill(mobile, HIDING);
 	// Ex: 100 -> 5, 60 -> 9, 23.7 -> 13
 	var range := 15 - CInt(skill/10);
-	
+
 	var hostiles := ListHostiles(mobile, range, LH_FLAG_LOS);
-	
+
 	return ( hostiles.Size() > 0 );
 endfunction
