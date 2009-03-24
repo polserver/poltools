@@ -559,7 +559,6 @@ namespace Ultima
         {
             Translate(ref body);
             int fileType = BodyConverter.Convert(ref body);
-
             FileIndex fileIndex;
             int index;
             GetFileIndex(body, action, direction, fileType, out fileIndex, out index);

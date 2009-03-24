@@ -118,7 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.6
+    <value>Version 3.6b
+-crash fix for "Find new Animations" and vista
+-Dress tab new button Export Report
+generates a html table overview (work in progress)
+
+Version 3.6
 -all textsearches are now Regexp (with preset ignorecase)
 -UnDress All added to Dress Tab  contextmenu
 -Added RadarColor tab(with editing)
