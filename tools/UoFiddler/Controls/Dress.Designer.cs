@@ -48,12 +48,14 @@ namespace FiddlerControls
             this.checkBoxElve = new System.Windows.Forms.CheckBox();
             this.checkBoxfemale = new System.Windows.Forms.CheckBox();
             this.buttonDress = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.pictureBoxDress = new System.Windows.Forms.PictureBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.checkedListBoxWear = new System.Windows.Forms.CheckedListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.unDressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.huToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.unDressAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBoxAnimate = new System.Windows.Forms.GroupBox();
@@ -72,7 +74,6 @@ namespace FiddlerControls
             this.extractAnimatedAnimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TextBox = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -149,6 +150,7 @@ namespace FiddlerControls
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.button1);
             this.splitContainer3.Panel1.Controls.Add(this.LayerSort);
             this.splitContainer3.Panel1.Controls.Add(this.checkBoxElve);
             this.splitContainer3.Panel1.Controls.Add(this.checkBoxfemale);
@@ -158,13 +160,13 @@ namespace FiddlerControls
             // 
             this.splitContainer3.Panel2.Controls.Add(this.pictureBoxDress);
             this.splitContainer3.Size = new System.Drawing.Size(106, 324);
-            this.splitContainer3.SplitterDistance = 111;
+            this.splitContainer3.SplitterDistance = 129;
             this.splitContainer3.TabIndex = 0;
             // 
             // LayerSort
             // 
             this.LayerSort.AutoSize = true;
-            this.LayerSort.Location = new System.Drawing.Point(15, 91);
+            this.LayerSort.Location = new System.Drawing.Point(15, 78);
             this.LayerSort.Name = "LayerSort";
             this.LayerSort.Size = new System.Drawing.Size(74, 17);
             this.LayerSort.TabIndex = 3;
@@ -175,7 +177,7 @@ namespace FiddlerControls
             // checkBoxElve
             // 
             this.checkBoxElve.AutoSize = true;
-            this.checkBoxElve.Location = new System.Drawing.Point(15, 71);
+            this.checkBoxElve.Location = new System.Drawing.Point(15, 55);
             this.checkBoxElve.Name = "checkBoxElve";
             this.checkBoxElve.Size = new System.Drawing.Size(38, 17);
             this.checkBoxElve.TabIndex = 2;
@@ -186,7 +188,7 @@ namespace FiddlerControls
             // checkBoxfemale
             // 
             this.checkBoxfemale.AutoSize = true;
-            this.checkBoxfemale.Location = new System.Drawing.Point(15, 47);
+            this.checkBoxfemale.Location = new System.Drawing.Point(15, 32);
             this.checkBoxfemale.Name = "checkBoxfemale";
             this.checkBoxfemale.Size = new System.Drawing.Size(60, 17);
             this.checkBoxfemale.TabIndex = 1;
@@ -196,7 +198,7 @@ namespace FiddlerControls
             // 
             // buttonDress
             // 
-            this.buttonDress.Location = new System.Drawing.Point(15, 17);
+            this.buttonDress.Location = new System.Drawing.Point(15, 3);
             this.buttonDress.Name = "buttonDress";
             this.buttonDress.Size = new System.Drawing.Size(75, 23);
             this.buttonDress.TabIndex = 0;
@@ -204,13 +206,24 @@ namespace FiddlerControls
             this.buttonDress.UseVisualStyleBackColor = true;
             this.buttonDress.Click += new System.EventHandler(this.OnClick_Dress);
             // 
+            // button1
+            // 
+            this.button1.AutoSize = true;
+            this.button1.Location = new System.Drawing.Point(15, 101);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Export Report";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnClickBuildAnimationList);
+            // 
             // pictureBoxDress
             // 
             this.pictureBoxDress.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBoxDress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDress.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDress.Name = "pictureBoxDress";
-            this.pictureBoxDress.Size = new System.Drawing.Size(106, 209);
+            this.pictureBoxDress.Size = new System.Drawing.Size(106, 191);
             this.pictureBoxDress.TabIndex = 0;
             this.pictureBoxDress.TabStop = false;
             this.pictureBoxDress.SizeChanged += new System.EventHandler(this.OnResizepictureDress);
@@ -251,26 +264,31 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.unDressAllToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(140, 76);
             // 
             // unDressToolStripMenuItem
             // 
             this.unDressToolStripMenuItem.Name = "unDressToolStripMenuItem";
-            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.unDressToolStripMenuItem.Text = "UnDress";
             this.unDressToolStripMenuItem.Click += new System.EventHandler(this.OnClick_UnDress);
             // 
             // huToolStripMenuItem
             // 
             this.huToolStripMenuItem.Name = "huToolStripMenuItem";
-            this.huToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.huToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.huToolStripMenuItem.Text = "Hue";
             this.huToolStripMenuItem.Click += new System.EventHandler(this.onClickHue);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
             // 
             // unDressAllToolStripMenuItem
             // 
             this.unDressAllToolStripMenuItem.Name = "unDressAllToolStripMenuItem";
-            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.unDressAllToolStripMenuItem.Text = "UnDress All";
             this.unDressAllToolStripMenuItem.Click += new System.EventHandler(this.OnClickUndressAll);
             // 
@@ -433,11 +451,6 @@ namespace FiddlerControls
             this.TextBox.TabIndex = 0;
             this.TextBox.Text = "";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
-            // 
             // Dress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,5 +521,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem unDressAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Button button1;
     }
 }

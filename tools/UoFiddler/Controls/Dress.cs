@@ -18,6 +18,7 @@ using System.IO;
 using System.Windows.Forms;
 using Ntx.GD;
 using Ultima;
+using System.Text.RegularExpressions;
 
 namespace FiddlerControls
 {
@@ -931,6 +932,256 @@ namespace FiddlerControls
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
+
+        private void OnClickBuildAnimationList(object sender, EventArgs e)
+        {
+            AnimEntry[] animentries = new AnimEntry[1000];
+            for (int i = 0; i < animentries.Length; i++)
+            {
+                animentries[i] = new AnimEntry();
+                animentries[i].Animation = i;
+                animentries[i].FirstGump = i + 50000;
+                animentries[i].FirstGumpFemale = i + 60000;
+                if (EquipTable.Human_male.Contains(i))
+                    animentries[i].EquipTable[400] = (EquipTableEntry)EquipTable.Human_male[i];
+                if (EquipTable.Human_female.Contains(i))
+                    animentries[i].EquipTable[401] = (EquipTableEntry)EquipTable.Human_female[i];
+                if (EquipTable.Elven_male.Contains(i))
+                    animentries[i].EquipTable[605] = (EquipTableEntry)EquipTable.Elven_male[i];
+                if (EquipTable.Elven_female.Contains(i))
+                    animentries[i].EquipTable[606] = (EquipTableEntry)EquipTable.Elven_female[i];
+                IDictionaryEnumerator _itr;
+                if (EquipTable.Misc.Contains(i))
+                {
+                    _itr = ((Hashtable)EquipTable.Misc[i]).GetEnumerator();
+                    while (_itr.MoveNext())
+                    {
+                        animentries[i].EquipTable[_itr.Key] = (EquipTableEntry)_itr.Value;
+                    }
+                }
+                _itr = animentries[i].EquipTable.GetEnumerator();
+                if (animentries[i].EquipTable.Count==0)
+                {
+                    if (GumpTable.Entries.Contains(animentries[i].FirstGump))
+                    {
+                        animentries[i].GumpDef[0] = (GumpTableEntry)GumpTable.Entries[animentries[i].FirstGump];
+                    }
+                }
+                else
+                {
+                    while (_itr.MoveNext())
+                    {
+                        int newgump = ((EquipTableEntry)_itr.Value).NewID;
+                        if (GumpTable.Entries.Contains(newgump))
+                        {
+                            animentries[i].GumpDef[_itr.Key] = (GumpTableEntry)GumpTable.Entries[newgump];
+                        }
+                    }
+                }
+                _itr.Reset();
+                if (animentries[i].EquipTable.Count == 0)
+                {
+                    int tmp = new int();
+                    tmp = i;
+                    animentries[i].TranslateAnim[0] = new TranslateAnimEntry();
+                    ((TranslateAnimEntry)animentries[i].TranslateAnim[0]).bodydef = BodyTable.m_Entries.ContainsKey(tmp);
+                    Animations.Translate(ref tmp);
+                    ((TranslateAnimEntry)animentries[i].TranslateAnim[0]).fileindex = BodyConverter.Convert(ref tmp);
+                    ((TranslateAnimEntry)animentries[i].TranslateAnim[0]).bodyandconf = tmp;
+                }
+                else
+                {
+                    while (_itr.MoveNext())
+                    {
+                        int tmp = new int();
+                        tmp = ((EquipTableEntry)_itr.Value).NewAnim;
+                        animentries[i].TranslateAnim[_itr.Key] = new TranslateAnimEntry();
+                        ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodydef=BodyTable.m_Entries.ContainsKey(tmp);
+                        Animations.Translate(ref tmp);
+                        ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).fileindex = BodyConverter.Convert(ref tmp);
+                        ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodyandconf = tmp;
+                        
+                    }
+                }
+            }
+
+            string FileName=Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,"animationlist.html");
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.Write), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine("<html> <body> <table border='1' rules='all' cellpadding='2'>");
+                Tex.WriteLine("<tr>");
+                Tex.WriteLine("<td>Anim</td>");
+                Tex.WriteLine("<td>Gump male/female</td>");
+                Tex.WriteLine("<td>equipconv<br/>model:anim,gump,hue</td>");
+                Tex.WriteLine("<td>gump.def<br/>gump,hue</td>");
+                Tex.WriteLine("<td>body.def/bodyconv<br/>[model:]fileindex,anim</td>");
+                Tex.WriteLine("<td>tiledata def</td>");
+                Tex.WriteLine("</tr>");
+                for (int i = 1; i < animentries.Length; i++)
+                {
+                    Tex.WriteLine("<tr>");
+                    Tex.Write("<td>");
+                    bool openfont = false;
+
+                        if (!Ultima.Animations.IsActionDefined(i, 0, 0))
+                        {
+                            Tex.Write("<font color=#FF0000>");
+                            openfont = true;
+                        }
+
+                    Tex.Write(i);
+                    if (openfont)
+                        Tex.Write("</font>");
+                    Tex.Write("</td>");
+                    if (i >= 400)
+                    {
+                        Tex.Write("<td>");
+                        openfont = false;
+                        if (!Ultima.Gumps.IsValidIndex(animentries[i].FirstGump))
+                        {
+                            Tex.Write("<font color=#FF0000>");
+                            openfont = true;
+                        }
+                        Tex.Write(animentries[i].FirstGump);
+                        if (openfont)
+                            Tex.Write("</font>");
+                        Tex.Write("/");
+                        openfont = false;
+                        if (!Ultima.Gumps.IsValidIndex(animentries[i].FirstGumpFemale))
+                        {
+                            Tex.Write("<font color=#FF0000>");
+                            openfont = true;
+                        }
+                        Tex.Write(animentries[i].FirstGumpFemale);
+                        if (openfont)
+                            Tex.Write("</font>");
+                        Tex.Write("</td>");
+                    }
+                    else
+                        Tex.Write("<td></td>");
+                    
+                    IDictionaryEnumerator _itr;
+                    _itr = animentries[i].EquipTable.GetEnumerator();
+                    Tex.Write("<td>");
+                    while (_itr.MoveNext())
+                    {
+                        if ((int)_itr.Key != 0)
+                            Tex.Write(_itr.Key + ":");
+                        openfont = false;
+                        if (i == 425)
+                        {
+                            int ii = 0;
+                            ii++;
+                        }
+                        if (animentries[i].TranslateAnim.ContainsKey(_itr.Key))
+                        {
+                            if (!Ultima.Animations.IsAnimDefinied(((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodyandconf, 0, 0,
+                                ((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).fileindex))
+                            {
+                                Tex.Write("<font color=#FF0000>");
+                                openfont = true;
+                            }
+
+                        }
+                        Tex.Write(((EquipTableEntry)_itr.Value).NewAnim);
+                        if (openfont)
+                            Tex.Write("</font>");
+                        Tex.Write(",");
+                        openfont = false;
+                        if (!Ultima.Gumps.IsValidIndex(animentries[i].FirstGumpFemale))
+                        {
+                            Tex.Write("<font color=#FF0000>");
+                            openfont = true;
+                        }
+                        Tex.Write(((EquipTableEntry)_itr.Value).NewID);
+                        if (openfont)
+                            Tex.Write("</font>");
+                        Tex.Write(",");
+                        Tex.Write(((EquipTableEntry)_itr.Value).NewHue);
+                        Tex.Write("<br/>");
+                    }
+                    Tex.Write("</td>");
+                    _itr = animentries[i].GumpDef.GetEnumerator();
+                    Tex.Write("<td>");
+                    while(_itr.MoveNext())
+                    {
+                        if ((int)_itr.Key!=0)
+                            Tex.Write(_itr.Key+":");
+                        openfont = false;
+                        if (!Ultima.Gumps.IsValidIndex(((GumpTableEntry)_itr.Value).NewID))
+                        {
+                            Tex.Write("<font color=#FF0000>");
+                            openfont = true;
+                        }
+                        Tex.Write(((GumpTableEntry)_itr.Value).NewID);
+                        if (openfont)
+                            Tex.Write("</font>");
+                        Tex.Write("," + ((GumpTableEntry)_itr.Value).NewHue + "<br/>");
+                    }
+                    Tex.Write("</td>");
+                    _itr = animentries[i].TranslateAnim.GetEnumerator();
+                    Tex.Write("<td>");
+                    while(_itr.MoveNext())
+                    {
+                        if ((((TranslateAnimEntry)_itr.Value).fileindex == 1) && (!((TranslateAnimEntry)_itr.Value).bodydef))
+                            continue;
+                        if ((int)_itr.Key!=0)
+                            Tex.Write(_itr.Key+":");
+                        Tex.Write(((TranslateAnimEntry)_itr.Value).fileindex
+                            + "," + ((TranslateAnimEntry)_itr.Value).bodyandconf + "<br/>");
+                    }
+                    Tex.Write("</td>");
+                    Tex.Write("<td>");
+                    if (i >= 400)
+                    {
+                        for (int j = 0; j < Ultima.TileData.ItemTable.Length; j++)
+                        {
+                            if (Ultima.TileData.ItemTable[j].Animation == i)
+                                Tex.Write(String.Format("0x{0:X4} {1}<br/>", j, Ultima.TileData.ItemTable[j].Name));
+                        }
+                    }
+                    Tex.Write("</td>");
+                    Tex.WriteLine("</tr>");
+
+                }
+                Tex.WriteLine("</table> </body> </html>");
+            }
+
+            MessageBox.Show(
+                String.Format("Report saved to '{0}'", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+    }
+
+    public class TranslateAnimEntry
+    {
+        public int fileindex { get; set; }
+        public int bodyandconf { get; set; }
+        public bool bodydef { get; set; }
+        public TranslateAnimEntry()
+        {
+        }
+    }
+
+    public class AnimEntry
+    {
+        public struct EquipTableDef { public int gump; public int anim;}
+        public int Animation { get; set; }
+        public int FirstGump { get; set; } //+50000
+        public int FirstGumpFemale { get; set; }//+60000
+        public Hashtable EquipTable { get; set; } //equipconv.def with model
+        public Hashtable GumpDef { get; set; } //gump.def if gump invalid (only for paperdoll)
+        public Hashtable TranslateAnim { get; set; }//body.def or bodyconv.def
+
+        public AnimEntry()
+        {
+            EquipTable = new Hashtable();
+            GumpDef = new Hashtable();
+            TranslateAnim = new Hashtable();
+        }
     }
 
     public class ObjtypeSorter : IComparer
@@ -1034,11 +1285,13 @@ namespace FiddlerControls
         private static Hashtable m_human_female;
         private static Hashtable m_elven_male;
         private static Hashtable m_elven_female;
+        private static Hashtable m_misc;
 
         public static Hashtable Human_male { get { return m_human_male; } }
         public static Hashtable Human_female { get { return m_human_female; } }
         public static Hashtable Elven_male { get { return m_elven_male; } }
         public static Hashtable Elven_female { get { return m_elven_female; } }
+        public static Hashtable Misc { get { return m_misc; } }
 
         static EquipTable()
         {
@@ -1056,6 +1309,7 @@ namespace FiddlerControls
             m_human_female = new Hashtable();
             m_elven_male = new Hashtable();
             m_elven_female = new Hashtable();
+            m_misc = new Hashtable();
             using (StreamReader ip = new StreamReader(path))
             {
                 string line;
@@ -1069,7 +1323,7 @@ namespace FiddlerControls
 
                     try
                     {
-                        string[] split = line.Split('\t');
+                        string[] split=Regex.Split(line,@"\s+");
 
                         int bodytype = Convert.ToInt32(split[0]);
                         int animID = Convert.ToInt32(split[1]);
@@ -1090,6 +1344,12 @@ namespace FiddlerControls
                             m_elven_male[animID] = entry;
                         else if (bodytype == 606)
                             m_elven_female[animID] = entry;
+                        else
+                        {
+                            if (!m_misc.Contains(animID))
+                                m_misc[animID] = new Hashtable();
+                            ((Hashtable)m_misc[animID])[bodytype] = entry;
+                        }
                     }
                     catch
                     {

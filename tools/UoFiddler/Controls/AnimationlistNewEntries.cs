@@ -115,6 +115,7 @@ namespace FiddlerControls
             facingbar.Value = (facing + 3) & 7;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
+            treeView1.TreeViewNodeSorter = new AnimNewListGraphicSorter();
 
             MobTypes();
 
@@ -207,8 +208,6 @@ namespace FiddlerControls
                     }
                 }
             }
-            treeView1.TreeViewNodeSorter = new AnimNewListGraphicSorter();
-            treeView1.Sort();
             treeView1.EndUpdate();
         }
 
@@ -281,7 +280,7 @@ namespace FiddlerControls
             {
                 if (Animations.IsActionDefined(graphic, i, 0))
                 {
-                    node = new TreeNode(i.ToString() + " " + Form.GetAnimNames[type][i]);
+                    node = new TreeNode(String.Format("{0} {1}", i, Form.GetAnimNames[type][i]));
                     node.Tag = i;
                     parent.Nodes.Add(node);
                 }
