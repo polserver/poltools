@@ -182,6 +182,13 @@ namespace ComparePlugin
 
         private void OnChangeShowDiff(object sender, EventArgs e)
         {
+            if (m_Compare.Count < 1)
+            {
+                if (checkBox1.Checked)
+                    MessageBox.Show("Second Land file is not loaded!");
+                return;
+            }
+
             listBoxOrg.BeginUpdate();
             listBoxSec.BeginUpdate();
             if (checkBox1.Checked)
