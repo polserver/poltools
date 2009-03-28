@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.IO;
 
 namespace Ultima
@@ -112,15 +110,18 @@ namespace Ultima
             }
             Entry5D[] patches = Verdata.Patches;
 
-            for (int i = 0; i < patches.Length; ++i)
+            if (file > -1)
             {
-                Entry5D patch = patches[i];
-
-                if (patch.file == file && patch.index >= 0 && patch.index < length)
+                for (int i = 0; i < patches.Length; ++i)
                 {
-                    Index[patch.index].lookup = patch.lookup;
-                    Index[patch.index].length = patch.length | (1 << 31);
-                    Index[patch.index].extra = patch.extra;
+                    Entry5D patch = patches[i];
+
+                    if (patch.file == file && patch.index >= 0 && patch.index < length)
+                    {
+                        Index[patch.index].lookup = patch.lookup;
+                        Index[patch.index].length = patch.length | (1 << 31);
+                        Index[patch.index].extra = patch.extra;
+                    }
                 }
             }
         }
