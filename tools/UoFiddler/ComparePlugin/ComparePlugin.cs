@@ -13,7 +13,7 @@ namespace FiddlerPlugin
         string myName = "ComparePlugin";
         string myDescription = "Compares 2 art files (Adds 2 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.0.0";
+        string myVersion = "1.0.1";
         IPluginHost myHost = null;
 
         /// <summary>

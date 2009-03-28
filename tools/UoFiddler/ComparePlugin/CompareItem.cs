@@ -16,6 +16,7 @@ namespace ComparePlugin
             InitializeComponent();
         }
         Hashtable m_Compare = new Hashtable();
+        SHA256Managed shaM = new SHA256Managed();
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -147,32 +148,22 @@ namespace ComparePlugin
         {
             if (m_Compare.Contains(index))
                 return (bool)m_Compare[index];
-            Bitmap org = Art.GetStatic(index);
-            Bitmap sec = SecondArt.GetStatic(index);
+            byte[] org = Art.GetRawStatic(index);
+            byte[] sec = SecondArt.GetRawStatic(index);
             if ((org == null) && (sec == null))
             {
                 m_Compare[index] = true;
                 return true;
             }
             if (((org == null) || (sec == null))
-                || ((org.Height != sec.Height))
-                || ((org.Width != sec.Width)))
+                || (org.Length != sec.Length))
             {
                 m_Compare[index] = false;
                 return false;
             }
 
-            System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
-            byte[] btImage1 = new byte[1];
-            btImage1 = (byte[])ic.ConvertTo(org, btImage1.GetType());
-            byte[] btImage2 = new byte[1];
-            btImage2 = (byte[])ic.ConvertTo(sec, btImage2.GetType());
-
-            SHA256Managed shaM = new SHA256Managed();
-            byte[] hash1 = shaM.ComputeHash(btImage1);
-            byte[] hash2 = shaM.ComputeHash(btImage2);
-            string hash1string = BitConverter.ToString(hash1).ToLower();
-            string hash2string = BitConverter.ToString(hash2).ToLower();
+            string hash1string = BitConverter.ToString(shaM.ComputeHash(org)).ToLower();
+            string hash2string = BitConverter.ToString(shaM.ComputeHash(sec)).ToLower();
             bool res = true;
             if (hash1string != hash2string)
                 res = false;

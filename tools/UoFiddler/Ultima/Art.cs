@@ -173,6 +173,20 @@ namespace Ultima
                 return LoadLand(stream);
         }
 
+        public static byte[] GetRawLand(int index)
+        {
+            index &= 0x3FFF;
+
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+            if (stream == null)
+                return null;
+            byte[] buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
+        }
+
         /// <summary>
         /// Returns Bitmap of Static (with Cache)
         /// </summary>
@@ -214,6 +228,21 @@ namespace Ultima
                 return m_Cache[index] = LoadStatic(stream);
             else
                 return LoadStatic(stream);
+        }
+
+        public static byte[] GetRawStatic(int index)
+        {
+            index += 0x4000;
+            index &= 0xFFFF;
+
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra,out patched);
+            if (stream == null)
+                return null;
+            byte[] buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
         }
 
         public unsafe static void Measure(Bitmap bmp, out int xMin, out int yMin, out int xMax, out int yMax)

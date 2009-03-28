@@ -13,8 +13,8 @@ namespace ComparePlugin
 
         public static void SetFileIndex(string idxPath, string mulPath)
         {
-            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0x10000);
-            m_Cache = new Bitmap[0x10000];
+            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0xC000);
+            m_Cache = new Bitmap[0xC000];
         }
         public static bool IsValidStatic(int index)
         {
@@ -58,6 +58,20 @@ namespace ComparePlugin
                 return m_Cache[index] = LoadStatic(stream);
             else
                 return LoadStatic(stream);
+        }
+
+        public static byte[] GetRawStatic(int index)
+        {
+            index += 0x4000;
+            index &= 0xFFFF;
+
+            int length, extra;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra);
+            if (stream == null)
+                return null;
+            byte[] buffer=new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
         }
 
         private static unsafe Bitmap LoadStatic(Stream stream)
@@ -140,6 +154,19 @@ namespace ComparePlugin
                 return LoadLand(stream);
         }
 
+        public static byte[] GetRawLand(int index)
+        {
+            index &= 0x3FFF;
+
+            int length, extra;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra);
+            if (stream == null)
+                return null;
+            byte[] buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
+        }
+
         private static unsafe Bitmap LoadLand(Stream stream)
         {
             Bitmap bmp = new Bitmap(44, 44, PixelFormat.Format16bppArgb1555);
@@ -180,45 +207,45 @@ namespace ComparePlugin
     }
 
     public sealed class SecondFileIndex
-	{
+    {
         private Entry3D[] m_Index;
         private Stream m_Stream;
 
         public Entry3D[] Index { get { return m_Index; } }
         public Stream Stream { get { return m_Stream; } }
-        
-		public Stream Seek( int index, out int length, out int extra )
-		{
-			if ( index < 0 || index >= m_Index.Length )
-			{
-				length = extra = 0;
-				return null;
-			}
 
-			Entry3D e = m_Index[index];
+        public Stream Seek(int index, out int length, out int extra)
+        {
+            if (index < 0 || index >= m_Index.Length)
+            {
+                length = extra = 0;
+                return null;
+            }
 
-			if ( e.lookup < 0 )
-			{
-				length = extra = 0;
-				return null;
-			}
+            Entry3D e = m_Index[index];
 
-			length = e.length & 0x7FFFFFFF;
-			extra = e.extra;
+            if (e.lookup < 0)
+            {
+                length = extra = 0;
+                return null;
+            }
 
-			if ( m_Stream == null )
-			{
-				length = extra = 0;
-				return null;
-			}
+            length = e.length & 0x7FFFFFFF;
+            extra = e.extra;
 
-			m_Stream.Seek( e.lookup, SeekOrigin.Begin );
-			return m_Stream;
-		}
+            if (m_Stream == null)
+            {
+                length = extra = 0;
+                return null;
+            }
 
-		public SecondFileIndex( string idxFile, string mulFile, int length )
-		{
-			m_Index = new Entry3D[length];
+            m_Stream.Seek(e.lookup, SeekOrigin.Begin);
+            return m_Stream;
+        }
+
+        public SecondFileIndex(string idxFile, string mulFile, int length)
+        {
+            m_Index = new Entry3D[length];
 
             if (!File.Exists(idxFile))
                 idxFile = null;
@@ -254,13 +281,13 @@ namespace ComparePlugin
                 m_Stream = null;
                 return;
             }
-		}
-	}
+        }
+    }
 
-	public struct Entry3D
-	{
-		public int lookup;
-		public int length;
-		public int extra;
-	}
+    public struct Entry3D
+    {
+        public int lookup;
+        public int length;
+        public int extra;
+    }
 }
