@@ -1,19 +1,26 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Xml;
-using PluginInterface;
-using Ultima;
+﻿using System.Windows.Forms;
 using ComparePlugin;
+/***************************************************************************
+ *
+ * $Author: Turley
+ * 
+ * "THE BEER-WARE LICENSE"
+ * As long as you retain this notice you can do whatever you want with 
+ * this stuff. If we meet some day, and you think this stuff is worth it,
+ * you can buy me a beer in return.
+ *
+ ***************************************************************************/
+
+using PluginInterface;
 
 namespace FiddlerPlugin
 {
     public class ComparePlugin : IPlugin
     {
         string myName = "ComparePlugin";
-        string myDescription = "Compares 2 art files (Adds 2 new Tabs)";
+        string myDescription = "\r\nCompares 2 art files\r\nCompares 2 CliLocs\r\n(Adds 3 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.0.1";
+        string myVersion = "1.1.0";
         IPluginHost myHost = null;
 
         /// <summary>
@@ -62,6 +69,7 @@ namespace FiddlerPlugin
             compArt.Dock = System.Windows.Forms.DockStyle.Fill;
             page.Controls.Add(compArt);
             tabcontrol.TabPages.Add(page);
+
             TabPage page2 = new TabPage();
             page2.Tag = tabcontrol.TabCount + 1;
             page2.Text = "Compare Land";
@@ -69,6 +77,14 @@ namespace FiddlerPlugin
             compLand.Dock = System.Windows.Forms.DockStyle.Fill;
             page2.Controls.Add(compLand);
             tabcontrol.TabPages.Add(page2);
+
+            TabPage page3 = new TabPage();
+            page3.Tag = tabcontrol.TabCount + 1;
+            page3.Text = "Compare CliLocs";
+            CompareCliLoc compCli = new CompareCliLoc();
+            compCli.Dock = System.Windows.Forms.DockStyle.Fill;
+            page3.Controls.Add(compCli);
+            tabcontrol.TabPages.Add(page3);
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)

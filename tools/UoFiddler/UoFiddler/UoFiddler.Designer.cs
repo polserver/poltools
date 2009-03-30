@@ -182,7 +182,6 @@ namespace UoFiddler
             this.Start.TabIndex = 10;
             this.Start.Tag = 0;
             this.Start.Text = "Start";
-            this.Start.UseVisualStyleBackColor = false;
             // 
             // Versionlabel
             // 
@@ -610,6 +609,7 @@ namespace UoFiddler
             // 
             // controlRadarCol
             // 
+            this.controlRadarCol.Cursor = System.Windows.Forms.Cursors.Default;
             this.controlRadarCol.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlRadarCol.Location = new System.Drawing.Point(0, 0);
             this.controlRadarCol.Name = "controlRadarCol";

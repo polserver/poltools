@@ -57,6 +57,8 @@ namespace FiddlerControls
             this.FindButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.exportToCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -86,9 +88,11 @@ namespace FiddlerControls
             this.copyCliLocTextToolStripMenuItem,
             this.toolStripSeparator3,
             this.addEntryToolStripMenuItem,
-            this.deleteEntryToolStripMenuItem});
+            this.deleteEntryToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.exportToCsvToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 148);
             // 
             // copyCliLocNumberToolStripMenuItem
             // 
@@ -207,6 +211,18 @@ namespace FiddlerControls
             this.toolStripButton1.Text = "Save";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickSave);
             // 
+            // exportToCsvToolStripMenuItem
+            // 
+            this.exportToCsvToolStripMenuItem.Name = "exportToCsvToolStripMenuItem";
+            this.exportToCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToCsvToolStripMenuItem.Text = "Export to csv";
+            this.exportToCsvToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportCSV);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            // 
             // Cliloc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,5 +260,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem copyCliLocNumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyCliLocTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem exportToCsvToolStripMenuItem;
     }
 }
