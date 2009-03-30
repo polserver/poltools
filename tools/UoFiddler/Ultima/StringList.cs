@@ -22,9 +22,21 @@ namespace Ultima
         public StringList(string language)
         {
             Language = language;
+            LoadEntry(Files.GetFilePath(String.Format("cliloc.{0}", language)));
+        }
+        /// <summary>
+        /// Initialize <see cref="StringList"/> of Language from path
+        /// </summary>
+        /// <param name="language"></param>
+        /// <param name="path"></param>
+        public StringList(string language,string path)
+        {
+            Language = language;
+            LoadEntry(path);      
+        }
 
-            string path = Files.GetFilePath(String.Format("cliloc.{0}", language));
-
+        private void LoadEntry(string path)
+        {
             if (path == null)
             {
                 Entries = new ArrayList(0);

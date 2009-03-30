@@ -44,11 +44,11 @@ namespace FiddlerControls
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeViewItems = new System.Windows.Forms.TreeView();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
             this.LayerSort = new System.Windows.Forms.CheckBox();
             this.checkBoxElve = new System.Windows.Forms.CheckBox();
             this.checkBoxfemale = new System.Windows.Forms.CheckBox();
             this.buttonDress = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.pictureBoxDress = new System.Windows.Forms.PictureBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.checkedListBoxWear = new System.Windows.Forms.CheckedListBox();
@@ -163,6 +163,17 @@ namespace FiddlerControls
             this.splitContainer3.SplitterDistance = 129;
             this.splitContainer3.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.AutoSize = true;
+            this.button1.Location = new System.Drawing.Point(15, 101);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Export Report";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnClickBuildAnimationList);
+            // 
             // LayerSort
             // 
             this.LayerSort.AutoSize = true;
@@ -205,17 +216,6 @@ namespace FiddlerControls
             this.buttonDress.Text = "Dress Item";
             this.buttonDress.UseVisualStyleBackColor = true;
             this.buttonDress.Click += new System.EventHandler(this.OnClick_Dress);
-            // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(15, 101);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Export Report";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickBuildAnimationList);
             // 
             // pictureBoxDress
             // 

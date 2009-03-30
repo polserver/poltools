@@ -344,5 +344,20 @@ namespace FiddlerControls
             //if (e.KeyData == Keys.Control) || (e.Ke Keys.Alt | Keys.Tab | Keys.a))
                 e.IsInputKey = true;
         }
+
+        private void OnClickExportCSV(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "CliLoc.csv");
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
+            {
+                Tex.WriteLine("Number;Text;Flag");
+                foreach (StringEntry entry in cliloc.Entries)
+                {
+                    Tex.WriteLine(String.Format("{0};{1};{2}", entry.Number,entry.Text,entry.Flag));
+                }
+            }
+            MessageBox.Show(String.Format("CliLoc saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
     }
 }

@@ -75,6 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompareCliLoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CompareCliLoc.Designer.cs">
+      <DependentUpon>CompareCliLoc.cs</DependentUpon>
+    </Compile>
     <Compile Include="CompareItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -102,6 +108,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CompareCliLoc.resx">
+      <DependentUpon>CompareCliLoc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CompareItem.resx">
       <DependentUpon>CompareItem.cs</DependentUpon>
     </EmbeddedResource>
