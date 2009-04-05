@@ -1,4 +1,4 @@
 System
 {
-	CoreVersion	97
+	CoreVersion	98
 }
