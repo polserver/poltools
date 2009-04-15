@@ -118,7 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.6c
+    <value>Version 3.7
+Map tab:
+-Redesigned a bit (moved Contextmenu options to (collapsible)menu bar)
+-Added Marker feature you can now Add Markers to map (written in extra xml file)
+-Marker list is accessible through right sided collapsible bar
+-Through contextmenu inside the Marker list you can remove/goto/switch visibility marker
+-Option to rewrite static file (defrags it and removes illegal graphics)
+Dress tab:
+-Added new contextmenu entry to directly define hue color
+
+Version 3.6c
 -added Contextmenuentry "Export to csv" in Cliloctab
 -ComparePlugin can now compare 2 clilocs (new Tab)
 

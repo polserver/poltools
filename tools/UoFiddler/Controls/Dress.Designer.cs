@@ -55,6 +55,8 @@ namespace FiddlerControls
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.unDressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.huToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.unDressAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
@@ -261,34 +263,49 @@ namespace FiddlerControls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unDressToolStripMenuItem,
             this.huToolStripMenuItem,
+            this.hueToolStripMenuItem,
             this.toolStripSeparator1,
             this.unDressAllToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(140, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 120);
             // 
             // unDressToolStripMenuItem
             // 
             this.unDressToolStripMenuItem.Name = "unDressToolStripMenuItem";
-            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.unDressToolStripMenuItem.Text = "UnDress";
             this.unDressToolStripMenuItem.Click += new System.EventHandler(this.OnClick_UnDress);
             // 
             // huToolStripMenuItem
             // 
             this.huToolStripMenuItem.Name = "huToolStripMenuItem";
-            this.huToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.huToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.huToolStripMenuItem.Text = "Hue";
             this.huToolStripMenuItem.Click += new System.EventHandler(this.onClickHue);
+            // 
+            // hueToolStripMenuItem
+            // 
+            this.hueToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox1});
+            this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hueToolStripMenuItem.Text = "Hue..";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 21);
+            this.toolStripTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownHue);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // unDressAllToolStripMenuItem
             // 
             this.unDressAllToolStripMenuItem.Name = "unDressAllToolStripMenuItem";
-            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.unDressAllToolStripMenuItem.Text = "UnDress All";
             this.unDressAllToolStripMenuItem.Click += new System.EventHandler(this.OnClickUndressAll);
             // 
@@ -522,5 +539,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem unDressAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem hueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }

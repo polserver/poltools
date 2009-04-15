@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -338,6 +339,112 @@ namespace Ultima
             }
 
             bmp.UnlockBits(bd);
+        }
+
+        public static void DefragStatics(string path, int map, int width, int height)
+        {
+            string indexPath = Files.GetFilePath("staidx{0}.mul", map);
+            FileStream m_Index;
+            BinaryReader m_IndexReader;
+            if (indexPath != null)
+            {
+                m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                m_IndexReader = new BinaryReader(m_Index);
+            }
+            else
+                return;
+
+            string staticsPath = Files.GetFilePath("statics{0}.mul", map);
+
+            FileStream m_Statics;
+            BinaryReader m_StaticsReader;
+            if (staticsPath != null)
+            {
+                m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                m_StaticsReader = new BinaryReader(m_Statics);
+            }
+            else
+                return;
+
+
+            int blockx = width >> 3;
+            int blocky = height >> 3;
+
+            string idx = Path.Combine(path, String.Format("staidx{0}.mul", map));
+            string mul = Path.Combine(path, String.Format("statics{0}.mul", map));
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                using (BinaryWriter binidx = new BinaryWriter(fsidx))
+                {
+                    using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                    {
+                        using (BinaryWriter binmul = new BinaryWriter(fsmul))
+                        {
+                            for (int x = 0; x < blockx; x++)
+                            {
+                                for (int y = 0; y < blocky; y++)
+                                {
+                                    m_IndexReader.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
+                                    int lookup = m_IndexReader.ReadInt32();
+                                    int length = m_IndexReader.ReadInt32();
+                                    int extra = m_IndexReader.ReadInt32();
+
+                                    if (lookup < 0 || length <= 0)
+                                    {
+                                        binidx.Write((int)-1); // lookup
+                                        binidx.Write((int)-1); // length
+                                        binidx.Write((int)-1); // extra
+                                    }
+                                    else
+                                    {
+                                        m_Statics.Seek(lookup, SeekOrigin.Begin);
+
+                                        int fsmullength = (int)fsmul.Position;
+                                        int count = length / 7;
+                                        bool firstitem = true;
+                                        for (int i = 0; i < count; i++)
+                                        {
+                                            short graphic = m_StaticsReader.ReadInt16();
+                                            byte sx = m_StaticsReader.ReadByte();
+                                            byte sy = m_StaticsReader.ReadByte();
+                                            sbyte sz = m_StaticsReader.ReadSByte();
+                                            short shue = m_StaticsReader.ReadInt16();
+                                            if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+                                            {
+                                                if (firstitem)
+                                                {
+                                                    binidx.Write((int)fsmul.Position); //lookup
+                                                    firstitem = false;
+                                                }
+                                                binmul.Write(graphic);
+                                                binmul.Write(sx);
+                                                binmul.Write(sy);
+                                                binmul.Write(sz);
+                                                binmul.Write(shue);
+                                            }
+                                        }
+
+                                        fsmullength = (int)fsmul.Position - fsmullength;
+                                        if (fsmullength > 0)
+                                        {
+                                            binidx.Write(fsmullength); //length
+                                            binidx.Write(extra); //extra
+                                        }
+                                        else
+                                        {
+                                            binidx.Write((int)-1); //lookup
+                                            binidx.Write((int)-1); //length
+                                            binidx.Write((int)-1); //extra
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            m_IndexReader.Close();
+            m_StaticsReader.Close();
         }
     }
 }

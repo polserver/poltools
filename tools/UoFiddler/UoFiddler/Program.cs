@@ -31,6 +31,7 @@ namespace UoFiddler
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new UoFiddler());
                 Options.Save();
+                FiddlerControls.Map.SaveMapOverlays();
             }
             catch (Exception err)
             {
