@@ -839,6 +839,20 @@ namespace FiddlerControls
             }
         }
 
+        private void OnKeyDownHue(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+            if (checkedListBoxWear.SelectedIndex == -1)
+                return;
+            int index;
+            if (Utils.ConvertStringToInt(toolStripTextBox1.Text, out index, 0, Ultima.Hues.List.Length))
+            {
+                hues[checkedListBoxWear.SelectedIndex] = index;
+                RefreshDrawing();
+            }
+        }
+
         private void OnClickExtractImageBmp(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;

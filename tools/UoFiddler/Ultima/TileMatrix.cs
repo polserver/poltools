@@ -310,14 +310,6 @@ namespace Ultima
             }
         }
 
-        public bool Ignored
-        {
-            get
-            {
-                return (m_ID == 2 || m_ID == 0x1DB || (m_ID >= 0x1AE && m_ID <= 0x1B5));
-            }
-        }
-
         public Tile(short id, sbyte z)
         {
             m_ID = id;

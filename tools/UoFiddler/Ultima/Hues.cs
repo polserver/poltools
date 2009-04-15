@@ -214,7 +214,6 @@ namespace Ultima
 
     public sealed class Hue
     {
-
         public int Index { get; private set; }
         public short[] Colors { get; set; }
         public string Name { get; set; }

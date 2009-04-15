@@ -16,6 +16,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using Ultima;
 
 namespace FiddlerControls
@@ -29,23 +30,29 @@ namespace FiddlerControls
             if (!Files.CacheData)
                 PreloadMap.Visible = false;
             ProgressBar.Visible = false;
+            refmarker = this;
+            panel1.Visible = false;
         }
 
+        public static Map refmarker;
         private Bitmap map;
         private Ultima.Map currmap;
         private int currmapint = 0;
-        private bool ShowStatics = true;
         private bool SyncWithClient = false;
         private int ClientX = 0;
         private int ClientY = 0;
         private int ClientZ = 0;
         private int ClientMap = 0;
         private Point currPoint;
-        private double Zoom = 1;
+        public static double Zoom = 1;
         private bool moving = false;
         private Point movingpoint;
 
-        private bool Loaded = false;
+        public static int HScrollBar { get { return refmarker.hScrollBar.Value; } }
+        public static int VScrollBar { get { return refmarker.vScrollBar.Value; } }
+        public static Ultima.Map CurrMap { get { return refmarker.currmap; } }
+
+        private static bool Loaded = false;
 
         /// <summary>
         /// ReLoads if loaded
@@ -61,6 +68,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+            LoadMapOverlays();
             Options.LoadedUltimaClass["Map"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
             Loaded = true;
@@ -90,6 +98,16 @@ namespace FiddlerControls
             ilshenarToolStripMenuItem.Text = Options.MapNames[2];
             malasToolStripMenuItem.Text = Options.MapNames[3];
             tokunoToolStripMenuItem.Text = Options.MapNames[4];
+            if (OverlayObjectTree.Nodes.Count > 0)
+            {
+                OverlayObjectTree.Nodes[0].Text = Options.MapNames[0];
+                OverlayObjectTree.Nodes[1].Text = Options.MapNames[1];
+                OverlayObjectTree.Nodes[2].Text = Options.MapNames[2];
+                OverlayObjectTree.Nodes[3].Text = Options.MapNames[3];
+                OverlayObjectTree.Nodes[4].Text = Options.MapNames[4];
+                OverlayObjectTree.Refresh();
+            }
+
         }
 
         private void HandleScroll(object sender, ScrollEventArgs e)
@@ -97,7 +115,7 @@ namespace FiddlerControls
             pictureBox.Refresh();
         }
 
-        private static int Round(int x)
+        public static int Round(int x)
         {
             return (int)((x >> 3) << 3);
         }
@@ -158,12 +176,6 @@ namespace FiddlerControls
                 ChangeScrollBar();
                 pictureBox.Refresh();
             }
-        }
-
-        private void ClickShowStatics(object sender, EventArgs e)
-        {
-            ShowStatics = !ShowStatics;
-            pictureBox.Refresh();
         }
 
         private void ChangeMap()
@@ -369,11 +381,6 @@ namespace FiddlerControls
             new MapDetails(currmap, currPoint).Show();
         }
 
-        private void onClickShowXCross(object sender, EventArgs e)
-        {
-            pictureBox.Refresh();
-        }
-
         private void OnOpenContext(object sender, CancelEventArgs e)  // Speichern für GetMapInfo
         {
             currPoint = pictureBox.PointToClient(Control.MousePosition);
@@ -418,11 +425,11 @@ namespace FiddlerControls
         {
             map = currmap.GetImage(hScrollBar.Value >> 3, vScrollBar.Value >> 3,
                 (int)((e.ClipRectangle.Width / Zoom) + 8) >> 3, (int)((e.ClipRectangle.Height / Zoom) + 8) >> 3,
-                ShowStatics);
+                showStaticsToolStripMenuItem1.Checked);
             ZoomMap(ref map);
             e.Graphics.DrawImageUnscaledAndClipped(map, e.ClipRectangle);
 
-            if (showCenterCrossToolStripMenuItem.Checked)
+            if (showCenterCrossToolStripMenuItem1.Checked)
             {
                 Brush brush = new SolidBrush(Color.FromArgb(180, Color.White));
                 Pen pen = new Pen(brush);
@@ -453,6 +460,19 @@ namespace FiddlerControls
                         e.Graphics.DrawEllipse(pen, x - 2, y - 2, 2 * 2, 2 * 2);
                         pen.Dispose();
                         brush.Dispose();
+                    }
+                }
+            }
+
+            if (OverlayObjectTree.Nodes.Count > 0)
+            {
+                if (showMarkersToolStripMenuItem.Checked)
+                {
+                    foreach (TreeNode obj in OverlayObjectTree.Nodes[currmapint].Nodes)
+                    {
+                        OverlayObject o = (OverlayObject)obj.Tag;
+                        if (o.isVisible(e.ClipRectangle, currmapint))
+                            o.Draw(e.Graphics);
                     }
                 }
             }
@@ -520,7 +540,18 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string name = String.Format("{0}.bmp", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
-            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
+            if (showMarkersToolStripMenuItem.Checked)
+            {
+                Graphics g = Graphics.FromImage(extract);
+                foreach (TreeNode obj in OverlayObjectTree.Nodes[currmapint].Nodes)
+                {
+                    OverlayObject o = (OverlayObject)obj.Tag;
+                    if (o.Visible)
+                        o.Draw(g);
+                }
+                g.Save();
+            }
             extract.Save(FileName, ImageFormat.Bmp);
             this.Cursor = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
@@ -533,13 +564,111 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
-            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), ShowStatics);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
+            if (showMarkersToolStripMenuItem.Checked)
+            {
+                Graphics g = Graphics.FromImage(extract);
+                foreach (TreeNode obj in OverlayObjectTree.Nodes[currmapint].Nodes)
+                {
+                    OverlayObject o = (OverlayObject)obj.Tag;
+                    if (o.Visible)
+                        o.Draw(g);
+                }
+                g.Save();
+            }
             extract.Save(FileName, ImageFormat.Tiff);
             this.Cursor = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
+        private MapMarker mapmarker;
+        private void OnClickInsertMarker(object sender, EventArgs e)
+        {
+            if ((mapmarker == null) || (mapmarker.IsDisposed))
+            {
+                mapmarker = new MapMarker(currPoint.X, currPoint.Y,currmapint);
+                mapmarker.TopMost = true;
+                mapmarker.Show();
+            }
+        }
 
+        public static void AddOverlay(int x, int y, int map, Color c, string text)
+        {
+            OverlayCursor o = new OverlayCursor(new Point(x, y), map, text, c);
+            TreeNode node = new TreeNode(text);
+            node.Tag = o;
+            refmarker.OverlayObjectTree.Nodes[map].Nodes.Add(node);
+            refmarker.pictureBox.Refresh();
+        }
+
+        private void LoadMapOverlays()
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(Path.GetDirectoryName(path), "MapOverlays.xml");
+            OverlayObjectTree.BeginUpdate();
+            OverlayObjectTree.Nodes.Clear();
+            TreeNode node;
+            node = new TreeNode(Options.MapNames[0]);
+            node.Tag = 0;
+            OverlayObjectTree.Nodes.Add(node);
+            node = new TreeNode(Options.MapNames[1]);
+            node.Tag = 1;
+            OverlayObjectTree.Nodes.Add(node);
+            node = new TreeNode(Options.MapNames[2]);
+            node.Tag = 2;
+            OverlayObjectTree.Nodes.Add(node);
+            node = new TreeNode(Options.MapNames[3]);
+            node.Tag = 3;
+            OverlayObjectTree.Nodes.Add(node);
+            node = new TreeNode(Options.MapNames[4]);
+            node.Tag = 4;
+            OverlayObjectTree.Nodes.Add(node);
+            if (File.Exists(FileName))
+            {
+                XmlDocument dom = new XmlDocument();
+                dom.Load(FileName);
+                XmlElement xOptions = dom["Overlays"];
+                foreach (XmlElement xMarker in xOptions.SelectNodes("Marker"))
+                {
+                    int x = int.Parse(xMarker.GetAttribute("x"));
+                    int y = int.Parse(xMarker.GetAttribute("y"));
+                    int m = int.Parse(xMarker.GetAttribute("map"));
+                    int c = int.Parse(xMarker.GetAttribute("color"));
+                    string text = xMarker.GetAttribute("text");
+                    OverlayCursor o = new OverlayCursor(new Point(x, y), m, text, Color.FromArgb(c));
+                    node = new TreeNode(text);
+                    node.Tag = o;
+                    OverlayObjectTree.Nodes[m].Nodes.Add(node);
+                }
+            }
+            OverlayObjectTree.EndUpdate();
+        }
+
+        public static void SaveMapOverlays()
+        {
+            if (!Loaded)
+                return;
+            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            string FileName = Path.Combine(filepath, "MapOverlays.xml");
+
+            XmlDocument dom = new XmlDocument();
+            XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
+            dom.AppendChild(decl);
+            XmlElement sr = dom.CreateElement("Overlays");
+            for (int i = 0; i < 5; i++)
+            {
+                foreach (TreeNode obj in refmarker.OverlayObjectTree.Nodes[i].Nodes)
+                {
+                    OverlayObject o = (OverlayObject)obj.Tag;
+                    XmlElement elem = dom.CreateElement("Marker");
+                    o.Save(elem);
+                    sr.AppendChild(elem);
+                }
+            }
+            dom.AppendChild(sr);
+            dom.Save(FileName);
+        }
         #region PreLoader
         private void OnClickPreloadMap(object sender, EventArgs e)
         {
@@ -579,5 +708,180 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
+
+        private void OnClickEditMarkers(object sender, EventArgs e)
+        {
+            panel1.Visible = !panel1.Visible;
+            pictureBox.Refresh();
+        }
+
+        private void OnDoubleClickMarker(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            OnClickGotoMarker(this, null);
+        }
+
+        private void OnClickGotoMarker(object sender, EventArgs e)
+        {
+            if (OverlayObjectTree.SelectedNode == null)
+                return;
+            if (OverlayObjectTree.SelectedNode.Parent == null)
+                return;
+            OverlayObject o = (OverlayObject)OverlayObjectTree.SelectedNode.Tag;
+            if (currmapint != o.DefMap)
+            {
+                ResetCheckedMap();
+                switch (o.DefMap)
+                {
+                    case 0:
+                        feluccaToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Felucca;
+                        break;
+                    case 1:
+                        trammelToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Trammel;
+                        break;
+                    case 2:
+                        ilshenarToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Ilshenar;
+                        break;
+                    case 3:
+                        malasToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Malas;
+                        break;
+                    case 4:
+                        tokunoToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.Tokuno;
+                        break;
+                }
+                currmapint = o.DefMap;
+            }
+            SetScrollBarValues();
+            hScrollBar.Value = (int)Math.Max(0, o.Loc.X - pictureBox.Right / Zoom / 2);
+            vScrollBar.Value = (int)Math.Max(0, o.Loc.Y - pictureBox.Bottom / Zoom / 2);
+            pictureBox.Refresh();
+        }
+
+        private void OnClickRemoveMarker(object sender, EventArgs e)
+        {
+            if (OverlayObjectTree.SelectedNode == null)
+                return;
+            if (OverlayObjectTree.SelectedNode.Parent == null)
+                return;
+            OverlayObjectTree.SelectedNode.Remove();
+            pictureBox.Refresh();
+        }
+
+        private void OnClickSwitchVisible(object sender, EventArgs e)
+        {
+            if (OverlayObjectTree.SelectedNode == null)
+                return;
+            if (OverlayObjectTree.SelectedNode.Parent == null)
+                return;
+            OverlayObject o = (OverlayObject)OverlayObjectTree.SelectedNode.Tag;
+            o.Visible = !o.Visible;
+            if (!o.Visible)
+                OverlayObjectTree.SelectedNode.ForeColor = Color.Red;
+            else
+                OverlayObjectTree.SelectedNode.ForeColor = Color.Black;
+            OverlayObjectTree.Refresh();
+            pictureBox.Refresh();
+        }
+
+        private void OnChangeView(object sender, EventArgs e)
+        {
+            pictureBox.Refresh();
+        }
+
+        private void OnClickDefragStatics(object sender, EventArgs e)
+        {
+            Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                currmapint, currmap.Width, currmap.Height);
+            MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnResizeMap(object sender, EventArgs e)
+        {
+            if (Loaded)
+            {
+                ChangeScrollBar();
+                pictureBox.Refresh();
+            }
+        }
+    }
+
+    public class OverlayObject
+    {
+        public virtual bool isVisible(Rectangle bounds, int m) { return false; }
+        public virtual void Draw(Graphics g) { }
+        public virtual void Save(XmlElement elem) { }
+        public override string ToString() { return ""; }
+
+        public bool Visible { get; set; }
+        public Point Loc { get; set; }
+        public int DefMap { get; set; }
+    }
+
+    public class OverlayCursor : OverlayObject
+    {
+        private string text;
+        private Color col;
+        private Brush brush;
+        private Pen pen;
+        private static Brush background;
+        public OverlayCursor(Point location, int m,string t,Color c)
+        {
+            Loc = location;
+            DefMap = m;
+            text = t;
+            col = c;
+            Visible = true;
+            brush = new SolidBrush(col);
+            pen = new Pen(brush);
+            background = new SolidBrush(Color.FromArgb(100, Color.White));
+        }
+        public override bool isVisible(Rectangle bounds, int m)
+        {
+            if (!Visible)
+                return false;
+            if (DefMap != m)
+                return false;
+            if ((Loc.X > Map.HScrollBar) &&
+                (Loc.X < Map.HScrollBar + bounds.Width / Map.Zoom) &&
+                (Loc.Y > Map.VScrollBar) &&
+                (Loc.Y < Map.VScrollBar + bounds.Height / Map.Zoom))
+                return true;
+            return false;
+        }
+
+        public override void Draw(Graphics g)
+        {
+            int x = (int)((Loc.X - Map.Round(Map.HScrollBar)) * Map.Zoom);
+            int y = (int)((Loc.Y - Map.Round(Map.VScrollBar)) * Map.Zoom);
+            g.DrawLine(pen, x - 4, y, x + 4, y);
+            g.DrawLine(pen, x, y - 4, x, y + 4);
+            g.DrawEllipse(pen, x - 2, y - 2, 2 * 2, 2 * 2);
+            SizeF tSize = g.MeasureString(text,Fonts.DefaultFont);
+            int x_;
+            if ((Loc.X + tSize.Width) > Map.CurrMap.Width)
+                x_ = x - (int)tSize.Width - 6;
+            else
+                x_ = x + 6;
+            g.FillRectangle(background, x_, y - tSize.Height, tSize.Width, tSize.Height);
+            g.DrawString(text, Fonts.DefaultFont, Brushes.Black, x_, y - tSize.Height);
+        }
+
+        public override void Save(XmlElement elem)
+        {
+            elem.SetAttribute("x", Loc.X.ToString());
+            elem.SetAttribute("y", Loc.Y.ToString());
+            elem.SetAttribute("map", DefMap.ToString());
+            elem.SetAttribute("color", col.ToArgb().ToString());
+            elem.SetAttribute("text", text);
+        }
+
+        public override string ToString()
+        {
+            return text;
+        }
     }
 }
