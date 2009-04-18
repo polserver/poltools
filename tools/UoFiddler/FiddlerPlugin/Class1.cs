@@ -80,7 +80,7 @@ namespace FiddlerPlugin
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();
-            page.Tag = 19; // at end used for undock/dock feature to define the order
+            page.Tag = tabcontrol.TabCount+1; // at end used for undock/dock feature to define the order
             page.Text = "PluginTest";
             page.Controls.Add(new UserControl1());
             tabcontrol.TabPages.Add(page);

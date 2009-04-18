@@ -118,7 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.7
+    <value>Version 3.7b
+-Contextmenus enhanced to select in Item/LandTile/Tiledata/Radarcolor tab
+-ComparePlugin now also compares 2 Hue files (with Apply Color)
+Map tab:
+-Option to rewrite static and removing duplicate statics
+-Option to rewrite map file
+-Option to create an report of possible invisible statics (below map)
+Note: both static and map rewrite can be used to change map width (uses Settings-&gt;Use New Map Width flag)
+-Fixed some problems inside Dress tab
+
+Version 3.7
 Map tab:
 -Redesigned a bit (moved Contextmenu options to (collapsible)menu bar)
 -Added Marker feature you can now Add Markers to map (written in extra xml file)

@@ -373,5 +373,11 @@ namespace FiddlerControls
             if (listView1.SelectedItems.Count == 1)
                 FiddlerControls.TileDatas.Select((int)listView1.SelectedItems[0].Tag, true);
         }
+
+        private void OnClickSelectRadarCol(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 1)
+                FiddlerControls.RadarColor.Select((int)listView1.SelectedItems[0].Tag, true);
+        }
     }
 }

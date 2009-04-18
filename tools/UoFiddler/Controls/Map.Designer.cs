@@ -94,8 +94,13 @@ namespace FiddlerControls
             this.PreloadMap = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton3 = new System.Windows.Forms.ToolStripDropDownButton();
             this.defragStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defragAndRemoveDuplicatesStToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportStaticsUnderMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.rewriteMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.collapsibleSplitter2 = new FiddlerControls.CollapsibleSplitter();
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -512,7 +517,11 @@ namespace FiddlerControls
             // 
             this.toolStripDropDownButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.defragStaticsToolStripMenuItem});
+            this.defragStaticsToolStripMenuItem,
+            this.defragAndRemoveDuplicatesStToolStripMenuItem,
+            this.reportStaticsUnderMapToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.rewriteMapToolStripMenuItem});
             this.toolStripDropDownButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton3.Image")));
             this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
@@ -522,9 +531,35 @@ namespace FiddlerControls
             // defragStaticsToolStripMenuItem
             // 
             this.defragStaticsToolStripMenuItem.Name = "defragStaticsToolStripMenuItem";
-            this.defragStaticsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.defragStaticsToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.defragStaticsToolStripMenuItem.Text = "Defrag Statics";
             this.defragStaticsToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefragStatics);
+            // 
+            // defragAndRemoveDuplicatesStToolStripMenuItem
+            // 
+            this.defragAndRemoveDuplicatesStToolStripMenuItem.Name = "defragAndRemoveDuplicatesStToolStripMenuItem";
+            this.defragAndRemoveDuplicatesStToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.defragAndRemoveDuplicatesStToolStripMenuItem.Text = "Defrag and Remove Duplicates Statics";
+            this.defragAndRemoveDuplicatesStToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefragRemoveStatics);
+            // 
+            // reportStaticsUnderMapToolStripMenuItem
+            // 
+            this.reportStaticsUnderMapToolStripMenuItem.Name = "reportStaticsUnderMapToolStripMenuItem";
+            this.reportStaticsUnderMapToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.reportStaticsUnderMapToolStripMenuItem.Text = "Report Statics below Map (possible invisible)";
+            this.reportStaticsUnderMapToolStripMenuItem.Click += new System.EventHandler(this.OnClickReportInvisStatics);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(293, 6);
+            // 
+            // rewriteMapToolStripMenuItem
+            // 
+            this.rewriteMapToolStripMenuItem.Name = "rewriteMapToolStripMenuItem";
+            this.rewriteMapToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.rewriteMapToolStripMenuItem.Text = "Rewrite Map";
+            this.rewriteMapToolStripMenuItem.Click += new System.EventHandler(this.OnClickRewriteMap);
             // 
             // collapsibleSplitter2
             // 
@@ -538,6 +573,7 @@ namespace FiddlerControls
             this.collapsibleSplitter2.Name = "collapsibleSplitter2";
             this.collapsibleSplitter2.TabIndex = 8;
             this.collapsibleSplitter2.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter2, "Click to Show/Hide Marker list");
             this.collapsibleSplitter2.UseAnimations = false;
             this.collapsibleSplitter2.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
@@ -553,6 +589,7 @@ namespace FiddlerControls
             this.collapsibleSplitter1.Name = "collapsibleSplitter1";
             this.collapsibleSplitter1.TabIndex = 6;
             this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Click To Show/Hide Toolbar");
             this.collapsibleSplitter1.UseAnimations = false;
             this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
@@ -639,5 +676,10 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton3;
         private System.Windows.Forms.ToolStripMenuItem defragStaticsToolStripMenuItem;
         private FiddlerControls.CollapsibleSplitter collapsibleSplitter2;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem defragAndRemoveDuplicatesStToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rewriteMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportStaticsUnderMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

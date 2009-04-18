@@ -19,7 +19,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.7";
+        public static string Version = "3.7b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -38,6 +38,7 @@ namespace UoFiddler
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
+            FiddlerControls.Options.HueControl = this.controlHue;
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {
                 if (plug.Loaded)

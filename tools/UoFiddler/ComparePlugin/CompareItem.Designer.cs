@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBoxOrg = new System.Windows.Forms.ListBox();
             this.listBoxSec = new System.Windows.Forms.ListBox();
             this.pictureBoxOrg = new System.Windows.Forms.PictureBox();
@@ -38,6 +39,10 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.extractAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOrg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSec)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -45,6 +50,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBoxOrg
@@ -63,6 +69,7 @@
             // 
             // listBoxSec
             // 
+            this.listBoxSec.ContextMenuStrip = this.contextMenuStrip1;
             this.listBoxSec.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxSec.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.listBoxSec.FormattingEnabled = true;
@@ -180,6 +187,36 @@
             this.splitContainer1.SplitterDistance = 279;
             this.splitContainer1.TabIndex = 9;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractAsToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 48);
+            // 
+            // extractAsToolStripMenuItem
+            // 
+            this.extractAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tiffToolStripMenuItem,
+            this.bmpToolStripMenuItem});
+            this.extractAsToolStripMenuItem.Name = "extractAsToolStripMenuItem";
+            this.extractAsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.extractAsToolStripMenuItem.Text = "Export Image..";
+            // 
+            // tiffToolStripMenuItem
+            // 
+            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tiffToolStripMenuItem.Text = "As Bmp";
+            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.ExportAsBmp);
+            // 
+            // bmpToolStripMenuItem
+            // 
+            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bmpToolStripMenuItem.Text = "As Tiff";
+            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.ExportAsTiff);
+            // 
             // CompareItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,6 +233,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -212,5 +250,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem extractAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bmpToolStripMenuItem;
     }
 }

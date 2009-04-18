@@ -425,5 +425,11 @@ namespace FiddlerControls
             if (selected >= 0)
                 FiddlerControls.TileDatas.Select(selected, true);
         }
+
+        private void OnClickSelectRadarCol(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+                FiddlerControls.RadarColor.Select(selected, true);
+        }
     }
 }

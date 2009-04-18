@@ -200,6 +200,6 @@ namespace FiddlerControls
             set { Options.m_ChangedUltimaClass = value; }
         }
 
-
+        public static Hues HueControl { get; set; }
     }
 }

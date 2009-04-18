@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -162,11 +163,13 @@ namespace ComparePlugin
                 return false;
             }
 
-            string hash1string = BitConverter.ToString(shaM.ComputeHash(org)).ToLower();
-            string hash2string = BitConverter.ToString(shaM.ComputeHash(sec)).ToLower();
-            bool res = true;
+            string hash1string = BitConverter.ToString(shaM.ComputeHash(org));
+            string hash2string = BitConverter.ToString(shaM.ComputeHash(sec));
+            bool res;
             if (hash1string != hash2string)
                 res = false;
+            else
+                res = true;
 
             m_Compare[index] = res;
             return res;
@@ -209,6 +212,44 @@ namespace ComparePlugin
             }
             listBoxOrg.EndUpdate();
             listBoxSec.EndUpdate();
+        }
+
+        private void ExportAsBmp(object sender, EventArgs e)
+        {
+            if (listBoxSec.SelectedIndex == -1)
+                return;
+            int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
+            if (!SecondArt.IsValidStatic(i))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.bmp", i));
+            Bitmap bit = new Bitmap(SecondArt.GetStatic(i));
+            bit.Save(FileName, ImageFormat.Bmp);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void ExportAsTiff(object sender, EventArgs e)
+        {
+            if (listBoxSec.SelectedIndex == -1)
+                return;
+            int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
+            if (!SecondArt.IsValidStatic(i))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.tiff", i));
+            Bitmap bit = new Bitmap(SecondArt.GetStatic(i));
+            bit.Save(FileName, ImageFormat.Tiff);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }
