@@ -18,9 +18,9 @@ namespace FiddlerPlugin
     public class ComparePlugin : IPlugin
     {
         string myName = "ComparePlugin";
-        string myDescription = "\r\nCompares 2 art files\r\nCompares 2 CliLocs\r\n(Adds 3 new Tabs)";
+        string myDescription = "\r\nCompares 2 art files\r\nCompares 2 CliLocs\r\nCompares 2 Hue files\r\n(Adds 4 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.1.0";
+        string myVersion = "1.2.0";
         IPluginHost myHost = null;
 
         /// <summary>
@@ -85,6 +85,14 @@ namespace FiddlerPlugin
             compCli.Dock = System.Windows.Forms.DockStyle.Fill;
             page3.Controls.Add(compCli);
             tabcontrol.TabPages.Add(page3);
+
+            TabPage page4 = new TabPage();
+            page4.Tag = tabcontrol.TabCount + 1;
+            page4.Text = "Compare Hues";
+            CompareHues compH = new CompareHues();
+            compH.Dock = System.Windows.Forms.DockStyle.Fill;
+            page4.Controls.Add(compH);
+            tabcontrol.TabPages.Add(page4);
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)

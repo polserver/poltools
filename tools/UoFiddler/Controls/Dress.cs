@@ -88,6 +88,7 @@ namespace FiddlerControls
         private System.Drawing.Point drawpointAni = new System.Drawing.Point(100, 100);
 
         private object[] layers = new object[25];
+        private bool[] layervisible = new bool[25];
         private bool female = false;
         private bool elve = false;
         private bool showPD = true;
@@ -148,7 +149,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Hues"] = true;
             Options.LoadedUltimaClass["Animations"] = true;
             Options.LoadedUltimaClass["Gumps"] = true;
-            Loaded = true;
+            
             extractAnimationToolStripMenuItem.Visible = false;
             extractAnimatedAnimationToolStripMenuItem.Visible = false;
 
@@ -161,6 +162,7 @@ namespace FiddlerControls
             {
                 layers[i] = (object)0;
                 checkedListBoxWear.Items.Add(String.Format("0x{0:X2}", i), true);
+                layervisible[i] = true;
             }
             checkedListBoxWear.EndUpdate();
 
@@ -171,6 +173,7 @@ namespace FiddlerControls
             toolTip1.SetToolTip(FacingBar, FacingBar.Value.ToString());
             BuildDressList();
             DrawPaperdoll();
+            Loaded = true;
             this.Cursor = Cursors.Default;
         }
 
@@ -184,7 +187,7 @@ namespace FiddlerControls
             using (Graphics graphpic = Graphics.FromImage(DressPic.Image))
             {
                 graphpic.Clear(Color.Black);
-                if (checkedListBoxWear.GetItemChecked(0))
+                if (layervisible[0])
                 {
                     Bitmap background;
                     if (!female)
@@ -213,7 +216,7 @@ namespace FiddlerControls
                 {
                     if ((int)layers[draworder[i]] != 0)
                     {
-                        if (checkedListBoxWear.GetItemChecked(draworder[i]))
+                        if (layervisible[draworder[i]])
                         {
                             int ani = TileData.ItemTable[(int)layers[draworder[i]]].Animation;
                             int gump = ani + 50000;
@@ -264,7 +267,7 @@ namespace FiddlerControls
                 graphpic.Clear(Color.WhiteSmoke);
                 int hue = 0;
                 int back = 0;
-                if (checkedListBoxWear.GetItemChecked(0))
+                if (layervisible[0])
                 {
                     if (!female)
                         back = (!elve) ? 400 : 605;
@@ -294,7 +297,7 @@ namespace FiddlerControls
                 {
                     if ((int)layers[animorder[i]] != 0)
                     {
-                        if (checkedListBoxWear.GetItemChecked(animorder[i]))
+                        if (layervisible[animorder[i]])
                         {
                             if (TileData.ItemTable == null)
                                 break;
@@ -333,13 +336,11 @@ namespace FiddlerControls
             {
                 int hue = 0;
                 int back = 0;
-                if (checkedListBoxWear.GetItemChecked(0))
-                {
-                    if (!female)
-                        back = (!elve) ? 400 : 605;
-                    else
-                        back = (!elve) ? 401 : 606;
-                }
+
+                if (!female)
+                    back = (!elve) ? 400 : 605;
+                else
+                    back = (!elve) ? 401 : 606;
                 Frame[] mobile;
                 if (hues[0] > 0)
                 {
@@ -369,7 +370,7 @@ namespace FiddlerControls
                         {
                             if ((int)layers[animorder[j]] != 0)
                             {
-                                if (checkedListBoxWear.GetItemChecked(animorder[j]))
+                                if (layervisible[animorder[j]])
                                 {
                                     int ani = TileData.ItemTable[(int)layers[animorder[j]]].Animation;
                                     int gump = ani + 50000;
@@ -556,9 +557,18 @@ namespace FiddlerControls
             RefreshDrawing();
         }
 
+        private void checkedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (Loaded)
+            {
+                layervisible[e.Index] = (e.NewValue == CheckState.Checked) ? true : false;
+                RefreshDrawing();
+            }
+        }
+
         private void checkedListBox_Change(object sender, EventArgs e)
         {
-            RefreshDrawing();
+            //RefreshDrawing();
             if (checkedListBoxWear.SelectedIndex == -1)
                 return;
             int layer = checkedListBoxWear.SelectedIndex;
@@ -757,11 +767,9 @@ namespace FiddlerControls
 
         private void OnResizeDressPic(object sender, EventArgs e)
         {
-            if (checkedListBoxWear.Items.Count > 0) // inital event
-            {
-                DressPic.Image = new Bitmap(DressPic.Width, DressPic.Height);
+            DressPic.Image = new Bitmap(DressPic.Width, DressPic.Height);
+            if (Loaded) // inital event
                 RefreshDrawing();
-            }
         }
 
         private void ConvertGump(ref int gumpid, ref int hue)
@@ -1227,26 +1235,23 @@ namespace FiddlerControls
 
     public class GumpTable
     {
-        private static Hashtable m_Entries;
-        public static Hashtable Entries { get { return m_Entries; } }
+        public static Hashtable Entries { get; private set; }
 
         // Seems only used if Gump is invalid
         static GumpTable()
         {
+            Entries = new Hashtable();
             Initialize();
         }
         public static void Initialize()
         {
             string path = Files.GetFilePath("gump.def");
-
             if (path == null)
                 return;
 
-            m_Entries = new Hashtable();
             using (StreamReader ip = new StreamReader(path))
             {
                 string line;
-
                 while ((line = ip.ReadLine()) != null)
                 {
                     if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
@@ -1266,7 +1271,7 @@ namespace FiddlerControls
                         int iParam2 = Convert.ToInt32(param2.Trim());
                         int iParam3 = Convert.ToInt32(param3.Trim());
 
-                        m_Entries[iParam1] = new GumpTableEntry(iParam1, iParam2, iParam3);
+                        Entries[iParam1] = new GumpTableEntry(iParam1, iParam2, iParam3);
                     }
                     catch
                     {
@@ -1277,57 +1282,45 @@ namespace FiddlerControls
     }
     public class GumpTableEntry
     {
-        private int m_OldID;
-        private int m_NewID;
-        private int m_NewHue;
-
-        public int OldID { get { return m_OldID; } }
-        public int NewID { get { return m_NewID; } }
-        public int NewHue { get { return m_NewHue; } }
+        public int OldID { get; private set; }
+        public int NewID { get; private set; }
+        public int NewHue { get; private set; }
 
         public GumpTableEntry(int oldID, int newID, int newHue)
         {
-            m_OldID = oldID;
-            m_NewID = newID;
-            m_NewHue = newHue;
+            OldID = oldID;
+            NewID = newID;
+            NewHue = newHue;
         }
     }
 
     public class EquipTable
     {
-        private static Hashtable m_human_male;
-        private static Hashtable m_human_female;
-        private static Hashtable m_elven_male;
-        private static Hashtable m_elven_female;
-        private static Hashtable m_misc;
-
-        public static Hashtable Human_male { get { return m_human_male; } }
-        public static Hashtable Human_female { get { return m_human_female; } }
-        public static Hashtable Elven_male { get { return m_elven_male; } }
-        public static Hashtable Elven_female { get { return m_elven_female; } }
-        public static Hashtable Misc { get { return m_misc; } }
+        public static Hashtable Human_male { get; private set; }
+        public static Hashtable Human_female { get; private set; }
+        public static Hashtable Elven_male { get; private set; }
+        public static Hashtable Elven_female { get; private set; }
+        public static Hashtable Misc { get; private set; }
 
         static EquipTable()
         {
+            Human_male = new Hashtable();
+            Human_female = new Hashtable();
+            Elven_male = new Hashtable();
+            Elven_female = new Hashtable();
+            Misc = new Hashtable();
             Initialize();
         }
 
         public static void Initialize()
         {
             string path = Files.GetFilePath("equipconv.def");
-
             if (path == null)
                 return;
 
-            m_human_male = new Hashtable();
-            m_human_female = new Hashtable();
-            m_elven_male = new Hashtable();
-            m_elven_female = new Hashtable();
-            m_misc = new Hashtable();
             using (StreamReader ip = new StreamReader(path))
             {
                 string line;
-
                 while ((line = ip.ReadLine()) != null)
                 {
                     if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
@@ -1351,18 +1344,18 @@ namespace FiddlerControls
 
                         EquipTableEntry entry = new EquipTableEntry(gumpID, hue, convertID);
                         if (bodytype == 400)
-                            m_human_male[animID] = entry;
+                            Human_male[animID] = entry;
                         else if (bodytype == 401)
-                            m_human_female[animID] = entry;
+                            Human_female[animID] = entry;
                         else if (bodytype == 605)
-                            m_elven_male[animID] = entry;
+                            Elven_male[animID] = entry;
                         else if (bodytype == 606)
-                            m_elven_female[animID] = entry;
+                            Elven_female[animID] = entry;
                         else
                         {
-                            if (!m_misc.Contains(animID))
-                                m_misc[animID] = new Hashtable();
-                            ((Hashtable)m_misc[animID])[bodytype] = entry;
+                            if (!Misc.Contains(animID))
+                                Misc[animID] = new Hashtable();
+                            ((Hashtable)Misc[animID])[bodytype] = entry;
                         }
                     }
                     catch
@@ -1374,19 +1367,15 @@ namespace FiddlerControls
     }
     public class EquipTableEntry
     {
-        private int m_NewID;
-        private int m_NewHue;
-        private int m_NewAnim;
-
-        public int NewID { get { return m_NewID; } }
-        public int NewHue { get { return m_NewHue; } }
-        public int NewAnim { get { return m_NewAnim; } }
+        public int NewID { get; private set; }
+        public int NewHue { get; private set; }
+        public int NewAnim { get; private set; }
 
         public EquipTableEntry(int newID, int newHue, int newAnim)
         {
-            m_NewID = newID;
-            m_NewHue = newHue;
-            m_NewAnim = newAnim;
+            NewID = newID;
+            NewHue = newHue;
+            NewAnim = newAnim;
         }
     }
 }

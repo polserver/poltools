@@ -631,6 +631,17 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClickSelectRadarCol(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                int id = (int)listView1.SelectedItems[0].Tag;
+                if (id == -1)
+                    id = listView1.SelectedItems[0].Index;
+                FiddlerControls.RadarColor.Select(id, false);
+            }
+        }
+
         #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {
@@ -662,5 +673,7 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
+
+        
     }
 }

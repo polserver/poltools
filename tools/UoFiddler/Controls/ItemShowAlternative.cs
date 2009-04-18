@@ -668,6 +668,12 @@ namespace FiddlerControls
                 FiddlerControls.TileDatas.Select(selected, false);
         }
 
+        private void OnClickSelectRadarCol(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+                FiddlerControls.RadarColor.Select(selected, false);
+        }
+
         #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {

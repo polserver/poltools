@@ -386,5 +386,43 @@ namespace FiddlerControls
                 showform2.Show();
             }
         }
+
+        private void OnClickSelectItem(object sender, EventArgs e)
+        {
+            if (treeViewItem.SelectedNode == null)
+                return;
+            int index = (int)treeViewItem.SelectedNode.Tag;
+            if (Options.DesignAlternative)
+                FiddlerControls.ItemShowAlternative.SearchGraphic(index);
+            else
+                FiddlerControls.ItemShow.SearchGraphic(index);
+        }
+
+        private void OnClickSelectInLandtiles(object sender, EventArgs e)
+        {
+            if (treeViewLand.SelectedNode == null)
+                return;
+            int index = (int)treeViewLand.SelectedNode.Tag;
+            if (Options.DesignAlternative)
+                FiddlerControls.LandTilesAlternative.SearchGraphic(index);
+            else
+                FiddlerControls.LandTiles.SearchGraphic(index);
+        }
+
+        private void OnClickSelectRadarItem(object sender, EventArgs e)
+        {
+            if (treeViewItem.SelectedNode == null)
+                return;
+            int index = (int)treeViewItem.SelectedNode.Tag;
+            FiddlerControls.RadarColor.Select(index, false);
+        }
+
+        private void OnClickSelectRadarLand(object sender, EventArgs e)
+        {
+            if (treeViewLand.SelectedNode == null)
+                return;
+            int index = (int)treeViewLand.SelectedNode.Tag;
+            FiddlerControls.RadarColor.Select(index, true);
+        }
     }
 }

@@ -340,8 +340,15 @@ namespace Ultima
 
             bmp.UnlockBits(bd);
         }
-
-        public static void DefragStatics(string path, int map, int width, int height)
+        private struct StaticTile
+        {
+            public short graphic;
+            public byte x;
+            public byte y;
+            public sbyte z;
+            public short hue;
+        }
+        public static void DefragStatics(string path, int map, int width, int height, bool remove)
         {
             string indexPath = Files.GetFilePath("staidx{0}.mul", map);
             FileStream m_Index;
@@ -384,58 +391,125 @@ namespace Ultima
                             {
                                 for (int y = 0; y < blocky; y++)
                                 {
-                                    m_IndexReader.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
-                                    int lookup = m_IndexReader.ReadInt32();
-                                    int length = m_IndexReader.ReadInt32();
-                                    int extra = m_IndexReader.ReadInt32();
-
-                                    if (lookup < 0 || length <= 0)
+                                    try
                                     {
-                                        binidx.Write((int)-1); // lookup
-                                        binidx.Write((int)-1); // length
-                                        binidx.Write((int)-1); // extra
-                                    }
-                                    else
-                                    {
-                                        m_Statics.Seek(lookup, SeekOrigin.Begin);
+                                        m_IndexReader.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
+                                        int lookup = m_IndexReader.ReadInt32();
+                                        int length = m_IndexReader.ReadInt32();
+                                        int extra = m_IndexReader.ReadInt32();
 
-                                        int fsmullength = (int)fsmul.Position;
-                                        int count = length / 7;
-                                        bool firstitem = true;
-                                        for (int i = 0; i < count; i++)
+                                        if (lookup < 0 || length <= 0)
                                         {
-                                            short graphic = m_StaticsReader.ReadInt16();
-                                            byte sx = m_StaticsReader.ReadByte();
-                                            byte sy = m_StaticsReader.ReadByte();
-                                            sbyte sz = m_StaticsReader.ReadSByte();
-                                            short shue = m_StaticsReader.ReadInt16();
-                                            if ((graphic >= 0) && (graphic < 0x4000)) //legal?
-                                            {
-                                                if (firstitem)
-                                                {
-                                                    binidx.Write((int)fsmul.Position); //lookup
-                                                    firstitem = false;
-                                                }
-                                                binmul.Write(graphic);
-                                                binmul.Write(sx);
-                                                binmul.Write(sy);
-                                                binmul.Write(sz);
-                                                binmul.Write(shue);
-                                            }
-                                        }
-
-                                        fsmullength = (int)fsmul.Position - fsmullength;
-                                        if (fsmullength > 0)
-                                        {
-                                            binidx.Write(fsmullength); //length
-                                            binidx.Write(extra); //extra
+                                            binidx.Write((int)-1); // lookup
+                                            binidx.Write((int)-1); // length
+                                            binidx.Write((int)-1); // extra
                                         }
                                         else
                                         {
-                                            binidx.Write((int)-1); //lookup
-                                            binidx.Write((int)-1); //length
-                                            binidx.Write((int)-1); //extra
+                                            m_Statics.Seek(lookup, SeekOrigin.Begin);
+
+                                            int fsmullength = (int)fsmul.Position;
+                                            int count = length / 7;
+                                            if (!remove) //without duplicate remove
+                                            {
+                                                bool firstitem = true;
+                                                for (int i = 0; i < count; i++)
+                                                {
+                                                    short graphic = m_StaticsReader.ReadInt16();
+                                                    byte sx = m_StaticsReader.ReadByte();
+                                                    byte sy = m_StaticsReader.ReadByte();
+                                                    sbyte sz = m_StaticsReader.ReadSByte();
+                                                    short shue = m_StaticsReader.ReadInt16();
+                                                    if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+                                                    {
+                                                        if (firstitem)
+                                                        {
+                                                            binidx.Write((int)fsmul.Position); //lookup
+                                                            firstitem = false;
+                                                        }
+                                                        binmul.Write(graphic);
+                                                        binmul.Write(sx);
+                                                        binmul.Write(sy);
+                                                        binmul.Write(sz);
+                                                        binmul.Write(shue);
+                                                    }
+                                                }
+                                            }
+                                            else //with duplicate remove
+                                            {
+                                                StaticTile[] tilelist = new StaticTile[count];
+                                                int j = 0;
+                                                for (int i = 0; i < count; i++)
+                                                {
+                                                    StaticTile tile = new StaticTile();
+                                                    tile.graphic = m_StaticsReader.ReadInt16();
+                                                    tile.x = m_StaticsReader.ReadByte();
+                                                    tile.y = m_StaticsReader.ReadByte();
+                                                    tile.z = m_StaticsReader.ReadSByte();
+                                                    tile.hue = m_StaticsReader.ReadInt16();
+                                                    if ((tile.graphic >= 0) && (tile.graphic < 0x4000))
+                                                    {
+                                                        bool first = true;
+                                                        for (int k = 0; k < j; k++)
+                                                        {
+                                                            if ((tilelist[k].graphic == tile.graphic)
+                                                                && ((tilelist[k].x == tile.x) && (tilelist[k].y == tile.y))
+                                                                && (tilelist[k].z == tile.z)
+                                                                && (tilelist[k].hue == tile.hue))
+                                                            {
+                                                                first = false;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if (first)
+                                                        {
+                                                            tilelist[j] = tile;
+                                                            j++;
+                                                        }
+                                                    }
+                                                }
+                                                if (j > 0)
+                                                {
+                                                    binidx.Write((int)fsmul.Position); //lookup
+                                                    for (int i = 0; i < j; i++)
+                                                    {
+                                                        binmul.Write(tilelist[i].graphic);
+                                                        binmul.Write(tilelist[i].x);
+                                                        binmul.Write(tilelist[i].y);
+                                                        binmul.Write(tilelist[i].z);
+                                                        binmul.Write(tilelist[i].hue);
+                                                    }
+                                                }
+                                            }
+
+                                            fsmullength = (int)fsmul.Position - fsmullength;
+                                            if (fsmullength > 0)
+                                            {
+                                                binidx.Write(fsmullength); //length
+                                                binidx.Write(extra); //extra
+                                            }
+                                            else
+                                            {
+                                                binidx.Write((int)-1); //lookup
+                                                binidx.Write((int)-1); //length
+                                                binidx.Write((int)-1); //extra
+                                            }
                                         }
+                                    }
+                                    catch // fill the rest
+                                    {
+                                        binidx.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
+                                        for (; x < blockx; x++)
+                                        {
+                                            for (; y < blocky; y++)
+                                            {
+                                                binidx.Write((int)-1); //lookup
+                                                binidx.Write((int)-1); //length
+                                                binidx.Write((int)-1); //extra
+                                            }
+                                            y = 0;
+                                        }
+                                        return;
                                     }
                                 }
                             }
@@ -445,6 +519,100 @@ namespace Ultima
             }
             m_IndexReader.Close();
             m_StaticsReader.Close();
+        }
+
+        public static void RewriteMap(string path, int map, int width, int height)
+        {
+            string mapPath = Files.GetFilePath("map{0}.mul", map);
+            FileStream m_map;
+            BinaryReader m_mapReader;
+            if (mapPath != null)
+            {
+                m_map = new FileStream(mapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                m_mapReader = new BinaryReader(m_map);
+            }
+            else
+                return;
+
+            int blockx = width >> 3;
+            int blocky = height >> 3;
+
+            string mul = Path.Combine(path, String.Format("map{0}.mul", map));
+            using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                using (BinaryWriter binmul = new BinaryWriter(fsmul))
+                {
+                    for (int x = 0; x < blockx; x++)
+                    {
+                        for (int y = 0; y < blocky; y++)
+                        {
+                            try
+                            {
+                                m_mapReader.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
+                                int header = m_mapReader.ReadInt32();
+                                binmul.Write(header);
+                                for (int i = 0; i < 64; i++)
+                                {
+                                    short tileid = m_mapReader.ReadInt16();
+                                    sbyte z = m_mapReader.ReadSByte();
+                                    if ((tileid < 0) || (tileid >= 0x4000))
+                                        tileid = 0;
+                                    if (z < -128)
+                                        z = -128;
+                                    if (z > 127)
+                                        z = 127;
+                                    binmul.Write(tileid);
+                                    binmul.Write(z);
+                                }
+                            }
+                            catch //fill rest
+                            {
+                                binmul.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
+                                for (; x < blockx; x++)
+                                {
+                                    for (; y < blocky; y++)
+                                    {
+                                        binmul.Write((int)0);
+                                        for (int i = 0; i < 64; i++)
+                                        {
+                                            binmul.Write((short)0);
+                                            binmul.Write((sbyte)0);
+                                        }
+                                    }
+                                    y = 0;
+                                }
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            m_mapReader.Close();
+        }
+
+        public void ReportInvisStatics(string reportfile)
+        {
+            reportfile = Path.Combine(reportfile,String.Format("staticReport-{0}.csv",m_MapID));
+            using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine("x;y;z;Static");
+                for (int x = 0; x < m_Width; x++)
+                {
+                    for (int y = 0; y < m_Height; y++)
+                    {
+                        Tile currtile = Tiles.GetLandTile(x, y);
+                        foreach (HuedTile currstatic in Tiles.GetStaticTiles(x, y))
+                        {
+                            if (currstatic.Z < currtile.Z)
+                            {
+                                if (TileData.ItemTable[currstatic.ID & 0x3FFF].Height + currstatic.Z < currtile.Z)
+                                    Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X}", x, y, currstatic.Z, currstatic.ID & 0x3FFF));
+                            }
+                        }
+                    }
+                }
+                
+            }
         }
     }
 }

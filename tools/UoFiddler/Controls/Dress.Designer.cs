@@ -249,6 +249,7 @@ namespace FiddlerControls
             // 
             // checkedListBoxWear
             // 
+            this.checkedListBoxWear.CheckOnClick = true;
             this.checkedListBoxWear.ContextMenuStrip = this.contextMenuStrip1;
             this.checkedListBoxWear.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListBoxWear.FormattingEnabled = true;
@@ -257,6 +258,7 @@ namespace FiddlerControls
             this.checkedListBoxWear.Size = new System.Drawing.Size(139, 319);
             this.checkedListBoxWear.TabIndex = 0;
             this.checkedListBoxWear.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_Change);
+            this.checkedListBoxWear.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox_ItemCheck);
             // 
             // contextMenuStrip1
             // 
@@ -267,19 +269,19 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.unDressAllToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(140, 98);
             // 
             // unDressToolStripMenuItem
             // 
             this.unDressToolStripMenuItem.Name = "unDressToolStripMenuItem";
-            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unDressToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.unDressToolStripMenuItem.Text = "UnDress";
             this.unDressToolStripMenuItem.Click += new System.EventHandler(this.OnClick_UnDress);
             // 
             // huToolStripMenuItem
             // 
             this.huToolStripMenuItem.Name = "huToolStripMenuItem";
-            this.huToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.huToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.huToolStripMenuItem.Text = "Hue";
             this.huToolStripMenuItem.Click += new System.EventHandler(this.onClickHue);
             // 
@@ -288,7 +290,7 @@ namespace FiddlerControls
             this.hueToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox1});
             this.hueToolStripMenuItem.Name = "hueToolStripMenuItem";
-            this.hueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hueToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.hueToolStripMenuItem.Text = "Hue..";
             // 
             // toolStripTextBox1
@@ -300,12 +302,12 @@ namespace FiddlerControls
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
             // 
             // unDressAllToolStripMenuItem
             // 
             this.unDressAllToolStripMenuItem.Name = "unDressAllToolStripMenuItem";
-            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.unDressAllToolStripMenuItem.Text = "UnDress All";
             this.unDressAllToolStripMenuItem.Click += new System.EventHandler(this.OnClickUndressAll);
             // 

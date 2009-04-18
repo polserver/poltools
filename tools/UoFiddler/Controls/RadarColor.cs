@@ -24,6 +24,7 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            refMarker = this;
         }
 
         private bool Loaded = false;
@@ -33,8 +34,40 @@ namespace FiddlerControls
         private bool UpDownSuppressG = false;
         private bool UpDownSuppressB = false;
         private bool TextShortSuppress = false;
+        private static RadarColor refMarker;
 
-
+        public static void Select(int graphic, bool land)
+        {
+            int index = 0;
+            if (land)
+            {
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewLand.Nodes[i];
+                    if ((int)node.Tag == graphic)
+                    {
+                        refMarker.tabControl2.SelectTab(1);
+                        refMarker.treeViewLand.SelectedNode = node;
+                        node.EnsureVisible();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                {
+                    TreeNode node = refMarker.treeViewItem.Nodes[i];
+                    if ((int)node.Tag == graphic)
+                    {
+                        refMarker.tabControl2.SelectTab(0);
+                        refMarker.treeViewItem.SelectedNode = node;
+                        node.EnsureVisible();
+                        break;
+                    }
+                }
+            }
+        }
         public void Reload()
         {
             if (Loaded)
@@ -336,6 +369,44 @@ namespace FiddlerControls
                 numericUpDownG.Value = col.G;
                 numericUpDownB.Value = col.B;
             }
+        }
+
+        private void OnClickSelectItemsTab(object sender, EventArgs e)
+        {
+            if (treeViewItem.SelectedNode == null)
+                return;
+            int index = (int)treeViewItem.SelectedNode.Tag;
+            if (Options.DesignAlternative)
+                FiddlerControls.ItemShowAlternative.SearchGraphic(index);
+            else
+                FiddlerControls.ItemShow.SearchGraphic(index);
+        }
+
+        private void OnClickSelectItemTiledataTab(object sender, EventArgs e)
+        {
+            if (treeViewItem.SelectedNode == null)
+                return;
+            int index = (int)treeViewItem.SelectedNode.Tag;
+            FiddlerControls.TileDatas.Select(index, false);
+        }
+
+        private void OnClickSelectLandtilesTab(object sender, EventArgs e)
+        {
+            if (treeViewLand.SelectedNode == null)
+                return;
+            int index = (int)treeViewLand.SelectedNode.Tag;
+            if (Options.DesignAlternative)
+                FiddlerControls.LandTilesAlternative.SearchGraphic(index);
+            else
+                FiddlerControls.LandTiles.SearchGraphic(index);
+        }
+
+        private void OnClickSelectLandTiledataTab(object sender, EventArgs e)
+        {
+            if (treeViewLand.SelectedNode == null)
+                return;
+            int index = (int)treeViewLand.SelectedNode.Tag;
+            FiddlerControls.TileDatas.Select(index, true);
         }
     }
 }

@@ -795,7 +795,14 @@ namespace FiddlerControls
         private void OnClickDefragStatics(object sender, EventArgs e)
         {
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-                currmapint, currmap.Width, currmap.Height);
+                currmapint, currmap.Width, currmap.Height,false);
+            MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickDefragRemoveStatics(object sender, EventArgs e)
+        {
+            Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                currmapint, currmap.Width, currmap.Height, true);
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
@@ -806,6 +813,19 @@ namespace FiddlerControls
                 ChangeScrollBar();
                 pictureBox.Refresh();
             }
+        }
+
+        private void OnClickRewriteMap(object sender, EventArgs e)
+        {
+            Ultima.Map.RewriteMap(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                currmapint, currmap.Width, currmap.Height);
+            MessageBox.Show(String.Format("Map saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickReportInvisStatics(object sender, EventArgs e)
+        {
+            currmap.ReportInvisStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
     }
 
