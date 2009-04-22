@@ -30,7 +30,6 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <CreateWebPageOnPublish>false</CreateWebPageOnPublish>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>3.7.0.%2a</ApplicationVersion>
@@ -152,12 +151,6 @@
     <Compile Include="ExceptionForm.Designer.cs">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HelpPage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelpPage.Designer.cs">
-      <DependentUpon>HelpPage.cs</DependentUpon>
-    </Compile>
     <Compile Include="ManagePlugins.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,9 +198,6 @@
     <EmbeddedResource Include="ExceptionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExceptionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelpPage.resx">
-      <DependentUpon>HelpPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManagePlugins.resx">
       <DependentUpon>ManagePlugins.cs</DependentUpon>
