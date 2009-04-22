@@ -118,7 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.8
+    <value>Version 3.8a
+-Added basic View menu support. When re-enabling view tab is added to the end.
+-View toggle states are not saved to file.
+
+Version 3.8
 -Redesigned Items Tab a bit
 -Added Export All Images to Items tab
 -Fixed a problem with map1 recognition
