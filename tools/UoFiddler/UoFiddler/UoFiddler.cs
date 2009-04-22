@@ -420,15 +420,9 @@ namespace UoFiddler
             GlobalPlugins.Plugins.ClosePlugins();
         }
 
-        private HelpPage helppage;
         private void OnClickHelp(object sender, EventArgs e)
         {
-            if ((helppage == null) || (helppage.IsDisposed))
-            {
-                helppage = new HelpPage();
-                helppage.TopMost = true;
-                helppage.Show();
-            }
+            System.Diagnostics.Process.Start(@"http://uofiddler.polserver.com/help.html");
         }
 
         #region View Menu Toggles

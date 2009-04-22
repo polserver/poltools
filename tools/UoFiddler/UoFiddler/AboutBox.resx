@@ -121,6 +121,7 @@
     <value>Version 3.8a
 -Added basic View menu support. When re-enabling view tab is added to the end.
 -View toggle states are not saved to file.
+-Help button changed to load Docs from website.
 
 Version 3.8
 -Redesigned Items Tab a bit
