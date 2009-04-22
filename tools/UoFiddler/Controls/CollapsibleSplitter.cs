@@ -60,7 +60,6 @@ namespace FiddlerControls
         private int parentFormWidth;
         private int parentFormHeight;
         private SplitterState currentState;
-        private int animationDelay = 20;
         private int animationStep = 20;
         private bool useAnimations;
 
@@ -113,8 +112,8 @@ namespace FiddlerControls
         Description("The delay in millisenconds between animation steps")]
         public int AnimationDelay
         {
-            get { return this.animationDelay; }
-            set { this.animationDelay = value; }
+            get { return this.animationTimer.Interval; }
+            set { this.animationTimer.Interval = value; }
         }
 
         /// <summary>
@@ -192,7 +191,7 @@ namespace FiddlerControls
 
             // Setup the animation timer control
             this.animationTimer = new System.Windows.Forms.Timer();
-            this.animationTimer.Interval = animationDelay;
+            this.animationTimer.Interval = 20;
             this.animationTimer.Tick += new System.EventHandler(this.animationTimerTick);
         }
 
@@ -535,260 +534,286 @@ namespace FiddlerControls
         protected override void OnPaint(PaintEventArgs e)
         {
             // create a Graphics object
-            Graphics g = e.Graphics;
-
-            // find the rectangle for the splitter and paint it
-            Rectangle r = this.ClientRectangle; // fixed in version 1.1
-            g.FillRectangle(new SolidBrush(this.BackColor), r);
-
-            #region Vertical Splitter
-            // Check the docking style and create the control rectangle accordingly
-            if (this.Dock == DockStyle.Left || this.Dock == DockStyle.Right)
+            using (Graphics g = e.Graphics)
             {
-                // create a new rectangle in the vertical center of the splitter for our collapse control button
-                rr = new Rectangle(r.X, (int)r.Y + ((r.Height - 115) / 2), 8, 115);
-                // force the width to 8px so that everything always draws correctly
-                this.Width = 8;
+                Pen pen_controlLightLight = new Pen(SystemColors.ControlLightLight);
+                Pen pen_controlLight = new Pen(SystemColors.ControlLight);
+                Pen pen_controlDark = new Pen(SystemColors.ControlDark);
+                Pen pen_backColor = new Pen(this.BackColor);
+                Pen pen_hotColor = new Pen(this.hotColor);
+                Pen pen_controlDarkDark = new Pen(SystemColors.ControlDarkDark);
 
-                // draw the background color for our control image
-                if (hot)
+                Brush brush_controlDark = new SolidBrush(SystemColors.ControlDark);
+                Brush brush_controlDarkDark = new SolidBrush(SystemColors.ControlDarkDark);
+                Brush brush_backColor = new SolidBrush(this.BackColor);
+                Brush brush_hotColor = new SolidBrush(this.hotColor);
+
+                // find the rectangle for the splitter and paint it
+                Rectangle r = this.ClientRectangle; // fixed in version 1.1
+                g.FillRectangle(brush_backColor, r);
+
+                #region Vertical Splitter
+                // Check the docking style and create the control rectangle accordingly
+                if (this.Dock == DockStyle.Left || this.Dock == DockStyle.Right)
                 {
-                    g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X + 1, rr.Y, 6, 115));
+                    // create a new rectangle in the vertical center of the splitter for our collapse control button
+                    rr = new Rectangle(r.X, (int)r.Y + ((r.Height - 115) / 2), 8, 115);
+                    // force the width to 8px so that everything always draws correctly
+                    this.Width = 8;
+
+                    // draw the background color for our control image
+                    if (hot)
+                    {
+                        g.FillRectangle(brush_hotColor, new Rectangle(rr.X + 1, rr.Y, 6, 115));
+                    }
+                    else
+                    {
+                        g.FillRectangle(brush_backColor, new Rectangle(rr.X + 1, rr.Y, 6, 115));
+                    }
+
+                    // draw the top & bottom lines for our control image
+                    using (Pen pn = new Pen(SystemColors.ControlDark, 1))
+                    {
+                        g.DrawLine(pn, rr.X + 1, rr.Y, rr.X + rr.Width - 2, rr.Y);
+                        g.DrawLine(pn, rr.X + 1, rr.Y + rr.Height, rr.X + rr.Width - 2, rr.Y + rr.Height);
+                    }
+
+                    if (this.Enabled)
+                    {
+                        // draw the arrows for our control image
+                        // the ArrowPointArray is a point array that defines an arrow shaped polygon
+                        g.FillPolygon(brush_controlDarkDark, ArrowPointArray(rr.X + 2, rr.Y + 3));
+                        g.FillPolygon(brush_controlDarkDark, ArrowPointArray(rr.X + 2, rr.Y + rr.Height - 9));
+                    }
+
+                    // draw the dots for our control image using a loop
+                    int x = rr.X + 3;
+                    int y = rr.Y + 14;
+
+                    // Visual Styles added in version 1.1
+                    switch (visualStyle)
+                    {
+                        case VisualStyles.Mozilla:
+
+                            for (int i = 0; i < 30; i++)
+                            {
+                                // light dot
+                                g.DrawLine(pen_controlLightLight, x, y + (i * 3), x + 1, y + 1 + (i * 3));
+                                // dark dot
+                                g.DrawLine(pen_controlDarkDark, x + 1, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
+                                // overdraw the background color as we actually drew 2px diagonal lines, not just dots
+                                if (hot)
+                                {
+                                    g.DrawLine(pen_hotColor, x + 2, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
+                                }
+                                else
+                                {
+                                    g.DrawLine(pen_backColor, x + 2, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
+                                }
+                            }
+                            break;
+
+                        case VisualStyles.DoubleDots:
+                            for (int i = 0; i < 30; i++)
+                            {
+                                // light dot
+                                g.DrawRectangle(pen_controlLightLight, x, y + 1 + (i * 3), 1, 1);
+                                // dark dot
+                                g.DrawRectangle(pen_controlDark, x - 1, y + (i * 3), 1, 1);
+                                i++;
+                                // light dot
+                                g.DrawRectangle(pen_controlLightLight, x + 2, y + 1 + (i * 3), 1, 1);
+                                // dark dot
+                                g.DrawRectangle(pen_controlDark, x + 1, y + (i * 3), 1, 1);
+                            }
+                            break;
+
+                        case VisualStyles.Win9x:
+
+                            g.DrawLine(pen_controlLightLight, x, y, x + 2, y);
+                            g.DrawLine(pen_controlLightLight, x, y, x, y + 90);
+                            g.DrawLine(pen_controlDark, x + 2, y, x + 2, y + 90);
+                            g.DrawLine(pen_controlDark, x, y + 90, x + 2, y + 90);
+                            break;
+
+                        case VisualStyles.XP:
+
+                            for (int i = 0; i < 18; i++)
+                            {
+                                // light dot
+                                g.DrawRectangle(pen_controlLight, x, y + (i * 5), 2, 2);
+                                // light light dot
+                                g.DrawRectangle(pen_controlLightLight, x + 1, y + 1 + (i * 5), 1, 1);
+                                // dark dark dot
+                                g.DrawRectangle(pen_controlDarkDark, x, y + (i * 5), 1, 1);
+                                // dark fill
+                                g.DrawLine(pen_controlDark, x, y + (i * 5), x, y + (i * 5) + 1);
+                                g.DrawLine(pen_controlDark, x, y + (i * 5), x + 1, y + (i * 5));
+                            }
+                            break;
+
+                        case VisualStyles.Lines:
+
+                            for (int i = 0; i < 44; i++)
+                            {
+                                g.DrawLine(pen_controlDark, x, y + (i * 2), x + 2, y + (i * 2));
+                            }
+
+                            break;
+                    }
+
+                    // Added in version 1.3
+                    if (this.borderStyle != System.Windows.Forms.Border3DStyle.Flat)
+                    {
+                        // Paint the control border
+                        ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Left);
+                        ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Right);
+                    }
                 }
+
+                #endregion
+
+                // Horizontal Splitter support added in v1.2
+
+                #region Horizontal Splitter
+
+                else if (this.Dock == DockStyle.Top || this.Dock == DockStyle.Bottom)
+                {
+                    // create a new rectangle in the horizontal center of the splitter for our collapse control button
+                    rr = new Rectangle((int)r.X + ((r.Width - 115) / 2), r.Y, 115, 8);
+                    // force the height to 8px
+                    this.Height = 8;
+
+                    // draw the background color for our control image
+                    if (hot)
+                    {
+                        g.FillRectangle(brush_hotColor, new Rectangle(rr.X, rr.Y + 1, 115, 6));
+                    }
+                    else
+                    {
+                        g.FillRectangle(brush_backColor, new Rectangle(rr.X, rr.Y + 1, 115, 6));
+                    }
+
+                    // draw the left & right lines for our control image
+                    using (Pen pn = new Pen(SystemColors.ControlDark, 1))
+                    {
+                        g.DrawLine(pn, rr.X, rr.Y + 1, rr.X, rr.Y + rr.Height - 2);
+                        g.DrawLine(pn, rr.X + rr.Width, rr.Y + 1, rr.X + rr.Width, rr.Y + rr.Height - 2);
+                    }
+                    if (this.Enabled)
+                    {
+                        // draw the arrows for our control image
+                        // the ArrowPointArray is a point array that defines an arrow shaped polygon
+                        g.FillPolygon(brush_controlDarkDark, ArrowPointArray(rr.X + 3, rr.Y + 2));
+                        g.FillPolygon(brush_controlDarkDark, ArrowPointArray(rr.X + rr.Width - 9, rr.Y + 2));
+                    }
+
+                    // draw the dots for our control image using a loop
+                    int x = rr.X + 14;
+                    int y = rr.Y + 3;
+
+                    // Visual Styles added in version 1.1
+                    switch (visualStyle)
+                    {
+                        case VisualStyles.Mozilla:
+
+                            for (int i = 0; i < 30; i++)
+                            {
+                                // light dot
+                                g.DrawLine(pen_controlLightLight, x + (i * 3), y, x + 1 + (i * 3), y + 1);
+                                // dark dot
+                                g.DrawLine(pen_controlDarkDark, x + 1 + (i * 3), y + 1, x + 2 + (i * 3), y + 2);
+                                // overdraw the background color as we actually drew 2px diagonal lines, not just dots
+                                if (hot)
+                                {
+                                    g.DrawLine(pen_hotColor, x + 1 + (i * 3), y + 2, x + 2 + (i * 3), y + 2);
+                                }
+                                else
+                                {
+                                    g.DrawLine(pen_backColor, x + 1 + (i * 3), y + 2, x + 2 + (i * 3), y + 2);
+                                }
+                            }
+                            break;
+
+                        case VisualStyles.DoubleDots:
+
+                            for (int i = 0; i < 30; i++)
+                            {
+                                // light dot
+                                g.DrawRectangle(pen_controlLightLight, x + 1 + (i * 3), y, 1, 1);
+                                // dark dot
+                                g.DrawRectangle(pen_controlDark, x + (i * 3), y - 1, 1, 1);
+                                i++;
+                                // light dot
+                                g.DrawRectangle(pen_controlLightLight, x + 1 + (i * 3), y + 2, 1, 1);
+                                // dark dot
+                                g.DrawRectangle(pen_controlDark, x + (i * 3), y + 1, 1, 1);
+                            }
+                            break;
+
+                        case VisualStyles.Win9x:
+
+                            g.DrawLine(pen_controlLightLight, x, y, x, y + 2);
+                            g.DrawLine(pen_controlLightLight, x, y, x + 88, y);
+                            g.DrawLine(pen_controlDark, x, y + 2, x + 88, y + 2);
+                            g.DrawLine(pen_controlDark, x + 88, y, x + 88, y + 2);
+                            break;
+
+                        case VisualStyles.XP:
+
+                            for (int i = 0; i < 18; i++)
+                            {
+                                // light dot
+                                g.DrawRectangle(pen_controlLight, x + (i * 5), y, 2, 2);
+                                // light light dot
+                                g.DrawRectangle(pen_controlLightLight, x + 1 + (i * 5), y + 1, 1, 1);
+                                // dark dark dot
+                                g.DrawRectangle(pen_controlDarkDark, x + (i * 5), y, 1, 1);
+                                // dark fill
+                                g.DrawLine(pen_controlDark, x + (i * 5), y, x + (i * 5) + 1, y);
+                                g.DrawLine(pen_controlDark, x + (i * 5), y, x + (i * 5), y + 1);
+                            }
+                            break;
+
+                        case VisualStyles.Lines:
+
+                            for (int i = 0; i < 44; i++)
+                            {
+                                g.DrawLine(pen_controlDark, x + (i * 2), y, x + (i * 2), y + 2);
+                            }
+
+                            break;
+                    }
+
+                    // Added in version 1.3
+                    if (this.borderStyle != System.Windows.Forms.Border3DStyle.Flat)
+                    {
+                        // Paint the control border
+                        ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Top);
+                        ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Bottom);
+                    }
+                }
+
+                #endregion
+
                 else
                 {
-                    g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X + 1, rr.Y, 6, 115));
+                    throw new Exception("The Collapsible Splitter control cannot have the Filled or None Dockstyle property");
                 }
 
-                // draw the top & bottom lines for our control image
-                g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + 1, rr.Y, rr.X + rr.Width - 2, rr.Y);
-                g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + 1, rr.Y + rr.Height, rr.X + rr.Width - 2, rr.Y + rr.Height);
+                // dispose the Graphics objects
+                pen_controlLightLight.Dispose();
+                pen_controlLight.Dispose();
+                pen_controlDark.Dispose();
+                pen_backColor.Dispose();
+                pen_hotColor.Dispose();
+                pen_controlDarkDark.Dispose();
 
-                if (this.Enabled)
-                {
-                    // draw the arrows for our control image
-                    // the ArrowPointArray is a point array that defines an arrow shaped polygon
-                    g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 2, rr.Y + 3));
-                    g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 2, rr.Y + rr.Height - 9));
-                }
-
-                // draw the dots for our control image using a loop
-                int x = rr.X + 3;
-                int y = rr.Y + 14;
-
-                // Visual Styles added in version 1.1
-                switch (visualStyle)
-                {
-                    case VisualStyles.Mozilla:
-
-                        for (int i = 0; i < 30; i++)
-                        {
-                            // light dot
-                            g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y + (i * 3), x + 1, y + 1 + (i * 3));
-                            // dark dot
-                            g.DrawLine(new Pen(SystemColors.ControlDarkDark), x + 1, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
-                            // overdraw the background color as we actually drew 2px diagonal lines, not just dots
-                            if (hot)
-                            {
-                                g.DrawLine(new Pen(hotColor), x + 2, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
-                            }
-                            else
-                            {
-                                g.DrawLine(new Pen(this.BackColor), x + 2, y + 1 + (i * 3), x + 2, y + 2 + (i * 3));
-                            }
-                        }
-                        break;
-
-                    case VisualStyles.DoubleDots:
-                        for (int i = 0; i < 30; i++)
-                        {
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x, y + 1 + (i * 3), 1, 1);
-                            // dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDark), x - 1, y + (i * 3), 1, 1);
-                            i++;
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 2, y + 1 + (i * 3), 1, 1);
-                            // dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDark), x + 1, y + (i * 3), 1, 1);
-                        }
-                        break;
-
-                    case VisualStyles.Win9x:
-
-                        g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + 2, y);
-                        g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x, y + 90);
-                        g.DrawLine(new Pen(SystemColors.ControlDark), x + 2, y, x + 2, y + 90);
-                        g.DrawLine(new Pen(SystemColors.ControlDark), x, y + 90, x + 2, y + 90);
-                        break;
-
-                    case VisualStyles.XP:
-
-                        for (int i = 0; i < 18; i++)
-                        {
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLight), x, y + (i * 5), 2, 2);
-                            // light light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1, y + 1 + (i * 5), 1, 1);
-                            // dark dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x, y + (i * 5), 1, 1);
-                            // dark fill
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i * 5), x, y + (i * 5) + 1);
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i * 5), x + 1, y + (i * 5));
-                        }
-                        break;
-
-                    case VisualStyles.Lines:
-
-                        for (int i = 0; i < 44; i++)
-                        {
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x, y + (i * 2), x + 2, y + (i * 2));
-                        }
-
-                        break;
-                }
-
-                // Added in version 1.3
-                if (this.borderStyle != System.Windows.Forms.Border3DStyle.Flat)
-                {
-                    // Paint the control border
-                    ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Left);
-                    ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Right);
-                }
+                brush_controlDark.Dispose();
+                brush_controlDarkDark.Dispose();
+                brush_backColor.Dispose();
+                brush_hotColor.Dispose();
             }
-
-            #endregion
-
-            // Horizontal Splitter support added in v1.2
-
-            #region Horizontal Splitter
-
-            else if (this.Dock == DockStyle.Top || this.Dock == DockStyle.Bottom)
-            {
-                // create a new rectangle in the horizontal center of the splitter for our collapse control button
-                rr = new Rectangle((int)r.X + ((r.Width - 115) / 2), r.Y, 115, 8);
-                // force the height to 8px
-                this.Height = 8;
-
-                // draw the background color for our control image
-                if (hot)
-                {
-                    g.FillRectangle(new SolidBrush(hotColor), new Rectangle(rr.X, rr.Y + 1, 115, 6));
-                }
-                else
-                {
-                    g.FillRectangle(new SolidBrush(this.BackColor), new Rectangle(rr.X, rr.Y + 1, 115, 6));
-                }
-
-                // draw the left & right lines for our control image
-                g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X, rr.Y + 1, rr.X, rr.Y + rr.Height - 2);
-                g.DrawLine(new Pen(SystemColors.ControlDark, 1), rr.X + rr.Width, rr.Y + 1, rr.X + rr.Width, rr.Y + rr.Height - 2);
-
-                if (this.Enabled)
-                {
-                    // draw the arrows for our control image
-                    // the ArrowPointArray is a point array that defines an arrow shaped polygon
-                    g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + 3, rr.Y + 2));
-                    g.FillPolygon(new SolidBrush(SystemColors.ControlDarkDark), ArrowPointArray(rr.X + rr.Width - 9, rr.Y + 2));
-                }
-
-                // draw the dots for our control image using a loop
-                int x = rr.X + 14;
-                int y = rr.Y + 3;
-
-                // Visual Styles added in version 1.1
-                switch (visualStyle)
-                {
-                    case VisualStyles.Mozilla:
-
-                        for (int i = 0; i < 30; i++)
-                        {
-                            // light dot
-                            g.DrawLine(new Pen(SystemColors.ControlLightLight), x + (i * 3), y, x + 1 + (i * 3), y + 1);
-                            // dark dot
-                            g.DrawLine(new Pen(SystemColors.ControlDarkDark), x + 1 + (i * 3), y + 1, x + 2 + (i * 3), y + 2);
-                            // overdraw the background color as we actually drew 2px diagonal lines, not just dots
-                            if (hot)
-                            {
-                                g.DrawLine(new Pen(hotColor), x + 1 + (i * 3), y + 2, x + 2 + (i * 3), y + 2);
-                            }
-                            else
-                            {
-                                g.DrawLine(new Pen(this.BackColor), x + 1 + (i * 3), y + 2, x + 2 + (i * 3), y + 2);
-                            }
-                        }
-                        break;
-
-                    case VisualStyles.DoubleDots:
-
-                        for (int i = 0; i < 30; i++)
-                        {
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i * 3), y, 1, 1);
-                            // dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i * 3), y - 1, 1, 1);
-                            i++;
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i * 3), y + 2, 1, 1);
-                            // dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDark), x + (i * 3), y + 1, 1, 1);
-                        }
-                        break;
-
-                    case VisualStyles.Win9x:
-
-                        g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x, y + 2);
-                        g.DrawLine(new Pen(SystemColors.ControlLightLight), x, y, x + 88, y);
-                        g.DrawLine(new Pen(SystemColors.ControlDark), x, y + 2, x + 88, y + 2);
-                        g.DrawLine(new Pen(SystemColors.ControlDark), x + 88, y, x + 88, y + 2);
-                        break;
-
-                    case VisualStyles.XP:
-
-                        for (int i = 0; i < 18; i++)
-                        {
-                            // light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLight), x + (i * 5), y, 2, 2);
-                            // light light dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlLightLight), x + 1 + (i * 5), y + 1, 1, 1);
-                            // dark dark dot
-                            g.DrawRectangle(new Pen(SystemColors.ControlDarkDark), x + (i * 5), y, 1, 1);
-                            // dark fill
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x + (i * 5), y, x + (i * 5) + 1, y);
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x + (i * 5), y, x + (i * 5), y + 1);
-                        }
-                        break;
-
-                    case VisualStyles.Lines:
-
-                        for (int i = 0; i < 44; i++)
-                        {
-                            g.DrawLine(new Pen(SystemColors.ControlDark), x + (i * 2), y, x + (i * 2), y + 2);
-                        }
-
-                        break;
-                }
-
-                // Added in version 1.3
-                if (this.borderStyle != System.Windows.Forms.Border3DStyle.Flat)
-                {
-                    // Paint the control border
-                    ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Top);
-                    ControlPaint.DrawBorder3D(e.Graphics, this.ClientRectangle, this.borderStyle, Border3DSide.Bottom);
-                }
-            }
-
-            #endregion
-
-            else
-            {
-                throw new Exception("The Collapsible Splitter control cannot have the Filled or None Dockstyle property");
-            }
-
-
-
-            // dispose the Graphics object
-            g.Dispose();
         }
         #endregion
 

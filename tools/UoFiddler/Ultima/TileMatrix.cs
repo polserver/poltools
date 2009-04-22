@@ -27,7 +27,7 @@ namespace Ultima
 
         public int Height { get; private set; }
 
-        public TileMatrix(int fileIndex, int mapID, int width, int height)
+        public TileMatrix(int fileIndex, int mapID, int width, int height, string path)
         {
             Width = width;
             Height = height;
@@ -36,12 +36,28 @@ namespace Ultima
 
             if (fileIndex != 0x7F)
             {
-                string mapPath = Files.GetFilePath("map{0}.mul", fileIndex);
+                string mapPath;
+                if (path == null)
+                    mapPath = Files.GetFilePath("map{0}.mul", fileIndex);
+                else
+                {
+                    mapPath = Path.Combine(path, String.Format("map{0}.mul", fileIndex));
+                    if (!File.Exists(mapPath))
+                        mapPath = null;
+                }
 
                 if (mapPath != null)
                     m_Map = new FileStream(mapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                string indexPath = Files.GetFilePath("staidx{0}.mul", fileIndex);
+                string indexPath;
+                if (path == null)
+                    indexPath = Files.GetFilePath("staidx{0}.mul", fileIndex);
+                else
+                {
+                    indexPath = Path.Combine(path, String.Format("staidx{0}.mul", fileIndex));
+                    if (!File.Exists(indexPath))
+                        indexPath = null;
+                }
 
                 if (indexPath != null)
                 {
@@ -49,7 +65,15 @@ namespace Ultima
                     m_IndexReader = new BinaryReader(m_Index);
                 }
 
-                string staticsPath = Files.GetFilePath("statics{0}.mul", fileIndex);
+                string staticsPath;
+                if (path == null)
+                    staticsPath = Files.GetFilePath("statics{0}.mul", fileIndex);
+                else
+                {
+                    staticsPath = Path.Combine(path, String.Format("statics{0}.mul", fileIndex));
+                    if (!File.Exists(staticsPath))
+                        staticsPath = null;
+                }
 
                 if (staticsPath != null)
                     m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -73,13 +97,7 @@ namespace Ultima
             m_StaticTiles = new HuedTile[BlockWidth][][][][];
 
             if (Map.UseDiff)
-                Patch = new TileMatrixPatch(this, mapID);
-
-            /*for ( int i = 0; i < m_BlockWidth; ++i )
-            {
-                m_LandTiles[i] = new Tile[m_BlockHeight][];
-                m_StaticTiles[i] = new Tile[m_BlockHeight][][][];
-            }*/
+                Patch = new TileMatrixPatch(this, mapID, path);
         }
 
         public HuedTile[][][] EmptyStaticBlock { get; private set; }

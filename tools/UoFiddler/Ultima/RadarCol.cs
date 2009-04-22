@@ -14,11 +14,15 @@ namespace Ultima
 
         public static short GetItemColor(int index)
         {
-            return m_Colors[index + 0x4000];
+            if (index + 0x4000 < m_Colors.Length)
+                return m_Colors[index + 0x4000];
+            return 0;
         }
         public static short GetLandColor(int index)
         {
-            return m_Colors[index];
+            if (index < m_Colors.Length)
+                return m_Colors[index];
+            return 0;
         }
 
         public static void SetItemColor(int index, short value)
@@ -32,7 +36,6 @@ namespace Ultima
 
         public static void Initialize()
         {
-            
             string path = Files.GetFilePath("radarcol.mul");
             if (path != null)
             {
@@ -50,6 +53,8 @@ namespace Ultima
                     }
                 }
             }
+            else
+                m_Colors = new short[0x8000];
         }
 
         public static void Save(string FileName)

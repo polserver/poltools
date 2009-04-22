@@ -813,6 +813,48 @@ namespace FiddlerControls
                     MessageBoxDefaultButton.Button1);
             }
         }
+
+        private void OnClickExportFrameBmp(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+            if (listView1.SelectedItems.Count<1)
+                return;
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+
+            Bitmap bit = m_Animation[(int)listView1.SelectedItems[0].Tag];
+            Bitmap newbit = new Bitmap(bit.Width, bit.Height);
+            Graphics newgraph = Graphics.FromImage(newbit);
+            newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+            newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
+            newgraph.Save();
+            newbit.Save(String.Format("{0}-{1}.bmp", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Bmp);
+
+
+        }
+
+        private void OnClickExportFrameTiff(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+            if (listView1.SelectedItems.Count < 1)
+                return;
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+
+            Bitmap bit = m_Animation[(int)listView1.SelectedItems[0].Tag];
+            Bitmap newbit = new Bitmap(bit.Width, bit.Height);
+            Graphics newgraph = Graphics.FromImage(newbit);
+            newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+            newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
+            newgraph.Save();
+            newbit.Save(String.Format("{0}-{1}.tiff", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Tiff);
+        }
     }
 
     public class AlphaSorter : IComparer

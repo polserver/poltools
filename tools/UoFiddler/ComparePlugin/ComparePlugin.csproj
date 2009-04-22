@@ -67,6 +67,30 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|AnyCPU' ">
+    <OutputPath>bin\.net3.5 release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|x64' ">
+    <OutputPath>bin\x64\.net3.5 release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|x86' ">
+    <OutputPath>bin\x86\.net3.5 release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -99,8 +123,19 @@
     <Compile Include="CompareLand.Designer.cs">
       <DependentUpon>CompareLand.cs</DependentUpon>
     </Compile>
+    <Compile Include="CompareMap.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CompareMap.Designer.cs">
+      <DependentUpon>CompareMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComparePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SecondArt.cs" />
     <Compile Include="SecondHue.cs" />
   </ItemGroup>
@@ -126,6 +161,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CompareLand.resx">
       <DependentUpon>CompareLand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompareMap.resx">
+      <DependentUpon>CompareMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

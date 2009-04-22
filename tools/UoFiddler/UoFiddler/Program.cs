@@ -35,7 +35,7 @@ namespace UoFiddler
             }
             catch (Exception err)
             {
-                //Clipboard.SetDataObject(err.ToString(), true);
+                Clipboard.SetDataObject(err.ToString(), true);
                 Application.Run(new ExceptionForm(err));
             }
         }

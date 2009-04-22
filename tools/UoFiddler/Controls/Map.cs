@@ -135,16 +135,9 @@ namespace FiddlerControls
         {
             vScrollBar.Minimum = 0;
             hScrollBar.Minimum = 0;
-            hScrollBar.Maximum = (int)(currmap.Width);
-            hScrollBar.Maximum -= (int)(pictureBox.ClientSize.Width);
-            hScrollBar.Maximum += (int)(40);
-            hScrollBar.Maximum = Round(hScrollBar.Maximum);
+            ChangeScrollBar();
             hScrollBar.LargeChange = 40;
             hScrollBar.SmallChange = 8;
-            vScrollBar.Maximum = (int)(currmap.Height);
-            vScrollBar.Maximum -= (int)(pictureBox.ClientSize.Height);
-            vScrollBar.Maximum += (int)(40);
-            vScrollBar.Maximum = Round(vScrollBar.Maximum);
             vScrollBar.LargeChange = 40;
             vScrollBar.SmallChange = 8;
             vScrollBar.Value = 0;
@@ -826,6 +819,17 @@ namespace FiddlerControls
         {
             currmap.ReportInvisStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
             MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private MapReplace showform = null;
+        private void OnClickCopy(object sender, EventArgs e)
+        {
+            if ((showform == null) || (showform.IsDisposed))
+            {
+                showform = new MapReplace(currmap);
+                showform.TopMost = true;
+                showform.Show();
+            }
         }
     }
 

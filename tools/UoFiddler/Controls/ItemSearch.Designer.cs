@@ -112,6 +112,7 @@ namespace FiddlerControls
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "ItemSearch";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Item Search";
             this.ResumeLayout(false);
             this.PerformLayout();

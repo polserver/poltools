@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-using ComparePlugin;
-/***************************************************************************
+﻿/***************************************************************************
  *
  * $Author: Turley
  * 
@@ -10,7 +8,8 @@ using ComparePlugin;
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-
+using System.Windows.Forms;
+using ComparePlugin;
 using PluginInterface;
 
 namespace FiddlerPlugin
@@ -18,9 +17,14 @@ namespace FiddlerPlugin
     public class ComparePlugin : IPlugin
     {
         string myName = "ComparePlugin";
-        string myDescription = "\r\nCompares 2 art files\r\nCompares 2 CliLocs\r\nCompares 2 Hue files\r\n(Adds 4 new Tabs)";
+        string myDescription = 
+            "\r\nCompares 2 art files\r\n"
+            +"Compares 2 CliLocs\r\n"
+            +"Compares 2 Hue files\r\n"
+            + "Compares 2 Map files\r\n"
+            +"(Adds 5 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.2.0";
+        string myVersion = "1.3.0";
         IPluginHost myHost = null;
 
         /// <summary>
@@ -93,6 +97,14 @@ namespace FiddlerPlugin
             compH.Dock = System.Windows.Forms.DockStyle.Fill;
             page4.Controls.Add(compH);
             tabcontrol.TabPages.Add(page4);
+
+            TabPage page5 = new TabPage();
+            page5.Tag = tabcontrol.TabCount + 1;
+            page5.Text = "Compare Map";
+            CompareMap compM = new CompareMap();
+            compM.Dock = System.Windows.Forms.DockStyle.Fill;
+            page5.Controls.Add(compM);
+            tabcontrol.TabPages.Add(page5);
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)
