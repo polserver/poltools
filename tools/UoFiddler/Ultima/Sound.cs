@@ -212,7 +212,6 @@ namespace Ultima
 
         /// <summary>
         /// Returns length of SoundID
-        /// ToDo: not always correct
         /// </summary>
         /// <param name="soundID"></param>
         /// <returns></returns>
@@ -278,56 +277,54 @@ namespace Ultima
             string idx = Path.Combine(path, "soundidx.mul");
             string mul = Path.Combine(path, "sound.mul");
             int Headerlength = 44;
-            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 BinaryWriter binidx = new BinaryWriter(fsidx);
-                using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                BinaryWriter binmul = new BinaryWriter(fsmul);
+                for (int i = 0; i < m_Cache.Length; i++)
                 {
-                    BinaryWriter binmul = new BinaryWriter(fsmul);
-                    for (int i = 0; i < m_Cache.Length; i++)
+                    UOSound sound = m_Cache[i];
+                    if ((sound == null) && (!m_Removed[i]))
                     {
-                        UOSound sound = m_Cache[i];
-                        if ((sound == null) && (!m_Removed[i]))
-                        {
-                            bool trans;
-                            sound = GetSound(i, out trans);
-                            if (!trans)
-                                m_Cache[i] = sound;
-                            else
-                                sound = null;
-                        }
-                        if ((sound == null) || (m_Removed[i]))
-                        {
-                            binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
-                        }
+                        bool trans;
+                        sound = GetSound(i, out trans);
+                        if (!trans)
+                            m_Cache[i] = sound;
                         else
+                            sound = null;
+                    }
+                    if ((sound == null) || (m_Removed[i]))
+                    {
+                        binidx.Write((int)-1); // lookup
+                        binidx.Write((int)-1); // length
+                        binidx.Write((int)-1); // extra
+                    }
+                    else
+                    {
+                        binidx.Write((int)fsmul.Position); //lookup
+                        int length = (int)fsmul.Position;
+
+                        byte[] b = new byte[40];
+                        if (sound.Name != null)
                         {
-                            binidx.Write((int)fsmul.Position); //lookup
-                            int length = (int)fsmul.Position;
-
-                            byte[] b = new byte[40];
-                            if (sound.Name != null)
-                            {
-                                byte[] bb = Encoding.Default.GetBytes(sound.Name);
-                                if (bb.Length > 40)
-                                    Array.Resize(ref bb, 40);
-                                bb.CopyTo(b, 0);
-                            }
-                            binmul.Write(b);
-                            using (MemoryStream m = new MemoryStream(sound.buffer))
-                            {
-                                m.Seek(Headerlength, SeekOrigin.Begin);
-                                byte[] resultBuffer = new byte[m.Length - Headerlength];
-                                m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
-                                binmul.Write(resultBuffer);
-                            }
-
-                            length = (int)fsmul.Position - length;
-                            binidx.Write(length);
-                            binidx.Write(i + 1);
+                            byte[] bb = Encoding.Default.GetBytes(sound.Name);
+                            if (bb.Length > 40)
+                                Array.Resize(ref bb, 40);
+                            bb.CopyTo(b, 0);
                         }
+                        binmul.Write(b);
+                        using (MemoryStream m = new MemoryStream(sound.buffer))
+                        {
+                            m.Seek(Headerlength, SeekOrigin.Begin);
+                            byte[] resultBuffer = new byte[m.Length - Headerlength];
+                            m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
+                            binmul.Write(resultBuffer);
+                        }
+
+                        length = (int)fsmul.Position - length;
+                        binidx.Write(length);
+                        binidx.Write(i + 1);
                     }
                 }
             }

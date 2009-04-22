@@ -90,35 +90,33 @@ namespace Ultima
         {
             string idx = Path.Combine(path, "multi.idx");
             string mul = Path.Combine(path, "multi.mul");
-            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write))
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
                 BinaryWriter binidx = new BinaryWriter(fsidx);
-                using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                BinaryWriter binmul = new BinaryWriter(fsmul);
+                for (int index = 0; index < 0x2000; index++)
                 {
-                    BinaryWriter binmul = new BinaryWriter(fsmul);
-                    for (int index = 0; index < 0x2000; index++)
-                    {
-                        MultiComponentList comp = GetComponents(index);
+                    MultiComponentList comp = GetComponents(index);
 
-                        if (comp == MultiComponentList.Empty)
+                    if (comp == MultiComponentList.Empty)
+                    {
+                        binidx.Write((int)-1); // lookup
+                        binidx.Write((int)-1); // length
+                        binidx.Write((int)-1); // extra
+                    }
+                    else
+                    {
+                        binidx.Write((int)fsmul.Position); //lookup
+                        binidx.Write((int)comp.SortedTiles.Length * 12); //length
+                        binidx.Write((int)-1); //extra
+                        for (int i = 0; i < comp.SortedTiles.Length; i++)
                         {
-                            binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
-                        }
-                        else
-                        {
-                            binidx.Write((int)fsmul.Position); //lookup
-                            binidx.Write((int)comp.SortedTiles.Length * 12); //length
-                            binidx.Write((int)-1); //extra
-                            for (int i = 0; i < comp.SortedTiles.Length; i++)
-                            {
-                                binmul.Write((short)comp.SortedTiles[i].m_ItemID);
-                                binmul.Write((short)comp.SortedTiles[i].m_OffsetX);
-                                binmul.Write((short)comp.SortedTiles[i].m_OffsetY);
-                                binmul.Write((short)comp.SortedTiles[i].m_OffsetZ);
-                                binmul.Write((int)comp.SortedTiles[i].m_Flags);
-                            }
+                            binmul.Write((short)comp.SortedTiles[i].m_ItemID);
+                            binmul.Write((short)comp.SortedTiles[i].m_OffsetX);
+                            binmul.Write((short)comp.SortedTiles[i].m_OffsetY);
+                            binmul.Write((short)comp.SortedTiles[i].m_OffsetZ);
+                            binmul.Write((int)comp.SortedTiles[i].m_Flags);
                         }
                     }
                 }

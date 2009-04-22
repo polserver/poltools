@@ -593,6 +593,7 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
             bit.Save(FileName, ImageFormat.Bmp);
+            bit.Dispose();
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",
@@ -612,6 +613,7 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
             bit.Save(FileName, ImageFormat.Tiff);
+            bit.Dispose();
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",
@@ -639,6 +641,62 @@ namespace FiddlerControls
                 if (id == -1)
                     id = listView1.SelectedItems[0].Index;
                 FiddlerControls.RadarColor.Select(id, false);
+            }
+        }
+
+        private void OnClick_SaveAllBmp(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Select directory";
+            dialog.ShowNewFolderButton = true;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    int index = (int)listView1.Items[i].Tag;
+                    if (index >= 0)
+                    {
+                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
+                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                        if (bit!=null)
+                            bit.Save(FileName, ImageFormat.Bmp);
+                        bit.Dispose();
+                    }
+                }
+                MessageBox.Show(
+                    String.Format("All Item saved to {0}", dialog.SelectedPath),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void OnClick_SaveAllTiff(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Select directory";
+            dialog.ShowNewFolderButton = true;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    int index = (int)listView1.Items[i].Tag;
+                    if (index >= 0)
+                    {
+                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
+                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                        if (bit!=null)
+                            bit.Save(FileName, ImageFormat.Tiff);
+                        bit.Dispose();
+                    }
+                }
+                MessageBox.Show(
+                    String.Format("All Item saved to {0}", dialog.SelectedPath),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
             }
         }
 
@@ -673,7 +731,5 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
-
-        
     }
 }

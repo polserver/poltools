@@ -10,16 +10,16 @@
  ***************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Host;
-using System.Collections.Generic;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "3.7b";
+        public static string Version = "3.8";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -68,6 +68,7 @@ namespace UoFiddler
         private void Restart(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
+
             Ultima.Verdata.Initialize();
             if (FiddlerControls.Options.LoadedUltimaClass["TileData"])
                 Ultima.TileData.Initialize();
@@ -96,7 +97,10 @@ namespace UoFiddler
             if (FiddlerControls.Options.LoadedUltimaClass["RadarColor"])
                 Ultima.RadarCol.Initialize();
             if (FiddlerControls.Options.LoadedUltimaClass["Map"])
+            {
+                Ultima.Files.CheckForNewMapSize();
                 Ultima.Map.Reload();
+            }
             if (FiddlerControls.Options.LoadedUltimaClass["Multis"])
                 Ultima.Multis.Reload();
             if (FiddlerControls.Options.LoadedUltimaClass["Speech"])
