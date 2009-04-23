@@ -70,6 +70,8 @@ namespace FiddlerControls
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+                return;
             Brush fontBrush = Brushes.Gray;
 
             int i = int.Parse(listBox.Items[e.Index].ToString());
