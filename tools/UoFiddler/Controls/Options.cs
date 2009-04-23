@@ -215,19 +215,23 @@ namespace FiddlerControls
 
         public static void FireMapDiffChangeEvent()
         {
-            MapDiffChangeEvent();
+            if (MapDiffChangeEvent != null)
+                MapDiffChangeEvent();
         }
         public static void FireMapNameChangeEvent()
         {
-            MapNameChangeEvent();
+            if (MapNameChangeEvent != null)
+                MapNameChangeEvent();
         }
         public static void FireMapSizeChangeEvent()
         {
-            MapSizeChangeEvent();
+            if (MapSizeChangeEvent != null)
+                MapSizeChangeEvent();
         }
         public static void FireFilePathChangeEvent()
         {
-            FilePathChangeEvent();
+            if (FilePathChangeEvent != null)
+                FilePathChangeEvent();
         }
         #endregion
 
