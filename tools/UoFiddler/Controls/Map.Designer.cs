@@ -98,11 +98,12 @@ namespace FiddlerControls
             this.reportStaticsUnderMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.rewriteMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertDiffDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.collapsibleSplitter2 = new FiddlerControls.CollapsibleSplitter();
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -525,7 +526,8 @@ namespace FiddlerControls
             this.toolStripSeparator3,
             this.rewriteMapToolStripMenuItem,
             this.toolStripSeparator6,
-            this.copyToolStripMenuItem});
+            this.copyToolStripMenuItem,
+            this.insertDiffDataToolStripMenuItem});
             this.toolStripDropDownButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton3.Image")));
             this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
@@ -565,12 +567,24 @@ namespace FiddlerControls
             this.rewriteMapToolStripMenuItem.Text = "Rewrite Map";
             this.rewriteMapToolStripMenuItem.Click += new System.EventHandler(this.OnClickRewriteMap);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(288, 6);
+            // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
             this.copyToolStripMenuItem.Text = "Map Replace...";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.OnClickCopy);
+            // 
+            // insertDiffDataToolStripMenuItem
+            // 
+            this.insertDiffDataToolStripMenuItem.Name = "insertDiffDataToolStripMenuItem";
+            this.insertDiffDataToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
+            this.insertDiffDataToolStripMenuItem.Text = "Insert Diff Data...";
+            this.insertDiffDataToolStripMenuItem.Click += new System.EventHandler(this.OnClickInsertDiffData);
             // 
             // collapsibleSplitter2
             // 
@@ -603,11 +617,6 @@ namespace FiddlerControls
             this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Click To Show/Hide Toolbar");
             this.collapsibleSplitter1.UseAnimations = false;
             this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(288, 6);
             // 
             // Map
             // 
@@ -699,5 +708,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem insertDiffDataToolStripMenuItem;
     }
 }

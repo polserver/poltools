@@ -11,7 +11,7 @@
 
 namespace FiddlerControls
 {
-    partial class MapReplace
+    partial class MapDiffInsert
     {
         /// <summary>
         /// Required designer variable.
@@ -39,9 +39,7 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapReplace));
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapDiffInsert));
             this.checkBoxMap = new System.Windows.Forms.CheckBox();
             this.checkBoxStatics = new System.Windows.Forms.CheckBox();
             this.numericUpDownX1 = new System.Windows.Forms.NumericUpDown();
@@ -54,7 +52,6 @@ namespace FiddlerControls
             this.numericUpDownY2 = new System.Windows.Forms.NumericUpDown();
             this.button2 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label5 = new System.Windows.Forms.Label();
             this.RemoveDupl = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -68,33 +65,14 @@ namespace FiddlerControls
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(90, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(195, 20);
-            this.textBox1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button1.Location = new System.Drawing.Point(291, 10);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(26, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickBrowse);
-            // 
             // checkBoxMap
             // 
             this.checkBoxMap.AutoSize = true;
             this.checkBoxMap.Location = new System.Drawing.Point(6, 19);
             this.checkBoxMap.Name = "checkBoxMap";
-            this.checkBoxMap.Size = new System.Drawing.Size(74, 17);
+            this.checkBoxMap.Size = new System.Drawing.Size(76, 17);
             this.checkBoxMap.TabIndex = 2;
-            this.checkBoxMap.Text = "Copy Map";
+            this.checkBoxMap.Text = "Insert Map";
             this.checkBoxMap.UseVisualStyleBackColor = true;
             // 
             // checkBoxStatics
@@ -102,9 +80,9 @@ namespace FiddlerControls
             this.checkBoxStatics.AutoSize = true;
             this.checkBoxStatics.Location = new System.Drawing.Point(11, 19);
             this.checkBoxStatics.Name = "checkBoxStatics";
-            this.checkBoxStatics.Size = new System.Drawing.Size(85, 17);
+            this.checkBoxStatics.Size = new System.Drawing.Size(87, 17);
             this.checkBoxStatics.TabIndex = 3;
-            this.checkBoxStatics.Text = "Copy Statics";
+            this.checkBoxStatics.Text = "Insert Statics";
             this.checkBoxStatics.UseVisualStyleBackColor = true;
             // 
             // numericUpDownX1
@@ -193,30 +171,21 @@ namespace FiddlerControls
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(121, 191);
+            this.button2.Location = new System.Drawing.Point(126, 163);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 12;
-            this.button2.Text = "Replace";
+            this.button2.Text = "Insert";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.OnClickCopy);
             // 
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 224);
+            this.progressBar1.Location = new System.Drawing.Point(0, 195);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(327, 23);
             this.progressBar1.TabIndex = 13;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 15);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "Replace From";
             // 
             // RemoveDupl
             // 
@@ -231,7 +200,7 @@ namespace FiddlerControls
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.checkBoxMap);
-            this.groupBox1.Location = new System.Drawing.Point(11, 40);
+            this.groupBox1.Location = new System.Drawing.Point(12, 11);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(145, 65);
             this.groupBox1.TabIndex = 19;
@@ -242,7 +211,7 @@ namespace FiddlerControls
             // 
             this.groupBox2.Controls.Add(this.checkBoxStatics);
             this.groupBox2.Controls.Add(this.RemoveDupl);
-            this.groupBox2.Location = new System.Drawing.Point(170, 40);
+            this.groupBox2.Location = new System.Drawing.Point(170, 11);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(145, 65);
             this.groupBox2.TabIndex = 20;
@@ -259,31 +228,28 @@ namespace FiddlerControls
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.numericUpDownY2);
-            this.groupBox3.Location = new System.Drawing.Point(11, 111);
+            this.groupBox3.Location = new System.Drawing.Point(11, 83);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(304, 74);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Region";
             // 
-            // MapReplace
+            // MapDiffInsert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 247);
+            this.ClientSize = new System.Drawing.Size(327, 218);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(335, 252);
-            this.Name = "MapReplace";
-            this.Text = "MapReplace";
+            this.Name = "MapDiffInsert";
+            this.Text = "Map Diff Insert";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX2)).EndInit();
@@ -295,14 +261,11 @@ namespace FiddlerControls
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBoxMap;
         private System.Windows.Forms.CheckBox checkBoxStatics;
         private System.Windows.Forms.NumericUpDown numericUpDownX1;
@@ -315,7 +278,6 @@ namespace FiddlerControls
         private System.Windows.Forms.NumericUpDown numericUpDownY2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox RemoveDupl;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;

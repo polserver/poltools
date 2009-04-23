@@ -71,7 +71,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 onLoad(this, EventArgs.Empty);
@@ -79,7 +79,6 @@ namespace FiddlerControls
 
         private void onLoad(object sender, EventArgs e)
         {
-            Loaded = true;
             Options.LoadedUltimaClass["Animdata"] = true;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
@@ -115,6 +114,14 @@ namespace FiddlerControls
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void AfterNodeSelect(object sender, TreeViewEventArgs e)

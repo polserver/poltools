@@ -8,7 +8,8 @@ namespace Ultima
         private HuedTile[][][][][] m_StaticTiles;
         private Tile[][][] m_LandTiles;
 
-        private Tile[] m_InvalidLandBlock;
+        public static Tile[] InvalidLandBlock { get; private set; }
+        public static HuedTile[][][] EmptyStaticBlock { get; private set; }
 
         private FileStream m_Map;
 
@@ -91,16 +92,16 @@ namespace Ultima
                 }
             }
 
-            m_InvalidLandBlock = new Tile[196];
+            InvalidLandBlock = new Tile[196];
 
             m_LandTiles = new Tile[BlockWidth][][];
             m_StaticTiles = new HuedTile[BlockWidth][][][][];
 
-            if (Map.UseDiff)
+            //if (Map.UseDiff)
                 Patch = new TileMatrixPatch(this, mapID, path);
         }
 
-        public HuedTile[][][] EmptyStaticBlock { get; private set; }
+        
 
         public void SetStaticBlock(int x, int y, HuedTile[][][] value)
         {
@@ -115,6 +116,10 @@ namespace Ultima
 
         public HuedTile[][][] GetStaticBlock(int x, int y)
         {
+            return GetStaticBlock(x, y, true);
+        }
+        public HuedTile[][][] GetStaticBlock(int x, int y, bool patch)
+        {
             if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight || m_Statics == null || m_Index == null)
                 return EmptyStaticBlock;
 
@@ -126,9 +131,23 @@ namespace Ultima
             if (tiles == null)
                 tiles = m_StaticTiles[x][y] = ReadStaticBlock(x, y);
 
+            if ((Map.UseDiff) && (patch))
+            {
+                if (Patch.StaticBlocksCount > 0)
+                {
+                    if (Patch.StaticBlocks[x] != null)
+                    {
+                        if (Patch.StaticBlocks[x][y] != null)
+                            tiles = Patch.StaticBlocks[x][y];
+                    }
+                }
+            }
             return tiles;
         }
-
+        public HuedTile[] GetStaticTiles(int x, int y, bool patch)
+        {
+            return GetStaticBlock(x >> 3, y >> 3,patch)[x & 0x7][y & 0x7];
+        }
         public HuedTile[] GetStaticTiles(int x, int y)
         {
             return GetStaticBlock(x >> 3, y >> 3)[x & 0x7][y & 0x7];
@@ -147,7 +166,11 @@ namespace Ultima
 
         public Tile[] GetLandBlock(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight || m_Map == null) return m_InvalidLandBlock;
+            return GetLandBlock(x, y, true);
+        }
+        public Tile[] GetLandBlock(int x, int y, bool patch)
+        {
+            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight || m_Map == null) return InvalidLandBlock;
 
             if (m_LandTiles[x] == null)
                 m_LandTiles[x] = new Tile[BlockHeight][];
@@ -157,7 +180,22 @@ namespace Ultima
             if (tiles == null)
                 tiles = m_LandTiles[x][y] = ReadLandBlock(x, y);
 
+            if ((Map.UseDiff) && (patch))
+            {
+                if (Patch.LandBlocksCount > 0)
+                {
+                    if (Patch.LandBlocks[x] != null)
+                    {
+                        if (Patch.LandBlocks[x][y] != null)
+                            tiles = Patch.LandBlocks[x][y];
+                    }
+                }
+            }
             return tiles;
+        }
+        public Tile GetLandTile(int x, int y, bool patch)
+        {
+            return GetLandBlock(x >> 3, y >> 3,patch)[((y & 0x7) << 3) + (x & 0x7)];
         }
 
         public Tile GetLandTile(int x, int y)

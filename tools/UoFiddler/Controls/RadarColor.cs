@@ -68,7 +68,7 @@ namespace FiddlerControls
                 }
             }
         }
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -80,7 +80,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
-            Loaded = true;
+            
 
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
@@ -106,7 +106,15 @@ namespace FiddlerControls
                 }
             }
             treeViewLand.EndUpdate();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void AfterSelectTreeViewitem(object sender, TreeViewEventArgs e)

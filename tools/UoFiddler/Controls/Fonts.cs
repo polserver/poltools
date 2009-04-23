@@ -34,7 +34,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -65,7 +65,7 @@ namespace FiddlerControls
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["ASCIIFont"] = true;
             Options.LoadedUltimaClass["UnicodeFont"] = true;
-            Loaded = true;
+            
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
             TreeNode node = new TreeNode("ASCII");
@@ -89,7 +89,15 @@ namespace FiddlerControls
             treeView.ExpandAll();
             treeView.EndUpdate();
             treeView.SelectedNode = treeView.Nodes[0].Nodes[0];
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void onSelect(object sender, TreeViewEventArgs e)

@@ -201,5 +201,35 @@ namespace FiddlerControls
         }
 
         public static Hues HueControl { get; set; }
+
+        #region Events
+        public delegate void MapDiffChangeHandler();
+        public delegate void MapNameChangeHandler();
+        public delegate void MapSizeChangeHandler();
+        public delegate void FilePathChangeHandler();
+
+        public static event MapDiffChangeHandler MapDiffChangeEvent;
+        public static event MapNameChangeHandler MapNameChangeEvent;
+        public static event MapSizeChangeHandler MapSizeChangeEvent;
+        public static event FilePathChangeHandler FilePathChangeEvent;
+
+        public static void FireMapDiffChangeEvent()
+        {
+            MapDiffChangeEvent();
+        }
+        public static void FireMapNameChangeEvent()
+        {
+            MapNameChangeEvent();
+        }
+        public static void FireMapSizeChangeEvent()
+        {
+            MapSizeChangeEvent();
+        }
+        public static void FireFilePathChangeEvent()
+        {
+            FilePathChangeEvent();
+        }
+        #endregion
+
     }
 }

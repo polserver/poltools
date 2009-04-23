@@ -30,7 +30,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -41,7 +41,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Sound"] = true;
-            Loaded = true;
+            
             string name = "";
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
@@ -58,7 +58,16 @@ namespace FiddlerControls
             if (treeView.Nodes.Count > 0)
                 treeView.SelectedNode = treeView.Nodes[0];
             sp = new System.Media.SoundPlayer();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void PlaySound(object sender, EventArgs e)

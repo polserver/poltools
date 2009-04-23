@@ -70,7 +70,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -91,7 +91,6 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
-            Loaded = true;
             Options.LoadedUltimaClass["Animations"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
             TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
@@ -109,7 +108,15 @@ namespace FiddlerControls
             if (TreeViewMobs.Nodes[0].Nodes.Count > 0)
                 TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
+            Loaded = true;
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         /// <summary>

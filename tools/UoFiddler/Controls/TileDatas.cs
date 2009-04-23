@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -46,6 +47,7 @@ namespace FiddlerControls
         private static TileDatas refMarker = null;
         private bool m_ShowNervingMsg = true;
 
+        [Browsable(false)]
         public bool ShowNervingMsg
         {
             get { return refMarker.m_ShowNervingMsg; }
@@ -140,7 +142,7 @@ namespace FiddlerControls
         }
 
         private bool Loaded = false;
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -150,7 +152,6 @@ namespace FiddlerControls
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
-            Loaded = true;
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
@@ -175,7 +176,15 @@ namespace FiddlerControls
                 }
             }
             treeViewLand.EndUpdate();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)

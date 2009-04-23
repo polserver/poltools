@@ -34,7 +34,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -42,7 +42,7 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
-            Loaded = true;
+            
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["Multis"] = true;
@@ -65,7 +65,15 @@ namespace FiddlerControls
             TreeViewMulti.EndUpdate();
             if (TreeViewMulti.Nodes.Count > 0)
                 TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         public void ChangeMulti(int id, MultiComponentList multi)

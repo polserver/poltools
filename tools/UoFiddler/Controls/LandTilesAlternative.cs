@@ -107,7 +107,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -130,7 +130,7 @@ namespace FiddlerControls
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
-            Loaded = true;
+
             for (int i = 0; i < 0x4000; i++)
             {
                 if (Art.IsValidLand(i))
@@ -139,7 +139,16 @@ namespace FiddlerControls
             vScrollBar.Maximum = TileList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                Reload();
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)

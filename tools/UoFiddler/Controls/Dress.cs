@@ -106,7 +106,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -173,8 +173,15 @@ namespace FiddlerControls
             toolTip1.SetToolTip(FacingBar, FacingBar.Value.ToString());
             BuildDressList();
             DrawPaperdoll();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void DrawPaperdoll()

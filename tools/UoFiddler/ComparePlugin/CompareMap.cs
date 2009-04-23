@@ -23,6 +23,21 @@ namespace ComparePlugin
         public CompareMap()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+        }
+
+        bool Loaded = false;
+        bool moving=false;
+        Point movingpoint=new Point();
+        private Point currPoint;
+        private Ultima.Map currmap;
+        private Ultima.Map origmap;
+        private int currmapint;
+        private Bitmap map;
+        public static double Zoom = 1;
+
+        private void OnLoad(object sender, EventArgs e)
+        {
             currmap = Ultima.Map.Custom;
             origmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
@@ -36,19 +51,47 @@ namespace ComparePlugin
             SetScrollBarValues();
             ChangeMapNames();
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
-            Loaded=true;
-        }
-        bool Loaded = false;
-        bool moving=false;
-        Point movingpoint=new Point();
-        private Point currPoint;
-        private Ultima.Map currmap;
-        private Ultima.Map origmap;
-        private int currmapint;
-        private Bitmap map;
-        public static double Zoom = 1;
 
-        public void ChangeMapNames()
+            FiddlerControls.Options.LoadedUltimaClass["Map"] = true;
+            FiddlerControls.Options.LoadedUltimaClass["RadarColor"] = true;
+
+            if (!Loaded)
+            {
+                FiddlerControls.Options.MapDiffChangeEvent += new FiddlerControls.Options.MapDiffChangeHandler(OnMapDiffChangeEvent);
+                FiddlerControls.Options.MapNameChangeEvent += new FiddlerControls.Options.MapNameChangeHandler(OnMapNameChangeEvent);
+                FiddlerControls.Options.MapSizeChangeEvent += new FiddlerControls.Options.MapSizeChangeHandler(OnMapSizeChangeEvent);
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            }
+            Loaded = true;
+        }
+
+        private void OnMapDiffChangeEvent()
+        {
+            pictureBox.Refresh();
+        }
+
+        private void OnMapNameChangeEvent()
+        {
+            ChangeMapNames();
+        }
+
+        private void OnMapSizeChangeEvent()
+        {
+            SetScrollBarValues();
+            if (currmap != null)
+                ChangeMap();
+            pictureBox.Refresh();
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            SetScrollBarValues();
+            if (currmap != null)
+                ChangeMap();
+            pictureBox.Refresh();
+        }
+
+        private void ChangeMapNames()
         {
             if (!Loaded)
                 return;
@@ -84,6 +127,7 @@ namespace ComparePlugin
             int xDelta = Math.Min(origmap.Width, (int)(e.X / Zoom) + Round(hScrollBar.Value));
             int yDelta = Math.Min(origmap.Height, (int)(e.Y / Zoom) + Round(vScrollBar.Value));
             CoordsLabel.Text = String.Format("Coords: {0},{1}", xDelta, yDelta);
+            string diff = "";
             if (moving)
             {
                 toolTip1.RemoveAll();
@@ -97,7 +141,6 @@ namespace ComparePlugin
             }
             else if ((Zoom >= 2) && (currmap!=null))
             {
-                string diff = "";
                 Ultima.Tile customTile = currmap.Tiles.GetLandTile(xDelta, yDelta);
                 Ultima.Tile origTile = origmap.Tiles.GetLandTile(xDelta, yDelta);
                 if ((customTile.ID != origTile.ID) || (customTile.Z != origTile.Z))
@@ -138,10 +181,46 @@ namespace ComparePlugin
                     }
                 }
                 toolTip1.SetToolTip(pictureBox, diff);
+                pictureBox.Invalidate();
             }
-            else
-                toolTip1.RemoveAll();
-
+            
+            if ((Zoom >= 2) && (markDiffToolStripMenuItem.Checked) && (diff==""))
+            {
+                Ultima.Map drawmap;
+                if (showMap1ToolStripMenuItem.Checked)
+                    drawmap = origmap;
+                else
+                    drawmap = currmap;
+                if (drawmap.Tiles.Patch.LandBlocksCount > 0)
+                {
+                    if (drawmap.Tiles.Patch.IsLandBlockPatched(xDelta >> 3, yDelta >> 3))
+                    {
+                        Ultima.Tile patchTile = drawmap.Tiles.Patch.GetLandTile(xDelta, yDelta);
+                        Ultima.Tile origTile = drawmap.Tiles.GetLandTile(xDelta, yDelta, false);
+                        diff = String.Format("Tile:\n\r0x{0:X} {1} -> 0x{2:X} {3}\n\r", origTile.ID, origTile.Z, patchTile.ID, patchTile.Z);
+                    }
+                }
+                if (drawmap.Tiles.Patch.StaticBlocksCount > 0)
+                {
+                    if (drawmap.Tiles.Patch.IsStaticBlockPatched(xDelta >> 3, yDelta >> 3))
+                    {
+                        Ultima.HuedTile[] patchStatics = drawmap.Tiles.Patch.GetStaticTiles(xDelta, yDelta);
+                        Ultima.HuedTile[] origStatics = drawmap.Tiles.GetStaticTiles(xDelta, yDelta, false);
+                        diff += "Statics:\n\rorig:\n\r";
+                        foreach (Ultima.HuedTile tile in origStatics)
+                        {
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                        }
+                        diff += "patch:\n\r";
+                        foreach (Ultima.HuedTile tile in patchStatics)
+                        {
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                        }
+                    }
+                }
+                toolTip1.SetToolTip(pictureBox, diff);
+                pictureBox.Invalidate();
+            }
         }
 
         private void onMouseUp(object sender, MouseEventArgs e)
@@ -169,7 +248,6 @@ namespace ComparePlugin
                 {
                     using (Graphics mapg = Graphics.FromImage(map))
                     {
-
                         int maxx = ((int)((e.ClipRectangle.Width / Zoom) + 8) >> 3) + (hScrollBar.Value >> 3);
                         int maxy = ((int)((e.ClipRectangle.Height / Zoom) + 8) >> 3) + (vScrollBar.Value >> 3);
                         int gx = 0, gy = 0;
@@ -225,6 +303,49 @@ namespace ComparePlugin
                             }
                         }
                         mapg.Save();
+                    }
+                }
+            }
+
+            if (markDiffToolStripMenuItem.Checked)
+            {
+                Ultima.Map drawmap;
+                if (showMap1ToolStripMenuItem.Checked)
+                    drawmap = origmap;
+                else
+                    drawmap = currmap;
+                int count = drawmap.Tiles.Patch.LandBlocksCount + drawmap.Tiles.Patch.StaticBlocksCount;
+                if (count > 0)
+                {
+                    using (Graphics mapg = Graphics.FromImage(map))
+                    {
+                        int maxx = ((int)((e.ClipRectangle.Width / Zoom) + 8) >> 3) + (hScrollBar.Value >> 3);
+                        int maxy = ((int)((e.ClipRectangle.Height / Zoom) + 8) >> 3) + (vScrollBar.Value >> 3);
+                        if (maxx > drawmap.Width >> 3)
+                            maxx = drawmap.Width >> 3;
+                        if (maxy > drawmap.Height >> 3)
+                            maxy = drawmap.Height >> 3;
+
+                        int gx = 0, gy = 0;
+                        for (int x = (hScrollBar.Value >> 3); x < maxx; x++, gx += 8)
+                        {
+                            gy = 0;
+                            for (int y = (vScrollBar.Value >> 3); y < maxy; y++, gy += 8)
+                            {
+                                if (drawmap.Tiles.Patch.IsLandBlockPatched(x,y))
+                                {
+                                    mapg.FillRectangle(Brushes.Azure, gx, gy, 8, 8);
+                                    mapg.FillRectangle(Brushes.Azure, gx, 0, 8, 2);
+                                    mapg.FillRectangle(Brushes.Azure, 0, gy, 2, 8);
+                                }
+                                if (drawmap.Tiles.Patch.IsStaticBlockPatched(x, y))
+                                {
+                                    mapg.FillRectangle(Brushes.Azure, gx, gy, 8, 8);
+                                    mapg.FillRectangle(Brushes.Azure, gx, 0, 8, 2);
+                                    mapg.FillRectangle(Brushes.Azure, 0, gy, 2, 8);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -439,5 +560,12 @@ namespace ComparePlugin
                 pictureBox.Refresh();
             }
         }
+
+        private void OnClickMarkDiff(object sender, EventArgs e)
+        {
+            pictureBox.Refresh();
+        }
+
+        
     }
 }

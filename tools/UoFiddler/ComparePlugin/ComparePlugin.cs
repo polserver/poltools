@@ -56,10 +56,6 @@ namespace FiddlerPlugin
         {
         }
 
-        public override void Reload()
-        {
-        }
-
         public override void OnDesignChange()
         {
         }

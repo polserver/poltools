@@ -34,7 +34,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -43,7 +43,6 @@ namespace FiddlerControls
 
         private void OnLoad(object sender, EventArgs e)
         {
-            Loaded = true;
             Options.LoadedUltimaClass["Speech"] = true;
             sortorder = SortOrder.Ascending;
             sortcolumn = 2;
@@ -52,6 +51,14 @@ namespace FiddlerControls
             if (dataGridView1.Columns.Count > 0)
                 dataGridView1.Columns[0].Width = 60;
             dataGridView1.Refresh();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void onHeaderClick(object sender, DataGridViewCellMouseEventArgs e)

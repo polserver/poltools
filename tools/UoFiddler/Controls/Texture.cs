@@ -29,7 +29,7 @@ namespace FiddlerControls
 
         private static Texture refMarker = null;
         private bool Loaded = false;
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -94,7 +94,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Texture"] = true;
-            Loaded = true;
+            
             listView1.BeginUpdate();
             listView1.Clear();
             ListViewItem item;
@@ -111,7 +111,16 @@ namespace FiddlerControls
 
             listView1.TileSize = new Size(64, 64);
             listView1.EndUpdate();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                Reload();
         }
 
         private TextureSearch showform = null;

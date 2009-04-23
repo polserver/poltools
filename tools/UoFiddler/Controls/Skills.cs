@@ -29,7 +29,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -38,7 +38,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Skills"] = true;
-            Loaded = true;
+            
             source.DataSource = Ultima.Skills.SkillEntries;
             dataGridView1.DataSource = source;
             dataGridView1.Refresh();
@@ -56,7 +56,15 @@ namespace FiddlerControls
                 dataGridView1.Columns[2].ReadOnly = false;
                 dataGridView1.Columns[3].Visible = false; // extraFlag
             }
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void OnClickSave(object sender, EventArgs e)

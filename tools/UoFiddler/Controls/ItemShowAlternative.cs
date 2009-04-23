@@ -153,7 +153,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -174,7 +174,7 @@ namespace FiddlerControls
                         plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
                 }
             }
-            Loaded = true;
+            
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
             ItemList = new ArrayList();
@@ -209,7 +209,15 @@ namespace FiddlerControls
             vScrollBar.Maximum = ItemList.Count / col + 1;
             bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             PaintBox();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+        private void OnFilePathChangeEvent()
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                Reload();
         }
 
         private int GetIndex(int x, int y)

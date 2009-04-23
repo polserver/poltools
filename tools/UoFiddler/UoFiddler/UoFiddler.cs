@@ -106,40 +106,8 @@ namespace UoFiddler
             if (FiddlerControls.Options.LoadedUltimaClass["Speech"])
                 Ultima.SpeechList.Initialize();
 
-            this.controlMulti.Reload();
-            this.controlAnimations.Reload();
-            if (FiddlerControls.Options.DesignAlternative)
-                this.controlItemShowAlt.Reload();
-            else
-                this.controlItemShow.Reload();
-            if (FiddlerControls.Options.DesignAlternative)
-                this.controlLandTilesAlt.Reload();
-            else
-                this.controlLandTiles.Reload();
-            if (FiddlerControls.Options.DesignAlternative)
-                this.controlTextureAlt.Reload();
-            else
-                this.controlTexture.Reload();
-            this.controlGumps.Reload();
-            this.controlSound.Reload();
-            this.controlHue.Reload();
-            this.controlfonts.Reload();
-            this.controlCliloc.Reload();
-            this.controlmap.Reload();
-            this.controlLight.Reload();
-            this.controldress.Reload();
-            this.controlMultimap.Reload();
-            this.controlSkills.Reload();
-            this.controlTileData.Reload();
-            this.controlspeech.Reload();
-            this.controlAnimdata.Reload();
-            this.controlRadarCol.Reload();
+            FiddlerControls.Options.FireFilePathChangeEvent();
 
-            foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
-            {
-                if (plug.Loaded)
-                    plug.Instance.Reload();
-            }
             this.Cursor = Cursors.Default;
         }
 
@@ -336,15 +304,7 @@ namespace UoFiddler
         {
             if (FiddlerControls.Options.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
-            refmarker.controlmap.Reload();
-        }
-
-        /// <summary>
-        /// Updates in Map tab the mapnames
-        /// </summary>
-        public static void ChangeMapNames()
-        {
-            refmarker.controlmap.ChangeMapNames();
+            FiddlerControls.Options.FireMapSizeChangeEvent();
         }
 
         private void OnClickUndock(object sender, EventArgs e)

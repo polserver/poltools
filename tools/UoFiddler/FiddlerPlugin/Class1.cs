@@ -67,11 +67,6 @@ namespace FiddlerPlugin
         {
         }
 
-        public override void Reload()
-        {
-            // muls have changed do something usefull
-        }
-
         public override void OnDesignChange()
         {
             // Design has changed

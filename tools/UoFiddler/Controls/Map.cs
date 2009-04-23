@@ -57,7 +57,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -65,13 +65,14 @@ namespace FiddlerControls
             moving = false;
             OnLoad(this, EventArgs.Empty);
         }
+
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
             LoadMapOverlays();
             Options.LoadedUltimaClass["Map"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
-            Loaded = true;
+            
             currmap = Ultima.Map.Felucca;
             feluccaToolStripMenuItem.Checked = true;
             trammelToolStripMenuItem.Checked = false;
@@ -84,12 +85,39 @@ namespace FiddlerControls
             Refresh();
             pictureBox.Refresh();
             this.Cursor = Cursors.Default;
+
+            if (!Loaded)
+            {
+                FiddlerControls.Options.MapDiffChangeEvent += new FiddlerControls.Options.MapDiffChangeHandler(OnMapDiffChangeEvent);
+                FiddlerControls.Options.MapNameChangeEvent += new FiddlerControls.Options.MapNameChangeHandler(OnMapNameChangeEvent);
+                FiddlerControls.Options.MapSizeChangeEvent += new FiddlerControls.Options.MapSizeChangeHandler(OnMapSizeChangeEvent);
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            }
+            Loaded = true;
         }
+
+        private void OnMapDiffChangeEvent()
+        {
+            pictureBox.Refresh();
+        }
+        private void OnMapNameChangeEvent()
+        {
+            ChangeMapNames();
+        }
+        private void OnMapSizeChangeEvent()
+        {
+            Reload();
+        }
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
+        }
+
 
         /// <summary>
         /// Changes the Names of maps
         /// </summary>
-        public void ChangeMapNames()
+        private void ChangeMapNames()
         {
             if (!Loaded)
                 return;
@@ -829,6 +857,17 @@ namespace FiddlerControls
                 showform = new MapReplace(currmap);
                 showform.TopMost = true;
                 showform.Show();
+            }
+        }
+
+        private MapDiffInsert showformMapDiff = null;
+        private void OnClickInsertDiffData(object sender, EventArgs e)
+        {
+            if ((showformMapDiff == null) || (showformMapDiff.IsDisposed))
+            {
+                showformMapDiff = new MapDiffInsert(currmap);
+                showformMapDiff.TopMost = true;
+                showformMapDiff.Show();
             }
         }
     }
