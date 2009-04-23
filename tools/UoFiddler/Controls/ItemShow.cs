@@ -131,7 +131,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -152,7 +152,7 @@ namespace FiddlerControls
                         plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
                 }
             }
-            Loaded = true;
+            
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
             listView1.BeginUpdate();
@@ -194,9 +194,19 @@ namespace FiddlerControls
             }
 
             listView1.TileSize = new Size(Options.ArtItemSizeWidth, Options.ArtItemSizeHeight);
-
             listView1.EndUpdate();
+
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                Reload();
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)

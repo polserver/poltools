@@ -92,7 +92,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -102,10 +102,9 @@ namespace FiddlerControls
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
-            Loaded = true;
+            
             listView1.BeginUpdate();
             listView1.Clear();
-
             for (int i = 0; i < 0x4000; i++)
             {
                 if (Art.IsValidLand(i))
@@ -115,10 +114,18 @@ namespace FiddlerControls
                     listView1.Items.Add(item);
                 }
             }
-
             listView1.TileSize = new Size(49, 49);
             listView1.EndUpdate();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                Reload();
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)

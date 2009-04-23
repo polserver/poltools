@@ -737,7 +737,6 @@ namespace UoFiddler
             // 
             // controlAnimdata
             // 
-            this.controlAnimdata.CurrAnim = 0;
             this.controlAnimdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlAnimdata.Location = new System.Drawing.Point(0, 0);
             this.controlAnimdata.Name = "controlAnimdata";
@@ -756,32 +755,6 @@ namespace UoFiddler
             // 
             this.controldress.Cursor = System.Windows.Forms.Cursors.Default;
             this.controldress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controldress.Hues = new int[] {
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0};
             this.controldress.Location = new System.Drawing.Point(3, 3);
             this.controldress.Name = "controldress";
             this.controldress.Size = new System.Drawing.Size(613, 318);
@@ -793,7 +766,6 @@ namespace UoFiddler
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
-            this.controlTileData.ShowNervingMsg = true;
             this.controlTileData.Size = new System.Drawing.Size(619, 324);
             this.controlTileData.TabIndex = 0;
             // 

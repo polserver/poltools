@@ -65,7 +65,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -82,7 +82,7 @@ namespace FiddlerControls
                 pictureBox.ContextMenu = new ContextMenu();
             }
 
-            Loaded = true;
+            
             vScrollBar.Maximum = Ultima.Hues.List.Length;
             vScrollBar.Minimum = 0;
             vScrollBar.Value = 0;
@@ -92,6 +92,14 @@ namespace FiddlerControls
             if (selected > 0)
                 vScrollBar.Value = selected;
             PaintBox();
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private int GetIndex(int y)

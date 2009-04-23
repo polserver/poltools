@@ -35,7 +35,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -166,7 +166,7 @@ namespace FiddlerControls
 
         private void OnClickLoad(object sender, EventArgs e)
         {
-            Loaded = true;
+            
             this.Cursor = Cursors.WaitCursor;
             buttonGenerate.Visible = false;
             buttonLoad.Visible = false;
@@ -177,7 +177,15 @@ namespace FiddlerControls
                 SetScrollBarValues();
             }
             toolTip1.SetToolTip(pictureBox, "");
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void OnClickRLE(object sender, EventArgs e)

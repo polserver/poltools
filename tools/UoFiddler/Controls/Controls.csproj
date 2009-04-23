@@ -76,33 +76,6 @@
     <ErrorReport>prompt</ErrorReport>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|AnyCPU' ">
-    <OutputPath>bin\.net3.5 release\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|x86' ">
-    <OutputPath>bin\x86\.net3.5 release\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '.net3.5 release|x64' ">
-    <OutputPath>bin\x64\.net3.5 release\</OutputPath>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GD-Sharp, Version=1.0.4.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -242,6 +215,12 @@
     </Compile>
     <Compile Include="HuePopUpDress.Designer.cs">
       <DependentUpon>HuePopUpDress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MapDiffInsert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapDiffInsert.Designer.cs">
+      <DependentUpon>MapDiffInsert.cs</DependentUpon>
     </Compile>
     <Compile Include="LandTiles.cs">
       <SubType>UserControl</SubType>
@@ -469,6 +448,9 @@
     <EmbeddedResource Include="HuePopUpDress.resx">
       <DependentUpon>HuePopUpDress.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapDiffInsert.resx">
+      <DependentUpon>MapDiffInsert.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LandTiles.resx">
       <SubType>Designer</SubType>

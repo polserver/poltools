@@ -30,7 +30,7 @@ namespace FiddlerControls
         /// <summary>
         /// ReLoads if loaded
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(this, EventArgs.Empty);
@@ -39,7 +39,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Light"] = true;
-            Loaded = true;
+            
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
             for (int i = 0; i < Ultima.Light.GetCount(); i++)
@@ -54,7 +54,15 @@ namespace FiddlerControls
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void AfterSelect(object sender, TreeViewEventArgs e)

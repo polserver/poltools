@@ -72,7 +72,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (!Loaded)
                 return;
@@ -82,7 +82,6 @@ namespace FiddlerControls
         private void OnLoad(object sender, EventArgs e)
         {
             this.Cursor = Cursors.AppStarting;
-            Loaded = true;
             sortorder = SortOrder.Ascending;
             sortcolumn = 0;
             LangComboBox.SelectedIndex = 0;
@@ -108,8 +107,16 @@ namespace FiddlerControls
                 LangComboBox.Items[3] = String.Format("Custom 2 ({0})", Path.GetExtension(Files.GetFilePath("cliloc.custom2")));
             else
                 LangComboBox.Items[3] = "Custom 2";
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
 
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void TestCustomLang(string what)

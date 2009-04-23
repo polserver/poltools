@@ -75,7 +75,6 @@ namespace FiddlerPlugin
             SaveXML();
         }
 
-        public override void Reload() { }
         public override void ModifyTabPages(TabControl tabcontrol) { }
 
         public override void OnDesignChange()

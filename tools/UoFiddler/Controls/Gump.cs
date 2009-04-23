@@ -35,7 +35,7 @@ namespace FiddlerControls
         /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
-        public void Reload()
+        private void Reload()
         {
             if (Loaded)
                 OnLoad(EventArgs.Empty);
@@ -45,7 +45,7 @@ namespace FiddlerControls
         {
             this.Cursor = Cursors.AppStarting;
             Options.LoadedUltimaClass["Gumps"] = true;
-            Loaded = true;
+            
             listBox.BeginUpdate();
             listBox.Items.Clear();
             for (int i = 0; i < 0xFFFF; i++)
@@ -57,7 +57,15 @@ namespace FiddlerControls
             listBox.EndUpdate();
             if (listBox.Items.Count > 0)
                 listBox.SelectedIndex = 0;
+            if (!Loaded)
+                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             this.Cursor = Cursors.Default;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            Reload();
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)

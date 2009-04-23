@@ -133,6 +133,8 @@ namespace Ultima
 
         private short[][][] m_Cache;
         private short[][][] m_Cache_NoStatics;
+        private short[][][] m_Cache_NoPatch;
+        private short[][][] m_Cache_NoStatics_NoPatch;
         private short[] m_Black;
 
         private short[] GetRenderedBlock(int x, int y, bool statics)
@@ -147,14 +149,28 @@ namespace Ultima
                 return m_Black;
             }
 
-            short[][][] cache = (statics ? m_Cache : m_Cache_NoStatics);
+            short[][][] cache;
+            if (Map.UseDiff)
+                cache = (statics ? m_Cache : m_Cache_NoStatics);
+            else
+                cache = (statics ? m_Cache_NoPatch : m_Cache_NoStatics_NoPatch);
 
             if (cache == null)
             {
-                if (statics)
-                    m_Cache = cache = new short[m_Tiles.BlockHeight][][];
+                if (Map.UseDiff)
+                {
+                    if (statics)
+                        m_Cache = cache = new short[m_Tiles.BlockHeight][][];
+                    else
+                        m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
+                }
                 else
-                    m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
+                {
+                    if (statics)
+                        m_Cache_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    else
+                        m_Cache_NoStatics_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                }
             }
 
             if (cache[y] == null)

@@ -42,11 +42,6 @@ namespace PluginInterface
         virtual public void ModifyItemShowContextMenu(ContextMenuStrip strip) { }
 
         /// <summary>
-        /// Called if mul Pathes have changed
-        /// </summary>
-        virtual public void Reload() { }
-
-        /// <summary>
         /// Called if DesignAlternative is switched
         /// </summary>
         virtual public void OnDesignChange() { }
