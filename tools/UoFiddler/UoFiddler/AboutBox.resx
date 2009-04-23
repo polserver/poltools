@@ -119,8 +119,9 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.8a
--Added basic View menu support. When re-enabling view tab is added to the end.
+-Added View Menu to hide docked tabs.
 -View toggle states are not saved to file.
+-Optimized Dock/UnDock code.
 -Help button changed to load Docs from website.
 
 Version 3.8

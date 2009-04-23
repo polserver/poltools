@@ -312,8 +312,7 @@ namespace UoFiddler
             int tag = (int)TabPanel.SelectedTab.Tag;
             if (tag > 0)
             {
-                new UnDocked(TabPanel.SelectedTab.Controls[0],
-                    TabPanel.SelectedTab.Text, tag).Show();
+                new UnDocked(TabPanel.SelectedTab).Show();
                 TabPanel.TabPages.Remove(TabPanel.SelectedTab);
             }
         }
@@ -324,24 +323,21 @@ namespace UoFiddler
         /// <param name="contr"></param>
         /// <param name="index"></param>
         /// <param name="name"></param>
-        public static void ReDock(Control contr, int index, string name)
+        public static void ReDock(TabPage oldtab)
         {
             bool done = false;
-            TabPage p = new TabPage(name);
-            p.Tag = index;
-            p.Controls.Add(contr);
             foreach (TabPage page in refmarker.TabPanel.TabPages)
             {
-                if ((int)page.Tag > index)
+                if ((int)page.Tag > (int)oldtab.Tag)
                 {
-                    refmarker.TabPanel.TabPages.Insert(refmarker.TabPanel.TabPages.IndexOf(page), p);
+                    refmarker.TabPanel.TabPages.Insert(refmarker.TabPanel.TabPages.IndexOf(page), oldtab);
                     done = true;
                     break;
                 }
             }
             if (!done)
-                refmarker.TabPanel.TabPages.Add(p);
-            refmarker.TabPanel.SelectedTab = p;
+                refmarker.TabPanel.TabPages.Add(oldtab);
+            refmarker.TabPanel.SelectedTab = oldtab;
         }
 
         private ManagePlugins pluginsform;
@@ -386,284 +382,132 @@ namespace UoFiddler
         }
 
         #region View Menu Toggles
-        private void ToggleViewStart_Click(object sender, EventArgs e)
+        private void ToggleView(TabPage thepage, ToolStripMenuItem themenuitem)
         {
-            if (ToggleViewStart.Checked)
+            int tag = (int)thepage.Tag;
+            if (themenuitem.Checked)
             {
-                ToggleViewStart.Checked = false;
-                TabPanel.TabPages.Remove(Start);
+                if (!TabPanel.TabPages.Contains(thepage))
+                    return;
+                themenuitem.Checked = false;
+                TabPanel.TabPages.Remove(thepage);
             }
             else
             {
-                ToggleViewStart.Checked = true;
-                TabPanel.TabPages.Insert(0, Start);
+                themenuitem.Checked = true;
+                bool done = false;
+                foreach (TabPage page in refmarker.TabPanel.TabPages)
+                {
+                    if ((int)page.Tag > tag)
+                    {
+                        refmarker.TabPanel.TabPages.Insert(refmarker.TabPanel.TabPages.IndexOf(page), thepage);
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    refmarker.TabPanel.TabPages.Add(thepage);
             }
+        }
+
+        private void ToggleViewStart_Click(object sender, EventArgs e)
+        {
+            ToggleView(Start, ToggleViewStart);
         }
 
         private void ToggleViewMulti_Click(object sender, EventArgs e)
         {
-            if (ToggleViewMulti.Checked)
-            {
-                ToggleViewMulti.Checked = false;
-                TabPanel.TabPages.Remove(Multis);
-            }
-            else
-            {
-                ToggleViewMulti.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Multis);
-            }
+            ToggleView(Multis, ToggleViewMulti);
         }
 
         private void ToggleViewAnimations_Click(object sender, EventArgs e)
         {
-            if (ToggleViewAnimations.Checked)
-            {
-                ToggleViewAnimations.Checked = false;
-                TabPanel.TabPages.Remove(Animation);
-            }
-            else
-            {
-                ToggleViewAnimations.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Animation);
-            }
+            ToggleView(Animation, ToggleViewAnimations);
         }
 
         private void ToggleViewItems_Click(object sender, EventArgs e)
         {
-            if (ToggleViewItems.Checked)
-            {
-                ToggleViewItems.Checked = false;
-                TabPanel.TabPages.Remove(Items);
-            }
-            else
-            {
-                ToggleViewItems.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Items);
-            }
+            ToggleView(Items, ToggleViewItems);
         }
 
         private void ToggleViewLandTiles_Click(object sender, EventArgs e)
         {
-            if (ToggleViewLandTiles.Checked)
-            {
-                ToggleViewLandTiles.Checked = false;
-                TabPanel.TabPages.Remove(LandTiles);
-            }
-            else
-            {
-                ToggleViewLandTiles.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, LandTiles);
-            }
+            ToggleView(LandTiles, ToggleViewLandTiles);
         }
 
         private void ToggleViewTexture_Click(object sender, EventArgs e)
         {
-            if (ToggleViewTexture.Checked)
-            {
-                ToggleViewTexture.Checked = false;
-                TabPanel.TabPages.Remove(Texture);
-            }
-            else
-            {
-                ToggleViewTexture.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Texture);
-            }
+            ToggleView(Texture, ToggleViewTexture);
         }
 
         private void ToggleViewGumps_Click(object sender, EventArgs e)
         {
-            if (ToggleViewGumps.Checked)
-            {
-                ToggleViewGumps.Checked = false;
-                TabPanel.TabPages.Remove(Gumps);
-            }
-            else
-            {
-                ToggleViewGumps.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Gumps);
-            }
+            ToggleView(Gumps, ToggleViewGumps);
         }
 
         private void ToggleViewSounds_Click(object sender, EventArgs e)
         {
-            if (ToggleViewSounds.Checked)
-            {
-                ToggleViewSounds.Checked = false;
-                TabPanel.TabPages.Remove(Sounds);
-            }
-            else
-            {
-                ToggleViewSounds.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Sounds);
-            }
+            ToggleView(Sounds, ToggleViewSounds);
         }
 
         private void ToggleViewHue_Click(object sender, EventArgs e)
         {
-            if (ToggleViewHue.Checked)
-            {
-                ToggleViewHue.Checked = false;
-                TabPanel.TabPages.Remove(Hue);
-            }
-            else
-            {
-                ToggleViewHue.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Hue);
-            }
+            ToggleView(Hue, ToggleViewHue);
         }
 
         private void ToggleViewFonts_Click(object sender, EventArgs e)
         {
-            if (ToggleViewFonts.Checked)
-            {
-                ToggleViewFonts.Checked = false;
-                TabPanel.TabPages.Remove(fonts);
-            }
-            else
-            {
-                ToggleViewFonts.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, fonts);
-            }
+            ToggleView(fonts, ToggleViewFonts);
         }
 
         private void ToggleViewCliloc_Click(object sender, EventArgs e)
         {
-            if (ToggleViewCliloc.Checked)
-            {
-                ToggleViewCliloc.Checked = false;
-                TabPanel.TabPages.Remove(Cliloc);
-            }
-            else
-            {
-                ToggleViewCliloc.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Cliloc);
-            }
+            ToggleView(Cliloc, ToggleViewCliloc);
         }
 
         private void ToggleViewMap_Click(object sender, EventArgs e)
         {
-            if (ToggleViewMap.Checked)
-            {
-                ToggleViewMap.Checked = false;
-                TabPanel.TabPages.Remove(map);
-            }
-            else
-            {
-                ToggleViewMap.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, map);
-            }
+            ToggleView(map, ToggleViewMap);
         }
 
         private void ToggleViewLight_Click(object sender, EventArgs e)
         {
-            if (ToggleViewLight.Checked)
-            {
-                ToggleViewLight.Checked = false;
-                TabPanel.TabPages.Remove(Light);
-            }
-            else
-            {
-                ToggleViewLight.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Light);
-            }
+            ToggleView(Light, ToggleViewLight);
         }
 
         private void ToggleViewSpeech_Click(object sender, EventArgs e)
         {
-            if (ToggleViewSpeech.Checked)
-            {
-                ToggleViewSpeech.Checked = false;
-                TabPanel.TabPages.Remove(speech);
-            }
-            else
-            {
-                ToggleViewSpeech.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, speech);
-            }
+            ToggleView(speech, ToggleViewSpeech);
         }
 
         private void ToggleViewSkills_Click(object sender, EventArgs e)
         {
-            if (ToggleViewSkills.Checked)
-            {
-                ToggleViewSkills.Checked = false;
-                TabPanel.TabPages.Remove(Skills);
-            }
-            else
-            {
-                ToggleViewSkills.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Skills);
-            }
+            ToggleView(Skills, ToggleViewSkills);
         }
 
         private void ToggleViewAnimData_Click(object sender, EventArgs e)
         {
-            if (ToggleViewAnimData.Checked)
-            {
-                ToggleViewAnimData.Checked = false;
-                TabPanel.TabPages.Remove(AnimData);
-            }
-            else
-            {
-                ToggleViewAnimData.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, AnimData);
-            }
+            ToggleView(AnimData, ToggleViewAnimData);
         }
 
         private void ToggleViewMultiMap_Click(object sender, EventArgs e)
         {
-            if (ToggleViewMultiMap.Checked)
-            {
-                ToggleViewMultiMap.Checked = false;
-                TabPanel.TabPages.Remove(multimap);
-            }
-            else
-            {
-                ToggleViewMultiMap.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, multimap);
-            }
+            ToggleView(multimap, ToggleViewMultiMap);
         }
 
         private void ToggleViewDress_Click(object sender, EventArgs e)
         {
-            if (ToggleViewDress.Checked)
-            {
-                ToggleViewDress.Checked = false;
-                TabPanel.TabPages.Remove(Dress);
-            }
-            else
-            {
-                ToggleViewDress.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, Dress);
-            }
+            ToggleView(Dress, ToggleViewDress);
         }
 
         private void ToggleViewTileData_Click(object sender, EventArgs e)
         {
-            if (ToggleViewTileData.Checked)
-            {
-                ToggleViewTileData.Checked = false;
-                TabPanel.TabPages.Remove(TileDatas);
-            }
-            else
-            {
-                ToggleViewTileData.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, TileDatas);
-            }
+            ToggleView(TileDatas, ToggleViewTileData);
         }
 
         private void ToggleViewRadarColor_Click(object sender, EventArgs e)
         {
-            if (ToggleViewRadarColor.Checked)
-            {
-                ToggleViewRadarColor.Checked = false;
-                TabPanel.TabPages.Remove(RadarCol);
-            }
-            else
-            {
-                ToggleViewRadarColor.Checked = true;
-                TabPanel.TabPages.Insert(TabPanel.TabPages.Count, RadarCol);
-            }
+            ToggleView(RadarCol, ToggleViewRadarColor);
         }
         #endregion
     }

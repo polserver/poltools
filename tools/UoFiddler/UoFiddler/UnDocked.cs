@@ -15,16 +15,16 @@ namespace UoFiddler
 {
     public partial class UnDocked : Form
     {
-        private int m_index;
-        private string m_name;
-        public UnDocked(Control contr, string name, int index)
+        private TabPage m_oldtab;
+
+        public UnDocked(TabPage oldtab)
         {
+            Control contr = oldtab.Controls[0];
             this.Controls.Clear();
             this.Controls.Add(contr);
             InitializeComponent();
-            this.Text = name;
-            m_index = index;
-            m_name = name;
+            this.Text = oldtab.Text;
+            m_oldtab = oldtab;
             if (UoFiddler.ActiveForm.TopMost)
                 this.TopMost = true;
         }
@@ -38,7 +38,11 @@ namespace UoFiddler
         }
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            UoFiddler.ReDock(this.Controls[0], m_index, m_name);
+            Control contr = this.Controls[0];
+            m_oldtab.Controls.Clear();
+            m_oldtab.Controls.Add(contr);
+
+            UoFiddler.ReDock(m_oldtab);
         }
     }
 }
