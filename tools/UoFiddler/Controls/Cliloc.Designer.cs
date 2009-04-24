@@ -57,8 +57,8 @@ namespace FiddlerControls
             this.FindButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.exportToCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ClilocExportButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -88,11 +88,9 @@ namespace FiddlerControls
             this.copyCliLocTextToolStripMenuItem,
             this.toolStripSeparator3,
             this.addEntryToolStripMenuItem,
-            this.deleteEntryToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.exportToCsvToolStripMenuItem});
+            this.deleteEntryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 148);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
             // 
             // copyCliLocNumberToolStripMenuItem
             // 
@@ -137,7 +135,9 @@ namespace FiddlerControls
             this.FindEntry,
             this.FindButton,
             this.toolStripSeparator2,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripSeparator5,
+            this.ClilocExportButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -211,17 +211,19 @@ namespace FiddlerControls
             this.toolStripButton1.Text = "Save";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickSave);
             // 
-            // exportToCsvToolStripMenuItem
+            // toolStripSeparator5
             // 
-            this.exportToCsvToolStripMenuItem.Name = "exportToCsvToolStripMenuItem";
-            this.exportToCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportToCsvToolStripMenuItem.Text = "Export to csv";
-            this.exportToCsvToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportCSV);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripSeparator4
+            // ClilocExportButton
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.ClilocExportButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ClilocExportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClilocExportButton.Name = "ClilocExportButton";
+            this.ClilocExportButton.Size = new System.Drawing.Size(43, 22);
+            this.ClilocExportButton.Text = "Export";
+            this.ClilocExportButton.Click += new System.EventHandler(this.OnClickExportCSV);
             // 
             // Cliloc
             // 
@@ -260,7 +262,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem copyCliLocNumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyCliLocTextToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem exportToCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton ClilocExportButton;
     }
 }

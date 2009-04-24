@@ -119,6 +119,7 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.8a
+-Moved Cliloc Export context menu item to Button in toolbar for Cliloc Control
 -some crashes/problems fixed
 -PluginInterface changed a bit
 -Map tab added Insert Diff Data.. to write from definied region map/static diff file data into mapfiles
