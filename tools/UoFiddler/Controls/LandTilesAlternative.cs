@@ -309,19 +309,21 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    Art.ReplaceLand(selected, bmp);
-                    PaintBox();
-                    Options.ChangedUltimaClass["Art"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        Art.ReplaceLand(selected, bmp);
+                        PaintBox();
+                        Options.ChangedUltimaClass["Art"] = true;
+                    }
                 }
             }
         }
@@ -350,35 +352,37 @@ namespace FiddlerControls
                     if (Art.IsValidLand(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        Art.ReplaceLand(index, bmp);
-                        bool done = false;
-                        for (int i = 0; i < TileList.Count; i++)
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            if (index < (int)TileList[i])
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            Art.ReplaceLand(index, bmp);
+                            bool done = false;
+                            for (int i = 0; i < TileList.Count; i++)
                             {
-                                TileList.Insert(i, (object)index);
-                                vScrollBar.Value = i / refMarker.col + 1;
-                                done = true;
-                                break;
+                                if (index < (int)TileList[i])
+                                {
+                                    TileList.Insert(i, (object)index);
+                                    vScrollBar.Value = i / refMarker.col + 1;
+                                    done = true;
+                                    break;
+                                }
                             }
+                            if (!done)
+                            {
+                                TileList.Add((object)index);
+                                vScrollBar.Value = TileList.Count / refMarker.col + 1;
+                            }
+                            Selected = index;
+                            Options.ChangedUltimaClass["Art"] = true;
                         }
-                        if (!done)
-                        {
-                            TileList.Add((object)index);
-                            vScrollBar.Value = TileList.Count / refMarker.col + 1;
-                        }
-                        Selected = index;
-                        Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
             }
@@ -408,8 +412,7 @@ namespace FiddlerControls
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", selected));
-                Bitmap bmp = Art.GetLand(selected);
-                bmp.Save(FileName, ImageFormat.Bmp);
+                Art.GetLand(selected).Save(FileName, ImageFormat.Bmp);
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -421,8 +424,7 @@ namespace FiddlerControls
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", selected));
-                Bitmap bmp = Art.GetLand(selected);
-                bmp.Save(FileName, ImageFormat.Tiff);
+                Art.GetLand(selected).Save(FileName, ImageFormat.Tiff);
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }

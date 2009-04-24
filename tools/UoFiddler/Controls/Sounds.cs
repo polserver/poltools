@@ -76,9 +76,11 @@ namespace FiddlerControls
             if (treeView.SelectedNode == null)
                 return;
             Ultima.UOSound s = Ultima.Sounds.GetSound((int)treeView.SelectedNode.Tag - 1);
-            MemoryStream m = new MemoryStream(s.buffer);
-            sp.Stream = m;
-            sp.Play();
+            using (MemoryStream m = new MemoryStream(s.buffer))
+            {
+                sp.Stream = m;
+                sp.Play();
+            }
         }
 
         private void OnDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -87,9 +89,11 @@ namespace FiddlerControls
             if (treeView.SelectedNode == null)
                 return;
             Ultima.UOSound s = Ultima.Sounds.GetSound((int)e.Node.Tag - 1);
-            MemoryStream m = new MemoryStream(s.buffer);
-            sp.Stream = m;
-            sp.Play();
+            using (MemoryStream m = new MemoryStream(s.buffer))
+            {
+                sp.Stream = m;
+                sp.Play();
+            }
         }
 
         private void afterSelect(object sender, TreeViewEventArgs e)
@@ -161,11 +165,13 @@ namespace FiddlerControls
             string name = "";
             Ultima.Sounds.IsValidSound(id, out name);
             string FileName = Path.Combine(path, String.Format("{0}", name));
-            MemoryStream stream = new MemoryStream(Ultima.Sounds.GetSound(id).buffer);
-            FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write);
-            stream.WriteTo(fs);
-            fs.Close();
-            stream.Dispose();
+            using (MemoryStream stream = new MemoryStream(Ultima.Sounds.GetSound(id).buffer))
+            {
+                using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+                {
+                    stream.WriteTo(fs);
+                }
+            }
             MessageBox.Show(String.Format("Sound saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
@@ -275,13 +281,15 @@ namespace FiddlerControls
 
         private void OnClickSelectWav(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Title = "Choose wave file to add";
-            dialog.CheckFileExists = true;
-            dialog.Filter = "wav file (*.wav)|*.wav";
-            if (dialog.ShowDialog() == DialogResult.OK)
-                textBoxWav.Text = dialog.FileName;
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.Title = "Choose wave file to add";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "wav file (*.wav)|*.wav";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    textBoxWav.Text = dialog.FileName;
+            }
         }
 
         private void OnClickExtractSoundList(object sender, EventArgs e)

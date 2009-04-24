@@ -217,37 +217,35 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count > 0)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose an imagefile to import";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap import = new Bitmap(dialog.FileName);
-                    if ((import.Height > 255) || (import.Width > 255))
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose an imagefile to import";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        MessageBox.Show("Image Height or Width exceeds 255",
-                            "Import",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error,
-                            MessageBoxDefaultButton.Button1);
-                        return;
+                        Bitmap import = new Bitmap(dialog.FileName);
+                        if ((import.Height > 255) || (import.Width > 255))
+                        {
+                            MessageBox.Show("Image Height or Width exceeds 255", "Import", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                        int font = (int)treeView.SelectedNode.Tag;
+                        int character = int.Parse(listView1.SelectedItems[0].Text.ToString()) - 32;
+                        if ((int)treeView.SelectedNode.Parent.Tag == 1)
+                        {
+                            UnicodeFonts.Fonts[font].Chars[(int)listView1.SelectedItems[0].Tag].SetBuffer(import);
+                            Options.ChangedUltimaClass["UnicodeFont"] = true;
+                        }
+                        else
+                        {
+                            ASCIIText.Fonts[font].ReplaceCharacter(character, import);
+                            listView1.SelectedItems[0].Tag = import;
+                            Options.ChangedUltimaClass["ASCIIFont"] = true;
+                        }
+                        listView1.Invalidate();
                     }
-                    int font = (int)treeView.SelectedNode.Tag;
-                    int character = int.Parse(listView1.SelectedItems[0].Text.ToString()) - 32;
-                    if ((int)treeView.SelectedNode.Parent.Tag == 1)
-                    {
-                        UnicodeFonts.Fonts[font].Chars[(int)listView1.SelectedItems[0].Tag].SetBuffer(import);
-                        Options.ChangedUltimaClass["UnicodeFont"] = true;
-                    }
-                    else
-                    {
-                        ASCIIText.Fonts[font].ReplaceCharacter(character, import);
-                        listView1.SelectedItems[0].Tag = import;
-                        Options.ChangedUltimaClass["ASCIIFont"] = true;
-                    }
-                    listView1.Invalidate();
                 }
             }
         }

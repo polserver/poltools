@@ -382,23 +382,25 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    int id = (int)listView1.SelectedItems[0].Tag;
-                    if (id == -1)
-                        listView1.SelectedItems[0].Tag = id = listView1.SelectedItems[0].Index;
-                    Art.ReplaceStatic(id, bmp);
-                    listView1.Invalidate();
-                    UpdateDetail(id);
-                    Options.ChangedUltimaClass["Art"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        int id = (int)listView1.SelectedItems[0].Tag;
+                        if (id == -1)
+                            listView1.SelectedItems[0].Tag = id = listView1.SelectedItems[0].Index;
+                        Art.ReplaceStatic(id, bmp);
+                        listView1.Invalidate();
+                        UpdateDetail(id);
+                        Options.ChangedUltimaClass["Art"] = true;
+                    }
                 }
             }
         }
@@ -427,47 +429,49 @@ namespace FiddlerControls
                     if (Art.IsValidStatic(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        Art.ReplaceStatic(index, bmp);
-                        ListViewItem item = new ListViewItem(index.ToString(), 0);
-                        item.Tag = index;
-                        if (ShowFreeSlots)
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            listView1.Items[index] = item;
-                            listView1.Invalidate();
-                        }
-                        else
-                        {
-                            bool done = false;
-                            foreach (ListViewItem i in listView1.Items)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            Art.ReplaceStatic(index, bmp);
+                            ListViewItem item = new ListViewItem(index.ToString(), 0);
+                            item.Tag = index;
+                            if (ShowFreeSlots)
                             {
-                                if ((int)i.Tag > index)
-                                {
-                                    listView1.Items.Insert(i.Index, item);
-                                    done = true;
-                                    break;
-                                }
+                                listView1.Items[index] = item;
+                                listView1.Invalidate();
                             }
-                            if (!done)
-                                listView1.Items.Add(item);
+                            else
+                            {
+                                bool done = false;
+                                foreach (ListViewItem i in listView1.Items)
+                                {
+                                    if ((int)i.Tag > index)
+                                    {
+                                        listView1.Items.Insert(i.Index, item);
+                                        done = true;
+                                        break;
+                                    }
+                                }
+                                if (!done)
+                                    listView1.Items.Add(item);
+                            }
+                            listView1.View = View.Details; // that works faszinating
+                            listView1.View = View.Tile;
+                            if (listView1.SelectedItems.Count == 1)
+                                listView1.SelectedItems[0].Selected = false;
+                            item.Selected = true;
+                            item.Focused = true;
+                            item.EnsureVisible();
+                            Options.ChangedUltimaClass["Art"] = true;
                         }
-                        listView1.View = View.Details; // that works faszinating
-                        listView1.View = View.Tile;
-                        if (listView1.SelectedItems.Count == 1)
-                            listView1.SelectedItems[0].Selected = false;
-                        item.Selected = true;
-                        item.Focused = true;
-                        item.EnsureVisible();
-                        Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
             }
@@ -652,57 +656,51 @@ namespace FiddlerControls
 
         private void OnClick_SaveAllBmp(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory";
-            dialog.ShowNewFolderButton = true;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                for (int i = 0; i < listView1.Items.Count; i++)
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    int index = (int)listView1.Items[i].Tag;
-                    if (index >= 0)
+                    for (int i = 0; i < listView1.Items.Count; i++)
                     {
-                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
-                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
-                        if (bit!=null)
-                            bit.Save(FileName, ImageFormat.Bmp);
-                        bit.Dispose();
+                        int index = (int)listView1.Items[i].Tag;
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Bmp);
+                            bit.Dispose();
+                        }
                     }
+                    MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
-                MessageBox.Show(
-                    String.Format("All Item saved to {0}", dialog.SelectedPath),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
             }
         }
 
         private void OnClick_SaveAllTiff(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory";
-            dialog.ShowNewFolderButton = true;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                for (int i = 0; i < listView1.Items.Count; i++)
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    int index = (int)listView1.Items[i].Tag;
-                    if (index >= 0)
+                    for (int i = 0; i < listView1.Items.Count; i++)
                     {
-                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
-                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
-                        if (bit!=null)
-                            bit.Save(FileName, ImageFormat.Tiff);
-                        bit.Dispose();
+                        int index = (int)listView1.Items[i].Tag;
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Tiff);
+                            bit.Dispose();
+                        }
                     }
+                    MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
-                MessageBox.Show(
-                    String.Format("All Item saved to {0}", dialog.SelectedPath),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
             }
         }
 

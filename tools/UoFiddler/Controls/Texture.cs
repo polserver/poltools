@@ -202,27 +202,28 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        int i = (int)listView1.SelectedItems[0].Tag;
-                        Textures.Replace(i, bmp);
-                        listView1.Invalidate();
-                        listView_SelectedIndexChanged(this, (ListViewItemSelectionChangedEventArgs)null);
-                        Options.ChangedUltimaClass["Texture"] = true;
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
+                        {
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            int i = (int)listView1.SelectedItems[0].Tag;
+                            Textures.Replace(i, bmp);
+                            listView1.Invalidate();
+                            listView_SelectedIndexChanged(this, (ListViewItemSelectionChangedEventArgs)null);
+                            Options.ChangedUltimaClass["Texture"] = true;
+                        }
+                        else
+                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     }
-                    else
-                        MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 }
             }
         }
@@ -251,43 +252,44 @@ namespace FiddlerControls
                     if (Textures.TestTexture(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            Textures.Replace(index, bmp);
-                            ListViewItem item = new ListViewItem(index.ToString(), 0);
-                            item.Tag = index;
-                            bool done = false;
-                            foreach (ListViewItem i in listView1.Items)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                             {
-                                if ((int)i.Tag > index)
+                                Textures.Replace(index, bmp);
+                                ListViewItem item = new ListViewItem(index.ToString(), 0);
+                                item.Tag = index;
+                                bool done = false;
+                                foreach (ListViewItem i in listView1.Items)
                                 {
-                                    listView1.Items.Insert(i.Index, item);
-                                    done = true;
-                                    break;
+                                    if ((int)i.Tag > index)
+                                    {
+                                        listView1.Items.Insert(i.Index, item);
+                                        done = true;
+                                        break;
+                                    }
                                 }
+                                if (!done)
+                                    listView1.Items.Add(item);
+                                listView1.View = View.Details; // that works faszinating
+                                listView1.View = View.Tile;
+                                if (listView1.SelectedItems.Count == 1)
+                                    listView1.SelectedItems[0].Selected = false;
+                                item.Selected = true;
+                                item.Focused = true;
+                                item.EnsureVisible();
+                                Options.ChangedUltimaClass["Texture"] = true;
                             }
-                            if (!done)
-                                listView1.Items.Add(item);
-                            listView1.View = View.Details; // that works faszinating
-                            listView1.View = View.Tile;
-                            if (listView1.SelectedItems.Count == 1)
-                                listView1.SelectedItems[0].Selected = false;
-                            item.Selected = true;
-                            item.Focused = true;
-                            item.EnsureVisible();
-                            Options.ChangedUltimaClass["Texture"] = true;
+                            else
+                                MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                         }
-                        else
-                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     }
                 }
             }
@@ -298,8 +300,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = (int)listView1.SelectedItems[0].Tag;
             string FileName = Path.Combine(path, String.Format("Texture {0}.bmp", i));
-            Bitmap bmp = Textures.GetTexture(i);
-            bmp.Save(FileName, ImageFormat.Bmp);
+            Textures.GetTexture(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",
@@ -313,8 +314,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = (int)listView1.SelectedItems[0].Tag;
             string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", i));
-            Bitmap bmp = Textures.GetTexture(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
+            Textures.GetTexture(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",

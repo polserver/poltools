@@ -123,20 +123,22 @@ namespace FiddlerControls
         {
             if (Files.GetFilePath(what) == null)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose Cliloc file to open";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "cliloc files (cliloc.*)|cliloc.*";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Files.SetMulPath(dialog.FileName, what);
-                    LangComboBox.BeginUpdate();
-                    if (what == "cliloc.custom1")
-                        LangComboBox.Items[2] = String.Format("Custom 1 ({0})", Path.GetExtension(dialog.FileName));
-                    else
-                        LangComboBox.Items[3] = String.Format("Custom 2 ({0})", Path.GetExtension(dialog.FileName));
-                    LangComboBox.EndUpdate();
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose Cliloc file to open";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "cliloc files (cliloc.*)|cliloc.*";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Files.SetMulPath(dialog.FileName, what);
+                        LangComboBox.BeginUpdate();
+                        if (what == "cliloc.custom1")
+                            LangComboBox.Items[2] = String.Format("Custom 1 ({0})", Path.GetExtension(dialog.FileName));
+                        else
+                            LangComboBox.Items[3] = String.Format("Custom 2 ({0})", Path.GetExtension(dialog.FileName));
+                        LangComboBox.EndUpdate();
+                    }
                 }
             }
         }

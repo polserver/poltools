@@ -36,9 +36,7 @@ namespace FiddlerControls
         private void OnTextChange(object sender, EventArgs e)
         {
             if (type == 1) //Unicode
-            {
                 pictureBox1.Image = UnicodeFonts.WriteText(font, textBox1.Text);
-            }
             else
                 pictureBox1.Image = ASCIIText.DrawText(font, textBox1.Text);
         }

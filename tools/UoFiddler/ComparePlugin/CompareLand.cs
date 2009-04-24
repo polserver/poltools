@@ -222,8 +222,7 @@ namespace ComparePlugin
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Landtile(Sec) 0x{0:X}.bmp", i));
-            Bitmap bit = new Bitmap(SecondArt.GetLand(i));
-            bit.Save(FileName, ImageFormat.Bmp);
+            SecondArt.GetLand(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Landtile saved to {0}", FileName),
                 "Saved",
@@ -241,8 +240,7 @@ namespace ComparePlugin
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Landtile(Sec) 0x{0:X}.tiff", i));
-            Bitmap bit = new Bitmap(SecondArt.GetLand(i));
-            bit.Save(FileName, ImageFormat.Tiff);
+            SecondArt.GetLand(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Landtile saved to {0}", FileName),
                 "Saved",

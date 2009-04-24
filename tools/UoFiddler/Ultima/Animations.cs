@@ -408,10 +408,12 @@ namespace Ultima
 
             hue = (hue & 0x3FFF) - 1;
 
-            Hue hueObject = null;
+            Hue hueObject;
 
             if (hue >= 0 && hue < Hues.List.Length)
                 hueObject = Hues.List[hue];
+            else
+                hueObject = null;
 
             if (FirstFrame)
                 frameCount = 1;

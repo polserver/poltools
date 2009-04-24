@@ -83,30 +83,32 @@ namespace Ultima
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter binidx = new BinaryWriter(fsidx);
-                BinaryWriter binmul = new BinaryWriter(fsmul);
-                for (int i = 0; i < 55; i++)
+                using (BinaryWriter binidx = new BinaryWriter(fsidx),
+                                    binmul = new BinaryWriter(fsmul))
                 {
-                    SkillInfo skill = (SkillInfo)m_SkillEntries[i];
-                    if (skill == null)
+                    for (int i = 0; i < 55; i++)
                     {
-                        binidx.Write((int)-1); // lookup
-                        binidx.Write((int)-1); // length
-                        binidx.Write((int)-1); // extra
-                    }
-                    else
-                    {
-                        binidx.Write((int)fsmul.Position); //lookup
-                        int length = (int)fsmul.Position;
-                        binmul.Write(skill.IsAction);
+                        SkillInfo skill = (SkillInfo)m_SkillEntries[i];
+                        if (skill == null)
+                        {
+                            binidx.Write((int)-1); // lookup
+                            binidx.Write((int)-1); // length
+                            binidx.Write((int)-1); // extra
+                        }
+                        else
+                        {
+                            binidx.Write((int)fsmul.Position); //lookup
+                            int length = (int)fsmul.Position;
+                            binmul.Write(skill.IsAction);
 
-                        byte[] namebytes = Encoding.Default.GetBytes(skill.Name);
-                        binmul.Write(namebytes);
-                        binmul.Write((byte)0); //nullterminated
+                            byte[] namebytes = Encoding.Default.GetBytes(skill.Name);
+                            binmul.Write(namebytes);
+                            binmul.Write((byte)0); //nullterminated
 
-                        length = (int)fsmul.Position - length;
-                        binidx.Write(length);
-                        binidx.Write(skill.Extra);
+                            length = (int)fsmul.Position - length;
+                            binidx.Write(length);
+                            binidx.Write(skill.Extra);
+                        }
                     }
                 }
             }

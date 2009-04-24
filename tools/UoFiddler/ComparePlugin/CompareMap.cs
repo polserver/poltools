@@ -441,11 +441,13 @@ namespace ComparePlugin
 
         private void OnClickBrowseLoc(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory containing the map files";
-            dialog.ShowNewFolderButton = false;
-            if (dialog.ShowDialog() == DialogResult.OK)
-                toolStripTextBox1.Text = dialog.SelectedPath;
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory containing the map files";
+                dialog.ShowNewFolderButton = false;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    toolStripTextBox1.Text = dialog.SelectedPath;
+            }
         }
 
         private void OnClickLoad(object sender, EventArgs e)

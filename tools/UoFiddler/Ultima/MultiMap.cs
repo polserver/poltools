@@ -21,43 +21,45 @@ namespace Ultima
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    BinaryReader bin = new BinaryReader(fs);
-                    int width, height;
-                    byte pixel;
-                    int count;
-                    int x, i;
-                    x = 0;
-                    ushort c = 0;
-                    width = bin.ReadInt32();
-                    height = bin.ReadInt32();
-                    Bitmap multimap = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
-                    BitmapData bd = multimap.LockBits(new Rectangle(0, 0, multimap.Width, multimap.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-                    ushort* line = (ushort*)bd.Scan0;
-                    int delta = bd.Stride >> 1;
-
-                    ushort* cur = line;
-                    while (bin.BaseStream.Length != bin.BaseStream.Position)
+                    using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        pixel = bin.ReadByte();
-                        count = (pixel & 0x7f);
+                        int width, height;
+                        byte pixel;
+                        int count;
+                        int x, i;
+                        x = 0;
+                        ushort c = 0;
+                        width = bin.ReadInt32();
+                        height = bin.ReadInt32();
+                        Bitmap multimap = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
+                        BitmapData bd = multimap.LockBits(new Rectangle(0, 0, multimap.Width, multimap.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                        ushort* line = (ushort*)bd.Scan0;
+                        int delta = bd.Stride >> 1;
 
-                        if ((pixel & 0x80) != 0)
-                            c = 0x8000;//Color.Black;
-                        else
-                            c = 0xffff;//Color.White;
-                        for (i = 0; i < count; i++)
+                        ushort* cur = line;
+                        while (bin.BaseStream.Length != bin.BaseStream.Position)
                         {
-                            cur[x] = c;
-                            ++x;
-                            if (x >= width)
+                            pixel = bin.ReadByte();
+                            count = (pixel & 0x7f);
+
+                            if ((pixel & 0x80) != 0)
+                                c = 0x8000;//Color.Black;
+                            else
+                                c = 0xffff;//Color.White;
+                            for (i = 0; i < count; i++)
                             {
-                                cur += delta;
-                                x = 0;
+                                cur[x] = c;
+                                ++x;
+                                if (x >= width)
+                                {
+                                    cur += delta;
+                                    x = 0;
+                                }
                             }
                         }
+                        multimap.UnlockBits(bd);
+                        return multimap;
                     }
-                    multimap.UnlockBits(bd);
-                    return multimap;
                 }
             }
             return null;

@@ -55,14 +55,16 @@ namespace Ultima
             Entries.Sort(new OrderComparer());
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                foreach (SpeechEntry entry in Entries)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write(NativeMethods.SwapEndian(entry.ID));
-                    byte[] utf8String = Encoding.UTF8.GetBytes(entry.KeyWord);
-                    short length = (short)utf8String.Length;
-                    bin.Write(NativeMethods.SwapEndian(length));
-                    bin.Write(utf8String);
+                    foreach (SpeechEntry entry in Entries)
+                    {
+                        bin.Write(NativeMethods.SwapEndian(entry.ID));
+                        byte[] utf8String = Encoding.UTF8.GetBytes(entry.KeyWord);
+                        short length = (short)utf8String.Length;
+                        bin.Write(NativeMethods.SwapEndian(length));
+                        bin.Write(utf8String);
+                    }
                 }
             }
         }

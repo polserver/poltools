@@ -477,51 +477,52 @@ namespace Ultima
                 {
                     landheader = new int[512];
                     int j = 0;
-                    BinaryReader bin = new BinaryReader(fs);
-
-                    m_LandData = new LandData[0x4000];
-
-                    for (int i = 0; i < 0x4000; ++i)
+                    using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        if ((i & 0x1F) == 0)
+                        m_LandData = new LandData[0x4000];
+
+                        for (int i = 0; i < 0x4000; ++i)
                         {
-                            landheader[j] = bin.ReadInt32(); // header
-                            ++j;
-                        }
-                        TileFlag flags = (TileFlag)bin.ReadInt32();
-                        int texID = bin.ReadInt16();
+                            if ((i & 0x1F) == 0)
+                            {
+                                landheader[j] = bin.ReadInt32(); // header
+                                ++j;
+                            }
+                            TileFlag flags = (TileFlag)bin.ReadInt32();
+                            int texID = bin.ReadInt16();
 
-                        m_LandData[i] = new LandData(ReadNameString(bin), texID, flags);
-                    }
-
-                    m_ItemData = new ItemData[0x4000];
-                    m_HeightTable = new int[0x4000];
-                    itemheader = new int[512];
-                    j = 0;
-
-                    for (int i = 0; i < 0x4000; ++i)
-                    {
-                        if ((i & 0x1F) == 0)
-                        {
-                            itemheader[j] = bin.ReadInt32(); // header
-                            j++;
+                            m_LandData[i] = new LandData(ReadNameString(bin), texID, flags);
                         }
 
-                        TileFlag flags = (TileFlag)bin.ReadInt32();
-                        int weight = bin.ReadByte();
-                        int quality = bin.ReadByte();
-                        int unk1 = bin.ReadInt16();
-                        int unk2 = bin.ReadByte();
-                        int quantity = bin.ReadByte();
-                        int anim = bin.ReadInt16();
-                        int unk3 = bin.ReadByte();
-                        int hue = bin.ReadByte();
-                        int stackingoffset = bin.ReadByte(); //unk4
-                        int value = bin.ReadByte(); //unk5
-                        int height = bin.ReadByte();
+                        m_ItemData = new ItemData[0x4000];
+                        m_HeightTable = new int[0x4000];
+                        itemheader = new int[512];
+                        j = 0;
 
-                        m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, unk1, unk2, unk3);
-                        m_HeightTable[i] = height;
+                        for (int i = 0; i < 0x4000; ++i)
+                        {
+                            if ((i & 0x1F) == 0)
+                            {
+                                itemheader[j] = bin.ReadInt32(); // header
+                                j++;
+                            }
+
+                            TileFlag flags = (TileFlag)bin.ReadInt32();
+                            int weight = bin.ReadByte();
+                            int quality = bin.ReadByte();
+                            int unk1 = bin.ReadInt16();
+                            int unk2 = bin.ReadByte();
+                            int quantity = bin.ReadByte();
+                            int anim = bin.ReadInt16();
+                            int unk3 = bin.ReadByte();
+                            int hue = bin.ReadByte();
+                            int stackingoffset = bin.ReadByte(); //unk4
+                            int value = bin.ReadByte(); //unk5
+                            int height = bin.ReadByte();
+
+                            m_ItemData[i] = new ItemData(ReadNameString(bin), flags, weight, quality, quantity, value, height, anim, hue, stackingoffset, unk1, unk2, unk3);
+                            m_HeightTable[i] = height;
+                        }
                     }
                 }
             }
@@ -535,56 +536,58 @@ namespace Ultima
         {
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                int j = 0;
-                for (int i = 0; i < 0x4000; ++i)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    if ((i & 0x1F) == 0)
+                    int j = 0;
+                    for (int i = 0; i < 0x4000; ++i)
                     {
-                        bin.Write(landheader[j]); //header
-                        ++j;
+                        if ((i & 0x1F) == 0)
+                        {
+                            bin.Write(landheader[j]); //header
+                            ++j;
+                        }
+                        bin.Write((int)m_LandData[i].Flags);
+                        bin.Write(m_LandData[i].TextureID);
+                        byte[] b = new byte[20];
+                        if (m_LandData[i].Name != null)
+                        {
+                            byte[] bb = Encoding.Default.GetBytes(m_LandData[i].Name);
+                            if (bb.Length > 20)
+                                Array.Resize(ref bb, 20);
+                            bb.CopyTo(b, 0);
+                        }
+                        bin.Write(b);
                     }
-                    bin.Write((int)m_LandData[i].Flags);
-                    bin.Write(m_LandData[i].TextureID);
-                    byte[] b = new byte[20];
-                    if (m_LandData[i].Name != null)
+                    j = 0;
+                    for (int i = 0; i < 0x4000; ++i)
                     {
-                        byte[] bb = Encoding.Default.GetBytes(m_LandData[i].Name);
-                        if (bb.Length > 20)
-                            Array.Resize(ref bb, 20);
-                        bb.CopyTo(b, 0);
+                        if ((i & 0x1F) == 0)
+                        {
+                            bin.Write(itemheader[j]); // header
+                            j++;
+                        }
+                        bin.Write((int)m_ItemData[i].Flags);
+                        bin.Write(m_ItemData[i].Weight);
+                        bin.Write(m_ItemData[i].Quality);
+                        bin.Write(m_ItemData[i].Unk1);
+                        bin.Write(m_ItemData[i].Unk2);
+                        bin.Write(m_ItemData[i].Quantity);
+                        bin.Write(m_ItemData[i].Animation);
+                        bin.Write(m_ItemData[i].Unk3);
+                        bin.Write(m_ItemData[i].Hue);
+                        bin.Write(m_ItemData[i].StackingOffset); //unk4
+                        bin.Write(m_ItemData[i].Value); //unk5
+                        bin.Write(m_ItemData[i].Height);
+                        byte[] b = new byte[20];
+                        if (m_ItemData[i].Name != null)
+                        {
+                            byte[] bb = Encoding.Default.GetBytes(m_ItemData[i].Name);
+                            if (bb.Length > 20)
+                                Array.Resize(ref bb, 20);
+                            bb.CopyTo(b, 0);
+                        }
+                        bin.Write(b);
                     }
-                    bin.Write(b);
-                }
-                j = 0;
-                for (int i = 0; i < 0x4000; ++i)
-                {
-                    if ((i & 0x1F) == 0)
-                    {
-                        bin.Write(itemheader[j]); // header
-                        j++;
-                    }
-                    bin.Write((int)m_ItemData[i].Flags);
-                    bin.Write(m_ItemData[i].Weight);
-                    bin.Write(m_ItemData[i].Quality);
-                    bin.Write(m_ItemData[i].Unk1);
-                    bin.Write(m_ItemData[i].Unk2);
-                    bin.Write(m_ItemData[i].Quantity);
-                    bin.Write(m_ItemData[i].Animation);
-                    bin.Write(m_ItemData[i].Unk3);
-                    bin.Write(m_ItemData[i].Hue);
-                    bin.Write(m_ItemData[i].StackingOffset); //unk4
-                    bin.Write(m_ItemData[i].Value); //unk5
-                    bin.Write(m_ItemData[i].Height);
-                    byte[] b = new byte[20];
-                    if (m_ItemData[i].Name != null)
-                    {
-                        byte[] bb = Encoding.Default.GetBytes(m_ItemData[i].Name);
-                        if (bb.Length > 20)
-                            Array.Resize(ref bb, 20);
-                        bb.CopyTo(b, 0);
-                    }
-                    bin.Write(b);
                 }
             }
         }

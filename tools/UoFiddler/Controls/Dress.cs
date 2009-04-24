@@ -241,20 +241,22 @@ namespace FiddlerControls
                             if (!Gumps.IsValidIndex(gump)) // male (or invalid female)
                                 ConvertGump(ref gump, ref hue);
 
-                            Bitmap bmp = new Bitmap(Gumps.GetGump(gump));
-                            if (bmp == null)
-                                continue;
-                            if (hues[draworder[i]] > 0)
-                                hue = hues[draworder[i]];
-                            bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
-                            hue = (hue & 0x3FFF) - 1;
-                            Hue hueObject = null;
-                            if (hue >= 0 && hue < Ultima.Hues.List.Length)
+                            using (Bitmap bmp = new Bitmap(Gumps.GetGump(gump)))
                             {
-                                hueObject = Ultima.Hues.List[hue];
-                                hueObject.ApplyTo(bmp, onlyHueGrayPixels);
+                                if (bmp == null)
+                                    continue;
+                                if (hues[draworder[i]] > 0)
+                                    hue = hues[draworder[i]];
+                                bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
+                                hue = (hue & 0x3FFF) - 1;
+                                Hue hueObject = null;
+                                if (hue >= 0 && hue < Ultima.Hues.List.Length)
+                                {
+                                    hueObject = Ultima.Hues.List[hue];
+                                    hueObject.ApplyTo(bmp, onlyHueGrayPixels);
+                                }
+                                graphpic.DrawImage(bmp, drawpoint);
                             }
-                            graphpic.DrawImage(bmp, drawpoint);
                         }
                     }
                 }
@@ -648,18 +650,20 @@ namespace FiddlerControls
             using (FileStream fs = File.OpenWrite(gif))
             {
                 m_Animation[0].Save(temp, ImageFormat.Png);
-                GD host = new GD(GD.FileType.Png, temp);
-                host.GifAnimBegin(fs);
-                GD prev = null;
-                for (int i = 0; i < m_Animation.Length; ++i)
+                using (GD host = new GD(GD.FileType.Png, temp))
                 {
-                    m_Animation[i].Save(temp, ImageFormat.Png);
-                    GD frame = new GD(GD.FileType.Png, temp);
-                    frame.GifAnimAdd(fs, 1, 0, 0, 15, GD.Disposal.None, prev);
-                    prev = frame;
+                    host.GifAnimBegin(fs);
+                    GD prev = null;
+                    for (int i = 0; i < m_Animation.Length; ++i)
+                    {
+                        m_Animation[i].Save(temp, ImageFormat.Png);
+                        GD frame = new GD(GD.FileType.Png, temp);
+                        frame.GifAnimAdd(fs, 1, 0, 0, 15, GD.Disposal.None, prev);
+                        prev = frame;
+                    }
+                    File.Delete(temp);
+                    host.GifAnimEnd(fs);
                 }
-                File.Delete(temp);
-                host.GifAnimEnd(fs);
                 fs.Close();
             }
             MessageBox.Show(

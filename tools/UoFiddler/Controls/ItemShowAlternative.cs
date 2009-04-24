@@ -473,19 +473,21 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    Art.ReplaceStatic(selected, bmp);
-                    PaintBox();
-                    Options.ChangedUltimaClass["Art"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        Art.ReplaceStatic(selected, bmp);
+                        PaintBox();
+                        Options.ChangedUltimaClass["Art"] = true;
+                    }
                 }
             }
         }
@@ -535,50 +537,52 @@ namespace FiddlerControls
                     if (Art.IsValidStatic(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        Art.ReplaceStatic(index, bmp);
-                        Options.ChangedUltimaClass["Art"] = true;
-                        if (ShowFreeSlots)
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            selected = index;
-                            vScrollBar.Value = index / refMarker.col + 1;
-                            namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                            graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                            UpdateDetail(selected);
-                            PaintBox();
-                        }
-                        else
-                        {
-                            bool done = false;
-                            for (int i = 0; i < ItemList.Count; i++)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            Art.ReplaceStatic(index, bmp);
+                            Options.ChangedUltimaClass["Art"] = true;
+                            if (ShowFreeSlots)
                             {
-                                if (index < (int)ItemList[i])
+                                selected = index;
+                                vScrollBar.Value = index / refMarker.col + 1;
+                                namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                                UpdateDetail(selected);
+                                PaintBox();
+                            }
+                            else
+                            {
+                                bool done = false;
+                                for (int i = 0; i < ItemList.Count; i++)
                                 {
-                                    ItemList.Insert(i, (object)index);
-                                    vScrollBar.Value = i / refMarker.col + 1;
-                                    done = true;
-                                    break;
+                                    if (index < (int)ItemList[i])
+                                    {
+                                        ItemList.Insert(i, (object)index);
+                                        vScrollBar.Value = i / refMarker.col + 1;
+                                        done = true;
+                                        break;
+                                    }
                                 }
+                                if (!done)
+                                {
+                                    ItemList.Add((object)index);
+                                    vScrollBar.Value = ItemList.Count / refMarker.col + 1;
+                                }
+                                selected = index;
+                                namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
+                                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
+                                UpdateDetail(selected);
+                                PaintBox();
                             }
-                            if (!done)
-                            {
-                                ItemList.Add((object)index);
-                                vScrollBar.Value = ItemList.Count / refMarker.col + 1;
-                            }
-                            selected = index;
-                            namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
-                            graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
-                            UpdateDetail(selected);
-                            PaintBox();
                         }
                     }
                 }
@@ -637,8 +641,7 @@ namespace FiddlerControls
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", selected));
-            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(selected));
-            bit.Save(FileName, ImageFormat.Bmp);
+            Ultima.Art.GetStatic(selected).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",
@@ -655,8 +658,7 @@ namespace FiddlerControls
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", selected));
-            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(selected));
-            bit.Save(FileName, ImageFormat.Tiff);
+            Ultima.Art.GetStatic(selected).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",
@@ -679,57 +681,51 @@ namespace FiddlerControls
 
         private void OnClick_SaveAllBmp(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory";
-            dialog.ShowNewFolderButton = true;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                for (int i = 0; i < ItemList.Count; i++)
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    int index = (int)ItemList[i];
-                    if (Art.IsValidStatic(index))
+                    for (int i = 0; i < ItemList.Count; i++)
                     {
-                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
-                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
-                        if (bit != null)
-                            bit.Save(FileName, ImageFormat.Bmp);
-                        bit.Dispose();
+                        int index = (int)ItemList[i];
+                        if (Art.IsValidStatic(index))
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.bmp", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Bmp);
+                            bit.Dispose();
+                        }
                     }
+                    MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
-                MessageBox.Show(
-                    String.Format("All Item saved to {0}", dialog.SelectedPath),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
             }
         }
 
         private void OnClick_SaveAllTiff(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory";
-            dialog.ShowNewFolderButton = true;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                for (int i = 0; i < ItemList.Count; i++)
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    int index = (int)ItemList[i];
-                    if (Art.IsValidStatic(index))
+                    for (int i = 0; i < ItemList.Count; i++)
                     {
-                        string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
-                        Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
-                        if (bit != null)
-                            bit.Save(FileName, ImageFormat.Tiff);
-                        bit.Dispose();
+                        int index = (int)ItemList[i];
+                        if (Art.IsValidStatic(index))
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.tiff", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Tiff);
+                            bit.Dispose();
+                        }
                     }
+                    MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 }
-                MessageBox.Show(
-                    String.Format("All Item saved to {0}", dialog.SelectedPath),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
             }
         }
 

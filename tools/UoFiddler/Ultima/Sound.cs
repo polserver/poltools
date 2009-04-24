@@ -280,51 +280,53 @@ namespace Ultima
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter binidx = new BinaryWriter(fsidx);
-                BinaryWriter binmul = new BinaryWriter(fsmul);
-                for (int i = 0; i < m_Cache.Length; i++)
+                using (BinaryWriter binidx = new BinaryWriter(fsidx),
+                                    binmul = new BinaryWriter(fsmul))
                 {
-                    UOSound sound = m_Cache[i];
-                    if ((sound == null) && (!m_Removed[i]))
+                    for (int i = 0; i < m_Cache.Length; i++)
                     {
-                        bool trans;
-                        sound = GetSound(i, out trans);
-                        if (!trans)
-                            m_Cache[i] = sound;
+                        UOSound sound = m_Cache[i];
+                        if ((sound == null) && (!m_Removed[i]))
+                        {
+                            bool trans;
+                            sound = GetSound(i, out trans);
+                            if (!trans)
+                                m_Cache[i] = sound;
+                            else
+                                sound = null;
+                        }
+                        if ((sound == null) || (m_Removed[i]))
+                        {
+                            binidx.Write((int)-1); // lookup
+                            binidx.Write((int)-1); // length
+                            binidx.Write((int)-1); // extra
+                        }
                         else
-                            sound = null;
-                    }
-                    if ((sound == null) || (m_Removed[i]))
-                    {
-                        binidx.Write((int)-1); // lookup
-                        binidx.Write((int)-1); // length
-                        binidx.Write((int)-1); // extra
-                    }
-                    else
-                    {
-                        binidx.Write((int)fsmul.Position); //lookup
-                        int length = (int)fsmul.Position;
-
-                        byte[] b = new byte[40];
-                        if (sound.Name != null)
                         {
-                            byte[] bb = Encoding.Default.GetBytes(sound.Name);
-                            if (bb.Length > 40)
-                                Array.Resize(ref bb, 40);
-                            bb.CopyTo(b, 0);
-                        }
-                        binmul.Write(b);
-                        using (MemoryStream m = new MemoryStream(sound.buffer))
-                        {
-                            m.Seek(Headerlength, SeekOrigin.Begin);
-                            byte[] resultBuffer = new byte[m.Length - Headerlength];
-                            m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
-                            binmul.Write(resultBuffer);
-                        }
+                            binidx.Write((int)fsmul.Position); //lookup
+                            int length = (int)fsmul.Position;
 
-                        length = (int)fsmul.Position - length;
-                        binidx.Write(length);
-                        binidx.Write(i + 1);
+                            byte[] b = new byte[40];
+                            if (sound.Name != null)
+                            {
+                                byte[] bb = Encoding.Default.GetBytes(sound.Name);
+                                if (bb.Length > 40)
+                                    Array.Resize(ref bb, 40);
+                                bb.CopyTo(b, 0);
+                            }
+                            binmul.Write(b);
+                            using (MemoryStream m = new MemoryStream(sound.buffer))
+                            {
+                                m.Seek(Headerlength, SeekOrigin.Begin);
+                                byte[] resultBuffer = new byte[m.Length - Headerlength];
+                                m.Read(resultBuffer, 0, (int)m.Length - Headerlength);
+                                binmul.Write(resultBuffer);
+                            }
+
+                            length = (int)fsmul.Position - length;
+                            binidx.Write(length);
+                            binidx.Write(i + 1);
+                        }
                     }
                 }
             }
