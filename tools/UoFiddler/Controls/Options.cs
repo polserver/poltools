@@ -68,6 +68,31 @@ namespace FiddlerControls
             {"RadarColor",false}
         };
 
+        private static Dictionary<int, bool> m_ChangedViewStates = new Dictionary<int, bool>()
+        {
+            {0, true},
+            {1, true},
+            {2, true},
+            {3, true},
+            {4, true},
+            {5, true},
+            {6, true},
+            {7, true},
+            {8, true},
+            {9, true},
+            {10, true},
+            {11, true},
+            {12, true},
+            {13, true},
+            {14, true},
+            {15, true},
+            {16, true},
+            {17, true},
+            {18, true},
+            {19, true}
+        };
+
+
         /// <summary>
         /// Definies Element Width in ItemShow
         /// </summary>
@@ -198,6 +223,15 @@ namespace FiddlerControls
         {
             get { return Options.m_ChangedUltimaClass; }
             set { Options.m_ChangedUltimaClass = value; }
+        }
+
+        /// <summary>
+        /// Definies which tabs have been enabled and disabled
+        /// </summary>
+        public static Dictionary<int, bool> ChangedViewState
+        {
+            get { return Options.m_ChangedViewStates; }
+            set { Options.m_ChangedViewStates = value; }
         }
 
         public static Hues HueControl { get; set; }

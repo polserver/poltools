@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -172,6 +173,19 @@ namespace UoFiddler
                 sr.AppendChild(path);
             }
             dom.AppendChild(sr);
+
+            comment = dom.CreateComment("Disabled Tab Views");
+            sr.AppendChild(comment);
+            foreach (KeyValuePair<int, bool> kvp in FiddlerControls.Options.ChangedViewState)
+            {
+                if (!FiddlerControls.Options.ChangedViewState[kvp.Key])
+                {
+                    XmlElement viewstate = dom.CreateElement("TabView");
+                    viewstate.SetAttribute("tab", kvp.Key.ToString());
+                    sr.AppendChild(viewstate);
+                }
+            }
+
             dom.Save(FileName);
         }
 
@@ -281,6 +295,14 @@ namespace UoFiddler
                 value = xPath.GetAttribute("value");
                 Files.MulPath[key] = value;
             }
+
+            foreach (XmlElement xTab in xOptions.SelectNodes("TabView"))
+            {
+                int viewtab;
+                viewtab = Convert.ToInt32(xTab.GetAttribute("tab"));
+                FiddlerControls.Options.ChangedViewState[viewtab] = false;
+            }
+
             Files.CheckForNewMapSize();
         }
 

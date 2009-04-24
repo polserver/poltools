@@ -47,6 +47,14 @@ namespace UoFiddler
                     plug.Instance.ModifyTabPages(this.TabPanel);
                 }
             }
+
+            foreach (TabPage tab in TabPanel.TabPages)
+            {
+                if (!FiddlerControls.Options.ChangedViewState[(int)tab.Tag])
+                {
+                    ToggleView(tab);
+                }
+            }
         }
 
         private PathSettings m_Path = new PathSettings();
@@ -381,9 +389,11 @@ namespace UoFiddler
             System.Diagnostics.Process.Start(@"http://uofiddler.polserver.com/help.html");
         }
 
-        #region View Menu Toggles
-        private void ToggleView(TabPage thepage, ToolStripMenuItem themenuitem)
+        #region View Menu Code
+        private void ToggleView(object sender, EventArgs e)
         {
+            ToolStripMenuItem themenuitem = (ToolStripMenuItem)sender;
+            TabPage thepage = TabFromTag(themenuitem.Tag);
             int tag = (int)thepage.Tag;
             if (themenuitem.Checked)
             {
@@ -391,6 +401,7 @@ namespace UoFiddler
                     return;
                 themenuitem.Checked = false;
                 TabPanel.TabPages.Remove(thepage);
+                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = false;
             }
             else
             {
@@ -407,107 +418,96 @@ namespace UoFiddler
                 }
                 if (!done)
                     refmarker.TabPanel.TabPages.Add(thepage);
+                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = true;
             }
         }
 
-        private void ToggleViewStart_Click(object sender, EventArgs e)
+        private void ToggleView(TabPage thepage)
         {
-            ToggleView(Start, ToggleViewStart);
+            int tag = (int)thepage.Tag;
+            ToolStripMenuItem themenuitem = MenuFromTag(thepage.Tag);
+
+            if (themenuitem.Checked)
+            {
+                if (!TabPanel.TabPages.Contains(thepage))
+                    return;
+                themenuitem.Checked = false;
+                TabPanel.TabPages.Remove(thepage);
+                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = false;
+            }
+            else
+            {
+                themenuitem.Checked = true;
+                bool done = false;
+                foreach (TabPage page in refmarker.TabPanel.TabPages)
+                {
+                    if ((int)page.Tag > tag)
+                    {
+                        refmarker.TabPanel.TabPages.Insert(refmarker.TabPanel.TabPages.IndexOf(page), thepage);
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    refmarker.TabPanel.TabPages.Add(thepage);
+                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = true;
+            }
         }
 
-        private void ToggleViewMulti_Click(object sender, EventArgs e)
+        private TabPage TabFromTag(object tag)
         {
-            ToggleView(Multis, ToggleViewMulti);
+            switch (Convert.ToInt32(tag))
+            {
+                case 0: return Start;
+                case 1: return Multis;
+                case 2: return Animation;
+                case 3: return Items;
+                case 4: return LandTiles;
+                case 5: return Texture;
+                case 6: return Gumps;
+                case 7: return Sounds;
+                case 8: return Hue;
+                case 9: return fonts;
+                case 10: return Cliloc;
+                case 11: return map;
+                case 12: return Light;
+                case 13: return speech;
+                case 14: return Skills;
+                case 15: return AnimData;
+                case 16: return multimap;
+                case 17: return Dress;
+                case 18: return TileDatas;
+                case 19: return RadarCol;
+                default: return Start;
+            }
         }
 
-        private void ToggleViewAnimations_Click(object sender, EventArgs e)
+        private ToolStripMenuItem MenuFromTag(object tag)
         {
-            ToggleView(Animation, ToggleViewAnimations);
-        }
-
-        private void ToggleViewItems_Click(object sender, EventArgs e)
-        {
-            ToggleView(Items, ToggleViewItems);
-        }
-
-        private void ToggleViewLandTiles_Click(object sender, EventArgs e)
-        {
-            ToggleView(LandTiles, ToggleViewLandTiles);
-        }
-
-        private void ToggleViewTexture_Click(object sender, EventArgs e)
-        {
-            ToggleView(Texture, ToggleViewTexture);
-        }
-
-        private void ToggleViewGumps_Click(object sender, EventArgs e)
-        {
-            ToggleView(Gumps, ToggleViewGumps);
-        }
-
-        private void ToggleViewSounds_Click(object sender, EventArgs e)
-        {
-            ToggleView(Sounds, ToggleViewSounds);
-        }
-
-        private void ToggleViewHue_Click(object sender, EventArgs e)
-        {
-            ToggleView(Hue, ToggleViewHue);
-        }
-
-        private void ToggleViewFonts_Click(object sender, EventArgs e)
-        {
-            ToggleView(fonts, ToggleViewFonts);
-        }
-
-        private void ToggleViewCliloc_Click(object sender, EventArgs e)
-        {
-            ToggleView(Cliloc, ToggleViewCliloc);
-        }
-
-        private void ToggleViewMap_Click(object sender, EventArgs e)
-        {
-            ToggleView(map, ToggleViewMap);
-        }
-
-        private void ToggleViewLight_Click(object sender, EventArgs e)
-        {
-            ToggleView(Light, ToggleViewLight);
-        }
-
-        private void ToggleViewSpeech_Click(object sender, EventArgs e)
-        {
-            ToggleView(speech, ToggleViewSpeech);
-        }
-
-        private void ToggleViewSkills_Click(object sender, EventArgs e)
-        {
-            ToggleView(Skills, ToggleViewSkills);
-        }
-
-        private void ToggleViewAnimData_Click(object sender, EventArgs e)
-        {
-            ToggleView(AnimData, ToggleViewAnimData);
-        }
-
-        private void ToggleViewMultiMap_Click(object sender, EventArgs e)
-        {
-            ToggleView(multimap, ToggleViewMultiMap);
-        }
-
-        private void ToggleViewDress_Click(object sender, EventArgs e)
-        {
-            ToggleView(Dress, ToggleViewDress);
-        }
-
-        private void ToggleViewTileData_Click(object sender, EventArgs e)
-        {
-            ToggleView(TileDatas, ToggleViewTileData);
-        }
-
-        private void ToggleViewRadarColor_Click(object sender, EventArgs e)
-        {
-            ToggleView(RadarCol, ToggleViewRadarColor);
+            switch (Convert.ToInt32(tag))
+            {
+                case 0: return ToggleViewStart;
+                case 1: return ToggleViewMulti;
+                case 2: return ToggleViewAnimations;
+                case 3: return ToggleViewItems;
+                case 4: return ToggleViewLandTiles;
+                case 5: return ToggleViewTexture;
+                case 6: return ToggleViewGumps;
+                case 7: return ToggleViewSounds;
+                case 8: return ToggleViewHue;
+                case 9: return ToggleViewFonts;
+                case 10: return ToggleViewCliloc;
+                case 11: return ToggleViewMap;
+                case 12: return ToggleViewLight;
+                case 13: return ToggleViewSpeech;
+                case 14: return ToggleViewSkills;
+                case 15: return ToggleViewAnimData;
+                case 16: return ToggleViewMultiMap;
+                case 17: return ToggleViewDress;
+                case 18: return ToggleViewTileData;
+                case 19: return ToggleViewRadarColor;
+                default: return ToggleViewStart;
+            }
         }
         #endregion
     }
