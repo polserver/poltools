@@ -16,14 +16,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using Ultima;
 
 namespace UoFiddler
 {
-    public class Options
+    public static class Options
     {
         private static bool m_UpdateCheckOnStart = false;
         private static ArrayList m_ExternTools;
@@ -42,23 +41,23 @@ namespace UoFiddler
             set { m_UpdateCheckOnStart = value; }
         }
 
-        public Options()
+        public static void Startup()
         {
             Load();
             if (m_UpdateCheckOnStart)
             {
-                BackgroundWorker updater = new BackgroundWorker();
-                updater.DoWork += new DoWorkEventHandler(Updater_DoWork);
-                updater.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Updater_RunWorkerCompleted);
-                updater.RunWorkerAsync();
+                using (BackgroundWorker updater = new BackgroundWorker())
+                {
+                    updater.DoWork += new DoWorkEventHandler(Updater_DoWork);
+                    updater.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Updater_RunWorkerCompleted);
+                    updater.RunWorkerAsync();
+                }
             }
         }
 
         public static void Save()
         {
-            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-
-            string FileName = Path.Combine(filepath, "Options.xml");
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Options.xml");
 
             XmlDocument dom = new XmlDocument();
             XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -189,7 +188,7 @@ namespace UoFiddler
             dom.Save(FileName);
         }
 
-        private void Load()
+        private static void Load()
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(Path.GetDirectoryName(path), "Options.xml");
@@ -353,7 +352,7 @@ namespace UoFiddler
             return match;
         }
 
-        private void Updater_DoWork(object sender, DoWorkEventArgs e)
+        private static void Updater_DoWork(object sender, DoWorkEventArgs e)
         {
             string error;
             e.Result = CheckForUpdate(out error);
@@ -362,7 +361,7 @@ namespace UoFiddler
 
         }
 
-        private void Updater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private static void Updater_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -388,17 +387,17 @@ namespace UoFiddler
         }
 
         #region Downloader
-        private void DownloadFile(string file)
+        private static void DownloadFile(string file)
         {
-            string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(filepath, file);
-
-            WebClient web = new WebClient();
-            web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
-            web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, file);
+            using (WebClient web = new WebClient())
+            {
+                web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
+                web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
+            }
         }
 
-        private void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private static void OnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -413,31 +412,26 @@ namespace UoFiddler
 
     public class ExternTool
     {
-        private string m_Name;
-        private string m_FileName;
-        private ArrayList m_Args;
-        private ArrayList m_ArgsName;
-
-        public string Name { get { return m_Name; } set { m_Name = value; } }
-        public string FileName { get { return m_FileName; } set { m_FileName = value; } }
-        public ArrayList Args { get { return m_Args; } set { m_Args = value; } }
-        public ArrayList ArgsName { get { return m_ArgsName; } set { m_ArgsName = value; } }
+        public string Name { get; set; }
+        public string FileName { get; set; }
+        public ArrayList Args { get; set; }
+        public ArrayList ArgsName { get; set; }
 
         public ExternTool(string name, string filename)
         {
-            m_Name = name;
-            m_FileName = filename;
-            m_Args = new ArrayList();
-            m_ArgsName = new ArrayList();
+            Name = name;
+            FileName = filename;
+            Args = new ArrayList();
+            ArgsName = new ArrayList();
         }
 
         public string FormatName()
         {
-            return String.Format("{0}: {1}", m_Name, m_FileName);
+            return String.Format("{0}: {1}", Name, FileName);
         }
         public string FormatArg(int i)
         {
-            return String.Format("{0}: {1}", m_ArgsName[i], m_Args[i]);
+            return String.Format("{0}: {1}", ArgsName[i], Args[i]);
         }
     }
 }
