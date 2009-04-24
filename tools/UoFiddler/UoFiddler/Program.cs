@@ -19,14 +19,12 @@ namespace UoFiddler
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-
-
-        public static Options opt = new Options();
         [STAThread]
         static void Main()
         {
             try
             {
+                Options.Startup();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new UoFiddler());
