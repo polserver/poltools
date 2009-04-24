@@ -123,7 +123,7 @@
 -PluginInterface changed a bit
 -Map tab added Insert Diff Data.. to write from definied region map/static diff file data into mapfiles
 -Added View Menu to hide docked tabs.
--View toggle states are not saved to file.
+-View toggle states are now saved to file.
 -Optimized Dock/UnDock code.
 -Help button changed to load Docs from website.
 
