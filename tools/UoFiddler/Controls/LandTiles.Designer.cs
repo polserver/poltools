@@ -55,14 +55,18 @@ namespace FiddlerControls
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertAtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InsertText = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLandTile = new System.Windows.Forms.ToolStrip();
             this.namelabel = new System.Windows.Forms.ToolStripLabel();
             this.graphiclabel = new System.Windows.Forms.ToolStripLabel();
             this.FlagsLabel = new System.Windows.Forms.ToolStripLabel();
-            this.LandTilesSearchButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.SaveButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.LandTilesSearchButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ExportAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportAsBmp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportAsTiff = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStripLandTile.SuspendLayout();
             this.SuspendLayout();
@@ -98,11 +102,9 @@ namespace FiddlerControls
             this.findNextFreeSlotToolStripMenuItem,
             this.removeToolStripMenuItem,
             this.replaceToolStripMenuItem,
-            this.insertAtToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.saveToolStripMenuItem});
+            this.insertAtToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 198);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 170);
             // 
             // exportImageToolStripMenuItem
             // 
@@ -187,18 +189,6 @@ namespace FiddlerControls
             this.InsertText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown_Insert);
             this.InsertText.TextChanged += new System.EventHandler(this.onTextChanged_Insert);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
-            // 
             // toolStripLandTile
             // 
             this.toolStripLandTile.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -207,7 +197,10 @@ namespace FiddlerControls
             this.graphiclabel,
             this.FlagsLabel,
             this.toolStripSeparator4,
-            this.LandTilesSearchButton});
+            this.SaveButton,
+            this.toolStripSeparator5,
+            this.LandTilesSearchButton,
+            this.toolStripDropDownButton1});
             this.toolStripLandTile.Location = new System.Drawing.Point(0, 0);
             this.toolStripLandTile.Name = "toolStripLandTile";
             this.toolStripLandTile.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -220,7 +213,7 @@ namespace FiddlerControls
             this.namelabel.AutoSize = false;
             this.namelabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.namelabel.Name = "namelabel";
-            this.namelabel.Size = new System.Drawing.Size(150, 22);
+            this.namelabel.Size = new System.Drawing.Size(140, 22);
             this.namelabel.Text = "Name:";
             this.namelabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -236,9 +229,29 @@ namespace FiddlerControls
             // 
             this.FlagsLabel.AutoSize = false;
             this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(250, 22);
+            this.FlagsLabel.Size = new System.Drawing.Size(190, 22);
             this.FlagsLabel.Text = "Flags:";
             this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
+            this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(35, 22);
+            this.SaveButton.Text = "Save";
+            this.SaveButton.Click += new System.EventHandler(this.OnClickSave);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // LandTilesSearchButton
             // 
@@ -250,10 +263,39 @@ namespace FiddlerControls
             this.LandTilesSearchButton.Text = "Search";
             this.LandTilesSearchButton.Click += new System.EventHandler(this.OnClickSearch);
             // 
-            // toolStripSeparator4
+            // toolStripDropDownButton1
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExportAll});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Text = "Misc";
+            // 
+            // ExportAll
+            // 
+            this.ExportAll.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExportAsBmp,
+            this.ExportAsTiff});
+            this.ExportAll.Name = "ExportAll";
+            this.ExportAll.Size = new System.Drawing.Size(139, 22);
+            this.ExportAll.Text = "Export All..";
+            // 
+            // ExportAsBmp
+            // 
+            this.ExportAsBmp.Name = "ExportAsBmp";
+            this.ExportAsBmp.Size = new System.Drawing.Size(120, 22);
+            this.ExportAsBmp.Text = "As Bmp";
+            this.ExportAsBmp.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
+            // 
+            // ExportAsTiff
+            // 
+            this.ExportAsTiff.Name = "ExportAsTiff";
+            this.ExportAsTiff.Size = new System.Drawing.Size(120, 22);
+            this.ExportAsTiff.Text = "As Tiff";
+            this.ExportAsTiff.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
             // 
             // LandTiles
             // 
@@ -277,8 +319,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertAtToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox InsertText;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -296,5 +336,11 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripLabel FlagsLabel;
         private System.Windows.Forms.ToolStripButton LandTilesSearchButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton SaveButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem ExportAll;
+        private System.Windows.Forms.ToolStripMenuItem ExportAsBmp;
+        private System.Windows.Forms.ToolStripMenuItem ExportAsTiff;
     }
 }

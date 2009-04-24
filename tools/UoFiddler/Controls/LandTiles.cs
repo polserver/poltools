@@ -386,5 +386,56 @@ namespace FiddlerControls
             if (listView1.SelectedItems.Count == 1)
                 FiddlerControls.RadarColor.Select((int)listView1.SelectedItems[0].Tag, true);
         }
+
+        private void OnClick_SaveAllBmp(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < listView1.Items.Count; i++)
+                    {
+                        int index = (int)listView1.Items[i].Tag;
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.bmp", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetLand(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Bmp);
+                            bit.Dispose();
+                        }
+                    }
+                    MessageBox.Show(String.Format("All LandTiles saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void OnClick_SaveAllTiff(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < listView1.Items.Count; i++)
+                    {
+                        int index = (int)listView1.Items[i].Tag;
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.tiff", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetLand(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Tiff);
+                            bit.Dispose();
+                        }
+                    }
+                    MessageBox.Show(String.Format("All LandTiles saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
     }
 }

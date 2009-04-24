@@ -119,10 +119,12 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.8a
--Moved Cliloc Export context menu item to Button in toolbar for Cliloc Control
--some crashes/problems fixed
--PluginInterface changed a bit
--Map tab added Insert Diff Data.. to write from definied region map/static diff file data into mapfiles
+-Tool Menus added to LandTiles and Texture Tabs.
+-Export All buttons added to LandTiles and Texture Tabs.
+-Moved Cliloc Export context menu item to Button in toolbar for Cliloc Control.
+-some crashes/problems fixed.
+-PluginInterface changed a bit.
+-Map tab added Insert Diff Data.. to write from definied region map/static diff file data into mapfiles.
 -Added View Menu to hide docked tabs.
 -View toggle states are now saved to file.
 -Optimized Dock/UnDock code.
