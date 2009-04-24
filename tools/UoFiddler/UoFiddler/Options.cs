@@ -177,7 +177,7 @@ namespace UoFiddler
             sr.AppendChild(comment);
             foreach (KeyValuePair<int, bool> kvp in FiddlerControls.Options.ChangedViewState)
             {
-                if (!FiddlerControls.Options.ChangedViewState[kvp.Key])
+                if (!kvp.Value)
                 {
                     XmlElement viewstate = dom.CreateElement("TabView");
                     viewstate.SetAttribute("tab", kvp.Key.ToString());
@@ -190,8 +190,7 @@ namespace UoFiddler
 
         private static void Load()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(Path.GetDirectoryName(path), "Options.xml");
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Options.xml");
             if (!File.Exists(FileName))
                 return;
 
@@ -224,15 +223,11 @@ namespace UoFiddler
             }
             elem = (XmlElement)xOptions.SelectSingleNode("UseMapDiff");
             if (elem != null)
-            {
                 Map.UseDiff = bool.Parse(elem.GetAttribute("active"));
-            }
 
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
             if (elem != null)
-            {
                 FiddlerControls.Options.DesignAlternative = bool.Parse(elem.GetAttribute("active"));
-            }
 
             elem = (XmlElement)xOptions.SelectSingleNode("UseHashFile");
             if (elem != null)
