@@ -146,11 +146,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Hues"] = true;
             if (!Loaded) // only once
             {
-                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
-                {
-                    if (plug.Loaded)
-                        plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
-                }
+                PluginInterface.Events.FireModifyItemShowContextMenuEvent(this.contextMenuStrip1);
             }
             
             ShowFreeSlots = false;

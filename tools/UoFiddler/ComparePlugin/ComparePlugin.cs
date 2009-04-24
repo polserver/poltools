@@ -56,10 +56,6 @@ namespace FiddlerPlugin
         {
         }
 
-        public override void OnDesignChange()
-        {
-        }
-
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();
@@ -104,10 +100,6 @@ namespace FiddlerPlugin
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)
-        {
-        }
-
-        public override void ModifyItemShowContextMenu(ContextMenuStrip strip)
         {
         }
     }

@@ -168,11 +168,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Hues"] = true;
             if (!Loaded) // only once
             {
-                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
-                {
-                    if (plug.Loaded)
-                        plug.Instance.ModifyItemShowContextMenu(this.contextMenuStrip1);
-                }
+                PluginInterface.Events.FireModifyItemShowContextMenuEvent(this.contextMenuStrip1);
             }
             
             ShowFreeSlots = false;
@@ -355,9 +351,8 @@ namespace FiddlerControls
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
             pictureBox.Focus();
-            Point m = PointToClient(Control.MousePosition);
-            int x = m.X / (Options.ArtItemSizeWidth - 1);
-            int y = m.Y / (Options.ArtItemSizeHeight - 1);
+            int x = e.X / (Options.ArtItemSizeWidth - 1);
+            int y = e.Y / (Options.ArtItemSizeHeight - 1);
             int index = GetIndex(x, y);
             if (index >= 0)
                 Selected = index;

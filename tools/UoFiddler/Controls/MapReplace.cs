@@ -8,7 +8,6 @@
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-//TODO: Diff file handling (Replace)
 
 using System;
 using System.IO;

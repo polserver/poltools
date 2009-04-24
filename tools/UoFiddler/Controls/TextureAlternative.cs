@@ -197,12 +197,11 @@ namespace FiddlerControls
             PaintBox();
         }
 
-        private void OnClick(object sender, EventArgs e)
+        private void OnMouseClick(object sender, MouseEventArgs e)
         {
             pictureBox.Focus();
-            Point m = PointToClient(Control.MousePosition);
-            int x = m.X / (64 - 1);
-            int y = m.Y / (64 - 1);
+            int x = e.X / (64 - 1);
+            int y = e.Y / (64 - 1);
             int index = GetIndex(x, y);
             if (index >= 0)
             {

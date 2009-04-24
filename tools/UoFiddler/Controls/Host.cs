@@ -151,7 +151,6 @@ namespace Host
             return FiddlerControls.ItemShowAlternative.RefMarker.Selected;
         }
         #endregion
-
     }
     namespace Types
     {

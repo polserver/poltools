@@ -13,6 +13,37 @@ using System.Windows.Forms;
 
 namespace PluginInterface
 {
+    public class Events
+    {
+        /// <summary>
+        /// Fired when Design is changed
+        /// </summary>
+        public delegate void DesignChangeHandler();
+        /// <summary>
+        /// Fired when Design is changed
+        /// </summary>
+        public static event DesignChangeHandler DesignChangeEvent;
+        public static void FireDesignChangeEvent()
+        {
+            if (DesignChangeEvent != null)
+                DesignChangeEvent();
+        }
+
+        /// <summary>
+        /// OnLoad called in ItemShow or ItemShowAlternative to modify Contextmenu
+        /// </summary>
+        /// <param name="contextmenu"></param>
+        public delegate void ModifyItemShowContextMenuHandler(ContextMenuStrip contextmenu);
+        /// <summary>
+        /// OnLoad called in ItemShow or ItemShowAlternative to modify Contextmenu
+        /// </summary>
+        public static event ModifyItemShowContextMenuHandler ModifyItemShowContextMenuEvent;
+        public static void FireModifyItemShowContextMenuEvent(ContextMenuStrip contextmenu)
+        {
+            if (ModifyItemShowContextMenuEvent != null)
+                ModifyItemShowContextMenuEvent(contextmenu);
+        }
+    }
     public abstract class IPlugin
     {
         abstract public IPluginHost Host { get; set; }
@@ -35,16 +66,6 @@ namespace PluginInterface
         /// </summary>
         /// <param name="tabcontrol"></param>
         virtual public void ModifyTabPages(TabControl tabcontrol) { }
-        /// <summary>
-        /// OnLoad called in ItemShow or ItemShowAlternative
-        /// </summary>
-        /// <param name="strip"></param>
-        virtual public void ModifyItemShowContextMenu(ContextMenuStrip strip) { }
-
-        /// <summary>
-        /// Called if DesignAlternative is switched
-        /// </summary>
-        virtual public void OnDesignChange() { }
     }
 
     public interface IPluginHost
