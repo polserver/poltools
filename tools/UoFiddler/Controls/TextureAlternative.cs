@@ -276,19 +276,21 @@ namespace FiddlerControls
         {
             if (selected >= 0)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    Textures.Replace(selected, bmp);
-                    PaintBox();
-                    Options.ChangedUltimaClass["Texture"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        Textures.Replace(selected, bmp);
+                        PaintBox();
+                        Options.ChangedUltimaClass["Texture"] = true;
+                    }
                 }
             }
         }
@@ -317,43 +319,44 @@ namespace FiddlerControls
                     if (Textures.TestTexture(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            if (dialog.FileName.Contains(".bmp"))
-                                bmp = Utils.ConvertBmp(bmp);
-                            Textures.Replace(index, bmp);
-                            bool done = false;
-                            for (int i = 0; i < TextureList.Count; i++)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                             {
-                                if (index < (int)TextureList[i])
+                                if (dialog.FileName.Contains(".bmp"))
+                                    bmp = Utils.ConvertBmp(bmp);
+                                Textures.Replace(index, bmp);
+                                bool done = false;
+                                for (int i = 0; i < TextureList.Count; i++)
                                 {
-                                    TextureList.Insert(i, (object)index);
-                                    vScrollBar.Value = i / refMarker.col + 1;
-                                    done = true;
-                                    break;
+                                    if (index < (int)TextureList[i])
+                                    {
+                                        TextureList.Insert(i, (object)index);
+                                        vScrollBar.Value = i / refMarker.col + 1;
+                                        done = true;
+                                        break;
+                                    }
                                 }
+                                if (!done)
+                                {
+                                    TextureList.Add((object)index);
+                                    vScrollBar.Value = TextureList.Count / refMarker.col + 1;
+                                }
+                                selected = index;
+                                Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
+                                PaintBox();
+                                Options.ChangedUltimaClass["Texture"] = true;
                             }
-                            if (!done)
-                            {
-                                TextureList.Add((object)index);
-                                vScrollBar.Value = TextureList.Count / refMarker.col + 1;
-                            }
-                            selected = index;
-                            Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
-                            PaintBox();
-                            Options.ChangedUltimaClass["Texture"] = true;
+                            else
+                                MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                         }
-                        else
-                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                     }
                 }
             }
@@ -376,8 +379,7 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", selected));
-            Bitmap bmp = Textures.GetTexture(selected);
-            bmp.Save(FileName, ImageFormat.Tiff);
+            Textures.GetTexture(selected).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",
@@ -390,8 +392,7 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Texture {0}.bmp", selected));
-            Bitmap bmp = Textures.GetTexture(selected);
-            bmp.Save(FileName, ImageFormat.Bmp);
+            Textures.GetTexture(selected).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",

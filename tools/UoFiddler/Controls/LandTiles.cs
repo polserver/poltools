@@ -191,25 +191,26 @@ namespace FiddlerControls
         {
             if (listView1.SelectedItems.Count == 1)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if ((bmp.Height != 44) || (bmp.Width != 44))
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                        return;
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if ((bmp.Height != 44) || (bmp.Width != 44))
+                        {
+                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        Art.ReplaceLand((int)listView1.SelectedItems[0].Tag, bmp);
+                        listView1.Invalidate();
+                        Options.ChangedUltimaClass["Art"] = true;
                     }
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    Art.ReplaceLand((int)listView1.SelectedItems[0].Tag, bmp);
-                    listView1.Invalidate();
-                    Options.ChangedUltimaClass["Art"] = true;
                 }
             }
         }
@@ -257,45 +258,46 @@ namespace FiddlerControls
                     if (Art.IsValidLand(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        if ((bmp.Height != 44) || (bmp.Width != 44))
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK,
-                                MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                            return;
-                        }
-                        if (dialog.FileName.Contains(".bmp"))
-                            bmp = Utils.ConvertBmp(bmp);
-                        Art.ReplaceLand(index, bmp);
-                        Options.ChangedUltimaClass["Art"] = true;
-                        ListViewItem item = new ListViewItem(index.ToString(), 0);
-                        item.Tag = index;
-                        bool done = false;
-                        foreach (ListViewItem i in listView1.Items)
-                        {
-                            if ((int)i.Tag > index)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            if ((bmp.Height != 44) || (bmp.Width != 44))
                             {
-                                listView1.Items.Insert(i.Index, item);
-                                done = true;
-                                break;
+                                MessageBox.Show("Height or Width Invalid", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                                return;
                             }
+                            if (dialog.FileName.Contains(".bmp"))
+                                bmp = Utils.ConvertBmp(bmp);
+                            Art.ReplaceLand(index, bmp);
+                            Options.ChangedUltimaClass["Art"] = true;
+                            ListViewItem item = new ListViewItem(index.ToString(), 0);
+                            item.Tag = index;
+                            bool done = false;
+                            foreach (ListViewItem i in listView1.Items)
+                            {
+                                if ((int)i.Tag > index)
+                                {
+                                    listView1.Items.Insert(i.Index, item);
+                                    done = true;
+                                    break;
+                                }
+                            }
+                            if (!done)
+                                listView1.Items.Add(item);
+                            listView1.View = View.Details; // that works faszinating
+                            listView1.View = View.Tile;
+                            if (listView1.SelectedItems.Count == 1)
+                                listView1.SelectedItems[0].Selected = false;
+                            item.Selected = true;
+                            item.Focused = true;
+                            item.EnsureVisible();
                         }
-                        if (!done)
-                            listView1.Items.Add(item);
-                        listView1.View = View.Details; // that works faszinating
-                        listView1.View = View.Tile;
-                        if (listView1.SelectedItems.Count == 1)
-                            listView1.SelectedItems[0].Selected = false;
-                        item.Selected = true;
-                        item.Focused = true;
-                        item.EnsureVisible();
                     }
                 }
             }
@@ -354,8 +356,7 @@ namespace FiddlerControls
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 int i = (int)listView1.SelectedItems[0].Tag;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", i));
-                Bitmap bmp = Art.GetLand(i);
-                bmp.Save(FileName, ImageFormat.Bmp);
+                Art.GetLand(i).Save(FileName, ImageFormat.Bmp);
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -368,8 +369,7 @@ namespace FiddlerControls
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 int i = (int)listView1.SelectedItems[0].Tag;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", i));
-                Bitmap bmp = Art.GetLand(i);
-                bmp.Save(FileName, ImageFormat.Tiff);
+                Art.GetLand(i).Save(FileName, ImageFormat.Tiff);
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }

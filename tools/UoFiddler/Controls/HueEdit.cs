@@ -54,15 +54,18 @@ namespace FiddlerControls
         {
             if (preview != null)
             {
-                Bitmap bmp = new Bitmap(preview);
-                Ultima.Hues.ApplyTo(bmp, Colors, hueOnlyGreyToolStripMenuItem.Checked);
-                using (Graphics g = Graphics.FromImage(pictureBoxPreview.Image))
+                using (Bitmap bmp = new Bitmap(preview))
                 {
-                    g.Clear(Color.White);
-                    int x, y;
-                    x = (int)(pictureBoxPreview.Image.Width / 2 - bmp.Width / 2);
-                    y = (int)(pictureBoxPreview.Image.Height / 2 - bmp.Height / 2);
-                    g.DrawImage(bmp, x, y);
+                    Ultima.Hues.ApplyTo(bmp, Colors, hueOnlyGreyToolStripMenuItem.Checked);
+                    using (Graphics g = Graphics.FromImage(pictureBoxPreview.Image))
+                    {
+                        g.Clear(Color.White);
+                        int x;
+                        int y;
+                        x = (int)(pictureBoxPreview.Image.Width / 2 - bmp.Width / 2);
+                        y = (int)(pictureBoxPreview.Image.Height / 2 - bmp.Height / 2);
+                        g.DrawImage(bmp, x, y);
+                    }
                 }
                 pictureBoxPreview.Refresh();
             }

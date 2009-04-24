@@ -94,21 +94,23 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode != null)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    int i = (int)treeView1.SelectedNode.Tag;
-                    Ultima.Light.Replace(i, bmp);
-                    treeView1.Invalidate();
-                    AfterSelect(this, (TreeViewEventArgs)null);
-                    Options.ChangedUltimaClass["Light"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        int i = (int)treeView1.SelectedNode.Tag;
+                        Ultima.Light.Replace(i, bmp);
+                        treeView1.Invalidate();
+                        AfterSelect(this, (TreeViewEventArgs)null);
+                        Options.ChangedUltimaClass["Light"] = true;
+                    }
                 }
             }
         }
@@ -137,32 +139,34 @@ namespace FiddlerControls
                     if (Ultima.Light.TestLight(index))
                         return;
                     contextMenuStrip1.Close();
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to insert at {0} (0x{0:X})", index);
-                    dialog.CheckFileExists = true;
-                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    using (OpenFileDialog dialog = new OpenFileDialog())
                     {
-                        Bitmap bmp = new Bitmap(dialog.FileName);
-                        Ultima.Light.Replace(index, bmp);
-                        TreeNode treeNode = new TreeNode(index.ToString());
-                        treeNode.Tag = index;
-                        bool done = false;
-                        foreach (TreeNode node in treeView1.Nodes)
+                        dialog.Multiselect = false;
+                        dialog.Title = String.Format("Choose image file to insert at {0} (0x{0:X})", index);
+                        dialog.CheckFileExists = true;
+                        dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                        if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            if ((int)node.Tag > index)
+                            Bitmap bmp = new Bitmap(dialog.FileName);
+                            Ultima.Light.Replace(index, bmp);
+                            TreeNode treeNode = new TreeNode(index.ToString());
+                            treeNode.Tag = index;
+                            bool done = false;
+                            foreach (TreeNode node in treeView1.Nodes)
                             {
-                                treeView1.Nodes.Insert(node.Index, treeNode);
-                                done = true;
-                                break;
+                                if ((int)node.Tag > index)
+                                {
+                                    treeView1.Nodes.Insert(node.Index, treeNode);
+                                    done = true;
+                                    break;
+                                }
                             }
+                            if (!done)
+                                treeView1.Nodes.Add(treeNode);
+                            treeView1.Invalidate();
+                            treeView1.SelectedNode = treeNode;
+                            Options.ChangedUltimaClass["Light"] = true;
                         }
-                        if (!done)
-                            treeView1.Nodes.Add(treeNode);
-                        treeView1.Invalidate();
-                        treeView1.SelectedNode = treeNode;
-                        Options.ChangedUltimaClass["Light"] = true;
                     }
                 }
             }
@@ -187,8 +191,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = (int)treeView1.SelectedNode.Tag;
             string FileName = Path.Combine(path, String.Format("Light {0}.bmp", i));
-            Bitmap bmp = Ultima.Light.GetLight(i);
-            bmp.Save(FileName, ImageFormat.Bmp);
+            Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Light saved to {0}", FileName),
                 "Saved",
@@ -204,8 +207,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = (int)treeView1.SelectedNode.Tag;
             string FileName = Path.Combine(path, String.Format("Light {0}.tiff", i));
-            Bitmap bmp = Ultima.Light.GetLight(i);
-            bmp.Save(FileName, ImageFormat.Tiff);
+            Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Light saved to {0}", FileName),
                 "Saved",

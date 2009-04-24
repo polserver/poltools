@@ -123,33 +123,32 @@ namespace Ultima
             using (FileStream fsData = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.Read),
                               fsIndex = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BinaryReader indexReader = new BinaryReader(fsIndex);
-
-                int count = (int)(indexReader.BaseStream.Length / 4);
-
-                for (int i = 0; i < count; ++i)
+                using (BinaryReader indexReader = new BinaryReader(fsIndex))
                 {
-                    int blockID = indexReader.ReadInt32();
-                    int x = blockID / matrix.BlockHeight;
-                    int y = blockID % matrix.BlockHeight;
+                    int count = (int)(indexReader.BaseStream.Length / 4);
 
-                    fsData.Seek(4, SeekOrigin.Current);
-
-                    Tile[] tiles = new Tile[64];
-
-                    fixed (Tile* pTiles = tiles)
+                    for (int i = 0; i < count; ++i)
                     {
-                        NativeMethods._lread(fsData.SafeFileHandle, pTiles, 192);
+                        int blockID = indexReader.ReadInt32();
+                        int x = blockID / matrix.BlockHeight;
+                        int y = blockID % matrix.BlockHeight;
+
+                        fsData.Seek(4, SeekOrigin.Current);
+
+                        Tile[] tiles = new Tile[64];
+
+                        fixed (Tile* pTiles = tiles)
+                        {
+                            NativeMethods._lread(fsData.SafeFileHandle, pTiles, 192);
+                        }
+
+                        //matrix.SetLandBlock(x, y, tiles);
+                        if (LandBlocks[x] == null)
+                            LandBlocks[x] = new Tile[matrix.BlockHeight][];
+                        LandBlocks[x][y] = tiles;
                     }
-
-                    //matrix.SetLandBlock(x, y, tiles);
-                    if (LandBlocks[x] == null)
-                        LandBlocks[x] = new Tile[matrix.BlockHeight][];
-                    LandBlocks[x][y] = tiles;
+                    return count;
                 }
-
-                indexReader.Close();
-                return count;
             }
         }
 
@@ -159,81 +158,79 @@ namespace Ultima
                               fsIndex = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read),
                               fsLookup = new FileStream(lookupPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BinaryReader indexReader = new BinaryReader(fsIndex);
-                BinaryReader lookupReader = new BinaryReader(fsLookup);
-
-                int count = (int)(indexReader.BaseStream.Length / 4);
-
-                HuedTileList[][] lists = new HuedTileList[8][];
-
-                for (int x = 0; x < 8; ++x)
+                using (BinaryReader indexReader = new BinaryReader(fsIndex),
+                                    lookupReader = new BinaryReader(fsLookup))
                 {
-                    lists[x] = new HuedTileList[8];
+                    int count = (int)(indexReader.BaseStream.Length / 4);
 
-                    for (int y = 0; y < 8; ++y)
-                        lists[x][y] = new HuedTileList();
-                }
+                    HuedTileList[][] lists = new HuedTileList[8][];
 
-                for (int i = 0; i < count; ++i)
-                {
-                    int blockID = indexReader.ReadInt32();
-                    int blockX = blockID / matrix.BlockHeight;
-                    int blockY = blockID % matrix.BlockHeight;
-
-                    int offset = lookupReader.ReadInt32();
-                    int length = lookupReader.ReadInt32();
-                    lookupReader.ReadInt32(); // Extra
-
-                    if (offset < 0 || length <= 0)
+                    for (int x = 0; x < 8; ++x)
                     {
-                        if (StaticBlocks[blockX] == null)
-                            StaticBlocks[blockX] = new HuedTile[matrix.BlockHeight][][][];
+                        lists[x] = new HuedTileList[8];
 
-                        StaticBlocks[blockX][blockY] = TileMatrix.EmptyStaticBlock;
-                        //matrix.SetStaticBlock(blockX, blockY, matrix.EmptyStaticBlock);
-                        continue;
+                        for (int y = 0; y < 8; ++y)
+                            lists[x][y] = new HuedTileList();
                     }
 
-                    fsData.Seek(offset, SeekOrigin.Begin);
-
-                    int tileCount = length / 7;
-
-                    StaticTile[] staTiles = new StaticTile[tileCount];
-
-                    fixed (StaticTile* pTiles = staTiles)
+                    for (int i = 0; i < count; ++i)
                     {
-                        NativeMethods._lread(fsData.SafeFileHandle, pTiles, length);
+                        int blockID = indexReader.ReadInt32();
+                        int blockX = blockID / matrix.BlockHeight;
+                        int blockY = blockID % matrix.BlockHeight;
 
-                        StaticTile* pCur = pTiles, pEnd = pTiles + tileCount;
+                        int offset = lookupReader.ReadInt32();
+                        int length = lookupReader.ReadInt32();
+                        lookupReader.ReadInt32(); // Extra
 
-                        while (pCur < pEnd)
+                        if (offset < 0 || length <= 0)
                         {
-                            lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((short)((pCur->m_ID & 0x3FFF) + 0x4000), pCur->m_Hue, pCur->m_Z);
-                            ++pCur;
+                            if (StaticBlocks[blockX] == null)
+                                StaticBlocks[blockX] = new HuedTile[matrix.BlockHeight][][][];
+
+                            StaticBlocks[blockX][blockY] = TileMatrix.EmptyStaticBlock;
+                            //matrix.SetStaticBlock(blockX, blockY, matrix.EmptyStaticBlock);
+                            continue;
                         }
 
-                        HuedTile[][][] tiles = new HuedTile[8][][];
+                        fsData.Seek(offset, SeekOrigin.Begin);
 
-                        for (int x = 0; x < 8; ++x)
+                        int tileCount = length / 7;
+
+                        StaticTile[] staTiles = new StaticTile[tileCount];
+
+                        fixed (StaticTile* pTiles = staTiles)
                         {
-                            tiles[x] = new HuedTile[8][];
+                            NativeMethods._lread(fsData.SafeFileHandle, pTiles, length);
 
-                            for (int y = 0; y < 8; ++y)
-                                tiles[x][y] = lists[x][y].ToArray();
+                            StaticTile* pCur = pTiles, pEnd = pTiles + tileCount;
+
+                            while (pCur < pEnd)
+                            {
+                                lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((short)((pCur->m_ID & 0x3FFF) + 0x4000), pCur->m_Hue, pCur->m_Z);
+                                ++pCur;
+                            }
+
+                            HuedTile[][][] tiles = new HuedTile[8][][];
+
+                            for (int x = 0; x < 8; ++x)
+                            {
+                                tiles[x] = new HuedTile[8][];
+
+                                for (int y = 0; y < 8; ++y)
+                                    tiles[x][y] = lists[x][y].ToArray();
+                            }
+
+                            //matrix.SetStaticBlock(blockX, blockY, tiles);
+                            if (StaticBlocks[blockX] == null)
+                                StaticBlocks[blockX] = new HuedTile[matrix.BlockHeight][][][];
+
+                            StaticBlocks[blockX][blockY] = tiles;
                         }
-
-                        //matrix.SetStaticBlock(blockX, blockY, tiles);
-                        if (StaticBlocks[blockX] == null)
-                            StaticBlocks[blockX] = new HuedTile[matrix.BlockHeight][][][];
-
-                        StaticBlocks[blockX][blockY] = tiles;
                     }
+
+                    return count;
                 }
-
-                indexReader.Close();
-                lookupReader.Close();
-
-                return count;
             }
         }
 

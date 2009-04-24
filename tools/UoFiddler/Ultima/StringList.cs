@@ -74,18 +74,20 @@ namespace Ultima
         {
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                bin.Write(m_Header1);
-                bin.Write(m_Header2);
-                Entries.Sort(new StringList.NumberComparer(false));
-                foreach (StringEntry entry in Entries)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write(entry.Number);
-                    bin.Write((byte)entry.Flag);
-                    byte[] utf8String = Encoding.UTF8.GetBytes(entry.Text);
-                    ushort length = (ushort)utf8String.Length;
-                    bin.Write(length);
-                    bin.Write(utf8String);
+                    bin.Write(m_Header1);
+                    bin.Write(m_Header2);
+                    Entries.Sort(new StringList.NumberComparer(false));
+                    foreach (StringEntry entry in Entries)
+                    {
+                        bin.Write(entry.Number);
+                        bin.Write((byte)entry.Flag);
+                        byte[] utf8String = Encoding.UTF8.GetBytes(entry.Text);
+                        ushort length = (ushort)utf8String.Length;
+                        bin.Write(length);
+                        bin.Write(utf8String);
+                    }
                 }
             }
         }

@@ -31,20 +31,21 @@ namespace Ultima
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    BinaryReader bin = new BinaryReader(fs);
-
-                    int blockCount = (int)fs.Length / 708;
-
-                    if (blockCount > 375)
-                        blockCount = 375;
-                    m_Header = new int[blockCount];
-
-                    for (int i = 0; i < blockCount; ++i)
+                    using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        m_Header[i] = bin.ReadInt32();
+                        int blockCount = (int)fs.Length / 708;
 
-                        for (int j = 0; j < 8; ++j, ++index)
-                            List[index] = new Hue(index, bin);
+                        if (blockCount > 375)
+                            blockCount = 375;
+                        m_Header = new int[blockCount];
+
+                        for (int i = 0; i < blockCount; ++i)
+                        {
+                            m_Header[i] = bin.ReadInt32();
+
+                            for (int j = 0; j < 8; ++j, ++index)
+                                List[index] = new Hue(index, bin);
+                        }
                     }
                 }
             }
@@ -58,27 +59,29 @@ namespace Ultima
             string mul = Path.Combine(path, "hues.mul");
             using (FileStream fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter binmul = new BinaryWriter(fsmul);
-                int index = 0;
-                for (int i = 0; i < m_Header.Length; i++)
+                using (BinaryWriter binmul = new BinaryWriter(fsmul))
                 {
-                    binmul.Write(m_Header[i]);
-                    for (int j = 0; j < 8; j++, index++)
+                    int index = 0;
+                    for (int i = 0; i < m_Header.Length; i++)
                     {
-                        for (int c = 0; c < 32; c++)
-                            binmul.Write((short)(List[index].Colors[c] ^ 0x8000));
-
-                        binmul.Write((short)(List[index].TableStart ^ 0x8000));
-                        binmul.Write((short)(List[index].TableEnd ^ 0x8000));
-                        byte[] b = new byte[20];
-                        if (List[index].Name != null)
+                        binmul.Write(m_Header[i]);
+                        for (int j = 0; j < 8; j++, index++)
                         {
-                            byte[] bb = Encoding.Default.GetBytes(List[index].Name);
-                            if (bb.Length > 20)
-                                Array.Resize(ref bb, 20);
-                            bb.CopyTo(b, 0);
+                            for (int c = 0; c < 32; c++)
+                                binmul.Write((short)(List[index].Colors[c] ^ 0x8000));
+
+                            binmul.Write((short)(List[index].TableStart ^ 0x8000));
+                            binmul.Write((short)(List[index].TableEnd ^ 0x8000));
+                            byte[] b = new byte[20];
+                            if (List[index].Name != null)
+                            {
+                                byte[] bb = Encoding.Default.GetBytes(List[index].Name);
+                                if (bb.Length > 20)
+                                    Array.Resize(ref bb, 20);
+                                bb.CopyTo(b, 0);
+                            }
+                            binmul.Write(b);
                         }
-                        binmul.Write(b);
                     }
                 }
             }

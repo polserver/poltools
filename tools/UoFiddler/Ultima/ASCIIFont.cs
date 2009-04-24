@@ -129,32 +129,33 @@ namespace Ultima
         {
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-
-                for (int i = 0; i < 10; ++i)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write(Fonts[i].Header);
-                    for (int k = 0; k < 224; ++k)
+                    for (int i = 0; i < 10; ++i)
                     {
-                        bin.Write((byte)Fonts[i].Characters[k].Width);
-                        bin.Write((byte)Fonts[i].Characters[k].Height);
-                        bin.Write(Fonts[i].Unk[k]);
-                        Bitmap bmp = Fonts[i].Characters[k];
-                        BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
-                        ushort* line = (ushort*)bd.Scan0;
-                        int delta = bd.Stride >> 1;
-                        for (int y = 0; y < bmp.Height; ++y, line += delta)
+                        bin.Write(Fonts[i].Header);
+                        for (int k = 0; k < 224; ++k)
                         {
-                            ushort* cur = line;
-                            for (int x = 0; x < bmp.Width; ++x)
+                            bin.Write((byte)Fonts[i].Characters[k].Width);
+                            bin.Write((byte)Fonts[i].Characters[k].Height);
+                            bin.Write(Fonts[i].Unk[k]);
+                            Bitmap bmp = Fonts[i].Characters[k];
+                            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
+                            ushort* line = (ushort*)bd.Scan0;
+                            int delta = bd.Stride >> 1;
+                            for (int y = 0; y < bmp.Height; ++y, line += delta)
                             {
-                                if (cur[x] == 0)
-                                    bin.Write(cur[x]);
-                                else
-                                    bin.Write((ushort)(cur[x] ^ 0x8000));
+                                ushort* cur = line;
+                                for (int x = 0; x < bmp.Width; ++x)
+                                {
+                                    if (cur[x] == 0)
+                                        bin.Write(cur[x]);
+                                    else
+                                        bin.Write((ushort)(cur[x] ^ 0x8000));
+                                }
                             }
+                            bmp.UnlockBits(bd);
                         }
-                        bmp.UnlockBits(bd);
                     }
                 }
             }

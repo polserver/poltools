@@ -223,8 +223,7 @@ namespace ComparePlugin
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.bmp", i));
-            Bitmap bit = new Bitmap(SecondArt.GetStatic(i));
-            bit.Save(FileName, ImageFormat.Bmp);
+            SecondArt.GetStatic(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",
@@ -242,8 +241,7 @@ namespace ComparePlugin
                 return;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item(Sec) 0x{0:X}.tiff", i));
-            Bitmap bit = new Bitmap(SecondArt.GetStatic(i));
-            bit.Save(FileName, ImageFormat.Tiff);
+            SecondArt.GetStatic(i).Save(FileName, ImageFormat.Tiff);
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
                 "Saved",

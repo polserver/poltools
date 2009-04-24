@@ -75,39 +75,41 @@ namespace Ultima
             string FileName = Path.Combine(path, "animdata.mul");
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                int id = 0;
-                int h = 0;
-                while (id < 0x4000)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write(m_Header[h]);
-                    for (int i = 0; i < 8; ++i)
+                    int id = 0;
+                    int h = 0;
+                    while (id < 0x4000)
                     {
-                        Data data = GetAnimData(id);
-                        for (int j = 0; j < 64; ++j)
+                        bin.Write(m_Header[h]);
+                        for (int i = 0; i < 8; ++i)
                         {
+                            Data data = GetAnimData(id);
+                            for (int j = 0; j < 64; ++j)
+                            {
+                                if (data != null)
+                                    bin.Write(data.FrameData[j]);
+                                else
+                                    bin.Write((sbyte)0);
+                            }
                             if (data != null)
-                                bin.Write(data.FrameData[j]);
+                            {
+                                bin.Write(data.Unknown);
+                                bin.Write(data.FrameCount);
+                                bin.Write(data.FrameInterval);
+                                bin.Write(data.FrameStart);
+                            }
                             else
-                                bin.Write((sbyte)0);
+                            {
+                                bin.Write((byte)0);
+                                bin.Write((byte)0);
+                                bin.Write((byte)0);
+                                bin.Write((byte)0);
+                            }
+                            ++id;
                         }
-                        if (data != null)
-                        {
-                            bin.Write(data.Unknown);
-                            bin.Write(data.FrameCount);
-                            bin.Write(data.FrameInterval);
-                            bin.Write(data.FrameStart);
-                        }
-                        else
-                        {
-                            bin.Write((byte)0);
-                            bin.Write((byte)0);
-                            bin.Write((byte)0);
-                            bin.Write((byte)0);
-                        }
-                        ++id;
+                        ++h;
                     }
-                    ++h;
                 }
             }
         }

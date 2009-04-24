@@ -168,25 +168,27 @@ namespace Ultima
                     continue;
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    BinaryReader bin = new BinaryReader(fs);
-                    for (int c = 0; c < 0x10000; c++)
+                    using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        Fonts[i].Chars[c] = new UnicodeChar();
-                        fs.Seek((long)((c) * 4), SeekOrigin.Begin);
-                        int num2 = bin.ReadInt32();
-                        if ((num2 >= fs.Length) || (num2 <= 0))
-                            continue;
-                        fs.Seek((long)num2, SeekOrigin.Begin);
-                        sbyte xOffset = bin.ReadSByte();
-                        sbyte yOffset = bin.ReadSByte();
-                        int Width = bin.ReadByte();
-                        int Height = bin.ReadByte();
-                        Fonts[i].Chars[c].XOffset = xOffset;
-                        Fonts[i].Chars[c].YOffset = yOffset;
-                        Fonts[i].Chars[c].Width = Width;
-                        Fonts[i].Chars[c].Height = Height;
-                        if (!((Width == 0) || (Height == 0)))
-                            Fonts[i].Chars[c].Bytes = bin.ReadBytes(Height * (((Width - 1) / 8) + 1));
+                        for (int c = 0; c < 0x10000; c++)
+                        {
+                            Fonts[i].Chars[c] = new UnicodeChar();
+                            fs.Seek((long)((c) * 4), SeekOrigin.Begin);
+                            int num2 = bin.ReadInt32();
+                            if ((num2 >= fs.Length) || (num2 <= 0))
+                                continue;
+                            fs.Seek((long)num2, SeekOrigin.Begin);
+                            sbyte xOffset = bin.ReadSByte();
+                            sbyte yOffset = bin.ReadSByte();
+                            int Width = bin.ReadByte();
+                            int Height = bin.ReadByte();
+                            Fonts[i].Chars[c].XOffset = xOffset;
+                            Fonts[i].Chars[c].YOffset = yOffset;
+                            Fonts[i].Chars[c].Width = Width;
+                            Fonts[i].Chars[c].Height = Height;
+                            if (!((Width == 0) || (Height == 0)))
+                                Fonts[i].Chars[c].Bytes = bin.ReadBytes(Height * (((Width - 1) / 8) + 1));
+                        }
                     }
                 }
             }
@@ -229,21 +231,24 @@ namespace Ultima
             string FileName = Path.Combine(path, m_files[filetype]);
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                fs.Seek(0x10000 * 4, SeekOrigin.Begin);
-                bin.Write(0); // Set first data
-                for (int c = 0; c < 0x10000; c++)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    if (Fonts[filetype].Chars[c].Bytes == null)
-                        continue;
-                    fs.Seek((long)((c) * 4), SeekOrigin.Begin);
-                    bin.Write((int)fs.Length);
-                    fs.Seek(fs.Length, SeekOrigin.Begin);
-                    bin.Write(Fonts[filetype].Chars[c].XOffset);
-                    bin.Write(Fonts[filetype].Chars[c].YOffset);
-                    bin.Write((byte)Fonts[filetype].Chars[c].Width);
-                    bin.Write((byte)Fonts[filetype].Chars[c].Height);
-                    bin.Write(Fonts[filetype].Chars[c].Bytes);
+                    fs.Seek(0x10000 * 4, SeekOrigin.Begin);
+                    bin.Write(0);
+                    // Set first data
+                    for (int c = 0; c < 0x10000; c++)
+                    {
+                        if (Fonts[filetype].Chars[c].Bytes == null)
+                            continue;
+                        fs.Seek((long)((c) * 4), SeekOrigin.Begin);
+                        bin.Write((int)fs.Length);
+                        fs.Seek(fs.Length, SeekOrigin.Begin);
+                        bin.Write(Fonts[filetype].Chars[c].XOffset);
+                        bin.Write(Fonts[filetype].Chars[c].YOffset);
+                        bin.Write((byte)Fonts[filetype].Chars[c].Width);
+                        bin.Write((byte)Fonts[filetype].Chars[c].Height);
+                        bin.Write(Fonts[filetype].Chars[c].Bytes);
+                    }
                 }
             }
             return FileName;

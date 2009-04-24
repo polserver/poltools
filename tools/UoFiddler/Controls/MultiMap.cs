@@ -190,34 +190,33 @@ namespace FiddlerControls
 
         private void OnClickRLE(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "Select Image to convert";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                Bitmap image = new Bitmap(dialog.FileName);
-                if (image != null)
+                dialog.Title = "Select Image to convert";
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if ((image.Height != 2048) || (image.Width != 2560))
+                    Bitmap image = new Bitmap(dialog.FileName);
+                    if (image != null)
                     {
-                        MessageBox.Show("Invalid image height or width", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
-                        return;
+                        if ((image.Height != 2048) || (image.Width != 2560))
+                        {
+                            MessageBox.Show("Invalid image height or width", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                        this.Cursor = Cursors.WaitCursor;
+                        string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                        string FileName = Path.Combine(path, "MultiMap.rle");
+                        using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+                        {
+                            BinaryWriter bin = new BinaryWriter(fs, Encoding.Unicode);
+                            Ultima.MultiMap.SaveMultiMap(image, bin);
+                        }
+                        this.Cursor = Cursors.Default;
+                        MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Convert", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     }
-                    this.Cursor = Cursors.WaitCursor;
-                    string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-                    string FileName = Path.Combine(path, "MultiMap.rle");
-                    using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
-                    {
-                        BinaryWriter bin = new BinaryWriter(fs, Encoding.Unicode);
-                        Ultima.MultiMap.SaveMultiMap(image, bin);
-                    }
-                    this.Cursor = Cursors.Default;
-                    MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Convert",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                    else
+                        MessageBox.Show("No image found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 }
-                else
-                    MessageBox.Show("No image found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error,
-                        MessageBoxDefaultButton.Button1);
             }
         }
 

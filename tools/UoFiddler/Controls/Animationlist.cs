@@ -196,10 +196,7 @@ namespace FiddlerControls
                 if (m_Animate != value)
                 {
                     m_Animate = value;
-                    if (!m_Animate)
-                        extractAnimationToolStripMenuItem.Visible = false;
-                    else
-                        extractAnimationToolStripMenuItem.Visible = true;
+                    extractAnimationToolStripMenuItem.Visible = !m_Animate ? false : true;
                     StopAnimation();
                     m_ImageInvalidated = true;
                     MainPictureBox.Refresh();
@@ -706,21 +703,25 @@ namespace FiddlerControls
 
             if (Animate)
             {
-                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Bmp);
+                using (Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Bmp);
+                }
             }
             else
             {
-                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Bmp);
+                using (Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Bmp);
+                }
             }
             MessageBox.Show(
                 String.Format("{0} saved to {1}", what, FileName),
@@ -741,21 +742,25 @@ namespace FiddlerControls
 
             if (Animate)
             {
-                Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Tiff);
+                using (Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Tiff);
+                }
             }
             else
             {
-                Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
-                newgraph.Save();
-                newbit.Save(FileName, ImageFormat.Tiff);
+                using (Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Tiff);
+                }
             }
             MessageBox.Show(
                 String.Format("{0} saved to {1}", what, FileName),
@@ -805,12 +810,14 @@ namespace FiddlerControls
             {
                 for (int i = 0; i < m_Animation.Length; ++i)
                 {
-                    Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height);
-                    Graphics newgraph = Graphics.FromImage(newbit);
-                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-                    newgraph.DrawImage(m_Animation[i], new System.Drawing.Point(0, 0));
-                    newgraph.Save();
-                    newbit.Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
+                    using (Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height))
+                    {
+                        Graphics newgraph = Graphics.FromImage(newbit);
+                        newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                        newgraph.DrawImage(m_Animation[i], new System.Drawing.Point(0, 0));
+                        newgraph.Save();
+                        newbit.Save(String.Format("{0}-{1}.tiff", FileName, i), ImageFormat.Tiff);
+                    }
                 }
                 MessageBox.Show(
                     String.Format("{0} saved to '{1}-X.tiff'", what, FileName),
@@ -833,14 +840,14 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
 
             Bitmap bit = m_Animation[(int)listView1.SelectedItems[0].Tag];
-            Bitmap newbit = new Bitmap(bit.Width, bit.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-            newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
-            newgraph.Save();
-            newbit.Save(String.Format("{0}-{1}.bmp", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Bmp);
-
-
+            using (Bitmap newbit = new Bitmap(bit.Width, bit.Height))
+            {
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(String.Format("{0}-{1}.bmp", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Bmp);
+            }
         }
 
         private void OnClickExportFrameTiff(object sender, EventArgs e)
@@ -855,12 +862,14 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
 
             Bitmap bit = m_Animation[(int)listView1.SelectedItems[0].Tag];
-            Bitmap newbit = new Bitmap(bit.Width, bit.Height);
-            Graphics newgraph = Graphics.FromImage(newbit);
-            newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
-            newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
-            newgraph.Save();
-            newbit.Save(String.Format("{0}-{1}.tiff", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Tiff);
+            using (Bitmap newbit = new Bitmap(bit.Width, bit.Height))
+            {
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(String.Format("{0}-{1}.tiff", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Tiff);
+            }
         }
     }
 

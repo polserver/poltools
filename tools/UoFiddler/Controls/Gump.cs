@@ -136,21 +136,23 @@ namespace FiddlerControls
         {
             if (listBox.SelectedItems.Count == 1)
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to replace";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
-                    Gumps.ReplaceGump(i, bmp);
-                    listBox.Invalidate();
-                    listBox_SelectedIndexChanged(this, EventArgs.Empty);
-                    Options.ChangedUltimaClass["Gumps"] = true;
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to replace";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+                        Gumps.ReplaceGump(i, bmp);
+                        listBox.Invalidate();
+                        listBox_SelectedIndexChanged(this, EventArgs.Empty);
+                        Options.ChangedUltimaClass["Gumps"] = true;
+                    }
                 }
             }
         }
@@ -231,28 +233,30 @@ namespace FiddlerControls
                 if (Gumps.IsValidIndex(index))
                     return;
                 contextMenuStrip1.Close();
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Multiselect = false;
-                dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    Gumps.ReplaceGump(index, bmp);
-                    for (int i = 0; i < listBox.Items.Count; i++)
+                    dialog.Multiselect = false;
+                    dialog.Title = String.Format("Choose image file to insert at 0x{0:X}", index);
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        int j = int.Parse(listBox.Items[i].ToString());
-                        if (j > index)
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        Gumps.ReplaceGump(index, bmp);
+                        for (int i = 0; i < listBox.Items.Count; i++)
                         {
-                            listBox.Items.Insert(i, index);
-                            listBox.SelectedIndex = i;
-                            break;
+                            int j = int.Parse(listBox.Items[i].ToString());
+                            if (j > index)
+                            {
+                                listBox.Items.Insert(i, index);
+                                listBox.SelectedIndex = i;
+                                break;
+                            }
                         }
+                        Options.ChangedUltimaClass["Gumps"] = true;
                     }
-                    Options.ChangedUltimaClass["Gumps"] = true;
                 }
             }
         }
@@ -262,8 +266,7 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
             string FileName = Path.Combine(path, String.Format("Gump {0}.bmp", i));
-            Bitmap bit = new Bitmap(Gumps.GetGump(i));
-            bit.Save(FileName, ImageFormat.Bmp);
+            Gumps.GetGump(i).Save(FileName, ImageFormat.Bmp);
             MessageBox.Show(
                 String.Format("Gump saved to {0}", FileName),
                 "Saved",
