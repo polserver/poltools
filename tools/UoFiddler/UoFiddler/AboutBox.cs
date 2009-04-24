@@ -75,10 +75,12 @@ namespace UoFiddler
             string filepath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(filepath, file);
 
-            WebClient web = new WebClient();
-            web.DownloadProgressChanged += new DownloadProgressChangedEventHandler(OnDownloadProgressChanged);
-            web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
-            web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
+            using (WebClient web = new WebClient())
+            {
+                web.DownloadProgressChanged += new DownloadProgressChangedEventHandler(OnDownloadProgressChanged);
+                web.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFileCompleted);
+                web.DownloadFileAsync(new Uri(String.Format(@"http://downloads.polserver.com/browser.php?download=./Projects/uofiddler/{0}", file)), FileName);
+            }
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

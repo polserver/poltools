@@ -40,17 +40,19 @@ namespace UoFiddler
 
         private void OnClickManual(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Select directory containing the client files";
-            dialog.ShowNewFolderButton = false;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                Files.SetMulPath(dialog.SelectedPath);
-                propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
-                propertyGrid1.Refresh();
-                propertyGrid1.Update();
-                TextBoxRoot.Text = Files.RootDir;
-                Files.CheckForNewMapSize();
+                dialog.Description = "Select directory containing the client files";
+                dialog.ShowNewFolderButton = false;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Files.SetMulPath(dialog.SelectedPath);
+                    propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
+                    propertyGrid1.Refresh();
+                    propertyGrid1.Update();
+                    TextBoxRoot.Text = Files.RootDir;
+                    Files.CheckForNewMapSize();
+                }
             }
         }
 
