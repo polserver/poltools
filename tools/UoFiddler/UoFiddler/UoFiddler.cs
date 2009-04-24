@@ -50,9 +50,10 @@ namespace UoFiddler
 
             foreach (TabPage tab in TabPanel.TabPages)
             {
-                if (!FiddlerControls.Options.ChangedViewState[(int)tab.Tag])
+                if (((int)tab.Tag >= 0) && ((int)tab.Tag < FiddlerControls.Options.ChangedViewState.Count))
                 {
-                    ToggleView(tab);
+                    if (!FiddlerControls.Options.ChangedViewState[(int)tab.Tag])
+                        ToggleView(tab);
                 }
             }
         }
@@ -393,7 +394,7 @@ namespace UoFiddler
         private void ToggleView(object sender, EventArgs e)
         {
             ToolStripMenuItem themenuitem = (ToolStripMenuItem)sender;
-            TabPage thepage = TabFromTag(themenuitem.Tag);
+            TabPage thepage = TabFromTag((int)themenuitem.Tag);
             int tag = (int)thepage.Tag;
             if (themenuitem.Checked)
             {
@@ -401,7 +402,7 @@ namespace UoFiddler
                     return;
                 themenuitem.Checked = false;
                 TabPanel.TabPages.Remove(thepage);
-                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = false;
+                FiddlerControls.Options.ChangedViewState[tag] = false;
             }
             else
             {
@@ -418,14 +419,14 @@ namespace UoFiddler
                 }
                 if (!done)
                     refmarker.TabPanel.TabPages.Add(thepage);
-                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = true;
+                FiddlerControls.Options.ChangedViewState[tag] = true;
             }
         }
 
         private void ToggleView(TabPage thepage)
         {
             int tag = (int)thepage.Tag;
-            ToolStripMenuItem themenuitem = MenuFromTag(thepage.Tag);
+            ToolStripMenuItem themenuitem = MenuFromTag(tag);
 
             if (themenuitem.Checked)
             {
@@ -433,7 +434,7 @@ namespace UoFiddler
                     return;
                 themenuitem.Checked = false;
                 TabPanel.TabPages.Remove(thepage);
-                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = false;
+                FiddlerControls.Options.ChangedViewState[tag] = false;
             }
             else
             {
@@ -450,13 +451,13 @@ namespace UoFiddler
                 }
                 if (!done)
                     refmarker.TabPanel.TabPages.Add(thepage);
-                FiddlerControls.Options.ChangedViewState[(int)thepage.Tag] = true;
+                FiddlerControls.Options.ChangedViewState[tag] = true;
             }
         }
 
-        private TabPage TabFromTag(object tag)
+        private TabPage TabFromTag(int tag)
         {
-            switch (Convert.ToInt32(tag))
+            switch (tag)
             {
                 case 0: return Start;
                 case 1: return Multis;
@@ -482,9 +483,9 @@ namespace UoFiddler
             }
         }
 
-        private ToolStripMenuItem MenuFromTag(object tag)
+        private ToolStripMenuItem MenuFromTag(int tag)
         {
-            switch (Convert.ToInt32(tag))
+            switch (tag)
             {
                 case 0: return ToggleViewStart;
                 case 1: return ToggleViewMulti;

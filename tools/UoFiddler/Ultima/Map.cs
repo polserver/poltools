@@ -137,6 +137,47 @@ namespace Ultima
         private short[][][] m_Cache_NoStatics_NoPatch;
         private short[] m_Black;
 
+        public void PreloadRenderedBlock(int x, int y, bool statics, bool diff)
+        {
+            TileMatrix matrix = this.Tiles;
+
+            if (x < 0 || y < 0 || x >= matrix.BlockWidth || y >= matrix.BlockHeight)
+            {
+                if (m_Black == null)
+                    m_Black = new short[64];
+            }
+
+            short[][][] cache;
+            if (diff)
+                cache = (statics ? m_Cache : m_Cache_NoStatics);
+            else
+                cache = (statics ? m_Cache_NoPatch : m_Cache_NoStatics_NoPatch);
+
+            if (cache == null)
+            {
+                if (diff)
+                {
+                    if (statics)
+                        m_Cache = cache = new short[m_Tiles.BlockHeight][][];
+                    else
+                        m_Cache_NoStatics = cache = new short[m_Tiles.BlockHeight][][];
+                }
+                else
+                {
+                    if (statics)
+                        m_Cache_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                    else
+                        m_Cache_NoStatics_NoPatch = cache = new short[m_Tiles.BlockHeight][][];
+                }
+            }
+
+            if (cache[y] == null)
+                cache[y] = new short[m_Tiles.BlockWidth][];
+
+            if (cache[y][x] == null)
+                cache[y][x] = RenderBlock(x, y, statics,diff);
+        }
+
         private short[] GetRenderedBlock(int x, int y, bool statics)
         {
             TileMatrix matrix = this.Tiles;
@@ -179,16 +220,16 @@ namespace Ultima
             short[] data = cache[y][x];
 
             if (data == null)
-                cache[y][x] = data = RenderBlock(x, y, statics);
+                cache[y][x] = data = RenderBlock(x, y, statics,Map.UseDiff);
 
             return data;
         }
 
-        private unsafe short[] RenderBlock(int x, int y, bool drawStatics)
+        private unsafe short[] RenderBlock(int x, int y, bool drawStatics, bool diff)
         {
             short[] data = new short[64];
 
-            Tile[] tiles = m_Tiles.GetLandBlock(x, y);
+            Tile[] tiles = m_Tiles.GetLandBlock(x, y,diff);
 
             fixed (short* pColors = RadarCol.Colors)
             {
@@ -204,7 +245,7 @@ namespace Ultima
 
                             if (drawStatics)
                             {
-                                HuedTile[][][] statics = drawStatics ? m_Tiles.GetStaticBlock(x, y) : null;
+                                HuedTile[][][] statics = drawStatics ? m_Tiles.GetStaticBlock(x, y,diff) : null;
 
                                 for (int k = 0, v = 0; k < 8; ++k, v += 8)
                                 {

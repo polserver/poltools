@@ -12,6 +12,8 @@ namespace FiddlerPlugin
         public SendItemPlugin()
         {
             refMarker = this;
+            PluginInterface.Events.DesignChangeEvent += new Events.DesignChangeHandler(Events_DesignChangeEvent);
+            PluginInterface.Events.ModifyItemShowContextMenuEvent += new Events.ModifyItemShowContextMenuHandler(Events_ModifyItemShowContextMenuEvent);
         }
 
         private static SendItemPlugin refMarker = null;
@@ -77,7 +79,7 @@ namespace FiddlerPlugin
 
         public override void ModifyTabPages(TabControl tabcontrol) { }
 
-        public override void OnDesignChange()
+        private void Events_DesignChangeEvent()
         {
             ChangeOverrideClick(OverrideClick, true);
         }
@@ -129,7 +131,7 @@ namespace FiddlerPlugin
             new Option().Show();
         }
 
-        public override void ModifyItemShowContextMenu(ContextMenuStrip strip)
+        private void Events_ModifyItemShowContextMenuEvent(ContextMenuStrip strip)
         {
             ToolStripMenuItem item = new ToolStripMenuItem();
             item.Text = "Send Item to Client";

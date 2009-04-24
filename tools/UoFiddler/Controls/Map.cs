@@ -79,6 +79,7 @@ namespace FiddlerControls
             ilshenarToolStripMenuItem.Checked = false;
             malasToolStripMenuItem.Checked = false;
             tokunoToolStripMenuItem.Checked = false;
+            PreloadMap.Visible = true;
             ChangeMapNames();
             ZoomLabel.Text = String.Format("Zoom: {0}", Zoom);
             SetScrollBarValues();
@@ -696,7 +697,7 @@ namespace FiddlerControls
             if (PreloadWorker.IsBusy)
                 return;
             ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = 16;
+            ProgressBar.Maximum = 16*4;
             ProgressBar.Step = 1;
             ProgressBar.Value = 0;
             ProgressBar.Visible = true;
@@ -713,7 +714,13 @@ namespace FiddlerControls
             {
                 for (int y = 0; y <= (currmap.Height >> 3) - height; y += height)
                 {
-                    currmap.GetImage(x, y, width, height, true);
+                    currmap.PreloadRenderedBlock(x, y, true, true);
+                    PreloadWorker.ReportProgress(1);
+                    currmap.PreloadRenderedBlock(x, y, true, false);
+                    PreloadWorker.ReportProgress(1);
+                    currmap.PreloadRenderedBlock(x, y, false, true);
+                    PreloadWorker.ReportProgress(1);
+                    currmap.PreloadRenderedBlock(x, y, false, false);
                     PreloadWorker.ReportProgress(1);
                 }
             }
@@ -727,6 +734,7 @@ namespace FiddlerControls
         private void PreLoadCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ProgressBar.Visible = false;
+            PreloadMap.Visible = false;
         }
         #endregion
 

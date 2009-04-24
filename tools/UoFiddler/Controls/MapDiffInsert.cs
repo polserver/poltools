@@ -8,7 +8,6 @@
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-//TODO: Diff file handling (Replace)
 
 using System;
 using System.IO;
@@ -28,7 +27,7 @@ namespace FiddlerControls
             numericUpDownX2.Maximum = workingmap.Width;
             numericUpDownY1.Maximum = workingmap.Height;
             numericUpDownY2.Maximum = workingmap.Height;
-            this.Text = String.Format("MapReplace ID:{0}",workingmap.FileIndex);
+            this.Text = String.Format("Map Diff Insert ID:{0}",workingmap.FileIndex);
         }
 
         private void OnClickCopy(object sender, EventArgs e)

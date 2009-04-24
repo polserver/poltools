@@ -22,8 +22,10 @@ namespace FiddlerPlugin
     {
         public TestPlugin()
         {
+            PluginInterface.Events.DesignChangeEvent+=new Events.DesignChangeHandler(Events_DesignChangeEvent);
+            PluginInterface.Events.ModifyItemShowContextMenuEvent+=new Events.ModifyItemShowContextMenuHandler(Events_ModifyItemShowContextMenuEvent);
         }
-        
+
         string myName = "PluginTest";
         string myDescription = "An Plugin Example";
         string myAuthor = "Turley";
@@ -67,11 +69,6 @@ namespace FiddlerPlugin
         {
         }
 
-        public override void OnDesignChange()
-        {
-            // Design has changed
-        }
-
         public override void ModifyTabPages(TabControl tabcontrol)
         {
             TabPage page = new TabPage();
@@ -94,7 +91,12 @@ namespace FiddlerPlugin
             new Form1().Show();
         }
 
-        public override void ModifyItemShowContextMenu(ContextMenuStrip strip)
+        private void Events_DesignChangeEvent()
+        {
+            //do something usefull
+        }
+
+        public void Events_ModifyItemShowContextMenuEvent(ContextMenuStrip strip)
         {
             ToolStripMenuItem item = new ToolStripMenuItem();
             item.Text = "Create Itemdesc entry";

@@ -242,9 +242,21 @@ namespace FiddlerControls
         public delegate void MapSizeChangeHandler();
         public delegate void FilePathChangeHandler();
 
+        /// <summary>
+        /// Fired when map diff file usage is switched
+        /// </summary>
         public static event MapDiffChangeHandler MapDiffChangeEvent;
+        /// <summary>
+        /// Fired when map names where changed
+        /// </summary>
         public static event MapNameChangeHandler MapNameChangeEvent;
+        /// <summary>
+        /// Fired when map size has changed
+        /// </summary>
         public static event MapSizeChangeHandler MapSizeChangeEvent;
+        /// <summary>
+        /// Fired on reload files
+        /// </summary>
         public static event FilePathChangeHandler FilePathChangeEvent;
 
         public static void FireMapDiffChangeEvent()

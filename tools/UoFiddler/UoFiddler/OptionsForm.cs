@@ -44,11 +44,7 @@ namespace UoFiddler
             {
                 FiddlerControls.Options.DesignAlternative = checkBoxAltDesign.Checked;
                 UoFiddler.ChangeDesign();
-                foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
-                {
-                    if (plug.Loaded)
-                        plug.Instance.OnDesignChange();
-                }
+                PluginInterface.Events.FireDesignChangeEvent();
             }
             Files.CacheData = checkBoxCacheData.Checked;
             if (checkBoxNewMapSize.Checked != (Map.Felucca.Width == 7168))
