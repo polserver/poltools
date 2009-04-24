@@ -161,19 +161,20 @@ namespace UoFiddler
 
         private void onClickChangeToolFile(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "Select program";
-            dialog.CheckFileExists = true;
-            if (textBoxToolFile.Text != "")
-                dialog.InitialDirectory = Path.GetDirectoryName(textBoxToolFile.Text);
-            if (dialog.ShowDialog() == DialogResult.OK)
-                textBoxToolFile.Text = dialog.FileName;
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Title = "Select program";
+                dialog.CheckFileExists = true;
+                if (textBoxToolFile.Text != "")
+                    dialog.InitialDirectory = Path.GetDirectoryName(textBoxToolFile.Text);
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    textBoxToolFile.Text = dialog.FileName;
+            }
         }
 
         private void onAddTool(object sender, EventArgs e)
         {
-            ExternTool tool = new ExternTool(textBoxToolName.Text, textBoxToolFile.Text);
-            Options.ExternTools.Add(tool);
+            Options.ExternTools.Add(new ExternTool(textBoxToolName.Text, textBoxToolFile.Text));
             listBoxTools.Items.Add(Options.ExternTools.Count - 1);
             listBoxTools.SelectedIndex = Options.ExternTools.Count - 1;
         }

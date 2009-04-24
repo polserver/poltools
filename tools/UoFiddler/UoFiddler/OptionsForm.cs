@@ -11,7 +11,6 @@
 
 using System.Windows.Forms;
 using Ultima;
-using Host;
 
 namespace UoFiddler
 {
