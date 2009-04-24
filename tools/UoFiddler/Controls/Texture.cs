@@ -87,7 +87,7 @@ namespace FiddlerControls
         private void listView_SelectedIndexChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)
-                Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", (int)listView1.SelectedItems[0].Tag, Textures.GetTexture((int)listView1.SelectedItems[0].Tag).Width);
+                GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", (int)listView1.SelectedItems[0].Tag, Textures.GetTexture((int)listView1.SelectedItems[0].Tag).Width);
         }
 
         private void OnLoad(object sender, EventArgs e)

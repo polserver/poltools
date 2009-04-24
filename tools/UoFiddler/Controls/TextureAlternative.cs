@@ -56,7 +56,7 @@ namespace FiddlerControls
                 {
                     refMarker.selected = graphic;
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
-                    refMarker.Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", graphic, Textures.GetTexture(graphic));
+                    refMarker.GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", graphic, Textures.GetTexture(graphic));
                     refMarker.PaintBox();
                     return true;
                 }
@@ -208,7 +208,7 @@ namespace FiddlerControls
                 if (selected != index)
                 {
                     selected = index;
-                    Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected).Width);
+                    GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected).Width);
                     PaintBox();
                 }
             }
@@ -244,7 +244,7 @@ namespace FiddlerControls
                 {
                     selected = (int)TextureList[i];
                     vScrollBar.Value = i / refMarker.col + 1;
-                    Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}", selected, Textures.GetTexture(selected));
+                    GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}", selected, Textures.GetTexture(selected));
                     PaintBox();
                     break;
                 }
@@ -350,7 +350,7 @@ namespace FiddlerControls
                                     vScrollBar.Value = TextureList.Count / refMarker.col + 1;
                                 }
                                 selected = index;
-                                Label.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
+                                GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
                                 PaintBox();
                                 Options.ChangedUltimaClass["Texture"] = true;
                             }

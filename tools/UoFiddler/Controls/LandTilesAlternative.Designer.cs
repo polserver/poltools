@@ -40,12 +40,8 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LandTilesAlternative));
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.namelabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.graphiclabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FlagsLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,10 +59,16 @@ namespace FiddlerControls
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.statusStrip1.SuspendLayout();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.namelabel = new System.Windows.Forms.ToolStripLabel();
+            this.graphiclabel = new System.Windows.Forms.ToolStripLabel();
+            this.FlagsLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.SearchButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // vScrollBar
@@ -74,73 +76,19 @@ namespace FiddlerControls
             this.vScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBar.Location = new System.Drawing.Point(602, 0);
             this.vScrollBar.Name = "vScrollBar";
-            this.vScrollBar.Size = new System.Drawing.Size(17, 302);
+            this.vScrollBar.Size = new System.Drawing.Size(17, 324);
             this.vScrollBar.TabIndex = 7;
             this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.OnScroll);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.namelabel,
-            this.graphiclabel,
-            this.FlagsLabel,
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 302);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(619, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // namelabel
-            // 
-            this.namelabel.AutoSize = false;
-            this.namelabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenInner;
-            this.namelabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.namelabel.Name = "namelabel";
-            this.namelabel.Size = new System.Drawing.Size(150, 17);
-            this.namelabel.Text = "Name:";
-            this.namelabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // graphiclabel
-            // 
-            this.graphiclabel.AutoSize = false;
-            this.graphiclabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.graphiclabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.graphiclabel.Name = "graphiclabel";
-            this.graphiclabel.Size = new System.Drawing.Size(120, 17);
-            this.graphiclabel.Text = "Graphic:";
-            this.graphiclabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // FlagsLabel
-            // 
-            this.FlagsLabel.AutoSize = false;
-            this.FlagsLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(250, 17);
-            this.FlagsLabel.Text = "Flags:";
-            this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(44, 17);
-            this.toolStripStatusLabel1.Text = "Search";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.OnClickSearch);
             // 
             // pictureBox
             // 
             this.pictureBox.ContextMenuStrip = this.contextMenuStrip1;
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Location = new System.Drawing.Point(0, 25);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.pictureBox.Size = new System.Drawing.Size(602, 302);
+            this.pictureBox.Size = new System.Drawing.Size(602, 299);
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
@@ -261,11 +209,67 @@ namespace FiddlerControls
             // panel1
             // 
             this.panel1.Controls.Add(this.pictureBox);
+            this.panel1.Controls.Add(this.toolStrip1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(602, 302);
+            this.panel1.Size = new System.Drawing.Size(602, 324);
             this.panel1.TabIndex = 3;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.namelabel,
+            this.graphiclabel,
+            this.FlagsLabel,
+            this.toolStripSeparator4,
+            this.SearchButton});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(602, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // namelabel
+            // 
+            this.namelabel.AutoSize = false;
+            this.namelabel.Name = "namelabel";
+            this.namelabel.Size = new System.Drawing.Size(150, 22);
+            this.namelabel.Text = "Name:";
+            this.namelabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // graphiclabel
+            // 
+            this.graphiclabel.AutoSize = false;
+            this.graphiclabel.Name = "graphiclabel";
+            this.graphiclabel.Size = new System.Drawing.Size(120, 22);
+            this.graphiclabel.Text = "Graphic:";
+            this.graphiclabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // FlagsLabel
+            // 
+            this.FlagsLabel.AutoSize = false;
+            this.FlagsLabel.Name = "FlagsLabel";
+            this.FlagsLabel.Size = new System.Drawing.Size(250, 22);
+            this.FlagsLabel.Text = "Flags:";
+            this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SearchButton.Image = ((System.Drawing.Image)(resources.GetObject("SearchButton.Image")));
+            this.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(44, 22);
+            this.SearchButton.Text = "Search";
+            this.SearchButton.Click += new System.EventHandler(this.OnClickSearch);
             // 
             // LandTilesAlternative
             // 
@@ -273,30 +277,24 @@ namespace FiddlerControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.vScrollBar);
-            this.Controls.Add(this.statusStrip1);
             this.Name = "LandTilesAlternative";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.VScrollBar vScrollBar;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStripStatusLabel namelabel;
-        private System.Windows.Forms.ToolStripStatusLabel graphiclabel;
-        private System.Windows.Forms.ToolStripStatusLabel FlagsLabel;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem exportImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -312,6 +310,12 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem selectInTileDataTabToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem selectInRadarColorTabToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel namelabel;
+        private System.Windows.Forms.ToolStripLabel graphiclabel;
+        private System.Windows.Forms.ToolStripLabel FlagsLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton SearchButton;
 
     }
 }
