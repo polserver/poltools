@@ -41,7 +41,6 @@ namespace FiddlerControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LandTiles));
-            this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,29 +66,10 @@ namespace FiddlerControls
             this.ExportAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportAsBmp = new System.Windows.Forms.ToolStripMenuItem();
             this.ExportAsTiff = new System.Windows.Forms.ToolStripMenuItem();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStripLandTile.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // listView1
-            // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 25);
-            this.listView1.Margin = new System.Windows.Forms.Padding(2);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.OwnerDraw = true;
-            this.listView1.ShowGroups = false;
-            this.listView1.Size = new System.Drawing.Size(619, 299);
-            this.listView1.TabIndex = 4;
-            this.listView1.TileSize = new System.Drawing.Size(46, 46);
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Tile;
-            this.listView1.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.drawitem);
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
             // 
             // contextMenuStrip1
             // 
@@ -104,7 +84,7 @@ namespace FiddlerControls
             this.replaceToolStripMenuItem,
             this.insertAtToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(197, 170);
             // 
             // exportImageToolStripMenuItem
             // 
@@ -112,65 +92,65 @@ namespace FiddlerControls
             this.asBmpToolStripMenuItem,
             this.asTiffToolStripMenuItem});
             this.exportImageToolStripMenuItem.Name = "exportImageToolStripMenuItem";
-            this.exportImageToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.exportImageToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.exportImageToolStripMenuItem.Text = "Export Image..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.onClickExportBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.onClickExportTiff);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
             // 
             // selectInTileDataTabToolStripMenuItem
             // 
             this.selectInTileDataTabToolStripMenuItem.Name = "selectInTileDataTabToolStripMenuItem";
-            this.selectInTileDataTabToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.selectInTileDataTabToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.selectInTileDataTabToolStripMenuItem.Text = "Select in TileData tab";
             this.selectInTileDataTabToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectTiledata);
             // 
             // selectInRadarColorTabToolStripMenuItem
             // 
             this.selectInRadarColorTabToolStripMenuItem.Name = "selectInRadarColorTabToolStripMenuItem";
-            this.selectInRadarColorTabToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.selectInRadarColorTabToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.selectInRadarColorTabToolStripMenuItem.Text = "Select in RadarColor tab";
             this.selectInRadarColorTabToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarCol);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
             // 
             // findNextFreeSlotToolStripMenuItem
             // 
             this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
-            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
             this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindFree);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.onClickRemove);
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.replaceToolStripMenuItem.Text = "Replace";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplace);
             // 
@@ -179,7 +159,7 @@ namespace FiddlerControls
             this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.InsertText});
             this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
-            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.insertAtToolStripMenuItem.Text = "Insert At..";
             // 
             // InsertText
@@ -280,22 +260,42 @@ namespace FiddlerControls
             this.ExportAsBmp,
             this.ExportAsTiff});
             this.ExportAll.Name = "ExportAll";
-            this.ExportAll.Size = new System.Drawing.Size(139, 22);
+            this.ExportAll.Size = new System.Drawing.Size(134, 22);
             this.ExportAll.Text = "Export All..";
             // 
             // ExportAsBmp
             // 
             this.ExportAsBmp.Name = "ExportAsBmp";
-            this.ExportAsBmp.Size = new System.Drawing.Size(120, 22);
+            this.ExportAsBmp.Size = new System.Drawing.Size(115, 22);
             this.ExportAsBmp.Text = "As Bmp";
             this.ExportAsBmp.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
             // 
             // ExportAsTiff
             // 
             this.ExportAsTiff.Name = "ExportAsTiff";
-            this.ExportAsTiff.Size = new System.Drawing.Size(120, 22);
+            this.ExportAsTiff.Size = new System.Drawing.Size(115, 22);
             this.ExportAsTiff.Text = "As Tiff";
             this.ExportAsTiff.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
+            // 
+            // listView1
+            // 
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(0, 25);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
+            this.listView1.MultiSelect = false;
+            this.listView1.Name = "listView1";
+            this.listView1.OwnerDraw = true;
+            this.listView1.ShowGroups = false;
+            this.listView1.Size = new System.Drawing.Size(619, 299);
+            this.listView1.TabIndex = 4;
+            this.listView1.TileSize = new System.Drawing.Size(46, 46);
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Tile;
+            this.listView1.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.drawitem);
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
             // 
             // LandTiles
             // 
@@ -316,7 +316,6 @@ namespace FiddlerControls
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertAtToolStripMenuItem;
@@ -342,5 +341,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem ExportAll;
         private System.Windows.Forms.ToolStripMenuItem ExportAsBmp;
         private System.Windows.Forms.ToolStripMenuItem ExportAsTiff;
+        private System.Windows.Forms.ListView listView1;
     }
 }
