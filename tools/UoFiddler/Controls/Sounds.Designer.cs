@@ -41,6 +41,7 @@ namespace FiddlerControls
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
@@ -59,7 +60,6 @@ namespace FiddlerControls
             this.seconds = new System.Windows.Forms.Label();
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -103,6 +103,17 @@ namespace FiddlerControls
             this.treeView.TabIndex = 0;
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.OnDoubleClick);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.afterSelect);
+            // 
+            // button9
+            // 
+            this.button9.AutoSize = true;
+            this.button9.Location = new System.Drawing.Point(123, 68);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(96, 23);
+            this.button9.TabIndex = 11;
+            this.button9.Text = "Extract Soundlist";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.OnClickExtractSoundList);
             // 
             // button8
             // 
@@ -174,7 +185,7 @@ namespace FiddlerControls
             // textBoxName
             // 
             this.textBoxName.Location = new System.Drawing.Point(48, 43);
-            this.textBoxName.MaxLength = 40;
+            this.textBoxName.MaxLength = 32;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(222, 20);
             this.textBoxName.TabIndex = 3;
@@ -283,17 +294,6 @@ namespace FiddlerControls
             this.button1.Text = "PlaySound";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.PlaySound);
-            // 
-            // button9
-            // 
-            this.button9.AutoSize = true;
-            this.button9.Location = new System.Drawing.Point(123, 68);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(96, 23);
-            this.button9.TabIndex = 11;
-            this.button9.Text = "Extract Soundlist";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.OnClickExtractSoundList);
             // 
             // Sounds
             // 

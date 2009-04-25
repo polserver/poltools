@@ -27,7 +27,6 @@ namespace FiddlerControls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
-            pictureBox.Image = bmp;
             refMarker = this;
         }
 
@@ -35,7 +34,6 @@ namespace FiddlerControls
         private int col;
         private int row;
         private int selected = -1;
-        private Bitmap bmp;
         private bool Loaded = false;
 
         private static LandTilesAlternative refMarker = null;
@@ -49,7 +47,7 @@ namespace FiddlerControls
                 namelabel.Text = String.Format("Name: {0}", TileData.LandTable[value].Name);
                 graphiclabel.Text = String.Format("ID: 0x{0:X4} ({0})", value);
                 FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[value].Flags);
-                PaintBox();
+                pictureBox.Refresh();
             }
         }
 
@@ -60,9 +58,7 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
-            int index = 0;
-
-            for (int i = index; i < refMarker.TileList.Count; i++)
+            for (int i = 0; i < refMarker.TileList.Count; i++)
             {
                 if ((int)refMarker.TileList[i] == graphic)
                 {
@@ -137,8 +133,7 @@ namespace FiddlerControls
                     TileList.Add((object)i);
             }
             vScrollBar.Maximum = TileList.Count / col + 1;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
@@ -153,7 +148,7 @@ namespace FiddlerControls
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -163,7 +158,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
             else
@@ -171,83 +166,79 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }
 
-        private void PaintBox()
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(bmp))
+            e.Graphics.Clear(Color.White);
+
+            for (int x = 0; x <= col; x++)
             {
-                g.Clear(Color.White);
+                e.Graphics.DrawLine(Pens.Gray, new Point(x * 49, 0),
+                    new Point(x * 49, row * 49));
+            }
 
-                for (int x = 0; x <= col; x++)
-                {
-                    g.DrawLine(Pens.Gray, new Point(x * 49, 0),
-                        new Point(x * 49, row * 49));
-                }
+            for (int y = 0; y <= row; y++)
+            {
+                e.Graphics.DrawLine(Pens.Gray, new Point(0, y * 49),
+                    new Point(col * 49, y * 49));
+            }
 
-                for (int y = 0; y <= row; y++)
+            for (int y = 0; y < row; y++)
+            {
+                for (int x = 0; x < col; x++)
                 {
-                    g.DrawLine(Pens.Gray, new Point(0, y * 49),
-                        new Point(col * 49, y * 49));
-                }
-
-                for (int y = 0; y < row; y++)
-                {
-                    for (int x = 0; x < col; x++)
+                    int index = GetIndex(x, y);
+                    if (index >= 0)
                     {
-                        int index = GetIndex(x, y);
-                        if (index >= 0)
+                        bool patched;
+                        Bitmap b = Art.GetLand(index, out patched);
+
+                        if (b != null)
                         {
-                            bool patched;
-                            Bitmap b = Art.GetLand(index, out patched);
+                            Point loc = new Point((x * 49) + 1, (y * 49) + 1);
+                            Size size = new Size(49 - 1, 49 - 1);
+                            Rectangle rect = new Rectangle(loc, size);
 
-                            if (b != null)
+                            e.Graphics.Clip = new Region(rect);
+                            if (index == selected)
+                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+                            else if (patched)
+                                e.Graphics.FillRectangle(Brushes.LightCoral, rect);
+
+                            int width = b.Width;
+                            int height = b.Height;
+                            if (width > size.Width)
                             {
-                                Point loc = new Point((x * 49) + 1, (y * 49) + 1);
-                                Size size = new Size(49 - 1, 49 - 1);
-                                Rectangle rect = new Rectangle(loc, size);
-
-                                g.Clip = new Region(rect);
-                                if (index == selected)
-                                    g.FillRectangle(Brushes.LightBlue, rect);
-                                else if (patched)
-                                    g.FillRectangle(Brushes.LightCoral, rect);
-
-                                int width = b.Width;
-                                int height = b.Height;
-                                if (width > size.Width)
-                                {
-                                    width = size.Width;
-                                    height = size.Height * b.Height / b.Width;
-                                }
-                                if (height > size.Height)
-                                {
-                                    height = size.Height;
-                                    width = size.Width * b.Width / b.Height;
-                                }
-                                g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
+                                width = size.Width;
+                                height = size.Height * b.Height / b.Width;
                             }
+                            if (height > size.Height)
+                            {
+                                height = size.Height;
+                                width = size.Width * b.Width / b.Height;
+                            }
+                            e.Graphics.DrawImage(b, new Rectangle(loc, new Size(width, height)));
                         }
                     }
                 }
-                g.Save();
             }
-            pictureBox.Image = bmp;
         }
 
         private void OnResize(object sender, EventArgs e)
         {
+            if ((pictureBox.Width == 0) || (pictureBox.Height == 0))
+                return;
             col = pictureBox.Width / 49;
-            row = pictureBox.Height / 49;
+            row = pictureBox.Height / 49 + 1;
             vScrollBar.Maximum = TileList.Count / col + 1;
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -300,7 +291,7 @@ namespace FiddlerControls
                 Art.RemoveLand(selected);
                 TileList.Remove((object)selected);
                 selected--;
-                PaintBox();
+                pictureBox.Refresh();
                 Options.ChangedUltimaClass["Art"] = true;
             }
         }
@@ -321,7 +312,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand(selected, bmp);
-                        PaintBox();
+                        pictureBox.Refresh();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
@@ -491,5 +482,7 @@ namespace FiddlerControls
                 }
             }
         }
+
+        
     }
 }

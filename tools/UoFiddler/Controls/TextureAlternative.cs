@@ -26,7 +26,6 @@ namespace FiddlerControls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
-            pictureBox.Image = bmp;
             refMarker = this;
         }
         private static TextureAlternative refMarker = null;
@@ -34,7 +33,6 @@ namespace FiddlerControls
         private int col;
         private int row;
         private int selected = -1;
-        private Bitmap bmp;
 
         private bool Loaded = false;
         private void Reload()
@@ -48,16 +46,14 @@ namespace FiddlerControls
 
         public static bool SearchGraphic(int graphic)
         {
-            int index = 0;
-
-            for (int i = index; i < refMarker.TextureList.Count; i++)
+            for (int i = 0; i < refMarker.TextureList.Count; i++)
             {
                 if ((int)refMarker.TextureList[i] == graphic)
                 {
                     refMarker.selected = graphic;
                     refMarker.vScrollBar.Value = i / refMarker.col + 1;
                     refMarker.GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", graphic, Textures.GetTexture(graphic));
-                    refMarker.PaintBox();
+                    refMarker.pictureBox.Refresh();
                     return true;
                 }
             }
@@ -84,8 +80,7 @@ namespace FiddlerControls
                     TextureList.Add((object)i);
             }
             vScrollBar.Maximum = TextureList.Count / col + 1;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
@@ -100,7 +95,7 @@ namespace FiddlerControls
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -110,7 +105,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
             else
@@ -118,83 +113,79 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }
 
-        private void PaintBox()
+        private void onPaint(object sender, PaintEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(bmp))
+            e.Graphics.Clear(Color.White);
+
+            for (int x = 0; x <= col; x++)
             {
-                g.Clear(Color.White);
+                e.Graphics.DrawLine(Pens.Gray, new Point(x * 64, 0),
+                    new Point(x * 64, row * 64));
+            }
 
-                for (int x = 0; x <= col; x++)
-                {
-                    g.DrawLine(Pens.Gray, new Point(x * 64, 0),
-                        new Point(x * 64, row * 64));
-                }
+            for (int y = 0; y <= row; y++)
+            {
+                e.Graphics.DrawLine(Pens.Gray, new Point(0, y * 64),
+                    new Point(col * 64, y * 64));
+            }
 
-                for (int y = 0; y <= row; y++)
+            for (int y = 0; y < row; y++)
+            {
+                for (int x = 0; x < col; x++)
                 {
-                    g.DrawLine(Pens.Gray, new Point(0, y * 64),
-                        new Point(col * 64, y * 64));
-                }
-
-                for (int y = 0; y < row; y++)
-                {
-                    for (int x = 0; x < col; x++)
+                    int index = GetIndex(x, y);
+                    if (index >= 0)
                     {
-                        int index = GetIndex(x, y);
-                        if (index >= 0)
+                        bool patched;
+                        Bitmap b = Textures.GetTexture(index, out patched);
+
+                        if (b != null)
                         {
-                            bool patched;
-                            Bitmap b = Textures.GetTexture(index, out patched);
+                            Point loc = new Point((x * 64) + 1, (y * 64) + 1);
+                            Size size = new Size(64 - 1, 64 - 1);
+                            Rectangle rect = new Rectangle(loc, size);
 
-                            if (b != null)
+                            e.Graphics.Clip = new Region(rect);
+
+                            int width = b.Width;
+                            int height = b.Height;
+                            if (width > size.Width)
                             {
-                                Point loc = new Point((x * 64) + 1, (y * 64) + 1);
-                                Size size = new Size(64 - 1, 64 - 1);
-                                Rectangle rect = new Rectangle(loc, size);
-
-                                g.Clip = new Region(rect);
-
-                                int width = b.Width;
-                                int height = b.Height;
-                                if (width > size.Width)
-                                {
-                                    width = size.Width;
-                                    height = size.Height * b.Height / b.Width;
-                                }
-                                if (height > size.Height)
-                                {
-                                    height = size.Height;
-                                    width = size.Width * b.Width / b.Height;
-                                }
-                                g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
-                                if (index == selected)
-                                    g.DrawRectangle(Pens.LightBlue, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-                                else if (patched)
-                                    g.DrawRectangle(Pens.LightCoral, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                                width = size.Width;
+                                height = size.Height * b.Height / b.Width;
                             }
+                            if (height > size.Height)
+                            {
+                                height = size.Height;
+                                width = size.Width * b.Width / b.Height;
+                            }
+                            e.Graphics.DrawImage(b, new Rectangle(loc, new Size(width, height)));
+                            if (index == selected)
+                                e.Graphics.DrawRectangle(Pens.LightBlue, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+                            else if (patched)
+                                e.Graphics.DrawRectangle(Pens.LightCoral, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
                         }
                     }
                 }
-                g.Save();
             }
-            pictureBox.Image = bmp;
         }
 
         private void OnResize(object sender, EventArgs e)
         {
+            if ((pictureBox.Width == 0) || (pictureBox.Height == 0))
+                return;
             col = pictureBox.Width / 64;
-            row = pictureBox.Height / 64;
+            row = pictureBox.Height / 64 + 1;
             vScrollBar.Maximum = TextureList.Count / col + 1;
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -209,7 +200,7 @@ namespace FiddlerControls
                 {
                     selected = index;
                     GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected).Width);
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }
@@ -245,7 +236,7 @@ namespace FiddlerControls
                     selected = (int)TextureList[i];
                     vScrollBar.Value = i / refMarker.col + 1;
                     GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}", selected, Textures.GetTexture(selected));
-                    PaintBox();
+                    pictureBox.Refresh();
                     break;
                 }
                 id++;
@@ -267,7 +258,7 @@ namespace FiddlerControls
                 Textures.Remove(selected);
                 TextureList.Remove((object)selected);
                 selected--;
-                PaintBox();
+                pictureBox.Refresh();
                 Options.ChangedUltimaClass["Texture"] = true;
             }
         }
@@ -288,7 +279,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Textures.Replace(selected, bmp);
-                        PaintBox();
+                        pictureBox.Refresh();
                         Options.ChangedUltimaClass["Texture"] = true;
                     }
                 }
@@ -351,7 +342,7 @@ namespace FiddlerControls
                                 }
                                 selected = index;
                                 GraphicLabel.Text = String.Format("Graphic: 0x{0:X4} ({0}) [{1}x{1}]", selected, Textures.GetTexture(selected));
-                                PaintBox();
+                                pictureBox.Refresh();
                                 Options.ChangedUltimaClass["Texture"] = true;
                             }
                             else

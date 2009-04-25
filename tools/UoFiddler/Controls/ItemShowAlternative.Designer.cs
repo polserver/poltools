@@ -165,6 +165,7 @@ namespace FiddlerControls
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseDoubleClick);
             this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
             // contextMenuStrip1

@@ -76,6 +76,7 @@ namespace FiddlerControls
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.onPaint);
             this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
             // contextMenuStrip1
@@ -88,7 +89,7 @@ namespace FiddlerControls
             this.replaceToolStripMenuItem,
             this.insertAtToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(178, 120);
             // 
             // exportImageToolStripMenuItem
             // 
@@ -96,46 +97,46 @@ namespace FiddlerControls
             this.asBmpToolStripMenuItem,
             this.asTiffToolStripMenuItem});
             this.exportImageToolStripMenuItem.Name = "exportImageToolStripMenuItem";
-            this.exportImageToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.exportImageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.exportImageToolStripMenuItem.Text = "Export Image..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.onClickExportBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.onClickExportTiff);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
             // 
             // findNextFreeSlotToolStripMenuItem
             // 
             this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
-            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
             this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindNext);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.onClickRemove);
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.replaceToolStripMenuItem.Text = "Replace";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.onClickReplace);
             // 
@@ -144,7 +145,7 @@ namespace FiddlerControls
             this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.InsertText});
             this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
-            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.insertAtToolStripMenuItem.Text = "Insert At..";
             // 
             // InsertText
@@ -168,10 +169,10 @@ namespace FiddlerControls
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GraphicLabel,
+            this.SearchButton,
             this.toolStripSeparator3,
             this.SaveButton,
-            this.toolStripSeparator4,
-            this.SearchButton});
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -181,19 +182,20 @@ namespace FiddlerControls
             // 
             // GraphicLabel
             // 
-            this.GraphicLabel.AutoSize = false;
             this.GraphicLabel.Name = "GraphicLabel";
-            this.GraphicLabel.Size = new System.Drawing.Size(475, 22);
+            this.GraphicLabel.Size = new System.Drawing.Size(47, 22);
             this.GraphicLabel.Text = "Graphic:";
             this.GraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator3
             // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // SaveButton
             // 
+            this.SaveButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
             this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -204,17 +206,21 @@ namespace FiddlerControls
             // 
             // toolStripSeparator4
             // 
+            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // SearchButton
             // 
+            this.SearchButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SearchButton.Image = ((System.Drawing.Image)(resources.GetObject("SearchButton.Image")));
             this.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SearchButton.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(44, 22);
             this.SearchButton.Text = "Search";
+            this.SearchButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.SearchButton.Click += new System.EventHandler(this.OnClickSearch);
             // 
             // TextureAlternative

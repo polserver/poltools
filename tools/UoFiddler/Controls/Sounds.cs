@@ -120,15 +120,13 @@ namespace FiddlerControls
 
         private void SearchName(object sender, EventArgs e)
         {
-            bool res = DoSearchName(textBox1.Text, false);
-            if (!res)
+            if (!DoSearchName(textBox1.Text, false))
                 MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
         private void SearchNext(object sender, EventArgs e)
         {
-            bool res = DoSearchName(textBox1.Text, true);
-            if (!res)
+            if (!DoSearchName(textBox1.Text, true))
                 MessageBox.Show("No sound found", "Result", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
         }
 
@@ -161,10 +159,9 @@ namespace FiddlerControls
             if (treeView.SelectedNode == null)
                 return;
             int id = (int)treeView.SelectedNode.Tag - 1;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string name = "";
             Ultima.Sounds.IsValidSound(id, out name);
-            string FileName = Path.Combine(path, String.Format("{0}", name));
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, String.Format("{0}", name));
             using (MemoryStream stream = new MemoryStream(Ultima.Sounds.GetSound(id).buffer))
             {
                 using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -214,8 +211,8 @@ namespace FiddlerControls
                 string name = textBoxName.Text;
                 if (name != null)
                 {
-                    if (name.Length > 40)
-                        name = name.Substring(0, 40);
+                    if (name.Length > 32)
+                        name = name.Substring(0, 32);
                     string filename = textBoxWav.Text;
                     if (File.Exists(filename))
                     {
@@ -294,8 +291,7 @@ namespace FiddlerControls
 
         private void OnClickExtractSoundList(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "SoundList.csv");
+            string FileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "SoundList.csv");
             Ultima.Sounds.SaveSoundListToCSV(FileName);
             MessageBox.Show(String.Format("SoundList saved to {0}", FileName),
                 "Saved",
