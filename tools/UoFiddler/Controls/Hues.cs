@@ -24,7 +24,6 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-            pictureBox.Image = bmp;
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
             refmarker = this;
         }
@@ -32,7 +31,6 @@ namespace FiddlerControls
         private const int ITEMHEIGHT = 20;
         private int selected = 0;
         private bool Loaded = false;
-        private Bitmap bmp;
         private int row;
         private Hues refmarker;
 
@@ -49,7 +47,7 @@ namespace FiddlerControls
                 if (Loaded)
                 {
                     if (Ultima.Hues.List.Length > 0)
-                        PaintBox();
+                        pictureBox.Refresh();
                 }
             }
         }
@@ -59,7 +57,7 @@ namespace FiddlerControls
         /// </summary>
         public void Refreshlist()
         {
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         /// <summary>
@@ -88,10 +86,9 @@ namespace FiddlerControls
             vScrollBar.Value = 0;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = 10;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             if (selected > 0)
                 vScrollBar.Value = selected;
-            PaintBox();
+            pictureBox.Refresh();
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
@@ -111,43 +108,37 @@ namespace FiddlerControls
                 return -1;
         }
 
-        private void PaintBox()
+        private void onPaint(object sender, PaintEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(bmp))
+            e.Graphics.Clear(Color.White);
+            for (int y = 0; y <= row; y++)
             {
-                g.Clear(Color.White);
-
-                for (int y = 0; y <= row; y++)
+                int index = GetIndex(y);
+                if (index >= 0)
                 {
-                    int index = GetIndex(y);
-                    if (index >= 0)
+                    Rectangle rect = new Rectangle(0, y * ITEMHEIGHT, 200, ITEMHEIGHT);
+                    if (index == selected)
+                        e.Graphics.FillRectangle(SystemBrushes.Highlight, rect);
+                    else
+                        e.Graphics.FillRectangle(SystemBrushes.Window, rect);
+
+                    float size = ((float)(pictureBox.Width - 200)) / 32;
+                    Hue hue = Ultima.Hues.List[index];
+                    Rectangle stringrect = new Rectangle(3, y * ITEMHEIGHT, pictureBox.Width, ITEMHEIGHT);
+                    e.Graphics.DrawString(String.Format("{0,-5} {1,-7} {2}", hue.Index + 1, String.Format("(0x{0:X})", hue.Index + 1), hue.Name), Font, Brushes.Black, stringrect);
+
+                    for (int i = 0; i < hue.Colors.Length; i++)
                     {
-                        Rectangle rect = new Rectangle(0, y * ITEMHEIGHT, 200, ITEMHEIGHT);
-                        if (index == selected)
-                            g.FillRectangle(SystemBrushes.Highlight, rect);
-                        else
-                            g.FillRectangle(SystemBrushes.Window, rect);
-
-                        float size = ((float)(pictureBox.Width - 200)) / 32;
-                        Hue hue = Ultima.Hues.List[index];
-                        Rectangle stringrect = new Rectangle(3, y * ITEMHEIGHT, pictureBox.Width, ITEMHEIGHT);
-                        g.DrawString(String.Format("{0,-5} {1,-7} {2}", hue.Index + 1, String.Format("(0x{0:X})", hue.Index + 1), hue.Name), Font, Brushes.Black, stringrect);
-
-                        for (int i = 0; i < hue.Colors.Length; i++)
-                        {
-                            Rectangle rectangle = new Rectangle(200 + ((int)Math.Round((double)(i * size))), y * ITEMHEIGHT, (int)Math.Round((double)(size + 1f)), ITEMHEIGHT);
-                            g.FillRectangle(new SolidBrush(hue.GetColor(i)), rectangle);
-                        }
+                        Rectangle rectangle = new Rectangle(200 + ((int)Math.Round((double)(i * size))), y * ITEMHEIGHT, (int)Math.Round((double)(size + 1f)), ITEMHEIGHT);
+                        e.Graphics.FillRectangle(new SolidBrush(hue.GetColor(i)), rectangle);
                     }
                 }
             }
-            pictureBox.Image = bmp;
-            pictureBox.Update();
         }
 
         private void onScroll(object sender, ScrollEventArgs e)
         {
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseWheel(object sender, MouseEventArgs e)
@@ -157,7 +148,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
             else
@@ -165,7 +156,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }
@@ -173,10 +164,9 @@ namespace FiddlerControls
         private void OnResize(object sender, EventArgs e)
         {
             row = pictureBox.Height / ITEMHEIGHT;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
             if (!Loaded)
                 return;
-            PaintBox();
+            pictureBox.Refresh();
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)
@@ -229,7 +219,7 @@ namespace FiddlerControls
                 {
                     contextMenuStrip1.Close();
                     Ultima.Hues.List[selected] = Ultima.Hues.List[index - 1];
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }

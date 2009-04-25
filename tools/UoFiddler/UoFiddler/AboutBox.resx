@@ -119,6 +119,7 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.8a
+-Fixed Crash on Huetab minimize
 -Tool Menus added to LandTiles and Texture Tabs.
 -Export All buttons added to LandTiles and Texture Tabs.
 -Moved Cliloc Export context menu item to Button in toolbar for Cliloc Control.
