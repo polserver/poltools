@@ -162,10 +162,10 @@ namespace FiddlerControls
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GraphicLabel,
-            this.toolStripSeparator3,
-            this.SaveButton,
+            this.SearchButton,
             this.toolStripSeparator4,
-            this.SearchButton});
+            this.SaveButton,
+            this.toolStripSeparator3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -175,19 +175,20 @@ namespace FiddlerControls
             // 
             // GraphicLabel
             // 
-            this.GraphicLabel.AutoSize = false;
             this.GraphicLabel.Name = "GraphicLabel";
-            this.GraphicLabel.Size = new System.Drawing.Size(475, 22);
+            this.GraphicLabel.Size = new System.Drawing.Size(47, 22);
             this.GraphicLabel.Text = "Graphic:";
             this.GraphicLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator3
             // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // SaveButton
             // 
+            this.SaveButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
             this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -198,14 +199,17 @@ namespace FiddlerControls
             // 
             // toolStripSeparator4
             // 
+            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // SearchButton
             // 
+            this.SearchButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SearchButton.Image = ((System.Drawing.Image)(resources.GetObject("SearchButton.Image")));
             this.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SearchButton.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(44, 22);
             this.SearchButton.Text = "Search";

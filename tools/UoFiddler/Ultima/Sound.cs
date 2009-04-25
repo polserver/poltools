@@ -117,14 +117,14 @@ namespace Ultima
             if ((offset < 0) || (length <= 0))
                 return null;
 
+            length -= 32;
             int[] waveHeader = WaveHeader(length);
-            length -= 40;
 
-            byte[] stringBuffer = new byte[40];
+            byte[] stringBuffer = new byte[32];
             byte[] buffer = new byte[length];
 
             m_Stream.Seek((long)(offset), SeekOrigin.Begin);
-            m_Stream.Read(stringBuffer, 0, 40);
+            m_Stream.Read(stringBuffer, 0, 32);
             m_Stream.Read(buffer, 0, length);
 
             byte[] resultBuffer = new byte[buffer.Length + (waveHeader.Length << 2)];
@@ -167,7 +167,7 @@ namespace Ultima
              * short[..] - data /
              * ====================
              * */
-            return new int[] { 0x46464952, (length + 12), 0x45564157, 0x20746D66, 0x10, 0x010001, 0x5622, 0xAC44, 0x100002, 0x61746164, (length - 24) };
+            return new int[] { 0x46464952, (length + 36), 0x45564157, 0x20746D66, 0x10, 0x010001, 0x5622, 0xAC44, 0x100002, 0x61746164, length };
         }
 
         /// <summary>
@@ -201,9 +201,9 @@ namespace Ultima
             if ((offset < 0) || (length <= 0))
                 return false;
 
-            byte[] stringBuffer = new byte[40];
+            byte[] stringBuffer = new byte[32];
             m_Stream.Seek((long)(offset), SeekOrigin.Begin);
-            m_Stream.Read(stringBuffer, 0, 40);
+            m_Stream.Read(stringBuffer, 0, 32);
             name = Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
             if (name.IndexOf('\0') > 0)
                 name = name.Substring(0, name.IndexOf('\0'));
@@ -245,7 +245,7 @@ namespace Ultima
 
                 if ((offset < 0) || (length <= 0))
                     return 0;
-                length -= 40; //mulheaderlength
+                length -= 32; //mulheaderlength
                 len = (double)length;
             }
             len /= 0x5622; // Sample Rate
@@ -306,12 +306,12 @@ namespace Ultima
                             binidx.Write((int)fsmul.Position); //lookup
                             int length = (int)fsmul.Position;
 
-                            byte[] b = new byte[40];
+                            byte[] b = new byte[32];
                             if (sound.Name != null)
                             {
                                 byte[] bb = Encoding.Default.GetBytes(sound.Name);
-                                if (bb.Length > 40)
-                                    Array.Resize(ref bb, 40);
+                                if (bb.Length > 32)
+                                    Array.Resize(ref bb, 32);
                                 bb.CopyTo(b, 0);
                             }
                             binmul.Write(b);

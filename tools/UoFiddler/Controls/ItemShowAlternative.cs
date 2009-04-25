@@ -17,7 +17,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Host;
 using Ultima;
 
 namespace FiddlerControls
@@ -30,7 +29,6 @@ namespace FiddlerControls
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refMarker = this;
             pictureBox.MouseWheel += new MouseEventHandler(OnMouseWheel);
-            pictureBox.Image = bmp;
         }
 
         private static ItemShowAlternative refMarker = null;
@@ -38,7 +36,6 @@ namespace FiddlerControls
         private int col;
         private int row;
         private int selected = -1;
-        private Bitmap bmp;
         private bool Loaded = false;
         private bool ShowFreeSlots = false;
 
@@ -58,7 +55,7 @@ namespace FiddlerControls
                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", value);
 
                 UpdateDetail(value);
-                PaintBox();
+                pictureBox.Refresh();
             }
         }
 
@@ -73,8 +70,7 @@ namespace FiddlerControls
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
             if (selected != -1)
                 UpdateDetail(selected);
         }
@@ -85,16 +81,16 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, "UOFiddlerArt.hash");
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
-                if (md5 == null)
-                    return;
-                int length = md5.Length;
-                bin.Write(length);
-                bin.Write(md5);
-                foreach (int item in ItemList)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write(item);
+                    byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
+                    if (md5 == null)
+                        return;
+                    int length = md5.Length;
+                    bin.Write(length);
+                    bin.Write(md5);
+                    foreach (int item in ItemList)
+                        bin.Write(item);
                 }
             }
         }
@@ -106,9 +102,7 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
-            int index = 0;
-
-            for (int i = index; i < refMarker.ItemList.Count; i++)
+            for (int i = 0; i < refMarker.ItemList.Count; i++)
             {
                 if ((int)refMarker.ItemList[i] == graphic)
                 {
@@ -203,8 +197,7 @@ namespace FiddlerControls
                     MakeHashFile();
             }
             vScrollBar.Maximum = ItemList.Count / col + 1;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
@@ -232,7 +225,7 @@ namespace FiddlerControls
                 if (vScrollBar.Value < vScrollBar.Maximum)
                 {
                     vScrollBar.Value++;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
             else
@@ -240,110 +233,105 @@ namespace FiddlerControls
                 if (vScrollBar.Value > 1)
                 {
                     vScrollBar.Value--;
-                    PaintBox();
+                    pictureBox.Refresh();
                 }
             }
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            PaintBox();
+            pictureBox.Refresh();
         }
 
-        private void PaintBox()
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(bmp))
+            e.Graphics.Clear(Color.White);
+
+            for (int x = 0; x <= col; x++)
             {
-                g.Clear(Color.White);
+                e.Graphics.DrawLine(Pens.Gray, new Point(x * Options.ArtItemSizeWidth, 0),
+                    new Point(x * Options.ArtItemSizeWidth, row * Options.ArtItemSizeHeight));
+            }
 
-                for (int x = 0; x <= col; x++)
-                {
-                    g.DrawLine(Pens.Gray, new Point(x * Options.ArtItemSizeWidth, 0),
-                        new Point(x * Options.ArtItemSizeWidth, row * Options.ArtItemSizeHeight));
-                }
+            for (int y = 0; y <= row; y++)
+            {
+                e.Graphics.DrawLine(Pens.Gray, new Point(0, y * Options.ArtItemSizeHeight),
+                    new Point(col * Options.ArtItemSizeWidth, y * Options.ArtItemSizeHeight));
+            }
 
-                for (int y = 0; y <= row; y++)
+            for (int y = 0; y < row; y++)
+            {
+                for (int x = 0; x < col; x++)
                 {
-                    g.DrawLine(Pens.Gray, new Point(0, y * Options.ArtItemSizeHeight),
-                        new Point(col * Options.ArtItemSizeWidth, y * Options.ArtItemSizeHeight));
-                }
-
-                for (int y = 0; y < row; y++)
-                {
-                    for (int x = 0; x < col; x++)
+                    int index = GetIndex(x, y);
+                    if (index >= 0)
                     {
-                        int index = GetIndex(x, y);
-                        if (index >= 0)
+                        bool patched;
+                        Bitmap b = Art.GetStatic(index, out patched);
+
+                        if (b != null)
                         {
-                            bool patched;
-                            Bitmap b = Art.GetStatic(index, out patched);
+                            Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
+                            Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
+                            Rectangle rect = new Rectangle(loc, size);
 
-                            if (b != null)
-                            {
-                                Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
-                                Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
-                                Rectangle rect = new Rectangle(loc, size);
+                            e.Graphics.Clip = new Region(rect);
 
-                                g.Clip = new Region(rect);
+                            if (index == selected)
+                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+                            else if (patched)
+                                e.Graphics.FillRectangle(Brushes.LightCoral, rect);
 
-                                if (index == selected)
-                                    g.FillRectangle(Brushes.LightBlue, rect);
-                                else if (patched)
-                                    g.FillRectangle(Brushes.LightCoral, rect);
-
-                                if (Options.ArtItemClip)
-                                    g.DrawImage(b, loc);
-                                else
-                                {
-                                    int width = b.Width;
-                                    int height = b.Height;
-                                    if (width > size.Width)
-                                    {
-                                        width = size.Width;
-                                        height = size.Height * b.Height / b.Width;
-                                    }
-                                    if (height > size.Height)
-                                    {
-                                        height = size.Height;
-                                        width = size.Width * b.Width / b.Height;
-                                    }
-                                    g.DrawImage(b, new Rectangle(loc, new Size(width, height)));
-                                }
-                            }
+                            if (Options.ArtItemClip)
+                                e.Graphics.DrawImage(b, loc);
                             else
                             {
-                                Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
-                                Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
-                                Rectangle rect = new Rectangle(loc, size);
-
-                                g.Clip = new Region(rect);
-                                if (index == selected)
-                                    g.FillRectangle(Brushes.LightBlue, rect);
-                                rect.X += 5;
-                                rect.Y += 5;
-                                rect.Width -= 10;
-                                rect.Height -= 10;
-                                g.FillRectangle(Brushes.Red, rect);
+                                int width = b.Width;
+                                int height = b.Height;
+                                if (width > size.Width)
+                                {
+                                    width = size.Width;
+                                    height = size.Height * b.Height / b.Width;
+                                }
+                                if (height > size.Height)
+                                {
+                                    height = size.Height;
+                                    width = size.Width * b.Width / b.Height;
+                                }
+                                e.Graphics.DrawImage(b, new Rectangle(loc, new Size(width, height)));
                             }
+                        }
+                        else
+                        {
+                            Point loc = new Point((x * Options.ArtItemSizeWidth) + 1, (y * Options.ArtItemSizeHeight) + 1);
+                            Size size = new Size(Options.ArtItemSizeHeight - 1, Options.ArtItemSizeWidth - 1);
+                            Rectangle rect = new Rectangle(loc, size);
+
+                            e.Graphics.Clip = new Region(rect);
+                            if (index == selected)
+                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+                            rect.X += 5;
+                            rect.Y += 5;
+                            rect.Width -= 10;
+                            rect.Height -= 10;
+                            e.Graphics.FillRectangle(Brushes.Red, rect);
                         }
                     }
                 }
-                g.Save();
             }
-            pictureBox.Image = bmp;
-            pictureBox.Update();
         }
 
         private void OnResize(object sender, EventArgs e)
         {
+            if ((pictureBox.Height == 0) || (pictureBox.Width == 0))
+                return;
             col = pictureBox.Width / Options.ArtItemSizeWidth;
-            row = pictureBox.Height / Options.ArtItemSizeHeight;
+            row = pictureBox.Height / Options.ArtItemSizeHeight+1;
             vScrollBar.Maximum = ItemList.Count / col + 1;
             vScrollBar.Minimum = 1;
             vScrollBar.SmallChange = 1;
             vScrollBar.LargeChange = row;
-            bmp = new Bitmap(pictureBox.Width, pictureBox.Height);
-            PaintBox();
+            pictureBox.Refresh();
             if (selected != -1)
                 UpdateDetail(selected);
         }
@@ -485,7 +473,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceStatic(selected, bmp);
-                        PaintBox();
+                        pictureBox.Refresh();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
                 }
@@ -508,7 +496,7 @@ namespace FiddlerControls
                 if (!ShowFreeSlots)
                     ItemList.Remove((object)selected);
                 selected--;
-                PaintBox();
+                pictureBox.Refresh();
                 Options.ChangedUltimaClass["Art"] = true;
             }
         }
@@ -557,7 +545,7 @@ namespace FiddlerControls
                                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
                                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
                                 UpdateDetail(selected);
-                                PaintBox();
+                                pictureBox.Refresh();
                             }
                             else
                             {
@@ -581,7 +569,7 @@ namespace FiddlerControls
                                 namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[selected].Name);
                                 graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", selected);
                                 UpdateDetail(selected);
-                                PaintBox();
+                                pictureBox.Refresh();
                             }
                         }
                     }
@@ -625,7 +613,7 @@ namespace FiddlerControls
                         ItemList.Insert(j, (object)j);
                 }
                 vScrollBar.Maximum = ItemList.Count / col + 1;
-                PaintBox();
+                pictureBox.Refresh();
             }
             else
             {
@@ -761,5 +749,7 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
+
+        
     }
 }

@@ -94,6 +94,7 @@ namespace FiddlerControls
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.pictureBox.SizeChanged += new System.EventHandler(this.OnResize);
             // 
             // contextMenuStrip1
@@ -201,11 +202,11 @@ namespace FiddlerControls
             this.namelabel,
             this.graphiclabel,
             this.FlagsLabel,
-            this.toolStripSeparator4,
-            this.SaveButton,
-            this.toolStripSeparator5,
+            this.toolStripDropDownButton1,
             this.SearchButton,
-            this.toolStripDropDownButton1});
+            this.toolStripSeparator5,
+            this.SaveButton,
+            this.toolStripSeparator4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -231,19 +232,20 @@ namespace FiddlerControls
             // 
             // FlagsLabel
             // 
-            this.FlagsLabel.AutoSize = false;
             this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(190, 22);
+            this.FlagsLabel.Size = new System.Drawing.Size(36, 22);
             this.FlagsLabel.Text = "Flags:";
             this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator4
             // 
+            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // SaveButton
             // 
+            this.SaveButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
             this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -254,11 +256,13 @@ namespace FiddlerControls
             // 
             // toolStripSeparator5
             // 
+            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // SearchButton
             // 
+            this.SearchButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SearchButton.Image = ((System.Drawing.Image)(resources.GetObject("SearchButton.Image")));
             this.SearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -269,11 +273,13 @@ namespace FiddlerControls
             // 
             // toolStripDropDownButton1
             // 
+            this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportAllToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
             this.toolStripDropDownButton1.Text = "Misc";

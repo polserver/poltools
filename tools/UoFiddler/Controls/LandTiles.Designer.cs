@@ -176,11 +176,11 @@ namespace FiddlerControls
             this.namelabel,
             this.graphiclabel,
             this.FlagsLabel,
+            this.toolStripDropDownButton1,
+            this.LandTilesSearchButton,
             this.toolStripSeparator4,
             this.SaveButton,
-            this.toolStripSeparator5,
-            this.LandTilesSearchButton,
-            this.toolStripDropDownButton1});
+            this.toolStripSeparator5});
             this.toolStripLandTile.Location = new System.Drawing.Point(0, 0);
             this.toolStripLandTile.Name = "toolStripLandTile";
             this.toolStripLandTile.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -207,19 +207,20 @@ namespace FiddlerControls
             // 
             // FlagsLabel
             // 
-            this.FlagsLabel.AutoSize = false;
             this.FlagsLabel.Name = "FlagsLabel";
-            this.FlagsLabel.Size = new System.Drawing.Size(190, 22);
+            this.FlagsLabel.Size = new System.Drawing.Size(36, 22);
             this.FlagsLabel.Text = "Flags:";
             this.FlagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator4
             // 
+            this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // SaveButton
             // 
+            this.SaveButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.SaveButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveButton.Image")));
             this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -230,11 +231,13 @@ namespace FiddlerControls
             // 
             // toolStripSeparator5
             // 
+            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // LandTilesSearchButton
             // 
+            this.LandTilesSearchButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.LandTilesSearchButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.LandTilesSearchButton.Image = ((System.Drawing.Image)(resources.GetObject("LandTilesSearchButton.Image")));
             this.LandTilesSearchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -245,11 +248,13 @@ namespace FiddlerControls
             // 
             // toolStripDropDownButton1
             // 
+            this.toolStripDropDownButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ExportAll});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Margin = new System.Windows.Forms.Padding(0, 1, 20, 2);
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
             this.toolStripDropDownButton1.Text = "Misc";
@@ -260,7 +265,7 @@ namespace FiddlerControls
             this.ExportAsBmp,
             this.ExportAsTiff});
             this.ExportAll.Name = "ExportAll";
-            this.ExportAll.Size = new System.Drawing.Size(134, 22);
+            this.ExportAll.Size = new System.Drawing.Size(152, 22);
             this.ExportAll.Text = "Export All..";
             // 
             // ExportAsBmp
