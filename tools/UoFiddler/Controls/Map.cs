@@ -678,6 +678,7 @@ namespace FiddlerControls
             XmlDeclaration decl = dom.CreateXmlDeclaration("1.0", "utf-8", null);
             dom.AppendChild(decl);
             XmlElement sr = dom.CreateElement("Overlays");
+            bool entries = false;
             for (int i = 0; i < 5; i++)
             {
                 foreach (TreeNode obj in refmarker.OverlayObjectTree.Nodes[i].Nodes)
@@ -686,10 +687,12 @@ namespace FiddlerControls
                     XmlElement elem = dom.CreateElement("Marker");
                     o.Save(elem);
                     sr.AppendChild(elem);
+                    entries = true;
                 }
             }
             dom.AppendChild(sr);
-            dom.Save(FileName);
+            if (entries)
+                dom.Save(FileName);
         }
         #region PreLoader
         private void OnClickPreloadMap(object sender, EventArgs e)
