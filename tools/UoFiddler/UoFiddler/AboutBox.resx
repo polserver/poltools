@@ -119,6 +119,8 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.9
+-Fixed Odd Gumps Export As crash
+-Added Export All for Gumps tab
 -Fixed Odd Multis Crash
 -Added Export All for Txt, UOA, and WSC formats to Multis tab
 -Fixed Crash on Huetab minimize
