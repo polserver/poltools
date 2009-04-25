@@ -139,6 +139,11 @@ namespace FiddlerControls
             }
             int h = HeightChangeMulti.Maximum - HeightChangeMulti.Value;
             Bitmap m_MainPicture_Multi = ((MultiComponentList)TreeViewMulti.SelectedNode.Tag).GetImage(h);
+            if (m_MainPicture_Multi == null)
+            {
+                e.Graphics.Clear(Color.White);
+                return;
+            }
             Point location = Point.Empty;
             Size size = MultiPictureBox.Size;
             Rectangle destRect = Rectangle.Empty;
