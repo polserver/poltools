@@ -118,7 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.8a
+    <value>Version 3.9
+-Fixed Odd Multis Crash
+-Added Export All for Txt, UOA, and WSC formats to Multis tab
 -Fixed Crash on Huetab minimize
 -Tool Menus added to LandTiles and Texture Tabs.
 -Export All buttons added to LandTiles and Texture Tabs.

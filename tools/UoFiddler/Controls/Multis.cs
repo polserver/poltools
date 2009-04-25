@@ -430,6 +430,79 @@ namespace FiddlerControls
             }
         }
 
-    
+        private void OnClick_SaveAllText(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    {
+                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Index;
+                        if (index >= 0)
+                        {
+                            MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
+                            if (multi == MultiComponentList.Empty)
+                                continue;
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.txt", index));
+                            multi.ExportToTextFile(FileName);
+                        }
+                    }
+                    MessageBox.Show(String.Format("All Multis saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void OnClick_SaveAllUOA(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    {
+                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Index;
+                        if (index >= 0)
+                        {
+                            MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
+                            if (multi == MultiComponentList.Empty)
+                                continue;
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.uoa", index));
+                            multi.ExportToUOAFile(FileName);
+                        }
+                    }
+                    MessageBox.Show(String.Format("All Multis saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void OnClick_SaveAllWSC(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    {
+                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Index;
+                        if (index >= 0)
+                        {
+                            MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
+                            if (multi == MultiComponentList.Empty)
+                                continue;
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.wsc", index));
+                            multi.ExportToWscFile(FileName);
+                        }
+                    }
+                    MessageBox.Show(String.Format("All Multis saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
     }
 }
