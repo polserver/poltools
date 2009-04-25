@@ -120,12 +120,11 @@
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.9
 -Fixed Odd Gumps Export As crash
--Added Export All for Gumps tab
+-Added Export All Images for Multis, Gumps, Items, LandTiles, and Texture tab.
+-Added Export All Parts for Txt, UOA, and WSC formats to Multis tab
 -Fixed Odd Multis Crash
--Added Export All for Txt, UOA, and WSC formats to Multis tab
 -Fixed Crash on Huetab minimize
 -Tool Menus added to LandTiles and Texture Tabs.
--Export All buttons added to LandTiles and Texture Tabs.
 -Moved Cliloc Export context menu item to Button in toolbar for Cliloc Control.
 -some crashes/problems fixed.
 -PluginInterface changed a bit.
