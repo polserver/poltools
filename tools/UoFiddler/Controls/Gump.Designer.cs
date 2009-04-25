@@ -40,10 +40,13 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gump));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBox = new System.Windows.Forms.ListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.extractImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.findNextFreeSlotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceGumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,20 +56,19 @@ namespace FiddlerControls
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.IDLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SizeLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.Preload = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.PreLoader = new System.ComponentModel.BackgroundWorker();
-            this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.IDLabel = new System.Windows.Forms.ToolStripLabel();
+            this.SizeLabel = new System.Windows.Forms.ToolStripLabel();
+            this.Preload = new System.Windows.Forms.ToolStripButton();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -82,7 +84,7 @@ namespace FiddlerControls
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox);
-            this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
+            this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(619, 324);
             this.splitContainer1.SplitterDistance = 205;
             this.splitContainer1.TabIndex = 0;
@@ -115,7 +117,7 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 148);
             // 
             // extractImageToolStripMenuItem
             // 
@@ -125,6 +127,20 @@ namespace FiddlerControls
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
             this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.extractImageToolStripMenuItem.Text = "Export Image..";
+            // 
+            // asBmpToolStripMenuItem
+            // 
+            this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asBmpToolStripMenuItem.Text = "As Bmp";
+            this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
+            // 
+            // asTiffToolStripMenuItem
+            // 
+            this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asTiffToolStripMenuItem.Text = "As Tiff";
+            this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
             // 
             // toolStripSeparator2
             // 
@@ -190,24 +206,36 @@ namespace FiddlerControls
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
             // 
-            // statusStrip1
+            // PreLoader
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PreLoader.WorkerReportsProgress = true;
+            this.PreLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreLoaderDoWork);
+            this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
+            this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.IDLabel,
             this.SizeLabel,
+            this.ProgressBar,
             this.Preload,
-            this.ProgressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 302);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(410, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
+            this.toolStripSeparator3});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 302);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(410, 22);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
             // 
             // IDLabel
             // 
             this.IDLabel.AutoSize = false;
             this.IDLabel.Name = "IDLabel";
-            this.IDLabel.Size = new System.Drawing.Size(100, 17);
+            this.IDLabel.Size = new System.Drawing.Size(110, 17);
             this.IDLabel.Text = "ID:";
             this.IDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -221,40 +249,26 @@ namespace FiddlerControls
             // 
             // Preload
             // 
-            this.Preload.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.Preload.BorderStyle = System.Windows.Forms.Border3DStyle.Raised;
+            this.Preload.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Preload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.Preload.Image = ((System.Drawing.Image)(resources.GetObject("Preload.Image")));
+            this.Preload.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Preload.Name = "Preload";
-            this.Preload.Size = new System.Drawing.Size(47, 17);
+            this.Preload.Size = new System.Drawing.Size(47, 19);
             this.Preload.Text = "Preload";
             this.Preload.Click += new System.EventHandler(this.OnClickPreload);
             // 
             // ProgressBar
             // 
+            this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.ProgressBar.Size = new System.Drawing.Size(100, 19);
             // 
-            // PreLoader
+            // toolStripSeparator3
             // 
-            this.PreLoader.WorkerReportsProgress = true;
-            this.PreLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.PreLoaderDoWork);
-            this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
-            this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
-            // 
-            // asBmpToolStripMenuItem
-            // 
-            this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.asBmpToolStripMenuItem.Text = "As Bmp";
-            this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
-            // 
-            // asTiffToolStripMenuItem
-            // 
-            this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.asTiffToolStripMenuItem.Text = "As Tiff";
-            this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 22);
             // 
             // Gump
             // 
@@ -265,12 +279,11 @@ namespace FiddlerControls
             this.Size = new System.Drawing.Size(619, 324);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -280,13 +293,8 @@ namespace FiddlerControls
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox listBox;
         private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel IDLabel;
-        private System.Windows.Forms.ToolStripStatusLabel SizeLabel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem extractImageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel Preload;
-        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
         private System.ComponentModel.BackgroundWorker PreLoader;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -298,5 +306,11 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel IDLabel;
+        private System.Windows.Forms.ToolStripLabel SizeLabel;
+        private System.Windows.Forms.ToolStripButton Preload;
+        private System.Windows.Forms.ToolStripProgressBar ProgressBar;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

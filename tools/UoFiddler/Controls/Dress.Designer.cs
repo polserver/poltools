@@ -466,6 +466,7 @@ namespace FiddlerControls
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Name = "TextBox";
+            this.TextBox.ReadOnly = true;
             this.TextBox.Size = new System.Drawing.Size(193, 70);
             this.TextBox.TabIndex = 0;
             this.TextBox.Text = "";
