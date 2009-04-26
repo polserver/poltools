@@ -78,6 +78,7 @@ namespace FiddlerControls
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.MultiComponentBox = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.asJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -140,20 +141,20 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(158, 120);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(163, 120);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.CheckOnClick = true;
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(157, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(162, 22);
             this.toolStripMenuItem4.Text = "Show Free Slots";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.OnClickFreeSlots);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.importToolStripMenuItem.Text = "Import..";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.OnClickImport);
             // 
@@ -164,46 +165,46 @@ namespace FiddlerControls
             this.toUOAToolStripMenuItem,
             this.toWscToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.exportToolStripMenuItem.Text = "Export..";
             // 
             // toTextfileToolStripMenuItem
             // 
             this.toTextfileToolStripMenuItem.Name = "toTextfileToolStripMenuItem";
-            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.toTextfileToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.toTextfileToolStripMenuItem.Text = "To Textfile";
             this.toTextfileToolStripMenuItem.Click += new System.EventHandler(this.OnExportTextFile);
             // 
             // toUOAToolStripMenuItem
             // 
             this.toUOAToolStripMenuItem.Name = "toUOAToolStripMenuItem";
-            this.toUOAToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.toUOAToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.toUOAToolStripMenuItem.Text = "To UOA";
             this.toUOAToolStripMenuItem.Click += new System.EventHandler(this.OnExportUOAFile);
             // 
             // toWscToolStripMenuItem
             // 
             this.toWscToolStripMenuItem.Name = "toWscToolStripMenuItem";
-            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.toWscToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.toWscToolStripMenuItem.Text = "To Wsc";
             this.toWscToolStripMenuItem.Click += new System.EventHandler(this.OnExportWscFile);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
             // 
@@ -250,22 +251,23 @@ namespace FiddlerControls
             // 
             this.exportAllImagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aToolStripMenuItem,
-            this.asTiffToolStripMenuItem1});
+            this.asTiffToolStripMenuItem1,
+            this.asJpgToolStripMenuItem});
             this.exportAllImagesToolStripMenuItem.Name = "exportAllImagesToolStripMenuItem";
-            this.exportAllImagesToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.exportAllImagesToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.exportAllImagesToolStripMenuItem.Text = "Export All Image";
             // 
             // aToolStripMenuItem
             // 
             this.aToolStripMenuItem.Name = "aToolStripMenuItem";
-            this.aToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.aToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aToolStripMenuItem.Text = "As Bmp";
             this.aToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
             // 
             // asTiffToolStripMenuItem1
             // 
             this.asTiffToolStripMenuItem1.Name = "asTiffToolStripMenuItem1";
-            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(115, 22);
+            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.asTiffToolStripMenuItem1.Text = "As Tiff";
             this.asTiffToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
             // 
@@ -276,27 +278,27 @@ namespace FiddlerControls
             this.toUOAFileToolStripMenuItem,
             this.toWSCFileToolStripMenuItem});
             this.exportAllPartsToolStripMenuItem.Name = "exportAllPartsToolStripMenuItem";
-            this.exportAllPartsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.exportAllPartsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.exportAllPartsToolStripMenuItem.Text = "Export All Parts";
             // 
             // toTextFileToolStripMenuItem1
             // 
             this.toTextFileToolStripMenuItem1.Name = "toTextFileToolStripMenuItem1";
-            this.toTextFileToolStripMenuItem1.Size = new System.Drawing.Size(137, 22);
+            this.toTextFileToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toTextFileToolStripMenuItem1.Text = "To Text File";
             this.toTextFileToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllText);
             // 
             // toUOAFileToolStripMenuItem
             // 
             this.toUOAFileToolStripMenuItem.Name = "toUOAFileToolStripMenuItem";
-            this.toUOAFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.toUOAFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.toUOAFileToolStripMenuItem.Text = "To UOA File";
             this.toUOAFileToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllUOA);
             // 
             // toWSCFileToolStripMenuItem
             // 
             this.toWSCFileToolStripMenuItem.Name = "toWSCFileToolStripMenuItem";
-            this.toWSCFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.toWSCFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.toWSCFileToolStripMenuItem.Text = "To WSC File";
             this.toWSCFileToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllWSC);
             // 
@@ -394,7 +396,7 @@ namespace FiddlerControls
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractImageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 26);
             // 
             // extractImageToolStripMenuItem
             // 
@@ -402,20 +404,20 @@ namespace FiddlerControls
             this.asBmpToolStripMenuItem,
             this.asTiffToolStripMenuItem});
             this.extractImageToolStripMenuItem.Name = "extractImageToolStripMenuItem";
-            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.extractImageToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.extractImageToolStripMenuItem.Text = "extract Image..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
             // 
@@ -455,6 +457,13 @@ namespace FiddlerControls
             this.MultiComponentBox.Size = new System.Drawing.Size(334, 302);
             this.MultiComponentBox.TabIndex = 0;
             this.MultiComponentBox.Text = "";
+            // 
+            // asJpgToolStripMenuItem
+            // 
+            this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
+            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asJpgToolStripMenuItem.Text = "As Jpg";
+            this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllJpg);
             // 
             // Multis
             // 
@@ -530,5 +539,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem toTextFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toUOAFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toWSCFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
     }
 }

@@ -345,6 +345,31 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClick_SaveAllJpg(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < listBox.Items.Count; i++)
+                    {
+                        int index = int.Parse(listBox.Items[i].ToString());
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Gump {0}.jpg", index));
+                            Bitmap bit = new Bitmap(Gumps.GetGump(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Jpeg);
+                            bit.Dispose();
+                        }
+                    }
+                    MessageBox.Show(String.Format("All Gumps saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
         #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {

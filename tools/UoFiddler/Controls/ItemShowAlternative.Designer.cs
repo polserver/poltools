@@ -76,6 +76,7 @@ namespace FiddlerControls
             this.exportAllAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -184,46 +185,46 @@ namespace FiddlerControls
             this.toolStripSeparator1,
             this.saveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(197, 220);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 220);
             // 
             // showFreeSlotsToolStripMenuItem
             // 
             this.showFreeSlotsToolStripMenuItem.CheckOnClick = true;
             this.showFreeSlotsToolStripMenuItem.Name = "showFreeSlotsToolStripMenuItem";
-            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.showFreeSlotsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.showFreeSlotsToolStripMenuItem.Text = "Show Free Slots";
             this.showFreeSlotsToolStripMenuItem.Click += new System.EventHandler(this.onClickShowFreeSlots);
             // 
             // findNextFreeSlotToolStripMenuItem
             // 
             this.findNextFreeSlotToolStripMenuItem.Name = "findNextFreeSlotToolStripMenuItem";
-            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.findNextFreeSlotToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.findNextFreeSlotToolStripMenuItem.Text = "Find Next Free Slot";
             this.findNextFreeSlotToolStripMenuItem.Click += new System.EventHandler(this.onClickFindFree);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(198, 6);
             // 
             // selectInTileDataTabToolStripMenuItem
             // 
             this.selectInTileDataTabToolStripMenuItem.Name = "selectInTileDataTabToolStripMenuItem";
-            this.selectInTileDataTabToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.selectInTileDataTabToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.selectInTileDataTabToolStripMenuItem.Text = "Select in TileData tab";
             this.selectInTileDataTabToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectTiledata);
             // 
             // selectInRadarColorTabToolStripMenuItem
             // 
             this.selectInRadarColorTabToolStripMenuItem.Name = "selectInRadarColorTabToolStripMenuItem";
-            this.selectInRadarColorTabToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.selectInRadarColorTabToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.selectInRadarColorTabToolStripMenuItem.Text = "Select in RadarColor tab";
             this.selectInRadarColorTabToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarCol);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(198, 6);
             // 
             // extractToolStripMenuItem
             // 
@@ -231,34 +232,34 @@ namespace FiddlerControls
             this.bmpToolStripMenuItem,
             this.tiffToolStripMenuItem});
             this.extractToolStripMenuItem.Name = "extractToolStripMenuItem";
-            this.extractToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.extractToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.extractToolStripMenuItem.Text = "Export Image..";
             // 
             // bmpToolStripMenuItem
             // 
             this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
-            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.bmpToolStripMenuItem.Text = "As Bmp";
             this.bmpToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickBmp);
             // 
             // tiffToolStripMenuItem
             // 
             this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
-            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.tiffToolStripMenuItem.Text = "As Tiff";
             this.tiffToolStripMenuItem.Click += new System.EventHandler(this.extract_Image_ClickTiff);
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.replaceToolStripMenuItem.Text = "Replace...";
             this.replaceToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplace);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemove);
             // 
@@ -267,7 +268,7 @@ namespace FiddlerControls
             this.insertAtToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.InsertText});
             this.insertAtToolStripMenuItem.Name = "insertAtToolStripMenuItem";
-            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.insertAtToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.insertAtToolStripMenuItem.Text = "Insert At..";
             // 
             // InsertText
@@ -280,12 +281,12 @@ namespace FiddlerControls
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(193, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.onClickSave);
             // 
@@ -397,24 +398,32 @@ namespace FiddlerControls
             // 
             this.exportAllAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.asBmpToolStripMenuItem,
-            this.asTiffToolStripMenuItem});
+            this.asTiffToolStripMenuItem,
+            this.asJpgToolStripMenuItem});
             this.exportAllAsToolStripMenuItem.Name = "exportAllAsToolStripMenuItem";
-            this.exportAllAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.exportAllAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportAllAsToolStripMenuItem.Text = "Export all..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
             // 
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
+            // 
+            // asJpgToolStripMenuItem
+            // 
+            this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
+            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asJpgToolStripMenuItem.Text = "As Jpg";
+            this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllJpg);
             // 
             // ItemShowAlternative
             // 
@@ -482,6 +491,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem exportAllAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
 
     }
 }

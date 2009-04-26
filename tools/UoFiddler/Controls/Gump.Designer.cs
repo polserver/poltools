@@ -55,6 +55,11 @@ namespace FiddlerControls
             this.InsertText = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asBmpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asTiffToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.IDLabel = new System.Windows.Forms.ToolStripLabel();
@@ -63,18 +68,14 @@ namespace FiddlerControls
             this.Preload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.PreLoader = new System.ComponentModel.BackgroundWorker();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asBmpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.asTiffToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.asJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -202,6 +203,53 @@ namespace FiddlerControls
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip2.Size = new System.Drawing.Size(205, 25);
+            this.toolStrip2.TabIndex = 1;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportAllToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Text = "Misc";
+            // 
+            // exportAllToolStripMenuItem
+            // 
+            this.exportAllToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.asBmpToolStripMenuItem1,
+            this.asTiffToolStripMenuItem1,
+            this.asJpgToolStripMenuItem});
+            this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
+            this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAllToolStripMenuItem.Text = "Export All..";
+            // 
+            // asBmpToolStripMenuItem1
+            // 
+            this.asBmpToolStripMenuItem1.Name = "asBmpToolStripMenuItem1";
+            this.asBmpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.asBmpToolStripMenuItem1.Text = "As Bmp";
+            this.asBmpToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
+            // 
+            // asTiffToolStripMenuItem1
+            // 
+            this.asTiffToolStripMenuItem1.Name = "asTiffToolStripMenuItem1";
+            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.asTiffToolStripMenuItem1.Text = "As Tiff";
+            this.asTiffToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
+            // 
             // pictureBox
             // 
             this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -277,51 +325,12 @@ namespace FiddlerControls
             this.PreLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.PreLoaderCompleted);
             this.PreLoader.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.PreLoaderProgressChanged);
             // 
-            // toolStrip2
+            // asJpgToolStripMenuItem
             // 
-            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip2.Size = new System.Drawing.Size(205, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportAllToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
-            this.toolStripDropDownButton1.Text = "Misc";
-            // 
-            // exportAllToolStripMenuItem
-            // 
-            this.exportAllToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.asBmpToolStripMenuItem1,
-            this.asTiffToolStripMenuItem1});
-            this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
-            this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exportAllToolStripMenuItem.Text = "Export All..";
-            // 
-            // asBmpToolStripMenuItem1
-            // 
-            this.asBmpToolStripMenuItem1.Name = "asBmpToolStripMenuItem1";
-            this.asBmpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.asBmpToolStripMenuItem1.Text = "As Bmp";
-            this.asBmpToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllBmp);
-            // 
-            // asTiffToolStripMenuItem1
-            // 
-            this.asTiffToolStripMenuItem1.Name = "asTiffToolStripMenuItem1";
-            this.asTiffToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.asTiffToolStripMenuItem1.Text = "As Tiff";
-            this.asTiffToolStripMenuItem1.Click += new System.EventHandler(this.OnClick_SaveAllTiff);
+            this.asJpgToolStripMenuItem.Name = "asJpgToolStripMenuItem";
+            this.asJpgToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.asJpgToolStripMenuItem.Text = "As Jpg";
+            this.asJpgToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllJpg);
             // 
             // Gump
             // 
@@ -335,11 +344,11 @@ namespace FiddlerControls
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -373,5 +382,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem exportAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
     }
 }
