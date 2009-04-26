@@ -45,6 +45,9 @@ namespace FiddlerControls
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeViewItem = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectInItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectRadarColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxItem = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
             this.textBoxUnk3 = new System.Windows.Forms.TextBox();
@@ -81,6 +84,9 @@ namespace FiddlerControls
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
             this.treeViewLand = new System.Windows.Forms.TreeView();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectInLandtilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxLand = new System.Windows.Forms.PictureBox();
             this.label23 = new System.Windows.Forms.Label();
             this.textBoxNameLand = new System.Windows.Forms.TextBox();
@@ -93,12 +99,6 @@ namespace FiddlerControls
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectInItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.selectInLandtilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectRadarColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -107,6 +107,7 @@ namespace FiddlerControls
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxItem)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -121,6 +122,7 @@ namespace FiddlerControls
             this.splitContainer6.Panel1.SuspendLayout();
             this.splitContainer6.Panel2.SuspendLayout();
             this.splitContainer6.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLand)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
@@ -128,8 +130,6 @@ namespace FiddlerControls
             this.splitContainer8.Panel1.SuspendLayout();
             this.splitContainer8.Panel2.SuspendLayout();
             this.splitContainer8.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcontrol
@@ -221,6 +221,28 @@ namespace FiddlerControls
             this.treeViewItem.Size = new System.Drawing.Size(201, 186);
             this.treeViewItem.TabIndex = 0;
             this.treeViewItem.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewItem);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectInItemsToolStripMenuItem,
+            this.selectRadarColorToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(204, 48);
+            // 
+            // selectInItemsToolStripMenuItem
+            // 
+            this.selectInItemsToolStripMenuItem.Name = "selectInItemsToolStripMenuItem";
+            this.selectInItemsToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectInItemsToolStripMenuItem.Text = "Select In Items tab";
+            this.selectInItemsToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectItem);
+            // 
+            // selectRadarColorToolStripMenuItem
+            // 
+            this.selectRadarColorToolStripMenuItem.Name = "selectRadarColorToolStripMenuItem";
+            this.selectRadarColorToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectRadarColorToolStripMenuItem.Text = "Select In RadarColor tab";
+            this.selectRadarColorToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarItem);
             // 
             // pictureBoxItem
             // 
@@ -403,6 +425,7 @@ namespace FiddlerControls
             // textBoxName
             // 
             this.textBoxName.Location = new System.Drawing.Point(44, 3);
+            this.textBoxName.MaxLength = 20;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(135, 20);
             this.textBoxName.TabIndex = 0;
@@ -581,6 +604,28 @@ namespace FiddlerControls
             this.treeViewLand.TabIndex = 0;
             this.treeViewLand.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewLand);
             // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectInLandtilesToolStripMenuItem,
+            this.selToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(204, 48);
+            // 
+            // selectInLandtilesToolStripMenuItem
+            // 
+            this.selectInLandtilesToolStripMenuItem.Name = "selectInLandtilesToolStripMenuItem";
+            this.selectInLandtilesToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selectInLandtilesToolStripMenuItem.Text = "Select In Landtiles tab";
+            this.selectInLandtilesToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectInLandtiles);
+            // 
+            // selToolStripMenuItem
+            // 
+            this.selToolStripMenuItem.Name = "selToolStripMenuItem";
+            this.selToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.selToolStripMenuItem.Text = "Select In RadarColor tab";
+            this.selToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarLand);
+            // 
             // pictureBoxLand
             // 
             this.pictureBoxLand.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -602,6 +647,7 @@ namespace FiddlerControls
             // textBoxNameLand
             // 
             this.textBoxNameLand.Location = new System.Drawing.Point(44, 3);
+            this.textBoxNameLand.MaxLength = 20;
             this.textBoxNameLand.Name = "textBoxNameLand";
             this.textBoxNameLand.Size = new System.Drawing.Size(135, 20);
             this.textBoxNameLand.TabIndex = 0;
@@ -721,50 +767,6 @@ namespace FiddlerControls
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.OnClickSaveChangesLand);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectInItemsToolStripMenuItem,
-            this.selectRadarColorToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(199, 70);
-            // 
-            // selectInItemsToolStripMenuItem
-            // 
-            this.selectInItemsToolStripMenuItem.Name = "selectInItemsToolStripMenuItem";
-            this.selectInItemsToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.selectInItemsToolStripMenuItem.Text = "Select In Items tab";
-            this.selectInItemsToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectItem);
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectInLandtilesToolStripMenuItem,
-            this.selToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(204, 48);
-            // 
-            // selectInLandtilesToolStripMenuItem
-            // 
-            this.selectInLandtilesToolStripMenuItem.Name = "selectInLandtilesToolStripMenuItem";
-            this.selectInLandtilesToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.selectInLandtilesToolStripMenuItem.Text = "Select In Landtiles tab";
-            this.selectInLandtilesToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectInLandtiles);
-            // 
-            // selectRadarColorToolStripMenuItem
-            // 
-            this.selectRadarColorToolStripMenuItem.Name = "selectRadarColorToolStripMenuItem";
-            this.selectRadarColorToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.selectRadarColorToolStripMenuItem.Text = "Select In RadarColor tab";
-            this.selectRadarColorToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarItem);
-            // 
-            // selToolStripMenuItem
-            // 
-            this.selToolStripMenuItem.Name = "selToolStripMenuItem";
-            this.selToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.selToolStripMenuItem.Text = "Select In RadarColor tab";
-            this.selToolStripMenuItem.Click += new System.EventHandler(this.OnClickSelectRadarLand);
-            // 
             // TileDatas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -782,6 +784,7 @@ namespace FiddlerControls
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxItem)).EndInit();
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
@@ -799,6 +802,7 @@ namespace FiddlerControls
             this.splitContainer6.Panel1.ResumeLayout(false);
             this.splitContainer6.Panel2.ResumeLayout(false);
             this.splitContainer6.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLand)).EndInit();
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel1.PerformLayout();
@@ -808,8 +812,6 @@ namespace FiddlerControls
             this.splitContainer8.Panel2.ResumeLayout(false);
             this.splitContainer8.Panel2.PerformLayout();
             this.splitContainer8.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
