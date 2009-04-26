@@ -119,8 +119,10 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.9a
+-Added Jpg for all Export All in tabs.
 -Fixed crashes in Compare Plugin for Land and Item compare.
 -Changed Max length for Name field in TileData Editing to 20 length as Client will cut it off at this point anyway.
+-Fixed Odd Crashes on some Windows XP installs with Export in Texture Tabs
 
 Version 3.9
 -Fixed Sound Export (not played in WMP) + mul save

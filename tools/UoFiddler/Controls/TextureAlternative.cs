@@ -370,7 +370,10 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Texture {0}.tiff", selected));
-            Textures.GetTexture(selected).Save(FileName, ImageFormat.Tiff);
+            Bitmap bit = new Bitmap(Textures.GetTexture(selected));
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Tiff);
+            bit.Dispose();
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",
@@ -383,7 +386,10 @@ namespace FiddlerControls
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Texture {0}.bmp", selected));
-            Textures.GetTexture(selected).Save(FileName, ImageFormat.Bmp);
+            Bitmap bit = new Bitmap(Textures.GetTexture(selected));
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Bmp);
+            bit.Dispose();
             MessageBox.Show(
                 String.Format("Texture saved to {0}", FileName),
                 "Saved",
@@ -391,5 +397,22 @@ namespace FiddlerControls
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
+
+        private void onClickExportJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Texture {0}.jpg", selected));
+            Bitmap bit = new Bitmap(Textures.GetTexture(selected));
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Jpeg);
+            bit.Dispose();
+            MessageBox.Show(
+                String.Format("Texture saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
     }
 }
