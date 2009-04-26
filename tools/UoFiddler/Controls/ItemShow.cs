@@ -704,6 +704,31 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClick_SaveAllJpg(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < listView1.Items.Count; i++)
+                    {
+                        int index = (int)listView1.Items[i].Tag;
+                        if (index >= 0)
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Item 0x{0:X}.jpg", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Jpeg);
+                            bit.Dispose();
+                        }
+                    }
+                    MessageBox.Show(String.Format("All Item saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
         #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {

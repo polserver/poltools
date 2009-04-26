@@ -483,6 +483,30 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClick_SaveAllJpg(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory";
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    for (int i = 0; i < TileList.Count; i++)
+                    {
+                        int index = (int)TileList[i];
+                        if (Art.IsValidStatic(index))
+                        {
+                            string FileName = Path.Combine(dialog.SelectedPath, String.Format("Landtile {0}.jpg", index));
+                            Bitmap bit = new Bitmap(Ultima.Art.GetLand(index));
+                            if (bit != null)
+                                bit.Save(FileName, ImageFormat.Jpeg);
+                            bit.Dispose();
+                        }
+                    }
+                    MessageBox.Show(String.Format("All LandTiles saved to {0}", dialog.SelectedPath), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
         
     }
 }
