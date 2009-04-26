@@ -31,7 +31,7 @@ namespace ComparePlugin
 
         private void OnIndexChangedOrg(object sender, EventArgs e)
         {
-            if (listBoxOrg.SelectedIndex == -1)
+            if ((listBoxOrg.SelectedIndex == -1) || (listBoxOrg.Items.Count < 1))
                 return;
 
             int i = int.Parse(listBoxOrg.Items[listBoxOrg.SelectedIndex].ToString());
@@ -126,7 +126,7 @@ namespace ComparePlugin
 
         private void OnIndexChangedSec(object sender, EventArgs e)
         {
-            if (listBoxSec.SelectedIndex == -1)
+            if ((listBoxSec.SelectedIndex == -1) || (listBoxSec.Items.Count < 1))
                 return;
 
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());

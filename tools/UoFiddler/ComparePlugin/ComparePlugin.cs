@@ -24,7 +24,7 @@ namespace FiddlerPlugin
             + "Compares 2 Map files\r\n"
             +"(Adds 5 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.3.0";
+        string myVersion = "1.4.0";
         IPluginHost myHost = null;
 
         /// <summary>
