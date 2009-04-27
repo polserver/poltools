@@ -68,7 +68,7 @@ namespace FiddlerControls
 
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             LoadMapOverlays();
             Options.LoadedUltimaClass["Map"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
@@ -85,7 +85,7 @@ namespace FiddlerControls
             SetScrollBarValues();
             Refresh();
             pictureBox.Refresh();
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
 
             if (!Loaded)
             {
@@ -558,7 +558,7 @@ namespace FiddlerControls
 
         private void ExtractMapBmp(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string name = String.Format("{0}.bmp", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
@@ -575,14 +575,14 @@ namespace FiddlerControls
                 g.Save();
             }
             extract.Save(FileName, ImageFormat.Bmp);
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void ExtractMapTiff(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string name = String.Format("{0}.tiff", Options.MapNames[currmapint]);
             string FileName = Path.Combine(path, name);
@@ -599,7 +599,7 @@ namespace FiddlerControls
                 g.Save();
             }
             extract.Save(FileName, ImageFormat.Tiff);
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }

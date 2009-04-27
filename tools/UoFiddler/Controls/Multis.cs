@@ -41,7 +41,7 @@ namespace FiddlerControls
         }
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
@@ -68,7 +68,7 @@ namespace FiddlerControls
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()

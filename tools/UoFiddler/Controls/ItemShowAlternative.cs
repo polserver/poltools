@@ -155,7 +155,7 @@ namespace FiddlerControls
 
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["Animdata"] = true;
@@ -201,7 +201,7 @@ namespace FiddlerControls
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
         private void OnFilePathChangeEvent()
         {
@@ -586,9 +586,9 @@ namespace FiddlerControls
                         MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
-                this.Cursor = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor;
                 Art.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
-                this.Cursor = Cursors.Default;
+                Cursor.Current = Cursors.Default;
                 Options.ChangedUltimaClass["Art"] = false;
                 MessageBox.Show(
                     String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),

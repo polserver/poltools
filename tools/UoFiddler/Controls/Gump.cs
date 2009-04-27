@@ -43,7 +43,7 @@ namespace FiddlerControls
 
         protected override void OnLoad(EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Gumps"] = true;
             
             listBox.BeginUpdate();
@@ -60,7 +60,7 @@ namespace FiddlerControls
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()
@@ -164,9 +164,9 @@ namespace FiddlerControls
                         MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
-                this.Cursor = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor;
                 Gumps.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
-                this.Cursor = Cursors.Default;
+                Cursor.Current = Cursors.Default;
                 MessageBox.Show(
                     String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
                     "Save",

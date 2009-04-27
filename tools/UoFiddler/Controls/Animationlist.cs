@@ -90,13 +90,13 @@ namespace FiddlerControls
         }
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Animations"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
             TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
             if (!LoadXml())
             {
-                this.Cursor = Cursors.Default;
+                Cursor.Current = Cursors.Default;
                 return;
             }
 
@@ -111,7 +111,7 @@ namespace FiddlerControls
             Loaded = true;
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()

@@ -76,7 +76,7 @@ namespace UoFiddler
 
         private void Restart(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
 
             Ultima.Verdata.Initialize();
             if (FiddlerControls.Options.LoadedUltimaClass["TileData"])
@@ -117,7 +117,7 @@ namespace UoFiddler
 
             FiddlerControls.Options.FireFilePathChangeEvent();
 
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnClickAbout(object sender, EventArgs e)

@@ -166,8 +166,7 @@ namespace FiddlerControls
 
         private void OnClickLoad(object sender, EventArgs e)
         {
-            
-            this.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
             buttonGenerate.Visible = false;
             buttonLoad.Visible = false;
             pictureBox.Image = Ultima.MultiMap.GetMultiMap();
@@ -180,7 +179,7 @@ namespace FiddlerControls
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()
@@ -203,7 +202,7 @@ namespace FiddlerControls
                             MessageBox.Show("Invalid image height or width", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                             return;
                         }
-                        this.Cursor = Cursors.WaitCursor;
+                        Cursor.Current = Cursors.WaitCursor;
                         string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                         string FileName = Path.Combine(path, "MultiMap.rle");
                         using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -211,7 +210,7 @@ namespace FiddlerControls
                             BinaryWriter bin = new BinaryWriter(fs, Encoding.Unicode);
                             Ultima.MultiMap.SaveMultiMap(image, bin);
                         }
-                        this.Cursor = Cursors.Default;
+                        Cursor.Current = Cursors.Default;
                         MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Convert", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     }
                     else
