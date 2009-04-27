@@ -41,6 +41,12 @@ namespace Ultima
                 patched = false;
                 return null;
             }
+            else if (Stream.Length < e.lookup)
+            {
+                length = extra = 0;
+                patched = false;
+                return null;
+            }
 
             patched = false;
 
