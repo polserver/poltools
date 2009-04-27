@@ -81,7 +81,7 @@ namespace FiddlerControls
 
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             sortorder = SortOrder.Ascending;
             sortcolumn = 0;
             LangComboBox.SelectedIndex = 0;
@@ -111,7 +111,7 @@ namespace FiddlerControls
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
 
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()

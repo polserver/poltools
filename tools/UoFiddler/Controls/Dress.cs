@@ -28,6 +28,7 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
         }
 
         #region Draworder Arrays
@@ -110,6 +111,7 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
+            Loaded = false;
             layers = new object[25];
             female = false;
             elve = false;
@@ -143,7 +145,7 @@ namespace FiddlerControls
         }
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
@@ -173,10 +175,8 @@ namespace FiddlerControls
             toolTip1.SetToolTip(FacingBar, FacingBar.Value.ToString());
             BuildDressList();
             DrawPaperdoll();
-            if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()

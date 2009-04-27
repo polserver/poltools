@@ -79,6 +79,7 @@ namespace FiddlerControls
 
         private void onLoad(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Animdata"] = true;
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
@@ -117,6 +118,7 @@ namespace FiddlerControls
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()
@@ -383,9 +385,9 @@ namespace FiddlerControls
 
         private void onClickSave(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
             Animdata.Save(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
                 "Save",
                 MessageBoxButtons.OK,

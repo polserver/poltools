@@ -39,7 +39,7 @@ namespace FiddlerControls
         }
         private void OnLoad(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.AppStarting;
+            Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Sound"] = true;
             
             string name = "";
@@ -62,7 +62,7 @@ namespace FiddlerControls
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
 
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
         }
 
         private void OnFilePathChangeEvent()
@@ -174,10 +174,10 @@ namespace FiddlerControls
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+            Cursor.Current = Cursors.WaitCursor;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             Ultima.Sounds.Save(path);
-            this.Cursor = Cursors.Default;
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(
                     String.Format("Saved to {0}", path),
                     "Save",
