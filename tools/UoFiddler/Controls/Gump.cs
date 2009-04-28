@@ -295,6 +295,23 @@ namespace FiddlerControls
                 MessageBoxDefaultButton.Button1);
         }
 
+        private void extract_Image_ClickJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
+            string FileName = Path.Combine(path, String.Format("Gump {0}.jpg", i));
+            Bitmap bit = new Bitmap(Gumps.GetGump(i));
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Jpeg);
+            bit.Dispose();
+            MessageBox.Show(
+                String.Format("Gump saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
         private void OnClick_SaveAllBmp(object sender, EventArgs e)
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
