@@ -770,6 +770,45 @@ namespace FiddlerControls
                 MessageBoxDefaultButton.Button1);
         }
 
+        private void extract_Image_ClickJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}.jpg", what, m_CurrentSelect));
+
+            if (Animate)
+            {
+                using (Bitmap newbit = new Bitmap(m_Animation[0].Width, m_Animation[0].Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_Animation[0], new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Jpeg);
+                }
+            }
+            else
+            {
+                using (Bitmap newbit = new Bitmap(m_MainPicture.Width, m_MainPicture.Height))
+                {
+                    Graphics newgraph = Graphics.FromImage(newbit);
+                    newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                    newgraph.DrawImage(m_MainPicture, new System.Drawing.Point(0, 0));
+                    newgraph.Save();
+                    newbit.Save(FileName, ImageFormat.Tiff);
+                }
+            }
+            MessageBox.Show(
+                String.Format("{0} saved to {1}", what, FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
         private void OnClickExtractAnimBmp(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -828,6 +867,36 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClickExtractAnimJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+            if (Animate)
+            {
+                for (int i = 0; i < m_Animation.Length; ++i)
+                {
+                    using (Bitmap newbit = new Bitmap(m_Animation[i].Width, m_Animation[i].Height))
+                    {
+                        Graphics newgraph = Graphics.FromImage(newbit);
+                        newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                        newgraph.DrawImage(m_Animation[i], new System.Drawing.Point(0, 0));
+                        newgraph.Save();
+                        newbit.Save(String.Format("{0}-{1}.jpg", FileName, i), ImageFormat.Jpeg);
+                    }
+                }
+                MessageBox.Show(
+                    String.Format("{0} saved to '{1}-X.jpg'", what, FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
         private void OnClickExportFrameBmp(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -869,6 +938,28 @@ namespace FiddlerControls
                 newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
                 newgraph.Save();
                 newbit.Save(String.Format("{0}-{1}.tiff", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Tiff);
+            }
+        }
+
+        private void OnClickExportFrameJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string what = "Mob";
+            if (DisplayType == 1)
+                what = "Equipment";
+            if (listView1.SelectedItems.Count < 1)
+                return;
+
+            string FileName = Path.Combine(path, String.Format("{0} {1}", what, m_CurrentSelect));
+
+            Bitmap bit = m_Animation[(int)listView1.SelectedItems[0].Tag];
+            using (Bitmap newbit = new Bitmap(bit.Width, bit.Height))
+            {
+                Graphics newgraph = Graphics.FromImage(newbit);
+                newgraph.FillRectangle(Brushes.White, 0, 0, newbit.Width, newbit.Height);
+                newgraph.DrawImage(bit, new System.Drawing.Point(0, 0));
+                newgraph.Save();
+                newbit.Save(String.Format("{0}-{1}.jpg", FileName, (int)listView1.SelectedItems[0].Tag), ImageFormat.Jpeg);
             }
         }
     }
