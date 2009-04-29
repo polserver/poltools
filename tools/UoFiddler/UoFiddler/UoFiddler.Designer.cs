@@ -613,7 +613,6 @@ namespace UoFiddler
             this.controlTileData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlTileData.Location = new System.Drawing.Point(0, 0);
             this.controlTileData.Name = "controlTileData";
-            this.controlTileData.ShowNervingMsg = true;
             this.controlTileData.Size = new System.Drawing.Size(619, 324);
             this.controlTileData.TabIndex = 0;
             // 

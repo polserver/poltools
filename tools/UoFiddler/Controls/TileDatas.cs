@@ -45,14 +45,8 @@ namespace FiddlerControls
         }
 
         private static TileDatas refMarker = null;
-        private bool m_ShowNervingMsg = true;
+        private bool ChangingIndex = false;
 
-        [Browsable(false)]
-        public bool ShowNervingMsg
-        {
-            get { return refMarker.m_ShowNervingMsg; }
-            set { refMarker.m_ShowNervingMsg = value; }
-        }
 
         public static void Select(int graphic, bool land)
         {
@@ -204,6 +198,7 @@ namespace FiddlerControls
                 pictureBoxItem.Image = new Bitmap(pictureBoxItem.Width, pictureBoxItem.Height);
             }
             ItemData data = TileData.ItemTable[index];
+            ChangingIndex = true;
             textBoxName.Text = data.Name;
             textBoxAnim.Text = data.Animation.ToString();
             textBoxWeight.Text = data.Weight.ToString();
@@ -224,6 +219,7 @@ namespace FiddlerControls
                 else
                     checkedListBox1.SetItemChecked(i - 1, false);
             }
+            ChangingIndex = false;
         }
 
         private void AfterSelectTreeViewLand(object sender, TreeViewEventArgs e)
@@ -245,6 +241,7 @@ namespace FiddlerControls
             LandData data = TileData.LandTable[index];
             textBoxNameLand.Text = data.Name;
             textBoxTexID.Text = data.TextureID.ToString();
+            ChangingIndex = true;
             if ((data.Flags & TileFlag.Damaging) != 0)
                 checkedListBox2.SetItemChecked(0, true);
             else
@@ -265,55 +262,7 @@ namespace FiddlerControls
                 checkedListBox2.SetItemChecked(4, true);
             else
                 checkedListBox2.SetItemChecked(4, false);
-        }
-
-        private void OnClickSaveChangesItem(object sender, EventArgs e)
-        {
-            if (treeViewItem.SelectedNode == null)
-                return;
-            int index = (int)treeViewItem.SelectedNode.Tag;
-            ItemData item = TileData.ItemTable[index];
-            string name = textBoxName.Text;
-            if (name.Length > 20)
-                name = name.Substring(0, 20);
-            item.Name = name;
-            treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
-            byte byteres;
-            short shortres;
-            if (short.TryParse(textBoxAnim.Text, out shortres))
-                item.Animation = shortres;
-            if (byte.TryParse(textBoxWeight.Text, out byteres))
-                item.Weight = byteres;
-            if (byte.TryParse(textBoxQuality.Text, out byteres))
-                item.Quality = byteres;
-            if (byte.TryParse(textBoxQuantity.Text, out byteres))
-                item.Quantity = byteres;
-            if (byte.TryParse(textBoxHue.Text, out byteres))
-                item.Hue = byteres;
-            if (byte.TryParse(textBoxStackOff.Text, out byteres))
-                item.StackingOffset = byteres;
-            if (byte.TryParse(textBoxValue.Text, out byteres))
-                item.Value = byteres;
-            if (byte.TryParse(textBoxHeigth.Text, out byteres))
-                item.Height = byteres;
-            if (short.TryParse(textBoxUnk1.Text, out shortres))
-                item.Unk1 = shortres;
-            if (byte.TryParse(textBoxUnk2.Text, out byteres))
-                item.Unk2 = byteres;
-            if (byte.TryParse(textBoxUnk3.Text, out byteres))
-                item.Unk3 = byteres;
-            item.Flags = TileFlag.None;
-            Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
-            {
-                if (checkedListBox1.GetItemChecked(i))
-                    item.Flags |= (TileFlag)EnumValues.GetValue(i + 1);
-            }
-            TileData.ItemTable[index] = item;
-            treeViewItem.SelectedNode.ForeColor = Color.Red;
-            Options.ChangedUltimaClass["TileData"] = true;
-            if (m_ShowNervingMsg)
-                new TileDataNerving(refMarker, index).Show();
+            ChangingIndex = false;
         }
 
         private void OnClickSaveTiledata(object sender, EventArgs e)
@@ -328,71 +277,515 @@ namespace FiddlerControls
             Options.ChangedUltimaClass["TileData"] = false;
         }
 
-        private void OnClickExportItems(object sender, EventArgs e)
+        private void OnClickSaveChanges(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "ItemData.csv");
-            Ultima.TileData.ExportItemDataToCSV(FileName);
-            MessageBox.Show(String.Format("ItemData saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        }
-
-        private void OnClickSaveChangesLand(object sender, EventArgs e)
-        {
-            if (treeViewLand.SelectedNode == null)
-                return;
-            int index = (int)treeViewLand.SelectedNode.Tag;
-            LandData land = TileData.LandTable[index];
-            string name = textBoxNameLand.Text;
-            if (name.Length > 20)
-                name = name.Substring(0, 20);
-            land.Name = name;
-            treeViewLand.SelectedNode.Text = String.Format("0x{0:X4} {1}", index, name);
-            short shortres;
-            if (short.TryParse(textBoxTexID.Text, out shortres))
-                land.TextureID = shortres;
-            land.Flags = TileFlag.None;
-            if (checkedListBox2.GetItemChecked(0))
-                land.Flags |= TileFlag.Damaging;
-            if (checkedListBox2.GetItemChecked(1))
-                land.Flags |= TileFlag.Wet;
-            if (checkedListBox2.GetItemChecked(2))
-                land.Flags |= TileFlag.Impassable;
-            if (checkedListBox2.GetItemChecked(3))
-                land.Flags |= TileFlag.Wall;
-            if (checkedListBox2.GetItemChecked(4))
-                land.Flags |= TileFlag.Unknown3;
-
-            TileData.LandTable[index] = land;
-            Options.ChangedUltimaClass["TileData"] = true;
-        }
-
-        private void OnClickExportLand(object sender, EventArgs e)
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, "LandData.csv");
-            Ultima.TileData.ExportLandDataToCSV(FileName);
-            MessageBox.Show(String.Format("LandData saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        }
-
-        private TileDatasSearch showform1 = null;
-        private void OnClickSearch(object sender, EventArgs e)
-        {
-            if ((showform1 == null) || (showform1.IsDisposed))
+            if (tabcontrol.SelectedIndex == 0) //items
             {
-                showform1 = new TileDatasSearch(false);
-                showform1.TopMost = true;
-                showform1.Show();
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                int index = (int)treeViewItem.SelectedNode.Tag;
+                ItemData item = TileData.ItemTable[index];
+                string name = textBoxName.Text;
+                if (name.Length > 20)
+                    name = name.Substring(0, 20);
+                item.Name = name;
+                treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
+                byte byteres;
+                short shortres;
+                if (short.TryParse(textBoxAnim.Text, out shortres))
+                    item.Animation = shortres;
+                if (byte.TryParse(textBoxWeight.Text, out byteres))
+                    item.Weight = byteres;
+                if (byte.TryParse(textBoxQuality.Text, out byteres))
+                    item.Quality = byteres;
+                if (byte.TryParse(textBoxQuantity.Text, out byteres))
+                    item.Quantity = byteres;
+                if (byte.TryParse(textBoxHue.Text, out byteres))
+                    item.Hue = byteres;
+                if (byte.TryParse(textBoxStackOff.Text, out byteres))
+                    item.StackingOffset = byteres;
+                if (byte.TryParse(textBoxValue.Text, out byteres))
+                    item.Value = byteres;
+                if (byte.TryParse(textBoxHeigth.Text, out byteres))
+                    item.Height = byteres;
+                if (short.TryParse(textBoxUnk1.Text, out shortres))
+                    item.Unk1 = shortres;
+                if (byte.TryParse(textBoxUnk2.Text, out byteres))
+                    item.Unk2 = byteres;
+                if (byte.TryParse(textBoxUnk3.Text, out byteres))
+                    item.Unk3 = byteres;
+                item.Flags = TileFlag.None;
+                Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    if (checkedListBox1.GetItemChecked(i))
+                        item.Flags |= (TileFlag)EnumValues.GetValue(i + 1);
+                }
+                TileData.ItemTable[index] = item;
+                treeViewItem.SelectedNode.ForeColor = Color.Red;
+                Options.ChangedUltimaClass["TileData"] = true;
+                if (memorySaveWarningToolStripMenuItem.Checked)
+                    MessageBox.Show(
+                        String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index), "Saved", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information, 
+                        MessageBoxDefaultButton.Button1);
+            }
+            else //land
+            {
+                if (treeViewLand.SelectedNode == null)
+                    return;
+                int index = (int)treeViewLand.SelectedNode.Tag;
+                LandData land = TileData.LandTable[index];
+                string name = textBoxNameLand.Text;
+                if (name.Length > 20)
+                    name = name.Substring(0, 20);
+                land.Name = name;
+                treeViewLand.SelectedNode.Text = String.Format("0x{0:X4} {1}", index, name);
+                short shortres;
+                if (short.TryParse(textBoxTexID.Text, out shortres))
+                    land.TextureID = shortres;
+                land.Flags = TileFlag.None;
+                if (checkedListBox2.GetItemChecked(0))
+                    land.Flags |= TileFlag.Damaging;
+                if (checkedListBox2.GetItemChecked(1))
+                    land.Flags |= TileFlag.Wet;
+                if (checkedListBox2.GetItemChecked(2))
+                    land.Flags |= TileFlag.Impassable;
+                if (checkedListBox2.GetItemChecked(3))
+                    land.Flags |= TileFlag.Wall;
+                if (checkedListBox2.GetItemChecked(4))
+                    land.Flags |= TileFlag.Unknown3;
+
+                TileData.LandTable[index] = land;
+                Options.ChangedUltimaClass["TileData"] = true;
+                treeViewLand.SelectedNode.ForeColor = Color.Red;
+                if (memorySaveWarningToolStripMenuItem.Checked)
+                    MessageBox.Show(
+                        String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index), "Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
             }
         }
 
-        private TileDatasSearch showform2 = null;
-        private void OnClickSearch2(object sender, EventArgs e)
+        #region SaveDirectEvents
+        private void OnFlagItemCheckItems(object sender, ItemCheckEventArgs e)
         {
-            if ((showform2 == null) || (showform2.IsDisposed))
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
-                showform2 = new TileDatasSearch(true);
-                showform2.TopMost = true;
-                showform2.Show();
+                if (ChangingIndex)
+                    return;
+                if (e.CurrentValue != e.NewValue)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
+                    TileFlag changeflag = (TileFlag)EnumValues.GetValue(e.Index + 1);
+                    if ((item.Flags & changeflag) != 0) //better doublecheck
+                    {
+                        if (e.NewValue == CheckState.Unchecked)
+                        {
+                            item.Flags ^= changeflag;
+                            TileData.ItemTable[index] = item;
+                            treeViewItem.SelectedNode.ForeColor = Color.Red;
+                            Options.ChangedUltimaClass["TileData"] = true;
+                        }
+                    }
+                    else if ((item.Flags & changeflag) == 0)
+                    {
+                        if (e.NewValue == CheckState.Checked)
+                        {
+                            item.Flags |= changeflag;
+                            TileData.ItemTable[index] = item;
+                            treeViewItem.SelectedNode.ForeColor = Color.Red;
+                            Options.ChangedUltimaClass["TileData"] = true;
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        private void OnKeyDownItemName(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    string name = textBoxName.Text;
+                    if (name.Length > 20)
+                        name = name.Substring(0, 20);
+                    item.Name = name;
+                    treeViewItem.SelectedNode.Text = String.Format("0x{0:X4} ({0}) {1}", index, name);
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemAnim(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    short shortres;
+                    if (short.TryParse(textBoxAnim.Text, out shortres))
+                        item.Animation = shortres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemWeight(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxWeight.Text, out byteres))
+                        item.Weight = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemQuali(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxQuality.Text, out byteres))
+                        item.Quality = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemQuanti(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxQuantity.Text, out byteres))
+                        item.Quantity = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemHue(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxHue.Text, out byteres))
+                        item.Hue = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemStackOff(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxStackOff.Text, out byteres))
+                        item.StackingOffset = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemValue(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxValue.Text, out byteres))
+                        item.Value = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemHeigth(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxHeigth.Text, out byteres))
+                        item.Height = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemUnk1(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    short shortres;
+                    if (short.TryParse(textBoxUnk1.Text, out shortres))
+                        item.Unk1 = shortres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemUnk2(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxUnk2.Text, out byteres))
+                        item.Unk2 = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownItemUnk3(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewItem.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewItem.SelectedNode.Tag;
+                    ItemData item = TileData.ItemTable[index];
+                    byte byteres;
+                    if (byte.TryParse(textBoxUnk3.Text, out byteres))
+                        item.Unk3 = byteres;
+                    TileData.ItemTable[index] = item;
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnFlagItemCheckLandtiles(object sender, ItemCheckEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (ChangingIndex)
+                    return;
+                if (e.CurrentValue != e.NewValue)
+                {
+                    if (treeViewLand.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewLand.SelectedNode.Tag;
+                    LandData land = TileData.LandTable[index];
+                    TileFlag changeflag;
+                    switch (e.Index)
+                    {
+                        case 0: changeflag = TileFlag.Damaging;
+                            break;
+                        case 1: changeflag = TileFlag.Wet;
+                            break;
+                        case 2: changeflag = TileFlag.Impassable;
+                            break;
+                        case 3: changeflag = TileFlag.Wall;
+                            break;
+                        case 4: changeflag = TileFlag.Unknown3;
+                            break;
+                        default: changeflag = TileFlag.None;
+                            break;
+                    }
+
+                    if ((land.Flags & changeflag) != 0)
+                    {
+                        if (e.NewValue == CheckState.Unchecked)
+                        {
+                            land.Flags ^= changeflag;
+                            TileData.LandTable[index] = land;
+                            treeViewLand.SelectedNode.ForeColor = Color.Red;
+                            Options.ChangedUltimaClass["TileData"] = true;
+                        }
+                    }
+                    else if ((land.Flags & changeflag) == 0)
+                    {
+                        if (e.NewValue == CheckState.Checked)
+                        {
+                            land.Flags |= changeflag;
+                            TileData.LandTable[index] = land;
+                            treeViewLand.SelectedNode.ForeColor = Color.Red;
+                            Options.ChangedUltimaClass["TileData"] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnKeyDownLandName(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewLand.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewLand.SelectedNode.Tag;
+                    LandData land = TileData.LandTable[index];
+                    string name = textBoxNameLand.Text;
+                    if (name.Length > 20)
+                        name = name.Substring(0, 20);
+                    land.Name = name;
+                    treeViewLand.SelectedNode.Text = String.Format("0x{0:X4} {1}", index, name);
+                    TileData.LandTable[index] = land;
+                    treeViewLand.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+
+        private void OnKeyDownLandTexId(object sender, KeyEventArgs e)
+        {
+            if (saveDirectlyOnChangesToolStripMenuItem.Checked)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (treeViewLand.SelectedNode == null)
+                        return;
+                    int index = (int)treeViewLand.SelectedNode.Tag;
+                    LandData land = TileData.LandTable[index];
+                    short shortres;
+                    if (short.TryParse(textBoxTexID.Text, out shortres))
+                        land.TextureID = shortres;
+                    TileData.LandTable[index] = land;
+                    treeViewLand.SelectedNode.ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["TileData"] = true;
+                }
+            }
+        }
+        #endregion
+
+
+        private void OnClickExport(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (tabcontrol.SelectedIndex == 0) //items
+            {
+                string FileName = Path.Combine(path, "ItemData.csv");
+                Ultima.TileData.ExportItemDataToCSV(FileName);
+                MessageBox.Show(String.Format("ItemData saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                string FileName = Path.Combine(path, "LandData.csv");
+                Ultima.TileData.ExportLandDataToCSV(FileName);
+                MessageBox.Show(String.Format("LandData saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private TileDatasSearch showform1 = null;
+        private TileDatasSearch showform2 = null;
+        private void OnClickSearch(object sender, EventArgs e)
+        {
+            if (tabcontrol.SelectedIndex == 0) //items
+            {
+                if ((showform1 == null) || (showform1.IsDisposed))
+                {
+                    showform1 = new TileDatasSearch(false);
+                    showform1.TopMost = true;
+                    showform1.Show();
+                }
+            }
+            else //landtiles
+            {
+                if ((showform2 == null) || (showform2.IsDisposed))
+                {
+                    showform2 = new TileDatasSearch(true);
+                    showform2.TopMost = true;
+                    showform2.Show();
+                }
             }
         }
 

@@ -119,6 +119,7 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.9a
+-Redesigned Tiledata tab option to change directly (Textfields on Enter press)
 -True Black and true White are now considered as transparent for bmp's
 -Added Jpg for all Export All in tabs.
 -Added more Jpg export for single export of images.

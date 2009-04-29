@@ -40,6 +40,7 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TileDatas));
             this.tabcontrol = new System.Windows.Forms.TabControl();
             this.tabPageItems = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -74,12 +75,7 @@ namespace FiddlerControls
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.textBoxAnim = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabPageLand = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
@@ -93,12 +89,18 @@ namespace FiddlerControls
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.textBoxTexID = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.memorySaveWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveDirectlyOnChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.splitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -112,9 +114,6 @@ namespace FiddlerControls
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             this.tabPageLand.SuspendLayout();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
@@ -127,9 +126,7 @@ namespace FiddlerControls
             this.splitContainer7.Panel1.SuspendLayout();
             this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
-            this.splitContainer8.Panel1.SuspendLayout();
-            this.splitContainer8.Panel2.SuspendLayout();
-            this.splitContainer8.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabcontrol
@@ -137,10 +134,10 @@ namespace FiddlerControls
             this.tabcontrol.Controls.Add(this.tabPageItems);
             this.tabcontrol.Controls.Add(this.tabPageLand);
             this.tabcontrol.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabcontrol.Location = new System.Drawing.Point(0, 0);
+            this.tabcontrol.Location = new System.Drawing.Point(0, 33);
             this.tabcontrol.Name = "tabcontrol";
             this.tabcontrol.SelectedIndex = 0;
-            this.tabcontrol.Size = new System.Drawing.Size(619, 324);
+            this.tabcontrol.Size = new System.Drawing.Size(619, 291);
             this.tabcontrol.TabIndex = 0;
             // 
             // tabPageItems
@@ -149,7 +146,7 @@ namespace FiddlerControls
             this.tabPageItems.Location = new System.Drawing.Point(4, 22);
             this.tabPageItems.Name = "tabPageItems";
             this.tabPageItems.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageItems.Size = new System.Drawing.Size(611, 298);
+            this.tabPageItems.Size = new System.Drawing.Size(611, 265);
             this.tabPageItems.TabIndex = 0;
             this.tabPageItems.Text = "Items";
             this.tabPageItems.UseVisualStyleBackColor = true;
@@ -189,7 +186,7 @@ namespace FiddlerControls
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxName);
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(605, 292);
+            this.splitContainer1.Size = new System.Drawing.Size(605, 259);
             this.splitContainer1.SplitterDistance = 201;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -207,8 +204,8 @@ namespace FiddlerControls
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pictureBoxItem);
-            this.splitContainer2.Size = new System.Drawing.Size(201, 292);
-            this.splitContainer2.SplitterDistance = 186;
+            this.splitContainer2.Size = new System.Drawing.Size(201, 259);
+            this.splitContainer2.SplitterDistance = 164;
             this.splitContainer2.TabIndex = 0;
             // 
             // treeViewItem
@@ -218,7 +215,7 @@ namespace FiddlerControls
             this.treeViewItem.HideSelection = false;
             this.treeViewItem.Location = new System.Drawing.Point(0, 0);
             this.treeViewItem.Name = "treeViewItem";
-            this.treeViewItem.Size = new System.Drawing.Size(201, 186);
+            this.treeViewItem.Size = new System.Drawing.Size(201, 164);
             this.treeViewItem.TabIndex = 0;
             this.treeViewItem.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewItem);
             // 
@@ -249,7 +246,7 @@ namespace FiddlerControls
             this.pictureBoxItem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxItem.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxItem.Name = "pictureBoxItem";
-            this.pictureBoxItem.Size = new System.Drawing.Size(201, 102);
+            this.pictureBoxItem.Size = new System.Drawing.Size(201, 91);
             this.pictureBoxItem.TabIndex = 0;
             this.pictureBoxItem.TabStop = false;
             // 
@@ -268,6 +265,7 @@ namespace FiddlerControls
             this.textBoxUnk3.Name = "textBoxUnk3";
             this.textBoxUnk3.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk3.TabIndex = 22;
+            this.textBoxUnk3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk3);
             // 
             // label9
             // 
@@ -284,6 +282,7 @@ namespace FiddlerControls
             this.textBoxUnk2.Name = "textBoxUnk2";
             this.textBoxUnk2.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk2.TabIndex = 20;
+            this.textBoxUnk2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk2);
             // 
             // label10
             // 
@@ -300,6 +299,7 @@ namespace FiddlerControls
             this.textBoxUnk1.Name = "textBoxUnk1";
             this.textBoxUnk1.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk1.TabIndex = 18;
+            this.textBoxUnk1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk1);
             // 
             // label11
             // 
@@ -316,6 +316,7 @@ namespace FiddlerControls
             this.textBoxHeigth.Name = "textBoxHeigth";
             this.textBoxHeigth.Size = new System.Drawing.Size(51, 20);
             this.textBoxHeigth.TabIndex = 16;
+            this.textBoxHeigth.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemHeigth);
             // 
             // label6
             // 
@@ -332,6 +333,7 @@ namespace FiddlerControls
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.Size = new System.Drawing.Size(51, 20);
             this.textBoxValue.TabIndex = 14;
+            this.textBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemValue);
             // 
             // label7
             // 
@@ -348,6 +350,7 @@ namespace FiddlerControls
             this.textBoxStackOff.Name = "textBoxStackOff";
             this.textBoxStackOff.Size = new System.Drawing.Size(51, 20);
             this.textBoxStackOff.TabIndex = 12;
+            this.textBoxStackOff.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemStackOff);
             // 
             // label8
             // 
@@ -364,6 +367,7 @@ namespace FiddlerControls
             this.textBoxHue.Name = "textBoxHue";
             this.textBoxHue.Size = new System.Drawing.Size(51, 20);
             this.textBoxHue.TabIndex = 10;
+            this.textBoxHue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemHue);
             // 
             // label5
             // 
@@ -380,6 +384,7 @@ namespace FiddlerControls
             this.textBoxQuantity.Name = "textBoxQuantity";
             this.textBoxQuantity.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuantity.TabIndex = 8;
+            this.textBoxQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemQuanti);
             // 
             // label4
             // 
@@ -396,6 +401,7 @@ namespace FiddlerControls
             this.textBoxQuality.Name = "textBoxQuality";
             this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuality.TabIndex = 6;
+            this.textBoxQuality.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemQuali);
             // 
             // label3
             // 
@@ -412,6 +418,7 @@ namespace FiddlerControls
             this.textBoxWeight.Name = "textBoxWeight";
             this.textBoxWeight.Size = new System.Drawing.Size(51, 20);
             this.textBoxWeight.TabIndex = 4;
+            this.textBoxWeight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemWeight);
             // 
             // label1
             // 
@@ -429,6 +436,7 @@ namespace FiddlerControls
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(135, 20);
             this.textBoxName.TabIndex = 0;
+            this.textBoxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemName);
             // 
             // splitContainer3
             // 
@@ -446,8 +454,8 @@ namespace FiddlerControls
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(400, 292);
+            this.splitContainer3.Panel2.Controls.Add(this.checkedListBox1);
+            this.splitContainer3.Size = new System.Drawing.Size(400, 259);
             this.splitContainer3.SplitterDistance = 133;
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 25;
@@ -458,6 +466,7 @@ namespace FiddlerControls
             this.textBoxAnim.Name = "textBoxAnim";
             this.textBoxAnim.Size = new System.Drawing.Size(100, 20);
             this.textBoxAnim.TabIndex = 2;
+            this.textBoxAnim.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemAnim);
             // 
             // label2
             // 
@@ -468,30 +477,6 @@ namespace FiddlerControls
             this.label2.TabIndex = 3;
             this.label2.Text = "Anim";
             // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer4.IsSplitterFixed = true;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.checkedListBox1);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.button7);
-            this.splitContainer4.Panel2.Controls.Add(this.button3);
-            this.splitContainer4.Panel2.Controls.Add(this.button2);
-            this.splitContainer4.Panel2.Controls.Add(this.button1);
-            this.splitContainer4.Size = new System.Drawing.Size(400, 157);
-            this.splitContainer4.SplitterDistance = 130;
-            this.splitContainer4.SplitterWidth = 2;
-            this.splitContainer4.TabIndex = 1;
-            // 
             // checkedListBox1
             // 
             this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -501,49 +486,7 @@ namespace FiddlerControls
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(400, 124);
             this.checkedListBox1.TabIndex = 0;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(277, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 3;
-            this.button7.Text = "Search";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.OnClickSearch);
-            // 
-            // button3
-            // 
-            this.button3.AutoSize = true;
-            this.button3.Location = new System.Drawing.Point(188, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(83, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Save Tiledata";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.OnClickSaveTiledata);
-            // 
-            // button2
-            // 
-            this.button2.AutoSize = true;
-            this.button2.Location = new System.Drawing.Point(95, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(87, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Export To CSV";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.OnClickExportItems);
-            // 
-            // button1
-            // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(2, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(87, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Save Changes";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickSaveChangesItem);
+            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnFlagItemCheckItems);
             // 
             // tabPageLand
             // 
@@ -551,7 +494,7 @@ namespace FiddlerControls
             this.tabPageLand.Location = new System.Drawing.Point(4, 22);
             this.tabPageLand.Name = "tabPageLand";
             this.tabPageLand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLand.Size = new System.Drawing.Size(611, 298);
+            this.tabPageLand.Size = new System.Drawing.Size(611, 270);
             this.tabPageLand.TabIndex = 1;
             this.tabPageLand.Text = "LandTiles";
             this.tabPageLand.UseVisualStyleBackColor = true;
@@ -571,7 +514,7 @@ namespace FiddlerControls
             this.splitContainer5.Panel2.Controls.Add(this.label23);
             this.splitContainer5.Panel2.Controls.Add(this.textBoxNameLand);
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(605, 292);
+            this.splitContainer5.Size = new System.Drawing.Size(605, 264);
             this.splitContainer5.SplitterDistance = 201;
             this.splitContainer5.TabIndex = 1;
             // 
@@ -589,8 +532,8 @@ namespace FiddlerControls
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.pictureBoxLand);
-            this.splitContainer6.Size = new System.Drawing.Size(201, 292);
-            this.splitContainer6.SplitterDistance = 186;
+            this.splitContainer6.Size = new System.Drawing.Size(201, 264);
+            this.splitContainer6.SplitterDistance = 167;
             this.splitContainer6.TabIndex = 0;
             // 
             // treeViewLand
@@ -600,7 +543,7 @@ namespace FiddlerControls
             this.treeViewLand.HideSelection = false;
             this.treeViewLand.Location = new System.Drawing.Point(0, 0);
             this.treeViewLand.Name = "treeViewLand";
-            this.treeViewLand.Size = new System.Drawing.Size(201, 186);
+            this.treeViewLand.Size = new System.Drawing.Size(201, 167);
             this.treeViewLand.TabIndex = 0;
             this.treeViewLand.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewLand);
             // 
@@ -631,7 +574,7 @@ namespace FiddlerControls
             this.pictureBoxLand.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxLand.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxLand.Name = "pictureBoxLand";
-            this.pictureBoxLand.Size = new System.Drawing.Size(201, 102);
+            this.pictureBoxLand.Size = new System.Drawing.Size(201, 93);
             this.pictureBoxLand.TabIndex = 0;
             this.pictureBoxLand.TabStop = false;
             // 
@@ -651,6 +594,7 @@ namespace FiddlerControls
             this.textBoxNameLand.Name = "textBoxNameLand";
             this.textBoxNameLand.Size = new System.Drawing.Size(135, 20);
             this.textBoxNameLand.TabIndex = 0;
+            this.textBoxNameLand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownLandName);
             // 
             // splitContainer7
             // 
@@ -668,8 +612,8 @@ namespace FiddlerControls
             // 
             // splitContainer7.Panel2
             // 
-            this.splitContainer7.Panel2.Controls.Add(this.splitContainer8);
-            this.splitContainer7.Size = new System.Drawing.Size(400, 292);
+            this.splitContainer7.Panel2.Controls.Add(this.checkedListBox2);
+            this.splitContainer7.Size = new System.Drawing.Size(400, 264);
             this.splitContainer7.SplitterDistance = 27;
             this.splitContainer7.SplitterWidth = 2;
             this.splitContainer7.TabIndex = 25;
@@ -680,6 +624,7 @@ namespace FiddlerControls
             this.textBoxTexID.Name = "textBoxTexID";
             this.textBoxTexID.Size = new System.Drawing.Size(100, 20);
             this.textBoxTexID.TabIndex = 2;
+            this.textBoxTexID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownLandTexId);
             // 
             // label24
             // 
@@ -690,30 +635,6 @@ namespace FiddlerControls
             this.label24.TabIndex = 3;
             this.label24.Text = "TexID";
             // 
-            // splitContainer8
-            // 
-            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer8.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer8.IsSplitterFixed = true;
-            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer8.Name = "splitContainer8";
-            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer8.Panel1
-            // 
-            this.splitContainer8.Panel1.Controls.Add(this.checkedListBox2);
-            // 
-            // splitContainer8.Panel2
-            // 
-            this.splitContainer8.Panel2.Controls.Add(this.button8);
-            this.splitContainer8.Panel2.Controls.Add(this.button4);
-            this.splitContainer8.Panel2.Controls.Add(this.button5);
-            this.splitContainer8.Panel2.Controls.Add(this.button6);
-            this.splitContainer8.Size = new System.Drawing.Size(400, 263);
-            this.splitContainer8.SplitterDistance = 236;
-            this.splitContainer8.SplitterWidth = 2;
-            this.splitContainer8.TabIndex = 1;
-            // 
             // checkedListBox2
             // 
             this.checkedListBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -723,55 +644,126 @@ namespace FiddlerControls
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(400, 229);
             this.checkedListBox2.TabIndex = 0;
+            this.checkedListBox2.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnFlagItemCheckLandtiles);
             // 
-            // button8
+            // toolStrip1
             // 
-            this.button8.Location = new System.Drawing.Point(277, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 3;
-            this.button8.Text = "Search";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.OnClickSearch2);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.toolStripButton2,
+            this.toolStripSeparator1,
+            this.toolStripButton1,
+            this.toolStripSeparator2,
+            this.toolStripButton4,
+            this.toolStripButton3});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(619, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
             // 
-            // button4
+            // toolStripButton1
             // 
-            this.button4.AutoSize = true;
-            this.button4.Location = new System.Drawing.Point(188, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(83, 23);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Save Tiledata";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.OnClickSaveTiledata);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(80, 22);
+            this.toolStripButton1.Text = "Export To CSV";
+            this.toolStripButton1.Click += new System.EventHandler(this.OnClickExport);
             // 
-            // button5
+            // toolStripButton2
             // 
-            this.button5.AutoSize = true;
-            this.button5.Location = new System.Drawing.Point(95, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(87, 23);
-            this.button5.TabIndex = 1;
-            this.button5.Text = "Export To CSV";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.OnClickExportLand);
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(44, 22);
+            this.toolStripButton2.Text = "Search";
+            this.toolStripButton2.Click += new System.EventHandler(this.OnClickSearch);
             // 
-            // button6
+            // toolStripButton3
             // 
-            this.button6.AutoSize = true;
-            this.button6.Location = new System.Drawing.Point(2, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(87, 23);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "Save Changes";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.OnClickSaveChangesLand);
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButton3.Text = "Save Tiledata";
+            this.toolStripButton3.Click += new System.EventHandler(this.OnClickSaveTiledata);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.memorySaveWarningToolStripMenuItem,
+            this.saveDirectlyOnChangesToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Text = "Misc";
+            // 
+            // memorySaveWarningToolStripMenuItem
+            // 
+            this.memorySaveWarningToolStripMenuItem.Checked = true;
+            this.memorySaveWarningToolStripMenuItem.CheckOnClick = true;
+            this.memorySaveWarningToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.memorySaveWarningToolStripMenuItem.Name = "memorySaveWarningToolStripMenuItem";
+            this.memorySaveWarningToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.memorySaveWarningToolStripMenuItem.Text = "Memory save warning";
+            // 
+            // saveDirectlyOnChangesToolStripMenuItem
+            // 
+            this.saveDirectlyOnChangesToolStripMenuItem.CheckOnClick = true;
+            this.saveDirectlyOnChangesToolStripMenuItem.Name = "saveDirectlyOnChangesToolStripMenuItem";
+            this.saveDirectlyOnChangesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.saveDirectlyOnChangesToolStripMenuItem.Text = "Save directly on changes";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(80, 22);
+            this.toolStripButton4.Text = "Save Changes";
+            this.toolStripButton4.Click += new System.EventHandler(this.OnClickSaveChanges);
+            // 
+            // splitter1
+            // 
+            this.splitter1.AnimationDelay = 20;
+            this.splitter1.AnimationStep = 20;
+            this.splitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.splitter1.ControlToHide = this.toolStrip1;
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter1.ExpandParentForm = false;
+            this.splitter1.Location = new System.Drawing.Point(0, 25);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.TabIndex = 2;
+            this.splitter1.TabStop = false;
+            this.splitter1.UseAnimations = false;
+            this.splitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // TileDatas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tabcontrol);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.toolStrip1);
             this.Name = "TileDatas";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
@@ -790,10 +782,6 @@ namespace FiddlerControls
             this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            this.splitContainer4.Panel2.PerformLayout();
-            this.splitContainer4.ResumeLayout(false);
             this.tabPageLand.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
@@ -808,11 +796,10 @@ namespace FiddlerControls
             this.splitContainer7.Panel1.PerformLayout();
             this.splitContainer7.Panel2.ResumeLayout(false);
             this.splitContainer7.ResumeLayout(false);
-            this.splitContainer8.Panel1.ResumeLayout(false);
-            this.splitContainer8.Panel2.ResumeLayout(false);
-            this.splitContainer8.Panel2.PerformLayout();
-            this.splitContainer8.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -851,10 +838,6 @@ namespace FiddlerControls
         private System.Windows.Forms.TextBox textBoxUnk3;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.TreeView treeViewLand;
@@ -864,18 +847,23 @@ namespace FiddlerControls
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.TextBox textBoxTexID;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.SplitContainer splitContainer8;
         private System.Windows.Forms.CheckedListBox checkedListBox2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem selectInItemsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem selectInLandtilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectRadarColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private FiddlerControls.CollapsibleSplitter splitter1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem memorySaveWarningToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveDirectlyOnChangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
