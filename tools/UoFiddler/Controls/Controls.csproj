@@ -344,12 +344,6 @@
     <Compile Include="TextureSearch.Designer.cs">
       <DependentUpon>TextureSearch.cs</DependentUpon>
     </Compile>
-    <Compile Include="TileDataNerving.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TileDataNerving.Designer.cs">
-      <DependentUpon>TileDataNerving.cs</DependentUpon>
-    </Compile>
     <Compile Include="TileDatas.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -528,9 +522,6 @@
     <EmbeddedResource Include="TextureSearch.resx">
       <DependentUpon>TextureSearch.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TileDataNerving.resx">
-      <DependentUpon>TileDataNerving.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TileDatas.resx">
       <SubType>Designer</SubType>
