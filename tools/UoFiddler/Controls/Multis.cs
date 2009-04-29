@@ -66,7 +66,10 @@ namespace FiddlerControls
             if (TreeViewMulti.Nodes.Count > 0)
                 TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
             if (!Loaded)
+            {
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Options.MultiChangeEvent += new FiddlerControls.Options.MultiChangeHandler(OnMultiChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -74,6 +77,34 @@ namespace FiddlerControls
         private void OnFilePathChangeEvent()
         {
             Reload();
+        }
+
+        private void OnMultiChangeEvent(int id)
+        {
+            if (!Loaded)
+                return;
+            MultiComponentList multi = Ultima.Multis.GetComponents(id);
+            if (multi != MultiComponentList.Empty)
+            {
+                for (int i = 0; i < TreeViewMulti.Nodes.Count; i++)
+                {
+                    if (id == int.Parse(TreeViewMulti.Nodes[i].Name))
+                    {
+                        TreeViewMulti.Nodes[i].Tag = multi;
+                        TreeViewMulti.Nodes[i].ForeColor = Color.Black;
+                        if (i == TreeViewMulti.SelectedNode.Index)
+                            afterSelect_Multi(this, null);
+                    }
+                    else if (id < int.Parse(TreeViewMulti.Nodes[i].Name))
+                    {
+                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", id, id));
+                        node.Tag = multi;
+                        node.Name = id.ToString();
+                        TreeViewMulti.Nodes.Insert(i, node);
+                        break;
+                    }
+                }
+            }
         }
 
         public void ChangeMulti(int id, MultiComponentList multi)

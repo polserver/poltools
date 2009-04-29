@@ -241,6 +241,7 @@ namespace FiddlerControls
         public delegate void MapNameChangeHandler();
         public delegate void MapSizeChangeHandler();
         public delegate void FilePathChangeHandler();
+        public delegate void MultiChangeHandler(int id);
 
         /// <summary>
         /// Fired when map diff file usage is switched
@@ -258,6 +259,10 @@ namespace FiddlerControls
         /// Fired on reload files
         /// </summary>
         public static event FilePathChangeHandler FilePathChangeEvent;
+        /// <summary>
+        /// Fired when Multi Id changed
+        /// </summary>
+        public static event MultiChangeHandler MultiChangeEvent;
 
         public static void FireMapDiffChangeEvent()
         {
@@ -278,6 +283,11 @@ namespace FiddlerControls
         {
             if (FilePathChangeEvent != null)
                 FilePathChangeEvent();
+        }
+        public static void FireMultiChangeEvent(int id)
+        {
+            if (MultiChangeEvent != null)
+                MultiChangeEvent(id);
         }
         #endregion
 
