@@ -215,5 +215,21 @@ namespace FiddlerControls
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
+
+        private void OnClickExportJpg(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null)
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            int i = (int)treeView1.SelectedNode.Tag;
+            string FileName = Path.Combine(path, String.Format("Light {0}.jpg", i));
+            Ultima.Light.GetLight(i).Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(
+                String.Format("Light saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
     }
 }

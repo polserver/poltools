@@ -655,6 +655,23 @@ namespace FiddlerControls
                 MessageBoxDefaultButton.Button1);
         }
 
+        private void extract_Image_ClickJpg(object sender, EventArgs e)
+        {
+            if (selected == -1)
+                return;
+            if (!Art.IsValidStatic(selected))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", selected));
+            Ultima.Art.GetStatic(selected).Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
         private void OnClickSelectTiledata(object sender, EventArgs e)
         {
             if (selected >= 0)
