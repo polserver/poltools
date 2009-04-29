@@ -236,5 +236,14 @@ namespace FiddlerControls
             MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
+
+        private void OnClickExportJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "MultiMap.jpg");
+            pictureBox.Image.Save(FileName, ImageFormat.Jpeg);
+            MessageBox.Show(String.Format("MultiMap saved to {0}", FileName), "Export",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
     }
 }

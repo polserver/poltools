@@ -375,6 +375,19 @@ namespace FiddlerControls
             }
         }
 
+        private void onClickExportJpg(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 1)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                int i = (int)listView1.SelectedItems[0].Tag;
+                string FileName = Path.Combine(path, String.Format("Landtile {0}.jpg", i));
+                Art.GetLand(i).Save(FileName, ImageFormat.Jpeg);
+                MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+        }
+
         private void OnClickSelectTiledata(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count == 1)

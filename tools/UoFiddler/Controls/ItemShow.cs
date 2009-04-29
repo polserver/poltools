@@ -632,6 +632,26 @@ namespace FiddlerControls
                 MessageBoxDefaultButton.Button1);
         }
 
+        private void extract_Image_ClickJpg(object sender, EventArgs e)
+        {
+            int i = (int)listView1.SelectedItems[0].Tag;
+            if (i == -1)
+                return;
+            if (!Art.IsValidStatic(i))
+                return;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", i));
+            Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
+            bit.Save(FileName, ImageFormat.Jpeg);
+            bit.Dispose();
+            MessageBox.Show(
+                String.Format("Item saved to {0}", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
         private void OnClickSelectTiledata(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)

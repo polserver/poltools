@@ -932,6 +932,36 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClickExtractImageJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (showPD)
+            {
+                string FileName = Path.Combine(path, "Dress PD.jpg");
+                DressPic.Image.Save(FileName, ImageFormat.Jpeg);
+                MessageBox.Show(
+                    String.Format("Paperdoll saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                string FileName = Path.Combine(path, "Dress IG.jpg");
+                if (animate)
+                    m_Animation[0].Save(FileName, ImageFormat.Jpeg);
+                else
+                    DressPic.Image.Save(FileName, ImageFormat.Jpeg);
+                MessageBox.Show(
+                    String.Format("InGame saved to {0}", FileName),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
         private void OnClickExtractAnimBmp(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -960,6 +990,23 @@ namespace FiddlerControls
             }
             MessageBox.Show(
                 String.Format("InGame Anim saved to '{0}-X.tiff'", FileName),
+                "Saved",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickExtractAnimJpg(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = "Dress Anim";
+
+            for (int i = 0; i < m_Animation.Length; ++i)
+            {
+                m_Animation[i].Save(String.Format("{0}-{1}.jpg", FileName, i), ImageFormat.Jpeg);
+            }
+            MessageBox.Show(
+                String.Format("InGame Anim saved to '{0}-X.jpg'", FileName),
                 "Saved",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,

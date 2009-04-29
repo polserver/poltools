@@ -421,6 +421,18 @@ namespace FiddlerControls
             }
         }
 
+        private void onClickExportJpg(object sender, EventArgs e)
+        {
+            if (selected >= 0)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format("Landtile {0}.jpg", selected));
+                Art.GetLand(selected).Save(FileName, ImageFormat.Jpeg);
+                MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            }
+        }
+
         private void OnClickSelectTiledata(object sender, EventArgs e)
         {
             if (selected >= 0)
