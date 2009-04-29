@@ -78,7 +78,7 @@ namespace FiddlerControls
                 ushort* curnew = linenew;
                 for (int X = 0; X < bmp.Width; X++)
                 {
-                    if (cur[X] != 32768)
+                    if ((cur[X] != 32768) && (cur[X]!=65535)) //True Black/White
                         curnew[X] = cur[X];
                 }
             }
