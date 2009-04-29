@@ -91,16 +91,16 @@ namespace FiddlerControls
             this.label24 = new System.Windows.Forms.Label();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.memorySaveWarningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDirectlyOnChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.splitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.splitter1 = new FiddlerControls.CollapsibleSplitter();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -494,7 +494,7 @@ namespace FiddlerControls
             this.tabPageLand.Location = new System.Drawing.Point(4, 22);
             this.tabPageLand.Name = "tabPageLand";
             this.tabPageLand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLand.Size = new System.Drawing.Size(611, 270);
+            this.tabPageLand.Size = new System.Drawing.Size(611, 265);
             this.tabPageLand.TabIndex = 1;
             this.tabPageLand.Text = "LandTiles";
             this.tabPageLand.UseVisualStyleBackColor = true;
@@ -514,7 +514,7 @@ namespace FiddlerControls
             this.splitContainer5.Panel2.Controls.Add(this.label23);
             this.splitContainer5.Panel2.Controls.Add(this.textBoxNameLand);
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer5.Size = new System.Drawing.Size(605, 264);
+            this.splitContainer5.Size = new System.Drawing.Size(605, 259);
             this.splitContainer5.SplitterDistance = 201;
             this.splitContainer5.TabIndex = 1;
             // 
@@ -532,8 +532,8 @@ namespace FiddlerControls
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.pictureBoxLand);
-            this.splitContainer6.Size = new System.Drawing.Size(201, 264);
-            this.splitContainer6.SplitterDistance = 167;
+            this.splitContainer6.Size = new System.Drawing.Size(201, 259);
+            this.splitContainer6.SplitterDistance = 163;
             this.splitContainer6.TabIndex = 0;
             // 
             // treeViewLand
@@ -543,7 +543,7 @@ namespace FiddlerControls
             this.treeViewLand.HideSelection = false;
             this.treeViewLand.Location = new System.Drawing.Point(0, 0);
             this.treeViewLand.Name = "treeViewLand";
-            this.treeViewLand.Size = new System.Drawing.Size(201, 167);
+            this.treeViewLand.Size = new System.Drawing.Size(201, 163);
             this.treeViewLand.TabIndex = 0;
             this.treeViewLand.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AfterSelectTreeViewLand);
             // 
@@ -574,7 +574,7 @@ namespace FiddlerControls
             this.pictureBoxLand.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxLand.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxLand.Name = "pictureBoxLand";
-            this.pictureBoxLand.Size = new System.Drawing.Size(201, 93);
+            this.pictureBoxLand.Size = new System.Drawing.Size(201, 92);
             this.pictureBoxLand.TabIndex = 0;
             this.pictureBoxLand.TabStop = false;
             // 
@@ -613,7 +613,7 @@ namespace FiddlerControls
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.checkedListBox2);
-            this.splitContainer7.Size = new System.Drawing.Size(400, 264);
+            this.splitContainer7.Size = new System.Drawing.Size(400, 259);
             this.splitContainer7.SplitterDistance = 27;
             this.splitContainer7.SplitterWidth = 2;
             this.splitContainer7.TabIndex = 25;
@@ -664,36 +664,6 @@ namespace FiddlerControls
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(80, 22);
-            this.toolStripButton1.Text = "Export To CSV";
-            this.toolStripButton1.Click += new System.EventHandler(this.OnClickExport);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(44, 22);
-            this.toolStripButton2.Text = "Search";
-            this.toolStripButton2.Click += new System.EventHandler(this.OnClickSearch);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(76, 22);
-            this.toolStripButton3.Text = "Save Tiledata";
-            this.toolStripButton3.Click += new System.EventHandler(this.OnClickSaveTiledata);
-            // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -722,6 +692,36 @@ namespace FiddlerControls
             this.saveDirectlyOnChangesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.saveDirectlyOnChangesToolStripMenuItem.Text = "Save directly on changes";
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(44, 22);
+            this.toolStripButton2.Text = "Search";
+            this.toolStripButton2.Click += new System.EventHandler(this.OnClickSearch);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(80, 22);
+            this.toolStripButton1.Text = "Export To CSV";
+            this.toolStripButton1.Click += new System.EventHandler(this.OnClickExport);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton4
             // 
             this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -731,6 +731,16 @@ namespace FiddlerControls
             this.toolStripButton4.Size = new System.Drawing.Size(80, 22);
             this.toolStripButton4.Text = "Save Changes";
             this.toolStripButton4.Click += new System.EventHandler(this.OnClickSaveChanges);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButton3.Text = "Save Tiledata";
+            this.toolStripButton3.Click += new System.EventHandler(this.OnClickSaveTiledata);
             // 
             // splitter1
             // 
@@ -746,16 +756,6 @@ namespace FiddlerControls
             this.splitter1.TabStop = false;
             this.splitter1.UseAnimations = false;
             this.splitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // TileDatas
             // 
