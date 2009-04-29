@@ -120,6 +120,8 @@
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 3.9a
 -Added Jpg for all Export All in tabs.
+-Added more Jpg export for single export of images.
+-Renamed Map and Diff copy menu names for better explanation in menu.
 -Fixed crashes in Compare Plugin for Land and Item compare.
 -Changed Max length for Name field in TileData Editing to 20 length as Client will cut it off at this point anyway.
 -Fixed Odd Crashes on some Windows XP installs with Export in Texture Tabs

@@ -603,6 +603,31 @@ namespace FiddlerControls
             MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
                 MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
+
+        private void ExtractMapJpg(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string name = String.Format("{0}.jpg", Options.MapNames[currmapint]);
+            string FileName = Path.Combine(path, name);
+            Bitmap extract = currmap.GetImage(0, 0, (currmap.Width >> 3), (currmap.Height >> 3), showStaticsToolStripMenuItem1.Checked);
+            if (showMarkersToolStripMenuItem.Checked)
+            {
+                Graphics g = Graphics.FromImage(extract);
+                foreach (TreeNode obj in OverlayObjectTree.Nodes[currmapint].Nodes)
+                {
+                    OverlayObject o = (OverlayObject)obj.Tag;
+                    if (o.Visible)
+                        o.Draw(g);
+                }
+                g.Save();
+            }
+            extract.Save(FileName, ImageFormat.Jpeg);
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show(String.Format("Map saved to {0}", FileName), "Saved",
+                MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
         private MapMarker mapmarker;
         private void OnClickInsertMarker(object sender, EventArgs e)
         {
