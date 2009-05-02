@@ -91,6 +91,7 @@ namespace FiddlerControls
             this.Controls.Add(this.Add_Button);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.NumberBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClilocAdd";
             this.Text = "Add CliLoc";
