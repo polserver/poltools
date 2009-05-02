@@ -64,7 +64,6 @@ namespace UoFiddler
                         FiddlerControls.Options.PluginsToLoad.Remove(plug.Type.ToString());
                 }
             }
-
         }
     }
 }
