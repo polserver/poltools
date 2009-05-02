@@ -43,20 +43,20 @@ namespace FiddlerControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationlistNewEntries));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.facingbar = new System.Windows.Forms.TrackBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.ComboBoxActionType = new System.Windows.Forms.ToolStripComboBox();
-            this.facingbar = new System.Windows.Forms.TrackBar();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.facingbar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.facingbar)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -89,6 +89,18 @@ namespace FiddlerControls
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.onAfterSelectTreeView);
             // 
+            // facingbar
+            // 
+            this.facingbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.facingbar.AutoSize = false;
+            this.facingbar.LargeChange = 1;
+            this.facingbar.Location = new System.Drawing.Point(208, 244);
+            this.facingbar.Maximum = 7;
+            this.facingbar.Name = "facingbar";
+            this.facingbar.Size = new System.Drawing.Size(104, 20);
+            this.facingbar.TabIndex = 2;
+            this.facingbar.Scroll += new System.EventHandler(this.onScrollFacing);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
@@ -119,6 +131,7 @@ namespace FiddlerControls
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.ComboBoxActionType});
@@ -151,24 +164,13 @@ namespace FiddlerControls
             this.ComboBoxActionType.Size = new System.Drawing.Size(121, 25);
             this.ComboBoxActionType.SelectedIndexChanged += new System.EventHandler(this.OnChangeType);
             // 
-            // facingbar
-            // 
-            this.facingbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.facingbar.AutoSize = false;
-            this.facingbar.LargeChange = 1;
-            this.facingbar.Location = new System.Drawing.Point(208, 244);
-            this.facingbar.Maximum = 7;
-            this.facingbar.Name = "facingbar";
-            this.facingbar.Size = new System.Drawing.Size(104, 20);
-            this.facingbar.TabIndex = 2;
-            this.facingbar.Scroll += new System.EventHandler(this.onScrollFacing);
-            // 
             // AnimationlistNewEntries
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(473, 263);
             this.Controls.Add(this.splitContainer1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AnimationlistNewEntries";
             this.Text = "Animationlist New Entries";
@@ -177,11 +179,11 @@ namespace FiddlerControls
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.facingbar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.contextMenuStrip2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.facingbar)).EndInit();
             this.ResumeLayout(false);
 
         }

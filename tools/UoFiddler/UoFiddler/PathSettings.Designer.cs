@@ -61,6 +61,7 @@ namespace UoFiddler
             // 
             // toolStrip1
             // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
@@ -105,6 +106,7 @@ namespace UoFiddler
             this.ClientSize = new System.Drawing.Size(346, 266);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PathSettings";
             this.Text = "PathSettings";

@@ -51,7 +51,7 @@ namespace FiddlerControls
             this.button1.AutoSize = true;
             this.button1.Location = new System.Drawing.Point(101, 37);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 23);
+            this.button1.Size = new System.Drawing.Size(93, 23);
             this.button1.TabIndex = 11;
             this.button1.Text = "Search Graphic";
             this.button1.UseVisualStyleBackColor = true;
@@ -73,6 +73,7 @@ namespace FiddlerControls
             this.ClientSize = new System.Drawing.Size(292, 73);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxGraphic);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TextureSearch";
             this.Text = "Texture Search";

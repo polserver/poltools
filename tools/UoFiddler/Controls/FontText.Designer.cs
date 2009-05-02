@@ -68,6 +68,7 @@ namespace FiddlerControls
             this.ClientSize = new System.Drawing.Size(292, 129);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FontText";
             this.Text = "FontText";

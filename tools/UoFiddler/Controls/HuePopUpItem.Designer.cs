@@ -39,7 +39,7 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HuePopUp));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HuePopUpItem));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -85,20 +85,24 @@ namespace FiddlerControls
             // control
             // 
             this.control.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.control.ForeColor = System.Drawing.SystemColors.ControlText;
             this.control.Location = new System.Drawing.Point(0, 0);
             this.control.Name = "control";
+            this.control.Padding = new System.Windows.Forms.Padding(1);
+            this.control.Selected = 0;
             this.control.Size = new System.Drawing.Size(520, 265);
             this.control.TabIndex = 1;
             // 
-            // HuePopUp
+            // HuePopUpItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(520, 290);
             this.Controls.Add(this.control);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "HuePopUp";
+            this.Name = "HuePopUpItem";
             this.Text = "Hue Picker";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

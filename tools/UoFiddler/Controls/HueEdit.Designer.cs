@@ -356,6 +356,7 @@ namespace FiddlerControls
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.pictureBoxIndex);
             this.Controls.Add(this.textBoxName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HueEdit";
             this.Text = "HueEdit";

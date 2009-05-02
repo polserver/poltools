@@ -182,9 +182,9 @@ namespace FiddlerControls
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 195);
+            this.progressBar1.Location = new System.Drawing.Point(0, 205);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(327, 23);
+            this.progressBar1.Size = new System.Drawing.Size(329, 23);
             this.progressBar1.TabIndex = 13;
             // 
             // RemoveDupl
@@ -245,6 +245,7 @@ namespace FiddlerControls
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(335, 252);

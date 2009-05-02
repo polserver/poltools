@@ -54,7 +54,7 @@ namespace FiddlerControls
             this.button2.AutoSize = true;
             this.button2.Location = new System.Drawing.Point(54, 105);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(82, 23);
+            this.button2.Size = new System.Drawing.Size(84, 23);
             this.button2.TabIndex = 7;
             this.button2.Text = "Search Name";
             this.button2.UseVisualStyleBackColor = true;
@@ -74,7 +74,7 @@ namespace FiddlerControls
             this.button1.AutoSize = true;
             this.button1.Location = new System.Drawing.Point(101, 37);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(91, 23);
+            this.button1.Size = new System.Drawing.Size(93, 23);
             this.button1.TabIndex = 5;
             this.button1.Text = "Search Graphic";
             this.button1.UseVisualStyleBackColor = true;
@@ -103,12 +103,13 @@ namespace FiddlerControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 152);
+            this.ClientSize = new System.Drawing.Size(292, 140);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBoxItemName);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxGraphic);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LandTileSearch";
             this.Text = "LandTile Search";

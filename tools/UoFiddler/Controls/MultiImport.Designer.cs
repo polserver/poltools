@@ -108,6 +108,7 @@ namespace FiddlerControls
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.comboBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MultiImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

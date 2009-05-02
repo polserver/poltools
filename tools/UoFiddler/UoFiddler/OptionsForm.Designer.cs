@@ -50,6 +50,7 @@ namespace UoFiddler
             this.numericUpDownItemSizeWidth = new System.Windows.Forms.NumericUpDown();
             this.checkBoxCacheData = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxuseDiff = new System.Windows.Forms.CheckBox();
             this.checkBoxNewMapSize = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -68,7 +69,6 @@ namespace UoFiddler
             this.map2Nametext = new System.Windows.Forms.TextBox();
             this.map1Nametext = new System.Windows.Forms.TextBox();
             this.map0Nametext = new System.Windows.Forms.TextBox();
-            this.checkBoxuseDiff = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownItemSizeWidth)).BeginInit();
@@ -172,6 +172,17 @@ namespace UoFiddler
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Misc";
+            // 
+            // checkBoxuseDiff
+            // 
+            this.checkBoxuseDiff.AutoSize = true;
+            this.checkBoxuseDiff.Location = new System.Drawing.Point(6, 88);
+            this.checkBoxuseDiff.Name = "checkBoxuseDiff";
+            this.checkBoxuseDiff.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxuseDiff.TabIndex = 4;
+            this.checkBoxuseDiff.Text = "Use Map diff Files";
+            this.toolTip1.SetToolTip(this.checkBoxuseDiff, "Should map diff files be used");
+            this.checkBoxuseDiff.UseVisualStyleBackColor = true;
             // 
             // checkBoxNewMapSize
             // 
@@ -336,17 +347,6 @@ namespace UoFiddler
             this.map0Nametext.Size = new System.Drawing.Size(100, 20);
             this.map0Nametext.TabIndex = 0;
             // 
-            // checkBoxuseDiff
-            // 
-            this.checkBoxuseDiff.AutoSize = true;
-            this.checkBoxuseDiff.Location = new System.Drawing.Point(6, 88);
-            this.checkBoxuseDiff.Name = "checkBoxuseDiff";
-            this.checkBoxuseDiff.Size = new System.Drawing.Size(110, 17);
-            this.checkBoxuseDiff.TabIndex = 4;
-            this.checkBoxuseDiff.Text = "Use Map diff Files";
-            this.toolTip1.SetToolTip(this.checkBoxuseDiff, "Should map diff files be used");
-            this.checkBoxuseDiff.UseVisualStyleBackColor = true;
-            // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -356,7 +356,7 @@ namespace UoFiddler
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

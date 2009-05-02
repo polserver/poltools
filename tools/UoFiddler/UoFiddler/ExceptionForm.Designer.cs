@@ -64,14 +64,15 @@ namespace UoFiddler
             this.richTextBox.TabIndex = 1;
             this.richTextBox.Text = "";
             // 
-            // Exception
+            // ExceptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 266);
             this.Controls.Add(this.richTextBox);
             this.Controls.Add(this.OK);
-            this.Name = "Exception";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Name = "ExceptionForm";
             this.Text = "Exception";
             this.ResumeLayout(false);
 
