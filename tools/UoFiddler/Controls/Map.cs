@@ -408,11 +408,16 @@ namespace FiddlerControls
             currPoint = pictureBox.PointToClient(Control.MousePosition);
             currPoint.X = (int)(currPoint.X / Zoom);
             currPoint.Y = (int)(currPoint.Y / Zoom);
-            currPoint.X += hScrollBar.Value;
-            currPoint.Y += vScrollBar.Value;
+            currPoint.X += Round(hScrollBar.Value);
+            currPoint.Y += Round(vScrollBar.Value);
         }
 
         private void onContextClosed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            pictureBox.Refresh();
+        }
+
+        private void OnDropDownClosed(object sender, EventArgs e)
         {
             pictureBox.Refresh();
         }
@@ -852,14 +857,14 @@ namespace FiddlerControls
         private void OnClickDefragStatics(object sender, EventArgs e)
         {
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-                currmapint, currmap.Width, currmap.Height,false);
+                currmap, currmap.Width, currmap.Height,false);
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickDefragRemoveStatics(object sender, EventArgs e)
         {
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-                currmapint, currmap.Width, currmap.Height, true);
+                currmap, currmap.Width, currmap.Height, true);
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
@@ -905,6 +910,93 @@ namespace FiddlerControls
                 showformMapDiff.TopMost = true;
                 showformMapDiff.Show();
             }
+        }
+
+        private void OnClickStaticImport(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Title = "Select WSC Staticfile to import";
+                dialog.Multiselect = false;
+                dialog.CheckFileExists = true;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+                using (StreamReader ip = new StreamReader(dialog.FileName))
+                {
+                    string line;
+                    HuedTile newtile = new HuedTile(-1, 0, 0);
+                    int x, blockx, y, blocky;
+                    x = y = blockx = blocky = 0;
+                    while ((line = ip.ReadLine()) != null)
+                    {
+                        if ((line = line.Trim()).Length == 0 || line.StartsWith("#") || line.StartsWith("//"))
+                            continue;
+                        
+                        try
+                        {
+                            if (line.StartsWith("SECTION WORLDITEM"))
+                            {
+                                if (newtile.ID != -1)
+                                {
+                                    currmap.Tiles.AddStaticTile(blockx, blocky, x, y, newtile);
+                                    x = y = blockx = blocky = 0;
+                                }
+                                newtile = new HuedTile(-1, 0, 0);
+                            }
+                            else if (line.StartsWith("ID"))
+                            {
+                                line = line.Remove(0, 2);
+                                line = line.TrimStart(' ');
+                                line = line.TrimEnd(' ');
+                                newtile.ID = (Convert.ToInt32(line) & 0x3FFF) + 0x4000;
+                            }
+                            else if (line.StartsWith("X"))
+                            {
+                                line = line.Remove(0, 1);
+                                line = line.TrimStart(' ');
+                                line = line.TrimEnd(' ');
+                                x = Convert.ToInt32(line);
+                                blockx = x >> 3;
+                                x &= 0x7;
+                            }
+                            else if (line.StartsWith("Y"))
+                            {
+                                line = line.Remove(0, 1);
+                                line = line.TrimStart(' ');
+                                line = line.TrimEnd(' ');
+                                y = Convert.ToInt32(line);
+                                blocky = y >> 3;
+                                y &= 0x7;
+                            }
+                            else if (line.StartsWith("Z"))
+                            {
+                                line = line.Remove(0, 1);
+                                line = line.TrimStart(' ');
+                                line = line.TrimEnd(' ');
+                                newtile.Z = Convert.ToInt32(line);
+                            }
+                            else if (line.StartsWith("COLOR"))
+                            {
+                                line = line.Remove(0, 5);
+                                line = line.TrimStart(' ');
+                                line = line.TrimEnd(' ');
+                                newtile.Hue = Convert.ToInt32(line);
+                            }
+                        }
+                        catch { }
+                    }
+                    if (newtile.ID != -1)
+                        currmap.Tiles.AddStaticTile(blockx, blocky, x, y, newtile);
+                }
+            }
+            MessageBox.Show("Done", "Freeze Static", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            currmap.ResetCache();
+            pictureBox.Refresh();
+        }
+
+        private void OnClickMeltStatics(object sender, EventArgs e)
+        {
+
         }
     }
 
