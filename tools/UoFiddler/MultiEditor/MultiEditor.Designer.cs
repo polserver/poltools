@@ -43,7 +43,10 @@ namespace FiddlerPlugin
             this.tileTab = new System.Windows.Forms.TabPage();
             this.designTab = new System.Windows.Forms.TabPage();
             this.importTab = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TC_MultiEditorToolbox.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TC_MultiEditorToolbox
@@ -51,10 +54,11 @@ namespace FiddlerPlugin
             this.TC_MultiEditorToolbox.Controls.Add(this.tileTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.designTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(4, 4);
+            this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 0);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(171, 317);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(170, 324);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -63,7 +67,7 @@ namespace FiddlerPlugin
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(163, 291);
+            this.tileTab.Size = new System.Drawing.Size(162, 298);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -74,7 +78,7 @@ namespace FiddlerPlugin
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
-            this.designTab.Size = new System.Drawing.Size(163, 291);
+            this.designTab.Size = new System.Drawing.Size(162, 298);
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
@@ -84,19 +88,35 @@ namespace FiddlerPlugin
             this.importTab.BackColor = System.Drawing.SystemColors.Window;
             this.importTab.Location = new System.Drawing.Point(4, 22);
             this.importTab.Name = "importTab";
-            this.importTab.Size = new System.Drawing.Size(163, 291);
+            this.importTab.Size = new System.Drawing.Size(162, 298);
             this.importTab.TabIndex = 2;
             this.importTab.Text = "Import";
             this.importTab.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.TC_MultiEditorToolbox);
+            this.splitContainer1.Size = new System.Drawing.Size(619, 324);
+            this.splitContainer1.SplitterDistance = 170;
+            this.splitContainer1.TabIndex = 1;
             // 
             // MultiEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.TC_MultiEditorToolbox);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "MultiEditor";
             this.Size = new System.Drawing.Size(619, 324);
             this.TC_MultiEditorToolbox.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -107,5 +127,6 @@ namespace FiddlerPlugin
         private System.Windows.Forms.TabPage tileTab;
         private System.Windows.Forms.TabPage designTab;
         private System.Windows.Forms.TabPage importTab;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
