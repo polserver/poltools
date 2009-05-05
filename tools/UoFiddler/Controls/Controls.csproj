@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BBF3C337-3D0E-484D-8C59-BA8296C5897C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -368,6 +368,7 @@
   <ItemGroup>
     <EmbeddedResource Include="AnimationEdit.resx">
       <DependentUpon>AnimationEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AnimationlistNewEntries.resx">
       <DependentUpon>AnimationlistNewEntries.cs</DependentUpon>
@@ -375,6 +376,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AnimData.resx">
       <DependentUpon>AnimData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ClilocAdd.resx">
       <SubType>Designer</SubType>
@@ -406,6 +408,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HueEdit.resx">
       <DependentUpon>HueEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HuePopUpItem.resx">
       <DependentUpon>HuePopUpItem.cs</DependentUpon>
@@ -445,6 +448,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapDiffInsert.resx">
       <DependentUpon>MapDiffInsert.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LandTiles.resx">
       <SubType>Designer</SubType>
@@ -468,6 +472,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapReplace.resx">
       <DependentUpon>MapReplace.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MapDetails.resx">
       <SubType>Designer</SubType>
@@ -479,9 +484,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapMarker.resx">
       <DependentUpon>MapMarker.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiImport.resx">
       <DependentUpon>MultiImport.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiMap.resx">
       <SubType>Designer</SubType>
@@ -498,6 +505,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RadarColor.resx">
       <DependentUpon>RadarColor.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Skills.resx">
       <SubType>Designer</SubType>

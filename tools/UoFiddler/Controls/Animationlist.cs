@@ -17,7 +17,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using Ultima;
-using Ntx.GD;
 
 namespace FiddlerControls
 {

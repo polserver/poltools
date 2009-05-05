@@ -10,7 +10,6 @@
  ***************************************************************************/
 
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
 
 namespace FiddlerControls
