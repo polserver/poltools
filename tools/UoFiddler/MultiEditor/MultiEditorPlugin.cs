@@ -63,7 +63,7 @@ namespace FiddlerPlugin
             TabPage page = new TabPage();
             page.Tag = tabcontrol.TabCount + 1; // at end used for undock/dock feature to define the order
             page.Text = "Multi Editor";
-            page.Controls.Add(new MultiEditor() { Dock = DockStyle.Fill });
+            page.Controls.Add(new MultiEditor.MultiEditor() { Dock = DockStyle.Fill });
             tabcontrol.TabPages.Add(page);
         }
 
