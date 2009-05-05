@@ -16,7 +16,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Host;
 using Ultima;
 
 namespace FiddlerControls

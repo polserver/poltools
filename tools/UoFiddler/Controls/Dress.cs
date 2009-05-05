@@ -15,10 +15,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ntx.GD;
 using Ultima;
-using System.Text.RegularExpressions;
 
 namespace FiddlerControls
 {
