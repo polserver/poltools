@@ -214,7 +214,7 @@ namespace MultiEditor
                         py -= compList.yMin;
                         py += 22; //Mod for a bit of gap
                         px += 22;
-                        e.Graphics.DrawImageUnscaled(m_DrawTile.GetDrawImage(), px, py, bmp.Width, bmp.Height);
+                        e.Graphics.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.DrawColor);
                     }
                 }
             }
