@@ -54,11 +54,12 @@ namespace MultiEditor
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.DrawTileButton = new System.Windows.Forms.ToolStripButton();
             this.DrawFloortoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.DrawFloortoolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
-            this.DrawTileButton = new System.Windows.Forms.ToolStripButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panelTilesView = new System.Windows.Forms.Panel();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -87,6 +88,7 @@ namespace MultiEditor
             // tileTab
             // 
             this.tileTab.BackColor = System.Drawing.SystemColors.Window;
+            this.tileTab.Controls.Add(this.panelTilesView);
             this.tileTab.Controls.Add(this.treeViewTilesXML);
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
@@ -98,13 +100,13 @@ namespace MultiEditor
             // 
             // treeViewTilesXML
             // 
-            this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Top;
             this.treeViewTilesXML.ImageIndex = 0;
             this.treeViewTilesXML.ImageList = this.imageListTreeView;
             this.treeViewTilesXML.Location = new System.Drawing.Point(3, 3);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 292);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 157);
             this.treeViewTilesXML.TabIndex = 0;
             // 
             // imageListTreeView
@@ -182,6 +184,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
             this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
             this.MaxHeightTrackBar.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.OnValueChangedMaxHeight);
             // 
             // pictureBoxMulti
@@ -231,6 +234,17 @@ namespace MultiEditor
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // DrawTileButton
+            // 
+            this.DrawTileButton.CheckOnClick = true;
+            this.DrawTileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.DrawTileButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawTileButton.Image")));
+            this.DrawTileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DrawTileButton.Name = "DrawTileButton";
+            this.DrawTileButton.Size = new System.Drawing.Size(55, 22);
+            this.DrawTileButton.Text = "Draw Tile";
+            this.DrawTileButton.Click += new System.EventHandler(this.OnClickDrawTile);
+            // 
             // DrawFloortoolStripButton
             // 
             this.DrawFloortoolStripButton.Checked = true;
@@ -242,6 +256,7 @@ namespace MultiEditor
             this.DrawFloortoolStripButton.Name = "DrawFloortoolStripButton";
             this.DrawFloortoolStripButton.Size = new System.Drawing.Size(63, 22);
             this.DrawFloortoolStripButton.Text = "Draw Floor";
+            this.DrawFloortoolStripButton.ToolTipText = "Draw Virtual Floor";
             this.DrawFloortoolStripButton.Click += new System.EventHandler(this.OnClickDrawFloor);
             // 
             // DrawFloortoolStripTextBox
@@ -250,6 +265,7 @@ namespace MultiEditor
             this.DrawFloortoolStripTextBox.Name = "DrawFloortoolStripTextBox";
             this.DrawFloortoolStripTextBox.Size = new System.Drawing.Size(50, 25);
             this.DrawFloortoolStripTextBox.Text = "0";
+            this.DrawFloortoolStripTextBox.ToolTipText = "Floor Z Level";
             this.DrawFloortoolStripTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownDrawFloorEntry);
             // 
             // toolStripLabelCoord
@@ -258,17 +274,16 @@ namespace MultiEditor
             this.toolStripLabelCoord.Name = "toolStripLabelCoord";
             this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
             this.toolStripLabelCoord.Text = "0,0,0";
+            this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
-            // DrawTileButton
+            // panelTilesView
             // 
-            this.DrawTileButton.CheckOnClick = true;
-            this.DrawTileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.DrawTileButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawTileButton.Image")));
-            this.DrawTileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DrawTileButton.Name = "DrawTileButton";
-            this.DrawTileButton.Size = new System.Drawing.Size(55, 22);
-            this.DrawTileButton.Text = "Draw Tile";
-            this.DrawTileButton.Click += new System.EventHandler(this.OnClickDrawTile);
+            this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelTilesView.Location = new System.Drawing.Point(3, 166);
+            this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
+            this.panelTilesView.Name = "panelTilesView";
+            this.panelTilesView.Size = new System.Drawing.Size(186, 129);
+            this.panelTilesView.TabIndex = 1;
             // 
             // MultiEditor
             // 
@@ -315,5 +330,6 @@ namespace MultiEditor
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabelCoord;
         private System.Windows.Forms.ToolStripButton DrawTileButton;
+        private System.Windows.Forms.Panel panelTilesView;
     }
 }
