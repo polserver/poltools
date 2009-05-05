@@ -39,12 +39,17 @@ namespace FiddlerPlugin
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiEditor));
             this.TC_MultiEditorToolbox = new System.Windows.Forms.TabControl();
             this.tileTab = new System.Windows.Forms.TabPage();
+            this.treeViewTilesXML = new System.Windows.Forms.TreeView();
+            this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
             this.designTab = new System.Windows.Forms.TabPage();
             this.importTab = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TC_MultiEditorToolbox.SuspendLayout();
+            this.tileTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -58,19 +63,36 @@ namespace FiddlerPlugin
             this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 0);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(170, 324);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 324);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
             // 
             this.tileTab.BackColor = System.Drawing.SystemColors.Window;
+            this.tileTab.Controls.Add(this.treeViewTilesXML);
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(162, 298);
+            this.tileTab.Size = new System.Drawing.Size(192, 298);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
+            // 
+            // treeViewTilesXML
+            // 
+            this.treeViewTilesXML.ImageIndex = 0;
+            this.treeViewTilesXML.ImageList = this.imageListTreeView;
+            this.treeViewTilesXML.Location = new System.Drawing.Point(3, 3);
+            this.treeViewTilesXML.Name = "treeViewTilesXML";
+            this.treeViewTilesXML.SelectedImageIndex = 0;
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 153);
+            this.treeViewTilesXML.TabIndex = 0;
+            // 
+            // imageListTreeView
+            // 
+            this.imageListTreeView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTreeView.ImageStream")));
+            this.imageListTreeView.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTreeView.Images.SetKeyName(0, "treeViewImage.bmp");
             // 
             // designTab
             // 
@@ -104,7 +126,7 @@ namespace FiddlerPlugin
             // 
             this.splitContainer1.Panel1.Controls.Add(this.TC_MultiEditorToolbox);
             this.splitContainer1.Size = new System.Drawing.Size(619, 324);
-            this.splitContainer1.SplitterDistance = 170;
+            this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 1;
             // 
             // MultiEditor
@@ -115,6 +137,7 @@ namespace FiddlerPlugin
             this.Name = "MultiEditor";
             this.Size = new System.Drawing.Size(619, 324);
             this.TC_MultiEditorToolbox.ResumeLayout(false);
+            this.tileTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -128,5 +151,7 @@ namespace FiddlerPlugin
         private System.Windows.Forms.TabPage designTab;
         private System.Windows.Forms.TabPage importTab;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.TreeView treeViewTilesXML;
+        private System.Windows.Forms.ImageList imageListTreeView;
     }
 }
