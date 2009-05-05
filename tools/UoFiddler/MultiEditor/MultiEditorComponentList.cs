@@ -271,9 +271,9 @@ namespace MultiEditor
                         px += 22;
 
                         if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
-                            gfx.DrawImageUnscaled(tile.GetHoverImage(), px, py, bmp.Width, bmp.Height);
+                            gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
                         else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
-                            gfx.DrawImageUnscaled(tile.GetSelectedImage(), px, py, bmp.Width, bmp.Height);
+                            gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
                         else
                             gfx.DrawImageUnscaled(bmp, px, py, bmp.Width, bmp.Height);
                     }
@@ -309,10 +309,6 @@ namespace MultiEditor
         public int Z { get; private set; }
         public int Height { get { return TileData.ItemTable[ID].Height; } }
 
-        private Bitmap HoverImage = null;
-        private Bitmap SelectedImage = null;
-        private Bitmap DrawImage = null;
-
         private static ImageAttributes m_HoverColor = null;
         private static ColorMatrix m_HoverMatrix = new ColorMatrix(new float[5][]
 			{
@@ -341,73 +337,35 @@ namespace MultiEditor
 				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
 			});
 
+        public static ImageAttributes DrawColor { get { return m_DrawColor; } }
+        public static ImageAttributes SelectedColor { get { return m_SelectedColor; } }
+        public static ImageAttributes HoverColor { get { return m_HoverColor; } }
+
         public MultiTile(int id, int z)
         {
             ID = id;
             Z = z;
+            if (m_HoverColor == null)
+            {
+                m_HoverColor = new ImageAttributes();
+                m_HoverColor.SetColorMatrix(m_HoverMatrix);
+            }
+            if (m_SelectedColor == null)
+            {
+                m_SelectedColor = new ImageAttributes();
+                m_SelectedColor.SetColorMatrix(m_SelectedMatrix);
+            }
+            if (m_DrawColor == null)
+            {
+                m_DrawColor = new ImageAttributes();
+                m_DrawColor.SetColorMatrix(m_DrawMatrix);
+            }
         }
 
         public void Set(int id, int z)
         {
             ID = id;
             Z = z;
-        }
-
-        public Bitmap GetHoverImage()
-        {
-            if (m_HoverColor == null)
-            {
-                m_HoverColor = new ImageAttributes();
-                m_HoverColor.SetColorMatrix(m_HoverMatrix);
-            }
-            if (HoverImage == null)
-            {
-                Bitmap bit = Art.GetStatic(ID);
-                HoverImage = new Bitmap(bit.Width, bit.Height);
-                using (Graphics graph = Graphics.FromImage(HoverImage))
-                {
-                    graph.DrawImage(bit, new Rectangle(0, 0, bit.Width, bit.Height), 0, 0, bit.Width, bit.Height, GraphicsUnit.Pixel, m_HoverColor);
-                }
-            }
-            return HoverImage;
-        }
-
-        public Bitmap GetSelectedImage()
-        {
-            if (m_SelectedColor == null)
-            {
-                m_SelectedColor = new ImageAttributes();
-                m_SelectedColor.SetColorMatrix(m_SelectedMatrix);
-            }
-            if (SelectedImage == null)
-            {
-                Bitmap bit = Art.GetStatic(ID);
-                SelectedImage = new Bitmap(bit.Width, bit.Height);
-                using (Graphics graph = Graphics.FromImage(SelectedImage))
-                {
-                    graph.DrawImage(bit, new Rectangle(0, 0, bit.Width, bit.Height), 0, 0, bit.Width, bit.Height, GraphicsUnit.Pixel, m_SelectedColor);
-                }
-            }
-            return SelectedImage;
-        }
-
-        public Bitmap GetDrawImage()
-        {
-            if (m_DrawColor == null)
-            {
-                m_DrawColor = new ImageAttributes();
-                m_DrawColor.SetColorMatrix(m_DrawMatrix);
-            }
-            if (DrawImage == null)
-            {
-                Bitmap bit = Art.GetStatic(ID);
-                DrawImage = new Bitmap(bit.Width, bit.Height);
-                using (Graphics graph = Graphics.FromImage(DrawImage))
-                {
-                    graph.DrawImage(bit, new Rectangle(0, 0, bit.Width, bit.Height), 0, 0, bit.Width, bit.Height, GraphicsUnit.Pixel, m_DrawColor);
-                }
-            }
-            return DrawImage;
         }
 
         public int CompareTo(object x)
