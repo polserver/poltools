@@ -23,6 +23,7 @@
   <MapNames map0="Felucca" map1="Trammel" map2="Ilshenar" map3="Malas" map4="Tokuno" />
   <!--Extern Tools settings-->
   <!--Loaded Plugins-->
+  <Plugin name="FiddlerPlugin.MultiEditorPlugin" />
   <!--Pathsettings-->
   <!--Disabled Tab Views-->
 </Options>
