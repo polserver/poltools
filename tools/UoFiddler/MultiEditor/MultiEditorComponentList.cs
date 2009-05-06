@@ -19,20 +19,15 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-        public ArrayList[][] Tiles { get; private set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public int xMin { get; private set; }
-        public int yMin { get; private set; }
-        public int xMax { get; private set; }
-        public int yMax { get; private set; }
-        public int zMin { get; private set; }
-        public int zMax { get; private set; }
+		#region Fields (3) 
 
+        private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
         private bool Modified;
         private static MultiEditor Parent;
 
-        private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
+		#endregion Fields 
+
+		#region Constructors (1) 
 
         public MultiEditorComponentList(MultiComponentList list, MultiEditor parent)
         {
@@ -56,7 +51,35 @@ namespace MultiEditor
             Modified = true;
             RecalcMinMax();
         }
-        
+
+		#endregion Constructors 
+
+		#region Properties (9) 
+
+        public int Height { get; private set; }
+
+        public ArrayList[][] Tiles { get; private set; }
+
+        public int Width { get; private set; }
+
+        public int xMax { get; private set; }
+
+        public int xMin { get; private set; }
+
+        public int yMax { get; private set; }
+
+        public int yMin { get; private set; }
+
+        public int zMax { get; private set; }
+
+        public int zMin { get; private set; }
+
+		#endregion Properties 
+
+		#region Methods (5) 
+
+		// Public Methods (4) 
+
         /// <summary>
         /// Adds an <see cref="MultiTile"/> to specific location
         /// </summary>
@@ -68,138 +91,6 @@ namespace MultiEditor
             Tiles[x][y].Sort();
             Modified = true;
             RecalcMinMax();
-        }
-
-        /// <summary>
-        /// Removes specific <see cref="MultiTile"/>
-        /// </summary>
-        public void RemoveTile(MultiTile tile)
-        {
-            if (Width == 0 || Height == 0)
-                return;
-            for (int x = 0; x < Width; x++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    for (int i = 0; i < Tiles[x][y].Count; i++)
-                    {
-                        if (tile == Tiles[x][y][i])
-                        {
-                            Tiles[x][y].RemoveAt(i);
-                            Modified = true;
-                            RecalcMinMax();
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Recalcs Bitmap size
-        /// </summary>
-        private void RecalcMinMax()
-        {
-            xMin = yMin = zMin = 1000;
-            xMax = yMax = zMax = -1000;
-            
-
-            for (int x = 0; x < Width; ++x)
-            {
-                for (int y = 0; y < Height; ++y)
-                {
-                    ArrayList tiles = Tiles[x][y];
-
-                    for (int i = 0; i < tiles.Count; ++i)
-                    {
-                        MultiTile tile = (MultiTile)tiles[i];
-                        Bitmap bmp = Art.GetStatic(tile.ID);
-
-                        if (bmp == null)
-                            continue;
-
-                        int px = (x - y) * 22;
-                        int py = (x + y) * 22;
-
-                        px -= (bmp.Width / 2);
-                        py -= tile.Z * 4;
-                        py -= bmp.Height;
-
-                        if (px < xMin)
-                            xMin = px;
-
-                        if (py < yMin)
-                            yMin = py;
-
-                        px += bmp.Width;
-                        py += bmp.Height;
-
-                        if (px > xMax)
-                            xMax = px;
-                        if (py > yMax)
-                            yMax = py;
-
-                        if (tile.Z > zMax)
-                            zMax = tile.Z;
-                        if (tile.Z < zMin)
-                            zMin = tile.Z;
-                    }
-                }
-            }
-            Modified = false;
-        }
-
-        /// <summary>
-        /// Gets <see cref="MultiTile"/> from given Pixel Location
-        /// </summary>
-        /// <param name="mouseLoc"></param>
-        /// <param name="maxheight"></param>
-        /// <returns></returns>
-        public MultiTile GetSelected(Point mouseLoc,int maxheight)
-        {
-            if (Width == 0 || Height == 0)
-                return null;
-            MultiTile selected=null;
-            if (mouseLoc != Point.Empty)
-            {
-                for (int x = 0; x < Width; ++x)
-                {
-                    for (int y = 0; y < Height; ++y)
-                    {
-                        ArrayList tiles = Tiles[x][y];
-
-                        for (int i = 0; i < tiles.Count; ++i)
-                        {
-                            MultiTile tile = (MultiTile)tiles[i];
-                            Bitmap bmp = Art.GetStatic(tile.ID);
-                            if (bmp == null)
-                                continue;
-                            if ((tile.Z) > maxheight)
-                                continue;
-                            int px = (x - y) * 22;
-                            int py = (x + y) * 22;
-
-                            px -= (bmp.Width / 2);
-                            py -= tile.Z * 4;
-                            py -= bmp.Height;
-                            px -= xMin;
-                            py -= yMin;
-                            px += 22;
-                            py += 22;
-
-                            if (((mouseLoc.X > px) && (mouseLoc.X < (px + bmp.Width))) &&
-                                ((mouseLoc.Y > py) && (mouseLoc.Y < (py + bmp.Height))))
-                            {
-                                //Check for transparent part
-                                Color p = bmp.GetPixel(mouseLoc.X - px, mouseLoc.Y - py);
-                                if (!((p.R == 0) && (p.G == 0) && (p.B == 0)))
-                                    selected = tile;
-                            }
-                        }
-                    }
-                }
-            }
-            return selected;
         }
 
         /// <summary>
@@ -301,14 +192,156 @@ namespace MultiEditor
 
             return canvas;
         }
+
+        /// <summary>
+        /// Gets <see cref="MultiTile"/> from given Pixel Location
+        /// </summary>
+        /// <param name="mouseLoc"></param>
+        /// <param name="maxheight"></param>
+        /// <returns></returns>
+        public MultiTile GetSelected(Point mouseLoc,int maxheight)
+        {
+            if (Width == 0 || Height == 0)
+                return null;
+            MultiTile selected=null;
+            if (mouseLoc != Point.Empty)
+            {
+                for (int x = 0; x < Width; ++x)
+                {
+                    for (int y = 0; y < Height; ++y)
+                    {
+                        ArrayList tiles = Tiles[x][y];
+
+                        for (int i = 0; i < tiles.Count; ++i)
+                        {
+                            MultiTile tile = (MultiTile)tiles[i];
+                            Bitmap bmp = Art.GetStatic(tile.ID);
+                            if (bmp == null)
+                                continue;
+                            if ((tile.Z) > maxheight)
+                                continue;
+                            int px = (x - y) * 22;
+                            int py = (x + y) * 22;
+
+                            px -= (bmp.Width / 2);
+                            py -= tile.Z * 4;
+                            py -= bmp.Height;
+                            px -= xMin;
+                            py -= yMin;
+                            px += 22;
+                            py += 22;
+
+                            if (((mouseLoc.X > px) && (mouseLoc.X < (px + bmp.Width))) &&
+                                ((mouseLoc.Y > py) && (mouseLoc.Y < (py + bmp.Height))))
+                            {
+                                //Check for transparent part
+                                Color p = bmp.GetPixel(mouseLoc.X - px, mouseLoc.Y - py);
+                                if (!((p.R == 0) && (p.G == 0) && (p.B == 0)))
+                                    selected = tile;
+                            }
+                        }
+                    }
+                }
+            }
+            return selected;
+        }
+
+        /// <summary>
+        /// Removes specific <see cref="MultiTile"/>
+        /// </summary>
+        public void RemoveTile(MultiTile tile)
+        {
+            if (Width == 0 || Height == 0)
+                return;
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        if (tile == Tiles[x][y][i])
+                        {
+                            Tiles[x][y].RemoveAt(i);
+                            Modified = true;
+                            RecalcMinMax();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+		// Private Methods (1) 
+
+        /// <summary>
+        /// Recalcs Bitmap size
+        /// </summary>
+        private void RecalcMinMax()
+        {
+            xMin = yMin = zMin = 1000;
+            xMax = yMax = zMax = -1000;
+            
+
+            for (int x = 0; x < Width; ++x)
+            {
+                for (int y = 0; y < Height; ++y)
+                {
+                    ArrayList tiles = Tiles[x][y];
+
+                    for (int i = 0; i < tiles.Count; ++i)
+                    {
+                        MultiTile tile = (MultiTile)tiles[i];
+                        Bitmap bmp = Art.GetStatic(tile.ID);
+
+                        if (bmp == null)
+                            continue;
+
+                        int px = (x - y) * 22;
+                        int py = (x + y) * 22;
+
+                        px -= (bmp.Width / 2);
+                        py -= tile.Z * 4;
+                        py -= bmp.Height;
+
+                        if (px < xMin)
+                            xMin = px;
+
+                        if (py < yMin)
+                            yMin = py;
+
+                        px += bmp.Width;
+                        py += bmp.Height;
+
+                        if (px > xMax)
+                            xMax = px;
+                        if (py > yMax)
+                            yMax = py;
+
+                        if (tile.Z > zMax)
+                            zMax = tile.Z;
+                        if (tile.Z < zMin)
+                            zMin = tile.Z;
+                    }
+                }
+            }
+            Modified = false;
+        }
+
+		#endregion Methods 
     }
 
     public class MultiTile : IComparable
     {
-        public int ID { get; private set; }
-        public int Z { get; private set; }
-        public int Height { get { return TileData.ItemTable[ID].Height; } }
+		#region Fields (6) 
 
+        private static ImageAttributes m_DrawColor = null;
+        private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
+			{
+                new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
+				new float[5]{ 0.0f, 0.0f, 0.0f, 0.5f, 0.0f },
+				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
+			});
         private static ImageAttributes m_HoverColor = null;
         private static ColorMatrix m_HoverMatrix = new ColorMatrix(new float[5][]
 			{
@@ -327,19 +360,10 @@ namespace MultiEditor
                 new float[5] {0, 0, 0, 1, 0},
                 new float[5] {.80f, .0f, .0f, .0f, 1}
 			});
-        private static ImageAttributes m_DrawColor = null;
-        private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
-			{
-                new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.5f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
-			});
 
-        public static ImageAttributes DrawColor { get { return m_DrawColor; } }
-        public static ImageAttributes SelectedColor { get { return m_SelectedColor; } }
-        public static ImageAttributes HoverColor { get { return m_HoverColor; } }
+		#endregion Fields 
+
+		#region Constructors (1) 
 
         public MultiTile(int id, int z)
         {
@@ -362,11 +386,27 @@ namespace MultiEditor
             }
         }
 
-        public void Set(int id, int z)
-        {
-            ID = id;
-            Z = z;
-        }
+		#endregion Constructors 
+
+		#region Properties (6) 
+
+        public static ImageAttributes DrawColor { get { return m_DrawColor; } }
+
+        public int Height { get { return TileData.ItemTable[ID].Height; } }
+
+        public static ImageAttributes HoverColor { get { return m_HoverColor; } }
+
+        public int ID { get; private set; }
+
+        public static ImageAttributes SelectedColor { get { return m_SelectedColor; } }
+
+        public int Z { get; private set; }
+
+		#endregion Properties 
+
+		#region Methods (2) 
+
+		// Public Methods (2) 
 
         public int CompareTo(object x)
         {
@@ -398,5 +438,13 @@ namespace MultiEditor
 
             return 0;
         }
+
+        public void Set(int id, int z)
+        {
+            ID = id;
+            Z = z;
+        }
+
+		#endregion Methods 
     }
 }

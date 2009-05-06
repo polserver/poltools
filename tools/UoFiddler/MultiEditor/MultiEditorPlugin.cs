@@ -16,45 +16,70 @@ namespace FiddlerPlugin
 {
     public class MultiEditorPlugin : IPlugin
     {
+		#region Fields (5) 
+
+        string myAuthor = "MuadDib & Turley";
+        string myDescription = "blubb";
+        IPluginHost myHost = null;
+        string myName = "MultiEditorPlugin";
+        string myVersion = "0.0.1";
+
+		#endregion Fields 
+
+		#region Constructors (1) 
+
         public MultiEditorPlugin()
         {
         }
 
-        string myName = "MultiEditorPlugin";
-        string myDescription = "blubb";
-        string myAuthor = "MuadDib & Turley";
-        string myVersion = "0.0.1";
-        IPluginHost myHost = null;
+		#endregion Constructors 
+
+		#region Properties (5) 
+
+        /// <summary>
+        /// Author of the plugin
+        /// </summary>
+        public override string Author { get { return myAuthor; } }
+
+        /// <summary>
+        /// Description of the Plugin's purpose
+        /// </summary>
+        public override string Description { get { return myDescription; } }
+
+        /// <summary>
+        /// Host of the plugin.
+        /// </summary>
+        public override IPluginHost Host { get { return myHost; } set { myHost = value; } }
 
         /// <summary>
         /// Name of the plugin
         /// </summary>
         public override string Name { get { return myName; } }
-        /// <summary>
-        /// Description of the Plugin's purpose
-        /// </summary>
-        public override string Description { get { return myDescription; } }
-        /// <summary>
-        /// Author of the plugin
-        /// </summary>
-        public override string Author { get { return myAuthor; } }
+
         /// <summary>
         /// Version of the plugin
         /// </summary>
         public override string Version { get { return myVersion; } }
-        /// <summary>
-        /// Host of the plugin.
-        /// </summary>
-        public override IPluginHost Host { get { return myHost; } set { myHost = value; } }
+
+		#endregion Properties 
+
+		#region Methods (4) 
+
+		// Public Methods (4) 
+
+        public override void Dispose()
+        {
+            //fired in Fiddler OnClosing
+        }
 
         public override void Initialize()
         {
             //fired on fiddler startup
         }
 
-        public override void Dispose()
+        public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)
         {
-            //fired in Fiddler OnClosing
+            //want an entry inside the plugin dropdown?
         }
 
         // the magic add a new tabpage at the end
@@ -67,9 +92,6 @@ namespace FiddlerPlugin
             tabcontrol.TabPages.Add(page);
         }
 
-        public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)
-        {
-            //want an entry inside the plugin dropdown?
-        }
+		#endregion Methods 
     }
 }

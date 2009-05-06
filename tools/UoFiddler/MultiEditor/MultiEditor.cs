@@ -20,46 +20,22 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
+		#region Fields (7) 
 
-        private static MultiEditor refMarkerMulti = null;
         private MultiEditorComponentList compList;
-
+        private int m_DrawFloorZ;
+        private MultiTile m_DrawTile;
+        private MultiTile m_HoverTile;
+        private MultiTile m_SelectedTile;
         /// <summary>
         /// Current MouseLoc + Scrollbar values (for hover effect)
         /// </summary>
         private Point MouseLoc;
-       
-        private MultiTile m_SelectedTile;
-        private MultiTile m_HoverTile;
-        private MultiTile m_DrawTile;
-        private int m_DrawFloorZ;
+        private static MultiEditor refMarkerMulti = null;
 
-        /// <summary>
-        /// Current Selected Tile (set OnMouseUp)
-        /// </summary>
-        public MultiTile SelectedTile
-        {
-            get { return m_SelectedTile; }
-        }
+		#endregion Fields 
 
-        /// <summary>
-        /// Current Hovered Tile (set inside MultiComponentList)
-        /// </summary>
-        public MultiTile HoverTile
-        {
-            get { return m_HoverTile; }
-            set
-            {
-                m_HoverTile = value;
-                if (value != null)
-                    toolTip1.SetToolTip(pictureBoxMulti, String.Format("ID: 0x{0:X} Z: {1}", m_HoverTile.ID, m_HoverTile.Z));
-            }
-        }
-
-        /// <summary>
-        /// Floor Z level
-        /// </summary>
-        public int DrawFloorZ { get { return m_DrawFloorZ; } }
+		#region Constructors (1) 
 
         public MultiEditor()
         {
@@ -76,30 +52,42 @@ namespace MultiEditor
             m_DrawTile = new MultiTile(550, 0);
         }
 
-        private void InitializeToolBox()
+		#endregion Constructors 
+
+		#region Properties (3) 
+
+        /// <summary>
+        /// Floor Z level
+        /// </summary>
+        public int DrawFloorZ { get { return m_DrawFloorZ; } }
+
+        /// <summary>
+        /// Current Hovered Tile (set inside MultiComponentList)
+        /// </summary>
+        public MultiTile HoverTile
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, @"plugins/multieditor.xml");
-            if (!File.Exists(FileName))
-                return;
-
-            XmlDocument dom = new XmlDocument();
-            dom.Load(FileName);
-            XmlElement xTiles = dom["TileGroups"];
-
-            foreach (XmlElement xRootGroup in xTiles)
+            get { return m_HoverTile; }
+            set
             {
-                TreeNode mainNode = new TreeNode();
-                mainNode.Text = xRootGroup.GetAttribute("name");
-                mainNode.Tag = null;
-
-                mainNode.ImageIndex = 0;
-
-                AddChildren(mainNode, xRootGroup);
-
-                treeViewTilesXML.Nodes.Add(mainNode);
+                m_HoverTile = value;
+                if (value != null)
+                    toolTip1.SetToolTip(pictureBoxMulti, String.Format("ID: 0x{0:X} Z: {1}", m_HoverTile.ID, m_HoverTile.Z));
             }
         }
+
+        /// <summary>
+        /// Current Selected Tile (set OnMouseUp)
+        /// </summary>
+        public MultiTile SelectedTile
+        {
+            get { return m_SelectedTile; }
+        }
+
+		#endregion Properties 
+
+		#region Methods (13) 
+
+		// Private Methods (13) 
 
         private void AddChildren(TreeNode node, XmlElement mainNode)
         {
@@ -178,6 +166,97 @@ namespace MultiEditor
             y = vy;
         }
 
+        private void InitializeToolBox()
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, @"plugins/multieditor.xml");
+            if (!File.Exists(FileName))
+                return;
+
+            XmlDocument dom = new XmlDocument();
+            dom.Load(FileName);
+            XmlElement xTiles = dom["TileGroups"];
+
+            foreach (XmlElement xRootGroup in xTiles)
+            {
+                TreeNode mainNode = new TreeNode();
+                mainNode.Text = xRootGroup.GetAttribute("name");
+                mainNode.Tag = null;
+
+                mainNode.ImageIndex = 0;
+
+                AddChildren(mainNode, xRootGroup);
+
+                treeViewTilesXML.Nodes.Add(mainNode);
+            }
+        }
+
+        /// <summary>
+        /// Change Floordraw
+        /// </summary>
+        private void OnClickDrawFloor(object sender, EventArgs e)
+        {
+            int z;
+            if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
+                m_DrawFloorZ = z;
+            pictureBoxMulti.Refresh();
+        }
+
+        private void OnClickDrawTile(object sender, EventArgs e)
+        {
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Keys.Enter refreshes Floor Z
+        /// </summary>
+        private void OnKeyDownDrawFloorEntry(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int z;
+                if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
+                {
+                    m_DrawFloorZ = z;
+                    if (DrawFloortoolStripButton.Checked)
+                        pictureBoxMulti.Refresh();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Hover effect
+        /// </summary>
+        private void OnMouseMovePictureBoxMulti(object sender, MouseEventArgs e)
+        {
+            MouseLoc = e.Location;
+            MouseLoc.X += hScrollBar.Value;
+            MouseLoc.Y += vScrollBar.Value;
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Draw/Select a Tile
+        /// </summary>
+        private void OnMouseUpPictureBoxMulti(object sender, MouseEventArgs e)
+        {
+            if (compList == null)
+                return;
+            if (DrawTileButton.Checked)
+            {
+                int x, y, z;
+                ConvertCoords(MouseLoc, out x, out y, out z);
+                if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
+                {
+                    compList.AddTile(x, y, z, m_DrawTile.ID);
+                    MaxHeightTrackBar.Maximum = compList.zMax;
+                }
+            }
+            else
+                m_SelectedTile = compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value);
+            pictureBoxMulti.Refresh();
+        }
+
         /// <summary>
         /// Draw Image
         /// </summary>
@@ -221,35 +300,19 @@ namespace MultiEditor
         }
 
         /// <summary>
-        /// Hover effect
+        /// PictureBox size changed
         /// </summary>
-        private void OnMouseMovePictureBoxMulti(object sender, MouseEventArgs e)
+        private void OnResizePictureBoxMulti(object sender, EventArgs e)
         {
-            MouseLoc = e.Location;
-            MouseLoc.X += hScrollBar.Value;
-            MouseLoc.Y += vScrollBar.Value;
+            SetScrollbars();
             pictureBoxMulti.Refresh();
         }
 
         /// <summary>
-        /// Draw/Select a Tile
+        /// Scrollbars changed
         /// </summary>
-        private void OnMouseUpPictureBoxMulti(object sender, MouseEventArgs e)
+        private void OnScrollBarValueChanged(object sender, EventArgs e)
         {
-            if (compList == null)
-                return;
-            if (DrawTileButton.Checked)
-            {
-                int x, y, z;
-                ConvertCoords(MouseLoc, out x, out y, out z);
-                if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
-                {
-                    compList.AddTile(x, y, z, m_DrawTile.ID);
-                    MaxHeightTrackBar.Maximum = compList.zMax;
-                }
-            }
-            else
-                m_SelectedTile = compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value);
             pictureBoxMulti.Refresh();
         }
 
@@ -260,15 +323,6 @@ namespace MultiEditor
         {
             SetScrollbars();
             toolTip1.SetToolTip(MaxHeightTrackBar, MaxHeightTrackBar.Value.ToString());
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// PictureBox size changed
-        /// </summary>
-        private void OnResizePictureBoxMulti(object sender, EventArgs e)
-        {
-            SetScrollbars();
             pictureBoxMulti.Refresh();
         }
 
@@ -304,45 +358,6 @@ namespace MultiEditor
             }
         }
 
-        /// <summary>
-        /// Scrollbars changed
-        /// </summary>
-        private void OnScrollBarValueChanged(object sender, EventArgs e)
-        {
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Change Floordraw
-        /// </summary>
-        private void OnClickDrawFloor(object sender, EventArgs e)
-        {
-            int z;
-            if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
-                m_DrawFloorZ = z;
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Keys.Enter refreshes Floor Z
-        /// </summary>
-        private void OnKeyDownDrawFloorEntry(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                int z;
-                if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
-                {
-                    m_DrawFloorZ = z;
-                    if (DrawFloortoolStripButton.Checked)
-                        pictureBoxMulti.Refresh();
-                }
-            }
-        }
-
-        private void OnClickDrawTile(object sender, EventArgs e)
-        {
-            pictureBoxMulti.Refresh();
-        }
+		#endregion Methods 
     }
 }

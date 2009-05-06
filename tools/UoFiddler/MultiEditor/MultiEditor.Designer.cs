@@ -43,6 +43,7 @@ namespace MultiEditor
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiEditor));
             this.TC_MultiEditorToolbox = new System.Windows.Forms.TabControl();
             this.tileTab = new System.Windows.Forms.TabPage();
+            this.panelTilesView = new System.Windows.Forms.Panel();
             this.treeViewTilesXML = new System.Windows.Forms.TreeView();
             this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
             this.designTab = new System.Windows.Forms.TabPage();
@@ -59,7 +60,7 @@ namespace MultiEditor
             this.DrawFloortoolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panelTilesView = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -97,6 +98,15 @@ namespace MultiEditor
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
+            // 
+            // panelTilesView
+            // 
+            this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelTilesView.Location = new System.Drawing.Point(3, 166);
+            this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
+            this.panelTilesView.Name = "panelTilesView";
+            this.panelTilesView.Size = new System.Drawing.Size(186, 129);
+            this.panelTilesView.TabIndex = 1;
             // 
             // treeViewTilesXML
             // 
@@ -170,6 +180,7 @@ namespace MultiEditor
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.splitter1);
             this.splitContainer2.Panel2.Controls.Add(this.pictureBoxMulti);
             this.splitContainer2.Panel2.Controls.Add(this.hScrollBar);
             this.splitContainer2.Panel2.Controls.Add(this.vScrollBar);
@@ -276,14 +287,13 @@ namespace MultiEditor
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
-            // panelTilesView
+            // splitter1
             // 
-            this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelTilesView.Location = new System.Drawing.Point(3, 166);
-            this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
-            this.panelTilesView.Name = "panelTilesView";
-            this.panelTilesView.Size = new System.Drawing.Size(186, 129);
-            this.panelTilesView.TabIndex = 1;
+            this.splitter1.Location = new System.Drawing.Point(0, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 248);
+            this.splitter1.TabIndex = 3;
+            this.splitter1.TabStop = false;
             // 
             // MultiEditor
             // 
@@ -331,5 +341,6 @@ namespace MultiEditor
         private System.Windows.Forms.ToolStripLabel toolStripLabelCoord;
         private System.Windows.Forms.ToolStripButton DrawTileButton;
         private System.Windows.Forms.Panel panelTilesView;
+        private System.Windows.Forms.Splitter splitter1;
     }
 }
