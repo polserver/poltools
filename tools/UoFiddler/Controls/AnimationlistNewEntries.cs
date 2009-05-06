@@ -123,16 +123,16 @@ namespace FiddlerControls
             foreach (DictionaryEntry key in BodyTable.m_Entries) //body.def
             {
                 BodyTableEntry entry = (BodyTableEntry)key.Value;
-                if (!AlreadyFound(entry.m_NewID))
+                if (!AlreadyFound(entry.NewID))
                 {
-                    if (!Form.IsAlreadyDefinied(entry.m_NewID))
+                    if (!Form.IsAlreadyDefinied(entry.NewID))
                     {
-                        node = new TreeNode(entry.m_NewID.ToString());
-                        node.Tag = entry.m_NewID;
-                        node.ToolTipText = String.Format("Found in body.def {0}", Animations.GetFileName(entry.m_NewID));
-                        node.Tag = new int[] { entry.m_NewID, 0 };
+                        node = new TreeNode(entry.NewID.ToString());
+                        node.Tag = entry.NewID;
+                        node.ToolTipText = String.Format("Found in body.def {0}", Animations.GetFileName(entry.NewID));
+                        node.Tag = new int[] { entry.NewID, 0 };
                         treeView1.Nodes.Add(node);
-                        SetActionType(node, entry.m_NewID, 0);
+                        SetActionType(node, entry.NewID, 0);
                     }
                 }
             }

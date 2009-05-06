@@ -51,6 +51,7 @@ namespace MultiEditor
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.MaxHeightTrackBar = new System.Windows.Forms.TrackBar();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.pictureBoxMulti = new System.Windows.Forms.PictureBox();
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
@@ -60,9 +61,19 @@ namespace MultiEditor
             this.DrawFloortoolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.treeViewMultiList = new System.Windows.Forms.TreeView();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTextBoxSaveID = new System.Windows.Forms.ToolStripTextBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
+            this.designTab.SuspendLayout();
+            this.importTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -72,6 +83,8 @@ namespace MultiEditor
             ((System.ComponentModel.ISupportInitialize)(this.MaxHeightTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMulti)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_MultiEditorToolbox
@@ -101,6 +114,7 @@ namespace MultiEditor
             // 
             // panelTilesView
             // 
+            this.panelTilesView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelTilesView.Location = new System.Drawing.Point(3, 166);
             this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
@@ -118,6 +132,7 @@ namespace MultiEditor
             this.treeViewTilesXML.SelectedImageIndex = 0;
             this.treeViewTilesXML.Size = new System.Drawing.Size(186, 157);
             this.treeViewTilesXML.TabIndex = 0;
+            this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
             // 
             // imageListTreeView
             // 
@@ -128,6 +143,9 @@ namespace MultiEditor
             // designTab
             // 
             this.designTab.BackColor = System.Drawing.SystemColors.Window;
+            this.designTab.Controls.Add(this.button1);
+            this.designTab.Controls.Add(this.numericUpDown2);
+            this.designTab.Controls.Add(this.numericUpDown1);
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
@@ -139,6 +157,7 @@ namespace MultiEditor
             // importTab
             // 
             this.importTab.BackColor = System.Drawing.SystemColors.Window;
+            this.importTab.Controls.Add(this.treeViewMultiList);
             this.importTab.Location = new System.Drawing.Point(4, 22);
             this.importTab.Name = "importTab";
             this.importTab.Size = new System.Drawing.Size(192, 298);
@@ -198,6 +217,14 @@ namespace MultiEditor
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.OnValueChangedMaxHeight);
             // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(0, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 248);
+            this.splitter1.TabIndex = 3;
+            this.splitter1.TabStop = false;
+            // 
             // pictureBoxMulti
             // 
             this.pictureBoxMulti.BackColor = System.Drawing.Color.White;
@@ -237,7 +264,12 @@ namespace MultiEditor
             this.DrawTileButton,
             this.DrawFloortoolStripButton,
             this.DrawFloortoolStripTextBox,
-            this.toolStripLabelCoord});
+            this.toolStripLabelCoord,
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.toolStripTextBoxSaveID});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -274,7 +306,7 @@ namespace MultiEditor
             // 
             this.DrawFloortoolStripTextBox.MaxLength = 4;
             this.DrawFloortoolStripTextBox.Name = "DrawFloortoolStripTextBox";
-            this.DrawFloortoolStripTextBox.Size = new System.Drawing.Size(50, 25);
+            this.DrawFloortoolStripTextBox.Size = new System.Drawing.Size(35, 25);
             this.DrawFloortoolStripTextBox.Text = "0";
             this.DrawFloortoolStripTextBox.ToolTipText = "Floor Z Level";
             this.DrawFloortoolStripTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownDrawFloorEntry);
@@ -287,13 +319,84 @@ namespace MultiEditor
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
-            // splitter1
+            // treeViewMultiList
             // 
-            this.splitter1.Location = new System.Drawing.Point(0, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 248);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
+            this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
+            this.treeViewMultiList.Name = "treeViewMultiList";
+            this.treeViewMultiList.Size = new System.Drawing.Size(192, 298);
+            this.treeViewMultiList.TabIndex = 0;
+            this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(30, 22);
+            this.toolStripButton1.Text = "UpZ";
+            this.toolStripButton1.Click += new System.EventHandler(this.OnClickUpZ);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(44, 22);
+            this.toolStripButton2.Text = "DownZ";
+            this.toolStripButton2.Click += new System.EventHandler(this.OnClickDownZ);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(48, 22);
+            this.toolStripButton3.Text = "RemTile";
+            this.toolStripButton3.Click += new System.EventHandler(this.OnClickRemoveTile);
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(35, 22);
+            this.toolStripButton4.Text = "Save";
+            this.toolStripButton4.Click += new System.EventHandler(this.OnClickSave);
+            // 
+            // toolStripTextBoxSaveID
+            // 
+            this.toolStripTextBoxSaveID.Name = "toolStripTextBoxSaveID";
+            this.toolStripTextBoxSaveID.Size = new System.Drawing.Size(35, 25);
+            this.toolStripTextBoxSaveID.Text = "0";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(31, 12);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 0;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(31, 39);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown2.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(31, 66);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "ResizeMulti";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnClickResizeMulti);
             // 
             // MultiEditor
             // 
@@ -302,8 +405,11 @@ namespace MultiEditor
             this.Controls.Add(this.splitContainer1);
             this.Name = "MultiEditor";
             this.Size = new System.Drawing.Size(619, 324);
+            this.Load += new System.EventHandler(this.OnLoad);
             this.TC_MultiEditorToolbox.ResumeLayout(false);
             this.tileTab.ResumeLayout(false);
+            this.designTab.ResumeLayout(false);
+            this.importTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -316,6 +422,8 @@ namespace MultiEditor
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMulti)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -342,5 +450,14 @@ namespace MultiEditor
         private System.Windows.Forms.ToolStripButton DrawTileButton;
         private System.Windows.Forms.Panel panelTilesView;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.TreeView treeViewMultiList;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSaveID;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button1;
     }
 }

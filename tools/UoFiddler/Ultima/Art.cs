@@ -107,7 +107,6 @@ namespace Ultima
             if (width <= 0 || height <= 0)
                 return false;
 
-
             return true;
         }
 
@@ -237,7 +236,7 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            Stream stream = m_FileIndex.Seek(index, out length, out extra,out patched);
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
             if (stream == null)
                 return null;
             byte[] buffer = new byte[length];
@@ -255,7 +254,7 @@ namespace Ultima
 
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format16bppArgb1555);
 
-            int delta = ((bd.Stride) >> 1) - bd.Width;
+            int delta = (bd.Stride >> 1) - bd.Width;
             int lineDelta = bd.Stride >> 1;
 
             ushort* pBuffer = (ushort*)bd.Scan0;

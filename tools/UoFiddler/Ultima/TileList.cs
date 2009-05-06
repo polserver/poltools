@@ -76,5 +76,16 @@ namespace Ultima
 
             return tiles;
         }
+
+        public Tile Get(int i)
+        {
+            return m_Tiles[i];
+        }
+
+        public void Set(int i,short id, sbyte z)
+        {
+            if (i < Count)
+                m_Tiles[i].Set(id,z);
+        }
     }
 }

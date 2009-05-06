@@ -340,13 +340,11 @@ namespace Ultima
         private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
         //public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
 
-
         /// <summary>
         /// Rereads AnimX files and bodyconv, body.def
         /// </summary>
         public static void Reload()
         {
-
             m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
             m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
             m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
@@ -387,7 +385,7 @@ namespace Ultima
             if (stream == null)
                 return null;
 
-            bool flip = (direction > 4);
+            bool flip = direction > 4;
 
             BinaryReader bin = new BinaryReader(stream);
 
@@ -404,7 +402,7 @@ namespace Ultima
             for (int i = 0; i < frameCount; ++i)
                 lookups[i] = start + bin.ReadInt32();
 
-            bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
+            bool onlyHueGrayPixels = (hue & 0x8000) != 0;
 
             hue = (hue & 0x3FFF) - 1;
 
@@ -418,7 +416,6 @@ namespace Ultima
             if (FirstFrame)
                 frameCount = 1;
             Frame[] frames = new Frame[frameCount];
-
 
             for (int i = 0; i < frameCount; ++i)
             {
@@ -452,7 +449,7 @@ namespace Ultima
             if (stream == null)
                 return null;
 
-            bool flip = (direction > 4);
+            bool flip = direction > 4;
 
             BinaryReader bin = new BinaryReader(stream);
 
@@ -496,7 +493,7 @@ namespace Ultima
                 return;
             }
 
-            body = (m_Table[body] & 0x7FFF);
+            body = m_Table[body] & 0x7FFF;
         }
 
         /// <summary>
@@ -545,7 +542,7 @@ namespace Ultima
                 {
                     BodyTableEntry bte = (BodyTableEntry)o;
 
-                    m_Table[i] = bte.m_OldID | (1 << 31) | ((bte.m_NewHue & 0xFFFF) << 15);
+                    m_Table[i] = bte.OldID | (1 << 31) | ((bte.NewHue & 0xFFFF) << 15);
                 }
             }
         }
@@ -764,7 +761,6 @@ namespace Ultima
             else
                 return String.Format("anim{0}.mul", fileType);
         }
-
     }
 
     public sealed class Frame
@@ -804,7 +800,7 @@ namespace Ultima
             if (!flip)
             {
                 line += xBase;
-                line += (yBase * delta);
+                line += yBase * delta;
 
                 while ((header = bin.ReadInt32()) != 0x7FFF7FFF)
                 {
@@ -820,7 +816,7 @@ namespace Ultima
             else
             {
                 line -= xBase - width + 1;
-                line += (yBase * delta);
+                line += yBase * delta;
 
                 while ((header = bin.ReadInt32()) != 0x7FFF7FFF)
                 {
@@ -845,15 +841,14 @@ namespace Ultima
 
     public sealed class BodyTableEntry
     {
-        public int m_OldID;
-        public int m_NewID;
-        public int m_NewHue;
-
+        public int OldID { get; set; }
+        public int NewID { get; set; }
+        public int NewHue { get; set; }
         public BodyTableEntry(int oldID, int newID, int newHue)
         {
-            m_OldID = oldID;
-            m_NewID = newID;
-            m_NewHue = newHue;
+            OldID = oldID;
+            NewID = newID;
+            NewHue = newHue;
         }
     }
 
