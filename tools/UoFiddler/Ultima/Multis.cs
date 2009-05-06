@@ -73,6 +73,11 @@ namespace Ultima
             m_Components[index] = MultiComponentList.Empty;
         }
 
+        public static void Add(int index, MultiComponentList comp)
+        {
+            m_Components[index] = comp;
+        }
+
         public static MultiComponentList ImportFromFile(int index, string FileName, Multis.ImportType type, bool centeritem)
         {
             try
@@ -604,6 +609,73 @@ namespace Ultima
                         m_Surface++;
                 }
             }
+        }
+
+        public MultiComponentList(TileList[][] newtiles, int count, int width, int height)
+        {
+            m_Min = m_Max = Point.Empty;
+            m_SortedTiles = new MultiTileEntry[count];
+            m_Center = new Point((width / 2)-1, (height / 2)-1);
+            m_maxHeight = -128;
+
+            bool centerfound = false;
+            if (newtiles[m_Center.X][m_Center.Y].Count > 0)
+            {
+                for (int i = 0; i < newtiles[m_Center.X][m_Center.Y].Count; i++)
+                {
+                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID==0x4001) && (newtiles[m_Center.X][m_Center.Y].Get(i).Z == 0))
+                    {
+                        m_SortedTiles[0].m_OffsetX = 0;
+                        m_SortedTiles[0].m_OffsetY = 0;
+                        m_SortedTiles[0].m_OffsetZ = 0;
+                        m_SortedTiles[0].m_Flags = 0;
+                        m_SortedTiles[0].m_ItemID = 0x1;
+                        centerfound = true;
+                        newtiles[m_Center.X][m_Center.Y].Set(i, -1, 0);
+                        break;
+                    }
+                }
+            }
+            if (!centerfound)
+            {
+                m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
+                m_SortedTiles[0].m_OffsetX = 0;
+                m_SortedTiles[0].m_OffsetY = 0;
+                m_SortedTiles[0].m_Flags = 0;
+            }
+
+            int counter = 1;
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Tile[] tiles = newtiles[x][y].ToArray();
+                    for (int i = 0; i < tiles.Length; i++)
+                    {
+                        if (tiles[i].ID>=0)
+                        {
+                            m_SortedTiles[counter].m_ItemID = (short)(tiles[i].ID & 0x3FFF);
+                            m_SortedTiles[counter].m_OffsetX = (short)(x - m_Center.X);
+                            m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
+                            m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);
+                            m_SortedTiles[counter].m_Flags = 1;
+                            
+                            if (m_SortedTiles[counter].m_OffsetX < m_Min.X)
+                                m_Min.X = m_SortedTiles[counter].m_OffsetX;
+                            if (m_SortedTiles[counter].m_OffsetX > m_Max.X)
+                                m_Max.X = m_SortedTiles[counter].m_OffsetX;
+                            if (m_SortedTiles[counter].m_OffsetY < m_Min.Y)
+                                m_Min.Y = m_SortedTiles[counter].m_OffsetY;
+                            if (m_SortedTiles[counter].m_OffsetY > m_Max.Y)
+                                m_Max.Y = m_SortedTiles[counter].m_OffsetY;
+                            if (m_SortedTiles[counter].m_OffsetZ > m_maxHeight)
+                                m_maxHeight = m_SortedTiles[counter].m_OffsetZ;
+                            counter++;
+                        }
+                    }
+                }
+            }
+            ConvertList();
         }
 
         private MultiComponentList()

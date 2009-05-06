@@ -54,7 +54,7 @@ namespace MultiEditor
 
 		#endregion Constructors 
 
-		#region Properties (9) 
+		#region Properties (13) 
 
         public int Height { get; private set; }
 
@@ -64,11 +64,19 @@ namespace MultiEditor
 
         public int xMax { get; private set; }
 
+        public int xMaxOrg { get; private set; }
+
         public int xMin { get; private set; }
+
+        public int xMinOrg { get; private set; }
 
         public int yMax { get; private set; }
 
+        public int yMaxOrg { get; private set; }
+
         public int yMin { get; private set; }
+
+        public int yMinOrg { get; private set; }
 
         public int zMax { get; private set; }
 
@@ -76,9 +84,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (5) 
+		#region Methods (8) 
 
-		// Public Methods (4) 
+		// Public Methods (7) 
 
         /// <summary>
         /// Adds an <see cref="MultiTile"/> to specific location
@@ -91,6 +99,32 @@ namespace MultiEditor
             Tiles[x][y].Sort();
             Modified = true;
             RecalcMinMax();
+        }
+
+        /// <summary>
+        /// Export to given multi id
+        /// </summary>
+        public void AddToSDKComponentList(int id)
+        {
+            int count = 0;
+            TileList[][] tiles= new TileList[Width][];
+            for (int x = 0; x < Width; ++x)
+            {
+                tiles[x] = new TileList[Height];
+                for (int y = 0; y < Height; ++y)
+                {
+                    tiles[x][y] = new TileList();
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        MultiTile tile = (MultiTile)Tiles[x][y][i];
+                        tiles[x][y].Add((short)(tile.ID + 0x4000), (sbyte)tile.Z);
+                        count++;
+                    }
+                }
+            }
+            Ultima.Multis.Add(id, new MultiComponentList(tiles, count, Width, Height));
+            FiddlerControls.Options.ChangedUltimaClass["Multis"] = true;
+            FiddlerControls.Options.FireMultiChangeEvent(id);
         }
 
         /// <summary>
@@ -107,10 +141,22 @@ namespace MultiEditor
 
             if (Modified)
                 RecalcMinMax();
-
+            xMin = xMinOrg;
+            xMax = xMaxOrg;
+            yMin = yMinOrg;
+            yMax = yMaxOrg;
             Parent.HoverTile = GetSelected(mouseLoc, maxheight);
-
-            Bitmap canvas = new Bitmap(xMax - xMin+88, yMax - yMin+88);
+            
+            if (drawFloor)
+            {
+                int floorzmod = -Parent.DrawFloorZ * 4 - 44;
+                if (yMin > floorzmod)
+                    yMin = floorzmod;
+                floorzmod = (Width+Height)*22-Parent.DrawFloorZ * 4;
+                if (yMaxOrg < floorzmod)
+                    yMax = floorzmod;
+            }
+            Bitmap canvas = new Bitmap(xMax - xMin+88, yMax - yMin+66);
             Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.White);
             for (int x = 0; x < Width; ++x)
@@ -134,9 +180,14 @@ namespace MultiEditor
                                 fy -= 44;
                                 fx -= xMin;
                                 fy -= yMin;
-                                fx += 22; //Mod for a bit of gap
+                                fx += 44; //Mod for a bit of gap
                                 fy += 22;
                                 gfx.FillPolygon(FloorBrush, new Point[]{
+                                    new Point(fx+22,fy),
+                                    new Point(fx+44,fy+22),
+                                    new Point(fx+22,fy+44),
+                                    new Point(fx,fy+22)});
+                                gfx.DrawPolygon(Pens.White, new Point[]{
                                     new Point(fx+22,fy),
                                     new Point(fx+44,fy+22),
                                     new Point(fx+22,fy+44),
@@ -159,7 +210,7 @@ namespace MultiEditor
                         px -= xMin;
                         py -= yMin;
                         py += 22; //Mod for a bit of gap
-                        px += 22;
+                        px += 44;
 
                         if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
                             gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
@@ -179,8 +230,13 @@ namespace MultiEditor
                         fx -= xMin;
                         fy -= yMin;
                         fy += 22; //Mod for a bit of gap
-                        fx += 22;
+                        fx += 44;
                         gfx.FillPolygon(FloorBrush, new Point[]{
+                                new Point(fx+22,fy),
+                                new Point(fx+44,fy+22),
+                                new Point(fx+22,fy+44),
+                                new Point(fx,fy+22)});
+                        gfx.DrawPolygon(Pens.White,new Point[]{
                                 new Point(fx+22,fy),
                                 new Point(fx+44,fy+22),
                                 new Point(fx+22,fy+44),
@@ -189,7 +245,7 @@ namespace MultiEditor
                 }
             }
             gfx.Dispose();
-
+            
             return canvas;
         }
 
@@ -228,7 +284,7 @@ namespace MultiEditor
                             py -= bmp.Height;
                             px -= xMin;
                             py -= yMin;
-                            px += 22;
+                            px += 44;
                             py += 22;
 
                             if (((mouseLoc.X > px) && (mouseLoc.X < (px + bmp.Width))) &&
@@ -270,6 +326,47 @@ namespace MultiEditor
                 }
             }
         }
+
+        public void Resize(int width, int height)
+        {
+            ArrayList[][] copytiles = new ArrayList[width][];
+            for (int x = 0; x < width; x++)
+            {
+                copytiles[x] = new ArrayList[height];
+                for (int y = 0; y < height; y++)
+                {
+                    copytiles[x][y] = new ArrayList();
+                    if ((x < Width) && (y < Height))
+                    {
+                        for (int i = 0; i < Tiles[x][y].Count; i++)
+                        {
+                            MultiTile tile = (MultiTile)Tiles[x][y][i];
+                            copytiles[x][y].Add(new MultiTile(tile.ID, tile.Z));
+                        }
+                        Tiles[x][y].Clear();
+                    }
+                }
+            }
+            Width = width;
+            Height = height;
+            Tiles = copytiles;
+            Modified = true;
+            RecalcMinMax();
+        }
+
+        /// <summary>
+        /// Alter Z level for given tile
+        /// </summary>
+        public void TileModZ(MultiTile tile, int modz)
+        {
+            tile.Z += modz;
+            if (tile.Z > 127)
+                tile.Z = 127;
+            if (tile.Z < -128)
+                tile.Z = -128;
+            Modified = true;
+            RecalcMinMax();
+        }
 		// Private Methods (1) 
 
         /// <summary>
@@ -277,9 +374,11 @@ namespace MultiEditor
         /// </summary>
         private void RecalcMinMax()
         {
-            xMin = yMin = zMin = 1000;
-            xMax = yMax = zMax = -1000;
-            
+            //CalcEdgeTiles
+            yMin = -44; // 0,0
+            yMax = (Width + Height) * 22; // width,height
+            xMin = -Height * 22 - 22; // 0,height
+            xMax = Width * 22 + 22; // width,0
 
             for (int x = 0; x < Width; ++x)
             {
@@ -324,6 +423,10 @@ namespace MultiEditor
                 }
             }
             Modified = false;
+            xMinOrg = xMin;
+            xMaxOrg = xMax;
+            yMinOrg = yMin;
+            yMaxOrg = yMax;
         }
 
 		#endregion Methods 
@@ -363,7 +466,7 @@ namespace MultiEditor
 
 		#endregion Fields 
 
-		#region Constructors (1) 
+		#region Constructors (2) 
 
         public MultiTile(int id, int z)
         {
@@ -386,6 +489,11 @@ namespace MultiEditor
             }
         }
 
+        public MultiTile()
+        {
+            ID = -1;
+        }
+
 		#endregion Constructors 
 
 		#region Properties (6) 
@@ -400,7 +508,7 @@ namespace MultiEditor
 
         public static ImageAttributes SelectedColor { get { return m_SelectedColor; } }
 
-        public int Z { get; private set; }
+        public int Z { get; set; }
 
 		#endregion Properties 
 

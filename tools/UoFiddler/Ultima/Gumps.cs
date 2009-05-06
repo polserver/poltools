@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Collections;
 
 namespace Ultima
 {
