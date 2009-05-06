@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using Ultima;
 
 namespace FiddlerControls
@@ -48,6 +49,19 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Multis"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
 
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            string FileName = Path.Combine(path, "Multilist.xml");
+            XmlDocument dom = null;
+            XmlElement xMultis = null;
+            if ((File.Exists(FileName)))
+            {
+                dom = new XmlDocument();
+                dom.Load(FileName);
+                xMultis = dom["Multis"];
+            }
+
+
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
             for (int i = 0; i < 0x2000; i++)
@@ -55,7 +69,21 @@ namespace FiddlerControls
                 MultiComponentList multi = Ultima.Multis.GetComponents(i);
                 if (multi != MultiComponentList.Empty)
                 {
-                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    TreeNode node = null;
+                    if (dom == null)
+                    {
+                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    }
+                    else
+                    {
+                        XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='"+i+"']");
+                        string j = i.ToString();
+                        foreach (XmlNode xMultiNode in xMultiNodeList)
+                        {
+                            j = xMultiNode.Attributes["name"].Value;
+                        }
+                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", j, i));
+                    }
                     node.Tag = multi;
                     node.Name = i.ToString();
                     TreeViewMulti.Nodes.Add(node);
