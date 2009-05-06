@@ -370,6 +370,11 @@ namespace MultiEditor
                         MaxHeightTrackBar.Value = z;
                 }
             }
+            else if (BTN_DeleteTile.Checked)
+            {
+                compList.RemoveTile(compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value));
+                MaxHeightTrackBar.Maximum = compList.zMax; 
+            }
             else
                 m_SelectedTile = compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value);
             pictureBoxMulti.Refresh();

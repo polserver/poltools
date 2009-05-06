@@ -47,7 +47,11 @@ namespace MultiEditor
             this.treeViewTilesXML = new System.Windows.Forms.TreeView();
             this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
             this.designTab = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.importTab = new System.Windows.Forms.TabPage();
+            this.treeViewMultiList = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.MaxHeightTrackBar = new System.Windows.Forms.TrackBar();
@@ -60,19 +64,17 @@ namespace MultiEditor
             this.DrawFloortoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.DrawFloortoolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.treeViewMultiList = new System.Windows.Forms.TreeView();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.BTN_UpZ = new System.Windows.Forms.ToolStripButton();
+            this.BTN_DownZ = new System.Windows.Forms.ToolStripButton();
+            this.BTN_DeleteTile = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripTextBoxSaveID = new System.Windows.Forms.ToolStripTextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.designTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.importTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -83,8 +85,6 @@ namespace MultiEditor
             ((System.ComponentModel.ISupportInitialize)(this.MaxHeightTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMulti)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // TC_MultiEditorToolbox
@@ -154,6 +154,30 @@ namespace MultiEditor
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(31, 66);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "ResizeMulti";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnClickResizeMulti);
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(31, 39);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown2.TabIndex = 1;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(31, 12);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 0;
+            // 
             // importTab
             // 
             this.importTab.BackColor = System.Drawing.SystemColors.Window;
@@ -164,6 +188,15 @@ namespace MultiEditor
             this.importTab.TabIndex = 2;
             this.importTab.Text = "Import";
             this.importTab.UseVisualStyleBackColor = true;
+            // 
+            // treeViewMultiList
+            // 
+            this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
+            this.treeViewMultiList.Name = "treeViewMultiList";
+            this.treeViewMultiList.Size = new System.Drawing.Size(192, 298);
+            this.treeViewMultiList.TabIndex = 0;
+            this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             // 
             // splitContainer1
             // 
@@ -265,9 +298,9 @@ namespace MultiEditor
             this.DrawFloortoolStripButton,
             this.DrawFloortoolStripTextBox,
             this.toolStripLabelCoord,
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3,
+            this.BTN_UpZ,
+            this.BTN_DownZ,
+            this.BTN_DeleteTile,
             this.toolStripButton4,
             this.toolStripTextBoxSaveID});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -319,44 +352,37 @@ namespace MultiEditor
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
-            // treeViewMultiList
+            // BTN_UpZ
             // 
-            this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
-            this.treeViewMultiList.Name = "treeViewMultiList";
-            this.treeViewMultiList.Size = new System.Drawing.Size(192, 298);
-            this.treeViewMultiList.TabIndex = 0;
-            this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
+            this.BTN_UpZ.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BTN_UpZ.Image = ((System.Drawing.Image)(resources.GetObject("BTN_UpZ.Image")));
+            this.BTN_UpZ.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BTN_UpZ.Name = "BTN_UpZ";
+            this.BTN_UpZ.Size = new System.Drawing.Size(25, 22);
+            this.BTN_UpZ.Text = "+Z";
+            this.BTN_UpZ.Click += new System.EventHandler(this.OnClickUpZ);
             // 
-            // toolStripButton1
+            // BTN_DownZ
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(30, 22);
-            this.toolStripButton1.Text = "UpZ";
-            this.toolStripButton1.Click += new System.EventHandler(this.OnClickUpZ);
+            this.BTN_DownZ.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BTN_DownZ.Image = ((System.Drawing.Image)(resources.GetObject("BTN_DownZ.Image")));
+            this.BTN_DownZ.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BTN_DownZ.Name = "BTN_DownZ";
+            this.BTN_DownZ.Size = new System.Drawing.Size(23, 22);
+            this.BTN_DownZ.Text = "-Z";
+            this.BTN_DownZ.Click += new System.EventHandler(this.OnClickDownZ);
             // 
-            // toolStripButton2
+            // BTN_DeleteTile
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(44, 22);
-            this.toolStripButton2.Text = "DownZ";
-            this.toolStripButton2.Click += new System.EventHandler(this.OnClickDownZ);
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(48, 22);
-            this.toolStripButton3.Text = "RemTile";
-            this.toolStripButton3.Click += new System.EventHandler(this.OnClickRemoveTile);
+            this.BTN_DeleteTile.CheckOnClick = true;
+            this.BTN_DeleteTile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BTN_DeleteTile.Image = ((System.Drawing.Image)(resources.GetObject("BTN_DeleteTile.Image")));
+            this.BTN_DeleteTile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BTN_DeleteTile.Name = "BTN_DeleteTile";
+            this.BTN_DeleteTile.Size = new System.Drawing.Size(42, 22);
+            this.BTN_DeleteTile.Text = "Delete";
+            this.BTN_DeleteTile.ToolTipText = "Delete Tiles when selected";
+            this.BTN_DeleteTile.Click += new System.EventHandler(this.OnClickRemoveTile);
             // 
             // toolStripButton4
             // 
@@ -374,30 +400,6 @@ namespace MultiEditor
             this.toolStripTextBoxSaveID.Size = new System.Drawing.Size(35, 25);
             this.toolStripTextBoxSaveID.Text = "0";
             // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(31, 12);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 0;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(31, 39);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 1;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(31, 66);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "ResizeMulti";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickResizeMulti);
-            // 
             // MultiEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -409,6 +411,8 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.ResumeLayout(false);
             this.tileTab.ResumeLayout(false);
             this.designTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.importTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -422,8 +426,6 @@ namespace MultiEditor
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMulti)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -451,9 +453,9 @@ namespace MultiEditor
         private System.Windows.Forms.Panel panelTilesView;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TreeView treeViewMultiList;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton BTN_UpZ;
+        private System.Windows.Forms.ToolStripButton BTN_DownZ;
+        private System.Windows.Forms.ToolStripButton BTN_DeleteTile;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSaveID;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
