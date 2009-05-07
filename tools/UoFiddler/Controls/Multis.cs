@@ -72,17 +72,17 @@ namespace FiddlerControls
                     TreeNode node = null;
                     if (dom == null)
                     {
-                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                        node = new TreeNode(String.Format("{0,5} (0x{0:X})", i));
                     }
                     else
                     {
                         XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='"+i+"']");
-                        string j = i.ToString();
+                        string j = "";
                         foreach (XmlNode xMultiNode in xMultiNodeList)
                         {
                             j = xMultiNode.Attributes["name"].Value;
                         }
-                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", j, i));
+                        node = new TreeNode(String.Format("{0,5} (0x{0:X}) {1}", i, j));
                     }
                     node.Tag = multi;
                     node.Name = i.ToString();
@@ -114,6 +114,7 @@ namespace FiddlerControls
             MultiComponentList multi = Ultima.Multis.GetComponents(id);
             if (multi != MultiComponentList.Empty)
             {
+                bool done = false;
                 for (int i = 0; i < TreeViewMulti.Nodes.Count; i++)
                 {
                     if (id == int.Parse(TreeViewMulti.Nodes[i].Name))
@@ -122,15 +123,25 @@ namespace FiddlerControls
                         TreeViewMulti.Nodes[i].ForeColor = Color.Black;
                         if (i == TreeViewMulti.SelectedNode.Index)
                             afterSelect_Multi(this, null);
+                        done=true;
+                        break;
                     }
                     else if (id < int.Parse(TreeViewMulti.Nodes[i].Name))
                     {
-                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", id, id));
+                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
                         node.Tag = multi;
                         node.Name = id.ToString();
                         TreeViewMulti.Nodes.Insert(i, node);
+                        done=true;
                         break;
                     }
+                }
+                if (!done)
+                {
+                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
+                    node.Tag = multi;
+                    node.Name = id.ToString();
+                    TreeViewMulti.Nodes.Add(node);
                 }
             }
         }

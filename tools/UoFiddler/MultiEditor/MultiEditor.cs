@@ -163,7 +163,35 @@ namespace MultiEditor
         {
             int id;
             if (Int32.TryParse(textBox_SaveToID.Text, out id))
+            {
                 compList.AddToSDKComponentList(id);
+
+                bool done = false;
+                for (int i = 0; i < treeViewMultiList.Nodes.Count; i++)
+                {
+                    if (id == (int)treeViewMultiList.Nodes[i].Tag)
+                    {
+                        done = true;
+                        break;
+                    }
+                    else if (id < (int)treeViewMultiList.Nodes[i].Tag)
+                    {
+                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
+                        node.Tag = id;
+                        node.Name = id.ToString();
+                        treeViewMultiList.Nodes.Insert(i, node);
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                {
+                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
+                    node.Tag = id;
+                    node.Name = id.ToString();
+                    treeViewMultiList.Nodes.Add(node);
+                }
+            }
         }
 
         /// <summary>
@@ -387,17 +415,17 @@ namespace MultiEditor
                     TreeNode node;
                     if (dom == null)
                     {
-                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                        node = new TreeNode(String.Format("{0,5} (0x{0:X})", i));
                     }
                     else
                     {
                         XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='" + i + "']");
-                        string j = i.ToString();
+                        string j = "";
                         foreach (XmlNode xMultiNode in xMultiNodeList)
                         {
                             j = xMultiNode.Attributes["name"].Value;
                         }
-                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", j, i));
+                        node = new TreeNode(String.Format("{0,5} (0x{0:X}) {1}", i, j));
                     }
                     node.Tag = i;
                     node.Name = i.ToString();
