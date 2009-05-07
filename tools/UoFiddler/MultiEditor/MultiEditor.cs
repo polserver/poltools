@@ -20,7 +20,7 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
-        #region Fields (8)
+		#region Fields (8) 
 
         private MultiEditorComponentList compList;
         private bool Loaded = false;
@@ -34,9 +34,9 @@ namespace MultiEditor
         private Point MouseLoc;
         private static MultiEditor refMarkerMulti = null;
 
-        #endregion Fields
+		#endregion Fields 
 
-        #region Constructors (1)
+		#region Constructors (1) 
 
         public MultiEditor()
         {
@@ -49,9 +49,9 @@ namespace MultiEditor
             BTN_Select.Checked = true;
         }
 
-        #endregion Constructors
+		#endregion Constructors 
 
-        #region Properties (3)
+		#region Properties (3) 
 
         /// <summary>
         /// Floor Z level
@@ -97,11 +97,11 @@ namespace MultiEditor
             }
         }
 
-        #endregion Properties
+		#endregion Properties 
 
-        #region Methods (25)
+		#region Methods (26) 
 
-        // Private Methods (25) 
+		// Private Methods (26) 
 
         /// <summary>
         /// Draw Button activate
@@ -204,6 +204,18 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
             pictureBoxMulti.Refresh();
+        }
+
+        private void BTN_Toolbox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox thisBox = (CheckBox)sender;
+            switch (thisBox.Name)
+            {
+                case "BTN_Select": thisBox.ImageKey = (thisBox.Checked) ? "SelectButton_Selected.bmp" : "SelectButton.bmp"; break;
+                case "BTN_Draw": thisBox.ImageKey = (thisBox.Checked) ? "DrawButton_Selected.bmp" : "DrawButton.bmp"; break;
+                case "BTN_Remove": thisBox.ImageKey = (thisBox.Checked) ? "RemoveButton_Selected.bmp" : "RemoveButton.bmp"; break;
+                case "BTN_Z": thisBox.ImageKey = (thisBox.Checked) ? "AltitudeButton_Selected.bmp" : "AltitudeButton.bmp"; break;
+            }
         }
 
         /// <summary>
@@ -665,18 +677,6 @@ namespace MultiEditor
             }
         }
 
-        #endregion Methods
-
-        private void BTN_Toolbox_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox thisBox = (CheckBox)sender;
-            switch (thisBox.Name)
-            {
-                case "BTN_Select": thisBox.ImageKey = (thisBox.Checked) ? "SelectButton_Selected.bmp" : "SelectButton.bmp"; break;
-                case "BTN_Draw": thisBox.ImageKey = (thisBox.Checked) ? "DrawButton_Selected.bmp" : "DrawButton.bmp"; break;
-                case "BTN_Remove": thisBox.ImageKey = (thisBox.Checked) ? "RemoveButton_Selected.bmp" : "RemoveButton.bmp"; break;
-                case "BTN_Z": thisBox.ImageKey = (thisBox.Checked) ? "AltitudeButton_Selected.bmp" : "AltitudeButton.bmp"; break;
-            }
-        }
+		#endregion Methods 
     }
 }
