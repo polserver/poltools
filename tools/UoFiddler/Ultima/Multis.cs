@@ -638,6 +638,7 @@ namespace Ultima
             }
             if (!centerfound)
             {
+                m_SortedTiles = new MultiTileEntry[count+1];
                 m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
                 m_SortedTiles[0].m_OffsetX = 0;
                 m_SortedTiles[0].m_OffsetY = 0;
