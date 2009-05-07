@@ -19,15 +19,15 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-		#region Fields (3) 
+        #region Fields (3)
 
         private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
         private bool Modified;
         private static MultiEditor Parent;
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (1) 
+        #region Constructors (1)
 
         public MultiEditorComponentList(MultiComponentList list, MultiEditor parent)
         {
@@ -43,7 +43,7 @@ namespace MultiEditor
                     Tiles[x][y] = new ArrayList();
                     for (int i = 0; i < list.Tiles[x][y].Length; i++)
                     {
-                        MultiTile tile = new MultiTile(list.Tiles[x][y][i].ID-0x4000, list.Tiles[x][y][i].Z);
+                        MultiTile tile = new MultiTile(list.Tiles[x][y][i].ID - 0x4000, list.Tiles[x][y][i].Z);
                         Tiles[x][y].Add(tile);
                     }
                 }
@@ -52,9 +52,9 @@ namespace MultiEditor
             RecalcMinMax();
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (13) 
+        #region Properties (13)
 
         public int Height { get; private set; }
 
@@ -82,24 +82,11 @@ namespace MultiEditor
 
         public int zMin { get; private set; }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (8) 
+        #region Methods (11)
 
-		// Public Methods (7) 
-
-        /// <summary>
-        /// Adds an <see cref="MultiTile"/> to specific location
-        /// </summary>
-        public void AddTile(int x, int y, int z, int id)
-        {
-            if ((x > Width) || (y > Height))
-                return;
-            Tiles[x][y].Add(new MultiTile(id,z));
-            Tiles[x][y].Sort();
-            Modified = true;
-            RecalcMinMax();
-        }
+        // Public Methods (10) 
 
         /// <summary>
         /// Export to given multi id
@@ -107,7 +94,7 @@ namespace MultiEditor
         public void AddToSDKComponentList(int id)
         {
             int count = 0;
-            TileList[][] tiles= new TileList[Width][];
+            TileList[][] tiles = new TileList[Width][];
             for (int x = 0; x < Width; ++x)
             {
                 tiles[x] = new TileList[Height];
@@ -130,10 +117,6 @@ namespace MultiEditor
         /// <summary>
         /// Gets Bitmap of Multi and sets HoverTile
         /// </summary>
-        /// <param name="maxheight"></param>
-        /// <param name="mouseLoc"></param>
-        /// <param name="drawFloor"></param>
-        /// <returns></returns>
         public Bitmap GetImage(int maxheight, Point mouseLoc, bool drawFloor)
         {
             if (Width == 0 || Height == 0)
@@ -146,17 +129,17 @@ namespace MultiEditor
             yMin = yMinOrg;
             yMax = yMaxOrg;
             Parent.HoverTile = GetSelected(mouseLoc, maxheight);
-            
+
             if (drawFloor)
             {
                 int floorzmod = -Parent.DrawFloorZ * 4 - 44;
                 if (yMin > floorzmod)
                     yMin = floorzmod;
-                floorzmod = (Width+Height)*22-Parent.DrawFloorZ * 4;
+                floorzmod = (Width + Height) * 22 - Parent.DrawFloorZ * 4;
                 if (yMaxOrg < floorzmod)
                     yMax = floorzmod;
             }
-            Bitmap canvas = new Bitmap(xMax - xMin+88, yMax - yMin+66);
+            Bitmap canvas = new Bitmap(xMax - xMin + 88, yMax - yMin + 66);
             Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.White);
             for (int x = 0; x < Width; ++x)
@@ -194,7 +177,7 @@ namespace MultiEditor
                                     new Point(fx,fy+22)});
                             }
                         }
-                        
+
                         Bitmap bmp = Art.GetStatic(tile.ID);
 
                         if (bmp == null)
@@ -236,7 +219,7 @@ namespace MultiEditor
                                 new Point(fx+44,fy+22),
                                 new Point(fx+22,fy+44),
                                 new Point(fx,fy+22)});
-                        gfx.DrawPolygon(Pens.White,new Point[]{
+                        gfx.DrawPolygon(Pens.White, new Point[]{
                                 new Point(fx+22,fy),
                                 new Point(fx+44,fy+22),
                                 new Point(fx+22,fy+44),
@@ -245,21 +228,18 @@ namespace MultiEditor
                 }
             }
             gfx.Dispose();
-            
+
             return canvas;
         }
 
         /// <summary>
         /// Gets <see cref="MultiTile"/> from given Pixel Location
         /// </summary>
-        /// <param name="mouseLoc"></param>
-        /// <param name="maxheight"></param>
-        /// <returns></returns>
-        public MultiTile GetSelected(Point mouseLoc,int maxheight)
+        public MultiTile GetSelected(Point mouseLoc, int maxheight)
         {
             if (Width == 0 || Height == 0)
                 return null;
-            MultiTile selected=null;
+            MultiTile selected = null;
             if (mouseLoc != Point.Empty)
             {
                 for (int x = 0; x < Width; ++x)
@@ -303,30 +283,8 @@ namespace MultiEditor
         }
 
         /// <summary>
-        /// Removes specific <see cref="MultiTile"/>
+        /// Resizes Multi size
         /// </summary>
-        public void RemoveTile(MultiTile tile)
-        {
-            if (Width == 0 || Height == 0)
-                return;
-            for (int x = 0; x < Width; x++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    for (int i = 0; i < Tiles[x][y].Count; i++)
-                    {
-                        if (tile == Tiles[x][y][i])
-                        {
-                            Tiles[x][y].RemoveAt(i);
-                            Modified = true;
-                            RecalcMinMax();
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
         public void Resize(int width, int height)
         {
             ArrayList[][] copytiles = new ArrayList[width][];
@@ -355,9 +313,101 @@ namespace MultiEditor
         }
 
         /// <summary>
-        /// Alter Z level for given tile
+        /// Adds an <see cref="MultiTile"/> to specific location
         /// </summary>
-        public void TileModZ(MultiTile tile, int modz)
+        public void TileAdd(int x, int y, int z, int id)
+        {
+            if ((x > Width) || (y > Height))
+                return;
+            Tiles[x][y].Add(new MultiTile(id, z));
+            Tiles[x][y].Sort();
+            Modified = true;
+            RecalcMinMax();
+        }
+
+        /// <summary>
+        /// Gets x,y Coords of given <see cref="MultiTile"/>
+        /// </summary>
+        public Point TileGetCoords(MultiTile tile)
+        {
+            Point point = new Point();
+            point = Point.Empty;
+            if (Width == 0 || Height == 0)
+                return point;
+            for (int x = 0; x < Width; ++x)
+            {
+                for (int y = 0; y < Height; ++y)
+                {
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        if (tile == Tiles[x][y][i])
+                        {
+                            point.X = x;
+                            point.Y = y;
+                            return point;
+                        }
+                    }
+                }
+            }
+            return point;
+        }
+
+        /// <summary>
+        /// Moves given <see cref="MultiTile"/>
+        /// </summary>
+        public void TileMove(MultiTile tile, int newx, int newy)
+        {
+            if (Width == 0 || Height == 0)
+                return;
+            for (int x = 0; x < Width; ++x)
+            {
+                for (int y = 0; y < Height; ++y)
+                {
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        if (tile == Tiles[x][y][i])
+                        {
+                            Tiles[newx][newy].Add(tile);
+                            Tiles[newx][newy].Sort();
+                            Tiles[x][y].RemoveAt(i);
+                            Modified = true;
+                            RecalcMinMax();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes specific <see cref="MultiTile"/>
+        /// </summary>
+        public void TileRemove(MultiTile tile)
+        {
+            if (Width == 0 || Height == 0)
+                return;
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        if (tile == Tiles[x][y][i])
+                        {
+                            Tiles[x][y].RemoveAt(i);
+                            Modified = true;
+                            RecalcMinMax();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Alters Z level for given <see cref="MultiTile"/>
+        /// </summary>
+        public void TileZMod(MultiTile tile, int modz)
         {
             tile.Z += modz;
             if (tile.Z > 127)
@@ -365,9 +415,29 @@ namespace MultiEditor
             if (tile.Z < -128)
                 tile.Z = -128;
             Modified = true;
+            Point point = TileGetCoords(tile);
+            if (point != Point.Empty)
+                Tiles[point.X][point.Y].Sort();
             RecalcMinMax();
         }
-		// Private Methods (1) 
+
+        /// <summary>
+        /// Sets Z value of given <see cref="MultiTile"/>
+        /// </summary>
+        public void TileZSet(MultiTile tile, int setz)
+        {
+            tile.Z = setz;
+            if (tile.Z > 127)
+                tile.Z = 127;
+            if (tile.Z < -128)
+                tile.Z = -128;
+            Modified = true;
+            Point point = TileGetCoords(tile);
+            if (point != Point.Empty)
+                Tiles[point.X][point.Y].Sort();
+            RecalcMinMax();
+        }
+        // Private Methods (1) 
 
         /// <summary>
         /// Recalcs Bitmap size
@@ -403,7 +473,6 @@ namespace MultiEditor
 
                         if (px < xMin)
                             xMin = px;
-
                         if (py < yMin)
                             yMin = py;
 
@@ -429,12 +498,12 @@ namespace MultiEditor
             yMaxOrg = yMax;
         }
 
-		#endregion Methods 
+        #endregion Methods
     }
 
     public class MultiTile : IComparable
     {
-		#region Fields (6) 
+        #region Fields (6)
 
         private static ImageAttributes m_DrawColor = null;
         private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
@@ -464,9 +533,9 @@ namespace MultiEditor
                 new float[5] {.80f, .0f, .0f, .0f, 1}
 			});
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (2) 
+        #region Constructors (2)
 
         public MultiTile(int id, int z)
         {
@@ -494,9 +563,9 @@ namespace MultiEditor
             ID = -1;
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (6) 
+        #region Properties (6)
 
         public static ImageAttributes DrawColor { get { return m_DrawColor; } }
 
@@ -510,11 +579,11 @@ namespace MultiEditor
 
         public int Z { get; set; }
 
-		#endregion Properties 
+        #endregion Properties
 
-		#region Methods (2) 
+        #region Methods (2)
 
-		// Public Methods (2) 
+        // Public Methods (2) 
 
         public int CompareTo(object x)
         {
@@ -553,6 +622,6 @@ namespace MultiEditor
             Z = z;
         }
 
-		#endregion Methods 
+        #endregion Methods
     }
 }
