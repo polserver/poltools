@@ -67,7 +67,6 @@ namespace MultiEditor
             this.BTN_Select = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Floor = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Z = new System.Windows.Forms.NumericUpDown();
-            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.Selectedpanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_Selected_Z = new System.Windows.Forms.NumericUpDown();
@@ -83,6 +82,7 @@ namespace MultiEditor
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
             this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -154,7 +154,7 @@ namespace MultiEditor
             // 
             this.splitContainer4.Panel2.Controls.Add(this.panelTilesView);
             this.splitContainer4.Size = new System.Drawing.Size(186, 149);
-            this.splitContainer4.SplitterDistance = 75;
+            this.splitContainer4.SplitterDistance = 74;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
@@ -165,7 +165,7 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 75);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 74);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
             // 
@@ -182,7 +182,7 @@ namespace MultiEditor
             this.panelTilesView.Location = new System.Drawing.Point(0, 0);
             this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
             this.panelTilesView.Name = "panelTilesView";
-            this.panelTilesView.Size = new System.Drawing.Size(186, 70);
+            this.panelTilesView.Size = new System.Drawing.Size(186, 71);
             this.panelTilesView.TabIndex = 1;
             // 
             // designTab
@@ -346,7 +346,7 @@ namespace MultiEditor
             // 
             this.BTN_Z.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Z.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Z.ImageIndex = 0;
+            this.BTN_Z.ImageKey = "AltitudeButton.bmp";
             this.BTN_Z.ImageList = this.imageListTools;
             this.BTN_Z.Location = new System.Drawing.Point(84, 3);
             this.BTN_Z.Name = "BTN_Z";
@@ -354,6 +354,7 @@ namespace MultiEditor
             this.BTN_Z.TabIndex = 12;
             this.toolTip1.SetToolTip(this.BTN_Z, "Apply Z Level");
             this.BTN_Z.UseVisualStyleBackColor = true;
+            this.BTN_Z.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Z.Click += new System.EventHandler(this.BTN_Z_Click);
             // 
             // imageListTools
@@ -364,12 +365,16 @@ namespace MultiEditor
             this.imageListTools.Images.SetKeyName(1, "DrawButton.bmp");
             this.imageListTools.Images.SetKeyName(2, "RemoveButton.bmp");
             this.imageListTools.Images.SetKeyName(3, "SelectButton.bmp");
+            this.imageListTools.Images.SetKeyName(4, "AltitudeButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(5, "DrawButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(6, "RemoveButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(7, "SelectButton_Selected.bmp");
             // 
             // BTN_Remove
             // 
             this.BTN_Remove.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Remove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Remove.ImageIndex = 2;
+            this.BTN_Remove.ImageKey = "RemoveButton.bmp";
             this.BTN_Remove.ImageList = this.imageListTools;
             this.BTN_Remove.Location = new System.Drawing.Point(58, 3);
             this.BTN_Remove.Name = "BTN_Remove";
@@ -377,13 +382,14 @@ namespace MultiEditor
             this.BTN_Remove.TabIndex = 11;
             this.toolTip1.SetToolTip(this.BTN_Remove, "Remove A Tile");
             this.BTN_Remove.UseVisualStyleBackColor = true;
+            this.BTN_Remove.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Remove.Click += new System.EventHandler(this.BTN_Remove_Click);
             // 
             // BTN_Draw
             // 
             this.BTN_Draw.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Draw.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Draw.ImageIndex = 1;
+            this.BTN_Draw.ImageKey = "DrawButton.bmp";
             this.BTN_Draw.ImageList = this.imageListTools;
             this.BTN_Draw.Location = new System.Drawing.Point(31, 3);
             this.BTN_Draw.Name = "BTN_Draw";
@@ -391,6 +397,7 @@ namespace MultiEditor
             this.BTN_Draw.TabIndex = 10;
             this.toolTip1.SetToolTip(this.BTN_Draw, "Draw A Tile");
             this.BTN_Draw.UseVisualStyleBackColor = true;
+            this.BTN_Draw.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Draw.Click += new System.EventHandler(this.BTN_Draw_Click);
             // 
             // BTN_Select
@@ -399,7 +406,7 @@ namespace MultiEditor
             this.BTN_Select.Checked = true;
             this.BTN_Select.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BTN_Select.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Select.ImageIndex = 3;
+            this.BTN_Select.ImageKey = "SelectButton.bmp";
             this.BTN_Select.ImageList = this.imageListTools;
             this.BTN_Select.Location = new System.Drawing.Point(4, 3);
             this.BTN_Select.Name = "BTN_Select";
@@ -407,6 +414,7 @@ namespace MultiEditor
             this.BTN_Select.TabIndex = 9;
             this.toolTip1.SetToolTip(this.BTN_Select, "Select A Tile");
             this.BTN_Select.UseVisualStyleBackColor = true;
+            this.BTN_Select.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Select.Click += new System.EventHandler(this.BTN_Select_Click);
             // 
             // numericUpDown_Floor
@@ -443,22 +451,6 @@ namespace MultiEditor
             this.numericUpDown_Z.Name = "numericUpDown_Z";
             this.numericUpDown_Z.Size = new System.Drawing.Size(50, 20);
             this.numericUpDown_Z.TabIndex = 5;
-            // 
-            // collapsibleSplitter1
-            // 
-            this.collapsibleSplitter1.AnimationDelay = 20;
-            this.collapsibleSplitter1.AnimationStep = 20;
-            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
-            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.collapsibleSplitter1.ExpandParentForm = false;
-            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
-            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
-            this.collapsibleSplitter1.TabIndex = 5;
-            this.collapsibleSplitter1.TabStop = false;
-            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
-            this.collapsibleSplitter1.UseAnimations = true;
-            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // Selectedpanel
             // 
@@ -543,7 +535,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MaxHeightTrackBar.Location = new System.Drawing.Point(0, 0);
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
-            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
+            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 42);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
@@ -615,6 +607,22 @@ namespace MultiEditor
             this.SelectedTileLabel.Name = "SelectedTileLabel";
             this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
             this.SelectedTileLabel.Text = "ID:";
+            // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 5;
+            this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
+            this.collapsibleSplitter1.UseAnimations = true;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // MultiEditor
             // 
