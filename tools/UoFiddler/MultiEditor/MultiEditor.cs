@@ -263,8 +263,8 @@ namespace MultiEditor
             cy += 22; //Mod for a bit of gap
             cx += 44;
 
-            double mx = MouseLoc.X - cx;
-            double my = MouseLoc.Y - cy;
+            double mx = point.X - cx;
+            double my = point.Y - cy;
             double xx = mx;
             double yy = my;
             my = xx * Math.Cos(Math.PI / 4) - yy * Math.Sin(Math.PI / 4); //Rotate 45° Coordinate system
