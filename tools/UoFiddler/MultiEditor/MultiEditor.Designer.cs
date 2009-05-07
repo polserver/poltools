@@ -61,6 +61,7 @@ namespace MultiEditor
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.BTN_Floor = new System.Windows.Forms.CheckBox();
             this.BTN_Z = new System.Windows.Forms.CheckBox();
+            this.imageListTools = new System.Windows.Forms.ImageList(this.components);
             this.BTN_Remove = new System.Windows.Forms.CheckBox();
             this.BTN_Draw = new System.Windows.Forms.CheckBox();
             this.BTN_Select = new System.Windows.Forms.CheckBox();
@@ -345,7 +346,8 @@ namespace MultiEditor
             // 
             this.BTN_Z.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Z.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Z.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Z.Image")));
+            this.BTN_Z.ImageIndex = 0;
+            this.BTN_Z.ImageList = this.imageListTools;
             this.BTN_Z.Location = new System.Drawing.Point(84, 3);
             this.BTN_Z.Name = "BTN_Z";
             this.BTN_Z.Size = new System.Drawing.Size(21, 21);
@@ -354,11 +356,21 @@ namespace MultiEditor
             this.BTN_Z.UseVisualStyleBackColor = true;
             this.BTN_Z.Click += new System.EventHandler(this.BTN_Z_Click);
             // 
+            // imageListTools
+            // 
+            this.imageListTools.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTools.ImageStream")));
+            this.imageListTools.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTools.Images.SetKeyName(0, "AltitudeButton.bmp");
+            this.imageListTools.Images.SetKeyName(1, "DrawButton.bmp");
+            this.imageListTools.Images.SetKeyName(2, "RemoveButton.bmp");
+            this.imageListTools.Images.SetKeyName(3, "SelectButton.bmp");
+            // 
             // BTN_Remove
             // 
             this.BTN_Remove.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Remove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Remove.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Remove.Image")));
+            this.BTN_Remove.ImageIndex = 2;
+            this.BTN_Remove.ImageList = this.imageListTools;
             this.BTN_Remove.Location = new System.Drawing.Point(58, 3);
             this.BTN_Remove.Name = "BTN_Remove";
             this.BTN_Remove.Size = new System.Drawing.Size(21, 21);
@@ -371,7 +383,8 @@ namespace MultiEditor
             // 
             this.BTN_Draw.Appearance = System.Windows.Forms.Appearance.Button;
             this.BTN_Draw.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Draw.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Draw.Image")));
+            this.BTN_Draw.ImageIndex = 1;
+            this.BTN_Draw.ImageList = this.imageListTools;
             this.BTN_Draw.Location = new System.Drawing.Point(31, 3);
             this.BTN_Draw.Name = "BTN_Draw";
             this.BTN_Draw.Size = new System.Drawing.Size(21, 21);
@@ -386,7 +399,8 @@ namespace MultiEditor
             this.BTN_Select.Checked = true;
             this.BTN_Select.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BTN_Select.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Select.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Select.Image")));
+            this.BTN_Select.ImageIndex = 3;
+            this.BTN_Select.ImageList = this.imageListTools;
             this.BTN_Select.Location = new System.Drawing.Point(4, 3);
             this.BTN_Select.Name = "BTN_Select";
             this.BTN_Select.Size = new System.Drawing.Size(21, 21);
@@ -691,5 +705,6 @@ namespace MultiEditor
         private System.Windows.Forms.NumericUpDown numericUpDown_Selected_X;
         private FiddlerControls.CollapsibleSplitter collapsibleSplitter1;
         private System.Windows.Forms.Panel Selectedpanel;
+        private System.Windows.Forms.ImageList imageListTools;
     }
 }
