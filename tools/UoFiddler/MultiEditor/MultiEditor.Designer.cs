@@ -121,10 +121,10 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.designTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 86);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 186);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -134,7 +134,7 @@ namespace MultiEditor
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 155);
+            this.tileTab.Size = new System.Drawing.Size(192, 160);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -153,8 +153,8 @@ namespace MultiEditor
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.panelTilesView);
-            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
-            this.splitContainer4.SplitterDistance = 74;
+            this.splitContainer4.Size = new System.Drawing.Size(186, 154);
+            this.splitContainer4.SplitterDistance = 77;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
@@ -165,7 +165,7 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 74);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 77);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
             // 
@@ -182,7 +182,7 @@ namespace MultiEditor
             this.panelTilesView.Location = new System.Drawing.Point(0, 0);
             this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
             this.panelTilesView.Name = "panelTilesView";
-            this.panelTilesView.Size = new System.Drawing.Size(186, 71);
+            this.panelTilesView.Size = new System.Drawing.Size(186, 73);
             this.panelTilesView.TabIndex = 1;
             // 
             // designTab
