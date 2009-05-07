@@ -20,7 +20,7 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
-		#region Fields (8) 
+        #region Fields (8)
 
         private MultiEditorComponentList compList;
         private bool Loaded = false;
@@ -34,22 +34,24 @@ namespace MultiEditor
         private Point MouseLoc;
         private static MultiEditor refMarkerMulti = null;
 
-		#endregion Fields 
+        #endregion Fields
 
-		#region Constructors (1) 
+        #region Constructors (1)
 
         public MultiEditor()
         {
             InitializeComponent();
             refMarkerMulti = this;
-            InitializeToolBox();
+            XML_InitializeToolBox();
             MouseLoc = new Point();
             m_DrawTile = new MultiTile();
+            Selectedpanel.Visible = false;
+            BTN_Select.Checked = true;
         }
 
-		#endregion Constructors 
+        #endregion Constructors
 
-		#region Properties (3) 
+        #region Properties (3)
 
         /// <summary>
         /// Floor Z level
@@ -76,49 +78,128 @@ namespace MultiEditor
         public MultiTile SelectedTile
         {
             get { return m_SelectedTile; }
-        }
-
-		#endregion Properties 
-
-		#region Methods (22) 
-
-		// Private Methods (22) 
-
-        private void AddChildren(TreeNode node, XmlElement mainNode)
-        {
-            foreach (XmlElement e in mainNode)
+            set
             {
-
-                TreeNode tempNode = new TreeNode();
-
-                tempNode.Text = e.GetAttribute("name");
-                tempNode.Tag = e.GetAttribute("index");
-                if (e.Name == "subgroup")
+                m_SelectedTile = value;
+                if (value != null)
                 {
-                    tempNode.ImageIndex = 0;
+                    SelectedTileLabel.Text = String.Format("ID: 0x{0:X} Z: {1}", value.ID, value.Z);
+                    Point point = compList.TileGetCoords(value);
+                    if (point != Point.Empty)
+                    {
+                        numericUpDown_Selected_X.Value = point.X;
+                        numericUpDown_Selected_Y.Value = point.Y;
+                        numericUpDown_Selected_Z.Value = value.Z;
+                    }
                 }
                 else
-                {
-                    tempNode.Text = tempNode.Tag.ToString();
-                    tempNode.ImageIndex = 1;
-                }
-
-                if (e.HasChildNodes)
-                {
-                    AddChildren(tempNode, e);
-                }
-
-                node.Nodes.Add(tempNode);
+                    SelectedTileLabel.Text = "ID:";
             }
         }
 
+        #endregion Properties
+
+        #region Methods (25)
+
+        // Private Methods (25) 
+
+        /// <summary>
+        /// Draw Button activate
+        /// </summary>
+        private void BTN_Draw_Click(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = false;
+            BTN_Draw.Checked = true;
+            BTN_Remove.Checked = false;
+            BTN_Z.Checked = false;
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Virtual Floor clicked (check on click)
+        /// </summary>
+        private void BTN_Floor_Clicked(object sender, EventArgs e)
+        {
+            m_DrawFloorZ = (int)numericUpDown_Z.Value;
+            ScrollbarsSetValue();
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Remove Button activate
+        /// </summary>
+        private void BTN_Remove_Click(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = false;
+            BTN_Draw.Checked = false;
+            BTN_Remove.Checked = true;
+            BTN_Z.Checked = false;
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Resize Multi Button clicked
+        /// </summary>
+        private void BTN_ResizeMulti_Click(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                int width = (int)numericUpDown_Size_Width.Value;
+                int height = (int)numericUpDown_Size_Height.Value;
+                compList.Resize(width, height);
+                MaxHeightTrackBar.Maximum = compList.zMax;
+                MaxHeightTrackBar.Value = compList.zMax;
+                numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                ScrollbarsSetValue();
+                pictureBoxMulti.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Save Button clicked
+        /// </summary>
+        private void BTN_Save_Click(object sender, EventArgs e)
+        {
+            int id;
+            if (Int32.TryParse(textBox_SaveToID.Text, out id))
+                compList.AddToSDKComponentList(id);
+        }
+
+        /// <summary>
+        /// Select Button activate
+        /// </summary>
+        private void BTN_Select_Click(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = true;
+            BTN_Draw.Checked = false;
+            BTN_Remove.Checked = false;
+            BTN_Z.Checked = false;
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Z Button activate
+        /// </summary>
+        private void BTN_Z_Click(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = false;
+            BTN_Draw.Checked = false;
+            BTN_Remove.Checked = false;
+            BTN_Z.Checked = true;
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Converts pictureBox coords to Multicoords
+        /// </summary>
         private void ConvertCoords(Point point, out int x, out int y, out int z)
         {
             //first check if current Tile matches
             if (HoverTile != null)
             {
                 //visible?
-                if ((!DrawFloortoolStripButton.Checked) || (HoverTile.Z >= DrawFloorZ))
+                if ((!BTN_Floor.Checked) || (HoverTile.Z >= DrawFloorZ))
                 {
                     for (int x_ = 0; x_ < compList.Width; x_++)
                     {
@@ -143,7 +224,7 @@ namespace MultiEditor
 
             int cx = 0; //Get MouseCoords for (0/0)
             int cy = 0;
-            if (DrawFloortoolStripButton.Checked)
+            if (BTN_Floor.Checked)
             {
                 cy -= DrawFloorZ * 4;
                 z = DrawFloorZ;
@@ -167,28 +248,91 @@ namespace MultiEditor
             y = (int)my;
         }
 
-        private void InitializeToolBox()
+        /// <summary>
+        /// Value of TrackBar changed (for displayed MaxHeight)
+        /// </summary>
+        private void MaxHeightTrackBarOnValueChanged(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, @"plugins/multieditor.xml");
-            if (!File.Exists(FileName))
-                return;
+            ScrollbarsSetValue();
+            toolTip1.SetToolTip(MaxHeightTrackBar, MaxHeightTrackBar.Value.ToString());
+            pictureBoxMulti.Refresh();
+        }
 
-            XmlDocument dom = new XmlDocument();
-            dom.Load(FileName);
-            XmlElement xTiles = dom["TileGroups"];
-
-            foreach (XmlElement xRootGroup in xTiles)
+        /// <summary>
+        /// Virtual Floor zValue changed
+        /// </summary>
+        private void numericUpDown_Floor_Changed(object sender, EventArgs e)
+        {
+            m_DrawFloorZ = (int)numericUpDown_Floor.Value;
+            if (BTN_Floor.Checked)
             {
-                TreeNode mainNode = new TreeNode();
-                mainNode.Text = xRootGroup.GetAttribute("name");
-                mainNode.Tag = null;
+                ScrollbarsSetValue();
+                pictureBoxMulti.Refresh();
+            }
+        }
 
-                mainNode.ImageIndex = 0;
+        /// <summary>
+        /// SelectedTile panel X value changed 
+        /// </summary>
+        private void numericUpDown_Selected_X_Changed(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                if (SelectedTile != null)
+                {
+                    Point point = compList.TileGetCoords(SelectedTile);
+                    if (point != Point.Empty)
+                    {
+                        if ((int)numericUpDown_Selected_X.Value != point.X)
+                        {
+                            compList.TileMove(SelectedTile, (int)numericUpDown_Selected_X.Value, point.Y);
+                            pictureBoxMulti.Refresh();
+                        }
+                    }
+                }
+            }
+        }
 
-                AddChildren(mainNode, xRootGroup);
+        /// <summary>
+        /// SelectedTile panel Y value changed 
+        /// </summary>
+        private void numericUpDown_Selected_Y_Changed(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                if (SelectedTile != null)
+                {
+                    Point point = compList.TileGetCoords(SelectedTile);
+                    if (point != Point.Empty)
+                    {
+                        if ((int)numericUpDown_Selected_Y.Value != point.Y)
+                        {
+                            compList.TileMove(SelectedTile, point.X, (int)numericUpDown_Selected_Y.Value);
+                            pictureBoxMulti.Refresh();
+                        }
+                    }
+                }
+            }
+        }
 
-                treeViewTilesXML.Nodes.Add(mainNode);
+        /// <summary>
+        /// SelectedTile panel Z value changed 
+        /// </summary>
+        private void numericUpDown_Selected_Z_Changed(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                if (SelectedTile != null)
+                {
+                    if ((int)numericUpDown_Selected_Z.Value != SelectedTile.Z)
+                    {
+                        compList.TileZSet(SelectedTile, (int)numericUpDown_Selected_Z.Value);
+                        MaxHeightTrackBar.Maximum = compList.zMax;
+                        if (MaxHeightTrackBar.Value < SelectedTile.Z)
+                            MaxHeightTrackBar.Value = SelectedTile.Z;
+                        pictureBoxMulti.Refresh();
+                    }
+                }
             }
         }
 
@@ -206,129 +350,55 @@ namespace MultiEditor
         }
 
         /// <summary>
-        /// Set Z level -1 for selected tile
+        /// Event Ultima FilePathes changed
         /// </summary>
-        private void OnClickDownZ(object sender, EventArgs e)
-        {
-            if (SelectedTile == null)
-                return;
-            compList.TileModZ(SelectedTile, -1);
-            MaxHeightTrackBar.Maximum = compList.zMax;
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Change Floordraw
-        /// </summary>
-        private void OnClickDrawFloor(object sender, EventArgs e)
-        {
-            int z;
-            if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
-                m_DrawFloorZ = z;
-
-            SetScrollbars();
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Switch to draw mode
-        /// </summary>
-        private void OnClickDrawTile(object sender, EventArgs e)
-        {
-            if (m_DrawTile.ID < 0)
-                DrawTileButton.Checked = false;
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Remove selected Tile
-        /// </summary>
-        private void OnClickRemoveTile(object sender, EventArgs e)
-        {
-            if (SelectedTile == null)
-                return;
-            compList.RemoveTile(SelectedTile);
-            MaxHeightTrackBar.Maximum = compList.zMax;
-            pictureBoxMulti.Refresh();
-        }
-
-        private void OnClickResizeMulti(object sender, EventArgs e)
-        {
-            int width = (int)numericUpDown1.Value;
-            int height = (int)numericUpDown2.Value;
-            if (compList != null)
-            {
-                compList.Resize(width, height);
-                MaxHeightTrackBar.Maximum = compList.zMax;
-                MaxHeightTrackBar.Value = compList.zMax;
-                SetScrollbars();
-                pictureBoxMulti.Refresh();
-            }
-        }
-
-        /// <summary>
-        /// Save to given multiid
-        /// </summary>
-        private void OnClickSave(object sender, EventArgs e)
-        {
-            int id;
-            if (Int32.TryParse(toolStripTextBoxSaveID.Text, out id))
-                compList.AddToSDKComponentList(id);
-        }
-
-        /// <summary>
-        /// Set Z level +1 for selected tile
-        /// </summary>
-        private void OnClickUpZ(object sender, EventArgs e)
-        {
-            if (SelectedTile == null)
-                return;
-            compList.TileModZ(SelectedTile, +1);
-            MaxHeightTrackBar.Maximum = compList.zMax;
-            if (MaxHeightTrackBar.Value<SelectedTile.Z)
-                MaxHeightTrackBar.Value = SelectedTile.Z;
-            pictureBoxMulti.Refresh();
-        }
-
         private void OnFilePathChangeEvent()
         {
             if (Loaded)
-                OnLoad(null,null);
+                OnLoad(null, null);
         }
 
         /// <summary>
-        /// Keys.Enter refreshes Floor Z
+        /// Load of Usercontrol
         /// </summary>
-        private void OnKeyDownDrawFloorEntry(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                int z;
-                if (Int32.TryParse(DrawFloortoolStripTextBox.Text, out z))
-                {
-                    m_DrawFloorZ = z;
-                    if (DrawFloortoolStripButton.Checked)
-                    {
-                        SetScrollbars();
-                        pictureBoxMulti.Refresh();
-                    }
-                }
-            }
-        }
-
         private void OnLoad(object sender, EventArgs e)
         {
             FiddlerControls.Options.LoadedUltimaClass["TileData"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Art"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Multis"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Hues"] = true;
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            string FileName = Path.Combine(path, "Multilist.xml");
+            XmlDocument dom = null;
+            XmlElement xMultis = null;
+            if ((File.Exists(FileName)))
+            {
+                dom = new XmlDocument();
+                dom.Load(FileName);
+                xMultis = dom["Multis"];
+            }
             treeViewMultiList.BeginUpdate();
             treeViewMultiList.Nodes.Clear();
             for (int i = 0; i < 0x2000; i++)
             {
                 if (Ultima.Multis.GetComponents(i) != MultiComponentList.Empty)
                 {
-                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", i));
+                    TreeNode node;
+                    if (dom == null)
+                    {
+                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    }
+                    else
+                    {
+                        XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='" + i + "']");
+                        string j = i.ToString();
+                        foreach (XmlNode xMultiNode in xMultiNodeList)
+                        {
+                            j = xMultiNode.Attributes["name"].Value;
+                        }
+                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", j, i));
+                    }
                     node.Tag = i;
                     node.Name = i.ToString();
                     treeViewMultiList.Nodes.Add(node);
@@ -337,13 +407,14 @@ namespace MultiEditor
             treeViewMultiList.EndUpdate();
             if (!Loaded)
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+
             Loaded = true;
         }
 
         /// <summary>
         /// Hover effect
         /// </summary>
-        private void OnMouseMovePictureBoxMulti(object sender, MouseEventArgs e)
+        private void PictureBoxMultiOnMouseMove(object sender, MouseEventArgs e)
         {
             MouseLoc = e.Location;
             MouseLoc.X += hScrollBar.Value;
@@ -352,44 +423,61 @@ namespace MultiEditor
         }
 
         /// <summary>
-        /// Draw/Select a Tile
+        /// Select/Draw/Remove/Z a Tile
         /// </summary>
-        private void OnMouseUpPictureBoxMulti(object sender, MouseEventArgs e)
+        private void PictureBoxMultiOnMouseUp(object sender, MouseEventArgs e)
         {
             if (compList == null)
                 return;
-            if (DrawTileButton.Checked)
+            if (BTN_Select.Checked)
             {
-                int x, y, z;
-                ConvertCoords(MouseLoc, out x, out y, out z);
-                if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
+                SelectedTile = m_HoverTile;
+            }
+            else if (BTN_Draw.Checked)
+            {
+                if (m_DrawTile.ID >= 0)
                 {
-                    compList.AddTile(x, y, z, m_DrawTile.ID);
-                    MaxHeightTrackBar.Maximum = compList.zMax;
-                    if (MaxHeightTrackBar.Value < z)
-                        MaxHeightTrackBar.Value = z;
+                    int x, y, z;
+                    ConvertCoords(MouseLoc, out x, out y, out z);
+                    if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
+                    {
+                        compList.TileAdd(x, y, z, m_DrawTile.ID);
+                        MaxHeightTrackBar.Maximum = compList.zMax;
+                        if (MaxHeightTrackBar.Value < z)
+                            MaxHeightTrackBar.Value = z;
+                    }
                 }
             }
-            else if (BTN_DeleteTile.Checked)
+            else if (BTN_Remove.Checked)
             {
-                compList.RemoveTile(compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value));
-                MaxHeightTrackBar.Maximum = compList.zMax; 
+                if (m_HoverTile != null)
+                    compList.TileRemove(m_HoverTile);
+                MaxHeightTrackBar.Maximum = compList.zMax;
             }
-            else
-                m_SelectedTile = compList.GetSelected(MouseLoc, MaxHeightTrackBar.Value);
+            else if (BTN_Z.Checked)
+            {
+                if (m_HoverTile != null)
+                {
+                    int z = (int)numericUpDown_Z.Value;
+                    compList.TileZMod(m_HoverTile, z);
+                    MaxHeightTrackBar.Maximum = compList.zMax;
+                    if (MaxHeightTrackBar.Value < m_HoverTile.Z)
+                        MaxHeightTrackBar.Value = m_HoverTile.Z;
+                }
+            }
             pictureBoxMulti.Refresh();
         }
 
         /// <summary>
         /// Draw Image
         /// </summary>
-        private void OnPaintPictureBoxMulti(object sender, PaintEventArgs e)
+        private void PictureBoxMultiOnPaint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
             Bitmap bit = null;
             if (compList != null)
             {
-                bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, DrawFloortoolStripButton.Checked);
+                bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked);
             }
             if (bit != null)
             {
@@ -399,7 +487,7 @@ namespace MultiEditor
                 if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
                     toolStripLabelCoord.Text = String.Format("{0},{1},{2}", x, y, z);
 
-                if (DrawTileButton.Checked)
+                if (BTN_Draw.Checked)
                 {
                     if (m_DrawTile.ID >= 0)
                     {
@@ -430,38 +518,20 @@ namespace MultiEditor
         /// <summary>
         /// PictureBox size changed
         /// </summary>
-        private void OnResizePictureBoxMulti(object sender, EventArgs e)
+        private void PictureBoxMultiOnResize(object sender, EventArgs e)
         {
-            SetScrollbars();
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Scrollbars changed
-        /// </summary>
-        private void OnScrollBarValueChanged(object sender, EventArgs e)
-        {
-            pictureBoxMulti.Refresh();
-        }
-
-        /// <summary>
-        /// Value of TrackBar changed (for displayed MaxHeight)
-        /// </summary>
-        private void OnValueChangedMaxHeight(object sender, EventArgs e)
-        {
-            SetScrollbars();
-            toolTip1.SetToolTip(MaxHeightTrackBar, MaxHeightTrackBar.Value.ToString());
+            ScrollbarsSetValue();
             pictureBoxMulti.Refresh();
         }
 
         /// <summary>
         /// Does the Multi fit inside the PictureBox
         /// </summary>
-        private void SetScrollbars()
+        private void ScrollbarsSetValue()
         {
             if (compList == null)
                 return;
-            Bitmap bit = compList.GetImage(MaxHeightTrackBar.Value, Point.Empty, DrawFloortoolStripButton.Checked);
+            Bitmap bit = compList.GetImage(MaxHeightTrackBar.Value, Point.Empty, BTN_Floor.Checked);
             if (bit == null)
                 return;
             if (bit.Height <= pictureBoxMulti.Height + hScrollBar.Height)
@@ -487,6 +557,14 @@ namespace MultiEditor
         }
 
         /// <summary>
+        /// Scrollbars changed
+        /// </summary>
+        private void ScrollBarsValueChanged(object sender, EventArgs e)
+        {
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
         /// Doubleclick Node of Import treeview
         /// </summary>
         private void treeViewMultiList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -496,12 +574,69 @@ namespace MultiEditor
                 compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
-                toolStripTextBoxSaveID.Text = e.Node.Tag.ToString();
-                SetScrollbars();
+                textBox_SaveToID.Text = e.Node.Tag.ToString();
+                numericUpDown_Size_Width.Value = compList.Width;
+                numericUpDown_Size_Height.Value = compList.Height;
+                numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                ScrollbarsSetValue();
                 pictureBoxMulti.Refresh();
             }
         }
 
-		#endregion Methods 
+        private void XML_AddChildren(TreeNode node, XmlElement mainNode)
+        {
+            foreach (XmlElement e in mainNode)
+            {
+
+                TreeNode tempNode = new TreeNode();
+
+                tempNode.Text = e.GetAttribute("name");
+                tempNode.Tag = e.GetAttribute("index");
+                if (e.Name == "subgroup")
+                {
+                    tempNode.ImageIndex = 0;
+                }
+                else
+                {
+                    tempNode.Text = tempNode.Tag.ToString();
+                    tempNode.ImageIndex = 1;
+                }
+
+                if (e.HasChildNodes)
+                {
+                    XML_AddChildren(tempNode, e);
+                }
+
+                node.Nodes.Add(tempNode);
+            }
+        }
+
+        private void XML_InitializeToolBox()
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, @"plugins/multieditor.xml");
+            if (!File.Exists(FileName))
+                return;
+
+            XmlDocument dom = new XmlDocument();
+            dom.Load(FileName);
+            XmlElement xTiles = dom["TileGroups"];
+
+            foreach (XmlElement xRootGroup in xTiles)
+            {
+                TreeNode mainNode = new TreeNode();
+                mainNode.Text = xRootGroup.GetAttribute("name");
+                mainNode.Tag = null;
+
+                mainNode.ImageIndex = 0;
+
+                XML_AddChildren(mainNode, xRootGroup);
+
+                treeViewTilesXML.Nodes.Add(mainNode);
+            }
+        }
+
+        #endregion Methods
     }
 }

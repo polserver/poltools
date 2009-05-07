@@ -43,16 +43,35 @@ namespace MultiEditor
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MultiEditor));
             this.TC_MultiEditorToolbox = new System.Windows.Forms.TabControl();
             this.tileTab = new System.Windows.Forms.TabPage();
-            this.panelTilesView = new System.Windows.Forms.Panel();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.treeViewTilesXML = new System.Windows.Forms.TreeView();
             this.imageListTreeView = new System.Windows.Forms.ImageList(this.components);
+            this.panelTilesView = new System.Windows.Forms.Panel();
             this.designTab = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_SaveToID = new System.Windows.Forms.TextBox();
+            this.BTN_Save = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_Size_Width = new System.Windows.Forms.NumericUpDown();
+            this.BTN_Resize = new System.Windows.Forms.Button();
+            this.numericUpDown_Size_Height = new System.Windows.Forms.NumericUpDown();
             this.importTab = new System.Windows.Forms.TabPage();
             this.treeViewMultiList = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.BTN_Floor = new System.Windows.Forms.CheckBox();
+            this.BTN_Z = new System.Windows.Forms.CheckBox();
+            this.BTN_Remove = new System.Windows.Forms.CheckBox();
+            this.BTN_Draw = new System.Windows.Forms.CheckBox();
+            this.BTN_Select = new System.Windows.Forms.CheckBox();
+            this.numericUpDown_Floor = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_Z = new System.Windows.Forms.NumericUpDown();
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.Selectedpanel = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_Selected_Z = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_Selected_Y = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_Selected_X = new System.Windows.Forms.NumericUpDown();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.MaxHeightTrackBar = new System.Windows.Forms.TrackBar();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -60,25 +79,33 @@ namespace MultiEditor
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.DrawTileButton = new System.Windows.Forms.ToolStripButton();
-            this.DrawFloortoolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.DrawFloortoolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
-            this.BTN_UpZ = new System.Windows.Forms.ToolStripButton();
-            this.BTN_DownZ = new System.Windows.Forms.ToolStripButton();
-            this.BTN_DeleteTile = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTextBoxSaveID = new System.Windows.Forms.ToolStripTextBox();
+            this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.designTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Width)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Height)).BeginInit();
             this.importTab.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Floor)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Z)).BeginInit();
+            this.Selectedpanel.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Z)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_X)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -93,44 +120,51 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.designTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 0);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 324);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
             // 
             this.tileTab.BackColor = System.Drawing.SystemColors.Window;
-            this.tileTab.Controls.Add(this.panelTilesView);
-            this.tileTab.Controls.Add(this.treeViewTilesXML);
+            this.tileTab.Controls.Add(this.splitContainer4);
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 298);
+            this.tileTab.Size = new System.Drawing.Size(192, 155);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
             // 
-            // panelTilesView
+            // splitContainer4
             // 
-            this.panelTilesView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelTilesView.Location = new System.Drawing.Point(3, 166);
-            this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
-            this.panelTilesView.Name = "panelTilesView";
-            this.panelTilesView.Size = new System.Drawing.Size(186, 129);
-            this.panelTilesView.TabIndex = 1;
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.treeViewTilesXML);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.panelTilesView);
+            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
+            this.splitContainer4.SplitterDistance = 75;
+            this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
             // 
-            this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Top;
+            this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewTilesXML.ImageIndex = 0;
             this.treeViewTilesXML.ImageList = this.imageListTreeView;
-            this.treeViewTilesXML.Location = new System.Drawing.Point(3, 3);
+            this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 157);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 75);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
             // 
@@ -140,43 +174,94 @@ namespace MultiEditor
             this.imageListTreeView.TransparentColor = System.Drawing.Color.Transparent;
             this.imageListTreeView.Images.SetKeyName(0, "treeViewImage.bmp");
             // 
+            // panelTilesView
+            // 
+            this.panelTilesView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.panelTilesView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTilesView.Location = new System.Drawing.Point(0, 0);
+            this.panelTilesView.MaximumSize = new System.Drawing.Size(0, 300);
+            this.panelTilesView.Name = "panelTilesView";
+            this.panelTilesView.Size = new System.Drawing.Size(186, 70);
+            this.panelTilesView.TabIndex = 1;
+            // 
             // designTab
             // 
             this.designTab.BackColor = System.Drawing.SystemColors.Window;
-            this.designTab.Controls.Add(this.button1);
-            this.designTab.Controls.Add(this.numericUpDown2);
-            this.designTab.Controls.Add(this.numericUpDown1);
+            this.designTab.Controls.Add(this.groupBox2);
+            this.designTab.Controls.Add(this.groupBox1);
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
-            this.designTab.Size = new System.Drawing.Size(192, 298);
+            this.designTab.Size = new System.Drawing.Size(192, 160);
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // groupBox2
             // 
-            this.button1.Location = new System.Drawing.Point(31, 66);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "ResizeMulti";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnClickResizeMulti);
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.textBox_SaveToID);
+            this.groupBox2.Controls.Add(this.BTN_Save);
+            this.groupBox2.Location = new System.Drawing.Point(7, 90);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(179, 59);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Save";
             // 
-            // numericUpDown2
+            // textBox_SaveToID
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(31, 39);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 1;
+            this.textBox_SaveToID.Location = new System.Drawing.Point(92, 22);
+            this.textBox_SaveToID.Name = "textBox_SaveToID";
+            this.textBox_SaveToID.Size = new System.Drawing.Size(66, 20);
+            this.textBox_SaveToID.TabIndex = 1;
             // 
-            // numericUpDown1
+            // BTN_Save
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(31, 12);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 0;
+            this.BTN_Save.Location = new System.Drawing.Point(7, 20);
+            this.BTN_Save.Name = "BTN_Save";
+            this.BTN_Save.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Save.TabIndex = 0;
+            this.BTN_Save.Text = "Save to ID";
+            this.BTN_Save.UseVisualStyleBackColor = true;
+            this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.numericUpDown_Size_Width);
+            this.groupBox1.Controls.Add(this.BTN_Resize);
+            this.groupBox1.Controls.Add(this.numericUpDown_Size_Height);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(180, 78);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Multi Size";
+            // 
+            // numericUpDown_Size_Width
+            // 
+            this.numericUpDown_Size_Width.Location = new System.Drawing.Point(35, 19);
+            this.numericUpDown_Size_Width.Name = "numericUpDown_Size_Width";
+            this.numericUpDown_Size_Width.Size = new System.Drawing.Size(52, 20);
+            this.numericUpDown_Size_Width.TabIndex = 0;
+            // 
+            // BTN_Resize
+            // 
+            this.BTN_Resize.Location = new System.Drawing.Point(53, 45);
+            this.BTN_Resize.Name = "BTN_Resize";
+            this.BTN_Resize.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Resize.TabIndex = 2;
+            this.BTN_Resize.Text = "Resize Multi";
+            this.BTN_Resize.UseVisualStyleBackColor = true;
+            this.BTN_Resize.Click += new System.EventHandler(this.BTN_ResizeMulti_Click);
+            // 
+            // numericUpDown_Size_Height
+            // 
+            this.numericUpDown_Size_Height.Location = new System.Drawing.Point(93, 19);
+            this.numericUpDown_Size_Height.Name = "numericUpDown_Size_Height";
+            this.numericUpDown_Size_Height.Size = new System.Drawing.Size(52, 20);
+            this.numericUpDown_Size_Height.TabIndex = 1;
             // 
             // importTab
             // 
@@ -184,7 +269,7 @@ namespace MultiEditor
             this.importTab.Controls.Add(this.treeViewMultiList);
             this.importTab.Location = new System.Drawing.Point(4, 22);
             this.importTab.Name = "importTab";
-            this.importTab.Size = new System.Drawing.Size(192, 298);
+            this.importTab.Size = new System.Drawing.Size(192, 160);
             this.importTab.TabIndex = 2;
             this.importTab.Text = "Import";
             this.importTab.UseVisualStyleBackColor = true;
@@ -194,7 +279,7 @@ namespace MultiEditor
             this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
             this.treeViewMultiList.Name = "treeViewMultiList";
-            this.treeViewMultiList.Size = new System.Drawing.Size(192, 298);
+            this.treeViewMultiList.Size = new System.Drawing.Size(192, 160);
             this.treeViewMultiList.TabIndex = 0;
             this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             // 
@@ -207,7 +292,7 @@ namespace MultiEditor
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.TC_MultiEditorToolbox);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
             // 
             // splitContainer1.Panel2
             // 
@@ -217,12 +302,211 @@ namespace MultiEditor
             this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 1;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Floor);
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Z);
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Remove);
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Draw);
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Select);
+            this.splitContainer3.Panel1.Controls.Add(this.numericUpDown_Floor);
+            this.splitContainer3.Panel1.Controls.Add(this.numericUpDown_Z);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.TC_MultiEditorToolbox);
+            this.splitContainer3.Panel2.Controls.Add(this.collapsibleSplitter1);
+            this.splitContainer3.Panel2.Controls.Add(this.Selectedpanel);
+            this.splitContainer3.Size = new System.Drawing.Size(200, 324);
+            this.splitContainer3.SplitterWidth = 2;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // BTN_Floor
+            // 
+            this.BTN_Floor.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Floor.Location = new System.Drawing.Point(4, 26);
+            this.BTN_Floor.Name = "BTN_Floor";
+            this.BTN_Floor.Size = new System.Drawing.Size(71, 21);
+            this.BTN_Floor.TabIndex = 13;
+            this.BTN_Floor.Text = "Virtual Floor";
+            this.BTN_Floor.UseVisualStyleBackColor = true;
+            this.BTN_Floor.Click += new System.EventHandler(this.BTN_Floor_Clicked);
+            // 
+            // BTN_Z
+            // 
+            this.BTN_Z.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Z.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Z.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Z.Image")));
+            this.BTN_Z.Location = new System.Drawing.Point(84, 3);
+            this.BTN_Z.Name = "BTN_Z";
+            this.BTN_Z.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Z.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.BTN_Z, "Apply Z Level");
+            this.BTN_Z.UseVisualStyleBackColor = true;
+            this.BTN_Z.Click += new System.EventHandler(this.BTN_Z_Click);
+            // 
+            // BTN_Remove
+            // 
+            this.BTN_Remove.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Remove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Remove.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Remove.Image")));
+            this.BTN_Remove.Location = new System.Drawing.Point(58, 3);
+            this.BTN_Remove.Name = "BTN_Remove";
+            this.BTN_Remove.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Remove.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.BTN_Remove, "Remove A Tile");
+            this.BTN_Remove.UseVisualStyleBackColor = true;
+            this.BTN_Remove.Click += new System.EventHandler(this.BTN_Remove_Click);
+            // 
+            // BTN_Draw
+            // 
+            this.BTN_Draw.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Draw.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Draw.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Draw.Image")));
+            this.BTN_Draw.Location = new System.Drawing.Point(31, 3);
+            this.BTN_Draw.Name = "BTN_Draw";
+            this.BTN_Draw.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Draw.TabIndex = 10;
+            this.toolTip1.SetToolTip(this.BTN_Draw, "Draw A Tile");
+            this.BTN_Draw.UseVisualStyleBackColor = true;
+            this.BTN_Draw.Click += new System.EventHandler(this.BTN_Draw_Click);
+            // 
+            // BTN_Select
+            // 
+            this.BTN_Select.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Select.Checked = true;
+            this.BTN_Select.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BTN_Select.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Select.Image = ((System.Drawing.Image)(resources.GetObject("BTN_Select.Image")));
+            this.BTN_Select.Location = new System.Drawing.Point(4, 3);
+            this.BTN_Select.Name = "BTN_Select";
+            this.BTN_Select.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Select.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.BTN_Select, "Select A Tile");
+            this.BTN_Select.UseVisualStyleBackColor = true;
+            this.BTN_Select.Click += new System.EventHandler(this.BTN_Select_Click);
+            // 
+            // numericUpDown_Floor
+            // 
+            this.numericUpDown_Floor.Location = new System.Drawing.Point(78, 27);
+            this.numericUpDown_Floor.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.numericUpDown_Floor.Minimum = new decimal(new int[] {
+            128,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown_Floor.Name = "numericUpDown_Floor";
+            this.numericUpDown_Floor.Size = new System.Drawing.Size(50, 20);
+            this.numericUpDown_Floor.TabIndex = 8;
+            this.numericUpDown_Floor.ValueChanged += new System.EventHandler(this.numericUpDown_Floor_Changed);
+            // 
+            // numericUpDown_Z
+            // 
+            this.numericUpDown_Z.Location = new System.Drawing.Point(111, 5);
+            this.numericUpDown_Z.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.numericUpDown_Z.Minimum = new decimal(new int[] {
+            128,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown_Z.Name = "numericUpDown_Z";
+            this.numericUpDown_Z.Size = new System.Drawing.Size(50, 20);
+            this.numericUpDown_Z.TabIndex = 5;
+            // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 5;
+            this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
+            this.collapsibleSplitter1.UseAnimations = true;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
+            // Selectedpanel
+            // 
+            this.Selectedpanel.Controls.Add(this.groupBox3);
+            this.Selectedpanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Selectedpanel.Location = new System.Drawing.Point(0, 0);
+            this.Selectedpanel.Name = "Selectedpanel";
+            this.Selectedpanel.Size = new System.Drawing.Size(200, 83);
+            this.Selectedpanel.TabIndex = 6;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numericUpDown_Selected_Z);
+            this.groupBox3.Controls.Add(this.numericUpDown_Selected_Y);
+            this.groupBox3.Controls.Add(this.numericUpDown_Selected_X);
+            this.groupBox3.Location = new System.Drawing.Point(11, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(179, 75);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Selected Tile X,Y,Z";
+            // 
+            // numericUpDown_Selected_Z
+            // 
+            this.numericUpDown_Selected_Z.Location = new System.Drawing.Point(56, 46);
+            this.numericUpDown_Selected_Z.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.numericUpDown_Selected_Z.Minimum = new decimal(new int[] {
+            128,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown_Selected_Z.Name = "numericUpDown_Selected_Z";
+            this.numericUpDown_Selected_Z.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown_Selected_Z.TabIndex = 2;
+            this.numericUpDown_Selected_Z.ValueChanged += new System.EventHandler(this.numericUpDown_Selected_Z_Changed);
+            // 
+            // numericUpDown_Selected_Y
+            // 
+            this.numericUpDown_Selected_Y.Location = new System.Drawing.Point(100, 20);
+            this.numericUpDown_Selected_Y.Name = "numericUpDown_Selected_Y";
+            this.numericUpDown_Selected_Y.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown_Selected_Y.TabIndex = 1;
+            this.numericUpDown_Selected_Y.ValueChanged += new System.EventHandler(this.numericUpDown_Selected_Y_Changed);
+            // 
+            // numericUpDown_Selected_X
+            // 
+            this.numericUpDown_Selected_X.Location = new System.Drawing.Point(20, 20);
+            this.numericUpDown_Selected_X.Name = "numericUpDown_Selected_X";
+            this.numericUpDown_Selected_X.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown_Selected_X.TabIndex = 0;
+            this.numericUpDown_Selected_X.ValueChanged += new System.EventHandler(this.numericUpDown_Selected_X_Changed);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer2.IsSplitterFixed = true;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -248,7 +532,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
-            this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.OnValueChangedMaxHeight);
+            this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
             // 
             // splitter1
             // 
@@ -267,10 +551,10 @@ namespace MultiEditor
             this.pictureBoxMulti.Size = new System.Drawing.Size(398, 248);
             this.pictureBoxMulti.TabIndex = 0;
             this.pictureBoxMulti.TabStop = false;
-            this.pictureBoxMulti.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMovePictureBoxMulti);
-            this.pictureBoxMulti.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaintPictureBoxMulti);
-            this.pictureBoxMulti.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUpPictureBoxMulti);
-            this.pictureBoxMulti.SizeChanged += new System.EventHandler(this.OnResizePictureBoxMulti);
+            this.pictureBoxMulti.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseMove);
+            this.pictureBoxMulti.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxMultiOnPaint);
+            this.pictureBoxMulti.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBoxMultiOnMouseUp);
+            this.pictureBoxMulti.SizeChanged += new System.EventHandler(this.PictureBoxMultiOnResize);
             // 
             // hScrollBar
             // 
@@ -279,7 +563,7 @@ namespace MultiEditor
             this.hScrollBar.Name = "hScrollBar";
             this.hScrollBar.Size = new System.Drawing.Size(398, 17);
             this.hScrollBar.TabIndex = 2;
-            this.hScrollBar.ValueChanged += new System.EventHandler(this.OnScrollBarValueChanged);
+            this.hScrollBar.ValueChanged += new System.EventHandler(this.ScrollBarsValueChanged);
             // 
             // vScrollBar
             // 
@@ -288,61 +572,21 @@ namespace MultiEditor
             this.vScrollBar.Name = "vScrollBar";
             this.vScrollBar.Size = new System.Drawing.Size(17, 265);
             this.vScrollBar.TabIndex = 1;
-            this.vScrollBar.ValueChanged += new System.EventHandler(this.OnScrollBarValueChanged);
+            this.vScrollBar.ValueChanged += new System.EventHandler(this.ScrollBarsValueChanged);
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DrawTileButton,
-            this.DrawFloortoolStripButton,
-            this.DrawFloortoolStripTextBox,
             this.toolStripLabelCoord,
-            this.BTN_UpZ,
-            this.BTN_DownZ,
-            this.BTN_DeleteTile,
-            this.toolStripButton4,
-            this.toolStripTextBoxSaveID});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.SelectedTileLabel});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 299);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip1.Size = new System.Drawing.Size(415, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // DrawTileButton
-            // 
-            this.DrawTileButton.CheckOnClick = true;
-            this.DrawTileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.DrawTileButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawTileButton.Image")));
-            this.DrawTileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DrawTileButton.Name = "DrawTileButton";
-            this.DrawTileButton.Size = new System.Drawing.Size(55, 22);
-            this.DrawTileButton.Text = "Draw Tile";
-            this.DrawTileButton.Click += new System.EventHandler(this.OnClickDrawTile);
-            // 
-            // DrawFloortoolStripButton
-            // 
-            this.DrawFloortoolStripButton.Checked = true;
-            this.DrawFloortoolStripButton.CheckOnClick = true;
-            this.DrawFloortoolStripButton.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.DrawFloortoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.DrawFloortoolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("DrawFloortoolStripButton.Image")));
-            this.DrawFloortoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DrawFloortoolStripButton.Name = "DrawFloortoolStripButton";
-            this.DrawFloortoolStripButton.Size = new System.Drawing.Size(63, 22);
-            this.DrawFloortoolStripButton.Text = "Draw Floor";
-            this.DrawFloortoolStripButton.ToolTipText = "Draw Virtual Floor";
-            this.DrawFloortoolStripButton.Click += new System.EventHandler(this.OnClickDrawFloor);
-            // 
-            // DrawFloortoolStripTextBox
-            // 
-            this.DrawFloortoolStripTextBox.MaxLength = 4;
-            this.DrawFloortoolStripTextBox.Name = "DrawFloortoolStripTextBox";
-            this.DrawFloortoolStripTextBox.Size = new System.Drawing.Size(35, 25);
-            this.DrawFloortoolStripTextBox.Text = "0";
-            this.DrawFloortoolStripTextBox.ToolTipText = "Floor Z Level";
-            this.DrawFloortoolStripTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownDrawFloorEntry);
             // 
             // toolStripLabelCoord
             // 
@@ -352,53 +596,11 @@ namespace MultiEditor
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
-            // BTN_UpZ
+            // SelectedTileLabel
             // 
-            this.BTN_UpZ.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.BTN_UpZ.Image = ((System.Drawing.Image)(resources.GetObject("BTN_UpZ.Image")));
-            this.BTN_UpZ.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BTN_UpZ.Name = "BTN_UpZ";
-            this.BTN_UpZ.Size = new System.Drawing.Size(25, 22);
-            this.BTN_UpZ.Text = "+Z";
-            this.BTN_UpZ.Click += new System.EventHandler(this.OnClickUpZ);
-            // 
-            // BTN_DownZ
-            // 
-            this.BTN_DownZ.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.BTN_DownZ.Image = ((System.Drawing.Image)(resources.GetObject("BTN_DownZ.Image")));
-            this.BTN_DownZ.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BTN_DownZ.Name = "BTN_DownZ";
-            this.BTN_DownZ.Size = new System.Drawing.Size(23, 22);
-            this.BTN_DownZ.Text = "-Z";
-            this.BTN_DownZ.Click += new System.EventHandler(this.OnClickDownZ);
-            // 
-            // BTN_DeleteTile
-            // 
-            this.BTN_DeleteTile.CheckOnClick = true;
-            this.BTN_DeleteTile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.BTN_DeleteTile.Image = ((System.Drawing.Image)(resources.GetObject("BTN_DeleteTile.Image")));
-            this.BTN_DeleteTile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BTN_DeleteTile.Name = "BTN_DeleteTile";
-            this.BTN_DeleteTile.Size = new System.Drawing.Size(42, 22);
-            this.BTN_DeleteTile.Text = "Delete";
-            this.BTN_DeleteTile.ToolTipText = "Delete Tiles when selected";
-            this.BTN_DeleteTile.Click += new System.EventHandler(this.OnClickRemoveTile);
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(35, 22);
-            this.toolStripButton4.Text = "Save";
-            this.toolStripButton4.Click += new System.EventHandler(this.OnClickSave);
-            // 
-            // toolStripTextBoxSaveID
-            // 
-            this.toolStripTextBoxSaveID.Name = "toolStripTextBoxSaveID";
-            this.toolStripTextBoxSaveID.Size = new System.Drawing.Size(35, 25);
-            this.toolStripTextBoxSaveID.Text = "0";
+            this.SelectedTileLabel.Name = "SelectedTileLabel";
+            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
+            this.SelectedTileLabel.Text = "ID:";
             // 
             // MultiEditor
             // 
@@ -410,14 +612,30 @@ namespace MultiEditor
             this.Load += new System.EventHandler(this.OnLoad);
             this.TC_MultiEditorToolbox.ResumeLayout(false);
             this.tileTab.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            this.splitContainer4.ResumeLayout(false);
             this.designTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Width)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Height)).EndInit();
             this.importTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Floor)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Z)).EndInit();
+            this.Selectedpanel.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Z)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_X)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -445,21 +663,33 @@ namespace MultiEditor
         private System.Windows.Forms.HScrollBar hScrollBar;
         private System.Windows.Forms.VScrollBar vScrollBar;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton DrawFloortoolStripButton;
-        private System.Windows.Forms.ToolStripTextBox DrawFloortoolStripTextBox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabelCoord;
-        private System.Windows.Forms.ToolStripButton DrawTileButton;
         private System.Windows.Forms.Panel panelTilesView;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TreeView treeViewMultiList;
-        private System.Windows.Forms.ToolStripButton BTN_UpZ;
-        private System.Windows.Forms.ToolStripButton BTN_DownZ;
-        private System.Windows.Forms.ToolStripButton BTN_DeleteTile;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSaveID;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Size_Height;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Size_Width;
+        private System.Windows.Forms.Button BTN_Resize;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Z;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Floor;
+        private System.Windows.Forms.CheckBox BTN_Floor;
+        private System.Windows.Forms.CheckBox BTN_Z;
+        private System.Windows.Forms.CheckBox BTN_Remove;
+        private System.Windows.Forms.CheckBox BTN_Draw;
+        private System.Windows.Forms.CheckBox BTN_Select;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBox_SaveToID;
+        private System.Windows.Forms.Button BTN_Save;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.ToolStripLabel SelectedTileLabel;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Selected_Z;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Selected_Y;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Selected_X;
+        private FiddlerControls.CollapsibleSplitter collapsibleSplitter1;
+        private System.Windows.Forms.Panel Selectedpanel;
     }
 }
