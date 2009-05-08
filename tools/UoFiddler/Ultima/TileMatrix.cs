@@ -8,6 +8,7 @@ namespace Ultima
         private HuedTile[][][][][] m_StaticTiles;
         private HuedTile[][][][][] m_StaticTiles_ToAdd;
         private Tile[][][] m_LandTiles;
+        private bool[][] m_RemovedStaticBlock;
 
         public static Tile[] InvalidLandBlock { get; private set; }
         public static HuedTile[][][] EmptyStaticBlock { get; private set; }
@@ -169,6 +170,9 @@ namespace Ultima
                 old.CopyTo(m_StaticTiles_ToAdd[blockx][blocky][x][y], 0);
                 m_StaticTiles_ToAdd[blockx][blocky][x][y][old.Length] = value;
             }
+
+            if (IsStaticBlockRemoved(blockx, blocky))
+                m_RemovedStaticBlock[blockx][blocky] = false;
         }
 
         public HuedTile[][][] GetStaticBlock(int x, int y)
@@ -334,6 +338,27 @@ namespace Ultima
             }
 
             return tiles;
+        }
+
+        public void RemoveStaticBlock(int blockx, int blocky)
+        {
+            if (m_RemovedStaticBlock == null)
+                m_RemovedStaticBlock = new bool[BlockWidth][];
+            if (m_RemovedStaticBlock[blockx]==null)
+                m_RemovedStaticBlock[blockx] = new bool[BlockHeight];
+            m_RemovedStaticBlock[blockx][blocky] = true;
+            if (m_StaticTiles[blockx] == null)
+                m_StaticTiles[blockx] = new HuedTile[BlockHeight][][][];
+            m_StaticTiles[blockx][blocky]=EmptyStaticBlock;
+        }
+
+        public bool IsStaticBlockRemoved(int blockx, int blocky)
+        {
+            if (m_RemovedStaticBlock == null)
+                return false;
+            if (m_RemovedStaticBlock[blockx] == null)
+                return false;
+            return m_RemovedStaticBlock[blockx][blocky];
         }
 
         public bool PendingStatic(int blockx, int blocky)

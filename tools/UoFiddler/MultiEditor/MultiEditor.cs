@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -20,9 +21,10 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
-		#region Fields (8) 
+		#region Fields (11) 
 
         private MultiEditorComponentList compList;
+        private ArrayList DrawTilesList = new ArrayList();
         private bool Loaded = false;
         private int m_DrawFloorZ;
         private MultiTile m_DrawTile;
@@ -32,7 +34,13 @@ namespace MultiEditor
         /// Current MouseLoc + Scrollbar values (for hover effect)
         /// </summary>
         private Point MouseLoc;
+        private int pictureboxDrawTilescol;
+        private int pictureboxDrawTilesrow;
         private static MultiEditor refMarkerMulti = null;
+        private const int DrawTileSizeWidth = 45;
+        private const int DrawTileSizeHeight = 45;
+
+        private const double CoordinateTransform = Math.Sqrt(2) / 2; //Sin/Cos(45°)
 
 		#endregion Fields 
 
@@ -40,13 +48,16 @@ namespace MultiEditor
 
         public MultiEditor()
         {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             InitializeComponent();
             refMarkerMulti = this;
             XML_InitializeToolBox();
             MouseLoc = new Point();
             m_DrawTile = new MultiTile();
             Selectedpanel.Visible = false;
+            FloatingPreviewPanel.Visible = false;
             BTN_Select.Checked = true;
+            pictureBoxDrawTiles.MouseWheel += new MouseEventHandler(pictureBoxDrawTiles_OnMouseWheel);
         }
 
 		#endregion Constructors 
@@ -99,9 +110,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (26) 
+		#region Methods (27) 
 
-		// Private Methods (26) 
+		// Private Methods (27) 
 
         /// <summary>
         /// Draw Button activate
@@ -163,35 +174,7 @@ namespace MultiEditor
         {
             int id;
             if (Int32.TryParse(textBox_SaveToID.Text, out id))
-            {
-                compList.AddToSDKComponentList(id);
-
-                bool done = false;
-                for (int i = 0; i < treeViewMultiList.Nodes.Count; i++)
-                {
-                    if (id == (int)treeViewMultiList.Nodes[i].Tag)
-                    {
-                        done = true;
-                        break;
-                    }
-                    else if (id < (int)treeViewMultiList.Nodes[i].Tag)
-                    {
-                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
-                        node.Tag = id;
-                        node.Name = id.ToString();
-                        treeViewMultiList.Nodes.Insert(i, node);
-                        done = true;
-                        break;
-                    }
-                }
-                if (!done)
-                {
-                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
-                    node.Tag = id;
-                    node.Name = id.ToString();
-                    treeViewMultiList.Nodes.Add(node);
-                }
-            }
+                compList.AddToSDKComponentList(id); //fires MultiChangeEvent
         }
 
         /// <summary>
@@ -279,8 +262,8 @@ namespace MultiEditor
             double my = point.Y - cy;
             double xx = mx;
             double yy = my;
-            my = xx * Math.Cos(Math.PI / 4) - yy * Math.Sin(Math.PI / 4); //Rotate 45° Coordinate system
-            mx = yy * Math.Cos(Math.PI / 4) + xx * Math.Sin(Math.PI / 4);
+            my = xx * CoordinateTransform - yy * CoordinateTransform; //Rotate 45° Coordinate system
+            mx = yy * CoordinateTransform + xx * CoordinateTransform;
             mx /= Math.Sqrt(2) * 22;
             my /= Math.Sqrt(2) * 22;
             my *= -1;
@@ -378,14 +361,15 @@ namespace MultiEditor
 
         private void OnAfterSelectTreeViewTilesXML(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.ImageIndex == 0)
-                return;
-            int id = Int32.Parse((string)e.Node.Tag);
-            Bitmap bmp = Ultima.Art.GetStatic(id);
-            if (bmp != null)
+            if (e.Node.Tag!=null)
             {
-                panelTilesView.BackgroundImage = bmp;
-                m_DrawTile.Set(id, 0);
+                DrawTilesList = (ArrayList)e.Node.Tag;
+                vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
+                vScrollBarDrawTiles.Minimum = 1;
+                vScrollBarDrawTiles.SmallChange = 1;
+                vScrollBarDrawTiles.LargeChange = 1;
+                vScrollBarDrawTiles.Value = 1;
+                pictureBoxDrawTiles.Refresh();
             }
         }
 
@@ -446,9 +430,51 @@ namespace MultiEditor
             }
             treeViewMultiList.EndUpdate();
             if (!Loaded)
+            {
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Options.MultiChangeEvent += new FiddlerControls.Options.MultiChangeHandler(OnMultiChangeEvent);
+            }
 
             Loaded = true;
+        }
+
+        private void OnMultiChangeEvent(object sender, int id)
+        {
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            bool done = false;
+            bool remove = (Ultima.Multis.GetComponents(id) == MultiComponentList.Empty);
+            for (int i = 0; i < treeViewMultiList.Nodes.Count; i++)
+            {
+                if (id == (int)treeViewMultiList.Nodes[i].Tag)
+                {
+                    done = true;
+                    if (remove)
+                        treeViewMultiList.Nodes.RemoveAt(i);
+                    break;
+                }
+                else if (id < (int)treeViewMultiList.Nodes[i].Tag)
+                {
+                    if (!remove)
+                    {
+                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
+                        node.Tag = id;
+                        node.Name = id.ToString();
+                        treeViewMultiList.Nodes.Insert(i, node);
+                    }
+                    done = true;
+                    break;
+                }
+            }
+            if ((!remove) && (!done))
+            {
+                TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
+                node.Tag = id;
+                node.Name = id.ToString();
+                treeViewMultiList.Nodes.Add(node);
+            }
         }
 
         /// <summary>
@@ -628,24 +654,23 @@ namespace MultiEditor
         {
             foreach (XmlElement e in mainNode)
             {
-
                 TreeNode tempNode = new TreeNode();
 
                 tempNode.Text = e.GetAttribute("name");
-                tempNode.Tag = e.GetAttribute("index");
                 if (e.Name == "subgroup")
                 {
                     tempNode.ImageIndex = 0;
-                }
-                else
-                {
-                    tempNode.Text = tempNode.Tag.ToString();
-                    tempNode.ImageIndex = 1;
-                }
-
-                if (e.HasChildNodes)
-                {
-                    XML_AddChildren(tempNode, e);
+                    if (e.HasChildNodes)
+                    {
+                        ArrayList list = new ArrayList();
+                        foreach (XmlElement elem in e.ChildNodes)
+                        {
+                            int i = Int32.Parse(elem.GetAttribute("index"));
+                            if (Ultima.Art.IsValidStatic(i))
+                                list.Add(i);
+                        }
+                        tempNode.Tag = list;
+                    }
                 }
 
                 node.Nodes.Add(tempNode);
@@ -678,5 +703,138 @@ namespace MultiEditor
         }
 
 		#endregion Methods 
+
+        #region DrawTilesPictureBox Stuff
+        private int GetIndex(int x, int y)
+        {
+            if (x >= pictureboxDrawTilescol)
+                return -1;
+            int value = Math.Max(0, ((pictureboxDrawTilescol * (vScrollBarDrawTiles.Value - 1)) + (x + (y * pictureboxDrawTilescol))));
+            if (DrawTilesList.Count > value)
+                return (int)DrawTilesList[value];
+            else
+                return -1;
+        }
+
+        private void pictureBoxDrawTiles_OnMouseClick(object sender, MouseEventArgs e)
+        {
+            pictureBoxDrawTiles.Focus();
+            int x = e.X / (DrawTileSizeWidth - 1);
+            int y = e.Y / (DrawTileSizeHeight - 1);
+            int index = GetIndex(x, y);
+            if (index >= 0)
+            {
+                m_DrawTile.Set(index, 0);
+                pictureBoxDrawTiles.Refresh();
+            }
+        }
+
+        private void pictureBoxDrawTilesMouseMove(object sender, MouseEventArgs e)
+        {
+            int x = e.X / (DrawTileSizeWidth - 1);
+            int y = e.Y / (DrawTileSizeHeight - 1);
+            int index = GetIndex(x, y);
+            if (index >= 0)
+            {
+                FloatingPreviewPanel.BackgroundImage = Ultima.Art.GetStatic(index);
+                FloatingPreviewPanel.Size = new Size(Ultima.Art.GetStatic(index).Width+10, Ultima.Art.GetStatic(index).Height+10);
+                FloatingPreviewPanel.Left = PointToClient(MousePosition).X;
+                FloatingPreviewPanel.Top = PointToClient(MousePosition).Y - FloatingPreviewPanel.Size.Height;
+                FloatingPreviewPanel.Visible = true;
+                toolTip1.SetToolTip(pictureBoxDrawTiles, String.Format("0x{0:X} ({0})", index));
+            }
+            else
+            {
+                FloatingPreviewPanel.Visible = false;
+                toolTip1.RemoveAll();
+            }
+        }
+
+        private void pictureBoxDrawTilesMouseLeave(object sender, EventArgs e)
+        {
+            FloatingPreviewPanel.Visible = false;
+        }
+
+        private void pictureBoxDrawTiles_OnPaint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.White);
+
+            for (int y = 0; y < pictureboxDrawTilesrow; y++)
+            {
+                for (int x = 0; x < pictureboxDrawTilescol; x++)
+                {
+                    int index = GetIndex(x, y);
+                    if (index >= 0)
+                    {
+                        Bitmap b = Art.GetStatic(index);
+
+                        if (b != null)
+                        {
+                            Point loc = new Point((x * DrawTileSizeWidth) + 1, (y * DrawTileSizeHeight) + 1);
+                            Size size = new Size(DrawTileSizeWidth - 1, DrawTileSizeHeight - 1);
+                            Rectangle rect = new Rectangle(loc, size);
+
+                            e.Graphics.Clip = new Region(rect);
+
+                            if (index == m_DrawTile.ID)
+                                e.Graphics.FillRectangle(Brushes.LightBlue, rect);
+
+                            int width = b.Width;
+                            int height = b.Height;
+                            if (width > size.Width)
+                            {
+                                width = size.Width;
+                                height = size.Height * b.Height / b.Width;
+                            }
+                            if (height > size.Height)
+                            {
+                                height = size.Height;
+                                width = size.Width * b.Width / b.Height;
+                            }
+                            e.Graphics.DrawImage(b, new Rectangle(loc, new Size(width, height)));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void pictureBoxDrawTiles_OnResize(object sender, EventArgs e)
+        {
+            if ((pictureBoxDrawTiles.Height == 0) || (pictureBoxDrawTiles.Width == 0))
+                return;
+            pictureboxDrawTilescol = pictureBoxDrawTiles.Width / DrawTileSizeWidth;
+            pictureboxDrawTilesrow = pictureBoxDrawTiles.Height / DrawTileSizeHeight + 1;
+            vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
+            vScrollBarDrawTiles.Minimum = 1;
+            vScrollBarDrawTiles.SmallChange = 1;
+            vScrollBarDrawTiles.LargeChange = pictureboxDrawTilesrow;
+            pictureBoxDrawTiles.Refresh();
+        }
+
+        private void vScrollBarDrawTiles_Scroll(object sender, ScrollEventArgs e)
+        {
+            pictureBoxDrawTiles.Refresh();
+        }
+
+        private void pictureBoxDrawTiles_OnMouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta < 0)
+            {
+                if (vScrollBarDrawTiles.Value < vScrollBarDrawTiles.Maximum)
+                {
+                    vScrollBarDrawTiles.Value++;
+                    pictureBoxDrawTiles.Refresh();
+                }
+            }
+            else
+            {
+                if (vScrollBarDrawTiles.Value > 1)
+                {
+                    vScrollBarDrawTiles.Value--;
+                    pictureBoxDrawTiles.Refresh();
+                }
+            }
+        }
+        #endregion
     }
 }

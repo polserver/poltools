@@ -107,9 +107,11 @@ namespace FiddlerControls
             Reload();
         }
 
-        private void OnMultiChangeEvent(int id)
+        private void OnMultiChangeEvent(object sender, int id)
         {
             if (!Loaded)
+                return;
+            if (sender.Equals(this))
                 return;
             MultiComponentList multi = Ultima.Multis.GetComponents(id);
             if (multi != MultiComponentList.Empty)
@@ -168,6 +170,7 @@ namespace FiddlerControls
                     refmarker.TreeViewMulti.SelectedNode = refmarker.TreeViewMulti.Nodes[index];
 
                 afterSelect_Multi(this, null);
+                Options.FireMultiChangeEvent(this, index);
             }
         }
 
@@ -431,6 +434,7 @@ namespace FiddlerControls
                 Ultima.Multis.Remove(id);
                 TreeViewMulti.SelectedNode.Remove();
                 Options.ChangedUltimaClass["Multis"] = true;
+                Options.FireMultiChangeEvent(this, id);
             }
         }
 

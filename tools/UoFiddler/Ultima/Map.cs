@@ -459,7 +459,9 @@ namespace Ultima
                                 int length = m_IndexReader.ReadInt32();
                                 int extra = m_IndexReader.ReadInt32();
 
-                                if ((lookup < 0 || length <= 0) && (!map.Tiles.PendingStatic(x,y)))
+                                if (((lookup < 0 || length <= 0) 
+                                    && (!map.Tiles.PendingStatic(x, y))) 
+                                    || (map.Tiles.IsStaticBlockRemoved(x, y)))
                                 {
                                     binidx.Write((int)-1); // lookup
                                     binidx.Write((int)-1); // length

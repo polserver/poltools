@@ -111,7 +111,7 @@ namespace MultiEditor
             }
             Ultima.Multis.Add(id, new MultiComponentList(tiles, count, Width, Height));
             FiddlerControls.Options.ChangedUltimaClass["Multis"] = true;
-            FiddlerControls.Options.FireMultiChangeEvent(id);
+            FiddlerControls.Options.FireMultiChangeEvent(this, id);
         }
 
         /// <summary>
