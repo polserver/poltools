@@ -114,6 +114,10 @@ namespace FiddlerControls
             Reload();
         }
 
+        public void RefreshMap()
+        {
+            pictureBox.Refresh();
+        }
 
         /// <summary>
         /// Changes the Names of maps
@@ -136,7 +140,6 @@ namespace FiddlerControls
                 OverlayObjectTree.Nodes[4].Text = Options.MapNames[4];
                 OverlayObjectTree.Refresh();
             }
-
         }
 
         private void HandleScroll(object sender, ScrollEventArgs e)
@@ -994,9 +997,17 @@ namespace FiddlerControls
             pictureBox.Refresh();
         }
 
+        MapMeltStatics showmeltstatics = null;
         private void OnClickMeltStatics(object sender, EventArgs e)
         {
-
+            if ((showmeltstatics == null) || (showmeltstatics.IsDisposed))
+            {
+                showmeltstatics = new MapMeltStatics(this,currmap);
+                showmeltstatics.TopMost = true;
+                showmeltstatics.Show();
+            }
+            
+            
         }
     }
 

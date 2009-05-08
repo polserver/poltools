@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BBF3C337-3D0E-484D-8C59-BA8296C5897C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -252,6 +252,12 @@
     <Compile Include="Map.Designer.cs">
       <DependentUpon>Map.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapMeltStatics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapMeltStatics.Designer.cs">
+      <DependentUpon>MapMeltStatics.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapReplace.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -469,6 +475,9 @@
     <EmbeddedResource Include="Map.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Map.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapMeltStatics.resx">
+      <DependentUpon>MapMeltStatics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapReplace.resx">
       <DependentUpon>MapReplace.cs</DependentUpon>

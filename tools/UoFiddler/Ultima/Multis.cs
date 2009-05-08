@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Ultima
 {
@@ -636,16 +637,21 @@ namespace Ultima
                     }
                 }
             }
+            int counter = 1;
             if (!centerfound)
             {
-                m_SortedTiles = new MultiTileEntry[count+1];
-                m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
-                m_SortedTiles[0].m_OffsetX = 0;
-                m_SortedTiles[0].m_OffsetY = 0;
-                m_SortedTiles[0].m_Flags = 0;
+                if (MessageBox.Show("No invisible Center Item found do you want to add it?", "Multi Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                {
+                    m_SortedTiles = new MultiTileEntry[count + 1];
+                    m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
+                    m_SortedTiles[0].m_OffsetX = 0;
+                    m_SortedTiles[0].m_OffsetY = 0;
+                    m_SortedTiles[0].m_Flags = 0;
+                }
+                else
+                    counter = 0;
             }
-
-            int counter = 1;
+            
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
