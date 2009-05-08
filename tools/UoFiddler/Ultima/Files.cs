@@ -226,80 +226,74 @@ namespace Ultima
             return GetFilePath(String.Format(format, args));
         }
 
+        static readonly string[] knownRegkeys = new string[] { 
+                @"Origin Worlds Online\Ultima Online\1.0", 
+                @"Origin Worlds Online\Ultima Online Third Dawn\1.0",
+                @"EA GAMES\Ultima Online Samurai Empire", 
+                @"EA GAMES\Ultima Online Samurai Empire\1.0", 
+                @"EA GAMES\Ultima Online Samurai Empire\1.00.0000", 
+                @"EA GAMES\Ultima Online: Samurai Empire\1.0", 
+                @"EA GAMES\Ultima Online: Samurai Empire\1.00.0000", 
+                @"EA Games\Ultima Online: Mondain's Legacy", 
+                @"EA Games\Ultima Online: Mondain's Legacy\1.0", 
+                @"EA Games\Ultima Online: Mondain's Legacy\1.00.0000", 
+                @"Origin Worlds Online\Ultima Online Samurai Empire BETA\2d\1.0", 
+                @"Origin Worlds Online\Ultima Online Samurai Empire BETA\3d\1.0", 
+                @"Origin Worlds Online\Ultima Online Samurai Empire\2d\1.0", 
+                @"Origin Worlds Online\Ultima Online Samurai Empire\3d\1.0",
+            };
+
         private static string LoadDirectory()
         {
-            string dir;
+            string dir = null;
+            for (int i = 0; i < knownRegkeys.Length; i++)
+            {
+                string exePath;
 
-            dir = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetExePath(@"SOFTWARE\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetInstallPath(@"SOFTWARE\EA GAMES\Ultima Online Samurai Empire");
-            if (dir != null)
-                return dir;
+                if (IntPtr.Size == 8)
+                    exePath = GetPath(string.Format(@"Wow6432Node\{0}", knownRegkeys[i]));
+                else
+                    exePath = GetPath(knownRegkeys[i]);
 
-            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetExePath(@"SOFTWARE\Wow6432Node\Origin Worlds Online\Ultima Online Third Dawn\1.0");
-            if (dir != null)
-                return dir;
-            dir = GetInstallPath(@"SOFTWARE\Wow6432Node\EA GAMES\Ultima Online Samurai Empire");
-
+                if (exePath != null)
+                {
+                    dir = exePath;
+                    break;
+                }
+            }
             return dir;
         }
 
-        private static string GetExePath(string regkey)
+        private static string GetPath(string regkey)
         {
             try
             {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regkey))
+                RegistryKey key = Registry.LocalMachine.OpenSubKey(string.Format(@"SOFTWARE\{0}", regkey));
+
+                if (key == null)
                 {
+                    key = Registry.CurrentUser.OpenSubKey(string.Format(@"SOFTWARE\{0}", regkey));
+
                     if (key == null)
                         return null;
-
-                    string v = key.GetValue("ExePath") as string;
-
-                    if (v == null || v.Length <= 0 || !File.Exists(v))
-                        return null;
-
-                    v = Path.GetDirectoryName(v);
-
-                    if (v == null)
-                        return null;
-
-                    return v;
                 }
-            }
-            catch
-            {
-                return null;
-            }
-        }
 
-        private static string GetInstallPath(string regkey)
-        {
-            try
-            {
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regkey))
+                string path = key.GetValue("ExePath") as string;
+
+                if (((path == null) || (path.Length <= 0)) || (!System.IO.Directory.Exists(path) && !File.Exists(path)))
                 {
-                    if (key == null)
+                    path = key.GetValue("Install Dir") as string;
+
+                    if (((path == null) || (path.Length <= 0)) || (!System.IO.Directory.Exists(path) && !File.Exists(path)))
                         return null;
-
-                    string v = key.GetValue("Install Dir") as string;
-
-                    if (v == null || v.Length <= 0)
-                        return null;
-
-                    string file = Path.Combine(v, "client.exe");
-
-                    if (!File.Exists(file))
-                        return null;
-
-                    return v;
                 }
+
+                path = Path.GetDirectoryName(path);
+
+                if ((path == null) || (!System.IO.Directory.Exists(path)))
+                    return null;
+
+                return path;
             }
             catch
             {
