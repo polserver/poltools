@@ -407,6 +407,8 @@ namespace MultiEditor
             }
             treeViewMultiList.BeginUpdate();
             treeViewMultiList.Nodes.Clear();
+            // Let's create a root for import from Multi file and put these in there
+            TreeNode multinode = new TreeNode("Multi.mul");
             for (int i = 0; i < 0x2000; i++)
             {
                 if (Ultima.Multis.GetComponents(i) != MultiComponentList.Empty)
@@ -428,9 +430,13 @@ namespace MultiEditor
                     }
                     node.Tag = i;
                     node.Name = i.ToString();
-                    treeViewMultiList.Nodes.Add(node);
+                    multinode.Nodes.Add(node);
                 }
             }
+            treeViewMultiList.Nodes.Add(multinode);
+            TreeNode filenode = new TreeNode("From File");
+            filenode.Tag = "From File";
+            treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
             if (!Loaded)
             {
@@ -641,6 +647,15 @@ namespace MultiEditor
         /// </summary>
         private void treeViewMultiList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (e.Node.Tag == null)
+                return;
+
+            if (e.Node.Tag.ToString() == "From File")
+            {
+                MessageBox.Show("Not Implemented Yet");
+                return;
+            }
+
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
