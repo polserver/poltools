@@ -449,6 +449,8 @@ namespace MultiEditor
             yMax = (Width + Height) * 22; // width,height
             xMin = -Height * 22 - 22; // 0,height
             xMax = Width * 22 + 22; // width,0
+            zMin = 127;
+            zMax = -128;
 
             for (int x = 0; x < Width; ++x)
             {

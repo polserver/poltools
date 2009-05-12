@@ -40,7 +40,7 @@ namespace MultiEditor
         private const int DrawTileSizeWidth = 45;
         private const int DrawTileSizeHeight = 45;
 
-        private const double CoordinateTransform = Math.Sqrt(2) / 2; //Sin/Cos(45°)
+        private static double CoordinateTransform = Math.Sqrt(2) / 2; //Sin/Cos(45°)
 
 		#endregion Fields 
 
@@ -56,6 +56,7 @@ namespace MultiEditor
             m_DrawTile = new MultiTile();
             Selectedpanel.Visible = false;
             FloatingPreviewPanel.Visible = false;
+            FloatingPreviewPanel.Tag = -1;
             BTN_Select.Checked = true;
             pictureBoxDrawTiles.MouseWheel += new MouseEventHandler(pictureBoxDrawTiles_OnMouseWheel);
         }
@@ -158,6 +159,7 @@ namespace MultiEditor
                 int width = (int)numericUpDown_Size_Width.Value;
                 int height = (int)numericUpDown_Size_Height.Value;
                 compList.Resize(width, height);
+                MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
@@ -350,6 +352,7 @@ namespace MultiEditor
                     if ((int)numericUpDown_Selected_Z.Value != SelectedTile.Z)
                     {
                         compList.TileZSet(SelectedTile, (int)numericUpDown_Selected_Z.Value);
+                        MaxHeightTrackBar.Minimum = compList.zMin;
                         MaxHeightTrackBar.Maximum = compList.zMax;
                         if (MaxHeightTrackBar.Value < SelectedTile.Z)
                             MaxHeightTrackBar.Value = SelectedTile.Z;
@@ -508,6 +511,7 @@ namespace MultiEditor
                     if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
                     {
                         compList.TileAdd(x, y, z, m_DrawTile.ID);
+                        MaxHeightTrackBar.Minimum = compList.zMin;
                         MaxHeightTrackBar.Maximum = compList.zMax;
                         if (MaxHeightTrackBar.Value < z)
                             MaxHeightTrackBar.Value = z;
@@ -518,6 +522,7 @@ namespace MultiEditor
             {
                 if (m_HoverTile != null)
                     compList.TileRemove(m_HoverTile);
+                MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
             }
             else if (BTN_Z.Checked)
@@ -526,6 +531,7 @@ namespace MultiEditor
                 {
                     int z = (int)numericUpDown_Z.Value;
                     compList.TileZMod(m_HoverTile, z);
+                    MaxHeightTrackBar.Minimum = compList.zMin;
                     MaxHeightTrackBar.Maximum = compList.zMax;
                     if (MaxHeightTrackBar.Value < m_HoverTile.Z)
                         MaxHeightTrackBar.Value = m_HoverTile.Z;
@@ -638,6 +644,7 @@ namespace MultiEditor
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
+                MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
                 textBox_SaveToID.Text = e.Node.Tag.ToString();
@@ -736,11 +743,15 @@ namespace MultiEditor
             int index = GetIndex(x, y);
             if (index >= 0)
             {
-                FloatingPreviewPanel.BackgroundImage = Ultima.Art.GetStatic(index);
-                FloatingPreviewPanel.Size = new Size(Ultima.Art.GetStatic(index).Width+10, Ultima.Art.GetStatic(index).Height+10);
+                if (index != (int)FloatingPreviewPanel.Tag)
+                {
+                    FloatingPreviewPanel.BackgroundImage = Ultima.Art.GetStatic(index);
+                    FloatingPreviewPanel.Size = new Size(Ultima.Art.GetStatic(index).Width + 10, Ultima.Art.GetStatic(index).Height + 10);
+                }
                 FloatingPreviewPanel.Left = PointToClient(MousePosition).X;
                 FloatingPreviewPanel.Top = PointToClient(MousePosition).Y - FloatingPreviewPanel.Size.Height;
                 FloatingPreviewPanel.Visible = true;
+                FloatingPreviewPanel.Tag = index;
                 toolTip1.SetToolTip(pictureBoxDrawTiles, String.Format("0x{0:X} ({0})", index));
             }
             else
