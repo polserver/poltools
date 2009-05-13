@@ -68,6 +68,7 @@ namespace MultiEditor
             this.BTN_Select = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Floor = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Z = new System.Windows.Forms.NumericUpDown();
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.Selectedpanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.numericUpDown_Selected_Z = new System.Windows.Forms.NumericUpDown();
@@ -84,7 +85,7 @@ namespace MultiEditor
             this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
-            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.BTN_CreateBlank = new System.Windows.Forms.Button();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -124,10 +125,10 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.designTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 86);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 186);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -137,7 +138,7 @@ namespace MultiEditor
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 160);
+            this.tileTab.Size = new System.Drawing.Size(192, 155);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -157,8 +158,8 @@ namespace MultiEditor
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pictureBoxDrawTiles);
             this.splitContainer4.Panel2.Controls.Add(this.vScrollBarDrawTiles);
-            this.splitContainer4.Size = new System.Drawing.Size(186, 154);
-            this.splitContainer4.SplitterDistance = 76;
+            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
+            this.splitContainer4.SplitterDistance = 73;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
@@ -169,7 +170,7 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 76);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 73);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
             // 
@@ -184,7 +185,7 @@ namespace MultiEditor
             this.pictureBoxDrawTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDrawTiles.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDrawTiles.Name = "pictureBoxDrawTiles";
-            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 74);
+            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 72);
             this.pictureBoxDrawTiles.TabIndex = 3;
             this.pictureBoxDrawTiles.TabStop = false;
             this.pictureBoxDrawTiles.MouseLeave += new System.EventHandler(this.pictureBoxDrawTilesMouseLeave);
@@ -198,7 +199,7 @@ namespace MultiEditor
             this.vScrollBarDrawTiles.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBarDrawTiles.Location = new System.Drawing.Point(169, 0);
             this.vScrollBarDrawTiles.Name = "vScrollBarDrawTiles";
-            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 74);
+            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 72);
             this.vScrollBarDrawTiles.TabIndex = 0;
             this.vScrollBarDrawTiles.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBarDrawTiles_Scroll);
             // 
@@ -210,7 +211,7 @@ namespace MultiEditor
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
-            this.designTab.Size = new System.Drawing.Size(192, 160);
+            this.designTab.Size = new System.Drawing.Size(192, 155);
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
@@ -247,6 +248,7 @@ namespace MultiEditor
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox1.Controls.Add(this.BTN_CreateBlank);
             this.groupBox1.Controls.Add(this.numericUpDown_Size_Width);
             this.groupBox1.Controls.Add(this.BTN_Resize);
             this.groupBox1.Controls.Add(this.numericUpDown_Size_Height);
@@ -266,7 +268,7 @@ namespace MultiEditor
             // 
             // BTN_Resize
             // 
-            this.BTN_Resize.Location = new System.Drawing.Point(53, 45);
+            this.BTN_Resize.Location = new System.Drawing.Point(11, 45);
             this.BTN_Resize.Name = "BTN_Resize";
             this.BTN_Resize.Size = new System.Drawing.Size(75, 23);
             this.BTN_Resize.TabIndex = 2;
@@ -469,6 +471,22 @@ namespace MultiEditor
             this.numericUpDown_Z.Size = new System.Drawing.Size(50, 20);
             this.numericUpDown_Z.TabIndex = 5;
             // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 5;
+            this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
+            this.collapsibleSplitter1.UseAnimations = true;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
             // Selectedpanel
             // 
             this.Selectedpanel.Controls.Add(this.groupBox3);
@@ -552,7 +570,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MaxHeightTrackBar.Location = new System.Drawing.Point(0, 0);
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
-            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 45);
+            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
@@ -615,14 +633,14 @@ namespace MultiEditor
             // 
             this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabelCoord.Name = "toolStripLabelCoord";
-            this.toolStripLabelCoord.Size = new System.Drawing.Size(31, 22);
+            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
             // SelectedTileLabel
             // 
             this.SelectedTileLabel.Name = "SelectedTileLabel";
-            this.SelectedTileLabel.Size = new System.Drawing.Size(21, 22);
+            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
             this.SelectedTileLabel.Text = "ID:";
             // 
             // FloatingPreviewPanel
@@ -634,21 +652,17 @@ namespace MultiEditor
             this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
             this.FloatingPreviewPanel.TabIndex = 4;
             // 
-            // collapsibleSplitter1
+            // BTN_CreateBlank
             // 
-            this.collapsibleSplitter1.AnimationDelay = 20;
-            this.collapsibleSplitter1.AnimationStep = 20;
-            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
-            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.collapsibleSplitter1.ExpandParentForm = false;
-            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
-            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
-            this.collapsibleSplitter1.TabIndex = 5;
-            this.collapsibleSplitter1.TabStop = false;
-            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
-            this.collapsibleSplitter1.UseAnimations = true;
-            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            this.BTN_CreateBlank.AutoSize = true;
+            this.BTN_CreateBlank.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_CreateBlank.Location = new System.Drawing.Point(92, 45);
+            this.BTN_CreateBlank.Name = "BTN_CreateBlank";
+            this.BTN_CreateBlank.Size = new System.Drawing.Size(78, 23);
+            this.BTN_CreateBlank.TabIndex = 3;
+            this.BTN_CreateBlank.Text = "Create Blank";
+            this.BTN_CreateBlank.UseVisualStyleBackColor = true;
+            this.BTN_CreateBlank.Click += new System.EventHandler(this.BTN_CreateBlank_Click);
             // 
             // MultiEditor
             // 
@@ -669,6 +683,7 @@ namespace MultiEditor
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Width)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Height)).EndInit();
             this.importTab.ResumeLayout(false);
@@ -744,5 +759,6 @@ namespace MultiEditor
         private System.Windows.Forms.PictureBox pictureBoxDrawTiles;
         private System.Windows.Forms.VScrollBar vScrollBarDrawTiles;
         private System.Windows.Forms.Panel FloatingPreviewPanel;
+        private System.Windows.Forms.Button BTN_CreateBlank;
     }
 }

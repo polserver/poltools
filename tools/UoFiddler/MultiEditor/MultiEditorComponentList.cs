@@ -24,11 +24,16 @@ namespace MultiEditor
         private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
         private bool Modified;
         private static MultiEditor Parent;
+        public const int GapXMod = 44;
+        public const int GapYMod = 22;
 
         #endregion Fields
 
         #region Constructors (1)
 
+        /// <summary>
+        /// Create a ComponentList from UltimaSDK
+        /// </summary>
         public MultiEditorComponentList(MultiComponentList list, MultiEditor parent)
         {
             Parent = parent;
@@ -46,6 +51,27 @@ namespace MultiEditor
                         MultiTile tile = new MultiTile(list.Tiles[x][y][i].ID - 0x4000, list.Tiles[x][y][i].Z);
                         Tiles[x][y].Add(tile);
                     }
+                }
+            }
+            Modified = true;
+            RecalcMinMax();
+        }
+
+        /// <summary>
+        /// Create a blank ComponentList
+        /// </summary>
+        public MultiEditorComponentList(int width, int height, MultiEditor parent)
+        {
+            Parent = parent;
+            Width = width;
+            Height = height;
+            Tiles = new ArrayList[Width][];
+            for (int x = 0; x < Width; ++x)
+            {
+                Tiles[x] = new ArrayList[Height];
+                for (int y = 0; y < Height; ++y)
+                {
+                    Tiles[x][y] = new ArrayList();
                 }
             }
             Modified = true;
@@ -163,8 +189,8 @@ namespace MultiEditor
                                 fy -= 44;
                                 fx -= xMin;
                                 fy -= yMin;
-                                fx += 44; //Mod for a bit of gap
-                                fy += 22;
+                                fx += GapXMod; //Mod for a bit of gap
+                                fy += GapYMod;
                                 gfx.FillPolygon(FloorBrush, new Point[]{
                                     new Point(fx+22,fy),
                                     new Point(fx+44,fy+22),
@@ -192,8 +218,8 @@ namespace MultiEditor
                         py -= bmp.Height;
                         px -= xMin;
                         py -= yMin;
-                        py += 22; //Mod for a bit of gap
-                        px += 44;
+                        py += GapYMod; //Mod for a bit of gap
+                        px += GapXMod;
 
                         if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
                             gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
@@ -212,8 +238,8 @@ namespace MultiEditor
                         fy -= 44;
                         fx -= xMin;
                         fy -= yMin;
-                        fy += 22; //Mod for a bit of gap
-                        fx += 44;
+                        fy += GapYMod; //Mod for a bit of gap
+                        fx += GapXMod;
                         gfx.FillPolygon(FloorBrush, new Point[]{
                                 new Point(fx+22,fy),
                                 new Point(fx+44,fy+22),
@@ -264,8 +290,8 @@ namespace MultiEditor
                             py -= bmp.Height;
                             px -= xMin;
                             py -= yMin;
-                            px += 44;
-                            py += 22;
+                            px += GapXMod;
+                            py += GapYMod;
 
                             if (((mouseLoc.X > px) && (mouseLoc.X < (px + bmp.Width))) &&
                                 ((mouseLoc.Y > py) && (mouseLoc.Y < (py + bmp.Height))))
