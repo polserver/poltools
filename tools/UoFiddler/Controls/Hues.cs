@@ -53,14 +53,6 @@ namespace FiddlerControls
         }
 
         /// <summary>
-        /// Refreshes if Hue is changed
-        /// </summary>
-        public void Refreshlist()
-        {
-            pictureBox.Refresh();
-        }
-
-        /// <summary>
         /// Reload when loaded (file changed)
         /// </summary>
         private void Reload()
@@ -90,13 +82,21 @@ namespace FiddlerControls
                 vScrollBar.Value = selected;
             pictureBox.Refresh();
             if (!Loaded)
+            {
                 FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Options.HueChangeEvent += new FiddlerControls.Options.HueChangeHandler(OnHueChangeEvent);
+            }
             Loaded = true;
         }
 
         private void OnFilePathChangeEvent()
         {
             Reload();
+        }
+
+        private void OnHueChangeEvent()
+        {
+            pictureBox.Refresh();
         }
 
         private int GetIndex(int y)

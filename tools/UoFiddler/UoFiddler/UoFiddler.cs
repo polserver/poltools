@@ -38,7 +38,6 @@ namespace UoFiddler
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
-            FiddlerControls.Options.HueControl = this.controlHue;
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {
                 if (plug.Loaded)

@@ -233,14 +233,13 @@ namespace FiddlerControls
             set { Options.m_ChangedViewStates = value; }
         }
 
-        public static Hues HueControl { get; set; }
-
         #region Events
         public delegate void MapDiffChangeHandler();
         public delegate void MapNameChangeHandler();
         public delegate void MapSizeChangeHandler();
         public delegate void FilePathChangeHandler();
         public delegate void MultiChangeHandler(object sender, int id);
+        public delegate void HueChangeHandler();
 
         /// <summary>
         /// Fired when map diff file usage is switched
@@ -262,6 +261,10 @@ namespace FiddlerControls
         /// Fired when Multi Id changed
         /// </summary>
         public static event MultiChangeHandler MultiChangeEvent;
+        /// <summary>
+        /// Fired when Hues changed
+        /// </summary>
+        public static event HueChangeHandler HueChangeEvent;
 
         public static void FireMapDiffChangeEvent()
         {
@@ -287,6 +290,11 @@ namespace FiddlerControls
         {
             if (MultiChangeEvent != null)
                 MultiChangeEvent(sender, id);
+        }
+        public static void FireHueChangeEvent()
+        {
+            if (HueChangeEvent != null)
+                HueChangeEvent();
         }
         #endregion
 
