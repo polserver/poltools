@@ -1,4 +1,15 @@
-﻿namespace ComparePlugin
+﻿/***************************************************************************
+ *
+ * $Author: Turley
+ * 
+ * "THE BEER-WARE LICENSE"
+ * As long as you retain this notice you can do whatever you want with 
+ * this stuff. If we meet some day, and you think this stuff is worth it,
+ * you can buy me a beer in return.
+ *
+ ***************************************************************************/
+
+namespace ComparePlugin
 {
     partial class CompareHues
     {
@@ -82,13 +93,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.applyHue1ToHue2ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(183, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 48);
             // 
             // applyHue1ToHue2ToolStripMenuItem
             // 
             this.applyHue1ToHue2ToolStripMenuItem.Name = "applyHue1ToHue2ToolStripMenuItem";
-            this.applyHue1ToHue2ToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.applyHue1ToHue2ToolStripMenuItem.Text = "Apply Hue 1 to Hue 2";
+            this.applyHue1ToHue2ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.applyHue1ToHue2ToolStripMenuItem.Text = "Apply Hue 2 to Hue 1";
             this.applyHue1ToHue2ToolStripMenuItem.Click += new System.EventHandler(this.OnClickApplyHue1to2);
             // 
             // pictureBox2

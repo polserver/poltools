@@ -140,7 +140,7 @@ namespace FiddlerControls
             hue.Name = textBoxName.Text;
             hue.TableStart = Colors[0];
             hue.TableEnd = Colors[hue.Colors.Length - 1];
-            refmarker.Refreshlist();
+            Options.FireHueChangeEvent();
             Options.ChangedUltimaClass["Hues"] = true;
         }
 
