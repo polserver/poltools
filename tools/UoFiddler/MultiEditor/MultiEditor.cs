@@ -21,9 +21,13 @@ namespace MultiEditor
 {
     public partial class MultiEditor : UserControl
     {
-		#region Fields (11) 
+		#region Fields (14) 
 
         private MultiEditorComponentList compList;
+        //Sin/Cos(45°)
+        private static readonly double CoordinateTransform = Math.Sqrt(2) / 2;
+        private const int DrawTileSizeHeight = 45;
+        private const int DrawTileSizeWidth = 45;
         private ArrayList DrawTilesList = new ArrayList();
         private bool Loaded = false;
         private int m_DrawFloorZ;
@@ -37,10 +41,6 @@ namespace MultiEditor
         private int pictureboxDrawTilescol;
         private int pictureboxDrawTilesrow;
         private static MultiEditor refMarkerMulti = null;
-        private const int DrawTileSizeWidth = 45;
-        private const int DrawTileSizeHeight = 45;
-
-        private static double CoordinateTransform = Math.Sqrt(2) / 2; //Sin/Cos(45°)
 
 		#endregion Fields 
 
@@ -81,6 +81,8 @@ namespace MultiEditor
                 m_HoverTile = value;
                 if (value != null)
                     toolTip1.SetToolTip(pictureBoxMulti, String.Format("ID: 0x{0:X} Z: {1}", m_HoverTile.ID, m_HoverTile.Z));
+                else
+                    toolTip1.SetToolTip(pictureBoxMulti, String.Empty);
             }
         }
 
@@ -111,9 +113,29 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (27) 
+		#region Methods (28) 
 
-		// Private Methods (27) 
+		// Private Methods (28) 
+
+        /// <summary>
+        /// Creates new blank Multi
+        /// </summary>
+        private void BTN_CreateBlank_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Do you want to create a blank Multi?", "Create", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+            {
+                int width = (int)numericUpDown_Size_Width.Value;
+                int height = (int)numericUpDown_Size_Height.Value;
+                compList = new MultiEditorComponentList(width, height, this);
+                MaxHeightTrackBar.Minimum = compList.zMin;
+                MaxHeightTrackBar.Maximum = compList.zMax;
+                MaxHeightTrackBar.Value = compList.zMax;
+                numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                ScrollbarsSetValue();
+                pictureBoxMulti.Refresh();
+            }
+        }
 
         /// <summary>
         /// Draw Button activate
@@ -257,8 +279,8 @@ namespace MultiEditor
             cy -= 44;
             cx -= compList.xMin;
             cy -= compList.yMin;
-            cy += 22; //Mod for a bit of gap
-            cx += 44;
+            cy += MultiEditorComponentList.GapYMod; //Mod for a bit of gap
+            cx += MultiEditorComponentList.GapXMod;
 
             double mx = point.X - cx;
             double my = point.Y - cy;
@@ -266,8 +288,8 @@ namespace MultiEditor
             double yy = my;
             my = xx * CoordinateTransform - yy * CoordinateTransform; //Rotate 45° Coordinate system
             mx = yy * CoordinateTransform + xx * CoordinateTransform;
-            mx /= Math.Sqrt(2) * 22;
-            my /= Math.Sqrt(2) * 22;
+            mx /= CoordinateTransform * 44; //Math.Sqrt(2)*22==CoordinateTransform*44
+            my /= CoordinateTransform * 44; //CoordinateTransform=Math.Sqrt(2)/2
             my *= -1;
             x = (int)mx;
             y = (int)my;
@@ -584,8 +606,8 @@ namespace MultiEditor
                             py -= bmp.Height;
                             px -= compList.xMin;
                             py -= compList.yMin;
-                            py += 22; //Mod for a bit of gap
-                            px += 44;
+                            py += MultiEditorComponentList.GapYMod; //Mod for a bit of gap
+                            px += MultiEditorComponentList.GapXMod;
                             e.Graphics.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.DrawColor);
                         }
                     }
