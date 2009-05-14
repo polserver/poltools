@@ -473,7 +473,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.bmp", index));
@@ -499,7 +499,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.tiff", index));
@@ -525,7 +525,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             string FileName = Path.Combine(dialog.SelectedPath, String.Format("Multi 0x{0:X}.jpg", index));
@@ -551,7 +551,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
@@ -576,7 +576,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
@@ -601,7 +601,7 @@ namespace FiddlerControls
                 {
                     for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
                     {
-                        int index = (int)refmarker.TreeViewMulti.Nodes[i].Tag;
+                        int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
                         {
                             MultiComponentList multi = (MultiComponentList)refmarker.TreeViewMulti.Nodes[i].Tag;
