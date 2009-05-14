@@ -457,7 +457,18 @@ namespace MultiEditor
             }
             treeViewMultiList.Nodes.Add(multinode);
             TreeNode filenode = new TreeNode("From File");
-            filenode.Tag = "From File";
+            TreeNode txtnode = new TreeNode("Txt File");
+            txtnode.Tag = "txt";
+            filenode.Nodes.Add(txtnode);
+
+            TreeNode uoanode = new TreeNode("UOA File");
+            uoanode.Tag = "uoa";
+            filenode.Nodes.Add(uoanode);
+
+            TreeNode wscnode = new TreeNode("WSC File");
+            wscnode.Tag = "wsc";
+            filenode.Nodes.Add(wscnode);
+            
             treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
             if (!Loaded)
@@ -672,10 +683,12 @@ namespace MultiEditor
             if (e.Node.Tag == null)
                 return;
 
-            if (e.Node.Tag.ToString() == "From File")
+            switch (e.Node.Tag.ToString())
             {
-                MessageBox.Show("Not Implemented Yet");
-                return;
+                case "txt": MessageBox.Show("Not Implemented Yet"); return;
+                case "uoa": MessageBox.Show("Not Implemented Yet"); return;
+                case "wsc": MessageBox.Show("Not Implemented Yet"); return;
+                default: break;
             }
 
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
