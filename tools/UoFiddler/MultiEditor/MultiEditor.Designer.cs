@@ -53,6 +53,7 @@ namespace MultiEditor
             this.textBox_SaveToID = new System.Windows.Forms.TextBox();
             this.BTN_Save = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BTN_CreateBlank = new System.Windows.Forms.Button();
             this.numericUpDown_Size_Width = new System.Windows.Forms.NumericUpDown();
             this.BTN_Resize = new System.Windows.Forms.Button();
             this.numericUpDown_Size_Height = new System.Windows.Forms.NumericUpDown();
@@ -85,7 +86,6 @@ namespace MultiEditor
             this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
-            this.BTN_CreateBlank = new System.Windows.Forms.Button();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -211,7 +211,7 @@ namespace MultiEditor
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
-            this.designTab.Size = new System.Drawing.Size(192, 155);
+            this.designTab.Size = new System.Drawing.Size(192, 160);
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
@@ -258,6 +258,18 @@ namespace MultiEditor
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Multi Size";
+            // 
+            // BTN_CreateBlank
+            // 
+            this.BTN_CreateBlank.AutoSize = true;
+            this.BTN_CreateBlank.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_CreateBlank.Location = new System.Drawing.Point(92, 45);
+            this.BTN_CreateBlank.Name = "BTN_CreateBlank";
+            this.BTN_CreateBlank.Size = new System.Drawing.Size(78, 23);
+            this.BTN_CreateBlank.TabIndex = 3;
+            this.BTN_CreateBlank.Text = "Create Blank";
+            this.BTN_CreateBlank.UseVisualStyleBackColor = true;
+            this.BTN_CreateBlank.Click += new System.EventHandler(this.BTN_CreateBlank_Click);
             // 
             // numericUpDown_Size_Width
             // 
@@ -633,14 +645,14 @@ namespace MultiEditor
             // 
             this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabelCoord.Name = "toolStripLabelCoord";
-            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
+            this.toolStripLabelCoord.Size = new System.Drawing.Size(31, 22);
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
             // SelectedTileLabel
             // 
             this.SelectedTileLabel.Name = "SelectedTileLabel";
-            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
+            this.SelectedTileLabel.Size = new System.Drawing.Size(21, 22);
             this.SelectedTileLabel.Text = "ID:";
             // 
             // FloatingPreviewPanel
@@ -651,18 +663,6 @@ namespace MultiEditor
             this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
             this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
             this.FloatingPreviewPanel.TabIndex = 4;
-            // 
-            // BTN_CreateBlank
-            // 
-            this.BTN_CreateBlank.AutoSize = true;
-            this.BTN_CreateBlank.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BTN_CreateBlank.Location = new System.Drawing.Point(92, 45);
-            this.BTN_CreateBlank.Name = "BTN_CreateBlank";
-            this.BTN_CreateBlank.Size = new System.Drawing.Size(78, 23);
-            this.BTN_CreateBlank.TabIndex = 3;
-            this.BTN_CreateBlank.Text = "Create Blank";
-            this.BTN_CreateBlank.UseVisualStyleBackColor = true;
-            this.BTN_CreateBlank.Click += new System.EventHandler(this.BTN_CreateBlank_Click);
             // 
             // MultiEditor
             // 
