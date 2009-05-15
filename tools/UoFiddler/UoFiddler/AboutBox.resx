@@ -118,7 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 3.9a
+    <value>Version 4.0
+-Added MultiEditor plugin!!!
+-Multilist.xml added for naming conventions on Multis tab
+-Added Melt/Freeze Statics
 -Redesigned Tiledata tab option to change directly (Textfields on Enter press)
 -True Black and true White are now considered as transparent for bmp's
 -Added Jpg for all Export All in tabs.

@@ -113,9 +113,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (28) 
+		#region Methods (32) 
 
-		// Private Methods (28) 
+		// Private Methods (32) 
 
         /// <summary>
         /// Creates new blank Multi
@@ -147,6 +147,39 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
             pictureBoxMulti.Refresh();
+        }
+
+        private void BTN_Export_TXT_OnClick(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format(@"{0}.txt", textBox_Export.Text));
+                MultiComponentList sdklist = compList.ConvertToSDK();
+                sdklist.ExportToTextFile(FileName);
+            }
+        }
+
+        private void BTN_Export_UOA_OnClick(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format(@"{0}.uoa", textBox_Export.Text));
+                MultiComponentList sdklist = compList.ConvertToSDK();
+                sdklist.ExportToUOAFile(FileName);
+            }
+        }
+
+        private void BTN_Export_WSC_OnClick(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format(@"{0}.wsc", textBox_Export.Text));
+                MultiComponentList sdklist = compList.ConvertToSDK();
+                sdklist.ExportToWscFile(FileName);
+            }
         }
 
         /// <summary>
@@ -196,9 +229,12 @@ namespace MultiEditor
         /// </summary>
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            int id;
-            if (Int32.TryParse(textBox_SaveToID.Text, out id))
-                compList.AddToSDKComponentList(id); //fires MultiChangeEvent
+            if (compList != null)
+            {
+                int id;
+                if (FiddlerControls.Utils.ConvertStringToInt(textBox_SaveToID.Text, out id, 0, 0x1FFF))
+                    compList.AddToSDKComponentList(id); //fires MultiChangeEvent
+            }
         }
 
         /// <summary>
@@ -222,6 +258,7 @@ namespace MultiEditor
                 case "BTN_Draw": thisBox.ImageKey = (thisBox.Checked) ? "DrawButton_Selected.bmp" : "DrawButton.bmp"; break;
                 case "BTN_Remove": thisBox.ImageKey = (thisBox.Checked) ? "RemoveButton_Selected.bmp" : "RemoveButton.bmp"; break;
                 case "BTN_Z": thisBox.ImageKey = (thisBox.Checked) ? "AltitudeButton_Selected.bmp" : "AltitudeButton.bmp"; break;
+                case "BTN_Floor": thisBox.ImageKey = (thisBox.Checked) ? "VirtualFloorButton_Selected.bmp" : "VirtualFloorButton.bmp"; break;
             }
         }
 
@@ -488,23 +525,23 @@ namespace MultiEditor
                 return;
             bool done = false;
             bool remove = (Ultima.Multis.GetComponents(id) == MultiComponentList.Empty);
-            for (int i = 0; i < treeViewMultiList.Nodes.Count; i++)
+            for (int i = 0; i < treeViewMultiList.Nodes[0].Nodes.Count; i++)
             {
-                if (id == (int)treeViewMultiList.Nodes[i].Tag)
+                if (id == (int)treeViewMultiList.Nodes[0].Nodes[i].Tag)
                 {
                     done = true;
                     if (remove)
-                        treeViewMultiList.Nodes.RemoveAt(i);
+                        treeViewMultiList.Nodes[0].Nodes.RemoveAt(i);
                     break;
                 }
-                else if (id < (int)treeViewMultiList.Nodes[i].Tag)
+                else if (id < (int)treeViewMultiList.Nodes[0].Nodes[i].Tag)
                 {
                     if (!remove)
                     {
                         TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
                         node.Tag = id;
                         node.Name = id.ToString();
-                        treeViewMultiList.Nodes.Insert(i, node);
+                        treeViewMultiList.Nodes[0].Nodes.Insert(i, node);
                     }
                     done = true;
                     break;
@@ -515,7 +552,7 @@ namespace MultiEditor
                 TreeNode node = new TreeNode(String.Format("{0,5} (0x{0:X})", id));
                 node.Tag = id;
                 node.Name = id.ToString();
-                treeViewMultiList.Nodes.Add(node);
+                treeViewMultiList.Nodes[0].Nodes.Add(node);
             }
         }
 
@@ -675,6 +712,39 @@ namespace MultiEditor
             pictureBoxMulti.Refresh();
         }
 
+        private void treeViewMultiList_LoadFromFile(Multis.ImportType importtype)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            string type = "";
+            switch (importtype)
+            {
+                case Multis.ImportType.TXT: type = "txt"; break;
+                case Multis.ImportType.UOA: type = "uoa"; break;
+                case Multis.ImportType.WSC: type = "wsc"; break;
+                default: return;
+            }
+            dialog.Title = String.Format("Choose {0} file to import", type);
+            dialog.CheckFileExists = true;
+            dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                MultiComponentList multi = Ultima.Multis.LoadFromFile(dialog.FileName,importtype);
+                compList = new MultiEditorComponentList(multi, this);
+                MaxHeightTrackBar.Minimum = compList.zMin;
+                MaxHeightTrackBar.Maximum = compList.zMax;
+                MaxHeightTrackBar.Value = compList.zMax;
+                textBox_SaveToID.Text = "0";
+                numericUpDown_Size_Width.Value = compList.Width;
+                numericUpDown_Size_Height.Value = compList.Height;
+                numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                ScrollbarsSetValue();
+                pictureBoxMulti.Refresh();
+            }
+            dialog.Dispose();
+        }
+
         /// <summary>
         /// Doubleclick Node of Import treeview
         /// </summary>
@@ -685,9 +755,9 @@ namespace MultiEditor
 
             switch (e.Node.Tag.ToString())
             {
-                case "txt": MessageBox.Show("Not Implemented Yet"); return;
-                case "uoa": MessageBox.Show("Not Implemented Yet"); return;
-                case "wsc": MessageBox.Show("Not Implemented Yet"); return;
+                case "txt": treeViewMultiList_LoadFromFile(Multis.ImportType.TXT); return;
+                case "uoa": treeViewMultiList_LoadFromFile(Multis.ImportType.UOA); return;
+                case "wsc": treeViewMultiList_LoadFromFile(Multis.ImportType.WSC); return;
                 default: break;
             }
 
@@ -807,7 +877,7 @@ namespace MultiEditor
             else
             {
                 FloatingPreviewPanel.Visible = false;
-                toolTip1.RemoveAll();
+                toolTip1.SetToolTip(pictureBoxDrawTiles, String.Empty);
             }
         }
 

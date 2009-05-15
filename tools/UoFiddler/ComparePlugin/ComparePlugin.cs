@@ -18,7 +18,7 @@ namespace FiddlerPlugin
     {
         string myName = "ComparePlugin";
         string myDescription = 
-            "\r\nCompares 2 art files\r\n"
+            "Compares 2 art files\r\n"
             +"Compares 2 CliLocs\r\n"
             +"Compares 2 Hue files\r\n"
             + "Compares 2 Map files\r\n"

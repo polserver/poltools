@@ -40,10 +40,19 @@ namespace UoFiddler
                 Host.Types.AvailablePlugin selPlugin = GlobalPlugins.Plugins.AvailablePlugins.Find(checkedListBox1.SelectedItem.ToString());
                 if (selPlugin != null)
                 {
+                    System.Drawing.Font font = new System.Drawing.Font(richTextBox1.Font.FontFamily, richTextBox1.Font.Size, System.Drawing.FontStyle.Bold);
                     richTextBox1.AppendText("Name: " + selPlugin.Instance.Name + "\n");
+                    richTextBox1.Select(0, 5);
+                    richTextBox1.SelectionFont = font;
                     richTextBox1.AppendText("Version: " + selPlugin.Instance.Version + "\n");
+                    richTextBox1.Select(richTextBox1.Text.IndexOf("Version: "), 9);
+                    richTextBox1.SelectionFont = font;
                     richTextBox1.AppendText("Author: " + selPlugin.Instance.Author + "\n");
-                    richTextBox1.AppendText("Description: " + selPlugin.Instance.Description + "\n");
+                    richTextBox1.Select(richTextBox1.Text.IndexOf("Author: "), 8);
+                    richTextBox1.SelectionFont = font;
+                    richTextBox1.AppendText("Description:\n" + selPlugin.Instance.Description + "\n");
+                    richTextBox1.Select(richTextBox1.Text.IndexOf("Description:"), 12);
+                    richTextBox1.SelectionFont = font;
                 }
             }
         }

@@ -89,7 +89,18 @@ namespace Ultima
             {
                 return m_Components[index] = MultiComponentList.Empty;
             }
+        }
 
+        public static MultiComponentList LoadFromFile(string FileName, Multis.ImportType type)
+        {
+            try
+            {
+                return new MultiComponentList(FileName, type, false);
+            }
+            catch
+            {
+                return MultiComponentList.Empty;
+            }
         }
 
         public static void Save(string path)
@@ -616,7 +627,11 @@ namespace Ultima
         {
             m_Min = m_Max = Point.Empty;
             m_SortedTiles = new MultiTileEntry[count];
-            m_Center = new Point((width / 2)-1, (height / 2)-1);
+            m_Center = new Point((width / 2) - 1, (height / 2) - 1);
+            if (m_Center.X < 0)
+                m_Center.X = width / 2;
+            if (m_Center.Y < 0)
+                m_Center.Y = height / 2;
             m_maxHeight = -128;
 
             bool centerfound = false;
@@ -624,7 +639,8 @@ namespace Ultima
             {
                 for (int i = 0; i < newtiles[m_Center.X][m_Center.Y].Count; i++)
                 {
-                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID==0x4001) && (newtiles[m_Center.X][m_Center.Y].Get(i).Z == 0))
+                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID == 0x4001) && 
+                        (newtiles[m_Center.X][m_Center.Y].Get(i).Z == 0))
                     {
                         m_SortedTiles[0].m_OffsetX = 0;
                         m_SortedTiles[0].m_OffsetY = 0;
@@ -640,7 +656,10 @@ namespace Ultima
             int counter = 1;
             if (!centerfound)
             {
-                if (MessageBox.Show("No invisible Center Item found do you want to add it?", "Multi Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                if (MessageBox.Show("No invisible Center Item found do you want to add it?", 
+                    "Multi Save", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, 
+                    MessageBoxDefaultButton.Button1) == DialogResult.OK)
                 {
                     m_SortedTiles = new MultiTileEntry[count + 1];
                     m_SortedTiles[0].m_ItemID = 0x1; // insert invis center item
