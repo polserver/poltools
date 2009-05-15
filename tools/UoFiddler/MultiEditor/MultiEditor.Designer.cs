@@ -49,9 +49,6 @@ namespace MultiEditor
             this.pictureBoxDrawTiles = new System.Windows.Forms.PictureBox();
             this.vScrollBarDrawTiles = new System.Windows.Forms.VScrollBar();
             this.designTab = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox_SaveToID = new System.Windows.Forms.TextBox();
-            this.BTN_Save = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BTN_CreateBlank = new System.Windows.Forms.Button();
             this.numericUpDown_Size_Width = new System.Windows.Forms.NumericUpDown();
@@ -59,11 +56,20 @@ namespace MultiEditor
             this.numericUpDown_Size_Height = new System.Windows.Forms.NumericUpDown();
             this.importTab = new System.Windows.Forms.TabPage();
             this.treeViewMultiList = new System.Windows.Forms.TreeView();
+            this.Save = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.BTN_Export_WSC = new System.Windows.Forms.Button();
+            this.BTN_Export_UOA = new System.Windows.Forms.Button();
+            this.textBox_Export = new System.Windows.Forms.TextBox();
+            this.BTN_Export_Txt = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_SaveToID = new System.Windows.Forms.TextBox();
+            this.BTN_Save = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.BTN_Floor = new System.Windows.Forms.CheckBox();
-            this.BTN_Z = new System.Windows.Forms.CheckBox();
             this.imageListTools = new System.Windows.Forms.ImageList(this.components);
+            this.BTN_Z = new System.Windows.Forms.CheckBox();
             this.BTN_Remove = new System.Windows.Forms.CheckBox();
             this.BTN_Draw = new System.Windows.Forms.CheckBox();
             this.BTN_Select = new System.Windows.Forms.CheckBox();
@@ -93,11 +99,13 @@ namespace MultiEditor
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDrawTiles)).BeginInit();
             this.designTab.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Height)).BeginInit();
             this.importTab.SuspendLayout();
+            this.Save.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -124,6 +132,7 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.tileTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.designTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
+            this.TC_MultiEditorToolbox.Controls.Add(this.Save);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
@@ -206,7 +215,6 @@ namespace MultiEditor
             // designTab
             // 
             this.designTab.BackColor = System.Drawing.SystemColors.Window;
-            this.designTab.Controls.Add(this.groupBox2);
             this.designTab.Controls.Add(this.groupBox1);
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
@@ -215,35 +223,6 @@ namespace MultiEditor
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox2.Controls.Add(this.textBox_SaveToID);
-            this.groupBox2.Controls.Add(this.BTN_Save);
-            this.groupBox2.Location = new System.Drawing.Point(7, 90);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(179, 59);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Save";
-            // 
-            // textBox_SaveToID
-            // 
-            this.textBox_SaveToID.Location = new System.Drawing.Point(92, 22);
-            this.textBox_SaveToID.Name = "textBox_SaveToID";
-            this.textBox_SaveToID.Size = new System.Drawing.Size(66, 20);
-            this.textBox_SaveToID.TabIndex = 1;
-            // 
-            // BTN_Save
-            // 
-            this.BTN_Save.Location = new System.Drawing.Point(7, 20);
-            this.BTN_Save.Name = "BTN_Save";
-            this.BTN_Save.Size = new System.Drawing.Size(75, 23);
-            this.BTN_Save.TabIndex = 0;
-            this.BTN_Save.Text = "Save to ID";
-            this.BTN_Save.UseVisualStyleBackColor = true;
-            this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
             // 
             // groupBox1
             // 
@@ -315,6 +294,99 @@ namespace MultiEditor
             this.treeViewMultiList.TabIndex = 0;
             this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             // 
+            // Save
+            // 
+            this.Save.Controls.Add(this.groupBox4);
+            this.Save.Controls.Add(this.groupBox2);
+            this.Save.Location = new System.Drawing.Point(4, 22);
+            this.Save.Name = "Save";
+            this.Save.Padding = new System.Windows.Forms.Padding(3);
+            this.Save.Size = new System.Drawing.Size(192, 155);
+            this.Save.TabIndex = 3;
+            this.Save.Text = "Save";
+            this.Save.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox4.Controls.Add(this.BTN_Export_WSC);
+            this.groupBox4.Controls.Add(this.BTN_Export_UOA);
+            this.groupBox4.Controls.Add(this.textBox_Export);
+            this.groupBox4.Controls.Add(this.BTN_Export_Txt);
+            this.groupBox4.Location = new System.Drawing.Point(7, 71);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(179, 78);
+            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Export";
+            // 
+            // BTN_Export_WSC
+            // 
+            this.BTN_Export_WSC.Location = new System.Drawing.Point(128, 46);
+            this.BTN_Export_WSC.Name = "BTN_Export_WSC";
+            this.BTN_Export_WSC.Size = new System.Drawing.Size(40, 23);
+            this.BTN_Export_WSC.TabIndex = 3;
+            this.BTN_Export_WSC.Text = ".Wsc";
+            this.BTN_Export_WSC.UseVisualStyleBackColor = true;
+            this.BTN_Export_WSC.Click += new System.EventHandler(this.BTN_Export_WSC_OnClick);
+            // 
+            // BTN_Export_UOA
+            // 
+            this.BTN_Export_UOA.Location = new System.Drawing.Point(69, 46);
+            this.BTN_Export_UOA.Name = "BTN_Export_UOA";
+            this.BTN_Export_UOA.Size = new System.Drawing.Size(40, 23);
+            this.BTN_Export_UOA.TabIndex = 2;
+            this.BTN_Export_UOA.Text = ".Uoa";
+            this.BTN_Export_UOA.UseVisualStyleBackColor = true;
+            this.BTN_Export_UOA.Click += new System.EventHandler(this.BTN_Export_UOA_OnClick);
+            // 
+            // textBox_Export
+            // 
+            this.textBox_Export.Location = new System.Drawing.Point(6, 19);
+            this.textBox_Export.Name = "textBox_Export";
+            this.textBox_Export.Size = new System.Drawing.Size(167, 20);
+            this.textBox_Export.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.textBox_Export, "FileName");
+            // 
+            // BTN_Export_Txt
+            // 
+            this.BTN_Export_Txt.Location = new System.Drawing.Point(10, 46);
+            this.BTN_Export_Txt.Name = "BTN_Export_Txt";
+            this.BTN_Export_Txt.Size = new System.Drawing.Size(40, 23);
+            this.BTN_Export_Txt.TabIndex = 0;
+            this.BTN_Export_Txt.Text = ".Txt";
+            this.BTN_Export_Txt.UseVisualStyleBackColor = true;
+            this.BTN_Export_Txt.Click += new System.EventHandler(this.BTN_Export_TXT_OnClick);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.textBox_SaveToID);
+            this.groupBox2.Controls.Add(this.BTN_Save);
+            this.groupBox2.Location = new System.Drawing.Point(7, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(179, 59);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Save";
+            // 
+            // textBox_SaveToID
+            // 
+            this.textBox_SaveToID.Location = new System.Drawing.Point(92, 22);
+            this.textBox_SaveToID.Name = "textBox_SaveToID";
+            this.textBox_SaveToID.Size = new System.Drawing.Size(66, 20);
+            this.textBox_SaveToID.TabIndex = 1;
+            // 
+            // BTN_Save
+            // 
+            this.BTN_Save.Location = new System.Drawing.Point(7, 20);
+            this.BTN_Save.Name = "BTN_Save";
+            this.BTN_Save.Size = new System.Drawing.Size(75, 23);
+            this.BTN_Save.TabIndex = 0;
+            this.BTN_Save.Text = "Save to ID";
+            this.BTN_Save.UseVisualStyleBackColor = true;
+            this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -365,13 +437,32 @@ namespace MultiEditor
             // BTN_Floor
             // 
             this.BTN_Floor.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Floor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Floor.ImageKey = "VirtualFloorButton.bmp";
+            this.BTN_Floor.ImageList = this.imageListTools;
             this.BTN_Floor.Location = new System.Drawing.Point(4, 26);
             this.BTN_Floor.Name = "BTN_Floor";
-            this.BTN_Floor.Size = new System.Drawing.Size(71, 21);
+            this.BTN_Floor.Size = new System.Drawing.Size(21, 21);
             this.BTN_Floor.TabIndex = 13;
-            this.BTN_Floor.Text = "Virtual Floor";
+            this.toolTip1.SetToolTip(this.BTN_Floor, "Draw Virtual Floor");
             this.BTN_Floor.UseVisualStyleBackColor = true;
+            this.BTN_Floor.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Floor.Click += new System.EventHandler(this.BTN_Floor_Clicked);
+            // 
+            // imageListTools
+            // 
+            this.imageListTools.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTools.ImageStream")));
+            this.imageListTools.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTools.Images.SetKeyName(0, "AltitudeButton.bmp");
+            this.imageListTools.Images.SetKeyName(1, "DrawButton.bmp");
+            this.imageListTools.Images.SetKeyName(2, "RemoveButton.bmp");
+            this.imageListTools.Images.SetKeyName(3, "SelectButton.bmp");
+            this.imageListTools.Images.SetKeyName(4, "AltitudeButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(5, "DrawButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(6, "RemoveButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(7, "SelectButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(8, "VirtualFloorButton.bmp");
+            this.imageListTools.Images.SetKeyName(9, "VirtualFloorButton_Selected.bmp");
             // 
             // BTN_Z
             // 
@@ -387,19 +478,6 @@ namespace MultiEditor
             this.BTN_Z.UseVisualStyleBackColor = true;
             this.BTN_Z.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Z.Click += new System.EventHandler(this.BTN_Z_Click);
-            // 
-            // imageListTools
-            // 
-            this.imageListTools.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTools.ImageStream")));
-            this.imageListTools.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTools.Images.SetKeyName(0, "AltitudeButton.bmp");
-            this.imageListTools.Images.SetKeyName(1, "DrawButton.bmp");
-            this.imageListTools.Images.SetKeyName(2, "RemoveButton.bmp");
-            this.imageListTools.Images.SetKeyName(3, "SelectButton.bmp");
-            this.imageListTools.Images.SetKeyName(4, "AltitudeButton_Selected.bmp");
-            this.imageListTools.Images.SetKeyName(5, "DrawButton_Selected.bmp");
-            this.imageListTools.Images.SetKeyName(6, "RemoveButton_Selected.bmp");
-            this.imageListTools.Images.SetKeyName(7, "SelectButton_Selected.bmp");
             // 
             // BTN_Remove
             // 
@@ -450,7 +528,7 @@ namespace MultiEditor
             // 
             // numericUpDown_Floor
             // 
-            this.numericUpDown_Floor.Location = new System.Drawing.Point(78, 27);
+            this.numericUpDown_Floor.Location = new System.Drawing.Point(31, 28);
             this.numericUpDown_Floor.Maximum = new decimal(new int[] {
             127,
             0,
@@ -645,14 +723,14 @@ namespace MultiEditor
             // 
             this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabelCoord.Name = "toolStripLabelCoord";
-            this.toolStripLabelCoord.Size = new System.Drawing.Size(31, 22);
+            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
             this.toolStripLabelCoord.Text = "0,0,0";
             this.toolStripLabelCoord.ToolTipText = "Coordinates";
             // 
             // SelectedTileLabel
             // 
             this.SelectedTileLabel.Name = "SelectedTileLabel";
-            this.SelectedTileLabel.Size = new System.Drawing.Size(21, 22);
+            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
             this.SelectedTileLabel.Text = "ID:";
             // 
             // FloatingPreviewPanel
@@ -680,13 +758,16 @@ namespace MultiEditor
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDrawTiles)).EndInit();
             this.designTab.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Width)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Size_Height)).EndInit();
             this.importTab.ResumeLayout(false);
+            this.Save.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -744,9 +825,6 @@ namespace MultiEditor
         private System.Windows.Forms.CheckBox BTN_Draw;
         private System.Windows.Forms.CheckBox BTN_Select;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox_SaveToID;
-        private System.Windows.Forms.Button BTN_Save;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.ToolStripLabel SelectedTileLabel;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -760,5 +838,14 @@ namespace MultiEditor
         private System.Windows.Forms.VScrollBar vScrollBarDrawTiles;
         private System.Windows.Forms.Panel FloatingPreviewPanel;
         private System.Windows.Forms.Button BTN_CreateBlank;
+        private System.Windows.Forms.TabPage Save;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBox_SaveToID;
+        private System.Windows.Forms.Button BTN_Save;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button BTN_Export_WSC;
+        private System.Windows.Forms.Button BTN_Export_UOA;
+        private System.Windows.Forms.TextBox textBox_Export;
+        private System.Windows.Forms.Button BTN_Export_Txt;
     }
 }

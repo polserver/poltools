@@ -19,17 +19,38 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-        #region Fields (3)
+		#region Fields (5) 
 
         private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
-        private bool Modified;
-        private static MultiEditor Parent;
         public const int GapXMod = 44;
         public const int GapYMod = 22;
+        private bool Modified;
+        private static MultiEditor Parent;
 
-        #endregion Fields
+		#endregion Fields 
 
-        #region Constructors (1)
+		#region Constructors (2) 
+
+        /// <summary>
+        /// Create a blank ComponentList
+        /// </summary>
+        public MultiEditorComponentList(int width, int height, MultiEditor parent)
+        {
+            Parent = parent;
+            Width = width;
+            Height = height;
+            Tiles = new ArrayList[Width][];
+            for (int x = 0; x < Width; ++x)
+            {
+                Tiles[x] = new ArrayList[Height];
+                for (int y = 0; y < Height; ++y)
+                {
+                    Tiles[x][y] = new ArrayList();
+                }
+            }
+            Modified = true;
+            RecalcMinMax();
+        }
 
         /// <summary>
         /// Create a ComponentList from UltimaSDK
@@ -57,30 +78,9 @@ namespace MultiEditor
             RecalcMinMax();
         }
 
-        /// <summary>
-        /// Create a blank ComponentList
-        /// </summary>
-        public MultiEditorComponentList(int width, int height, MultiEditor parent)
-        {
-            Parent = parent;
-            Width = width;
-            Height = height;
-            Tiles = new ArrayList[Width][];
-            for (int x = 0; x < Width; ++x)
-            {
-                Tiles[x] = new ArrayList[Height];
-                for (int y = 0; y < Height; ++y)
-                {
-                    Tiles[x][y] = new ArrayList();
-                }
-            }
-            Modified = true;
-            RecalcMinMax();
-        }
+		#endregion Constructors 
 
-        #endregion Constructors
-
-        #region Properties (13)
+		#region Properties (13) 
 
         public int Height { get; private set; }
 
@@ -108,16 +108,23 @@ namespace MultiEditor
 
         public int zMin { get; private set; }
 
-        #endregion Properties
+		#endregion Properties 
 
-        #region Methods (11)
+		#region Methods (12) 
 
-        // Public Methods (10) 
+		// Public Methods (11) 
 
         /// <summary>
         /// Export to given multi id
         /// </summary>
         public void AddToSDKComponentList(int id)
+        {
+            Ultima.Multis.Add(id, ConvertToSDK());
+            FiddlerControls.Options.ChangedUltimaClass["Multis"] = true;
+            FiddlerControls.Options.FireMultiChangeEvent(this, id);
+        }
+
+        public MultiComponentList ConvertToSDK()
         {
             int count = 0;
             TileList[][] tiles = new TileList[Width][];
@@ -135,9 +142,7 @@ namespace MultiEditor
                     }
                 }
             }
-            Ultima.Multis.Add(id, new MultiComponentList(tiles, count, Width, Height));
-            FiddlerControls.Options.ChangedUltimaClass["Multis"] = true;
-            FiddlerControls.Options.FireMultiChangeEvent(this, id);
+            return new MultiComponentList(tiles, count, Width, Height);
         }
 
         /// <summary>
@@ -463,7 +468,7 @@ namespace MultiEditor
                 Tiles[point.X][point.Y].Sort();
             RecalcMinMax();
         }
-        // Private Methods (1) 
+		// Private Methods (1) 
 
         /// <summary>
         /// Recalcs Bitmap size
@@ -526,12 +531,12 @@ namespace MultiEditor
             yMaxOrg = yMax;
         }
 
-        #endregion Methods
+		#endregion Methods 
     }
 
     public class MultiTile : IComparable
     {
-        #region Fields (6)
+		#region Fields (6) 
 
         private static ImageAttributes m_DrawColor = null;
         private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
@@ -561,9 +566,9 @@ namespace MultiEditor
                 new float[5] {.80f, .0f, .0f, .0f, 1}
 			});
 
-        #endregion Fields
+		#endregion Fields 
 
-        #region Constructors (2)
+		#region Constructors (2) 
 
         public MultiTile(int id, int z)
         {
@@ -591,9 +596,9 @@ namespace MultiEditor
             ID = -1;
         }
 
-        #endregion Constructors
+		#endregion Constructors 
 
-        #region Properties (6)
+		#region Properties (6) 
 
         public static ImageAttributes DrawColor { get { return m_DrawColor; } }
 
@@ -607,11 +612,11 @@ namespace MultiEditor
 
         public int Z { get; set; }
 
-        #endregion Properties
+		#endregion Properties 
 
-        #region Methods (2)
+		#region Methods (2) 
 
-        // Public Methods (2) 
+		// Public Methods (2) 
 
         public int CompareTo(object x)
         {
@@ -650,6 +655,6 @@ namespace MultiEditor
             Z = z;
         }
 
-        #endregion Methods
+		#endregion Methods 
     }
 }

@@ -47,6 +47,7 @@ namespace FiddlerControls
             dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
                 textBox1.Text = dialog.FileName;
+            dialog.Dispose();
         }
 
         private void OnClickImport(object sender, EventArgs e)
