@@ -146,6 +146,7 @@ namespace MultiEditor
             BTN_Draw.Checked = true;
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
+            BTN_Pipette.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -187,8 +188,21 @@ namespace MultiEditor
         /// </summary>
         private void BTN_Floor_Clicked(object sender, EventArgs e)
         {
-            m_DrawFloorZ = (int)numericUpDown_Z.Value;
+            m_DrawFloorZ = (int)numericUpDown_Floor.Value;
             ScrollbarsSetValue();
+            pictureBoxMulti.Refresh();
+        }
+
+        /// <summary>
+        /// Change DrawTile to clicked Tile
+        /// </summary>
+        private void BTN_Pipette_Click(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = false;
+            BTN_Draw.Checked = false;
+            BTN_Remove.Checked = false;
+            BTN_Z.Checked = false;
+            BTN_Pipette.Checked = true;
             pictureBoxMulti.Refresh();
         }
 
@@ -201,6 +215,7 @@ namespace MultiEditor
             BTN_Draw.Checked = false;
             BTN_Remove.Checked = true;
             BTN_Z.Checked = false;
+            BTN_Pipette.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -246,6 +261,7 @@ namespace MultiEditor
             BTN_Draw.Checked = false;
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
+            BTN_Pipette.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -259,6 +275,7 @@ namespace MultiEditor
                 case "BTN_Remove": thisBox.ImageKey = (thisBox.Checked) ? "RemoveButton_Selected.bmp" : "RemoveButton.bmp"; break;
                 case "BTN_Z": thisBox.ImageKey = (thisBox.Checked) ? "AltitudeButton_Selected.bmp" : "AltitudeButton.bmp"; break;
                 case "BTN_Floor": thisBox.ImageKey = (thisBox.Checked) ? "VirtualFloorButton_Selected.bmp" : "VirtualFloorButton.bmp"; break;
+                case "BTN_Pipette": thisBox.ImageKey = (thisBox.Checked) ? "PipetteButton_Selected.bmp" : "PipetteButton.bmp"; break;
             }
         }
 
@@ -271,6 +288,7 @@ namespace MultiEditor
             BTN_Draw.Checked = false;
             BTN_Remove.Checked = false;
             BTN_Z.Checked = true;
+            BTN_Pipette.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -613,6 +631,14 @@ namespace MultiEditor
                         MaxHeightTrackBar.Value = m_HoverTile.Z;
                 }
             }
+            else if (BTN_Pipette.Checked)
+            {
+                if (m_HoverTile != null)
+                {
+                    m_DrawTile.Set(m_HoverTile.ID, 0);
+                    DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", m_HoverTile.ID);
+                }
+            }
             pictureBoxMulti.Refresh();
         }
 
@@ -852,6 +878,7 @@ namespace MultiEditor
             if (index >= 0)
             {
                 m_DrawTile.Set(index, 0);
+                DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", index);
                 pictureBoxDrawTiles.Refresh();
             }
         }
@@ -967,5 +994,7 @@ namespace MultiEditor
             }
         }
         #endregion
+
+        
     }
 }

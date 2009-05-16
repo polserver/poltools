@@ -67,8 +67,9 @@ namespace MultiEditor
             this.BTN_Save = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.BTN_Floor = new System.Windows.Forms.CheckBox();
+            this.BTN_Pipette = new System.Windows.Forms.CheckBox();
             this.imageListTools = new System.Windows.Forms.ImageList(this.components);
+            this.BTN_Floor = new System.Windows.Forms.CheckBox();
             this.BTN_Z = new System.Windows.Forms.CheckBox();
             this.BTN_Remove = new System.Windows.Forms.CheckBox();
             this.BTN_Draw = new System.Windows.Forms.CheckBox();
@@ -92,6 +93,8 @@ namespace MultiEditor
             this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
+            this.DrawTileLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -301,7 +304,7 @@ namespace MultiEditor
             this.Save.Location = new System.Drawing.Point(4, 22);
             this.Save.Name = "Save";
             this.Save.Padding = new System.Windows.Forms.Padding(3);
-            this.Save.Size = new System.Drawing.Size(192, 155);
+            this.Save.Size = new System.Drawing.Size(192, 160);
             this.Save.TabIndex = 3;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -417,6 +420,7 @@ namespace MultiEditor
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Pipette);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Floor);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Z);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Remove);
@@ -434,20 +438,20 @@ namespace MultiEditor
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 1;
             // 
-            // BTN_Floor
+            // BTN_Pipette
             // 
-            this.BTN_Floor.Appearance = System.Windows.Forms.Appearance.Button;
-            this.BTN_Floor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Floor.ImageKey = "VirtualFloorButton.bmp";
-            this.BTN_Floor.ImageList = this.imageListTools;
-            this.BTN_Floor.Location = new System.Drawing.Point(4, 26);
-            this.BTN_Floor.Name = "BTN_Floor";
-            this.BTN_Floor.Size = new System.Drawing.Size(21, 21);
-            this.BTN_Floor.TabIndex = 13;
-            this.toolTip1.SetToolTip(this.BTN_Floor, "Draw Virtual Floor");
-            this.BTN_Floor.UseVisualStyleBackColor = true;
-            this.BTN_Floor.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
-            this.BTN_Floor.Click += new System.EventHandler(this.BTN_Floor_Clicked);
+            this.BTN_Pipette.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Pipette.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Pipette.ImageKey = "PipetteButton.bmp";
+            this.BTN_Pipette.ImageList = this.imageListTools;
+            this.BTN_Pipette.Location = new System.Drawing.Point(84, 3);
+            this.BTN_Pipette.Name = "BTN_Pipette";
+            this.BTN_Pipette.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Pipette.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.BTN_Pipette, "Apply Z Level");
+            this.BTN_Pipette.UseVisualStyleBackColor = true;
+            this.BTN_Pipette.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
+            this.BTN_Pipette.Click += new System.EventHandler(this.BTN_Pipette_Click);
             // 
             // imageListTools
             // 
@@ -463,6 +467,23 @@ namespace MultiEditor
             this.imageListTools.Images.SetKeyName(7, "SelectButton_Selected.bmp");
             this.imageListTools.Images.SetKeyName(8, "VirtualFloorButton.bmp");
             this.imageListTools.Images.SetKeyName(9, "VirtualFloorButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(10, "PipetteButton.bmp");
+            this.imageListTools.Images.SetKeyName(11, "PipetteButton_Selected.bmp");
+            // 
+            // BTN_Floor
+            // 
+            this.BTN_Floor.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Floor.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Floor.ImageKey = "VirtualFloorButton.bmp";
+            this.BTN_Floor.ImageList = this.imageListTools;
+            this.BTN_Floor.Location = new System.Drawing.Point(4, 26);
+            this.BTN_Floor.Name = "BTN_Floor";
+            this.BTN_Floor.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Floor.TabIndex = 13;
+            this.toolTip1.SetToolTip(this.BTN_Floor, "Draw Virtual Floor");
+            this.BTN_Floor.UseVisualStyleBackColor = true;
+            this.BTN_Floor.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
+            this.BTN_Floor.Click += new System.EventHandler(this.BTN_Floor_Clicked);
             // 
             // BTN_Z
             // 
@@ -470,7 +491,7 @@ namespace MultiEditor
             this.BTN_Z.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BTN_Z.ImageKey = "AltitudeButton.bmp";
             this.BTN_Z.ImageList = this.imageListTools;
-            this.BTN_Z.Location = new System.Drawing.Point(84, 3);
+            this.BTN_Z.Location = new System.Drawing.Point(111, 3);
             this.BTN_Z.Name = "BTN_Z";
             this.BTN_Z.Size = new System.Drawing.Size(21, 21);
             this.BTN_Z.TabIndex = 12;
@@ -546,7 +567,7 @@ namespace MultiEditor
             // 
             // numericUpDown_Z
             // 
-            this.numericUpDown_Z.Location = new System.Drawing.Point(111, 5);
+            this.numericUpDown_Z.Location = new System.Drawing.Point(138, 5);
             this.numericUpDown_Z.Maximum = new decimal(new int[] {
             127,
             0,
@@ -710,8 +731,10 @@ namespace MultiEditor
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabelCoord,
-            this.SelectedTileLabel});
+            this.DrawTileLabel,
+            this.toolStripSeparator1,
+            this.SelectedTileLabel,
+            this.toolStripLabelCoord});
             this.toolStrip1.Location = new System.Drawing.Point(0, 299);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -741,6 +764,19 @@ namespace MultiEditor
             this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
             this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
             this.FloatingPreviewPanel.TabIndex = 4;
+            // 
+            // DrawTileLabel
+            // 
+            this.DrawTileLabel.AutoSize = false;
+            this.DrawTileLabel.Name = "DrawTileLabel";
+            this.DrawTileLabel.Size = new System.Drawing.Size(100, 22);
+            this.DrawTileLabel.Text = "Draw ID:";
+            this.DrawTileLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // MultiEditor
             // 
@@ -847,5 +883,8 @@ namespace MultiEditor
         private System.Windows.Forms.Button BTN_Export_UOA;
         private System.Windows.Forms.TextBox textBox_Export;
         private System.Windows.Forms.Button BTN_Export_Txt;
+        private System.Windows.Forms.CheckBox BTN_Pipette;
+        private System.Windows.Forms.ToolStripLabel DrawTileLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
