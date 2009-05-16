@@ -159,8 +159,7 @@ namespace MultiEditor
             xMax = xMaxOrg;
             yMin = yMinOrg;
             yMax = yMaxOrg;
-            Parent.HoverTile = GetSelected(mouseLoc, maxheight);
-
+            
             if (drawFloor)
             {
                 int floorzmod = -Parent.DrawFloorZ * 4 - 44;
@@ -170,6 +169,8 @@ namespace MultiEditor
                 if (yMaxOrg < floorzmod)
                     yMax = floorzmod;
             }
+            Parent.HoverTile = GetSelected(mouseLoc, maxheight, drawFloor);
+
             Bitmap canvas = new Bitmap(xMax - xMin + 88, yMax - yMin + 66);
             Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.White);
@@ -266,7 +267,7 @@ namespace MultiEditor
         /// <summary>
         /// Gets <see cref="MultiTile"/> from given Pixel Location
         /// </summary>
-        public MultiTile GetSelected(Point mouseLoc, int maxheight)
+        public MultiTile GetSelected(Point mouseLoc, int maxheight, bool drawFloor)
         {
             if (Width == 0 || Height == 0)
                 return null;
@@ -286,6 +287,8 @@ namespace MultiEditor
                             if (bmp == null)
                                 continue;
                             if ((tile.Z) > maxheight)
+                                continue;
+                            if ((drawFloor) && (Parent.DrawFloorZ > tile.Z))
                                 continue;
                             int px = (x - y) * 22;
                             int py = (x + y) * 22;
