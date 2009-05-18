@@ -19,13 +19,14 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-		#region Fields (5) 
+		#region Fields (6) 
 
         private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
         public const int GapXMod = 44;
         public const int GapYMod = 22;
         private bool Modified;
         private static MultiEditor Parent;
+        public const int UndoListMaxSize = 10;
 
 		#endregion Fields 
 
@@ -48,6 +49,7 @@ namespace MultiEditor
                     Tiles[x][y] = new ArrayList();
                 }
             }
+            UndoList = new UndoStruct[UndoListMaxSize];
             Modified = true;
             RecalcMinMax();
         }
@@ -74,17 +76,20 @@ namespace MultiEditor
                     }
                 }
             }
+            UndoList = new UndoStruct[UndoListMaxSize];
             Modified = true;
             RecalcMinMax();
         }
 
 		#endregion Constructors 
 
-		#region Properties (13) 
+		#region Properties (14) 
 
         public int Height { get; private set; }
 
         public ArrayList[][] Tiles { get; private set; }
+
+        public UndoStruct[] UndoList { get; private set; }
 
         public int Width { get; private set; }
 
@@ -110,9 +115,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (12) 
+		#region Methods (14) 
 
-		// Public Methods (11) 
+		// Public Methods (12) 
 
         /// <summary>
         /// Export to given multi id
@@ -321,6 +326,7 @@ namespace MultiEditor
         /// </summary>
         public void Resize(int width, int height)
         {
+            AddToUndoList("Resize");
             ArrayList[][] copytiles = new ArrayList[width][];
             for (int x = 0; x < width; x++)
             {
@@ -353,6 +359,7 @@ namespace MultiEditor
         {
             if ((x > Width) || (y > Height))
                 return;
+            AddToUndoList("Add Tile");
             Tiles[x][y].Add(new MultiTile(id, z));
             Tiles[x][y].Sort();
             Modified = true;
@@ -393,6 +400,7 @@ namespace MultiEditor
         {
             if (Width == 0 || Height == 0)
                 return;
+            AddToUndoList("Move Tile");
             for (int x = 0; x < Width; ++x)
             {
                 for (int y = 0; y < Height; ++y)
@@ -420,6 +428,7 @@ namespace MultiEditor
         {
             if (Width == 0 || Height == 0)
                 return;
+            AddToUndoList("Remove Tile");
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
@@ -443,6 +452,7 @@ namespace MultiEditor
         /// </summary>
         public void TileZMod(MultiTile tile, int modz)
         {
+            AddToUndoList("Modify Z");
             tile.Z += modz;
             if (tile.Z > 127)
                 tile.Z = 127;
@@ -460,6 +470,7 @@ namespace MultiEditor
         /// </summary>
         public void TileZSet(MultiTile tile, int setz)
         {
+            AddToUndoList("Set Z");
             tile.Z = setz;
             if (tile.Z > 127)
                 tile.Z = 127;
@@ -471,7 +482,64 @@ namespace MultiEditor
                 Tiles[point.X][point.Y].Sort();
             RecalcMinMax();
         }
-		// Private Methods (1) 
+
+        public void Undo(int index)
+        {
+            if (UndoList[index].Tiles != null)
+            {
+                Width = UndoList[index].Tiles.Length;
+                Tiles = new ArrayList[Width][];
+                for (int x = 0; x < Width; ++x)
+                {
+                    Height=UndoList[index].Tiles[x].Length;
+                    Tiles[x] = new ArrayList[Height];
+                    for (int y = 0; y < Height; ++y)
+                    {
+                        Tiles[x][y] = new ArrayList();
+                        for (int i = 0; i < UndoList[index].Tiles[x][y].Count; i++)
+                        {
+                            MultiTile tile = (MultiTile)UndoList[index].Tiles[x][y][i];
+                            Tiles[x][y].Add(new MultiTile(tile.ID, tile.Z));
+                        }
+                    }
+                }
+                Modified = true;
+                RecalcMinMax();
+            }
+        }
+
+        public void UndoClear()
+        {
+            for (int i = 0; i < UndoListMaxSize; i++)
+            {
+                UndoList[i].Action = null;
+                UndoList[i].Tiles = null;
+            }
+        }
+        // Private Methods (2) 
+
+        private void AddToUndoList(string Action)
+        {
+            for (int i = UndoListMaxSize - 2; i >= 0; i--)
+            {
+                UndoList[i + 1] = UndoList[i];
+            }
+            UndoList[0].Action = Action;
+            UndoList[0].Tiles = new ArrayList[Width][];
+            for (int x = 0; x < Width; ++x)
+            {
+                UndoList[0].Tiles[x] = new ArrayList[Height];
+                for (int y = 0; y < Height; ++y)
+                {
+                    UndoList[0].Tiles[x][y] = new ArrayList();
+                    for (int i = 0; i < Tiles[x][y].Count; i++)
+                    {
+                        MultiTile tile = (MultiTile)Tiles[x][y][i];
+                        UndoList[0].Tiles[x][y].Add(new MultiTile(tile.ID, tile.Z));
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Recalcs Bitmap size
@@ -535,6 +603,17 @@ namespace MultiEditor
         }
 
 		#endregion Methods 
+
+
+        public struct UndoStruct
+        {
+		#region Data Members (2) 
+
+            public string Action;
+            public ArrayList[][] Tiles;
+
+		#endregion Data Members 
+        }
     }
 
     public class MultiTile : IComparable
