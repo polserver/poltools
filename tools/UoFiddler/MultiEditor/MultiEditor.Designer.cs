@@ -89,12 +89,25 @@ namespace MultiEditor
             this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.vScrollBar = new System.Windows.Forms.VScrollBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
-            this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.UndoItems = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.SelectedTileLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -184,7 +197,7 @@ namespace MultiEditor
             this.treeViewTilesXML.SelectedImageIndex = 0;
             this.treeViewTilesXML.Size = new System.Drawing.Size(186, 73);
             this.treeViewTilesXML.TabIndex = 0;
-            this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnAfterSelectTreeViewTilesXML);
+            this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewTilesXML_OnAfterSelect);
             // 
             // imageListTreeView
             // 
@@ -448,7 +461,7 @@ namespace MultiEditor
             this.BTN_Pipette.Name = "BTN_Pipette";
             this.BTN_Pipette.Size = new System.Drawing.Size(21, 21);
             this.BTN_Pipette.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.BTN_Pipette, "Apply Z Level");
+            this.toolTip1.SetToolTip(this.BTN_Pipette, "Pick A Tile");
             this.BTN_Pipette.UseVisualStyleBackColor = true;
             this.BTN_Pipette.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
             this.BTN_Pipette.Click += new System.EventHandler(this.BTN_Pipette_Click);
@@ -731,6 +744,8 @@ namespace MultiEditor
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.toolStripSeparator2,
             this.DrawTileLabel,
             this.toolStripSeparator1,
             this.SelectedTileLabel,
@@ -742,28 +757,119 @@ namespace MultiEditor
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripLabelCoord
+            // toolStripDropDownButton1
             // 
-            this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabelCoord.Name = "toolStripLabelCoord";
-            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
-            this.toolStripLabelCoord.Text = "0,0,0";
-            this.toolStripLabelCoord.ToolTipText = "Coordinates";
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UndoItems});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
+            this.toolStripDropDownButton1.Text = "Misc";
             // 
-            // SelectedTileLabel
+            // UndoItems
             // 
-            this.SelectedTileLabel.Name = "SelectedTileLabel";
-            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
-            this.SelectedTileLabel.Text = "ID:";
+            this.UndoItems.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UndoItem0,
+            this.UndoItem1,
+            this.UndoItem2,
+            this.UndoItem3,
+            this.UndoItem4,
+            this.UndoItem5,
+            this.UndoItem6,
+            this.UndoItem7,
+            this.UndoItem8,
+            this.UndoItem9});
+            this.UndoItems.Name = "UndoItems";
+            this.UndoItems.Size = new System.Drawing.Size(110, 22);
+            this.UndoItems.Text = "Undo";
+            this.UndoItems.DropDownOpening += new System.EventHandler(this.UndoList_BeforeOpening);
             // 
-            // FloatingPreviewPanel
+            // UndoItem0
             // 
-            this.FloatingPreviewPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.FloatingPreviewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FloatingPreviewPanel.Location = new System.Drawing.Point(250, 67);
-            this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
-            this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
-            this.FloatingPreviewPanel.TabIndex = 4;
+            this.UndoItem0.Name = "UndoItem0";
+            this.UndoItem0.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem0.Tag = 0;
+            this.UndoItem0.Text = "---";
+            this.UndoItem0.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem1
+            // 
+            this.UndoItem1.Name = "UndoItem1";
+            this.UndoItem1.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem1.Tag = 1;
+            this.UndoItem1.Text = "---";
+            this.UndoItem1.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem2
+            // 
+            this.UndoItem2.Name = "UndoItem2";
+            this.UndoItem2.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem2.Tag = 2;
+            this.UndoItem2.Text = "---";
+            this.UndoItem2.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem3
+            // 
+            this.UndoItem3.Name = "UndoItem3";
+            this.UndoItem3.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem3.Tag = 3;
+            this.UndoItem3.Text = "---";
+            this.UndoItem3.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem4
+            // 
+            this.UndoItem4.Name = "UndoItem4";
+            this.UndoItem4.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem4.Tag = 4;
+            this.UndoItem4.Text = "---";
+            this.UndoItem4.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem5
+            // 
+            this.UndoItem5.Name = "UndoItem5";
+            this.UndoItem5.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem5.Tag = 5;
+            this.UndoItem5.Text = "---";
+            this.UndoItem5.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem6
+            // 
+            this.UndoItem6.Name = "UndoItem6";
+            this.UndoItem6.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem6.Tag = 6;
+            this.UndoItem6.Text = "---";
+            this.UndoItem6.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem7
+            // 
+            this.UndoItem7.Name = "UndoItem7";
+            this.UndoItem7.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem7.Tag = 7;
+            this.UndoItem7.Text = "---";
+            this.UndoItem7.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem8
+            // 
+            this.UndoItem8.Name = "UndoItem8";
+            this.UndoItem8.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem8.Tag = 8;
+            this.UndoItem8.Text = "---";
+            this.UndoItem8.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // UndoItem9
+            // 
+            this.UndoItem9.Name = "UndoItem9";
+            this.UndoItem9.Size = new System.Drawing.Size(97, 22);
+            this.UndoItem9.Tag = 9;
+            this.UndoItem9.Text = "---";
+            this.UndoItem9.Click += new System.EventHandler(this.Undo_onClick);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // DrawTileLabel
             // 
@@ -777,6 +883,29 @@ namespace MultiEditor
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // SelectedTileLabel
+            // 
+            this.SelectedTileLabel.Name = "SelectedTileLabel";
+            this.SelectedTileLabel.Size = new System.Drawing.Size(22, 22);
+            this.SelectedTileLabel.Text = "ID:";
+            // 
+            // toolStripLabelCoord
+            // 
+            this.toolStripLabelCoord.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabelCoord.Name = "toolStripLabelCoord";
+            this.toolStripLabelCoord.Size = new System.Drawing.Size(33, 22);
+            this.toolStripLabelCoord.Text = "0,0,0";
+            this.toolStripLabelCoord.ToolTipText = "Coordinates";
+            // 
+            // FloatingPreviewPanel
+            // 
+            this.FloatingPreviewPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.FloatingPreviewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FloatingPreviewPanel.Location = new System.Drawing.Point(250, 67);
+            this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
+            this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
+            this.FloatingPreviewPanel.TabIndex = 4;
             // 
             // MultiEditor
             // 
@@ -886,5 +1015,18 @@ namespace MultiEditor
         private System.Windows.Forms.CheckBox BTN_Pipette;
         private System.Windows.Forms.ToolStripLabel DrawTileLabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem UndoItems;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem0;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem1;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem2;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem3;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem4;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem5;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem6;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem7;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem8;
+        private System.Windows.Forms.ToolStripMenuItem UndoItem9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

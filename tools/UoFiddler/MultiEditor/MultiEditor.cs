@@ -113,9 +113,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (32) 
+		#region Methods (35) 
 
-		// Private Methods (32) 
+		// Private Methods (35) 
 
         /// <summary>
         /// Creates new blank Multi
@@ -127,6 +127,7 @@ namespace MultiEditor
                 int width = (int)numericUpDown_Size_Width.Value;
                 int height = (int)numericUpDown_Size_Height.Value;
                 compList = new MultiEditorComponentList(width, height, this);
+                UndoList_Clear();
                 MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
@@ -439,20 +440,6 @@ namespace MultiEditor
             }
         }
 
-        private void OnAfterSelectTreeViewTilesXML(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.Tag!=null)
-            {
-                DrawTilesList = (ArrayList)e.Node.Tag;
-                vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
-                vScrollBarDrawTiles.Minimum = 1;
-                vScrollBarDrawTiles.SmallChange = 1;
-                vScrollBarDrawTiles.LargeChange = 1;
-                vScrollBarDrawTiles.Value = 1;
-                pictureBoxDrawTiles.Refresh();
-            }
-        }
-
         /// <summary>
         /// Event Ultima FilePathes changed
         /// </summary>
@@ -757,6 +744,7 @@ namespace MultiEditor
             {
                 MultiComponentList multi = Ultima.Multis.LoadFromFile(dialog.FileName,importtype);
                 compList = new MultiEditorComponentList(multi, this);
+                UndoList_Clear();
                 MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
@@ -790,6 +778,7 @@ namespace MultiEditor
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
+                UndoList_Clear();
                 MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
@@ -800,6 +789,64 @@ namespace MultiEditor
                 numericUpDown_Selected_Y.Maximum = compList.Height - 1;
                 ScrollbarsSetValue();
                 pictureBoxMulti.Refresh();
+            }
+        }
+
+        private void TreeViewTilesXML_OnAfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag!=null)
+            {
+                DrawTilesList = (ArrayList)e.Node.Tag;
+                vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
+                vScrollBarDrawTiles.Minimum = 1;
+                vScrollBarDrawTiles.SmallChange = 1;
+                vScrollBarDrawTiles.LargeChange = 1;
+                vScrollBarDrawTiles.Value = 1;
+                pictureBoxDrawTiles.Refresh();
+            }
+        }
+
+        private void Undo_onClick(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                ToolStripMenuItem item = (ToolStripMenuItem)sender;
+                int undo = (int)item.Tag;
+                compList.Undo(undo);
+                MaxHeightTrackBar.Minimum = compList.zMin;
+                MaxHeightTrackBar.Maximum = compList.zMax;
+                MaxHeightTrackBar.Value = compList.zMax;
+                numericUpDown_Size_Width.Value = compList.Width;
+                numericUpDown_Size_Height.Value = compList.Height;
+                numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                ScrollbarsSetValue();
+                pictureBoxMulti.Refresh();
+            }
+        }
+
+        private void UndoList_BeforeOpening(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                foreach (ToolStripItem item in UndoItems.DropDownItems)
+                {
+                    int index = (int)item.Tag;
+                    if (compList.UndoList[index].Tiles != null)
+                        item.Text = compList.UndoList[index].Action;
+                    else
+                        item.Text = "---";
+                }
+            }
+        }
+
+        private void UndoList_Clear()
+        {
+            if (compList != null)
+                compList.UndoClear();
+            foreach (ToolStripItem item in UndoItems.DropDownItems)
+            {
+                item.Text = "---";
             }
         }
 
@@ -994,7 +1041,5 @@ namespace MultiEditor
             }
         }
         #endregion
-
-        
     }
 }

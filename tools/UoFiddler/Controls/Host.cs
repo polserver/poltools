@@ -64,11 +64,14 @@ namespace Host
                 FileInfo file = new FileInfo(fileOn);
                 if (file.Extension.Equals(".dll"))
                 {
-                    if (!file.Name.Equals("Controls.dll") && (!file.Name.Equals("Ultima.dll")))
-                        this.AddPlugin(fileOn);
+                    try
+                    {
+                        if (!file.Name.Equals("Controls.dll") && (!file.Name.Equals("Ultima.dll")))
+                            this.AddPlugin(fileOn);
+                    }
+                    catch { }
                 }
             }
-
         }
 
         /// <summary>
