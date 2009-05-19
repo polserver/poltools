@@ -81,6 +81,8 @@ namespace Ultima
             bool patched;
             if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
                 return false;
+            if (extra == -1)
+                return false;
             int width = (extra >> 16) & 0xFFFF;
             int height = extra & 0xFFFF;
 
@@ -103,6 +105,8 @@ namespace Ultima
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
 
             if (stream == null)
+                return null;
+            if (extra == -1)
                 return null;
 
             int width = (extra >> 16) & 0xFFFF;
@@ -258,6 +262,8 @@ namespace Ultima
             int length, extra;
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
             if (stream == null)
+                return null;
+            if (extra == -1)
                 return null;
             if (patched)
                 m_patched[index] = true;

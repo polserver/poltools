@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -222,7 +223,7 @@ namespace Ultima
                 return null;
             if (patched)
                 m_patched[index] = true;
-
+            
             if (Files.CacheData)
                 return m_Cache[index] = LoadStatic(stream);
             else
@@ -327,29 +328,36 @@ namespace Ultima
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
 
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
 
-            for (int y = 0; y < height; ++y, line += delta)
-            {
-                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
 
-                ushort* cur = line;
-                ushort* end;
 
-                int xOffset, xRun;
-
-                while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
+                for (int y = 0; y < height; ++y, line += delta)
                 {
-                    cur += xOffset;
-                    end = cur + xRun;
+                    bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
 
-                    while (cur < end)
-                        *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                    ushort* cur = line;
+                    ushort* end;
+
+                    int xOffset, xRun;
+
+                    while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
+                    {
+                        if (xOffset > delta)
+                            break;
+                        cur += xOffset;
+                        if (xOffset + xRun > delta)
+                            break;
+                        end = cur + xRun;
+
+                        while (cur < end)
+                            *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                    }
                 }
-            }
 
-            bmp.UnlockBits(bd);
+                bmp.UnlockBits(bd);
+
             return bmp;
         }
 

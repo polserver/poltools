@@ -52,8 +52,19 @@ namespace FiddlerControls
                         Hue hue = Ultima.Hues.List[defHue];
                         hue.ApplyTo(huebit, partialHue);
                     }
-                    SetPicture(huebit);
+                    Graphic.Tag = huebit;
+                    Graphic.Invalidate();
                 }
+            }
+        }
+
+        private void onPaint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(SystemColors.Control);
+            if (Graphic.Tag!=null)
+            {
+                Bitmap bit=(Bitmap)Graphic.Tag;
+                e.Graphics.DrawImage(bit,(e.ClipRectangle.Width-bit.Width)/2,5);
             }
         }
 
@@ -80,7 +91,8 @@ namespace FiddlerControls
                 this.Size = new System.Drawing.Size(300, bit.Size.Height + this.Data.Size.Height + 10);
                 this.splitContainer1.SplitterDistance = bit.Size.Height + 10;
                 this.Graphic.Size = new System.Drawing.Size(300, bit.Size.Height + 10);
-                SetPicture(bit);
+                Graphic.Tag = bit;
+                Graphic.Invalidate();
             }
 
             this.Data.AppendText(String.Format("Name: {0}\n", item.Name));
@@ -118,7 +130,8 @@ namespace FiddlerControls
                 Hue hue = Ultima.Hues.List[defHue];
                 hue.ApplyTo(animbit, partialHue);
             }
-            SetPicture(animbit);
+            Graphic.Tag = animbit;
+            Graphic.Invalidate();
         }
 
         private HuePopUpItem showform = null;
@@ -150,7 +163,8 @@ namespace FiddlerControls
 
                 m_Timer.Dispose();
                 m_Timer = null;
-                SetPicture(Ultima.Art.GetStatic(index));
+                Graphic.Tag = Ultima.Art.GetStatic(index);
+                Graphic.Invalidate();
             }
         }
 
@@ -217,5 +231,12 @@ namespace FiddlerControls
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
+
+        private void OnSizeChange(object sender, EventArgs e)
+        {
+            Graphic.Invalidate();
+        }
+
+        
     }
 }

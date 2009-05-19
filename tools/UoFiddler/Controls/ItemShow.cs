@@ -30,6 +30,7 @@ namespace FiddlerControls
             if (!Files.CacheData)
                 PreloadItems.Visible = false;
             ProgressBar.Visible = false;
+            DetailPictureBox.Tag = -1;
         }
 
         private static ItemShow refMarker = null;
@@ -237,6 +238,11 @@ namespace FiddlerControls
                 return;
             }
             bool patched;
+            if (i == 10880)
+            {
+                int iii = 0;
+                iii++;
+            }
             Bitmap bmp = Art.GetStatic(i, out patched);
 
             if (bmp != null)
@@ -305,24 +311,12 @@ namespace FiddlerControls
         {
             Ultima.ItemData item = Ultima.TileData.ItemTable[id];
             Bitmap bit = Ultima.Art.GetStatic(id);
+            DetailPictureBox.Tag = id;
             if (bit == null)
-            {
                 splitContainer2.SplitterDistance = 10;
-                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.Clear(Color.FromArgb(-1));
-                DetailPictureBox.Image = newbit;
-            }
             else
-            {
                 splitContainer2.SplitterDistance = bit.Size.Height + 10;
-                Bitmap newbit = new Bitmap(DetailPictureBox.Size.Width, DetailPictureBox.Size.Height);
-                Graphics newgraph = Graphics.FromImage(newbit);
-                newgraph.Clear(Color.FromArgb(-1));
-                newgraph.DrawImage(bit, (DetailPictureBox.Size.Width - bit.Width) / 2, 5);
-
-                DetailPictureBox.Image = newbit;
-            }
+            DetailPictureBox.Invalidate();
             DetailTextBox.Clear();
             DetailTextBox.AppendText(String.Format("Name: {0}\n", item.Name));
             DetailTextBox.AppendText(String.Format("Graphic: 0x{0:X4}\n", id));
@@ -339,6 +333,35 @@ namespace FiddlerControls
                 Animdata.Data info = Animdata.GetAnimData(id);
                 if (info != null)
                     DetailTextBox.AppendText(String.Format("Animation FrameCount: {0} Interval: {1}\n", info.FrameCount, info.FrameInterval));
+            }
+        }
+
+        private void DetailPictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.White);
+            int id = (int)DetailPictureBox.Tag;
+            if (id >= 0)
+            {
+                Bitmap bit = Ultima.Art.GetStatic(id);
+                if (bit != null)
+                    e.Graphics.DrawImage(bit, (e.ClipRectangle.Width - bit.Width) / 2, 5);
+            }
+        }
+
+        private void DetailSplitContainer_SizeChange(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                int id = (int)DetailPictureBox.Tag;
+                if (id >= 0)
+                {
+                    Bitmap bit = Ultima.Art.GetStatic(id);
+                    if (bit == null)
+                        splitContainer2.SplitterDistance = 10;
+                    else
+                        splitContainer2.SplitterDistance = bit.Size.Height + 10;
+                    DetailPictureBox.Invalidate();
+                }
             }
         }
 
@@ -779,5 +802,10 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
+
+        
+
+        
+
     }
 }
