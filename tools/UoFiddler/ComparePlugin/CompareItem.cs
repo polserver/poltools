@@ -192,7 +192,7 @@ namespace ComparePlugin
             {
                 if (checkBox1.Checked)
                 {
-                    MessageBox.Show("Second Land file is not loaded!");
+                    MessageBox.Show("Second Item file is not loaded!");
                     checkBox1.Checked = false;
                 }
                 return;

@@ -39,6 +39,9 @@ namespace ComparePlugin
 
         private void OnLoad1(object sender, EventArgs e)
         {
+            if (textBox1.Text == null)
+                return;
+
             string path = textBox1.Text;
             cliloc1 = new StringList("1", path);
             cliloc1.Entries.Sort(new StringList.NumberComparer(false));
@@ -48,6 +51,9 @@ namespace ComparePlugin
 
         private void OnLoad2(object sender, EventArgs e)
         {
+            if (textBox2.Text == null)
+                return;
+
             string path = textBox2.Text;
             cliloc2 = new StringList("2", path);
             cliloc2.Entries.Sort(new StringList.NumberComparer(false));
