@@ -89,6 +89,8 @@ namespace FiddlerControls
             this.Graphic.Size = new System.Drawing.Size(292, 61);
             this.Graphic.TabIndex = 0;
             this.Graphic.TabStop = false;
+            this.Graphic.Paint += new System.Windows.Forms.PaintEventHandler(this.onPaint);
+            this.Graphic.SizeChanged += new System.EventHandler(this.OnSizeChange);
             // 
             // contextMenuStrip1
             // 
