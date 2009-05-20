@@ -12,6 +12,7 @@
 using System;
 using System.Collections;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Ultima;
 
@@ -39,26 +40,32 @@ namespace ComparePlugin
 
         private void OnLoad1(object sender, EventArgs e)
         {
-            if (textBox1.Text == null)
+            if ((textBox1.Text == null) || (textBox1.Text == String.Empty))
                 return;
 
             string path = textBox1.Text;
-            cliloc1 = new StringList("1", path);
-            cliloc1.Entries.Sort(new StringList.NumberComparer(false));
-            if (cliloc2 != null)
-                BuildList();
+            if (File.Exists(path))
+            {
+                cliloc1 = new StringList("1", path);
+                cliloc1.Entries.Sort(new StringList.NumberComparer(false));
+                if (cliloc2 != null)
+                    BuildList();
+            }
         }
 
         private void OnLoad2(object sender, EventArgs e)
         {
-            if (textBox2.Text == null)
+            if ((textBox1.Text == null) || (textBox1.Text == String.Empty))
                 return;
 
             string path = textBox2.Text;
-            cliloc2 = new StringList("2", path);
-            cliloc2.Entries.Sort(new StringList.NumberComparer(false));
-            if (cliloc1 != null)
-                BuildList();
+            if (File.Exists(path))
+            {
+                cliloc2 = new StringList("2", path);
+                cliloc2.Entries.Sort(new StringList.NumberComparer(false));
+                if (cliloc1 != null)
+                    BuildList();
+            }
         }
 
         private void BuildList()
