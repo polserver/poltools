@@ -510,6 +510,10 @@ namespace MultiEditor
             TreeNode wscnode = new TreeNode("WSC File");
             wscnode.Tag = "wsc";
             filenode.Nodes.Add(wscnode);
+
+            TreeNode cachenode = new TreeNode("MultiCache File");
+            cachenode.Tag = "cache";
+            filenode.Nodes.Add(cachenode);
             
             treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
@@ -735,26 +739,45 @@ namespace MultiEditor
                 case Multis.ImportType.TXT: type = "txt"; break;
                 case Multis.ImportType.UOA: type = "uoa"; break;
                 case Multis.ImportType.WSC: type = "wsc"; break;
+                case Multis.ImportType.MULTICACHE: type = "Multicache.dat"; break;
                 default: return;
             }
             dialog.Title = String.Format("Choose {0} file to import", type);
             dialog.CheckFileExists = true;
-            dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
+            if (importtype == Multis.ImportType.MULTICACHE)
+                dialog.Filter = String.Format("{0} file ({0})|{0}", type);
+            else
+                dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                MultiComponentList multi = Ultima.Multis.LoadFromFile(dialog.FileName,importtype);
-                compList = new MultiEditorComponentList(multi, this);
-                UndoList_Clear();
-                MaxHeightTrackBar.Minimum = compList.zMin;
-                MaxHeightTrackBar.Maximum = compList.zMax;
-                MaxHeightTrackBar.Value = compList.zMax;
-                textBox_SaveToID.Text = "0";
-                numericUpDown_Size_Width.Value = compList.Width;
-                numericUpDown_Size_Height.Value = compList.Height;
-                numericUpDown_Selected_X.Maximum = compList.Width - 1;
-                numericUpDown_Selected_Y.Maximum = compList.Height - 1;
-                ScrollbarsSetValue();
-                pictureBoxMulti.Refresh();
+                if (importtype == Multis.ImportType.MULTICACHE)
+                {
+                    ArrayList list = Ultima.Multis.LoadFromCache(dialog.FileName);
+                    TreeNode node=treeViewMultiList.Nodes[1].Nodes[3];
+                    node.Nodes.Clear();
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        TreeNode child = new TreeNode("Entry " + i);
+                        child.Tag = (MultiComponentList)list[i];
+                        node.Nodes.Add(child);
+                    }
+                }
+                else
+                {
+                    MultiComponentList multi = Ultima.Multis.LoadFromFile(dialog.FileName, importtype);
+                    compList = new MultiEditorComponentList(multi, this);
+                    UndoList_Clear();
+                    MaxHeightTrackBar.Minimum = compList.zMin;
+                    MaxHeightTrackBar.Maximum = compList.zMax;
+                    MaxHeightTrackBar.Value = compList.zMax;
+                    textBox_SaveToID.Text = "0";
+                    numericUpDown_Size_Width.Value = compList.Width;
+                    numericUpDown_Size_Height.Value = compList.Height;
+                    numericUpDown_Selected_X.Maximum = compList.Width - 1;
+                    numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                    ScrollbarsSetValue();
+                    pictureBoxMulti.Refresh();
+                }
             }
             dialog.Dispose();
         }
@@ -772,17 +795,30 @@ namespace MultiEditor
                 case "txt": treeViewMultiList_LoadFromFile(Multis.ImportType.TXT); return;
                 case "uoa": treeViewMultiList_LoadFromFile(Multis.ImportType.UOA); return;
                 case "wsc": treeViewMultiList_LoadFromFile(Multis.ImportType.WSC); return;
+                case "cache": treeViewMultiList_LoadFromFile(Multis.ImportType.MULTICACHE); return;
                 default: break;
             }
 
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
-                compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
+                if (e.Node.Parent.Tag.ToString() == "cache")
+                {
+                    MultiComponentList list = (MultiComponentList)e.Node.Tag;
+                    if (list != null)
+                    {
+                        compList = new MultiEditorComponentList(list, this);
+                        textBox_SaveToID.Text = "0";
+                    }
+                }
+                else
+                {
+                    compList = new MultiEditorComponentList(Ultima.Multis.GetComponents((int)e.Node.Tag), this);
+                    textBox_SaveToID.Text = e.Node.Tag.ToString();
+                }
                 UndoList_Clear();
                 MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
                 MaxHeightTrackBar.Value = compList.zMax;
-                textBox_SaveToID.Text = e.Node.Tag.ToString();
                 numericUpDown_Size_Width.Value = compList.Width;
                 numericUpDown_Size_Height.Value = compList.Height;
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
@@ -794,7 +830,7 @@ namespace MultiEditor
 
         private void TreeViewTilesXML_OnAfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag!=null)
+            if (e.Node.Tag != null)
             {
                 DrawTilesList = (ArrayList)e.Node.Tag;
                 vScrollBarDrawTiles.Maximum = DrawTilesList.Count / pictureboxDrawTilescol + 1;
