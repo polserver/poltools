@@ -40,7 +40,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Multis));
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.TreeViewMulti = new System.Windows.Forms.TreeView();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -62,6 +61,8 @@ namespace FiddlerControls
             this.toTextFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toUOAFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toWSCFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -78,8 +79,6 @@ namespace FiddlerControls
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.MultiComponentBox = new System.Windows.Forms.RichTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -140,7 +139,7 @@ namespace FiddlerControls
             this.exportToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip1";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(158, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(158, 92);
             // 
             // toolStripMenuItem4
             // 
@@ -230,7 +229,6 @@ namespace FiddlerControls
             this.exportAllPartsToolStripMenuItem,
             this.toolStripSeparator2,
             this.saveToolStripMenuItem1});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
@@ -297,6 +295,18 @@ namespace FiddlerControls
             this.toWSCFileToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.toWSCFileToolStripMenuItem.Text = "To WSC File";
             this.toWSCFileToolStripMenuItem.Click += new System.EventHandler(this.OnClick_SaveAllWSC);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(156, 6);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
+            this.saveToolStripMenuItem1.Text = "Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.OnClickSave);
             // 
             // tabControl3
             // 
@@ -461,18 +471,6 @@ namespace FiddlerControls
             this.MultiComponentBox.Size = new System.Drawing.Size(334, 302);
             this.MultiComponentBox.TabIndex = 0;
             this.MultiComponentBox.Text = "";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(156, 6);
-            // 
-            // saveToolStripMenuItem1
-            // 
-            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
-            this.saveToolStripMenuItem1.Text = "Save";
-            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.OnClickSave);
             // 
             // Multis
             // 

@@ -44,7 +44,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Map));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.CoordsLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ClientLocLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -427,7 +426,6 @@ namespace FiddlerControls
             this.showCenterCrossToolStripMenuItem1,
             this.showMarkersToolStripMenuItem,
             this.showClientCrossToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(42, 22);
@@ -481,7 +479,6 @@ namespace FiddlerControls
             this.toolStripSeparator5,
             this.gotoClientLocToolStripMenuItem1,
             this.sendClientToCenterToolStripMenuItem});
-            this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
             this.toolStripDropDownButton2.Size = new System.Drawing.Size(89, 22);
@@ -525,7 +522,6 @@ namespace FiddlerControls
             // 
             this.PreloadMap.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.PreloadMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.PreloadMap.Image = ((System.Drawing.Image)(resources.GetObject("PreloadMap.Image")));
             this.PreloadMap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PreloadMap.Name = "PreloadMap";
             this.PreloadMap.Size = new System.Drawing.Size(70, 22);
@@ -546,7 +542,6 @@ namespace FiddlerControls
             this.toolStripSeparator6,
             this.copyToolStripMenuItem,
             this.insertDiffDataToolStripMenuItem});
-            this.toolStripDropDownButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton3.Image")));
             this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
             this.toolStripDropDownButton3.Size = new System.Drawing.Size(40, 22);
