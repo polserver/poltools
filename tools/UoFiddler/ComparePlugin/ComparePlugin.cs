@@ -21,8 +21,9 @@ namespace FiddlerPlugin
             "Compares 2 art files\r\n"
             +"Compares 2 CliLocs\r\n"
             +"Compares 2 Hue files\r\n"
-            + "Compares 2 Map files\r\n"
-            +"(Adds 5 new Tabs)";
+            +"Compares 2 Map files\r\n"
+            +"Compares 2 Gump files\r\n"
+            +"(Adds 6 new Tabs)";
         string myAuthor = "Turley";
         string myVersion = "1.4.0";
         IPluginHost myHost = null;
@@ -92,11 +93,19 @@ namespace FiddlerPlugin
 
             TabPage page5 = new TabPage();
             page5.Tag = tabcontrol.TabCount + 1;
-            page5.Text = "Compare Map";
+            page5.Text = "Compare Gumps";
+            CompareGump compG = new CompareGump();
+            compG.Dock = System.Windows.Forms.DockStyle.Fill;
+            page5.Controls.Add(compG);
+            tabcontrol.TabPages.Add(page5);
+
+            TabPage page6 = new TabPage();
+            page6.Tag = tabcontrol.TabCount + 1;
+            page6.Text = "Compare Map";
             CompareMap compM = new CompareMap();
             compM.Dock = System.Windows.Forms.DockStyle.Fill;
-            page5.Controls.Add(compM);
-            tabcontrol.TabPages.Add(page5);
+            page6.Controls.Add(compM);
+            tabcontrol.TabPages.Add(page6);
         }
 
         public override void ModifyPluginToolStrip(ToolStripDropDownButton toolstrip)

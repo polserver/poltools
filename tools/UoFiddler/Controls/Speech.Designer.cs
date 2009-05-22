@@ -40,18 +40,17 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Speech));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.IDEntry = new System.Windows.Forms.ToolStripTextBox();
             this.IDButton = new System.Windows.Forms.ToolStripButton();
+            this.IDNextButton = new System.Windows.Forms.ToolStripButton();
             this.KeyWordEntry = new System.Windows.Forms.ToolStripTextBox();
             this.KeyWordButton = new System.Windows.Forms.ToolStripButton();
+            this.KeyWordNextButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.IDNextButton = new System.Windows.Forms.ToolStripButton();
-            this.KeyWordNextButton = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,12 +93,20 @@ namespace FiddlerControls
             // IDButton
             // 
             this.IDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.IDButton.Image = ((System.Drawing.Image)(resources.GetObject("IDButton.Image")));
             this.IDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IDButton.Name = "IDButton";
             this.IDButton.Size = new System.Drawing.Size(31, 22);
             this.IDButton.Text = "Find";
             this.IDButton.Click += new System.EventHandler(this.OnClickFindID);
+            // 
+            // IDNextButton
+            // 
+            this.IDNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.IDNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.IDNextButton.Name = "IDNextButton";
+            this.IDNextButton.Size = new System.Drawing.Size(57, 22);
+            this.IDNextButton.Text = "Find Next";
+            this.IDNextButton.Click += new System.EventHandler(this.OnClickNextID);
             // 
             // KeyWordEntry
             // 
@@ -110,12 +117,20 @@ namespace FiddlerControls
             // KeyWordButton
             // 
             this.KeyWordButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.KeyWordButton.Image = ((System.Drawing.Image)(resources.GetObject("KeyWordButton.Image")));
             this.KeyWordButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.KeyWordButton.Name = "KeyWordButton";
             this.KeyWordButton.Size = new System.Drawing.Size(31, 22);
             this.KeyWordButton.Text = "Find";
             this.KeyWordButton.Click += new System.EventHandler(this.OnClickFindKeyWord);
+            // 
+            // KeyWordNextButton
+            // 
+            this.KeyWordNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.KeyWordNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.KeyWordNextButton.Name = "KeyWordNextButton";
+            this.KeyWordNextButton.Size = new System.Drawing.Size(57, 22);
+            this.KeyWordNextButton.Text = "Find Next";
+            this.KeyWordNextButton.Click += new System.EventHandler(this.OnClickNextKeyWord);
             // 
             // toolStripSeparator2
             // 
@@ -125,7 +140,6 @@ namespace FiddlerControls
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(35, 22);
@@ -147,45 +161,25 @@ namespace FiddlerControls
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnCellValueChanged);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.onHeaderClick);
             // 
-            // IDNextButton
-            // 
-            this.IDNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.IDNextButton.Image = ((System.Drawing.Image)(resources.GetObject("IDNextButton.Image")));
-            this.IDNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.IDNextButton.Name = "IDNextButton";
-            this.IDNextButton.Size = new System.Drawing.Size(57, 22);
-            this.IDNextButton.Text = "Find Next";
-            this.IDNextButton.Click += new System.EventHandler(this.OnClickNextID);
-            // 
-            // KeyWordNextButton
-            // 
-            this.KeyWordNextButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.KeyWordNextButton.Image = ((System.Drawing.Image)(resources.GetObject("KeyWordNextButton.Image")));
-            this.KeyWordNextButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.KeyWordNextButton.Name = "KeyWordNextButton";
-            this.KeyWordNextButton.Size = new System.Drawing.Size(57, 22);
-            this.KeyWordNextButton.Text = "Find Next";
-            this.KeyWordNextButton.Click += new System.EventHandler(this.OnClickNextKeyWord);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addEntryToolStripMenuItem,
             this.deleteEntryToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(141, 48);
             // 
             // addEntryToolStripMenuItem
             // 
             this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
-            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.addEntryToolStripMenuItem.Text = "Add Entry";
             this.addEntryToolStripMenuItem.Click += new System.EventHandler(this.OnAddEntry);
             // 
             // deleteEntryToolStripMenuItem
             // 
             this.deleteEntryToolStripMenuItem.Name = "deleteEntryToolStripMenuItem";
-            this.deleteEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteEntryToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.deleteEntryToolStripMenuItem.Text = "Delete Entry";
             this.deleteEntryToolStripMenuItem.Click += new System.EventHandler(this.OnDeleteEntry);
             // 

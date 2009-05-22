@@ -661,7 +661,6 @@ namespace UoFiddler
             this.pathSettingsMenuItem,
             this.toolStripSeparator2,
             this.restartNeededMenuItem});
-            this.SettingsMenu.Image = ((System.Drawing.Image)(resources.GetObject("SettingsMenu.Image")));
             this.SettingsMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SettingsMenu.Name = "SettingsMenu";
             this.SettingsMenu.Size = new System.Drawing.Size(59, 22);
@@ -706,7 +705,6 @@ namespace UoFiddler
             // 
             this.toolStripButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(48, 22);
@@ -737,7 +735,6 @@ namespace UoFiddler
             this.ToggleViewDress,
             this.ToggleViewTileData,
             this.ToggleViewRadarColor});
-            this.toolStripDropDownButtonView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonView.Image")));
             this.toolStripDropDownButtonView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonView.Name = "toolStripDropDownButtonView";
             this.toolStripDropDownButtonView.Size = new System.Drawing.Size(42, 22);
@@ -948,7 +945,6 @@ namespace UoFiddler
             this.ExternToolsDropDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ExternToolsDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.manageToolStripMenuItem});
-            this.ExternToolsDropDown.Image = ((System.Drawing.Image)(resources.GetObject("ExternToolsDropDown.Image")));
             this.ExternToolsDropDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ExternToolsDropDown.Name = "ExternToolsDropDown";
             this.ExternToolsDropDown.Size = new System.Drawing.Size(80, 22);
@@ -957,7 +953,7 @@ namespace UoFiddler
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.manageToolStripMenuItem.Text = "Manage..";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.onClickToolManage);
             // 
@@ -967,7 +963,6 @@ namespace UoFiddler
             this.toolStripDropDownButtonPlugins.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.manageToolStripMenuItem1,
             this.toolStripSeparator1});
-            this.toolStripDropDownButtonPlugins.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonPlugins.Image")));
             this.toolStripDropDownButtonPlugins.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButtonPlugins.Name = "toolStripDropDownButtonPlugins";
             this.toolStripDropDownButtonPlugins.Size = new System.Drawing.Size(53, 22);
@@ -976,20 +971,19 @@ namespace UoFiddler
             // manageToolStripMenuItem1
             // 
             this.manageToolStripMenuItem1.Name = "manageToolStripMenuItem1";
-            this.manageToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.manageToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.manageToolStripMenuItem1.Text = "Manage..";
             this.manageToolStripMenuItem1.Click += new System.EventHandler(this.onClickManagePlugins);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripButton2
             // 
             this.toolStripButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(32, 22);

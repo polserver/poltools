@@ -190,6 +190,7 @@ namespace MultiEditor
             // treeViewTilesXML
             // 
             this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewTilesXML.HideSelection = false;
             this.treeViewTilesXML.ImageIndex = 0;
             this.treeViewTilesXML.ImageList = this.imageListTreeView;
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
@@ -304,6 +305,7 @@ namespace MultiEditor
             // treeViewMultiList
             // 
             this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewMultiList.HideSelection = false;
             this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
             this.treeViewMultiList.Name = "treeViewMultiList";
             this.treeViewMultiList.Size = new System.Drawing.Size(192, 160);
@@ -762,7 +764,6 @@ namespace MultiEditor
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.UndoItems});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
@@ -782,7 +783,7 @@ namespace MultiEditor
             this.UndoItem8,
             this.UndoItem9});
             this.UndoItems.Name = "UndoItems";
-            this.UndoItems.Size = new System.Drawing.Size(110, 22);
+            this.UndoItems.Size = new System.Drawing.Size(152, 22);
             this.UndoItems.Text = "Undo";
             this.UndoItems.DropDownOpening += new System.EventHandler(this.UndoList_BeforeOpening);
             // 

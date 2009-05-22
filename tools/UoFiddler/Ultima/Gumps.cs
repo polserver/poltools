@@ -92,6 +92,26 @@ namespace Ultima
             return true;
         }
 
+        public static byte[] GetRawGump(int index, out int width, out int height)
+        {
+            width = -1;
+            height = -1;
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+            if (stream == null)
+                return null;
+            if (extra == -1)
+                return null;
+            width = (extra >> 16) & 0xFFFF;
+            height = extra & 0xFFFF;
+            if (width <= 0 || height <= 0)
+                return null;
+            byte[] buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
+        }
+
         /// <summary>
         /// Returns Bitmap of index and applies Hue
         /// </summary>

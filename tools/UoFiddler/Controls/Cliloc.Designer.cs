@@ -40,7 +40,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliloc));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyCliLocNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,7 +170,6 @@ namespace FiddlerControls
             // GotoButton
             // 
             this.GotoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.GotoButton.Image = ((System.Drawing.Image)(resources.GetObject("GotoButton.Image")));
             this.GotoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.GotoButton.Name = "GotoButton";
             this.GotoButton.Size = new System.Drawing.Size(34, 22);
@@ -189,7 +187,6 @@ namespace FiddlerControls
             // FindButton
             // 
             this.FindButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FindButton.Image = ((System.Drawing.Image)(resources.GetObject("FindButton.Image")));
             this.FindButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FindButton.Name = "FindButton";
             this.FindButton.Size = new System.Drawing.Size(31, 22);
@@ -204,7 +201,6 @@ namespace FiddlerControls
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(35, 22);
