@@ -304,16 +304,14 @@ namespace MultiEditor
                 //visible?
                 if ((!BTN_Floor.Checked) || (HoverTile.Z >= DrawFloorZ))
                 {
-                    for (int x_ = 0; x_ < compList.Width; x_++)
+                    for (x = 0; x < compList.Width; x++)
                     {
-                        for (int y_ = 0; y_ < compList.Height; y_++)
+                        for (y = 0; y < compList.Height; y++)
                         {
-                            for (int i = 0; i < compList.Tiles[x_][y_].Count; i++)
+                            for (int i = 0; i < compList.Tiles[x][y].Count; i++)
                             {
-                                if (HoverTile == compList.Tiles[x_][y_][i])
+                                if (HoverTile == compList.Tiles[x][y][i])
                                 {
-                                    x = x_;
-                                    y = y_;
                                     z = HoverTile.Z + HoverTile.Height;
                                     return;
                                 }
@@ -513,7 +511,7 @@ namespace MultiEditor
 
             TreeNode cachenode = new TreeNode("MultiCache File");
             cachenode.Tag = "cache";
-            filenode.Nodes.Add(cachenode);
+            filenode.Nodes.Add(cachenode); // Hardcoded in DoubleClick .Nodes[1].Nodes[3]
             
             treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
@@ -647,6 +645,7 @@ namespace MultiEditor
             if (bit != null)
             {
                 e.Graphics.DrawImageUnscaled(bit, -hScrollBar.Value, -vScrollBar.Value);
+                bit.Dispose();
                 int x, y, z;
                 ConvertCoords(MouseLoc, out x, out y, out z);
                 if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
@@ -696,10 +695,22 @@ namespace MultiEditor
         {
             if (compList == null)
                 return;
-            Bitmap bit = compList.GetImage(MaxHeightTrackBar.Value, Point.Empty, BTN_Floor.Checked);
-            if (bit == null)
-                return;
-            if (bit.Height <= pictureBoxMulti.Height + hScrollBar.Height)
+            int yMin = compList.yMinOrg;
+            int yMax = compList.yMaxOrg;
+            
+            if (BTN_Floor.Checked)
+            {
+                int floorzmod = -DrawFloorZ * 4 - 44;
+                if (yMin > floorzmod)
+                    yMin = floorzmod;
+                floorzmod = (compList.Width + compList.Height) * 22 - DrawFloorZ * 4;
+                if (yMax < floorzmod)
+                    yMax = floorzmod;
+            }
+            int height = yMax - yMin + MultiEditorComponentList.GapYMod * 3;
+            int width = compList.xMax - compList.xMin + MultiEditorComponentList.GapXMod * 2;
+
+            if (height <= pictureBoxMulti.Height + hScrollBar.Height)
             {
                 vScrollBar.Enabled = false;
                 vScrollBar.Value = 0;
@@ -707,9 +718,9 @@ namespace MultiEditor
             else
             {
                 vScrollBar.Enabled = true;
-                vScrollBar.Maximum = bit.Height - pictureBoxMulti.Height + 10;
+                vScrollBar.Maximum = height - pictureBoxMulti.Height + 10;
             }
-            if (bit.Width <= pictureBoxMulti.Width + vScrollBar.Width)
+            if (width <= pictureBoxMulti.Width + vScrollBar.Width)
             {
                 hScrollBar.Enabled = false;
                 vScrollBar.Value = 0;
@@ -717,7 +728,7 @@ namespace MultiEditor
             else
             {
                 hScrollBar.Enabled = true;
-                hScrollBar.Maximum = bit.Width - pictureBoxMulti.Width + 10;
+                hScrollBar.Maximum = width - pictureBoxMulti.Width + 10;
             }
         }
 
@@ -801,7 +812,7 @@ namespace MultiEditor
 
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
-                if (e.Node.Parent.Tag.ToString() == "cache")
+                if ((e.Node.Parent != null) && (e.Node.Parent.Tag != null) && (e.Node.Parent.Tag.ToString() == "cache"))
                 {
                     MultiComponentList list = (MultiComponentList)e.Node.Tag;
                     if (list != null)

@@ -19,8 +19,10 @@ namespace MultiEditor
 {
     class MultiEditorComponentList
     {
-		#region Fields (6) 
+		#region Fields (8) 
 
+        private static Rectangle drawdestRectangle=new Rectangle();
+        private static Point[] drawFloorPoint = new Point[4];
         private static Brush FloorBrush = new SolidBrush(Color.FromArgb(96, 32, 192, 32));
         public const int GapXMod = 44;
         public const int GapYMod = 22;
@@ -115,9 +117,9 @@ namespace MultiEditor
 
 		#endregion Properties 
 
-		#region Methods (14) 
+		#region Methods (15) 
 
-		// Public Methods (12) 
+		// Public Methods (13) 
 
         /// <summary>
         /// Export to given multi id
@@ -176,7 +178,7 @@ namespace MultiEditor
             }
             Parent.HoverTile = GetSelected(mouseLoc, maxheight, drawFloor);
 
-            Bitmap canvas = new Bitmap(xMax - xMin + 88, yMax - yMin + 66);
+            Bitmap canvas = new Bitmap(xMax - xMin + GapXMod * 2, yMax - yMin + GapYMod * 3);
             Graphics gfx = Graphics.FromImage(canvas);
             gfx.Clear(Color.White);
             for (int x = 0; x < Width; ++x)
@@ -202,42 +204,46 @@ namespace MultiEditor
                                 fy -= yMin;
                                 fx += GapXMod; //Mod for a bit of gap
                                 fy += GapYMod;
-                                gfx.FillPolygon(FloorBrush, new Point[]{
-                                    new Point(fx+22,fy),
-                                    new Point(fx+44,fy+22),
-                                    new Point(fx+22,fy+44),
-                                    new Point(fx,fy+22)});
-                                gfx.DrawPolygon(Pens.White, new Point[]{
-                                    new Point(fx+22,fy),
-                                    new Point(fx+44,fy+22),
-                                    new Point(fx+22,fy+44),
-                                    new Point(fx,fy+22)});
+                                drawFloorPoint[0].X = fx + 22;
+                                drawFloorPoint[0].Y = fy;
+                                drawFloorPoint[1].X = fx + 44;
+                                drawFloorPoint[1].Y = fy + 22;
+                                drawFloorPoint[2].X = fx + 22;
+                                drawFloorPoint[2].Y = fy + 44;
+                                drawFloorPoint[3].X = fx;
+                                drawFloorPoint[3].Y = fy + 22;
+                                gfx.FillPolygon(FloorBrush, drawFloorPoint);
+                                gfx.DrawPolygon(Pens.White, drawFloorPoint);
                             }
                         }
 
                         Bitmap bmp = Art.GetStatic(tile.ID);
 
-                        if (bmp == null)
-                            continue;
-                        if ((tile.Z) > maxheight)
-                            continue;
-                        int px = (x - y) * 22;
-                        int py = (x + y) * 22;
+                        if (bmp != null)
+                        {
+                            if ((tile.Z) <= maxheight)
+                            {
+                                drawdestRectangle.X = (x - y) * 22;
+                                drawdestRectangle.Y = (x + y) * 22;
 
-                        px -= (bmp.Width / 2);
-                        py -= tile.Z * 4;
-                        py -= bmp.Height;
-                        px -= xMin;
-                        py -= yMin;
-                        py += GapYMod; //Mod for a bit of gap
-                        px += GapXMod;
+                                drawdestRectangle.X -= (bmp.Width / 2);
+                                drawdestRectangle.Y -= tile.Z * 4;
+                                drawdestRectangle.Y -= bmp.Height;
+                                drawdestRectangle.X -= xMin;
+                                drawdestRectangle.Y -= yMin;
+                                drawdestRectangle.Y += GapYMod; //Mod for a bit of gap
+                                drawdestRectangle.X += GapXMod;
 
-                        if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
-                            gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
-                        else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
-                            gfx.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
-                        else
-                            gfx.DrawImageUnscaled(bmp, px, py, bmp.Width, bmp.Height);
+                                drawdestRectangle.Width = bmp.Width;
+                                drawdestRectangle.Height = bmp.Height;
+                                if ((Parent.HoverTile != null) && (Parent.HoverTile == tile))
+                                    gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
+                                else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
+                                    gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
+                                else
+                                    gfx.DrawImageUnscaled(bmp, drawdestRectangle.X, drawdestRectangle.Y, bmp.Width, bmp.Height);
+                            }
+                        }
                     }
                     if ((drawFloor) && (!floordrawed))
                     {
@@ -251,16 +257,16 @@ namespace MultiEditor
                         fy -= yMin;
                         fy += GapYMod; //Mod for a bit of gap
                         fx += GapXMod;
-                        gfx.FillPolygon(FloorBrush, new Point[]{
-                                new Point(fx+22,fy),
-                                new Point(fx+44,fy+22),
-                                new Point(fx+22,fy+44),
-                                new Point(fx,fy+22)});
-                        gfx.DrawPolygon(Pens.White, new Point[]{
-                                new Point(fx+22,fy),
-                                new Point(fx+44,fy+22),
-                                new Point(fx+22,fy+44),
-                                new Point(fx,fy+22)});
+                        drawFloorPoint[0].X = fx + 22;
+                        drawFloorPoint[0].Y = fy;
+                        drawFloorPoint[1].X = fx + 44;
+                        drawFloorPoint[1].Y = fy + 22;
+                        drawFloorPoint[2].X = fx + 22;
+                        drawFloorPoint[2].Y = fy + 44;
+                        drawFloorPoint[3].X = fx;
+                        drawFloorPoint[3].Y = fy + 22;
+                        gfx.FillPolygon(FloorBrush, drawFloorPoint);
+                        gfx.DrawPolygon(Pens.White, drawFloorPoint);
                     }
                 }
             }
@@ -516,7 +522,7 @@ namespace MultiEditor
                 UndoList[i].Tiles = null;
             }
         }
-        // Private Methods (2) 
+		// Private Methods (2) 
 
         private void AddToUndoList(string Action)
         {
