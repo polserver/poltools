@@ -119,6 +119,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SecondArt.cs" />
+    <Compile Include="SecondFileIndex.cs" />
     <Compile Include="SecondGump.cs" />
     <Compile Include="SecondHue.cs" />
   </ItemGroup>
