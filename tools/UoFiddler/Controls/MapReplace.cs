@@ -22,6 +22,7 @@ namespace FiddlerControls
         public MapReplace(Ultima.Map currmap)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             workingmap = currmap;
             numericUpDownX1.Maximum = workingmap.Width;
             numericUpDownX2.Maximum = workingmap.Width;

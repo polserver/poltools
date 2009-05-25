@@ -19,6 +19,7 @@ namespace FiddlerControls
         public TextureSearch()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
         }
 
         private void SearchGraphic(object sender, EventArgs e)

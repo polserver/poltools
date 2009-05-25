@@ -93,7 +93,6 @@ namespace Host
         private void AddPlugin(string FileName)
         {
             Assembly pluginAssembly = Assembly.LoadFrom(FileName);
-
             foreach (Type pluginType in pluginAssembly.GetTypes())
             {
                 if (pluginType.IsPublic)

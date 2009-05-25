@@ -19,6 +19,7 @@ namespace UoFiddler
         public OptionsForm()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
 
             checkBoxAltDesign.Checked = FiddlerControls.Options.DesignAlternative;
             checkBoxCacheData.Checked = Files.CacheData;

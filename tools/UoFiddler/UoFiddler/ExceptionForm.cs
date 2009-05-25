@@ -19,6 +19,7 @@ namespace UoFiddler
         public ExceptionForm(Exception err)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
 
             if (err.InnerException != null)
                 richTextBox.Text = String.Format("{0}\n{1}", err.InnerException.Message, err.InnerException.GetType());

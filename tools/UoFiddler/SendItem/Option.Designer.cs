@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Option));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SendOnClick = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -117,7 +116,6 @@
             this.ClientSize = new System.Drawing.Size(231, 155);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Option";
             this.Text = "SendItem Options";
             this.groupBox1.ResumeLayout(false);

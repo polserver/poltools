@@ -40,7 +40,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationlistNewEntries));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.facingbar = new System.Windows.Forms.TrackBar();
@@ -170,7 +169,6 @@ namespace FiddlerControls
             this.ClientSize = new System.Drawing.Size(473, 263);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AnimationlistNewEntries";
             this.Text = "Animationlist New Entries";
             this.Load += new System.EventHandler(this.OnLoad);

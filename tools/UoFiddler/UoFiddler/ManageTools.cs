@@ -21,6 +21,7 @@ namespace UoFiddler
         public ManageTools()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
         }
 
         private void OnLoad(object sender, EventArgs e)

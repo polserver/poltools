@@ -19,6 +19,7 @@ namespace FiddlerControls
         public ClilocDetail(int Number, string Text)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             TopMost = true;
             NumberLabel.Text = String.Format("Nr: {0}", Number);
             m_Number = Number;

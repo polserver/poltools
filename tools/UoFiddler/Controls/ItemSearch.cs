@@ -19,6 +19,7 @@ namespace FiddlerControls
         public ItemSearch()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
         }
 
         private void Search_Graphic(object sender, EventArgs e)

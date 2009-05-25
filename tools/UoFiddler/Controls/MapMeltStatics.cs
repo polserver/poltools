@@ -24,6 +24,7 @@ namespace FiddlerControls
             MapParent = parent;
             Map = map;
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             numericUpDownX1.Maximum = map.Width;
             numericUpDownX2.Maximum = map.Width;
             numericUpDownY1.Maximum = map.Height;

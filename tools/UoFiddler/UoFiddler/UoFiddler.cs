@@ -29,6 +29,7 @@ namespace UoFiddler
         {
             refmarker = this;
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             Versionlabel.Text = "Version " + Version;
             ChangeDesign();
             LoadExternToolStripMenu();

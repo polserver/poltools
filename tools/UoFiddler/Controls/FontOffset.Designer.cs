@@ -39,7 +39,6 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FontOffset));
             this.offsetx = new System.Windows.Forms.NumericUpDown();
             this.offsety = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -145,7 +144,6 @@ namespace FiddlerControls
             this.Controls.Add(this.offsety);
             this.Controls.Add(this.offsetx);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FontOffset";
             this.Text = "Font Offset";
             ((System.ComponentModel.ISupportInitialize)(this.offsetx)).EndInit();

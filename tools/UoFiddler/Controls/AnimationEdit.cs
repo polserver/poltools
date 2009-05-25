@@ -24,6 +24,7 @@ namespace FiddlerControls
         public AnimationEdit()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             FileType = 1;
             CurrDir = 0;
             toolStripComboBox1.SelectedIndex = 0;

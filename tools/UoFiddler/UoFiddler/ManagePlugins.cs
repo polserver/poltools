@@ -20,6 +20,8 @@ namespace UoFiddler
         public ManagePlugins()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
+
             foreach (Host.Types.AvailablePlugin plug in GlobalPlugins.Plugins.AvailablePlugins)
             {
                 bool loaded = true;

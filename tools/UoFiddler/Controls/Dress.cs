@@ -101,8 +101,11 @@ namespace FiddlerControls
         private int action = 1;
         private bool Loaded = false;
         private int[] hues = new int[25];
-        [Browsable(false)]
-        public int[] Hues { get { return hues; } set { hues = value; } }
+
+        public void SetHue(int index, int color)
+        {
+            hues[index] = color;
+        }
 
         /// <summary>
         /// Reload when loaded

@@ -20,6 +20,7 @@ namespace FiddlerControls
         public HuePopUpItem(FiddlerControls.ItemDetail ref_, int hue)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             if (hue >= 0)
                 control.Selected = hue;
             refItem = ref_;

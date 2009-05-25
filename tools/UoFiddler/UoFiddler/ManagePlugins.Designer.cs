@@ -39,7 +39,6 @@ namespace UoFiddler
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagePlugins));
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
@@ -91,7 +90,6 @@ namespace UoFiddler
             this.ClientSize = new System.Drawing.Size(416, 229);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManagePlugins";
             this.Text = "Manage Plugins (restart Needed)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.onClosing);

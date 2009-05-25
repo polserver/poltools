@@ -21,6 +21,7 @@ namespace FiddlerControls
         public HuePopUpDress(FiddlerControls.Dress ref_, int hue, int l)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             if ((hue & 0x8000) != 0)
             {
                 hue ^= 0x8000;
@@ -37,14 +38,14 @@ namespace FiddlerControls
             int Selected = control.Selected + 1;
             if (HueOnlyGray.Checked)
                 Selected ^= 0x8000;
-            refItem.Hues[layer] = Selected;
+            refItem.SetHue(layer, Selected);
             refItem.RefreshDrawing();
             this.Close();
         }
 
         private void OnClick_Clear(object sender, EventArgs e)
         {
-            refItem.Hues[layer] = -1;
+            refItem.SetHue(layer, -1);
             refItem.RefreshDrawing();
             this.Close();
         }

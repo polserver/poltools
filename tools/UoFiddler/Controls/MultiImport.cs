@@ -21,6 +21,7 @@ namespace FiddlerControls
         public MultiImport(FiddlerControls.Multis _parent, int _id)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             id = _id;
             parent = _parent;
             comboBox1.SelectedIndex = 0;

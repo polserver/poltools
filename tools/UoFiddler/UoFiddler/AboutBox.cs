@@ -22,6 +22,7 @@ namespace UoFiddler
         public AboutBox()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             progresslabel.Visible = false;
             checkBoxCheckOnStart.Checked = Options.UpdateCheckOnStart;
         }

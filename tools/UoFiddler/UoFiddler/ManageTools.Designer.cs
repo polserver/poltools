@@ -39,7 +39,6 @@ namespace UoFiddler
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageTools));
             this.listBoxTools = new System.Windows.Forms.ListBox();
             this.listBoxArgs = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -343,7 +342,6 @@ namespace UoFiddler
             this.ClientSize = new System.Drawing.Size(619, 299);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManageTools";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.Text = "Manage Tools";

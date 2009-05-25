@@ -74,6 +74,7 @@ namespace FiddlerControls
         public HueEdit(int index, Hues m_refmarker)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             refmarker = m_refmarker;
             hue = Ultima.Hues.GetHue(index);
             Colors = new short[32];
