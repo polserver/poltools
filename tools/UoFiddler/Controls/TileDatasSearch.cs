@@ -20,6 +20,7 @@ namespace FiddlerControls
         public TileDatasSearch(bool landtile)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             land = landtile;
         }
 

@@ -19,6 +19,7 @@ namespace FiddlerControls
         public LandTileSearch()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
         }
 
         private void SearchGraphic(object sender, EventArgs e)

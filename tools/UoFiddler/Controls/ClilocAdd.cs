@@ -19,6 +19,7 @@ namespace FiddlerControls
         public ClilocAdd()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             TopMost = true;
         }
 

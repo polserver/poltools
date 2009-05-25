@@ -23,6 +23,7 @@ namespace UoFiddler
             this.Controls.Clear();
             this.Controls.Add(contr);
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             this.Text = oldtab.Text;
             m_oldtab = oldtab;
             if (UoFiddler.ActiveForm.TopMost)

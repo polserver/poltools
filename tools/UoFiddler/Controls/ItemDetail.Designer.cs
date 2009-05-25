@@ -43,7 +43,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemDetail));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.Graphic = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -155,7 +154,6 @@ namespace FiddlerControls
             this.ClientSize = new System.Drawing.Size(292, 266);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ItemDetail";
             this.Text = "ItemDetail";
             this.Load += new System.EventHandler(this.onLoad);

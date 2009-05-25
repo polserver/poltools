@@ -20,6 +20,7 @@ namespace FiddlerControls
         public HuePopUp(FiddlerControls.Animationlist ref_, int hue)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             if ((hue & 0x8000) != 0)
             {
                 hue ^= 0x8000;

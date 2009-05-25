@@ -11,6 +11,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace FiddlerControls
 {
@@ -231,6 +232,11 @@ namespace FiddlerControls
         {
             get { return Options.m_ChangedViewStates; }
             set { Options.m_ChangedViewStates = value; }
+        }
+
+        public static Icon GetFiddlerIcon()
+        {
+            return new Icon(System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream("UoFiddler.UOFiddler.ico"));
         }
 
         #region Events

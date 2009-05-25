@@ -39,7 +39,6 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MapDetails));
             this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
@@ -61,7 +60,6 @@ namespace FiddlerControls
             this.ClientSize = new System.Drawing.Size(292, 266);
             this.Controls.Add(this.richTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MapDetails";
             this.Text = "MapDetails";
             this.ResumeLayout(false);

@@ -22,6 +22,7 @@ namespace UoFiddler
         public PathSettings()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             propertyGrid1.SelectedObject = new DictionaryPropertyGridAdapter(Files.MulPath);
             TextBoxRoot.Text = Files.RootDir;
         }

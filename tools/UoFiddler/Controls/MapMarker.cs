@@ -22,6 +22,7 @@ namespace FiddlerControls
         public MapMarker(int x,int y, int map)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             numericUpDown1.Value = x;
             numericUpDown2.Value = y;
             comboBox1.Items.AddRange(Options.MapNames);

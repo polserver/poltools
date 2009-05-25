@@ -24,6 +24,7 @@ namespace FiddlerControls
         public AnimationlistNewEntries(Animationlist form)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             Form = form;
         }
 
@@ -136,74 +137,86 @@ namespace FiddlerControls
                     }
                 }
             }
-            foreach (int entry in BodyConverter.Table1)  //bodyconv.def
+            if (BodyConverter.Table1 != null)
             {
-                if (entry != -1)
+                foreach (int entry in BodyConverter.Table1)  //bodyconv.def
                 {
-                    if (!AlreadyFound(entry))
+                    if (entry != -1)
                     {
-                        if (!Form.IsAlreadyDefinied(entry))
+                        if (!AlreadyFound(entry))
                         {
-                            node = new TreeNode(entry.ToString());
-                            node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
-                            node.Tag = entry;
-                            node.Tag = new int[] { entry, 0 };
-                            treeView1.Nodes.Add(node);
-                            SetActionType(node, entry, 0);
+                            if (!Form.IsAlreadyDefinied(entry))
+                            {
+                                node = new TreeNode(entry.ToString());
+                                node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
+                                node.Tag = entry;
+                                node.Tag = new int[] { entry, 0 };
+                                treeView1.Nodes.Add(node);
+                                SetActionType(node, entry, 0);
+                            }
                         }
                     }
                 }
             }
-            foreach (int entry in BodyConverter.Table2)
+            if (BodyConverter.Table2 != null)
             {
-                if (entry != -1)
+                foreach (int entry in BodyConverter.Table2)
                 {
-                    if (!AlreadyFound(entry))
+                    if (entry != -1)
                     {
-                        if (!Form.IsAlreadyDefinied(entry))
+                        if (!AlreadyFound(entry))
                         {
-                            node = new TreeNode(entry.ToString());
-                            node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
-                            node.Tag = entry;
-                            node.Tag = new int[] { entry, 0 };
-                            treeView1.Nodes.Add(node);
-                            SetActionType(node, entry, 0);
+                            if (!Form.IsAlreadyDefinied(entry))
+                            {
+                                node = new TreeNode(entry.ToString());
+                                node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
+                                node.Tag = entry;
+                                node.Tag = new int[] { entry, 0 };
+                                treeView1.Nodes.Add(node);
+                                SetActionType(node, entry, 0);
+                            }
                         }
                     }
                 }
             }
-            foreach (int entry in BodyConverter.Table3)
+            if (BodyConverter.Table3 != null)
             {
-                if (entry != -1)
+                foreach (int entry in BodyConverter.Table3)
                 {
-                    if (!AlreadyFound(entry))
+                    if (entry != -1)
                     {
-                        if (!Form.IsAlreadyDefinied(entry))
+                        if (!AlreadyFound(entry))
                         {
-                            node = new TreeNode(entry.ToString());
-                            node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
-                            node.Tag = entry;
-                            node.Tag = new int[] { entry, 0 };
-                            treeView1.Nodes.Add(node);
-                            SetActionType(node, entry, 0);
+                            if (!Form.IsAlreadyDefinied(entry))
+                            {
+                                node = new TreeNode(entry.ToString());
+                                node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
+                                node.Tag = entry;
+                                node.Tag = new int[] { entry, 0 };
+                                treeView1.Nodes.Add(node);
+                                SetActionType(node, entry, 0);
+                            }
                         }
                     }
                 }
             }
-            foreach (int entry in BodyConverter.Table4)
+            if (BodyConverter.Table4 != null)
             {
-                if (entry != -1)
+                foreach (int entry in BodyConverter.Table4)
                 {
-                    if (!AlreadyFound(entry))
+                    if (entry != -1)
                     {
-                        if (!Form.IsAlreadyDefinied(entry))
+                        if (!AlreadyFound(entry))
                         {
-                            node = new TreeNode(entry.ToString());
-                            node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
-                            node.Tag = entry;
-                            node.Tag = new int[] { entry, 0 };
-                            treeView1.Nodes.Add(node);
-                            SetActionType(node, entry, 0);
+                            if (!Form.IsAlreadyDefinied(entry))
+                            {
+                                node = new TreeNode(entry.ToString());
+                                node.ToolTipText = String.Format("Found in bodyconv.def {0}", Animations.GetFileName(entry));
+                                node.Tag = entry;
+                                node.Tag = new int[] { entry, 0 };
+                                treeView1.Nodes.Add(node);
+                                SetActionType(node, entry, 0);
+                            }
                         }
                     }
                 }

@@ -23,6 +23,7 @@ namespace FiddlerControls
         public FontText(int m_type, int m_font)
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             this.TopMost = true;
             type = m_type;
             font = m_font;

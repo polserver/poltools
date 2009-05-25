@@ -40,7 +40,6 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HueEdit));
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBoxIndex = new System.Windows.Forms.PictureBox();
@@ -357,7 +356,6 @@ namespace FiddlerControls
             this.Controls.Add(this.pictureBoxIndex);
             this.Controls.Add(this.textBoxName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HueEdit";
             this.Text = "HueEdit";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();

@@ -39,7 +39,6 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClilocDetail));
             this.TextBox = new System.Windows.Forms.RichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.NumberLabel = new System.Windows.Forms.ToolStripLabel();
@@ -93,7 +92,6 @@ namespace FiddlerControls
             this.Controls.Add(this.TextBox);
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ClilocDetail";
             this.Text = "ClilocDetail";
             this.toolStrip1.ResumeLayout(false);

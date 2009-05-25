@@ -39,7 +39,6 @@ namespace FiddlerControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TileDatasSearch));
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBoxItemName = new System.Windows.Forms.TextBox();
@@ -110,7 +109,6 @@ namespace FiddlerControls
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxGraphic);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TileDatasSearch";
             this.Text = "TileData Search";
             this.ResumeLayout(false);
