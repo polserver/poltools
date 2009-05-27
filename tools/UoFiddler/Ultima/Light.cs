@@ -84,6 +84,26 @@ namespace Ultima
             m_Removed[index] = false;
         }
 
+        public unsafe static byte[] GetRawLight(int index, out int width, out int height)
+        {
+            width = 0;
+            height = 0;
+            if (m_Removed[index])
+                return null;
+            int length, extra;
+            bool patched;
+
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return null;
+
+            width = (extra & 0xFFFF);
+            height = ((extra >> 16) & 0xFFFF);
+            byte[] buffer = new byte[length];
+            stream.Read(buffer, 0, length);
+            return buffer;
+        }
         /// <summary>
         /// Returns Bitmap of given index
         /// </summary>

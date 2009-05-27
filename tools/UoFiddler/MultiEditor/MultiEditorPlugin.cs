@@ -22,7 +22,7 @@ namespace FiddlerPlugin
         string myDescription = "Plugin to Edit Multis\r\n(Adds 1 new Tab)";
         IPluginHost myHost = null;
         string myName = "MultiEditorPlugin";
-        string myVersion = "1.1.0";
+        string myVersion = "1.2.0";
 
 		#endregion Fields 
 
