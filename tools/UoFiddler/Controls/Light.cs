@@ -23,9 +23,13 @@ namespace FiddlerControls
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+            LandTileText.Text = LandTile.ToString();
+            LightTileText.Text = LightTile.ToString();
         }
 
         private bool Loaded = false;
+        private int LandTile = 0x3;
+        private int LightTile = 0x0B20;
 
         /// <summary>
         /// ReLoads if loaded
@@ -39,7 +43,7 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Light"] = true;
-            
+
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
             for (int i = 0; i < Ultima.Light.GetCount(); i++)
@@ -65,9 +69,96 @@ namespace FiddlerControls
             Reload();
         }
 
+        private unsafe Bitmap GetImage()
+        {
+            if (treeView1.SelectedNode == null)
+                return null;
+            if (!iGPreviewToolStripMenuItem.Checked)
+                return Ultima.Light.GetLight((int)treeView1.SelectedNode.Tag);
+
+            Bitmap bit = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+            using (Graphics g = Graphics.FromImage(bit))
+            {
+                Bitmap background = Ultima.Art.GetLand(LandTile);
+                if (background != null)
+                {
+                    int i = 0;
+                    for (int y = -22; y <= bit.Height; y += 22)
+                    {
+                        int x;
+                        if (i % 2 == 0)
+                            x = 0;
+                        else
+                            x = -22;
+
+                        for (; x <= bit.Width; x += 44)
+                        {
+                            g.DrawImage(background, x, y);
+                        }
+                        i += 1;
+                    }
+                }
+                Bitmap lightbit = Ultima.Art.GetStatic(LightTile);
+                if (lightbit != null)
+                    g.DrawImage(lightbit, ((bit.Width - lightbit.Width) / 2), ((bit.Height - lightbit.Height) / 2));
+            }
+
+            int lightwidth, lightheight;
+            byte[] light = Ultima.Light.GetRawLight((int)treeView1.SelectedNode.Tag, out lightwidth, out lightheight);
+
+            if (light != null)
+            {
+                BitmapData bd = bit.LockBits(new Rectangle(0, 0, bit.Width, bit.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+                byte* imgPtr = (byte*)(bd.Scan0);
+
+                int lightstartX = (bit.Width / 2) - (lightwidth / 2);
+                int lightstartY = 30 + (bit.Height / 2) - (lightheight / 2);
+                int lightendX = lightstartX + lightwidth;
+                int lightendY = lightstartY + lightwidth;
+                byte r, g, b;
+
+                for (int y = 0; y < bd.Height; y++)
+                {
+                    for (int x = 0; x < bd.Width; x++)
+                    {
+                        b = *(imgPtr + 0);
+                        g = *(imgPtr + 1);
+                        r = *(imgPtr + 2);
+                        double lightc = 0;
+                        if ((x >= lightstartX) && (x < lightendX) && (y >= lightstartY) && (y < lightendY))
+                        {
+                            int offset = (y - lightstartY) * lightheight + (x - lightstartX);
+                            if (offset < light.Length)
+                            {
+                                lightc = light[offset];
+                                if (lightc > 31)
+                                    lightc = 0;
+                                else
+                                    lightc *= 3 / 31D;
+                            }
+                        }
+                        r /= 3;
+                        g /= 3;
+                        b /= 3;
+                        r += (byte)(r * lightc);
+                        g += (byte)(g * lightc);
+                        b += (byte)(b * lightc);
+
+                        *imgPtr++ = b;
+                        *imgPtr++ = g;
+                        *imgPtr++ = r;
+                    }
+                    imgPtr += bd.Stride - bd.Width * 3;
+                }
+                bit.UnlockBits(bd);
+            }
+            return bit;
+        }
+
         private void AfterSelect(object sender, TreeViewEventArgs e)
         {
-            pictureBox1.Image = Ultima.Light.GetLight((int)treeView1.SelectedNode.Tag);
+            pictureBox1.Image = GetImage();
         }
 
         private void OnClickRemove(object sender, EventArgs e)
@@ -230,6 +321,77 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        private void IGPreviewClicked(object sender, EventArgs e)
+        {
+            iGPreviewToolStripMenuItem.Checked = !iGPreviewToolStripMenuItem.Checked;
+            pictureBox1.Image = GetImage();
+        }
+
+        private void OnPictureSizeChanged(object sender, EventArgs e)
+        {
+            pictureBox1.Image = GetImage();
+        }
+
+        private void LandTileTextChanged(object sender, EventArgs e)
+        {
+            int index;
+            if (Utils.ConvertStringToInt(LandTileText.Text, out index, 0, 0x3FFF))
+            {
+                if (!Ultima.Art.IsValidLand(index))
+                    LandTileText.ForeColor = Color.Red;
+                else
+                    LandTileText.ForeColor = Color.Black;
+            }
+            else
+                LandTileText.ForeColor = Color.Red;
+        }
+
+        private void LandTileKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int index;
+                if (Utils.ConvertStringToInt(LandTileText.Text, out index, 0, 0x3FFF))
+                {
+                    if (!Ultima.Art.IsValidLand(index))
+                        return;
+                    contextMenuStrip2.Close();
+                    LandTile = index;
+                    pictureBox1.Image = GetImage();
+                }
+            }
+        }
+
+        private void LightTileTextChanged(object sender, EventArgs e)
+        {
+            int index;
+            if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, 0x3FFF))
+            {
+                if (!Ultima.Art.IsValidStatic(index))
+                    LightTileText.ForeColor = Color.Red;
+                else
+                    LightTileText.ForeColor = Color.Black;
+            }
+            else
+                LightTileText.ForeColor = Color.Red;
+        }
+
+        private void LightTileKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int index;
+                if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, 0x3FFF))
+                {
+                    if (!Ultima.Art.IsValidStatic(index))
+                        return;
+                    contextMenuStrip2.Close();
+                    LightTile = index;
+                    pictureBox1.Image = GetImage();
+                }
+            }
         }
     }
 }

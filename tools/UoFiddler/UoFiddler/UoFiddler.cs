@@ -19,7 +19,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.0a";
+        public static string Version = "4.0b";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
