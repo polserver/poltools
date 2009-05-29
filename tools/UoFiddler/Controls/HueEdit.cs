@@ -141,7 +141,7 @@ namespace FiddlerControls
             hue.Name = textBoxName.Text;
             hue.TableStart = Colors[0];
             hue.TableEnd = Colors[hue.Colors.Length - 1];
-            Options.FireHueChangeEvent();
+            FiddlerControls.Events.FireHueChangeEvent();
             Options.ChangedUltimaClass["Hues"] = true;
         }
 

@@ -48,7 +48,7 @@ namespace FiddlerControls
             
             listBox.BeginUpdate();
             listBox.Items.Clear();
-            for (int i = 0; i < 0xFFFF; i++)
+            for (int i = 0; i < 0x10000; i++)
             {
                 if (Gumps.IsValidIndex(i))
                     listBox.Items.Add(i);
@@ -58,7 +58,10 @@ namespace FiddlerControls
             if (listBox.Items.Count > 0)
                 listBox.SelectedIndex = 0;
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.GumpChangeEvent+=new FiddlerControls.Events.GumpChangeHandler(OnGumpChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -66,6 +69,48 @@ namespace FiddlerControls
         private void OnFilePathChangeEvent()
         {
             Reload();
+        }
+        private void OnGumpChangeEvent(object sender, int index)
+        {
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (Gumps.IsValidIndex(index))
+            {
+                bool done = false;
+                for (int i = 0; i < listBox.Items.Count; i++)
+                {
+                    int j = int.Parse(listBox.Items[i].ToString());
+                    if (j > index)
+                    {
+                        listBox.Items.Insert(i, index);
+                        listBox.SelectedIndex = i;
+                        done = true;
+                        break;
+                    }
+                    if (j == index)
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    listBox.Items.Add(index);
+            }
+            else
+            {
+                for (int i = 0; i < listBox.Items.Count; i++)
+                {
+                    int j = int.Parse(listBox.Items[i].ToString());
+                    if (j == index)
+                    {
+                        listBox.Items.RemoveAt(i);
+                        break;
+                    }
+                }
+                listBox.Invalidate();
+            }
         }
 
         private void listBox_DrawItem(object sender, DrawItemEventArgs e)
@@ -149,6 +194,7 @@ namespace FiddlerControls
                             bmp = Utils.ConvertBmp(bmp);
                         int i = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
                         Gumps.ReplaceGump(i, bmp);
+                        FiddlerControls.Events.FireGumpChangeEvent(this, i);
                         listBox.Invalidate();
                         listBox_SelectedIndexChanged(this, EventArgs.Empty);
                         Options.ChangedUltimaClass["Gumps"] = true;
@@ -186,6 +232,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Gumps.RemoveGump(i);
+                FiddlerControls.Events.FireGumpChangeEvent(this, i);
                 listBox.Items.RemoveAt(listBox.SelectedIndex);
                 pictureBox.BackgroundImage = null;
                 listBox.Invalidate();
@@ -211,7 +258,7 @@ namespace FiddlerControls
         private void onTextChanged_InsertAt(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFF))
             {
                 if (Gumps.IsValidIndex(index))
                     InsertText.ForeColor = Color.Red;
@@ -228,7 +275,7 @@ namespace FiddlerControls
                 return;
 
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFE))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFF))
             {
                 if (Gumps.IsValidIndex(index))
                     return;
@@ -245,6 +292,8 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Gumps.ReplaceGump(index, bmp);
+                        FiddlerControls.Events.FireGumpChangeEvent(this, index);
+                        bool done = false;
                         for (int i = 0; i < listBox.Items.Count; i++)
                         {
                             int j = int.Parse(listBox.Items[i].ToString());
@@ -252,8 +301,14 @@ namespace FiddlerControls
                             {
                                 listBox.Items.Insert(i, index);
                                 listBox.SelectedIndex = i;
+                                done = true;
                                 break;
                             }
+                        }
+                        if (!done)
+                        {
+                            listBox.Items.Add(index);
+                            listBox.SelectedIndex = listBox.Items.Count - 1;
                         }
                         Options.ChangedUltimaClass["Gumps"] = true;
                     }

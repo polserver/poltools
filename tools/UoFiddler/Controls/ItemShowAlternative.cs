@@ -168,7 +168,7 @@ namespace FiddlerControls
             ShowFreeSlots = false;
             showFreeSlotsToolStripMenuItem.Checked = false;
             ItemList = new ArrayList();
-            if ((Files.UseHashFile) && (Files.CompareHashFile("Art")))
+            if ((Files.UseHashFile) && (Files.CompareHashFile("Art")) && (!Ultima.Art.Modified))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, "UOFiddlerArt.hash");
@@ -199,7 +199,11 @@ namespace FiddlerControls
             vScrollBar.Maximum = ItemList.Count / col + 1;
             pictureBox.Refresh();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.ItemChangeEvent += new FiddlerControls.Events.ItemChangeHandler(OnItemChangeEvent);
+                FiddlerControls.Events.TileDataChangeEvent += new FiddlerControls.Events.TileDataChangeHandler(OnTileDataChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -207,6 +211,63 @@ namespace FiddlerControls
         {
             if (FiddlerControls.Options.DesignAlternative)
                 Reload();
+        }
+
+        void OnTileDataChangeEvent(object sender, int id)
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (id < 0x4000)
+                return;
+            id -= 0x4000;
+            if (selected == id)
+            {
+                graphiclabel.Text = String.Format("Graphic: 0x{0:X4} ({0})", id);
+                UpdateDetail(id);
+            }
+        }
+
+        private void OnItemChangeEvent(object sender, int index)
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (Ultima.Art.IsValidStatic(index))
+            {
+                bool done = false;
+                for (int i = 0; i < ItemList.Count; i++)
+                {
+                    if (index < (int)ItemList[i])
+                    {
+                        ItemList.Insert(i, (object)index);
+                        done = true;
+                        break;
+                    }
+                    if (index == (int)ItemList[i])
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    ItemList.Add((object)index);
+                vScrollBar.Maximum = ItemList.Count / col + 1;
+            }
+            else
+            {
+                if (!ShowFreeSlots)
+                {
+                    ItemList.Remove((object)index);
+                    vScrollBar.Maximum = ItemList.Count / col + 1;
+                }
+            }
         }
 
         private int GetIndex(int x, int y)
@@ -473,6 +534,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceStatic(selected, bmp);
+                        FiddlerControls.Events.FireItemChangeEvent(this, selected);
                         pictureBox.Refresh();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
@@ -493,6 +555,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Art.RemoveStatic(selected);
+                FiddlerControls.Events.FireItemChangeEvent(this, selected);
                 if (!ShowFreeSlots)
                     ItemList.Remove((object)selected);
                 selected--;
@@ -537,6 +600,7 @@ namespace FiddlerControls
                             if (dialog.FileName.Contains(".bmp"))
                                 bmp = Utils.ConvertBmp(bmp);
                             Art.ReplaceStatic(index, bmp);
+                            FiddlerControls.Events.FireItemChangeEvent(this, index);
                             Options.ChangedUltimaClass["Art"] = true;
                             if (ShowFreeSlots)
                             {

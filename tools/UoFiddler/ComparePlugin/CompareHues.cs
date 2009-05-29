@@ -262,7 +262,18 @@ namespace ComparePlugin
             PaintBox1();
             PaintBox2();
             FiddlerControls.Options.ChangedUltimaClass["Hues"] = true;
-            FiddlerControls.Options.FireHueChangeEvent();
+            FiddlerControls.Events.FireHueChangeEvent();
+        }
+
+        private void BrowseOnClick(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory containing the hue file";
+                dialog.ShowNewFolderButton = false;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    textBox1.Text = dialog.SelectedPath;
+            }
         }
     }
 }

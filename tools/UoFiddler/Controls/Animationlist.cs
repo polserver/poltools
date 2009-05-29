@@ -109,7 +109,7 @@ namespace FiddlerControls
             FacingBar.Value = (facing + 3) & 7;
             Loaded = true;
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Cursor.Current = Cursors.Default;
         }
 

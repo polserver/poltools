@@ -126,7 +126,11 @@ MultiEditor:
 -Import from multicache.dat added
 Light tab:
 -Added ContextMenu for switching to IG Preview
--with the ContextMenu you also can change Background Landtile + "Light"-Art
+-with the ContextMenu you can also change Background Landtile + "Light"-Art
+Added MassImportPlugin:
+-xml based MassImport
+TileData tab:
+-Added Import from CSV file
 
 Version 4.0a
 MultiEditor changes:

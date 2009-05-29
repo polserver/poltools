@@ -64,7 +64,7 @@ namespace UoFiddler
             if (checkBoxuseDiff.Checked != Map.UseDiff)
             {
                 Map.UseDiff = checkBoxuseDiff.Checked;
-                FiddlerControls.Options.FireMapDiffChangeEvent();
+                FiddlerControls.Events.FireMapDiffChangeEvent();
             }
             if ((numericUpDownItemSizeWidth.Value != FiddlerControls.Options.ArtItemSizeWidth)
                 || (numericUpDownItemSizeHeight.Value != FiddlerControls.Options.ArtItemSizeHeight))
@@ -91,7 +91,7 @@ namespace UoFiddler
                 FiddlerControls.Options.MapNames[2] = map2Nametext.Text;
                 FiddlerControls.Options.MapNames[3] = map3Nametext.Text;
                 FiddlerControls.Options.MapNames[4] = map4Nametext.Text;
-                FiddlerControls.Options.FireMapNameChangeEvent();
+                FiddlerControls.Events.FireMapNameChangeEvent();
             }
             FiddlerControls.Options.MapCmd = cmdtext.Text;
             FiddlerControls.Options.MapArgs = argstext.Text;

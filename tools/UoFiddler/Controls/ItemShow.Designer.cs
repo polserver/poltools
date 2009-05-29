@@ -387,7 +387,7 @@ namespace FiddlerControls
             this.asTiffToolStripMenuItem,
             this.asJpgToolStripMenuItem});
             this.exportAllAsToolStripMenuItem.Name = "exportAllAsToolStripMenuItem";
-            this.exportAllAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAllAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.exportAllAsToolStripMenuItem.Text = "Export all..";
             // 
             // asBmpToolStripMenuItem

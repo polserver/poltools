@@ -172,6 +172,7 @@ namespace ComparePlugin
             dialog.Filter = "cliloc files (cliloc.*)|cliloc.*";
             if (dialog.ShowDialog() == DialogResult.OK)
                 textBox1.Text = dialog.FileName;
+            dialog.Dispose();
         }
 
         private void OnClickDirFile2(object sender, EventArgs e)
@@ -183,6 +184,7 @@ namespace ComparePlugin
             dialog.Filter = "cliloc files (cliloc.*)|cliloc.*";
             if (dialog.ShowDialog() == DialogResult.OK)
                 textBox2.Text = dialog.FileName;
+            dialog.Dispose();
         }
 
         private void OnClickShowOnlyDiff(object sender, EventArgs e)

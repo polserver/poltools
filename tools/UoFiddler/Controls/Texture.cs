@@ -112,7 +112,10 @@ namespace FiddlerControls
             listView1.TileSize = new Size(64, 64);
             listView1.EndUpdate();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.TextureChangeEvent += new FiddlerControls.Events.TextureChangeHandler(OnTextureChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -121,6 +124,53 @@ namespace FiddlerControls
         {
             if (!FiddlerControls.Options.DesignAlternative)
                 Reload();
+        }
+
+        private void OnTextureChangeEvent(object sender, int index)
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+
+            if (Ultima.Textures.TestTexture(index))
+            {
+                ListViewItem item = new ListViewItem(index.ToString(), 0);
+                item.Tag = index;
+                bool done = false;
+                foreach (ListViewItem i in listView1.Items)
+                {
+                    if ((int)i.Tag > index)
+                    {
+                        listView1.Items.Insert(i.Index, item);
+                        done = true;
+                        break;
+                    }
+                    if ((int)i.Tag == index)
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    listView1.Items.Add(item);
+                listView1.View = View.Details; // that works faszinating
+                listView1.View = View.Tile;
+            }
+            else
+            {
+                foreach (ListViewItem i in listView1.Items)
+                {
+                    if ((int)i.Tag == index)
+                    {
+                        listView1.Items.RemoveAt(i.Index);
+                        break;
+                    }
+                }
+                listView1.Invalidate();
+            }
         }
 
         private TextureSearch showform = null;
@@ -190,6 +240,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Textures.Remove(i);
+                FiddlerControls.Events.FireTextureChangeEvent(this, i);
                 i = listView1.SelectedItems[0].Index;
                 listView1.SelectedItems[0].Selected = false;
                 listView1.Items.RemoveAt(i);
@@ -217,6 +268,7 @@ namespace FiddlerControls
                                 bmp = Utils.ConvertBmp(bmp);
                             int i = (int)listView1.SelectedItems[0].Tag;
                             Textures.Replace(i, bmp);
+                            FiddlerControls.Events.FireTextureChangeEvent(this, i);
                             listView1.Invalidate();
                             listView_SelectedIndexChanged(this, (ListViewItemSelectionChangedEventArgs)null);
                             Options.ChangedUltimaClass["Texture"] = true;
@@ -264,6 +316,7 @@ namespace FiddlerControls
                             if (((bmp.Width == 64) && (bmp.Height == 64)) || ((bmp.Width == 128) && (bmp.Height == 128)))
                             {
                                 Textures.Replace(index, bmp);
+                                FiddlerControls.Events.FireTextureChangeEvent(this, index);
                                 ListViewItem item = new ListViewItem(index.ToString(), 0);
                                 item.Tag = index;
                                 bool done = false;

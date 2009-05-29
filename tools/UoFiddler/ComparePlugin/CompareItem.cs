@@ -260,5 +260,52 @@ namespace ComparePlugin
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
         }
+
+        private void OnClickCopy(object sender, EventArgs e)
+        {
+            if (listBoxSec.SelectedIndex == -1)
+                return;
+            int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
+            if (!SecondArt.IsValidStatic(i))
+                return;
+            Bitmap copy = new Bitmap(SecondArt.GetStatic(i));
+            Ultima.Art.ReplaceStatic(i, copy);
+            FiddlerControls.Options.ChangedUltimaClass["Art"] = true;
+            FiddlerControls.Events.FireItemChangeEvent(this, i);
+            m_Compare[i] = true;
+            listBoxOrg.BeginUpdate();
+            bool done = false;
+            for (int id = 0; id < 0x4000; id++)
+            {
+                if (id > i)
+                {
+                    listBoxOrg.Items.Insert(id, i);
+                    done = true;
+                    break;
+                }
+                if (id == i)
+                {
+                    done = true;
+                    break;
+                }
+            }
+            if (!done)
+                listBoxOrg.Items.Add(i);
+            listBoxOrg.EndUpdate();
+            listBoxOrg.Invalidate();
+            listBoxSec.Invalidate();
+            OnIndexChangedOrg(this, null);
+        }
+
+        private void OnClickBrowse(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory containing the art files";
+                dialog.ShowNewFolderButton = false;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    textBoxSecondDir.Text = dialog.SelectedPath;
+            }
+        }
     }
 }

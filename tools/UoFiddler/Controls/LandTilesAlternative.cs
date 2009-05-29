@@ -135,7 +135,11 @@ namespace FiddlerControls
             vScrollBar.Maximum = TileList.Count / col + 1;
             pictureBox.Refresh();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.LandTileChangeEvent += new FiddlerControls.Events.LandTileChangeHandler(OnLandTileChangeEvent);
+                FiddlerControls.Events.TileDataChangeEvent += new FiddlerControls.Events.TileDataChangeHandler(OnTileDataChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -144,6 +148,59 @@ namespace FiddlerControls
         {
             if (FiddlerControls.Options.DesignAlternative)
                 Reload();
+        }
+
+        void OnTileDataChangeEvent(object sender, int id)
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (id > 0x3FFF)
+                return;
+            if (selected == id)
+            {
+                namelabel.Text = String.Format("Name: {0}", TileData.LandTable[id].Name);
+                FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[id].Flags);
+            }
+        }
+
+        private void OnLandTileChangeEvent(object sender, int index)
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (Ultima.Art.IsValidLand(index))
+            {
+                bool done = false;
+                for (int i = 0; i < TileList.Count; i++)
+                {
+                    if (index < (int)TileList[i])
+                    {
+                        TileList.Insert(i, (object)index);
+                        done = true;
+                        break;
+                    }
+                    if (index == (int)TileList[i])
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    TileList.Add((object)index);
+                vScrollBar.Maximum = TileList.Count / col + 1;
+            }
+            else
+            {
+                TileList.Remove((object)index);
+                vScrollBar.Maximum = TileList.Count / col + 1;
+            }
         }
 
         private void OnScroll(object sender, ScrollEventArgs e)
@@ -289,6 +346,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Art.RemoveLand(selected);
+                FiddlerControls.Events.FireLandTileChangeEvent(this, selected);
                 TileList.Remove((object)selected);
                 selected--;
                 pictureBox.Refresh();
@@ -312,6 +370,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand(selected, bmp);
+                        FiddlerControls.Events.FireLandTileChangeEvent(this, selected);
                         pictureBox.Refresh();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
@@ -355,6 +414,7 @@ namespace FiddlerControls
                             if (dialog.FileName.Contains(".bmp"))
                                 bmp = Utils.ConvertBmp(bmp);
                             Art.ReplaceLand(index, bmp);
+                            FiddlerControls.Events.FireLandTileChangeEvent(this, index);
                             bool done = false;
                             for (int i = 0; i < TileList.Count; i++)
                             {

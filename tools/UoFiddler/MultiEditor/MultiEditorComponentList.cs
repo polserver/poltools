@@ -128,7 +128,7 @@ namespace MultiEditor
         {
             Ultima.Multis.Add(id, ConvertToSDK());
             FiddlerControls.Options.ChangedUltimaClass["Multis"] = true;
-            FiddlerControls.Options.FireMultiChangeEvent(this, id);
+            FiddlerControls.Events.FireMultiChangeEvent(this, id);
         }
 
         public MultiComponentList ConvertToSDK()

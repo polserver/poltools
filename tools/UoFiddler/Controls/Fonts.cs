@@ -90,7 +90,7 @@ namespace FiddlerControls
             treeView.EndUpdate();
             treeView.SelectedNode = treeView.Nodes[0].Nodes[0];
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }

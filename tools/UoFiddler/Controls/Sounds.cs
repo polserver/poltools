@@ -59,7 +59,7 @@ namespace FiddlerControls
                 treeView.SelectedNode = treeView.Nodes[0];
             sp = new System.Media.SoundPlayer();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
 
             Cursor.Current = Cursors.Default;

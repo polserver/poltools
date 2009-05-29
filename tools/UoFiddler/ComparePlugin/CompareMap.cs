@@ -57,10 +57,10 @@ namespace ComparePlugin
 
             if (!Loaded)
             {
-                FiddlerControls.Options.MapDiffChangeEvent += new FiddlerControls.Options.MapDiffChangeHandler(OnMapDiffChangeEvent);
-                FiddlerControls.Options.MapNameChangeEvent += new FiddlerControls.Options.MapNameChangeHandler(OnMapNameChangeEvent);
-                FiddlerControls.Options.MapSizeChangeEvent += new FiddlerControls.Options.MapSizeChangeHandler(OnMapSizeChangeEvent);
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.MapDiffChangeEvent += new FiddlerControls.Events.MapDiffChangeHandler(OnMapDiffChangeEvent);
+                FiddlerControls.Events.MapNameChangeEvent += new FiddlerControls.Events.MapNameChangeHandler(OnMapNameChangeEvent);
+                FiddlerControls.Events.MapSizeChangeEvent += new FiddlerControls.Events.MapSizeChangeHandler(OnMapSizeChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             }
             Loaded = true;
         }

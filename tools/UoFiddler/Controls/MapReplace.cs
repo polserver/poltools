@@ -38,6 +38,7 @@ namespace FiddlerControls
             dialog.ShowNewFolderButton = false;
             if (dialog.ShowDialog() == DialogResult.OK)
                 textBox1.Text = dialog.SelectedPath;
+            dialog.Dispose();
         }
 
         private void OnClickCopy(object sender, EventArgs e)

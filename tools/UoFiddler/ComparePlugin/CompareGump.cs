@@ -51,7 +51,7 @@ namespace ComparePlugin
             if (listBox1.Items.Count > 0)
                 listBox1.SelectedIndex = 0;
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -312,6 +312,42 @@ namespace ComparePlugin
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickCopy(object sender, EventArgs e)
+        {
+            if (listBox2.SelectedIndex == -1)
+                return;
+            int i = (int)listBox2.Items[listBox2.SelectedIndex];
+            if (!SecondGump.IsValidIndex(i))
+                return;
+            Bitmap copy = new Bitmap(SecondGump.GetGump(i));
+            Ultima.Gumps.ReplaceGump(i, copy);
+            FiddlerControls.Options.ChangedUltimaClass["Gumps"] = true;
+            FiddlerControls.Events.FireGumpChangeEvent(this, i);
+            m_Compare[i] = true;
+            listBox1.BeginUpdate();
+            bool done = false;
+            for (int id = 0; id < 0x4000; id++)
+            {
+                if (id > i)
+                {
+                    listBox1.Items.Insert(id, i);
+                    done = true;
+                    break;
+                }
+                if (id == i)
+                {
+                    done = true;
+                    break;
+                }
+            }
+            if (!done)
+                listBox1.Items.Add(i);
+            listBox1.EndUpdate();
+            listBox1.Invalidate();
+            listBox2.Invalidate();
+            listbox_SelectedChange(listBox1, null);
         }
     }
 }

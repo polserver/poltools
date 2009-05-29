@@ -42,25 +42,26 @@ namespace ComparePlugin
             this.components = new System.ComponentModel.Container();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBoxSecondDir = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.extractAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBoxSecondDir = new System.Windows.Forms.TextBox();
+            this.copyGump2To1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox1
@@ -95,6 +96,37 @@ namespace ComparePlugin
             this.listBox2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listbox1_DrawItem);
             this.listBox2.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.listbox_measureItem);
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listbox_SelectedChange);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractAsToolStripMenuItem,
+            this.copyGump2To1ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 70);
+            // 
+            // extractAsToolStripMenuItem
+            // 
+            this.extractAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tiffToolStripMenuItem,
+            this.bmpToolStripMenuItem});
+            this.extractAsToolStripMenuItem.Name = "extractAsToolStripMenuItem";
+            this.extractAsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.extractAsToolStripMenuItem.Text = "Export Image..";
+            // 
+            // tiffToolStripMenuItem
+            // 
+            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.tiffToolStripMenuItem.Text = "As Bmp";
+            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.Export_Bmp);
+            // 
+            // bmpToolStripMenuItem
+            // 
+            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.bmpToolStripMenuItem.Text = "As Tiff";
+            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.Export_Tiff);
             // 
             // tableLayoutPanel1
             // 
@@ -155,6 +187,17 @@ namespace ComparePlugin
             this.splitContainer1.SplitterDistance = 277;
             this.splitContainer1.TabIndex = 3;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(423, 16);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(132, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "Show only Differences";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.ShowDiff_OnClick);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(342, 12);
@@ -184,46 +227,12 @@ namespace ComparePlugin
             this.textBoxSecondDir.Size = new System.Drawing.Size(154, 20);
             this.textBoxSecondDir.TabIndex = 0;
             // 
-            // checkBox1
+            // copyGump2To1ToolStripMenuItem
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(424, 14);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(134, 17);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "SHow only Differences";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Click += new System.EventHandler(this.ShowDiff_OnClick);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extractAsToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 26);
-            // 
-            // extractAsToolStripMenuItem
-            // 
-            this.extractAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tiffToolStripMenuItem,
-            this.bmpToolStripMenuItem});
-            this.extractAsToolStripMenuItem.Name = "extractAsToolStripMenuItem";
-            this.extractAsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.extractAsToolStripMenuItem.Text = "Export Image..";
-            // 
-            // tiffToolStripMenuItem
-            // 
-            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
-            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.tiffToolStripMenuItem.Text = "As Bmp";
-            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.Export_Bmp);
-            // 
-            // bmpToolStripMenuItem
-            // 
-            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
-            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.bmpToolStripMenuItem.Text = "As Tiff";
-            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.Export_Tiff);
+            this.copyGump2To1ToolStripMenuItem.Name = "copyGump2To1ToolStripMenuItem";
+            this.copyGump2To1ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.copyGump2To1ToolStripMenuItem.Text = "Copy Gump 2 to 1";
+            this.copyGump2To1ToolStripMenuItem.Click += new System.EventHandler(this.OnClickCopy);
             // 
             // CompareGump
             // 
@@ -233,6 +242,7 @@ namespace ComparePlugin
             this.Name = "CompareGump";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -240,7 +250,6 @@ namespace ComparePlugin
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -261,5 +270,6 @@ namespace ComparePlugin
         private System.Windows.Forms.ToolStripMenuItem extractAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bmpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyGump2To1ToolStripMenuItem;
     }
 }
