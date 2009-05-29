@@ -96,6 +96,7 @@ namespace FiddlerControls
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
@@ -653,6 +654,7 @@ namespace FiddlerControls
             this.toolStripButton2,
             this.toolStripSeparator1,
             this.toolStripButton1,
+            this.toolStripButton5,
             this.toolStripSeparator2,
             this.toolStripButton4,
             this.toolStripButton3});
@@ -712,6 +714,15 @@ namespace FiddlerControls
             this.toolStripButton1.Size = new System.Drawing.Size(80, 22);
             this.toolStripButton1.Text = "Export To CSV";
             this.toolStripButton1.Click += new System.EventHandler(this.OnClickExport);
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(92, 22);
+            this.toolStripButton5.Text = "Import From CSV";
+            this.toolStripButton5.Click += new System.EventHandler(this.OnClickImport);
             // 
             // toolStripSeparator2
             // 
@@ -859,5 +870,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
     }
 }

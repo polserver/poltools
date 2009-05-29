@@ -42,6 +42,10 @@ namespace ComparePlugin
             this.components = new System.ComponentModel.Container();
             this.listBoxOrg = new System.Windows.Forms.ListBox();
             this.listBoxSec = new System.Windows.Forms.ListBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.extractAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxOrg = new System.Windows.Forms.PictureBox();
             this.pictureBoxSec = new System.Windows.Forms.PictureBox();
             this.textBoxSecondDir = new System.Windows.Forms.TextBox();
@@ -50,10 +54,9 @@ namespace ComparePlugin
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.extractAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyItem2To1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOrg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSec)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -61,7 +64,6 @@ namespace ComparePlugin
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBoxOrg
@@ -93,6 +95,37 @@ namespace ComparePlugin
             this.listBoxSec.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.MeasureSec);
             this.listBoxSec.SelectedIndexChanged += new System.EventHandler(this.OnIndexChangedSec);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractAsToolStripMenuItem,
+            this.copyItem2To1ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(162, 48);
+            // 
+            // extractAsToolStripMenuItem
+            // 
+            this.extractAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tiffToolStripMenuItem,
+            this.bmpToolStripMenuItem});
+            this.extractAsToolStripMenuItem.Name = "extractAsToolStripMenuItem";
+            this.extractAsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.extractAsToolStripMenuItem.Text = "Export Image..";
+            // 
+            // tiffToolStripMenuItem
+            // 
+            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.tiffToolStripMenuItem.Text = "As Bmp";
+            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.ExportAsBmp);
+            // 
+            // bmpToolStripMenuItem
+            // 
+            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.bmpToolStripMenuItem.Text = "As Tiff";
+            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.ExportAsTiff);
+            // 
             // pictureBoxOrg
             // 
             this.pictureBoxOrg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -115,7 +148,7 @@ namespace ComparePlugin
             // 
             // textBoxSecondDir
             // 
-            this.textBoxSecondDir.Location = new System.Drawing.Point(124, 11);
+            this.textBoxSecondDir.Location = new System.Drawing.Point(108, 10);
             this.textBoxSecondDir.Name = "textBoxSecondDir";
             this.textBoxSecondDir.Size = new System.Drawing.Size(145, 20);
             this.textBoxSecondDir.TabIndex = 4;
@@ -123,7 +156,7 @@ namespace ComparePlugin
             // button1
             // 
             this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(275, 9);
+            this.button1.Location = new System.Drawing.Point(291, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 23);
             this.button1.TabIndex = 5;
@@ -134,7 +167,7 @@ namespace ComparePlugin
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(362, 13);
+            this.checkBox1.Location = new System.Drawing.Point(378, 12);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(132, 17);
             this.checkBox1.TabIndex = 6;
@@ -191,6 +224,7 @@ namespace ComparePlugin
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxSecondDir);
             this.splitContainer1.Panel2.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
@@ -198,35 +232,24 @@ namespace ComparePlugin
             this.splitContainer1.SplitterDistance = 279;
             this.splitContainer1.TabIndex = 9;
             // 
-            // contextMenuStrip1
+            // copyItem2To1ToolStripMenuItem
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extractAsToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 48);
+            this.copyItem2To1ToolStripMenuItem.Name = "copyItem2To1ToolStripMenuItem";
+            this.copyItem2To1ToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.copyItem2To1ToolStripMenuItem.Text = "Copy Item 2 to 1";
+            this.copyItem2To1ToolStripMenuItem.Click += new System.EventHandler(this.OnClickCopy);
             // 
-            // extractAsToolStripMenuItem
+            // button2
             // 
-            this.extractAsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tiffToolStripMenuItem,
-            this.bmpToolStripMenuItem});
-            this.extractAsToolStripMenuItem.Name = "extractAsToolStripMenuItem";
-            this.extractAsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.extractAsToolStripMenuItem.Text = "Export Image..";
-            // 
-            // tiffToolStripMenuItem
-            // 
-            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
-            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.tiffToolStripMenuItem.Text = "As Bmp";
-            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.ExportAsBmp);
-            // 
-            // bmpToolStripMenuItem
-            // 
-            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
-            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.bmpToolStripMenuItem.Text = "As Tiff";
-            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.ExportAsTiff);
+            this.button2.AutoSize = true;
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button2.Location = new System.Drawing.Point(259, 8);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(26, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.OnClickBrowse);
             // 
             // CompareItem
             // 
@@ -236,6 +259,7 @@ namespace ComparePlugin
             this.Name = "CompareItem";
             this.Size = new System.Drawing.Size(619, 324);
             this.Load += new System.EventHandler(this.OnLoad);
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxOrg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSec)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -244,7 +268,6 @@ namespace ComparePlugin
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -265,5 +288,7 @@ namespace ComparePlugin
         private System.Windows.Forms.ToolStripMenuItem extractAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bmpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyItem2To1ToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }

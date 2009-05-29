@@ -117,7 +117,11 @@ namespace FiddlerControls
             listView1.TileSize = new Size(49, 49);
             listView1.EndUpdate();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.LandTileChangeEvent += new FiddlerControls.Events.LandTileChangeHandler(OnLandTileChangeEvent);
+                FiddlerControls.Events.TileDataChangeEvent += new FiddlerControls.Events.TileDataChangeHandler(OnTileDataChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -126,6 +130,72 @@ namespace FiddlerControls
         {
             if (!FiddlerControls.Options.DesignAlternative)
                 Reload();
+        }
+
+        void OnTileDataChangeEvent(object sender, int id)
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (id > 0x3FFF)
+                return;
+            if (listView1.SelectedItems.Count == 1)
+            {
+                if ((int)listView1.SelectedItems[0].Tag == id)
+                {
+                    namelabel.Text = String.Format("Name: {0}", TileData.LandTable[id].Name);
+                    FlagsLabel.Text = String.Format("Flags: {0}", TileData.LandTable[id].Flags);
+                }
+            }
+        }
+
+        private void OnLandTileChangeEvent(object sender, int index)
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (Ultima.Art.IsValidLand(index))
+            {
+                ListViewItem item = new ListViewItem(index.ToString(), 0);
+                item.Tag = index;
+                bool done = false;
+                foreach (ListViewItem i in listView1.Items)
+                {
+                    if ((int)i.Tag > index)
+                    {
+                        listView1.Items.Insert(i.Index, item);
+                        done = true;
+                        break;
+                    }
+                    if ((int)i.Tag == index)
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    listView1.Items.Add(item);
+                listView1.View = View.Details; // that works faszinating
+                listView1.View = View.Tile;
+            }
+            else
+            {
+                foreach (ListViewItem i in listView1.Items)
+                {
+                    if ((int)i.Tag == index)
+                    {
+                        listView1.Items.RemoveAt(i.Index);
+                        break;
+                    }
+                }
+                listView1.Invalidate();
+            }
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,6 +278,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Art.ReplaceLand((int)listView1.SelectedItems[0].Tag, bmp);
+                        FiddlerControls.Events.FireLandTileChangeEvent(this, (int)listView1.SelectedItems[0].Tag);
                         listView1.Invalidate();
                         Options.ChangedUltimaClass["Art"] = true;
                     }
@@ -275,6 +346,7 @@ namespace FiddlerControls
                             if (dialog.FileName.Contains(".bmp"))
                                 bmp = Utils.ConvertBmp(bmp);
                             Art.ReplaceLand(index, bmp);
+                            FiddlerControls.Events.FireLandTileChangeEvent(this, index);
                             Options.ChangedUltimaClass["Art"] = true;
                             ListViewItem item = new ListViewItem(index.ToString(), 0);
                             item.Tag = index;
@@ -312,6 +384,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Art.RemoveLand(i);
+                FiddlerControls.Events.FireLandTileChangeEvent(this, i);
                 i = listView1.SelectedItems[0].Index;
                 listView1.SelectedItems[0].Selected = false;
                 listView1.Items.RemoveAt(i);

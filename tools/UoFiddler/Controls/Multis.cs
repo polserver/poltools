@@ -95,8 +95,8 @@ namespace FiddlerControls
                 TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];
             if (!Loaded)
             {
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
-                FiddlerControls.Options.MultiChangeEvent += new FiddlerControls.Options.MultiChangeHandler(OnMultiChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.MultiChangeEvent += new FiddlerControls.Events.MultiChangeHandler(OnMultiChangeEvent);
             }
             Loaded = true;
             Cursor.Current = Cursors.Default;
@@ -170,7 +170,7 @@ namespace FiddlerControls
                     refmarker.TreeViewMulti.SelectedNode = refmarker.TreeViewMulti.Nodes[index];
 
                 afterSelect_Multi(this, null);
-                Options.FireMultiChangeEvent(this, index);
+                FiddlerControls.Events.FireMultiChangeEvent(this, index);
             }
         }
 
@@ -434,7 +434,7 @@ namespace FiddlerControls
                 Ultima.Multis.Remove(id);
                 TreeViewMulti.SelectedNode.Remove();
                 Options.ChangedUltimaClass["Multis"] = true;
-                Options.FireMultiChangeEvent(this, id);
+                FiddlerControls.Events.FireMultiChangeEvent(this, id);
             }
         }
 

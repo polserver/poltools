@@ -517,8 +517,8 @@ namespace MultiEditor
             treeViewMultiList.EndUpdate();
             if (!Loaded)
             {
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
-                FiddlerControls.Options.MultiChangeEvent += new FiddlerControls.Options.MultiChangeHandler(OnMultiChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.MultiChangeEvent += new FiddlerControls.Events.MultiChangeHandler(OnMultiChangeEvent);
             }
 
             Loaded = true;

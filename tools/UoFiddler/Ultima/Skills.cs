@@ -1,7 +1,6 @@
+using System.Collections;
 using System.IO;
 using System.Text;
-using System.Collections;
-using System;
 
 namespace Ultima
 {

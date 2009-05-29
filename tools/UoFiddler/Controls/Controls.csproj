@@ -119,6 +119,7 @@
     <Compile Include="CollapsibleSplitter.Designer.cs">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Events.cs" />
     <Compile Include="FontOffset.cs">
       <SubType>Form</SubType>
     </Compile>

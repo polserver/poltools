@@ -50,6 +50,7 @@ namespace ComparePlugin
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -93,12 +94,12 @@ namespace ComparePlugin
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.applyHue1ToHue2ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(183, 26);
             // 
             // applyHue1ToHue2ToolStripMenuItem
             // 
             this.applyHue1ToHue2ToolStripMenuItem.Name = "applyHue1ToHue2ToolStripMenuItem";
-            this.applyHue1ToHue2ToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.applyHue1ToHue2ToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.applyHue1ToHue2ToolStripMenuItem.Text = "Apply Hue 2 to Hue 1";
             this.applyHue1ToHue2ToolStripMenuItem.Click += new System.EventHandler(this.OnClickApplyHue1to2);
             // 
@@ -138,6 +139,7 @@ namespace ComparePlugin
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Size = new System.Drawing.Size(619, 324);
@@ -148,7 +150,7 @@ namespace ComparePlugin
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(391, 2);
+            this.button1.Location = new System.Drawing.Point(407, 1);
             this.button1.MaximumSize = new System.Drawing.Size(75, 23);
             this.button1.MinimumSize = new System.Drawing.Size(75, 23);
             this.button1.Name = "button1";
@@ -162,13 +164,25 @@ namespace ComparePlugin
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(152, 4);
+            this.textBox1.Location = new System.Drawing.Point(136, 4);
             this.textBox1.MaximumSize = new System.Drawing.Size(233, 20);
             this.textBox1.MinimumSize = new System.Drawing.Size(233, 20);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(233, 20);
             this.textBox1.TabIndex = 0;
             this.toolTip1.SetToolTip(this.textBox1, "Directory of hues.mul");
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button2.Location = new System.Drawing.Point(375, 1);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(26, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.BrowseOnClick);
             // 
             // CompareHues
             // 
@@ -202,5 +216,6 @@ namespace ComparePlugin
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem applyHue1ToHue2ToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button2;
     }
 }

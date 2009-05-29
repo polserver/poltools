@@ -52,7 +52,7 @@ namespace FiddlerControls
                 dataGridView1.Columns[0].Width = 60;
             dataGridView1.Refresh();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
             Loaded = true;
         }
 

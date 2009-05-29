@@ -170,7 +170,10 @@ namespace FiddlerControls
             }
             treeViewLand.EndUpdate();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.TileDataChangeEvent += new FiddlerControls.Events.TileDataChangeHandler(OnTileDataChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
         }
@@ -178,6 +181,39 @@ namespace FiddlerControls
         private void OnFilePathChangeEvent()
         {
             Reload();
+        }
+
+        private void OnTileDataChangeEvent(object sender, int index)
+        {
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (index > 0x3FFF) //items
+            {
+                index &= 0x3FFF;
+                if (treeViewItem.SelectedNode == null)
+                    return;
+                if ((int)treeViewItem.SelectedNode.Tag == index)
+                {
+                    treeViewItem.SelectedNode.ForeColor = Color.Red;
+                    AfterSelectTreeViewItem(this, null);
+                }
+                else
+                    treeViewItem.Nodes[index].ForeColor = Color.Red;
+            }
+            else
+            {
+                if (treeViewLand.SelectedNode == null)
+                    return;
+                if ((int)treeViewLand.SelectedNode.Tag == index)
+                {
+                    treeViewLand.SelectedNode.ForeColor = Color.Red;
+                    AfterSelectTreeViewLand(this, null);
+                }
+                else
+                    treeViewLand.Nodes[index].ForeColor = Color.Red;
+            }
         }
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)
@@ -323,6 +359,7 @@ namespace FiddlerControls
                 TileData.ItemTable[index] = item;
                 treeViewItem.SelectedNode.ForeColor = Color.Red;
                 Options.ChangedUltimaClass["TileData"] = true;
+                FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 if (memorySaveWarningToolStripMenuItem.Checked)
                     MessageBox.Show(
                         String.Format("Edits of 0x{0:X4} ({0}) saved to memory. Click 'Save Tiledata' to write to file.", index), "Saved", 
@@ -358,6 +395,7 @@ namespace FiddlerControls
 
                 TileData.LandTable[index] = land;
                 Options.ChangedUltimaClass["TileData"] = true;
+                FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                 treeViewLand.SelectedNode.ForeColor = Color.Red;
                 if (memorySaveWarningToolStripMenuItem.Checked)
                     MessageBox.Show(
@@ -391,6 +429,7 @@ namespace FiddlerControls
                             TileData.ItemTable[index] = item;
                             treeViewItem.SelectedNode.ForeColor = Color.Red;
                             Options.ChangedUltimaClass["TileData"] = true;
+                            FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                         }
                     }
                     else if ((item.Flags & changeflag) == 0)
@@ -401,6 +440,7 @@ namespace FiddlerControls
                             TileData.ItemTable[index] = item;
                             treeViewItem.SelectedNode.ForeColor = Color.Red;
                             Options.ChangedUltimaClass["TileData"] = true;
+                            FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                         }
                     }
                     
@@ -426,6 +466,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -446,6 +487,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -466,6 +508,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -486,6 +529,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -506,6 +550,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -526,6 +571,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -546,6 +592,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -566,6 +613,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -586,6 +634,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -606,6 +655,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -626,6 +676,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -646,6 +697,7 @@ namespace FiddlerControls
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index + 0x4000);
                 }
             }
         }
@@ -687,6 +739,7 @@ namespace FiddlerControls
                             TileData.LandTable[index] = land;
                             treeViewLand.SelectedNode.ForeColor = Color.Red;
                             Options.ChangedUltimaClass["TileData"] = true;
+                            FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                         }
                     }
                     else if ((land.Flags & changeflag) == 0)
@@ -697,6 +750,7 @@ namespace FiddlerControls
                             TileData.LandTable[index] = land;
                             treeViewLand.SelectedNode.ForeColor = Color.Red;
                             Options.ChangedUltimaClass["TileData"] = true;
+                            FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                         }
                     }
                 }
@@ -721,6 +775,7 @@ namespace FiddlerControls
                     TileData.LandTable[index] = land;
                     treeViewLand.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                 }
             }
         }
@@ -741,6 +796,7 @@ namespace FiddlerControls
                     TileData.LandTable[index] = land;
                     treeViewLand.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
+                    FiddlerControls.Events.FireTileDataChangeEvent(this, index);
                 }
             }
         }
@@ -824,6 +880,31 @@ namespace FiddlerControls
                 return;
             int index = (int)treeViewLand.SelectedNode.Tag;
             FiddlerControls.RadarColor.Select(index, true);
+        }
+
+        private void OnClickImport(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose csv file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "cliloc files (*.csv)|*.csv";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Options.ChangedUltimaClass["TileData"] = true;
+                if (tabcontrol.SelectedIndex == 0)//items
+                {
+                    Ultima.TileData.ImportItemDataFromCSV(dialog.FileName);
+                    AfterSelectTreeViewItem(this, null);
+                }
+                else
+                {
+                    Ultima.TileData.ImportLandDataFromCSV(dialog.FileName);
+                    AfterSelectTreeViewLand(this,null);
+                }
+            }
+            dialog.Dispose();
+
         }
     }
 }

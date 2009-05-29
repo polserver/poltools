@@ -115,7 +115,7 @@ namespace UoFiddler
             if (FiddlerControls.Options.LoadedUltimaClass["Speech"])
                 Ultima.SpeechList.Initialize();
 
-            FiddlerControls.Options.FireFilePathChangeEvent();
+            FiddlerControls.Events.FireFilePathChangeEvent();
 
             Cursor.Current = Cursors.Default;
         }
@@ -313,7 +313,7 @@ namespace UoFiddler
         {
             if (FiddlerControls.Options.LoadedUltimaClass["Map"])
                 Ultima.Map.Reload();
-            FiddlerControls.Options.FireMapSizeChangeEvent();
+            FiddlerControls.Events.FireMapSizeChangeEvent();
         }
 
         private void OnClickUndock(object sender, EventArgs e)

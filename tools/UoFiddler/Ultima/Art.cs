@@ -1,8 +1,7 @@
-using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Collections;
 
 namespace Ultima
 {
@@ -12,6 +11,7 @@ namespace Ultima
         private static Bitmap[] m_Cache = new Bitmap[0xC000];
         private static bool[] m_Removed = new bool[0xC000];
         private static Hashtable m_patched = new Hashtable();
+        public static bool Modified=false;
 
         private Art()
         {
@@ -26,6 +26,7 @@ namespace Ultima
             m_Removed = new bool[0xC000];
             m_FileIndex = new FileIndex("Artidx.mul", "Art.mul", 0xC000, 4);
             m_patched.Clear();
+            Modified = false;
         }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace Ultima
             m_Removed[index] = false;
             if (m_patched.Contains(index))
                 m_patched.Remove(index);
+            Modified = true;
         }
 
         /// <summary>
@@ -55,6 +57,7 @@ namespace Ultima
             m_Removed[index] = false;
             if (m_patched.Contains(index))
                 m_patched.Remove(index);
+            Modified = true;
         }
 
         /// <summary>
@@ -66,6 +69,7 @@ namespace Ultima
             index += 0x4000;
             index &= 0xFFFF;
             m_Removed[index] = true;
+            Modified = true;
         }
 
         /// <summary>
@@ -76,6 +80,7 @@ namespace Ultima
         {
             index &= 0x3FFF;
             m_Removed[index] = true;
+            Modified = true;
         }
 
         /// <summary>
@@ -329,34 +334,34 @@ namespace Ultima
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
 
 
-                ushort* line = (ushort*)bd.Scan0;
-                int delta = bd.Stride >> 1;
+            ushort* line = (ushort*)bd.Scan0;
+            int delta = bd.Stride >> 1;
 
 
-                for (int y = 0; y < height; ++y, line += delta)
+            for (int y = 0; y < height; ++y, line += delta)
+            {
+                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+
+                ushort* cur = line;
+                ushort* end;
+
+                int xOffset, xRun;
+
+                while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
                 {
-                    bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                    if (xOffset > delta)
+                        break;
+                    cur += xOffset;
+                    if (xOffset + xRun > delta)
+                        break;
+                    end = cur + xRun;
 
-                    ushort* cur = line;
-                    ushort* end;
-
-                    int xOffset, xRun;
-
-                    while (((xOffset = bin.ReadUInt16()) + (xRun = bin.ReadUInt16())) != 0)
-                    {
-                        if (xOffset > delta)
-                            break;
-                        cur += xOffset;
-                        if (xOffset + xRun > delta)
-                            break;
-                        end = cur + xRun;
-
-                        while (cur < end)
-                            *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
-                    }
+                    while (cur < end)
+                        *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
                 }
+            }
 
-                bmp.UnlockBits(bd);
+            bmp.UnlockBits(bd);
 
             return bmp;
         }

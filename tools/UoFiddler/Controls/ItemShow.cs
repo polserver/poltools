@@ -154,7 +154,7 @@ namespace FiddlerControls
             listView1.BeginUpdate();
             listView1.Clear();
 
-            if ((Files.UseHashFile) && (Files.CompareHashFile("Art")))
+            if (((Files.UseHashFile) && (Files.CompareHashFile("Art"))) && (!Ultima.Art.Modified))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, "UOFiddlerArt.hash");
@@ -193,16 +193,101 @@ namespace FiddlerControls
             listView1.EndUpdate();
 
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.ItemChangeEvent += new FiddlerControls.Events.ItemChangeHandler(OnItemChangeEvent);
+                FiddlerControls.Events.TileDataChangeEvent += new FiddlerControls.Events.TileDataChangeHandler(OnTileDataChangeEvent);
+            }
             Loaded = true;
 
             Cursor.Current = Cursors.Default;
+        }
+
+        void OnTileDataChangeEvent(object sender, int id)
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+            if (id < 0x4000)
+                return;
+            id -= 0x4000;
+            if (listView1.SelectedItems.Count == 1)
+            {
+                if ((int)listView1.SelectedItems[0].Tag == id)
+                {
+                    namelabel.Text = String.Format("Name: {0}", TileData.ItemTable[id].Name);
+                    UpdateDetail(id);
+                }
+            }
         }
 
         private void OnFilePathChangeEvent()
         {
             if (!FiddlerControls.Options.DesignAlternative)
                 Reload();
+        }
+
+        private void OnItemChangeEvent(object sender, int index)
+        {
+            if (FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+
+            if (Ultima.Art.IsValidStatic(index))
+            {
+                ListViewItem item = new ListViewItem(index.ToString(), 0);
+                item.Tag = index;
+                if (ShowFreeSlots)
+                {
+                    listView1.Items[index] = item;
+                    listView1.Invalidate();
+                }
+                else
+                {
+                    bool done = false;
+                    foreach (ListViewItem i in listView1.Items)
+                    {
+                        if ((int)i.Tag > index)
+                        {
+                            listView1.Items.Insert(i.Index, item);
+                            done = true;
+                            break;
+                        }
+                        if ((int)i.Tag == index)
+                        {
+                            done = true;
+                            break;
+                        }
+                    }
+                    if (!done)
+                        listView1.Items.Add(item);
+                }
+                listView1.View = View.Details; // that works faszinating
+                listView1.View = View.Tile;
+            }
+            else
+            {
+                if (!ShowFreeSlots)
+                {
+                    foreach (ListViewItem i in listView1.Items)
+                    {
+                        if ((int)i.Tag == index)
+                        {
+                            listView1.Items.RemoveAt(i.Index);
+                            break;
+                        }
+                    }
+                }
+                else
+                    listView1.Items[index].Tag = -1;
+                listView1.Invalidate();
+            }
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
@@ -419,6 +504,7 @@ namespace FiddlerControls
                         if (id == -1)
                             listView1.SelectedItems[0].Tag = id = listView1.SelectedItems[0].Index;
                         Art.ReplaceStatic(id, bmp);
+                        FiddlerControls.Events.FireItemChangeEvent(this, id);
                         listView1.Invalidate();
                         UpdateDetail(id);
                         Options.ChangedUltimaClass["Art"] = true;
@@ -463,6 +549,7 @@ namespace FiddlerControls
                             if (dialog.FileName.Contains(".bmp"))
                                 bmp = Utils.ConvertBmp(bmp);
                             Art.ReplaceStatic(index, bmp);
+                            FiddlerControls.Events.FireItemChangeEvent(this, index);
                             ListViewItem item = new ListViewItem(index.ToString(), 0);
                             item.Tag = index;
                             if (ShowFreeSlots)
@@ -513,6 +600,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Art.RemoveStatic(i);
+                FiddlerControls.Events.FireItemChangeEvent(this, i);
                 i = listView1.SelectedItems[0].Index;
                 if (!ShowFreeSlots)
                 {
@@ -802,10 +890,5 @@ namespace FiddlerControls
             ProgressBar.Visible = false;
         }
         #endregion
-
-        
-
-        
-
     }
 }

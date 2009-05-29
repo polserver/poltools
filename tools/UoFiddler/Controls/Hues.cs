@@ -83,8 +83,8 @@ namespace FiddlerControls
             pictureBox.Refresh();
             if (!Loaded)
             {
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
-                FiddlerControls.Options.HueChangeEvent += new FiddlerControls.Options.HueChangeHandler(OnHueChangeEvent);
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.HueChangeEvent += new FiddlerControls.Events.HueChangeHandler(OnHueChangeEvent);
             }
             Loaded = true;
         }

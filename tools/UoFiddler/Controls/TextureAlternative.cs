@@ -82,9 +82,49 @@ namespace FiddlerControls
             vScrollBar.Maximum = TextureList.Count / col + 1;
             pictureBox.Refresh();
             if (!Loaded)
-                FiddlerControls.Options.FilePathChangeEvent += new FiddlerControls.Options.FilePathChangeHandler(OnFilePathChangeEvent);
+            {
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+                FiddlerControls.Events.TextureChangeEvent += new FiddlerControls.Events.TextureChangeHandler(OnTextureChangeEvent);
+            }
             Loaded = true;
             Cursor.Current = Cursors.Default;
+        }
+
+        private void OnTextureChangeEvent(object sender, int index)
+        {
+            if (!FiddlerControls.Options.DesignAlternative)
+                return;
+            if (!Loaded)
+                return;
+            if (sender.Equals(this))
+                return;
+
+            if (Ultima.Textures.TestTexture(index))
+            {
+                bool done = false;
+                for (int i = 0; i < TextureList.Count; i++)
+                {
+                    if (index < (int)TextureList[i])
+                    {
+                        TextureList.Insert(i, (object)index);
+                        done = true;
+                        break;
+                    }
+                    if (index == (int)TextureList[i])
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+                if (!done)
+                    TextureList.Add((object)index);
+                vScrollBar.Maximum = TextureList.Count / col + 1;
+            }
+            else
+            {
+                TextureList.Remove((object)index);
+                vScrollBar.Maximum = TextureList.Count / col + 1;
+            }
         }
 
         private void OnFilePathChangeEvent()
@@ -256,6 +296,7 @@ namespace FiddlerControls
             if (result == DialogResult.Yes)
             {
                 Textures.Remove(selected);
+                FiddlerControls.Events.FireTextureChangeEvent(this, selected);
                 TextureList.Remove((object)selected);
                 selected--;
                 pictureBox.Refresh();
@@ -279,6 +320,7 @@ namespace FiddlerControls
                         if (dialog.FileName.Contains(".bmp"))
                             bmp = Utils.ConvertBmp(bmp);
                         Textures.Replace(selected, bmp);
+                        FiddlerControls.Events.FireTextureChangeEvent(this, selected);
                         pictureBox.Refresh();
                         Options.ChangedUltimaClass["Texture"] = true;
                     }
@@ -324,6 +366,7 @@ namespace FiddlerControls
                                 if (dialog.FileName.Contains(".bmp"))
                                     bmp = Utils.ConvertBmp(bmp);
                                 Textures.Replace(index, bmp);
+                                FiddlerControls.Events.FireTextureChangeEvent(this, index);
                                 bool done = false;
                                 for (int i = 0; i < TextureList.Count; i++)
                                 {
