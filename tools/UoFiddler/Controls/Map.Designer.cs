@@ -98,6 +98,7 @@ namespace FiddlerControls
             this.importStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.meltStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportStaticsUnderMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.rewriteMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -537,6 +538,7 @@ namespace FiddlerControls
             this.importStaticsToolStripMenuItem,
             this.meltStaticsToolStripMenuItem,
             this.reportStaticsUnderMapToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.toolStripSeparator3,
             this.rewriteMapToolStripMenuItem,
             this.toolStripSeparator6,
@@ -582,6 +584,13 @@ namespace FiddlerControls
             this.reportStaticsUnderMapToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.reportStaticsUnderMapToolStripMenuItem.Text = "Report Statics below Map (possible invisible)";
             this.reportStaticsUnderMapToolStripMenuItem.Click += new System.EventHandler(this.OnClickReportInvisStatics);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(296, 22);
+            this.toolStripMenuItem1.Text = "Report Invalid Map IDs";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.OnClickReportInvalidMapIDs);
             // 
             // toolStripSeparator3
             // 
@@ -740,5 +749,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importStaticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meltStaticsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

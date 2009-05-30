@@ -731,5 +731,28 @@ namespace Ultima
                 }
             }
         }
+
+        public void ReportInvalidMapIDs(string reportfile)
+        {
+            reportfile = Path.Combine(reportfile, String.Format("ReportInvalidMapIDs-{0}.csv", m_MapID));
+            using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
+            {
+                Tex.WriteLine("x;y;z;Static;LandTile");
+                for (int x = 0; x < m_Width; x++)
+                {
+                    for (int y = 0; y < m_Height; y++)
+                    {
+                        Tile currtile = Tiles.GetLandTile(x, y);
+                        if (!Art.IsValidLand(currtile.ID))
+                            Tex.WriteLine(String.Format("{0};{1};{2};0;0x{3:X}", x, y, currtile.Z, currtile.ID));
+                        foreach (HuedTile currstatic in Tiles.GetStaticTiles(x, y))
+                        {
+                            if (!Art.IsValidStatic(currstatic.ID & 0x3FFF))
+                                Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X};0", x, y, currstatic.Z, currstatic.ID & 0x3FFF));
+                        }
+                    }
+                }
+            }
+        }
     }
 }
