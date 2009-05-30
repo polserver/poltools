@@ -859,15 +859,19 @@ namespace FiddlerControls
 
         private void OnClickDefragStatics(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                 currmap, currmap.Width, currmap.Height,false);
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickDefragRemoveStatics(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             Ultima.Map.DefragStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                 currmap, currmap.Width, currmap.Height, true);
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Statics saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
@@ -882,14 +886,26 @@ namespace FiddlerControls
 
         private void OnClickRewriteMap(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             Ultima.Map.RewriteMap(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                 currmapint, currmap.Width, currmap.Height);
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Map saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
         private void OnClickReportInvisStatics(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             currmap.ReportInvisStatics(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickReportInvalidMapIDs(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            currmap.ReportInvalidMapIDs(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            Cursor.Current = Cursors.Default;
             MessageBox.Show(String.Format("Report saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         }
 
@@ -1006,8 +1022,6 @@ namespace FiddlerControls
                 showmeltstatics.TopMost = true;
                 showmeltstatics.Show();
             }
-            
-            
         }
     }
 
