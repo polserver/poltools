@@ -122,6 +122,7 @@
 Bugfixes, Cleanup
 ComparePlugin:
 -compare Gump added
+-crash fixes
 MultiEditor:
 -Import from multicache.dat added
 Light tab:
