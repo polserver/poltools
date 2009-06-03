@@ -64,6 +64,9 @@ namespace ComparePlugin
 
         private void DrawitemOrg(object sender, DrawItemEventArgs e)
         {
+            if (e.Index == -1 || listBoxOrg.SelectedIndex == -1)
+                return;
+
             Brush fontBrush = Brushes.Gray;
 
             int i = int.Parse(listBoxOrg.Items[e.Index].ToString());
@@ -115,6 +118,9 @@ namespace ComparePlugin
 
         private void DrawItemSec(object sender, DrawItemEventArgs e)
         {
+            if (e.Index == -1 || listBoxSec.SelectedIndex == -1)
+                return;
+
             Brush fontBrush = Brushes.Gray;
 
             int i = int.Parse(listBoxOrg.Items[e.Index].ToString());
