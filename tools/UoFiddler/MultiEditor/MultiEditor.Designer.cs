@@ -783,7 +783,7 @@ namespace MultiEditor
             this.UndoItem8,
             this.UndoItem9});
             this.UndoItems.Name = "UndoItems";
-            this.UndoItems.Size = new System.Drawing.Size(152, 22);
+            this.UndoItems.Size = new System.Drawing.Size(110, 22);
             this.UndoItems.Text = "Undo";
             this.UndoItems.DropDownOpening += new System.EventHandler(this.UndoList_BeforeOpening);
             // 

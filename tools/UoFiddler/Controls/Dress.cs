@@ -243,21 +243,24 @@ namespace FiddlerControls
                             if (!Gumps.IsValidIndex(gump)) // male (or invalid female)
                                 ConvertGump(ref gump, ref hue);
 
-                            using (Bitmap bmp = new Bitmap(Gumps.GetGump(gump)))
+                            if (Gumps.IsValidIndex(gump))
                             {
-                                if (bmp == null)
-                                    continue;
-                                if (hues[draworder[i]] > 0)
-                                    hue = hues[draworder[i]];
-                                bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
-                                hue = (hue & 0x3FFF) - 1;
-                                Hue hueObject = null;
-                                if (hue >= 0 && hue < Ultima.Hues.List.Length)
+                                using (Bitmap bmp = new Bitmap(Gumps.GetGump(gump)))
                                 {
-                                    hueObject = Ultima.Hues.List[hue];
-                                    hueObject.ApplyTo(bmp, onlyHueGrayPixels);
+                                    if (bmp == null)
+                                        continue;
+                                    if (hues[draworder[i]] > 0)
+                                        hue = hues[draworder[i]];
+                                    bool onlyHueGrayPixels = ((hue & 0x8000) != 0);
+                                    hue = (hue & 0x3FFF) - 1;
+                                    Hue hueObject = null;
+                                    if (hue >= 0 && hue < Ultima.Hues.List.Length)
+                                    {
+                                        hueObject = Ultima.Hues.List[hue];
+                                        hueObject.ApplyTo(bmp, onlyHueGrayPixels);
+                                    }
+                                    graphpic.DrawImage(bmp, drawpoint);
                                 }
-                                graphpic.DrawImage(bmp, drawpoint);
                             }
                         }
                     }

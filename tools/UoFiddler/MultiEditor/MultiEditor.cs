@@ -98,13 +98,9 @@ namespace MultiEditor
                 if (value != null)
                 {
                     SelectedTileLabel.Text = String.Format("ID: 0x{0:X} Z: {1}", value.ID, value.Z);
-                    Point point = compList.TileGetCoords(value);
-                    if (point != Point.Empty)
-                    {
-                        numericUpDown_Selected_X.Value = point.X;
-                        numericUpDown_Selected_Y.Value = point.Y;
-                        numericUpDown_Selected_Z.Value = value.Z;
-                    }
+                    numericUpDown_Selected_X.Value = value.X;
+                    numericUpDown_Selected_Y.Value = value.Y;
+                    numericUpDown_Selected_Z.Value = value.Z;
                 }
                 else
                     SelectedTileLabel.Text = "ID:";
@@ -304,20 +300,10 @@ namespace MultiEditor
                 //visible?
                 if ((!BTN_Floor.Checked) || (HoverTile.Z >= DrawFloorZ))
                 {
-                    for (x = 0; x < compList.Width; x++)
-                    {
-                        for (y = 0; y < compList.Height; y++)
-                        {
-                            for (int i = 0; i < compList.Tiles[x][y].Count; i++)
-                            {
-                                if (HoverTile == compList.Tiles[x][y][i])
-                                {
-                                    z = HoverTile.Z + HoverTile.Height;
-                                    return;
-                                }
-                            }
-                        }
-                    }
+                    x = HoverTile.X;
+                    y = HoverTile.Y;
+                    z = HoverTile.Z + HoverTile.Height;
+                    return;
                 }
             }
             //damn the hard way
@@ -365,6 +351,7 @@ namespace MultiEditor
         private void numericUpDown_Floor_Changed(object sender, EventArgs e)
         {
             m_DrawFloorZ = (int)numericUpDown_Floor.Value;
+            compList.SetFloorZ(m_DrawFloorZ);
             if (BTN_Floor.Checked)
             {
                 ScrollbarsSetValue();
@@ -381,14 +368,10 @@ namespace MultiEditor
             {
                 if (SelectedTile != null)
                 {
-                    Point point = compList.TileGetCoords(SelectedTile);
-                    if (point != Point.Empty)
+                    if ((int)numericUpDown_Selected_X.Value != SelectedTile.X)
                     {
-                        if ((int)numericUpDown_Selected_X.Value != point.X)
-                        {
-                            compList.TileMove(SelectedTile, (int)numericUpDown_Selected_X.Value, point.Y);
-                            pictureBoxMulti.Refresh();
-                        }
+                        compList.TileMove(SelectedTile, (int)numericUpDown_Selected_X.Value, SelectedTile.Y);
+                        pictureBoxMulti.Refresh();
                     }
                 }
             }
@@ -403,14 +386,10 @@ namespace MultiEditor
             {
                 if (SelectedTile != null)
                 {
-                    Point point = compList.TileGetCoords(SelectedTile);
-                    if (point != Point.Empty)
+                    if ((int)numericUpDown_Selected_Y.Value != SelectedTile.Y)
                     {
-                        if ((int)numericUpDown_Selected_Y.Value != point.Y)
-                        {
-                            compList.TileMove(SelectedTile, point.X, (int)numericUpDown_Selected_Y.Value);
-                            pictureBoxMulti.Refresh();
-                        }
+                        compList.TileMove(SelectedTile, SelectedTile.X, (int)numericUpDown_Selected_Y.Value);
+                        pictureBoxMulti.Refresh();
                     }
                 }
             }
@@ -640,7 +619,10 @@ namespace MultiEditor
             Bitmap bit = null;
             if (compList != null)
             {
-                bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked);
+                Rectangle rect = new Rectangle(0,0,e.ClipRectangle.Width,e.ClipRectangle.Height);
+                rect.X += hScrollBar.Value;
+                rect.Y += vScrollBar.Value;
+                bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked,rect);
             }
             if (bit != null)
             {
@@ -658,7 +640,7 @@ namespace MultiEditor
                         if ((x >= 0) && (x < compList.Width) && (y >= 0) && (y < compList.Height))
                         {
                             toolStripLabelCoord.Text = String.Format("{0},{1},{2}", x, y, z);
-                            Bitmap bmp = Art.GetStatic(m_DrawTile.ID);
+                            Bitmap bmp = m_DrawTile.GetBitmap();
 
                             if (bmp == null)
                                 return;
