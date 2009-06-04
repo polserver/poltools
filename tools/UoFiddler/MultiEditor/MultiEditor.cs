@@ -604,6 +604,7 @@ namespace MultiEditor
                 if (m_HoverTile != null)
                 {
                     m_DrawTile.Set(m_HoverTile.ID, 0);
+                    pictureBoxDrawTiles_Select();
                     DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", m_HoverTile.ID);
                 }
             }
@@ -619,9 +620,11 @@ namespace MultiEditor
             Bitmap bit = null;
             if (compList != null)
             {
-                Rectangle rect = new Rectangle(0,0,e.ClipRectangle.Width,e.ClipRectangle.Height);
-                rect.X += hScrollBar.Value;
-                rect.Y += vScrollBar.Value;
+                Rectangle rect = new Rectangle(
+                    hScrollBar.Value,
+                    vScrollBar.Value,
+                    e.ClipRectangle.Width,
+                    e.ClipRectangle.Height);
                 bit = compList.GetImage(MaxHeightTrackBar.Value, MouseLoc, BTN_Floor.Checked,rect);
             }
             if (bit != null)
@@ -933,6 +936,13 @@ namespace MultiEditor
 
 		#endregion Methods 
 
+        public void SelectDrawTile(int id)
+        {
+            m_DrawTile.Set(id, 0);
+            pictureBoxDrawTiles_Select();
+            DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", id);
+        }
+
         #region DrawTilesPictureBox Stuff
         private int GetIndex(int x, int y)
         {
@@ -976,6 +986,7 @@ namespace MultiEditor
                 FloatingPreviewPanel.Visible = true;
                 FloatingPreviewPanel.Tag = index;
                 toolTip1.SetToolTip(pictureBoxDrawTiles, String.Format("0x{0:X} ({0})", index));
+                pictureBoxDrawTiles.Refresh();
             }
             else
             {
@@ -1066,6 +1077,28 @@ namespace MultiEditor
                 {
                     vScrollBarDrawTiles.Value--;
                     pictureBoxDrawTiles.Refresh();
+                }
+            }
+        }
+
+        private void pictureBoxDrawTiles_Select()
+        {
+            foreach (TreeNode node in treeViewTilesXML.Nodes)
+            {
+                foreach (TreeNode childnode in node.Nodes)
+                {
+                    if (childnode.Tag != null)
+                    {
+                        foreach (int index in (ArrayList)childnode.Tag)
+                        {
+                            if (index == m_DrawTile.ID)
+                            {
+                                treeViewTilesXML.SelectedNode = childnode;
+                                pictureBoxDrawTiles.Refresh();
+                                return;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -9,15 +9,19 @@
  *
  ***************************************************************************/
 
+using System;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml;
 using PluginInterface;
 
 namespace FiddlerPlugin
 {
     public class MultiEditorPlugin : IPlugin
     {
-		#region Fields (5) 
+		#region Fields (6) 
 
+        MultiEditor.MultiEditor multieditor;
         string myAuthor = "MuadDib & Turley";
         string myDescription = "Plugin to Edit Multis\r\n(Adds 1 new Tab)";
         IPluginHost myHost = null;
@@ -30,6 +34,7 @@ namespace FiddlerPlugin
 
         public MultiEditorPlugin()
         {
+            PluginInterface.Events.ModifyItemShowContextMenuEvent += new Events.ModifyItemShowContextMenuHandler(Events_ModifyItemShowContextMenuEvent);
         }
 
 		#endregion Constructors 
@@ -63,7 +68,7 @@ namespace FiddlerPlugin
 
 		#endregion Properties 
 
-		#region Methods (4) 
+		#region Methods (6) 
 
 		// Public Methods (4) 
 
@@ -88,8 +93,32 @@ namespace FiddlerPlugin
             TabPage page = new TabPage();
             page.Tag = tabcontrol.TabCount + 1; // at end used for undock/dock feature to define the order
             page.Text = "Multi Editor";
-            page.Controls.Add(new MultiEditor.MultiEditor() { Dock = DockStyle.Fill });
+            multieditor = new MultiEditor.MultiEditor() { Dock = DockStyle.Fill };
+            page.Controls.Add( multieditor );
             tabcontrol.TabPages.Add(page);
+        }
+		// Private Methods (2) 
+
+        private void Events_ModifyItemShowContextMenuEvent(ContextMenuStrip strip)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem();
+            item.Text = "MultiEditor: Select Item";
+            item.Click += new EventHandler(this.itemshowcontextclicked);
+            strip.Items.Add(item);
+        }
+
+        private void itemshowcontextclicked(object sender, EventArgs e)
+        {
+            int currselected;
+            if (FiddlerControls.Options.DesignAlternative)
+                currselected = Host.GetSelectedItemShowAlternative();
+            else
+                currselected = Host.GetSelectedItemShow();
+            if (currselected > -1)
+            {
+                if (multieditor != null)
+                    multieditor.SelectDrawTile(currselected);
+            }
         }
 
 		#endregion Methods 
