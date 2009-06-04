@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.0b
+    <value>Version 4.1
 Bugfixes, Cleanup
 ComparePlugin:
 -compare Gump added
 -crash fixes
 MultiEditor:
 -Import from multicache.dat added
+-Tile picker selects Tile also in Tileselect tab
+-added contextmenuentry inside Itemstab to select tile
+-optimization/cleanup
 Light tab:
 -Added ContextMenu for switching to IG Preview
 -with the ContextMenu you can also change Background Landtile + "Light"-Art

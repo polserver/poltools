@@ -29,6 +29,7 @@ namespace ComparePlugin
         }
         Hashtable m_Compare = new Hashtable();
         SHA256Managed shaM = new SHA256Managed();
+        System.Drawing.ImageConverter ic = new System.Drawing.ImageConverter();
 
         private void OnLoad(object sender, EventArgs e)
         {
@@ -64,7 +65,7 @@ namespace ComparePlugin
 
         private void DrawitemOrg(object sender, DrawItemEventArgs e)
         {
-            if (e.Index == -1 || listBoxOrg.SelectedIndex == -1)
+            if (e.Index == -1)
                 return;
 
             Brush fontBrush = Brushes.Gray;
@@ -118,7 +119,7 @@ namespace ComparePlugin
 
         private void DrawItemSec(object sender, DrawItemEventArgs e)
         {
-            if (e.Index == -1 || listBoxSec.SelectedIndex == -1)
+            if (e.Index == -1)
                 return;
 
             Brush fontBrush = Brushes.Gray;
@@ -166,22 +167,27 @@ namespace ComparePlugin
         {
             if (m_Compare.Contains(index))
                 return (bool)m_Compare[index];
-            byte[] org = Art.GetRawStatic(index);
-            byte[] sec = SecondArt.GetRawStatic(index);
-            if ((org == null) && (sec == null))
+            Bitmap bitorg = Art.GetStatic(index);
+            Bitmap bitsec = SecondArt.GetStatic(index);
+            if ((bitorg == null) && (bitsec == null))
             {
                 m_Compare[index] = true;
                 return true;
             }
-            if (((org == null) || (sec == null))
-                || (org.Length != sec.Length))
+            if (((bitorg == null) || (bitsec == null))
+                || (bitorg.Size != bitsec.Size))
             {
                 m_Compare[index] = false;
                 return false;
             }
 
-            string hash1string = BitConverter.ToString(shaM.ComputeHash(org));
-            string hash2string = BitConverter.ToString(shaM.ComputeHash(sec));
+            byte[] btImage1 = new byte[1];
+            btImage1 = (byte[])ic.ConvertTo(bitorg, btImage1.GetType());
+            byte[] btImage2 = new byte[1];
+            btImage2 = (byte[])ic.ConvertTo(bitsec, btImage2.GetType());
+
+            string hash1string = BitConverter.ToString(shaM.ComputeHash(btImage1));
+            string hash2string = BitConverter.ToString(shaM.ComputeHash(btImage2));
             bool res;
             if (hash1string != hash2string)
                 res = false;
