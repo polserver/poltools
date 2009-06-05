@@ -41,11 +41,12 @@ namespace ComparePlugin
 
             listBox1.BeginUpdate();
             listBox1.Items.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x10000; i++)
             {
-                listBox1.Items.Add(i);
+                cache.Add(i);
             }
-
+            listBox1.Items.AddRange(cache.ToArray());
             listBox1.EndUpdate();
             listBox2.Items.Clear();
             if (listBox1.Items.Count > 0)
@@ -200,12 +201,15 @@ namespace ComparePlugin
 
         private void LoadSecond()
         {
-            listBox2.Items.Clear();
+            m_Compare.Clear();
             listBox2.BeginUpdate();
+            listBox2.Items.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x10000; i++)
             {
-                listBox2.Items.Add(i);
+                cache.Add(i);
             }
+            listBox2.Items.AddRange(cache.ToArray());
             listBox2.EndUpdate();
             listBox1.Invalidate();
         }
@@ -252,27 +256,26 @@ namespace ComparePlugin
             Cursor.Current = Cursors.WaitCursor;
             listBox1.BeginUpdate();
             listBox2.BeginUpdate();
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            ArrayList cache = new ArrayList();
             if (checkBox1.Checked)
             {
                 for (int i = 0; i < 0x10000; i++)
                 {
-                    if (Compare(i))
-                    {
-                        listBox1.Items.Remove(i);
-                        listBox2.Items.Remove(i);
-                    }
+                    if (!Compare(i))
+                        cache.Add(i);
                 }
             }
             else
             {
-                listBox1.Items.Clear();
-                listBox2.Items.Clear();
                 for (int i = 0; i < 0x10000; i++)
                 {
-                    listBox1.Items.Add(i);
-                    listBox2.Items.Add(i);
+                    cache.Add(i);
                 }
             }
+            listBox1.Items.AddRange(cache.ToArray());
+            listBox2.Items.AddRange(cache.ToArray());
             listBox1.EndUpdate();
             listBox2.EndUpdate();
             Cursor.Current = Cursors.Default;

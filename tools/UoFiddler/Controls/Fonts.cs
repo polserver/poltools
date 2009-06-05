@@ -111,24 +111,28 @@ namespace FiddlerControls
             if ((int)treeView.SelectedNode.Parent.Tag == 1)
             {
                 setOffsetsToolStripMenuItem.Visible = true;
+                ListViewItem[] cache = new ListViewItem[0x10000];
                 for (int i = 0; i < 0x10000; i++)
                 {
                     ListViewItem item = new ListViewItem(i.ToString(), 0);
                     item.Tag = i;
-                    listView1.Items.Add(item);
+                    cache[i] = item;
                 }
+                listView1.Items.AddRange(cache);
             }
             else
             {
                 setOffsetsToolStripMenuItem.Visible = false;
                 if (ASCIIText.Fonts[font] != null)
                 {
-                    for (int i = 32; i < ASCIIText.Fonts[font].Characters.Length + 32; i++)
+                    ListViewItem[] cache = new ListViewItem[ASCIIText.Fonts[font].Characters.Length];
+                    for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
                     {
-                        ListViewItem item = new ListViewItem(i.ToString(), 0);
-                        item.Tag = ASCIIText.Fonts[font].Characters[i - 32];
-                        listView1.Items.Add(item);
+                        ListViewItem item = new ListViewItem((i+32).ToString(), 0);
+                        item.Tag = ASCIIText.Fonts[font].Characters[i];
+                        cache[i] = item;
                     }
+                    listView1.Items.AddRange(cache);
                 }
             }
             listView1.TileSize = new Size(30, 30);

@@ -86,24 +86,28 @@ namespace FiddlerControls
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
             {
+                TreeNode[] nodes = new TreeNode[TileData.ItemTable.Length];
                 for (int i = 0; i < TileData.ItemTable.Length; ++i)
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
                     node.Tag = i;
-                    treeViewItem.Nodes.Add(node);
+                    nodes[i] = node;
                 }
+                treeViewItem.Nodes.AddRange(nodes);
             }
             treeViewItem.EndUpdate();
             treeViewLand.BeginUpdate();
             treeViewLand.Nodes.Clear();
             if (TileData.LandTable != null)
             {
+                TreeNode[] nodes = new TreeNode[TileData.LandTable.Length];
                 for (int i = 0; i < TileData.LandTable.Length; ++i)
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.LandTable[i].Name));
                     node.Tag = i;
-                    treeViewLand.Nodes.Add(node);
+                    nodes[i] = node;
                 }
+                treeViewLand.Nodes.AddRange(nodes);
             }
             treeViewLand.EndUpdate();
             if (!Loaded)

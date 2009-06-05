@@ -119,7 +119,7 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.1
-Bugfixes, Cleanup
+Bugfixes, Cleanup, Speedups
 ComparePlugin:
 -compare Gump added
 -crash fixes

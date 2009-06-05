@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -45,15 +46,16 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Gumps"] = true;
-            
+
             listBox.BeginUpdate();
             listBox.Items.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x10000; i++)
             {
                 if (Gumps.IsValidIndex(i))
-                    listBox.Items.Add(i);
+                    cache.Add(i);
             }
-
+            listBox.Items.AddRange(cache.ToArray());
             listBox.EndUpdate();
             if (listBox.Items.Count > 0)
                 listBox.SelectedIndex = 0;

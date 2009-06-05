@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -97,18 +98,18 @@ namespace FiddlerControls
             
             listView1.BeginUpdate();
             listView1.Clear();
-            ListViewItem item;
+            ArrayList itemcache = new ArrayList();
 
             for (int i = 0; i < 0x1000; i++)
             {
                 if (Textures.TestTexture(i))
                 {
-                    item = new ListViewItem(i.ToString(), 0);
+                    ListViewItem item = new ListViewItem(i.ToString(), 0);
                     item.Tag = i;
-                    listView1.Items.Add(item);
+                    itemcache.Add(item);
                 }
             }
-
+            listView1.Items.AddRange((ListViewItem[])itemcache.ToArray(typeof(ListViewItem)));
             listView1.TileSize = new Size(64, 64);
             listView1.EndUpdate();
             if (!Loaded)
