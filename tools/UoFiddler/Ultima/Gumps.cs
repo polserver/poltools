@@ -73,6 +73,8 @@ namespace Ultima
         {
             if (m_FileIndex == null)
                 return false;
+            if (index > m_Cache.Length - 1)
+                return false;
             if (m_Removed[index])
                 return false;
             if (m_Cache[index] != null)
@@ -275,6 +277,8 @@ namespace Ultima
                 patched = (bool)m_patched[index];
             else
                 patched = false;
+            if (index > m_Cache.Length - 1)
+                return null;
             if (m_Removed[index])
                 return null;
             if (m_Cache[index] != null)
