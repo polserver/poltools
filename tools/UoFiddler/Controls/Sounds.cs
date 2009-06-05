@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.IO;
 using System.Windows.Forms;
 
@@ -45,15 +46,18 @@ namespace FiddlerControls
             string name = "";
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 1; i <= 0xFFF; i++)
             {
                 if (Ultima.Sounds.IsValidSound(i - 1, out name))
                 {
                     TreeNode node = new TreeNode(String.Format("0x{0:X3} {1}", i, name));
                     node.Tag = i;
-                    treeView.Nodes.Add(node);
+                    cache.Add(node);
                 }
             }
+            treeView.Nodes.AddRange((TreeNode[])cache.ToArray(typeof(TreeNode)));
+            
             treeView.EndUpdate();
             if (treeView.Nodes.Count > 0)
                 treeView.SelectedNode = treeView.Nodes[0];

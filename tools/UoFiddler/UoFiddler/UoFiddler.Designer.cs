@@ -380,7 +380,6 @@ namespace UoFiddler
             this.controlHue.Location = new System.Drawing.Point(3, 3);
             this.controlHue.Name = "controlHue";
             this.controlHue.Padding = new System.Windows.Forms.Padding(1);
-            this.controlHue.Selected = 0;
             this.controlHue.Size = new System.Drawing.Size(613, 318);
             this.controlHue.TabIndex = 0;
             // 
@@ -521,7 +520,6 @@ namespace UoFiddler
             // 
             // controlAnimdata
             // 
-            this.controlAnimdata.CurrAnim = 0;
             this.controlAnimdata.Dock = System.Windows.Forms.DockStyle.Fill;
             this.controlAnimdata.Location = new System.Drawing.Point(0, 0);
             this.controlAnimdata.Name = "controlAnimdata";

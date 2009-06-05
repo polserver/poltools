@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -64,6 +65,7 @@ namespace FiddlerControls
 
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x2000; i++)
             {
                 MultiComponentList multi = Ultima.Multis.GetComponents(i);
@@ -86,10 +88,10 @@ namespace FiddlerControls
                     }
                     node.Tag = multi;
                     node.Name = i.ToString();
-                    TreeViewMulti.Nodes.Add(node);
+                    cache.Add(node);
                 }
-
             }
+            TreeViewMulti.Nodes.AddRange((TreeNode[])cache.ToArray(typeof(TreeNode)));
             TreeViewMulti.EndUpdate();
             if (TreeViewMulti.Nodes.Count > 0)
                 TreeViewMulti.SelectedNode = TreeViewMulti.Nodes[0];

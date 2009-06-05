@@ -32,12 +32,14 @@ namespace ComparePlugin
 
         private void OnLoad(object sender, EventArgs e)
         {
-            listBoxOrg.Items.Clear();
             listBoxOrg.BeginUpdate();
+            listBoxOrg.Items.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x4000; i++)
             {
-                listBoxOrg.Items.Add(i);
+                cache.Add(i);
             }
+            listBoxOrg.Items.AddRange(cache.ToArray());
             listBoxOrg.EndUpdate();
         }
 
@@ -107,12 +109,15 @@ namespace ComparePlugin
 
         private void LoadSecond()
         {
-            listBoxSec.Items.Clear();
+            m_Compare.Clear();
             listBoxSec.BeginUpdate();
+            listBoxSec.Items.Clear();
+            ArrayList cache = new ArrayList();
             for (int i = 0; i < 0x4000; i++)
             {
-                listBoxSec.Items.Add(i);
+                cache.Add(i);
             }
+            listBoxSec.Items.AddRange(cache.ToArray());
             listBoxSec.EndUpdate();
         }
 
@@ -212,27 +217,26 @@ namespace ComparePlugin
 
             listBoxOrg.BeginUpdate();
             listBoxSec.BeginUpdate();
+            listBoxOrg.Items.Clear();
+            listBoxSec.Items.Clear();
+            ArrayList cache = new ArrayList();
             if (checkBox1.Checked)
             {
                 for (int i = 0; i < 0x4000; i++)
                 {
-                    if (Compare(i))
-                    {
-                        listBoxOrg.Items.Remove(i);
-                        listBoxSec.Items.Remove(i);
-                    }
+                    if (!Compare(i))
+                        cache.Add(i);
                 }
             }
             else
             {
-                listBoxOrg.Items.Clear();
-                listBoxSec.Items.Clear();
                 for (int i = 0; i < 0x4000; i++)
                 {
-                    listBoxOrg.Items.Add(i);
-                    listBoxSec.Items.Add(i);
+                    cache.Add(i);
                 }
             }
+            listBoxOrg.Items.AddRange(cache.ToArray());
+            listBoxSec.Items.AddRange(cache.ToArray());
             listBoxOrg.EndUpdate();
             listBoxSec.EndUpdate();
         }

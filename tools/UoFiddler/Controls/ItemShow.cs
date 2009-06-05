@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -153,7 +154,7 @@ namespace FiddlerControls
             showFreeSlotsToolStripMenuItem.Checked = false;
             listView1.BeginUpdate();
             listView1.Clear();
-
+            ArrayList itemcache = new ArrayList();
             if (((Files.UseHashFile) && (Files.CompareHashFile("Art"))) && (!Ultima.Art.Modified))
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -169,9 +170,10 @@ namespace FiddlerControls
                             int i = bin.ReadInt32();
                             ListViewItem item = new ListViewItem(i.ToString(), 0);
                             item.Tag = i;
-                            listView1.Items.Add(item);
+                            itemcache.Add(item);
                         }
                     }
+                    listView1.Items.AddRange((ListViewItem[])itemcache.ToArray(typeof(ListViewItem)));
                 }
             }
             else
@@ -182,9 +184,11 @@ namespace FiddlerControls
                     {
                         ListViewItem item = new ListViewItem(i.ToString(), 0);
                         item.Tag = i;
-                        listView1.Items.Add(item);
+                        itemcache.Add(item);
                     }
                 }
+                listView1.Items.AddRange((ListViewItem[])itemcache.ToArray(typeof(ListViewItem)));
+
                 if (Files.UseHashFile)
                     MakeHashFile();
             }

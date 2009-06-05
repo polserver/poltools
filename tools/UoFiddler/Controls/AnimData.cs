@@ -32,7 +32,8 @@ namespace FiddlerControls
         private Timer m_Timer;
         private int Timer_frame;
 
-        [Browsable(false)]
+        [Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int CurrAnim
         {
             get { return m_currAnim; }

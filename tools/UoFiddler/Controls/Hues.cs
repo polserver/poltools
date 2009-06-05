@@ -37,7 +37,8 @@ namespace FiddlerControls
         /// <summary>
         /// Sets Selected Hue
         /// </summary>
-        [Browsable(false)]
+        [Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Selected
         {
             get { return selected; }
