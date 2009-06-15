@@ -463,7 +463,10 @@ namespace FiddlerControls
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.bmp", selected));
-                Art.GetLand(selected).Save(FileName, ImageFormat.Bmp);
+                Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
+                if (bit != null)
+                    bit.Save(FileName, ImageFormat.Bmp);
+                bit.Dispose();
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -475,7 +478,10 @@ namespace FiddlerControls
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.tiff", selected));
-                Art.GetLand(selected).Save(FileName, ImageFormat.Tiff);
+                Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
+                if (bit != null)
+                    bit.Save(FileName, ImageFormat.Tiff);
+                bit.Dispose();
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
@@ -487,7 +493,10 @@ namespace FiddlerControls
             {
                 string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
                 string FileName = Path.Combine(path, String.Format("Landtile {0}.jpg", selected));
-                Art.GetLand(selected).Save(FileName, ImageFormat.Jpeg);
+                Bitmap bit = new Bitmap(Ultima.Art.GetLand(selected));
+                if (bit != null)
+                    bit.Save(FileName, ImageFormat.Jpeg);
+                bit.Dispose();
                 MessageBox.Show(String.Format("Landtile saved to {0}", FileName), "Saved",
                     MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }

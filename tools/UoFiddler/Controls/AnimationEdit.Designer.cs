@@ -55,6 +55,12 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.extractImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defragToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.animmulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.anim2mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.anim3mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.anim4mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.anim5mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -326,7 +332,8 @@
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
             this.toolStripSeparator1,
-            this.extractImagesToolStripMenuItem});
+            this.extractImagesToolStripMenuItem,
+            this.defragToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(45, 20);
@@ -350,6 +357,58 @@
             this.extractImagesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.extractImagesToolStripMenuItem.Text = "Extract Images";
             this.extractImagesToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractImages);
+            // 
+            // defragToolStripMenuItem
+            // 
+            this.defragToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.animmulToolStripMenuItem,
+            this.anim2mulToolStripMenuItem,
+            this.anim3mulToolStripMenuItem,
+            this.anim4mulToolStripMenuItem,
+            this.anim5mulToolStripMenuItem});
+            this.defragToolStripMenuItem.Name = "defragToolStripMenuItem";
+            this.defragToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.defragToolStripMenuItem.Text = "Defrag..";
+            // 
+            // animmulToolStripMenuItem
+            // 
+            this.animmulToolStripMenuItem.Name = "animmulToolStripMenuItem";
+            this.animmulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.animmulToolStripMenuItem.Tag = 1;
+            this.animmulToolStripMenuItem.Text = "anim.mul";
+            this.animmulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
+            // 
+            // anim2mulToolStripMenuItem
+            // 
+            this.anim2mulToolStripMenuItem.Name = "anim2mulToolStripMenuItem";
+            this.anim2mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim2mulToolStripMenuItem.Tag = 2;
+            this.anim2mulToolStripMenuItem.Text = "anim2.mul";
+            this.anim2mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
+            // 
+            // anim3mulToolStripMenuItem
+            // 
+            this.anim3mulToolStripMenuItem.Name = "anim3mulToolStripMenuItem";
+            this.anim3mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim3mulToolStripMenuItem.Tag = 3;
+            this.anim3mulToolStripMenuItem.Text = "anim3.mul";
+            this.anim3mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
+            // 
+            // anim4mulToolStripMenuItem
+            // 
+            this.anim4mulToolStripMenuItem.Name = "anim4mulToolStripMenuItem";
+            this.anim4mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim4mulToolStripMenuItem.Tag = 4;
+            this.anim4mulToolStripMenuItem.Text = "anim4.mul";
+            this.anim4mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
+            // 
+            // anim5mulToolStripMenuItem
+            // 
+            this.anim5mulToolStripMenuItem.Name = "anim5mulToolStripMenuItem";
+            this.anim5mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim5mulToolStripMenuItem.Tag = 5;
+            this.anim5mulToolStripMenuItem.Text = "anim5.mul";
+            this.anim5mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
             // 
             // AnimationEdit
             // 
@@ -414,5 +473,11 @@
         private System.Windows.Forms.NumericUpDown numericUpDownCy;
         private System.Windows.Forms.NumericUpDown numericUpDownCx;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripMenuItem defragToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem animmulToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem anim2mulToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem anim3mulToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem anim4mulToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem anim5mulToolStripMenuItem;
     }
 }

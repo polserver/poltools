@@ -64,6 +64,16 @@ namespace FiddlerControls
                         }
                     }
                 }
+                else
+                {
+                    int animlength = Animations.GetAnimLength(i, FileType);
+                    string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
+                    TreeNode node = new TreeNode();
+                    node.Tag = i;
+                    node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
+                    node.ForeColor = Color.Red;
+                    treeView1.Nodes.Add(node);
+                }
             }
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
@@ -114,7 +124,6 @@ namespace FiddlerControls
                 }
                 listView1.EndUpdate();
                 pictureBox1.Refresh();
-
             }
         }
 
@@ -266,6 +275,19 @@ namespace FiddlerControls
                 CurrFrames[trackBar2.Value].Center = new Point(CurrFrames[trackBar2.Value].Center.X, (int)numericUpDownCy.Value);
                 pictureBox1.Refresh();
             }
+        }
+
+        private void OnClickDefrag(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item=(ToolStripMenuItem)sender;
+            Cursor.Current = Cursors.WaitCursor;
+            Ultima.Animations.DefragAnim(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, (int)item.Tag);
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Save",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
         }
     }
 }

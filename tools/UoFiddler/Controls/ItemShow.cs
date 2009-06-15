@@ -716,7 +716,8 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.bmp", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
-            bit.Save(FileName, ImageFormat.Bmp);
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Bmp);
             bit.Dispose();
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
@@ -736,7 +737,8 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.tiff", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
-            bit.Save(FileName, ImageFormat.Tiff);
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Tiff);
             bit.Dispose();
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),
@@ -756,7 +758,8 @@ namespace FiddlerControls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string FileName = Path.Combine(path, String.Format("Item 0x{0:X}.jpg", i));
             Bitmap bit = new Bitmap(Ultima.Art.GetStatic(i));
-            bit.Save(FileName, ImageFormat.Jpeg);
+            if (bit != null)
+                bit.Save(FileName, ImageFormat.Jpeg);
             bit.Dispose();
             MessageBox.Show(
                 String.Format("Item saved to {0}", FileName),

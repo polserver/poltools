@@ -761,6 +761,59 @@ namespace Ultima
             else
                 return String.Format("anim{0}.mul", fileType);
         }
+
+        public static void DefragAnim(string path, int index)
+        {
+            string name;
+            if (index == 1)
+                name = "anim";
+            else
+                name = String.Format("anim{0}", index);
+
+            string pathmul = Files.GetFilePath(name+".mul");
+            if (pathmul == null)
+                return;
+            FileStream m_Mul = new FileStream(pathmul, FileMode.Open, FileAccess.Read, FileShare.Read);
+            BinaryReader m_MulReader = new BinaryReader(m_Mul);
+
+            string pathidx = Files.GetFilePath(name + ".idx");
+            if (pathidx == null)
+                return;
+            FileStream m_Index = new FileStream(pathidx, FileMode.Open, FileAccess.Read, FileShare.Read);
+            BinaryReader m_IndexReader = new BinaryReader(m_Index);
+
+            string idx = Path.Combine(path, name+".idx");
+            string mul = Path.Combine(path, name+".mul");
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                using (BinaryWriter binidx = new BinaryWriter(fsidx),
+                                    binmul = new BinaryWriter(fsmul))
+                {
+                    while (m_Index.Length != m_Index.Position)
+                    {
+                        int lookup = m_IndexReader.ReadInt32();
+                        int length = m_IndexReader.ReadInt32();
+                        int extra = m_IndexReader.ReadInt32();
+                        if (lookup < 0 || lookup >= m_Mul.Length || length == 0)
+                        {
+                            binidx.Write(lookup);
+                            binidx.Write(length);
+                            binidx.Write(extra);
+                        }
+                        else
+                        {
+                            binidx.Write((int)fsmul.Position);
+                            binidx.Write(length);
+                            binidx.Write(extra);
+                            byte[] buffer = new byte[length];
+                            m_MulReader.Read(buffer, 0, length);
+                            binmul.Write(buffer);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public sealed class Frame

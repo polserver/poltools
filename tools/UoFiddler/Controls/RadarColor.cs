@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -30,11 +31,28 @@ namespace FiddlerControls
         private bool Loaded = false;
         private int SelectedIndex = -1;
         private short CurrCol = -1;
-        private bool UpDownSuppressR = false;
-        private bool UpDownSuppressG = false;
-        private bool UpDownSuppressB = false;
-        private bool TextShortSuppress = false;
         private static RadarColor refMarker;
+        private bool Updating = false;
+
+        [Browsable(false),
+        DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public short CurrColor { 
+            get { return CurrCol; } 
+            set {
+                if (CurrCol != value)
+                {
+                    CurrCol = value;
+                    Updating = true;
+                    textBoxShortCol.Text = ((ushort)CurrCol).ToString();
+                    Color col = Ultima.Hues.HueToColor(CurrCol);
+                    pictureBoxColor.BackColor = col;
+                    numericUpDownR.Value = col.R;
+                    numericUpDownG.Value = col.G;
+                    numericUpDownB.Value = col.B;
+                    Updating = false;
+                }
+            } 
+        }
 
         public static void Select(int graphic, bool land)
         {
@@ -81,7 +99,6 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Art"] = true;
             Options.LoadedUltimaClass["RadarColor"] = true;
             
-
             treeViewItem.BeginUpdate();
             treeViewItem.Nodes.Clear();
             if (TileData.ItemTable != null)
@@ -137,17 +154,7 @@ namespace FiddlerControls
             {
                 pictureBoxArt.Image = new Bitmap(pictureBoxArt.Width, pictureBoxArt.Height);
             }
-            CurrCol = Ultima.RadarCol.GetItemColor(SelectedIndex);
-            Color col = Ultima.Hues.HueToColor(CurrCol);
-            pictureBoxColor.BackColor = col;
-            TextShortSuppress = true;
-            UpDownSuppressR = true;
-            UpDownSuppressG = true;
-            UpDownSuppressB = true;
-            textBoxShortCol.Text = ((ushort)CurrCol).ToString();
-            numericUpDownR.Value = col.R;
-            numericUpDownG.Value = col.G;
-            numericUpDownB.Value = col.B;
+            CurrColor = Ultima.RadarCol.GetItemColor(SelectedIndex);
         }
 
         private void AfterSelectTreeViewLand(object sender, TreeViewEventArgs e)
@@ -166,17 +173,7 @@ namespace FiddlerControls
             {
                 pictureBoxArt.Image = new Bitmap(pictureBoxArt.Width, pictureBoxArt.Height);
             }
-            CurrCol = Ultima.RadarCol.GetLandColor(SelectedIndex);
-            Color col = Ultima.Hues.HueToColor(CurrCol);
-            pictureBoxColor.BackColor = col;
-            TextShortSuppress = true;
-            UpDownSuppressR = true;
-            UpDownSuppressG = true;
-            UpDownSuppressB = true;
-            textBoxShortCol.Text = ((ushort)CurrCol).ToString();
-            numericUpDownR.Value = col.R;
-            numericUpDownG.Value = col.G;
-            numericUpDownB.Value = col.B;
+            CurrColor = Ultima.RadarCol.GetLandColor(SelectedIndex);
         }
 
         private void OnClickMeanColor(object sender, EventArgs e)
@@ -217,16 +214,7 @@ namespace FiddlerControls
                 meang /= count;
                 meanb /= count;
                 Color col = Color.FromArgb(meanr, meang, meanb);
-                pictureBoxColor.BackColor = col;
-                CurrCol = Ultima.Hues.ColorToHue(col);
-                TextShortSuppress = true;
-                UpDownSuppressR = true;
-                UpDownSuppressG = true;
-                UpDownSuppressB = true;
-                textBoxShortCol.Text = ((ushort)CurrCol).ToString();
-                numericUpDownR.Value=col.R;
-                numericUpDownG.Value=col.G;
-                numericUpDownB.Value=col.B;
+                CurrColor = Ultima.Hues.ColorToHue(col);
             }
         }
 
@@ -247,65 +235,48 @@ namespace FiddlerControls
             if (SelectedIndex>=0)
             {
                 if (tabControl2.SelectedIndex == 0)
-                    Ultima.RadarCol.SetItemColor(SelectedIndex,CurrCol);
+                    Ultima.RadarCol.SetItemColor(SelectedIndex,CurrColor);
                 else
-                    Ultima.RadarCol.SetLandColor(SelectedIndex,CurrCol);
+                    Ultima.RadarCol.SetLandColor(SelectedIndex,CurrColor);
                 Options.ChangedUltimaClass["RadarCol"] = true;
-            }
-
-        }
-
-        private void UpdateTextShort()
-        {
-            Color col = Color.FromArgb((int)numericUpDownR.Value, (int)numericUpDownG.Value, (int)numericUpDownB.Value);
-            pictureBoxColor.BackColor = col;
-            TextShortSuppress = true;
-            CurrCol = Ultima.Hues.ColorToHue(col);
-            textBoxShortCol.Text = ((ushort)CurrCol).ToString();
-        }
-
-        private void UpdateUpDown()
-        {
-            short txtcol;
-            if (short.TryParse(textBoxShortCol.Text, out txtcol))
-            {
-                Color col = Ultima.Hues.HueToColor(txtcol);
-                pictureBoxColor.BackColor = col;
-                UpDownSuppressR = true;
-                UpDownSuppressG = true;
-                UpDownSuppressB = true;
-                numericUpDownR.Value = col.R;
-                numericUpDownG.Value = col.G;
-                numericUpDownB.Value = col.B;
             }
         }
 
         private void onChangeR(object sender, EventArgs e)
         {
-            if (!UpDownSuppressR)
-                UpdateTextShort();
-            UpDownSuppressR = false;
+            if (!Updating)
+            {
+                Color col = Color.FromArgb((int)numericUpDownR.Value, (int)numericUpDownG.Value, (int)numericUpDownB.Value);
+                CurrColor = Ultima.Hues.ColorToHue(col);
+            }
         }
 
         private void OnChangeG(object sender, EventArgs e)
         {
-            if (!UpDownSuppressG)
-                UpdateTextShort();
-            UpDownSuppressG = false;
+            if (!Updating)
+            {
+                Color col = Color.FromArgb((int)numericUpDownR.Value, (int)numericUpDownG.Value, (int)numericUpDownB.Value);
+                CurrColor = Ultima.Hues.ColorToHue(col);
+            }
         }
 
         private void OnChangeB(object sender, EventArgs e)
         {
-            if (!UpDownSuppressB)
-                UpdateTextShort();
-            UpDownSuppressB = false;
+            if (!Updating)
+            {
+                Color col = Color.FromArgb((int)numericUpDownR.Value, (int)numericUpDownG.Value, (int)numericUpDownB.Value);
+                CurrColor = Ultima.Hues.ColorToHue(col);
+            }
         }
 
         private void OnChangeShortText(object sender, EventArgs e)
         {
-            if (!TextShortSuppress)
-                UpdateUpDown();
-            TextShortSuppress = false;
+            if (!Updating)
+            {
+                short txtcol;
+                if (short.TryParse(textBoxShortCol.Text, out txtcol))
+                    CurrColor = txtcol;
+            }
         }
 
         private void OnClickmeanColorFromTo(object sender, EventArgs e)
@@ -364,22 +335,12 @@ namespace FiddlerControls
                         gmeang += meang;
                         gmeanb += meanb;
                     }
-                    
                 }
                 gmeanr /= (to - from);
                 gmeang /= (to - from);
                 gmeanb /= (to - from);
                 Color col = Color.FromArgb(gmeanr, gmeang, gmeanb);
-                pictureBoxColor.BackColor = col;
-                CurrCol = Ultima.Hues.ColorToHue(col);
-                TextShortSuppress = true;
-                UpDownSuppressR = true;
-                UpDownSuppressG = true;
-                UpDownSuppressB = true;
-                textBoxShortCol.Text = ((ushort)CurrCol).ToString();
-                numericUpDownR.Value = col.R;
-                numericUpDownG.Value = col.G;
-                numericUpDownB.Value = col.B;
+                CurrColor = Ultima.Hues.ColorToHue(col);
             }
         }
 
