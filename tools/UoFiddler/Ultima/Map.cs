@@ -65,6 +65,10 @@ namespace Ultima
             m_Cache_NoPatch = null;
             m_Cache_NoStatics = null;
             m_Cache_NoStatics_NoPatch = null;
+            IsCached_Default = false;
+            IsCached_NoStatics = false;
+            IsCached_NoPatch = false;
+            IsCached_NoStatics_NoPatch = false;
         }
 
         public bool LoadedMatrix
@@ -130,13 +134,36 @@ namespace Ultima
             return bmp;
         }
 
+        private bool IsCached_Default;
+        private bool IsCached_NoStatics;
+        private bool IsCached_NoPatch;
+        private bool IsCached_NoStatics_NoPatch;
+
         private short[][][] m_Cache;
         private short[][][] m_Cache_NoStatics;
         private short[][][] m_Cache_NoPatch;
         private short[][][] m_Cache_NoStatics_NoPatch;
         private short[] m_Black;
 
-        public void PreloadRenderedBlock(int x, int y, bool statics, bool diff)
+        public bool IsCached(bool statics)
+        {
+            if (Map.UseDiff)
+            {
+                if (!statics)
+                    return IsCached_NoStatics;
+                else
+                    return IsCached_Default;
+            }
+            else
+            {
+                if (!statics)
+                    return IsCached_NoStatics_NoPatch;
+                else
+                    return IsCached_NoPatch;
+            }
+        }
+
+        public void PreloadRenderedBlock(int x, int y, bool statics)
         {
             TileMatrix matrix = this.Tiles;
 
@@ -144,17 +171,30 @@ namespace Ultima
             {
                 if (m_Black == null)
                     m_Black = new short[64];
+                return;
             }
 
             short[][][] cache;
-            if (diff)
+            if (Map.UseDiff)
+            {
+                if (statics)
+                    IsCached_Default = true;
+                else
+                    IsCached_NoStatics = true;
                 cache = (statics ? m_Cache : m_Cache_NoStatics);
+            }
             else
+            {
+                if (statics)
+                    IsCached_NoPatch = true;
+                else
+                    IsCached_NoStatics_NoPatch = true;
                 cache = (statics ? m_Cache_NoPatch : m_Cache_NoStatics_NoPatch);
+            }
 
             if (cache == null)
             {
-                if (diff)
+                if (Map.UseDiff)
                 {
                     if (statics)
                         m_Cache = cache = new short[m_Tiles.BlockHeight][][];
@@ -174,7 +214,7 @@ namespace Ultima
                 cache[y] = new short[m_Tiles.BlockWidth][];
 
             if (cache[y][x] == null)
-                cache[y][x] = RenderBlock(x, y, statics,diff);
+                cache[y][x] = RenderBlock(x, y, statics, Map.UseDiff);
         }
 
         private short[] GetRenderedBlock(int x, int y, bool statics)

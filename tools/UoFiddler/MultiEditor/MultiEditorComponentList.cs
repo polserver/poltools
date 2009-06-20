@@ -21,7 +21,7 @@ namespace MultiEditor
     {
 		#region Fields (6) 
 
-        private static Rectangle drawdestRectangle=new Rectangle();
+        private static Rectangle drawdestRectangle = new Rectangle();
         public const int GapXMod = 44;
         public const int GapYMod = 22;
         private bool Modified;
@@ -144,6 +144,7 @@ namespace MultiEditor
                 if (tile.isVirtualFloor)
                     continue;
                 tiles[tile.X][tile.Y].Add((short)(tile.ID + 0x4000), (sbyte)tile.Z);
+                count++;
             }
             return new MultiComponentList(tiles, count, Width, Height);
         }
@@ -176,13 +177,14 @@ namespace MultiEditor
             Parent.HoverTile = GetSelected(mouseLoc, maxheight, drawFloor);
 
             Bitmap canvas = new Bitmap(xMax - xMin + GapXMod * 2, yMax - yMin + GapYMod * 3);
-            Graphics gfx = Graphics.FromImage(canvas);
-            gfx.Clear(Color.White);
-            foreach (MultiTile tile in Tiles)
+            using (Graphics gfx = Graphics.FromImage(canvas))
             {
-                Bitmap bmp = tile.GetBitmap();
-                if (bmp != null)
+                gfx.Clear(Color.White);
+                foreach (MultiTile tile in Tiles)
                 {
+                    Bitmap bmp = tile.GetBitmap();
+                    if (bmp == null)
+                        continue;
                     drawdestRectangle.X = tile.Xmod;
                     drawdestRectangle.Y = tile.Ymod;
                     drawdestRectangle.X -= xMin;
@@ -208,7 +210,6 @@ namespace MultiEditor
                     }
                 }
             }
-            gfx.Dispose();
 
             return canvas;
         }
@@ -223,8 +224,9 @@ namespace MultiEditor
             MultiTile selected = null;
             if (mouseLoc != Point.Empty)
             {
-                foreach (MultiTile tile in Tiles)
+                for (int i = Tiles.Count - 1; i >= 0; i--) // inverse for speedup
                 {
+                    MultiTile tile = (MultiTile)Tiles[i];
                     if (tile.isVirtualFloor)
                         continue;
                     if (tile.Z > maxheight)
@@ -245,7 +247,10 @@ namespace MultiEditor
                         //Check for transparent part
                         Color p = bmp.GetPixel(mouseLoc.X - px, mouseLoc.Y - py);
                         if (!((p.R == 0) && (p.G == 0) && (p.B == 0)))
+                        {
                             selected = tile;
+                            break;
+                        }
                     }
                 }
             }
@@ -505,7 +510,6 @@ namespace MultiEditor
 
 		#endregion Methods 
 
-
         public struct UndoStruct
         {
 		#region Data Members (4) 
@@ -567,6 +571,7 @@ namespace MultiEditor
                     drawFloorPoint[3].Y = 22;
                     g.FillPolygon(FloorBrush, drawFloorPoint);
                     g.DrawPolygon(Pens.White, drawFloorPoint);
+                    FloorBrush.Dispose();
                 }
             }
             return floorbmp;

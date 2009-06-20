@@ -386,52 +386,53 @@ namespace Ultima
                 return null;
 
             bool flip = direction > 4;
-
-            BinaryReader bin = new BinaryReader(stream);
-
-            ushort[] palette = new ushort[0x100];
-
-            for (int i = 0; i < 0x100; ++i)
-                palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
-
-            int start = (int)bin.BaseStream.Position;
-            int frameCount = bin.ReadInt32();
-
-            int[] lookups = new int[frameCount];
-
-            for (int i = 0; i < frameCount; ++i)
-                lookups[i] = start + bin.ReadInt32();
-
-            bool onlyHueGrayPixels = (hue & 0x8000) != 0;
-
-            hue = (hue & 0x3FFF) - 1;
-
-            Hue hueObject;
-
-            if (hue >= 0 && hue < Hues.List.Length)
-                hueObject = Hues.List[hue];
-            else
-                hueObject = null;
-
-            if (FirstFrame)
-                frameCount = 1;
-            Frame[] frames = new Frame[frameCount];
-
-            for (int i = 0; i < frameCount; ++i)
+            Frame[] frames;
+            using (BinaryReader bin = new BinaryReader(stream))
             {
-                bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
-                frames[i] = new Frame(palette, bin, flip);
+                ushort[] palette = new ushort[0x100];
 
-                if (hueObject != null)
+                for (int i = 0; i < 0x100; ++i)
+                    palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
+
+                int start = (int)bin.BaseStream.Position;
+                int frameCount = bin.ReadInt32();
+
+                int[] lookups = new int[frameCount];
+
+                for (int i = 0; i < frameCount; ++i)
+                    lookups[i] = start + bin.ReadInt32();
+
+                bool onlyHueGrayPixels = (hue & 0x8000) != 0;
+
+                hue = (hue & 0x3FFF) - 1;
+
+                Hue hueObject;
+
+                if (hue >= 0 && hue < Hues.List.Length)
+                    hueObject = Hues.List[hue];
+                else
+                    hueObject = null;
+
+                if (FirstFrame)
+                    frameCount = 1;
+                frames = new Frame[frameCount];
+
+                for (int i = 0; i < frameCount; ++i)
                 {
-                    if (frames[i] != null)
+                    bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
+                    frames[i] = new Frame(palette, bin, flip);
+
+                    if (hueObject != null)
                     {
-                        if (frames[i].Bitmap != null)
-                            hueObject.ApplyTo(frames[i].Bitmap, onlyHueGrayPixels);
+                        if (frames[i] != null)
+                        {
+                            if (frames[i].Bitmap != null)
+                                hueObject.ApplyTo(frames[i].Bitmap, onlyHueGrayPixels);
+                        }
                     }
                 }
+                bin.Close();
             }
-
             return frames;
         }
 
@@ -451,30 +452,31 @@ namespace Ultima
 
             bool flip = direction > 4;
 
-            BinaryReader bin = new BinaryReader(stream);
-
-            ushort[] palette = new ushort[0x100];
-
-            for (int i = 0; i < 0x100; ++i)
-                palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
-
-            int start = (int)bin.BaseStream.Position;
-            int frameCount = bin.ReadInt32();
-
-            int[] lookups = new int[frameCount];
-
-            for (int i = 0; i < frameCount; ++i)
-                lookups[i] = start + bin.ReadInt32();
-
-            Frame[] frames = new Frame[frameCount];
-
-            for (int i = 0; i < frameCount; ++i)
+            using (BinaryReader bin = new BinaryReader(stream))
             {
-                bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
-                frames[i] = new Frame(palette, bin, flip);
-            }
+                ushort[] palette = new ushort[0x100];
 
-            return frames;
+                for (int i = 0; i < 0x100; ++i)
+                    palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
+
+                int start = (int)bin.BaseStream.Position;
+                int frameCount = bin.ReadInt32();
+
+                int[] lookups = new int[frameCount];
+
+                for (int i = 0; i < frameCount; ++i)
+                    lookups[i] = start + bin.ReadInt32();
+
+                Frame[] frames = new Frame[frameCount];
+
+                for (int i = 0; i < frameCount; ++i)
+                {
+                    bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
+                    frames[i] = new Frame(palette, bin, flip);
+                }
+
+                return frames;
+            }
         }
 
         private static int[] m_Table;
@@ -564,9 +566,13 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            if (fileIndex.Seek(index, out length, out extra, out patched) == null)
-                return false;
-            return true;
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+            bool def = true;
+            if (stream == null)
+                def = false;
+            else
+                stream.Close();
+            return def;
         }
 
         /// <summary>
@@ -585,9 +591,13 @@ namespace Ultima
 
             int length, extra;
             bool patched;
-            if ((fileIndex.Seek(index, out length, out extra, out patched) == null) || (length == 0))
-                return false;
-            return true;
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+            bool def = true;
+            if ((stream == null) || (length == 0))
+                def = false;
+            if (stream != null)
+                stream.Close();
+            return def;
         }
 
         /// <summary>
@@ -770,45 +780,45 @@ namespace Ultima
             else
                 name = String.Format("anim{0}", index);
 
-            string pathmul = Files.GetFilePath(name+".mul");
+            string pathmul = Files.GetFilePath(name + ".mul");
             if (pathmul == null)
                 return;
-            FileStream m_Mul = new FileStream(pathmul, FileMode.Open, FileAccess.Read, FileShare.Read);
-            BinaryReader m_MulReader = new BinaryReader(m_Mul);
-
             string pathidx = Files.GetFilePath(name + ".idx");
             if (pathidx == null)
                 return;
-            FileStream m_Index = new FileStream(pathidx, FileMode.Open, FileAccess.Read, FileShare.Read);
-            BinaryReader m_IndexReader = new BinaryReader(m_Index);
-
-            string idx = Path.Combine(path, name+".idx");
-            string mul = Path.Combine(path, name+".mul");
+            string idx = Path.Combine(path, name + ".idx");
+            string mul = Path.Combine(path, name + ".mul");
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
-                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write),
+                              m_Mul = new FileStream(pathmul, FileMode.Open, FileAccess.Read, FileShare.Read),
+                              m_Index = new FileStream(pathidx, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    while (m_Index.Length != m_Index.Position)
+                    using (BinaryReader m_MulReader = new BinaryReader(m_Mul),
+                                        m_IndexReader = new BinaryReader(m_Index))
                     {
-                        int lookup = m_IndexReader.ReadInt32();
-                        int length = m_IndexReader.ReadInt32();
-                        int extra = m_IndexReader.ReadInt32();
-                        if (lookup < 0 || lookup >= m_Mul.Length || length == 0)
+                        while (m_Index.Length != m_Index.Position)
                         {
-                            binidx.Write(lookup);
-                            binidx.Write(length);
-                            binidx.Write(extra);
-                        }
-                        else
-                        {
-                            binidx.Write((int)fsmul.Position);
-                            binidx.Write(length);
-                            binidx.Write(extra);
-                            byte[] buffer = new byte[length];
-                            m_MulReader.Read(buffer, 0, length);
-                            binmul.Write(buffer);
+                            int lookup = m_IndexReader.ReadInt32();
+                            int length = m_IndexReader.ReadInt32();
+                            int extra = m_IndexReader.ReadInt32();
+                            if (lookup < 0 || lookup >= m_Mul.Length || length == 0)
+                            {
+                                binidx.Write(lookup);
+                                binidx.Write(length);
+                                binidx.Write(extra);
+                            }
+                            else
+                            {
+                                binidx.Write((int)fsmul.Position);
+                                binidx.Write(length);
+                                binidx.Write(extra);
+                                byte[] buffer = new byte[length];
+                                m_MulReader.Read(buffer, 0, length);
+                                binmul.Write(buffer);
+                            }
                         }
                     }
                 }

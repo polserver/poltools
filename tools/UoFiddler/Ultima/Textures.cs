@@ -58,9 +58,11 @@ namespace Ultima
                 return false;
             if (m_Cache[index] != null)
                 return true;
-            if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+            if (stream == null)
                 return false;
-
+            else
+                stream.Close();
             return true;
         }
 
@@ -102,22 +104,22 @@ namespace Ultima
 
             Bitmap bmp = new Bitmap(size, size, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, size, size), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            BinaryReader bin = new BinaryReader(stream);
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < size; ++y, line += delta)
+            using (BinaryReader bin = new BinaryReader(stream))
             {
-                ushort* cur = line;
-                ushort* end = cur + size;
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
 
-                while (cur < end)
-                    *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                for (int y = 0; y < size; ++y, line += delta)
+                {
+                    ushort* cur = line;
+                    ushort* end = cur + size;
+
+                    while (cur < end)
+                        *cur++ = (ushort)(bin.ReadUInt16() ^ 0x8000);
+                }
+
+                bmp.UnlockBits(bd);
             }
-
-            bmp.UnlockBits(bd);
-
             if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else

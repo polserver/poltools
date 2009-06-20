@@ -430,6 +430,7 @@ namespace FiddlerControls
             this.animationEditToolStripMenuItem.Name = "animationEditToolStripMenuItem";
             this.animationEditToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.animationEditToolStripMenuItem.Text = "Animation Edit";
+            this.animationEditToolStripMenuItem.Visible = false;
             this.animationEditToolStripMenuItem.Click += new System.EventHandler(this.onClickAnimationEdit);
             // 
             // GraphicLabel

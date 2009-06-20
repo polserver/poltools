@@ -81,8 +81,12 @@ namespace Ultima
                 return true;
             int length, extra;
             bool patched;
-            if (m_FileIndex.Seek(index, out length, out extra, out patched) == null)
+
+            Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
+            if (stream == null)
                 return false;
+            else
+                stream.Close();
             if (extra == -1)
                 return false;
             int width = (extra >> 16) & 0xFFFF;
@@ -111,6 +115,7 @@ namespace Ultima
                 return null;
             byte[] buffer = new byte[length];
             stream.Read(buffer, 0, length);
+            stream.Close();
             return buffer;
         }
 
@@ -129,13 +134,19 @@ namespace Ultima
             if (stream == null)
                 return null;
             if (extra == -1)
+            {
+                stream.Close();
                 return null;
+            }
 
             int width = (extra >> 16) & 0xFFFF;
             int height = extra & 0xFFFF;
 
             if (width <= 0 || height <= 0)
+            {
+                stream.Close();
                 return null;
+            }
 
             int bytesPerLine = width << 1;
             int bytesPerStride = (bytesPerLine + 3) & ~3;
@@ -246,7 +257,7 @@ namespace Ultima
                                     pPixelEnd += pixelsPerStride;
                                 }
                             }
-
+                            stream.Close();
                             return new Bitmap(width, height, bytesPerStride, PixelFormat.Format16bppArgb1555, (IntPtr)pPixelDataStart);
                         }
                     }
@@ -288,7 +299,10 @@ namespace Ultima
             if (stream == null)
                 return null;
             if (extra == -1)
+            {
+                stream.Close();
                 return null;
+            }
             if (patched)
                 m_patched[index] = true;
 
@@ -297,43 +311,43 @@ namespace Ultima
 
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            BinaryReader bin = new BinaryReader(stream);
-
-            int[] lookups = new int[height];
-            int start = (int)bin.BaseStream.Position;
-
-            for (int i = 0; i < height; ++i)
-                lookups[i] = start + (bin.ReadInt32() * 4);
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < height; ++y, line += delta)
+            using (BinaryReader bin = new BinaryReader(stream))
             {
-                bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
+                int[] lookups = new int[height];
+                int start = (int)bin.BaseStream.Position;
 
-                ushort* cur = line;
-                ushort* end = line + bd.Width;
+                for (int i = 0; i < height; ++i)
+                    lookups[i] = start + (bin.ReadInt32() * 4);
 
-                while (cur < end)
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+
+                for (int y = 0; y < height; ++y, line += delta)
                 {
-                    ushort color = bin.ReadUInt16();
-                    ushort* next = cur + bin.ReadUInt16();
+                    bin.BaseStream.Seek(lookups[y], SeekOrigin.Begin);
 
-                    if (color == 0)
-                        cur = next;
-                    else
+                    ushort* cur = line;
+                    ushort* end = line + bd.Width;
+
+                    while (cur < end)
                     {
-                        color ^= 0x8000;
+                        ushort color = bin.ReadUInt16();
+                        ushort* next = cur + bin.ReadUInt16();
 
-                        while (cur < next)
-                            *cur++ = color;
+                        if (color == 0)
+                            cur = next;
+                        else
+                        {
+                            color ^= 0x8000;
+
+                            while (cur < next)
+                                *cur++ = color;
+                        }
                     }
                 }
+
+                bmp.UnlockBits(bd);
             }
-
-            bmp.UnlockBits(bd);
-
             if (Files.CacheData)
                 return m_Cache[index] = bmp;
             else

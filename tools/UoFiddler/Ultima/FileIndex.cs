@@ -7,6 +7,8 @@ namespace Ultima
         public Entry3D[] Index { get; private set; }
         public Stream Stream { get; private set; }
 
+        private string MulPath;
+
         public Stream Seek(int index, out int length, out int extra, out bool patched)
         {
             if (index < 0 || index >= Index.Length)
@@ -31,11 +33,19 @@ namespace Ultima
             if ((e.length & (1 << 31)) != 0)
             {
                 patched = true;
-
-                Verdata.Stream.Seek(e.lookup, SeekOrigin.Begin);
+                Verdata.Seek(e.lookup);
                 return Verdata.Stream;
             }
-            else if (Stream == null)
+
+            if ((Stream == null) || (!Stream.CanRead) || (!Stream.CanSeek))
+            {
+                if (MulPath == null)
+                    Stream = null;
+                else
+                    Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+
+            if (Stream == null)
             {
                 length = extra = 0;
                 patched = false;
@@ -59,13 +69,13 @@ namespace Ultima
             Index = new Entry3D[length];
 
             string idxPath = null;
-            string mulPath = null;
+            MulPath = null;
             if (Files.MulPath == null)
                 Files.LoadMulPath();
             if (Files.MulPath.Count > 0)
             {
                 idxPath = Files.MulPath[idxFile.ToLower()].ToString();
-                mulPath = Files.MulPath[mulFile.ToLower()].ToString();
+                MulPath = Files.MulPath[mulFile.ToLower()].ToString();
                 if (idxPath == "")
                     idxPath = null;
                 else
@@ -75,24 +85,24 @@ namespace Ultima
                     if (!File.Exists(idxPath))
                         idxPath = null;
                 }
-                if (mulPath == "")
-                    mulPath = null;
+                if (MulPath == "")
+                    MulPath = null;
                 else
                 {
-                    if (Path.GetDirectoryName(mulPath) == "")
-                        mulPath = Path.Combine(Files.RootDir, mulPath);
-                    if (!File.Exists(mulPath))
-                        mulPath = null;
+                    if (Path.GetDirectoryName(MulPath) == "")
+                        MulPath = Path.Combine(Files.RootDir, MulPath);
+                    if (!File.Exists(MulPath))
+                        MulPath = null;
                 }
             }
 
-            if (idxPath != null && mulPath != null)
+            if ((idxPath != null) && (MulPath != null))
             {
                 using (FileStream index = new FileStream(idxPath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (BinaryReader bin = new BinaryReader(index))
                     {
-                        Stream = new FileStream(mulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                         int count = (int)(index.Length / 12);
                         for (int i = 0; i < count && i < length; ++i)
                         {
