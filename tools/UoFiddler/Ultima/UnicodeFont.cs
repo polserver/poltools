@@ -119,7 +119,7 @@ namespace Ultima
             Bytes = new byte[bmp.Height * (((bmp.Width - 1) / 8) + 1)];
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
+            //int delta = bd.Stride >> 1;
             for (int y = 0; y < bmp.Height; y++)
             {
                 ushort* cur = line;

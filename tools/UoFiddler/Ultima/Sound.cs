@@ -22,10 +22,8 @@ namespace Ultima
 
     public static class Sounds
     {
-        private static BinaryReader m_Index;
-        private static Stream m_Stream;
         private static Dictionary<int, int> m_Translations;
-        private static Stream m_Indexstream;
+        private static FileIndex m_FileIndex;
         private static UOSound[] m_Cache;
         private static bool[] m_Removed;
 
@@ -41,18 +39,13 @@ namespace Ultima
         {
             m_Cache = new UOSound[0xFFF];
             m_Removed = new bool[0xFFF];
-            string path = Files.GetFilePath("soundidx.mul");
-            if (path == null)
-                return;
-            m_Indexstream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            m_Index = new BinaryReader(m_Indexstream);
-            m_Stream = new FileStream(Files.GetFilePath("sound.mul"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            m_FileIndex = new FileIndex("soundidx.mul", "sound.mul", 0xFFF, 8);
             Regex reg = new Regex(@"(\d{1,3}) \x7B(\d{1,3})\x7D (\d{1,3})", RegexOptions.Compiled);
 
             m_Translations = new Dictionary<int, int>();
 
             string line;
-            path = Files.GetFilePath("Sound.def");
+            string path = Files.GetFilePath("Sound.def");
             if (path == null)
                 return;
             using (StreamReader reader = new StreamReader(path))
@@ -95,26 +88,20 @@ namespace Ultima
             if (m_Cache[soundID] != null)
                 return m_Cache[soundID];
 
-            m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
-
-            int offset = m_Index.ReadInt32();
-            int length = m_Index.ReadInt32();
-            int extra = m_Index.ReadInt32();
-
-            if ((offset < 0) || (length <= 0))
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
+            
+            if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
             {
                 if (!m_Translations.TryGetValue(soundID, out soundID))
                     return null;
 
                 translated = true;
-                m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
-
-                offset = m_Index.ReadInt32();
-                length = m_Index.ReadInt32();
-                extra = m_Index.ReadInt32();
+                stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
             }
 
-            if ((offset < 0) || (length <= 0))
+            if (stream == null)
                 return null;
 
             length -= 32;
@@ -123,9 +110,9 @@ namespace Ultima
             byte[] stringBuffer = new byte[32];
             byte[] buffer = new byte[length];
 
-            m_Stream.Seek((long)(offset), SeekOrigin.Begin);
-            m_Stream.Read(stringBuffer, 0, 32);
-            m_Stream.Read(buffer, 0, length);
+            stream.Read(stringBuffer, 0, 32);
+            stream.Read(buffer, 0, length);
+            stream.Close();
 
             byte[] resultBuffer = new byte[buffer.Length + (waveHeader.Length << 2)];
 
@@ -180,30 +167,23 @@ namespace Ultima
             name = "";
             if (soundID < 0)
                 return false;
-            if (m_Index == null)
-                return false;
-            m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
+            int length, extra;
+            bool patched;
+            Stream stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
 
-            int offset = m_Index.ReadInt32();
-            int length = m_Index.ReadInt32();
-
-            if ((offset < 0) || (length <= 0))
+            if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
             {
                 if (!m_Translations.TryGetValue(soundID, out soundID))
                     return false;
 
-                m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
-
-                offset = m_Index.ReadInt32();
-                length = m_Index.ReadInt32();
+                stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
             }
-
-            if ((offset < 0) || (length <= 0))
+            if (stream == null)
                 return false;
-
+            
             byte[] stringBuffer = new byte[32];
-            m_Stream.Seek((long)(offset), SeekOrigin.Begin);
-            m_Stream.Read(stringBuffer, 0, 32);
+            stream.Read(stringBuffer, 0, 32);
+            stream.Close();
             name = Encoding.ASCII.GetString(stringBuffer); // seems that the null terminator's not being properly recognized :/
             if (name.IndexOf('\0') > 0)
                 name = name.Substring(0, name.IndexOf('\0'));
@@ -227,24 +207,20 @@ namespace Ultima
             }
             else
             {
-                m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
-
-                int offset = m_Index.ReadInt32();
-                int length = m_Index.ReadInt32();
-
-                if ((offset < 0) || (length <= 0))
+                int length, extra;
+                bool patched;
+                Stream stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
+                if ((m_FileIndex.Index[soundID].lookup < 0) || (length <= 0))
                 {
                     if (!m_Translations.TryGetValue(soundID, out soundID))
                         return 0;
 
-                    m_Index.BaseStream.Seek((long)(soundID * 12), SeekOrigin.Begin);
-
-                    offset = m_Index.ReadInt32();
-                    length = m_Index.ReadInt32();
+                    stream = m_FileIndex.Seek(soundID, out length, out extra, out patched);
                 }
 
-                if ((offset < 0) || (length <= 0))
+                if (stream == null)
                     return 0;
+                stream.Close();
                 length -= 32; //mulheaderlength
                 len = (double)length;
             }
@@ -347,7 +323,6 @@ namespace Ultima
                         Tex.WriteLine(String.Format(";{0:f}", GetSoundLength(i - 1)));
                     }
                 }
-
             }
         }
     }

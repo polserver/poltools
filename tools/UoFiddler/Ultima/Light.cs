@@ -54,7 +54,7 @@ namespace Ultima
 
             if (stream == null)
                 return false;
-
+            stream.Close();
             int width = (extra & 0xFFFF);
             int height = ((extra >> 16) & 0xFFFF);
             if ((width > 0) && (height > 0))
@@ -101,6 +101,7 @@ namespace Ultima
             height = ((extra >> 16) & 0xFFFF);
             byte[] buffer = new byte[length];
             stream.Read(buffer, 0, length);
+            stream.Close();
             return buffer;
         }
         /// <summary>
@@ -128,23 +129,23 @@ namespace Ultima
 
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-            BinaryReader bin = new BinaryReader(stream);
-
-            ushort* line = (ushort*)bd.Scan0;
-            int delta = bd.Stride >> 1;
-
-            for (int y = 0; y < height; ++y, line += delta)
+            using (BinaryReader bin = new BinaryReader(stream))
             {
-                ushort* cur = line;
-                ushort* end = cur + width;
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
 
-                while (cur < end)
+                for (int y = 0; y < height; ++y, line += delta)
                 {
-                    sbyte value = bin.ReadSByte();
-                    *cur++ = (ushort)(((0x1f + value) << 10) + ((0x1F + value) << 5) + (0x1F + value));
+                    ushort* cur = line;
+                    ushort* end = cur + width;
+
+                    while (cur < end)
+                    {
+                        sbyte value = bin.ReadSByte();
+                        *cur++ = (ushort)(((0x1f + value) << 10) + ((0x1F + value) << 5) + (0x1F + value));
+                    }
                 }
             }
-
             bmp.UnlockBits(bd);
 
             if (!Files.CacheData)

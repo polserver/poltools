@@ -57,16 +57,18 @@ namespace FiddlerControls
             string FileName = Path.Combine(path, "UOFiddlerArt.hash");
             using (FileStream fs = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                BinaryWriter bin = new BinaryWriter(fs);
-                byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
-                if (md5 == null)
-                    return;
-                int length = md5.Length;
-                bin.Write(length);
-                bin.Write(md5);
-                foreach (ListViewItem item in listView1.Items)
+                using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    bin.Write((int)item.Tag);
+                    byte[] md5 = Files.GetMD5(Files.GetFilePath("Art.mul"));
+                    if (md5 == null)
+                        return;
+                    int length = md5.Length;
+                    bin.Write(length);
+                    bin.Write(md5);
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        bin.Write((int)item.Tag);
+                    }
                 }
             }
         }

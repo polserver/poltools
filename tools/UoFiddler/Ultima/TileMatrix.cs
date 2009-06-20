@@ -30,6 +30,10 @@ namespace Ultima
 
         public int Height { get; private set; }
 
+        private string mapPath;
+        private string indexPath;
+        private string staticsPath;
+
         public TileMatrix(int fileIndex, int mapID, int width, int height, string path)
         {
             Width = width;
@@ -37,49 +41,31 @@ namespace Ultima
             BlockWidth = width >> 3;
             BlockHeight = height >> 3;
 
-            if (fileIndex != 0x7F)
+            if (path == null)
+                mapPath = Files.GetFilePath("map{0}.mul", fileIndex);
+            else
             {
-                string mapPath;
-                if (path == null)
-                    mapPath = Files.GetFilePath("map{0}.mul", fileIndex);
-                else
-                {
-                    mapPath = Path.Combine(path, String.Format("map{0}.mul", fileIndex));
-                    if (!File.Exists(mapPath))
-                        mapPath = null;
-                }
+                mapPath = Path.Combine(path, String.Format("map{0}.mul", fileIndex));
+                if (!File.Exists(mapPath))
+                    mapPath = null;
+            }
 
-                if (mapPath != null)
-                    m_Map = new FileStream(mapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            if (path == null)
+                indexPath = Files.GetFilePath("staidx{0}.mul", fileIndex);
+            else
+            {
+                indexPath = Path.Combine(path, String.Format("staidx{0}.mul", fileIndex));
+                if (!File.Exists(indexPath))
+                    indexPath = null;
+            }
 
-                string indexPath;
-                if (path == null)
-                    indexPath = Files.GetFilePath("staidx{0}.mul", fileIndex);
-                else
-                {
-                    indexPath = Path.Combine(path, String.Format("staidx{0}.mul", fileIndex));
-                    if (!File.Exists(indexPath))
-                        indexPath = null;
-                }
-
-                if (indexPath != null)
-                {
-                    m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    m_IndexReader = new BinaryReader(m_Index);
-                }
-
-                string staticsPath;
-                if (path == null)
-                    staticsPath = Files.GetFilePath("statics{0}.mul", fileIndex);
-                else
-                {
-                    staticsPath = Path.Combine(path, String.Format("statics{0}.mul", fileIndex));
-                    if (!File.Exists(staticsPath))
-                        staticsPath = null;
-                }
-
-                if (staticsPath != null)
-                    m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            if (path == null)
+                staticsPath = Files.GetFilePath("statics{0}.mul", fileIndex);
+            else
+            {
+                staticsPath = Path.Combine(path, String.Format("statics{0}.mul", fileIndex));
+                if (!File.Exists(staticsPath))
+                    staticsPath = null;
             }
 
             EmptyStaticBlock = new HuedTile[8][][];
@@ -102,7 +88,6 @@ namespace Ultima
             Patch = new TileMatrixPatch(this, mapID, path);
         }
 
-        
 
         public void SetStaticBlock(int x, int y, HuedTile[][][] value)
         {
@@ -181,7 +166,7 @@ namespace Ultima
         }
         public HuedTile[][][] GetStaticBlock(int x, int y, bool patch)
         {
-            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight || m_Statics == null || m_Index == null)
+            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight)
                 return EmptyStaticBlock;
 
             if (m_StaticTiles[x] == null)
@@ -231,7 +216,8 @@ namespace Ultima
         }
         public Tile[] GetLandBlock(int x, int y, bool patch)
         {
-            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight || m_Map == null) return InvalidLandBlock;
+            if (x < 0 || y < 0 || x >= BlockWidth || y >= BlockHeight) 
+                return InvalidLandBlock;
 
             if (m_LandTiles[x] == null)
                 m_LandTiles[x] = new Tile[BlockHeight][];
@@ -268,12 +254,40 @@ namespace Ultima
 
         private unsafe HuedTile[][][] ReadStaticBlock(int x, int y)
         {
-            m_IndexReader.BaseStream.Seek(((x * BlockHeight) + y) * 12, SeekOrigin.Begin);
+            if (m_Index == null || !m_Index.CanRead || !m_Index.CanSeek)
+            {
+                if (indexPath == null)
+                    m_Index = null;
+                else
+                {
+                    m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    m_IndexReader = new BinaryReader(m_Index);
+                }
+            }
+            if (m_Statics == null || !m_Statics.CanRead || !m_Statics.CanSeek)
+            {
+                if (staticsPath == null)
+                    m_Statics = null;
+                else
+                    m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+            if (m_Index == null || m_Statics == null)
+            {
+                if (m_Index != null)
+                    m_Index.Close();
+                if (m_Statics != null)
+                    m_Statics.Close();
+                return EmptyStaticBlock;
+            }
+
+            m_Index.Seek(((x * BlockHeight) + y) * 12, SeekOrigin.Begin);
             int lookup = m_IndexReader.ReadInt32();
             int length = m_IndexReader.ReadInt32();
 
             if (lookup < 0 || length <= 0)
             {
+                m_IndexReader.Close();
+                m_Statics.Close();
                 return EmptyStaticBlock;
             }
             else
@@ -320,7 +334,8 @@ namespace Ultima
                         for (int j = 0; j < 8; ++j)
                             tiles[i][j] = lists[i][j].ToArray();
                     }
-
+                    m_IndexReader.Close();
+                    m_Statics.Close();
                     return tiles;
                 }
             }
@@ -328,13 +343,23 @@ namespace Ultima
 
         private unsafe Tile[] ReadLandBlock(int x, int y)
         {
-            m_Map.Seek(((x * BlockHeight) + y) * 196 + 4, SeekOrigin.Begin);
-
-            Tile[] tiles = new Tile[64];
-
-            fixed (Tile* pTiles = tiles)
+            if (m_Map == null || !m_Map.CanRead || !m_Map.CanSeek)
             {
-                NativeMethods._lread(m_Map.SafeFileHandle, pTiles, 192);
+                if (mapPath == null)
+                    m_Map = null;
+                else
+                    m_Map = new FileStream(mapPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            }
+            Tile[] tiles = new Tile[64];
+            if (m_Map != null)
+            {
+                m_Map.Seek(((x * BlockHeight) + y) * 196 + 4, SeekOrigin.Begin);
+
+                fixed (Tile* pTiles = tiles)
+                {
+                    NativeMethods._lread(m_Map.SafeFileHandle, pTiles, 192);
+                }
+                m_Map.Close();
             }
 
             return tiles;

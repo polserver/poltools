@@ -48,6 +48,7 @@ namespace FiddlerControls
         private bool moving = false;
         private Point movingpoint;
 
+
         public static int HScrollBar { get { return refmarker.hScrollBar.Value; } }
         public static int VScrollBar { get { return refmarker.vScrollBar.Value; } }
         public static Ultima.Map CurrMap { get { return refmarker.currmap; } }
@@ -205,6 +206,7 @@ namespace FiddlerControls
 
         private void ChangeMap()
         {
+            PreloadMap.Visible = !currmap.IsCached(showStaticsToolStripMenuItem1.Checked);
             SetScrollBarValues();
             pictureBox.Refresh();
         }
@@ -733,30 +735,24 @@ namespace FiddlerControls
             if (PreloadWorker.IsBusy)
                 return;
             ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = 16*4;
+            ProgressBar.Maximum = (currmap.Width >> 3) * (currmap.Height >> 3);
             ProgressBar.Step = 1;
             ProgressBar.Value = 0;
             ProgressBar.Visible = true;
-            PreloadWorker.RunWorkerAsync();
+            PreloadWorker.RunWorkerAsync(new Object[]{currmap,showStaticsToolStripMenuItem1.Checked});
         }
 
         private void PreLoadDoWork(object sender, DoWorkEventArgs e)
         {
+            Ultima.Map workmap = (Ultima.Map)((Object[])e.Argument)[0];
+            bool statics = (bool)((Object[])e.Argument)[1];
             int width = currmap.Width >> 3;
             int height = currmap.Height >> 3;
-            width /= 4;
-            height /= 4;
-            for (int x = 0; x <= (currmap.Width >> 3) - width; x += width)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y <= (currmap.Height >> 3) - height; y += height)
+                for (int y = 0; y < height; y++)
                 {
-                    currmap.PreloadRenderedBlock(x, y, true, true);
-                    PreloadWorker.ReportProgress(1);
-                    currmap.PreloadRenderedBlock(x, y, true, false);
-                    PreloadWorker.ReportProgress(1);
-                    currmap.PreloadRenderedBlock(x, y, false, true);
-                    PreloadWorker.ReportProgress(1);
-                    currmap.PreloadRenderedBlock(x, y, false, false);
+                    currmap.PreloadRenderedBlock(x, y, statics);
                     PreloadWorker.ReportProgress(1);
                 }
             }
@@ -854,6 +850,7 @@ namespace FiddlerControls
 
         private void OnChangeView(object sender, EventArgs e)
         {
+            PreloadMap.Visible = !currmap.IsCached(showStaticsToolStripMenuItem1.Checked);
             pictureBox.Refresh();
         }
 

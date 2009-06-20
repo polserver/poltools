@@ -58,11 +58,12 @@ namespace Ultima
             if (stream == null)
                 return null;
 
-
-            BinaryReader bin = new BinaryReader(stream);
-            bool action = bin.ReadBoolean();
-            string name = ReadNameString(bin, length - 1);
-            return new SkillInfo(index, name, action, extra);
+            using (BinaryReader bin = new BinaryReader(stream))
+            {
+                bool action = bin.ReadBoolean();
+                string name = ReadNameString(bin, length - 1);
+                return new SkillInfo(index, name, action, extra);
+            }
         }
 
         private static byte[] m_StringBuffer = new byte[1024];

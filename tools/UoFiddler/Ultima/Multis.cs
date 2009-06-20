@@ -325,6 +325,7 @@ namespace Ultima
                     m_maxHeight = e.m_OffsetZ;
             }
             ConvertList();
+            reader.Close();
         }
 
         public MultiComponentList(string FileName, Multis.ImportType Type, bool centeritem)
