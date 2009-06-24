@@ -1177,5 +1177,10 @@ namespace POLLaunch
             }
         }
 
+		private void BTN_UOConvertEditRealms_Click(object sender, EventArgs e)
+		{
+			this.TB_UOCOutput.Hide();
+		}
+
     }
 }
