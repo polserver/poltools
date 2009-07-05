@@ -97,6 +97,7 @@ namespace FiddlerControls
             this.defragAndRemoveDuplicatesStToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.meltStaticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearStaticsinMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportStaticsUnderMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -537,6 +538,7 @@ namespace FiddlerControls
             this.defragAndRemoveDuplicatesStToolStripMenuItem,
             this.importStaticsToolStripMenuItem,
             this.meltStaticsToolStripMenuItem,
+            this.clearStaticsinMemoryToolStripMenuItem,
             this.reportStaticsUnderMapToolStripMenuItem,
             this.toolStripMenuItem1,
             this.toolStripSeparator3,
@@ -576,7 +578,18 @@ namespace FiddlerControls
             this.meltStaticsToolStripMenuItem.Name = "meltStaticsToolStripMenuItem";
             this.meltStaticsToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.meltStaticsToolStripMenuItem.Text = "Melt Statics.. (in Memory)";
+            this.meltStaticsToolStripMenuItem.ToolTipText = "Clears a block of statics from memory. Also generates an Export File of the items" +
+                " removed.";
             this.meltStaticsToolStripMenuItem.Click += new System.EventHandler(this.OnClickMeltStatics);
+            // 
+            // clearStaticsinMemoryToolStripMenuItem
+            // 
+            this.clearStaticsinMemoryToolStripMenuItem.Name = "clearStaticsinMemoryToolStripMenuItem";
+            this.clearStaticsinMemoryToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.clearStaticsinMemoryToolStripMenuItem.Text = "Clear Statics..(in Memory)";
+            this.clearStaticsinMemoryToolStripMenuItem.ToolTipText = "Clears a block of statics from memory. Unlike the Melt Statics, this does not cre" +
+                "ate an export file of the static items removed.";
+            this.clearStaticsinMemoryToolStripMenuItem.Click += new System.EventHandler(this.OnClickClearStatics);
             // 
             // reportStaticsUnderMapToolStripMenuItem
             // 
@@ -750,5 +763,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem importStaticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meltStaticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem clearStaticsinMemoryToolStripMenuItem;
     }
 }

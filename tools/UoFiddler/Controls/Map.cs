@@ -1020,6 +1020,18 @@ namespace FiddlerControls
                 showmeltstatics.Show();
             }
         }
+
+        MapClearStatics showclearstatics = null;
+        private void OnClickClearStatics(object sender, EventArgs e)
+        {
+            if ((showclearstatics == null) || (showclearstatics.IsDisposed))
+            {
+                showclearstatics = new MapClearStatics(this, currmap);
+                showclearstatics.TopMost = true;
+                showclearstatics.Show();
+            }
+        }
+
     }
 
     public class OverlayObject
