@@ -101,6 +101,7 @@ namespace MultiEditor
                     numericUpDown_Selected_X.Value = value.X;
                     numericUpDown_Selected_Y.Value = value.Y;
                     numericUpDown_Selected_Z.Value = value.Z;
+                    DynamiccheckBox.Checked = value.Invisible;
                 }
                 else
                     SelectedTileLabel.Text = "ID:";
@@ -491,6 +492,10 @@ namespace MultiEditor
             TreeNode cachenode = new TreeNode("MultiCache File");
             cachenode.Tag = "cache";
             filenode.Nodes.Add(cachenode); // Hardcoded in DoubleClick .Nodes[1].Nodes[3]
+
+            TreeNode uoadesignnode = new TreeNode("UOA Design File");
+            uoadesignnode.Tag = "uoadesign";
+            filenode.Nodes.Add(uoadesignnode);
             
             treeViewMultiList.Nodes.Add(filenode);
             treeViewMultiList.EndUpdate();
@@ -736,12 +741,15 @@ namespace MultiEditor
                 case Multis.ImportType.UOA: type = "uoa"; break;
                 case Multis.ImportType.WSC: type = "wsc"; break;
                 case Multis.ImportType.MULTICACHE: type = "Multicache.dat"; break;
+                case Multis.ImportType.UOADESIGN: type = "Designs"; break;
                 default: return;
             }
             dialog.Title = String.Format("Choose {0} file to import", type);
             dialog.CheckFileExists = true;
             if (importtype == Multis.ImportType.MULTICACHE)
                 dialog.Filter = String.Format("{0} file ({0})|{0}", type);
+            else if (importtype == Multis.ImportType.UOADESIGN)
+                dialog.Filter = String.Format("{0} file ({0}.*)|{0}.*", type);
             else
                 dialog.Filter = String.Format("{0} file (*.{0})|*.{0}", type);
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -758,6 +766,19 @@ namespace MultiEditor
                         node.Nodes.Add(child);
                     }
                 }
+                else if (importtype == Multis.ImportType.UOADESIGN)
+                {
+                    ArrayList list = Ultima.Multis.LoadFromDesigner(dialog.FileName);
+                    TreeNode node = treeViewMultiList.Nodes[1].Nodes[4];
+                    node.Nodes.Clear();
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        Object[] data = (Object[])list[i];
+                        TreeNode child = new TreeNode(data[0]+"("+i+")");
+                        child.Tag = (MultiComponentList)data[1];
+                        node.Nodes.Add(child);
+                    }
+                }
                 else
                 {
                     MultiComponentList multi = Ultima.Multis.LoadFromFile(dialog.FileName, importtype);
@@ -771,6 +792,8 @@ namespace MultiEditor
                     numericUpDown_Size_Height.Value = compList.Height;
                     numericUpDown_Selected_X.Maximum = compList.Width - 1;
                     numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                    vScrollBar.Value = 0;
+                    hScrollBar.Value = 0;
                     ScrollbarsSetValue();
                     pictureBoxMulti.Refresh();
                 }
@@ -792,12 +815,22 @@ namespace MultiEditor
                 case "uoa": treeViewMultiList_LoadFromFile(Multis.ImportType.UOA); return;
                 case "wsc": treeViewMultiList_LoadFromFile(Multis.ImportType.WSC); return;
                 case "cache": treeViewMultiList_LoadFromFile(Multis.ImportType.MULTICACHE); return;
+                case "uoadesign": treeViewMultiList_LoadFromFile(Multis.ImportType.UOADESIGN); return;
                 default: break;
             }
 
             if (MessageBox.Show("Do you want to open selected Multi?", "Open", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 if ((e.Node.Parent != null) && (e.Node.Parent.Tag != null) && (e.Node.Parent.Tag.ToString() == "cache"))
+                {
+                    MultiComponentList list = (MultiComponentList)e.Node.Tag;
+                    if (list != null)
+                    {
+                        compList = new MultiEditorComponentList(list, this);
+                        textBox_SaveToID.Text = "0";
+                    }
+                }
+                else if ((e.Node.Parent != null) && (e.Node.Parent.Tag != null) && (e.Node.Parent.Tag.ToString() == "uoadesign"))
                 {
                     MultiComponentList list = (MultiComponentList)e.Node.Tag;
                     if (list != null)
@@ -819,6 +852,8 @@ namespace MultiEditor
                 numericUpDown_Size_Height.Value = compList.Height;
                 numericUpDown_Selected_X.Maximum = compList.Width - 1;
                 numericUpDown_Selected_Y.Maximum = compList.Height - 1;
+                vScrollBar.Value = 0;
+                hScrollBar.Value = 0;
                 ScrollbarsSetValue();
                 pictureBoxMulti.Refresh();
             }
@@ -1103,5 +1138,17 @@ namespace MultiEditor
             }
         }
         #endregion
+
+        private void BTN_DynamicCheckBox_Changed(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                if (SelectedTile != null)
+                {
+                    if (SelectedTile.Invisible != DynamiccheckBox.Checked)
+                        SelectedTile.Invisible = DynamiccheckBox.Checked;
+                }
+            }
+        }
     }
 }

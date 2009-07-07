@@ -100,6 +100,7 @@ namespace FiddlerControls
         private int action = 1;
         private bool Loaded = false;
         private int[] hues = new int[25];
+        private int mount = 0;
 
         public void SetHue(int index, int color)
         {
@@ -298,6 +299,39 @@ namespace FiddlerControls
                     background = Animations.GetAnimation(back, action, facing, ref hue, false, true);
 
                 System.Drawing.Point draw = new System.Drawing.Point();
+                if (mount != 0)
+                {
+                    if ((action >= 23) && (action <= 29)) //mount animations
+                    {
+                        int mountaction;
+                        switch (action)
+                        {
+                            case 23:
+                                mountaction = 0;
+                                break;
+                            case 24:
+                                mountaction = 1;
+                                break;
+                            case 25:
+                                mountaction = 2;
+                                break;
+                            default:
+                                mountaction = 5;
+                                break;
+                        }
+                        if (Animations.IsActionDefined(mount, mountaction, facing))
+                        {
+                            hue = 0;
+                            Frame[] mountframe = Animations.GetAnimation(mount, mountaction, facing, ref hue, false, false);
+                            if ((mountframe.Length >= 0) && (mountframe[0].Bitmap != null))
+                            {
+                                draw.X = drawpointAni.X - mountframe[0].Center.X;
+                                draw.Y = drawpointAni.Y - mountframe[0].Center.Y - mountframe[0].Bitmap.Height;
+                                graphpic.DrawImage(mountframe[0].Bitmap, draw);
+                            }
+                        }
+                    }
+                }
                 if (background != null)
                 {
                     draw.X = drawpointAni.X - background[0].Center.X;
@@ -377,6 +411,39 @@ namespace FiddlerControls
                     using (Graphics graph = Graphics.FromImage(m_Animation[i]))
                     {
                         graph.Clear(Color.WhiteSmoke);
+                        if (mount != 0)
+                        {
+                            if ((action >= 23) && (action <= 29)) //mount animations
+                            {
+                                int mountaction;
+                                switch (action)
+                                {
+                                    case 23:
+                                        mountaction = 0;
+                                        break;
+                                    case 24:
+                                        mountaction = 1;
+                                        break;
+                                    case 25:
+                                        mountaction = 2;
+                                        break;
+                                    default:
+                                        mountaction = 5;
+                                        break;
+                                }
+                                if (Animations.IsActionDefined(mount, mountaction, facing))
+                                {
+                                    hue = 0;
+                                    Frame[] mountframe = Animations.GetAnimation(mount, mountaction, facing, ref hue, false, false);
+                                    if ((mountframe.Length > i) && (mountframe[i].Bitmap != null))
+                                    {
+                                        draw.X = drawpointAni.X - mountframe[i].Center.X;
+                                        draw.Y = drawpointAni.Y - mountframe[i].Center.Y - mountframe[i].Bitmap.Height;
+                                        graph.DrawImage(mountframe[i].Bitmap, draw);
+                                    }
+                                }
+                            }
+                        }
                         draw.X = drawpointAni.X - mobile[i].Center.X;
                         draw.Y = drawpointAni.Y - mobile[i].Center.Y - mobile[i].Bitmap.Height;
                         graph.DrawImage(mobile[i].Bitmap, draw);
@@ -401,7 +468,6 @@ namespace FiddlerControls
                                     }
                                     else
                                         frames = Animations.GetAnimation(ani, action, facing, ref hue, false, false);
-                                    draw.X = draw.X;
                                     if ((frames.Length < i) || (frames[i].Bitmap == null))
                                         continue;
                                     draw.X = drawpointAni.X - frames[i].Center.X;
@@ -1238,6 +1304,22 @@ namespace FiddlerControls
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        private void MountTextBoxOnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                int index;
+                if (Utils.ConvertStringToInt(textBoxMount.Text, out index, 0, 0xFFFF))
+                {
+                    if (Ultima.Animations.IsActionDefined(index, 0, 0))
+                    {
+                        mount = index;
+                        RefreshDrawing();
+                    }
+                }
+            }
         }
     }
 

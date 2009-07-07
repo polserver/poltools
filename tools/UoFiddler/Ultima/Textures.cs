@@ -128,8 +128,8 @@ namespace Ultima
 
         public unsafe static void Save(string path)
         {
-            string idx = Path.Combine(path, "Texidx.mul");
-            string mul = Path.Combine(path, "Texmaps.mul");
+            string idx = Path.Combine(path, "texidx.mul");
+            string mul = Path.Combine(path, "texmaps.mul");
             using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
                               fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
             {

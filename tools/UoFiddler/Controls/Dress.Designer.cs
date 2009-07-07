@@ -59,6 +59,8 @@ namespace FiddlerControls
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.unDressAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxMount = new System.Windows.Forms.TextBox();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBoxAnimate = new System.Windows.Forms.GroupBox();
             this.ActionBar = new System.Windows.Forms.TrackBar();
@@ -92,6 +94,7 @@ namespace FiddlerControls
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.splitContainer5.Panel1.SuspendLayout();
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
@@ -241,6 +244,7 @@ namespace FiddlerControls
             // splitContainer4.Panel1
             // 
             this.splitContainer4.Panel1.Controls.Add(this.checkedListBoxWear);
+            this.splitContainer4.Panel1.Controls.Add(this.groupBox1);
             // 
             // splitContainer4.Panel2
             // 
@@ -257,7 +261,7 @@ namespace FiddlerControls
             this.checkedListBoxWear.FormattingEnabled = true;
             this.checkedListBoxWear.Location = new System.Drawing.Point(0, 0);
             this.checkedListBoxWear.Name = "checkedListBoxWear";
-            this.checkedListBoxWear.Size = new System.Drawing.Size(139, 319);
+            this.checkedListBoxWear.Size = new System.Drawing.Size(139, 274);
             this.checkedListBoxWear.TabIndex = 0;
             this.checkedListBoxWear.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_Change);
             this.checkedListBoxWear.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox_ItemCheck);
@@ -312,6 +316,25 @@ namespace FiddlerControls
             this.unDressAllToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.unDressAllToolStripMenuItem.Text = "UnDress All";
             this.unDressAllToolStripMenuItem.Click += new System.EventHandler(this.OnClickUndressAll);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBoxMount);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 277);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(139, 47);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Mount";
+            // 
+            // textBoxMount
+            // 
+            this.textBoxMount.Location = new System.Drawing.Point(19, 19);
+            this.textBoxMount.Name = "textBoxMount";
+            this.textBoxMount.Size = new System.Drawing.Size(100, 20);
+            this.textBoxMount.TabIndex = 0;
+            this.textBoxMount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MountTextBoxOnKeyDown);
             // 
             // splitContainer5
             // 
@@ -512,6 +535,8 @@ namespace FiddlerControls
             this.splitContainer4.Panel2.ResumeLayout(false);
             this.splitContainer4.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
             this.splitContainer5.ResumeLayout(false);
@@ -564,5 +589,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asJpgToolStripMenuItem1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBoxMount;
     }
 }

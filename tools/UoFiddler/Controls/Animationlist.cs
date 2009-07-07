@@ -440,6 +440,7 @@ namespace FiddlerControls
             node.Name = "Mobs";
             node.Tag = -1;
             TreeViewMobs.Nodes.Add(node);
+
             foreach (XmlElement xMob in xMobs.SelectNodes("Mob"))
             {
                 string name;
