@@ -1,12 +1,14 @@
-@ECHO OFF
+@ECHO ON
 
 REM - $Id: ECompile.bat 373 2006-06-17 18:27:33Z austinheilman $
 
 REM -- If a special path is needed to ecompile.exe set it here
 REM -- Path is considered to be run from the root if started by starthere.bat
-SET ECOMPILE_PATH=scripts\ecompile.exe
+SET ECOMPILE_DIR=scripts\
+SET ECOMPILE_PATH=ecompile.exe
 REM ----------
 
+CD %ECOMPILE_DIR%
 GOTO :MENU()
 
 REM -- MENU FUNCTION
@@ -64,4 +66,5 @@ ECHO Compilation complete.
 GOTO RETURN_TO_MENU()
 
 REM -- QUIT FUNCTION
+CD ..
 :QUIT()
