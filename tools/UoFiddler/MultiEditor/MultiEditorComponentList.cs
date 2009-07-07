@@ -68,7 +68,7 @@ namespace MultiEditor
                 {
                     for (int i = 0; i < list.Tiles[x][y].Length; i++)
                     {
-                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID - 0x4000, x, y, list.Tiles[x][y][i].Z));
+                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID - 0x4000, x, y, list.Tiles[x][y][i].Z,list.Tiles[x][y][i].Flag));
                     }
                     Tiles.Add(new FloorTile(x, y, Parent.DrawFloorZ));
                 }
@@ -130,20 +130,20 @@ namespace MultiEditor
         public MultiComponentList ConvertToSDK()
         {
             int count = 0;
-            TileList[][] tiles = new TileList[Width][];
+            MTileList[][] tiles = new MTileList[Width][];
             for (int x = 0; x < Width; ++x)
             {
-                tiles[x] = new TileList[Height];
+                tiles[x] = new MTileList[Height];
                 for (int y = 0; y < Height; ++y)
                 {
-                    tiles[x][y] = new TileList();
+                    tiles[x][y] = new MTileList();
                 }
             }
             foreach (MultiTile tile in Tiles)
             {
                 if (tile.isVirtualFloor)
                     continue;
-                tiles[tile.X][tile.Y].Add((short)(tile.ID + 0x4000), (sbyte)tile.Z);
+                tiles[tile.X][tile.Y].Add((short)(tile.ID + 0x4000), (sbyte)tile.Z, tile.Invisible?(sbyte)0:(sbyte)1);
                 count++;
             }
             return new MultiComponentList(tiles, count, Width, Height);
@@ -182,6 +182,8 @@ namespace MultiEditor
                 gfx.Clear(Color.White);
                 foreach (MultiTile tile in Tiles)
                 {
+                    if (tile.Z > maxheight)
+                        continue;
                     Bitmap bmp = tile.GetBitmap();
                     if (bmp == null)
                         continue;
@@ -311,7 +313,7 @@ namespace MultiEditor
             if ((x > Width) || (y > Height))
                 return;
             AddToUndoList("Add Tile");
-            MultiTile tile = new MultiTile(id, x, y, z);
+            MultiTile tile = new MultiTile(id, x, y, z,1);
             Tiles.Add(tile);
             Modified = true;
             Tiles.Sort();
@@ -396,7 +398,7 @@ namespace MultiEditor
                     if (tile.isVirtualFloor)
                         Tiles.Add(new FloorTile(tile.X, tile.Y, tile.Z));
                     else
-                        Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z));
+                        Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z,tile.Invisible));
                 }
                 Modified = true;
                 RecalcMinMax();
@@ -428,7 +430,7 @@ namespace MultiEditor
                 if (tile.isVirtualFloor)
                     UndoList[0].Tiles.Add(new FloorTile(tile.X,tile.Y,tile.Y));
                 else
-                    UndoList[0].Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z));
+                    UndoList[0].Tiles.Add(new MultiTile(tile.ID, tile.X, tile.Y, tile.Z,tile.Invisible));
             }
         }
 
@@ -620,12 +622,22 @@ namespace MultiEditor
 
 		#region Constructors (4) 
 
-        public MultiTile(int id, int x, int y, int z)
+        public MultiTile(int id, int x, int y, int z, int flag)
         {
             ID = id;
             X = x;
             Y = y;
             Z = z;
+            Invisible = flag == 0 ? true : false;
+        }
+
+        public MultiTile(int id, int x, int y, int z, bool flag)
+        {
+            ID = id;
+            X = x;
+            Y = y;
+            Z = z;
+            Invisible = flag;
         }
 
         public MultiTile(int id, int z)
@@ -683,6 +695,8 @@ namespace MultiEditor
         public int Ymod { get { return ymod; } }
 
         public int Z { get { return z; } set { z = value; RecalcMod(); } }
+
+        public bool Invisible { get; set; }
 
 		#endregion Properties 
 

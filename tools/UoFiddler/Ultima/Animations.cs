@@ -323,7 +323,7 @@ namespace Ultima
         }
     }
 
-    public sealed class Animations
+    public class Animations
     {
         private static FileIndex m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
         //public static FileIndex FileIndex{ get{ return m_FileIndex; } }
@@ -871,7 +871,12 @@ namespace Ultima
 
                     ushort* cur = line + ((((header >> 12) & 0x3FF) * delta) + ((header >> 22) & 0x3FF));
                     ushort* end = cur + (header & 0xFFF);
-
+                    //int run = (header & 0xFFF);
+                    //int offy = ((header >> 12) & 0x3FF);
+                    //int offx = ((header >> 22) & 0x3FF);
+                    //int newHeader = run | ( offy << 12 ) | ( offx << 22 );
+                    //newHeader ^= DoubleXor;
+                    
                     while (cur < end)
                         *cur++ = palette[bin.ReadByte()];
                 }
@@ -969,4 +974,277 @@ namespace Ultima
             }
         }
     }
+
+    public sealed class AnimationEdit
+    {
+        private static FileIndex m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
+        //public static FileIndex FileIndex{ get{ return m_FileIndex; } }
+
+        private static FileIndex m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
+        //public static FileIndex FileIndex2{ get{ return m_FileIndex2; } }
+
+        private static FileIndex m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
+        //public static FileIndex FileIndex3{ get{ return m_FileIndex3; } }
+
+        private static FileIndex m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
+        //public static FileIndex FileIndex4{ get{ return m_FileIndex4; } }
+
+        private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+        //public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
+
+        /// <summary>
+        /// Rereads AnimX files
+        /// </summary>
+        public static void Reload()
+        {
+            m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
+            m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
+            m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
+            m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
+            m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+        }
+
+        private static void GetFileIndex(int body, int fileType, out FileIndex fileIndex, out int index)
+        {
+            switch (fileType)
+            {
+                default:
+                case 1:
+                    fileIndex = m_FileIndex;
+                    if (body < 200)
+                        index = body * 110;
+                    else if (body < 400)
+                        index = 22000 + ((body - 200) * 65);
+                    else
+                        index = 35000 + ((body - 400) * 175);
+
+                    break;
+                case 2:
+                    fileIndex = m_FileIndex2;
+                    if (body < 200)
+                        index = body * 110;
+                    else
+                        index = 22000 + ((body - 200) * 65);
+
+                    break;
+                case 3:
+                    fileIndex = m_FileIndex3;
+                    if (body < 300)
+                        index = body * 65;
+                    else if (body < 400)
+                        index = 33000 + ((body - 300) * 110);
+                    else
+                        index = 35000 + ((body - 400) * 175);
+
+                    break;
+                case 4:
+                    fileIndex = m_FileIndex4;
+                    if (body < 200)
+                        index = body * 110;
+                    else if (body < 400)
+                        index = 22000 + ((body - 200) * 65);
+                    else
+                        index = 35000 + ((body - 400) * 175);
+
+                    break;
+                case 5:
+                    fileIndex = m_FileIndex5;
+                    if ((body < 200) && (body != 34)) // looks strange, though it works.
+                        index = body * 110;
+                    else if (body < 400)
+                        index = 22000 + ((body - 200) * 65);
+                    else
+                        index = 35000 + ((body - 400) * 175);
+
+                    break;
+            }
+
+            //index += action * 5;
+
+            //if (direction <= 4)
+            //    index += direction;
+            //else
+            //    index += direction - (direction - 4) * 2;
+        }
+
+        public static AnimEdit GetAnimation(int filetype, int body)
+        {
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, filetype, out fileIndex, out index);
+
+            int length, extra;
+            bool patched;
+
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return null;
+            return new AnimEdit(body, fileIndex, filetype, index);
+        }
+    }
+
+    public sealed class AnimEdit
+    {
+        public struct Actions
+        {
+            public FramesEdit[] Directions;
+        }
+        public int Body { get; private set; }
+        public Actions[] Action;
+        public unsafe AnimEdit(int body, FileIndex fileIndex, int filetype, int index)
+        {
+            Body = body;
+            int AnimCount = Animations.GetAnimLength(body, filetype);
+            Action = new Actions[AnimCount];
+            for (int i = 0; i < AnimCount; i++)
+            {
+                int length, extra;
+                bool patched;
+                Action[i].Directions = new FramesEdit[5];
+                for (int d = 0; d < 5; d++)
+                {
+                    Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+                    index++;
+                    if (stream == null)
+                        continue;
+                    using (BinaryReader bin = new BinaryReader(stream))
+                    {
+                        Action[i].Directions[d] = new FramesEdit(bin);
+                    }
+                }
+            }
+        }
+
+        public unsafe Bitmap[] GetFrames(int action, int direction)
+        {
+            FramesEdit frames = Action[action].Directions[direction];
+            if ((frames == null) || (frames.Frames.Length == 0))
+                return null;
+            Bitmap[] bits = new Bitmap[frames.Frames.Length];
+            for (int i = 0; i < bits.Length; i++)
+            {
+                int width = frames.Frames[i].width;
+                int height = frames.Frames[i].height;
+                Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
+                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+
+                int xBase = frames.Frames[i].Center.X - 0x200;
+                int yBase = (frames.Frames[i].Center.Y + height) - 0x200;
+
+                line += xBase;
+                line += yBase * delta;
+                for (int j = 0; j < frames.Frames[i].RawData.Length; j++)
+                {
+                    FrameEdit.Raw raw = frames.Frames[i].RawData[j];
+                    
+
+                    ushort* cur = line + (((raw.offy) * delta) + ((raw.offx) & 0x3FF));
+                    ushort* end = cur + (raw.run);
+                    //int run = (header & 0xFFF);
+                    //int offy = ((header >> 12) & 0x3FF);
+                    //int offx = ((header >> 22) & 0x3FF);
+                    //int newHeader = run | ( offy << 12 ) | ( offx << 22 );
+                    //newHeader ^= DoubleXor;
+                    int ii=0;
+                    while (cur < end)
+                    {
+                        *cur++ = frames.Palette[raw.data[ii]];
+                        ii++;
+                    }
+                }
+                bmp.UnlockBits(bd);
+                bits[i] = bmp;
+            }
+            return bits;
+        }
+    }
+
+    public sealed class FramesEdit
+    {
+        public ushort[] Palette = new ushort[0x100];
+        public FrameEdit[] Frames;
+
+        public FramesEdit(BinaryReader bin)
+        {
+            for (int i = 0; i < 0x100; ++i)
+                Palette[i] = (ushort)(bin.ReadUInt16() ^ 0x8000);
+
+            int start = (int)bin.BaseStream.Position;
+            int frameCount = bin.ReadInt32();
+
+            int[] lookups = new int[frameCount];
+
+            for (int i = 0; i < frameCount; ++i)
+                lookups[i] = start + bin.ReadInt32();
+
+            Frames = new FrameEdit[frameCount];
+
+            for (int i = 0; i < frameCount; ++i)
+            {
+                bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
+                Frames[i] = new FrameEdit(bin);
+            }
+        }
+    }
+
+    public sealed class FrameEdit
+    {
+        private const int DoubleXor = (0x200 << 22) | (0x200 << 12);
+        public struct Raw
+        {
+            public int run;
+            public int offx;
+            public int offy;
+            public byte[] data;
+        }
+        public Raw[] RawData { get; private set; }
+        public Point Center { get; set; }
+        public int width;
+        public int height;
+
+        public unsafe FrameEdit(BinaryReader bin)
+        {
+            int xCenter = bin.ReadInt16();
+            int yCenter = bin.ReadInt16();
+
+            width = bin.ReadUInt16();
+            height = bin.ReadUInt16();
+            if (height == 0 || width == 0)
+                return;
+            int header;
+
+            ArrayList tmp = new ArrayList();
+            while ((header = bin.ReadInt32()) != 0x7FFF7FFF)
+            {
+                Raw raw = new Raw();
+                header ^= DoubleXor;
+                raw.run = (header & 0xFFF);
+                raw.offy = ((header >> 12) & 0x3FF);
+                raw.offx = ((header >> 22) & 0x3FF);
+
+                int i = 0;
+                raw.data = new byte[raw.run];
+                while (i<raw.run)
+                {
+                    raw.data[i] = bin.ReadByte();
+                    i++;
+                }
+                tmp.Add(raw);
+            }
+            RawData = new Raw[tmp.Count];
+            int j = 0;
+            foreach (Raw c in tmp)
+            {
+                RawData[j] = c;
+                j++;
+            }
+
+
+            Center = new Point(xCenter, yCenter);
+        }
+    }
+
 }

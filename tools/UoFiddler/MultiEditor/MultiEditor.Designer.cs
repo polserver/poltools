@@ -79,6 +79,7 @@ namespace MultiEditor
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.Selectedpanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.DynamiccheckBox = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Selected_Z = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Selected_Y = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Selected_X = new System.Windows.Forms.NumericUpDown();
@@ -270,6 +271,11 @@ namespace MultiEditor
             // numericUpDown_Size_Width
             // 
             this.numericUpDown_Size_Width.Location = new System.Drawing.Point(35, 19);
+            this.numericUpDown_Size_Width.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDown_Size_Width.Name = "numericUpDown_Size_Width";
             this.numericUpDown_Size_Width.Size = new System.Drawing.Size(52, 20);
             this.numericUpDown_Size_Width.TabIndex = 0;
@@ -287,6 +293,11 @@ namespace MultiEditor
             // numericUpDown_Size_Height
             // 
             this.numericUpDown_Size_Height.Location = new System.Drawing.Point(93, 19);
+            this.numericUpDown_Size_Height.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.numericUpDown_Size_Height.Name = "numericUpDown_Size_Height";
             this.numericUpDown_Size_Height.Size = new System.Drawing.Size(52, 20);
             this.numericUpDown_Size_Height.TabIndex = 1;
@@ -624,6 +635,7 @@ namespace MultiEditor
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.DynamiccheckBox);
             this.groupBox3.Controls.Add(this.numericUpDown_Selected_Z);
             this.groupBox3.Controls.Add(this.numericUpDown_Selected_Y);
             this.groupBox3.Controls.Add(this.numericUpDown_Selected_X);
@@ -634,9 +646,20 @@ namespace MultiEditor
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Selected Tile X,Y,Z";
             // 
+            // DynamiccheckBox
+            // 
+            this.DynamiccheckBox.AutoSize = true;
+            this.DynamiccheckBox.Location = new System.Drawing.Point(100, 47);
+            this.DynamiccheckBox.Name = "DynamiccheckBox";
+            this.DynamiccheckBox.Size = new System.Drawing.Size(64, 17);
+            this.DynamiccheckBox.TabIndex = 3;
+            this.DynamiccheckBox.Text = "Invisible";
+            this.DynamiccheckBox.UseVisualStyleBackColor = true;
+            this.DynamiccheckBox.CheckedChanged += new System.EventHandler(this.BTN_DynamicCheckBox_Changed);
+            // 
             // numericUpDown_Selected_Z
             // 
-            this.numericUpDown_Selected_Z.Location = new System.Drawing.Point(56, 46);
+            this.numericUpDown_Selected_Z.Location = new System.Drawing.Point(20, 46);
             this.numericUpDown_Selected_Z.Maximum = new decimal(new int[] {
             127,
             0,
@@ -945,6 +968,7 @@ namespace MultiEditor
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Z)).EndInit();
             this.Selectedpanel.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Selected_X)).EndInit();
@@ -1029,5 +1053,6 @@ namespace MultiEditor
         private System.Windows.Forms.ToolStripMenuItem UndoItem8;
         private System.Windows.Forms.ToolStripMenuItem UndoItem9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.CheckBox DynamiccheckBox;
     }
 }

@@ -489,6 +489,76 @@ namespace Ultima
         }
     }
 
+    public struct MTile : IComparable
+    {
+        internal short m_ID;
+        internal sbyte m_Z;
+        internal sbyte m_Flag;
+
+        public int ID { get { return m_ID; } }
+        public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
+
+        public int Flag { get { return m_Flag; } set { m_Flag = (sbyte)value; } }
+
+        public MTile(short id, sbyte z)
+        {
+            m_ID = id;
+            m_Z = z;
+            m_Flag = 1;
+        }
+
+        public MTile(short id, sbyte z, sbyte flag)
+        {
+            m_ID = id;
+            m_Z = z;
+            m_Flag = flag;
+        }
+
+        public void Set(short id, sbyte z)
+        {
+            m_ID = id;
+            m_Z = z;
+        }
+
+        public void Set(short id, sbyte z, sbyte flag)
+        {
+            m_ID = id;
+            m_Z = z;
+            m_Flag = flag;
+        }
+
+        public int CompareTo(object x)
+        {
+            if (x == null)
+                return 1;
+
+            if (!(x is MTile))
+                throw new ArgumentNullException();
+
+            MTile a = (MTile)x;
+
+            if (m_Z > a.m_Z)
+                return 1;
+            else if (a.m_Z > m_Z)
+                return -1;
+
+            ItemData ourData = TileData.ItemTable[m_ID & 0x3FFF];
+            ItemData theirData = TileData.ItemTable[a.m_ID & 0x3FFF];
+
+            if (ourData.Height > theirData.Height)
+                return 1;
+            else if (theirData.Height > ourData.Height)
+                return -1;
+
+            if (ourData.Background && !theirData.Background)
+                return -1;
+            else if (theirData.Background && !ourData.Background)
+                return 1;
+
+            return 0;
+        }
+
+    }
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public struct Tile : IComparable
     {
@@ -505,6 +575,12 @@ namespace Ultima
         }
 
         public void Set(short id, sbyte z)
+        {
+            m_ID = id;
+            m_Z = z;
+        }
+
+        public void Set(short id, sbyte z, sbyte flag)
         {
             m_ID = id;
             m_Z = z;

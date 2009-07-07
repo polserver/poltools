@@ -118,7 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.1b
+    <value>Version 4.1c
+MultiEditor Heightbar fix
+Added Import from UOArchitect design file
+Added Checkbox to mark Component invisible
+art.mul index length changed to 0x10000
+Map: Added Clear Statics
+Dress: Added textbox to test mount anim
+
+Version 4.1b
 MultiEditor save Bugfix
 Cleanups
 

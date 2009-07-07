@@ -269,10 +269,10 @@ namespace FiddlerControls
                 {
                     for (int y = 0; y < multi.Height; ++y)
                     {
-                        Tile[] tiles = multi.Tiles[x][y];
+                        MTile[] tiles = multi.Tiles[x][y];
                         for (int i = 0; i < tiles.Length; ++i)
                         {
-                            MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2}\n", tiles[i].ID - 0x4000, x, y, tiles[i].Z));
+                            MultiComponentBox.AppendText(String.Format("0x{0:X4} {1,3} {2,3} {3,2} {4,2}\n", tiles[i].ID - 0x4000, x, y, tiles[i].Z, tiles[i].Flag));
                         }
                     }
                 }
