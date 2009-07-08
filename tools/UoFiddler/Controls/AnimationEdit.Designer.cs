@@ -61,6 +61,7 @@
             this.anim3mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.anim4mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.anim5mulToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBoxPalette = new System.Windows.Forms.PictureBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -77,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -175,6 +177,7 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.listView1);
+            this.tabPage1.Controls.Add(this.pictureBoxPalette);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -187,11 +190,11 @@
             // 
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
+            this.listView1.Location = new System.Drawing.Point(3, 23);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.OwnerDraw = true;
-            this.listView1.Size = new System.Drawing.Size(462, 346);
+            this.listView1.Size = new System.Drawing.Size(462, 326);
             this.listView1.TabIndex = 0;
             this.listView1.TileSize = new System.Drawing.Size(81, 110);
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -373,7 +376,7 @@
             // animmulToolStripMenuItem
             // 
             this.animmulToolStripMenuItem.Name = "animmulToolStripMenuItem";
-            this.animmulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.animmulToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.animmulToolStripMenuItem.Tag = 1;
             this.animmulToolStripMenuItem.Text = "anim.mul";
             this.animmulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
@@ -381,7 +384,7 @@
             // anim2mulToolStripMenuItem
             // 
             this.anim2mulToolStripMenuItem.Name = "anim2mulToolStripMenuItem";
-            this.anim2mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim2mulToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.anim2mulToolStripMenuItem.Tag = 2;
             this.anim2mulToolStripMenuItem.Text = "anim2.mul";
             this.anim2mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
@@ -389,7 +392,7 @@
             // anim3mulToolStripMenuItem
             // 
             this.anim3mulToolStripMenuItem.Name = "anim3mulToolStripMenuItem";
-            this.anim3mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim3mulToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.anim3mulToolStripMenuItem.Tag = 3;
             this.anim3mulToolStripMenuItem.Text = "anim3.mul";
             this.anim3mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
@@ -397,7 +400,7 @@
             // anim4mulToolStripMenuItem
             // 
             this.anim4mulToolStripMenuItem.Name = "anim4mulToolStripMenuItem";
-            this.anim4mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim4mulToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.anim4mulToolStripMenuItem.Tag = 4;
             this.anim4mulToolStripMenuItem.Text = "anim4.mul";
             this.anim4mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
@@ -405,10 +408,21 @@
             // anim5mulToolStripMenuItem
             // 
             this.anim5mulToolStripMenuItem.Name = "anim5mulToolStripMenuItem";
-            this.anim5mulToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.anim5mulToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.anim5mulToolStripMenuItem.Tag = 5;
             this.anim5mulToolStripMenuItem.Text = "anim5.mul";
             this.anim5mulToolStripMenuItem.Click += new System.EventHandler(this.OnClickDefrag);
+            // 
+            // pictureBoxPalette
+            // 
+            this.pictureBoxPalette.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBoxPalette.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxPalette.MaximumSize = new System.Drawing.Size(0, 20);
+            this.pictureBoxPalette.MinimumSize = new System.Drawing.Size(256, 20);
+            this.pictureBoxPalette.Name = "pictureBoxPalette";
+            this.pictureBoxPalette.Size = new System.Drawing.Size(462, 20);
+            this.pictureBoxPalette.TabIndex = 1;
+            this.pictureBoxPalette.TabStop = false;
             // 
             // AnimationEdit
             // 
@@ -441,6 +455,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -479,5 +494,6 @@
         private System.Windows.Forms.ToolStripMenuItem anim3mulToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem anim4mulToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem anim5mulToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBoxPalette;
     }
 }

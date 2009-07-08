@@ -38,8 +38,8 @@ namespace FiddlerControls
 
         private void onLoad(object sender, EventArgs e)
         {
-            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
+            //System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            //watch.Start();
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
 
@@ -47,13 +47,15 @@ namespace FiddlerControls
             TreeNode[] nodes = new TreeNode[count];
             for (int i = 0; i < count; i++)
             {
-                AnimEdit anim=Ultima.AnimationEdit.GetAnimation(FileType, i);
-                if (anim != null)
+                //AnimEdit anim=Ultima.AnimationEdit.GetAnimation(FileType, i);
+                //if (anim != null)
+                if (Ultima.AnimationEdit.IsAnimDefinied(FileType,i))
                 {
-                    int animlength = anim.Action.Length;
+
+                    int animlength = Animations.GetAnimLength(i, FileType);
                     string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
                     TreeNode node = new TreeNode();
-                    node.Tag = anim;
+                    node.Tag = i;
                     node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
                     nodes[i]=node;
                     for (int j = 0; j < animlength; j++)
@@ -79,8 +81,8 @@ namespace FiddlerControls
             }
             treeView1.Nodes.AddRange(nodes);
             treeView1.EndUpdate();
-            watch.Stop();//77816
-            Console.WriteLine(watch.ElapsedMilliseconds);
+            //watch.Stop();//77816
+            //Console.WriteLine(watch.ElapsedMilliseconds);
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
         }
@@ -88,22 +90,51 @@ namespace FiddlerControls
         Ultima.AnimEdit edit;
         //Bitmap[] currbits;
         int curraction;
+        private unsafe void SetPaletteBox()
+        {
+            Bitmap bmp = new Bitmap(pictureBoxPalette.Width, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
+            if (edit != null)
+            {
+                if (edit.Action[curraction].Directions[CurrDir] != null)
+                {
+                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, pictureBoxPalette.Width, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                    ushort* line = (ushort*)bd.Scan0;
+                    int delta = bd.Stride >> 1;
+                    for (int y = 0; y < bd.Height; ++y, line += delta)
+                    {
+                        ushort* cur = line;
+                        for (int i = 0; i < 0x100; i++)
+                        {
+                            *cur++ = edit.Action[curraction].Directions[CurrDir].Palette[i];
+                        }
+                    }
+                    bmp.UnlockBits(bd);
+                }
+            }
+            pictureBoxPalette.Image = bmp;
+
+        }
         private void AfterSelectTreeView(object sender, TreeViewEventArgs e)
         {
             if (treeView1.SelectedNode != null)
             {
+                edit = null;
                 if (treeView1.SelectedNode.Parent == null)
                 {
-                    edit = (Ultima.AnimEdit)treeView1.SelectedNode.Tag;
+                    if (treeView1.SelectedNode.Tag!=null)
+                        edit = Ultima.AnimationEdit.GetAnimation(FileType, (int)treeView1.SelectedNode.Tag);
                     curraction = 0;
                 }
                 else
                 {
-                    edit = (Ultima.AnimEdit)treeView1.SelectedNode.Parent.Tag;
+                    if (treeView1.SelectedNode.Parent.Tag != null)
+                        edit = Ultima.AnimationEdit.GetAnimation(FileType, (int)treeView1.SelectedNode.Parent.Tag);
+                    //edit = (Ultima.AnimEdit)treeView1.SelectedNode.Parent.Tag;
                     curraction = (int)treeView1.SelectedNode.Tag;
                 }
                 //CurrFrames = Animations.GetAnimation(body, action, CurrDir, FileType);
                 //edit = Ultima.AnimationEdit.GetAnimation(FileType, body);
+                
                 listView1.BeginUpdate();
                 listView1.Clear();
                 if (edit!=null)//(CurrFrames != null)
@@ -140,6 +171,7 @@ namespace FiddlerControls
                 }
                 listView1.EndUpdate();
                 pictureBox1.Refresh();
+                SetPaletteBox();
             }
         }
 
