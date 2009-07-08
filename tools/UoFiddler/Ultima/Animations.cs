@@ -992,6 +992,30 @@ namespace Ultima
         private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
         //public static FileIndex FileIndex5 { get { return m_FileIndex5; } }
 
+        private static AnimEdit[] animcache;
+        private static AnimEdit[] animcache2;
+        private static AnimEdit[] animcache3;
+        private static AnimEdit[] animcache4;
+        private static AnimEdit[] animcache5;
+        static AnimationEdit()
+        {
+            int count;
+            count=Animations.GetAnimCount(1);
+            if (count > 0)
+                animcache = new AnimEdit[count];
+            count = Animations.GetAnimCount(2);
+            if (count > 0)
+                animcache2 = new AnimEdit[count];
+            count = Animations.GetAnimCount(3);
+            if (count > 0)
+                animcache3 = new AnimEdit[count];
+            count = Animations.GetAnimCount(4);
+            if (count > 0)
+                animcache4 = new AnimEdit[count];
+            count = Animations.GetAnimCount(5);
+            if (count > 0)
+                animcache5 = new AnimEdit[count];
+        }
         /// <summary>
         /// Rereads AnimX files
         /// </summary>
@@ -1069,6 +1093,33 @@ namespace Ultima
 
         public static AnimEdit GetAnimation(int filetype, int body)
         {
+            AnimEdit[] cache;
+            switch (filetype)
+            {
+                case 1:
+                    cache = animcache;
+                    break;
+                case 2:
+                    cache = animcache2;
+                    break;
+                case 3:
+                    cache = animcache3;
+                    break;
+                case 4:
+                    cache = animcache4;
+                    break;
+                case 5:
+                    cache = animcache5;
+                    break;
+                default:
+                    cache = animcache;
+                    break;
+            }
+            if (cache != null)
+            {
+                if (cache[body]!=null)
+                    return cache[body];
+            }
             FileIndex fileIndex;
             int index;
             GetFileIndex(body, filetype, out fileIndex, out index);
@@ -1080,7 +1131,51 @@ namespace Ultima
 
             if (stream == null)
                 return null;
-            return new AnimEdit(body, fileIndex, filetype, index);
+            stream.Close();
+            return cache[body]=new AnimEdit(body, fileIndex, filetype, index);
+        }
+
+        public static bool IsAnimDefinied(int filetype, int body)
+        {
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, filetype, out fileIndex, out index);
+
+            int length, extra;
+            bool patched;
+
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return false;
+            stream.Close();
+            return true;
+        }
+
+        public static bool IsActionDefinied(int filetype, int body, int action)
+        {
+            FileIndex fileIndex;
+            int index;
+            GetFileIndex(body, filetype, out fileIndex, out index);
+
+            int length, extra;
+            bool patched;
+
+            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+
+            if (stream == null)
+                return false;
+            stream.Close();
+
+            int AnimCount = Animations.GetAnimLength(body, filetype);
+            if (AnimCount < action)
+                return false;
+
+            stream = fileIndex.Seek(index+action*5, out length, out extra, out patched);
+            if (stream == null)
+                return false;
+            stream.Close();
+            return true;
         }
     }
 
@@ -1112,6 +1207,7 @@ namespace Ultima
                     {
                         Action[i].Directions[d] = new FramesEdit(bin);
                     }
+                    stream.Close();
                 }
             }
         }
@@ -1241,10 +1337,7 @@ namespace Ultima
                 RawData[j] = c;
                 j++;
             }
-
-
             Center = new Point(xCenter, yCenter);
         }
     }
-
 }
