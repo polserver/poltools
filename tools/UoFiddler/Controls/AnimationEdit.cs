@@ -9,6 +9,7 @@
  *
  ***************************************************************************/
 //GNA i hate osi...
+//saving seems to break mount anim?!
 
 using System;
 using System.Drawing;
@@ -31,15 +32,12 @@ namespace FiddlerControls
             FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
         }
 
-        //private Frame[] CurrFrames;
         private int FileType;
         private int CurrDir;
         private Point FramePoint;
 
         private void onLoad(object sender, EventArgs e)
         {
-            //System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-            //watch.Start();
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
 
@@ -47,8 +45,6 @@ namespace FiddlerControls
             TreeNode[] nodes = new TreeNode[count];
             for (int i = 0; i < count; i++)
             {
-                //AnimEdit anim=Ultima.AnimationEdit.GetAnimation(FileType, i);
-                //if (anim != null)
                 if (Ultima.AnimationEdit.IsAnimDefinied(FileType,i))
                 {
 
@@ -81,14 +77,11 @@ namespace FiddlerControls
             }
             treeView1.Nodes.AddRange(nodes);
             treeView1.EndUpdate();
-            //watch.Stop();//77816
-            //Console.WriteLine(watch.ElapsedMilliseconds);
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
         Ultima.AnimEdit edit;
-        //Bitmap[] currbits;
         int curraction;
         private unsafe void SetPaletteBox()
         {
@@ -129,24 +122,20 @@ namespace FiddlerControls
                 {
                     if (treeView1.SelectedNode.Parent.Tag != null)
                         edit = Ultima.AnimationEdit.GetAnimation(FileType, (int)treeView1.SelectedNode.Parent.Tag);
-                    //edit = (Ultima.AnimEdit)treeView1.SelectedNode.Parent.Tag;
                     curraction = (int)treeView1.SelectedNode.Tag;
                 }
-                //CurrFrames = Animations.GetAnimation(body, action, CurrDir, FileType);
-                //edit = Ultima.AnimationEdit.GetAnimation(FileType, body);
-                
                 listView1.BeginUpdate();
                 listView1.Clear();
-                if (edit!=null)//(CurrFrames != null)
+                if (edit!=null)
                 {
                     int width = 80;
                     int height = 110;
                     Bitmap[] currbits = edit.GetFrames(curraction, CurrDir);
                     if (currbits != null)
                     {
-                        for (int i = 0; i < currbits.Length/*CurrFrames.Length*/; i++)
+                        for (int i = 0; i < currbits.Length; i++)
                         {
-                            if (currbits[i] == null)//(CurrFrames[i].Bitmap == null)
+                            if (currbits[i] == null)
                                 continue;
                             ListViewItem item;
                             item = new ListViewItem(i.ToString(), 0);
@@ -156,10 +145,6 @@ namespace FiddlerControls
                                 width = currbits[i].Width;
                             if (currbits[i].Height > height)
                                 height = currbits[i].Height;
-                            //if (CurrFrames[i].Bitmap.Width > width)
-                            //    width = CurrFrames[i].Bitmap.Width;
-                            //if (CurrFrames[i].Bitmap.Height > height)
-                            //    height = CurrFrames[i].Bitmap.Height;
                         }
                         listView1.TileSize = new Size(width + 5, height + 5);
                         trackBar2.Maximum = currbits.Length - 1;
@@ -178,7 +163,7 @@ namespace FiddlerControls
         private void DrawFrameItem(object sender, DrawListViewItemEventArgs e)
         {
             Bitmap[] currbits = edit.GetFrames(curraction, CurrDir);
-            Bitmap bmp = currbits[(int)e.Item.Tag];//CurrFrames[(int)e.Item.Tag].Bitmap;
+            Bitmap bmp = currbits[(int)e.Item.Tag];
             int width = bmp.Width;
             int height = bmp.Height;
 
@@ -233,22 +218,9 @@ namespace FiddlerControls
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            int body, action;
-            if (treeView1.SelectedNode.Parent == null)
-            {
-                body = (int)treeView1.SelectedNode.Tag;
-                action = 0;
-            }
-            else
-            {
-                body = (int)treeView1.SelectedNode.Parent.Tag;
-                action = (int)treeView1.SelectedNode.Tag;
-            }
-            //Animations.GetAnimation_(body, action, 0, 0, path);
-            //Animations.SaveFrame(body, CurrFrames, 1, path);
+            Ultima.AnimationEdit.Save(FileType, AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
             MessageBox.Show(
-                    String.Format("Frames saved to {0}", path),
+                    String.Format("AnimationFile saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
                     "Saved",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,

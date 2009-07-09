@@ -6,7 +6,7 @@ namespace Ultima
     {
         public Entry3D[] Index { get; private set; }
         public Stream Stream { get; private set; }
-
+        public long IdxLength { get; private set; }
         private string MulPath;
 
         public Stream Seek(int index, out int length, out int extra, out bool patched)
@@ -104,6 +104,7 @@ namespace Ultima
                     {
                         Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
                         int count = (int)(index.Length / 12);
+                        IdxLength = index.Length;
                         for (int i = 0; i < count && i < length; ++i)
                         {
                             Index[i].lookup = bin.ReadInt32();

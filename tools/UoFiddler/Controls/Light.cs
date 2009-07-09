@@ -336,6 +336,8 @@ namespace FiddlerControls
 
         private void LandTileTextChanged(object sender, EventArgs e)
         {
+            if (!Loaded)
+                return;
             int index;
             if (Utils.ConvertStringToInt(LandTileText.Text, out index, 0, 0x3FFF))
             {
@@ -366,6 +368,8 @@ namespace FiddlerControls
 
         private void LightTileTextChanged(object sender, EventArgs e)
         {
+            if (!Loaded)
+                return;
             int index;
             if (Utils.ConvertStringToInt(LightTileText.Text, out index, 0, 0x3FFF))
             {
