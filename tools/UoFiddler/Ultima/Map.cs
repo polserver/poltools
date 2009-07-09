@@ -541,22 +541,25 @@ namespace Ultima
                                             }
                                         }
                                         StaticTile[] tilelist = map.Tiles.GetPendingStatics(x, y);
-                                        for (int i = 0; i < tilelist.Length; i++)
+                                        if (tilelist != null)
                                         {
-                                            if ((tilelist[i].m_ID >= 0) && (tilelist[i].m_ID < 0x4000)) //legal?
+                                            for (int i = 0; i < tilelist.Length; i++)
                                             {
-                                                if (tilelist[i].m_Hue < 0)
-                                                    tilelist[i].m_Hue = 0;
-                                                if (firstitem)
+                                                if ((tilelist[i].m_ID >= 0) && (tilelist[i].m_ID < 0x4000)) //legal?
                                                 {
-                                                    binidx.Write((int)fsmul.Position); //lookup
-                                                    firstitem = false;
+                                                    if (tilelist[i].m_Hue < 0)
+                                                        tilelist[i].m_Hue = 0;
+                                                    if (firstitem)
+                                                    {
+                                                        binidx.Write((int)fsmul.Position); //lookup
+                                                        firstitem = false;
+                                                    }
+                                                    binmul.Write(tilelist[i].m_ID);
+                                                    binmul.Write(tilelist[i].m_X);
+                                                    binmul.Write(tilelist[i].m_Y);
+                                                    binmul.Write(tilelist[i].m_Z);
+                                                    binmul.Write(tilelist[i].m_Hue);
                                                 }
-                                                binmul.Write(tilelist[i].m_ID);
-                                                binmul.Write(tilelist[i].m_X);
-                                                binmul.Write(tilelist[i].m_Y);
-                                                binmul.Write(tilelist[i].m_Z);
-                                                binmul.Write(tilelist[i].m_Hue);
                                             }
                                         }
                                     }

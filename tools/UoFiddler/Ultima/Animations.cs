@@ -612,19 +612,19 @@ namespace Ultima
             {
                 default:
                 case 1:
-                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    count = 400 + (int)(m_FileIndex.IdxLength - 35000 * 12) / (12 * 175);
                     break;
                 case 2:
-                    count = (m_FileIndex.Index.Length - 22000) / 65 + 200;
+                    count = 200 + (int)(m_FileIndex2.IdxLength - 22000 * 12) / (12 * 65);
                     break;
                 case 3:
-                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    count = 400 + (int)(m_FileIndex3.IdxLength - 35000 * 12) / (12 * 175);
                     break;
                 case 4:
-                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    count = 400 + (int)(m_FileIndex4.IdxLength - 35000 * 12) / (12 * 175);
                     break;
                 case 5:
-                    count = (m_FileIndex.Index.Length - 35000) / 175 + 400;
+                    count = 400 + (int)(m_FileIndex5.IdxLength - 35000 * 12) / (12 * 175);
                     break;
             }
             return count;
@@ -816,6 +816,7 @@ namespace Ultima
                                 binidx.Write(length);
                                 binidx.Write(extra);
                                 byte[] buffer = new byte[length];
+                                m_Mul.Seek(lookup, SeekOrigin.Begin);
                                 m_MulReader.Read(buffer, 0, length);
                                 binmul.Write(buffer);
                             }
@@ -871,12 +872,6 @@ namespace Ultima
 
                     ushort* cur = line + ((((header >> 12) & 0x3FF) * delta) + ((header >> 22) & 0x3FF));
                     ushort* end = cur + (header & 0xFFF);
-                    //int run = (header & 0xFFF);
-                    //int offy = ((header >> 12) & 0x3FF);
-                    //int offx = ((header >> 22) & 0x3FF);
-                    //int newHeader = run | ( offy << 12 ) | ( offx << 22 );
-                    //newHeader ^= DoubleXor;
-                    
                     while (cur < end)
                         *cur++ = palette[bin.ReadByte()];
                 }
@@ -1082,13 +1077,6 @@ namespace Ultima
 
                     break;
             }
-
-            //index += action * 5;
-
-            //if (direction <= 4)
-            //    index += direction;
-            //else
-            //    index += direction - (direction - 4) * 2;
         }
 
         public static AnimEdit GetAnimation(int filetype, int body)
@@ -1177,6 +1165,50 @@ namespace Ultima
             stream.Close();
             return true;
         }
+
+        public static void Save(int filetype, string path)
+        {
+            string filename;
+            switch (filetype)
+            {
+                case 1: filename = "anim"; break;
+                case 2: filename = "anim2"; break;
+                case 3: filename = "anim3"; break;
+                case 4: filename = "anim4"; break;
+                case 5: filename = "anim5"; break;
+                default: filename = "anim"; break;
+            }
+            string idx = Path.Combine(path, filename + ".idx");
+            string mul = Path.Combine(path, filename + ".mul");
+            using (FileStream fsidx = new FileStream(idx, FileMode.Create, FileAccess.Write, FileShare.Write),
+                              fsmul = new FileStream(mul, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                using (BinaryWriter binidx = new BinaryWriter(fsidx),
+                                    binmul = new BinaryWriter(fsmul))
+                {
+                    int count=Animations.GetAnimCount(filetype);
+                    for (int body = 0; body < count; body++)
+                    {
+                        AnimEdit edit = GetAnimation(filetype, body);
+                        if (edit == null)
+                        {
+                            for (int i = 0; i < Ultima.Animations.GetAnimLength(body, filetype); i++)
+                            {
+                                for (int d = 0; d < 5; d++)
+                                {
+                                    binidx.Write((int)-1);
+                                    binidx.Write((int)-1);
+                                    binidx.Write((int)-1);
+                                }
+                            }
+                        }
+                        else
+                            edit.Save(binmul, binidx);
+                    }
+                    
+                }
+            }
+        }
     }
 
     public sealed class AnimEdit
@@ -1190,7 +1222,7 @@ namespace Ultima
         public unsafe AnimEdit(int body, FileIndex fileIndex, int filetype, int index)
         {
             Body = body;
-            int AnimCount = Animations.GetAnimLength(body, filetype);
+            int AnimCount = Ultima.Animations.GetAnimLength(body, filetype);
             Action = new Actions[AnimCount];
             for (int i = 0; i < AnimCount; i++)
             {
@@ -1206,8 +1238,34 @@ namespace Ultima
                     using (BinaryReader bin = new BinaryReader(stream))
                     {
                         Action[i].Directions[d] = new FramesEdit(bin);
+                        Action[i].Directions[d].extra = extra;
                     }
                     stream.Close();
+                }
+            }
+        }
+
+        public void Save(BinaryWriter bin, BinaryWriter idx)
+        {
+            for (int i = 0; i < Action.Length; i++)
+            {
+                for (int d = 0; d < 5; d++)
+                {
+                    if (Action[i].Directions[d] == null)
+                    {
+                        idx.Write((int)-1);
+                        idx.Write((int)-1);
+                        idx.Write((int)-1);
+                    }
+                    else
+                    {
+                        int start = (int)bin.BaseStream.Position;
+                        idx.Write(start);
+                        Action[i].Directions[d].Save(bin);
+                        start = (int)bin.BaseStream.Position - start;
+                        idx.Write((int)start);
+                        idx.Write((int)Action[i].Directions[d].extra);
+                    }
                 }
             }
         }
@@ -1236,14 +1294,9 @@ namespace Ultima
                 {
                     FrameEdit.Raw raw = frames.Frames[i].RawData[j];
                     
-
                     ushort* cur = line + (((raw.offy) * delta) + ((raw.offx) & 0x3FF));
                     ushort* end = cur + (raw.run);
-                    //int run = (header & 0xFFF);
-                    //int offy = ((header >> 12) & 0x3FF);
-                    //int offx = ((header >> 22) & 0x3FF);
-                    //int newHeader = run | ( offy << 12 ) | ( offx << 22 );
-                    //newHeader ^= DoubleXor;
+
                     int ii=0;
                     while (cur < end)
                     {
@@ -1262,6 +1315,7 @@ namespace Ultima
     {
         public ushort[] Palette = new ushort[0x100];
         public FrameEdit[] Frames;
+        public int extra;
 
         public FramesEdit(BinaryReader bin)
         {
@@ -1282,6 +1336,25 @@ namespace Ultima
             {
                 bin.BaseStream.Seek(lookups[i], SeekOrigin.Begin);
                 Frames[i] = new FrameEdit(bin);
+            }
+        }
+
+        public void Save(BinaryWriter bin)
+        {
+            for (int i = 0; i < 0x100; ++i)
+                bin.Write((ushort)(Palette[i] ^ 0x8000));
+            int start = (int)bin.BaseStream.Position;
+            bin.Write((int)Frames.Length);
+            int seek = (int)bin.BaseStream.Position;
+            int curr = (int)bin.BaseStream.Position + 4 * Frames.Length;
+            for (int i = 0; i < Frames.Length; i++)
+            {
+                bin.BaseStream.Seek(seek, SeekOrigin.Begin);
+                bin.Write((int)(curr - start));
+                seek = (int)bin.BaseStream.Position;
+                bin.BaseStream.Seek(curr, SeekOrigin.Begin);
+                Frames[i].Save(bin);
+                curr = (int)bin.BaseStream.Position;
             }
         }
     }
@@ -1338,6 +1411,28 @@ namespace Ultima
                 j++;
             }
             Center = new Point(xCenter, yCenter);
+        }
+
+        public void Save(BinaryWriter bin)
+        {
+            bin.Write((short)Center.X);
+            bin.Write((short)Center.Y);
+            bin.Write((ushort)width);
+            bin.Write((ushort)height);
+            //if (height == 0 || width == 0)
+            //    return;
+            if (RawData != null)
+            {
+                for (int j = 0; j < RawData.Length; j++)
+                {
+                    int newHeader = RawData[j].run | (RawData[j].offy << 12) | (RawData[j].offx << 22);
+                    newHeader ^= DoubleXor;
+                    bin.Write(newHeader);
+                    foreach (byte b in RawData[j].data)
+                        bin.Write(b);
+                }
+            }
+            bin.Write((int)0x7FFF7FFF);
         }
     }
 }
