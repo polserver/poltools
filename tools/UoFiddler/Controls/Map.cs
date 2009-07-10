@@ -930,81 +930,96 @@ namespace FiddlerControls
 
         private void OnClickStaticImport(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Select WSC Staticfile to import";
+            dialog.Multiselect = false;
+            dialog.CheckFileExists = true;
+            if (dialog.ShowDialog() != DialogResult.OK)
             {
-                dialog.Title = "Select WSC Staticfile to import";
-                dialog.Multiselect = false;
-                dialog.CheckFileExists = true;
-                if (dialog.ShowDialog() != DialogResult.OK)
-                    return;
-                using (StreamReader ip = new StreamReader(dialog.FileName))
-                {
-                    string line;
-                    HuedTile newtile = new HuedTile(-1, 0, 0);
-                    int x, blockx, y, blocky;
-                    x = y = blockx = blocky = 0;
-                    while ((line = ip.ReadLine()) != null)
-                    {
-                        if ((line = line.Trim()).Length == 0 || line.StartsWith("#") || line.StartsWith("//"))
-                            continue;
-                        
-                        try
-                        {
-                            if (line.StartsWith("SECTION WORLDITEM"))
-                            {
-                                if (newtile.ID != -1)
-                                {
-                                    currmap.Tiles.AddStaticTile(blockx, blocky, x, y, newtile);
-                                    x = y = blockx = blocky = 0;
-                                }
-                                newtile = new HuedTile(-1, 0, 0);
-                            }
-                            else if (line.StartsWith("ID"))
-                            {
-                                line = line.Remove(0, 2);
-                                line = line.TrimStart(' ');
-                                line = line.TrimEnd(' ');
-                                newtile.ID = (Convert.ToInt32(line) & 0x3FFF) + 0x4000;
-                            }
-                            else if (line.StartsWith("X"))
-                            {
-                                line = line.Remove(0, 1);
-                                line = line.TrimStart(' ');
-                                line = line.TrimEnd(' ');
-                                x = Convert.ToInt32(line);
-                                blockx = x >> 3;
-                                x &= 0x7;
-                            }
-                            else if (line.StartsWith("Y"))
-                            {
-                                line = line.Remove(0, 1);
-                                line = line.TrimStart(' ');
-                                line = line.TrimEnd(' ');
-                                y = Convert.ToInt32(line);
-                                blocky = y >> 3;
-                                y &= 0x7;
-                            }
-                            else if (line.StartsWith("Z"))
-                            {
-                                line = line.Remove(0, 1);
-                                line = line.TrimStart(' ');
-                                line = line.TrimEnd(' ');
-                                newtile.Z = Convert.ToInt32(line);
-                            }
-                            else if (line.StartsWith("COLOR"))
-                            {
-                                line = line.Remove(0, 5);
-                                line = line.TrimStart(' ');
-                                line = line.TrimEnd(' ');
-                                newtile.Hue = Convert.ToInt32(line);
-                            }
-                        }
-                        catch { }
-                    }
-                    if (newtile.ID != -1)
-                        currmap.Tiles.AddStaticTile(blockx, blocky, x, y, newtile);
-                }
+                dialog.Dispose();
+                return;
             }
+            string path=dialog.FileName;
+            dialog.Dispose();
+            StaticImport(path);
+        }
+        private void StaticImport(string Filename)
+        {
+            StreamReader ip = new StreamReader(Filename);
+
+            string line;
+            StaticTile newtile = new StaticTile();
+            newtile.m_ID = -1;
+            newtile.m_Hue = 0;
+            int x, y, blockx, blocky;
+            blockx = blocky = 0;
+            while ((line = ip.ReadLine()) != null)
+            {
+                if ((line = line.Trim()).Length == 0 || line.StartsWith("#") || line.StartsWith("//"))
+                    continue;
+
+                try
+                {
+                    if (line.StartsWith("SECTION WORLDITEM"))
+                    {
+                        if (newtile.m_ID != -1)
+                        {
+                            currmap.Tiles.AddPendingStatic(blockx, blocky, newtile);
+                            blockx = blocky = 0;
+                        }
+                        newtile = new StaticTile();
+                        newtile.m_ID = -1;
+                        newtile.m_Hue = 0;
+                    }
+                    else if (line.StartsWith("ID"))
+                    {
+                        line = line.Remove(0, 2);
+                        line = line.TrimStart(' ');
+                        line = line.TrimEnd(' ');
+                        newtile.m_ID = (short)(Convert.ToInt32(line) & 0x3FFF);
+                    }
+                    else if (line.StartsWith("X"))
+                    {
+                        line = line.Remove(0, 1);
+                        line = line.TrimStart(' ');
+                        line = line.TrimEnd(' ');
+                        x = Convert.ToInt32(line);
+                        blockx = x >> 3;
+                        x &= 0x7;
+                        newtile.m_X = (byte)x;
+                    }
+                    else if (line.StartsWith("Y"))
+                    {
+                        line = line.Remove(0, 1);
+                        line = line.TrimStart(' ');
+                        line = line.TrimEnd(' ');
+                        y = Convert.ToInt32(line);
+                        blocky = y >> 3;
+                        y &= 0x7;
+                        newtile.m_Y = (byte)y;
+                    }
+                    else if (line.StartsWith("Z"))
+                    {
+                        line = line.Remove(0, 1);
+                        line = line.TrimStart(' ');
+                        line = line.TrimEnd(' ');
+                        newtile.m_Z = Convert.ToSByte(line);
+                    }
+                    else if (line.StartsWith("COLOR"))
+                    {
+                        line = line.Remove(0, 5);
+                        line = line.TrimStart(' ');
+                        line = line.TrimEnd(' ');
+                        newtile.m_Hue = Convert.ToInt16(line);
+                    }
+                }
+                catch { }
+            }
+            if (newtile.m_ID != -1)
+                currmap.Tiles.AddPendingStatic(blockx, blocky, newtile);
+
+            ip.Close();
+
             MessageBox.Show("Done", "Freeze Static", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             currmap.ResetCache();
             pictureBox.Refresh();

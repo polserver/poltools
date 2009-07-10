@@ -322,6 +322,29 @@ namespace Ultima
                                                 }
                                             }
                                         }
+                                        StaticTile[] pending= m_Tiles.GetPendingStatics(x, y);
+                                        if (pending != null)
+                                        {
+                                            foreach (StaticTile penS in pending)
+                                            {
+                                                if (penS.m_X == p)
+                                                {
+                                                    if (penS.m_Y == k)
+                                                    {
+                                                        z = penS.m_Z;
+                                                        top = z + pHeight[penS.m_ID & 0x3FFF];
+
+                                                        if (top > highTop || (z > highZ && top >= highTop))
+                                                        {
+                                                            highTop = top;
+                                                            highZ = z;
+                                                            highID = penS.m_ID+0x4000;
+                                                            highHue = penS.m_Hue;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
 
                                         top = pTiles->m_Z;
 
@@ -649,6 +672,8 @@ namespace Ultima
                                     if (fsmullength > 0)
                                     {
                                         binidx.Write(fsmullength); //length
+                                        if (extra == -1)
+                                            extra = 0;
                                         binidx.Write(extra); //extra
                                     }
                                     else

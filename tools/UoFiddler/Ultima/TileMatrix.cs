@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 
 namespace Ultima
@@ -6,9 +7,9 @@ namespace Ultima
     public sealed class TileMatrix
     {
         private HuedTile[][][][][] m_StaticTiles;
-        private HuedTile[][][][][] m_StaticTiles_ToAdd;
         private Tile[][][] m_LandTiles;
         private bool[][] m_RemovedStaticBlock;
+        private Object[][] m_StaticTiles_ToAdd;
 
         public static Tile[] InvalidLandBlock { get; private set; }
         public static HuedTile[][][] EmptyStaticBlock { get; private set; }
@@ -98,66 +99,6 @@ namespace Ultima
                 m_StaticTiles[x] = new HuedTile[BlockHeight][][][];
 
             m_StaticTiles[x][y] = value;
-        }
-
-        public void AddStaticTile(int blockx, int blocky, int x, int y, HuedTile value)
-        {
-            if (m_StaticTiles[blockx] == null)
-                m_StaticTiles[blockx] = new HuedTile[BlockHeight][][][];
-            HuedTile[][][] tiles = new HuedTile[8][][];
-            tiles = m_StaticTiles[blockx][blocky];
-            if (tiles == null)
-                tiles = ReadStaticBlock(blockx, blocky);
-            if (tiles == EmptyStaticBlock)
-            {
-                tiles = new HuedTile[8][][];
-                for (int i = 0; i < 8; ++i)
-                {
-                    tiles[i] = new HuedTile[8][];
-                    for (int j = 0; j < 8; ++j)
-                    {
-                        tiles[i][j] = new HuedTile[0];
-                    }
-                }
-                tiles[x][y] = new HuedTile[1];
-                tiles[x][y][0] = value;
-            }
-            else
-            {
-                HuedTile[] old = tiles[x][y];
-                tiles[x][y] = new HuedTile[old.Length + 1];
-                old.CopyTo(tiles[x][y], 0);
-                tiles[x][y][old.Length] = value;
-            }
-            m_StaticTiles[blockx][blocky] = tiles;
-            if (m_StaticTiles_ToAdd == null)
-                m_StaticTiles_ToAdd = new HuedTile[BlockWidth][][][][];
-            if (m_StaticTiles_ToAdd[blockx]==null)
-                m_StaticTiles_ToAdd[blockx] = new HuedTile[BlockHeight][][][];
-            if (m_StaticTiles_ToAdd[blockx][blocky] == null)
-            {
-                m_StaticTiles_ToAdd[blockx][blocky] = new HuedTile[8][][];
-                for (int i = 0; i < 8; ++i)
-                {
-                    m_StaticTiles_ToAdd[blockx][blocky][i] = new HuedTile[8][];
-                    for (int j = 0; j < 8; ++j)
-                    {
-                        m_StaticTiles_ToAdd[blockx][blocky][i][j] = new HuedTile[0];
-                    }
-                }
-                m_StaticTiles_ToAdd[blockx][blocky][x][y] = new HuedTile[1];
-                m_StaticTiles_ToAdd[blockx][blocky][x][y][0] = value;
-            }
-            else
-            {
-                HuedTile[] old = m_StaticTiles_ToAdd[blockx][blocky][x][y];
-                m_StaticTiles_ToAdd[blockx][blocky][x][y] = new HuedTile[old.Length + 1];
-                old.CopyTo(m_StaticTiles_ToAdd[blockx][blocky][x][y], 0);
-                m_StaticTiles_ToAdd[blockx][blocky][x][y][old.Length] = value;
-            }
-
-            if (IsStaticBlockRemoved(blockx, blocky))
-                m_RemovedStaticBlock[blockx][blocky] = false;
         }
 
         public HuedTile[][][] GetStaticBlock(int x, int y)
@@ -390,54 +331,34 @@ namespace Ultima
         {
             if (m_StaticTiles_ToAdd == null)
                 return false;
-            if (m_StaticTiles_ToAdd[blockx] == null)
+            if (m_StaticTiles_ToAdd[blocky] == null)
                 return false;
-            if (m_StaticTiles_ToAdd[blockx][blocky] == null)
+            if (m_StaticTiles_ToAdd[blocky][blockx] == null)
                 return false;
             return true;
+        }
+
+        public void AddPendingStatic(int blockx, int blocky, StaticTile toadd)
+        {
+            if (m_StaticTiles_ToAdd == null)
+                m_StaticTiles_ToAdd = new Object[BlockHeight][];
+            if (m_StaticTiles_ToAdd[blocky] == null)
+                m_StaticTiles_ToAdd[blocky] = new Object[BlockWidth];
+            if (m_StaticTiles_ToAdd[blocky][blockx] == null)
+                m_StaticTiles_ToAdd[blocky][blockx] = new ArrayList();
+            ((ArrayList)m_StaticTiles_ToAdd[blocky][blockx]).Add(toadd);
         }
 
         public StaticTile[] GetPendingStatics(int blockx, int blocky)
         {
             if (m_StaticTiles_ToAdd == null)
                 return null;
-            if (m_StaticTiles_ToAdd[blockx] == null)
+            if (m_StaticTiles_ToAdd[blocky] == null)
                 return null;
-            if (m_StaticTiles_ToAdd[blockx][blocky] == null)
+            if (m_StaticTiles_ToAdd[blocky][blockx] == null)
                 return null;
-            HuedTile[][][] tile = m_StaticTiles_ToAdd[blockx][blocky];
-            int count = 0;
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
-                {
-                    count += tile[x][y].Length;
-                }
-            }
-            if (count > 0)
-            {
-                StaticTile[] tiles = new StaticTile[count];
-                int j=0;
-                for (int x = 0; x < 8; x++)
-                {
-                    for (int y = 0; y < 8; y++)
-                    {
-                        for (int i = 0; i < tile[x][y].Length; i++)
-                        {
-                            tiles[j] = new StaticTile();
-                            tiles[j].m_ID = (short)tile[x][y][i].ID;
-                            tiles[j].m_X = (byte)x;
-                            tiles[j].m_Y = (byte)y;
-                            tiles[j].m_Z = (sbyte)tile[x][y][i].Z;
-                            tiles[j].m_Hue = (short)tile[x][y][i].Hue;
-                            j++;
-                        }
-                    }
-                }
-                return tiles;
-            }
-            else
-                return null;
+
+            return (StaticTile[])((ArrayList)m_StaticTiles_ToAdd[blocky][blockx]).ToArray(typeof(StaticTile));
         }
 
         public void Dispose()
