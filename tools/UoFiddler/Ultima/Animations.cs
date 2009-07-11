@@ -1117,7 +1117,7 @@ namespace Ultima
 
             Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
-            if (stream == null)
+            if ((stream == null) || (length==0))
                 return null;
             stream.Close();
             return cache[body]=new AnimEdit(body, fileIndex, filetype, index);
@@ -1134,7 +1134,7 @@ namespace Ultima
 
             Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
-            if (stream == null)
+            if ((stream == null) || (length == 0))
                 return false;
             stream.Close();
             return true;
@@ -1151,7 +1151,7 @@ namespace Ultima
 
             Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
-            if (stream == null)
+            if ((stream == null) || (length == 0))
                 return false;
             stream.Close();
 
@@ -1160,7 +1160,7 @@ namespace Ultima
                 return false;
 
             stream = fileIndex.Seek(index+action*5, out length, out extra, out patched);
-            if (stream == null)
+            if ((stream == null) || (length == 0))
                 return false;
             stream.Close();
             return true;
@@ -1233,7 +1233,7 @@ namespace Ultima
                 {
                     Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
                     index++;
-                    if (stream == null)
+                    if ((stream == null) || (length < 1))
                         continue;
                     using (BinaryReader bin = new BinaryReader(stream))
                     {
@@ -1427,9 +1427,9 @@ namespace Ultima
                 {
                     int newHeader = RawData[j].run | (RawData[j].offy << 12) | (RawData[j].offx << 22);
                     newHeader ^= DoubleXor;
-                    bin.Write(newHeader);
+                    bin.Write((int)newHeader);
                     foreach (byte b in RawData[j].data)
-                        bin.Write(b);
+                        bin.Write((byte)b);
                 }
             }
             bin.Write((int)0x7FFF7FFF);
