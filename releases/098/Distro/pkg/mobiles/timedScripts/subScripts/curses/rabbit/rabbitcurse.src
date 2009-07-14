@@ -33,15 +33,16 @@ endprogram
 
 function MakeRabbits(mobile)
 	Set_Critical(1);
-	var rabbit_1 := CreateNPCFromTemplate("Rabbit", mobile.x-5, mobile.y, mobile.z, 0, mobile.realm);
-	var rabbit_2 := CreateNPCFromTemplate("Rabbit", mobile.x+5, mobile.y, mobile.z, 0, mobile.realm);
-	var rabbit_3 := CreateNPCFromTemplate("Rabbit", mobile.x, mobile.y-5, mobile.z, 0, mobile.realm);
-	var rabbit_4 := CreateNPCFromTemplate("Rabbit", mobile.x, mobile.y+5, mobile.z, 0, mobile.realm);
+	var rabbit_1 := CreateNPCFromTemplate(":brainai:Rabbit", mobile.x-5, mobile.y, mobile.z, 0, mobile.realm);
+	var rabbit_2 := CreateNPCFromTemplate(":brainai:Rabbit", mobile.x+5, mobile.y, mobile.z, 0, mobile.realm);
+	var rabbit_3 := CreateNPCFromTemplate(":brainai:Rabbit", mobile.x, mobile.y-5, mobile.z, 0, mobile.realm);
+	var rabbit_4 := CreateNPCFromTemplate(":brainai:Rabbit", mobile.x, mobile.y+5, mobile.z, 0, mobile.realm);
 
 	var scripts := dictionary;
 	scripts["Combat"] := ":brainai:scripts/combat/genericCombat";
 
-	var settings := dictionary{"FleeLevel"->0};
+	var settings := dictionary;
+	settings["FleeLevel"] := 0;
 
 	SetObjProperty(rabbit_1, "AISettings", settings);
 	SetObjProperty(rabbit_1, "AIScripts", scripts);
@@ -55,7 +56,7 @@ function MakeRabbits(mobile)
 	SetObjProperty(rabbit_4, "AISettings", settings);
 	SetObjProperty(rabbit_4, "AIScripts", scripts);
 	RestartScript(rabbit_4);
-
+	
 	Set_Critical(0);
 
 	PlaySoundEffect(mobile, SFX_STRENGTH);

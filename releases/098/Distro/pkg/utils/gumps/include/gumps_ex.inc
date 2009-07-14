@@ -184,7 +184,7 @@ function GFTextCoords(type:=ALIGN_CENTER, gump_text, x_pos, width:=0)
 	x_pos := CInt(x_pos);
 	width := CInt(width);
 	if ( type == ALIGN_CENTER )
-		return CInt((((width - x_pos)-GFTextWidth(gump_text))/2)+x_pos);
+		return CInt(x_pos+CInt((width-GFTextWidth(gump_text))/2));
 	elseif ( type == ALIGN_RIGHT )
 		return CInt(x_pos-GFTextWidth(gump_text));
 	endif
@@ -211,6 +211,10 @@ endfunction
  */
 function GFTextMid(byref gump, x, y, width, color, text)
 	var x_pos := GFTextCoords(ALIGN_CENTER, text, x, CStr(width));
+	if ( x_pos < x )
+		SysLog("Error: XPOS ("+x_pos+") < X ("+x+")");
+		SysLog("Width="+GFTextWidth(text));
+	endif
 	return GFTextLine(gump, x_pos, y, color, CStr(text));
 endfunction
 
@@ -254,6 +258,9 @@ endfunction
  *
  */
 function GFTextWidth(gump_text)
+	
+	return Len(gump_text)*7;
+	
 	var gft_length := struct;
 	gft_length.+charsf :=
 	"||||||||||||||"+	//  2

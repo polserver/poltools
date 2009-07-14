@@ -8,6 +8,8 @@
 *  Created include file
 ===============================================================*/
 
+include ":brainAI:npcWatchList";
+
 /*
  * InitializeSettings()
  * 
@@ -59,6 +61,7 @@ function InitializeEvents()
 	//
 	if ( g_scripts.Exists("EnterArea") )
 		EnableEvents(SYSEVENT_ENTEREDAREA, g_settings["AreaSize"]);
+		StartNerve(npc, "EnterArea", g_scripts["EnterArea"].script, array{0, g_settings, g_scripts}, g_scripts["EnterArea"].flags);
 	endif
 	if ( g_scripts.Exists("LeftArea") )
 		EnableEvents(SYSEVENT_LEFTAREA, g_settings["AreaSize"]);
@@ -159,10 +162,12 @@ function InitializeEnterArea()
 			if ( mobile == npc )
 				continue;
 			else
-				event.source := mobile;
-				SendEvent(npc, event);
+				if ( NPC_ShouldWatch(npc, mobile, g_settings, g_scripts) )
+					event.source := mobile;
+					SendEvent(npc, event);
+				endif
 			endif
-			SleepMS(10);
+			SleepMS(30);
 		endforeach
 	endif
 	

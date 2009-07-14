@@ -13,14 +13,21 @@ program PoisonScript(params)
 	if ( !duration )
 		duration := 90;
 	endif
-
-	for ( duration; duration > 0; duration:=duration-1 )
-		if ( mobile.dead )
-			duration += 1; // Ghosts cant have birth!
+	
+	do
+		Sleep(60);
+		duration := CInt(GetObjProperty(mobile, "DarkBorer"));
+		if ( duration == error )
+			duration := 90;
 		endif
 		
-		SetObjProperty(mobile, "DarkBorer", duration);
-
+		if ( mobile.dead )
+			continue; // Ghosts cant have birth!
+		else
+			duration -= 1;
+			SetObjProperty(mobile, "DarkBorer", duration);
+		endif
+		
 		case ( duration )
 			89: SendSysMessage(mobile, "You have a sore stomach."); break;
 			60: SendSysMessage(mobile, "You feel a knot in your stomach."); break;
@@ -32,9 +39,7 @@ program PoisonScript(params)
 			10: SendSysMessage(mobile, "You feel your innards being shreaded to bits!"); break;
 			1: SendSysMessage(mobile, "You feel something preparing to burst out of your body!"); break;
 		endcase
-		
-		Sleep(60);
-	endfor
+	dowhile( duration > 0 );
 
 	PrintTextAbove(mobile, "*A dark borer that was incubating in "+mobile.name+"'s stomach rips its way out!*", 3, 55);
 	var baby := CreateNPCFromTemplate(":brainai:darkborer", mobile.x, mobile.y, mobile.z, 0, mobile.realm);
