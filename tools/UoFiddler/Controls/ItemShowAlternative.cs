@@ -438,7 +438,7 @@ namespace FiddlerControls
             DetailTextBox.AppendText(String.Format("Quality/Layer/Light: {0}\n", item.Quality));
             DetailTextBox.AppendText(String.Format("Quantity: {0}\n", item.Quantity));
             DetailTextBox.AppendText(String.Format("Hue: {0}\n", item.Hue));
-            DetailTextBox.AppendText(String.Format("StackingStart/Unk4: {0}\n", item.StackingStart));
+            DetailTextBox.AppendText(String.Format("StackingOffset/Unk4: {0}\n", item.StackingOffset));
             DetailTextBox.AppendText(String.Format("Flags: {0}\n", item.Flags));
             if ((item.Flags & TileFlag.Animation) != 0)
             {

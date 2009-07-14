@@ -244,10 +244,10 @@ namespace FiddlerControls
             textBoxQuality.Text = data.Quality.ToString();
             textBoxQuantity.Text = data.Quantity.ToString();
             textBoxHue.Text = data.Hue.ToString();
-            textBoxStackStart.Text = data.StackingStart.ToString();
+            textBoxStackOff.Text = data.StackingOffset.ToString();
             textBoxValue.Text = data.Value.ToString();
             textBoxHeigth.Text = data.Height.ToString();
-            textBoxStackNext.Text = data.StackNext.ToString();
+            textBoxUnk1.Text = data.Unk1.ToString();
             textBoxUnk2.Text = data.Unk2.ToString();
             textBoxUnk3.Text = data.Unk3.ToString();
             Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
@@ -341,14 +341,14 @@ namespace FiddlerControls
                     item.Quantity = byteres;
                 if (byte.TryParse(textBoxHue.Text, out byteres))
                     item.Hue = byteres;
-                if (byte.TryParse(textBoxStackStart.Text, out byteres))
-                    item.StackingStart = byteres;
+                if (byte.TryParse(textBoxStackOff.Text, out byteres))
+                    item.StackingOffset = byteres;
                 if (byte.TryParse(textBoxValue.Text, out byteres))
                     item.Value = byteres;
                 if (byte.TryParse(textBoxHeigth.Text, out byteres))
                     item.Height = byteres;
-                if (short.TryParse(textBoxStackNext.Text, out shortres))
-                    item.StackNext = shortres;
+                if (short.TryParse(textBoxUnk1.Text, out shortres))
+                    item.Unk1 = shortres;
                 if (byte.TryParse(textBoxUnk2.Text, out byteres))
                     item.Unk2 = byteres;
                 if (byte.TryParse(textBoxUnk3.Text, out byteres))
@@ -591,8 +591,8 @@ namespace FiddlerControls
                     int index = (int)treeViewItem.SelectedNode.Tag;
                     ItemData item = TileData.ItemTable[index];
                     byte byteres;
-                    if (byte.TryParse(textBoxStackStart.Text, out byteres))
-                        item.StackingStart = byteres;
+                    if (byte.TryParse(textBoxStackOff.Text, out byteres))
+                        item.StackingOffset = byteres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
@@ -643,7 +643,7 @@ namespace FiddlerControls
             }
         }
 
-        private void OnKeyDownItemStackNext(object sender, KeyEventArgs e)
+        private void OnKeyDownItemUnk1(object sender, KeyEventArgs e)
         {
             if (saveDirectlyOnChangesToolStripMenuItem.Checked)
             {
@@ -654,8 +654,8 @@ namespace FiddlerControls
                     int index = (int)treeViewItem.SelectedNode.Tag;
                     ItemData item = TileData.ItemTable[index];
                     short shortres;
-                    if (short.TryParse(textBoxStackNext.Text, out shortres))
-                        item.StackNext = shortres;
+                    if (short.TryParse(textBoxUnk1.Text, out shortres))
+                        item.Unk1 = shortres;
                     TileData.ItemTable[index] = item;
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
                     Options.ChangedUltimaClass["TileData"] = true;
