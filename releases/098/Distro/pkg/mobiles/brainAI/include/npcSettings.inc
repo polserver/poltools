@@ -149,7 +149,7 @@ function NPC_LoadScriptSettings(source)
 	if ( source.IsA(POLCLASS_NPC) )
 		var cstm_scripts := GetObjProperty(source, "AIScripts");
 		foreach key in (cstm_scripts.Keys())
-			script_settings[key] := cstm_scripts[key];
+			script_settings[key].script := cstm_scripts[key];
 			SleepMS(2);
 		endforeach
 	endif

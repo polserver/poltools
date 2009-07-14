@@ -48,6 +48,9 @@ var g_settings := dictionary; //"setting name"->value
 var g_scripts := dictionary; // "script type"->value{.flags, .script}
 
 program BrainAI()
+	
+	Set_Event_Queue_Size(200);
+	
 	//Run setup steps for the npc.
 	Set_Critical(1);
 	InitializeSettings();

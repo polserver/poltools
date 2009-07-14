@@ -17,25 +17,25 @@ include ":gumps:gumps";
 include ":gumps:gumps_ex";
 include ":datafile:datafile";
 
-program command_Message(who, text)
-	if ( CommandIssued(who, text) )
+program command_Message(sender, text)
+	if ( CommandIssued(sender, text) )
 		return 1;
 	else
-		MessageGump(who);
+		MessageGump(sender);
 	endif
 endprogram
 
-function MessageGump(who)
+function MessageGump(sender)
 	var gump := GFCreateGump();
 
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 310, 420);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 280, 390);
 
-	GFTextLine(gump, 25, 20, 2100, "Player Name");
+	GFTextLine(gump, 25, 20, 2100, "receiver Name");
 	GFTextLine(gump, 255, 20, 2100, "Send");
 
-	var names_list := GetNamesList(who);
-	var num_players := names_list.Size();
+	var names_list := GetNamesList(sender);
+	var num_receivers := names_list.Size();
 	var counter := 0;
 	var y_pos := 45;
 
@@ -47,7 +47,7 @@ function MessageGump(who)
 		y_pos += 20;
 		counter += 1;
 
-		if ( counter >= 18 && _name_iter < num_players )
+		if ( counter >= 18 && _name_iter < num_receivers )
 			GFAddButton(gump, 283, 385, 0xA92, 0xA93, GF_PAGE_BTN, gump.cur_page+1);
 			GFPage(gump, gump.cur_page+1);
 			GFAddButton(gump, 283, 40, 0xA90, 0xA91, GF_PAGE_BTN, gump.cur_page-1);
@@ -57,30 +57,30 @@ function MessageGump(who)
 		SleepMS(2);
 	endforeach
 
-	var input := GFSendGump(who, gump);
+	var input := GFSendGump(sender, gump);
 	input := input[0];
 
 	if ( !input )
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(sender, "Cancelled");
 		return 0;
 	else
 		names_list := names_list.Keys();
-		SendMessage(who, names_list[input]);
+		SendMessage(sender, names_list[input]);
 	endif
 endfunction
 
-function GetNamesList(who)
+function GetNamesList(sender)
 	var the_list := dictionary; // Used to store names in ABC order
 	foreach person in EnumerateOnlineCharacters();
 		var msg_settings := GetMessageSettings(person);
 
-		if ( (msg_settings.disable) && (!who.cmdlevel) )
-			//If messages are off, and 'who' is a player, dont add the name.
-			//If 'who' has a command level, then he/she can see any name.
+		if ( (msg_settings.disable) && (!sender.cmdlevel) )
+			//If messages are off, and 'sender' is a receiver, dont add the name.
+			//If 'sender' has a command level, then he/she can see any name.
 			continue;
-		elseif ( (!msg_settings.visible) && (person.concealed > who.cmdlevel) );
+		elseif ( (!msg_settings.visible) && (person.concealed > sender.cmdlevel) );
 			//If the person is not in visible mode, and concealed is
-			//higher than who's command level, don't add that person.
+			//higher than sender's command level, don't add that person.
 			continue;
 		else
 			the_list.Insert(person.name, person.serial);
@@ -92,46 +92,46 @@ function GetNamesList(who)
 	return the_list;
 endfunction
 
-function SendMessage(who, name_text, is_reply:=0)
+function SendMessage(sender, name_text, is_reply:=0)
 	var can_msg := 0;
 	if ( is_reply )
 		can_msg := 1;
-	elseif ( name_text in (GetNamesList(who).Keys()) )
+	elseif ( name_text in (GetNamesList(sender).Keys()) )
 		can_msg := 1;
 	endif
 
 	if ( !can_msg )
-		SendSysMessage(who, name_text+" is not online.");
+		SendSysMessage(sender, name_text+" is not online.");
 		return 0;
 	endif
 
-	var message_txt := RequestInput(who, who.backpack, "What message would you like to send to "+name_text+"? (hit escape to cancel)");
+	var message_txt := RequestInput(sender, sender.backpack, "What message would you like to send to "+name_text+"? (hit escape to cancel)");
 	if ( !message_txt )
-		SendSysMessage(who, "Cancelled.");
+		SendSysMessage(sender, "Cancelled.");
 		return 0;
 	endif
 
-	var sndr_settings := GetMessageSettings(who);
+	var sndr_settings := GetMessageSettings(sender);
 	sndr_settings["last"] := name_text;
-	SetObjProperty(who, ".msg", sndr_settings);
+	SetObjProperty(sender, ".msg", sndr_settings);
 
-	foreach player in EnumerateOnlineCharacters()
-		if ( player.name == name_text )
-			SendSysMessage(player, "Message from "+who.name+" : "+message_txt);
-			SendSysMessage(who, "You sent a message to ["+who.name+"]: "+message_txt);
+	foreach receiver in EnumerateOnlineCharacters()
+		if ( receiver.name == name_text )
+			SendSysMessage(receiver, "Message from "+sender.name+" : "+message_txt);
+			SendSysMessage(sender, "You sent a message to ["+receiver.name+"]: "+message_txt);
 
-			var rcvr_settings := GetMessageSettings(player);
-			rcvr_settings["reply"] := who.name;
-			SetObjProperty(player, ".msg", rcvr_settings);
+			var rcvr_settings := GetMessageSettings(receiver);
+			rcvr_settings["reply"] := sender.name;
+			SetObjProperty(receiver, ".msg", rcvr_settings);
 
 			if( sndr_settings.Exists("disabled") )
-				SendSysMessage(who, "Reminder: You have messages off.");
-				SendSysMessage(player, "Note: "+who.name+" has messages off. Use .msg reply.");
+				SendSysMessage(sender, "Reminder: You have messages off.");
+				SendSysMessage(receiver, "Note: "+sender.name+" has messages off. Use .msg reply.");
 			endif
-		elseif ( player.cmdlevel < who.cmdlevel )
-			var rcvr_settings := GetMessageSettings(player);
+		elseif ( receiver.cmdlevel < sender.cmdlevel )
+			var rcvr_settings := GetMessageSettings(receiver);
 			if ( rcvr_settings.Exists("spy") )
-				SendSysMessage(player, "[MSG SpyMode] From:"+who.name+" To:"+name_text+": "+message_txt);
+				SendSysMessage(receiver, "[MSG SpyMode] From:"+sender.name+" To:"+name_text+": "+message_txt);
 			endif
 		endif
 
@@ -139,52 +139,52 @@ function SendMessage(who, name_text, is_reply:=0)
 	endforeach
 endfunction
 
-function CommandIssued(who, text)
-	var msg_settings := GetMessageSettings(who);
+function CommandIssued(sender, text)
+	var msg_settings := GetMessageSettings(sender);
 
 	if ( text == "off" )
 		msg_settings["disabled"] := 1;
-		SetObjProperty(who, ".msg", msg_settings);
-		SendSysMessage(who, "Your name has been removed from the .msg list.");
+		SetObjProperty(sender, ".msg", msg_settings);
+		SendSysMessage(sender, "Your name has been removed from the .msg list.");
 		return 1;
 	elseif ( text == "on" )
 		msg_settings.Erase("disabled");
-		SetObjProperty(who, ".msg", msg_settings);
-		SendSysMessage(who, "Your name has been put back on from the .msg list.");
+		SetObjProperty(sender, ".msg", msg_settings);
+		SendSysMessage(sender, "Your name has been put back on from the .msg list.");
 		return 1;
 	elseif ( text == "reply" )
-		SendMessage(who, msg_settings["reply"], 1);
+		SendMessage(sender, msg_settings["reply"], 1);
 		return 1;
 	elseif ( text == "last" )
-		SendMessage(who, msg_settings["last"], 1);
+		SendMessage(sender, msg_settings["last"], 1);
 		return 1;
 	elseif ( text )
-		SendMessage(who, text);
+		SendMessage(sender, text);
 		return 1;
 	endif
 
-	if ( who.cmdlevel <= 1 )
+	if ( sender.cmdlevel <= 1 )
 		return 0;
 	elseif ( text == "spy on" )
 		msg_settings["spy"] := 1;
-		SendSysMessage(who, "Private message viewing is enabled.");
-		SetObjProperty(who, ".msg", msg_settings);
+		SendSysMessage(sender, "Private message viewing is enabled.");
+		SetObjProperty(sender, ".msg", msg_settings);
 		return 1;
 	elseif ( text == "spy off" )
 		msg_settings.Erase("spy");
-		SendSysMessage(who, "Private message viewing is disabled.");
-		SetObjProperty(who, ".msg", msg_settings);
+		SendSysMessage(sender, "Private message viewing is disabled.");
+		SetObjProperty(sender, ".msg", msg_settings);
 		return 1;
 	elseif ( text == "visible on" )
 		msg_settings["visible"] := 1;
 		msg_settings.Erase("visible");
-		SendSysMessage(who, "Players can now message you while concealed.");
-		SetObjProperty(who, ".msg", msg_settings);
+		SendSysMessage(sender, "receivers can now message you while concealed.");
+		SetObjProperty(sender, ".msg", msg_settings);
 		return 1;
 	elseif ( text == "visible off" )
 		msg_settings.Erase("visible");
-		SendSysMessage(who, "Players can no longer message you while concealed.");
-		SetObjProperty(who, ".msg", msg_settings);
+		SendSysMessage(sender, "receivers can no longer message you while concealed.");
+		SetObjProperty(sender, ".msg", msg_settings);
 		return 1;
 	else
 		return 0;

@@ -185,6 +185,7 @@ endfunction
  *
  */
 function StartNerve(mobile, nerve_name, nerve_script, data:=array, flags:=NF_NO_FLAGS)
+	//PrintTextAbove(mobile, "Starting nerve type "+nerve_name+" script="+nerve_script);
 	if ( Lower(TypeOf(data)) != "array")
 		data := array{data};
 	endif
