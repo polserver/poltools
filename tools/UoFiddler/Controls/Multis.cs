@@ -317,12 +317,40 @@ namespace FiddlerControls
             ShowFreeSlots = !ShowFreeSlots;
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
+
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
+            string FileName = Path.Combine(path, "Multilist.xml");
+            XmlDocument dom = null;
+            XmlElement xMultis = null;
+            if ((File.Exists(FileName)))
+            {
+                dom = new XmlDocument();
+                dom.Load(FileName);
+                xMultis = dom["Multis"];
+            }
+
+            
             if (ShowFreeSlots)
             {
                 for (int i = 0; i < 0x2000; i++)
                 {
                     MultiComponentList multi = Ultima.Multis.GetComponents(i);
-                    TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    TreeNode node = null;
+                    if (dom == null)
+                    {
+                        node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                    }
+                    else
+                    {
+                        XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='" + i + "']");
+                        string j = "";
+                        foreach (XmlNode xMultiNode in xMultiNodeList)
+                        {
+                            j = xMultiNode.Attributes["name"].Value;
+                        }
+                        node = new TreeNode(String.Format("{0,5} (0x{0:X}) {1}", i, j));
+                    }
                     node.Name = i.ToString();
                     node.Tag = multi;
                     if (multi == MultiComponentList.Empty)
@@ -337,7 +365,21 @@ namespace FiddlerControls
                     MultiComponentList multi = Ultima.Multis.GetComponents(i);
                     if (multi != MultiComponentList.Empty)
                     {
-                        TreeNode node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                        TreeNode node = null;
+                        if (dom == null)
+                        {
+                            node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
+                        }
+                        else
+                        {
+                            XmlNodeList xMultiNodeList = xMultis.SelectNodes("/Multis/Multi[@id='" + i + "']");
+                            string j = "";
+                            foreach (XmlNode xMultiNode in xMultiNodeList)
+                            {
+                                j = xMultiNode.Attributes["name"].Value;
+                            }
+                            node = new TreeNode(String.Format("{0,5} (0x{0:X}) {1}", i, j));
+                        }
                         node.Tag = multi;
                         node.Name = i.ToString();
                         TreeViewMulti.Nodes.Add(node);
