@@ -1,4 +1,4 @@
-<?
+<?php
 /*  $Id$
  *
  *  Include file by Austin Heilman

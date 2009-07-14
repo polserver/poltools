@@ -1,4 +1,4 @@
-<?
+<?php
 
 Require_Once("../../includes/polcfg.php");
 
