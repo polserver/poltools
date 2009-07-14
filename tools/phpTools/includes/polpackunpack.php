@@ -1,4 +1,4 @@
-<?
+<?php
 //////////////////////////////////////////////////
 // Title: POL Pack/Unpack Include file for PHP
 // Author: MuadDib (Scott E. Royalty)
