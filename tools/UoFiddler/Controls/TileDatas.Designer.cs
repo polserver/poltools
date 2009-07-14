@@ -54,13 +54,13 @@ namespace FiddlerControls
             this.label9 = new System.Windows.Forms.Label();
             this.textBoxUnk2 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBoxStackNext = new System.Windows.Forms.TextBox();
+            this.textBoxUnk1 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.textBoxHeigth = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxValue = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBoxStackStart = new System.Windows.Forms.TextBox();
+            this.textBoxStackOff = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBoxHue = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -168,13 +168,13 @@ namespace FiddlerControls
             this.splitContainer1.Panel2.Controls.Add(this.label9);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxUnk2);
             this.splitContainer1.Panel2.Controls.Add(this.label10);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxStackNext);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxUnk1);
             this.splitContainer1.Panel2.Controls.Add(this.label11);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxHeigth);
             this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxValue);
             this.splitContainer1.Panel2.Controls.Add(this.label7);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxStackStart);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxStackOff);
             this.splitContainer1.Panel2.Controls.Add(this.label8);
             this.splitContainer1.Panel2.Controls.Add(this.textBoxHue);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -270,7 +270,7 @@ namespace FiddlerControls
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(223, 84);
+            this.label9.Location = new System.Drawing.Point(218, 84);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(33, 13);
             this.label9.TabIndex = 21;
@@ -278,7 +278,7 @@ namespace FiddlerControls
             // 
             // textBoxUnk2
             // 
-            this.textBoxUnk2.Location = new System.Drawing.Point(275, 81);
+            this.textBoxUnk2.Location = new System.Drawing.Point(270, 81);
             this.textBoxUnk2.Name = "textBoxUnk2";
             this.textBoxUnk2.Size = new System.Drawing.Size(51, 20);
             this.textBoxUnk2.TabIndex = 20;
@@ -289,17 +289,17 @@ namespace FiddlerControls
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(106, 84);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(57, 13);
+            this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 19;
-            this.label10.Text = "StackNext";
+            this.label10.Text = "Unk1";
             // 
-            // textBoxStackNext
+            // textBoxUnk1
             // 
-            this.textBoxStackNext.Location = new System.Drawing.Point(166, 81);
-            this.textBoxStackNext.Name = "textBoxStackNext";
-            this.textBoxStackNext.Size = new System.Drawing.Size(51, 20);
-            this.textBoxStackNext.TabIndex = 18;
-            this.textBoxStackNext.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemStackNext);
+            this.textBoxUnk1.Location = new System.Drawing.Point(161, 81);
+            this.textBoxUnk1.Name = "textBoxUnk1";
+            this.textBoxUnk1.Size = new System.Drawing.Size(51, 20);
+            this.textBoxUnk1.TabIndex = 18;
+            this.textBoxUnk1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemUnk1);
             // 
             // label11
             // 
@@ -321,7 +321,7 @@ namespace FiddlerControls
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(223, 58);
+            this.label6.Location = new System.Drawing.Point(218, 58);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 15;
@@ -329,7 +329,7 @@ namespace FiddlerControls
             // 
             // textBoxValue
             // 
-            this.textBoxValue.Location = new System.Drawing.Point(275, 55);
+            this.textBoxValue.Location = new System.Drawing.Point(270, 55);
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.Size = new System.Drawing.Size(51, 20);
             this.textBoxValue.TabIndex = 14;
@@ -340,17 +340,17 @@ namespace FiddlerControls
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(106, 58);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 13);
+            this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 13;
-            this.label7.Text = "StackStart";
+            this.label7.Text = "StackOff";
             // 
-            // textBoxStackStart
+            // textBoxStackOff
             // 
-            this.textBoxStackStart.Location = new System.Drawing.Point(166, 55);
-            this.textBoxStackStart.Name = "textBoxStackStart";
-            this.textBoxStackStart.Size = new System.Drawing.Size(51, 20);
-            this.textBoxStackStart.TabIndex = 12;
-            this.textBoxStackStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemStackOff);
+            this.textBoxStackOff.Location = new System.Drawing.Point(161, 55);
+            this.textBoxStackOff.Name = "textBoxStackOff";
+            this.textBoxStackOff.Size = new System.Drawing.Size(51, 20);
+            this.textBoxStackOff.TabIndex = 12;
+            this.textBoxStackOff.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDownItemStackOff);
             // 
             // label8
             // 
@@ -372,7 +372,7 @@ namespace FiddlerControls
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(223, 32);
+            this.label5.Location = new System.Drawing.Point(218, 32);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(46, 13);
             this.label5.TabIndex = 9;
@@ -380,7 +380,7 @@ namespace FiddlerControls
             // 
             // textBoxQuantity
             // 
-            this.textBoxQuantity.Location = new System.Drawing.Point(275, 29);
+            this.textBoxQuantity.Location = new System.Drawing.Point(270, 29);
             this.textBoxQuantity.Name = "textBoxQuantity";
             this.textBoxQuantity.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuantity.TabIndex = 8;
@@ -397,7 +397,7 @@ namespace FiddlerControls
             // 
             // textBoxQuality
             // 
-            this.textBoxQuality.Location = new System.Drawing.Point(166, 29);
+            this.textBoxQuality.Location = new System.Drawing.Point(161, 29);
             this.textBoxQuality.Name = "textBoxQuality";
             this.textBoxQuality.Size = new System.Drawing.Size(51, 20);
             this.textBoxQuality.TabIndex = 6;
@@ -828,7 +828,7 @@ namespace FiddlerControls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBoxValue;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBoxStackStart;
+        private System.Windows.Forms.TextBox textBoxStackOff;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBoxHue;
         private System.Windows.Forms.Label label5;
@@ -836,7 +836,7 @@ namespace FiddlerControls
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBoxUnk2;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBoxStackNext;
+        private System.Windows.Forms.TextBox textBoxUnk1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBoxHeigth;
         private System.Windows.Forms.Label label12;
