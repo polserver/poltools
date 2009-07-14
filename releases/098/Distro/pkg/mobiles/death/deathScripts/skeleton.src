@@ -1,4 +1,4 @@
-/* $Id: skeleton.src 1136 2008-01-17 02:11:03Z AustinHeilman $
+/* $Id: skeleton.src 29 2009-07-13 08:12:30Z AustinHeilman $
  *
  */
 
@@ -28,7 +28,7 @@ program DeathScript(params)
 		0xF7E
 	};
 
-	if ( RandomInt(3) )
+	if ( RandomDiceRoll("1d10") > 4 )
 		ResZombie(corpse, pieces, template);
 	else
 		PrintTextAbove(corpse, "*the zombie crumbles to dust*");
@@ -42,41 +42,39 @@ endprogram
 function ResZombie(corpse, byref pieces, template)
 	PrintTextAbove(corpse, "*the pieces twitch*");
 	SleepMS(30);
-
-	var corpse_color := corpse.color;
-	var corpse_x := corpse.x;
-	var corpse_y := corpse.y;
-	var corpse_z := corpse.z;
-	var realm := corpse.realm;
+	
+	var tcorpse := struct;
+	tcorpse.+color := corpse.color;
+	tcorpse.+x := corpse.x;
+	tcorpse.+y := corpse.y;
+	tcorpse.+z := corpse.z;
+	tcorpse.+realm := corpse.realm;
 
 	foreach obj_type in ( pieces )
-		if ( RandomInt(50) )
-			var piece := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, obj_type, 1, corpse.realm);
-			piece.color := corpse.coor;
-			piece.movable := 1;
-			MoveItem(corpse, piece);
-		endif
+		var piece := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, obj_type, 1, corpse.realm);
+		piece.color := corpse.color;
+		piece.movable := 1;
+		MoveItem(corpse, piece);
 		SleepMS(2);
 	endforeach
 
 	DestroyItem(corpse);
 
-	Sleep(7);
+	Sleep(RandomDiceRoll("3d7"));
 
 	var recovered_pieces := array;
 
-	foreach item in ( ListItemsNearLocation(corpse_x, corpse_y, corpse_z, MAX_RANGE, realm) )
-		if ( (item.objtype in pieces) && (item.color == corpse_color) )
-			if ( !Recovered(item, recovered_pieces) )
-				SetObjProperty(item, "#taken", GetPid());
-				recovered_pieces.Append(item);
-			endif
+	foreach entry in ( pieces )
+		var item := FindPieceToRecover(tcorpse, MAX_RANGE, entry, recovered_pieces);
+		if ( item )
+			//PrintTextAbove(item, "*twitches*");
+			recovered_pieces.Append(item);
 		endif
 		SleepMS(2);
 	endforeach
 
 	if ( recovered_pieces.Size() == pieces.Size() )
-		if ( !MoveItemsToCenter(corpse_x, corpse_y, recovered_pieces) )
+		if ( !MoveItemsToCenter(tcorpse, recovered_pieces) )
 			return 0;
 		endif
 
@@ -85,14 +83,28 @@ function ResZombie(corpse, byref pieces, template)
 			SleepMS(2);
 		endforeach
 
-		var npc := CreateNPCFromTemplate(template, corpse_x, corpse_y, corpse_z, 0, realm);
+		var npc := CreateNPCFromTemplate(template, tcorpse.x, tcorpse.y, tcorpse.z, 0, tcorpse.realm);
 		if ( npc.errortext )
 			SysLog("Error making npc ->"+npc.errortext);
-			SysLog("template-"+template+"     x-"+corpse_x+"   y-"+corpse_y+"   z-"+corpse_z+"     realm-"+realm);
+			SysLog("template-"+template+"     x-"+tcorpse.x+"   y-"+tcorpse.y+"   z-"+tcorpse.z+"     realm-"+tcorpse.realm);
 		endif
 	endif
 
 	return 1;
+endfunction
+
+function FindPieceToRecover(tcorpse, range, piece, byref recovered_pieces)
+	foreach item in ( ListItemsNearLocation(tcorpse.x, tcorpse.y, tcorpse.z, range, tcorpse.realm) )
+		if ( (item.objtype == piece) && (item.color == tcorpse.color) )
+			if ( !Recovered(item, recovered_pieces) )
+				SetObjProperty(item, "#taken", GetPid());
+				return item;
+			endif
+		endif
+		SleepMS(2);
+	endforeach
+	
+	return 0;
 endfunction
 
 function MoveItem(corpse, item)
@@ -116,43 +128,45 @@ function MoveItem(corpse, item)
 	MoveObjectToLocation(item, newx, newy, newz, item.realm, MOVEOBJECT_FORCELOCATION);
 endfunction
 
-function MoveItemsToCenter(x, y, byref recovered_pieces)
+function MoveItemsToCenter(tcorpse, byref recovered_pieces)
 	var line_list := dictionary;
 	foreach item in ( recovered_pieces )
-		line_list[item] := GetCoordsInLine(item.x, item.y, x, y);
+		line_list[item] := GetCoordsInLine(item.x, item.y, tcorpse.x, tcorpse.y);
 		SleepMS(2);
 	endforeach
 
 	while ( line_list.Size() > 0 )
 		foreach item in ( line_list.Keys() )
-			if ( !item )
-				// Item was lost, it is no longer valid.
-				return 0;
-			endif
-
 			var new_coord := line_list[item][1];
-			MoveObjectToLocation(item, new_coord.x, new_coord.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
-			line_list[item].Erase(1);
-
-			if ( line_list[item].Size() <= 0 )
-				// Successfully moved to the center.
+			var result := MoveObjectToLocation(item, new_coord.x, new_coord.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
+			if ( result )
+				line_list[item].Erase(1);
+				if ( line_list[item].Size() <= 0 )
+					// Successfully moved to the center.
+					line_list.Erase(item);
+					item.invisible := 1;
+				endif
+			else
 				line_list.Erase(item);
-			elseif ( item.container )
-				// A player is holding the item, its no longer valid.
-				return 0;
+				item := FindPieceToRecover(tcorpse, MAX_RANGE, item.graphic, recovered_pieces);
+				if ( !item )
+					return 0;
+				else
+					line_list[item] := GetCoordsInLine(item.x, item.y, tcorpse.x, tcorpse.y);
+				endif				
 			endif
 			SleepMS(2);
 		endforeach
 
-		SleepMS(850);
+		Sleep(1);
 	endwhile
 
 	return 1;
 endfunction
 
 function Recovered(item, recovered_pieces)
-	if ( GetObjProperty(item, "#taken") )
-		return 0;
+	if ( GetProcess(CInt(GetObjProperty(item, "#taken"))) )
+		return 1;
 	endif
 
 	foreach thing in ( recovered_pieces )
