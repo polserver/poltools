@@ -305,7 +305,7 @@ namespace Ultima
         /// <summary>
         /// Gets the stackingoffset of this item. (If flag Generic)
         /// </summary>
-        public byte StackingOffset
+        public byte StackingStart
         {
             get { return m_StackOffset; }
             set { m_StackOffset = value; }
@@ -323,7 +323,7 @@ namespace Ultima
         /// <summary>
         /// Gets the unk1 of this item.
         /// </summary>
-        public short Unk1
+        public short StackNext
         {
             get { return m_Unk1; }
             set { m_Unk1 = value; }
@@ -786,13 +786,13 @@ namespace Ultima
                         bin.Write((int)m_ItemData[i].Flags);
                         bin.Write(m_ItemData[i].Weight);
                         bin.Write(m_ItemData[i].Quality);
-                        bin.Write(m_ItemData[i].Unk1);
+                        bin.Write(m_ItemData[i].StackNext);
                         bin.Write(m_ItemData[i].Unk2);
                         bin.Write(m_ItemData[i].Quantity);
                         bin.Write(m_ItemData[i].Animation);
                         bin.Write(m_ItemData[i].Unk3);
                         bin.Write(m_ItemData[i].Hue);
-                        bin.Write(m_ItemData[i].StackingOffset); //unk4
+                        bin.Write(m_ItemData[i].StackingStart); //unk4
                         bin.Write(m_ItemData[i].Value); //unk5
                         bin.Write(m_ItemData[i].Height);
                         byte[] b = new byte[20];
@@ -817,7 +817,7 @@ namespace Ultima
         {
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
             {
-                Tex.Write("ID;Name;Weight/Quantity;Layer/Quality;Gump/AnimID;Height;Hue;Class/Quantity;StackingOffset;Unkown1;Unkown2;Unkown3");
+                Tex.Write("ID;Name;Weight/Quantity;Layer/Quality;Gump/AnimID;Height;Hue;Class/Quantity;StackingStart;Unkown1;Unkown2;Unkown3");
                 Tex.Write(";Background;Weapon;Transparent;Translucent;Wall;Damage;Impassible;Wet;Unknow1");
                 Tex.Write(";Surface;Bridge;Generic;Window;NoShoot;PrefixA;PrefixAn;Internal;Foliage;PartialHue");
                 Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;NoDiagonal");
@@ -834,8 +834,8 @@ namespace Ultima
                     Tex.Write(";" + tile.Height);
                     Tex.Write(";" + tile.Hue);
                     Tex.Write(";" + tile.Quantity);
-                    Tex.Write(";" + tile.StackingOffset);
-                    Tex.Write(";" + tile.Unk1);
+                    Tex.Write(";" + tile.StackingStart);
+                    Tex.Write(";" + tile.StackNext);
                     Tex.Write(";" + tile.Unk2);
                     Tex.Write(";" + tile.Unk3);
 
