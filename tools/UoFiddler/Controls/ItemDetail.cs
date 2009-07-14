@@ -104,7 +104,7 @@ namespace FiddlerControls
             this.Data.AppendText(String.Format("Quality/Layer/Light: {0}\n", item.Quality));
             this.Data.AppendText(String.Format("Quantity: {0}\n", item.Quantity));
             this.Data.AppendText(String.Format("Hue: {0}\n", item.Hue));
-            this.Data.AppendText(String.Format("StackingOffset/Unk4: {0}\n", item.StackingOffset));
+            this.Data.AppendText(String.Format("StackingStart/Unk4: {0}\n", item.StackingStart));
             this.Data.AppendText(String.Format("Flags: {0}\n", item.Flags));
             if ((item.Flags & TileFlag.PartialHue) != 0)
                 partialHue = true;
