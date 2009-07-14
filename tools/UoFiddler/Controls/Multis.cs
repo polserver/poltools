@@ -22,11 +22,22 @@ namespace FiddlerControls
 {
     public partial class Multis : UserControl
     {
+        private string MultiXMLFileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Multilist.xml");
+        private XmlDocument xDom = null;
+        private XmlElement xMultis = null;
+
         public Multis()
         {
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             refmarker = this;
+
+            if ((File.Exists(MultiXMLFileName)))
+            {
+                xDom = new XmlDocument();
+                xDom.Load(MultiXMLFileName);
+                xMultis = xDom["Multis"];
+            }
         }
 
         private bool Loaded = false;
@@ -50,19 +61,6 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["Multis"] = true;
             Options.LoadedUltimaClass["Hues"] = true;
 
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-
-            string FileName = Path.Combine(path, "Multilist.xml");
-            XmlDocument dom = null;
-            XmlElement xMultis = null;
-            if ((File.Exists(FileName)))
-            {
-                dom = new XmlDocument();
-                dom.Load(FileName);
-                xMultis = dom["Multis"];
-            }
-
-
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
             ArrayList cache = new ArrayList();
@@ -72,7 +70,7 @@ namespace FiddlerControls
                 if (multi != MultiComponentList.Empty)
                 {
                     TreeNode node = null;
-                    if (dom == null)
+                    if (xDom == null)
                     {
                         node = new TreeNode(String.Format("{0,5} (0x{0:X})", i));
                     }
@@ -318,26 +316,13 @@ namespace FiddlerControls
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
 
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-
-            string FileName = Path.Combine(path, "Multilist.xml");
-            XmlDocument dom = null;
-            XmlElement xMultis = null;
-            if ((File.Exists(FileName)))
-            {
-                dom = new XmlDocument();
-                dom.Load(FileName);
-                xMultis = dom["Multis"];
-            }
-
-            
             if (ShowFreeSlots)
             {
                 for (int i = 0; i < 0x2000; i++)
                 {
                     MultiComponentList multi = Ultima.Multis.GetComponents(i);
                     TreeNode node = null;
-                    if (dom == null)
+                    if (xDom == null)
                     {
                         node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
                     }
@@ -366,7 +351,7 @@ namespace FiddlerControls
                     if (multi != MultiComponentList.Empty)
                     {
                         TreeNode node = null;
-                        if (dom == null)
+                        if (xDom == null)
                         {
                             node = new TreeNode(String.Format("{0,5} (0x{1:X})", i, i));
                         }
