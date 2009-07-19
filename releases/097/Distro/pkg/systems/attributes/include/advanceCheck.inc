@@ -43,7 +43,7 @@ function CheckStatsForSkill(mobile, skill_name)
 
 	foreach stat_entry in (AP_GetSkillStats(skill_name))
 		var stat_name := _stat_entry_iter;
-		var check_chance := stat_entry[1];
+		var check_chance := CInt(stat_entry[1]);
 		var stat_mult := CDbl(RandomDiceRoll(stat_entry[2]));
 
 		var roll := RandomInt(100)+1;
