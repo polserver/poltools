@@ -69,6 +69,63 @@ namespace Ultima
             }
         }
 
+        public static void ExportToCSV(string FileName)
+        {
+            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.Unicode))
+            {
+                Tex.WriteLine("Order;ID;KeyWord");
+                foreach (SpeechEntry entry in Entries)
+                {
+                    Tex.WriteLine(String.Format("{0};{1};{2}",entry.Order,entry.ID,entry.KeyWord));
+                }
+            }
+        }
+
+        public static void ImportFromCSV(string FileName)
+        {
+            Entries = new ArrayList(0);
+            if (!File.Exists(FileName))
+                return;
+            using (StreamReader sr = new StreamReader(FileName))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                        continue;
+                    if ((line.Contains("Order")) && (line.Contains("KeyWord")))
+                        continue;
+                    try
+                    {
+                        string[] split = line.Split(';');
+                        if (split.Length < 3)
+                            continue;
+
+                        int order = ConvertStringToInt(split[0]);
+                        int id = ConvertStringToInt(split[1]);
+                        string word = split[2];
+                        word=word.Replace("\"","");
+                        Entries.Add(new SpeechEntry((short)id, word, order));
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        public static int ConvertStringToInt(string text)
+        {
+            int result;
+            if (text.Contains("0x"))
+            {
+                string convert = text.Replace("0x", "");
+                int.TryParse(convert, System.Globalization.NumberStyles.HexNumber, null, out result);
+            }
+            else
+                int.TryParse(text, System.Globalization.NumberStyles.Integer, null, out result);
+
+            return result;
+        }
+
         #region SortComparer
         public class IDComparer : IComparer
         {

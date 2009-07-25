@@ -1047,6 +1047,17 @@ namespace FiddlerControls
             }
         }
 
+        MapReplaceTiles showmapreplacetiles = null;
+        private void OnClickReplaceTiles(object sender, EventArgs e)
+        {
+            if ((showmapreplacetiles == null) || (showmapreplacetiles.IsDisposed))
+            {
+                showmapreplacetiles = new MapReplaceTiles(currmap);
+                showmapreplacetiles.TopMost = true;
+                showmapreplacetiles.Show();
+            }
+        }
+
     }
 
     public class OverlayObject

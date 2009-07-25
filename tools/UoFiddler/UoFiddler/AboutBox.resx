@@ -119,7 +119,8 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.1c
-MultiEditor Heightbar fix
+MultiEditor:
+Heightbar fix
 Added Import from UOArchitect design file
 Added Checkbox to mark Component invisible
 art.mul index length changed to 0x10000

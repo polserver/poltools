@@ -892,7 +892,7 @@ namespace FiddlerControls
             dialog.Multiselect = false;
             dialog.Title = "Choose csv file to import";
             dialog.CheckFileExists = true;
-            dialog.Filter = "cliloc files (*.csv)|*.csv";
+            dialog.Filter = "csv files (*.csv)|*.csv";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Options.ChangedUltimaClass["TileData"] = true;

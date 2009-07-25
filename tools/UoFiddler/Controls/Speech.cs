@@ -24,6 +24,7 @@ namespace FiddlerControls
             InitializeComponent();
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             source = new BindingSource();
+            toolStrip2.Visible = false;
         }
 
         private BindingSource source;
@@ -181,6 +182,31 @@ namespace FiddlerControls
                 dataGridView1.Refresh();
                 Options.ChangedUltimaClass["Speech"] = true;
             }
+        }
+
+        private void OnClickExport(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, "Speech.csv");
+            Ultima.SpeechList.ExportToCSV(FileName);
+            MessageBox.Show(String.Format("Speech saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickImport(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose csv file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "csv files (*.csv)|*.csv";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Options.ChangedUltimaClass["Speech"] = true;
+                Ultima.SpeechList.ImportFromCSV(dialog.FileName);
+                source.DataSource = SpeechList.Entries;
+                dataGridView1.Refresh();
+            }
+            dialog.Dispose();
         }
     }
 }
