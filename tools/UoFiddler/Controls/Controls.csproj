@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BBF3C337-3D0E-484D-8C59-BA8296C5897C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -289,6 +289,12 @@
     <Compile Include="MapMarker.Designer.cs">
       <DependentUpon>MapMarker.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapReplaceTiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapReplaceTiles.Designer.cs">
+      <DependentUpon>MapReplaceTiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="MultiImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -506,6 +512,9 @@
     <EmbeddedResource Include="MapMarker.resx">
       <DependentUpon>MapMarker.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapReplaceTiles.resx">
+      <DependentUpon>MapReplaceTiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MultiImport.resx">
       <DependentUpon>MultiImport.cs</DependentUpon>

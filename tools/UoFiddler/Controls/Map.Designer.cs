@@ -108,6 +108,8 @@ namespace FiddlerControls
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.collapsibleSplitter2 = new FiddlerControls.CollapsibleSplitter();
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.replaceTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -545,7 +547,9 @@ namespace FiddlerControls
             this.rewriteMapToolStripMenuItem,
             this.toolStripSeparator6,
             this.copyToolStripMenuItem,
-            this.insertDiffDataToolStripMenuItem});
+            this.insertDiffDataToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.replaceTilesToolStripMenuItem});
             this.toolStripDropDownButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton3.Name = "toolStripDropDownButton3";
             this.toolStripDropDownButton3.Size = new System.Drawing.Size(40, 22);
@@ -668,6 +672,18 @@ namespace FiddlerControls
             this.collapsibleSplitter1.UseAnimations = false;
             this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
+            // replaceTilesToolStripMenuItem
+            // 
+            this.replaceTilesToolStripMenuItem.Name = "replaceTilesToolStripMenuItem";
+            this.replaceTilesToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.replaceTilesToolStripMenuItem.Text = "Replace Tiles..";
+            this.replaceTilesToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplaceTiles);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(293, 6);
+            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -764,5 +780,7 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem meltStaticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clearStaticsinMemoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem replaceTilesToolStripMenuItem;
     }
 }
