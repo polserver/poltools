@@ -1,4 +1,4 @@
-/* $Id: spawnCycle.src 1175 2008-02-06 02:47:08Z AustinHeilman $
+/* $Id: spawnCycle.src 45 2009-07-14 15:38:56Z AustinHeilman $
  *
  */
 
@@ -11,6 +11,8 @@ include ":spawnsystem:spawnerUtil";
 include ":spawnsystem:report";
 
 program SpawnCycle(params)
+	Set_Priority(1);
+	
 	//var engine_name	:= params[1];
 	var realm_name	:= params[2];
 	var region_name	:= params[3];
@@ -41,7 +43,7 @@ program SpawnCycle(params)
 		elseif ( created.errortext )
 			SS_ReportText("Error: Unable to create ("+spawn_object+") for group ("+group_name+") in region ("+region_name+"). ->"+created.errortext, SPAWN_REPORT_SYSLOG);
 		endif
-		SleepMS(2);
+		SleepMS(20);
 	endfor
 
 	SS_ReportText("Completed spawning of group ("+group_name+") in region ("+region_name+").", SPAWN_REPORT_SYSLOG);
@@ -62,7 +64,7 @@ function ValidateSpawns(region_name, group_name)
 			// Item has been moved (interacted with)
 			SS_RemoveSpawnFromRegion(region_name, group_name, serial);
 		endif
-		SleepMS(2);
+		SleepMS(20);
 	endforeach
 
 	return 1;

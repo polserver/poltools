@@ -4,38 +4,40 @@ use vitals;
 
 include ":timedscripts:timedScripts";
 
-program UseFeces(who, feces)
+program UseFeces(mobile, feces)
 	if ( !feces.movable )
-		SendSysMessage(who, "That is not movable.");
+		SendSysMessage(mobile, "That is not movable.");
 		return 0;
 	endif
 	
 	SetScriptController(0);
 
-	SendSysMessage(who, "What do you want to throw this at?");
-	var targ := target(who);
+	SendSysMessage(mobile, "What do you want to throw this at?");
+	var targ := target(mobile);
 	
 	if ( !targ )
-		SendSysMessage(who, "Cancelled");
+		SendSysMessage(mobile, "Cancelled");
 		return 0;
-	elseif ( !CheckLineOfSight(who, targ) )
-		SendSysMessage(who, "That is out of line of sight.");
+	elseif ( !CheckLineOfSight(mobile, targ) )
+		SendSysMessage(mobile, "That is out of line of sight.");
 		return 0;
-	elseif ( Distance(who, targ) > 10 )
-		SendSysMessage(who, "That is too far away.");
+	elseif ( Distance(mobile, targ) > 10 )
+		SendSysMessage(mobile, "That is too far away.");
 		return 0;
 	endif
-	PlayMovingEffect(who, targ, feces.graphic, 10, 10);
+	PrintTextAbove(mobile, "*throws something*");
+	
+	PlayMovingEffect(mobile, targ, feces.graphic, 10, 10);
 	SubtractAmount(feces, 1);
 	
-	Sleepms(Distance(who, targ)*20);
+	Sleepms(Distance(mobile, targ)*20);
 	
 	PrintTextAbove(targ, "*SPLAT!*");
 	
 	if ( targ.IsA(POLCLASS_MOBILE) )
 		ApplyRawDamage(targ, 0);
 		TS_StartTimer(targ, "poostink", 40);
-		SendSysMessage(targ, who.name+" has just thrown feces at you!");
+		SendSysMessage(targ, mobile.name+" has just thrown feces at you!");
 	else
 		PrintTextAbove(targ, "*"+targ.desc+" smells like poo*");
 	endif
