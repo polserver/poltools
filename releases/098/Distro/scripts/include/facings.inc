@@ -5,7 +5,10 @@ use uo;
 use os;
 use math;
 
-
+const FACE_POS_BEHIND := 1;
+const FACE_POS_INFRONT := 2;
+ 
+ 
 /*
  * TurnObjectToward(object, x_pos, y_pos)
  *
@@ -52,10 +55,10 @@ endfunction
 
 
 /*
- * IsBehind(mobile, x_pos, y_pos)
+ * InPosition(mobile, x_pos, y_pos, flag)
  * Determines if a set of coordinates are behind a character.
- * Example ( ^ - character * - behind )
- *         ^
+ * Example ( @ - character * - valid )
+ *         @
  *        ***
  *       *****
  *      *******
@@ -70,13 +73,17 @@ endfunction
  * Returns 0 if not.
  *
  */
-function IsBehind(tgt_mob, locx, locy)
+function InPosition(tgt_mob, locx, locy, flag)
 	var frot := Abs(((tgt_mob.facing+4)%8)-GetFacing(tgt_mob.x,tgt_mob.y,locx,locy));
 	if ( frot > 4 )
 		frot := 8-frot;
 	endif
 
-	return (frot < 2);
+	if ( flag == FACE_POS_BEHIND )
+		return (frot < 2);
+	elseif ( flag == FACE_POS_INFRONT )
+		return (frot > 2);
+	endif
 endfunction
 
 /*
