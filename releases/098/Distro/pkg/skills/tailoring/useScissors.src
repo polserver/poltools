@@ -101,8 +101,7 @@ function cutItems(who, item, tool)
 
 	// Now let's handle cutting this bad boy up!
 	if ( material )
-		var menu_entry := FindConfigElem(menu_config, "Tailoring");
-		playCraftWork(who, menu_entry.CraftSound, 1, 1, menu_entry.CraftAnim);
+		playCraftWork(who, "tailoring", 1);
 		
 		// If it's armor, the amount gets modified based on skill to get original cost back.
 		var amt := 1;
