@@ -38,7 +38,7 @@ program Guild_Menu(who)
 
 	var who_rank := GetGuildRank(who);
 	var guild := who.guild;
-	var guild_id := who.guildid
+	var guild_id := who.guildid;
 	var guild_name := guild.GetProp("Name");
 	var guild_abbr := guild.GetProp("Abbr");
 
