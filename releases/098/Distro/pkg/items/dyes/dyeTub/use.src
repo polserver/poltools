@@ -12,7 +12,7 @@ program UseTub(mobile, dyetub)
 	SendSysMessage(mobile, "What do you want to use this dyetub on?");
 	var targ := target(mobile);
 
-	if ( !targ )
+	if ( !targ.IsA(POLCLASS_ITEM) )
 		SendSysMessage(mobile, "Cancelled");
 		return 0;
 	elseif( !ReserveItem(targ) )

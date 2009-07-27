@@ -31,7 +31,7 @@ function MessageGump(sender)
 	GFResizePic(gump, 0, 0, GFGetCfgConst("Defaults", "BackGround"), 310, 420);
 	GFResizePic(gump, 15, 15, GFGetCfgConst("Defaults", "ForeGround"), 280, 390);
 
-	GFTextLine(gump, 25, 20, 2100, "receiver Name");
+	GFTextLine(gump, 25, 20, 2100, "Receiver Name");
 	GFTextLine(gump, 255, 20, 2100, "Send");
 
 	var names_list := GetNamesList(sender);

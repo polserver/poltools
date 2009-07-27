@@ -20,7 +20,7 @@ program LogOffTest(mobile)
 		return 10;
 	endif
 
-	var logout_delay := SECONDS_IN_MINUTE * 5;
+	var logout_delay := SECONDS_IN_MINUTE * 2;
 
 	// Check if player is camping
 	// Prop may exist if fire done successfully, but will only

@@ -1,4 +1,4 @@
-/* $Id: combatHook.src 1234 2008-08-15 17:55:37Z AustinHeilman $
+/* $Id: combatHook.src 119 2009-07-19 22:30:25Z AustinHeilman $
  *
  * NOTES:
  *	Return 0 if you want the core to handle the
@@ -47,22 +47,23 @@ exported function Attack(attacker, defender)
 		return 1;
 	elseif ( !AmmoChecks(a_info, d_info) )
 		return 1;
+	elseif ( !FacingChecks(attacker, defender) )
+		return 1;
 	endif
-
-	FacingChecks(attacker, defender);
+	
 	PlayAttackAnimation(a_info);
 
 	var hit_chance := CalcHitDifficulty(a_info, d_info);
 	if ( RandomFloat(1.0) < hit_chance )
 		var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
 		var gain_flag := GetCombatGainFlags(attacker, defender);
-		SkillCheck(attacker, attribute, -1, 0, gain_flag);
+		SkillCheck(attacker, attribute, -1, "", gain_flag);
 
 		PlayHitSound(a_info, d_info);
 
 		var base_damage := CalcBaseDamage(a_info);
 		var raw_damage := base_damage;
-		ParryChecks(attacker, defender, raw_damage);
+		ParryChecks(a_info, d_info, raw_damage);
 
 		var armor_hit := GetArmorHit(d_info);
 		ArmorChecks(d_info, armor_hit, raw_damage);
@@ -110,8 +111,15 @@ endfunction
 
 function FacingChecks(attacker, defender)
 	if ( g_settings_cfg["Settings"].ForceFacing )
-		if ( !IsFacing(attacker, defender.x, defender.y) )
-			TurnObjectToward(attacker, defender.x, defender.y);
+		if ( attacker.x == defender.x && attacker.y == defender.y )
+				return 1;
+		elseif ( !InPosition(attacker, defender.x, defender.y, FACE_POS_INFRONT) )
+			if ( attacker.npctemplate )
+				TurnObjectToward(attacker, defender.x, defender.y);
+			else
+				CombatMsg(attacker, "You need to be facing "+defender.name+" to attack.", "Facing");
+				return 0;
+			endif
 		endif
 		// Should only turn the attacker
 		//if ( !IsFacing(defender, attacker.x, attacker.y) )
@@ -232,7 +240,8 @@ function CalcBaseDamage(byref a_info)
 	var base_dmg := GetConfigString(a_info.cfginfo, a_info.prefix+"Damage");
 	base_dmg := RandomDiceRoll(base_dmg);
 
-	var dmg_mult := CDbl(AP_GetSkill(a_info.mobile, TACTICS))+50.0;
+	var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
+	var dmg_mult := CDbl(AP_GetSkill(a_info.mobile, attribute))+50.0;
 	dmg_mult += (CDbl(AP_GetStat(a_info.mobile, STRENGTH)) * 0.2);
 	dmg_mult := CDbl(dmg_mult) * 0.01;
 	base_dmg *= dmg_mult;
@@ -244,12 +253,15 @@ function ParryChecks(byref a_info, byref d_info, byref raw_damage)
 	var shield := (d_info.mobile).shield;
 	if ( !shield )
 		return 0;
+	elseif ( !InPosition(d_info.mobile, a_info.mobile.x, a_info.mobile.y, FACE_POS_INFRONT) )
+		return 0;
 	endif
 
+	var attribute := GetConfigString(a_info.cfginfo, a_info.prefix+"Attribute");
 	var parry_elem := g_settings_cfg["Parry"];
 	var divisor := CDbl(parry_elem.ParryDivisor);
 	var roll := CDbl(parry_elem.ParryRoll);
-	var parry_chance := CDbl(AP_GetSkill(a_info.mobile, PARRY)) / divisor;
+	var parry_chance := CDbl(AP_GetSkill(a_info.mobile, attribute)) / divisor;
 
 	if ( RandomFloat(roll) < parry_chance )
 		PerformAction(d_info.mobile, ANIM_TWIST_DODGE);
@@ -276,13 +288,17 @@ function GetArmorHit(byref d_info)
 	var hit_zone := CS_GetRandomArmorZone();
 	var armor_hit := CS_GetEquipmentInArmorZone(d_info.mobile, hit_zone);
 
+	var best_armor := struct;
+	best_armor.name := "nothing-"+hit_zone;
+	best_armor.desc := "nothing"+hit_zone;
+	best_armor.ar := 0;
+	
 	if ( armor_hit.Size() < 1 )
 		return 0;
 	endif
 
-	var best_armor := struct{"ar" := 0};
 	foreach item in ( armor_hit )
-		if ( item.ar > best_armor )
+		if ( item.ar > best_armor.ar )
 			best_armor := item;
 		endif
 		SleepMS(2);
@@ -292,15 +308,16 @@ function GetArmorHit(byref d_info)
 endfunction
 
 function ArmorChecks(byref d_info, armor_hit, byref raw_damage)
-	var blocked := CInt(armor_hit.ar) + (d_info.mobile).ar_mod;
+	var blocked := CInt(armor_hit.ar) + CInt((d_info.mobile).ar_mod);
 	var absorbed := blocked / 2;
-	blocked := blocked - absorbed;
-	absorbed := absorbed + RandomInt(blocked+1)+1;
-	raw_damage := raw_damage - absorbed;
+	blocked -= absorbed;
+	absorbed += RandomInt(blocked+1);
+	raw_damage -= absorbed;
 
-	if ( raw_damage >= 2.0 )
-		raw_damage := raw_damage * 0.5;
-	endif
+	// Why is this *0.5 part in the pseudo code?
+	//if ( raw_damage >= 2.0 )
+	//	raw_damage *= 0.5;
+	//endif
 	raw_damage := CInt(raw_damage);
 
 	if ( !armor_hit.IsA(POLCLASS_ARMOR) )

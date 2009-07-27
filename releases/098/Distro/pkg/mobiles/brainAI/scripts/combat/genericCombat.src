@@ -1,4 +1,4 @@
-/* $Id: genericCombat.src 781 2006-08-31 00:39:57Z AustinHeilman $
+/* $Id: genericCombat.src 167 2009-07-25 23:16:40Z AustinHeilman $
  *
  */
 
@@ -33,7 +33,7 @@ program BrainNerve(params)
 
 	while( npc )
 		var dist := Distance(npc, opponent);
-		if ( ShouldFlee(npc, flee_level) )
+		if ( ShouldFlee(npc, flee_level, opponent, dist) )
 			AI_WarMode(npc, 0);
 			AI_Move(npc, opponent, NEMOVE_AWAY, NEMOVE_RUN, WAKEUP, 100);
 		elseif ( DoneFighting(npc, opponent, dist) )
@@ -50,6 +50,7 @@ program BrainNerve(params)
 			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, (dist-settings["MaxRange"]));
 		else
 			npc.facing := GetFacing(npc.x, npc.y, opponent.x, opponent.y);
+			AI_Wakeup(npc);
 		endif
 
 		//To-Do:
@@ -80,9 +81,13 @@ function DoneFighting(npc, opponent, byref dist)
 	return 0;
 endfunction
 
-function ShouldFlee(npc, byref flee_level)
+function ShouldFlee(npc, byref flee_level, opponent, byref dist)
 	if ( AP_GetVital(npc, "Hits") < flee_level )
 		return 1;
+	elseif ( dist > 20 )
+		return 0;
+	elseif ( dist > 10 && !CheckLineOfSight(npc, opponent) )
+		return 0;
 	endif
 
 	return 0;
