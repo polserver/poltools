@@ -150,3 +150,47 @@ function FindInArray(byref the_array, find_what)
 
 	return 0;
 endfunction
+
+/*
+ * Bubble_Sort_Array(byref data_array, pos)
+ *
+ * (Anyone feel free to make this description a little better, lol.)
+ *
+ * Purpose
+ * Sorts values in an array.
+ *
+ * Examples
+ * var test_array := Array{Array{value1, value2}};
+ * Bubble_Sort_Array(test_array, 2);
+ * - Would sort test_array from small to largest number of value2.
+ *
+ * Parameters
+ * the_array:	Array to search.
+ * pos:	posistion to sort from.
+ *
+ * Return value
+ * Returns = 1 finished sorting
+ *
+ */
+function Bubble_Sort_Array(byref data_array, pos)
+
+	var i := 1;
+	var l := data_array.Size();
+
+	for ( i := 1; i <= l; i := i + 1 )
+		var ind := data_array[i];
+		var j := i;
+		while ( (j > 0) && (data_array[j - 1][pos] > ind[pos]) )
+			data_array[j] := data_array[j - 1];
+			j := j - 1;
+			SleepMS(2);
+		endwhile
+		if ( (data_array[j] !=  data_array[j - 1]) || (data_array[j] !=  data_array[j + 1]) )
+			data_array[j] := ind;
+		endif
+		SleepMS(2);
+	endfor
+
+	return 1;
+
+endfunction
