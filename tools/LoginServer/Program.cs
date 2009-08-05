@@ -10,15 +10,15 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 
 namespace LoginServer
 {
     class Program
     {
+
+        static string progversion = "0.001";
+        static public string ServerPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+
         static public bool running = true;
         static public ServerList server_list = new ServerList();
         
@@ -26,8 +26,9 @@ namespace LoginServer
         {
             int port = 5003;
 
-            Console.WriteLine("LoginServer v0.001 -- POL Team");
-            Console.WriteLine("==============================");
+            Console.WriteLine("POL Remote Login Server v" + progversion + " (VS.NET 2008)");
+            Console.WriteLine("Copyright (C) 2009 POL Development Team");
+            Console.WriteLine();
 
             try
             {
@@ -50,14 +51,27 @@ namespace LoginServer
             Console.ReadLine();
         }
 
-        private static void PopulateList()
-        {
-            server_list.AddServer("POL Distro", "poldistro.dyndns.org", 5003);
-            server_list.AddServer("POL Distro: OMG", "127.0.0.1", 5003);
-        }
+        /// <summary>
+        /// Program Class Deconstructor
+        /// </summary>
+        /// <returns></returns>
         ~Program()
         {
             running = false;
         }
+
+        /// <summary>
+        /// Builds internal server list from serverlist.xml
+        /// </summary>
+        /// <returns></returns>
+        private static void PopulateList()
+        {
+            Servers servers = new Servers();
+            foreach (ServerInfo newServer in servers)
+            {
+                server_list.AddServer(newServer);
+            }
+        }
+
     }
 }
