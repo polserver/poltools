@@ -10,19 +10,16 @@
  ***************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
 
 namespace LoginServer
 {
     class ServerInfo
     {
-        string servername;
-        double percent_full;
-        TimeZoneInfo timezone;
-        IPEndPoint server_endpoint;
+        private string servername;
+        private double percent_full;
+        private TimeZoneInfo timezone;
+        private IPEndPoint server_endpoint;
 
         public string Name
         {
@@ -31,6 +28,7 @@ namespace LoginServer
                 return servername;
             }
         }
+        
         public double Full
         {
             get
@@ -38,6 +36,7 @@ namespace LoginServer
                 return percent_full;
             }
         }
+        
         public TimeZoneInfo tz
         {
             get
@@ -45,6 +44,7 @@ namespace LoginServer
                 return timezone;
             }
         }
+        
         public IPAddress ip
         {
             get
@@ -52,6 +52,7 @@ namespace LoginServer
                 return server_endpoint.Address;
             }
         }
+        
         public int port
         {
             get
@@ -62,6 +63,7 @@ namespace LoginServer
 
         public ServerInfo(string servername, IPAddress ip, int port) : this(servername, new IPEndPoint(ip, port)) 
         { }
+        
         ServerInfo(string servername, IPEndPoint server_endpoint) : this(servername, server_endpoint, 0, TimeZoneInfo.Local) 
         { }
         
