@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Servers>
+  <Server id="1">
+    <ServerName>Local Host</ServerName>
+    <Host>127.0.0.1</Host>
+    <Port>5003</Port>
+  </Server>
+  <Server id="2">
+    <ServerName>Eine Welt namens Pergon</ServerName>
+    <Host>pergon.fem.tu-ilmenau.de</Host>
+    <Port>3000</Port>
+  </Server>
+</Servers>
