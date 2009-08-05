@@ -135,6 +135,7 @@ namespace LoginServer
                 if (!IPAddress.TryParse(serverHostString, out tmp_addr))
                 {
                     tmp_addr = Dns.GetHostAddresses(serverHostString)[0];
+                    Console.WriteLine("Converted Host Entry from Name " + serverHostString + " to IP " + tmp_addr.ToString());
                 }
 
                 val = "0";
