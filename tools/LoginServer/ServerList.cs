@@ -22,6 +22,13 @@ namespace LoginServer
     {
         List<ServerInfo> _list = new List<ServerInfo>();
 
+        /// <summary>
+        /// Add a new Server to the Server List.
+        /// </summary>
+        /// <param name="name">string</param>
+        /// <param name="host">string</param>
+        /// <param name="port">Int</param>
+        /// <returns></returns>
         public void AddServer(string name, string host, int port)
         {
             IPAddress tmp_addr;
@@ -33,6 +40,10 @@ namespace LoginServer
             _list.Add(new ServerInfo(name, tmp_addr, port));
         }
 
+        /// <summary>
+        /// Outputs Server List to the Console.
+        /// </summary>
+        /// <returns></returns>
         public void ReportServers()
         {
             int index = 0;
@@ -43,6 +54,11 @@ namespace LoginServer
             }
         }
 
+        /// <summary>
+        /// Add a new Server to the Server List.
+        /// </summary>
+        /// <param name="server">ServerInfo Object</param>
+        /// <returns></returns>
         public void AddServer(ServerInfo server)
         {
             _list.Add(server);

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Options>
+  <LoginServer>
+    <Port>5003</Port>
+  </LoginServer>
+  <MySQL>
+    <Host>127.0.0.1</Host>
+    <Port>3306</Port>
+    <Username>root</Username>
+    <Password></Password>
+    <Database>pol_loginserver</Database>
+  </MySQL>
+</Options>
