@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 using System;
+using MySql.Data.MySqlClient;
 
 namespace LoginServer
 {
@@ -21,17 +22,39 @@ namespace LoginServer
 
         static public bool running = true;
         static public ServerList server_list = new ServerList();
-        
+        static public Options options = new Options();
+
         static void Main(string[] args)
         {
-            int port = 5003;
-
             Console.WriteLine("POL Remote Login Server v" + progversion + " (VS.NET 2008)");
             Console.WriteLine("Copyright (C) 2009 POL Development Team");
             Console.WriteLine();
 
             try
             {
+                if (!options.Load())
+                {
+                    Console.WriteLine("Unable to load options file! Exiting...");
+                    Console.WriteLine();
+                    Environment.Exit(1000);
+                }
+                Console.WriteLine("Options File Loaded...");
+
+                LoginSQL MyConnection = new LoginSQL();
+                
+                if (!MyConnection.CreateConnection())
+                {
+                    Console.WriteLine("Unable to connect to the database. Exiting...");
+                    Console.WriteLine();
+                    Environment.Exit(1001);
+                }
+                Console.WriteLine("Connected to MySQL Database");
+                // MyConnection.LoadAccounts();
+                MyConnection.Close();
+                
+    
+                int port = options.LoginServer_Port;
+
                 Console.WriteLine("Populating server list...");
                 Console.WriteLine();
 
@@ -72,6 +95,5 @@ namespace LoginServer
                 server_list.AddServer(newServer);
             }
         }
-
     }
 }

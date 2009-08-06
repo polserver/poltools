@@ -53,6 +53,8 @@
     <Compile Include="Client.cs" />
     <Compile Include="HexDump.cs" />
     <Compile Include="Listener.cs" />
+    <Compile Include="LoginSQL.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Packets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +63,9 @@
     <Compile Include="SockUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Options.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Servers.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
