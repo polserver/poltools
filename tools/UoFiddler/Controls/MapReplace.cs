@@ -240,7 +240,7 @@ namespace FiddlerControls
                                             StaticTile tile = new StaticTile();
                                             if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
                                             {
-                                                tile.m_ID = m_StaticsReader_copy.ReadInt16();
+                                                tile.m_ID = m_StaticsReader_copy.ReadUInt16();
                                                 tile.m_X = m_StaticsReader_copy.ReadByte();
                                                 tile.m_Y = m_StaticsReader_copy.ReadByte();
                                                 tile.m_Z = m_StaticsReader_copy.ReadSByte();
@@ -248,7 +248,7 @@ namespace FiddlerControls
                                             }
                                             else
                                             {
-                                                tile.m_ID = m_StaticsReader.ReadInt16();
+                                                tile.m_ID = m_StaticsReader.ReadUInt16();
                                                 tile.m_X = m_StaticsReader.ReadByte();
                                                 tile.m_Y = m_StaticsReader.ReadByte();
                                                 tile.m_Z = m_StaticsReader.ReadSByte();

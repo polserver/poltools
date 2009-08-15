@@ -252,6 +252,7 @@ namespace UoFiddler
                 FiddlerControls.Options.MapNames[2] = elem.GetAttribute("map2");
                 FiddlerControls.Options.MapNames[3] = elem.GetAttribute("map3");
                 FiddlerControls.Options.MapNames[4] = elem.GetAttribute("map4");
+                FiddlerControls.Options.MapNames[5] = elem.GetAttribute("map5");
             }
 
             ExternTools = new ArrayList();

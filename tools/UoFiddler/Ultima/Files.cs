@@ -68,6 +68,7 @@ namespace Ultima
 			"map2.mul",
 			"map3.mul",
 			"map4.mul",
+            "map5.mul",
 			"mapdif0.mul",
 			"mapdif1.mul",
 			"mapdif2.mul",
@@ -109,11 +110,13 @@ namespace Ultima
 			"staidx2.mul",
 			"staidx3.mul",
 			"staidx4.mul",
+            "staidx5.mul",
 			"statics0.mul",
             "statics1.mul",
 			"statics2.mul",
 			"statics3.mul",
 			"statics4.mul",
+            "statics5.mul",
             "texidx.mul",
             "texmaps.mul",
             "tiledata.mul",
@@ -210,7 +213,9 @@ namespace Ultima
         {
             if (MulPath.Count > 0)
             {
-                string path = MulPath[file.ToLower()].ToString();
+                string path="";
+                if (MulPath.Contains(file.ToLower()))
+                    path = MulPath[file.ToLower()].ToString();
                 if (path == "")
                     return null;
                 if (Path.GetDirectoryName(path) == "")

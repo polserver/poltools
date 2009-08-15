@@ -17,6 +17,15 @@ namespace Ultima
         {
         }
 
+        public static bool IsUOSA()
+        {
+            return (GetIdxLength() == 0xC000);
+        }
+
+        public static int GetIdxLength()
+        {
+            return (int)(m_FileIndex.IdxLength/12);
+        }
         /// <summary>
         /// ReReads Art.mul
         /// </summary>
@@ -425,7 +434,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int index = 0; index < m_Cache.Length; index++)
+                    for (int index = 0; index < GetIdxLength(); index++)
                     {
                         if (m_Cache[index] == null)
                         {

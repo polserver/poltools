@@ -21,6 +21,7 @@ namespace Ultima
         public static readonly Map Ilshenar = new Map(2, 2, 2304, 1600);
         public static readonly Map Malas = new Map(3, 3, 2560, 2048);
         public static readonly Map Tokuno = new Map(4, 4, 1448, 1448);
+        public static readonly Map TerMur = new Map(5, 5, 1280, 4096);
         public static Map Custom;
 
 
@@ -52,11 +53,12 @@ namespace Ultima
             Ilshenar.Tiles.Dispose();
             Malas.Tiles.Dispose();
             Tokuno.Tiles.Dispose();
-            Felucca.m_Cache = Trammel.m_Cache = Ilshenar.m_Cache = Malas.m_Cache = Tokuno.m_Cache = null;
-            Felucca.m_Tiles = Trammel.m_Tiles = Ilshenar.m_Tiles = Malas.m_Tiles = Tokuno.m_Tiles = null;
-            Felucca.m_Cache_NoStatics = Trammel.m_Cache_NoStatics = Ilshenar.m_Cache_NoStatics = Malas.m_Cache_NoStatics = Tokuno.m_Cache_NoStatics = null;
-            Felucca.m_Cache_NoPatch = Trammel.m_Cache_NoPatch = Ilshenar.m_Cache_NoPatch = Malas.m_Cache_NoPatch = Tokuno.m_Cache_NoPatch = null;
-            Felucca.m_Cache_NoStatics_NoPatch = Trammel.m_Cache_NoStatics_NoPatch = Ilshenar.m_Cache_NoStatics_NoPatch = Malas.m_Cache_NoStatics_NoPatch = Tokuno.m_Cache_NoStatics_NoPatch = null;
+            TerMur.Tiles.Dispose();
+            Felucca.m_Cache = Trammel.m_Cache = Ilshenar.m_Cache = Malas.m_Cache = Tokuno.m_Cache = TerMur.m_Cache= null;
+            Felucca.m_Tiles = Trammel.m_Tiles = Ilshenar.m_Tiles = Malas.m_Tiles = Tokuno.m_Tiles = TerMur.m_Tiles=null;
+            Felucca.m_Cache_NoStatics = Trammel.m_Cache_NoStatics = Ilshenar.m_Cache_NoStatics = Malas.m_Cache_NoStatics = Tokuno.m_Cache_NoStatics =TerMur.m_Cache_NoStatics= null;
+            Felucca.m_Cache_NoPatch = Trammel.m_Cache_NoPatch = Ilshenar.m_Cache_NoPatch = Malas.m_Cache_NoPatch = Tokuno.m_Cache_NoPatch =TerMur.m_Cache_NoPatch= null;
+            Felucca.m_Cache_NoStatics_NoPatch = Trammel.m_Cache_NoStatics_NoPatch = Ilshenar.m_Cache_NoStatics_NoPatch = Malas.m_Cache_NoStatics_NoPatch = Tokuno.m_Cache_NoStatics_NoPatch =TerMur.m_Cache_NoStatics_NoPatch= null;
         }
 
         public void ResetCache()
@@ -308,7 +310,7 @@ namespace Ultima
                                                 while (pStatics < pStaticsEnd)
                                                 {
                                                     z = pStatics->m_Z;
-                                                    top = z + pHeight[pStatics->ID & 0x3FFF];
+                                                    top = z + pHeight[pStatics->ID -0x4000];
 
                                                     if (top > highTop || (z > highZ && top >= highTop))
                                                     {
@@ -332,7 +334,7 @@ namespace Ultima
                                                     if (penS.m_Y == k)
                                                     {
                                                         z = penS.m_Z;
-                                                        top = z + pHeight[penS.m_ID & 0x3FFF];
+                                                        top = z + pHeight[penS.m_ID-0x4000];
 
                                                         if (top > highTop || (z > highZ && top >= highTop))
                                                         {
@@ -355,9 +357,15 @@ namespace Ultima
                                         }
 
                                         if (highHue == 0)
-                                            *pvData++ = pColors[highID];
+                                        {
+                                            try
+                                            {
+                                                *pvData++ = pColors[highID & 0xFFFF];
+                                            }
+                                            catch { }
+                                        }
                                         else
-                                            *pvData++ = Hues.GetHue(highHue - 1).Colors[(pColors[highID] >> 10) & 0x1F];
+                                            *pvData++ = Hues.GetHue(highHue - 1).Colors[(pColors[highID & 0xFFFF] >> 10) & 0x1F];
 
                                         ++pTiles;
                                     }
@@ -593,7 +601,7 @@ namespace Ultima
                                         for (int i = 0; i < count; i++)
                                         {
                                             StaticTile tile = new StaticTile();
-                                            tile.m_ID = m_StaticsReader.ReadInt16();
+                                            tile.m_ID = m_StaticsReader.ReadUInt16();
                                             tile.m_X = m_StaticsReader.ReadByte();
                                             tile.m_Y = m_StaticsReader.ReadByte();
                                             tile.m_Z = m_StaticsReader.ReadSByte();

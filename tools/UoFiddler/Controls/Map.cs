@@ -218,6 +218,7 @@ namespace FiddlerControls
             malasToolStripMenuItem.Checked = false;
             ilshenarToolStripMenuItem.Checked = false;
             tokunoToolStripMenuItem.Checked = false;
+            terMurToolStripMenuItem.Checked = false;
         }
 
         private void ChangeMapFelucca(object sender, EventArgs e)
@@ -276,6 +277,18 @@ namespace FiddlerControls
                 tokunoToolStripMenuItem.Checked = true;
                 currmap = Ultima.Map.Tokuno;
                 currmapint = 4;
+                ChangeMap();
+            }
+        }
+
+        private void ChangeMapTerMur(object sender, EventArgs e)
+        {
+            if (!terMurToolStripMenuItem.Checked)
+            {
+                ResetCheckedMap();
+                terMurToolStripMenuItem.Checked = true;
+                currmap = Ultima.Map.TerMur;
+                currmapint = 5;
                 ChangeMap();
             }
         }
@@ -359,6 +372,10 @@ namespace FiddlerControls
                     case 4:
                         tokunoToolStripMenuItem.Checked = true;
                         currmap = Ultima.Map.Tokuno;
+                        break;
+                    case 5:
+                        terMurToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.TerMur;
                         break;
                 }
                 currmapint = mapClient;
@@ -680,6 +697,9 @@ namespace FiddlerControls
             node = new TreeNode(Options.MapNames[4]);
             node.Tag = 4;
             OverlayObjectTree.Nodes.Add(node);
+            node = new TreeNode(Options.MapNames[5]);
+            node.Tag = 5;
+            OverlayObjectTree.Nodes.Add(node);
             if (File.Exists(FileName))
             {
                 XmlDocument dom = new XmlDocument();
@@ -812,6 +832,10 @@ namespace FiddlerControls
                     case 4:
                         tokunoToolStripMenuItem.Checked = true;
                         currmap = Ultima.Map.Tokuno;
+                        break;
+                    case 5:
+                        terMurToolStripMenuItem.Checked = true;
+                        currmap = Ultima.Map.TerMur;
                         break;
                 }
                 currmapint = o.DefMap;
@@ -949,7 +973,7 @@ namespace FiddlerControls
 
             string line;
             StaticTile newtile = new StaticTile();
-            newtile.m_ID = -1;
+            newtile.m_ID = 0xFFFF;
             newtile.m_Hue = 0;
             int x, y, blockx, blocky;
             blockx = blocky = 0;
@@ -962,13 +986,13 @@ namespace FiddlerControls
                 {
                     if (line.StartsWith("SECTION WORLDITEM"))
                     {
-                        if (newtile.m_ID != -1)
+                        if (newtile.m_ID != 0xFFFF)
                         {
                             currmap.Tiles.AddPendingStatic(blockx, blocky, newtile);
                             blockx = blocky = 0;
                         }
                         newtile = new StaticTile();
-                        newtile.m_ID = -1;
+                        newtile.m_ID = 0xFFFF;
                         newtile.m_Hue = 0;
                     }
                     else if (line.StartsWith("ID"))
@@ -976,7 +1000,7 @@ namespace FiddlerControls
                         line = line.Remove(0, 2);
                         line = line.TrimStart(' ');
                         line = line.TrimEnd(' ');
-                        newtile.m_ID = (short)(Convert.ToInt32(line) & 0x3FFF);
+                        newtile.m_ID = (ushort)(Convert.ToInt32(line) & 0x3FFF);
                     }
                     else if (line.StartsWith("X"))
                     {
@@ -1015,7 +1039,7 @@ namespace FiddlerControls
                 }
                 catch { }
             }
-            if (newtile.m_ID != -1)
+            if (newtile.m_ID != 0xFFFF)
                 currmap.Tiles.AddPendingStatic(blockx, blocky, newtile);
 
             ip.Close();

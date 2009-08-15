@@ -180,7 +180,10 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = 0; i < 0x4000; i++)
+                int staticlength = 0x4000;
+                if (Art.IsUOSA())
+                    staticlength = 0x8000;
+                for (int i = 0; i < staticlength; i++)
                 {
                     if (Art.IsValidStatic(i))
                     {
@@ -329,11 +332,7 @@ namespace FiddlerControls
                 return;
             }
             bool patched;
-            if (i == 10880)
-            {
-                int iii = 0;
-                iii++;
-            }
+
             Bitmap bmp = Art.GetStatic(i, out patched);
 
             if (bmp != null)

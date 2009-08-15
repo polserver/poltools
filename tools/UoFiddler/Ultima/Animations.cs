@@ -1112,14 +1112,14 @@ namespace Ultima
             int index;
             GetFileIndex(body, filetype, out fileIndex, out index);
 
-            int length, extra;
-            bool patched;
+            //int length, extra;
+            //bool patched;
 
-            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+            //Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
-            if ((stream == null) || (length==0))
-                return null;
-            stream.Close();
+            //if ((stream == null) || (length==0))
+            //    return null;
+            //stream.Close();
             return cache[body]=new AnimEdit(body, fileIndex, filetype, index);
         }
 
@@ -1135,7 +1135,16 @@ namespace Ultima
             Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
             if ((stream == null) || (length == 0))
+            {
+                int AnimCount = Animations.GetAnimLength(body, filetype);
+                for (int i = 0; i < AnimCount; i++)
+                {
+                    if (IsActionDefinied(filetype, body, i))
+                        return true;
+                }
+
                 return false;
+            }
             stream.Close();
             return true;
         }
@@ -1149,17 +1158,17 @@ namespace Ultima
             int length, extra;
             bool patched;
 
-            Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
+            //Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
 
-            if ((stream == null) || (length == 0))
-                return false;
-            stream.Close();
+            //if ((stream == null))// || (length == 0))
+            //    return false;
+            //stream.Close();
 
             int AnimCount = Animations.GetAnimLength(body, filetype);
             if (AnimCount < action)
                 return false;
 
-            stream = fileIndex.Seek(index+action*5, out length, out extra, out patched);
+            Stream stream = fileIndex.Seek(index+action*5, out length, out extra, out patched);
             if ((stream == null) || (length == 0))
                 return false;
             stream.Close();
@@ -1280,6 +1289,8 @@ namespace Ultima
             {
                 int width = frames.Frames[i].width;
                 int height = frames.Frames[i].height;
+                if (height == 0 || width == 0)
+                    continue;
                 Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
                 BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
                 ushort* line = (ushort*)bd.Scan0;
@@ -1419,8 +1430,6 @@ namespace Ultima
             bin.Write((short)Center.Y);
             bin.Write((ushort)width);
             bin.Write((ushort)height);
-            //if (height == 0 || width == 0)
-            //    return;
             if (RawData != null)
             {
                 for (int j = 0; j < RawData.Length; j++)
