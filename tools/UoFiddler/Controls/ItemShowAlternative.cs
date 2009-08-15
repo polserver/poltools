@@ -188,7 +188,10 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = 0; i < 0x4000; i++)
+                int staticlength = 0x4000;
+                if (Art.IsUOSA())
+                    staticlength = 0x8000;
+                for (int i = 0; i < staticlength; i++)
                 {
                     if (Art.IsValidStatic(i))
                         ItemList.Add((object)i);

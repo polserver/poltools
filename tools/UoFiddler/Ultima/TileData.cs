@@ -711,13 +711,24 @@ namespace Ultima
                             m_LandData[i] = new LandData(ReadNameString(bin), texID, flags);
                         }
 
-                        m_ItemData = new ItemData[0x4000];
-                        m_HeightTable = new int[0x4000];
-                        itemheader = new int[512];
+                        long remaining = bin.BaseStream.Length - bin.BaseStream.Position;
+                        int itemlength = 0x4000;
+                        if (remaining / 37 > 0x5000)
+                        {
+                            itemlength = 0x8000;
+                            itemheader = new int[512 * 2];
+                        }
+                        else
+                            itemheader = new int[512];
+                        m_ItemData = new ItemData[itemlength];
+                        m_HeightTable = new int[itemlength];
+                        
                         j = 0;
 
-                        for (int i = 0; i < 0x4000; ++i)
+                        for (int i = 0; i < itemlength; ++i)
                         {
+                            if (bin.BaseStream.Position == bin.BaseStream.Length)
+                                break;
                             if ((i & 0x1F) == 0)
                             {
                                 itemheader[j] = bin.ReadInt32(); // header

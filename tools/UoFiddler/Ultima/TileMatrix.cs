@@ -262,7 +262,7 @@ namespace Ultima
 
                     while (pCur < pEnd)
                     {
-                        lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((short)((pCur->m_ID & 0x3FFF) + 0x4000), pCur->m_Hue, pCur->m_Z);
+                        lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)((pCur->m_ID) + 0x4000), pCur->m_Hue, pCur->m_Z);
                         ++pCur;
                     }
 
@@ -377,7 +377,7 @@ namespace Ultima
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public struct StaticTile
     {
-        public short m_ID;
+        public ushort m_ID;
         public byte m_X;
         public byte m_Y;
         public sbyte m_Z;
@@ -388,21 +388,21 @@ namespace Ultima
     public struct HuedTile
     {
         internal sbyte m_Z;
-        internal int m_ID;
+        internal ushort m_ID;
         internal int m_Hue;
 
-        public int ID { get { return m_ID; } set { m_ID = value; } }
+        public ushort ID { get { return m_ID; } set { m_ID = value; } }
         public int Hue { get { return m_Hue; } set { m_Hue = value; } }
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
-        public HuedTile(short id, short hue, sbyte z)
+        public HuedTile(ushort id, short hue, sbyte z)
         {
             m_ID = id;
             m_Hue = hue;
             m_Z = z;
         }
 
-        public void Set(short id, short hue, sbyte z)
+        public void Set(ushort id, short hue, sbyte z)
         {
             m_ID = id;
             m_Hue = hue;
@@ -463,8 +463,8 @@ namespace Ultima
             else if (a.m_Z > m_Z)
                 return -1;
 
-            ItemData ourData = TileData.ItemTable[m_ID & 0x3FFF];
-            ItemData theirData = TileData.ItemTable[a.m_ID & 0x3FFF];
+            ItemData ourData = TileData.ItemTable[m_ID];
+            ItemData theirData = TileData.ItemTable[a.m_ID];
 
             if (ourData.Height > theirData.Height)
                 return 1;
@@ -522,8 +522,8 @@ namespace Ultima
             else if (a.m_Z > m_Z)
                 return -1;
 
-            ItemData ourData = TileData.ItemTable[m_ID & 0x3FFF];
-            ItemData theirData = TileData.ItemTable[a.m_ID & 0x3FFF];
+            ItemData ourData = TileData.ItemTable[m_ID];
+            ItemData theirData = TileData.ItemTable[a.m_ID];
 
             if (ourData.Height > theirData.Height)
                 return 1;

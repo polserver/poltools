@@ -24,7 +24,7 @@ namespace FiddlerControls
         private static string m_MapCmd = ".goforce";
         // {1} x {2} y {3} z {4} mapid {5} mapname
         private static string m_MapArgs = "{1} {2} {3} {4}";
-        private static string[] m_MapNames = { "Felucca", "Trammel", "Ilshenar", "Malas", "Tokuno" };
+        private static string[] m_MapNames = { "Felucca", "Trammel", "Ilshenar", "Malas", "Tokuno","Ter Mur" };
         private static ArrayList m_PluginsToLoad;
         private static Dictionary<string, bool> m_LoadedUltimaClass = new Dictionary<string, bool>()
         {

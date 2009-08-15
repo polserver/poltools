@@ -64,6 +64,7 @@ namespace FiddlerControls
             this.ilshenarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.malasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tokunoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terMurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.extractMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,11 +106,11 @@ namespace FiddlerControls
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertDiffDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.replaceTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.collapsibleSplitter2 = new FiddlerControls.CollapsibleSplitter();
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
-            this.replaceTilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -186,10 +187,11 @@ namespace FiddlerControls
             this.ilshenarToolStripMenuItem,
             this.malasToolStripMenuItem,
             this.tokunoToolStripMenuItem,
+            this.terMurToolStripMenuItem,
             this.toolStripSeparator1,
             this.extractMapToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 286);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 308);
             this.contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.onContextClosed);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.OnOpenContext);
             // 
@@ -287,6 +289,13 @@ namespace FiddlerControls
             this.tokunoToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.tokunoToolStripMenuItem.Text = "Tokuno";
             this.tokunoToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapTokuno);
+            // 
+            // terMurToolStripMenuItem
+            // 
+            this.terMurToolStripMenuItem.Name = "terMurToolStripMenuItem";
+            this.terMurToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.terMurToolStripMenuItem.Text = "TerMur";
+            this.terMurToolStripMenuItem.Click += new System.EventHandler(this.ChangeMapTerMur);
             // 
             // toolStripSeparator1
             // 
@@ -640,6 +649,18 @@ namespace FiddlerControls
             this.insertDiffDataToolStripMenuItem.Text = "Diff to Map Copy...";
             this.insertDiffDataToolStripMenuItem.Click += new System.EventHandler(this.OnClickInsertDiffData);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(293, 6);
+            // 
+            // replaceTilesToolStripMenuItem
+            // 
+            this.replaceTilesToolStripMenuItem.Name = "replaceTilesToolStripMenuItem";
+            this.replaceTilesToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
+            this.replaceTilesToolStripMenuItem.Text = "Replace Tiles..";
+            this.replaceTilesToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplaceTiles);
+            // 
             // collapsibleSplitter2
             // 
             this.collapsibleSplitter2.AnimationDelay = 20;
@@ -671,18 +692,6 @@ namespace FiddlerControls
             this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Click To Show/Hide Toolbar");
             this.collapsibleSplitter1.UseAnimations = false;
             this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
-            // 
-            // replaceTilesToolStripMenuItem
-            // 
-            this.replaceTilesToolStripMenuItem.Name = "replaceTilesToolStripMenuItem";
-            this.replaceTilesToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
-            this.replaceTilesToolStripMenuItem.Text = "Replace Tiles..";
-            this.replaceTilesToolStripMenuItem.Click += new System.EventHandler(this.OnClickReplaceTiles);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(293, 6);
             // 
             // Map
             // 
@@ -782,5 +791,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripMenuItem clearStaticsinMemoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem replaceTilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem terMurToolStripMenuItem;
     }
 }

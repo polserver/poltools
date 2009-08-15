@@ -12,7 +12,7 @@ namespace Ultima
 
         public int Count { get; private set; }
 
-        public void Add(short id, short hue, sbyte z)
+        public void Add(ushort id, short hue, sbyte z)
         {
             if ((Count + 1) > m_Tiles.Length)
             {

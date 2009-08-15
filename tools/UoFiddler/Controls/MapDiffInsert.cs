@@ -218,7 +218,7 @@ namespace FiddlerControls
                                                     foreach (HuedTile htile in patchstat[i][j])
                                                     {
                                                         StaticTile tile = new StaticTile();
-                                                        tile.m_ID = (short)(htile.ID & 0x3FFF);
+                                                        tile.m_ID = (ushort)(htile.ID & 0x3FFF);
                                                         tile.m_Z = (sbyte)htile.Z;
                                                         tile.m_X = (byte)i;
                                                         tile.m_Y = (byte)j;
@@ -330,7 +330,7 @@ namespace FiddlerControls
                                             for (int i = 0; i < count; i++)
                                             {
                                                 StaticTile tile = new StaticTile();
-                                                tile.m_ID = m_StaticsReader.ReadInt16();
+                                                tile.m_ID = m_StaticsReader.ReadUInt16();
                                                 tile.m_X = m_StaticsReader.ReadByte();
                                                 tile.m_Y = m_StaticsReader.ReadByte();
                                                 tile.m_Z = m_StaticsReader.ReadSByte();
