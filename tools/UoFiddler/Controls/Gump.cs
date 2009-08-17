@@ -50,7 +50,7 @@ namespace FiddlerControls
             listBox.BeginUpdate();
             listBox.Items.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0x10000; i++)
+            for (int i = 0; i < 0xc0000; i++)
             {
                 if (Gumps.IsValidIndex(i))
                     cache.Add(i);
@@ -260,7 +260,7 @@ namespace FiddlerControls
         private void onTextChanged_InsertAt(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xc0000))
             {
                 if (Gumps.IsValidIndex(index))
                     InsertText.ForeColor = Color.Red;
@@ -277,7 +277,7 @@ namespace FiddlerControls
                 return;
 
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xc0000))
             {
                 if (Gumps.IsValidIndex(index))
                     return;

@@ -142,6 +142,79 @@ namespace Ultima
                 }
             }
         }
+
+        public FileIndex(string idxFile, string mulFile, int file)
+        {
+            string idxPath = null;
+            MulPath = null;
+            if (Files.MulPath == null)
+                Files.LoadMulPath();
+            if (Files.MulPath.Count > 0)
+            {
+                idxPath = Files.MulPath[idxFile.ToLower()].ToString();
+                MulPath = Files.MulPath[mulFile.ToLower()].ToString();
+                if (idxPath == "")
+                    idxPath = null;
+                else
+                {
+                    if (Path.GetDirectoryName(idxPath) == "")
+                        idxPath = Path.Combine(Files.RootDir, idxPath);
+                    if (!File.Exists(idxPath))
+                        idxPath = null;
+                }
+                if (MulPath == "")
+                    MulPath = null;
+                else
+                {
+                    if (Path.GetDirectoryName(MulPath) == "")
+                        MulPath = Path.Combine(Files.RootDir, MulPath);
+                    if (!File.Exists(MulPath))
+                        MulPath = null;
+                }
+            }
+
+            if ((idxPath != null) && (MulPath != null))
+            {
+                using (FileStream index = new FileStream(idxPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (BinaryReader bin = new BinaryReader(index))
+                    {
+                        Stream = new FileStream(MulPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        int count = (int)(index.Length / 12);
+                        IdxLength = index.Length;
+                        Index = new Entry3D[count];
+                        for (int i = 0; i < count; ++i)
+                        {
+                            Index[i].lookup = bin.ReadInt32();
+                            Index[i].length = bin.ReadInt32();
+                            Index[i].extra = bin.ReadInt32();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Stream = null;
+                Index = new Entry3D[1];
+                return;
+            }
+            Entry5D[] patches = Verdata.Patches;
+
+            if (file > -1)
+            {
+                for (int i = 0; i < patches.Length; ++i)
+                {
+                    Entry5D patch = patches[i];
+
+                    if (patch.file == file && patch.index >= 0 && patch.index < Index.Length)
+                    {
+                        Index[patch.index].lookup = patch.lookup;
+                        Index[patch.index].length = patch.length | (1 << 31);
+                        Index[patch.index].extra = patch.extra;
+                    }
+                }
+            }
+        }
     }
 
     public struct Entry3D
