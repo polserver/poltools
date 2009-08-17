@@ -787,7 +787,7 @@ namespace Ultima
                         bin.Write(b);
                     }
                     j = 0;
-                    for (int i = 0; i < 0x4000; ++i)
+                    for (int i = 0; i < m_ItemData.Length; ++i)
                     {
                         if ((i & 0x1F) == 0)
                         {

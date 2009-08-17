@@ -8,10 +8,10 @@ namespace Ultima
 {
     public sealed class Gumps
     {
-        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0xc0000, 12);
 
-        private static Bitmap[] m_Cache = new Bitmap[0x10000];
-        private static bool[] m_Removed = new bool[0x10000];
+        private static Bitmap[] m_Cache = new Bitmap[0xc0000];
+        private static bool[] m_Removed = new bool[0xc0000];
         private static Hashtable m_patched = new Hashtable();
 
         private static byte[] m_PixelBuffer;
@@ -27,14 +27,14 @@ namespace Ultima
         {
             try
             {
-                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0x10000, 12);
+                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0xc0000, 12);
             }
             catch
             {
                 m_FileIndex = null;
             }
-            m_Cache = new Bitmap[0x10000];
-            m_Removed = new bool[0x10000];
+            m_Cache = new Bitmap[0xc0000];
+            m_Removed = new bool[0xc0000];
             m_PixelBuffer = null;
             m_StreamBuffer = null;
             m_ColorTable = null;
@@ -309,6 +309,8 @@ namespace Ultima
             int width = (extra >> 16) & 0xFFFF;
             int height = extra & 0xFFFF;
 
+            if (width <= 0 || height <= 0)
+                return null;
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             using (BinaryReader bin = new BinaryReader(stream))

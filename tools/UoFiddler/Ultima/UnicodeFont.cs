@@ -146,9 +146,15 @@ namespace Ultima
             "unifont3.mul",
             "unifont4.mul",
             "unifont5.mul",
-            "unifont6.mul"
+            "unifont6.mul",
+            "unifont7.mul",
+            "unifont8.mul",
+            "unifont9.mul",
+            "unifont10.mul",
+            "unifont11.mul",
+            "unifont12.mul"
         };
-        public static UnicodeFont[] Fonts = new UnicodeFont[7];
+        public static UnicodeFont[] Fonts = new UnicodeFont[13];
 
         static UnicodeFonts()
         {

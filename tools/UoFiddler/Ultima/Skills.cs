@@ -6,7 +6,7 @@ namespace Ultima
 {
     public sealed class Skills
     {
-        private static FileIndex m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, 16);
+        private static FileIndex m_FileIndex = new FileIndex("skills.idx", "skills.mul", 16);
 
         private static ArrayList m_SkillEntries;
         public static ArrayList SkillEntries
@@ -16,9 +16,12 @@ namespace Ultima
                 if (m_SkillEntries == null)
                 {
                     m_SkillEntries = new ArrayList();
-                    for (int i = 0; i < 55; i++)
+                    for (int i = 0; i < m_FileIndex.Index.Length; i++)
                     {
-                        m_SkillEntries.Add(GetSkill(i));
+                        SkillInfo info = GetSkill(i);
+                        if (info == null)
+                            break;
+                        m_SkillEntries.Add(info);
                     }
                 }
                 return m_SkillEntries;
@@ -36,11 +39,14 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_FileIndex = new FileIndex("skills.idx", "skills.mul", 55, 16);
+            m_FileIndex = new FileIndex("skills.idx", "skills.mul", 16);
             m_SkillEntries = new ArrayList();
-            for (int i = 0; i < 55; i++)
+            for (int i = 0; i < m_FileIndex.Index.Length; i++)
             {
-                m_SkillEntries.Add(GetSkill(i));
+                SkillInfo info = GetSkill(i);
+                if (info == null)
+                    break;
+                m_SkillEntries.Add(info);
             }
         }
 
@@ -56,6 +62,8 @@ namespace Ultima
 
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
             if (stream == null)
+                return null;
+            if (length == 0)
                 return null;
 
             using (BinaryReader bin = new BinaryReader(stream))
@@ -86,14 +94,14 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int i = 0; i < 55; i++)
+                    for (int i = 0; i < m_FileIndex.Index.Length; i++)
                     {
-                        SkillInfo skill = (SkillInfo)m_SkillEntries[i];
+                        SkillInfo skill = (i < m_SkillEntries.Count) ? (SkillInfo)m_SkillEntries[i] : null;
                         if (skill == null)
                         {
                             binidx.Write((int)-1); // lookup
-                            binidx.Write((int)-1); // length
-                            binidx.Write((int)-1); // extra
+                            binidx.Write((int)0); // length
+                            binidx.Write((int)0); // extra
                         }
                         else
                         {
