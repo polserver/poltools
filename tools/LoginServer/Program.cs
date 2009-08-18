@@ -17,7 +17,7 @@ namespace LoginServer
     class Program
     {
 
-        static string progversion = "0.001";
+        static string progversion = "0.002";
         static public string ServerPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
         static public bool running = true;
@@ -40,17 +40,20 @@ namespace LoginServer
                 }
                 Console.WriteLine("Options File Loaded...");
 
-                LoginSQL MyConnection = new LoginSQL();
-                
-                if (!MyConnection.CreateConnection())
+                if (options.MySQL_Active)
                 {
-                    Console.WriteLine("Unable to connect to the database. Exiting...");
-                    Console.WriteLine();
-                    Environment.Exit(1001);
+                    LoginSQL MyConnection = new LoginSQL();
+
+                    if (!MyConnection.CreateConnection())
+                    {
+                        Console.WriteLine("Unable to connect to the database. Exiting...");
+                        Console.WriteLine();
+                        Environment.Exit(1001);
+                    }
+                    Console.WriteLine("Connected to MySQL Database");
+                    // MyConnection.LoadAccounts();
+                    MyConnection.Close();
                 }
-                Console.WriteLine("Connected to MySQL Database");
-                // MyConnection.LoadAccounts();
-                MyConnection.Close();
                 
     
                 int port = options.LoginServer_Port;

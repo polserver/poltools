@@ -50,7 +50,7 @@ namespace LoginServer
             Console.WriteLine("Existing servers:");
             foreach (ServerInfo server in _list)
             {
-                Console.WriteLine("{0}: {1} \t {2}", index++, server.Name, server.ip);
+                Console.WriteLine("{0}: {1} \t {2}:{3}", index++, server.Name, server.ip, server.port);
             }
         }
 

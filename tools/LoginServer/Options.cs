@@ -15,9 +15,18 @@ namespace LoginServer
         private static string _sqlpass;
         private static int _loginport;
         private static string _db;
+        private static bool _sqlactive;
 
         public Options() 
         { }
+
+        public bool MySQL_Active
+        {
+            get
+            {
+                return _sqlactive;
+            }
+        }
 
         public string MySQL_Host
         {
@@ -93,6 +102,12 @@ namespace LoginServer
                 int.TryParse(elem.InnerText, out _sqlport);
             else
                 _sqlport = 3306;
+
+            elem = (XmlElement)xMySQL.SelectSingleNode("Active");
+            if (elem != null)
+                bool.TryParse(elem.InnerText, out _sqlactive);
+            else
+                _sqlactive = false;
 
             elem = (XmlElement)xMySQL.SelectSingleNode("Username");
             if (elem != null)

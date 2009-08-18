@@ -19,6 +19,31 @@ namespace LoginServer
     {
         private Thread _client_thread;
         private TcpClient client_sock;
+        private Version client_version = new Version() { Major = 0, Minor = 0, Revision = 0, Patch = 0 };
+
+        public static readonly Version VER6017 = new Version() { Major = 6, Minor = 0, Revision = 1, Patch = 7 };
+        public static readonly Version VER60142 = new Version() { Major = 6, Minor = 0, Revision = 14, Patch = 2 };
+        public static readonly Version VER601324 = new Version() { Major = 6, Minor = 0, Revision = 13, Patch = 24 };
+
+        public Version ClientVersion
+        {
+            get
+            {
+                return client_version;
+            }
+            set
+            {
+                client_version = value;
+            }
+        }
+
+        public struct Version
+        {
+            public int Major;
+            public int Minor;
+            public int Revision;
+            public int Patch;
+        }
 
         public Client(TcpClient sock)
         {
@@ -33,21 +58,31 @@ namespace LoginServer
             NetworkStream ns = client_sock.GetStream();
             int c = -1;
 
-            byte[] seed = new byte[4];
-            ns.Read(seed, 0, 4);
-
+            // Seed Start
+            c = ns.ReadByte();
+            if (c == 0xEF)
+            {
+                Packets.SeedPacket(ref ns, ref client_version);
+            }
+            else
+            {
+                byte[] seed = new byte[3];
+                ns.Read(seed, 0, 3);
+            }
+            // Seed End
+            
             while ((c = ns.ReadByte()) >= 0)
             {
                 switch (c)
                 {
                     case 0x80:
                         Console.WriteLine("Login Packet!");
-                        Packets.LoginPacket(ref ns);
+                        Packets.LoginPacket(ref ns, this);
                         break;
                     
                     case 0xA0:
                         Console.WriteLine("Server Select!");
-                        Packets.ServerSelectPacket(ref ns);
+                        Packets.ServerSelectPacket(ref ns, this);
                         break;
 
                     default:
@@ -57,6 +92,40 @@ namespace LoginServer
                         break;
                 }
             }
+            Console.WriteLine("Client Disconnected!");
+        }
+
+        public bool CompareVersion(Client.Version compver)
+        {
+            if (client_version.Major > compver.Major)
+                return true;
+            else if (client_version.Major < compver.Major)
+                return false;
+            else if (client_version.Minor > compver.Minor)
+                return true;
+            else if (client_version.Minor < compver.Minor)
+                return false;
+            else if (client_version.Revision > compver.Revision)
+                return true;
+            else if (client_version.Revision < compver.Revision)
+                return false;
+            else if (client_version.Patch > compver.Patch)
+                return true;
+            else if (client_version.Patch < compver.Patch)
+                return false;
+
+            return true;
+        }
+
+        public bool CompareVersionEqual(Client.Version compver)
+        {
+            if ((client_version.Major == compver.Major)
+                && (client_version.Minor == compver.Minor)
+                && (client_version.Revision == compver.Revision)
+                && (client_version.Patch == compver.Patch))
+                return true;
+
+            return false;
         }
     }
 }

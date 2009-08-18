@@ -4,6 +4,7 @@
     <Port>5003</Port>
   </LoginServer>
   <MySQL>
+    <Active>false</Active>
     <Host>127.0.0.1</Host>
     <Port>3306</Port>
     <Username>root</Username>
