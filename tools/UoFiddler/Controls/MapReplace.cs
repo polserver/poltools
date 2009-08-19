@@ -50,6 +50,9 @@ namespace FiddlerControls
             int x2 = (int)numericUpDownX2.Value;
             int y1 = (int)numericUpDownY1.Value;
             int y2 = (int)numericUpDownY2.Value;
+            int tox = (int)numericUpDownToX1.Value;
+            int toy = (int)numericUpDownToY1.Value;
+
             if ((x1<0) || (x1>workingmap.Width))
                 return;
             if ((x2<0) || (x2>workingmap.Width))
@@ -61,6 +64,10 @@ namespace FiddlerControls
             if (x1 > x2)
                 return;
             if (y1 > y2)
+                return;
+            if ((tox < 0) || (tox > workingmap.Width) || ((tox + (x2-x1)) > workingmap.Width) )
+                return;
+            if ((toy < 0) || (toy > workingmap.Height) || ((toy + (y2-y1)) > workingmap.Height))
                 return;
 
             x1 >>= 3;

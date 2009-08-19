@@ -58,6 +58,11 @@ namespace FiddlerControls
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numericUpDownToX1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownToY1 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX2)).BeginInit();
@@ -65,6 +70,9 @@ namespace FiddlerControls
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownToX1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownToY1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -192,7 +200,7 @@ namespace FiddlerControls
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(121, 191);
+            this.button2.Location = new System.Drawing.Point(121, 251);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 12;
@@ -203,7 +211,7 @@ namespace FiddlerControls
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 224);
+            this.progressBar1.Location = new System.Drawing.Point(0, 283);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(329, 23);
             this.progressBar1.TabIndex = 13;
@@ -263,13 +271,69 @@ namespace FiddlerControls
             this.groupBox3.Size = new System.Drawing.Size(304, 74);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Region";
+            this.groupBox3.Text = "From Region";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.numericUpDownToX1);
+            this.groupBox4.Controls.Add(this.numericUpDownToY1);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Location = new System.Drawing.Point(11, 191);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(304, 54);
+            this.groupBox4.TabIndex = 22;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "To Region";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(54, 21);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(20, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "X1";
+            // 
+            // numericUpDownToX1
+            // 
+            this.numericUpDownToX1.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.numericUpDownToX1.Location = new System.Drawing.Point(85, 19);
+            this.numericUpDownToX1.Name = "numericUpDownToX1";
+            this.numericUpDownToX1.Size = new System.Drawing.Size(54, 20);
+            this.numericUpDownToX1.TabIndex = 4;
+            // 
+            // numericUpDownToY1
+            // 
+            this.numericUpDownToY1.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.numericUpDownToY1.Location = new System.Drawing.Point(196, 19);
+            this.numericUpDownToY1.Name = "numericUpDownToY1";
+            this.numericUpDownToY1.Size = new System.Drawing.Size(54, 20);
+            this.numericUpDownToY1.TabIndex = 6;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(165, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(20, 13);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Y1";
             // 
             // MapReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 247);
+            this.ClientSize = new System.Drawing.Size(329, 306);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -293,6 +357,10 @@ namespace FiddlerControls
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownToX1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownToY1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -319,5 +387,10 @@ namespace FiddlerControls
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown numericUpDownToX1;
+        private System.Windows.Forms.NumericUpDown numericUpDownToY1;
+        private System.Windows.Forms.Label label7;
     }
 }
