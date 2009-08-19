@@ -28,6 +28,8 @@ namespace FiddlerControls
             numericUpDownX2.Maximum = workingmap.Width;
             numericUpDownY1.Maximum = workingmap.Height;
             numericUpDownY2.Maximum = workingmap.Height;
+            numericUpDownToX1.Maximum = workingmap.Width;
+            numericUpDownToY1.Maximum = workingmap.Height;
             this.Text = String.Format("MapReplace ID:{0}",workingmap.FileIndex);
         }
 
@@ -75,6 +77,12 @@ namespace FiddlerControls
             y1 >>= 3;
             y2 >>= 3;
 
+            tox >>= 3;
+            toy >>= 3;
+
+            int tox2 = (x2 - x1) + tox;
+            int toy2 = (y2 - y1) + toy;
+
             int blocky = workingmap.Height >> 3;
             int blockx = workingmap.Width >> 3;
 
@@ -114,9 +122,9 @@ namespace FiddlerControls
                         {
                             for (int y = 0; y < blocky; y++)
                             {
-                                if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                 {
-                                    m_mapReader_copy.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
+                                    m_mapReader_copy.BaseStream.Seek((((x-tox+x1) * blocky) + (y-toy+y1)) * 196, SeekOrigin.Begin);
                                     int header = m_mapReader_copy.ReadInt32();
                                     binmul.Write(header);
                                 }
@@ -130,7 +138,7 @@ namespace FiddlerControls
                                 {
                                     short tileid;
                                     sbyte z;
-                                    if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                    if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                     {
                                         tileid = m_mapReader_copy.ReadInt16();
                                         z = m_mapReader_copy.ReadSByte();
@@ -208,9 +216,9 @@ namespace FiddlerControls
                             for (int y = 0; y < blocky; y++)
                             {
                                 int lookup, length, extra;
-                                if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                 {
-                                    m_IndexReader_copy.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
+                                    m_IndexReader_copy.BaseStream.Seek((((x - tox + x1) * blocky) + (y - toy + y1)) * 12, SeekOrigin.Begin);
                                     lookup = m_IndexReader_copy.ReadInt32();
                                     length = m_IndexReader_copy.ReadInt32();
                                     extra = m_IndexReader_copy.ReadInt32();
@@ -231,7 +239,7 @@ namespace FiddlerControls
                                 }
                                 else
                                 {
-                                    if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                    if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                         m_Statics_copy.Seek(lookup, SeekOrigin.Begin);
                                     else
                                         m_Statics.Seek(lookup, SeekOrigin.Begin);
@@ -245,7 +253,7 @@ namespace FiddlerControls
                                         for (int i = 0; i < count; i++)
                                         {
                                             StaticTile tile = new StaticTile();
-                                            if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                            if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                             {
                                                 tile.m_ID = m_StaticsReader_copy.ReadUInt16();
                                                 tile.m_X = m_StaticsReader_copy.ReadByte();
@@ -306,7 +314,7 @@ namespace FiddlerControls
                                             short graphic, shue;
                                             byte sx, sy;
                                             sbyte sz;
-                                            if ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2))
+                                            if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                             {
                                                 graphic = m_StaticsReader_copy.ReadInt16();
                                                 sx = m_StaticsReader_copy.ReadByte();
