@@ -52,6 +52,8 @@ namespace LoginServer
                 TcpClient client = listen.AcceptTcpClient();
                 Console.WriteLine("New client connected: {0}", SockUtils.GetIP(client));
                 _clients.Add(new Client(client));
+
+                _clients.RemoveAll(c => c.Disconnected == false);
             }
 
             listen.Stop();
