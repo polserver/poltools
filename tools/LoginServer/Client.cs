@@ -19,6 +19,7 @@ namespace LoginServer
     {
         private Thread _client_thread;
         private TcpClient client_sock;
+        private bool _disconnected;
         private Version client_version = new Version() { Major = 0, Minor = 0, Revision = 0, Patch = 0 };
 
         public static readonly Version VER6017 = new Version() { Major = 6, Minor = 0, Revision = 1, Patch = 7 };
@@ -45,9 +46,15 @@ namespace LoginServer
             public int Patch;
         }
 
+        public bool Disconnected
+        {
+            get { return _disconnected; }
+        }
+
         public Client(TcpClient sock)
         {
             client_sock = sock;
+            _disconnected = false;
             _client_thread = new Thread(new ThreadStart(HandleClient));
             _client_thread.IsBackground = true;
             _client_thread.Start();
@@ -93,6 +100,7 @@ namespace LoginServer
                 }
             }
             Console.WriteLine("Client Disconnected!");
+            _disconnected = true;
         }
 
         public bool CompareVersion(Client.Version compver)
