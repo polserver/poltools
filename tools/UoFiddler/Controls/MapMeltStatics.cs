@@ -77,7 +77,7 @@ namespace FiddlerControls
                                     Tex.WriteLine(String.Format("SECTION WORLDITEM {0}",count));
                                     Tex.WriteLine("{");
                                     Tex.WriteLine("  NAME #");
-                                    Tex.WriteLine(String.Format("  ID {0}", tile.ID & 0x3FFF));
+                                    Tex.WriteLine(String.Format("  ID {0}", tile.ID));
                                     Tex.WriteLine(String.Format("  X {0}", (x << 3) + ix));
                                     Tex.WriteLine(String.Format("  Y {0}", (y << 3) + iy));
                                     Tex.WriteLine(String.Format("  Z {0}", tile.Z));

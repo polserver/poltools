@@ -152,12 +152,12 @@ namespace ComparePlugin
                     diff += "Statics:\n\rorig:\n\r";
                     foreach (Ultima.HuedTile tile in origStatics)
                     {
-                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
                     }
                     diff += "new:\n\r";
                     foreach (Ultima.HuedTile tile in customStatics)
                     {
-                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                        diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
                     }
                 }
                 else
@@ -175,8 +175,8 @@ namespace ComparePlugin
                                 changed = true;
                             }
                             diff += String.Format("0x{0:X} {1} {2} -> 0x{3:X} {4} {5}\n\r",
-                                origStatics[i].ID & 0x3FFF, origStatics[i].Z, origStatics[i].Hue,
-                                customStatics[i].ID & 0x3FFF, customStatics[i].Z, customStatics[i].Hue);
+                                origStatics[i].ID, origStatics[i].Z, origStatics[i].Hue,
+                                customStatics[i].ID, customStatics[i].Z, customStatics[i].Hue);
                         }
                     }
                 }
@@ -209,12 +209,12 @@ namespace ComparePlugin
                         diff += "Statics:\n\rorig:\n\r";
                         foreach (Ultima.HuedTile tile in origStatics)
                         {
-                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
                         }
                         diff += "patch:\n\r";
                         foreach (Ultima.HuedTile tile in patchStatics)
                         {
-                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID & 0x3FFF, tile.Z, tile.Hue);
+                            diff += String.Format("0x{0:X} {1} {2}\n\r", tile.ID, tile.Z, tile.Hue);
                         }
                     }
                 }

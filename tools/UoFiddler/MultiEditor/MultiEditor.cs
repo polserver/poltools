@@ -971,7 +971,7 @@ namespace MultiEditor
 
 		#endregion Methods 
 
-        public void SelectDrawTile(int id)
+        public void SelectDrawTile(ushort id)
         {
             m_DrawTile.Set(id, 0);
             pictureBoxDrawTiles_Select();
@@ -998,7 +998,7 @@ namespace MultiEditor
             int index = GetIndex(x, y);
             if (index >= 0)
             {
-                m_DrawTile.Set(index, 0);
+                m_DrawTile.Set((ushort)index, 0);
                 DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", index);
                 pictureBoxDrawTiles.Refresh();
             }

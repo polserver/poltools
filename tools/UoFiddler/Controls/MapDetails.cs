@@ -36,7 +36,6 @@ namespace FiddlerControls
             foreach (HuedTile currstatic in currStatics)
             {
                 ushort id = (ushort)currstatic.ID;
-                id -= 0x4000;
                 richTextBox.AppendText(String.Format("{0}: 0x{1:X} Hue: {2} Altitute: {3}\n",
                                                      Ultima.TileData.ItemTable[id].Name,
                                                      id,

@@ -104,7 +104,7 @@ namespace FiddlerControls
                                         {
                                             tileid = (short)patchtile[i].ID;
                                             z = (sbyte)patchtile[i].Z;
-                                            if ((tileid < 0) || (tileid >= 0x4000))
+                                            if ((tileid < 0) || ((tileid >= 0x4000) && (!Ultima.Art.IsUOSA())))
                                                 tileid = 0;
                                             if (z < -128)
                                                 z = -128;
@@ -121,7 +121,7 @@ namespace FiddlerControls
                                     {
                                         tileid = m_mapReader.ReadInt16();
                                         z = m_mapReader.ReadSByte();
-                                        if ((tileid < 0) || (tileid >= 0x4000))
+                                        if ((tileid < 0) || ((tileid >= 0x4000) && (!Ultima.Art.IsUOSA())))
                                             tileid = 0;
                                         if (z < -128)
                                             z = -128;
@@ -218,12 +218,14 @@ namespace FiddlerControls
                                                     foreach (HuedTile htile in patchstat[i][j])
                                                     {
                                                         StaticTile tile = new StaticTile();
-                                                        tile.m_ID = (ushort)(htile.ID & 0x3FFF);
+                                                        tile.m_ID = (ushort)(htile.ID);
                                                         tile.m_Z = (sbyte)htile.Z;
                                                         tile.m_X = (byte)i;
                                                         tile.m_Y = (byte)j;
                                                         tile.m_Hue = (short)htile.Hue;
-                                                        if ((tile.m_ID >= 0) && (tile.m_ID < 0x4000))
+
+                                                        if ((tile.m_ID >= 0) &&
+                                                            ((tile.m_ID < 0x4000) || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
                                                         {
                                                             if (tile.m_Hue < 0)
                                                                 tile.m_Hue = 0;
@@ -263,7 +265,8 @@ namespace FiddlerControls
                                         }
                                         else
                                         {
-                                            short graphic, shue;
+                                            ushort graphic;
+                                            short shue;
                                             sbyte sz;
                                             bool firstitem = true;
                                             for (int i = 0; i < 8; i++)
@@ -272,10 +275,12 @@ namespace FiddlerControls
                                                 {
                                                     foreach (HuedTile tile in patchstat[i][j])
                                                     {
-                                                        graphic = (short)(tile.ID & 0x3FFF);
+                                                        graphic = tile.ID;
                                                         sz = (sbyte)tile.Z;
                                                         shue = (short)tile.Hue;
-                                                        if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+
+                                                        if ((graphic >= 0) && 
+                                                            ((graphic < 0x4000))  || (Art.IsUOSA() && (graphic < 0x8000))) //legal?
                                                         {
                                                             if (shue < 0)
                                                                 shue = 0;
@@ -335,8 +340,9 @@ namespace FiddlerControls
                                                 tile.m_Y = m_StaticsReader.ReadByte();
                                                 tile.m_Z = m_StaticsReader.ReadSByte();
                                                 tile.m_Hue = m_StaticsReader.ReadInt16();
-
-                                                if ((tile.m_ID >= 0) && (tile.m_ID < 0x4000))
+                                                
+                                                if ((tile.m_ID >= 0) &&
+                                                    ((tile.m_ID < 0x4000) || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
                                                 {
                                                     if (tile.m_Hue < 0)
                                                         tile.m_Hue = 0;
@@ -377,16 +383,18 @@ namespace FiddlerControls
                                             bool firstitem = true;
                                             for (int i = 0; i < count; i++)
                                             {
-                                                short graphic, shue;
+                                                ushort graphic;
+                                                short shue;
                                                 byte sx, sy;
                                                 sbyte sz;
-                                                graphic = m_StaticsReader.ReadInt16();
+                                                graphic = m_StaticsReader.ReadUInt16();
                                                 sx = m_StaticsReader.ReadByte();
                                                 sy = m_StaticsReader.ReadByte();
                                                 sz = m_StaticsReader.ReadSByte();
                                                 shue = m_StaticsReader.ReadInt16();
 
-                                                if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+                                                if ((graphic >= 0) &&
+                                                    ((graphic < 0x4000)) || (Art.IsUOSA() && (graphic < 0x8000))) //legal?
                                                 {
                                                     if (shue < 0)
                                                         shue = 0;

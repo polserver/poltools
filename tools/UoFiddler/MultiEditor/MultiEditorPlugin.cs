@@ -117,7 +117,7 @@ namespace FiddlerPlugin
             if (currselected > -1)
             {
                 if (multieditor != null)
-                    multieditor.SelectDrawTile(currselected);
+                    multieditor.SelectDrawTile((ushort)currselected);
             }
         }
 

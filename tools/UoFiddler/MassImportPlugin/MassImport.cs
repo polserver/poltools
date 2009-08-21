@@ -237,6 +237,7 @@ namespace MassImport
 
     public class ImportEntryItem : ImportEntry
     {
+        public override int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
         public override string Name { get { return "Item"; } }
         public override void Import(bool direct, ref Dictionary<string, bool> ChangedClasses)
         {
@@ -332,6 +333,7 @@ namespace MassImport
     public class ImportEntryTileDataItem : ImportEntry
     {
         private string[] tiledata;
+        public virtual int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
         public override string Name { get { return "TileDataItem"; } }
         public override void TestFile(ref string message)
         {

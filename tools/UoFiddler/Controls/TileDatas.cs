@@ -195,7 +195,6 @@ namespace FiddlerControls
                 return;
             if (index > 0x3FFF) //items
             {
-                index &= 0x3FFF;
                 if (treeViewItem.SelectedNode == null)
                     return;
                 if ((int)treeViewItem.SelectedNode.Tag == index)

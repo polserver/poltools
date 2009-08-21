@@ -297,6 +297,7 @@ namespace Ultima
                                         int highID = 0;
                                         int highHue = 0;
                                         int z, top;
+                                        bool highstatic = false;
 
                                         HuedTile[] curStatics = statics[p][k];
 
@@ -310,7 +311,7 @@ namespace Ultima
                                                 while (pStatics < pStaticsEnd)
                                                 {
                                                     z = pStatics->m_Z;
-                                                    top = z + pHeight[pStatics->ID -0x4000];
+                                                    top = z + pHeight[pStatics->ID];
 
                                                     if (top > highTop || (z > highZ && top >= highTop))
                                                     {
@@ -318,6 +319,7 @@ namespace Ultima
                                                         highZ = z;
                                                         highID = pStatics->ID;
                                                         highHue = pStatics->Hue;
+                                                        highstatic = true;
                                                     }
 
                                                     ++pStatics;
@@ -334,14 +336,15 @@ namespace Ultima
                                                     if (penS.m_Y == k)
                                                     {
                                                         z = penS.m_Z;
-                                                        top = z + pHeight[penS.m_ID-0x4000];
+                                                        top = z + pHeight[penS.m_ID];
 
                                                         if (top > highTop || (z > highZ && top >= highTop))
                                                         {
                                                             highTop = top;
                                                             highZ = z;
-                                                            highID = penS.m_ID+0x4000;
+                                                            highID = penS.m_ID;
                                                             highHue = penS.m_Hue;
+                                                            highstatic = true;
                                                         }
                                                     }
                                                 }
@@ -354,18 +357,22 @@ namespace Ultima
                                         {
                                             highID = pTiles->m_ID;
                                             highHue = 0;
+                                            highstatic = false;
                                         }
 
                                         if (highHue == 0)
                                         {
                                             try
                                             {
-                                                *pvData++ = pColors[highID & 0xFFFF];
+                                                if (highstatic)
+                                                    *pvData++ = pColors[highID+0x4000];
+                                                else
+                                                    *pvData++ = pColors[highID];
                                             }
                                             catch { }
                                         }
                                         else
-                                            *pvData++ = Hues.GetHue(highHue - 1).Colors[(pColors[highID & 0xFFFF] >> 10) & 0x1F];
+                                            *pvData++ = Hues.GetHue(highHue - 1).Colors[(pColors[highID + 0x4000] >> 10) & 0x1F];
 
                                         ++pTiles;
                                     }
@@ -550,12 +557,14 @@ namespace Ultima
                                         bool firstitem = true;
                                         for (int i = 0; i < count; i++)
                                         {
-                                            short graphic = m_StaticsReader.ReadInt16();
+                                            ushort graphic = m_StaticsReader.ReadUInt16();
                                             byte sx = m_StaticsReader.ReadByte();
                                             byte sy = m_StaticsReader.ReadByte();
                                             sbyte sz = m_StaticsReader.ReadSByte();
                                             short shue = m_StaticsReader.ReadInt16();
-                                            if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+                                            if ((graphic >= 0) && 
+                                                ((graphic < 0x4000) 
+                                                || (Art.IsUOSA() && (graphic < 0x8000)))) //legal?
                                             {
                                                 if (shue < 0)
                                                     shue = 0;
@@ -576,7 +585,9 @@ namespace Ultima
                                         {
                                             for (int i = 0; i < tilelist.Length; i++)
                                             {
-                                                if ((tilelist[i].m_ID >= 0) && (tilelist[i].m_ID < 0x4000)) //legal?
+                                                if ((tilelist[i].m_ID >= 0) 
+                                                    && ((tilelist[i].m_ID < 0x4000)
+                                                    || (Art.IsUOSA() && (tilelist[i].m_ID < 0x8000))))//legal?
                                                 {
                                                     if (tilelist[i].m_Hue < 0)
                                                         tilelist[i].m_Hue = 0;
@@ -607,7 +618,9 @@ namespace Ultima
                                             tile.m_Z = m_StaticsReader.ReadSByte();
                                             tile.m_Hue = m_StaticsReader.ReadInt16();
 
-                                            if ((tile.m_ID >= 0) && (tile.m_ID < 0x4000))
+                                            if ((tile.m_ID >= 0) 
+                                                && ((tile.m_ID < 0x4000)
+                                                || (Art.IsUOSA() && (tile.m_ID < 0x8000))))
                                             {
                                                 if (tile.m_Hue < 0)
                                                     tile.m_Hue = 0;
@@ -638,7 +651,9 @@ namespace Ultima
                                             old.CopyTo(tilelist, 0);
                                             for (int i = 0; i < pending.Length; i++)
                                             {
-                                                if ((pending[i].m_ID >= 0) && (pending[i].m_ID < 0x4000))
+                                                if ((pending[i].m_ID >= 0)
+                                                    && ((pending[i].m_ID < 0x4000)
+                                                    || (Art.IsUOSA() && (pending[i].m_ID < 0x8000))))//legal?
                                                 {
                                                     if (pending[i].m_Hue < 0)
                                                         pending[i].m_Hue = 0;
@@ -799,8 +814,8 @@ namespace Ultima
                         {
                             if (currstatic.Z < currtile.Z)
                             {
-                                if (TileData.ItemTable[currstatic.ID & 0x3FFF].Height + currstatic.Z < currtile.Z)
-                                    Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X}", x, y, currstatic.Z, currstatic.ID & 0x3FFF));
+                                if (TileData.ItemTable[currstatic.ID].Height + currstatic.Z < currtile.Z)
+                                    Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X}", x, y, currstatic.Z, currstatic.ID));
                             }
                         }
                     }
@@ -823,8 +838,8 @@ namespace Ultima
                             Tex.WriteLine(String.Format("{0};{1};{2};0;0x{3:X}", x, y, currtile.Z, currtile.ID));
                         foreach (HuedTile currstatic in Tiles.GetStaticTiles(x, y))
                         {
-                            if (!Art.IsValidStatic(currstatic.ID & 0x3FFF))
-                                Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X};0", x, y, currstatic.Z, currstatic.ID & 0x3FFF));
+                            if (!Art.IsValidStatic(currstatic.ID))
+                                Tex.WriteLine(String.Format("{0};{1};{2};0x{3:X};0", x, y, currstatic.Z, currstatic.ID));
                         }
                     }
                 }

@@ -25,7 +25,7 @@ namespace FiddlerControls
         private void Search_Graphic(object sender, EventArgs e)
         {
             int graphic;
-            if (Utils.ConvertStringToInt(textBoxGraphic.Text, out graphic, 0, 0x3FFF))
+            if (Utils.ConvertStringToInt(textBoxGraphic.Text, out graphic, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
             {
                 bool res;
                 if (Options.DesignAlternative)

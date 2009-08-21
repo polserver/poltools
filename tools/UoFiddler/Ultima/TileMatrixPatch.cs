@@ -207,7 +207,10 @@ namespace Ultima
 
                             while (pCur < pEnd)
                             {
-                                lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)((pCur->m_ID & 0x3FFF) + 0x4000), pCur->m_Hue, pCur->m_Z);
+                                if (Art.IsUOSA())
+                                    lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x7FFF), pCur->m_Hue, pCur->m_Z);
+                                else
+                                    lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x3FFF), pCur->m_Hue, pCur->m_Z);
                                 ++pCur;
                             }
 

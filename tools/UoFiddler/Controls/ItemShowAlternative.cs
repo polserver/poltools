@@ -570,7 +570,7 @@ namespace FiddlerControls
         private void onTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0x3FFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
             {
                 if (Art.IsValidStatic(index))
                     InsertText.ForeColor = Color.Red;
@@ -586,7 +586,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0x3FFF))
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, (Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF)))
                 {
                     if (Art.IsValidStatic(index))
                         return;
@@ -669,7 +669,7 @@ namespace FiddlerControls
             ShowFreeSlots = !ShowFreeSlots;
             if (ShowFreeSlots)
             {
-                for (int j = 0; j < 0x4000; j++)
+                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); j++)
                 {
                     if (ItemList.Count > j)
                     {

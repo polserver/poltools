@@ -195,7 +195,7 @@ namespace Ultima
                                             break;
                                     }
                                     MultiComponentList.MultiTileEntry tempitem = new MultiComponentList.MultiTileEntry();
-                                    tempitem.m_ItemID = (short)index;
+                                    tempitem.m_ItemID = (ushort)index;
                                     tempitem.m_Flags = 1;
                                     tempitem.m_OffsetX = (short)x;
                                     tempitem.m_OffsetY = (short)y;
@@ -241,7 +241,7 @@ namespace Ultima
                             binidx.Write((int)-1); //extra
                             for (int i = 0; i < comp.SortedTiles.Length; i++)
                             {
-                                binmul.Write((short)comp.SortedTiles[i].m_ItemID);
+                                binmul.Write((ushort)comp.SortedTiles[i].m_ItemID);
                                 binmul.Write((short)comp.SortedTiles[i].m_OffsetX);
                                 binmul.Write((short)comp.SortedTiles[i].m_OffsetY);
                                 binmul.Write((short)comp.SortedTiles[i].m_OffsetZ);
@@ -275,7 +275,7 @@ namespace Ultima
 
         public struct MultiTileEntry
         {
-            public short m_ItemID;
+            public ushort m_ItemID;
             public short m_OffsetX, m_OffsetY, m_OffsetZ;
             public int m_Flags;
         }
@@ -310,7 +310,7 @@ namespace Ultima
 
                     for (int i = 0; i < tiles.Length; ++i)
                     {
-                        Bitmap bmp = Art.GetStatic(tiles[i].ID - 0x4000);
+                        Bitmap bmp = Art.GetStatic(tiles[i].ID);
 
                         if (bmp == null)
                             continue;
@@ -352,7 +352,7 @@ namespace Ultima
                     for (int i = 0; i < tiles.Length; ++i)
                     {
 
-                        Bitmap bmp = Art.GetStatic(tiles[i].ID - 0x4000);
+                        Bitmap bmp = Art.GetStatic(tiles[i].ID);
 
                         if (bmp == null)
                             continue;
@@ -390,7 +390,10 @@ namespace Ultima
 
             for (int i = 0; i < count; ++i)
             {
-                m_SortedTiles[i].m_ItemID = (short)(reader.ReadInt16() & 0x3FFF);
+                if (Art.IsUOSA())
+                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x7FFF);
+                else
+                    m_SortedTiles[i].m_ItemID = (ushort)(reader.ReadInt16() & 0x3FFF);
                 m_SortedTiles[i].m_OffsetX = reader.ReadInt16();
                 m_SortedTiles[i].m_OffsetY = reader.ReadInt16();
                 m_SortedTiles[i].m_OffsetZ = reader.ReadInt16();
@@ -451,7 +454,7 @@ namespace Ultima
                             string tmp = split[0];
                             tmp = tmp.Replace("0x", "");
 
-                            m_SortedTiles[itemcount].m_ItemID = short.Parse(tmp, System.Globalization.NumberStyles.HexNumber);
+                            m_SortedTiles[itemcount].m_ItemID = ushort.Parse(tmp, System.Globalization.NumberStyles.HexNumber);
                             m_SortedTiles[itemcount].m_OffsetX = Convert.ToInt16(split[1]);
                             m_SortedTiles[itemcount].m_OffsetY = Convert.ToInt16(split[2]);
                             m_SortedTiles[itemcount].m_OffsetZ = Convert.ToInt16(split[3]);
@@ -535,7 +538,7 @@ namespace Ultima
                                 continue;
                             string[] split = line.Split(' ');
 
-                            m_SortedTiles[itemcount].m_ItemID = Convert.ToInt16(split[0]);
+                            m_SortedTiles[itemcount].m_ItemID = Convert.ToUInt16(split[0]);
                             m_SortedTiles[itemcount].m_OffsetX = Convert.ToInt16(split[1]);
                             m_SortedTiles[itemcount].m_OffsetY = Convert.ToInt16(split[2]);
                             m_SortedTiles[itemcount].m_OffsetZ = Convert.ToInt16(split[3]);
@@ -608,25 +611,25 @@ namespace Ultima
                     {
                         string line;
                         MultiTileEntry tempitem = new MultiTileEntry();
-                        tempitem.m_ItemID = -1;
+                        tempitem.m_ItemID = 0xFFFF;
                         tempitem.m_Flags = 1;
                         while ((line = ip.ReadLine()) != null)
                         {
                             line = line.Trim();
                             if (line.StartsWith("SECTION WORLDITEM"))
                             {
-                                if (tempitem.m_ItemID != -1)
+                                if (tempitem.m_ItemID != 0xFFFF)
                                 {
                                     m_SortedTiles[itemcount] = tempitem;
                                     itemcount++;
                                 }
-                                tempitem.m_ItemID = -1;
+                                tempitem.m_ItemID = 0xFFFF;
                             }
                             else if (line.StartsWith("ID"))
                             {
                                 line = line.Remove(0, 2);
                                 line = line.Trim();
-                                tempitem.m_ItemID = Convert.ToInt16(line);
+                                tempitem.m_ItemID = Convert.ToUInt16(line);
                             }
                             else if (line.StartsWith("X"))
                             {
@@ -658,7 +661,7 @@ namespace Ultima
 
                             }
                         }
-                        if (tempitem.m_ItemID != -1)
+                        if (tempitem.m_ItemID != 0xFFFF)
                             m_SortedTiles[itemcount] = tempitem;
 
                         int centerx = m_Max.X - (m_Max.X - m_Min.X) / 2;
@@ -757,7 +760,7 @@ namespace Ultima
             while ((line = stream.ReadLine()) != null)
             {
                 string[] split = Regex.Split(line, @"\s+");
-                m_SortedTiles[itemcount].m_ItemID = Convert.ToInt16(split[0]);
+                m_SortedTiles[itemcount].m_ItemID = Convert.ToUInt16(split[0]);
                 m_SortedTiles[itemcount].m_Flags = Convert.ToInt32(split[1]);
                 m_SortedTiles[itemcount].m_OffsetX = Convert.ToInt16(split[2]);
                 m_SortedTiles[itemcount].m_OffsetY = Convert.ToInt16(split[3]);
@@ -826,7 +829,7 @@ namespace Ultima
                 int xOffset = m_SortedTiles[i].m_OffsetX + m_Center.X;
                 int yOffset = m_SortedTiles[i].m_OffsetY + m_Center.Y;
 
-                tiles[xOffset][yOffset].Add((short)(m_SortedTiles[i].m_ItemID + 0x4000), (sbyte)m_SortedTiles[i].m_OffsetZ, (sbyte)m_SortedTiles[i].m_Flags);
+                tiles[xOffset][yOffset].Add((ushort)(m_SortedTiles[i].m_ItemID), (sbyte)m_SortedTiles[i].m_OffsetZ, (sbyte)m_SortedTiles[i].m_Flags);
             }
 
             m_Surface = 0;
@@ -859,7 +862,7 @@ namespace Ultima
             {
                 for (int i = 0; i < newtiles[m_Center.X][m_Center.Y].Count; i++)
                 {
-                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID == 0x4001) && 
+                    if ((newtiles[m_Center.X][m_Center.Y].Get(i).ID == 0x1) && 
                         (newtiles[m_Center.X][m_Center.Y].Get(i).Z == 0))
                     {
                         m_SortedTiles[0].m_OffsetX = 0;
@@ -868,7 +871,7 @@ namespace Ultima
                         m_SortedTiles[0].m_Flags = 0;
                         m_SortedTiles[0].m_ItemID = 0x1;
                         centerfound = true;
-                        newtiles[m_Center.X][m_Center.Y].Set(i, -1, 0);
+                        newtiles[m_Center.X][m_Center.Y].Set(i, 0xFFFF, 0);
                         break;
                     }
                 }
@@ -898,9 +901,9 @@ namespace Ultima
                     MTile[] tiles = newtiles[x][y].ToArray();
                     for (int i = 0; i < tiles.Length; i++)
                     {
-                        if (tiles[i].ID>=0)
+                        if (tiles[i].ID != 0xFFFF)
                         {
-                            m_SortedTiles[counter].m_ItemID = (short)(tiles[i].ID & 0x3FFF);
+                            m_SortedTiles[counter].m_ItemID = (ushort)(tiles[i].ID);
                             m_SortedTiles[counter].m_OffsetX = (short)(x - m_Center.X);
                             m_SortedTiles[counter].m_OffsetY = (short)(y - m_Center.Y);
                             m_SortedTiles[counter].m_OffsetZ = (short)(tiles[i].Z);

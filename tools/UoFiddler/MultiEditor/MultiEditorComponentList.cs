@@ -68,7 +68,7 @@ namespace MultiEditor
                 {
                     for (int i = 0; i < list.Tiles[x][y].Length; i++)
                     {
-                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID - 0x4000, x, y, list.Tiles[x][y][i].Z,list.Tiles[x][y][i].Flag));
+                        Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID, x, y, list.Tiles[x][y][i].Z,list.Tiles[x][y][i].Flag));
                     }
                     Tiles.Add(new FloorTile(x, y, Parent.DrawFloorZ));
                 }
@@ -143,7 +143,7 @@ namespace MultiEditor
             {
                 if (tile.isVirtualFloor)
                     continue;
-                tiles[tile.X][tile.Y].Add((short)(tile.ID + 0x4000), (sbyte)tile.Z, tile.Invisible?(sbyte)0:(sbyte)1);
+                tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible?(sbyte)0:(sbyte)1);
                 count++;
             }
             return new MultiComponentList(tiles, count, Width, Height);
@@ -308,7 +308,7 @@ namespace MultiEditor
         /// <summary>
         /// Adds an <see cref="MultiTile"/> to specific location
         /// </summary>
-        public void TileAdd(int x, int y, int z, int id)
+        public void TileAdd(int x, int y, int z, ushort id)
         {
             if ((x > Width) || (y > Height))
                 return;
@@ -622,7 +622,7 @@ namespace MultiEditor
 
 		#region Constructors (4) 
 
-        public MultiTile(int id, int x, int y, int z, int flag)
+        public MultiTile(ushort id, int x, int y, int z, int flag)
         {
             ID = id;
             X = x;
@@ -631,7 +631,7 @@ namespace MultiEditor
             Invisible = flag == 0 ? true : false;
         }
 
-        public MultiTile(int id, int x, int y, int z, bool flag)
+        public MultiTile(ushort id, int x, int y, int z, bool flag)
         {
             ID = id;
             X = x;
@@ -640,7 +640,7 @@ namespace MultiEditor
             Invisible = flag;
         }
 
-        public MultiTile(int id, int z)
+        public MultiTile(ushort id, int z)
         {
             ID = id;
             Z = z;
@@ -648,7 +648,7 @@ namespace MultiEditor
 
         public MultiTile()
         {
-            ID = -1;
+            ID = 0xFFFF;
         }
 
         static MultiTile()
@@ -680,7 +680,7 @@ namespace MultiEditor
 
         public static ImageAttributes HoverColor { get { return m_HoverColor; } }
 
-        public int ID { get; private set; }
+        public ushort ID { get; private set; }
 
         public virtual bool isVirtualFloor { get { return false; } }
 
@@ -751,12 +751,12 @@ namespace MultiEditor
 
         public virtual Bitmap GetBitmap()
         {
-            if (ID > -1)
+            if (ID != 0xFFFF)
                 return Art.GetStatic(ID);
             return null;
         }
 
-        public void Set(int id, int z)
+        public void Set(ushort id, int z)
         {
             ID = id;
             Z = z;
