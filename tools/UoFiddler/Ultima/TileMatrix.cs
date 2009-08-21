@@ -262,7 +262,10 @@ namespace Ultima
 
                     while (pCur < pEnd)
                     {
-                        lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)((pCur->m_ID) + 0x4000), pCur->m_Hue, pCur->m_Z);
+                        if (Art.IsUOSA())
+                            lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x7FFF), pCur->m_Hue, pCur->m_Z);
+                        else
+                            lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x3FFF), pCur->m_Hue, pCur->m_Z);
                         ++pCur;
                     }
 
@@ -412,36 +415,36 @@ namespace Ultima
 
     public struct MTile : IComparable
     {
-        internal short m_ID;
+        internal ushort m_ID;
         internal sbyte m_Z;
         internal sbyte m_Flag;
 
-        public int ID { get { return m_ID; } }
+        public ushort ID { get { return m_ID; } }
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
         public int Flag { get { return m_Flag; } set { m_Flag = (sbyte)value; } }
 
-        public MTile(short id, sbyte z)
+        public MTile(ushort id, sbyte z)
         {
             m_ID = id;
             m_Z = z;
             m_Flag = 1;
         }
 
-        public MTile(short id, sbyte z, sbyte flag)
+        public MTile(ushort id, sbyte z, sbyte flag)
         {
             m_ID = id;
             m_Z = z;
             m_Flag = flag;
         }
 
-        public void Set(short id, sbyte z)
+        public void Set(ushort id, sbyte z)
         {
             m_ID = id;
             m_Z = z;
         }
 
-        public void Set(short id, sbyte z, sbyte flag)
+        public void Set(ushort id, sbyte z, sbyte flag)
         {
             m_ID = id;
             m_Z = z;
@@ -483,25 +486,25 @@ namespace Ultima
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 1)]
     public struct Tile : IComparable
     {
-        internal short m_ID;
+        internal ushort m_ID;
         internal sbyte m_Z;
 
-        public int ID { get { return m_ID; } }
+        public ushort ID { get { return m_ID; } }
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
-        public Tile(short id, sbyte z)
+        public Tile(ushort id, sbyte z)
         {
             m_ID = id;
             m_Z = z;
         }
 
-        public void Set(short id, sbyte z)
+        public void Set(ushort id, sbyte z)
         {
             m_ID = id;
             m_Z = z;
         }
 
-        public void Set(short id, sbyte z, sbyte flag)
+        public void Set(ushort id, sbyte z, sbyte flag)
         {
             m_ID = id;
             m_Z = z;

@@ -21,7 +21,8 @@ namespace FiddlerControls
     public partial class MapReplaceTiles : Form
     {
         private Ultima.Map Map;
-        private Dictionary<short, short> ConvertDict;
+        private Dictionary<ushort, ushort> ConvertDictLand;
+        private Dictionary<ushort, ushort> ConvertDictStatic;
 
         public MapReplaceTiles(Ultima.Map map)
         {
@@ -61,7 +62,8 @@ namespace FiddlerControls
 
         private bool LoadFile(string file)
         {
-            ConvertDict = new Dictionary<short, short>();
+            ConvertDictLand = new Dictionary<ushort, ushort>();
+            ConvertDictStatic = new Dictionary<ushort, ushort>();
             XmlDocument dom = new XmlDocument();
             dom.Load(file);
             try
@@ -71,23 +73,23 @@ namespace FiddlerControls
                     if (xNode.NodeType == XmlNodeType.Comment)
                         continue;
                     int temp;
-                    short convfrom, convto;
+                    ushort convfrom, convto;
                     if (FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["from"].InnerText, out temp))
-                        convfrom = (short)temp;
+                        convfrom = (ushort)temp;
                     else
                         continue;
                     if (FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["to"].InnerText, out temp))
-                        convto = (short)temp;
+                        convto = (ushort)temp;
                     else
                         continue;
 
                     switch (xNode.Name.ToLower())
                     {
                         case "static":
-                            ConvertDict.Add((short)(convfrom + 0x4000), convto);
+                            ConvertDictStatic.Add(convfrom, convto);
                             break;
                         case "landtile":
-                            ConvertDict.Add(convfrom, convto);
+                            ConvertDictLand.Add(convfrom, convto);
                             break;
                         default: break;
                     }
@@ -132,12 +134,12 @@ namespace FiddlerControls
                                 binmul.Write(header);
                                 for (int i = 0; i < 64; i++)
                                 {
-                                    short tileid = m_mapReader.ReadInt16();
+                                    ushort tileid = m_mapReader.ReadUInt16();
                                     sbyte z = m_mapReader.ReadSByte();
                                     if ((tileid < 0) || (tileid >= 0x4000))
                                         tileid = 0;
-                                    else if (ConvertDict.ContainsKey(tileid))
-                                        tileid = ConvertDict[tileid];
+                                    else if (ConvertDictLand.ContainsKey(tileid))
+                                        tileid = ConvertDictLand[tileid];
                                     if (z < -128)
                                         z = -128;
                                     if (z > 127)
@@ -236,12 +238,13 @@ namespace FiddlerControls
                                     bool firstitem = true;
                                     for (int i = 0; i < count; i++)
                                     {
-                                        short graphic = m_StaticsReader.ReadInt16();
+                                        ushort graphic = m_StaticsReader.ReadUInt16();
                                         byte sx = m_StaticsReader.ReadByte();
                                         byte sy = m_StaticsReader.ReadByte();
                                         sbyte sz = m_StaticsReader.ReadSByte();
                                         short shue = m_StaticsReader.ReadInt16();
-                                        if ((graphic >= 0) && (graphic < 0x4000)) //legal?
+                                        if ((graphic >= 0) && 
+                                            ((graphic < 0x4000) || ((Ultima.Art.IsUOSA()) && (graphic<0x8000)))) //legal?
                                         {
                                             if (shue < 0)
                                                 shue = 0;
@@ -250,8 +253,8 @@ namespace FiddlerControls
                                                 binidx.Write((int)fsmul.Position); //lookup
                                                 firstitem = false;
                                             }
-                                            if (ConvertDict.ContainsKey((short)(graphic+0x4000)))
-                                                graphic = ConvertDict[(short)(graphic+0x4000)];
+                                            if (ConvertDictStatic.ContainsKey(graphic))
+                                                graphic = ConvertDictStatic[graphic];
                                             binmul.Write(graphic);
                                             binmul.Write(sx);
                                             binmul.Write(sy);

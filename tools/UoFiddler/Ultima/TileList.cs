@@ -51,7 +51,7 @@ namespace Ultima
 
         public int Count { get; private set; }
 
-        public void Add(short id, sbyte z)
+        public void Add(ushort id, sbyte z)
         {
             if ((Count + 1) > m_Tiles.Length)
             {
@@ -64,7 +64,7 @@ namespace Ultima
 
             m_Tiles[Count++].Set(id, z);
         }
-        public void Add(short id, sbyte z, sbyte flag)
+        public void Add(ushort id, sbyte z, sbyte flag)
         {
             if ((Count + 1) > m_Tiles.Length)
             {
@@ -95,13 +95,13 @@ namespace Ultima
             return m_Tiles[i];
         }
 
-        public void Set(int i,short id, sbyte z)
+        public void Set(int i,ushort id, sbyte z)
         {
             if (i < Count)
                 m_Tiles[i].Set(id,z);
         }
 
-        public void Set(int i, short id, sbyte z, sbyte flag)
+        public void Set(int i, ushort id, sbyte z, sbyte flag)
         {
             if (i < Count)
                 m_Tiles[i].Set(id, z, flag);
@@ -120,7 +120,7 @@ namespace Ultima
 
         public int Count { get; private set; }
 
-        public void Add(short id, sbyte z)
+        public void Add(ushort id, sbyte z)
         {
             if ((Count + 1) > m_Tiles.Length)
             {
@@ -133,7 +133,7 @@ namespace Ultima
 
             m_Tiles[Count++].Set(id, z);
         }
-        public void Add(short id, sbyte z, sbyte flag)
+        public void Add(ushort id, sbyte z, sbyte flag)
         {
             if ((Count + 1) > m_Tiles.Length)
             {
@@ -164,13 +164,13 @@ namespace Ultima
             return m_Tiles[i];
         }
 
-        public void Set(int i, short id, sbyte z)
+        public void Set(int i, ushort id, sbyte z)
         {
             if (i < Count)
                 m_Tiles[i].Set(id, z);
         }
 
-        public void Set(int i, short id, sbyte z, sbyte flag)
+        public void Set(int i, ushort id, sbyte z, sbyte flag)
         {
             if (i < Count)
                 m_Tiles[i].Set(id, z, flag);
