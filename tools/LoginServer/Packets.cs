@@ -109,7 +109,7 @@ namespace LoginServer
             ver.Minor = ReadInt32(ns);
             ver.Revision = ReadInt32(ns);
             ver.Patch = ReadInt32(ns);
-            Console.WriteLine("Seed: {0}", seed);
+            Console.WriteLine("Seed: 0x{0:X}", seed);
             Console.WriteLine("Client Version {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Revision, ver.Patch);
         }
 
@@ -141,7 +141,7 @@ namespace LoginServer
         public static void ServerSelectPacket(ref NetworkStream ns, Client client)
         {
             int index = ReadBE16(ns);
-            if (client.CompareVersionEqual(Client.VER601324)) //UO:SA Beta hack
+            if (client.CompareVersionInSARange()) //UO:SA Beta hack
                 index = 0;
             if (index >= Program.server_list.ServerCount)
                 return;
@@ -161,7 +161,7 @@ namespace LoginServer
             ms.WriteByte(0xFE);
             if (client.CompareVersion(Client.VER60142))
                 ms.WriteByte(0xFD);
-            else if (client.CompareVersionEqual(Client.VER601324)) //UO:SA Beta hack (for 0xb9 packet)
+            else if (client.CompareVersionInSARange()) //UO:SA Beta hack (for 0xb9 packet)
                 ms.WriteByte(0xFD);
             else
                 ms.WriteByte(0xFE);
@@ -199,7 +199,7 @@ namespace LoginServer
             short index = 0;
             foreach (ServerInfo server in sl.Servers)
             {
-                if (client.CompareVersionEqual(Client.VER601324)) //UO:SA Beta hack
+                if (client.CompareVersionInSARange()) //UO:SA Beta hack
                     WriteBE16(ms, 0x3D);
                 else
                     WriteBE16(ms, index);

@@ -24,7 +24,9 @@ namespace LoginServer
 
         public static readonly Version VER6017 = new Version() { Major = 6, Minor = 0, Revision = 1, Patch = 7 };
         public static readonly Version VER60142 = new Version() { Major = 6, Minor = 0, Revision = 14, Patch = 2 };
+
         public static readonly Version VER601324 = new Version() { Major = 6, Minor = 0, Revision = 13, Patch = 24 };
+        public static readonly Version VER60141 = new Version() { Major = 6, Minor = 0, Revision = 14, Patch = 1 };
 
         public Version ClientVersion
         {
@@ -133,6 +135,13 @@ namespace LoginServer
                 && (client_version.Patch == compver.Patch))
                 return true;
 
+            return false;
+        }
+
+        public bool CompareVersionInSARange()
+        {
+            if ((CompareVersion(VER601324)) && (!CompareVersion(VER60141)))
+                return true;
             return false;
         }
     }
