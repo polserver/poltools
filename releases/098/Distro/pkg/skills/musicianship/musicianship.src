@@ -1,0 +1,39 @@
+use basic;
+use uo;
+use os;
+
+include ":attributes:attributeConstants";
+include ":attributes:skillCheck";
+include ":attributes:skills";
+
+var music_config     := ReadConfigFile(":musicianship:musicianship");
+
+program use_Musicianship(who, item)
+
+	if ( !Accessible(item) )
+		SendSysMessage(who, "You cannot access that.");
+		return 0;
+	elseif (CInt(GetObjProperty(who, "#LastMusic")) > ReadGameClock())
+    		SendSysMessage(who, "You must wait a moment before playing again.");
+    		return 0;
+	elseif( !ReserveItem(item) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+	SetObjProperty(who, "#LastMusic", CInt(ReadGameClock() + 2));
+
+	var pts := AP_GetSkill(who, MUSICIANSHIP) + 10;
+	if(pts < 10)
+		pts := 10;
+	endif
+
+	if( SkillCheck(who, MUSICIANSHIP,-1, pts) )
+		PlaySoundEffect(who, music_config[item.graphic].success);
+	else	
+		PlaySoundEffect(who, music_config[item.graphic].fail);
+	endif
+
+endprogram
