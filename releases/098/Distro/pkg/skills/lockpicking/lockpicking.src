@@ -1,0 +1,173 @@
+
+
+use cfgfile;
+use util;
+
+include ":attributes:attributeConstants";
+include ":attributes:attributes";
+include ":attributes:skillCheck";
+include ":loot:lootParser";
+include "include/sounds";
+
+var item_config     := ReadConfigFile(":*:itemdesc");
+
+program use_Lockpick(who, tool)
+
+// Checks to make sure we can access the necessary items to get the job done
+	if ( !ReserveItem(tool) )
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	elseif( (!tool.movable) || !ReserveItem(tool) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif( !(tool in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+// Ya can't heal and meditate if you're picking locks
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+
+    SendSysMessage(who, "Choose a lock to pick?");
+    var chest := Target(who);
+    if (!chest)
+        SendSysMessage(who,"canceled");
+        return;
+    endif
+    if ( (!Accessible(who,chest)) || (!Accessible(who,tool)) )
+        SendSysMessage(who, "Can't reach it!");
+        return;
+    endif
+	// The following checks provide flexibility between the different types of locked containers
+	// For example one might wish to add a spawn of a monster when successfully opening a "spawned" chest.
+    if (GetObjProperty(chest,"spawnchest"))
+        PickSpawnChest(who, tool, chest);
+    elseif (GetObjProperty(chest,"lockable"))
+        PickLockedItem(who, tool, chest);
+    elseif (GetObjProperty(chest,"level"))
+        PickTreasureChest(who, tool, chest);
+    else
+        SendSysMessage(who, "You have no chance of picking that lock!");
+        ReleaseItem(tool);
+    endif
+endprogram
+
+// No buried treasure yet either but this should work when that comes into being too.
+// Take note of necessary CProps needed on the chest.
+function PickTreasureChest(who, tool, chest)
+    var lvl := CInt(GetObjProperty(chest,"level" ));
+    if (!lvl)
+        DestroyItem(chest);
+    endif
+    if (!chest.locked)
+        SendSysMessage(who,"That doesn't appear to be locked");
+        return;
+    endif
+    PlaySoundEffect(chest,SFX_LOCKPICK);
+    sleep(2);
+    var diff := (lvl * 20)+10;
+    if ( SkillCheck(who, LOCKPICKING, diff) > 0 )
+        PlaySoundEffect(chest,SFX_UNLOCK);
+        PrintTextAbovePrivate(chest,"*Unlocked!*",who);
+    else
+        PrintTextAbovePrivate(chest,"You fail to pick the lock.",who);
+        if (diff < 10)
+            diff := 0;
+        else
+            diff := diff -10;
+        endif
+        if ((RandomDiceRoll(1d99)+1) >= GetAttribute(who, LOCKPICKING))
+            PlaySoundEffect(chest,0xef);
+            SendSysMessage(who,"Your pick breaks!");
+            SubtractAmount(tool,1);
+        endif
+        return;
+    endif
+    set_critical(1);
+    chest.locked := 0;
+    set_critical(0);
+    ReleaseItem(tool);
+endfunction
+
+// We don't have a chest spawner yet but this will work when we do.
+// Take note of necessary CProps needed on the chest.
+// See create a testchest to see it work.
+function PickSpawnChest(who, tool, chest)
+    var lvl := CInt(GetObjProperty(chest,"lockpicking" ));
+    if (!lvl)
+        DestroyItem(chest);
+    endif
+    if (!chest.locked)
+        SendSysMessage(who,"That doesn't appear to be locked");
+        return;
+    endif
+    PlaySoundEffect(chest,SFX_LOCKPICK);
+    sleep(2);
+    var diff := (lvl * 10)+10;
+    if ( SkillCheck(who, LOCKPICKING, diff) > 0 )
+        PlaySoundEffect(chest,SFX_UNLOCK);
+        PrintTextAbovePrivate(chest,"*Unlocked!*",who);
+    else
+        PrintTextAbovePrivate(chest,"You fail to pick the lock.",who);
+        if (diff < 10)
+            diff := 0;
+        else
+            diff := diff -10;
+        endif
+        if ((RandomDiceRoll(1d99)+1) >= GetAttribute(who, LOCKPICKING))
+            PlaySoundEffect(chest,0xef);
+            SendSysMessage(who,"Your pick breaks!");
+            SubtractAmount(tool,1);
+        endif
+        return;
+    endif
+    set_critical(1);
+    SpawnTheChest(chest,lvl);
+    chest.locked := 0;
+    var allchests := GetGlobalProperty("unlockedchests");
+    if (!allchests)
+        allchests[1]:=chest.serial;
+    else
+        allchests[len(allchests)+1]:=chest.serial;
+    endif
+    SetGlobalProperty("unlockedchests",allchests);
+    set_critical(0);
+    ReleaseItem(tool);
+endfunction
+    
+function SpawnTheChest(chest, lvl)
+    var loot_index := "Chestspawn" + CStr(lvl);
+    Loot_Generate(chest, loot_index);
+endfunction
+    
+function PickLockedItem(who, tool, chest)
+    var lvl := CInt(GetObjProperty(chest,"lockable" ));
+    if (!lvl)
+        SendSysMessage(who,"That cannot be picked");
+        return;
+    endif
+    if (!chest.locked)
+        SendSysMessage(who,"That doesn't appear to be locked");
+        return;
+    endif
+    PlaySoundEffect(chest,SFX_LOCKPICK);
+    sleepms(1500);
+    var diff := (lvl+10);
+    if ( SkillCheck(who, LOCKPICKING, diff) > 0 )
+        PlaySoundEffect(chest,SFX_UNLOCK);
+        chest.locked := 0;
+    else
+        SendSysMessage(who,"You fail to pick the lock.");
+        if (diff < 10)
+            diff := 0;
+        else
+            diff := diff -10;
+        endif
+        if ((RandomDiceRoll(1d99)+1) >= GetAttribute(who, LOCKPICKING))
+            PlaySoundEffect(chest,0xef);
+            SendSysMessage(who,"Your pick breaks!");
+            SubtractAmount(tool,1);
+        endif
+        return;
+    endif
+endfunction
