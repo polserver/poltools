@@ -24,6 +24,10 @@ namespace Ultima
         public static readonly Map TerMur = new Map(5, 5, 1280, 4096);
         public static Map Custom;
 
+        public static void StartUpSetDiff(bool value)
+        {
+            m_UseDiff = value;
+        }
 
         public Map(int fileIndex, int mapID, int width, int height)
         {

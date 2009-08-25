@@ -51,7 +51,6 @@ namespace MultiEditor
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             InitializeComponent();
             refMarkerMulti = this;
-            XML_InitializeToolBox();
             MouseLoc = new Point();
             m_DrawTile = new MultiTile();
             Selectedpanel.Visible = false;
@@ -436,6 +435,7 @@ namespace MultiEditor
             FiddlerControls.Options.LoadedUltimaClass["Art"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Multis"] = true;
             FiddlerControls.Options.LoadedUltimaClass["Hues"] = true;
+            XML_InitializeToolBox();
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
             string FileName = Path.Combine(path, "Multilist.xml");
