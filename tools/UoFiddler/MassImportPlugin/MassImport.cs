@@ -333,7 +333,7 @@ namespace MassImport
     public class ImportEntryTileDataItem : ImportEntry
     {
         private string[] tiledata;
-        public virtual int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
+        public override int MaxIndex { get { return Ultima.Art.IsUOSA() ? 0x7FFF : 0x3FFF; } }
         public override string Name { get { return "TileDataItem"; } }
         public override void TestFile(ref string message)
         {

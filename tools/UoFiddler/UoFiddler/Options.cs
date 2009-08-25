@@ -223,7 +223,7 @@ namespace UoFiddler
             }
             elem = (XmlElement)xOptions.SelectSingleNode("UseMapDiff");
             if (elem != null)
-                Map.UseDiff = bool.Parse(elem.GetAttribute("active"));
+                Map.StartUpSetDiff(bool.Parse(elem.GetAttribute("active")));
 
             elem = (XmlElement)xOptions.SelectSingleNode("AlternativeDesign");
             if (elem != null)
