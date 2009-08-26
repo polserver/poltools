@@ -63,7 +63,7 @@ Define("CLASS_LABELS_ON", 0x1);
 function ReadConfigFile($path)
 {
 	$cfg_file = @File("$path");
-	if ( !cfg_file )
+	if ( !$cfg_file )
 		return FALSE;
 
 	return $cfg_file;
@@ -111,7 +111,7 @@ function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 			// Remove the first word from the line and tuck it into an array.
 			if ( !$class )
 				$cfg_line = $matches[2];
-			
+
 			Array_Push($cfg_info, LTrim($cfg_line));
 		}
 	}
@@ -160,7 +160,7 @@ function GetConfigIntKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 			// Remove the first word from the line and tuck it into an array.
 			if ( !$class )
 				$cfg_line = $matches[2];
-			
+
 			Array_Push($cfg_info, LTrim($cfg_line));
 		}
 	}
@@ -264,7 +264,7 @@ function FindConfigElem(&$cfg_file, $elem_name)
 				continue;
 			elseif ( Preg_Match("/^}/i", $cfg_line) )
 			{
-				//It reached the } line, which means it is done reading the elem. \
+				//It reached the } line, which means it is done reading the elem.
 				//Stop going through the rest of the file at this point.
 				$inside = 0;
 				break;
