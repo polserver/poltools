@@ -268,8 +268,9 @@ function FindConfigElem(&$cfg_file, $elem_name)
 {
 	$cfg_info = array();
 	$inside = 0;
-	foreach ( $cfg_file as $cfg_line )
+	for ( $i=0; $i < Count($cfg_file); $i++ )
 	{
+		$cfg_line = $cfg_file[$i];
 		$cfg_line = RTrim($cfg_line);
 		$cfg_line = LTrim($cfg_line);
 		if ( !$cfg_line )
@@ -280,6 +281,12 @@ function FindConfigElem(&$cfg_file, $elem_name)
 			continue;
 		elseif ( Preg_Match("/^(([[:alnum:]]+)\s+({$elem_name})|$elem_name)$/i", $cfg_line, $matches) )
 		{
+			$next_line = RTrim($cfg_file[$i+1]);
+			if ( !Preg_Match("/\s*\{\s*/i", $next_line) )
+			{
+				// Not an elem line - maybe a property line with no spaces infront of it.
+				continue;
+			}
 			//Print("Inside (0){$matches[0]} (1){$matches[1]} (2){$matches[2]} (3){$matches[3]}\n");
 			//It is inside the elem that it has been told to read.
 			$inside = 1;
