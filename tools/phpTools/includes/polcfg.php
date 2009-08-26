@@ -108,7 +108,7 @@ function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 		elseif ( Preg_Match("/^([[:alnum:]]+\s+)([[:alnum:]]+)$/i", $cfg_line, $matches) )
 		{
 			$next_line = RTrim($cfg_file[$i+1]);
-			if ( !Preg_Match("/\s+{\s+)/i", $next_line) )
+			if ( !Preg_Match("/\s+\{\s+)/i", $next_line) )
 			{
 				// Not an elem line - maybe a property line with no spaces infront of it.
 				continue;
