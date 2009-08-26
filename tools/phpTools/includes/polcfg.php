@@ -96,6 +96,32 @@ function ReadConfigFile($path)
 function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 {
 	$cfg_info = array();
+	for ( $i=0; $i < Count($cfg_file); $i++ )
+	{
+		$cfg_line = RTrim($cfg_file[$i]);
+		if ( !$cfg_line )
+			// Blank line
+			continue;
+		elseif ( Preg_Match("/^(\/\/|#)/", $cfg_line) )
+			//Comment line
+			continue;
+		elseif ( Preg_Match("/^([[:alnum:]]+\s+)([[:alnum:]]+)$/i", $cfg_line, $matches) )
+		{
+			$next_line = RTrim($cfg_file[$i+1]);
+			if ( !Preg_Match("\s+{\s+)", $next_line) )
+			{
+				// Not an elem line - maybe a property line with no spaces infront of it.
+				continue;
+			}
+			// An elem key was found.
+			// Remove the first word from the line and tuck it into an array.
+			if ( !$class )
+				$cfg_line = $matches[2];
+			
+			Array_Push($cfg_info, LTrim($cfg_line));
+		}
+	}
+	/*
 	foreach ( $cfg_file as $cfg_line )
 	{
 		$cfg_line = RTrim($cfg_line);
@@ -115,6 +141,7 @@ function GetConfigStringKeys(&$cfg_file, $class=CLASS_LABELS_OFF)
 			Array_Push($cfg_info, LTrim($cfg_line));
 		}
 	}
+	*/
 	return $cfg_info;
 }
 
