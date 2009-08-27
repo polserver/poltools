@@ -6,7 +6,7 @@ use cfgfile;
 use os;
 use uo;
 
-include "include/gumps";
+include ":gumps:gumps";
 
 const ROWS     := 25;
 const COLUMNS  := 4;
@@ -20,13 +20,13 @@ program makeset(who, input)
     SendSysMessage(who, "That config file does not exist. Defaulting to ::sets");
     mycfg := "::sets";
   endif
-  var cfg  := readconfigfile(mycfg);
+  var cfg  := ReadConfigFile(mycfg);
   if(!cfg[tsetname])
     SendSysMessage(who, "Set provided did not exist. Giving gump list");
     BuildGumpList(who, cfg, mycfg);
     return;
   endif
-  var where := targetcoordinates(who);
+  var where := TargetCoordinates(who);
   if (!where.x)
     return;
   endif
@@ -37,13 +37,13 @@ program makeset(who, input)
     var itemx := obj[2];
     var itemy := obj[3];
     var itemz := obj[4];
-    var item := createitematlocation(where.x + CInt(itemx) , where.y + cint(itemy) ,where.z + cint(itemz) , CInt(it), 1);
+    var item := CreateItemAtLocation(where.x + CInt(itemx) , where.y + cint(itemy) ,where.z + cint(itemz) , CInt(it), 1, where.realm);
     item.movable := 0;
     item.graphic := CInt(it);
     item.color := CInt(obj[5]);
   endforeach
   SendSysMessage(who, "Finished Making your item!");
-  unloadconfigfile(mycfg);
+  UnloadConfigFile(mycfg);
 
 endprogram
 
@@ -51,9 +51,10 @@ function BuildGumpList(who, cfg, mycfg)
         var i := 0;
         var yoffset;
         var xoffset;
-	GFInitGump(0, 0);
-        GFNoDispose();
-	GFResizePic(0, 0, 5100, 150*COLUMNS+75, 80 + 20*ROWS);
+
+	var gump GFCreateGump(0, 0, (150*COLUMNS)+75, 80+(20*ROWS))
+        GFDisposable(gump, 0);
+	GFResizePic(gump, 0, 0, 5100, (150*COLUMNS)+75, 80+(20*ROWS));
         foreach thing in GetConfigStringKeys(cfg)
           if(!cfg[thing].objtype)
             i:=i+1;
@@ -64,20 +65,20 @@ function BuildGumpList(who, cfg, mycfg)
             // xoffset is actually the column #
             xoffset := ((i-1)/ROWS) % COLUMNS;
 
-            GFTextLine(40 + xoffset*150, 40 + yoffset*20, 0x480,  thing);
+            GFTextLine(gump, 40 + xoffset*150, 40 + yoffset*20, 0x480,  thing);
           endif
         endforeach
 
         // Create the Ok & Cancel buttons & the title at the top of the scroll :
-        var theOkButton := GFButtonID(180, 70 + 20*(ROWS-1), 0x994, 0x993, 1);
-        GFTextLine(215, 10, 0x480, "MakeSet2 "+mycfg+".cfg list");
+        GFAddButton(gump, 180, 70 + 20*(ROWS-1), 0x994, 0x993, GF_CLOSE_BTN, 1);
+        GFTextLine(gump, 215, 10, 0x480, "MakeSet2 "+mycfg+".cfg list");
 
         // Send the gump to the player :
-        var retkey := GFSendGump(who);
+        var retkey := GFSendGump(who, gump);
 
         // If the Ok button was pressed, store the lock array in player's
         // SkLockArray Cprop and exit the function.
-	if (retkey[0] == theOkButton.keyid)
+	if (retkey[0] == 1)
 	  return;
 	endif
 
