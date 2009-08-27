@@ -1,0 +1,84 @@
+// $Id$
+//
+//
+
+use cfgfile;
+use os;
+use uo;
+
+include "include/gumps";
+
+const ROWS     := 25;
+const COLUMNS  := 4;
+
+program makeset(who, input)
+
+  var ti := SplitWords(input);
+  var mycfg := ti[1];
+  var tsetname := ti[2];
+  if(!mycfg || mycfg.errortext)
+    SendSysMessage(who, "That config file does not exist. Defaulting to ::sets");
+    mycfg := "::sets";
+  endif
+  var cfg  := readconfigfile(mycfg);
+  if(!cfg[tsetname])
+    SendSysMessage(who, "Set provided did not exist. Giving gump list");
+    BuildGumpList(who, cfg, mycfg);
+    return;
+  endif
+  var where := targetcoordinates(who);
+  if (!where.x)
+    return;
+  endif
+  foreach entry in GetConfigStringArray( cfg[tsetname], "item" )
+    sleepms(2);
+    var obj := SplitWords(entry);
+    var it := obj[1];
+    var itemx := obj[2];
+    var itemy := obj[3];
+    var itemz := obj[4];
+    var item := createitematlocation(where.x + CInt(itemx) , where.y + cint(itemy) ,where.z + cint(itemz) , CInt(it), 1);
+    item.movable := 0;
+    item.graphic := CInt(it);
+    item.color := CInt(obj[5]);
+  endforeach
+  SendSysMessage(who, "Finished Making your item!");
+  unloadconfigfile(mycfg);
+
+endprogram
+
+function BuildGumpList(who, cfg, mycfg)
+        var i := 0;
+        var yoffset;
+        var xoffset;
+	GFInitGump(0, 0);
+        GFNoDispose();
+	GFResizePic(0, 0, 5100, 150*COLUMNS+75, 80 + 20*ROWS);
+        foreach thing in GetConfigStringKeys(cfg)
+          if(!cfg[thing].objtype)
+            i:=i+1;
+
+            // yoffset is actually the row #
+            yoffset := (i-1) % ROWS;
+
+            // xoffset is actually the column #
+            xoffset := ((i-1)/ROWS) % COLUMNS;
+
+            GFTextLine(40 + xoffset*150, 40 + yoffset*20, 0x480,  thing);
+          endif
+        endforeach
+
+        // Create the Ok & Cancel buttons & the title at the top of the scroll :
+        var theOkButton := GFButtonID(180, 70 + 20*(ROWS-1), 0x994, 0x993, 1);
+        GFTextLine(215, 10, 0x480, "MakeSet2 "+mycfg+".cfg list");
+
+        // Send the gump to the player :
+        var retkey := GFSendGump(who);
+
+        // If the Ok button was pressed, store the lock array in player's
+        // SkLockArray Cprop and exit the function.
+	if (retkey[0] == theOkButton.keyid)
+	  return;
+	endif
+
+endfunction
