@@ -1,0 +1,124 @@
+// $Id$
+//
+//
+
+use cfgfile;
+use os;
+use util;
+use uo;
+use vitals;
+
+include ":timedscripts:timedScripts";
+include ":timedscripts:poisonUtil";
+
+var fishConfig := ReadConfigFile(":fish:config/magicFish");
+
+program use_magicfish(who, fish)
+
+	if ( !ReserveItem(fish) )
+		SendSysMessage(who, "That is already in use.");
+		return 0;
+	elseif( (!fish.movable) || !ReserveItem(fish) )
+		SendSysMessage(who, "You cannot use that");
+		return 0;
+	elseif( !(fish in EnumerateItemsInContainer(who.backpack)) )
+		SendSysMessage(who, "That item is not in your backpack.");
+		return 0;
+	endif
+
+	EraseObjProperty(who, "#IsMeditating");
+	EraseObjProperty(who, "#HealTimer");
+	
+	var info := GetObjProperty( fish, "ID" );
+
+	var spellnum, spellsound, spelleffect, miscprop1, miscprop2;
+	
+	// If type Dictionary, it has been identified.
+	// Dict := ID -> Who Id'd, Elem -> CfgElem Name
+	if ( TypeOf(info) == "Dictionary" )
+		var elem := FindConfigElem(fishConfig, info.Elem);
+		spellnum := GetConfigInt(elem, "SpellNum");
+		spellsound := GetConfigInt(elem, "SpellSound");
+		spelleffect := GetConfigInt(elem, "SpellEffect");
+		miscprop1 := GetConfigInt(elem, "Amount");
+		miscprop2 := GetConfigInt(elem, "Duration");
+	else
+		// Not identified. So let's randomize this bad boy!
+		var elem_list  := GetConfigStringKeys( fishConfig );
+		var elem_name  := elem_list[RandomInt(len(elem_list))+1];
+		var elem := FindConfigElem(fishConfig, elem_name);
+		spellnum := GetConfigInt(elem, "SpellNum");
+		spellsound := GetConfigInt(elem, "SpellSound");
+		spelleffect := GetConfigInt(elem, "SpellEffect");
+		miscprop1 := GetConfigInt(elem, "Amount");
+		miscprop2 := GetConfigInt(elem, "Duration");
+	endif
+
+	DestroyItem(fish);
+
+	if(spellnum > 0)
+		PlaySoundEffect( who, spellsound );
+		PlayObjectCenteredEffect( who, spelleffect, 10,10);
+		case (spellnum)
+	      1: HealDamage( who, miscprop1);
+	         break;
+	      2: who.setlightlevel( miscprop1, miscprop2 );
+	         break;
+	      3: if ( !GetObjProperty(who, "AgilityMod") )
+			   TS_StartTimer(who, "Agility", miscprop2, miscprop1, who);
+			 endif
+			 break;
+	      4: if ( !GetObjProperty(who, "CunningMod") )
+			   TS_StartTimer(who, "Cunning", miscprop2, miscprop1, who);
+			 endif
+			 break;
+	      5: FishyCure(who, "P", miscprop1); // P = Poison
+			 break;
+	      6: if ( !GetObjProperty(who, "StrengthMod") )
+			   TS_StartTimer(who, "Strength", miscprop2, miscprop1, who);
+			 endif
+			 break;
+	      7: if ( !GetObjProperty(who, "StrengthMod") )
+			   TS_StartTimer(who, "Strength", miscprop2, miscprop1, who);
+			 endif
+			 if ( !GetObjProperty(who, "AgilityMod") )
+			   TS_StartTimer(who, "Agility", miscprop2, miscprop1, who);
+			 endif
+			 if ( !GetObjProperty(who, "CunningMod") )
+			   TS_StartTimer(who, "Cunning", miscprop2, miscprop1, who);
+			 endif
+			 break;
+	      8: if ( !GetObjProperty(who, "Invisible") )
+			   TS_StartTimer(who, "Invisibility", miscprop2, miscprop1, who);
+			 endif
+			 break;
+	      default: SendSysMessage(who, "Yech, that was a rotten fish!");
+	               break;
+	    endcase
+	else
+		SendSysMessage(who, "Yech, that was a rotten fish!");
+	endif
+	
+	return 1;
+	
+endprogram
+
+function FishyCure(who, type, amount)
+
+	// Get poison level
+	var poison_names := TS_GetTimerNames(who, type);
+	var poison_level := 1;
+	
+	foreach timer_name in ( poison_names )
+		var timer_info := TS_GetTimerInfo(who, timer_name);
+		if ( timer_info.level > poison_level )
+				poison_level := timer_info.level;
+		endif
+	endforeach
+
+	amount :=  CInt(amount +RandomInt(25) + 1);
+
+	TS_CurePoison(who, amount, type, poison_level);
+	
+	return 1;
+endfunction
