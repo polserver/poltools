@@ -2,18 +2,15 @@ use basic;
 use uo;
 use os;
 
-include ":attributes:attributeConstants";
-include ":attributes:skillCheck";
-include ":attributes:skills";
+include ":attributes:attributes";
+include ":instruments:musicinstruments";
 
-var music_config     := ReadConfigFile(":musicianship:musicianship");
+program use_Instrument(who, item)
 
-program use_Musicianship(who, item)
-
-	if ( !Accessible(item) )
+	if( !Accessible(who, item) )
 		SendSysMessage(who, "You cannot access that.");
 		return 0;
-	elseif (CInt(GetObjProperty(who, "#LastMusic")) > ReadGameClock())
+	elseif( CInt(GetObjProperty(who, "#LastMusic")) > ReadGameClock() )
     		SendSysMessage(who, "You must wait a moment before playing again.");
     		return 0;
 	elseif( !ReserveItem(item) )
@@ -30,10 +27,10 @@ program use_Musicianship(who, item)
 		pts := 10;
 	endif
 
-	if( SkillCheck(who, MUSICIANSHIP,-1, pts) )
-		PlaySoundEffect(who, music_config[item.graphic].success);
+	if( SkillCheck(who, MUSICIANSHIP, -1, pts) > 0 )
+		item.Play(who, SUCCESS_SOUND);
 	else	
-		PlaySoundEffect(who, music_config[item.graphic].fail);
+		item.Play(who, FAIL_SOUND);
 	endif
 
 endprogram
