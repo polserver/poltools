@@ -58,6 +58,15 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.extractImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripPalette = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromTxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -75,6 +84,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStripPalette.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -219,9 +229,11 @@
             // contextMenuStripListView
             // 
             this.contextMenuStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.replaceToolStripMenuItem});
+            this.replaceToolStripMenuItem,
+            this.addToolStripMenuItem1,
+            this.removeToolStripMenuItem1});
             this.contextMenuStripListView.Name = "contextMenuStrip1";
-            this.contextMenuStripListView.Size = new System.Drawing.Size(124, 26);
+            this.contextMenuStripListView.Size = new System.Drawing.Size(153, 92);
             // 
             // replaceToolStripMenuItem
             // 
@@ -232,6 +244,7 @@
             // 
             // pictureBoxPalette
             // 
+            this.pictureBoxPalette.ContextMenuStrip = this.contextMenuStripPalette;
             this.pictureBoxPalette.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBoxPalette.Location = new System.Drawing.Point(3, 3);
             this.pictureBoxPalette.MaximumSize = new System.Drawing.Size(0, 20);
@@ -385,6 +398,77 @@
             this.extractImagesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.extractImagesToolStripMenuItem.Text = "Extract Images";
             // 
+            // contextMenuStripPalette
+            // 
+            this.contextMenuStripPalette.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToolStripMenuItem,
+            this.importToolStripMenuItem});
+            this.contextMenuStripPalette.Name = "contextMenuStripPalette";
+            this.contextMenuStripPalette.Size = new System.Drawing.Size(126, 48);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bmpToolStripMenuItem,
+            this.tiffToolStripMenuItem,
+            this.textToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Text = "Export..";
+            // 
+            // bmpToolStripMenuItem
+            // 
+            this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bmpToolStripMenuItem.Tag = "bmp";
+            this.bmpToolStripMenuItem.Text = "Bmp";
+            this.bmpToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractPalette);
+            // 
+            // tiffToolStripMenuItem
+            // 
+            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tiffToolStripMenuItem.Tag = "tiff";
+            this.tiffToolStripMenuItem.Text = "Tiff";
+            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractPalette);
+            // 
+            // textToolStripMenuItem
+            // 
+            this.textToolStripMenuItem.Name = "textToolStripMenuItem";
+            this.textToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.textToolStripMenuItem.Tag = "txt";
+            this.textToolStripMenuItem.Text = "Text";
+            this.textToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractPalette);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fromTxtToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // fromTxtToolStripMenuItem
+            // 
+            this.fromTxtToolStripMenuItem.Name = "fromTxtToolStripMenuItem";
+            this.fromTxtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fromTxtToolStripMenuItem.Text = "From Txt";
+            this.fromTxtToolStripMenuItem.Click += new System.EventHandler(this.onClickImportPalette);
+            // 
+            // addToolStripMenuItem1
+            // 
+            this.addToolStripMenuItem1.Name = "addToolStripMenuItem1";
+            this.addToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.addToolStripMenuItem1.Text = "Add";
+            this.addToolStripMenuItem1.Click += new System.EventHandler(this.OnClickAdd);
+            // 
+            // removeToolStripMenuItem1
+            // 
+            this.removeToolStripMenuItem1.Name = "removeToolStripMenuItem1";
+            this.removeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.removeToolStripMenuItem1.Text = "Remove";
+            this.removeToolStripMenuItem1.Click += new System.EventHandler(this.OnClickRemoveFrame);
+            // 
             // AnimationEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -417,6 +501,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStripPalette.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -452,5 +537,14 @@
         private System.Windows.Forms.ToolStripMenuItem extractImagesToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem asBmpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem asTiffToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripPalette;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bmpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromTxtToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem1;
     }
 }
