@@ -8,8 +8,6 @@
  * you can buy me a beer in return.
  *
  ***************************************************************************/
-//GNA i hate osi...
-//saving seems to break mount anim?!
 
 using System;
 using System.Drawing;
@@ -33,6 +31,8 @@ namespace FiddlerControls
         }
 
         private int FileType;
+        int CurrAction;
+        int CurrBody;
         private int CurrDir;
         private Point FramePoint;
 
@@ -45,35 +45,26 @@ namespace FiddlerControls
             TreeNode[] nodes = new TreeNode[count];
             for (int i = 0; i < count; i++)
             {
-                if (Ultima.AnimationEdit.IsAnimDefinied(FileType,i))
+                int animlength = Animations.GetAnimLength(i, FileType);
+                string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
+                TreeNode node = new TreeNode();
+                node.Tag = i;
+                node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
+                nodes[i] = node;
+                bool valid = false;
+                for (int j = 0; j < animlength; j++)
                 {
-
-                    int animlength = Animations.GetAnimLength(i, FileType);
-                    string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
-                    TreeNode node = new TreeNode();
-                    node.Tag = i;
-                    node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
-                    nodes[i]=node;
-                    for (int j = 0; j < animlength; j++)
-                    {
-                        TreeNode subnode = new TreeNode();
-                        subnode.Tag = j;
-                        subnode.Text = j.ToString();
-                        if (!Animations.IsAnimDefinied(i, j, 0, FileType))
-                            subnode.ForeColor = Color.Red;
-                        node.Nodes.Add(subnode);
-                    }
+                    TreeNode subnode = new TreeNode();
+                    subnode.Tag = j;
+                    subnode.Text = j.ToString();
+                    if (Ultima.AnimationEdit.IsActionDefinied(FileType, i, j))
+                        valid = true;
+                    else
+                        subnode.ForeColor = Color.Red;
+                    node.Nodes.Add(subnode);
                 }
-                else
-                {
-                    int animlength = Animations.GetAnimLength(i, FileType);
-                    string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
-                    TreeNode node = new TreeNode();
-                    node.Tag = null;
-                    node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
+                if (!valid)
                     node.ForeColor = Color.Red;
-                    nodes[i] = node;
-                }
             }
             treeView1.Nodes.AddRange(nodes);
             treeView1.EndUpdate();
@@ -81,28 +72,24 @@ namespace FiddlerControls
                 treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
-        Ultima.AnimEdit edit;
-        int curraction;
         private unsafe void SetPaletteBox()
         {
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             Bitmap bmp = new Bitmap(pictureBoxPalette.Width, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
             if (edit != null)
             {
-                if (edit.Action[curraction].Directions[CurrDir] != null)
+                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, pictureBoxPalette.Width, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                ushort* line = (ushort*)bd.Scan0;
+                int delta = bd.Stride >> 1;
+                for (int y = 0; y < bd.Height; ++y, line += delta)
                 {
-                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, pictureBoxPalette.Width, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-                    ushort* line = (ushort*)bd.Scan0;
-                    int delta = bd.Stride >> 1;
-                    for (int y = 0; y < bd.Height; ++y, line += delta)
+                    ushort* cur = line;
+                    for (int i = 0; i < 0x100; i++)
                     {
-                        ushort* cur = line;
-                        for (int i = 0; i < 0x100; i++)
-                        {
-                            *cur++ = edit.Action[curraction].Directions[CurrDir].Palette[i];
-                        }
+                        *cur++ = edit.Palette[i];
                     }
-                    bmp.UnlockBits(bd);
                 }
+                bmp.UnlockBits(bd);
             }
             pictureBoxPalette.Image = bmp;
 
@@ -111,26 +98,26 @@ namespace FiddlerControls
         {
             if (treeView1.SelectedNode != null)
             {
-                edit = null;
                 if (treeView1.SelectedNode.Parent == null)
                 {
                     if (treeView1.SelectedNode.Tag!=null)
-                        edit = Ultima.AnimationEdit.GetAnimation(FileType, (int)treeView1.SelectedNode.Tag);
-                    curraction = 0;
+                        CurrBody = (int)treeView1.SelectedNode.Tag;
+                    CurrAction = 0;
                 }
                 else
                 {
                     if (treeView1.SelectedNode.Parent.Tag != null)
-                        edit = Ultima.AnimationEdit.GetAnimation(FileType, (int)treeView1.SelectedNode.Parent.Tag);
-                    curraction = (int)treeView1.SelectedNode.Tag;
+                        CurrBody = (int)treeView1.SelectedNode.Parent.Tag;
+                    CurrAction = (int)treeView1.SelectedNode.Tag;
                 }
                 listView1.BeginUpdate();
                 listView1.Clear();
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
                 if (edit!=null)
                 {
                     int width = 80;
                     int height = 110;
-                    Bitmap[] currbits = edit.GetFrames(curraction, CurrDir);
+                    Bitmap[] currbits = edit.GetFrames();
                     if (currbits != null)
                     {
                         for (int i = 0; i < currbits.Length; i++)
@@ -150,8 +137,8 @@ namespace FiddlerControls
                         trackBar2.Maximum = currbits.Length - 1;
                         trackBar2.Value = 0;
 
-                        numericUpDownCx.Value = edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.X;
-                        numericUpDownCy.Value = edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.Y;
+                        numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                        numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
                     }
                 }
                 listView1.EndUpdate();
@@ -162,7 +149,8 @@ namespace FiddlerControls
 
         private void DrawFrameItem(object sender, DrawListViewItemEventArgs e)
         {
-            Bitmap[] currbits = edit.GetFrames(curraction, CurrDir);
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            Bitmap[] currbits = edit.GetFrames();
             Bitmap bmp = currbits[(int)e.Item.Tag];
             int width = bmp.Width;
             int height = bmp.Height;
@@ -187,14 +175,83 @@ namespace FiddlerControls
             AfterSelectTreeView(null, null);
         }
 
+        private void OnSizeChangedPictureBox(object sender, EventArgs e)
+        {
+            FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
+            pictureBox1.Refresh();
+        }
+
+        private void onPaintFrame(object sender, PaintEventArgs e)
+        {
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            if (edit != null)
+            {
+                Bitmap[] currbits = edit.GetFrames();
+                e.Graphics.Clear(Color.LightGray);
+                e.Graphics.DrawLine(Pens.Black, new Point(FramePoint.X, 0), new Point(FramePoint.X, pictureBox1.Height));
+                e.Graphics.DrawLine(Pens.Black, new Point(0, FramePoint.Y), new Point(pictureBox1.Width, FramePoint.Y));
+                if (currbits.Length > 0)
+                {
+                    if (currbits[trackBar2.Value] != null)
+                    {
+                        int x = FramePoint.X - edit.Frames[trackBar2.Value].Center.X;
+                        int y = FramePoint.Y - edit.Frames[trackBar2.Value].Center.Y - currbits[trackBar2.Value].Height;
+                        e.Graphics.FillRectangle(Brushes.White, new Rectangle(x, y, currbits[trackBar2.Value].Width, currbits[trackBar2.Value].Height));
+                        e.Graphics.DrawImage(currbits[trackBar2.Value], x, y);
+                    }
+                }
+            }
+        }
+
+        private void onFrameCountBarChanged(object sender, EventArgs e)
+        {
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            if (edit != null)
+            {
+                numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
+                numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
+            }
+            pictureBox1.Refresh();
+        }
+
+        private void OnCenterXValueChanged(object sender, EventArgs e)
+        {
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            if (edit != null)
+            {
+                if (numericUpDownCx.Value != edit.Frames[trackBar2.Value].Center.X)
+                {
+                    edit.Frames[trackBar2.Value].Center = new Point((int)numericUpDownCx.Value, edit.Frames[trackBar2.Value].Center.Y);
+                    pictureBox1.Refresh();
+                }
+            }
+        }
+
+        private void OnCenterYValueChanged(object sender, EventArgs e)
+        {
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            if (edit != null)
+            {
+                if (numericUpDownCy.Value != edit.Frames[trackBar2.Value].Center.Y)
+                {
+                    edit.Frames[trackBar2.Value].Center = new Point(edit.Frames[trackBar2.Value].Center.X, (int)numericUpDownCy.Value);
+                    pictureBox1.Refresh();
+                }
+            }
+        }
+
         private void onClickExtractImages(object sender, EventArgs e)
         {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            ImageFormat format = ImageFormat.Bmp;
+            if (((string)menu.Tag) == ".tiff")
+                format = ImageFormat.Tiff;
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             int body, action;
             if (treeView1.SelectedNode.Parent == null)
             {
                 body = (int)treeView1.SelectedNode.Tag;
-                action = 0;
+                action = -1;
             }
             else
             {
@@ -202,11 +259,56 @@ namespace FiddlerControls
                 action = (int)treeView1.SelectedNode.Tag;
             }
 
-            //for (int i = 0; i < CurrFrames.Length; i++)
-            //{
-            //    string FileName = Path.Combine(path, String.Format("Animation {0} {1}-{2}.tiff", body, action, i));
-            //    CurrFrames[i].Bitmap.Save(FileName, ImageFormat.Tiff);
-            //}
+            if (action == -1)
+            {
+                for (int a = 0; a < Animations.GetAnimLength(body, FileType); a++)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, a, i);
+                        if (edit != null)
+                        {
+                            Bitmap[] bits = edit.GetFrames();
+                            if (bits != null)
+                            {
+                                for (int j = 0; j < bits.Length; j++)
+                                {
+                                    string filename = String.Format("anim_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag);
+                                    string file = Path.Combine(path, filename);
+                                    Bitmap bit = new Bitmap(bits[j]);
+                                    if (bit != null)
+                                        bit.Save(file, format);
+                                    bit.Dispose();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, action, i);
+                    if (edit != null)
+                    {
+                        Bitmap[] bits = edit.GetFrames();
+                        if (bits != null)
+                        {
+                            for (int j = 0; j < bits.Length; j++)
+                            {
+                                string filename = String.Format("anim_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag);
+                                string file = Path.Combine(path, filename);
+                                Bitmap bit = new Bitmap(bits[j]);
+                                if (bit != null)
+                                    bit.Save(file, ImageFormat.Tiff);
+                                bit.Dispose();
+                            }
+                        }
+                    }
+                }
+
+            }
             MessageBox.Show(
                     String.Format("Frames saved to {0}", path),
                     "Saved",
@@ -229,88 +331,29 @@ namespace FiddlerControls
 
         private void OnClickReplace(object sender, EventArgs e)
         {
-
-        }
-
-        private void onTextChangedAdd(object sender, EventArgs e)
-        {
-            int index;
-            if (Utils.ConvertStringToInt(toolStripTextBoxAdd.Text, out index, 0, Animations.GetAnimCount(FileType)))
+            if (listView1.SelectedItems.Count>0)
             {
-                if (Animations.IsAnimDefinied(index, 0, 0, FileType))
-                    toolStripTextBoxAdd.ForeColor = Color.Red;
-                else
-                    toolStripTextBoxAdd.ForeColor = Color.Black;
-            }
-            else
-                toolStripTextBoxAdd.ForeColor = Color.Red;
-        }
-
-        private void onKeyDownAdd(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void OnSizeChangedPictureBox(object sender, EventArgs e)
-        {
-            FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
-            pictureBox1.Refresh();
-        }
-
-        private void onPaintFrame(object sender, PaintEventArgs e)
-        {
-            Bitmap[] currbits = edit.GetFrames(curraction, CurrDir);
-            e.Graphics.Clear(Color.LightGray);
-            e.Graphics.DrawLine(Pens.Black, new Point(FramePoint.X, 0), new Point(FramePoint.X, pictureBox1.Height));
-            e.Graphics.DrawLine(Pens.Black, new Point(0, FramePoint.Y), new Point(pictureBox1.Width, FramePoint.Y));
-            if (currbits.Length > 0)
-            {
-                if (currbits[trackBar2.Value] != null)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    int x = FramePoint.X - edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.X;
-                    int y = FramePoint.Y - edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.Y - currbits[trackBar2.Value].Height;
-                    e.Graphics.FillRectangle(Brushes.White, new Rectangle(x, y, currbits[trackBar2.Value].Width, currbits[trackBar2.Value].Height));
-                    e.Graphics.DrawImage(currbits[trackBar2.Value], x, y);
+                    int frameindex = (int)listView1.SelectedItems[0].Tag;
+                    dialog.Multiselect = false;
+                    dialog.Title = String.Format("Choose image file to replace at 0x{0:X}", frameindex);
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                        if (edit != null)
+                        {
+                            edit.ReplaceFrame(bmp, frameindex);
+                            listView1.Refresh();
+                        }
+                    }
                 }
             }
-        }
-
-        private void onFrameCountBarChanged(object sender, EventArgs e)
-        {
-            numericUpDownCx.Value = edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.X;
-            numericUpDownCy.Value = edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.Y;
-            pictureBox1.Refresh();
-        }
-
-        private void OnCenterXValueChanged(object sender, EventArgs e)
-        {
-            if (numericUpDownCx.Value != edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.X)
-            {
-                edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center = new Point((int)numericUpDownCx.Value, edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.Y);
-                pictureBox1.Refresh();
-            }
-        }
-
-        private void OnCenterYValueChanged(object sender, EventArgs e)
-        {
-            if (numericUpDownCy.Value != edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.Y)
-            {
-                edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center = new Point(edit.Action[curraction].Directions[CurrDir].Frames[trackBar2.Value].Center.X, (int)numericUpDownCy.Value);
-                pictureBox1.Refresh();
-            }
-        }
-
-        private void OnClickDefrag(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item=(ToolStripMenuItem)sender;
-            Cursor.Current = Cursors.WaitCursor;
-            Ultima.Animations.DefragAnim(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, (int)item.Tag);
-            Cursor.Current = Cursors.Default;
-            MessageBox.Show(String.Format("Saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
-                    "Save",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
         }
     }
 }
