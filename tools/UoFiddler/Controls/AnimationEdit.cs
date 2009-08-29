@@ -75,10 +75,10 @@ namespace FiddlerControls
         private unsafe void SetPaletteBox()
         {
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            Bitmap bmp = new Bitmap(pictureBoxPalette.Width, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
+            Bitmap bmp = new Bitmap(0x100, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
             if (edit != null)
             {
-                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, pictureBoxPalette.Width, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 0x100, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
                 ushort* line = (ushort*)bd.Scan0;
                 int delta = bd.Stride >> 1;
                 for (int y = 0; y < bd.Height; ++y, line += delta)
@@ -137,8 +137,8 @@ namespace FiddlerControls
                         trackBar2.Maximum = currbits.Length - 1;
                         trackBar2.Value = 0;
 
-                        numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
-                        numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
+                        numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
+                        numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
                     }
                 }
                 listView1.EndUpdate();
@@ -157,7 +157,10 @@ namespace FiddlerControls
 
             e.Graphics.DrawImage(bmp, e.Bounds.X, e.Bounds.Y, width, height);
             e.DrawText(TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter);
-            e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+            if (listView1.SelectedItems.Contains(e.Item))
+                e.Graphics.DrawRectangle(new Pen(Color.Red), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+            else
+                e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
         }
 
         private void onAnimChanged(object sender, EventArgs e)
@@ -194,8 +197,8 @@ namespace FiddlerControls
                 {
                     if (currbits[trackBar2.Value] != null)
                     {
-                        int x = FramePoint.X - edit.Frames[trackBar2.Value].Center.X;
-                        int y = FramePoint.Y - edit.Frames[trackBar2.Value].Center.Y - currbits[trackBar2.Value].Height;
+                        int x = FramePoint.X - ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
+                        int y = FramePoint.Y - ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y - currbits[trackBar2.Value].Height;
                         e.Graphics.FillRectangle(Brushes.White, new Rectangle(x, y, currbits[trackBar2.Value].Width, currbits[trackBar2.Value].Height));
                         e.Graphics.DrawImage(currbits[trackBar2.Value], x, y);
                     }
@@ -208,8 +211,8 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                numericUpDownCx.Value = edit.Frames[trackBar2.Value].Center.X;
-                numericUpDownCy.Value = edit.Frames[trackBar2.Value].Center.Y;
+                numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
+                numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
             }
             pictureBox1.Refresh();
         }
@@ -219,9 +222,10 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                if (numericUpDownCx.Value != edit.Frames[trackBar2.Value].Center.X)
+                FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                if (numericUpDownCx.Value != frame.Center.X)
                 {
-                    edit.Frames[trackBar2.Value].Center = new Point((int)numericUpDownCx.Value, edit.Frames[trackBar2.Value].Center.Y);
+                    frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
                     pictureBox1.Refresh();
                 }
             }
@@ -232,9 +236,10 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                if (numericUpDownCy.Value != edit.Frames[trackBar2.Value].Center.Y)
+                FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                if (numericUpDownCy.Value != frame.Center.Y)
                 {
-                    edit.Frames[trackBar2.Value].Center = new Point(edit.Frames[trackBar2.Value].Center.X, (int)numericUpDownCy.Value);
+                    frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
                     pictureBox1.Refresh();
                 }
             }
@@ -273,7 +278,7 @@ namespace FiddlerControls
                             {
                                 for (int j = 0; j < bits.Length; j++)
                                 {
-                                    string filename = String.Format("anim_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag);
+                                    string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag, FileType);
                                     string file = Path.Combine(path, filename);
                                     Bitmap bit = new Bitmap(bits[j]);
                                     if (bit != null)
@@ -297,11 +302,11 @@ namespace FiddlerControls
                         {
                             for (int j = 0; j < bits.Length; j++)
                             {
-                                string filename = String.Format("anim_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag);
+                                string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag, FileType);
                                 string file = Path.Combine(path, filename);
                                 Bitmap bit = new Bitmap(bits[j]);
                                 if (bit != null)
-                                    bit.Save(file, ImageFormat.Tiff);
+                                    bit.Save(file, format);
                                 bit.Dispose();
                             }
                         }
@@ -329,6 +334,28 @@ namespace FiddlerControls
                     MessageBoxDefaultButton.Button1);
         }
 
+        private void OnClickRemoveFrame(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                int frameindex = (int)listView1.SelectedItems[0].Tag;
+                DialogResult result =
+                       MessageBox.Show(String.Format("Are you sure to remove {0}", frameindex),
+                       "Save",
+                       MessageBoxButtons.YesNo,
+                       MessageBoxIcon.Question,
+                       MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Yes)
+                {
+                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                    if (edit != null)
+                    {
+                        //ToDo
+                    }
+                }
+            }
+        }
+
         private void OnClickReplace(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count>0)
@@ -337,7 +364,7 @@ namespace FiddlerControls
                 {
                     int frameindex = (int)listView1.SelectedItems[0].Tag;
                     dialog.Multiselect = false;
-                    dialog.Title = String.Format("Choose image file to replace at 0x{0:X}", frameindex);
+                    dialog.Title = String.Format("Choose image file to replace at {0}", frameindex);
                     dialog.CheckFileExists = true;
                     dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -355,5 +382,111 @@ namespace FiddlerControls
                 }
             }
         }
+
+        private void OnClickAdd(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.Title = "Choose image file to add";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Bitmap bmp = new Bitmap(dialog.FileName);
+                    if (dialog.FileName.Contains(".bmp"))
+                        bmp = Utils.ConvertBmp(bmp);
+                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                    if (edit != null)
+                    {
+                        edit.AddFrame(bmp);
+                        ListViewItem item;
+                        int i = edit.Frames.Count - 1;
+                        item = new ListViewItem(i.ToString(), 0);
+                        item.Tag = i;
+                        listView1.Items.Add(item);
+                        int width = listView1.TileSize.Width - 5;
+                        if (bmp.Width > listView1.TileSize.Width)
+                            width = bmp.Width;
+                        int height = listView1.TileSize.Height - 5;
+                        if (bmp.Height > listView1.TileSize.Height)
+                            height = bmp.Height;
+
+                        listView1.TileSize = new Size(width + 5, height + 5);
+                        trackBar2.Maximum = i;
+                        listView1.Refresh();
+                    }
+                }
+            }
+        }
+
+        private void onClickExtractPalette(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+            if (edit != null)
+            {
+                string name=String.Format("palette_anim{0}_{1}_{2}_{3}",FileType,CurrBody,CurrAction,CurrDir);
+                if (((string)menu.Tag) == "txt")
+                {
+                    string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + ".txt");
+                    edit.ExportPalette(path, 0);
+                }
+                else
+                {
+                    string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + "." + (string)menu.Tag);
+                    if (((string)menu.Tag) == "bmp")
+                        edit.ExportPalette(path, 1);
+                    else
+                        edit.ExportPalette(path, 2);
+                }
+                MessageBox.Show(
+                    String.Format("Palette saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
+            }
+        }
+
+        private void onClickImportPalette(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.Title = "Choose palette file";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "txt files (*.txt)|*.txt";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                    if (edit != null)
+                    {
+                        using (StreamReader sr = new StreamReader(dialog.FileName))
+                        {
+                            string line;
+                            ushort[] Palette = new ushort[0x100];
+                            int i = 0;
+                            while ((line = sr.ReadLine()) != null)
+                            {
+                                if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                                    continue;
+                                Palette[i] = ushort.Parse(line);
+                                ++i;
+                                if (i >= 0x100)
+                                    break;
+                            }
+                            edit.ReplacePalette(Palette);
+                        }
+                        SetPaletteBox();
+                        listView1.Refresh();
+                    }
+                }
+            }
+        }
+
+        
+
+        
     }
 }

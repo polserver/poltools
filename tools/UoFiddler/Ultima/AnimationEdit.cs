@@ -266,11 +266,12 @@ namespace Ultima
     public sealed class AnimIdx
     {
         public int idxextra;
-        public ushort[] Palette = new ushort[0x100];
-        public FrameEdit[] Frames; //FixMe: Arraylist
+        public ushort[] Palette { get; private set; }
+        public ArrayList Frames;
 
         public unsafe AnimIdx(int index, FileIndex fileIndex, int filetype)
         {
+            Palette = new ushort[0x100];
             int length, extra;
             bool patched;
             Stream stream = fileIndex.Seek(index, out length, out extra, out patched);
@@ -291,12 +292,12 @@ namespace Ultima
                 for (int i = 0; i < frameCount; ++i)
                     lookups[i] = start + bin.ReadInt32();
 
-                Frames = new FrameEdit[frameCount];
+                Frames = new ArrayList();
 
                 for (int i = 0; i < frameCount; ++i)
                 {
                     stream.Seek(lookups[i], SeekOrigin.Begin);
-                    Frames[i] = new FrameEdit(bin);
+                    Frames.Add(new FrameEdit(bin));
                 }
             }
             stream.Close();
@@ -304,13 +305,14 @@ namespace Ultima
 
         public unsafe Bitmap[] GetFrames()
         {
-            if ((Frames == null) || (Frames.Length == 0))
+            if ((Frames == null) || (Frames.Count == 0))
                 return null;
-            Bitmap[] bits = new Bitmap[Frames.Length];
+            Bitmap[] bits = new Bitmap[Frames.Count];
             for (int i = 0; i < bits.Length; i++)
             {
-                int width = Frames[i].width;
-                int height = Frames[i].height;
+                FrameEdit frame = (FrameEdit)Frames[i];
+                int width = frame.width;
+                int height = frame.height;
                 if (height == 0 || width == 0)
                     continue;
                 Bitmap bmp = new Bitmap(width, height, PixelFormat.Format16bppArgb1555);
@@ -318,14 +320,14 @@ namespace Ultima
                 ushort* line = (ushort*)bd.Scan0;
                 int delta = bd.Stride >> 1;
 
-                int xBase = Frames[i].Center.X - 0x200;
-                int yBase = (Frames[i].Center.Y + height) - 0x200;
+                int xBase = frame.Center.X - 0x200;
+                int yBase = frame.Center.Y + height - 0x200;
 
                 line += xBase;
                 line += yBase * delta;
-                for (int j = 0; j < Frames[i].RawData.Length; j++)
+                for (int j = 0; j < frame.RawData.Length; j++)
                 {
-                    FrameEdit.Raw raw = Frames[i].RawData[j];
+                    FrameEdit.Raw raw = frame.RawData[j];
 
                     ushort* cur = line + (((raw.offy) * delta) + ((raw.offx) & 0x3FF));
                     ushort* end = cur + (raw.run);
@@ -333,8 +335,12 @@ namespace Ultima
                     int ii = 0;
                     while (cur < end)
                     {
-                        *cur++ = Palette[raw.data[ii]];
-                        ii++;
+                        try
+                        {
+                            *cur++ = Palette[raw.data[ii]];
+                            ii++;
+                        }
+                        catch { }
                     }
                 }
                 bmp.UnlockBits(bd);
@@ -345,13 +351,14 @@ namespace Ultima
 
         private void Dump(int i,int index1)
         {
+            FrameEdit frame = (FrameEdit)Frames[i];
             string FileName=Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,"dump"+index1+".txt");
             using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
             {
-                Tex.WriteLine("Center " + Frames[i].Center.X + " " + Frames[i].Center.Y);
-                for (int j = 0; j < Frames[i].RawData.Length; j++)
+                Tex.WriteLine("Center " + frame.Center.X + " " + frame.Center.Y);
+                for (int j = 0; j < frame.RawData.Length; j++)
                 {
-                    FrameEdit.Raw raw = Frames[i].RawData[j];
+                    FrameEdit.Raw raw = frame.RawData[j];
 
                     Tex.WriteLine("offx " + raw.offx + " offy " + raw.offy + " run " + raw.run);
                     Tex.WriteLine("data");
@@ -372,27 +379,81 @@ namespace Ultima
 
         public void AddFrame(Bitmap bit)
         {
-            //TODO
+            if (Frames == null)
+                Frames = new ArrayList();
+            Frames.Add(new FrameEdit(bit, Palette, 0, 0));
         }
+
         public void ReplaceFrame(Bitmap bit, int index)
         {
-            if ((Frames == null) || (Frames.Length == 0))
+            if ((Frames == null) || (Frames.Count == 0))
                 return;
-            if (index > Frames.Length)
+            if (index > Frames.Count)
                 return;
-            Dump(index, 0); //Fixme Remove
-            Frames[index] = new FrameEdit(bit, Palette, Frames[index].Center.X, Frames[index].Center.Y);
-            Dump(index, 1);
+            Frames[index] = new FrameEdit(bit, Palette, ((FrameEdit)Frames[index]).Center.X, ((FrameEdit)Frames[index]).Center.Y);
         }
 
-        public void ExportPalette()
+        public unsafe void ExportPalette(string filename,int type)
         {
-            //TODO
+            switch (type)
+            {
+                case 0:
+                    using (StreamWriter Tex = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite)))
+                    {
+                        for (int i = 0; i < 0x100; i++)
+                        {
+                            Tex.WriteLine(Palette[i]);
+                        }
+                    }
+                    break;
+                case 1:
+                    {
+                        Bitmap bmp = new Bitmap(0x100, 20, PixelFormat.Format16bppArgb1555);
+                        BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 0x100, 20), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                        ushort* line = (ushort*)bd.Scan0;
+                        int delta = bd.Stride >> 1;
+                        for (int y = 0; y < bd.Height; ++y, line += delta)
+                        {
+                            ushort* cur = line;
+                            for (int i = 0; i < 0x100; i++)
+                            {
+                                *cur++ = Palette[i];
+                            }
+                        }
+                        bmp.UnlockBits(bd);
+                        Bitmap b = new Bitmap(bmp);
+                        b.Save(filename, ImageFormat.Bmp);
+                        b.Dispose();
+                        bmp.Dispose();
+                        break;
+                    }
+                case 2:
+                    {
+                        Bitmap bmp = new Bitmap(0x100, 20, PixelFormat.Format16bppArgb1555);
+                        BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 0x100, 20), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                        ushort* line = (ushort*)bd.Scan0;
+                        int delta = bd.Stride >> 1;
+                        for (int y = 0; y < bd.Height; ++y, line += delta)
+                        {
+                            ushort* cur = line;
+                            for (int i = 0; i < 0x100; i++)
+                            {
+                                *cur++ = Palette[i];
+                            }
+                        }
+                        bmp.UnlockBits(bd);
+                        Bitmap b = new Bitmap(bmp);
+                        b.Save(filename, ImageFormat.Tiff);
+                        b.Dispose();
+                        bmp.Dispose();
+                        break;
+                    }
+            }
         }
 
-        public void ReplacePalette()
+        public void ReplacePalette(ushort[] palette)
         {
-            //TODO
+            Palette = palette;
         }
 
         public void Save(BinaryWriter bin, BinaryWriter idx)
@@ -410,16 +471,16 @@ namespace Ultima
             for (int i = 0; i < 0x100; ++i)
                 bin.Write((ushort)(Palette[i] ^ 0x8000));
             int startpos = (int)bin.BaseStream.Position;
-            bin.Write((int)Frames.Length);
+            bin.Write((int)Frames.Count);
             int seek = (int)bin.BaseStream.Position;
-            int curr = (int)bin.BaseStream.Position + 4 * Frames.Length;
-            for (int i = 0; i < Frames.Length; i++)
+            int curr = (int)bin.BaseStream.Position + 4 * Frames.Count;
+            foreach (FrameEdit frame in Frames)
             {
                 bin.BaseStream.Seek(seek, SeekOrigin.Begin);
                 bin.Write((int)(curr - startpos));
                 seek = (int)bin.BaseStream.Position;
                 bin.BaseStream.Seek(curr, SeekOrigin.Begin);
-                Frames[i].Save(bin);
+                frame.Save(bin);
                 curr = (int)bin.BaseStream.Position;
             }
 
@@ -474,13 +535,7 @@ namespace Ultima
                 }
                 tmp.Add(raw);
             }
-            RawData = new Raw[tmp.Count];
-            int j = 0;
-            foreach (Raw c in tmp)
-            {
-                RawData[j] = c;
-                j++;
-            }
+            RawData = (Raw[])tmp.ToArray(typeof(Raw));
             Center = new Point(xCenter, yCenter);
         }
 
@@ -543,15 +598,20 @@ namespace Ultima
                 }
             }
 
-            RawData = new Raw[tmp.Count];
-            int t = 0;
-            foreach (Raw c in tmp)
-            {
-                RawData[t] = c;
-                t++;
-            }
-
+            RawData = (Raw[])tmp.ToArray(typeof(Raw));
             bit.UnlockBits(bd);
+        }
+
+        public void ChangeCenter(int x, int y)
+        {
+            for (int i = 0; i < RawData.Length; i++)
+            {
+                RawData[i].offx += Center.X;
+                RawData[i].offx -= x;
+                RawData[i].offy += Center.Y;
+                RawData[i].offy -= y;
+            }
+            Center = new Point(x, y);
         }
 
         private byte GetPaletteIndex(ushort[] palette, ushort col)
