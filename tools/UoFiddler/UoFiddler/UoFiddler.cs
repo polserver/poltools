@@ -19,7 +19,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.1c";
+        public static string Version = "4.2-Austin too lazy build";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -31,6 +31,7 @@ namespace UoFiddler
             InitializeComponent();
             this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             Versionlabel.Text = "Version " + Version;
+            Versionlabel.Left = Start.Size.Width - Versionlabel.Width - 5;
             ChangeDesign();
             LoadExternToolStripMenu();
             GlobalPlugins.Plugins.FindPlugins(Application.StartupPath + @"\plugins");

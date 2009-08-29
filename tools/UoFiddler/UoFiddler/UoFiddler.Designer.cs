@@ -207,11 +207,13 @@ namespace UoFiddler
             // 
             this.Versionlabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Versionlabel.AutoSize = true;
-            this.Versionlabel.Location = new System.Drawing.Point(553, 311);
+            this.Versionlabel.Location = new System.Drawing.Point(569, 306);
             this.Versionlabel.Name = "Versionlabel";
+            this.Versionlabel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.Versionlabel.Size = new System.Drawing.Size(42, 13);
             this.Versionlabel.TabIndex = 1;
             this.Versionlabel.Text = "Version";
+            this.Versionlabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Multis
             // 
