@@ -10,7 +10,8 @@ use util;
 include ":timeutils:time";
 include ":lumberjacking:lumberJack";
 include ":brainai:npcUtil";
-
+include "include/objtype";
+include "include/sounds";
 program use_Bladed(mobile, tool)
 	SendSysMessage(mobile, "What would you like to use that on?");
 	var targ := TargetCoordinates(mobile);
@@ -30,20 +31,36 @@ program use_Bladed(mobile, tool)
 endprogram
 
 function CarveItems(mobile, tool, item)
+	SendSysMessage(mobile, "In Carve Items");
+
+	tool := tool; // These lines are to stop stupid "var not used" compiler warnings.
 	if ( item.IsA(POLCLASS_CORPSE) )
 		CarveCorpse(mobile, item);
 		item.SetSkinned(1);
 		return 1;
 	endif
-	//elseif ( fish )
-	// 	Fish?
-	//	return 1;
-	//endif
+	if(is_fish(item.objtype))
+		var multiplier;
+		if((item.objtype >= UOBJ_FISH_START) && (item.objtype <= UOBJ_FISH_END) )
+			multiplier := 4;
+		else
+			multiplier := 2;
+		endif
+
+		var num_steaks := (multiplier * item.amount);
+		PlaySoundEffect(mobile, SFX_SLICE);
+		if(DestroyItem(item))
+			CreateItemInBackpack(mobile, UOBJ_FISHSTEAK, num_steaks);
+			SendSysMessage(mobile, "You carve the fish steaks and put them in your backpack");
+		endif
+		return 1;
+	endif
 
 	return 1;
 endfunction
 
 function CarveMobiles(mobile, tool, targ)
+	tool := tool;
 	if ( !CheckLineOfSight(mobile, targ) )
 		SendSysMessage(mobile, "You can not see that.");
 		return 0;
@@ -52,6 +69,8 @@ function CarveMobiles(mobile, tool, targ)
 			targ.graphic := 223; // Bald sheep
 			CreateItemInContainer(mobile.backpack, "wool", 3);
 			return 1;
+		else
+			SendSysMessage(mobile, "You can't get any more wool from that sheep.");
 		endif
 	endif
 
@@ -59,6 +78,8 @@ function CarveMobiles(mobile, tool, targ)
 endfunction
 
 function CarveObject(mobile, tool, objtype)
+	tool := tool;
+	mobile := mobile;
 	if ( LJ_IsTree(objtype) )
 		// Give kindling;
 		return 1;
@@ -87,4 +108,17 @@ function CarveCorpse(mobile, corpse)
 	SendSysMessage(mobile, "You carve the corpse...");
 
 	return 1;
+endfunction
+
+function is_fish(theobj)
+	// Check for large fish
+	if((theobj >= UOBJ_FISH_START) && (theobj <= UOBJ_FISH_END) )
+		return 1;
+	// Check for small fish
+	elseif ((theobj >= UOBJ_SFISH_START) && (theobj <= UOBJ_SFISH_END))
+		return 1;
+	else
+		return 0;
+	endif
+	
 endfunction
