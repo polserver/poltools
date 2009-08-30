@@ -216,16 +216,15 @@ namespace Ultima
         {
             string filename;
             AnimIdx[] cache;
-            long idxcount;
             FileIndex fileindex;
             switch (filetype)
             {
-                case 1: filename = "anim"; cache = animcache; idxcount = m_FileIndex.IdxLength; fileindex = m_FileIndex; break;
-                case 2: filename = "anim2"; cache = animcache2; idxcount = m_FileIndex2.IdxLength; fileindex = m_FileIndex2; break;
-                case 3: filename = "anim3"; cache = animcache3; idxcount = m_FileIndex3.IdxLength; fileindex = m_FileIndex3; break;
-                case 4: filename = "anim4"; cache = animcache4; idxcount = m_FileIndex4.IdxLength; fileindex = m_FileIndex4; break;
-                case 5: filename = "anim5"; cache = animcache5; idxcount = m_FileIndex5.IdxLength; fileindex = m_FileIndex5; break;
-                default: filename = "anim"; cache = animcache; idxcount = m_FileIndex.IdxLength; fileindex = m_FileIndex; break;
+                case 1: filename = "anim"; cache = animcache; fileindex = m_FileIndex; break;
+                case 2: filename = "anim2"; cache = animcache2; fileindex = m_FileIndex2; break;
+                case 3: filename = "anim3"; cache = animcache3; fileindex = m_FileIndex3; break;
+                case 4: filename = "anim4"; cache = animcache4; fileindex = m_FileIndex4; break;
+                case 5: filename = "anim5"; cache = animcache5; fileindex = m_FileIndex5; break;
+                default: filename = "anim"; cache = animcache; fileindex = m_FileIndex; break;
             }
             string idx = Path.Combine(path, filename + ".idx");
             string mul = Path.Combine(path, filename + ".mul");
@@ -257,7 +256,6 @@ namespace Ultima
                         else
                             anim.Save(binmul, binidx);
                     }
-
                 }
             }
         }
@@ -267,7 +265,7 @@ namespace Ultima
     {
         public int idxextra;
         public ushort[] Palette { get; private set; }
-        public ArrayList Frames;
+        public ArrayList Frames { get; private set; }
 
         public unsafe AnimIdx(int index, FileIndex fileIndex, int filetype)
         {
@@ -335,46 +333,14 @@ namespace Ultima
                     int ii = 0;
                     while (cur < end)
                     {
-                        try
-                        {
-                            *cur++ = Palette[raw.data[ii]];
-                            ii++;
-                        }
-                        catch { }
+                        *cur++ = Palette[raw.data[ii]];
+                        ii++;
                     }
                 }
                 bmp.UnlockBits(bd);
                 bits[i] = bmp;
             }
             return bits;
-        }
-
-        private void Dump(int i,int index1)
-        {
-            FrameEdit frame = (FrameEdit)Frames[i];
-            string FileName=Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,"dump"+index1+".txt");
-            using (StreamWriter Tex = new StreamWriter(new FileStream(FileName, FileMode.Create, FileAccess.ReadWrite)))
-            {
-                Tex.WriteLine("Center " + frame.Center.X + " " + frame.Center.Y);
-                for (int j = 0; j < frame.RawData.Length; j++)
-                {
-                    FrameEdit.Raw raw = frame.RawData[j];
-
-                    Tex.WriteLine("offx " + raw.offx + " offy " + raw.offy + " run " + raw.run);
-                    Tex.WriteLine("data");
-                    for (int ii = 0; ii < raw.data.Length; ii++)
-                    {
-                        Tex.Write(raw.data[ii] + " ");
-                    }
-                    Tex.WriteLine();
-                    Tex.WriteLine("color");
-                    for (int ii = 0; ii < raw.data.Length; ii++)
-                    {
-                        Tex.Write(Palette[raw.data[ii]] + " ");
-                    }
-                    Tex.WriteLine();
-                }
-            }
         }
 
         public void AddFrame(Bitmap bit)
@@ -391,6 +357,22 @@ namespace Ultima
             if (index > Frames.Count)
                 return;
             Frames[index] = new FrameEdit(bit, Palette, ((FrameEdit)Frames[index]).Center.X, ((FrameEdit)Frames[index]).Center.Y);
+        }
+
+        public void RemoveFrame(int index)
+        {
+            if (Frames == null)
+                return;
+            if (index > Frames.Count)
+                return;
+            Frames.RemoveAt(index);
+        }
+
+        public void ClearFrames()
+        {
+            if (Frames == null)
+                return;
+            Frames.Clear();
         }
 
         public unsafe void ExportPalette(string filename,int type)
@@ -458,7 +440,7 @@ namespace Ultima
 
         public void Save(BinaryWriter bin, BinaryWriter idx)
         {
-            if (Frames == null)
+            if ((Frames == null) || (Frames.Count==0))
             {
                 idx.Write((int)-1);
                 idx.Write((int)-1);
@@ -488,7 +470,6 @@ namespace Ultima
             idx.Write((int)start);
             idx.Write((int)idxextra);
         }
-
     }
 
     public sealed class FrameEdit

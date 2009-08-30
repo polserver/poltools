@@ -226,6 +226,7 @@ namespace FiddlerControls
                 if (numericUpDownCx.Value != frame.Center.X)
                 {
                     frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
+                    Options.ChangedUltimaClass["Animations"] = true;
                     pictureBox1.Refresh();
                 }
             }
@@ -240,6 +241,7 @@ namespace FiddlerControls
                 if (numericUpDownCy.Value != frame.Center.Y)
                 {
                     frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
+                    Options.ChangedUltimaClass["Animations"] = true;
                     pictureBox1.Refresh();
                 }
             }
@@ -323,6 +325,67 @@ namespace FiddlerControls
 
         }
 
+        private void OnClickRemoveAction(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode.Parent == null)
+            {
+                DialogResult result =
+                       MessageBox.Show(String.Format("Are you sure to remove animation {0}", CurrBody),
+                       "Remove",
+                       MessageBoxButtons.YesNo,
+                       MessageBoxIcon.Question,
+                       MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Yes)
+                {
+                    treeView1.Nodes[CurrBody].ForeColor = Color.Red;
+                    for (int i = 0; i < treeView1.Nodes[CurrBody].Nodes.Count; i++)
+                    {
+                        treeView1.Nodes[CurrBody].Nodes[i].ForeColor = Color.Red;
+                        for (int d = 0; d < 5; ++d)
+                        {
+                            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, i, d);
+                            if (edit != null)
+                                edit.ClearFrames();
+                        }
+                    }
+                    Options.ChangedUltimaClass["Animations"] = true;
+                    AfterSelectTreeView(this, null);
+                }
+            }
+            else
+            {
+                DialogResult result =
+                       MessageBox.Show(String.Format("Are you sure to remove action {0}", CurrAction),
+                       "Remove",
+                       MessageBoxButtons.YesNo,
+                       MessageBoxIcon.Question,
+                       MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Yes)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, i);
+                        if (edit != null)
+                            edit.ClearFrames();
+                    }
+                    treeView1.Nodes[CurrBody].Nodes[CurrAction].ForeColor = Color.Red;
+                    bool valid = false;
+                    foreach (TreeNode node in treeView1.Nodes[CurrBody].Nodes)
+                    {
+                        if (node.ForeColor != Color.Red)
+                        {
+                            valid = true;
+                            break;
+                        }
+                    }
+                    if (!valid)
+                        treeView1.Nodes[CurrBody].ForeColor = Color.Red;
+                    Options.ChangedUltimaClass["Animations"] = true;
+                    AfterSelectTreeView(this, null);
+                }
+            }
+        }
+
         private void OnClickSave(object sender, EventArgs e)
         {
             Ultima.AnimationEdit.Save(FileType, AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
@@ -332,6 +395,7 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+            Options.ChangedUltimaClass["Animations"] = false;
         }
 
         private void OnClickRemoveFrame(object sender, EventArgs e)
@@ -341,7 +405,7 @@ namespace FiddlerControls
                 int frameindex = (int)listView1.SelectedItems[0].Tag;
                 DialogResult result =
                        MessageBox.Show(String.Format("Are you sure to remove {0}", frameindex),
-                       "Save",
+                       "Remove",
                        MessageBoxButtons.YesNo,
                        MessageBoxIcon.Question,
                        MessageBoxDefaultButton.Button2);
@@ -350,7 +414,10 @@ namespace FiddlerControls
                     AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
                     if (edit != null)
                     {
-                        //ToDo
+                        edit.RemoveFrame(frameindex);
+                        listView1.Items.RemoveAt(listView1.Items.Count - 1);
+                        listView1.Refresh();
+                        Options.ChangedUltimaClass["Animations"] = true;
                     }
                 }
             }
@@ -377,6 +444,7 @@ namespace FiddlerControls
                         {
                             edit.ReplaceFrame(bmp, frameindex);
                             listView1.Refresh();
+                            Options.ChangedUltimaClass["Animations"] = true;
                         }
                     }
                 }
@@ -415,6 +483,7 @@ namespace FiddlerControls
                         listView1.TileSize = new Size(width + 5, height + 5);
                         trackBar2.Maximum = i;
                         listView1.Refresh();
+                        Options.ChangedUltimaClass["Animations"] = true;
                     }
                 }
             }
@@ -480,13 +549,10 @@ namespace FiddlerControls
                         }
                         SetPaletteBox();
                         listView1.Refresh();
+                        Options.ChangedUltimaClass["Animations"] = true;
                     }
                 }
             }
         }
-
-        
-
-        
     }
 }
