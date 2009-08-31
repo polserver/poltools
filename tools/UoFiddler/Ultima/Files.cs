@@ -264,7 +264,7 @@ namespace Ultima
         private static string LoadDirectory()
         {
             string dir = null;
-            for (int i = 0; i < knownRegkeys.Length; i++)
+            for (int i = 0; i < knownRegkeys.Length; ++i)
             {
                 string exePath;
 

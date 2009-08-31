@@ -56,7 +56,7 @@ namespace FiddlerControls
             int index = 0;
             if (land)
             {
-                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
                     if ((int)node.Tag == graphic)
@@ -70,7 +70,7 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewItem.Nodes[i];
                     if ((int)node.Tag == graphic)
@@ -98,7 +98,7 @@ namespace FiddlerControls
                     if (index >= refMarker.treeViewLand.Nodes.Count)
                         index = 0;
                 }
-                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
                     if (regex.IsMatch(TileData.LandTable[(int)node.Tag].Name))
@@ -119,7 +119,7 @@ namespace FiddlerControls
                     if (index >= refMarker.treeViewItem.Nodes.Count)
                         index = 0;
                 }
-                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewItem.Nodes[i];
                     if (regex.IsMatch(TileData.ItemTable[(int)node.Tag].Name))
@@ -250,7 +250,7 @@ namespace FiddlerControls
             textBoxUnk2.Text = data.Unk2.ToString();
             textBoxUnk3.Text = data.Unk3.ToString();
             Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
-            for (int i = 1; i < EnumValues.Length; i++)
+            for (int i = 1; i < EnumValues.Length; ++i)
             {
                 if ((data.Flags & (TileFlag)EnumValues.GetValue(i)) != 0)
                     checkedListBox1.SetItemChecked(i - 1, true);
@@ -354,7 +354,7 @@ namespace FiddlerControls
                     item.Unk3 = byteres;
                 item.Flags = TileFlag.None;
                 Array EnumValues = System.Enum.GetValues(typeof(TileFlag));
-                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                for (int i = 0; i < checkedListBox1.Items.Count; ++i)
                 {
                     if (checkedListBox1.GetItemChecked(i))
                         item.Flags |= (TileFlag)EnumValues.GetValue(i + 1);

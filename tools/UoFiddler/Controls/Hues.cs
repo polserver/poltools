@@ -112,7 +112,7 @@ namespace FiddlerControls
         private void onPaint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
-            for (int y = 0; y <= row; y++)
+            for (int y = 0; y <= row; ++y)
             {
                 int index = GetIndex(y);
                 if (index >= 0)
@@ -128,7 +128,7 @@ namespace FiddlerControls
                     Rectangle stringrect = new Rectangle(3, y * ITEMHEIGHT, pictureBox.Width, ITEMHEIGHT);
                     e.Graphics.DrawString(String.Format("{0,-5} {1,-7} {2}", hue.Index + 1, String.Format("(0x{0:X})", hue.Index + 1), hue.Name), Font, Brushes.Black, stringrect);
 
-                    for (int i = 0; i < hue.Colors.Length; i++)
+                    for (int i = 0; i < hue.Colors.Length; ++i)
                     {
                         Rectangle rectangle = new Rectangle(200 + ((int)Math.Round((double)(i * size))), y * ITEMHEIGHT, (int)Math.Round((double)(size + 1f)), ITEMHEIGHT);
                         e.Graphics.FillRectangle(new SolidBrush(hue.GetColor(i)), rectangle);

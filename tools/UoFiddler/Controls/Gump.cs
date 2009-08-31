@@ -50,7 +50,7 @@ namespace FiddlerControls
             listBox.BeginUpdate();
             listBox.Items.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0xc0000; i++)
+            for (int i = 0; i < 0xc0000; ++i)
             {
                 if (Gumps.IsValidIndex(i))
                     cache.Add(i);
@@ -81,7 +81,7 @@ namespace FiddlerControls
             if (Gumps.IsValidIndex(index))
             {
                 bool done = false;
-                for (int i = 0; i < listBox.Items.Count; i++)
+                for (int i = 0; i < listBox.Items.Count; ++i)
                 {
                     int j = int.Parse(listBox.Items[i].ToString());
                     if (j > index)
@@ -102,7 +102,7 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = 0; i < listBox.Items.Count; i++)
+                for (int i = 0; i < listBox.Items.Count; ++i)
                 {
                     int j = int.Parse(listBox.Items[i].ToString());
                     if (j == index)
@@ -245,15 +245,14 @@ namespace FiddlerControls
         private void onClickFindFree(object sender, EventArgs e)
         {
             int id = int.Parse(listBox.Items[listBox.SelectedIndex].ToString());
-            id++;
-            for (int i = listBox.SelectedIndex + 1; i < listBox.Items.Count; i++)
+            ++id;
+            for (int i = listBox.SelectedIndex + 1; i < listBox.Items.Count; ++i, ++id)
             {
                 if (id < int.Parse(listBox.Items[i].ToString()))
                 {
                     listBox.SelectedIndex = i;
                     break;
                 }
-                id++;
             }
         }
 
@@ -296,7 +295,7 @@ namespace FiddlerControls
                         Gumps.ReplaceGump(index, bmp);
                         FiddlerControls.Events.FireGumpChangeEvent(this, index);
                         bool done = false;
-                        for (int i = 0; i < listBox.Items.Count; i++)
+                        for (int i = 0; i < listBox.Items.Count; ++i)
                         {
                             int j = int.Parse(listBox.Items[i].ToString());
                             if (j > index)
@@ -377,7 +376,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listBox.Items.Count; i++)
+                    for (int i = 0; i < listBox.Items.Count; ++i)
                     {
                         int index = int.Parse(listBox.Items[i].ToString());
                         if (index >= 0)
@@ -402,7 +401,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listBox.Items.Count; i++)
+                    for (int i = 0; i < listBox.Items.Count; ++i)
                     {
                         int index = int.Parse(listBox.Items[i].ToString());
                         if (index >= 0)
@@ -427,7 +426,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listBox.Items.Count; i++)
+                    for (int i = 0; i < listBox.Items.Count; ++i)
                     {
                         int index = int.Parse(listBox.Items[i].ToString());
                         if (index >= 0)
@@ -459,7 +458,7 @@ namespace FiddlerControls
 
         private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < listBox.Items.Count; i++)
+            for (int i = 0; i < listBox.Items.Count; ++i)
             {
                 Gumps.GetGump(int.Parse(listBox.Items[i].ToString()));
                 PreLoader.ReportProgress(1);

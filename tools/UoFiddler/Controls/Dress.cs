@@ -133,7 +133,7 @@ namespace FiddlerControls
 
             if (m_Animation != null)
             {
-                for (int i = 0; i < m_Animation.Length; i++)
+                for (int i = 0; i < m_Animation.Length; ++i)
                 {
                     if (m_Animation[i] != null)
                         m_Animation[i].Dispose();
@@ -405,7 +405,7 @@ namespace FiddlerControls
                 if (((facing - 3) & 7) >= 4 && ((facing - 3) & 7) <= 6)
                     animorder = draworder;
 
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < count; ++i)
                 {
                     m_Animation[i] = new Bitmap(DressPic.Width, DressPic.Height);
                     using (Graphics graph = Graphics.FromImage(m_Animation[i]))
@@ -489,7 +489,7 @@ namespace FiddlerControls
 
         private void AnimTick(object sender, EventArgs e)
         {
-            m_FrameIndex++;
+            ++m_FrameIndex;
 
             if (m_FrameIndex >= m_Animation.Length)
                 m_FrameIndex = 0;
@@ -628,7 +628,7 @@ namespace FiddlerControls
 
         private void OnClickUndressAll(object sender, EventArgs e)
         {
-            for (int i = 0; i < layers.Length; i++)
+            for (int i = 0; i < layers.Length; ++i)
             {
                 layers[i] = (object)0;
                 checkedListBoxWear.Items[i] = String.Format("0x{0:X2}", i);
@@ -802,7 +802,7 @@ namespace FiddlerControls
 
             if (m_Animation != null)
             {
-                for (int i = 0; i < m_Animation.Length; i++)
+                for (int i = 0; i < m_Animation.Length; ++i)
                 {
                     if (m_Animation[i] != null)
                         m_Animation[i].Dispose();
@@ -1087,7 +1087,7 @@ namespace FiddlerControls
         private void OnClickBuildAnimationList(object sender, EventArgs e)
         {
             AnimEntry[] animentries = new AnimEntry[1000];
-            for (int i = 0; i < animentries.Length; i++)
+            for (int i = 0; i < animentries.Length; ++i)
             {
                 animentries[i] = new AnimEntry();
                 animentries[i].Animation = i;
@@ -1168,7 +1168,7 @@ namespace FiddlerControls
                 Tex.WriteLine("<td>body.def/bodyconv<br/>[model:]fileindex,anim</td>");
                 Tex.WriteLine("<td>tiledata def</td>");
                 Tex.WriteLine("</tr>");
-                for (int i = 1; i < animentries.Length; i++)
+                for (int i = 1; i < animentries.Length; ++i)
                 {
                     Tex.WriteLine("<tr>");
                     Tex.Write("<td>");
@@ -1219,11 +1219,6 @@ namespace FiddlerControls
                         if ((int)_itr.Key != 0)
                             Tex.Write(_itr.Key + ":");
                         openfont = false;
-                        if (i == 425)
-                        {
-                            int ii = 0;
-                            ii++;
-                        }
                         if (animentries[i].TranslateAnim.ContainsKey(_itr.Key))
                         {
                             if (!Ultima.Animations.IsAnimDefinied(((TranslateAnimEntry)animentries[i].TranslateAnim[_itr.Key]).bodyandconf, 0, 0,
@@ -1285,7 +1280,7 @@ namespace FiddlerControls
                     Tex.Write("<td>");
                     if (i >= 400)
                     {
-                        for (int j = 0; j < Ultima.TileData.ItemTable.Length; j++)
+                        for (int j = 0; j < Ultima.TileData.ItemTable.Length; ++j)
                         {
                             if (Ultima.TileData.ItemTable[j].Animation == i)
                                 Tex.Write(String.Format("0x{0:X4} {1}<br/>", j, Ultima.TileData.ItemTable[j].Name));

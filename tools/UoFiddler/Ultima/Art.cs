@@ -461,11 +461,10 @@ namespace Ultima
                             int x = 22;
                             int y = 0;
                             int linewidth = 2;
-                            for (int m = 0; m < 22; m++, y++, line += delta)
+                            for (int m = 0; m < 22; ++m, ++y, line += delta, --x)
                             {
-                                x--;
                                 ushort* cur = line;
-                                for (int n = 0; n < linewidth; n++)
+                                for (int n = 0; n < linewidth; ++n)
                                     binmul.Write((ushort)(cur[x + n] ^ 0x8000));
                                 linewidth += 2;
                             }
@@ -474,13 +473,11 @@ namespace Ultima
                             y = 22;
                             line = (ushort*)bd.Scan0;
                             line += delta * 22;
-                            for (int m = 0; m < 22; m++, y++, line += delta)
+                            for (int m = 0; m < 22; m++, y++, line += delta, ++x, linewidth -= 2)
                             {
                                 ushort* cur = line;
                                 for (int n = 0; n < linewidth; n++)
                                     binmul.Write((ushort)(cur[x + n] ^ 0x8000));
-                                x++;
-                                linewidth -= 2;
                             }
                             length = (int)fsmul.Position - length;
                             binidx.Write(length);

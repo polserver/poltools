@@ -71,7 +71,7 @@ namespace FiddlerControls
             TreeNode node = new TreeNode("ASCII");
             node.Tag = 0;
             treeView.Nodes.Add(node);
-            for (int i = 0; i < ASCIIText.Fonts.Length; i++)
+            for (int i = 0; i < ASCIIText.Fonts.Length; ++i)
             {
                 node = new TreeNode(i.ToString());
                 node.Tag = i;
@@ -80,8 +80,10 @@ namespace FiddlerControls
             node = new TreeNode("Unicode");
             node.Tag = 1;
             treeView.Nodes.Add(node);
-            for (int i = 0; i < UnicodeFonts.Fonts.Length; i++)
+            for (int i = 0; i < UnicodeFonts.Fonts.Length; ++i)
             {
+                if (UnicodeFonts.Fonts[i] == null)
+                    continue;
                 node = new TreeNode(i.ToString());
                 node.Tag = i;
                 treeView.Nodes[1].Nodes.Add(node);
@@ -112,7 +114,7 @@ namespace FiddlerControls
             {
                 setOffsetsToolStripMenuItem.Visible = true;
                 ListViewItem[] cache = new ListViewItem[0x10000];
-                for (int i = 0; i < 0x10000; i++)
+                for (int i = 0; i < 0x10000; ++i)
                 {
                     ListViewItem item = new ListViewItem(i.ToString(), 0);
                     item.Tag = i;
@@ -126,7 +128,7 @@ namespace FiddlerControls
                 if (ASCIIText.Fonts[font] != null)
                 {
                     ListViewItem[] cache = new ListViewItem[ASCIIText.Fonts[font].Characters.Length];
-                    for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; i++)
+                    for (int i = 0; i < ASCIIText.Fonts[font].Characters.Length; ++i)
                     {
                         ListViewItem item = new ListViewItem((i+32).ToString(), 0);
                         item.Tag = ASCIIText.Fonts[font].Characters[i];

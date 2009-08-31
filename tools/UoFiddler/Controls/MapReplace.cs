@@ -118,9 +118,9 @@ namespace FiddlerControls
                 {
                     using (BinaryWriter binmul = new BinaryWriter(fsmul))
                     {
-                        for (int x = 0; x < blockx; x++)
+                        for (int x = 0; x < blockx; ++x)
                         {
-                            for (int y = 0; y < blocky; y++)
+                            for (int y = 0; y < blocky; ++y)
                             {
                                 if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
                                 {
@@ -134,7 +134,7 @@ namespace FiddlerControls
                                     int header = m_mapReader.ReadInt32();
                                     binmul.Write(header);
                                 }
-                                for (int i = 0; i < 64; i++)
+                                for (int i = 0; i < 64; ++i)
                                 {
                                     ushort tileid;
                                     sbyte z;
@@ -211,9 +211,9 @@ namespace FiddlerControls
                     using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                         binmul = new BinaryWriter(fsmul))
                     {
-                        for (int x = 0; x < blockx; x++)
+                        for (int x = 0; x < blockx; ++x)
                         {
-                            for (int y = 0; y < blocky; y++)
+                            for (int y = 0; y < blocky; ++y)
                             {
                                 int lookup, length, extra;
                                 if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
@@ -250,7 +250,7 @@ namespace FiddlerControls
                                     {
                                         StaticTile[] tilelist = new StaticTile[count];
                                         int j = 0;
-                                        for (int i = 0; i < count; i++)
+                                        for (int i = 0; i < count; ++i)
                                         {
                                             StaticTile tile = new StaticTile();
                                             if ((tox <= x) && (x <= tox2) && (toy <= y) && (y <= toy2))
@@ -276,7 +276,7 @@ namespace FiddlerControls
                                                 if (tile.m_Hue < 0)
                                                     tile.m_Hue = 0;
                                                 bool first = true;
-                                                for (int k = 0; k < j; k++)
+                                                for (int k = 0; k < j; ++k)
                                                 {
                                                     if ((tilelist[k].m_ID == tile.m_ID)
                                                         && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y))
@@ -288,16 +288,13 @@ namespace FiddlerControls
                                                     }
                                                 }
                                                 if (first)
-                                                {
-                                                    tilelist[j] = tile;
-                                                    j++;
-                                                }
+                                                    tilelist[j++] = tile;
                                             }
                                         }
                                         if (j > 0)
                                         {
                                             binidx.Write((int)fsmul.Position); //lookup
-                                            for (int i = 0; i < j; i++)
+                                            for (int i = 0; i < j; ++i)
                                             {
                                                 binmul.Write(tilelist[i].m_ID);
                                                 binmul.Write(tilelist[i].m_X);
@@ -310,7 +307,7 @@ namespace FiddlerControls
                                     else
                                     {
                                         bool firstitem = true;
-                                        for (int i = 0; i < count; i++)
+                                        for (int i = 0; i < count; ++i)
                                         {
                                             ushort graphic;
                                             short shue;

@@ -169,7 +169,7 @@ namespace FiddlerControls
 
         void m_Timer_Tick(object sender, EventArgs e)
         {
-            Timer_frame++;
+            ++Timer_frame;
             if (Timer_frame >= selData.FrameCount)
                 Timer_frame = 0;
             pictureBox1.Image = Art.GetStatic(CurrAnim + selData.FrameData[Timer_frame]);
@@ -322,7 +322,7 @@ namespace FiddlerControls
                     if (Art.IsValidStatic(index))
                     {
                         selData.FrameData[selData.FrameCount] = (sbyte)(index - CurrAnim);
-                        selData.FrameCount += 1;
+                        selData.FrameCount++;
                         TreeNode node = new TreeNode();
                         node.Text = String.Format("0x{0:X4} {1}", index, TileData.ItemTable[index].Name);
                         treeViewFrames.Nodes.Add(node);
@@ -347,14 +347,14 @@ namespace FiddlerControls
                 {
                     int index = treeViewFrames.SelectedNode.Index;
                     int i;
-                    for (i = index; i < selData.FrameCount - 1; i++)
+                    for (i = index; i < selData.FrameCount - 1; ++i)
                     {
                         selData.FrameData[i] = selData.FrameData[i + 1];
                     }
                     for (; i < selData.FrameData.Length; ++i)
                         selData.FrameData[i] = 0;
 
-                    selData.FrameCount -= 1;
+                    selData.FrameCount--;
                     treeView1.BeginUpdate();
                     treeViewFrames.BeginUpdate();
                     treeViewFrames.Nodes.Clear();

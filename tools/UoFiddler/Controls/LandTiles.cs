@@ -40,7 +40,7 @@ namespace FiddlerControls
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
-            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
                 if ((int)item.Tag == graphic)
@@ -74,7 +74,7 @@ namespace FiddlerControls
             }
 
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
-            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
                 if (regex.IsMatch(TileData.LandTable[(int)item.Tag].Name))
@@ -107,7 +107,7 @@ namespace FiddlerControls
             listView1.BeginUpdate();
             listView1.Clear();
             ArrayList itemcache = new ArrayList();
-            for (int i = 0; i < 0x4000; i++)
+            for (int i = 0; i < 0x4000; ++i)
             {
                 if (Art.IsValidLand(i))
                 {
@@ -409,7 +409,7 @@ namespace FiddlerControls
                 id = 0;
                 i = 0;
             }
-            for (; i < listView1.Items.Count; i++)
+            for (; i < listView1.Items.Count; ++i, ++id)
             {
                 if (id < (int)listView1.Items[i].Tag)
                 {
@@ -421,7 +421,6 @@ namespace FiddlerControls
                     item.EnsureVisible();
                     break;
                 }
-                id++;
             }
         }
 
@@ -493,7 +492,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
@@ -518,7 +517,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
@@ -543,7 +542,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)

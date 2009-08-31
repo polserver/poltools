@@ -60,10 +60,8 @@ namespace FiddlerControls
                     using (Graphics g = Graphics.FromImage(pictureBoxPreview.Image))
                     {
                         g.Clear(Color.White);
-                        int x;
-                        int y;
-                        x = (int)(pictureBoxPreview.Image.Width / 2 - bmp.Width / 2);
-                        y = (int)(pictureBoxPreview.Image.Height / 2 - bmp.Height / 2);
+                        int x = (int)(pictureBoxPreview.Image.Width / 2 - bmp.Width / 2);
+                        int y = (int)(pictureBoxPreview.Image.Height / 2 - bmp.Height / 2);
                         g.DrawImage(bmp, x, y);
                     }
                 }
@@ -94,7 +92,7 @@ namespace FiddlerControls
         private void OnPaintPicture(object sender, PaintEventArgs e)
         {
             float size = pictureBox.Width / Colors.Length;
-            for (int i = 0; i < Colors.Length; i++)
+            for (int i = 0; i < Colors.Length; ++i)
             {
                 Rectangle rectangle = new Rectangle(((int)Math.Round((double)(i * size))), 5, (int)Math.Round((double)(size + 1f)), pictureBox.Height - 10);
                 e.Graphics.FillRectangle(new SolidBrush(Ultima.Hues.HueToColor(Colors[i])), rectangle);
@@ -160,7 +158,7 @@ namespace FiddlerControls
                     float Rdiv = (endc.R - startc.R) / (diff - 1);
                     float Gdiv = (endc.G - startc.G) / (diff - 1);
                     float Bdiv = (endc.B - startc.B) / (diff - 1);
-                    for (int i = 1; i < diff; i++)
+                    for (int i = 1; i < diff; ++i)
                     {
                         Color newc = Color.FromArgb(
                             (int)(startc.R + i * Rdiv),
@@ -197,7 +195,7 @@ namespace FiddlerControls
                     int Bfac = 1;
                     if (endc.B - startc.B < 0)
                         Bfac = -1;
-                    for (int i = 1; i < diff; i++)
+                    for (int i = 1; i < diff; ++i)
                     {
                         Color newc = Color.FromArgb(
                             (int)(startc.R + Rfac * Math.Pow(i, Rdiv)),
@@ -231,8 +229,8 @@ namespace FiddlerControls
                     short temp = Colors[start];
                     Colors[start] = Colors[end];
                     Colors[end] = temp;
-                    start++;
-                    end--;
+                    ++start;
+                    --end;
                 }
                 Selected = selected;
                 RefreshPreview();
@@ -245,7 +243,7 @@ namespace FiddlerControls
             {
                 int start = Math.Min(Second_Selected, Selected);
                 int end = Math.Max(Second_Selected, Selected);
-                for (int i = start; i <= end; i++)
+                for (int i = start; i <= end; ++i)
                 {
                     Color c = Ultima.Hues.HueToColor(Colors[i]);
                     int r = (int)(c.R + numericUpDownR_R.Value);

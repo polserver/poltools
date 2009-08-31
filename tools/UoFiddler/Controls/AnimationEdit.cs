@@ -43,7 +43,7 @@ namespace FiddlerControls
 
             int count = Animations.GetAnimCount(FileType);
             TreeNode[] nodes = new TreeNode[count];
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; ++i)
             {
                 int animlength = Animations.GetAnimLength(i, FileType);
                 string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
@@ -52,7 +52,7 @@ namespace FiddlerControls
                 node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
                 nodes[i] = node;
                 bool valid = false;
-                for (int j = 0; j < animlength; j++)
+                for (int j = 0; j < animlength; ++j)
                 {
                     TreeNode subnode = new TreeNode();
                     subnode.Tag = j;
@@ -84,7 +84,7 @@ namespace FiddlerControls
                 for (int y = 0; y < bd.Height; ++y, line += delta)
                 {
                     ushort* cur = line;
-                    for (int i = 0; i < 0x100; i++)
+                    for (int i = 0; i < 0x100; ++i)
                     {
                         *cur++ = edit.Palette[i];
                     }
@@ -120,7 +120,7 @@ namespace FiddlerControls
                     Bitmap[] currbits = edit.GetFrames();
                     if (currbits != null)
                     {
-                        for (int i = 0; i < currbits.Length; i++)
+                        for (int i = 0; i < currbits.Length; ++i)
                         {
                             if (currbits[i] == null)
                                 continue;
@@ -155,12 +155,12 @@ namespace FiddlerControls
             int width = bmp.Width;
             int height = bmp.Height;
 
-            e.Graphics.DrawImage(bmp, e.Bounds.X, e.Bounds.Y, width, height);
-            e.DrawText(TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter);
             if (listView1.SelectedItems.Contains(e.Item))
                 e.Graphics.DrawRectangle(new Pen(Color.Red), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             else
                 e.Graphics.DrawRectangle(new Pen(Color.Gray), e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+            e.Graphics.DrawImage(bmp, e.Bounds.X, e.Bounds.Y, width, height);
+            e.DrawText(TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter);
         }
 
         private void onAnimChanged(object sender, EventArgs e)
@@ -268,9 +268,9 @@ namespace FiddlerControls
 
             if (action == -1)
             {
-                for (int a = 0; a < Animations.GetAnimLength(body, FileType); a++)
+                for (int a = 0; a < Animations.GetAnimLength(body, FileType); ++a)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 5; ++i)
                     {
                         AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, a, i);
                         if (edit != null)
@@ -278,7 +278,7 @@ namespace FiddlerControls
                             Bitmap[] bits = edit.GetFrames();
                             if (bits != null)
                             {
-                                for (int j = 0; j < bits.Length; j++)
+                                for (int j = 0; j < bits.Length; ++j)
                                 {
                                     string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag, FileType);
                                     string file = Path.Combine(path, filename);
@@ -294,7 +294,7 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 5; ++i)
                 {
                     AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, action, i);
                     if (edit != null)
@@ -302,7 +302,7 @@ namespace FiddlerControls
                         Bitmap[] bits = edit.GetFrames();
                         if (bits != null)
                         {
-                            for (int j = 0; j < bits.Length; j++)
+                            for (int j = 0; j < bits.Length; ++j)
                             {
                                 string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag, FileType);
                                 string file = Path.Combine(path, filename);
@@ -338,7 +338,7 @@ namespace FiddlerControls
                 if (result == DialogResult.Yes)
                 {
                     treeView1.Nodes[CurrBody].ForeColor = Color.Red;
-                    for (int i = 0; i < treeView1.Nodes[CurrBody].Nodes.Count; i++)
+                    for (int i = 0; i < treeView1.Nodes[CurrBody].Nodes.Count; ++i)
                     {
                         treeView1.Nodes[CurrBody].Nodes[i].ForeColor = Color.Red;
                         for (int d = 0; d < 5; ++d)
@@ -362,7 +362,7 @@ namespace FiddlerControls
                        MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 5; ++i)
                     {
                         AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, i);
                         if (edit != null)
@@ -468,6 +468,8 @@ namespace FiddlerControls
                     if (edit != null)
                     {
                         edit.AddFrame(bmp);
+                        treeView1.Nodes[CurrBody].ForeColor = Color.Black;
+                        treeView1.Nodes[CurrBody].Nodes[CurrAction].ForeColor = Color.Black;
                         ListViewItem item;
                         int i = edit.Frames.Count - 1;
                         item = new ListViewItem(i.ToString(), 0);
@@ -540,8 +542,7 @@ namespace FiddlerControls
                             {
                                 if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
                                     continue;
-                                Palette[i] = ushort.Parse(line);
-                                ++i;
+                                Palette[i++] = ushort.Parse(line);
                                 if (i >= 0x100)
                                     break;
                             }

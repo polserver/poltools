@@ -451,7 +451,7 @@ namespace MultiEditor
             treeViewMultiList.Nodes.Clear();
             // Let's create a root for import from Multi file and put these in there
             TreeNode multinode = new TreeNode("Multi.mul");
-            for (int i = 0; i < 0x2000; i++)
+            for (int i = 0; i < 0x2000; ++i)
             {
                 if (Ultima.Multis.GetComponents(i) != MultiComponentList.Empty)
                 {
@@ -516,7 +516,7 @@ namespace MultiEditor
                 return;
             bool done = false;
             bool remove = (Ultima.Multis.GetComponents(id) == MultiComponentList.Empty);
-            for (int i = 0; i < treeViewMultiList.Nodes[0].Nodes.Count; i++)
+            for (int i = 0; i < treeViewMultiList.Nodes[0].Nodes.Count; ++i)
             {
                 if (id == (int)treeViewMultiList.Nodes[0].Nodes[i].Tag)
                 {
@@ -759,7 +759,7 @@ namespace MultiEditor
                     ArrayList list = Ultima.Multis.LoadFromCache(dialog.FileName);
                     TreeNode node=treeViewMultiList.Nodes[1].Nodes[3];
                     node.Nodes.Clear();
-                    for (int i = 0; i < list.Count; i++)
+                    for (int i = 0; i < list.Count; ++i)
                     {
                         TreeNode child = new TreeNode("Entry " + i);
                         child.Tag = (MultiComponentList)list[i];
@@ -771,7 +771,7 @@ namespace MultiEditor
                     ArrayList list = Ultima.Multis.LoadFromDesigner(dialog.FileName);
                     TreeNode node = treeViewMultiList.Nodes[1].Nodes[4];
                     node.Nodes.Clear();
-                    for (int i = 0; i < list.Count; i++)
+                    for (int i = 0; i < list.Count; ++i)
                     {
                         Object[] data = (Object[])list[i];
                         TreeNode child = new TreeNode(data[0]+"("+i+")");
@@ -1039,9 +1039,9 @@ namespace MultiEditor
         {
             e.Graphics.Clear(Color.White);
 
-            for (int y = 0; y < pictureboxDrawTilesrow; y++)
+            for (int y = 0; y < pictureboxDrawTilesrow; ++y)
             {
-                for (int x = 0; x < pictureboxDrawTilescol; x++)
+                for (int x = 0; x < pictureboxDrawTilescol; ++x)
                 {
                     int index = GetIndex(x, y);
                     if (index >= 0)

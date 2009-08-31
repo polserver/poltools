@@ -64,7 +64,7 @@ namespace FiddlerControls
             TreeViewMulti.BeginUpdate();
             TreeViewMulti.Nodes.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0x2000; i++)
+            for (int i = 0; i < 0x2000; ++i)
             {
                 MultiComponentList multi = Ultima.Multis.GetComponents(i);
                 if (multi != MultiComponentList.Empty)
@@ -117,7 +117,7 @@ namespace FiddlerControls
             if (multi != MultiComponentList.Empty)
             {
                 bool done = false;
-                for (int i = 0; i < TreeViewMulti.Nodes.Count; i++)
+                for (int i = 0; i < TreeViewMulti.Nodes.Count; ++i)
                 {
                     if (id == int.Parse(TreeViewMulti.Nodes[i].Name))
                     {
@@ -155,7 +155,7 @@ namespace FiddlerControls
                 int index = refmarker.TreeViewMulti.SelectedNode.Index;
                 if (int.Parse(refmarker.TreeViewMulti.SelectedNode.Name) != id)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         if (int.Parse(refmarker.TreeViewMulti.Nodes[i].Name) == id)
                         {
@@ -318,7 +318,7 @@ namespace FiddlerControls
 
             if (ShowFreeSlots)
             {
-                for (int i = 0; i < 0x2000; i++)
+                for (int i = 0; i < 0x2000; ++i)
                 {
                     MultiComponentList multi = Ultima.Multis.GetComponents(i);
                     TreeNode node = null;
@@ -345,7 +345,7 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = 0; i < 0x2000; i++)
+                for (int i = 0; i < 0x2000; ++i)
                 {
                     MultiComponentList multi = Ultima.Multis.GetComponents(i);
                     if (multi != MultiComponentList.Empty)
@@ -500,7 +500,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
@@ -526,7 +526,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
@@ -578,7 +578,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
@@ -603,7 +603,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)
@@ -628,7 +628,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; i++)
+                    for (int i = 0; i < refmarker.TreeViewMulti.Nodes.Count; ++i)
                     {
                         int index = int.Parse(refmarker.TreeViewMulti.Nodes[i].Name);
                         if (index >= 0)

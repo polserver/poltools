@@ -234,7 +234,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int idxc = 0; idxc < fileindex.IdxLength / 12; idxc++)
+                    for (int idxc = 0; idxc < fileindex.IdxLength / 12; ++idxc)
                     {
                         AnimIdx anim;
                         if (cache != null)
@@ -306,7 +306,7 @@ namespace Ultima
             if ((Frames == null) || (Frames.Count == 0))
                 return null;
             Bitmap[] bits = new Bitmap[Frames.Count];
-            for (int i = 0; i < bits.Length; i++)
+            for (int i = 0; i < bits.Length; ++i)
             {
                 FrameEdit frame = (FrameEdit)Frames[i];
                 int width = frame.width;
@@ -323,7 +323,7 @@ namespace Ultima
 
                 line += xBase;
                 line += yBase * delta;
-                for (int j = 0; j < frame.RawData.Length; j++)
+                for (int j = 0; j < frame.RawData.Length; ++j)
                 {
                     FrameEdit.Raw raw = frame.RawData[j];
 
@@ -333,8 +333,7 @@ namespace Ultima
                     int ii = 0;
                     while (cur < end)
                     {
-                        *cur++ = Palette[raw.data[ii]];
-                        ii++;
+                        *cur++ = Palette[raw.data[ii++]];
                     }
                 }
                 bmp.UnlockBits(bd);
@@ -382,7 +381,7 @@ namespace Ultima
                 case 0:
                     using (StreamWriter Tex = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite)))
                     {
-                        for (int i = 0; i < 0x100; i++)
+                        for (int i = 0; i < 0x100; ++i)
                         {
                             Tex.WriteLine(Palette[i]);
                         }
@@ -397,7 +396,7 @@ namespace Ultima
                         for (int y = 0; y < bd.Height; ++y, line += delta)
                         {
                             ushort* cur = line;
-                            for (int i = 0; i < 0x100; i++)
+                            for (int i = 0; i < 0x100; ++i)
                             {
                                 *cur++ = Palette[i];
                             }
@@ -418,7 +417,7 @@ namespace Ultima
                         for (int y = 0; y < bd.Height; ++y, line += delta)
                         {
                             ushort* cur = line;
-                            for (int i = 0; i < 0x100; i++)
+                            for (int i = 0; i < 0x100; ++i)
                             {
                                 *cur++ = Palette[i];
                             }
@@ -511,8 +510,7 @@ namespace Ultima
                 raw.data = new byte[raw.run];
                 while (i < raw.run)
                 {
-                    raw.data[i] = bin.ReadByte();
-                    i++;
+                    raw.data[i++] = bin.ReadByte();
                 }
                 tmp.Add(raw);
             }
@@ -569,8 +567,7 @@ namespace Ultima
                         while (r < raw.run)
                         {
                             ushort col = (ushort)(cur[r + i]);
-                            raw.data[r] = GetPaletteIndex(palette,col);
-                            ++r;
+                            raw.data[r++] = GetPaletteIndex(palette,col);
                         }
                         tmp.Add(raw);
                         X = j+1;

@@ -87,10 +87,10 @@ namespace Ultima
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             int delta = bd.Stride >> 1;
-            for (int y = 0; y < Height; y++, line += delta)
+            for (int y = 0; y < Height; ++y, line += delta)
             {
                 ushort* cur = line;
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < Width; ++x)
                 {
                     if (IsPixelSet(Bytes, Width, x, y))
                         cur[x] = 0x8000;
@@ -120,10 +120,10 @@ namespace Ultima
             BitmapData bd = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
             ushort* line = (ushort*)bd.Scan0;
             //int delta = bd.Stride >> 1;
-            for (int y = 0; y < bmp.Height; y++)
+            for (int y = 0; y < bmp.Height; ++y)
             {
                 ushort* cur = line;
-                for (int x = 0; x < bmp.Width; x++)
+                for (int x = 0; x < bmp.Width; ++x)
                 {
                     if (cur[x] == 0x8000)
                     {
@@ -168,15 +168,15 @@ namespace Ultima
         {
             for (int i = 0; i < m_files.Length; i++)
             {
-                Fonts[i] = new UnicodeFont();
                 string filePath = Files.GetFilePath(m_files[i]);
                 if (filePath == null)
                     continue;
+                Fonts[i] = new UnicodeFont();
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (BinaryReader bin = new BinaryReader(fs))
                     {
-                        for (int c = 0; c < 0x10000; c++)
+                        for (int c = 0; c < 0x10000; ++c)
                         {
                             Fonts[i].Chars[c] = new UnicodeChar();
                             fs.Seek((long)((c) * 4), SeekOrigin.Begin);
@@ -242,7 +242,7 @@ namespace Ultima
                     fs.Seek(0x10000 * 4, SeekOrigin.Begin);
                     bin.Write(0);
                     // Set first data
-                    for (int c = 0; c < 0x10000; c++)
+                    for (int c = 0; c < 0x10000; ++c)
                     {
                         if (Fonts[filetype].Chars[c].Bytes == null)
                             continue;

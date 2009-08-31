@@ -36,9 +36,9 @@ namespace Ultima
                         m_Header = new int[bin.BaseStream.Length / (4 + 8 * (64 + 4))];
                         while (bin.BaseStream.Length != bin.BaseStream.Position)
                         {
-                            m_Header[h] = bin.ReadInt32(); // chunk header
+                            m_Header[h++] = bin.ReadInt32(); // chunk header
                             // Read 8 tiles
-                            for (int i = 0; i < 8; ++i)
+                            for (int i = 0; i < 8; ++i, ++id)
                             {
                                 fdata = new sbyte[64];
                                 for (int j = 0; j < 64; ++j)
@@ -49,9 +49,7 @@ namespace Ultima
                                 fstart = bin.ReadByte();
                                 if (fcount > 0)
                                     AnimData[id] = new Data(fdata, unk, fcount, finter, fstart);
-                                ++id;
                             }
-                            ++h;
                         }
                     }
                 }
@@ -81,8 +79,8 @@ namespace Ultima
                     int h = 0;
                     while (id < 0x4000)
                     {
-                        bin.Write(m_Header[h]);
-                        for (int i = 0; i < 8; ++i)
+                        bin.Write(m_Header[h++]);
+                        for (int i = 0; i < 8; ++i, ++id)
                         {
                             Data data = GetAnimData(id);
                             for (int j = 0; j < 64; ++j)
@@ -106,9 +104,7 @@ namespace Ultima
                                 bin.Write((byte)0);
                                 bin.Write((byte)0);
                             }
-                            ++id;
                         }
-                        ++h;
                     }
                 }
             }

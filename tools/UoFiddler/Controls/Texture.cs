@@ -40,7 +40,7 @@ namespace FiddlerControls
         {
             int index = 0;
 
-            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
                 if ((int)item.Tag == graphic)
@@ -100,7 +100,7 @@ namespace FiddlerControls
             listView1.Clear();
             ArrayList itemcache = new ArrayList();
 
-            for (int i = 0; i < 0x1000; i++)
+            for (int i = 0; i < 0x1000; ++i)
             {
                 if (Textures.TestTexture(i))
                 {
@@ -211,7 +211,7 @@ namespace FiddlerControls
                 id = 1;
                 i = 0;
             }
-            for (; i < listView1.Items.Count; i++)
+            for (; i < listView1.Items.Count; ++i, ++id)
             {
                 if (id < (int)listView1.Items[i].Tag)
                 {
@@ -223,7 +223,6 @@ namespace FiddlerControls
                     item.EnsureVisible();
                     break;
                 }
-                id++;
             }
         }
 

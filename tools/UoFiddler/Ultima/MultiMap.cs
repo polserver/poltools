@@ -46,10 +46,9 @@ namespace Ultima
                                 c = 0x8000;//Color.Black;
                             else
                                 c = 0xffff;//Color.White;
-                            for (i = 0; i < count; i++)
+                            for (i = 0; i < count; ++i)
                             {
-                                cur[x] = c;
-                                ++x;
+                                cur[x++] = c;
                                 if (x >= width)
                                 {
                                     cur += delta;
@@ -82,16 +81,16 @@ namespace Ultima
             int delta = bd.Stride >> 1;
             ushort* cur = line;
             curcolor = cur[0]; //init
-            for (int y = 0; y < image.Height; y++, line += delta)
+            for (int y = 0; y < image.Height; ++y, line += delta)
             {
                 cur = line;
-                for (int x = 0; x < image.Width; x++)
+                for (int x = 0; x < image.Width; ++x)
                 {
                     ushort c = cur[x];
 
                     if (c == curcolor)
                     {
-                        data++;
+                        ++data;
                         if (data == 0x7f)
                         {
                             if (curcolor == 0xffff)

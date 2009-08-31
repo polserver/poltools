@@ -100,7 +100,7 @@ namespace FiddlerControls
             short nr;
             if (Int16.TryParse(IDEntry.Text.ToString(), NumberStyles.Integer, null, out nr))
             {
-                for (int i = index; i < dataGridView1.Rows.Count; i++)
+                for (int i = index; i < dataGridView1.Rows.Count; ++i)
                 {
                     if ((short)dataGridView1.Rows[i].Cells[0].Value == nr)
                     {
@@ -116,7 +116,7 @@ namespace FiddlerControls
         private void FindKeyWord(int index)
         {
             string find = KeyWordEntry.Text.ToString();
-            for (int i = index; i < dataGridView1.Rows.Count; i++)
+            for (int i = index; i < dataGridView1.Rows.Count; ++i)
             {
                 if ((dataGridView1.Rows[i].Cells[1].Value.ToString().IndexOf(find)) != -1)
                 {

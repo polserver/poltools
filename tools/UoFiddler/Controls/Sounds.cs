@@ -47,7 +47,7 @@ namespace FiddlerControls
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 1; i <= 0xFFF; i++)
+            for (int i = 1; i <= 0xFFF; ++i)
             {
                 if (Ultima.Sounds.IsValidSound(i - 1, out name))
                 {
@@ -113,7 +113,7 @@ namespace FiddlerControls
             char[] delim = delimiter.ToCharArray();
             string[] name;
             treeView.BeginUpdate();
-            for (int i = 0; i < treeView.Nodes.Count; i++)
+            for (int i = 0; i < treeView.Nodes.Count; ++i)
             {
                 name = treeView.Nodes[i].Text.Split(delim);
                 treeView.Nodes[i].Text = String.Format("{0} {1} ", name[1], name[0]);
@@ -145,7 +145,7 @@ namespace FiddlerControls
                     index = 0;
             }
 
-            for (int i = index; i < treeView.Nodes.Count; i++)
+            for (int i = index; i < treeView.Nodes.Count; ++i)
             {
                 TreeNode node = treeView.Nodes[i];
                 if (node.Text.Contains(name))
@@ -227,7 +227,7 @@ namespace FiddlerControls
                             node.Text = String.Format("{1} 0x{0:X3}", id, name);
                         node.Tag = id;
                         bool done = false;
-                        for (int i = 0; i < treeView.Nodes.Count; i++)
+                        for (int i = 0; i < treeView.Nodes.Count; ++i)
                         {
                             if ((int)treeView.Nodes[i].Tag == id)
                             {
