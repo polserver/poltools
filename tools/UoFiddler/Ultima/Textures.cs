@@ -136,7 +136,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int index = 0; index < m_Cache.Length; index++)
+                    for (int index = 0; index < m_Cache.Length; ++index)
                     {
                         if (m_Cache[index] == null)
                             m_Cache[index] = GetTexture(index);

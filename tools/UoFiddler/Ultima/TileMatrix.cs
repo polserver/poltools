@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Ultima
 {
@@ -192,96 +193,100 @@ namespace Ultima
         }
 
         private static HuedTileList[][] m_Lists;
-
+        private static byte[] m_Buffer;
         private unsafe HuedTile[][][] ReadStaticBlock(int x, int y)
         {
-            if (m_Index == null || !m_Index.CanRead || !m_Index.CanSeek)
+            try
             {
-                if (indexPath == null)
-                    m_Index = null;
+                if (m_Index == null || !m_Index.CanRead || !m_Index.CanSeek)
+                {
+                    if (indexPath == null)
+                        m_Index = null;
+                    else
+                    {
+                        m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        m_IndexReader = new BinaryReader(m_Index);
+                    }
+                }
+                if (m_Statics == null || !m_Statics.CanRead || !m_Statics.CanSeek)
+                {
+                    if (staticsPath == null)
+                        m_Statics = null;
+                    else
+                        m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                }
+                if (m_Index == null || m_Statics == null)
+                    return EmptyStaticBlock;
+
+                m_Index.Seek(((x * BlockHeight) + y) * 12, SeekOrigin.Begin);
+                int lookup = m_IndexReader.ReadInt32();
+                int length = m_IndexReader.ReadInt32();
+
+                if (lookup < 0 || length <= 0)
+                    return EmptyStaticBlock;
                 else
                 {
-                    m_Index = new FileStream(indexPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    m_IndexReader = new BinaryReader(m_Index);
+                    int count = length / 7;
+
+                    m_Statics.Seek(lookup, SeekOrigin.Begin);
+
+                    if (m_Buffer == null || m_Buffer.Length < length)
+                        m_Buffer = new byte[length];
+
+                    GCHandle gc = GCHandle.Alloc(m_Buffer, GCHandleType.Pinned);
+                    try
+                    {
+                        m_Statics.Read(m_Buffer, 0, length);
+
+                        if (m_Lists == null)
+                        {
+                            m_Lists = new HuedTileList[8][];
+
+                            for (int i = 0; i < 8; ++i)
+                            {
+                                m_Lists[i] = new HuedTileList[8];
+
+                                for (int j = 0; j < 8; ++j)
+                                    m_Lists[i][j] = new HuedTileList();
+                            }
+                        }
+
+                        HuedTileList[][] lists = m_Lists;
+
+                        for (int i = 0; i < count; ++i)
+                        {
+                            IntPtr ptr = new IntPtr((long)gc.AddrOfPinnedObject() + i * sizeof(StaticTile));
+                            StaticTile cur = (StaticTile)Marshal.PtrToStructure(ptr, typeof(StaticTile));
+                            if (Art.IsUOSA())
+                                lists[cur.m_X & 0x7][cur.m_Y & 0x7].Add((ushort)(cur.m_ID & 0x7FFF), cur.m_Hue, cur.m_Z);
+                            else
+                                lists[cur.m_X & 0x7][cur.m_Y & 0x7].Add((ushort)(cur.m_ID & 0x3FFF), cur.m_Hue, cur.m_Z);
+                        }
+
+                        HuedTile[][][] tiles = new HuedTile[8][][];
+
+                        for (int i = 0; i < 8; ++i)
+                        {
+                            tiles[i] = new HuedTile[8][];
+
+                            for (int j = 0; j < 8; ++j)
+                                tiles[i][j] = lists[i][j].ToArray();
+                        }
+
+                        return tiles;
+                    }
+                    finally
+                    {
+                        gc.Free();
+                    }
                 }
             }
-            if (m_Statics == null || !m_Statics.CanRead || !m_Statics.CanSeek)
-            {
-                if (staticsPath == null)
-                    m_Statics = null;
-                else
-                    m_Statics = new FileStream(staticsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            }
-            if (m_Index == null || m_Statics == null)
+            finally
             {
                 if (m_Index != null)
                     m_Index.Close();
                 if (m_Statics != null)
                     m_Statics.Close();
-                return EmptyStaticBlock;
-            }
-
-            m_Index.Seek(((x * BlockHeight) + y) * 12, SeekOrigin.Begin);
-            int lookup = m_IndexReader.ReadInt32();
-            int length = m_IndexReader.ReadInt32();
-
-            if (lookup < 0 || length <= 0)
-            {
-                m_IndexReader.Close();
-                m_Statics.Close();
-                return EmptyStaticBlock;
-            }
-            else
-            {
-                int count = length / 7;
-
-                m_Statics.Seek(lookup, SeekOrigin.Begin);
-
-                StaticTile[] staTiles = new StaticTile[count];
-
-                fixed (StaticTile* pTiles = staTiles)
-                {
-                    NativeMethods._lread(m_Statics.SafeFileHandle, pTiles, length);
-
-                    if (m_Lists == null)
-                    {
-                        m_Lists = new HuedTileList[8][];
-
-                        for (int i = 0; i < 8; ++i)
-                        {
-                            m_Lists[i] = new HuedTileList[8];
-
-                            for (int j = 0; j < 8; ++j)
-                                m_Lists[i][j] = new HuedTileList();
-                        }
-                    }
-
-                    HuedTileList[][] lists = m_Lists;
-
-                    StaticTile* pCur = pTiles, pEnd = pTiles + count;
-
-                    while (pCur < pEnd)
-                    {
-                        if (Art.IsUOSA())
-                            lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x7FFF), pCur->m_Hue, pCur->m_Z);
-                        else
-                            lists[pCur->m_X & 0x7][pCur->m_Y & 0x7].Add((ushort)(pCur->m_ID & 0x3FFF), pCur->m_Hue, pCur->m_Z);
-                        ++pCur;
-                    }
-
-                    HuedTile[][][] tiles = new HuedTile[8][][];
-
-                    for (int i = 0; i < 8; ++i)
-                    {
-                        tiles[i] = new HuedTile[8][];
-
-                        for (int j = 0; j < 8; ++j)
-                            tiles[i][j] = lists[i][j].ToArray();
-                    }
-                    m_IndexReader.Close();
-                    m_Statics.Close();
-                    return tiles;
-                }
             }
         }
 
@@ -299,9 +304,19 @@ namespace Ultima
             {
                 m_Map.Seek(((x * BlockHeight) + y) * 196 + 4, SeekOrigin.Begin);
 
-                fixed (Tile* pTiles = tiles)
+                GCHandle gc = GCHandle.Alloc(tiles, GCHandleType.Pinned);
+                try
                 {
-                    NativeMethods._lread(m_Map.SafeFileHandle, pTiles, 192);
+                    if (m_Buffer == null || m_Buffer.Length < 192 )
+                        m_Buffer = new byte[192];
+
+                    m_Map.Read(m_Buffer, 0, 192);
+
+                    Marshal.Copy(m_Buffer, 0, gc.AddrOfPinnedObject(), 192);
+                }
+                finally
+                {
+                    gc.Free();
                 }
                 m_Map.Close();
             }

@@ -119,7 +119,19 @@
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.2
-I'm to lazy to write
+UO:SA support
+Added Animation edit (Animations-&gt;Settings-&gt;Animation Edit):
+Mul Save
+Action remove
+Frame replace/insert/remove/export CenterX/Y change
+Palette export/import
+Note: unlike mulpatcher saving makes a complete rewrite, slower but no leftovers (smaller .mul size)
+mulpatcher import/export compatibility on todo list
+Map: 
+Added Replace Tiles (xmlbased)
+Changed MapReplace you can now define target X/Y
+Speech: csv import/export
+Minor fixes
 
 Version 4.1c
 MultiEditor:

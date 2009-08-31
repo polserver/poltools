@@ -102,7 +102,7 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
-            for (int i = 0; i < refMarker.ItemList.Count; i++)
+            for (int i = 0; i < refMarker.ItemList.Count; ++i)
             {
                 if ((int)refMarker.ItemList[i] == graphic)
                 {
@@ -132,7 +132,7 @@ namespace FiddlerControls
             }
 
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
-            for (int i = index; i < refMarker.ItemList.Count; i++)
+            for (int i = index; i < refMarker.ItemList.Count; ++i)
             {
                 if (regex.IsMatch(TileData.ItemTable[(int)refMarker.ItemList[i]].Name))
                 {
@@ -191,7 +191,7 @@ namespace FiddlerControls
                 int staticlength = 0x4000;
                 if (Art.IsUOSA())
                     staticlength = 0x8000;
-                for (int i = 0; i < staticlength; i++)
+                for (int i = 0; i < staticlength; ++i)
                 {
                     if (Art.IsValidStatic(i))
                         ItemList.Add((object)i);
@@ -245,7 +245,7 @@ namespace FiddlerControls
             if (Ultima.Art.IsValidStatic(index))
             {
                 bool done = false;
-                for (int i = 0; i < ItemList.Count; i++)
+                for (int i = 0; i < ItemList.Count; ++i)
                 {
                     if (index < (int)ItemList[i])
                     {
@@ -311,21 +311,21 @@ namespace FiddlerControls
         {
             e.Graphics.Clear(Color.White);
 
-            for (int x = 0; x <= col; x++)
+            for (int x = 0; x <= col; ++x)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(x * Options.ArtItemSizeWidth, 0),
                     new Point(x * Options.ArtItemSizeWidth, row * Options.ArtItemSizeHeight));
             }
 
-            for (int y = 0; y <= row; y++)
+            for (int y = 0; y <= row; ++y)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(0, y * Options.ArtItemSizeHeight),
                     new Point(col * Options.ArtItemSizeWidth, y * Options.ArtItemSizeHeight));
             }
 
-            for (int y = 0; y < row; y++)
+            for (int y = 0; y < row; ++y)
             {
-                for (int x = 0; x < col; x++)
+                for (int x = 0; x < col; ++x)
                 {
                     int index = GetIndex(x, y);
                     if (index >= 0)
@@ -485,7 +485,7 @@ namespace FiddlerControls
                     i = ItemList.IndexOf((object)selected) + 1;
                 else
                     i = 0;
-                for (; i < ItemList.Count; i++)
+                for (; i < ItemList.Count; ++i)
                 {
                     if (!Art.IsValidStatic((int)ItemList[i]))
                     {
@@ -508,7 +508,7 @@ namespace FiddlerControls
                     id = 0;
                     i = 0;
                 }
-                for (; i < ItemList.Count; i++)
+                for (; i < ItemList.Count; ++i, ++id)
                 {
                     if (id < (int)ItemList[i])
                     {
@@ -516,7 +516,6 @@ namespace FiddlerControls
                         Selected = (int)ItemList[i];
                         break;
                     }
-                    id++;
                 }
             }
         }
@@ -561,7 +560,7 @@ namespace FiddlerControls
                 FiddlerControls.Events.FireItemChangeEvent(this, selected);
                 if (!ShowFreeSlots)
                     ItemList.Remove((object)selected);
-                selected--;
+                --selected;
                 pictureBox.Refresh();
                 Options.ChangedUltimaClass["Art"] = true;
             }
@@ -617,7 +616,7 @@ namespace FiddlerControls
                             else
                             {
                                 bool done = false;
-                                for (int i = 0; i < ItemList.Count; i++)
+                                for (int i = 0; i < ItemList.Count; ++i)
                                 {
                                     if (index < (int)ItemList[i])
                                     {
@@ -669,7 +668,7 @@ namespace FiddlerControls
             ShowFreeSlots = !ShowFreeSlots;
             if (ShowFreeSlots)
             {
-                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); j++)
+                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); ++j)
                 {
                     if (ItemList.Count > j)
                     {
@@ -768,7 +767,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < ItemList.Count; i++)
+                    for (int i = 0; i < ItemList.Count; ++i)
                     {
                         int index = (int)ItemList[i];
                         if (Art.IsValidStatic(index))
@@ -793,7 +792,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < ItemList.Count; i++)
+                    for (int i = 0; i < ItemList.Count; ++i)
                     {
                         int index = (int)ItemList[i];
                         if (Art.IsValidStatic(index))
@@ -818,7 +817,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < ItemList.Count; i++)
+                    for (int i = 0; i < ItemList.Count; ++i)
                     {
                         int index = (int)ItemList[i];
                         if (Art.IsValidStatic(index))

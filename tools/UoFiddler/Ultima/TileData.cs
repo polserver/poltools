@@ -701,10 +701,7 @@ namespace Ultima
                         for (int i = 0; i < 0x4000; ++i)
                         {
                             if ((i & 0x1F) == 0)
-                            {
-                                landheader[j] = bin.ReadInt32(); // header
-                                ++j;
-                            }
+                                landheader[j++] = bin.ReadInt32(); // header
                             TileFlag flags = (TileFlag)bin.ReadInt32();
                             int texID = bin.ReadInt16();
 
@@ -730,10 +727,7 @@ namespace Ultima
                             if (bin.BaseStream.Position == bin.BaseStream.Length)
                                 break;
                             if ((i & 0x1F) == 0)
-                            {
-                                itemheader[j] = bin.ReadInt32(); // header
-                                j++;
-                            }
+                                itemheader[j++] = bin.ReadInt32(); // header
 
                             TileFlag flags = (TileFlag)bin.ReadInt32();
                             int weight = bin.ReadByte();
@@ -770,10 +764,7 @@ namespace Ultima
                     for (int i = 0; i < 0x4000; ++i)
                     {
                         if ((i & 0x1F) == 0)
-                        {
-                            bin.Write(landheader[j]); //header
-                            ++j;
-                        }
+                            bin.Write(landheader[j++]); //header
                         bin.Write((int)m_LandData[i].Flags);
                         bin.Write(m_LandData[i].TextureID);
                         byte[] b = new byte[20];
@@ -790,10 +781,8 @@ namespace Ultima
                     for (int i = 0; i < m_ItemData.Length; ++i)
                     {
                         if ((i & 0x1F) == 0)
-                        {
-                            bin.Write(itemheader[j]); // header
-                            j++;
-                        }
+                            bin.Write(itemheader[j++]); // header
+
                         bin.Write((int)m_ItemData[i].Flags);
                         bin.Write(m_ItemData[i].Weight);
                         bin.Write(m_ItemData[i].Quality);
@@ -834,7 +823,7 @@ namespace Ultima
                 Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;NoDiagonal");
                 Tex.WriteLine(";Unknow3;Armor;Roof;Door;StairBack;StairRight");
 
-                for (int i = 0; i < m_ItemData.Length; i++)
+                for (int i = 0; i < m_ItemData.Length; ++i)
                 {
                     ItemData tile = m_ItemData[i];
                     Tex.Write(String.Format("0x{0:X4}", i));
@@ -900,7 +889,7 @@ namespace Ultima
                 Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;NoDiagonal");
                 Tex.WriteLine(";Unknow3;Armor;Roof;Door;StairBack;StairRight");
 
-                for (int i = 0; i < m_LandData.Length; i++)
+                for (int i = 0; i < m_LandData.Length; ++i)
                 {
                     LandData tile = m_LandData[i];
                     Tex.Write(String.Format("0x{0:X4}", i));

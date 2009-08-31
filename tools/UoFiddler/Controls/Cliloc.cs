@@ -170,7 +170,7 @@ namespace FiddlerControls
             int nr;
             if (Int32.TryParse(GotoEntry.Text.ToString(), NumberStyles.Integer, null, out nr))
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
                 {
                     if ((int)dataGridView1.Rows[i].Cells[0].Value == nr)
                     {
@@ -191,7 +191,7 @@ namespace FiddlerControls
         private void FindEntryClick(object sender, EventArgs e)
         {
             Regex regex = new Regex(@FindEntry.Text.ToString(), RegexOptions.IgnoreCase);
-            for (int i = (dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Selected) + 1); i < dataGridView1.Rows.Count; i++)
+            for (int i = (dataGridView1.Rows.GetFirstRow(DataGridViewElementStates.Selected) + 1); i < dataGridView1.Rows.Count; ++i)
             {
                 if (regex.IsMatch(dataGridView1.Rows[i].Cells[1].Value.ToString()))
                 {
@@ -304,7 +304,7 @@ namespace FiddlerControls
 
         public static void SaveEntry(int number, string text)
         {
-            for (int i = 0; i < cliloc.Entries.Count; i++)
+            for (int i = 0; i < cliloc.Entries.Count; ++i)
             {
                 if (((StringEntry)cliloc.Entries[i]).Number == number)
                 {

@@ -46,7 +46,7 @@ namespace FiddlerControls
 
         public static bool SearchGraphic(int graphic)
         {
-            for (int i = 0; i < refMarker.TextureList.Count; i++)
+            for (int i = 0; i < refMarker.TextureList.Count; ++i)
             {
                 if ((int)refMarker.TextureList[i] == graphic)
                 {
@@ -74,7 +74,7 @@ namespace FiddlerControls
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Texture"] = true;
             
-            for (int i = 0; i < 0x1000; i++)
+            for (int i = 0; i < 0x1000; ++i)
             {
                 if (Textures.TestTexture(i))
                     TextureList.Add((object)i);
@@ -102,7 +102,7 @@ namespace FiddlerControls
             if (Ultima.Textures.TestTexture(index))
             {
                 bool done = false;
-                for (int i = 0; i < TextureList.Count; i++)
+                for (int i = 0; i < TextureList.Count; ++i)
                 {
                     if (index < (int)TextureList[i])
                     {
@@ -162,21 +162,21 @@ namespace FiddlerControls
         {
             e.Graphics.Clear(Color.White);
 
-            for (int x = 0; x <= col; x++)
+            for (int x = 0; x <= col; ++x)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(x * 64, 0),
                     new Point(x * 64, row * 64));
             }
 
-            for (int y = 0; y <= row; y++)
+            for (int y = 0; y <= row; ++y)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(0, y * 64),
                     new Point(col * 64, y * 64));
             }
 
-            for (int y = 0; y < row; y++)
+            for (int y = 0; y < row; ++y)
             {
-                for (int x = 0; x < col; x++)
+                for (int x = 0; x < col; ++x)
                 {
                     int index = GetIndex(x, y);
                     if (index >= 0)
@@ -269,7 +269,7 @@ namespace FiddlerControls
                 id = 1;
                 i = 0;
             }
-            for (; i < TextureList.Count; i++)
+            for (; i < TextureList.Count; ++i, ++id)
             {
                 if (id < (int)TextureList[i])
                 {
@@ -279,7 +279,6 @@ namespace FiddlerControls
                     pictureBox.Refresh();
                     break;
                 }
-                id++;
             }
         }
 
@@ -298,7 +297,7 @@ namespace FiddlerControls
                 Textures.Remove(selected);
                 FiddlerControls.Events.FireTextureChangeEvent(this, selected);
                 TextureList.Remove((object)selected);
-                selected--;
+                --selected;
                 pictureBox.Refresh();
                 Options.ChangedUltimaClass["Texture"] = true;
             }
@@ -368,7 +367,7 @@ namespace FiddlerControls
                                 Textures.Replace(index, bmp);
                                 FiddlerControls.Events.FireTextureChangeEvent(this, index);
                                 bool done = false;
-                                for (int i = 0; i < TextureList.Count; i++)
+                                for (int i = 0; i < TextureList.Count; ++i)
                                 {
                                     if (index < (int)TextureList[i])
                                     {

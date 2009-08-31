@@ -595,7 +595,7 @@ namespace FiddlerControls
                     {
                         case VisualStyles.Mozilla:
 
-                            for (int i = 0; i < 30; i++)
+                            for (int i = 0; i < 30; ++i)
                             {
                                 // light dot
                                 g.DrawLine(pen_controlLightLight, x, y + (i * 3), x + 1, y + 1 + (i * 3));
@@ -614,13 +614,13 @@ namespace FiddlerControls
                             break;
 
                         case VisualStyles.DoubleDots:
-                            for (int i = 0; i < 30; i++)
+                            for (int i = 0; i < 30; ++i)
                             {
                                 // light dot
                                 g.DrawRectangle(pen_controlLightLight, x, y + 1 + (i * 3), 1, 1);
                                 // dark dot
                                 g.DrawRectangle(pen_controlDark, x - 1, y + (i * 3), 1, 1);
-                                i++;
+                                ++i;
                                 // light dot
                                 g.DrawRectangle(pen_controlLightLight, x + 2, y + 1 + (i * 3), 1, 1);
                                 // dark dot
@@ -638,7 +638,7 @@ namespace FiddlerControls
 
                         case VisualStyles.XP:
 
-                            for (int i = 0; i < 18; i++)
+                            for (int i = 0; i < 18; ++i)
                             {
                                 // light dot
                                 g.DrawRectangle(pen_controlLight, x, y + (i * 5), 2, 2);
@@ -654,7 +654,7 @@ namespace FiddlerControls
 
                         case VisualStyles.Lines:
 
-                            for (int i = 0; i < 44; i++)
+                            for (int i = 0; i < 44; ++i)
                             {
                                 g.DrawLine(pen_controlDark, x, y + (i * 2), x + 2, y + (i * 2));
                             }
@@ -717,7 +717,7 @@ namespace FiddlerControls
                     {
                         case VisualStyles.Mozilla:
 
-                            for (int i = 0; i < 30; i++)
+                            for (int i = 0; i < 30; ++i)
                             {
                                 // light dot
                                 g.DrawLine(pen_controlLightLight, x + (i * 3), y, x + 1 + (i * 3), y + 1);
@@ -737,13 +737,13 @@ namespace FiddlerControls
 
                         case VisualStyles.DoubleDots:
 
-                            for (int i = 0; i < 30; i++)
+                            for (int i = 0; i < 30; ++i)
                             {
                                 // light dot
                                 g.DrawRectangle(pen_controlLightLight, x + 1 + (i * 3), y, 1, 1);
                                 // dark dot
                                 g.DrawRectangle(pen_controlDark, x + (i * 3), y - 1, 1, 1);
-                                i++;
+                                ++i;
                                 // light dot
                                 g.DrawRectangle(pen_controlLightLight, x + 1 + (i * 3), y + 2, 1, 1);
                                 // dark dot
@@ -761,7 +761,7 @@ namespace FiddlerControls
 
                         case VisualStyles.XP:
 
-                            for (int i = 0; i < 18; i++)
+                            for (int i = 0; i < 18; ++i)
                             {
                                 // light dot
                                 g.DrawRectangle(pen_controlLight, x + (i * 5), y, 2, 2);
@@ -777,7 +777,7 @@ namespace FiddlerControls
 
                         case VisualStyles.Lines:
 
-                            for (int i = 0; i < 44; i++)
+                            for (int i = 0; i < 44; ++i)
                             {
                                 g.DrawLine(pen_controlDark, x + (i * 2), y, x + (i * 2), y + 2);
                             }

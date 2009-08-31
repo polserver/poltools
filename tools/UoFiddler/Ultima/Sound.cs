@@ -259,7 +259,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int i = 0; i < m_Cache.Length; i++)
+                    for (int i = 0; i < m_Cache.Length; ++i)
                     {
                         UOSound sound = m_Cache[i];
                         if ((sound == null) && (!m_Removed[i]))
@@ -314,7 +314,7 @@ namespace Ultima
             {
                 Tex.WriteLine("ID;Name;Length");
                 string name = "";
-                for (int i = 1; i <= 0xFFF; i++)
+                for (int i = 1; i <= 0xFFF; ++i)
                 {
                     if (IsValidSound(i - 1, out name))
                     {

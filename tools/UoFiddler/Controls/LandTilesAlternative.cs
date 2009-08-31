@@ -58,7 +58,7 @@ namespace FiddlerControls
         /// <returns></returns>
         public static bool SearchGraphic(int graphic)
         {
-            for (int i = 0; i < refMarker.TileList.Count; i++)
+            for (int i = 0; i < refMarker.TileList.Count; ++i)
             {
                 if ((int)refMarker.TileList[i] == graphic)
                 {
@@ -88,7 +88,7 @@ namespace FiddlerControls
             }
 
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
-            for (int i = index; i < refMarker.TileList.Count; i++)
+            for (int i = index; i < refMarker.TileList.Count; ++i)
             {
                 if (regex.IsMatch(TileData.LandTable[(int)refMarker.TileList[i]].Name))
                 {
@@ -127,7 +127,7 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["TileData"] = true;
             Options.LoadedUltimaClass["Art"] = true;
 
-            for (int i = 0; i < 0x4000; i++)
+            for (int i = 0; i < 0x4000; ++i)
             {
                 if (Art.IsValidLand(i))
                     TileList.Add((object)i);
@@ -178,7 +178,7 @@ namespace FiddlerControls
             if (Ultima.Art.IsValidLand(index))
             {
                 bool done = false;
-                for (int i = 0; i < TileList.Count; i++)
+                for (int i = 0; i < TileList.Count; ++i)
                 {
                     if (index < (int)TileList[i])
                     {
@@ -232,21 +232,21 @@ namespace FiddlerControls
         {
             e.Graphics.Clear(Color.White);
 
-            for (int x = 0; x <= col; x++)
+            for (int x = 0; x <= col; ++x)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(x * 49, 0),
                     new Point(x * 49, row * 49));
             }
 
-            for (int y = 0; y <= row; y++)
+            for (int y = 0; y <= row; ++y)
             {
                 e.Graphics.DrawLine(Pens.Gray, new Point(0, y * 49),
                     new Point(col * 49, y * 49));
             }
 
-            for (int y = 0; y < row; y++)
+            for (int y = 0; y < row; ++y)
             {
-                for (int x = 0; x < col; x++)
+                for (int x = 0; x < col; ++x)
                 {
                     int index = GetIndex(x, y);
                     if (index >= 0)
@@ -325,8 +325,8 @@ namespace FiddlerControls
         private void onClickFindFree(object sender, EventArgs e)
         {
             int id = selected;
-            id++;
-            for (int i = TileList.IndexOf((object)selected) + 1; i < TileList.Count; i++)
+            ++id;
+            for (int i = TileList.IndexOf((object)selected) + 1; i < TileList.Count; ++i, ++id)
             {
                 if (id < (int)TileList[i])
                 {
@@ -334,7 +334,6 @@ namespace FiddlerControls
                     Selected = (int)TileList[i];
                     break;
                 }
-                id++;
             }
         }
 
@@ -348,7 +347,7 @@ namespace FiddlerControls
                 Art.RemoveLand(selected);
                 FiddlerControls.Events.FireLandTileChangeEvent(this, selected);
                 TileList.Remove((object)selected);
-                selected--;
+                --selected;
                 pictureBox.Refresh();
                 Options.ChangedUltimaClass["Art"] = true;
             }
@@ -416,7 +415,7 @@ namespace FiddlerControls
                             Art.ReplaceLand(index, bmp);
                             FiddlerControls.Events.FireLandTileChangeEvent(this, index);
                             bool done = false;
-                            for (int i = 0; i < TileList.Count; i++)
+                            for (int i = 0; i < TileList.Count; ++i)
                             {
                                 if (index < (int)TileList[i])
                                 {
@@ -522,7 +521,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < TileList.Count; i++)
+                    for (int i = 0; i < TileList.Count; ++i)
                     {
                         int index = (int)TileList[i];
                         if (Art.IsValidStatic(index))
@@ -547,7 +546,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < TileList.Count; i++)
+                    for (int i = 0; i < TileList.Count; ++i)
                     {
                         int index = (int)TileList[i];
                         if (Art.IsValidStatic(index))
@@ -572,7 +571,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < TileList.Count; i++)
+                    for (int i = 0; i < TileList.Count; ++i)
                     {
                         int index = (int)TileList[i];
                         if (Art.IsValidStatic(index))

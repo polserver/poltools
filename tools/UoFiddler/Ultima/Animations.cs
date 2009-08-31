@@ -280,7 +280,7 @@ namespace Ultima
                 case 2:
                     if (Table1 != null && index >= 0)
                     {
-                        for (int i = 0; i < Table1.Length; i++)
+                        for (int i = 0; i < Table1.Length; ++i)
                         {
                             if (Table1[i] == index)
                                 return i;
@@ -290,7 +290,7 @@ namespace Ultima
                 case 3:
                     if (Table2 != null && index >= 0)
                     {
-                        for (int i = 0; i < Table2.Length; i++)
+                        for (int i = 0; i < Table2.Length; ++i)
                         {
                             if (Table2[i] == index)
                                 return i;
@@ -300,7 +300,7 @@ namespace Ultima
                 case 4:
                     if (Table3 != null && index >= 0)
                     {
-                        for (int i = 0; i < Table3.Length; i++)
+                        for (int i = 0; i < Table3.Length; ++i)
                         {
                             if (Table3[i] == index)
                                 return i;
@@ -310,7 +310,7 @@ namespace Ultima
                 case 5:
                     if (Table4 != null && index >= 0)
                     {
-                        for (int i = 0; i < Table4.Length; i++)
+                        for (int i = 0; i < Table4.Length; ++i)
                         {
                             if (Table4[i] == index)
                                 return i;

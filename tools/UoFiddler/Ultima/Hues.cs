@@ -62,12 +62,12 @@ namespace Ultima
                 using (BinaryWriter binmul = new BinaryWriter(fsmul))
                 {
                     int index = 0;
-                    for (int i = 0; i < m_Header.Length; i++)
+                    for (int i = 0; i < m_Header.Length; ++i)
                     {
                         binmul.Write(m_Header[i]);
-                        for (int j = 0; j < 8; j++, index++)
+                        for (int j = 0; j < 8; ++j, ++index)
                         {
-                            for (int c = 0; c < 32; c++)
+                            for (int c = 0; c < 32; ++c)
                                 binmul.Write((short)(List[index].Colors[c] ^ 0x8000));
 
                             binmul.Write((short)(List[index].TableStart ^ 0x8000));

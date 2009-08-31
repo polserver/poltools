@@ -103,7 +103,7 @@ namespace FiddlerControls
 
         private void AnimTick(object sender, EventArgs e)
         {
-            m_FrameIndex++;
+            ++m_FrameIndex;
 
             if (m_FrameIndex == m_Animation.Length)
                 m_FrameIndex = 0;
@@ -289,7 +289,7 @@ namespace FiddlerControls
             TreeNode node;
             if (type == 4) //Equipment==human
                 type = 3;
-            for (int i = 0; i < Form.GetAnimNames[type].GetLength(0); i += 1)
+            for (int i = 0; i < Form.GetAnimNames[type].GetLength(0); ++i)
             {
                 if (Animations.IsActionDefined(graphic, i, 0))
                 {

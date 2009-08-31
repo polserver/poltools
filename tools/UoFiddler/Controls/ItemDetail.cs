@@ -121,7 +121,7 @@ namespace FiddlerControls
 
         private void AnimTick(object sender, EventArgs e)
         {
-            frame++;
+            ++frame;
             if (frame >= info.FrameCount)
                 frame = 0;
 

@@ -193,7 +193,7 @@ namespace Ultima
                                 {
                                     sbyte value = (sbyte)(((*cur++ >> 10) & 0xffff) - 0x1f);
                                     if (value > 0) // wtf? but it works...
-                                        value--;
+                                        --value;
                                     binmul.Write(value);
                                 }
                             }

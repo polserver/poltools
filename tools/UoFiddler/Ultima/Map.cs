@@ -530,9 +530,9 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int x = 0; x < blockx; x++)
+                    for (int x = 0; x < blockx; ++x)
                     {
-                        for (int y = 0; y < blocky; y++)
+                        for (int y = 0; y < blocky; ++y)
                         {
                             try
                             {
@@ -559,7 +559,7 @@ namespace Ultima
                                     if (!remove) //without duplicate remove
                                     {
                                         bool firstitem = true;
-                                        for (int i = 0; i < count; i++)
+                                        for (int i = 0; i < count; ++i)
                                         {
                                             ushort graphic = m_StaticsReader.ReadUInt16();
                                             byte sx = m_StaticsReader.ReadByte();
@@ -587,7 +587,7 @@ namespace Ultima
                                         StaticTile[] tilelist = map.Tiles.GetPendingStatics(x, y);
                                         if (tilelist != null)
                                         {
-                                            for (int i = 0; i < tilelist.Length; i++)
+                                            for (int i = 0; i < tilelist.Length; ++i)
                                             {
                                                 if ((tilelist[i].m_ID >= 0) 
                                                     && ((tilelist[i].m_ID < 0x4000)
@@ -613,7 +613,7 @@ namespace Ultima
                                     {
                                         StaticTile[] tilelist = new StaticTile[count];
                                         int j = 0;
-                                        for (int i = 0; i < count; i++)
+                                        for (int i = 0; i < count; ++i)
                                         {
                                             StaticTile tile = new StaticTile();
                                             tile.m_ID = m_StaticsReader.ReadUInt16();
@@ -629,7 +629,7 @@ namespace Ultima
                                                 if (tile.m_Hue < 0)
                                                     tile.m_Hue = 0;
                                                 bool first = true;
-                                                for (int k = 0; k < j; k++)
+                                                for (int k = 0; k < j; ++k)
                                                 {
                                                     if ((tilelist[k].m_ID == tile.m_ID)
                                                         && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y))
@@ -653,7 +653,7 @@ namespace Ultima
                                             StaticTile[] old = tilelist;
                                             tilelist = new StaticTile[old.Length + pending.Length];
                                             old.CopyTo(tilelist, 0);
-                                            for (int i = 0; i < pending.Length; i++)
+                                            for (int i = 0; i < pending.Length; ++i)
                                             {
                                                 if ((pending[i].m_ID >= 0)
                                                     && ((pending[i].m_ID < 0x4000)
@@ -662,7 +662,7 @@ namespace Ultima
                                                     if (pending[i].m_Hue < 0)
                                                         pending[i].m_Hue = 0;
                                                     bool first = true;
-                                                    for (int k = 0; k < j; k++)
+                                                    for (int k = 0; k < j; ++k)
                                                     {
                                                         if ((tilelist[k].m_ID == pending[i].m_ID)
                                                             && ((tilelist[k].m_X == pending[i].m_X) && (tilelist[k].m_Y == pending[i].m_Y))
@@ -674,17 +674,14 @@ namespace Ultima
                                                         }
                                                     }
                                                     if (first)
-                                                    {
-                                                        tilelist[j] = pending[i];
-                                                        j++;
-                                                    }
+                                                        tilelist[j++] = pending[i];
                                                 }
                                             }
                                         }
                                         if (j > 0)
                                         {
                                             binidx.Write((int)fsmul.Position); //lookup
-                                            for (int i = 0; i < j; i++)
+                                            for (int i = 0; i < j; ++i)
                                             {
                                                 binmul.Write(tilelist[i].m_ID);
                                                 binmul.Write(tilelist[i].m_X);
@@ -714,9 +711,9 @@ namespace Ultima
                             catch // fill the rest
                             {
                                 binidx.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
-                                for (; x < blockx; x++)
+                                for (; x < blockx; ++x)
                                 {
-                                    for (; y < blocky; y++)
+                                    for (; y < blocky; ++y)
                                     {
                                         binidx.Write((int)-1); //lookup
                                         binidx.Write((int)-1); //length
@@ -755,16 +752,16 @@ namespace Ultima
             {
                 using (BinaryWriter binmul = new BinaryWriter(fsmul))
                 {
-                    for (int x = 0; x < blockx; x++)
+                    for (int x = 0; x < blockx; ++x)
                     {
-                        for (int y = 0; y < blocky; y++)
+                        for (int y = 0; y < blocky; ++y)
                         {
                             try
                             {
                                 m_mapReader.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
                                 int header = m_mapReader.ReadInt32();
                                 binmul.Write(header);
-                                for (int i = 0; i < 64; i++)
+                                for (int i = 0; i < 64; ++i)
                                 {
                                     short tileid = m_mapReader.ReadInt16();
                                     sbyte z = m_mapReader.ReadSByte();
@@ -781,12 +778,12 @@ namespace Ultima
                             catch //fill rest
                             {
                                 binmul.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
-                                for (; x < blockx; x++)
+                                for (; x < blockx; ++x)
                                 {
-                                    for (; y < blocky; y++)
+                                    for (; y < blocky; ++y)
                                     {
                                         binmul.Write((int)0);
-                                        for (int i = 0; i < 64; i++)
+                                        for (int i = 0; i < 64; ++i)
                                         {
                                             binmul.Write((short)0);
                                             binmul.Write((sbyte)0);
@@ -809,9 +806,9 @@ namespace Ultima
             using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("x;y;z;Static");
-                for (int x = 0; x < m_Width; x++)
+                for (int x = 0; x < m_Width; ++x)
                 {
-                    for (int y = 0; y < m_Height; y++)
+                    for (int y = 0; y < m_Height; ++y)
                     {
                         Tile currtile = Tiles.GetLandTile(x, y);
                         foreach (HuedTile currstatic in Tiles.GetStaticTiles(x, y))
@@ -833,9 +830,9 @@ namespace Ultima
             using (StreamWriter Tex = new StreamWriter(new FileStream(reportfile, FileMode.Create, FileAccess.ReadWrite), System.Text.Encoding.GetEncoding(1252)))
             {
                 Tex.WriteLine("x;y;z;Static;LandTile");
-                for (int x = 0; x < m_Width; x++)
+                for (int x = 0; x < m_Width; ++x)
                 {
-                    for (int y = 0; y < m_Height; y++)
+                    for (int y = 0; y < m_Height; ++y)
                     {
                         Tile currtile = Tiles.GetLandTile(x, y);
                         if (!Art.IsValidLand(currtile.ID))

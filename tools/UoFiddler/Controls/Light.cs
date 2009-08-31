@@ -46,7 +46,7 @@ namespace FiddlerControls
 
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
-            for (int i = 0; i < Ultima.Light.GetCount(); i++)
+            for (int i = 0; i < Ultima.Light.GetCount(); ++i)
             {
                 if (Ultima.Light.TestLight(i))
                 {
@@ -96,7 +96,7 @@ namespace FiddlerControls
                         {
                             g.DrawImage(background, x, y);
                         }
-                        i += 1;
+                        ++i;
                     }
                 }
                 Bitmap lightbit = Ultima.Art.GetStatic(LightTile);
@@ -118,9 +118,9 @@ namespace FiddlerControls
                 int lightendY = lightstartY + lightwidth;
                 byte r, g, b;
 
-                for (int y = 0; y < bd.Height; y++)
+                for (int y = 0; y < bd.Height; ++y)
                 {
-                    for (int x = 0; x < bd.Width; x++)
+                    for (int x = 0; x < bd.Width; ++x)
                     {
                         b = *(imgPtr + 0);
                         g = *(imgPtr + 1);

@@ -410,7 +410,7 @@ namespace Ultima
                                     {
                                         if (c != cur[X + Run])
                                             break;
-                                        Run++;
+                                        ++Run;
                                     }
                                     if (c == 0)
                                         binmul.Write(c);

@@ -170,7 +170,7 @@ namespace FiddlerControls
             nodeparent.Tag = new int[] { graphic, type };
 
             TreeNode node;
-            for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
+            for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
             {
                 if (Animations.IsActionDefined(graphic, i, 0))
                 {
@@ -216,7 +216,7 @@ namespace FiddlerControls
 
             if (m_Animation != null)
             {
-                for (int i = 0; i < m_Animation.Length; i++)
+                for (int i = 0; i < m_Animation.Length; ++i)
                 {
                     if (m_Animation[i] != null)
                         m_Animation[i].Dispose();
@@ -309,7 +309,7 @@ namespace FiddlerControls
                 int count = frames.Length;
                 m_Animation = new Bitmap[count];
 
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < count; ++i)
                 {
                     m_Animation[i] = frames[i].Bitmap;
                 }
@@ -337,7 +337,7 @@ namespace FiddlerControls
 
         private void AnimTick(object sender, EventArgs e)
         {
-            m_FrameIndex++;
+            ++m_FrameIndex;
 
             if (m_FrameIndex == m_Animation.Length)
                 m_FrameIndex = 0;
@@ -453,7 +453,7 @@ namespace FiddlerControls
                 node.ToolTipText = Animations.GetFileName(value);
                 TreeViewMobs.Nodes[0].Nodes.Add(node);
 
-                for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
+                for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
                     {
@@ -480,7 +480,7 @@ namespace FiddlerControls
                 TreeViewMobs.Nodes[1].Nodes.Add(node);
 
 
-                for (int i = 0; i < AnimNames[type].GetLength(0); i += 1)
+                for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
                     {
@@ -564,7 +564,7 @@ namespace FiddlerControls
             listView1.BeginUpdate();
             listView1.Clear();
             ListViewItem item;
-            for (int frame = 0; frame < m_Animation.Length; frame++)
+            for (int frame = 0; frame < m_Animation.Length; ++frame)
             {
                 item = new ListViewItem(frame.ToString(), 0);
                 item.Tag = frame;

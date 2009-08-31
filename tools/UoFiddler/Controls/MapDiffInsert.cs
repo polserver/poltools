@@ -84,9 +84,9 @@ namespace FiddlerControls
                 {
                     using (BinaryWriter binmul = new BinaryWriter(fsmul))
                     {
-                        for (int x = 0; x < blockx; x++)
+                        for (int x = 0; x < blockx; ++x)
                         {
-                            for (int y = 0; y < blocky; y++)
+                            for (int y = 0; y < blocky; ++y)
                             {
                                 m_mapReader.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
                                 int header = m_mapReader.ReadInt32();
@@ -100,7 +100,7 @@ namespace FiddlerControls
                                     {
                                         patched = true;
                                         Tile[] patchtile = workingmap.Tiles.Patch.GetLandBlock(x, y);
-                                        for (int i = 0; i < 64; i++)
+                                        for (int i = 0; i < 64; ++i)
                                         {
                                             tileid = (short)patchtile[i].ID;
                                             z = (sbyte)patchtile[i].Z;
@@ -117,7 +117,7 @@ namespace FiddlerControls
                                 }
                                 if (!patched)
                                 {
-                                    for (int i = 0; i < 64; i++)
+                                    for (int i = 0; i < 64; ++i)
                                     {
                                         tileid = m_mapReader.ReadInt16();
                                         z = m_mapReader.ReadSByte();
@@ -171,9 +171,9 @@ namespace FiddlerControls
                     using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                         binmul = new BinaryWriter(fsmul))
                     {
-                        for (int x = 0; x < blockx; x++)
+                        for (int x = 0; x < blockx; ++x)
                         {
-                            for (int y = 0; y < blocky; y++)
+                            for (int y = 0; y < blocky; ++y)
                             {
                                 int lookup, length, extra;
                                 m_IndexReader.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
@@ -190,9 +190,9 @@ namespace FiddlerControls
                                 {
                                     HuedTile[][][] patchstat = workingmap.Tiles.Patch.GetStaticBlock(x, y);
                                     int count = 0;
-                                    for (int i = 0; i < 8; i++)
+                                    for (int i = 0; i < 8; ++i)
                                     {
-                                        for (int j = 0; j < 8; j++)
+                                        for (int j = 0; j < 8; ++j)
                                         {
                                             if (patchstat[i][j] != null)
                                                 count += patchstat[i][j].Length;
@@ -211,9 +211,9 @@ namespace FiddlerControls
                                         {
                                             StaticTile[] tilelist = new StaticTile[count];
                                             int m = 0;
-                                            for (int i = 0; i < 8; i++)
+                                            for (int i = 0; i < 8; ++i)
                                             {
-                                                for (int j = 0; j < 8; j++)
+                                                for (int j = 0; j < 8; ++j)
                                                 {
                                                     foreach (HuedTile htile in patchstat[i][j])
                                                     {
@@ -230,7 +230,7 @@ namespace FiddlerControls
                                                             if (tile.m_Hue < 0)
                                                                 tile.m_Hue = 0;
                                                             bool first = true;
-                                                            for (int k = 0; k < m; k++)
+                                                            for (int k = 0; k < m; ++k)
                                                             {
                                                                 if ((tilelist[k].m_ID == tile.m_ID)
                                                                     && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y))
@@ -244,7 +244,7 @@ namespace FiddlerControls
                                                             if (first)
                                                             {
                                                                 tilelist[m] = tile;
-                                                                m++;
+                                                                ++m;
                                                             }
                                                         }
                                                     }
@@ -253,7 +253,7 @@ namespace FiddlerControls
                                             if (m > 0)
                                             {
                                                 binidx.Write((int)fsmul.Position); //lookup
-                                                for (int i = 0; i < m; i++)
+                                                for (int i = 0; i < m; ++i)
                                                 {
                                                     binmul.Write(tilelist[i].m_ID);
                                                     binmul.Write(tilelist[i].m_X);
@@ -269,9 +269,9 @@ namespace FiddlerControls
                                             short shue;
                                             sbyte sz;
                                             bool firstitem = true;
-                                            for (int i = 0; i < 8; i++)
+                                            for (int i = 0; i < 8; ++i)
                                             {
-                                                for (int j = 0; j < 8; j++)
+                                                for (int j = 0; j < 8; ++j)
                                                 {
                                                     foreach (HuedTile tile in patchstat[i][j])
                                                     {
@@ -332,7 +332,7 @@ namespace FiddlerControls
                                         {
                                             StaticTile[] tilelist = new StaticTile[count];
                                             int j = 0;
-                                            for (int i = 0; i < count; i++)
+                                            for (int i = 0; i < count; ++i)
                                             {
                                                 StaticTile tile = new StaticTile();
                                                 tile.m_ID = m_StaticsReader.ReadUInt16();
@@ -347,7 +347,7 @@ namespace FiddlerControls
                                                     if (tile.m_Hue < 0)
                                                         tile.m_Hue = 0;
                                                     bool first = true;
-                                                    for (int k = 0; k < j; k++)
+                                                    for (int k = 0; k < j; ++k)
                                                     {
                                                         if ((tilelist[k].m_ID == tile.m_ID)
                                                             && ((tilelist[k].m_X == tile.m_X) && (tilelist[k].m_Y == tile.m_Y))
@@ -359,16 +359,13 @@ namespace FiddlerControls
                                                         }
                                                     }
                                                     if (first)
-                                                    {
-                                                        tilelist[j] = tile;
-                                                        j++;
-                                                    }
+                                                        tilelist[j++] = tile;
                                                 }
                                             }
                                             if (j > 0)
                                             {
                                                 binidx.Write((int)fsmul.Position); //lookup
-                                                for (int i = 0; i < j; i++)
+                                                for (int i = 0; i < j; ++i)
                                                 {
                                                     binmul.Write(tilelist[i].m_ID);
                                                     binmul.Write(tilelist[i].m_X);
@@ -381,7 +378,7 @@ namespace FiddlerControls
                                         else
                                         {
                                             bool firstitem = true;
-                                            for (int i = 0; i < count; i++)
+                                            for (int i = 0; i < count; ++i)
                                             {
                                                 ushort graphic;
                                                 short shue;

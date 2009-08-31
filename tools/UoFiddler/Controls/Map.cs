@@ -734,7 +734,7 @@ namespace FiddlerControls
             dom.AppendChild(decl);
             XmlElement sr = dom.CreateElement("Overlays");
             bool entries = false;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; ++i)
             {
                 foreach (TreeNode obj in refmarker.OverlayObjectTree.Nodes[i].Nodes)
                 {
@@ -768,9 +768,9 @@ namespace FiddlerControls
             bool statics = (bool)((Object[])e.Argument)[1];
             int width = currmap.Width >> 3;
             int height = currmap.Height >> 3;
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; ++x)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < height; ++y)
                 {
                     currmap.PreloadRenderedBlock(x, y, statics);
                     PreloadWorker.ReportProgress(1);

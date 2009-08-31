@@ -66,7 +66,7 @@ namespace MultiEditor
             {
                 for (int y = 0; y < Height; ++y)
                 {
-                    for (int i = 0; i < list.Tiles[x][y].Length; i++)
+                    for (int i = 0; i < list.Tiles[x][y].Length; ++i)
                     {
                         Tiles.Add(new MultiTile(list.Tiles[x][y][i].ID, x, y, list.Tiles[x][y][i].Z,list.Tiles[x][y][i].Flag));
                     }
@@ -144,7 +144,7 @@ namespace MultiEditor
                 if (tile.isVirtualFloor)
                     continue;
                 tiles[tile.X][tile.Y].Add((ushort)(tile.ID), (sbyte)tile.Z, tile.Invisible?(sbyte)0:(sbyte)1);
-                count++;
+                ++count;
             }
             return new MultiComponentList(tiles, count, Width, Height);
         }
@@ -226,7 +226,7 @@ namespace MultiEditor
             MultiTile selected = null;
             if (mouseLoc != Point.Empty)
             {
-                for (int i = Tiles.Count - 1; i >= 0; i--) // inverse for speedup
+                for (int i = Tiles.Count - 1; i >= 0; --i) // inverse for speedup
                 {
                     MultiTile tile = (MultiTile)Tiles[i];
                     if (tile.isVirtualFloor)
@@ -267,7 +267,7 @@ namespace MultiEditor
             AddToUndoList("Resize");
             if ((Width > width) || (Height > height))
             {
-                for (int i = Tiles.Count - 1; i >= 0; i--)
+                for (int i = Tiles.Count - 1; i >= 0; --i)
                 {
                     MultiTile tile = (MultiTile)Tiles[i];
                     if (tile.X >= width)
@@ -279,9 +279,9 @@ namespace MultiEditor
             
             if ((Width < width) || (Height < height))
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < width; ++x)
                 {
-                    for (int y = 0; y < height; y++)
+                    for (int y = 0; y < height; ++y)
                     {
                         if ((x < Width) && (y < Height))
                             continue;
@@ -407,7 +407,7 @@ namespace MultiEditor
 
         public void UndoClear()
         {
-            for (int i = 0; i < UndoListMaxSize; i++)
+            for (int i = 0; i < UndoListMaxSize; ++i)
             {
                 UndoList[i].Action = null;
                 UndoList[i].Tiles = null;
@@ -417,7 +417,7 @@ namespace MultiEditor
 
         private void AddToUndoList(string Action)
         {
-            for (int i = UndoListMaxSize - 2; i >= 0; i--)
+            for (int i = UndoListMaxSize - 2; i >= 0; --i)
             {
                 UndoList[i + 1] = UndoList[i];
             }

@@ -47,8 +47,7 @@ namespace Ultima
                         int i = 0;
                         while (bin.BaseStream.Length != bin.BaseStream.Position)
                         {
-                            m_Colors[i] = bin.ReadInt16();
-                            i++;
+                            m_Colors[i++] = bin.ReadInt16();
                         }
                     }
                 }
@@ -63,7 +62,7 @@ namespace Ultima
             {
                 using (BinaryWriter bin = new BinaryWriter(fs))
                 {
-                    for (int i = 0; i < m_Colors.Length; i++)
+                    for (int i = 0; i < m_Colors.Length; ++i)
                     {
                         bin.Write(m_Colors[i]);
                     }

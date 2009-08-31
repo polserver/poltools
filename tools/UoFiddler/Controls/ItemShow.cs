@@ -81,7 +81,7 @@ namespace FiddlerControls
         public static bool SearchGraphic(int graphic)
         {
             int index = 0;
-            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
                 if ((int)item.Tag == graphic)
@@ -115,7 +115,7 @@ namespace FiddlerControls
             }
 
             Regex regex = new Regex(@name, RegexOptions.IgnoreCase);
-            for (int i = index; i < refMarker.listView1.Items.Count; i++)
+            for (int i = index; i < refMarker.listView1.Items.Count; ++i)
             {
                 ListViewItem item = refMarker.listView1.Items[i];
                 if (regex.IsMatch(TileData.ItemTable[(int)item.Tag].Name))
@@ -183,7 +183,7 @@ namespace FiddlerControls
                 int staticlength = 0x4000;
                 if (Art.IsUOSA())
                     staticlength = 0x8000;
-                for (int i = 0; i < staticlength; i++)
+                for (int i = 0; i < staticlength; ++i)
                 {
                     if (Art.IsValidStatic(i))
                     {
@@ -628,7 +628,7 @@ namespace FiddlerControls
                     i = listView1.SelectedItems[0].Index + 1;
                 else
                     i = 0;
-                for (; i < listView1.Items.Count; i++)
+                for (; i < listView1.Items.Count; ++i)
                 {
                     if ((int)listView1.Items[i].Tag == -1)
                     {
@@ -655,7 +655,7 @@ namespace FiddlerControls
                     id = 0;
                     i = 0;
                 }
-                for (; i < listView1.Items.Count; i++)
+                for (; i < listView1.Items.Count; ++i, ++id)
                 {
                     if (id < (int)listView1.Items[i].Tag)
                     {
@@ -667,7 +667,6 @@ namespace FiddlerControls
                         item.EnsureVisible();
                         break;
                     }
-                    id++;
                 }
             }
         }
@@ -679,7 +678,7 @@ namespace FiddlerControls
             if (ShowFreeSlots)
             {
                 ListViewItem item;
-                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); j++)
+                for (int j = 0; j < (Ultima.Art.IsUOSA() ? 0x8000 : 0x4000); ++j)
                 {
                     if (listView1.Items.Count > j)
                     {
@@ -800,7 +799,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
@@ -825,7 +824,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)
@@ -850,7 +849,7 @@ namespace FiddlerControls
                 dialog.ShowNewFolderButton = true;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    for (int i = 0; i < listView1.Items.Count; i++)
+                    for (int i = 0; i < listView1.Items.Count; ++i)
                     {
                         int index = (int)listView1.Items[i].Tag;
                         if (index >= 0)

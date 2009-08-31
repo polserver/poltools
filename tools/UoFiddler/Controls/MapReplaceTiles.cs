@@ -123,16 +123,16 @@ namespace FiddlerControls
             {
                 using (BinaryWriter binmul = new BinaryWriter(fsmul))
                 {
-                    for (int x = 0; x < blockx; x++)
+                    for (int x = 0; x < blockx; ++x)
                     {
-                        for (int y = 0; y < blocky; y++)
+                        for (int y = 0; y < blocky; ++y)
                         {
                             try
                             {
                                 m_mapReader.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
                                 int header = m_mapReader.ReadInt32();
                                 binmul.Write(header);
-                                for (int i = 0; i < 64; i++)
+                                for (int i = 0; i < 64; ++i)
                                 {
                                     ushort tileid = m_mapReader.ReadUInt16();
                                     sbyte z = m_mapReader.ReadSByte();
@@ -151,12 +151,12 @@ namespace FiddlerControls
                             catch //fill rest
                             {
                                 binmul.BaseStream.Seek(((x * blocky) + y) * 196, SeekOrigin.Begin);
-                                for (; x < blockx; x++)
+                                for (; x < blockx; ++x)
                                 {
-                                    for (; y < blocky; y++)
+                                    for (; y < blocky; ++y)
                                     {
                                         binmul.Write((int)0);
-                                        for (int i = 0; i < 64; i++)
+                                        for (int i = 0; i < 64; ++i)
                                         {
                                             binmul.Write((short)0);
                                             binmul.Write((sbyte)0);
@@ -210,9 +210,9 @@ namespace FiddlerControls
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int x = 0; x < blockx; x++)
+                    for (int x = 0; x < blockx; ++x)
                     {
-                        for (int y = 0; y < blocky; y++)
+                        for (int y = 0; y < blocky; ++y)
                         {
                             try
                             {
@@ -236,7 +236,7 @@ namespace FiddlerControls
                                     int count = length / 7;
 
                                     bool firstitem = true;
-                                    for (int i = 0; i < count; i++)
+                                    for (int i = 0; i < count; ++i)
                                     {
                                         ushort graphic = m_StaticsReader.ReadUInt16();
                                         byte sx = m_StaticsReader.ReadByte();
@@ -282,9 +282,9 @@ namespace FiddlerControls
                             catch // fill the rest
                             {
                                 binidx.BaseStream.Seek(((x * blocky) + y) * 12, SeekOrigin.Begin);
-                                for (; x < blockx; x++)
+                                for (; x < blockx; ++x)
                                 {
-                                    for (; y < blocky; y++)
+                                    for (; y < blocky; ++y)
                                     {
                                         binidx.Write((int)-1); //lookup
                                         binidx.Write((int)-1); //length

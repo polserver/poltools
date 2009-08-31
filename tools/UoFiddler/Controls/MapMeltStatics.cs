@@ -63,14 +63,14 @@ namespace FiddlerControls
             int count=1;
             using (StreamWriter Tex = new StreamWriter(new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write), System.Text.Encoding.GetEncoding(1252)))
             {
-                for (int x = blockx1; x <= blockx2; x++)
+                for (int x = blockx1; x <= blockx2; ++x)
                 {
-                    for (int y = blocky1; y <= blocky2; y++)
+                    for (int y = blocky1; y <= blocky2; ++y)
                     {
                         Ultima.HuedTile[][][] tiles = Map.Tiles.GetStaticBlock(x, y, false);
-                        for (int ix = 0; ix < 8; ix++)
+                        for (int ix = 0; ix < 8; ++ix)
                         {
-                            for (int iy = 0; iy < 8; iy++)
+                            for (int iy = 0; iy < 8; ++iy)
                             {
                                 foreach (Ultima.HuedTile tile in tiles[ix][iy])
                                 {
@@ -85,7 +85,7 @@ namespace FiddlerControls
                                     Tex.WriteLine("  CONT -1");
                                     Tex.WriteLine("  TYPE 255");
                                     Tex.WriteLine("}");
-                                    count++;
+                                    ++count;
                                 }
                             }
                         }

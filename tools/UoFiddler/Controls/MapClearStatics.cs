@@ -55,9 +55,9 @@ namespace FiddlerControls
             blocky1 >>= 3;
             blocky2 >>= 3;
 
-            for (int x = blockx1; x <= blockx2; x++)
+            for (int x = blockx1; x <= blockx2; ++x)
             {
-                for (int y = blocky1; y <= blocky2; y++)
+                for (int y = blocky1; y <= blocky2; ++y)
                 {
                     Ultima.HuedTile[][][] tiles = Map.Tiles.GetStaticBlock(x, y, false);
                     Map.Tiles.RemoveStaticBlock(x,y);

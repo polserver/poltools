@@ -59,7 +59,7 @@ namespace FiddlerControls
             int index = 0;
             if (land)
             {
-                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewLand.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewLand.Nodes[i];
                     if ((int)node.Tag == graphic)
@@ -73,7 +73,7 @@ namespace FiddlerControls
             }
             else
             {
-                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; i++)
+                for (int i = index; i < refMarker.treeViewItem.Nodes.Count; ++i)
                 {
                     TreeNode node = refMarker.treeViewItem.Nodes[i];
                     if ((int)node.Tag == graphic)
@@ -195,17 +195,17 @@ namespace FiddlerControls
                 int meang = 0;
                 int meanb = 0;
                 int count = 0;
-                for (int y = 0; y < image.Height; y++, line += delta)
+                for (int y = 0; y < image.Height; ++y, line += delta)
                 {
                     cur = line;
-                    for (int x = 0; x < image.Width; x++)
+                    for (int x = 0; x < image.Width; ++x)
                     {
                         if (cur[x] != 0)
                         {
                             meanr += Ultima.Hues.HueToColorR((short)cur[x]);
                             meang += Ultima.Hues.HueToColorG((short)cur[x]);
                             meanb += Ultima.Hues.HueToColorB((short)cur[x]);
-                            count++;
+                            ++count;
                         }
                     }
                 }
@@ -294,7 +294,7 @@ namespace FiddlerControls
                 int gmeanr = 0;
                 int gmeang = 0;
                 int gmeanb = 0;
-                for (int i = from; i < to; i++)
+                for (int i = from; i < to; ++i)
                 {
                     Bitmap image;
                     if (tabControl2.SelectedIndex == 0)
@@ -313,17 +313,17 @@ namespace FiddlerControls
                         int meang = 0;
                         int meanb = 0;
                         int count = 0;
-                        for (int y = 0; y < image.Height; y++, line += delta)
+                        for (int y = 0; y < image.Height; ++y, line += delta)
                         {
                             cur = line;
-                            for (int x = 0; x < image.Width; x++)
+                            for (int x = 0; x < image.Width; ++x)
                             {
                                 if (cur[x] != 0)
                                 {
                                     meanr += Ultima.Hues.HueToColorR((short)cur[x]);
                                     meang += Ultima.Hues.HueToColorG((short)cur[x]);
                                     meanb += Ultima.Hues.HueToColorB((short)cur[x]);
-                                    count++;
+                                    ++count;
                                 }
                             }
                         }
