@@ -92,8 +92,8 @@ namespace FiddlerControls
                 bmp.UnlockBits(bd);
             }
             pictureBoxPalette.Image = bmp;
-
         }
+
         private void AfterSelectTreeView(object sender, TreeViewEventArgs e)
         {
             if (treeView1.SelectedNode != null)
@@ -554,6 +554,90 @@ namespace FiddlerControls
                     }
                 }
             }
+        }
+
+        private void OnClickImportFromVD(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.Title = "Choose palette file";
+                dialog.CheckFileExists = true;
+                dialog.Filter = "vd files (*.vd)|*.vd";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    int animlength = Animations.GetAnimLength(CurrBody, FileType);
+                    int currtype = animlength == 22 ? 0 : animlength == 13 ? 1 : 2;
+                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        using (BinaryReader bin = new BinaryReader(fs))
+                        {
+                            int filetype = bin.ReadInt16();
+                            int animtype = bin.ReadInt16();
+                            if (filetype != 6)
+                            {
+                                MessageBox.Show(
+                                    "Not an Anim File.",
+                                    "Import",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information,
+                                    MessageBoxDefaultButton.Button1);
+                                return;
+                            }
+                            
+                            if (animtype != currtype)
+                            {
+                                MessageBox.Show(
+                                    "Wrong Anim Id ( Type )",
+                                    "Import",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information,
+                                    MessageBoxDefaultButton.Button1);
+                                return;
+                            }
+                            Ultima.AnimationEdit.LoadFromVD(FileType, CurrBody, bin);
+                        }
+                    }
+
+                    bool valid = false;
+                    for (int j = 0; j < animlength; ++j)
+                    {
+                        if (Ultima.AnimationEdit.IsActionDefinied(FileType, CurrBody, j))
+                        {
+                            treeView1.Nodes[CurrBody].Nodes[j].ForeColor = Color.Black;
+                            valid = true;
+                        }
+                        else
+                            treeView1.Nodes[CurrBody].Nodes[j].ForeColor = Color.Red;
+                    }
+                    if (valid)
+                        treeView1.Nodes[CurrBody].ForeColor = Color.Black;
+                    else
+                        treeView1.Nodes[CurrBody].ForeColor = Color.Red;
+
+                    Options.ChangedUltimaClass["Animations"] = true;
+                    AfterSelectTreeView(this, null);
+                    MessageBox.Show(
+                                    "Finished",
+                                    "Import",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information,
+                                    MessageBoxDefaultButton.Button1);
+                }
+            }
+        }
+
+        private void OnClickExportToVD(object sender, EventArgs e)
+        {
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            string FileName = Path.Combine(path, String.Format("anim{0}_0x{1:X}.vd",FileType,CurrBody));
+            Ultima.AnimationEdit.ExportToVD(FileType, CurrBody, FileName);
+            MessageBox.Show(
+                    String.Format("Animation saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                    "Export",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information,
+                    MessageBoxDefaultButton.Button1);
         }
     }
 }

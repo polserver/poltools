@@ -40,6 +40,7 @@ namespace FiddlerControls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliloc));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyCliLocNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +59,7 @@ namespace FiddlerControls
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ClilocExportButton = new System.Windows.Forms.ToolStripButton();
+            this.ClilocImportButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -136,7 +138,8 @@ namespace FiddlerControls
             this.toolStripSeparator2,
             this.toolStripButton1,
             this.toolStripSeparator5,
-            this.ClilocExportButton});
+            this.ClilocExportButton,
+            this.ClilocImportButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -221,6 +224,16 @@ namespace FiddlerControls
             this.ClilocExportButton.Text = "Export";
             this.ClilocExportButton.Click += new System.EventHandler(this.OnClickExportCSV);
             // 
+            // ClilocImportButton
+            // 
+            this.ClilocImportButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ClilocImportButton.Image = ((System.Drawing.Image)(resources.GetObject("ClilocImportButton.Image")));
+            this.ClilocImportButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClilocImportButton.Name = "ClilocImportButton";
+            this.ClilocImportButton.Size = new System.Drawing.Size(43, 22);
+            this.ClilocImportButton.Text = "Import";
+            this.ClilocImportButton.Click += new System.EventHandler(this.OnClickImportCSV);
+            // 
             // Cliloc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,5 +273,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton ClilocExportButton;
+        private System.Windows.Forms.ToolStripButton ClilocImportButton;
     }
 }
