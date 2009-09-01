@@ -907,7 +907,6 @@ namespace FiddlerControls
                 }
             }
             dialog.Dispose();
-
         }
     }
 }

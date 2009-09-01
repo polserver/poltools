@@ -32,8 +32,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStripTreeView = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractImagesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.asBmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.asTiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +65,10 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromvdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tovdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -121,22 +125,24 @@
             this.contextMenuStripTreeView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem,
             this.removeToolStripMenuItem,
-            this.extractImagesToolStripMenuItem1});
+            this.extractImagesToolStripMenuItem1,
+            this.importToolStripMenuItem1,
+            this.exportToolStripMenuItem1});
             this.contextMenuStripTreeView.Name = "contextMenuStrip2";
-            this.contextMenuStripTreeView.Size = new System.Drawing.Size(159, 70);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemoveAction);
+            this.contextMenuStripTreeView.Size = new System.Drawing.Size(167, 114);
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.addToolStripMenuItem.Text = "Replace";
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.OnClickRemoveAction);
             // 
             // extractImagesToolStripMenuItem1
             // 
@@ -144,13 +150,13 @@
             this.asBmpToolStripMenuItem,
             this.asTiffToolStripMenuItem});
             this.extractImagesToolStripMenuItem1.Name = "extractImagesToolStripMenuItem1";
-            this.extractImagesToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
-            this.extractImagesToolStripMenuItem1.Text = "Extract Images";
+            this.extractImagesToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.extractImagesToolStripMenuItem1.Text = "Extract Images..";
             // 
             // asBmpToolStripMenuItem
             // 
             this.asBmpToolStripMenuItem.Name = "asBmpToolStripMenuItem";
-            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asBmpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.asBmpToolStripMenuItem.Tag = ".bmp";
             this.asBmpToolStripMenuItem.Text = "As Bmp";
             this.asBmpToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractImages);
@@ -158,7 +164,7 @@
             // asTiffToolStripMenuItem
             // 
             this.asTiffToolStripMenuItem.Name = "asTiffToolStripMenuItem";
-            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.asTiffToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.asTiffToolStripMenuItem.Tag = ".tiff";
             this.asTiffToolStripMenuItem.Text = "As Tiff";
             this.asTiffToolStripMenuItem.Click += new System.EventHandler(this.onClickExtractImages);
@@ -391,6 +397,7 @@
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1});
             this.toolStrip2.Location = new System.Drawing.Point(3, 324);
@@ -451,9 +458,39 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnClickSave);
+            // 
+            // importToolStripMenuItem1
+            // 
+            this.importToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fromvdToolStripMenuItem});
+            this.importToolStripMenuItem1.Name = "importToolStripMenuItem1";
+            this.importToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.importToolStripMenuItem1.Text = "Import..";
+            // 
+            // fromvdToolStripMenuItem
+            // 
+            this.fromvdToolStripMenuItem.Name = "fromvdToolStripMenuItem";
+            this.fromvdToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fromvdToolStripMenuItem.Text = "From .vd";
+            this.fromvdToolStripMenuItem.Click += new System.EventHandler(this.OnClickImportFromVD);
+            // 
+            // exportToolStripMenuItem1
+            // 
+            this.exportToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tovdToolStripMenuItem});
+            this.exportToolStripMenuItem1.Name = "exportToolStripMenuItem1";
+            this.exportToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.exportToolStripMenuItem1.Text = "Export..";
+            // 
+            // tovdToolStripMenuItem
+            // 
+            this.tovdToolStripMenuItem.Name = "tovdToolStripMenuItem";
+            this.tovdToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tovdToolStripMenuItem.Text = "To .vd";
+            this.tovdToolStripMenuItem.Click += new System.EventHandler(this.OnClickExportToVD);
             // 
             // AnimationEdit
             // 
@@ -530,5 +567,9 @@
         private System.Windows.Forms.ToolStripMenuItem fromTxtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fromvdToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tovdToolStripMenuItem;
     }
 }

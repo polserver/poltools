@@ -313,6 +313,7 @@ namespace FiddlerControls
                     refmarker.dataGridView1.Refresh();
                     refmarker.dataGridView1.Rows[i].Selected = true;
                     refmarker.dataGridView1.FirstDisplayedScrollingRowIndex = i;
+
                     Options.ChangedUltimaClass["CliLoc"] = true;
                     return;
                 }
@@ -328,6 +329,7 @@ namespace FiddlerControls
             }
             return true;
         }
+
 
         public static void AddEntry(int number)
         {
@@ -367,6 +369,60 @@ namespace FiddlerControls
                 }
             }
             MessageBox.Show(String.Format("CliLoc saved to {0}", FileName), "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickImportCSV(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Choose csv file to import";
+            dialog.CheckFileExists = true;
+            dialog.Filter = "csv files (*.csv)|*.csv";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamReader sr = new StreamReader(dialog.FileName))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                            continue;
+                        if (line.StartsWith("Number;"))
+                            continue;
+                        try
+                        {
+                            string[] split = line.Split(';');
+                            if (split.Length < 3)
+                                continue;
+
+                            int id = int.Parse(split[0].Trim());
+                            string text = split[1].Trim();
+
+                            int index = 0;
+                            foreach (StringEntry entry in cliloc.Entries)
+                            {
+                                if (entry.Number == id)
+                                {
+                                    entry.Text = text;
+                                    entry.Flag = StringEntry.CliLocFlag.Modified;
+                                    Options.ChangedUltimaClass["CliLoc"] = true;
+                                    break;
+                                }
+                                else if (entry.Number > id)
+                                {
+                                    cliloc.Entries.Insert(index, new StringEntry(id, text, StringEntry.CliLocFlag.Custom));
+                                    Options.ChangedUltimaClass["CliLoc"] = true;
+                                    break;
+                                }
+                                ++index;
+                            }
+                            dataGridView1.Refresh();
+                        }
+                        catch { }
+                    }
+                }
+            }
+            dialog.Dispose();
         }
     }
 }
