@@ -28,6 +28,12 @@ namespace UoFiddler
             m_oldtab = oldtab;
             if (UoFiddler.ActiveForm.TopMost)
                 this.TopMost = true;
+            FiddlerControls.Events.AlwaysOnTopChangeEvent += new FiddlerControls.Events.AlwaysOnTopChangeHandler(OnAlwaysOnTopChangeEvent);
+        }
+
+        private void OnAlwaysOnTopChangeEvent(bool value)
+        {
+            this.TopMost = value;
         }
 
         public void ChangeControl(Control contr)

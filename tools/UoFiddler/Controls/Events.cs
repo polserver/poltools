@@ -24,6 +24,7 @@ namespace FiddlerControls
         public delegate void TextureChangeHandler(object sender, int id);
         public delegate void GumpChangeHandler(object sender, int id);
         public delegate void TileDataChangeHandler(object sender, int id);
+        public delegate void AlwaysOnTopChangeHandler(bool value);
 
         /// <summary>
         /// Fired when map diff file usage is switched
@@ -69,6 +70,10 @@ namespace FiddlerControls
         /// Fired when Tiledata changed
         /// </summary>
         public static event TileDataChangeHandler TileDataChangeEvent;
+        /// <summary>
+        /// Fired when AlwaysOnTop changed
+        /// </summary>
+        public static event AlwaysOnTopChangeHandler AlwaysOnTopChangeEvent;
 
         public static void FireMapDiffChangeEvent()
         {
@@ -124,6 +129,11 @@ namespace FiddlerControls
         {
             if (TileDataChangeEvent != null)
                 TileDataChangeEvent(sender, id);
+        }
+        public static void FireAlwaysOnTopChangeEvent(bool value)
+        {
+            if (AlwaysOnTopChangeEvent != null)
+                AlwaysOnTopChangeEvent(value);
         }
     }
 }
