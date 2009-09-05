@@ -156,7 +156,12 @@ namespace Ultima
             if (cache != null)
             {
                 if (cache[index] != null)
-                    return true;
+                {
+                    if ((cache[index].Frames != null) && (cache[index].Frames.Count > 0))
+                        return true;
+                    else
+                        return false;
+                }
             }
 
             int AnimCount = Animations.GetAnimLength(body, filetype);

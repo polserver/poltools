@@ -73,6 +73,7 @@ namespace UoFiddler
         private void onClickAlwaysTop(object sender, EventArgs e)
         {
             this.TopMost = AlwaysOnTopMenuitem.Checked;
+            FiddlerControls.Events.FireAlwaysOnTopChangeEvent(this.TopMost);
         }
 
         private void Restart(object sender, EventArgs e)

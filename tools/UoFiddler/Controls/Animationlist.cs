@@ -107,9 +107,9 @@ namespace FiddlerControls
             if (TreeViewMobs.Nodes[0].Nodes.Count > 0)
                 TreeViewMobs.SelectedNode = TreeViewMobs.Nodes[0].Nodes[0];
             FacingBar.Value = (facing + 3) & 7;
-            Loaded = true;
             if (!Loaded)
                 FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
             Cursor.Current = Cursors.Default;
         }
 

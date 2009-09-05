@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Ultima;
+using System.Collections;
 
 namespace FiddlerControls
 {
@@ -28,6 +29,7 @@ namespace FiddlerControls
             CurrDir = 0;
             toolStripComboBox1.SelectedIndex = 0;
             FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
+            ShowOnlyValid = false;
         }
 
         private int FileType;
@@ -35,6 +37,7 @@ namespace FiddlerControls
         int CurrBody;
         private int CurrDir;
         private Point FramePoint;
+        private bool ShowOnlyValid;
 
         private void onLoad(object sender, EventArgs e)
         {
@@ -42,7 +45,7 @@ namespace FiddlerControls
             treeView1.Nodes.Clear();
 
             int count = Animations.GetAnimCount(FileType);
-            TreeNode[] nodes = new TreeNode[count];
+            ArrayList nodes = new ArrayList();
             for (int i = 0; i < count; ++i)
             {
                 int animlength = Animations.GetAnimLength(i, FileType);
@@ -50,7 +53,6 @@ namespace FiddlerControls
                 TreeNode node = new TreeNode();
                 node.Tag = i;
                 node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
-                nodes[i] = node;
                 bool valid = false;
                 for (int j = 0; j < animlength; ++j)
                 {
@@ -64,12 +66,32 @@ namespace FiddlerControls
                     node.Nodes.Add(subnode);
                 }
                 if (!valid)
+                {
+                    if (ShowOnlyValid)
+                        continue;
                     node.ForeColor = Color.Red;
+                }
+                nodes.Add(node);
             }
-            treeView1.Nodes.AddRange(nodes);
+            treeView1.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
+        }
+
+        private TreeNode GetNode(int tag)
+        {
+            if (ShowOnlyValid)
+            {
+                foreach (TreeNode node in treeView1.Nodes)
+                {
+                    if ((int)node.Tag == tag)
+                        return node;
+                }
+                return null;
+            }
+            else
+                return treeView1.Nodes[tag];
         }
 
         private unsafe void SetPaletteBox()
@@ -193,7 +215,7 @@ namespace FiddlerControls
                 e.Graphics.Clear(Color.LightGray);
                 e.Graphics.DrawLine(Pens.Black, new Point(FramePoint.X, 0), new Point(FramePoint.X, pictureBox1.Height));
                 e.Graphics.DrawLine(Pens.Black, new Point(0, FramePoint.Y), new Point(pictureBox1.Width, FramePoint.Y));
-                if (currbits.Length > 0)
+                if ((currbits != null) && (currbits.Length > 0))
                 {
                     if (currbits[trackBar2.Value] != null)
                     {
@@ -211,8 +233,11 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                if (edit.Frames.Count >= trackBar2.Value)
+                {
+                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
+                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                }
             }
             pictureBox1.Refresh();
         }
@@ -222,12 +247,15 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
-                if (numericUpDownCx.Value != frame.Center.X)
+                if (edit.Frames.Count >= trackBar2.Value)
                 {
-                    frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
-                    Options.ChangedUltimaClass["Animations"] = true;
-                    pictureBox1.Refresh();
+                    FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                    if (numericUpDownCx.Value != frame.Center.X)
+                    {
+                        frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
+                        Options.ChangedUltimaClass["Animations"] = true;
+                        pictureBox1.Refresh();
+                    }
                 }
             }
         }
@@ -237,12 +265,15 @@ namespace FiddlerControls
             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
             if (edit != null)
             {
-                FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
-                if (numericUpDownCy.Value != frame.Center.Y)
+                if (edit.Frames.Count >= trackBar2.Value)
                 {
-                    frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
-                    Options.ChangedUltimaClass["Animations"] = true;
-                    pictureBox1.Refresh();
+                    FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                    if (numericUpDownCy.Value != frame.Center.Y)
+                    {
+                        frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
+                        Options.ChangedUltimaClass["Animations"] = true;
+                        pictureBox1.Refresh();
+                    }
                 }
             }
         }
@@ -337,10 +368,10 @@ namespace FiddlerControls
                        MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
-                    treeView1.Nodes[CurrBody].ForeColor = Color.Red;
-                    for (int i = 0; i < treeView1.Nodes[CurrBody].Nodes.Count; ++i)
+                    treeView1.SelectedNode.ForeColor = Color.Red;
+                    for (int i = 0; i < treeView1.SelectedNode.Nodes.Count; ++i)
                     {
-                        treeView1.Nodes[CurrBody].Nodes[i].ForeColor = Color.Red;
+                        treeView1.SelectedNode.Nodes[i].ForeColor = Color.Red;
                         for (int d = 0; d < 5; ++d)
                         {
                             AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, i, d);
@@ -348,6 +379,8 @@ namespace FiddlerControls
                                 edit.ClearFrames();
                         }
                     }
+                    if (ShowOnlyValid)
+                        treeView1.SelectedNode.Remove();
                     Options.ChangedUltimaClass["Animations"] = true;
                     AfterSelectTreeView(this, null);
                 }
@@ -368,9 +401,9 @@ namespace FiddlerControls
                         if (edit != null)
                             edit.ClearFrames();
                     }
-                    treeView1.Nodes[CurrBody].Nodes[CurrAction].ForeColor = Color.Red;
+                    treeView1.SelectedNode.Parent.Nodes[CurrAction].ForeColor = Color.Red;
                     bool valid = false;
-                    foreach (TreeNode node in treeView1.Nodes[CurrBody].Nodes)
+                    foreach (TreeNode node in treeView1.SelectedNode.Parent.Nodes)
                     {
                         if (node.ForeColor != Color.Red)
                         {
@@ -379,7 +412,12 @@ namespace FiddlerControls
                         }
                     }
                     if (!valid)
-                        treeView1.Nodes[CurrBody].ForeColor = Color.Red;
+                    {
+                        if (ShowOnlyValid)
+                            treeView1.SelectedNode.Parent.Remove();
+                        else
+                            treeView1.SelectedNode.Parent.ForeColor = Color.Red;
+                    }
                     Options.ChangedUltimaClass["Animations"] = true;
                     AfterSelectTreeView(this, null);
                 }
@@ -468,8 +506,12 @@ namespace FiddlerControls
                     if (edit != null)
                     {
                         edit.AddFrame(bmp);
-                        treeView1.Nodes[CurrBody].ForeColor = Color.Black;
-                        treeView1.Nodes[CurrBody].Nodes[CurrAction].ForeColor = Color.Black;
+                        TreeNode node = GetNode(CurrBody);
+                        if (node != null)
+                        {
+                            node.ForeColor = Color.Black;
+                            node.Nodes[CurrAction].ForeColor = Color.Black;
+                        }
                         ListViewItem item;
                         int i = edit.Frames.Count - 1;
                         item = new ListViewItem(i.ToString(), 0);
@@ -600,20 +642,24 @@ namespace FiddlerControls
                     }
 
                     bool valid = false;
-                    for (int j = 0; j < animlength; ++j)
+                    TreeNode node = GetNode(CurrBody);
+                    if (node != null)
                     {
-                        if (Ultima.AnimationEdit.IsActionDefinied(FileType, CurrBody, j))
+                        for (int j = 0; j < animlength; ++j)
                         {
-                            treeView1.Nodes[CurrBody].Nodes[j].ForeColor = Color.Black;
-                            valid = true;
+                            if (Ultima.AnimationEdit.IsActionDefinied(FileType, CurrBody, j))
+                            {
+                                node.Nodes[j].ForeColor = Color.Black;
+                                valid = true;
+                            }
+                            else
+                                node.Nodes[j].ForeColor = Color.Red;
                         }
+                        if (valid)
+                            node.ForeColor = Color.Black;
                         else
-                            treeView1.Nodes[CurrBody].Nodes[j].ForeColor = Color.Red;
+                            node.ForeColor = Color.Red;
                     }
-                    if (valid)
-                        treeView1.Nodes[CurrBody].ForeColor = Color.Black;
-                    else
-                        treeView1.Nodes[CurrBody].ForeColor = Color.Red;
 
                     Options.ChangedUltimaClass["Animations"] = true;
                     AfterSelectTreeView(this, null);
@@ -638,6 +684,23 @@ namespace FiddlerControls
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information,
                     MessageBoxDefaultButton.Button1);
+        }
+
+        private void OnClickShowOnlyValid(object sender, EventArgs e)
+        {
+            ShowOnlyValid = !ShowOnlyValid;
+            if (ShowOnlyValid)
+            {
+                treeView1.BeginUpdate();
+                for (int i = treeView1.Nodes.Count-1; i >= 0; --i)
+                {
+                    if (treeView1.Nodes[i].ForeColor == Color.Red)
+                        treeView1.Nodes[i].Remove();
+                }
+                treeView1.EndUpdate();
+            }
+            else
+                OnLoad(null);
         }
     }
 }
