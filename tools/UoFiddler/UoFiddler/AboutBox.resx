@@ -123,6 +123,8 @@ Cliloc: Added Import from csv
 AnimEdit:
 Export/Import to mulpatcher .vd format
 Misc-&gt;Show Only Valid added
+4.2 introduced bug with art saving fixed
+Gumps: Added ShowFreeSlots
 Minor Fixes
 
 Version 4.2

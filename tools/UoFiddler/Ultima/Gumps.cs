@@ -8,10 +8,10 @@ namespace Ultima
 {
     public sealed class Gumps
     {
-        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0xc0000, 12);
+        private static FileIndex m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul",  12);
 
-        private static Bitmap[] m_Cache = new Bitmap[0xc0000];
-        private static bool[] m_Removed = new bool[0xc0000];
+        private static Bitmap[] m_Cache;
+        private static bool[] m_Removed;
         private static Hashtable m_patched = new Hashtable();
 
         private static byte[] m_PixelBuffer;
@@ -19,6 +19,16 @@ namespace Ultima
         private static byte[] m_ColorTable;
         static Gumps()
         {
+            if (m_FileIndex != null)
+            {
+                m_Cache = new Bitmap[m_FileIndex.Index.Length];
+                m_Removed = new bool[m_FileIndex.Index.Length];
+            }
+            else
+            {
+                m_Cache = new Bitmap[0xFFFF];
+                m_Removed = new bool[0xFFFF];
+            }
         }
         /// <summary>
         /// ReReads gumpart
@@ -27,18 +37,26 @@ namespace Ultima
         {
             try
             {
-                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 0xc0000, 12);
+                m_FileIndex = new FileIndex("Gumpidx.mul", "Gumpart.mul", 12);
+                m_Cache = new Bitmap[m_FileIndex.Index.Length];
+                m_Removed = new bool[m_FileIndex.Index.Length];
             }
             catch
             {
                 m_FileIndex = null;
+                m_Cache = new Bitmap[0xFFFF];
+                m_Removed = new bool[0xFFFF];
             }
-            m_Cache = new Bitmap[0xc0000];
-            m_Removed = new bool[0xc0000];
+
             m_PixelBuffer = null;
             m_StreamBuffer = null;
             m_ColorTable = null;
             m_patched.Clear();
+        }
+
+        public static int GetCount()
+        {
+            return m_Cache.Length;
         }
 
         /// <summary>

@@ -331,7 +331,7 @@ namespace ComparePlugin
             m_Compare[i] = true;
             listBox1.BeginUpdate();
             bool done = false;
-            for (int id = 0; id < 0x4000; id++)
+            for (int id = 0; id < 0x10000; id++)
             {
                 if (id > i)
                 {
