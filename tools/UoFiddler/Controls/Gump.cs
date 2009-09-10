@@ -32,6 +32,7 @@ namespace FiddlerControls
         }
 
         private bool Loaded = false;
+        private bool ShowFreeSlots = false;
 
         /// <summary>
         /// Reload when loaded (file changed)
@@ -46,11 +47,13 @@ namespace FiddlerControls
         {
             Cursor.Current = Cursors.WaitCursor;
             Options.LoadedUltimaClass["Gumps"] = true;
+            ShowFreeSlots = false;
+            showFreeSlotsToolStripMenuItem.Checked = false;
 
             listBox.BeginUpdate();
             listBox.Items.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0xc0000; ++i)
+            for (int i = 0; i < Gumps.GetCount(); ++i)
             {
                 if (Gumps.IsValidIndex(i))
                     cache.Add(i);
@@ -143,7 +146,11 @@ namespace FiddlerControls
                     fontBrush = Brushes.Red;
             }
             else
+            {
+                if (listBox.SelectedIndex == e.Index)
+                    e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, 105, 60);
                 fontBrush = Brushes.Red;
+            }
 
             e.Graphics.DrawString(String.Format("0x{0:X}", i), Font, fontBrush,
                 new PointF((float)105,
@@ -235,7 +242,8 @@ namespace FiddlerControls
             {
                 Gumps.RemoveGump(i);
                 FiddlerControls.Events.FireGumpChangeEvent(this, i);
-                listBox.Items.RemoveAt(listBox.SelectedIndex);
+                if (!ShowFreeSlots)
+                    listBox.Items.RemoveAt(listBox.SelectedIndex);
                 pictureBox.BackgroundImage = null;
                 listBox.Invalidate();
                 Options.ChangedUltimaClass["Gumps"] = true;
@@ -253,13 +261,21 @@ namespace FiddlerControls
                     listBox.SelectedIndex = i;
                     break;
                 }
+                else if (ShowFreeSlots)
+                {
+                    if (!Gumps.IsValidIndex(int.Parse(listBox.Items[i].ToString())))
+                    {
+                        listBox.SelectedIndex = i;
+                        break;
+                    }
+                }
             }
         }
 
         private void onTextChanged_InsertAt(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xc0000))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Gumps.GetCount()))
             {
                 if (Gumps.IsValidIndex(index))
                     InsertText.ForeColor = Color.Red;
@@ -276,7 +292,7 @@ namespace FiddlerControls
                 return;
 
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xc0000))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Gumps.GetCount()))
             {
                 if (Gumps.IsValidIndex(index))
                     return;
@@ -304,6 +320,15 @@ namespace FiddlerControls
                                 listBox.SelectedIndex = i;
                                 done = true;
                                 break;
+                            }
+                            else if (ShowFreeSlots)
+                            {
+                                if (j == i)
+                                {
+                                    listBox.SelectedIndex = i;
+                                    done = true;
+                                    break;
+                                }
                             }
                         }
                         if (!done)
@@ -443,13 +468,34 @@ namespace FiddlerControls
             }
         }
 
+        private void OnClickShowFreeSlots(object sender, EventArgs e)
+        {
+            ShowFreeSlots = !ShowFreeSlots;
+            if (ShowFreeSlots)
+            {
+                listBox.BeginUpdate();
+                listBox.Items.Clear();
+                ArrayList cache = new ArrayList();
+                for (int i = 0; i < Gumps.GetCount(); ++i)
+                {
+                    cache.Add(i);
+                }
+                listBox.Items.AddRange(cache.ToArray());
+                listBox.EndUpdate();
+                if (listBox.Items.Count > 0)
+                    listBox.SelectedIndex = 0;
+            }
+            else
+                OnLoad(null);
+        }
+
         #region Preloader
         private void OnClickPreload(object sender, EventArgs e)
         {
             if (PreLoader.IsBusy)
                 return;
             ProgressBar.Minimum = 1;
-            ProgressBar.Maximum = listBox.Items.Count;
+            ProgressBar.Maximum = Gumps.GetCount();
             ProgressBar.Step = 1;
             ProgressBar.Value = 1;
             ProgressBar.Visible = true;
@@ -458,9 +504,9 @@ namespace FiddlerControls
 
         private void PreLoaderDoWork(object sender, DoWorkEventArgs e)
         {
-            for (int i = 0; i < listBox.Items.Count; ++i)
+            for (int i = 0; i < Gumps.GetCount(); ++i)
             {
-                Gumps.GetGump(int.Parse(listBox.Items[i].ToString()));
+                Gumps.GetGump(i);
                 PreLoader.ReportProgress(1);
             }
         }

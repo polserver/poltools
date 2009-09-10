@@ -461,12 +461,12 @@ namespace Ultima
                             int x = 22;
                             int y = 0;
                             int linewidth = 2;
-                            for (int m = 0; m < 22; ++m, ++y, line += delta, --x)
+                            for (int m = 0; m < 22; ++m, ++y, line += delta, linewidth += 2)
                             {
+                                --x;
                                 ushort* cur = line;
                                 for (int n = 0; n < linewidth; ++n)
                                     binmul.Write((ushort)(cur[x + n] ^ 0x8000));
-                                linewidth += 2;
                             }
                             x = 0;
                             linewidth = 44;

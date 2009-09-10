@@ -136,10 +136,8 @@ namespace MassImport
 
                     entry.File = xNode.Attributes["file"].InnerText;
                     if (entry.File != String.Empty)
-                    {
-                        if (Path.GetDirectoryName(entry.File) == "") // relative
-                            entry.File = Path.Combine(Path.GetDirectoryName(dialog.FileName), entry.File);
-                    }
+                        entry.File = Path.GetFullPath(entry.File);
+
                     int temp;
                     if (FiddlerControls.Utils.ConvertStringToInt(xNode.Attributes["index"].InnerText, out temp))
                         entry.Index = temp;
