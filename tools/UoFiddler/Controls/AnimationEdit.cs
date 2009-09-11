@@ -30,8 +30,10 @@ namespace FiddlerControls
             toolStripComboBox1.SelectedIndex = 0;
             FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
             ShowOnlyValid = false;
+            Loaded = false;
         }
 
+        private bool Loaded;
         private int FileType;
         int CurrAction;
         int CurrBody;
@@ -41,6 +43,7 @@ namespace FiddlerControls
 
         private void onLoad(object sender, EventArgs e)
         {
+            Options.LoadedUltimaClass["AnimationEdit"] = true;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
 
@@ -77,6 +80,24 @@ namespace FiddlerControls
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
+            if (!Loaded)
+                FiddlerControls.Events.FilePathChangeEvent += new FiddlerControls.Events.FilePathChangeHandler(OnFilePathChangeEvent);
+            Loaded = true;
+        }
+
+        private void OnFilePathChangeEvent()
+        {
+            if (!Loaded)
+                return;
+            FileType = 1;
+            CurrDir = 0;
+            CurrAction = 0;
+            CurrBody = 0;
+            toolStripComboBox1.SelectedIndex = 0;
+            FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
+            ShowOnlyValid = false;
+            showOnlyValidToolStripMenuItem.Checked = false;
+            OnLoad(null);
         }
 
         private TreeNode GetNode(int tag)

@@ -8,11 +8,11 @@ namespace Ultima
 {
     public sealed class AnimationEdit
     {
-        private static FileIndex m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
-        private static FileIndex m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
-        private static FileIndex m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
-        private static FileIndex m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
-        private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+        private static FileIndex m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 6);
+        private static FileIndex m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", -1);
+        private static FileIndex m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", -1);
+        private static FileIndex m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", -1);
+        private static FileIndex m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", -1);
 
         private static AnimIdx[] animcache;
         private static AnimIdx[] animcache2;
@@ -37,11 +37,11 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 0x40000, 6);
-            m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", 0x10000, -1);
-            m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", 0x20000, -1);
-            m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", 0x20000, -1);
-            m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", 0x20000, -1);
+            m_FileIndex = new FileIndex("Anim.idx", "Anim.mul", 6);
+            m_FileIndex2 = new FileIndex("Anim2.idx", "Anim2.mul", -1);
+            m_FileIndex3 = new FileIndex("Anim3.idx", "Anim3.mul", -1);
+            m_FileIndex4 = new FileIndex("Anim4.idx", "Anim4.mul", -1);
+            m_FileIndex5 = new FileIndex("Anim5.idx", "Anim5.mul", -1);
             if (m_FileIndex.IdxLength > 0)
                 animcache = new AnimIdx[m_FileIndex.IdxLength / 12];
             if (m_FileIndex2.IdxLength > 0)
@@ -270,7 +270,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int idxc = 0; idxc < fileindex.IdxLength / 12; ++idxc)
+                    for (int idxc = 0; idxc < cache.Length; ++idxc)
                     {
                         AnimIdx anim;
                         if (cache != null)
@@ -507,7 +507,7 @@ namespace Ultima
                 return;
             }
             long start = bin.BaseStream.Position;
-            idx.Write(start);
+            idx.Write((int)start);
 
             for (int i = 0; i < 0x100; ++i)
                 bin.Write((ushort)(Palette[i] ^ 0x8000));

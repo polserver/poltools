@@ -118,7 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.2b
+    <value>Version 4.2c
+Fix for anim saving
+Fix animationlist sorting
+Fix ReloadFile for animationedit
+
+Version 4.2b
 Cliloc: Added Import from csv
 AnimEdit:
 Export/Import to mulpatcher .vd format

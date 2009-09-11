@@ -157,8 +157,9 @@ namespace FiddlerControls
         public void AddGraphic(int graphic, int type, string name)
         {
             TreeViewMobs.BeginUpdate();
+            TreeViewMobs.TreeViewNodeSorter = null;
             TreeNode nodeparent = new TreeNode(name);
-
+            nodeparent.Tag = new int[] { graphic, type };
             nodeparent.ToolTipText = Animations.GetFileName(graphic);
             if (type == 4)
             {
@@ -167,7 +168,7 @@ namespace FiddlerControls
             }
             else
                 TreeViewMobs.Nodes[0].Nodes.Add(nodeparent);
-            nodeparent.Tag = new int[] { graphic, type };
+            
 
             TreeNode node;
             for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
@@ -179,7 +180,10 @@ namespace FiddlerControls
                     nodeparent.Nodes.Add(node);
                 }
             }
-
+            if (!sortalpha)
+                TreeViewMobs.TreeViewNodeSorter = new GraphicSorter();
+            else
+                TreeViewMobs.TreeViewNodeSorter = new AlphaSorter();
             TreeViewMobs.Sort();
             TreeViewMobs.EndUpdate();
             LoadListView();
@@ -432,14 +436,16 @@ namespace FiddlerControls
             TreeViewMobs.BeginUpdate();
             TreeViewMobs.Nodes.Clear();
 
+
             XmlDocument dom = new XmlDocument();
             dom.Load(FileName);
             XmlElement xMobs = dom["Graphics"];
-            TreeNode node;
-            node = new TreeNode("Mobs");
-            node.Name = "Mobs";
-            node.Tag = -1;
-            TreeViewMobs.Nodes.Add(node);
+            ArrayList nodes = new ArrayList();
+            TreeNode rootnode, node, typenode;
+            rootnode = new TreeNode("Mobs");
+            rootnode.Name = "Mobs";
+            rootnode.Tag = -1;
+            nodes.Add(rootnode);
 
             foreach (XmlElement xMob in xMobs.SelectNodes("Mob"))
             {
@@ -451,22 +457,23 @@ namespace FiddlerControls
                 node = new TreeNode(name);
                 node.Tag = new int[] { value, type };
                 node.ToolTipText = Animations.GetFileName(value);
-                TreeViewMobs.Nodes[0].Nodes.Add(node);
+                rootnode.Nodes.Add(node);
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
                     {
-                        node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
-                        node.Tag = i;
-                        TreeViewMobs.Nodes[0].Nodes[TreeViewMobs.Nodes[0].Nodes.Count - 1].Nodes.Add(node);
+                        typenode = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
+                        typenode.Tag = i;
+                        node.Nodes.Add(typenode);
                     }
                 }
             }
-            node = new TreeNode("Equipment");
-            node.Name = "Equipment";
-            node.Tag = -2;
-            TreeViewMobs.Nodes.Add(node);
+            rootnode = new TreeNode("Equipment");
+            rootnode.Name = "Equipment";
+            rootnode.Tag = -2;
+            nodes.Add(rootnode);
+
             foreach (XmlElement xMob in xMobs.SelectNodes("Equip"))
             {
                 string name;
@@ -477,19 +484,20 @@ namespace FiddlerControls
                 node = new TreeNode(name);
                 node.Tag = new int[] { value, type };
                 node.ToolTipText = Animations.GetFileName(value);
-                TreeViewMobs.Nodes[1].Nodes.Add(node);
-
+                rootnode.Nodes.Add(node);
 
                 for (int i = 0; i < AnimNames[type].GetLength(0); ++i)
                 {
                     if (Animations.IsActionDefined(value, i, 0))
                     {
-                        node = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
-                        node.Tag = i;
-                        TreeViewMobs.Nodes[1].Nodes[TreeViewMobs.Nodes[1].Nodes.Count - 1].Nodes.Add(node);
+                        typenode = new TreeNode(i.ToString() + " " + AnimNames[type][i]);
+                        typenode.Tag = i;
+                        node.Nodes.Add(typenode);
                     }
                 }
             }
+            TreeViewMobs.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            nodes.Clear();
             TreeViewMobs.EndUpdate();
             return true;
         }
@@ -994,10 +1002,12 @@ namespace FiddlerControls
                 else
                     return 1;
             }
-            if ((tx.Parent.Name != "Mobs") || (tx.Parent.Name != "Equipment"))
+
+            if ((tx.Parent.Text != "Mobs") && (tx.Parent.Text != "Equipment"))
                 return 0;
-            if ((ty.Parent.Name != "Mobs") || (ty.Parent.Name != "Equipment"))
+            if ((ty.Parent.Text != "Mobs") && (ty.Parent.Text != "Equipment"))
                 return 0;
+
             int[] ix = (int[])tx.Tag;
             int[] iy = (int[])ty.Tag;
             if (ix[0] == iy[0])
