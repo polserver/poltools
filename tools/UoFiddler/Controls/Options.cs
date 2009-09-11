@@ -44,7 +44,8 @@ namespace FiddlerControls
             {"StringList", false},
             {"Texture", false},
             {"TileData", false},
-            {"RadarColor",false}
+            {"RadarColor",false},
+            {"AnimationEdit",false}
         };
 
         private static Dictionary<string, bool> m_ChangedUltimaClass = new Dictionary<string, bool>()
@@ -186,6 +187,7 @@ namespace FiddlerControls
         /// <item>TileData</item>
         /// <item>UnicodeFont</item>
         /// <item>RadarColor</item>
+        /// <item>AnimationEdit</item>
         /// </list>
         /// </para>
         /// </summary>

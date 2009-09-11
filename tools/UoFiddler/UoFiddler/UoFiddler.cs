@@ -19,7 +19,7 @@ namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.2b";
+        public static string Version = "4.2c";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;
@@ -116,6 +116,8 @@ namespace UoFiddler
                 Ultima.Multis.Reload();
             if (FiddlerControls.Options.LoadedUltimaClass["Speech"])
                 Ultima.SpeechList.Initialize();
+            if (FiddlerControls.Options.LoadedUltimaClass["AnimationEdit"])
+                Ultima.AnimationEdit.Reload();
 
             FiddlerControls.Events.FireFilePathChangeEvent();
 
