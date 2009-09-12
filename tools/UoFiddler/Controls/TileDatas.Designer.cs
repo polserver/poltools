@@ -101,6 +101,7 @@ namespace FiddlerControls
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.setFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabcontrol.SuspendLayout();
             this.tabPageItems.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -670,7 +671,8 @@ namespace FiddlerControls
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.memorySaveWarningToolStripMenuItem,
-            this.saveDirectlyOnChangesToolStripMenuItem});
+            this.saveDirectlyOnChangesToolStripMenuItem,
+            this.setFilterToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
@@ -761,6 +763,13 @@ namespace FiddlerControls
             this.splitter1.TabStop = false;
             this.splitter1.UseAnimations = false;
             this.splitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
+            // setFilterToolStripMenuItem
+            // 
+            this.setFilterToolStripMenuItem.Name = "setFilterToolStripMenuItem";
+            this.setFilterToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.setFilterToolStripMenuItem.Text = "Set Filter";
+            this.setFilterToolStripMenuItem.Click += new System.EventHandler(this.OnClickSetFilter);
             // 
             // TileDatas
             // 
@@ -871,5 +880,6 @@ namespace FiddlerControls
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripMenuItem setFilterToolStripMenuItem;
     }
 }

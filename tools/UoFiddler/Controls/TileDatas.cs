@@ -15,6 +15,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Ultima;
+using System.Collections;
 
 namespace FiddlerControls
 {
@@ -134,6 +135,120 @@ namespace FiddlerControls
             return false;
         }
 
+        public static void ApplyFilterItem(ItemData item)
+        {
+            refMarker.treeViewItem.BeginUpdate();
+            refMarker.treeViewItem.Nodes.Clear();
+            ArrayList nodes = new ArrayList();
+            for (int i = 0; i < TileData.ItemTable.Length; ++i)
+            {
+                if (item.Name != String.Empty)
+                {
+                    if (!TileData.ItemTable[i].Name.ToLower().Contains(item.Name.ToLower()))
+                        continue;
+                }
+                if (item.Animation!=0)
+                {
+                    if (TileData.ItemTable[i].Animation != item.Animation)
+                        continue;
+                }
+                if (item.Weight != 0)
+                {
+                    if (TileData.ItemTable[i].Weight != item.Weight)
+                        continue;
+                }
+                if (item.Quality != 0)
+                {
+                    if (TileData.ItemTable[i].Quality != item.Quality)
+                        continue;
+                }
+                if (item.Quantity != 0)
+                {
+                    if (TileData.ItemTable[i].Quantity != item.Quantity)
+                        continue;
+                }
+                if (item.Hue != 0)
+                {
+                    if (TileData.ItemTable[i].Hue != item.Hue)
+                        continue;
+                }
+                if (item.StackingOffset != 0)
+                {
+                    if (TileData.ItemTable[i].StackingOffset != item.StackingOffset)
+                        continue;
+                }
+                if (item.Value != 0)
+                {
+                    if (TileData.ItemTable[i].Value != item.Value)
+                        continue;
+                }
+                if (item.Height != 0)
+                {
+                    if (TileData.ItemTable[i].Height != item.Height)
+                        continue;
+                }
+                if (item.Unk1 != 0)
+                {
+                    if (TileData.ItemTable[i].Unk1 != item.Unk1)
+                        continue;
+                }
+                if (item.Unk2 != 0)
+                {
+                    if (TileData.ItemTable[i].Unk2 != item.Unk2)
+                        continue;
+                }
+                if (item.Unk3 != 0)
+                {
+                    if (TileData.ItemTable[i].Unk3 != item.Unk3)
+                        continue;
+                }
+                if (item.Flags != 0)
+                {
+                    if ((TileData.ItemTable[i].Flags & item.Flags) == 0)
+                        continue;
+                }
+                TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.ItemTable[i].Name));
+                node.Tag = i;
+                nodes.Add(node);
+            }
+            refMarker.treeViewItem.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            refMarker.treeViewItem.EndUpdate();
+            if (refMarker.treeViewItem.Nodes.Count > 0)
+                refMarker.treeViewItem.SelectedNode = refMarker.treeViewItem.Nodes[0];
+        }
+
+        public static void ApplyFilterLand(LandData land)
+        {
+            refMarker.treeViewLand.BeginUpdate();
+            refMarker.treeViewLand.Nodes.Clear();
+            ArrayList nodes = new ArrayList();
+            for (int i = 0; i < TileData.LandTable.Length; ++i)
+            {
+                if (land.Name != String.Empty)
+                {
+                    if (!TileData.ItemTable[i].Name.ToLower().Contains(land.Name.ToLower()))
+                        continue;
+                }
+                if (land.TextureID != 0)
+                {
+                    if (TileData.LandTable[i].TextureID != land.TextureID)
+                        continue;
+                }
+                if (land.Flags != 0)
+                {
+                    if ((TileData.LandTable[i].Flags & land.Flags) == 0)
+                        continue;
+                }
+                TreeNode node = new TreeNode(String.Format("0x{0:X4} ({0}) {1}", i, TileData.LandTable[i].Name));
+                node.Tag = i;
+                nodes.Add(node);
+            }
+            refMarker.treeViewLand.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
+            refMarker.treeViewLand.EndUpdate();
+            if (refMarker.treeViewLand.Nodes.Count > 0)
+                refMarker.treeViewLand.SelectedNode = refMarker.treeViewLand.Nodes[0];
+        }
+
         private bool Loaded = false;
         private void Reload()
         {
@@ -203,7 +318,16 @@ namespace FiddlerControls
                     AfterSelectTreeViewItem(this, null);
                 }
                 else
-                    treeViewItem.Nodes[index].ForeColor = Color.Red;
+                {
+                    foreach (TreeNode node in treeViewItem.Nodes)
+                    {
+                        if ((int)node.Tag == index)
+                        {
+                            node.ForeColor = Color.Red;
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
@@ -215,7 +339,16 @@ namespace FiddlerControls
                     AfterSelectTreeViewLand(this, null);
                 }
                 else
-                    treeViewLand.Nodes[index].ForeColor = Color.Red;
+                {
+                    foreach (TreeNode node in treeViewLand.Nodes)
+                    {
+                        if ((int)node.Tag == index)
+                        {
+                            node.ForeColor = Color.Red;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -907,6 +1040,17 @@ namespace FiddlerControls
                 }
             }
             dialog.Dispose();
+        }
+
+        private TileDataFilter filterform = null;
+        private void OnClickSetFilter(object sender, EventArgs e)
+        {
+            if ((filterform == null) || (filterform.IsDisposed))
+            {
+                filterform = new TileDataFilter();
+                filterform.TopMost = true;
+                filterform.Show();
+            }
         }
     }
 }
