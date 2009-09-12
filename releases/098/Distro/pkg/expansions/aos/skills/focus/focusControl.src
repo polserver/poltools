@@ -1,17 +1,10 @@
-// $Id: focusControl.src 1455 2009-03-09 20:43:51Z muaddib_pol $
+// $Id: focusControl.src 1054 2007-04-28 13:30:16Z tekproxy $
 
 include ":attributes:attributes";
 
 program focusControl(mobile)
-	// Stop Compiler Warnings.
-	mobile := mobile;
-	// Stop Compiler Warnings. Why is this here anyway?
-//	var regen_rate := 0;
-	var cfg_elem := AP_GetSettingsCfgElem("Regen");
-	var base_stam_regen := CDbl(GetConfigInt(cfg_elem, STAMINA));
-	var base_mana_regen := CDbl(GetConfigInt(cfg_elem, MANA));
 	var focus := AP_GetSkill(mobile, BATTLE_FOCUS);
-	var history := struct{mana := AP_GetVital(mobile, MANA), stam := AP_GetVital(mobile, STAMINA)};
+	var history := struct{mana := AP_GetVital(mobile, "Mana"), stam := AP_GetVital(mobile, "Stamina")};
 	var newVital;
 	
 	var advanced;
@@ -20,43 +13,36 @@ program focusControl(mobile)
 	
 	while ( mobile.connected )
 		// Every point of vital regenerated, there is a chance for skill gain
-		newVital := AP_GetVital(mobile, MANA);
+		newVital := AP_GetVital(mobile, "Mana");
 		if ( newVital != history.mana )
 			// TODO: calculate award_diff and pass chance
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, BATTLE_FOCUS, award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
 			history.mana :=	newVital;
 		endif
 		
-		newVital := AP_GetVital(mobile, STAMINA);
+		newVital := AP_GetVital(mobile, "Stamina");
 		if ( newVital != history.stam )
 			// TODO: calculate award_diff and pass chance (should be awarded more for stam gain)
 			award_diff := focus;
 			pass_chance := 100;
-			advanced := CheckSkillAdvance(mobile, BATTLE_FOCUS, award_diff, pass_chance);
+			advanced := CheckSkillAdvance(mobile, "Focus", award_diff, pass_chance);
 			history.stam :=	newVital;
 		endif
 
-		// For every 1 points focus, +0.01 stamina per second
-		var stam_regen := focus / 100.0;
+		// 600 = 6 points regen per minute = 6 / 60 = 0.1 points per second
 
-		// For every 2 points focus, +0.01 mana per second
-		var mana_regen := focus / 200.0;
-		
-		// We're not changing the base regen rate, only applying a MOD
-		// So subtract the configured base regen rate for mana and we get the mod total.
-		if ( base_stam_regen )
-			stam_regen -= (base_stam_regen / 60.0);
-		endif
-		
-		if ( base_mana_regen )
-			mana_regen -= (base_mana_regen / 60.0);
-		endif
+		// For every 10 points focus, +0.1 stamina per second
+		var stam_regen := ( focus / 10.0 ) * 600.0;
+
+		// For every 20 points focus, +0.1 mana per second
+		var mana_regen := ( focus / 20.0 ) * 600.0;
+
 
 		// Regen rates are in hundredths of points per minute
-		AP_SetVitalRegenRateMod(mobile, STAMINA, stam_regen * 60 * 100);
-		AP_SetVitalRegenRateMod(mobile, MANA, mana_regen * 60 * 100);
+		AP_SetVitalRegenRateMod(mobile, "Stamina", stam_regen);
+		AP_SetVitalRegenRateMod(mobile, "Mana", mana_regen);
 
 		Sleep(1);
 	endwhile
