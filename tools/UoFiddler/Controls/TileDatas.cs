@@ -315,7 +315,7 @@ namespace FiddlerControls
                 if ((int)treeViewItem.SelectedNode.Tag == index)
                 {
                     treeViewItem.SelectedNode.ForeColor = Color.Red;
-                    AfterSelectTreeViewItem(this, null);
+                    AfterSelectTreeViewItem(this, new TreeViewEventArgs(treeViewItem.SelectedNode));
                 }
                 else
                 {
@@ -336,7 +336,7 @@ namespace FiddlerControls
                 if ((int)treeViewLand.SelectedNode.Tag == index)
                 {
                     treeViewLand.SelectedNode.ForeColor = Color.Red;
-                    AfterSelectTreeViewLand(this, null);
+                    AfterSelectTreeViewLand(this, new TreeViewEventArgs(treeViewLand.SelectedNode));
                 }
                 else
                 {
@@ -354,6 +354,8 @@ namespace FiddlerControls
 
         private void AfterSelectTreeViewItem(object sender, TreeViewEventArgs e)
         {
+            if (e.Node == null)
+                return;
             int index = (int)e.Node.Tag;
             try
             {
@@ -395,6 +397,8 @@ namespace FiddlerControls
 
         private void AfterSelectTreeViewLand(object sender, TreeViewEventArgs e)
         {
+            if (e.Node == null)
+                return;
             int index = (int)e.Node.Tag;
             try
             {
@@ -1031,12 +1035,12 @@ namespace FiddlerControls
                 if (tabcontrol.SelectedIndex == 0)//items
                 {
                     Ultima.TileData.ImportItemDataFromCSV(dialog.FileName);
-                    AfterSelectTreeViewItem(this, null);
+                    AfterSelectTreeViewItem(this,new TreeViewEventArgs(treeViewItem.SelectedNode));
                 }
                 else
                 {
                     Ultima.TileData.ImportLandDataFromCSV(dialog.FileName);
-                    AfterSelectTreeViewLand(this,null);
+                    AfterSelectTreeViewLand(this, new TreeViewEventArgs(treeViewLand.SelectedNode));
                 }
             }
             dialog.Dispose();

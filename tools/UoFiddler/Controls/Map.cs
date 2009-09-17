@@ -185,14 +185,14 @@ namespace FiddlerControls
                 hScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 hScrollBar.Maximum += (int)(40 / Zoom);
-            hScrollBar.Maximum = Round(hScrollBar.Maximum);
+            hScrollBar.Maximum = Math.Max(0,Round(hScrollBar.Maximum));
             vScrollBar.Maximum = (int)(currmap.Height);
             vScrollBar.Maximum -= Round((int)(pictureBox.ClientSize.Height / Zoom) - 8);
             if (Zoom >= 1)
                 vScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 vScrollBar.Maximum += (int)(40 / Zoom);
-            vScrollBar.Maximum = Round(vScrollBar.Maximum);
+            vScrollBar.Maximum = Math.Max(0,Round(vScrollBar.Maximum));
         }
 
         private void OnResize(object sender, EventArgs e)
