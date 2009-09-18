@@ -1,0 +1,19 @@
+/* 
+ * SpellbookTest command for MuadDib :)
+ */
+
+use uo;
+
+program command_SpellbookTest(mobile)
+
+	var first_bag 	:= CreateItemInBackpack( mobile, 0xE76, 1 );
+	var second_bag	:= CreateItemInBackpack( mobile, 0xE76, 1 );
+
+	for i := 0x1F2D to 0x1F6C
+		CreateItemInContainer( first_bag, i, 1 );
+		CreateItemInContainer( second_bag, i, 1 );
+		Sleepms( 2 );
+	endfor
+
+	return 1;
+endprogram
