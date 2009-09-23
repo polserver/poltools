@@ -214,6 +214,7 @@
             // toolStripComboBox1
             // 
             this.toolStripComboBox1.Items.AddRange(new object[] {
+            "Choose anim file",
             "anim",
             "anim2",
             "anim3",

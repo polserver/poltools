@@ -25,7 +25,7 @@ namespace FiddlerControls
         {
             InitializeComponent();
             this.Icon = FiddlerControls.Options.GetFiddlerIcon();
-            FileType = 1;
+            FileType = 0;
             CurrDir = 0;
             toolStripComboBox1.SelectedIndex = 0;
             FramePoint = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2);
@@ -46,37 +46,39 @@ namespace FiddlerControls
             Options.LoadedUltimaClass["AnimationEdit"] = true;
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
-
-            int count = Animations.GetAnimCount(FileType);
-            ArrayList nodes = new ArrayList();
-            for (int i = 0; i < count; ++i)
+            if (FileType != 0)
             {
-                int animlength = Animations.GetAnimLength(i, FileType);
-                string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
-                TreeNode node = new TreeNode();
-                node.Tag = i;
-                node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
-                bool valid = false;
-                for (int j = 0; j < animlength; ++j)
+                int count = Animations.GetAnimCount(FileType);
+                ArrayList nodes = new ArrayList();
+                for (int i = 0; i < count; ++i)
                 {
-                    TreeNode subnode = new TreeNode();
-                    subnode.Tag = j;
-                    subnode.Text = j.ToString();
-                    if (Ultima.AnimationEdit.IsActionDefinied(FileType, i, j))
-                        valid = true;
-                    else
-                        subnode.ForeColor = Color.Red;
-                    node.Nodes.Add(subnode);
+                    int animlength = Animations.GetAnimLength(i, FileType);
+                    string type = animlength == 22 ? "H" : animlength == 13 ? "L" : "P";
+                    TreeNode node = new TreeNode();
+                    node.Tag = i;
+                    node.Text = String.Format("{0}: {1} ({2})", type, i, BodyConverter.GetTrueBody(FileType, i));
+                    bool valid = false;
+                    for (int j = 0; j < animlength; ++j)
+                    {
+                        TreeNode subnode = new TreeNode();
+                        subnode.Tag = j;
+                        subnode.Text = j.ToString();
+                        if (Ultima.AnimationEdit.IsActionDefinied(FileType, i, j))
+                            valid = true;
+                        else
+                            subnode.ForeColor = Color.Red;
+                        node.Nodes.Add(subnode);
+                    }
+                    if (!valid)
+                    {
+                        if (ShowOnlyValid)
+                            continue;
+                        node.ForeColor = Color.Red;
+                    }
+                    nodes.Add(node);
                 }
-                if (!valid)
-                {
-                    if (ShowOnlyValid)
-                        continue;
-                    node.ForeColor = Color.Red;
-                }
-                nodes.Add(node);
+                treeView1.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
             }
-            treeView1.Nodes.AddRange((TreeNode[])nodes.ToArray(typeof(TreeNode)));
             treeView1.EndUpdate();
             if (treeView1.Nodes.Count > 0)
                 treeView1.SelectedNode = treeView1.Nodes[0];
@@ -89,7 +91,7 @@ namespace FiddlerControls
         {
             if (!Loaded)
                 return;
-            FileType = 1;
+            FileType = 0;
             CurrDir = 0;
             CurrAction = 0;
             CurrBody = 0;
@@ -117,24 +119,27 @@ namespace FiddlerControls
 
         private unsafe void SetPaletteBox()
         {
-            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            Bitmap bmp = new Bitmap(0x100, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
-            if (edit != null)
+            if (FileType != 0)
             {
-                BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 0x100, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
-                ushort* line = (ushort*)bd.Scan0;
-                int delta = bd.Stride >> 1;
-                for (int y = 0; y < bd.Height; ++y, line += delta)
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                Bitmap bmp = new Bitmap(0x100, pictureBoxPalette.Height, PixelFormat.Format16bppArgb1555);
+                if (edit != null)
                 {
-                    ushort* cur = line;
-                    for (int i = 0; i < 0x100; ++i)
+                    BitmapData bd = bmp.LockBits(new Rectangle(0, 0, 0x100, pictureBoxPalette.Height), ImageLockMode.WriteOnly, PixelFormat.Format16bppArgb1555);
+                    ushort* line = (ushort*)bd.Scan0;
+                    int delta = bd.Stride >> 1;
+                    for (int y = 0; y < bd.Height; ++y, line += delta)
                     {
-                        *cur++ = edit.Palette[i];
+                        ushort* cur = line;
+                        for (int i = 0; i < 0x100; ++i)
+                        {
+                            *cur++ = edit.Palette[i];
+                        }
                     }
+                    bmp.UnlockBits(bd);
                 }
-                bmp.UnlockBits(bd);
+                pictureBoxPalette.Image = bmp;
             }
-            pictureBoxPalette.Image = bmp;
         }
 
         private void AfterSelectTreeView(object sender, TreeViewEventArgs e)
@@ -208,9 +213,9 @@ namespace FiddlerControls
 
         private void onAnimChanged(object sender, EventArgs e)
         {
-            if (toolStripComboBox1.SelectedIndex + 1 != FileType)
+            if (toolStripComboBox1.SelectedIndex != FileType)
             {
-                FileType = toolStripComboBox1.SelectedIndex + 1;
+                FileType = toolStripComboBox1.SelectedIndex;
                 onLoad(this, EventArgs.Empty);
             }
         }
@@ -251,31 +256,37 @@ namespace FiddlerControls
 
         private void onFrameCountBarChanged(object sender, EventArgs e)
         {
-            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            if (edit != null)
+            if (FileType != 0)
             {
-                if (edit.Frames.Count >= trackBar2.Value)
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                if (edit != null)
                 {
-                    numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
-                    numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                    if (edit.Frames.Count >= trackBar2.Value)
+                    {
+                        numericUpDownCx.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.X;
+                        numericUpDownCy.Value = ((FrameEdit)edit.Frames[trackBar2.Value]).Center.Y;
+                    }
                 }
+                pictureBox1.Refresh();
             }
-            pictureBox1.Refresh();
         }
 
         private void OnCenterXValueChanged(object sender, EventArgs e)
         {
-            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            if (edit != null)
+            if (FileType != 0)
             {
-                if (edit.Frames.Count >= trackBar2.Value)
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                if (edit != null)
                 {
-                    FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
-                    if (numericUpDownCx.Value != frame.Center.X)
+                    if (edit.Frames.Count >= trackBar2.Value)
                     {
-                        frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
-                        Options.ChangedUltimaClass["Animations"] = true;
-                        pictureBox1.Refresh();
+                        FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                        if (numericUpDownCx.Value != frame.Center.X)
+                        {
+                            frame.ChangeCenter((int)numericUpDownCx.Value, frame.Center.Y);
+                            Options.ChangedUltimaClass["Animations"] = true;
+                            pictureBox1.Refresh();
+                        }
                     }
                 }
             }
@@ -283,17 +294,20 @@ namespace FiddlerControls
 
         private void OnCenterYValueChanged(object sender, EventArgs e)
         {
-            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            if (edit != null)
+            if (FileType != 0)
             {
-                if (edit.Frames.Count >= trackBar2.Value)
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                if (edit != null)
                 {
-                    FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
-                    if (numericUpDownCy.Value != frame.Center.Y)
+                    if (edit.Frames.Count >= trackBar2.Value)
                     {
-                        frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
-                        Options.ChangedUltimaClass["Animations"] = true;
-                        pictureBox1.Refresh();
+                        FrameEdit frame = (FrameEdit)edit.Frames[trackBar2.Value];
+                        if (numericUpDownCy.Value != frame.Center.Y)
+                        {
+                            frame.ChangeCenter(frame.Center.X, (int)numericUpDownCy.Value);
+                            Options.ChangedUltimaClass["Animations"] = true;
+                            pictureBox1.Refresh();
+                        }
                     }
                 }
             }
@@ -301,30 +315,56 @@ namespace FiddlerControls
 
         private void onClickExtractImages(object sender, EventArgs e)
         {
-            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
-            ImageFormat format = ImageFormat.Bmp;
-            if (((string)menu.Tag) == ".tiff")
-                format = ImageFormat.Tiff;
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            int body, action;
-            if (treeView1.SelectedNode.Parent == null)
+            if (FileType != 0)
             {
-                body = (int)treeView1.SelectedNode.Tag;
-                action = -1;
-            }
-            else
-            {
-                body = (int)treeView1.SelectedNode.Parent.Tag;
-                action = (int)treeView1.SelectedNode.Tag;
-            }
+                ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+                ImageFormat format = ImageFormat.Bmp;
+                if (((string)menu.Tag) == ".tiff")
+                    format = ImageFormat.Tiff;
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                int body, action;
+                if (treeView1.SelectedNode.Parent == null)
+                {
+                    body = (int)treeView1.SelectedNode.Tag;
+                    action = -1;
+                }
+                else
+                {
+                    body = (int)treeView1.SelectedNode.Parent.Tag;
+                    action = (int)treeView1.SelectedNode.Tag;
+                }
 
-            if (action == -1)
-            {
-                for (int a = 0; a < Animations.GetAnimLength(body, FileType); ++a)
+                if (action == -1)
+                {
+                    for (int a = 0; a < Animations.GetAnimLength(body, FileType); ++a)
+                    {
+                        for (int i = 0; i < 5; ++i)
+                        {
+                            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, a, i);
+                            if (edit != null)
+                            {
+                                Bitmap[] bits = edit.GetFrames();
+                                if (bits != null)
+                                {
+                                    for (int j = 0; j < bits.Length; ++j)
+                                    {
+                                        string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag, FileType);
+                                        string file = Path.Combine(path, filename);
+                                        Bitmap bit = new Bitmap(bits[j]);
+                                        if (bit != null)
+                                            bit.Save(file, format);
+                                        bit.Dispose();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
                 {
                     for (int i = 0; i < 5; ++i)
                     {
-                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, a, i);
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, action, i);
                         if (edit != null)
                         {
                             Bitmap[] bits = edit.GetFrames();
@@ -332,7 +372,7 @@ namespace FiddlerControls
                             {
                                 for (int j = 0; j < bits.Length; ++j)
                                 {
-                                    string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, a, i, j, menu.Tag, FileType);
+                                    string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag, FileType);
                                     string file = Path.Combine(path, filename);
                                     Bitmap bit = new Bitmap(bits[j]);
                                     if (bit != null)
@@ -342,119 +382,101 @@ namespace FiddlerControls
                             }
                         }
                     }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 5; ++i)
-                {
-                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, body, action, i);
-                    if (edit != null)
-                    {
-                        Bitmap[] bits = edit.GetFrames();
-                        if (bits != null)
-                        {
-                            for (int j = 0; j < bits.Length; ++j)
-                            {
-                                string filename = String.Format("anim{5}_{0}_{1}_{2}_{3}{4}", body, action, i, j, menu.Tag, FileType);
-                                string file = Path.Combine(path, filename);
-                                Bitmap bit = new Bitmap(bits[j]);
-                                if (bit != null)
-                                    bit.Save(file, format);
-                                bit.Dispose();
-                            }
-                        }
-                    }
-                }
 
+                }
+                MessageBox.Show(
+                        String.Format("Frames saved to {0}", path),
+                        "Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
             }
-            MessageBox.Show(
-                    String.Format("Frames saved to {0}", path),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-
         }
 
         private void OnClickRemoveAction(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Parent == null)
+            if (FileType != 0)
             {
-                DialogResult result =
-                       MessageBox.Show(String.Format("Are you sure to remove animation {0}", CurrBody),
-                       "Remove",
-                       MessageBoxButtons.YesNo,
-                       MessageBoxIcon.Question,
-                       MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
+                if (treeView1.SelectedNode.Parent == null)
                 {
-                    treeView1.SelectedNode.ForeColor = Color.Red;
-                    for (int i = 0; i < treeView1.SelectedNode.Nodes.Count; ++i)
+                    DialogResult result =
+                           MessageBox.Show(String.Format("Are you sure to remove animation {0}", CurrBody),
+                           "Remove",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question,
+                           MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Yes)
                     {
-                        treeView1.SelectedNode.Nodes[i].ForeColor = Color.Red;
-                        for (int d = 0; d < 5; ++d)
+                        treeView1.SelectedNode.ForeColor = Color.Red;
+                        for (int i = 0; i < treeView1.SelectedNode.Nodes.Count; ++i)
                         {
-                            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, i, d);
+                            treeView1.SelectedNode.Nodes[i].ForeColor = Color.Red;
+                            for (int d = 0; d < 5; ++d)
+                            {
+                                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, i, d);
+                                if (edit != null)
+                                    edit.ClearFrames();
+                            }
+                        }
+                        if (ShowOnlyValid)
+                            treeView1.SelectedNode.Remove();
+                        Options.ChangedUltimaClass["Animations"] = true;
+                        AfterSelectTreeView(this, null);
+                    }
+                }
+                else
+                {
+                    DialogResult result =
+                           MessageBox.Show(String.Format("Are you sure to remove action {0}", CurrAction),
+                           "Remove",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question,
+                           MessageBoxDefaultButton.Button2);
+                    if (result == DialogResult.Yes)
+                    {
+                        for (int i = 0; i < 5; ++i)
+                        {
+                            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, i);
                             if (edit != null)
                                 edit.ClearFrames();
                         }
-                    }
-                    if (ShowOnlyValid)
-                        treeView1.SelectedNode.Remove();
-                    Options.ChangedUltimaClass["Animations"] = true;
-                    AfterSelectTreeView(this, null);
-                }
-            }
-            else
-            {
-                DialogResult result =
-                       MessageBox.Show(String.Format("Are you sure to remove action {0}", CurrAction),
-                       "Remove",
-                       MessageBoxButtons.YesNo,
-                       MessageBoxIcon.Question,
-                       MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                {
-                    for (int i = 0; i < 5; ++i)
-                    {
-                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, i);
-                        if (edit != null)
-                            edit.ClearFrames();
-                    }
-                    treeView1.SelectedNode.Parent.Nodes[CurrAction].ForeColor = Color.Red;
-                    bool valid = false;
-                    foreach (TreeNode node in treeView1.SelectedNode.Parent.Nodes)
-                    {
-                        if (node.ForeColor != Color.Red)
+                        treeView1.SelectedNode.Parent.Nodes[CurrAction].ForeColor = Color.Red;
+                        bool valid = false;
+                        foreach (TreeNode node in treeView1.SelectedNode.Parent.Nodes)
                         {
-                            valid = true;
-                            break;
+                            if (node.ForeColor != Color.Red)
+                            {
+                                valid = true;
+                                break;
+                            }
                         }
+                        if (!valid)
+                        {
+                            if (ShowOnlyValid)
+                                treeView1.SelectedNode.Parent.Remove();
+                            else
+                                treeView1.SelectedNode.Parent.ForeColor = Color.Red;
+                        }
+                        Options.ChangedUltimaClass["Animations"] = true;
+                        AfterSelectTreeView(this, null);
                     }
-                    if (!valid)
-                    {
-                        if (ShowOnlyValid)
-                            treeView1.SelectedNode.Parent.Remove();
-                        else
-                            treeView1.SelectedNode.Parent.ForeColor = Color.Red;
-                    }
-                    Options.ChangedUltimaClass["Animations"] = true;
-                    AfterSelectTreeView(this, null);
                 }
             }
         }
 
         private void OnClickSave(object sender, EventArgs e)
         {
-            Ultima.AnimationEdit.Save(FileType, AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
-            MessageBox.Show(
-                    String.Format("AnimationFile saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
-            Options.ChangedUltimaClass["Animations"] = false;
+            if (FileType != 0)
+            {
+                Ultima.AnimationEdit.Save(FileType, AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+                MessageBox.Show(
+                        String.Format("AnimationFile saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        "Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
+                Options.ChangedUltimaClass["Animations"] = false;
+            }
         }
 
         private void OnClickRemoveFrame(object sender, EventArgs e)
@@ -512,43 +534,46 @@ namespace FiddlerControls
 
         private void OnClickAdd(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            if (FileType != 0)
             {
-                dialog.Multiselect = false;
-                dialog.Title = "Choose image file to add";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    Bitmap bmp = new Bitmap(dialog.FileName);
-                    if (dialog.FileName.Contains(".bmp"))
-                        bmp = Utils.ConvertBmp(bmp);
-                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-                    if (edit != null)
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose image file to add";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "image files (*.tiff;*.bmp)|*.tiff;*.bmp";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        edit.AddFrame(bmp);
-                        TreeNode node = GetNode(CurrBody);
-                        if (node != null)
+                        Bitmap bmp = new Bitmap(dialog.FileName);
+                        if (dialog.FileName.Contains(".bmp"))
+                            bmp = Utils.ConvertBmp(bmp);
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                        if (edit != null)
                         {
-                            node.ForeColor = Color.Black;
-                            node.Nodes[CurrAction].ForeColor = Color.Black;
-                        }
-                        ListViewItem item;
-                        int i = edit.Frames.Count - 1;
-                        item = new ListViewItem(i.ToString(), 0);
-                        item.Tag = i;
-                        listView1.Items.Add(item);
-                        int width = listView1.TileSize.Width - 5;
-                        if (bmp.Width > listView1.TileSize.Width)
-                            width = bmp.Width;
-                        int height = listView1.TileSize.Height - 5;
-                        if (bmp.Height > listView1.TileSize.Height)
-                            height = bmp.Height;
+                            edit.AddFrame(bmp);
+                            TreeNode node = GetNode(CurrBody);
+                            if (node != null)
+                            {
+                                node.ForeColor = Color.Black;
+                                node.Nodes[CurrAction].ForeColor = Color.Black;
+                            }
+                            ListViewItem item;
+                            int i = edit.Frames.Count - 1;
+                            item = new ListViewItem(i.ToString(), 0);
+                            item.Tag = i;
+                            listView1.Items.Add(item);
+                            int width = listView1.TileSize.Width - 5;
+                            if (bmp.Width > listView1.TileSize.Width)
+                                width = bmp.Width;
+                            int height = listView1.TileSize.Height - 5;
+                            if (bmp.Height > listView1.TileSize.Height)
+                                height = bmp.Height;
 
-                        listView1.TileSize = new Size(width + 5, height + 5);
-                        trackBar2.Maximum = i;
-                        listView1.Refresh();
-                        Options.ChangedUltimaClass["Animations"] = true;
+                            listView1.TileSize = new Size(width + 5, height + 5);
+                            trackBar2.Maximum = i;
+                            listView1.Refresh();
+                            Options.ChangedUltimaClass["Animations"] = true;
+                        }
                     }
                 }
             }
@@ -556,64 +581,70 @@ namespace FiddlerControls
 
         private void onClickExtractPalette(object sender, EventArgs e)
         {
-            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
-            AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-            if (edit != null)
+            if (FileType != 0)
             {
-                string name=String.Format("palette_anim{0}_{1}_{2}_{3}",FileType,CurrBody,CurrAction,CurrDir);
-                if (((string)menu.Tag) == "txt")
+                ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+                AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                if (edit != null)
                 {
-                    string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + ".txt");
-                    edit.ExportPalette(path, 0);
-                }
-                else
-                {
-                    string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + "." + (string)menu.Tag);
-                    if (((string)menu.Tag) == "bmp")
-                        edit.ExportPalette(path, 1);
+                    string name = String.Format("palette_anim{0}_{1}_{2}_{3}", FileType, CurrBody, CurrAction, CurrDir);
+                    if (((string)menu.Tag) == "txt")
+                    {
+                        string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + ".txt");
+                        edit.ExportPalette(path, 0);
+                    }
                     else
-                        edit.ExportPalette(path, 2);
+                    {
+                        string path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, name + "." + (string)menu.Tag);
+                        if (((string)menu.Tag) == "bmp")
+                            edit.ExportPalette(path, 1);
+                        else
+                            edit.ExportPalette(path, 2);
+                    }
+                    MessageBox.Show(
+                        String.Format("Palette saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        "Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
                 }
-                MessageBox.Show(
-                    String.Format("Palette saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
-                    "Saved",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
             }
         }
 
         private void onClickImportPalette(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            if (FileType != 0)
             {
-                dialog.Multiselect = false;
-                dialog.Title = "Choose palette file";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "txt files (*.txt)|*.txt";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
-                    if (edit != null)
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose palette file";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "txt files (*.txt)|*.txt";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        using (StreamReader sr = new StreamReader(dialog.FileName))
+                        AnimIdx edit = Ultima.AnimationEdit.GetAnimation(FileType, CurrBody, CurrAction, CurrDir);
+                        if (edit != null)
                         {
-                            string line;
-                            ushort[] Palette = new ushort[0x100];
-                            int i = 0;
-                            while ((line = sr.ReadLine()) != null)
+                            using (StreamReader sr = new StreamReader(dialog.FileName))
                             {
-                                if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
-                                    continue;
-                                Palette[i++] = ushort.Parse(line);
-                                if (i >= 0x100)
-                                    break;
+                                string line;
+                                ushort[] Palette = new ushort[0x100];
+                                int i = 0;
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if ((line = line.Trim()).Length == 0 || line.StartsWith("#"))
+                                        continue;
+                                    Palette[i++] = ushort.Parse(line);
+                                    if (i >= 0x100)
+                                        break;
+                                }
+                                edit.ReplacePalette(Palette);
                             }
-                            edit.ReplacePalette(Palette);
+                            SetPaletteBox();
+                            listView1.Refresh();
+                            Options.ChangedUltimaClass["Animations"] = true;
                         }
-                        SetPaletteBox();
-                        listView1.Refresh();
-                        Options.ChangedUltimaClass["Animations"] = true;
                     }
                 }
             }
@@ -621,90 +652,96 @@ namespace FiddlerControls
 
         private void OnClickImportFromVD(object sender, EventArgs e)
         {
-            using (OpenFileDialog dialog = new OpenFileDialog())
+            if (FileType != 0)
             {
-                dialog.Multiselect = false;
-                dialog.Title = "Choose palette file";
-                dialog.CheckFileExists = true;
-                dialog.Filter = "vd files (*.vd)|*.vd";
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    int animlength = Animations.GetAnimLength(CurrBody, FileType);
-                    int currtype = animlength == 22 ? 0 : animlength == 13 ? 1 : 2;
-                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    dialog.Multiselect = false;
+                    dialog.Title = "Choose palette file";
+                    dialog.CheckFileExists = true;
+                    dialog.Filter = "vd files (*.vd)|*.vd";
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        using (BinaryReader bin = new BinaryReader(fs))
+                        int animlength = Animations.GetAnimLength(CurrBody, FileType);
+                        int currtype = animlength == 22 ? 0 : animlength == 13 ? 1 : 2;
+                        using (FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            int filetype = bin.ReadInt16();
-                            int animtype = bin.ReadInt16();
-                            if (filetype != 6)
+                            using (BinaryReader bin = new BinaryReader(fs))
                             {
-                                MessageBox.Show(
-                                    "Not an Anim File.",
-                                    "Import",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information,
-                                    MessageBoxDefaultButton.Button1);
-                                return;
-                            }
-                            
-                            if (animtype != currtype)
-                            {
-                                MessageBox.Show(
-                                    "Wrong Anim Id ( Type )",
-                                    "Import",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information,
-                                    MessageBoxDefaultButton.Button1);
-                                return;
-                            }
-                            Ultima.AnimationEdit.LoadFromVD(FileType, CurrBody, bin);
-                        }
-                    }
+                                int filetype = bin.ReadInt16();
+                                int animtype = bin.ReadInt16();
+                                if (filetype != 6)
+                                {
+                                    MessageBox.Show(
+                                        "Not an Anim File.",
+                                        "Import",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information,
+                                        MessageBoxDefaultButton.Button1);
+                                    return;
+                                }
 
-                    bool valid = false;
-                    TreeNode node = GetNode(CurrBody);
-                    if (node != null)
-                    {
-                        for (int j = 0; j < animlength; ++j)
-                        {
-                            if (Ultima.AnimationEdit.IsActionDefinied(FileType, CurrBody, j))
-                            {
-                                node.Nodes[j].ForeColor = Color.Black;
-                                valid = true;
+                                if (animtype != currtype)
+                                {
+                                    MessageBox.Show(
+                                        "Wrong Anim Id ( Type )",
+                                        "Import",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information,
+                                        MessageBoxDefaultButton.Button1);
+                                    return;
+                                }
+                                Ultima.AnimationEdit.LoadFromVD(FileType, CurrBody, bin);
                             }
+                        }
+
+                        bool valid = false;
+                        TreeNode node = GetNode(CurrBody);
+                        if (node != null)
+                        {
+                            for (int j = 0; j < animlength; ++j)
+                            {
+                                if (Ultima.AnimationEdit.IsActionDefinied(FileType, CurrBody, j))
+                                {
+                                    node.Nodes[j].ForeColor = Color.Black;
+                                    valid = true;
+                                }
+                                else
+                                    node.Nodes[j].ForeColor = Color.Red;
+                            }
+                            if (valid)
+                                node.ForeColor = Color.Black;
                             else
-                                node.Nodes[j].ForeColor = Color.Red;
+                                node.ForeColor = Color.Red;
                         }
-                        if (valid)
-                            node.ForeColor = Color.Black;
-                        else
-                            node.ForeColor = Color.Red;
-                    }
 
-                    Options.ChangedUltimaClass["Animations"] = true;
-                    AfterSelectTreeView(this, null);
-                    MessageBox.Show(
-                                    "Finished",
-                                    "Import",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information,
-                                    MessageBoxDefaultButton.Button1);
+                        Options.ChangedUltimaClass["Animations"] = true;
+                        AfterSelectTreeView(this, null);
+                        MessageBox.Show(
+                                        "Finished",
+                                        "Import",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information,
+                                        MessageBoxDefaultButton.Button1);
+                    }
                 }
             }
         }
 
         private void OnClickExportToVD(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            string FileName = Path.Combine(path, String.Format("anim{0}_0x{1:X}.vd",FileType,CurrBody));
-            Ultima.AnimationEdit.ExportToVD(FileType, CurrBody, FileName);
-            MessageBox.Show(
-                    String.Format("Animation saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
-                    "Export",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button1);
+            if (FileType != 0)
+            {
+                string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                string FileName = Path.Combine(path, String.Format("anim{0}_0x{1:X}.vd", FileType, CurrBody));
+                Ultima.AnimationEdit.ExportToVD(FileType, CurrBody, FileName);
+                MessageBox.Show(
+                        String.Format("Animation saved to {0}", AppDomain.CurrentDomain.SetupInformation.ApplicationBase),
+                        "Export",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information,
+                        MessageBoxDefaultButton.Button1);
+            }
         }
 
         private void OnClickShowOnlyValid(object sender, EventArgs e)
