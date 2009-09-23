@@ -20,7 +20,7 @@ function IDS_StartIdent(mobile, id_name, item)
 		var cfg := ReadConfigFile(":idscripts:config/idScripts");
 		var elem := FindConfigElem(cfg, info);
 		if ( elem )
-			StartScript(elem.Script, item);
+			Start_Script(elem.Script, item);
 		endif
 	endif
 
