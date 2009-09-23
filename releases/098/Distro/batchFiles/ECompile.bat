@@ -1,4 +1,4 @@
-@ECHO ON
+@ECHO OFF
 
 REM - $Id: ECompile.bat 373 2006-06-17 18:27:33Z austinheilman $
 
