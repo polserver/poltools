@@ -1,0 +1,45 @@
+// $Id$
+
+use cfgfile;
+use os;
+use uo;
+
+include ":attributes:attributes";
+include ":idScripts:idScripts";
+
+program skill_ItemID(mobile)
+	SendSysMessage(mobile, "What would you like to identify?");
+
+	var targ := Target(mobile);
+	if ( !targ )
+		return 0;
+	elseif ( targ.IsA(POLCLASS_MOBILE) )
+		SendSysMessage(mobile, "You feel that such an action would be inappropriate.");
+		return 0;
+	elseif ( !targ.IsA(POLCLASS_ITEM) )
+		SendSysMessage(mobile, "That's not something you can identify.");
+		return 0;
+	elseif ( Distance(mobile, targ) > 1 )
+		SendSysMessage(mobile, "You are too far away to identify that.");
+		return 0;
+	elseif ( GetObjProperty(targ, "Vendored") )
+		SendSysMessage(mobile, "You cannot identify someone else's goods!");
+		return 0;
+	endif
+	
+	var info := GetObjProperty(targ, "ID");
+	if ( !info || TypeOf(info) != "String" )
+		SendSysMessage(mobile, "That item does not need to be identified.");
+		return 0;
+	endif
+	
+	var idCfg := ReadConfigFile(":itemidenticifcation:config/itemid");
+	foreach elem_key in ( GetConfigStringKeys( idCfg ) )
+		if ( targ.objtype in (elem_key.GetConfigIntKeys()) )
+			IDS_StartIdent(mobile, info, targ);
+			break;
+		endif
+	endforeach
+
+	return 1;
+endprogram
