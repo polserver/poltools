@@ -10,7 +10,7 @@ use uo;
 
 program IdScript_Strength(params)
 	var mobile	:= params[1];
-	var fish	:= params[3];
+	var fish	:= params[2];
 	params := 0;
 	
 	var fishConfig := ReadConfigFile(":fish:config/magicFish");
