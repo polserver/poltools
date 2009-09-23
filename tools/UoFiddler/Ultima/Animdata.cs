@@ -77,7 +77,7 @@ namespace Ultima
                 {
                     int id = 0;
                     int h = 0;
-                    while (id < 0x4000)
+                    while (id < m_Header.Length * 8)
                     {
                         bin.Write(m_Header[h++]);
                         for (int i = 0; i < 8; ++i, ++id)
