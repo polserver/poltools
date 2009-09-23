@@ -125,7 +125,6 @@ function makeTailoringItems(who, what, amt, tool)
 								return 0;
 							endif
 						else
-							CheckToolWear (who, tool, craft_skill);
 							SkillCheck(who, TAILORING, diff);
 						endif
 					else
@@ -143,6 +142,10 @@ function makeTailoringItems(who, what, amt, tool)
 					endif
 				endif
 			endif
+			CheckToolWear (who, tool, craft_skill);
+		else
+			SendSysMessage(who, "You do not have enough materials.");
+			return 0;
 		endif
 
 		theitem.movable := 1;

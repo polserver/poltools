@@ -89,8 +89,6 @@ function makeAlchemyItems(who, what, amt, tool)
 					SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
 					counter := counter + 1;
 					continue;
-				else
-					CheckToolWear (who, tool, craft_skill);
 				endif
 			else
 				num := CInt(randomint(material)/2) + 1;
@@ -98,6 +96,7 @@ function makeAlchemyItems(who, what, amt, tool)
 					SendSysMessage(who, "You lost some material");
 				endif
 			endif
+			CheckToolWear (who, tool, craft_skill);
 		else
 			SendSysMessage(who, "You don't have the resources required to make that item.");
 			return 0;

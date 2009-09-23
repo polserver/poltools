@@ -192,7 +192,6 @@ function CarpentryItems(who, tool, objtype, amt)
 							SendSysMessage(who, "Your tinker skill was sufficient to make the item lockable.");
 						endif
 					endif
-					CheckToolWear (who, tool, craft_skill);
 				endif
 			else
 				var num := CInt(RandomInt(material)/2) + 1;
@@ -211,6 +210,7 @@ function CarpentryItems(who, tool, objtype, amt)
 				counter := counter + 1;
 				continue;
 			endif
+			CheckToolWear (who, tool, craft_skill);
 		else
 			SendSysMessage(who, "You do not have enough materials.");
 			return 0;
