@@ -79,8 +79,6 @@ program use_fishpole(who, fishingpole)
 				endif
 				var catchtype := GetTheCatch(who);
 				if(CreateItemInContainer(who.backpack, catchtype, 1))
-				// For now we'll use the crafting tool wear function to determine if our pole breaks.
-					CheckToolWear (who, fishingpole, FISHING);
 				// This next call replaces the old "AwardPoints" function call. Hopefully it works right.
 					CheckSkillAdvance(who, FISHING, difficulty, 50);
 				endif
@@ -92,6 +90,7 @@ program use_fishpole(who, fishingpole)
 					SendSysMessage(who, "They don't seem to be biting today");
 				endif
 			endif
+			CheckToolWear (who, fishingpole, FISHING);
 		endif
 	endif
 	return 1;

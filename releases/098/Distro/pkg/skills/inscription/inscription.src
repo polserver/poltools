@@ -95,8 +95,6 @@ function makeScribeItems(mobile, what, amt, tool)
 					SendSysMessage(mobile, "You failed to create the item, and some of your materials are lost.");
 					counter := counter + 1;
 					continue;
-				else
-					CheckToolWear (mobile, tool, craft_skill);
 				endif
 			else
 				num := CInt(randomint(material)/2) + 1;
@@ -104,6 +102,7 @@ function makeScribeItems(mobile, what, amt, tool)
 					SendSysMessage(mobile, "You lost some material");
 				endif
 			endif
+			CheckToolWear (mobile, tool, craft_skill);
 		else
 			SendSysMessage(mobile, "You don't have the resources required to make that item.");
 			counter := 100;

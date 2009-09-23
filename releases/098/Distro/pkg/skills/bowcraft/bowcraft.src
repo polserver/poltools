@@ -92,9 +92,8 @@ function makeBowcraftItems(who, what, amt, tool)
 					SendSysMessage(who, "You failed to create the item, and some of your materials are lost.");
 					counter := counter + 1;
 					continue;
-				else
-					CheckToolWear (who, tool, craft_skill);
 				endif
+				CheckToolWear (who, tool, craft_skill);
 			else
 				num := CInt(randomint(material)/2) + 1;
 				if(SubtractAmount(use_on, num))

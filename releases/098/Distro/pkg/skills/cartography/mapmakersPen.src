@@ -94,7 +94,6 @@ function makeCartographyMap(who, objtype, amt, tool)
 					counter := counter + 1;
 					continue;
 				else
-					CheckToolWear (who, tool, craft_skill);
 					var props;
 					case(theitem.objtype)
 						0x6500:	props := array("local", who.x - 265, who.y - 260, who.x + 265, who.y + 260, 200, 200);
@@ -109,6 +108,7 @@ function makeCartographyMap(who, objtype, amt, tool)
 					SendSysMessage(who, "You lost some material");
 				endif
 			endif
+			CheckToolWear (who, tool, craft_skill);
 		else
 			SendSysMessage(who, "You don't have the resources required to make that item.");
 			return 0;
