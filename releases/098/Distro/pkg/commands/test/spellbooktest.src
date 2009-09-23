@@ -3,6 +3,8 @@
  */
 
 use uo;
+use os;
+use util;
 
 program command_SpellbookTest(mobile)
 
