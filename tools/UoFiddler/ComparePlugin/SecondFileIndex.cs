@@ -6,6 +6,7 @@ namespace ComparePlugin
     {
         private Entry3D[] m_Index;
         private Stream m_Stream;
+        public long IdxLength { get; private set; }
 
         public Entry3D[] Index { get { return m_Index; } }
         public Stream Stream { get { return m_Stream; } }
@@ -56,6 +57,7 @@ namespace ComparePlugin
                     m_Stream = new FileStream(mulFile, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                     int count = (int)(index.Length / 12);
+                    IdxLength = index.Length;
 
                     for (int i = 0; i < count && i < length; ++i)
                     {

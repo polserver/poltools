@@ -20,7 +20,7 @@
   <!--{1} = x, {2} = y, {3} = z, {4} = mapid, {5} = mapname-->
   <SendCharToLoc cmd=".goforce" args="{1} {2} {3} {4}" />
   <!--Definies the map names-->
-  <MapNames map0="Felucca" map1="Trammel" map2="Ilshenar" map3="Malas" map4="Tokuno" />
+  <MapNames map0="Felucca" map1="Trammel" map2="Ilshenar" map3="Malas" map4="Tokuno" map5="Ter Mur" />
   <!--Extern Tools settings-->
   <!--Loaded Plugins-->
   <!--Pathsettings-->

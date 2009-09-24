@@ -36,7 +36,10 @@ namespace ComparePlugin
             listBoxOrg.Items.Clear();
             listBoxOrg.BeginUpdate();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0x4000; i++)
+            int staticlength = 0x4000;
+            if (Art.IsUOSA())
+                staticlength = 0x8000;
+            for (int i = 0; i < staticlength; i++)
             {
                 cache.Add(i);
             }
@@ -51,7 +54,11 @@ namespace ComparePlugin
 
             int i = int.Parse(listBoxOrg.Items[listBoxOrg.SelectedIndex].ToString());
             if (listBoxSec.Items.Count > 0)
-                listBoxSec.SelectedIndex = listBoxSec.Items.IndexOf(i);
+            {
+                int pos = listBoxSec.Items.IndexOf(i);
+                if (pos >= 0)
+                    listBoxSec.SelectedIndex = pos;
+            }
             if (Art.IsValidStatic(i))
             {
                 Bitmap bmp = Art.GetStatic(i);
@@ -114,7 +121,10 @@ namespace ComparePlugin
             listBoxSec.BeginUpdate();
             listBoxSec.Items.Clear();
             ArrayList cache = new ArrayList();
-            for (int i = 0; i < 0x4000; i++)
+            int staticlength = 0x4000;
+            if (SecondArt.IsUOSA())
+                staticlength = 0x8000;
+            for (int i = 0; i < staticlength; i++)
             {
                 cache.Add(i);
             }
@@ -129,7 +139,7 @@ namespace ComparePlugin
 
             Brush fontBrush = Brushes.Gray;
 
-            int i = int.Parse(listBoxOrg.Items[e.Index].ToString());
+            int i = int.Parse(listBoxSec.Items[e.Index].ToString());
             if (listBoxSec.SelectedIndex == e.Index)
                 e.Graphics.FillRectangle(Brushes.LightSteelBlue, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
             if (!SecondArt.IsValidStatic(i))
@@ -154,7 +164,9 @@ namespace ComparePlugin
                 return;
             
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
-            listBoxOrg.SelectedIndex = listBoxOrg.Items.IndexOf(i);
+            int pos = listBoxOrg.Items.IndexOf(i);
+            if (pos>=0)
+                listBoxOrg.SelectedIndex = pos;
             if (SecondArt.IsValidStatic(i))
             {
                 Bitmap bmp = SecondArt.GetStatic(i);
@@ -220,9 +232,12 @@ namespace ComparePlugin
             listBoxOrg.Items.Clear();
             listBoxSec.Items.Clear();
             ArrayList cache = new ArrayList();
+            int staticlength = 0x4000;
+            if (Art.IsUOSA() || SecondArt.IsUOSA())
+                staticlength = 0x8000;
             if (checkBox1.Checked)
             {
-                for (int i = 0; i < 0x4000; i++)
+                for (int i = 0; i < staticlength; i++)
                 {
                     if (!Compare(i))
                         cache.Add(i);
@@ -230,7 +245,7 @@ namespace ComparePlugin
             }
             else
             {
-                for (int i = 0; i < 0x4000; i++)
+                for (int i = 0; i < staticlength; i++)
                 {
                     cache.Add(i);
                 }
@@ -284,6 +299,11 @@ namespace ComparePlugin
             int i = int.Parse(listBoxSec.Items[listBoxSec.SelectedIndex].ToString());
             if (!SecondArt.IsValidStatic(i))
                 return;
+            int staticlength = 0x4000;
+            if (Art.IsUOSA())
+                staticlength = 0x8000;
+            if (i >= staticlength)
+                return;
             Bitmap copy = new Bitmap(SecondArt.GetStatic(i));
             Ultima.Art.ReplaceStatic(i, copy);
             FiddlerControls.Options.ChangedUltimaClass["Art"] = true;
@@ -291,7 +311,8 @@ namespace ComparePlugin
             m_Compare[i] = true;
             listBoxOrg.BeginUpdate();
             bool done = false;
-            for (int id = 0; id < 0x4000; id++)
+            
+            for (int id = 0; id < staticlength; id++)
             {
                 if (id > i)
                 {

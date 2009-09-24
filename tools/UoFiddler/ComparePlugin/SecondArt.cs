@@ -12,9 +12,20 @@ namespace ComparePlugin
 
         public static void SetFileIndex(string idxPath, string mulPath)
         {
-            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0xC000);
-            m_Cache = new Bitmap[0xC000];
+            m_FileIndex = new SecondFileIndex(idxPath, mulPath, 0x10000);
+            m_Cache = new Bitmap[0x10000];
         }
+
+        public static bool IsUOSA()
+        {
+            return (GetIdxLength() == 0xC000);
+        }
+
+        public static int GetIdxLength()
+        {
+            return (int)(m_FileIndex.IdxLength / 12);
+        }
+
         public static bool IsValidStatic(int index)
         {
             index += 0x4000;

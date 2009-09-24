@@ -34,6 +34,7 @@ namespace UoFiddler
             map2Nametext.Text = FiddlerControls.Options.MapNames[2];
             map3Nametext.Text = FiddlerControls.Options.MapNames[3];
             map4Nametext.Text = FiddlerControls.Options.MapNames[4];
+            map5Nametext.Text = FiddlerControls.Options.MapNames[5];
             cmdtext.Text = FiddlerControls.Options.MapCmd;
             argstext.Text = FiddlerControls.Options.MapArgs;
         }
@@ -84,13 +85,15 @@ namespace UoFiddler
                 || (map1Nametext.Text != FiddlerControls.Options.MapNames[1])
                 || (map2Nametext.Text != FiddlerControls.Options.MapNames[2])
                 || (map3Nametext.Text != FiddlerControls.Options.MapNames[3])
-                || (map4Nametext.Text != FiddlerControls.Options.MapNames[4]))
+                || (map4Nametext.Text != FiddlerControls.Options.MapNames[4])
+                || (map5Nametext.Text != FiddlerControls.Options.MapNames[5]))
             {
                 FiddlerControls.Options.MapNames[0] = map0Nametext.Text;
                 FiddlerControls.Options.MapNames[1] = map1Nametext.Text;
                 FiddlerControls.Options.MapNames[2] = map2Nametext.Text;
                 FiddlerControls.Options.MapNames[3] = map3Nametext.Text;
                 FiddlerControls.Options.MapNames[4] = map4Nametext.Text;
+                FiddlerControls.Options.MapNames[5] = map5Nametext.Text;
                 FiddlerControls.Events.FireMapNameChangeEvent();
             }
             FiddlerControls.Options.MapCmd = cmdtext.Text;

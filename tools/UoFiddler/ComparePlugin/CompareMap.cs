@@ -45,6 +45,7 @@ namespace ComparePlugin
             ilshenarToolStripMenuItem.Checked = false;
             malasToolStripMenuItem.Checked = false;
             tokunoToolStripMenuItem.Checked = false;
+            terMurToolStripMenuItem.Checked = false;
             showDifferencesToolStripMenuItem.Checked = true;
             showMap1ToolStripMenuItem.Checked = true;
             showMap2ToolStripMenuItem.Checked = false;
@@ -100,6 +101,7 @@ namespace ComparePlugin
             ilshenarToolStripMenuItem.Text = FiddlerControls.Options.MapNames[2];
             malasToolStripMenuItem.Text = FiddlerControls.Options.MapNames[3];
             tokunoToolStripMenuItem.Text = FiddlerControls.Options.MapNames[4];
+            terMurToolStripMenuItem.Text = FiddlerControls.Options.MapNames[5];
         }
         public static int Round(int x)
         {
@@ -381,14 +383,14 @@ namespace ComparePlugin
                 hScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 hScrollBar.Maximum += (int)(40 / Zoom);
-            hScrollBar.Maximum = Round(hScrollBar.Maximum);
+            hScrollBar.Maximum = Math.Max(0, Round(hScrollBar.Maximum));
             vScrollBar.Maximum = (int)(origmap.Height);
             vScrollBar.Maximum -= Round((int)(pictureBox.ClientSize.Height / Zoom) - 8);
             if (Zoom >= 1)
                 vScrollBar.Maximum += (int)(40 * Zoom);
             else if (Zoom < 1)
                 vScrollBar.Maximum += (int)(40 / Zoom);
-            vScrollBar.Maximum = Round(vScrollBar.Maximum);
+            vScrollBar.Maximum = Math.Max(0, Round(vScrollBar.Maximum));
         }
 
         private void SetScrollBarValues()
@@ -531,6 +533,18 @@ namespace ComparePlugin
                 tokunoToolStripMenuItem.Checked = true;
                 origmap = Ultima.Map.Tokuno;
                 currmapint = 4;
+                ChangeMap();
+            }
+        }
+
+        private void OnClickChangeTerMur(object sender, EventArgs e)
+        {
+            if (!terMurToolStripMenuItem.Checked)
+            {
+                ResetCheckedMap();
+                terMurToolStripMenuItem.Checked = true;
+                origmap = Ultima.Map.TerMur;
+                currmapint = 5;
                 ChangeMap();
             }
         }
