@@ -65,6 +65,7 @@ namespace ComparePlugin
             this.malasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tokunoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.terMurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -108,20 +109,20 @@ namespace ComparePlugin
             this.zoomToolStripMenuItem,
             this.zoomToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(115, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(120, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.OnOpeningContext);
             // 
             // zoomToolStripMenuItem
             // 
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.zoomToolStripMenuItem.Text = "Zoom+";
             this.zoomToolStripMenuItem.Click += new System.EventHandler(this.onZoomPlus);
             // 
             // zoomToolStripMenuItem1
             // 
             this.zoomToolStripMenuItem1.Name = "zoomToolStripMenuItem1";
-            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
+            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
             this.zoomToolStripMenuItem1.Text = "Zoom-";
             this.zoomToolStripMenuItem1.Click += new System.EventHandler(this.OnZoomMinus);
             // 
@@ -199,6 +200,7 @@ namespace ComparePlugin
             this.ilshenarToolStripMenuItem,
             this.malasToolStripMenuItem,
             this.tokunoToolStripMenuItem,
+            this.terMurToolStripMenuItem,
             this.markDiffToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -209,66 +211,66 @@ namespace ComparePlugin
             // 
             this.showDifferencesToolStripMenuItem.CheckOnClick = true;
             this.showDifferencesToolStripMenuItem.Name = "showDifferencesToolStripMenuItem";
-            this.showDifferencesToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.showDifferencesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.showDifferencesToolStripMenuItem.Text = "Show Differences";
             this.showDifferencesToolStripMenuItem.Click += new System.EventHandler(this.OnClickShowDiff);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
             // 
             // showMap1ToolStripMenuItem
             // 
             this.showMap1ToolStripMenuItem.Name = "showMap1ToolStripMenuItem";
-            this.showMap1ToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.showMap1ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.showMap1ToolStripMenuItem.Text = "Show Map1";
             this.showMap1ToolStripMenuItem.Click += new System.EventHandler(this.OnClickShowMap1);
             // 
             // showMap2ToolStripMenuItem
             // 
             this.showMap2ToolStripMenuItem.Name = "showMap2ToolStripMenuItem";
-            this.showMap2ToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.showMap2ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.showMap2ToolStripMenuItem.Text = "Show Map2";
             this.showMap2ToolStripMenuItem.Click += new System.EventHandler(this.OnClickShowMap2);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
             // 
             // feluccaToolStripMenuItem
             // 
             this.feluccaToolStripMenuItem.Name = "feluccaToolStripMenuItem";
-            this.feluccaToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.feluccaToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.feluccaToolStripMenuItem.Text = "Felucca";
             this.feluccaToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeFelucca);
             // 
             // trammelToolStripMenuItem
             // 
             this.trammelToolStripMenuItem.Name = "trammelToolStripMenuItem";
-            this.trammelToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.trammelToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.trammelToolStripMenuItem.Text = "Trammel";
             this.trammelToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTrammel);
             // 
             // ilshenarToolStripMenuItem
             // 
             this.ilshenarToolStripMenuItem.Name = "ilshenarToolStripMenuItem";
-            this.ilshenarToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.ilshenarToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.ilshenarToolStripMenuItem.Text = "Ilshenar";
             this.ilshenarToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeIlshenar);
             // 
             // malasToolStripMenuItem
             // 
             this.malasToolStripMenuItem.Name = "malasToolStripMenuItem";
-            this.malasToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.malasToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.malasToolStripMenuItem.Text = "Malas";
             this.malasToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeMalas);
             // 
             // tokunoToolStripMenuItem
             // 
             this.tokunoToolStripMenuItem.Name = "tokunoToolStripMenuItem";
-            this.tokunoToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.tokunoToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.tokunoToolStripMenuItem.Text = "Tokuno";
             this.tokunoToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTokuno);
             // 
@@ -276,9 +278,16 @@ namespace ComparePlugin
             // 
             this.markDiffToolStripMenuItem.CheckOnClick = true;
             this.markDiffToolStripMenuItem.Name = "markDiffToolStripMenuItem";
-            this.markDiffToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.markDiffToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.markDiffToolStripMenuItem.Text = "Mark Diff";
             this.markDiffToolStripMenuItem.Click += new System.EventHandler(this.OnClickMarkDiff);
+            // 
+            // terMurToolStripMenuItem
+            // 
+            this.terMurToolStripMenuItem.Name = "terMurToolStripMenuItem";
+            this.terMurToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.terMurToolStripMenuItem.Text = "TerMur";
+            this.terMurToolStripMenuItem.Click += new System.EventHandler(this.OnClickChangeTerMur);
             // 
             // CompareMap
             // 
@@ -327,5 +336,6 @@ namespace ComparePlugin
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem markDiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem terMurToolStripMenuItem;
     }
 }

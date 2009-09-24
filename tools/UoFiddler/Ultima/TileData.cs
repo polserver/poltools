@@ -132,7 +132,7 @@ namespace Ultima
                 m_Flags |= TileFlag.Animation;
             temp = System.Convert.ToByte(split[28]);
             if (temp != 0)
-                m_Flags |= TileFlag.NoDiagonal;
+                m_Flags |= TileFlag.HoverOver;
             temp = System.Convert.ToByte(split[29]);
             if (temp != 0)
                 m_Flags |= TileFlag.Unknown3;
@@ -462,7 +462,7 @@ namespace Ultima
                 m_Flags |= TileFlag.Animation;
             temp = System.Convert.ToByte(split[37]);
             if (temp != 0)
-                m_Flags |= TileFlag.NoDiagonal;
+                m_Flags |= TileFlag.HoverOver;
             temp = System.Convert.ToByte(split[38]);
             if (temp != 0)
                m_Flags |= TileFlag.Unknown3;
@@ -597,9 +597,9 @@ namespace Ultima
         /// </summary>
         Animation = 0x01000000,
         /// <summary>
-        /// Not yet documented.
+        /// Gargoyles can fly over
         /// </summary>
-        NoDiagonal = 0x02000000,
+        HoverOver = 0x02000000,
         /// <summary>
         /// Unknown.
         /// </summary>
@@ -820,7 +820,7 @@ namespace Ultima
                 Tex.Write("ID;Name;Weight/Quantity;Layer/Quality;Gump/AnimID;Height;Hue;Class/Quantity;StackingOffset;Unkown1;Unkown2;Unkown3");
                 Tex.Write(";Background;Weapon;Transparent;Translucent;Wall;Damage;Impassible;Wet;Unknow1");
                 Tex.Write(";Surface;Bridge;Generic;Window;NoShoot;PrefixA;PrefixAn;Internal;Foliage;PartialHue");
-                Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;NoDiagonal");
+                Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;HoverOver");
                 Tex.WriteLine(";Unknow3;Armor;Roof;Door;StairBack;StairRight");
 
                 for (int i = 0; i < m_ItemData.Length; ++i)
@@ -864,7 +864,7 @@ namespace Ultima
                     Tex.Write(";" + (((tile.Flags & TileFlag.Wearable) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.LightSource) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Animation) != 0) ? "1" : "0"));
-                    Tex.Write(";" + (((tile.Flags & TileFlag.NoDiagonal) != 0) ? "1" : "0"));
+                    Tex.Write(";" + (((tile.Flags & TileFlag.HoverOver) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Unknown3) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Armor) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Roof) != 0) ? "1" : "0"));
@@ -886,7 +886,7 @@ namespace Ultima
                 Tex.Write("ID;Name;TextureID");
                 Tex.Write(";Background;Weapon;Transparent;Translucent;Wall;Damage;Impassible;Wet;Unknow1");
                 Tex.Write(";Surface;Bridge;Generic;Window;NoShoot;PrefixA;PrefixAn;Internal;Foliage;PartialHue");
-                Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;NoDiagonal");
+                Tex.Write(";Unknow2;Map;Container/Height;Wearable;Lightsource;Animation;HoverOver");
                 Tex.WriteLine(";Unknow3;Armor;Roof;Door;StairBack;StairRight");
 
                 for (int i = 0; i < m_LandData.Length; ++i)
@@ -921,7 +921,7 @@ namespace Ultima
                     Tex.Write(";" + (((tile.Flags & TileFlag.Wearable) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.LightSource) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Animation) != 0) ? "1" : "0"));
-                    Tex.Write(";" + (((tile.Flags & TileFlag.NoDiagonal) != 0) ? "1" : "0"));
+                    Tex.Write(";" + (((tile.Flags & TileFlag.HoverOver) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Unknown3) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Armor) != 0) ? "1" : "0"));
                     Tex.Write(";" + (((tile.Flags & TileFlag.Roof) != 0) ? "1" : "0"));

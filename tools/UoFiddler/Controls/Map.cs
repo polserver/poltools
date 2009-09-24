@@ -132,6 +132,7 @@ namespace FiddlerControls
             ilshenarToolStripMenuItem.Text = Options.MapNames[2];
             malasToolStripMenuItem.Text = Options.MapNames[3];
             tokunoToolStripMenuItem.Text = Options.MapNames[4];
+            terMurToolStripMenuItem.Text = Options.MapNames[5];
             if (OverlayObjectTree.Nodes.Count > 0)
             {
                 OverlayObjectTree.Nodes[0].Text = Options.MapNames[0];
@@ -139,6 +140,7 @@ namespace FiddlerControls
                 OverlayObjectTree.Nodes[2].Text = Options.MapNames[2];
                 OverlayObjectTree.Nodes[3].Text = Options.MapNames[3];
                 OverlayObjectTree.Nodes[4].Text = Options.MapNames[4];
+                OverlayObjectTree.Nodes[5].Text = Options.MapNames[5];
                 OverlayObjectTree.Refresh();
             }
         }

@@ -123,6 +123,7 @@ namespace UoFiddler
             elem.SetAttribute("map2", FiddlerControls.Options.MapNames[2]);
             elem.SetAttribute("map3", FiddlerControls.Options.MapNames[3]);
             elem.SetAttribute("map4", FiddlerControls.Options.MapNames[4]);
+            elem.SetAttribute("map5", FiddlerControls.Options.MapNames[5]);
             sr.AppendChild(elem);
 
             comment = dom.CreateComment("Extern Tools settings");
