@@ -120,10 +120,15 @@
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Version 4.2d
 TileData: Added Misc-&gt;Set Filter
-Fix for UO:SA animdata save
+Fix of UO:SA animdata save
 Minor fixes
 ComparePlugin UO:SA compatible
 TileData flag NoDiagonal (unused) is HoverOver in UO:SA renamed it
+Added skillgrp.mul tab currently without edit feature
+MultiEditor Plugin:
+Added new button "Switch Transparent" makes a tile transparent
+Added Misc-&gt;"Reset transparent tiles"
+Added Misc-&gt;"Show Walkable tiles" highlights all walkable tiles (checks if a player with height 16 can stand there)
 
 Version 4.2c
 Fix for anim saving

@@ -84,6 +84,7 @@ namespace Ultima
             "multi.mul",
             "multimap.rle",
 			"radarcol.mul",
+            "skillgrp.mul",
             "skills.idx",
             "skills.mul",
             "sound.def",

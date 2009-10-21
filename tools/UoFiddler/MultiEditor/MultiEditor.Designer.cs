@@ -67,8 +67,9 @@ namespace MultiEditor
             this.BTN_Save = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.BTN_Pipette = new System.Windows.Forms.CheckBox();
+            this.BTN_Trans = new System.Windows.Forms.CheckBox();
             this.imageListTools = new System.Windows.Forms.ImageList(this.components);
+            this.BTN_Pipette = new System.Windows.Forms.CheckBox();
             this.BTN_Floor = new System.Windows.Forms.CheckBox();
             this.BTN_Z = new System.Windows.Forms.CheckBox();
             this.BTN_Remove = new System.Windows.Forms.CheckBox();
@@ -76,7 +77,6 @@ namespace MultiEditor
             this.BTN_Select = new System.Windows.Forms.CheckBox();
             this.numericUpDown_Floor = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_Z = new System.Windows.Forms.NumericUpDown();
-            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.Selectedpanel = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.DynamiccheckBox = new System.Windows.Forms.CheckBox();
@@ -102,6 +102,8 @@ namespace MultiEditor
             this.UndoItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWalkablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllTransToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawTileLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -109,6 +111,7 @@ namespace MultiEditor
             this.toolStripLabelCoord = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
+            this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -151,10 +154,10 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.Save);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 86);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 186);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -164,7 +167,7 @@ namespace MultiEditor
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 155);
+            this.tileTab.Size = new System.Drawing.Size(192, 160);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -184,8 +187,8 @@ namespace MultiEditor
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pictureBoxDrawTiles);
             this.splitContainer4.Panel2.Controls.Add(this.vScrollBarDrawTiles);
-            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
-            this.splitContainer4.SplitterDistance = 73;
+            this.splitContainer4.Size = new System.Drawing.Size(186, 154);
+            this.splitContainer4.SplitterDistance = 75;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
@@ -197,7 +200,7 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 73);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 75);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewTilesXML_OnAfterSelect);
             // 
@@ -212,7 +215,7 @@ namespace MultiEditor
             this.pictureBoxDrawTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDrawTiles.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDrawTiles.Name = "pictureBoxDrawTiles";
-            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 72);
+            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 75);
             this.pictureBoxDrawTiles.TabIndex = 3;
             this.pictureBoxDrawTiles.TabStop = false;
             this.pictureBoxDrawTiles.MouseLeave += new System.EventHandler(this.pictureBoxDrawTilesMouseLeave);
@@ -226,7 +229,7 @@ namespace MultiEditor
             this.vScrollBarDrawTiles.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBarDrawTiles.Location = new System.Drawing.Point(169, 0);
             this.vScrollBarDrawTiles.Name = "vScrollBarDrawTiles";
-            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 72);
+            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 75);
             this.vScrollBarDrawTiles.TabIndex = 0;
             this.vScrollBarDrawTiles.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBarDrawTiles_Scroll);
             // 
@@ -319,7 +322,7 @@ namespace MultiEditor
             this.treeViewMultiList.HideSelection = false;
             this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
             this.treeViewMultiList.Name = "treeViewMultiList";
-            this.treeViewMultiList.Size = new System.Drawing.Size(192, 160);
+            this.treeViewMultiList.Size = new System.Drawing.Size(192, 155);
             this.treeViewMultiList.TabIndex = 0;
             this.treeViewMultiList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMultiList_NodeMouseDoubleClick);
             // 
@@ -446,6 +449,7 @@ namespace MultiEditor
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.BTN_Trans);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Pipette);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Floor);
             this.splitContainer3.Panel1.Controls.Add(this.BTN_Z);
@@ -464,20 +468,20 @@ namespace MultiEditor
             this.splitContainer3.SplitterWidth = 2;
             this.splitContainer3.TabIndex = 1;
             // 
-            // BTN_Pipette
+            // BTN_Trans
             // 
-            this.BTN_Pipette.Appearance = System.Windows.Forms.Appearance.Button;
-            this.BTN_Pipette.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BTN_Pipette.ImageKey = "PipetteButton.bmp";
-            this.BTN_Pipette.ImageList = this.imageListTools;
-            this.BTN_Pipette.Location = new System.Drawing.Point(84, 3);
-            this.BTN_Pipette.Name = "BTN_Pipette";
-            this.BTN_Pipette.Size = new System.Drawing.Size(21, 21);
-            this.BTN_Pipette.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.BTN_Pipette, "Pick A Tile");
-            this.BTN_Pipette.UseVisualStyleBackColor = true;
-            this.BTN_Pipette.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
-            this.BTN_Pipette.Click += new System.EventHandler(this.BTN_Pipette_Click);
+            this.BTN_Trans.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Trans.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Trans.ImageKey = "TransButton.bmp";
+            this.BTN_Trans.ImageList = this.imageListTools;
+            this.BTN_Trans.Location = new System.Drawing.Point(87, 26);
+            this.BTN_Trans.Name = "BTN_Trans";
+            this.BTN_Trans.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Trans.TabIndex = 15;
+            this.toolTip1.SetToolTip(this.BTN_Trans, "Switch Transparent");
+            this.BTN_Trans.UseVisualStyleBackColor = true;
+            this.BTN_Trans.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
+            this.BTN_Trans.Click += new System.EventHandler(this.BTN_Trans_Clicked);
             // 
             // imageListTools
             // 
@@ -495,6 +499,23 @@ namespace MultiEditor
             this.imageListTools.Images.SetKeyName(9, "VirtualFloorButton_Selected.bmp");
             this.imageListTools.Images.SetKeyName(10, "PipetteButton.bmp");
             this.imageListTools.Images.SetKeyName(11, "PipetteButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(12, "TransButton_Selected.bmp");
+            this.imageListTools.Images.SetKeyName(13, "TransButton.bmp");
+            // 
+            // BTN_Pipette
+            // 
+            this.BTN_Pipette.Appearance = System.Windows.Forms.Appearance.Button;
+            this.BTN_Pipette.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.BTN_Pipette.ImageKey = "PipetteButton.bmp";
+            this.BTN_Pipette.ImageList = this.imageListTools;
+            this.BTN_Pipette.Location = new System.Drawing.Point(84, 3);
+            this.BTN_Pipette.Name = "BTN_Pipette";
+            this.BTN_Pipette.Size = new System.Drawing.Size(21, 21);
+            this.BTN_Pipette.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.BTN_Pipette, "Pick A Tile");
+            this.BTN_Pipette.UseVisualStyleBackColor = true;
+            this.BTN_Pipette.CheckStateChanged += new System.EventHandler(this.BTN_Toolbox_CheckedChanged);
+            this.BTN_Pipette.Click += new System.EventHandler(this.BTN_Pipette_Click);
             // 
             // BTN_Floor
             // 
@@ -608,22 +629,6 @@ namespace MultiEditor
             this.numericUpDown_Z.Size = new System.Drawing.Size(50, 20);
             this.numericUpDown_Z.TabIndex = 5;
             // 
-            // collapsibleSplitter1
-            // 
-            this.collapsibleSplitter1.AnimationDelay = 20;
-            this.collapsibleSplitter1.AnimationStep = 20;
-            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
-            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
-            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.collapsibleSplitter1.ExpandParentForm = false;
-            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
-            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
-            this.collapsibleSplitter1.TabIndex = 5;
-            this.collapsibleSplitter1.TabStop = false;
-            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
-            this.collapsibleSplitter1.UseAnimations = true;
-            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
-            // 
             // Selectedpanel
             // 
             this.Selectedpanel.Controls.Add(this.groupBox3);
@@ -719,7 +724,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MaxHeightTrackBar.Location = new System.Drawing.Point(0, 0);
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
-            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
+            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 45);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
@@ -786,7 +791,9 @@ namespace MultiEditor
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UndoItems});
+            this.UndoItems,
+            this.showWalkablesToolStripMenuItem,
+            this.removeAllTransToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(40, 22);
@@ -806,7 +813,7 @@ namespace MultiEditor
             this.UndoItem8,
             this.UndoItem9});
             this.UndoItems.Name = "UndoItems";
-            this.UndoItems.Size = new System.Drawing.Size(110, 22);
+            this.UndoItems.Size = new System.Drawing.Size(195, 22);
             this.UndoItems.Text = "Undo";
             this.UndoItems.DropDownOpening += new System.EventHandler(this.UndoList_BeforeOpening);
             // 
@@ -890,6 +897,21 @@ namespace MultiEditor
             this.UndoItem9.Text = "---";
             this.UndoItem9.Click += new System.EventHandler(this.Undo_onClick);
             // 
+            // showWalkablesToolStripMenuItem
+            // 
+            this.showWalkablesToolStripMenuItem.CheckOnClick = true;
+            this.showWalkablesToolStripMenuItem.Name = "showWalkablesToolStripMenuItem";
+            this.showWalkablesToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showWalkablesToolStripMenuItem.Text = "Show Walkable tiles";
+            this.showWalkablesToolStripMenuItem.Click += new System.EventHandler(this.BTN_ShowWalkables_Click);
+            // 
+            // removeAllTransToolStripMenuItem
+            // 
+            this.removeAllTransToolStripMenuItem.Name = "removeAllTransToolStripMenuItem";
+            this.removeAllTransToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.removeAllTransToolStripMenuItem.Text = "Reset transparent tiles";
+            this.removeAllTransToolStripMenuItem.Click += new System.EventHandler(this.BTN_ShowAllTrans);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -930,6 +952,22 @@ namespace MultiEditor
             this.FloatingPreviewPanel.Name = "FloatingPreviewPanel";
             this.FloatingPreviewPanel.Size = new System.Drawing.Size(200, 100);
             this.FloatingPreviewPanel.TabIndex = 4;
+            // 
+            // collapsibleSplitter1
+            // 
+            this.collapsibleSplitter1.AnimationDelay = 20;
+            this.collapsibleSplitter1.AnimationStep = 20;
+            this.collapsibleSplitter1.BorderStyle3D = System.Windows.Forms.Border3DStyle.Flat;
+            this.collapsibleSplitter1.ControlToHide = this.Selectedpanel;
+            this.collapsibleSplitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.collapsibleSplitter1.ExpandParentForm = false;
+            this.collapsibleSplitter1.Location = new System.Drawing.Point(0, 83);
+            this.collapsibleSplitter1.Name = "collapsibleSplitter1";
+            this.collapsibleSplitter1.TabIndex = 5;
+            this.collapsibleSplitter1.TabStop = false;
+            this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
+            this.collapsibleSplitter1.UseAnimations = true;
+            this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
             // 
             // MultiEditor
             // 
@@ -1054,5 +1092,8 @@ namespace MultiEditor
         private System.Windows.Forms.ToolStripMenuItem UndoItem9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox DynamiccheckBox;
+        private System.Windows.Forms.ToolStripMenuItem showWalkablesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox BTN_Trans;
+        private System.Windows.Forms.ToolStripMenuItem removeAllTransToolStripMenuItem;
     }
 }

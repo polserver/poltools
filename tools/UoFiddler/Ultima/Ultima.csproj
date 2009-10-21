@@ -180,6 +180,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RadarCol.cs" />
+    <Compile Include="SkillGroups.cs" />
     <Compile Include="Skills.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="SpeechList.cs" />

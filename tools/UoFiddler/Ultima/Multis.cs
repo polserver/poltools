@@ -286,7 +286,7 @@ namespace Ultima
         /// <returns></returns>
         public Bitmap GetImage()
         {
-            return GetImage(-1);
+            return GetImage(300);
         }
 
         /// <summary>
