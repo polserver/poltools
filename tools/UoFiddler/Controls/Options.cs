@@ -45,7 +45,8 @@ namespace FiddlerControls
             {"Texture", false},
             {"TileData", false},
             {"RadarColor",false},
-            {"AnimationEdit",false}
+            {"AnimationEdit",false},
+            {"SkillGrp",false}
         };
 
         private static Dictionary<string, bool> m_ChangedUltimaClass = new Dictionary<string, bool>()
@@ -66,7 +67,8 @@ namespace FiddlerControls
             {"CliLoc", false},
             {"Texture", false},
             {"TileData", false},
-            {"RadarColor",false}
+            {"RadarColor",false},
+            {"SkillGrp",false}
         };
 
         private static Dictionary<int, bool> m_ChangedViewStates = new Dictionary<int, bool>()
@@ -90,7 +92,8 @@ namespace FiddlerControls
             {16, true},
             {17, true},
             {18, true},
-            {19, true}
+            {19, true},
+            {20, true}
         };
 
 

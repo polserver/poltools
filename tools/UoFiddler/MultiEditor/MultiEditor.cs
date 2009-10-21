@@ -107,6 +107,9 @@ namespace MultiEditor
             }
         }
 
+        public bool ShowWalkables { get { return showWalkablesToolStripMenuItem.Checked; } }
+
+
 		#endregion Properties 
 
 		#region Methods (35) 
@@ -144,6 +147,7 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
+            BTN_Trans.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -200,6 +204,7 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = true;
+            BTN_Trans.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -213,6 +218,7 @@ namespace MultiEditor
             BTN_Remove.Checked = true;
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
+            BTN_Trans.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -259,6 +265,7 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = false;
             BTN_Pipette.Checked = false;
+            BTN_Trans.Checked = false;
             pictureBoxMulti.Refresh();
         }
 
@@ -273,6 +280,7 @@ namespace MultiEditor
                 case "BTN_Z": thisBox.ImageKey = (thisBox.Checked) ? "AltitudeButton_Selected.bmp" : "AltitudeButton.bmp"; break;
                 case "BTN_Floor": thisBox.ImageKey = (thisBox.Checked) ? "VirtualFloorButton_Selected.bmp" : "VirtualFloorButton.bmp"; break;
                 case "BTN_Pipette": thisBox.ImageKey = (thisBox.Checked) ? "PipetteButton_Selected.bmp" : "PipetteButton.bmp"; break;
+                case "BTN_Trans": thisBox.ImageKey = (thisBox.Checked) ? "TransButton_Selected.bmp" : "TransButton.bmp"; break;
             }
         }
 
@@ -286,6 +294,18 @@ namespace MultiEditor
             BTN_Remove.Checked = false;
             BTN_Z.Checked = true;
             BTN_Pipette.Checked = false;
+            BTN_Trans.Checked = false;
+            pictureBoxMulti.Refresh();
+        }
+
+        private void BTN_Trans_Clicked(object sender, EventArgs e)
+        {
+            BTN_Select.Checked = false;
+            BTN_Draw.Checked = false;
+            BTN_Remove.Checked = false;
+            BTN_Z.Checked = false;
+            BTN_Pipette.Checked = false;
+            BTN_Trans.Checked = true;
             pictureBoxMulti.Refresh();
         }
 
@@ -613,6 +633,11 @@ namespace MultiEditor
                     DrawTileLabel.Text = String.Format("Draw ID: 0x{0:X}", m_HoverTile.ID);
                 }
             }
+            else if (BTN_Trans.Checked)
+            {
+                if (m_HoverTile != null)
+                    m_HoverTile.Transparent = !m_HoverTile.Transparent;
+            }
             pictureBoxMulti.Refresh();
         }
 
@@ -634,6 +659,8 @@ namespace MultiEditor
             }
             if (bit != null)
             {
+                if (ShowWalkables)
+                    showWalkablesToolStripMenuItem.Text = String.Format("Show Walkable tiles ({0})", compList.WalkableCount);
                 e.Graphics.DrawImageUnscaled(bit, -hScrollBar.Value, -vScrollBar.Value);
                 bit.Dispose();
                 int x, y, z;
@@ -1150,5 +1177,32 @@ namespace MultiEditor
                 }
             }
         }
+
+        private void BTN_ShowWalkables_Click(object sender, EventArgs e)
+        {
+            showWalkablesToolStripMenuItem.Text = "Show Walkable tiles";
+            if (ShowWalkables)
+            {
+                if (compList != null)
+                {
+                    compList.CalcWalkable();
+                    pictureBoxMulti.Refresh();
+                }
+            }
+        }
+
+        private void BTN_ShowAllTrans(object sender, EventArgs e)
+        {
+            if (compList != null)
+            {
+                foreach (MultiTile tile in compList.Tiles)
+                {
+                    tile.Transparent = false;
+                }
+                pictureBoxMulti.Refresh();
+            }
+        }
+
+        
     }
 }

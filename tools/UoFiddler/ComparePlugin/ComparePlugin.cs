@@ -25,7 +25,7 @@ namespace FiddlerPlugin
             +"Compares 2 Gump files\r\n"
             +"(Adds 6 new Tabs)";
         string myAuthor = "Turley";
-        string myVersion = "1.5.0";
+        string myVersion = "1.6.0";
         IPluginHost myHost = null;
 
         /// <summary>

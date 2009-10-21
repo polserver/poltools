@@ -27,6 +27,7 @@ namespace MultiEditor
         private bool Modified;
         private static MultiEditor Parent;
         public const int UndoListMaxSize = 10;
+        public int WalkableCount = 0;
 
 		#endregion Fields 
 
@@ -207,6 +208,10 @@ namespace MultiEditor
                             gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.HoverColor);
                         else if ((Parent.SelectedTile != null) && (Parent.SelectedTile == tile))
                             gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.SelectedColor);
+                        else if (tile.Transparent)
+                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.TransColor);
+                        else if ((Parent.ShowWalkables) && (tile.Walkable))
+                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
                         else
                             gfx.DrawImageUnscaled(bmp, drawdestRectangle);
                     }
@@ -413,6 +418,45 @@ namespace MultiEditor
                 UndoList[i].Tiles = null;
             }
         }
+
+        public void CalcWalkable()
+        {
+            int lastx = -1;
+            int lasty = -1;
+            ArrayList xyarr = new ArrayList();
+            WalkableCount = 0;
+            foreach (MultiTile tile in Tiles)
+            {
+                if (tile.isVirtualFloor)
+                    continue;
+                ItemData itemdata = TileData.ItemTable[tile.ID];
+                if ((itemdata.Flags & TileFlag.Surface) != 0)
+                {
+                    if (tile.X != lastx && tile.Y != lasty)
+                        xyarr = GetXYArray(tile.X, tile.Y);
+
+                    int Start = tile.Z + itemdata.CalcHeight;
+                    if (tile.IsWalkable(Start,xyarr))
+                        ++WalkableCount;
+                }
+            }
+        }
+
+        private ArrayList GetXYArray(int x, int y)
+        {
+            ArrayList arr = new ArrayList();
+            foreach (MultiTile tile in Tiles)
+            {
+                if (tile.isVirtualFloor)
+                    continue;
+                if (tile.X != x)
+                    continue;
+                if (tile.Y != y)
+                    continue;
+                arr.Add(tile);
+            }
+            return arr;
+        }
 		// Private Methods (3) 
 
         private void AddToUndoList(string Action)
@@ -477,6 +521,9 @@ namespace MultiEditor
             xMaxOrg = xMax;
             yMinOrg = yMin;
             yMaxOrg = yMax;
+
+            if (Parent.ShowWalkables)
+                CalcWalkable();
         }
 
         private void RecalcMinMax(MultiTile tile)
@@ -508,6 +555,9 @@ namespace MultiEditor
             xMaxOrg = xMax;
             yMinOrg = yMin;
             yMaxOrg = yMax;
+
+            if (Parent.ShowWalkables)
+                CalcWalkable();
         }
 
 		#endregion Methods 
@@ -588,11 +638,11 @@ namespace MultiEditor
         private static ImageAttributes m_DrawColor = null;
         private static ColorMatrix m_DrawMatrix = new ColorMatrix(new float[5][]
 			{
-                new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.5f, 0.0f },
-				new float[5]{ 0.0f, 0.0f, 0.0f, 0.0f, 1.0f }
+                new float[5]{ 0, 0, 0, 0,   0 },
+				new float[5]{ 0, 0, 0, 0,   0 },
+				new float[5]{ 0, 0, 0, 0,   0 },
+				new float[5]{ 0, 0, 0, .5f, 0 },
+				new float[5]{ 0, 0, 0, 0,   1 }
 			});
         private static ImageAttributes m_HoverColor = null;
         private static ColorMatrix m_HoverMatrix = new ColorMatrix(new float[5][]
@@ -601,7 +651,7 @@ namespace MultiEditor
                 new float[5] {0, 1, 0, 0, 0},
                 new float[5] {0, 0, 1, 0, 0},
                 new float[5] {0, 0, 0, 1, 0},
-                new float[5] {.0f, .0f, .80f, .0f, 1}
+                new float[5] {0, 0, .8f, 0, 1}
 			});
         private static ImageAttributes m_SelectedColor = null;
         private static ColorMatrix m_SelectedMatrix = new ColorMatrix(new float[5][]
@@ -610,7 +660,25 @@ namespace MultiEditor
                 new float[5] {0, 1, 0, 0, 0},
                 new float[5] {0, 0, 1, 0, 0},
                 new float[5] {0, 0, 0, 1, 0},
-                new float[5] {.80f, .0f, .0f, .0f, 1}
+                new float[5] {.8f, 0, 0, 0, 1}
+			});
+        private static ImageAttributes m_TransColor = null;
+        private static ColorMatrix m_TransMatrix = new ColorMatrix(new float[5][]
+			{
+                new float[5] {1, 0, 0, 0, 0},
+                new float[5] {0, 1, 0, 0, 0},
+                new float[5] {0, 0, 1, 0, 0},
+                new float[5] {0, 0, 0, .3f, 0},
+                new float[5] {0, 0, 0, 0, 1}
+			});
+        private static ImageAttributes m_StandableColor = null;
+        private static ColorMatrix m_StandableMatrix = new ColorMatrix(new float[5][]
+			{
+                new float[5] {0, 0, .5f, 0, 0},
+                new float[5] {0, .8f, 0, .8f, 0},
+                new float[5] {.8f, 0, 0, 0, .8f},
+                new float[5] {0, .8f, 0, .8f, 0},
+                new float[5] {0, 0, .5f, 0, 0}
 			});
         private int x;
         private int xmod;
@@ -668,6 +736,16 @@ namespace MultiEditor
                 m_DrawColor = new ImageAttributes();
                 m_DrawColor.SetColorMatrix(m_DrawMatrix);
             }
+            if (m_TransColor == null)
+            {
+                m_TransColor = new ImageAttributes();
+                m_TransColor.SetColorMatrix(m_TransMatrix);
+            }
+            if (m_StandableColor == null)
+            {
+                m_StandableColor = new ImageAttributes();
+                m_StandableColor.SetColorMatrix(m_StandableMatrix);
+            }
         }
 
 		#endregion Constructors 
@@ -686,6 +764,10 @@ namespace MultiEditor
 
         public static ImageAttributes SelectedColor { get { return m_SelectedColor; } }
 
+        public static ImageAttributes TransColor { get { return m_TransColor; } }
+
+        public static ImageAttributes StandableColor { get { return m_StandableColor; } }
+
         public int X { get { return x; } set { x = value; RecalcMod(); } }
 
         public int Xmod { get { return xmod; } }
@@ -697,6 +779,10 @@ namespace MultiEditor
         public int Z { get { return z; } set { z = value; RecalcMod(); } }
 
         public bool Invisible { get; set; }
+
+        public bool Walkable { get; private set; }
+
+        public bool Transparent { get; set; }
 
 		#endregion Properties 
 
@@ -786,6 +872,28 @@ namespace MultiEditor
                 ymod -= 44;
                 ymod += MultiEditorComponentList.GapYMod;
             }
+        }
+        private const TileFlag ImpassableOrSurface = TileFlag.Impassable | TileFlag.Surface;
+        public bool IsWalkable(int Z, ArrayList Tiles)
+        {
+            int Top = Z + 16; // Playerheight
+            foreach (MultiTile tile in Tiles)
+            {
+                ItemData itemdata = TileData.ItemTable[tile.ID];
+                if ((itemdata.Flags & ImpassableOrSurface) != 0)
+                {
+                    if ((itemdata.Flags & TileFlag.Door) != 0)
+                        continue;
+                    int checkTop = tile.Z + itemdata.CalcHeight;
+                    if ((checkTop > Z) && (tile.Z < Top))
+                    {
+                        Walkable = false;
+                        return false;
+                    }
+                }
+            }
+            Walkable = true;
+            return true;
         }
 
 		#endregion Methods 
