@@ -100,7 +100,7 @@ namespace FiddlerControls
             listView1.Clear();
             ArrayList itemcache = new ArrayList();
 
-            for (int i = 0; i < 0x1000; ++i)
+            for (int i = 0; i < Textures.GetIdxLength(); ++i)
             {
                 if (Textures.TestTexture(i))
                 {
@@ -283,7 +283,7 @@ namespace FiddlerControls
         private void onTextChangedInsert(object sender, EventArgs e)
         {
             int index;
-            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFF))
+            if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Textures.GetIdxLength()))
             {
                 if (Textures.TestTexture(index))
                     InsertText.ForeColor = Color.Red;
@@ -299,7 +299,7 @@ namespace FiddlerControls
             if (e.KeyCode == Keys.Enter)
             {
                 int index;
-                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, 0xFFF))
+                if (Utils.ConvertStringToInt(InsertText.Text, out index, 0, Textures.GetIdxLength()))
                 {
                     if (Textures.TestTexture(index))
                         return;

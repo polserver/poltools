@@ -306,7 +306,7 @@ namespace MassImport
 
     public class ImportEntryTexture : ImportEntry
     {
-        public override int MaxIndex { get { return 0xFFF; } }
+        public override int MaxIndex { get { return Ultima.Textures.GetIdxLength(); } }
         public override string Name { get { return "Texture"; } }
         public override void Import(bool direct, ref Dictionary<string, bool> ChangedClasses)
         {
