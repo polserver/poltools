@@ -26,6 +26,12 @@ namespace Ultima
                 patched = false;
                 return null;
             }
+            if (e.length < 0)
+            {
+                length = extra = 0;
+                patched = false;
+                return null;
+            }
 
             length = e.length & 0x7FFFFFFF;
             extra = e.extra;

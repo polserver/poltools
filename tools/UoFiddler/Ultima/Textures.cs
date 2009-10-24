@@ -7,9 +7,9 @@ namespace Ultima
 {
     public sealed class Textures
     {
-        private static FileIndex m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
-        private static Bitmap[] m_Cache = new Bitmap[0x1000];
-        private static bool[] m_Removed = new bool[0x1000];
+        private static FileIndex m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x4000, 10);
+        private static Bitmap[] m_Cache = new Bitmap[0x4000];
+        private static bool[] m_Removed = new bool[0x4000];
         private static Hashtable m_patched = new Hashtable();
 
         /// <summary>
@@ -17,10 +17,15 @@ namespace Ultima
         /// </summary>
         public static void Reload()
         {
-            m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x1000, 10);
-            m_Cache = new Bitmap[0x1000];
-            m_Removed = new bool[0x1000];
+            m_FileIndex = new FileIndex("Texidx.mul", "Texmaps.mul", 0x4000, 10);
+            m_Cache = new Bitmap[0x4000];
+            m_Removed = new bool[0x4000];
             m_patched.Clear();
+        }
+
+        public static int GetIdxLength()
+        {
+            return (int)(m_FileIndex.IdxLength/12);
         }
 
         /// <summary>
@@ -62,7 +67,11 @@ namespace Ultima
             if (stream == null)
                 return false;
             else
+            {
                 stream.Close();
+                if (length == 0)
+                    return false;
+            }
             return true;
         }
 
@@ -97,6 +106,8 @@ namespace Ultima
             Stream stream = m_FileIndex.Seek(index, out length, out extra, out patched);
             if (stream == null)
                 return null;
+            if (length == 0)
+                return null;
             if (patched)
                 m_patched[index] = true;
 
@@ -120,6 +131,7 @@ namespace Ultima
 
                 bmp.UnlockBits(bd);
             }
+            stream.Close();
             if (!Files.CacheData)
                 return m_Cache[index] = bmp;
             else
@@ -136,7 +148,7 @@ namespace Ultima
                 using (BinaryWriter binidx = new BinaryWriter(fsidx),
                                     binmul = new BinaryWriter(fsmul))
                 {
-                    for (int index = 0; index < m_Cache.Length; ++index)
+                    for (int index = 0; index < GetIdxLength(); ++index)
                     {
                         if (m_Cache[index] == null)
                             m_Cache[index] = GetTexture(index);
