@@ -433,17 +433,20 @@ namespace Ultima
         internal ushort m_ID;
         internal sbyte m_Z;
         internal sbyte m_Flag;
+        internal int m_Solver;
 
         public ushort ID { get { return m_ID; } }
         public int Z { get { return m_Z; } set { m_Z = (sbyte)value; } }
 
         public int Flag { get { return m_Flag; } set { m_Flag = (sbyte)value; } }
+        public int Solver { get { return m_Solver; } set { m_Solver = value; } }
 
         public MTile(ushort id, sbyte z)
         {
             m_ID = id;
             m_Z = z;
             m_Flag = 1;
+            m_Solver = 0;
         }
 
         public MTile(ushort id, sbyte z, sbyte flag)
@@ -451,6 +454,7 @@ namespace Ultima
             m_ID = id;
             m_Z = z;
             m_Flag = flag;
+            m_Solver = 0;
         }
 
         public void Set(ushort id, sbyte z)
@@ -476,25 +480,30 @@ namespace Ultima
 
             MTile a = (MTile)x;
 
-            if (m_Z > a.m_Z)
-                return 1;
-            else if (a.m_Z > m_Z)
-                return -1;
+            ItemData ourData = TileData.ItemTable[ID];
+            ItemData theirData = TileData.ItemTable[a.ID];
 
-            ItemData ourData = TileData.ItemTable[m_ID];
-            ItemData theirData = TileData.ItemTable[a.m_ID];
+            int ourTreshold=0;
+            if (ourData.Height > 0)
+                ++ourTreshold;
+            if (!ourData.Background)
+                ++ourTreshold;
+            int ourZ = Z;
+            int theirTreshold = 0;
+            if (theirData.Height > 0)
+                ++theirTreshold;
+            if (!theirData.Background)
+                ++theirTreshold;
+            int theirZ = a.Z;
 
-            if (ourData.Height > theirData.Height)
-                return 1;
-            else if (theirData.Height > ourData.Height)
-                return -1;
-
-            if (ourData.Background && !theirData.Background)
-                return -1;
-            else if (theirData.Background && !ourData.Background)
-                return 1;
-
-            return 0;
+            ourZ += ourTreshold;
+            theirZ += theirTreshold;
+            int res = ourZ - theirZ;
+            if (res == 0)
+                res = ourTreshold - theirTreshold;
+            if (res == 0)
+                res = Solver - a.Solver;
+            return res;
         }
 
     }

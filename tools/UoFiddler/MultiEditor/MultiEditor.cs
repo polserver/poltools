@@ -29,6 +29,7 @@ namespace MultiEditor
         private const int DrawTileSizeHeight = 45;
         private const int DrawTileSizeWidth = 45;
         private ArrayList DrawTilesList = new ArrayList();
+        private ArrayList OverlayList = new ArrayList();
         private bool Loaded = false;
         private int m_DrawFloorZ;
         private MultiTile m_DrawTile;
@@ -58,6 +59,7 @@ namespace MultiEditor
             FloatingPreviewPanel.Tag = -1;
             BTN_Select.Checked = true;
             pictureBoxDrawTiles.MouseWheel += new MouseEventHandler(pictureBoxDrawTiles_OnMouseWheel);
+            pictureBoxMulti.ContextMenu = null;
         }
 
 		#endregion Constructors 
@@ -108,6 +110,7 @@ namespace MultiEditor
         }
 
         public bool ShowWalkables { get { return showWalkablesToolStripMenuItem.Checked; } }
+        public bool ShowDoubleSurface { get { return showDoubleSurfaceMenuItem.Checked; } }
 
 
 		#endregion Properties 
@@ -585,7 +588,21 @@ namespace MultiEditor
         {
             if (compList == null)
                 return;
-            if (BTN_Select.Checked)
+            if ((e.Button == MouseButtons.Right) || (e.Button == MouseButtons.Middle))
+            {
+                OverlayList.Clear();
+                if (m_HoverTile != null)
+                {
+                    foreach (MultiTile tile in compList.GetXYArray(m_HoverTile.X, m_HoverTile.Y))
+                    {
+                        if (tile.isVirtualFloor)
+                            continue;
+                        if (tile.Z == m_HoverTile.Z)
+                            OverlayList.Add(tile);
+                    }
+                }
+            }
+            else if (BTN_Select.Checked)
             {
                 SelectedTile = m_HoverTile;
             }
@@ -609,6 +626,30 @@ namespace MultiEditor
             {
                 if (m_HoverTile != null)
                     compList.TileRemove(m_HoverTile);
+                else
+                {
+                    int overx = 0, overy = 0;
+                    foreach (MultiTile tile in OverlayList)
+                    {
+                        Bitmap bmp = tile.GetBitmap();
+                        if (bmp == null)
+                            continue;
+
+                        if (((MouseLoc.X > overx) && (MouseLoc.X < (overx + bmp.Width))) &&
+                            ((MouseLoc.Y > overy) && (MouseLoc.Y < (overy + bmp.Height))))
+                        {
+                            //Check for transparent part
+                            Color p = bmp.GetPixel(MouseLoc.X - overx, MouseLoc.Y - overy);
+                            if (!((p.R == 0) && (p.G == 0) && (p.B == 0)))
+                            {
+                                compList.TileRemove(tile);
+                                OverlayList.Remove(tile);
+                                break;
+                            }
+                        }
+                        overx += bmp.Width + 10;
+                    }
+                }
                 MaxHeightTrackBar.Minimum = compList.zMin;
                 MaxHeightTrackBar.Maximum = compList.zMax;
             }
@@ -638,6 +679,13 @@ namespace MultiEditor
                 if (m_HoverTile != null)
                     m_HoverTile.Transparent = !m_HoverTile.Transparent;
             }
+
+            if ((e.Button != MouseButtons.Middle) && (!BTN_Remove.Checked))
+                OverlayList.Clear();
+            else if (OverlayList.Count == 1)
+                OverlayList.Clear();
+
+
             pictureBoxMulti.Refresh();
         }
 
@@ -661,6 +709,8 @@ namespace MultiEditor
             {
                 if (ShowWalkables)
                     showWalkablesToolStripMenuItem.Text = String.Format("Show Walkable tiles ({0})", compList.WalkableCount);
+                if (ShowDoubleSurface)
+                    showDoubleSurfaceMenuItem.Text = String.Format("Show double surface ({0})", compList.DoubleSurfaceCount);
                 e.Graphics.DrawImageUnscaled(bit, -hScrollBar.Value, -vScrollBar.Value);
                 bit.Dispose();
                 int x, y, z;
@@ -691,6 +741,18 @@ namespace MultiEditor
                             px += MultiEditorComponentList.GapXMod;
                             e.Graphics.DrawImage(bmp, new Rectangle(px, py, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.DrawColor);
                         }
+                    }
+                }
+                else if (OverlayList.Count > 0)
+                {
+                    int overx = 0, overy = 0;
+                    foreach (MultiTile tile in OverlayList)
+                    {
+                        Bitmap bmp = tile.GetBitmap();
+                        if (bmp == null)
+                            continue;
+                        e.Graphics.DrawImage(bmp, new Rectangle(overx, overy, bmp.Width, bmp.Height));
+                        overx += bmp.Width + 10;
                     }
                 }
             }
@@ -1203,6 +1265,22 @@ namespace MultiEditor
             }
         }
 
-        
+        private void BTN_ShowDoubleSurface(object sender, EventArgs e)
+        {
+            showDoubleSurfaceMenuItem.Text = "Show double surface";
+            if (ShowDoubleSurface)
+            {
+                if (compList != null)
+                {
+                    compList.CalcDoubleSurface();
+                    pictureBoxMulti.Refresh();
+                }
+            }
+        }
+
+        private void OnDummyContextMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
     }
 }

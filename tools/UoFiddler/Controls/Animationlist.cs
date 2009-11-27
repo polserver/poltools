@@ -985,6 +985,8 @@ namespace FiddlerControls
                 else
                     return 1;
             }
+            if ((tx.Nodes.Count == 0) && (ty.Nodes.Count == 0))
+                return (int)tx.Tag - (int)ty.Tag;
             return string.Compare(tx.Text, ty.Text);
         }
     }
@@ -1002,11 +1004,8 @@ namespace FiddlerControls
                 else
                     return 1;
             }
-
-            if ((tx.Parent.Text != "Mobs") && (tx.Parent.Text != "Equipment"))
-                return 0;
-            if ((ty.Parent.Text != "Mobs") && (ty.Parent.Text != "Equipment"))
-                return 0;
+            if ((tx.Nodes.Count == 0) && (ty.Nodes.Count == 0))
+                return (int)tx.Tag-(int)ty.Tag;
 
             int[] ix = (int[])tx.Tag;
             int[] iy = (int[])ty.Tag;

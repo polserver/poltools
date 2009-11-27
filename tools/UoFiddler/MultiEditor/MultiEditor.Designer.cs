@@ -103,6 +103,7 @@ namespace MultiEditor
             this.UndoItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.showWalkablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showDoubleSurfaceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllTransToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.DrawTileLabel = new System.Windows.Forms.ToolStripLabel();
@@ -112,6 +113,7 @@ namespace MultiEditor
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.FloatingPreviewPanel = new System.Windows.Forms.Panel();
             this.collapsibleSplitter1 = new FiddlerControls.CollapsibleSplitter();
+            this.DummyContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TC_MultiEditorToolbox.SuspendLayout();
             this.tileTab.SuspendLayout();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -154,10 +156,10 @@ namespace MultiEditor
             this.TC_MultiEditorToolbox.Controls.Add(this.importTab);
             this.TC_MultiEditorToolbox.Controls.Add(this.Save);
             this.TC_MultiEditorToolbox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 86);
+            this.TC_MultiEditorToolbox.Location = new System.Drawing.Point(0, 91);
             this.TC_MultiEditorToolbox.Name = "TC_MultiEditorToolbox";
             this.TC_MultiEditorToolbox.SelectedIndex = 0;
-            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 186);
+            this.TC_MultiEditorToolbox.Size = new System.Drawing.Size(200, 181);
             this.TC_MultiEditorToolbox.TabIndex = 0;
             // 
             // tileTab
@@ -167,7 +169,7 @@ namespace MultiEditor
             this.tileTab.Location = new System.Drawing.Point(4, 22);
             this.tileTab.Name = "tileTab";
             this.tileTab.Padding = new System.Windows.Forms.Padding(3);
-            this.tileTab.Size = new System.Drawing.Size(192, 160);
+            this.tileTab.Size = new System.Drawing.Size(192, 155);
             this.tileTab.TabIndex = 0;
             this.tileTab.Text = "Tiles";
             this.tileTab.UseVisualStyleBackColor = true;
@@ -187,12 +189,13 @@ namespace MultiEditor
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pictureBoxDrawTiles);
             this.splitContainer4.Panel2.Controls.Add(this.vScrollBarDrawTiles);
-            this.splitContainer4.Size = new System.Drawing.Size(186, 154);
-            this.splitContainer4.SplitterDistance = 75;
+            this.splitContainer4.Size = new System.Drawing.Size(186, 149);
+            this.splitContainer4.SplitterDistance = 72;
             this.splitContainer4.TabIndex = 0;
             // 
             // treeViewTilesXML
             // 
+            this.treeViewTilesXML.ContextMenuStrip = this.DummyContextMenu;
             this.treeViewTilesXML.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewTilesXML.HideSelection = false;
             this.treeViewTilesXML.ImageIndex = 0;
@@ -200,7 +203,7 @@ namespace MultiEditor
             this.treeViewTilesXML.Location = new System.Drawing.Point(0, 0);
             this.treeViewTilesXML.Name = "treeViewTilesXML";
             this.treeViewTilesXML.SelectedImageIndex = 0;
-            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 75);
+            this.treeViewTilesXML.Size = new System.Drawing.Size(186, 72);
             this.treeViewTilesXML.TabIndex = 0;
             this.treeViewTilesXML.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewTilesXML_OnAfterSelect);
             // 
@@ -212,10 +215,11 @@ namespace MultiEditor
             // 
             // pictureBoxDrawTiles
             // 
+            this.pictureBoxDrawTiles.ContextMenuStrip = this.DummyContextMenu;
             this.pictureBoxDrawTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxDrawTiles.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxDrawTiles.Name = "pictureBoxDrawTiles";
-            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 75);
+            this.pictureBoxDrawTiles.Size = new System.Drawing.Size(169, 73);
             this.pictureBoxDrawTiles.TabIndex = 3;
             this.pictureBoxDrawTiles.TabStop = false;
             this.pictureBoxDrawTiles.MouseLeave += new System.EventHandler(this.pictureBoxDrawTilesMouseLeave);
@@ -229,7 +233,7 @@ namespace MultiEditor
             this.vScrollBarDrawTiles.Dock = System.Windows.Forms.DockStyle.Right;
             this.vScrollBarDrawTiles.Location = new System.Drawing.Point(169, 0);
             this.vScrollBarDrawTiles.Name = "vScrollBarDrawTiles";
-            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 75);
+            this.vScrollBarDrawTiles.Size = new System.Drawing.Size(17, 73);
             this.vScrollBarDrawTiles.TabIndex = 0;
             this.vScrollBarDrawTiles.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBarDrawTiles_Scroll);
             // 
@@ -240,7 +244,7 @@ namespace MultiEditor
             this.designTab.Location = new System.Drawing.Point(4, 22);
             this.designTab.Name = "designTab";
             this.designTab.Padding = new System.Windows.Forms.Padding(3);
-            this.designTab.Size = new System.Drawing.Size(192, 160);
+            this.designTab.Size = new System.Drawing.Size(192, 155);
             this.designTab.TabIndex = 1;
             this.designTab.Text = "Design";
             this.designTab.UseVisualStyleBackColor = true;
@@ -311,13 +315,14 @@ namespace MultiEditor
             this.importTab.Controls.Add(this.treeViewMultiList);
             this.importTab.Location = new System.Drawing.Point(4, 22);
             this.importTab.Name = "importTab";
-            this.importTab.Size = new System.Drawing.Size(192, 160);
+            this.importTab.Size = new System.Drawing.Size(192, 155);
             this.importTab.TabIndex = 2;
             this.importTab.Text = "Import";
             this.importTab.UseVisualStyleBackColor = true;
             // 
             // treeViewMultiList
             // 
+            this.treeViewMultiList.ContextMenuStrip = this.DummyContextMenu;
             this.treeViewMultiList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeViewMultiList.HideSelection = false;
             this.treeViewMultiList.Location = new System.Drawing.Point(0, 0);
@@ -333,7 +338,7 @@ namespace MultiEditor
             this.Save.Location = new System.Drawing.Point(4, 22);
             this.Save.Name = "Save";
             this.Save.Padding = new System.Windows.Forms.Padding(3);
-            this.Save.Size = new System.Drawing.Size(192, 160);
+            this.Save.Size = new System.Drawing.Size(192, 155);
             this.Save.TabIndex = 3;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -724,7 +729,7 @@ namespace MultiEditor
             this.MaxHeightTrackBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MaxHeightTrackBar.Location = new System.Drawing.Point(0, 0);
             this.MaxHeightTrackBar.Name = "MaxHeightTrackBar";
-            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 45);
+            this.MaxHeightTrackBar.Size = new System.Drawing.Size(415, 30);
             this.MaxHeightTrackBar.TabIndex = 0;
             this.toolTip1.SetToolTip(this.MaxHeightTrackBar, "Max Height Displayed");
             this.MaxHeightTrackBar.ValueChanged += new System.EventHandler(this.MaxHeightTrackBarOnValueChanged);
@@ -740,6 +745,7 @@ namespace MultiEditor
             // pictureBoxMulti
             // 
             this.pictureBoxMulti.BackColor = System.Drawing.Color.White;
+            this.pictureBoxMulti.ContextMenuStrip = this.DummyContextMenu;
             this.pictureBoxMulti.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxMulti.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxMulti.Name = "pictureBoxMulti";
@@ -793,6 +799,7 @@ namespace MultiEditor
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.UndoItems,
             this.showWalkablesToolStripMenuItem,
+            this.showDoubleSurfaceMenuItem,
             this.removeAllTransToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -905,6 +912,14 @@ namespace MultiEditor
             this.showWalkablesToolStripMenuItem.Text = "Show Walkable tiles";
             this.showWalkablesToolStripMenuItem.Click += new System.EventHandler(this.BTN_ShowWalkables_Click);
             // 
+            // showDoubleSurfaceMenuItem
+            // 
+            this.showDoubleSurfaceMenuItem.CheckOnClick = true;
+            this.showDoubleSurfaceMenuItem.Name = "showDoubleSurfaceMenuItem";
+            this.showDoubleSurfaceMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.showDoubleSurfaceMenuItem.Text = "Show double surface";
+            this.showDoubleSurfaceMenuItem.Click += new System.EventHandler(this.BTN_ShowDoubleSurface);
+            // 
             // removeAllTransToolStripMenuItem
             // 
             this.removeAllTransToolStripMenuItem.Name = "removeAllTransToolStripMenuItem";
@@ -968,6 +983,12 @@ namespace MultiEditor
             this.toolTip1.SetToolTip(this.collapsibleSplitter1, "Selected Tile Panel");
             this.collapsibleSplitter1.UseAnimations = true;
             this.collapsibleSplitter1.VisualStyle = FiddlerControls.VisualStyles.DoubleDots;
+            // 
+            // DummyContextMenu
+            // 
+            this.DummyContextMenu.Name = "DummyContextMenu";
+            this.DummyContextMenu.Size = new System.Drawing.Size(61, 4);
+            this.DummyContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.OnDummyContextMenuOpening);
             // 
             // MultiEditor
             // 
@@ -1095,5 +1116,7 @@ namespace MultiEditor
         private System.Windows.Forms.ToolStripMenuItem showWalkablesToolStripMenuItem;
         private System.Windows.Forms.CheckBox BTN_Trans;
         private System.Windows.Forms.ToolStripMenuItem removeAllTransToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showDoubleSurfaceMenuItem;
+        private System.Windows.Forms.ContextMenuStrip DummyContextMenu;
     }
 }
