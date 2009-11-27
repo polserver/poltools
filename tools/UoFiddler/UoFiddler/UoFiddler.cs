@@ -13,13 +13,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing;
 using Host;
 
 namespace UoFiddler
 {
     public partial class UoFiddler : Form
     {
-        public static string Version = "4.2d";
+        public static string Version = "4.3";
         private FiddlerControls.ItemShowAlternative controlItemShowAlt;
         private FiddlerControls.TextureAlternative controlTextureAlt;
         private FiddlerControls.LandTilesAlternative controlLandTilesAlt;

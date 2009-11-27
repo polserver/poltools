@@ -118,7 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Version 4.2d
+    <value>Version 4.3
+RenderEngine of Multis fixed
+MultiEditor:
+Added Misc-&gt;"Show double surface" highlights every tile with flag Surface on the same spot
+(to get rid of senseless items)
+Added Mouse right/middle click hit a spot where more then one item is placed it shows at the top a list (can be removed with the "rubber")
+Texture bugfixes
+
+Version 4.2d
 TileData: Added Misc-&gt;Set Filter
 Fix of UO:SA animdata save
 Minor fixes

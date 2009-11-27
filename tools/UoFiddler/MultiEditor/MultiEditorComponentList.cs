@@ -28,6 +28,7 @@ namespace MultiEditor
         private static MultiEditor Parent;
         public const int UndoListMaxSize = 10;
         public int WalkableCount = 0;
+        public int DoubleSurfaceCount = 0;
 
 		#endregion Fields 
 
@@ -74,6 +75,7 @@ namespace MultiEditor
                     Tiles.Add(new FloorTile(x, y, Parent.DrawFloorZ));
                 }
             }
+            CalcSolver();
             Tiles.Sort();
             UndoList = new UndoStruct[UndoListMaxSize];
             Modified = true;
@@ -212,6 +214,8 @@ namespace MultiEditor
                             gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.TransColor);
                         else if ((Parent.ShowWalkables) && (tile.Walkable))
                             gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
+                        else if ((Parent.ShowDoubleSurface) && (tile.DoubleSurface))
+                            gfx.DrawImage(bmp, drawdestRectangle, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, MultiTile.StandableColor);
                         else
                             gfx.DrawImageUnscaled(bmp, drawdestRectangle);
                     }
@@ -320,6 +324,7 @@ namespace MultiEditor
             AddToUndoList("Add Tile");
             MultiTile tile = new MultiTile(id, x, y, z,1);
             Tiles.Add(tile);
+            CalcSolver(x, y);
             Modified = true;
             Tiles.Sort();
             RecalcMinMax(tile);
@@ -337,6 +342,7 @@ namespace MultiEditor
             {
                 tile.X = newx;
                 tile.Y = newy;
+                CalcSolver(newx, newy);
                 Tiles.Sort();
                 Modified = true;
                 RecalcMinMax(tile);
@@ -370,6 +376,7 @@ namespace MultiEditor
                 tile.Z = 127;
             if (tile.Z < -128)
                 tile.Z = -128;
+            CalcSolver(tile.X,tile.Y);
             Tiles.Sort();
             Modified = true;
             RecalcMinMax(tile);
@@ -386,6 +393,7 @@ namespace MultiEditor
                 tile.Z = 127;
             if (tile.Z < -128)
                 tile.Z = -128;
+            CalcSolver(tile.X, tile.Y);
             Tiles.Sort();
             Modified = true;
             RecalcMinMax(tile);
@@ -442,7 +450,45 @@ namespace MultiEditor
             }
         }
 
-        private ArrayList GetXYArray(int x, int y)
+        public void CalcDoubleSurface()
+        {
+            int lastx = -1;
+            int lasty = -1;
+            ArrayList xyarr = new ArrayList();
+            DoubleSurfaceCount = 0;
+            foreach (MultiTile tile in Tiles)
+            {
+                if (tile.isVirtualFloor)
+                    continue;
+                ItemData itemdata = TileData.ItemTable[tile.ID];
+                if ((itemdata.Flags & TileFlag.Surface) != 0)
+                {
+                    if (tile.X != lastx && tile.Y != lasty)
+                        xyarr = GetXYArray(tile.X, tile.Y);
+
+                    if (tile.IsDoubleSurface(xyarr))
+                        ++DoubleSurfaceCount;
+                }
+            }
+        }
+
+        public void CalcSolver()
+        {
+            for (int x = 0; x < Width; ++x)
+            {
+                for (int y = 0; y < Height; ++y)
+                    CalcSolver(x, y);
+            }
+        }
+
+        public void CalcSolver(int x, int y)
+        {
+            ArrayList arr = GetXYArray(x, y);
+            for (int i = 0; i < arr.Count; ++i)
+                ((MultiTile)arr[i]).Solver = i;
+        }
+
+        public ArrayList GetXYArray(int x, int y)
         {
             ArrayList arr = new ArrayList();
             foreach (MultiTile tile in Tiles)
@@ -524,6 +570,8 @@ namespace MultiEditor
 
             if (Parent.ShowWalkables)
                 CalcWalkable();
+            if (Parent.ShowDoubleSurface)
+                CalcDoubleSurface();
         }
 
         private void RecalcMinMax(MultiTile tile)
@@ -558,6 +606,8 @@ namespace MultiEditor
 
             if (Parent.ShowWalkables)
                 CalcWalkable();
+            if (Parent.ShowDoubleSurface)
+                CalcDoubleSurface();
         }
 
 		#endregion Methods 
@@ -697,6 +747,7 @@ namespace MultiEditor
             Y = y;
             Z = z;
             Invisible = flag == 0 ? true : false;
+            Solver = 0;
         }
 
         public MultiTile(ushort id, int x, int y, int z, bool flag)
@@ -706,6 +757,7 @@ namespace MultiEditor
             Y = y;
             Z = z;
             Invisible = flag;
+            Solver = 0;
         }
 
         public MultiTile(ushort id, int z)
@@ -782,7 +834,11 @@ namespace MultiEditor
 
         public bool Walkable { get; private set; }
 
+        public bool DoubleSurface { get; set; }
+
         public bool Transparent { get; set; }
+
+        public int Solver { get; set; }
 
 		#endregion Properties 
 
@@ -807,30 +863,45 @@ namespace MultiEditor
                 return 1;
             else if (Y < a.Y)
                 return -1;
-            if (Z > a.Z)
-                return 1;
-            else if (a.Z > Z)
-                return -1;
 
             if (!a.isVirtualFloor && !isVirtualFloor)
             {
                 ItemData ourData = TileData.ItemTable[ID];
                 ItemData theirData = TileData.ItemTable[a.ID];
 
-                if (ourData.Height > theirData.Height)
-                    return 1;
-                else if (theirData.Height > ourData.Height)
-                    return -1;
+                int ourTreshold = 0;
+                if (ourData.Height > 0)
+                    ++ourTreshold;
+                if (!ourData.Background)
+                    ++ourTreshold;
+                int ourZ = Z;
+                int theirTreshold = 0;
+                if (theirData.Height > 0)
+                    ++theirTreshold;
+                if (!theirData.Background)
+                    ++theirTreshold;
+                int theirZ = a.Z;
 
-                if (ourData.Background && !theirData.Background)
-                    return -1;
-                else if (theirData.Background && !ourData.Background)
-                    return 1;
+                ourZ += ourTreshold;
+                theirZ += theirTreshold;
+                int res = ourZ - theirZ;
+                if (res == 0)
+                    res = ourTreshold - theirTreshold;
+                if (res == 0)
+                    res = Solver - a.Solver;
+                return res;
             }
-            else if (a.isVirtualFloor)
-                return 1;
-            else if (isVirtualFloor)
-                return -1;
+            else
+            {
+                if (Z > a.Z)
+                    return 1;
+                else if (a.Z > Z)
+                    return -1;
+                if (a.isVirtualFloor)
+                    return 1;
+                else if (isVirtualFloor)
+                    return -1;
+            }
 
             return 0;
         }
@@ -894,6 +965,26 @@ namespace MultiEditor
             }
             Walkable = true;
             return true;
+        }
+
+        public bool IsDoubleSurface(ArrayList Tiles)
+        {
+            foreach (MultiTile tile in Tiles)
+            {
+                if (tile.Z == this.Z)
+                {
+                    ItemData itemdata = TileData.ItemTable[tile.ID];
+                    if ((itemdata.Flags & TileFlag.Surface) != 0)
+                    {
+                        if (tile == this)
+                            continue;
+                        DoubleSurface = true;
+                        return true;
+                    }
+                }
+            }
+            DoubleSurface = false;
+            return false;
         }
 
 		#endregion Methods 

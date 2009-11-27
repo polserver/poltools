@@ -20,6 +20,7 @@ namespace FiddlerControls
         public TileDataFilter()
         {
             InitializeComponent();
+            this.Icon = FiddlerControls.Options.GetFiddlerIcon();
             checkedListBox1.BeginUpdate();
             checkedListBox1.Items.Clear();
             string[] EnumNames = System.Enum.GetNames(typeof(TileFlag));

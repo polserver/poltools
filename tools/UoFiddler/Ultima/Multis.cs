@@ -838,6 +838,8 @@ namespace Ultima
                 for (int y = 0; y < m_Height; ++y)
                 {
                     m_Tiles[x][y] = tiles[x][y].ToArray();
+                    for (int i = 0; i < m_Tiles[x][y].Length; ++i)
+                        m_Tiles[x][y][i].Solver = i;
                     if (m_Tiles[x][y].Length > 1)
                         Array.Sort(m_Tiles[x][y]);
                     if (m_Tiles[x][y].Length > 0)
