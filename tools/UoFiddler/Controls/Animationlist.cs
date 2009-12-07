@@ -1004,8 +1004,8 @@ namespace FiddlerControls
                 else
                     return 1;
             }
-            if ((tx.Nodes.Count == 0) && (ty.Nodes.Count == 0))
-                return (int)tx.Tag-(int)ty.Tag;
+            if (tx.Parent.Parent != null)
+                return (int)tx.Tag - (int)ty.Tag;
 
             int[] ix = (int[])tx.Tag;
             int[] iy = (int[])ty.Tag;
