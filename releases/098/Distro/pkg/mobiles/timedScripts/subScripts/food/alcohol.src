@@ -44,7 +44,7 @@ program TimedScript_Alcohol(params)
 			endif
 		endif
 		
-		Sleep(RandomDiceRoll("1d4")+2);
+		Sleep(RandomInt(4)+3);
 	endwhile
 	
 	return 1;

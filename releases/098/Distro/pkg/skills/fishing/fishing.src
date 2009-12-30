@@ -175,7 +175,7 @@ function GetTheCatch(who)
 			SendSysMessage(who, "You catch a nice fish!");
 		endif
 	elseif(thisone <= 98)
-		fishtype := magicfish_array[RandomDiceRoll("1d8")];
+		fishtype := magicfish_array[RandomInt(8)+1];
 		SendSysMessage(who, "You caught aodd fish!");
 	elseif(thisone <= 99)
 		if(RandomInt(currentskill) >= 50)
@@ -259,7 +259,7 @@ function GetSOSTreasure(who, targetsquare, sosmsg)
 				chest.name := "metal chest [Recovered from a shipwreck]";
 				chest.movable := 1;
 			// Set-up to create loot.
-				Loot_Generate(chest, "Chestspawn" + RandomDiceRoll("1d5"));
+				Loot_Generate(chest, "Chestspawn" + (RandomInt(5)+1));
 				DestroyItem(sosmsg);
 		endif
 	else

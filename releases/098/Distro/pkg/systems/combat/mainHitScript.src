@@ -134,7 +134,7 @@ function WearDownWeapon(attacker, weapon)
 			return 1;
 		else
 			var wpn_elem := CS_GetSettingsCfgElem("Weapons");
-			if ( RandomDiceRoll("1d100") <= CInt(wpn_elem.WearChance) )
+			if ( (RandomInt(100)+1) <= CInt(wpn_elem.WearChance) )
 				weapon.quality := weapon.quality * CDbl(wpn_elem.WearRate);
 				if ( weapon.quality <= 0.1 )
 					SendSysMessage(attacker, weapon.desc+" breaks.");
