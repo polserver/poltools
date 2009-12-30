@@ -28,7 +28,7 @@ program DeathScript(params)
 		0xF7E
 	};
 
-	if ( RandomDiceRoll("1d10") > 4 )
+	if ( (RandomInt(10)+1) > 4 )
 		ResZombie(corpse, pieces, template);
 	else
 		PrintTextAbove(corpse, "*the zombie crumbles to dust*");

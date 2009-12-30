@@ -76,7 +76,7 @@ function PickTreasureChest(who, tool, chest)
         else
             diff := diff -10;
         endif
-        if ((RandomDiceRoll("1d99")+1) >= GetAttribute(who, LOCKPICKING))
+        if ((RandomInt(100)+1) >= GetAttribute(who, LOCKPICKING))
             PlaySoundEffect(chest,0xef);
             SendSysMessage(who,"Your pick breaks!");
             SubtractAmount(tool,1);
@@ -114,7 +114,7 @@ function PickSpawnChest(who, tool, chest)
         else
             diff := diff -10;
         endif
-        if ((RandomDiceRoll("1d99")+1) >= GetAttribute(who, LOCKPICKING))
+        if ((RandomInt(100)+1) >= GetAttribute(who, LOCKPICKING))
             PlaySoundEffect(chest,0xef);
             SendSysMessage(who,"Your pick breaks!");
             SubtractAmount(tool,1);
@@ -163,7 +163,7 @@ function PickLockedItem(who, tool, chest)
         else
             diff := diff -10;
         endif
-        if ((RandomDiceRoll("1d99")+1) >= GetAttribute(who, LOCKPICKING))
+        if ((RandomInt(100)+1) >= GetAttribute(who, LOCKPICKING))
             PlaySoundEffect(chest,0xef);
             SendSysMessage(who,"Your pick breaks!");
             SubtractAmount(tool,1);

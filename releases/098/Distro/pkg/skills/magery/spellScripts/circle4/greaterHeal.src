@@ -17,7 +17,7 @@ program SpellScript_GreaterHeal(params)
 	endif
 	
 	// Amount healed: 40% Magery + (1 to 10)
-	var points := CInt(AP_GetSkill(mobile, MAGERY) * 0.4) + RandomDiceRoll("1d10");
+	var points := CInt(AP_GetSkill(mobile, MAGERY) * 0.4) + ( RandomInt(10) + 1 );
 	
 	MS_PlaySpellSFX(info.spell_id, targ);
 	MS_PlaySpellGFX(info.spell_id, targ, mobile);

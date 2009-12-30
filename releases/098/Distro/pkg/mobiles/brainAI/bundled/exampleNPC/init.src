@@ -11,7 +11,7 @@ program BrainCriticalScript(params)
 	//var scripts	:= params[3];
 	params := 0; // Not needed anymore.
 	
-	npc.color := RandomDiceRoll("1d100");
+	npc.color := RandomInt(100)+1;
 	NPC_SetupBackPack(npc);
 	
 	return 1;

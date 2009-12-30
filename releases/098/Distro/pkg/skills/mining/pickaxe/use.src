@@ -31,7 +31,7 @@ program use_PickAxe(who, pick)
 	var orig_x := who.x;
 	var orig_y := who.y;
 
-	var num_loops := RandomDiceRoll("1d5");
+	var num_loops := RandomInt(5)+1;
 	for ( num_loops; num_loops>=0; num_loops-=1 )
 		if ( !DoMining(who, pick, targ, orig_x, orig_y) )
 			break;

@@ -13,7 +13,7 @@ program BrainCriticalScript(params)
 	//var scripts	:= params[5];
 	params := 0; // Not needed anymore.
 	
-	//npc.color := RandomDiceRoll("1d1000");
+	//npc.color := RandomInt(1000)+1;
 	
 	return 1;
 endprogram
