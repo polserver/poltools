@@ -52,7 +52,7 @@ function BuildGumpList(who, cfg, mycfg)
         var yoffset;
         var xoffset;
 
-	var gump GFCreateGump(0, 0, (150*COLUMNS)+75, 80+(20*ROWS))
+	var gump := GFCreateGump(0, 0, (150*COLUMNS)+75, 80+(20*ROWS));
         GFDisposable(gump, 0);
 	GFResizePic(gump, 0, 0, 5100, (150*COLUMNS)+75, 80+(20*ROWS));
         foreach thing in GetConfigStringKeys(cfg)
