@@ -1,0 +1,29 @@
+// 23/4/00 ickle weather proggie by Rax
+
+use uo;
+use os;
+use util;
+
+
+
+include "weather";
+
+var wstuff := GetGlobalProperty("Weather");
+var day := wstuff[3];
+var doonce := 0;
+
+program WeatherCentre()
+
+//AssignRectToWeatherRegion("worldwide", 0, 0, 5119, 4095);don't work
+
+print ("Starting Weather System...");
+
+while (1)
+set_critical( 1 );
+ChangeWeather();
+var addtime := Cint(RandomInt(60) * 60);
+set_critical( 0 );
+sleep(addtime);
+endwhile
+
+endprogram

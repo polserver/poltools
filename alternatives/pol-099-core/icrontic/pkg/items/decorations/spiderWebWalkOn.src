@@ -1,0 +1,22 @@
+use uo;
+use os;
+use util;
+
+include "include/attributes";
+
+program walkon_spiderWeb(who, web)
+  if((GetHp(who) < 1) || (who.cmdlevel >= 1 ))
+    return;
+  endif
+  if(!who.dead)
+    SetScriptController(who);
+    if(!GetObjProperty(who,"para"))
+        var parms := {};
+        parms[1] := who;
+        parms[2] := (RandomInt(10)+1);
+        Detach();
+        start_script(":spells:para", parms);
+    endif
+  endif
+endprogram
+

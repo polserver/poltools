@@ -1,0 +1,25 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Midas stone part of Drakken's Reward System
+// June, 2002
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+use uo;
+use util;
+
+program midasstone( who, midasstone )
+var midasadd;
+var coins := randomint(60000);
+
+    If ( coins < 20 )
+	SendSysMessage( who, "You see a Dragon's Egg appear in your pack.");
+	midasadd := CreateItemInBackpack(who, 0x7004);
+    Else
+	SendSysMessage( who, "You hear the sound of " + coins + " coins falling into your pack.");
+	midasadd := CreateItemInBackpack(who, 0x0EED, coins);
+    Endif
+
+    DestroyItem (midasstone);
+
+endprogram

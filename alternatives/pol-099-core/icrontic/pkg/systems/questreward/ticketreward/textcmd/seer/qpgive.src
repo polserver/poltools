@@ -1,0 +1,45 @@
+/////////////////////////////////////////////////////////////////
+//              Give Quest Points to a character
+/////////////////////////////////////////////////////////////////
+use uo;
+
+program textcmd_credit(who,text)
+
+  if(!text)
+    SendSysMessage(who,"useage: .credit <amount>");
+    return;
+  endif
+
+  var amount:= CInt(text);
+
+  SendSysMessage(who,"Who do you wish to give Quest Points to?");
+  Credit(who,amount);
+
+endprogram
+
+
+
+function Credit(who,amount)
+  var targ:= Target(who,TGTOPT_NOCHECK_LOS);
+
+  if(!targ.acctname)
+    SendSysMessage(who,"That Player has no Account!.");
+    return;
+  endif
+
+  var credits:= CInt(GetObjProperty(targ,"credits"));
+
+  if((credits.error) ||(credits.errortext))
+    credits:= 0;
+  endif
+
+  credits:= credits + amount;
+
+  SetObjProperty(targ,"credits",credits);
+
+  SendSysMessage(who,"Gave "+ targ.name +" "+ amount +" Quest Points. They now have "+ credits +" Points.");
+  SendSysMessage(targ,who.name +" gave you "+ amount +" Quest Points. You now have "+ credits +" Points.");
+
+  Credit(who,amount);
+
+endfunction

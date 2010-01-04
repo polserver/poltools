@@ -1,0 +1,15 @@
+use uo;
+
+include "include/attributes";
+
+program equipweapon( who, item, startup )
+
+	SetObjProperty( item, "w_equipped", who.serial );
+	var skilladv := GetObjProperty( item, "skill_adj" );
+	if( skilladv )
+		ModifySkillTemporaryMod( who, item.skillid, Cint(skilladv) );
+	endif
+
+	return 1;
+	
+endprogram

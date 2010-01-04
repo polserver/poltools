@@ -1,0 +1,120 @@
+use uo;
+use os;   
+use util;
+use datafile;
+
+include "include/createNPC";
+
+var regionscfg  := OpenDataFile("SpawnRegions");
+var groupscfg   := OpenDataFile("SpawnGroups");
+var regcfg      := dictionary;  // Regions config
+var grpcfg      := dictionary;  // Groups config.
+const MAX_SPAWN_TRIES       := 20;  // Max number 
+const DEFAULT_GRP_FREQUENCY := 5;   // In minutes.
+
+ReadRegions();
+ReadGroups();
+
+function ReadRegions()
+  foreach regname in (regionscfg.Keys())
+    var regelem := regionscfg.FindElement(regname);
+    if(!regelem)
+      continue;
+    endif
+    regcfg[regname] := regelem;
+  endforeach
+endfunction
+
+function ReadGroups()
+  foreach grpname in (groupscfg.Keys())
+    var grpelem := groupscfg.FindElement(grpname);
+    if(!grpelem)
+      continue;
+    endif
+    grpcfg[grpname] := grpelem;
+  endforeach
+endfunction
+
+program spawner(parms)
+  var region  := parms[1];
+  var group   := parms[2];
+  var npcs    := parms[3];
+  var tospawn := parms[4];
+  var nxt    := parms[5];
+  var spawns  := parms[6];
+  var template, sp;
+  var steps := CInt(nxt - ReadGameClock());
+  steps := steps * 1.00;
+  var npc := 0;
+  var sleeper := steps / tospawn;
+  for (sp := 1; sp <= tospawn; sp := sp + 1)
+    template := PickRandomNpc(npcs);
+    npc := SpawnNpc(region, group, template);
+    if(!npc)
+      continue;
+    endif
+    npc := 0;
+    spawns.append(npc.serial);
+    SetGroupSpawns(region, group, spawns);
+    sleepms(sleeper);
+  endfor
+  SetGroupSpawns(region, group, spawns);
+endprogram
+
+function PickRandomNpc(byref npcs)
+    var idx := RandomInt(npcs.size()) + 1;
+    return npcs[idx];
+endfunction
+
+function SpawnNpc(region, group, template)
+    var coords := SplitWords(regcfg[region].GetProp("rect"));
+    var x1 := CInt(coords[1]);
+    var y1 := CInt(coords[2]);
+    var x2 := CInt(coords[3]);
+    var y2 := CInt(coords[4]);   
+    var x, y, z;
+    var tries := 0;
+    var sh;
+    var info;
+    var npc;
+    var prop;
+    repeat
+        x := RandomInt(x2-x1)+ x1;
+        y := RandomInt(y2-y1)+ y1;
+        z := GetMapInfo(x, y).z;
+        tries := tries + 1;
+        sh := GetStandingHeight(x, y, z);
+        if (sh.multi || sh.multi.serial)
+            npc := 0;
+        else
+            info := Hex(GetMapInfo(x, y).landtile);
+            if ((info < 0x406) || (info > 0x455))
+                npc := CreateNpc(template, x, y, z);
+                if (npc)
+                    prop := region + " " + group;
+                    SetObjProperty(npc, "SpawnRegion", prop);
+                    return npc;
+                endif
+            endif
+        endif
+        sleepms(20);
+    until (tries > MAX_SPAWN_TRIES);
+    if (tries > MAX_SPAWN_TRIES)
+        syslog("Exceeded max tries. Region = " + region + ", npc = " + template);
+    endif
+    return 0;
+endfunction
+
+function SetGroupSpawns(region, group, byref spawns)
+    set_critical(1);
+    var spawnregions := GetGlobalProperty("SpawnRegions");
+    if (!spawnregions)
+        spawnregions := dictionary;
+    endif
+    if (!spawnregions.exists(region))
+        spawnregions[region] := dictionary;
+    endif
+    spawnregions[region][group] := spawns;
+    SetGlobalProperty("SpawnRegions", spawnregions);
+    set_critical(0);
+endfunction

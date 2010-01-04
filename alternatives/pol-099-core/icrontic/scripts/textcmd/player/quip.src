@@ -1,0 +1,129 @@
+///////////////////////////////////////
+////Revised by Lucifer. addedcheck for items in pack to fix bug with stealing.
+//// 	  Revised 08/30/02 by Gex
+////      -added check for the backpack
+////	  Quip/Unquip   ----- MuadDib
+///////////////////////////////////////
+use uo;
+use os;
+
+include "include/client";
+
+program textcmd_quip ( who )
+
+  var hand1 := (GetObjProperty(who,"lasthand1"));
+  var hand2 := (GetObjProperty(who,"lasthand2"));
+  var leg := (GetObjProperty(who,"lastleg1"));
+  var helmet := (GetObjProperty(who,"lasthelmet1"));
+  var gloves := (GetObjProperty(who,"lastgloves1"));
+  var gorget := (GetObjProperty(who,"lastgorget1"));
+  var chest := (GetObjProperty(who,"lastchest1"));
+  var sleeves := (GetObjProperty(who,"lastsleeves1"));
+  var pants := (GetObjProperty(who,"lastpants1"));
+  var skirt := (GetObjProperty(who,"lastskirt1"));
+  var body := (GetObjProperty(who,"lastbody1"));
+  var tunic := (GetObjProperty(who,"lasttunic1"));
+  var robe := (GetObjProperty(who,"lastrobe1"));
+// Check to see if dead
+  if (who.dead)
+    SendSysMessage(who, "I am dead, and you want me to get dressed?!");
+    return;
+  endif
+   
+
+// Remove any and all quiped items to equip listed ones
+  set_critical(1);
+  foreach item in ListEquippedItems(who)
+  if ((GetEquipmentByLayer(who,LAYER_MOUNT) != item) && (GetEquipmentByLayer(who,LAYER_BEARD) != item) && (GetEquipmentByLayer(who,LAYER_HAIR) != item) &&
+      (GetEquipmentByLayer(who, LAYER_SHOES ) != item) && (GetEquipmentByLayer(who, LAYER_RING ) != item) && (GetEquipmentByLayer(who, LAYER_WAIST ) != item) &&
+      (GetEquipmentByLayer(who, LAYER_WRIST ) != item) && (GetEquipmentByLayer(who, LAYER_EARS ) != item) &&
+      (GetEquipmentByLayer(who, LAYER_CAPE ) != item))
+    MoveItemToContainer(item, who.backpack);
+  endif
+  endforeach
+  
+////////////
+
+  if(!chest && !leg)
+    SendSysmessage(who, "You must .unquip before using .quip");
+  endif
+  if(SystemFindObjectBySerial(hand1) && GetObjProperty(hand1, "unquip"))
+    if (SystemFindObjectBySerial(hand1).container = who.backpack)
+   EquipItem(who, SystemFindObjectBySerial(hand1));
+   EraseObjProperty(who,"lasthand1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(hand2) && GetObjProperty(hand2, "unquip"))
+    if (SystemFindObjectBySerial(hand2).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(hand2));
+    EraseObjProperty(who,"lasthand2");
+    endif
+  endif
+  if(SystemFindObjectBySerial(leg) && GetObjProperty(leg, "unquip"))
+    if ( SystemFindObjectBySerial(leg).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(leg));
+    EraseObjProperty(who,"lastleg1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(helmet) && GetObjProperty(helmet, "unquip"))
+    if (SystemFindObjectBySerial(helmet).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(helmet));
+    EraseObjProperty(who,"lasthelmet1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(gloves) && GetObjProperty(gloves, "unquip"))
+    if (SystemFindObjectBySerial(gloves).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(gloves));
+    EraseObjProperty(who,"lastgloves1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(gorget) && GetObjProperty(gorget, "unquip"))
+    if (SystemFindObjectBySerial(gorget).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(gorget));
+    EraseObjProperty(who,"lastgorget1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(chest) && GetObjProperty(chest, "unquip"))
+    if (SystemFindObjectBySerial(chest).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(chest));
+    EraseObjProperty(who,"lastchest1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(sleeves) && GetObjProperty(sleeves, "unquip"))
+    if (SystemFindObjectBySerial(sleeves).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(sleeves));
+    EraseObjProperty(who,"lastsleeves1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(pants) && GetObjProperty(pants, "unquip"))
+    if (SystemFindObjectBySerial(pants).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(pants));
+    EraseObjProperty(who,"lastpants1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(skirt) && GetObjProperty(skirt, "unquip"))
+    if (SystemFindObjectBySerial(skirt).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(skirt));
+    EraseObjProperty(who,"lastskirt1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(body) && GetObjProperty(body, "unquip"))
+    if (SystemFindObjectBySerial(body).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(body));
+    EraseObjProperty(who,"lastbody1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(tunic) && GetObjProperty(tunic, "unquip"))
+    if (SystemFindObjectBySerial(tunic).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(tunic));
+    EraseObjProperty(who,"lasttunic1");
+    endif
+  endif
+  if(SystemFindObjectBySerial(robe) && GetObjProperty(robe, "unquip"))
+    if (SystemFindObjectBySerial(robe).container = who.backpack)
+    EquipItem(who, SystemFindObjectBySerial(robe));
+    EraseObjProperty(who,"lastrobe1");
+    endif
+  endif
+  set_critical(0);
+endprogram

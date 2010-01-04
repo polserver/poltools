@@ -1,0 +1,18 @@
+use uo;
+use os;
+
+program textcmd_matchip(who, text)
+  if (!text)
+     SendSysmessage(who, "useage: .matchip <ip string> (returns list of online chrs on that ip)");
+  return;
+  endif
+  var ipstring := text;
+
+  foreach chr in EnumerateOnlineCharacters()
+    var chrname := chr.name;
+    var onlineip := chr.ip;
+    if(onlineip == ipstring)
+      SendSysMessage(who, "Chr: " + chrname, 3, 73);
+    endif
+  endforeach
+endprogram

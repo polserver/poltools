@@ -1,0 +1,132 @@
+use uo;
+use os;
+
+include "../../../pkg/foundations/gumps/gumps";
+
+const MAX_X				:= 350;
+const MAX_Y				:= 340;
+
+program textcmd_staffonline(who)
+  var trainee := 0;
+  var councy := 0;
+  var seer := 0;
+  var gm := 0;
+  var admin := 0;
+  var dev := 0;
+  var vol := 0;
+  var ctrainee := 73;
+  var ccouncy := 73;
+  var cseer := 73;
+  var cgm := 73;
+  var cadmin := 73;
+  var cdev := 73;
+  var cvol := 73;
+  var traineemsg, councymsg, seermsg, gmmsg, adminmsg, devmsg, volmsg;
+  foreach onlinechr in EnumerateOnlineCharacters()
+    var volunteer := 0;
+    volunteer := GetObjProperty(onlinechr, "#volunteer");
+    case(onlinechr.cmdlevel)
+      0: if(volunteer == 1)
+           vol := vol + 1;
+         endif
+         break;
+      1: trainee := trainee+1; break;
+      2: councy := councy+1; break;
+      3: seer := seer+1; break;
+      4: gm := gm+1; break;
+      5: admin := admin+1; break;
+      6: dev := dev+1; break;
+    endcase
+  endforeach
+  if(!trainee)
+    ctrainee := 33;
+  endif
+  if(!councy)
+    ccouncy := 33;
+  endif
+  if(!seer)
+    cseer := 33;
+  endif
+  if(!gm)
+    cgm := 33;
+  endif
+  if(!admin)
+    cadmin := 33;
+  endif
+  if(!dev)
+    cdev := 33;
+  endif
+  if(!vol)
+    cdev := 33;
+  endif
+  traineemsg := "Trainee Counselors: ";
+  councymsg := "Counselors: ";
+  seermsg := "Seers: ";
+  gmmsg := "Game Masters: ";
+  adminmsg := "Administrators: ";
+  devmsg := "Developers: ";
+  volmsg := "Volunteers: ";
+  GFInitGump(240, 160);
+  GFNoMove();
+  GFPage(0);
+  GFResizePic(0, 0, 0x13EC, MAX_X, MAX_Y);
+  GFGumpPic(9, 0, 10420);       // Dragon Bordering Top Left
+  GFGumpPic(0, 22, 10421);      // Dragon Bordering Left Side
+  GFGumpPic(280, 0, 10430);     // Dragon Bordering Top Right
+  GFGumpPic(300, 22, 10431);    // Dragon Bordering Right Side
+  GFGumpPic(294, 156, 10432);   // Dragon Bordering lower Right
+  GFGumpPic(13, 156, 10422);    // Dragon Bordering lower Left
+  GFGumpPic(85, 13, 10452);     // Banner Top Row
+  GFGumpPic(69, 13, 10250);     // Dragon Top Row
+  GFGumpPic(264, 13, 10250);    // Dragon Top Row
+  GFGumpPic(27, 303, 10460);    // Dragon Bottom Row Left
+  GFGumpPic(58, 311, 10250);    // Dragon Bottom Row
+  GFGumpPic(74, 311, 10250);    // Dragon Bottom Row
+  GFGumpPic(90, 311, 10250);    // Dragon Bottom Row
+  GFGumpPic(106, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(122, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(138, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(154, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(170, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(186, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(202, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(218, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(234, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(250, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(266, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(282, 311, 10250);   // Dragon Bottom Row
+  GFGumpPic(297, 303, 10460);   // Dragon Bottom Row Right
+ if(who.cmdlevel <=3)
+  GFTextLine(130, 70, 0x0480, "Staff Online");
+  GFTextLine(100, 100, ctrainee, traineemsg);
+  GFTextLine(240, 100, ctrainee, trainee);
+  GFTextLine(100, 120, ccouncy, councymsg);
+  GFTextLine(240, 120, ccouncy, councy);
+  GFTextLine(100, 145, cseer, seermsg);
+  GFTextLine(240, 145, cseer, seer);
+  GFTextLine(100, 170, cgm, gmmsg);
+  GFTextLine(240, 170, cgm, gm);
+  GFTextLine(100, 195, cadmin, adminmsg);
+  GFTextLine(240, 195, cadmin, admin);
+  GFTextLine(100, 220, 33, volmsg);
+  GFTextLine(240, 220, cvol, vol);
+  GFButtonId(155, 280, 0x0FB7, 0x0FB9, 1);
+  GFSendGump(who);
+ else
+  GFTextLine(130, 70, 0x0480, "Staff Online");
+  GFTextLine(100, 100, ctrainee, traineemsg);
+  GFTextLine(240, 100, ctrainee, trainee);
+  GFTextLine(100, 120, ccouncy, councymsg);
+  GFTextLine(240, 120, ccouncy, councy);
+  GFTextLine(100, 145, cseer, seermsg);
+  GFTextLine(240, 145, cseer, seer);
+  GFTextLine(100, 170, cgm, gmmsg);
+  GFTextLine(240, 170, cgm, gm);
+  GFTextLine(100, 195, cadmin, adminmsg);
+  GFTextLine(240, 195, cadmin, admin);
+  GFTextLine(100, 220, cvol, volmsg);
+  GFTextLine(240, 220, cvol, vol);
+  GFButtonId(155, 280, 0x0FB7, 0x0FB9, 1);
+  GFSendGump(who);
+  endif
+endprogram

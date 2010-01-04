@@ -1,0 +1,29 @@
+use os;
+use uo;
+use util;
+
+include "include/client";
+include "include/spellRestrictions";
+include "include/skillPoints";
+
+program cast_strength(parms)
+  var circle := 2;
+  var delivery := "direct";
+  var noto := "harmful";
+  var result := maincast(parms, delivery, circle, noto, 14);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  if(GetObjProperty(cast_on, "trap_strength") > 25)
+    SendSysMessage(caster, "You couldn't disarm the trap.");
+  else
+    var oldscript := GetObjProperty(cast_on, "oldscript");
+    PlaySoundEffect(caster, SFX_SPELL_MAGIC_UNTRAP);
+    PlayStationaryEffect(cast_on.x, cast_on.y, cast_on.z, 0x376a, 30, 30);
+    EraseObjProperty(cast_on, "trap_type");
+    EraseObjProperty(cast_on, "trap_strength");
+    cast_on.usescript := oldscript;
+  endif
+endprogram

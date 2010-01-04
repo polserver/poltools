@@ -1,0 +1,4 @@
+Gambler version 1.0
+by Zulu (zulu@zuluhotel.com)   November 12, 2000
+
+To create a gambler type .createnpc gambler or put in a spawn

@@ -1,0 +1,55 @@
+12:04 AM Feb./13/2003
+This is rough.. not well formatted because im tired.
+This zip only contains files that I have changed.
+
+
+BRAIN.SRC
+
+First off, I have seriously commented the brain.src file.
+I think now, even my friend Karen could understand it :P
+
+I have changed Initialize() a bit, so now all the checks
+are dict.exists() instead of dict[key] == error.
+
+I also changed the check for a "merchant" line, and made
+it "merchant_script". Both merchant events will go to this
+same nerve.
+
+I have changed ~ line 103 from if ( ev.WakeUp) to
+if ( ev.WakeUp != NOWAKE). 
+
+
+MOVEMENT.INC
+
+In MoveLoopCheck() I added a distance check.
+This is only applied for normal NPC movement, and not
+XY movement, because it is not needed. You can see the
+comments I put there for more info.
+
+NPC_Commands.inc
+
+I have added an AI_ClearThoughts(mobile, flags) 
+function. This is for 095 only, and will clear the
+event queue for the nerve that calls it and/or to 
+make a nerve clear the brain's event queue. 
+
+I have beefed up the commenting for this file because
+it is a very important one. I also fixed some comments
+like the one for AI_ForwardEvent().
+
+NPC_Event.inc
+
+I have added a comment for NPCEVENT_FWDNERVE.
+
+I have added three new constants.
+CLR_BRAIN, CLR_NERVE and CLR_BOTH.
+You can use these with the AI_ClearThoughts() function.
+CLR_BOTH is the same as CLR_BRAIN+CLR_NERVE.
+
+I have changed NETURN_TOWARD and _AWAY to 1 and 2
+instead of 0 and 1.
+
+I have changed WAKEUP from 1 to 0 and NOWAKE from 0 to 1.
+
+
+

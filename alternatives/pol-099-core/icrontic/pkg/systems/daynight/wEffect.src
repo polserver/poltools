@@ -1,0 +1,82 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/attributes";
+
+const SOUND_EFFECT_THUNDER:=  0x002a;
+
+program LightningEffect()
+
+var daymoon := GetGlobalProperty("Weather");
+var thundelay;
+var plight;
+var list := {};
+
+while (daymoon[7] = 4)
+	daymoon := GetGlobalProperty("Weather");
+	SetRegionLightLevel("Background", 0);
+	foreach who in EnumerateOnlineCharacters()
+		If (who.x <= 5119)
+			If (RandomInt(10) >= 9)
+				list.append(who.serial);
+				DoBolt(who);
+			EndIf
+		EndIf
+	endforeach
+	sleep(1);
+	SetRegionLightLevel("Background", cint(daymoon[6]));
+	thundelay := RandomInt(5);
+	sleep(thundelay);		
+	foreach who in EnumerateOnlineCharacters()
+		If (who.x <= 5119)
+			DoThunder(who,list);
+		EndIf
+	endforeach
+	list.erase(1);
+	var randompause := Cint(RandomInt(120));
+	sleep(randompause);
+endwhile
+
+endprogram
+
+function DoBolt(who)
+
+If (who.multi)
+	return;
+endif
+var xpos := who.x;
+var ypos := who.y;
+var xrand := RandomInt(20);
+var yrand := RandomInt(20);
+var props array;
+props.+facing := who.facing;
+xpos := ((xpos - xrand) + 10);
+ypos := ((ypos - yrand) + 10);
+var zpos := GetMapInfo( xpos, ypos ).z;
+var mob := CreateNpcFromTemplate( "rabbit", xpos, ypos, zpos, props );
+mob.invisible := 1;
+setobjproperty(mob, "guardkill", 1);
+PlayLightningBoltEffect( mob );
+PlaySoundEffect(who, SOUND_EFFECT_THUNDER);
+Damage( mob, GetHp(mob) );;
+
+endfunction
+
+function DoThunder(who,list)
+
+var counter := list.size();
+var i;
+if (!list)
+	PlaySoundEffect(who, SOUND_EFFECT_THUNDER);
+	return;
+endif
+for (i := 1; i <= counter; i := i + 1);
+	if (who.serial = list[i])
+	else
+	PlaySoundEffect(who, SOUND_EFFECT_THUNDER);
+	endif
+endfor
+
+endfunction

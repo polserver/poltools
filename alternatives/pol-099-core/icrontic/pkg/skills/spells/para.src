@@ -1,0 +1,11 @@
+use uo;
+use os;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program cast_paralyze( parms )
+SetScriptController(parms[1]);
+DoTempMod(parms[1], "p", 1, parms[2]);
+endprogram
+

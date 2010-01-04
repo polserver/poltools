@@ -1,0 +1,24 @@
+use uo;
+use os;
+use util;
+
+program textcmd_shelfsouth(who);
+  var globalshelves := GetGlobalProperty("shelves");
+  if(!globalshelves)
+    globalshelves := {};
+  endif
+  var shelf := CreateItemAtLocation(who.x, who.y, who.z, 0x0a9f, 1);
+  var rint;
+  case (RandomInt(3)+1)
+    1: rint := 2711;
+    2: rint := 2712;
+    3: rint := 2715;
+  endcase
+  shelf.graphic := rint;
+  if(shelf)
+    globalshelves.append(shelf.serial);
+  else
+    SendSysMessage(who, shelf.errortext);
+  endif
+  SetGlobalProperty("shelves", globalshelves);
+endprogram

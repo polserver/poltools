@@ -1,0 +1,67 @@
+use uo;
+use util;
+
+include "include/client";
+
+program use_scatterwhip(who, whip)
+
+	local x, y;
+	local charges := Cint( GetObjProperty(whip, "charges") );
+
+	if (charges == 0)
+		SendSysMessage(who, "Nothing happens.");
+		return;
+	endif
+
+	charges := charges - 1;
+	SetObjProperty(whip, "charges", CStr(charges) );
+
+	SendSysMessage(who, "Select Target.");
+	local casttarg := target(who);
+
+	if (!casttarg)
+		SendSysMessage(who, "Cancelled.");
+		return;
+	endif
+
+	foreach success in ListEquippedItems(casttarg);
+	local critter := "";
+	case (success.graphic)
+	0x3ea2: critter := "horse2";
+	0x3e9f: critter := "horse";
+	0x3ea0: critter := "horse3";
+	0x3ea1: critter := "horse4";
+	0x3ea6:	critter := "llama";
+	0x3ea3:	critter := "desertostard";
+	0x3ea4:	critter := "frenziedostard";
+	0x3ea5:	critter := "forestostard";
+	0x3ea7: critter := "vortex1";
+	endcase
+	if (critter<>"")
+		if (success.color = 1109)
+		critter := "nightmare";
+	endif
+
+			x := casttarg.x + RandomInt(11) - 5;
+			y := casttarg.y + RandomInt(11) - 5;
+
+	local animal := CreateNPCFromTemplate (critter, x, y, GetWorldHeight(x, y));
+	animal.facing := who.facing;
+	animal.color := success.color;
+	animal.name := GetObjProperty (success, "petname");
+	SetObjProperty (animal, "master", who.serial);
+	SetObjProperty (animal, "prevtamed", 1);
+	animal.script := "tamed";
+	RestartScript (animal);
+	DestroyItem(success );
+
+	else
+			x := casttarg.x + RandomInt(11) - 5;
+			y := casttarg.y + RandomInt(11) - 5;
+			MoveItemToLocation(success, x, y, GetWorldHeight(x, y),0 );
+	endif
+	endforeach
+	SendSysMessage(casttarg, "You feel colder...");
+	return;
+
+endprogram

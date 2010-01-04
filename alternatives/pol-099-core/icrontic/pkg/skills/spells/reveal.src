@@ -1,0 +1,48 @@
+use uo;
+
+include "include/listex";
+include "include/attributes";
+include "include/spellRestrictions";
+
+program reveal_hider ( parms )
+  var circle := 6;
+  var delivery := "indirect";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 48);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  var range := ( GetEffectiveSkill( caster, SKILLID_MAGERY  )/10 ) - 5;
+  if (range < 1)
+	range := 1;
+  endif
+  var hiders := ListMobilesNearLocationEx( caster.x, caster.y, caster.z, range, LIST_HIDDEN );
+  var numfound := 0;
+  PlaySoundEffect(caster, SFX_1FE);
+  if(len(hiders) > 0)
+	foreach mobile in hiders
+	  if( Found( caster,  mobile) )
+		numfound := 1;
+		mobile.hidden := 0;
+		PrintTextAbovePrivate( mobile, "You have been revealed!", mobile );
+		PrintTextAbovePrivate( mobile, "You have found someone!!", caster );
+		PlaySoundEffect(mobile, SFX_1FE);
+	  endif
+	endforeach
+  endif
+  if (!numfound)
+    PrintTextAbovePrivate( caster, "You didnt find any anyone.", caster );
+  endif
+endprogram
+
+function Found( finder, hider )
+  var magic_skill := Resisted(6, finder, hider, GetEffectiveSkill( finder, SKILLID_MAGERY ));
+  var resist := (GetEffectiveSkill( finder, SKILLID_MAGICRESISTANCE)/1.5);
+  if ( magic_skill > resist )
+	return 1;
+  else
+	return 0;
+  endif
+endfunction

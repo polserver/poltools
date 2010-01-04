@@ -1,0 +1,149 @@
+use cfgfile;
+use uo;
+use basic;
+
+include "include/client";
+include "include/attributes";
+include "include/skillPoints";
+
+var armor_desc    := "";
+var quality_descr := "";
+var damage_descr  := "";
+var wdamage_descr := "";
+var cfg           := ReadConfigFile(":combat:itemdesc");
+
+program do_armslore( who )
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var quality_descr, damage_descr;
+  var thepoints := (CInt(GetEffectiveSkill(who, SKILLID_ARMSLORE)) * 2) + 20;
+  SendSysMessage(who, "Select an object to evaluate.");
+  var the_item := Target(who, TGTOPT_CHECK_LOS);
+  if(!the_item)
+    SendSysMessage(who, "Targetting cancelled.");
+    return;
+  endif
+  var entry := cfg[the_item.objtype];
+  if(!entry)
+    SendSysMessage(who, "You can only use this skill on weapons or armor!");
+    return;
+  endif
+  if(CheckSkill(who, SKILLID_ARMSLORE, -1, thepoints))
+    var armor := the_item.ar;
+    if(the_item.ar_mod)
+      armor := the_item.ar_mod;
+    endif
+    armor_desc := RateAR(CInt(armor));
+    var quality_real := (the_item.quality  * 100);
+    var quality_nbr  := CInt(quality_real);
+    quality_descr    := CStr(GetQuality(CInt(quality_nbr)));
+    damage_descr     := CStr(GetDamage(the_item));
+    if(!the_item.isA(POLCLASS_WEAPON))
+      SendSysMessage(who, "This item is of " + quality_descr + " quality, and is in " + damage_descr + " condition.");
+      sleep(1);
+      SendSysMessage(who, "Thy armor " + armor_desc);
+    else
+      wdamage_descr := GetWeaponDamage(the_item);
+      SendSysMessage(who, "This weapon is of " + quality_descr + " quality, and is in " + damage_descr + " condition.");
+      sleep(1);
+      SendSysMessage(who, "Thy weapon " + wdamage_descr);
+    endif
+  else
+    SendSysMessage(who, "I can't quite tell . . .");
+  endif
+endprogram
+
+function RateAR(armor)
+
+if(armor >= 31)
+  armor_desc := "is superbly crafted to provide maximum protection";
+elseif(armor >= 26)
+  armor_desc := "offers excellent protection";
+elseif(armor >= 21)
+  armor_desc := "is a superior defense against attack";
+elseif(armor >= 16)
+  armor_desc := "serves as a sturdy protection";
+elseif(armor >= 11)
+  armor_desc := "offers some protection against blows";
+elseif(armor >= 6)
+  armor_desc := "provides very little protection";
+elseif(armor >= 1)
+  armor_desc := "provides almost no protection";
+elseif(armor < 1)
+  armor_desc := "offers no defense against attackers";
+endif
+
+return armor_desc;
+
+endfunction
+
+function GetQuality(quality_nbr)
+
+    if(quality_nbr > 100)
+      quality_descr := "exceptional";
+    elseif (quality_nbr >= 80)
+      quality_descr := "excellent";
+    elseif (quality_nbr >= 60)
+      quality_descr := "decent";
+    elseif (quality_nbr >= 40)
+      quality_descr := "moderate";
+    else
+      quality_descr := "low";
+    endif
+
+    return quality_descr;
+    
+endfunction
+
+function GetDamage(the_item)
+
+    var item_max_hp := the_item.maxhp;
+    var hp := the_item.hp;
+    if(hp == 0)
+      hp := 1;
+    endif
+    if(item_max_hp == 0)
+      item_max_hp := 1;
+    endif
+    var max_hp := CInt(item_max_hp);
+    var damage_real := ((hp * 100) / max_hp);
+    var damage_nbr := CInt(damage_real);
+    if(damage_nbr >= 100 )
+      damage_descr := "excellent";
+    elseif(damage_nbr >= 90)
+      damage_descr := "good";
+    elseif (damage_nbr >= 60)
+      damage_descr := "acceptable";
+    elseif (damage_nbr >= 40)
+      damage_descr := "fair";
+    else
+      damage_descr := "poor";
+    endif
+    
+    return damage_descr;
+
+endfunction
+
+function GetWeaponDamage(the_item)
+
+    var elem := cfg[the_item.objtype];
+    var maxdmg := CInt(cfg[the_item.objtype].MaxDam);
+    if(maxdmg >= 40 )
+      wdamage_descr := "would be extraordinarily deadly.";
+    elseif(maxdmg >= 35)
+      wdamage_descr := "would be a superior weapon.";
+    elseif(maxdmg >= 25)
+      wdamage_descr := "would inflict significant damage & pain.";
+    elseif(maxdmg >= 15)
+      wdamage_descr := "likely hurt opponent a fair amount.";
+    elseif(maxdmg >= 6)
+      wdamage_descr := "would do some damage.";
+    elseif(maxdmg >= 3)
+      wdamage_descr := "would do minimal damage.";
+    elseif(maxdmg >= 1)
+      wdamage_descr := "might scratch your opponent slightly.";
+    endif
+
+    return wdamage_descr;
+
+endfunction

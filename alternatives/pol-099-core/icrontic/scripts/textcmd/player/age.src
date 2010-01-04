@@ -1,0 +1,18 @@
+use uo;
+use os;
+
+program textcmd_age( who )
+var age:= getobjproperty (who, "onlinetimer");
+if (age < 0)
+sendsysmessage (who, "Age error...",3,28);
+sleep(1);
+setobjproperty (who, "onlinetimer", 0);
+sendsysmessage (who, "Setting age to zero",3,28);
+sleep(1);
+age:=0;
+endif
+
+age:= age / 60 ;
+    PrintTextAbovePrivate(who, "You have played for a total of " + age + " minutes", who,3,100);
+
+endprogram

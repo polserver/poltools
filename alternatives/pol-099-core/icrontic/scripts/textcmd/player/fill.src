@@ -1,0 +1,168 @@
+use uo;
+use os;
+
+include "include/attributes";
+include "include/dist";
+
+var movecfg := ReadConfigFile(":*:itemdesc");
+var potname := "";
+  
+program textcmd_fill(who)
+  if(who.cmdlevel == 1)
+    SendSysMessage(who, "Counselors may no perform this action!");
+    return 0;
+  endif
+  if(who.cmdlevel == 2)
+    SendSysMessage(who, "Counselors may no perform this action!");
+    return 0;
+  endif
+  SendSysmessage(who, "Select the potion type you wish to use.");
+  var item1 := target(who);
+  if(!item1)
+    SendSysmessage(who, "Cancelled.");
+    return 0;
+  endif
+  if(!item1.container)
+    SendSysmessage(who, "That item is not in a container!");
+    return 0;
+  endif
+  if(is_potion(item1))
+    SendSysmessage(who, "Select keg you wish to pour these into.");
+    var cont := target(who);
+    var elm          := FindConfigElem(movecfg, cont.objtype);
+    var insertscript := elm.OnInsertScript;
+    if(cont.objtype != 0x1940)
+      SendSysmessage(who, "That is not a keg!");
+      return 0;
+    endif
+    if(!insertscript)
+      SendSysmessage(who, "That is not a keg!");
+      return 0;
+    endif
+    if(!cont)
+      SendSysmessage(who, "Cancelled.");
+      return 0;
+    endif
+    if(distance(who, cont) > 2)
+      SendSysMessage(who, "Thou cannot reacheth thy keg.");
+      return 0;
+    endif
+
+    var vendorserial := GetObjProperty(cont, "Vendored");
+    if((vendorserial) && (who.cmdlevel < 3))
+      SendSysMessage(who, "You cant fill a keg while it's on a vendor.");
+      MoveItemToContainer(item1, who.backpack);
+      return 0;
+    endif
+
+    var type := Cint(GetObjProperty(cont, "PotionType"));
+    var amt  := CInt(GetObjProperty(cont, "pamt"));
+    if(amt)
+      if(type != item1.objtype)
+          SendSysMessage(who, "Try using the correct potions.");
+          return 0;
+      endif
+    endif
+
+    var npotname := potionName(item1);
+    var potobjtype := item1.objtype;
+    
+    foreach item2 in EnumerateItemsInContainer(item1.container)
+      if(item2.objtype == item1.objtype)
+        amt := CInt(GetObjProperty(cont, "pamt"));
+        if(amt >= 100)
+          SendSysMessage(who, "Thy keg cannot hold any more.");
+          break;
+        else
+          CreateItemInBackpack(who, 0xf0e, 1);
+          CInt(SetObjProperty(cont, "pamt", amt + 1));
+          DestroyItem(Item2);
+        endif
+      endif
+    endforeach
+    PlaySoundEffect(who, 0x241);
+    rename_keg(cont, npotname);
+    SetObjProperty(cont, "PotionType", CInt(potobjtype));
+    SetObjProperty(cont, "OwnerSerial", who.serial);
+    SendSysMessage(who, "Your keg now holds " + CInt(GetObjProperty(cont, "pamt")) + " potions of " + npotname + ".");
+  endif
+endprogram
+
+function is_potion(obj)
+  if((obj.objtype >= 0xdc01) && (obj.objtype <= 0xdce6))
+    return 1;
+  elseif((obj.objtype >= 0x1941) && (obj.objtype <= 1943))
+    return 1;
+  endif
+  return 0;
+endfunction
+
+function GetFullness( pkeg )
+  var amt  := CInt(GetObjProperty(pkeg, "pamt"));
+  var str;
+  if (amt == 0)
+    str := "the keg is empty";
+  elseif ((amt >= 1) && (amt <= 4))
+    str := "the keg is nearly empty";
+  elseif ((amt >= 5) && (amt <= 19))
+    str := "the keg is not very full";
+  elseif ((amt >= 20) && (amt <= 29))
+    str := "the keg is about one quarter full";
+  elseif ((amt >= 30) && (amt <= 39))
+    str := "the keg is about one third full";
+  elseif ((amt >= 40) && (amt <= 46))
+    str := "the keg is almost half full";
+  elseif ((amt >= 47) && (amt <= 53))
+    str := "the keg is approximately half full";
+  elseif ((amt >= 54) && (amt <= 69))
+    str := "the keg is more than half full";
+  elseif ((amt >= 70) && (amt <= 79))
+    str := "the keg is about three quarters full";
+  elseif ((amt >= 80) && (amt <= 95))
+    str := "the keg is very full";
+  elseif ((amt >= 96) && (amt <= 99))
+    str := "The liquid is almost to the top of the keg";
+  else
+    str := "the keg is completely full";
+  endif
+  return str;
+endfunction
+
+function rename_keg(keg, potion)
+  var str := "a keg of " + potion + "s. " + GetFullness(keg);
+  SetName(keg, str);
+  SetObjProperty(keg, "PotionName", potion);
+  return;
+endfunction
+
+function potionName(potion)
+  
+  case(potion.objtype)
+    0xDC01: potname := "Lesser Heal";
+    0xDC02: potname := "Heal";
+    0xDC03: potname := "Greater Heal";
+    0x1941: potname := "Ultra Heal";
+    0xdc04: potname := "Lesser Poison";
+    0xdc05: potname := "Poison";
+    0xdc06: potname := "Greater Poison";
+    0xdc17: potname := "Deadly Poison";
+    0xdc08: potname := "Lesser Explosion";
+    0xdc09: potname := "Explosion";
+    0xdc07: potname := "Greater Explosion";
+    0xdc0c: potname := "Agility";
+    0xdc0d: potname := "Greater Agility";
+    0x1942: potname := "Ultra Agility";
+    0xdc0e: potname := "Refresh";
+    0xdc0f: potname := "Total Refresh";
+    0xdc11: potname := "Strength";
+    0xdc12: potname := "Greater Strength";
+    0x1943: potname := "Ultra Strength";
+    0xdce6: potname := "Nightsight";
+    0xdc14: potname := "Lesser Cure";
+    0xdc15: potname := "Cure";
+    0xdc16: potname := "Greater Cure";
+  endcase
+  
+  return potname;
+
+endfunction

@@ -1,0 +1,37 @@
+use http;
+use uo;
+
+program account_add()
+
+var acctname := QueryParam( "acctname" );
+var acctpass := QueryParam( "acctpass" );
+
+WriteHtml( "<html><head><title>IcronticShard Admin Web-Logon</title></head>" +
+           "<body>" +
+           "<center><img src==logo.gif></center>" +
+           "<div align==center>" +
+           "<FONT SIZE==4><B>IcronticShard Admin Web-Logon</B></FONT><HR>");
+writehtml(" <body bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>");
+           
+if( !acctname or !acctpass )
+  writehtml("Name or Pass was empty.");
+else
+  while (acctname["+"])
+        acctname["+"] := " ";
+  endwhile
+  while (acctpass["+"])
+        acctpass["+"] := " ";
+  endwhile
+
+  var ret := FindAccount( acctname );
+
+  if( acctname != "webcheckup" )
+    writehtml("Sorry, account Verify failed.<P>");
+    writehtml("Error: " + ret.error );
+  else
+    writehtml("Account Verified successfully.");
+    writehtml("<a href==servperf/index.htm>Click Here to Continue on to Web-Admin</a>");
+  endif
+endif
+
+endprogram

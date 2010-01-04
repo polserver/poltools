@@ -1,0 +1,74 @@
+use uo;
+use os;
+
+include "include/dist";
+include "include/client";
+include "include/yesNo";
+
+program textcmd_sex(who)
+  SendSysMessage (who, "Whom do you wish to have sex with?" );
+  var partner := Target( who, TGTOPT_NOCHECK_LOS );
+  if(dist(who, partner) >= 1)
+    SendSysMessage(who, "Your partner is too far");
+    return;
+  elseif(!CheckLineOfSight(who,partner))
+    SendSysMessage(who,"You cant see your partner");
+    return;
+  endif
+  if(partner)
+    var choice := YesNo (partner, "Do you want to have sex with " + who.name);
+    if (choice)
+      havesex(who, partner);
+    else
+      SendSysMessage (who, partner.name + " doesn't want to have sex with you!");
+    endif
+  endif
+endprogram
+
+
+function havesex(who, partner)
+// Remove any and all quiped items cept the !=item ones
+  foreach item in ListEquippedItems(who)
+    if ((GetEquipmentByLayer(who,LAYER_MOUNT) != item) && (GetEquipmentByLayer(who,LAYER_BEARD) != item) && (GetEquipmentByLayer(who,LAYER_HAIR) != item))
+      MoveItemToContainer(item, who.backpack);
+    endif
+  endforeach
+  foreach item in ListEquippedItems(partner)
+    if ((GetEquipmentByLayer(partner,LAYER_MOUNT) != item) && (GetEquipmentByLayer(partner,LAYER_BEARD) != item) && (GetEquipmentByLayer(partner,LAYER_HAIR) != item))
+      MoveItemToContainer(item, partner.backpack);
+    endif
+  endforeach
+
+    PrintTextAbove( who, who.name + " starts to make love to " + partner.name, font := _DEFAULT_TEXT_FONT, color := 	_DEFAULT_TEXT_COLOR );
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x25F );
+    PlaySoundEffect( partner, 0x154 );
+    sleepms(1000);
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x25F );
+    PlaySoundEffect( partner, 0x154 );
+    sleepms(1000);
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x25F );
+    PlaySoundEffect( partner, 0x154 );
+    sleepms(1000);
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x25F );
+    PlaySoundEffect( partner, 0x154 );
+    sleepms(1000);
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x25F );
+    PlaySoundEffect( partner, 0x154 );
+    sleepms(1000);
+    PerformAction( who,0x20 );
+    PerformAction( partner, 0x15 );
+    PlaySoundEffect( who,0x260 );
+    PlaySoundEffect( partner, 0x25C );
+    PrintTextAbove( who, who.name + " finishes making love to " + partner.name, font := _DEFAULT_TEXT_FONT, color := 	_DEFAULT_TEXT_COLOR );
+endfunction
+

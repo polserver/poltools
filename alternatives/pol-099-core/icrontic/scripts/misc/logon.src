@@ -1,0 +1,444 @@
+use uo;
+use util;
+use math;
+use os;
+use cfgfile;
+
+include "include/eventID";
+include "include/myUtil";
+include "include/attributes";
+include "../../pkg/systems/combat/equip";
+include "include/client";
+include "include/packets";
+include "include/noto";
+include "include/security";
+
+program onlogon(who)
+  checkBans(who);
+  verifyStaff(who);
+  multiUO(who);
+
+var acct := who.acct;
+var system := polcore();
+var uptime := system.uptime / 60;
+if ((uptime < 5) && (who.cmdlevel = 0))
+  SendSysMessage( who, "You must wait 5 minutes to log on after server restart!" );
+  sleep(2);
+  DisconnectClient(who);
+  return 0;
+endif
+
+  var timer := GetObjProperty(who,"onlinetimer");
+  acct.SetProp("LastIP", who.ip);
+  acct.SetProp("LastLogin", ReadGameClock());
+  SetObjProperty(who, "logontime", ReadGameClock());
+  SetObjProperty(who, "LoggedIn", 1);
+  RestoreMods(who);
+  if(!timer)
+    SetObjProperty(who,"onlinetimer", 1);
+  endif
+  if(timer.errortext)
+    SetObjProperty(who,"onlinetimer", 1);
+  endif
+  EraseObjProperty(who, "#Mixing");
+  EraseObjProperty(who, "#HealTimer");
+  EraseObjProperty(who, "#Healing");
+  EraseObjProperty(who, "#poisonisrunning");
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "#stealthing");
+  start_script(":meditation:medCheck", who);
+  start_script(":hooks:attributeCore", who); 
+  if (who.cmdlevel == 0)
+    start_script( ":cooking:hunger", who );
+  endif
+  if (who.cmdlevel == 0)
+    if(GetObjProperty(who, "vamptime") or GetObjProperty(who, "ticks"))
+      start_script( ":vampire:vamptimer", who );
+    endif
+  endif
+  if(who.cmdlevel < 1)
+    RevokePrivilege(who, "hearghosts");
+  else
+    var oldpack := who.backpack;
+    if(oldpack.objtype != 0x966c)
+      MoveItemToLocation(oldpack, 5851, 1161, 0, MOVEITEM_FORCELOCATION);
+      var newpack := CreateItemAtLocation(5851, 1162, 0, 0x966c, 1);
+      EquipItem(who, newpack);
+      foreach thing in ListRootItemsInContainer(oldpack)
+        MoveItemToContainer(thing, newpack);
+      endforeach
+    endif
+  endif
+  var mount := GetEquipmentByLayer(who, 25 );
+  if(mount)
+    var animal := SystemFindObjectBySerial(CInt(GetObjProperty(mount,"serial")));
+    EraseObjProperty(animal,"onhold");
+  endif
+  var wiped := GetObjProperty(who, "Fixwipe");
+  var created := GetObjProperty(who, "CreatedAt");
+  
+  //Stat Lock Utility
+  var Msta := GetObjProperty(who,"Mstats");
+  
+  if (!Msta)
+		Msta := { 3, 3, 3 };
+		SetObjProperty(who,"Mstats",Msta);
+  endif  
+  //End Stat Lock Utility
+  
+  //Skill Lock Utility
+  var skill := GetObjProperty( who, "skill" );
+  var pos;
+
+  if(!skill)
+    skill := array;
+      for i := 1  to 50
+       pos := len(skill) + 1;
+	if(!pos)
+	 pos := 1;
+	endif
+       skill[pos] := 1;		
+      endfor
+     SetObjProperty( who, "skill", skill );	
+  endif
+  //End Skill Lock Utility
+  
+  if(!wiped)
+   if(created)
+    Equipafterwipe(who);
+    SetObjProperty(who, "Fixwipe", "yes");
+   endif
+  endif
+  var rm := GetObjProperty(who, "ReportMenu");
+  if(rm)
+    var defender;
+    var rept := {};
+    foreach serial in rm
+      foreach chr in EnumerateOnlineCharacters()
+        if(chr.serial == serial)
+          defender := chr;
+          break;
+        endif
+      endforeach
+      if(!defender)
+        defender := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+      endif
+      rept.append(defender);
+      defender := 0;
+    endforeach
+    SendReportGump(who, rept);
+    EraseObjProperty(who, "LoginNotify");
+    EraseObjProperty(who, "ReportMenu");
+  endif
+  var lr := GetObjProperty(who, "LoginReport");
+  if(lr)
+    var reportdata := {};
+    var jerk;
+    foreach serial in lr
+      jerk := SystemFindObjectBySerial(serial, SYSFIND_SEARCH_OFFLINE_MOBILES);
+      if(jerk)
+        reportdata.append(jerk);
+      endif
+    endforeach
+    EraseObjProperty(who, "LoginReport");
+  endif
+  var nkarma := CStr(GetObjProperty(who, "ModKarma"));
+  var nfame := CStr(GetObjProperty(who, "ModFame"));
+  if(nfame)
+   if(Checkplace(who))
+    SendSysMessage(who, "You are in a no-karma/fame adjust area");
+    var ofame := GetObjProperty(who, "Fame");
+    SendGainMessage(who, "Fame", CInt(nfame));
+    SetObjProperty(who, "Fame", CInt(ofame) + CInt(nfame));
+    EraseObjProperty(who, "ModFame");
+    var karma   := CInt(GetObjProperty(who, "Karma"));
+    var fame    := CInt(GetObjProperty(who, "Fame"));
+    SetNotoTitle(who, karma, fame);
+   endif
+  endif
+  if(nkarma)
+   if(Checkplace(who))
+    SendSysMessage(who, "You are in a no-karma/fame adjust area");
+    var okarma := GetObjProperty(who, "Karma");
+    SendGainMessage(who, "Karma", CInt(nkarma));
+    SetObjProperty(who, "Karma", CInt(okarma) + CInt(nkarma));
+    EraseObjProperty(who, "ModKarma");
+    var karma   := CInt(GetObjProperty(who, "Karma"));
+    var fame    := CInt(GetObjProperty(who, "Fame"));
+    SetNotoTitle(who, karma, fame);
+   endif
+  endif
+  var whopack := who.backpack;
+  if(!GetObjProperty(whopack, "Owner"))
+    SetObjProperty(whopack, "Owner", who.serial);
+  endif
+  var staff;
+  var ppl := EnumerateOnlineCharacters();
+  var poisonlevel := CInt(GetObjProperty(who, "poison_level"));
+  if(GetObjProperty(who,"poisonloops"))
+	start_script(":spells:poisonDamage", who);
+  endif
+  SetObjProperty(who, "LastLog", ReadGameClock() );
+
+// Fix for logging in while PolyMorph spell in affect
+  if(GetObjProperty(who,"poly"))
+    Detach();
+    sleep(15);
+    who.graphic := who.objtype;
+    who.color := who.truecolor;
+    EraseObjProperty(who,"poly");
+  endif
+// Fix for logging in while Shapechange spell in affect
+  if (getobjproperty(who, "tg"))
+    SetName (who,getobjproperty(who, "tn"));
+    who.color := getobjproperty(who, "tc");
+    who.graphic := getobjproperty(who, "tg");
+    eraseobjproperty(who, "tn");
+    eraseobjproperty(who, "tc");
+    eraseobjproperty(who, "tg");
+  endif
+
+  var trainee := 0;
+  var councy := 0;
+  var seer := 0;
+  var gm := 0;
+  var admin := 0;
+  var dev := 0;
+  var totplay := 0;
+  foreach onlinechr in EnumerateOnlineCharacters()
+    case(onlinechr.cmdlevel)
+      0: totplay := totplay+1; break;
+      1: trainee := trainee+1; break;
+      2: councy := councy+1; break;
+      3: seer := seer+1; break;
+      4: gm := gm+1; break;
+      5: admin := admin+1; break;
+      6: dev := dev+1; break;
+    endcase
+  endforeach
+  var totalstaff := trainee + councy + seer + gm + admin + dev;
+  SendSysMessage(Who, "Welcome, there are currently " + totalstaff + " staff and " + totplay + " players online", 3, 0x0480);
+  SendSysMessage(Who, "Be sure to check our forums for nominating people for the upcoming election", 3, 0x0480);
+  SendSysMessage(Who, "of the Town Council of Storm Haven!", 3, 0x0480);
+  if(GetObjProperty(who, "StealthLogin"))
+	return;
+  endif
+
+// Seasons addon
+  var gseason := GetGlobalProperty("gseason");
+  case(gseason)
+      "SEASON_DESOLATION": SetSeasonForPlayer( who, SEASON_DESOLATION);
+      "SEASON_WINTER":     SetSeasonForPlayer( who, SEASON_WINTER);
+      "SEASON_FALL":       SetSeasonForPlayer( who, SEASON_FALL);
+      "SEASON_SUMMER":     SetSeasonForPlayer( who, SEASON_SUMMER);
+      "SEASON_SPRING":     SetSeasonForPlayer( who, SEASON_SPRING);
+  endcase
+// End Season Addon
+
+  if(acct.GetProp("VOTE"))
+    run_script_to_completion("textcmd/player/vote", who);
+  endif
+  run_script_to_completion( ":motd:textcmd/player/motd", who );
+  removeDepreciation(who);
+endprogram
+
+const LONG_COUNT_DECAY_TIME := 72000; //20 hours
+const SHORT_COUNT_DECAY_TIME := 14400; //4 hours
+
+var layout := {
+"page 0",
+"nodispose",
+"noclose",
+"gumppic 0 0 206",
+"gumppic 43 0 201",
+"gumppic 460 0 207",
+"gumppic 0 43 202",
+"gumppic 43 43 200",
+"gumppic 170 43 200",
+"gumppic 295 43 200",
+"gumppic 335 43 200",
+"gumppic 43 170 200",
+"gumppic 170 170 200",
+"gumppic 295 170 200",
+"gumppic 335 170 200",
+"gumppic 43 220 200",
+"gumppic 170 220 200",
+"gumppic 295 220 200",
+"gumppic 335 220 200",
+"gumppic 460 43 203",
+"gumppic 0 340 204",
+"gumppic 43 340 233",
+"gumppic 460 340 205",
+"button 380 345 249 248 1 0 99",
+"text 50 20 40 0",
+"text 50 50 40 1",
+"text 50 70 40 2",
+};
+
+var data := {
+"Now is the time for retribution!",
+"Check zero or more players to report for your murder",
+"and press OKAY.",
+};
+
+
+function SendReportGump(who, reportables)
+  FillInArrays(reportables);
+  if(Checkplace(who))
+    SendSysMessage(who, "You are in a no-report area");
+    return;
+  endif
+  var ret := SendDialogGump(who,layout,data);
+  if(!ret)
+    var reportdata := {};
+    foreach reportable in(reportables)
+	  reportdata.append(reportable.serial);
+    endforeach
+    SetObjProperty(who, "LoginReport", reportdata);
+    return;
+  endif
+  foreach id in (ret.keys)
+	if(id >= 10)
+	  id := id-9;
+	  var mob := reportables[id];
+	  if(!(mob in EnumerateOnlineCharacters()))
+	    SetObjProperty(mob, "LoginNotify", who.serial);
+	  else
+	    AdjustNoto(mob, who);
+	  endif
+	  AdjustMurderCounts(who, mob);
+	endif
+  endforeach
+  foreach reportable in(who.reportables)
+	who.removeReportable(reportable.serial, reportable.gameclock);
+  endforeach
+endfunction
+
+function FillInArrays(reportables)
+  var prev_y := 80;
+  var prev_x := 40;
+  var buttonret := 10;
+  layout.append("page 1");
+  foreach reportable in reportables
+    if(!reportable.cmdlevel)
+	  if(buttonret==21)
+	    prev_x := 300;
+	    prev_y := 80;
+	  endif
+	  layout.append("checkbox " + CStr(prev_x) + " " + CStr(prev_y+20) + " 210 211 0 " + buttonret);
+	  data.append(reportable.name);
+	  layout.append("text " + CStr(prev_x+20) + " " + CStr(prev_y+20) + " 40 " + CStr(len(data)-1));
+	  prev_y := prev_y+20;
+	  buttonret := buttonret+1;
+    endif
+  endforeach
+endfunction
+
+function AdjustMurderCounts(who, killer)
+  var onlinetime := GetObjProperty(killer,"onlinetimer");
+  var longcount := GetObjProperty(killer,"longmurders");
+  if(!longcount)
+	longcount := 0;
+  endif
+  longcount := longcount + 1;
+  if(longcount > 4)
+	killer.setMurderer(1);
+	SendSysMessage(killer,"You are now known as a murderer!");
+  endif
+  var shortcount := GetObjProperty(killer, "shortmurders");
+  if(!shortcount)
+	shortcount := 0;
+  endif
+  shortcount := shortcount + 1;
+  SetObjProperty(killer, "longmurders", longcount);
+  SetObjProperty(killer, "shortmurders", shortcount);
+  SetObjProperty(killer, "decaylongcountat", onlinetime + LONG_COUNT_DECAY_TIME);
+  SetObjProperty(killer, "decayshortcountat", onlinetime + SHORT_COUNT_DECAY_TIME);
+endfunction
+
+function RestoreMods(who)
+  EraseObjProperty(who, "EquipTimers");
+  var eqp := GetObjProperty(who, "EquipTimers");
+  if(!eqp)
+    eqp := {};
+    SetObjProperty(who, "EquipTimers", eqp);
+  endif
+  foreach thing in ListEquippedItems(who)
+    if(GetObjProperty(thing, "pid"))
+      eqp := GetObjProperty(who, "EquipTimers");
+      EraseObjProperty(thing, "pid");
+      var holder := {};
+      var gain := GetObjProperty(thing, "gain");
+      if(!gain)
+        gain := 5;
+      endif
+      var type := GetObjProperty(thing, "type");
+      var tpe;
+      case(type)
+        "strength":     tpe := "str";
+        "invisibility": tpe := "inv";
+        "sight":        tpe := "vis";
+        "protection":   tpe := "pro";
+        "reflect":      tpe := "ref";
+        "bless":        tpe := "bls";
+      endcase
+      holder.append(thing.serial);
+      holder.append(tpe);
+      holder.append(gain);
+      eqp.append(holder);
+      SetObjProperty(who, "EquipTimers", eqp);
+      SetObjProperty(thing, "equipped", who.serial);
+      var parms := {who, thing};
+      start_script(":combat:chargeUpkeep", parms);
+    endif
+  endforeach
+endfunction
+
+function Equipafterwipe(who)
+
+var equipit;
+CreateItemInContainer(who.backpack, 0xEED, (RandomInt(500)+500));
+equipit := CreateItemInContainer(who.backpack, 0x9945);
+EquipItem(who, equipit);
+equipit := CreateItemInContainer(who.backpack, 0x170F);
+EquipItem(who, equipit);
+CreateItemInContainer(who.backpack, 0xF51);
+CreateItemInContainer(who.backpack, 0x887c);
+SendSysMessage(who, "Welcome back to life traveller...");   
+
+endfunction
+
+/////// Added by Confucious - New Guildstone Package
+function staffnotify(who)
+  var pid := 0;
+  while(!pid)
+    sleepms(50);
+    pid := GetGlobalProperty("#stafflist");
+  endwhile
+  pid := getprocess(pid);
+  if(!pid)
+    return;
+  endif
+  var k := struct;
+  if(who.cmdlevel < 2)
+    k.+player := who;
+    k.+type  := EVID_PLAYER_LOGIN;
+    pid.sendevent(k);
+  else
+    k.+player := who;
+    k.+type   := EVID_STAFF_LOGIN;
+    pid.sendevent(k);
+  endif
+endfunction
+
+function   removeDepreciation(who)
+
+  EraseObjProperty(who, "black");
+  EraseObjProperty(who, "blue");
+  EraseObjProperty(who, "green");
+  EraseObjProperty(who, "orange");
+  EraseObjProperty(who, "red");
+  EraseObjProperty(who, "white");
+  EraseObjProperty(who, "yellow");
+  return;
+endfunction

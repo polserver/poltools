@@ -1,0 +1,88 @@
+use uo;
+use os;
+
+program corpseRemove(who, corpse, item)
+  if((who.cmdlevel >= 1) and (who.cmdlevel <= 3))
+    return 0;
+  endif
+  set_critical(1);
+  var params1 := {};
+  var ghost :=  GetObjProperty(corpse, "ghostserial");
+  ghost := SystemFindObjectBySerial(CInt(ghost), SYSFIND_SEARCH_OFFLINE_MOBILES);
+// Injection user
+   if ((item.objtype = 0xFF02) || (item.graphic = 0x203B))
+     params1[1] := corpse;
+     ApplyRawDamage(who, 1000);
+     foreach staff in EnumerateOnlineCharacters();
+       if(staff.cmdlevel > 0)
+         SendSysMessage(staff, "ALERT! " + who.name + " Has just used Injection Looting!!!.", 3, 73);
+       endif
+     endforeach
+     syslog("ALERT! " + who.name + " Has just used Injection Looting!!!.");
+     sleep (2);
+     MoveCharacterToLocation (who, 5276, 1174, 0, MOVECHAR_FORCELOCATION);
+     sleep (1);
+     SetObjProperty (who, "Inj", 1);
+     return;
+    endif
+
+///// Begin Section for guild looting
+var corpseguildid := GetObjProperty(corpse, "guild_id");
+var corpseguild := 0;
+  if(corpseguildid)
+    corpseguild := FindGuild(corpseguildid);
+  endif
+var lootersguildid := GetObjProperty(who, "guild_id");
+var lootersguild := 0;
+  if(lootersguildid)
+    lootersguild := FindGuild(lootersguildid);
+  endif
+var flagging := GetObjProperty(corpse, "flaggings");
+var lootable := 0;
+var isaplayer := GetObjProperty(corpse, "onlinetimer");
+if(!flagging and (isaplayer))
+  return 0;
+endif
+  if ((corpseguildid) && (lootersguildid))
+      if ( (corpseguildid = lootersguildid) ||
+(corpseguild.isallyguild(lootersguild)) || (corpseguild.isenemyguild
+(lootersguild)))
+        // Player is either in the same guild, an allied guild, or a warring guild
+        lootable := 1;
+      endif
+  endif
+  var my_party := GetObjProperty (corpse, "#party");
+  if (GetObjProperty (who, "#party") and GetObjProperty (who, "#party") = my_party)
+   // Player is the same .group
+   lootable := 1;
+  endif
+
+  // If corpse killed by and can report looter, they can loot
+  if(len(ghost.reportables)>0)
+    foreach reportable in (ghost.reportables)
+      if(who.serial == reportable.serial)
+        lootable := 1;
+      endif
+    endforeach
+  endif
+  var killer := GetObjProperty(ghost, "LastHit");
+  if(killer != error)
+    killer := killer[2];
+    if(who.serial == CInt(killer))
+      lootable := 1;
+    endif
+  endif
+
+  
+  if(Cint(GetObjProperty(corpse, "ghostserial")) <> who.serial and lootable == 0)
+    if(flagging = "blue")
+      SendSysMessage(who, "You have looted a blue corpse and have been flagged criminal");
+      who.SetCriminal(1);
+      who.hidden := 0;
+    endif
+  endif
+// end section
+
+  set_critical(0);
+  return 1;
+endprogram

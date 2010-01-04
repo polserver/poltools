@@ -1,0 +1,104 @@
+///////////////////////////////////////
+//// 	  Revised 08/30/02 by Gex
+////      -added check for the backpack
+////	  Quip/Unquip   ----- MuadDib
+///////////////////////////////////////
+use uo;
+use os;
+
+include "include/client";
+include "include/myutil";
+
+program textcmd_unquip ( who, item )
+
+	var mypack := who.backpack;
+	if ( GetObjProperty(who,"unquipbag") )
+		var bagserial := GetObjProperty(who,"unquipbag");
+		foreach item in EnumerateItemsInContainer(who.backpack)
+			if ( item.serial = bagserial )
+				mypack := item;
+				break;
+			endif
+		endforeach
+	endif
+
+	if (mypack = who.backpack)
+		EraseObjProperty(who,"unquipbag");
+	endif
+  
+  set_critical(1);
+  var hand1 := (GetEquipmentByLayer ( who, LAYER_HAND1 ));
+  var hand2 := (GetEquipmentByLayer ( who, LAYER_HAND2 ));
+  var leg := (GetEquipmentByLayer (who, LAYER_LEGS ));
+  var helmet := (GetEquipmentByLayer (who, LAYER_HELM ));
+  var gloves := (GetEquipmentByLayer (who, LAYER_GLOVES ));
+  var gorget := (GetEquipmentByLayer (who, LAYER_NECK ));
+  var chest := (GetEquipmentByLayer (who, LAYER_CHEST ));
+  var sleeves := (GetEquipmentByLayer (who, LAYER_ARMS ));
+  var pants := (GetEquipmentByLayer (who, LAYER_PANTS ));
+  var skirt := (GetEquipmentByLayer (who, LAYER_SKIRT ));
+  var body := (GetEquipmentByLayer (who, LAYER_SHIRT ));
+  var tunic := (GetEquipmentByLayer (who, LAYER_TUNIC ));
+  var robe := (GetEquipmentByLayer (who, LAYER_ROBE ));
+  
+// See if dead
+  if(who.dead)
+    SendSysMessage(who, "I am dead, and you want me to undressed?!");
+    return;
+  endif
+
+      SetObjProperty(who,"lasthand1",hand1.serial); // unquip 1 hand
+      SetObjProperty(hand1,"unquip",hand1.serial);
+      MoveItemToContainer(hand1, who.backpack);
+      SetObjProperty(who,"lasthand2",hand2.serial); // unquip hand 2
+      SetObjProperty(hand2,"unquip",hand2.serial);
+      MoveItemToContainer( hand2, who.backpack);
+      SetObjProperty(who,"lastleg1",leg.serial); // unquip leggings
+      SetObjProperty(leg,"unquip",leg.serial);
+      MoveItemToContainer( leg, who.backpack);
+      SetObjProperty(who,"lasthelmet1",helmet.serial); // unquip helmet/head
+      SetObjProperty(helmet,"unquip",helmet.serial);
+      MoveItemToContainer( helmet, who.backpack);
+      SetObjProperty(who,"lastgloves1",gloves.serial); // unquip gloves
+      SetObjProperty(gloves,"unquip",gloves.serial);
+      MoveItemToContainer( gloves, who.backpack);
+      SetObjProperty(who,"lastgorget1",gorget.serial); // unquip gorget/neck
+      SetObjProperty(gorget,"unquip",gorget.serial);
+      MoveItemToContainer( gorget, who.backpack);
+      SetObjProperty(who,"lastchest1",chest.serial); // unquip chest layer
+      SetObjProperty(chest,"unquip",chest.serial);
+      MoveItemToContainer( chest, who.backpack);
+      SetObjProperty(who,"lastsleeves1",sleeves.serial); // unquip arms
+      SetObjProperty(sleeves,"unquip",sleeves.serial);
+      MoveItemToContainer( sleeves, who.backpack);
+      SetObjProperty(who,"lastpants1",pants.serial); // unquip Leather Leggings/pants
+      SetObjProperty(pants,"unquip",pants.serial);
+      MoveItemToContainer( pants, who.backpack);
+      SetObjProperty(who,"lastskirt1",skirt.serial); // unquip Skirt(leather)
+      SetObjProperty(skirt,"unquip",skirt.serial);
+      MoveItemToContainer( skirt, who.backpack);
+      SetObjProperty(who,"lastbody1",body.serial); // unquip Shirt/Chest
+      SetObjProperty(body,"unquip",body.serial);
+      MoveItemToContainer( body, who.backpack);
+      SetObjProperty(who,"lasttunic1",tunic.serial); // unquip Tunic
+      SetObjProperty(tunic,"unquip",tunic.serial);
+      MoveItemToContainer( tunic, who.backpack);
+      SetObjProperty(who,"lastrobe1",robe.serial); // unquip Robe
+      SetObjProperty(robe,"unquip",robe.serial);
+      MoveItemToContainer( robe, who.backpack);
+      set_critical(0);
+endprogram
+
+function SetQuipBag(who)
+
+	SendSysMessage(who,"Select a container");
+	var bag := Target(who);
+
+	if (!InInventory(who.backpack, bag) )
+		SendSysMessage(who,"That is not in your inventory.");
+		return;
+	endif
+
+	SetObjProperty(who,"unquipbag",bag.serial);
+
+endfunction

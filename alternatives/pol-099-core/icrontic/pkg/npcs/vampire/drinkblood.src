@@ -1,0 +1,19 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+include "include/attributes";
+include "include/canAccess";
+
+program drink_blood(who, blood)
+  var vamptimer := Cint(GetObjProperty(who, "vamptime"));
+  if(!can_access(who, blood))
+    return;
+  elseif(SubtractAmount(blood, 1))
+    PerformAction(who, 0x22);
+    vamptimer := vamptimer - 1;
+    SetObjProperty(who, "vamptime", vamptimer);
+    SendSysMessage(who, "You Feel Refreshed");
+  endif
+endprogram

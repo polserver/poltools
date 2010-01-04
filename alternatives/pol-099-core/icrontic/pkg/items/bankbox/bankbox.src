@@ -1,0 +1,17 @@
+use uo;
+use os;
+
+include "util/bank";
+
+program bankbox(who)
+  var bankbox := FindBankBox(who);
+  if (GetObjProperty(who,"toadmode"))
+    SendSysMessage(who,"*ribbit*");
+    return 0;
+  endif
+  if(!bankbox)
+    SendSysMessage(who,"Unable to locate your bank box, please contact staff.");
+    return 0;
+  endif
+  SendOpenSpecialContainer( who, bankbox );
+endprogram

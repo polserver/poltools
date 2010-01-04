@@ -1,0 +1,24 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/attributes";
+
+program spiritspeak(who)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  var pts := (CInt(GetEffectiveSkill(who, SKILLID_SPIRITSPEAK)) * 2) + 20;
+  if(CheckSkill(who, SKILLID_SPIRITSPEAK, -1,  pts))
+    SendSysMessage(who, "You contact the netherworld.");
+    Detach();
+    GrantPrivilege(who, "hearghosts");
+    who.enable("hearghosts");
+    PlaySoundEffect(who, SFX_SKILL_SPIRITSPEAK);
+    sleep(30);
+    RevokePrivilege(who, "hearghosts");
+  else
+    SendSysMessage(who, "You fail to communicate with the netherworld.");
+  endif
+endprogram
+
+

@@ -1,0 +1,150 @@
+use uo;
+use os;
+
+Const UOBJ_MAIN_CORRUPTION := 0x706d;
+Const UOBJ_CORRUPTION := 0x122d;
+
+Const MAX_PURIFY_LEVEL := 2;
+
+program uncorrupt (parms)
+
+	//setup some variables
+	var caster:= parms[1];
+	var quick := parms[2];
+	var found_corruption := 0;
+	var on_main_square := 0;
+
+	//look around the caster for the main corruption square
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION)
+		found_corruption := 1;
+		on_main_square := 1;
+	endforeach
+
+	//look for other corruption
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_CORRUPTION)
+		found_corruption := 1;
+	endforeach
+
+	//give appropriate error messages
+	if (!found_corruption)
+		SendSysMessage (caster, "There is no corruption here.");
+		return;
+	elseif (!on_main_square)
+		SendSysMessage (caster, "You must stand in the center of the corruption.");
+		return;
+	endif
+
+	//there should only be 1 main tile, hopefully.  :)
+	var main_tile := ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 0, UOBJ_MAIN_CORRUPTION)[1];
+	var corruption_level := 0;
+	if (GetObjProperty (main_tile, "difficulty") )
+		corruption_level := GetObjProperty (main_tile, "difficulty");
+	endif
+
+	if (corruption_level > MAX_PURIFY_LEVEL and !caster.cmdlevel)
+		SendSysMessage (caster, "The corruption of the land in this area is too strong for you to cleanse.");
+		return;
+	endif
+
+	//if they didn't pick the quick option, do the long, slow casting
+	if (!quick)
+		caster.frozen := 1;
+
+		caster.facing := 3;
+		PerformAction (caster, 0x20);
+		sleep (2);
+
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+		caster.facing := 5;
+		PlaySoundEffect (caster, 0x244);
+		PerformAction (caster, 0x20);
+		sleep (2);
+
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+		caster.facing := 7;
+		PerformAction (caster, 0x20);
+		sleep (2);	
+
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+		caster.facing := 1;
+		PerformAction (caster, 0x20);
+		sleep (2);
+
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+		caster.facing := 3;
+		sleep(1);
+
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+		PlaySoundEffect (caster, 0x245);
+		caster.facing := 3;
+		PerformAction (caster, 0x11);
+		sleep(2);
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+
+		caster.facing := 5;
+		PerformAction (caster, 0x11);
+		sleep(2);
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+
+		caster.facing := 7;
+		PlaySoundEffect (caster, 0x246);
+		PerformAction (caster, 0x11);
+		sleep(2);
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+
+		caster.facing := 1;
+		PerformAction (caster, 0x11);
+		sleep(2);
+		if (!caster or caster.dead)
+			caster.frozen := 0;
+			return;
+		endif
+
+		caster.facing := 3;
+		sleep(1);
+	endif
+
+	caster.facing := 3;
+	PlayLightningBoltEffect (caster);
+	PlaySoundEffect (caster, 0x29);
+	PlayLightningBoltEffect (caster);
+	sleepms (200);
+	PlayLightningBoltEffect (caster);
+	caster.frozen := 0;
+
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 5, UOBJ_CORRUPTION)
+		DestroyItem (square);
+	endforeach
+
+	foreach square in ListItemsNearLocationOfType (caster.x, caster.y, caster.z, 3, UOBJ_MAIN_CORRUPTION)
+		DestroyItem (square);
+	endforeach
+
+	caster.frozen := 0;
+
+endprogram
+

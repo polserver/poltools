@@ -1,0 +1,32 @@
+//
+// Create a tiletype in a radius from current position
+//
+
+use uo;
+
+program textcmd_createradius( who, info )
+  var split := SplitWords(info);
+  var objtype := split[1];
+  var range   := split[2];
+  var zheight := split[3];
+    if (CInt(objtype))
+        objtype := CInt(objtype);
+    endif
+    if (!range)
+        range := 1;
+    endif
+    if(!zheight)
+      zheight := who.z;
+    endif
+
+    var x, y, z;
+    for( x := who.x; x <= (who.x + range); x := x + 1 )
+      for( y := who.y; y <= (who.y + range); y := y + 1 )
+        z := GetMapInfo( x,y ).z;
+        var item := CreateItemAtLocation( x, y, z+zheight, objtype, 1 );
+        item.decayat := 0;
+        item.movable := 0;
+      endfor
+    endfor
+
+endprogram

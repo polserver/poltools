@@ -1,0 +1,14 @@
+// DicesAndCup.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use uo;
+use util;
+
+program DicesAndCup(who)
+  var dice1randomnumber := RandomInt(6);
+  var dice1rollednumber := dice1randomnumber + 1;
+  var dice2randomnumber := RandomInt(6);
+  var dice2rollednumber := dice2randomnumber + 1;
+  PrintTextAbove(who, "*"+ who.name +" rolled a "+ dice1rollednumber +" and a "+ dice2rollednumber +"*");
+endprogram

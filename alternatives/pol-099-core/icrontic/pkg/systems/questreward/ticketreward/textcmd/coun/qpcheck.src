@@ -1,0 +1,25 @@
+/////////////////////////////////////////////////////////////////
+//              Check the Quest Points of a character
+/////////////////////////////////////////////////////////////////
+
+use uo;
+
+program textcmd_qpcheck(who,text)
+
+  SendSysMessage(who,"Check the Quest Points on who?");
+  var targ:= Target(who,TGTOPT_NOCHECK_LOS);
+
+  if(!targ.acctname)
+    SendSysMessage(who,"That Player has no Account!");
+    return;
+  endif
+
+  var credits:= CInt(GetObjProperty(targ,"credits"));
+
+  if((credits.error) ||(credits.errortext))
+    credits:= 0;
+  endif
+
+  SendSysMessage(who,targ.name +" has "+ credits +" Quest Points.");
+
+endprogram

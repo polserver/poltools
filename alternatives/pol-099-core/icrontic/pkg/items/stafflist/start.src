@@ -1,0 +1,4 @@
+use os;
+
+print("Starting stafflist system");
+start_script("staffList");

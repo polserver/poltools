@@ -1,0 +1,22 @@
+use uo;
+use os;
+
+program roar(who)
+var orgcolour:=who.color;
+var orggraphic:=who.graphic;
+PrintTextAbove( who, "         Farewell!             For thou time will come for when i shall slay you!      Muahahahahaha!", font := 3, color := 37 );
+sleepms(10000);
+who.graphic:=0x009;
+who.color:=0x000;
+PerformAction(who,3);
+playsoundeffect(who,0x166);
+sleepms(1000);
+playsoundeffect(who,0x1F4);
+concealme(who);
+who.graphic:=orggraphic;
+who.color:=orgcolour;
+endprogram
+function concealme(who)
+var txt := 1;
+who.concealed := txt;
+endfunction

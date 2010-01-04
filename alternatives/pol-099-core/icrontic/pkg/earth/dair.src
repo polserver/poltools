@@ -1,0 +1,123 @@
+use uo;
+use util;
+use os;
+use cfgfile;
+
+include "include/client";
+include "castopts";
+include "include/spellRestrictions";
+include "include/checkcity";
+
+const KillSound := 0x202;
+const KillEffect := 0x375a;
+const SFX_SPELL_FAIL := 0x005b;
+
+program cast_dair(caster)
+  var mageryskill := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY));
+  var aloreskill := CInt(GetEffectiveSkill(caster, SKILLID_ANIMALLORE));
+	if ((!mageryskill > 50) && (!aloreskill > 50))
+	sendsysmessage(caster, "You are not yet learned enough in the ways of nature");
+	return;
+	endif
+
+        var options := GetObjProperty(caster, "DruidOpts");
+	if (!options)
+		options := {};
+	else
+		options := splitwords(options);
+	endif
+        EraseObjProperty(caster, "DruidOpts");
+
+	if (IsNoWords(options) = 0)
+                SpeakPowerWords(caster, 88);
+	endif
+
+	var casterskill := GetAttribute(caster, SKILLID_EVALINT);
+	var casterpower := GetAttribute(caster, SKILLID_MAGERY);
+	SendSysMessage(caster, "Select victim.");
+	var victim := target(caster);
+	var victimlevel := victim.hp;
+	var victimsave := 0;
+        var alt := RandomDiceRoll("1d2");
+	var spelldelay := 8;
+        var circle := 8;
+        var dmg := CalcSpellDamage(circle,caster,victim);
+
+	if (IsNoDelay(options) = 0)
+		While (spelldelay > 0)
+			PerformAction(caster, ANIM_CAST_DIR);
+			sleep(1);
+			spelldelay := spelldelay - 1;
+		endwhile
+	endif
+
+	if (IsNoMana(options) = 0)
+                if (!ConsumeMana(caster, 88))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+			SendSysMessage(caster, "Insufficient Mana.");
+			return;
+		endif
+	endif
+			
+	if (IsNoRegs(options) = 0)
+                if (!ConsumeReagents(caster, 88))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+			SendSysMessage(caster, "Insufficient Reagents.");
+			return;
+		endif
+	endif
+
+	if (IsNoSkillCheck(options) = 0)
+                if (!CheckSkill(caster, SKILLID_MAGERY, 60, 0))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+                        PrintTextAbove(caster, "The spell fizzles");
+			return;
+		endif
+	endif
+
+	if (CheckCity(caster, victim)==1) victim:=caster; endif
+
+        var sx := victim.x, sy := victim.y, sz := victim.z;
+        var cast := caster;
+        var mage  := Cint(GetAttribute(caster, SKILLID_MAGERY)/10);
+        var mage2 := Cint(GetAttribute(caster, SKILLID_MAGERY)/20);
+        var kickbackx := Cint((RandomInt(mage) - 5 ));
+        var kickbacky := Cint((RandomInt(mage) - 5 ));
+        var kickbackz := Cint((RandomInt(mage) - 5 ));
+        var newxloc := (victim.x - kickbackx);
+        var newyloc := (victim.y + kickbacky);
+        var newzloc := (victim.z + kickbackz);
+
+                PlaySoundEffect(victim, SFX_108);
+//                PlayStationaryEffect(sx, sy, sz, 0x3789, speed:=30, loop:=30);
+                PlayStationaryEffect(sx, sy, sz, 0x37cc, speed:=30, loop:=30);
+                PlaySoundEffect(victim, SFX_109);
+        
+                if (CheckLosAt( victim, newxloc, newyloc, newzloc )<>0)
+                movecharactertolocation(victim, newxloc, newyloc, newzloc);
+                sleep(4);
+                movecharactertolocation(victim, sx, sy, sz);
+                endif
+                
+                ApplyRawDamage(victim, Resisted(circle,caster,victim,dmg));
+                PrintTextAbove(victim, "A sudden gust of wind cuts through " + victim.name + " for " + dmg + " damage!");
+
+   var umana;
+    case (circle)
+    1: umana :=  4;
+    2: umana :=  6;
+    3: umana :=  9;
+    4: umana := 11;
+    5: umana := 14;
+    6: umana := 20;
+    7: umana := 40;
+    8: umana := 50;
+    endcase
+   var mana := GetMana(caster);
+   if(mana >= umana)
+     SetMana(caster, Cint(mana - umana));
+   endif
+endprogram

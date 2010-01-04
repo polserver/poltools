@@ -1,0 +1,6 @@
+use uo;
+
+include "moongates";
+
+print("Initializing moongates");
+CreateMoongates();

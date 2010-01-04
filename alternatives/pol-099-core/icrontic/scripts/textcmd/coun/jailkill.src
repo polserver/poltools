@@ -1,0 +1,23 @@
+use os;
+use uo;
+use boat;
+include "include/attributes";
+
+program textcmd_jailkill( who )
+    var tgt := TargetCoordinates( who );
+    if (tgt.mobile)
+        var mob := tgt.mobile;
+    if(tgt.x>=5271 and tgt.y>=1159 and tgt.x<=5312 and tgt.y<=1192)
+        if (!mob.dead)
+            RevokePrivilege( mob, "invul" );
+            SetObjProperty(mob, "guardkill", 1);
+            Damage( mob, GetHp(mob) );
+        else
+            SendSysMessage( who, "That Tickles!" );
+        endif
+     endif
+     else
+       SendSysMessage(who, "You can only use this command in the Jail!");
+       return;
+    endif
+endprogram

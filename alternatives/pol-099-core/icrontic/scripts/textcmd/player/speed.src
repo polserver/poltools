@@ -1,0 +1,177 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+//  SpeedHack Checker: original code by Strelok, Nov 01, 2002
+//  (made for Utopia POL shard)
+//  stmodern@r66.ru
+//
+/////////////////////////////////////////////////////////////////////////////
+
+use uo;
+use os;
+use math;
+
+//include "include/logging";
+CONST MaxOverruns := 2;
+
+var SHCheckActive := 0;
+
+////////////////////////////////////
+program textcmd_shchecker (me, text)
+////////////////////////////////////
+  print("Speed check used by: " + me.name);
+  var rounds := 0;
+  var player := 0;
+  if (text == "?")
+    SendSysMessage(me, "Usage: ");
+    SendSysMessage(me, "   .shack");
+    SendSysMessage(me, "OR .shack [time in seconds to do the check]");
+    SendSysMessage(me, "Time - in seconds. Check has been made once per second.");
+    return;
+  endif
+  if (text)
+    var dt := SplitWords(text);
+    ///// serial and rounds
+    if (len(dt) = 2)
+      player := SystemFindObjectBySerial(CInt(dt[1]), SYSFIND_SEARCH_OFFLINE_MOBILES);
+      if (!player)
+        sendsysmessage(me, "Unable to find that!");
+        return;
+      endif
+      if (!player.acctname)
+        sendsysmessage(me, "Not a player!");
+        return;
+      endif
+
+      rounds := CInt(dt[2]);
+      if ((rounds < 0) OR !rounds)
+//        sendsysmessage(me, "Time must be 1..120");
+	  if (!rounds)
+	    rounds := 20;
+	  endif
+	  SendSysMessage (me, "Check will be run for 20 cycles");
+//        return;
+      endif
+      if (rounds > 120)
+        sendsysmessage(me, "Time must be 1..120");
+        return;
+      endif
+    elseif (len(dt) = 1)
+      if (CInt(dt[1]) > 120)
+        player := SystemFindObjectBySerial(CInt(dt[1]), SYSFIND_SEARCH_OFFLINE_MOBILES);
+        if (player)
+          if (!player.acctname)
+            player := 0;
+          endif
+        endif
+      endif
+      if (!player)
+        rounds := CInt(dt[1]);
+        if ((rounds < 0) OR !rounds)
+          sendsysmessage(me, "What you specify is not a player serial! And Time must be 1..120");
+          return;
+        endif
+        if (rounds > 120)
+          sendsysmessage(me, "What you specify is not a player serial! And Time must be 1..120");
+          return;
+        endif
+      endif
+    endif
+  endif
+  if (!rounds)
+    rounds := 20;
+    SendSysMessage (me, "Check will be run for 20 cycles");
+  endif
+
+  if (!player)
+    sendsysmessage(me, "Select a player");
+    player := Target(me, TGTOPT_NOCHECK_LOS);
+    if (!player.acctname)
+      sendsysmessage(me, "Not a player!");
+      return;
+    endif
+  else
+  endif
+
+  if (player.cmdlevel)
+    sendsysmessage(me, "Cannot be used on staff!");
+    return;
+  endif
+
+  if (GetObjProperty(player, "#SHCheck"))
+    sendsysmessage(me, "This player already under SpeedHackChecker!");
+    return;
+  endif
+
+  sendsysmessage(me, "SpeedHackChecker started for "+player.name+" for "+rounds+" seconds");
+  set_script_option(SCRIPTOPT_NO_INTERRUPT, 1);
+
+//broadcast("CP4: "+player.name);
+
+  SetObjProperty(player, "#SHCheck", 1);
+  var Start;
+  var aa;
+  var bb;
+  var ii;
+  var polcoretime;
+  var overruns;   
+  var locx;
+  var locy;
+/////////////////////////////////////////////////////////////
+/////////////////// SpeedHack Checker ///////////////////////
+/////////////////////////////////////////////////////////////
+
+  locx := player.x;
+  locy := player.y;
+  Start := polcore().systime;
+  overruns := 0;
+
+  for (ii := 1; ii <= rounds; ii := ii + 1)  
+//broadcast("CP6");
+    Start := Start + 1;
+    polcoretime := polcore().systime;
+    While(polcoretime < start)
+      sleepms(100);
+      polcoretime := polcore().systime;
+    endwhile
+    if (polcore().systime > start+1)
+      sleep(5);
+      start := polcore().systime;
+    elseif (polcoretime <> start)
+      start := polcoretime;
+    endif
+	  
+    aa := Abs(locx-player.x);                      
+    bb := Abs(locy-player.y);                      
+    locx := player.x;
+    locy := player.y;
+    if (aa < bb)
+      aa := bb;
+    endif
+    if (GetEquipmentByLayer( player, 25 ));
+      bb := 10;
+    else
+      bb := 5;
+    endif
+    
+    if (aa - bb > 50) // for longdistance teleports, telepads and other long moves;
+    elseif (aa > bb)
+	if  (overruns < MaxOverruns)
+//        ii := 1;
+  	    overruns := overruns + 1;
+			endif
+      if (overruns = MaxOverruns )
+///////////
+//broadcast("CP7");
+      SendSysMessage(me,"SHC: "+player.name+": +"+(aa-bb), _DEFAULT_TEXT_FONT, 35);
+      syslog("Speedhack results: "+player.name+"/"+player.acctname+": +"+(aa-bb));
+///////////            
+      endif
+
+    elseif (overruns > 0)
+      overruns := overruns - 1;
+    endif
+  endfor
+  EraseObjProperty(player, "#SHCheck");
+  sendsysmessage(me, "SpeedHack check completed");
+
+endprogram

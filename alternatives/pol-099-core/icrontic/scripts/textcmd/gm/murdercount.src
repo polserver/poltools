@@ -1,0 +1,139 @@
+////////////////////// murdercount.src v1.0 ////////////////////////
+//     I wrote this tool as a result of the need of such a tool   //
+//           (Duh, why else would someone write it?)              //
+//        If you find it usefull, cool, if not, don't use it.     //
+//                                                                //
+//    All you have to do is tell it how many murder counts it     //
+//    takes to become red, and if you use decaying murder counts  //
+//    on your shard or not, and it's good to go.                  //
+//                                                                //
+/////////////// Thanatos ( gm_thanatos@yahoo.com ) /////////////////
+
+use uo;
+
+	var player;
+	var name;
+	var oname;
+	var longc;
+	var shortc;
+	var olongc;
+	var oshortc;
+
+/////////////////////////// Edit Here //////////////////////////////
+
+// The number of murders it takes to become a murderer
+	var Murderer_Level := 5;
+
+// If you wish to disable decaying Murder counts, change to 0
+	var Enable_Decay := 1;
+
+///////////////////////// End Editing //////////////////////////////
+
+const LONG_COUNT_DECAY_TIME := 72000; //20 hours
+const SHORT_COUNT_DECAY_TIME := 14400; //4 hours
+
+
+
+var Layout :=
+{
+	"page 0",
+	"gumppic 30 50 7",
+	"button 215 195 2130 2129 3 2 5", //okay
+	"button 80 195 2121 2120 1 2 1", //cancel
+	"page 1",
+	"text 90 75 33 0",  //Title
+	"text 90 96 100 1", //Player Name
+	"text 80 125 100 2", //Long Murders 
+	"text 80 145 0 3", //Short Murders
+	"textentry 255 125 40 15 40 3 4",
+	"textentry 255 145 70 15 40 4 5"
+};
+
+var Data := 
+{
+	"Character Murder Count",
+	"name",
+	"Long Term Murders:",
+	"Short Term Murders:",
+	"0",
+	"0"
+};
+
+
+program set_piety(who)
+
+    SendSysmessage( who , "Who is the Murderer?" );
+    player :=  Target( who );
+
+	var onlinetime := GetObjProperty(player,"onlinetimer");
+
+// Reading Murder data.
+
+	oname := GetObjProperty(player, "name");
+	olongc := GetObjProperty(player, "longmurders");
+	oshortc := GetObjProperty(player, "shortmurders");
+	name := oname;
+	longc := olongc;
+	shortc := oshortc;
+
+// Initializing Gump Data.
+
+	Data[2] := player.name + "'s Murder Status";
+	Data[5] := CInt(longc);
+	Data[6] := CInt(shortc);
+
+	var DoIt := SendDialogGump(who, Layout, Data);
+
+	if( DoIt[0] != 5 )
+		SendSysMessage(who, "Aborted.");
+		return;
+	endif
+
+	var i, x;
+
+	x := Len(DoIt[3]);
+	i := DoIt[3];
+	i := i[4, (x-3)];
+	longc := CInt(i);
+
+	x := Len(DoIt[4]);
+	i := DoIt[4];
+	i := i[4, (x-3)];
+	shortc := CInt(i);
+
+
+	if(olongc < 4)
+		if(longc >= Murderer_Level )
+			player.SetMurderer(1);
+			SendSysmessage(player, "You are now known as a murderous brigand!");
+		endif
+	endif
+
+	if(olongc > 3)
+		if(longc < Murderer_Level )
+			player.SetMurderer(0);
+			SendSysmessage(player, "You are no longer a murderer");
+		endif
+	endif
+
+	if ( Enable_Decay = 1 )
+	
+		//reset decaylongcountat
+		SetObjProperty(player, "decaylongcountat", onlinetime + LONG_COUNT_DECAY_TIME);
+
+		//reset decayshortcountat
+		SetObjProperty(player, "decayshortcountat", onlinetime + SHORT_COUNT_DECAY_TIME);
+
+	endif
+
+	if ( longc != olongc )
+		SendSysMessage(who, "New Long Murder count is " + longc + ".");
+		SetObjProperty(player, "longmurders", longc );
+	endif
+
+	if ( shortc != oshortc )
+		SendSysMessage(who, "New Short Murder count is " + shortc + ".");
+		SetObjProperty(player, "shortmurders", shortc );
+	endif
+
+endprogram

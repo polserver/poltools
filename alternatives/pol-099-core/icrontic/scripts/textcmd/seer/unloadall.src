@@ -1,0 +1,12 @@
+use uo;
+use os;
+
+program textcmd_unloadall(who)
+
+Broadcast( "Resynchronizing Scripts...", 3, 33 );
+sleep(3);
+unload_scripts( "" );
+
+Broadcast( "Done.", 3, 33 );
+
+endprogram

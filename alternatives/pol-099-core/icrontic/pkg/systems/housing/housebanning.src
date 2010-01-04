@@ -1,0 +1,36 @@
+use os;
+use uo;
+
+program walk_on_bantile( who, tile)
+  var hserial := Cint(GetObjProperty(tile, "houseserial"));
+  var house := SystemFindObjectBySerial( hserial );
+  var signserial := Cint(getobjproperty(house, "signserial"));
+  var sign := SystemFindObjectBySerial(signserial);
+  var enemyinfo := GetObjProperty( sign, "Banned");
+  var i;
+  for(i := 1; i <=20; i := i + 1)
+    if(GetObjProperty( house , "Banned" + i ) = who.serial)
+      Sendsysmessage(who, "You are banned from this place!");
+      MoveCharacterToLocation(who, sign.x, sign.y, sign.z);
+    endif
+  endfor
+/*
+
+
+
+  var ind := returnindex(enemyinfo, who.serial);
+  if (ind > 0)
+    MoveCharacterToLocation( who, sign.x, sign.y, sign.z, MOVECHAR_FORCELOCATION );
+    Sendsysmessage(who, "You are banned from this place!");
+  endif*/
+endprogram
+
+function ReturnIndex(info, information)
+  var i;
+  for (i := 1; i <= len(info); i := i + 1)
+    if (info[i] = information)
+      return i;
+    endif
+  endfor
+  return 0;
+endfunction

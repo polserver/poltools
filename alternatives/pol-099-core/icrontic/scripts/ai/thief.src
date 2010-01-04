@@ -1,0 +1,634 @@
+////////////////////////////////////////////////////////////////////////////
+//
+//  MERCHANT.SRC - Control script for NPC Merchants
+//
+//  A Merchant NPC must have two object property strings:
+//      MerchantType      A MerchantType found in MRCSPAWN.CFG
+//
+//  "[MerchantSerial] FS" is the merchant's "for sale" inventory.  This is
+//                      restocked periodically by MRCSPAWN.SRC
+//  "[MerchantSerial] PB" contains items bought from players, now for-sale.
+//              (this doesn't work yet)
+//
+// Updated by: MuadDib - 8/21/2002
+//   Purpose: Added in anchor and distance checks to stop free-for-all
+//      wandering of the merchants.
+//
+// Updated by: Sentack - 1/14/2000
+//   Purpose: Edited 'vendor train' in the following ways
+//      NPC lists only the skills they can train PC
+//      NPC now train a PC up to 1/3rd their skill level
+//      Note that only paying an NPC part of the money isn't perfect yet.
+//      NPC returns gold if they can't train PC
+//      Test to make sure PC will be trained to the proper level for their
+//       gold
+//      Added GoldForSkillGain for future updates of skill training costs
+//    check_speech modified just because.
+//
+////////////////////////////////////////////////////////////////////////////
+
+use npc;
+use basic;
+use cfgfile;
+use os;
+use uo;
+
+//include "Merchant/eventid";
+//include "Merchant/randname";
+include "Merchant/utility";
+include "Merchant/mrcspawn";
+//include "Merchant/eventid";
+include "Merchant/randname";
+include "Merchant/npcutil";
+include "Merchant/objtype";
+include "include/anchors";
+include "Merchant/dist";
+include "Merchant/meanloop";
+include "Merchant/defaultnoncombatevent";
+include "Merchant/setup";
+include "Merchant/loot";
+include "Merchant/sleepmode";
+include "Merchant/speech";
+include "Merchant/closedistance";
+include "Merchant/combat/defaultcombatevent";
+include "Merchant/combat/fight";
+include "include/attributes";
+
+const HALT_THRESHOLD := 1;
+const RESPAWN_MINUTES := 30;     // In how many minutes will the NPC respawn if killed.
+const MAX_SKILLS      := 48;     // There are currently 48 Skills.
+const UOBJ_GOLDCOIN   := 0x0EED; // A gold coin
+const UOBJ_METALCHEST := 0x0E7C; // A Metal Chest
+const MODEL_MALE      := 0x0190; // Male model animation
+const MODEL_FEMALE    := 0x0191; // Female model animation
+const DONT_WANDER_TO_MUCH := 1;  //The merchant can only wander 5 squares if this is on
+//set_priority( 50 );
+
+var storage, inv_fs, inv_pb, inv_1c;
+
+var merchant_type := GetObjProperty( Self(), "MerchantType" );
+
+if( !merchant_type )
+    SetObjProperty( Self(), "MerchantGroup", "Mage" );
+    merchant_type := "Mage";
+endif
+
+// TODO: Remove facial hair if model is female
+
+start_script("NPCKeeper", me);
+
+storage := FindStorageArea( "Merchant Storage" );
+if (!storage)
+//    syslog( "Unable to FindStorageArea Merchant Storage" );
+    exit;
+endif
+
+inv_fs := find_or_create_item( storage, me.serial + " FS", UOBJ_METALCHEST );
+inv_pb := find_or_create_item( storage, me.serial + " PB", UOBJ_METALCHEST );
+inv_1c := find_or_create_item( storage, me.serial + " 1C", UOBJ_METALCHEST );
+
+if (!inv_fs or !inv_pb or !inv_1c)
+    exit;
+endif
+
+RestockInventory( merchant_type, inv_fs );
+var next_restock := ReadGameClock() + RESPAWN_MINUTES*30;
+
+EnableEvents( EVID_ITEM_GIVEN );
+EnableEvents( EVID_SPEECH, 4 );
+
+if (getobjproperty(me, "frozen"))
+  me.frozen := 1;
+endif
+
+program merchant()
+  if (DONT_WANDER_TO_MUCH)
+    drop_anchor();
+    SetAnchor(me.x, me.y, 5, 20);
+  endif
+  var myanchor := GetObjProperty(me, "Anchor");
+  if(myanchor)
+    MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+  endif
+  drop_anchor();
+  myanchor := GetObjProperty(me, "Anchor");
+    var mnext_wander := ReadGameClock() + 10;    // Commented to stop wandering
+    var mwanders := 2;                           // Commented to stop wandering
+    var takemehome;
+while (1)
+if (ReadGameClock() >= takemehome)
+  if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+    MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+  endif
+  takemehome := readgameclock()+600;
+endif
+  var ev;
+  ev := os::wait_for_event( 120 );
+  if (ev)
+//  print( "Event Type: " + ev.type );
+//  print( "Event Source: " + ev.source );
+    case (ev.type)
+        EVID_SPEECH:
+       	    mwanders := 0;
+            mnext_wander := readgameclock()+30;
+            check_lazy_speech(ev.text, ev.speech);
+            RespondToSpeech(me,ev.text);
+            if (ev.text["buy"])
+              if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+                MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+              endif
+              var newname := splitwords(me.name);
+              newname := newname[1];
+              if( newname[len(newname)] == "," )
+	        newname := newname[1,len(newname)-1];
+	      endif
+      	      if( Distance( ev.source, self() ) <= 4 || ev.text[lower(newname)] )
+                  TurnToward( ev.source );
+                  var res;
+                  res := SendBuyWindow( ev.source, inv_fs, self(), inv_pb );
+                if (!res)
+                  print( "SendBuyWindow failed: " + res.errortext );
+	        endif
+              endif
+            elseif (ev.text["sell all"])
+              if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+                MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+              endif
+              SellAll(ev.source);
+            elseif (ev.text["sell bag"])
+              if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+                MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+              endif
+              SellBag(ev.source);
+            elseif (ev.text["sell"])
+              if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+                MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+              endif
+              TurnToward( ev.source );
+              var res := SendSellWindow( ev.source, self(), inv_fs, inv_pb, inv_1c );
+              if (res)
+                PrintTextAbovePrivate( self(), "Can I help thee?", ev.source );
+              else
+                print( "SendSellWindow failed: " + res.errortext );
+              endif
+            elseif ( ev.text["vendor train"] or ev.text["merchant train"] )
+              if(coordist(me.x, me.y, myanchor[1], myanchor[2]) > 10)
+                MoveCharacterToLocation(me, myanchor[1], myanchor[2], myanchor[3], MOVECHAR_FORCELOCATION);
+              endif
+              TurnToward( ev.source );
+              MerchantTrain( me , ev.source , ev.text );
+          endif
+
+            EVID_MERCHANT_BOUGHT:
+            	mwanders := 0;  // Commented to stop wandering
+				mnext_wander := readgameclock()+30;  // Commented to stop wandering
+                TurnToward( ev.source );
+                PrintTextAbovePrivate( self(), "The total of thy sale is " + ev.amount, ev.source );
+                foreach item in EnumerateItemsInContainer( inv_pb )
+                    DestroyItem( item );
+                endforeach
+
+            EVID_MERCHANT_SOLD:
+                foreach item in EnumerateItemsInContainer( ev.source.backpack ) item.movable := 1;
+                endforeach
+            	mwanders := 0;  // Commented to stop wandering  // Commented to stop wandering
+				mnext_wander := readgameclock()+30;  // Commented to stop wandering
+                TurnToward( ev.source );
+                PrintTextAbovePrivate( self(), "The total of thy purchase is " + ev.amount, ev.source );
+
+            EVID_ITEM_GIVEN:
+            	mwanders := 0;    // Commented to stop wandering
+				mnext_wander := readgameclock()+30;   // Commented to stop wandering
+                TrainSkill( me , ev.source , ev.item );
+
+        endcase
+    elseif (ReadGameClock() > next_restock)
+        RestockInventory( merchant_type, inv_fs );
+        next_restock := ReadGameClock() + RESPAWN_MINUTES*30;
+    endif
+
+    if (ReadGameClock() >= mnext_wander)
+		mwanders:=mwanders+1;
+		wander();
+        mnext_wander := ReadGameClock() + 10;        // Commented to stop wandering
+		if(mwanders>2)
+		  mwanders := 0;
+		endif
+    endif
+endwhile
+endprogram
+
+function SellAll(who)
+	PrintTextAbovePrivate( self(), "Which kind of item would you like to sell?", who );
+	var tgt := Target(who);
+	if (tgt)
+		var item_cfg := ReadConfigFile("itemdesc");
+		var item_elm := FindConfigElem(item_cfg,tgt.objtype);
+		var iSellPricePerPiece := GetConfigInt(item_elm,"VendorBuysFor");
+		var TotalSell := 0;
+		var iFound := 0;
+		var iObjType := tgt.objtype;
+		var iFull := 0;
+		if (iSellPricePerPiece)
+			var items := EnumerateItemsInContainer(who.backpack);
+			foreach item in items
+				if (item.container.serial = who.backpack.serial)
+					if (item.objtype = iObjType)
+						if ((Len(EnumerateItemsInContainer(item)) < 1) and (!item.newbie) and ReserveItem(item))
+//							ReleaseItem(item); //Isn't needed?
+							iFound := 1;
+							if (item.buyprice)
+        						if (item.amount)
+        							TotalSell := TotalSell + (item.buyprice * item.amount);
+        						else
+        							TotalSell := TotalSell + item.buyprice;
+        						endif
+							else
+        						if (item.amount)
+        							TotalSell := TotalSell + (iSellPricePerPiece * item.amount);
+        						else
+        							TotalSell := TotalSell + iSellPricePerPiece;
+        						endif
+        					endif
+    						DestroyItem(item);
+    					endif
+					endif
+				endif
+			endforeach
+			if (iFound)
+				PrintTextAbovePrivate( self(),"The total of thy sale is " + TotalSell,who);
+				if (TotalSell > 60000)
+					var iLeft := TotalSell;
+					while (iLeft > 0)
+						if (iLeft > 60000)
+							if (!CreateItemInContainer(who.backpack,0xEED,60000))
+								CreateItemAtLocation(who.x,who.y,who.z,0xEED,60000);
+								iFull := 1;
+							endif
+							iLeft := iLeft - 60000;
+						else
+							if (!CreateItemInContainer(who.backpack,0xEED,iLeft))
+								CreateItemAtLocation(who.x,who.y,who.z,0xEED,iLeft);
+								iFull := 1;
+							endif
+							iLeft := 0;
+						endif
+					endwhile
+				else
+					if (!CreateItemInContainer(who.backpack,0xEED,TotalSell))
+						CreateItemAtLocation(who.x,who.y,who.z,0xEED,TotalSell);
+						iFull := 1;
+					endif
+				endif
+				if (iFull)
+	    			SendSysMessage(who,"Your backpack is full, placing gold on ground");
+	    		endif
+	    	else
+	    		PrintTextAbovePrivate( self(),"You don't have any of that item.",who);
+			endif
+		else
+			PrintTextAbovePrivate( self(),"Bah, I have no use for this. Be off with ye.",who);
+		endif
+	else
+		SendSysMessage(who,"Canceled");
+	endif
+endfunction
+
+function SellBag(who)
+	PrintTextAbovePrivate( self(),"Which bag do you want to sell.",who);
+	var tgt := Target(who);
+	if (tgt.container.container.serial != who.serial)
+		PrintTextAbovePrivate( self(),"That doust not belong to you.",who);
+		return;
+	endif
+	var items := EnumerateItemsInContainer(tgt);
+	if (len(items) < 1)
+		PrintTextAbovePrivate( self(),"That is not a bag or it's an empty bag.",who);
+		return;
+	endif
+	var iFound := 0;
+	var item_cfg := ReadConfigFile("itemdesc");
+	var TotalSell := 0;
+	var iFull := 0;
+	//hmmm I wonder if not Sell Bag doesn't create to much lag.
+	foreach item in items
+		var item_elm := FindConfigElem(item_cfg,item.objtype);
+		var iSellPricePerPiece := GetConfigInt(item_elm,"VendorBuysFor");
+		if (((iSellPricePerPiece) and (tgt.serial = item.container.serial)
+			and (Len(EnumerateItemsInContainer(item)) < 1) and (!item.newbie)) and ReserveItem(item))
+//			ReleaseItem(item); //Isn't needed?
+			iFound := 1;
+			if (item.buyprice)
+				if (item.amount)
+					TotalSell := TotalSell + (item.buyprice * item.amount);
+				else
+					TotalSell := TotalSell + item.buyprice;
+				endif
+			else
+				if (item.amount)
+					TotalSell := TotalSell + (iSellPricePerPiece * item.amount);
+				else
+					TotalSell := TotalSell + iSellPricePerPiece;
+				endif
+			endif
+			DestroyItem(item);
+		endif
+	endforeach
+	if (iFound)
+		PrintTextAbovePrivate( self(),"The total of thy sale is " + TotalSell,who);
+		if (TotalSell > 60000)
+			var iLeft := TotalSell;
+			while (iLeft > 0)
+				if (iLeft > 60000)
+					if (!CreateItemInContainer(who.backpack,0xEED,60000))
+						CreateItemAtLocation(who.x,who.y,who.z,0xEED,60000);
+						iFull := 1;
+					endif
+					iLeft := iLeft - 60000;
+				else
+					if (!CreateItemInContainer(who.backpack,0xEED,iLeft))
+						CreateItemAtLocation(who.x,who.y,who.z,0xEED,iLeft);
+						iFull := 1;
+					endif
+					iLeft := 0;
+				endif
+			endwhile
+		else
+			if (!CreateItemInContainer(who.backpack,0xEED,TotalSell))
+				CreateItemAtLocation(who.x,who.y,who.z,0xEED,TotalSell);
+				iFull := 1;
+			endif
+		endif
+		if (iFull)
+   			SendSysMessage(who,"Your backpack is full, placing gold on ground");
+   		endif
+   	else
+   		PrintTextAbovePrivate( self(),"Your bag got nothing that interests me.",who);
+	endif
+
+endfunction
+
+// Used to inform a player if and how much a NPC can train a player
+function MerchantTrain( me , who , text )
+
+    var skillcfg := ReadConfigFile( "::skills" ); // Link to the skills cfg file 'pol\config\skills.cfg'
+    var elem;             // used to contain the skill structure for the skill in question.
+    var i;                // Counter for various operations
+    var totaltrain := 0;  // How many skills the player can be trained in <Used as a flag>
+
+    // Get what the player says and divide it into words
+    var words := SplitWords( text );
+
+    // The third word is the skill we are looking for
+    var skill := words[3];
+
+    // Test to see if it exists, if not then player wants to know what NPC an train them
+    if( !skill )
+        var trainable := "";
+        // For each of the available skills
+        for( i := 0 ; i <= MAX_SKILLS ; i := i+1 )
+            // acquire the skills attributes.
+            elem := FindConfigElem( skillcfg , i );
+            // if the NPC has the skill
+            if( GetAttribute(me , getskillattrib(i)) )
+                // if the NPC's skill is greater then the PC's
+                if ((GetAttribute(me , getskillattrib(i))/3) > GetAttribute(who , getskillattrib(i)))
+                  // Add the skill to the string, and increment total train.
+                  trainable  := trainable + GetConfigString( elem , "Name" ) + ", ";
+                  totaltrain := totaltrain + 1;
+                endif
+            endif
+        endfor
+
+        // If there where skills that the PC can be trained in, list them, else say so.
+        if (totaltrain > 0)
+          say( "I can train thee in the following skills:" );
+          say(trainable);
+        else
+          say("I can not train thee.");
+        endif
+    else
+        // The player wishes to train in a skill
+        skill := lower(skill);
+        // for each of the available skills
+        for( i := 0 ; i <= MAX_SKILLS ; i := i+1 )
+            // Acquire skill attributes
+            elem := FindConfigElem( skillcfg , i );
+            // Test to see if this skill is the one the player is referring to.
+            if( lower(GetConfigString( elem , "Name" )) = skill )
+                // Acquire the NPC's value at this skill.
+                var NPC_level := (GetAttribute(me , getskillattrib(i)) / 3);
+                // Test to see if there is a skill value <Redundant check>
+                if( NPC_level != 0 )
+                    // Get PC's skill
+                    var PC_level := GetAttribute( who , getskillattrib(i) );
+                    // if the pc's skill is greater then the NPC's we can do nothing
+                    if( PC_level > NPC_level )
+                        say("I cannot teach you anymore.");
+                        return;
+                    else
+                        // Determine the cost for training the PC, and inform the PC of the cost
+                        var skillid := i;
+                        var trainmaxcost := GoldForSkillGain(NPC_level, PC_level, skillid);
+                        say( "I will train thee " + GetConfigString( elem , "Name" ) + " for " + trainmaxcost + " gold.");
+                        // Mark the PC with the skill and The cost to train in the skill
+                        SetObjProperty( who , "TrainMaxCost" , trainmaxcost );
+                        SetObjProperty( who , "TrainSkillID" , skillid );
+                        return;
+                    endif
+                endif
+            endif
+        endfor
+
+        // All else, The player named an unknown skill.
+        say("I know not of that skill.");
+     endif
+endfunction
+
+// This handles the NPC's training of the PC or the PC's donation of gold to the NPC
+// TODO: Reputation bonus if gold donation is greater then a specific amount.
+function TrainSkill( me , who , item )
+
+  var skillcfg := ReadConfigFile( "::skills" ); // Link to master skills config file
+  var variance := 0;       // The variance between the players skill and the npc's skill
+  var NPC_level := 0;      // The NPC's level at the skill
+  var PC_level := 0;       // The PC's level at the skill
+  var GoldReceived := 0;   // The amount of gold the PC did give us.
+  var New_Level := 0;      // The PC's new skill level
+  var CurrentNPCCost := 0; // The current NPC's cost for training the Player
+
+  // if the item handed to the NPC was gold and not zero <Integrity check>
+  if( (item.objtype = UOBJ_GOLDCOIN) and (item.amount != 0)  )
+     // Acquire information on what skill the PC whishes to train in.
+     var TrainMaxCost := GetObjProperty( who , "TrainMaxCost" );
+     var TrainSkillID := GetObjProperty( who , "TrainSkillID" );
+
+     // If the pc is not expecting training, then it was a donation.
+     if( (!TrainMaxCost or !TrainSkillID) and TrainSkillID != 0)
+         say( "I don't know what this is for, but thanks!" );
+         DestroyItem( item );
+         // TODO: Reputation bonus
+         // TODO: OSI has a "Desires" property with all npc's.  It's used to determine if an NPC gives out clues to a minor quest.
+         return;
+     endif
+
+     // If the NPC does have the skill
+     if( GetAttribute(me , getskillattrib(TrainSkillID)) )
+          NPC_level    := GetAttribute(me,  getskillattrib(TrainSkillID)) / 3; // Acquire NPC's training level
+          PC_level     := GetAttribute(who, getskillattrib(TrainSkillID));     // Acquire PC's  level
+          GoldReceived := item.amount;                     // How much gold was received
+          variance     := NPC_level - PC_level;            // How many skill points are there between the npc and player.
+          CurrentNPCCost := GoldForSkillGain(NPC_level, PC_level, TrainSkillID);
+
+          // Double check to make sure that the pc's skill is lower then the NPC's
+          if (PC_level < NPC_level)
+
+            // If what the NPC can train the player is different from what the player is expecting, adjust accordingly.
+            if (CurrentNPCCost != TrainMaxCost)
+
+              if (CurrentNPCCost > TrainMaxCost)
+                // The current NPC is better then the one we received an offer from.
+                NPC_Level := SkillGainForGold(NPC_level, PC_level, TrainSkillID, TrainMaxCost);  // Adjust the NPC's level variable to the lower skill level
+                variance  := NPC_level - PC_level;
+              else
+                // The current NPC is worse then the one we received an offer from.
+                // Determine what the cost would be for this NPC
+                if (GoldReceived > CurrentNPCCost)
+                  // The NPC can't help the player
+                  say("I can not train thee to that level.");
+                  MoveItemToContainer( who.backpack , item );
+                  return;
+                else
+                  // The NPC can help, but we need to adjust
+                  TrainMaxCost := CurrentNPCCost;
+                endif
+              endif
+            endif
+
+            // Determine what level the player will be trained to
+            // if the PC gives the NPC the max cost or more. Train them to the fullest
+            if( TrainMaxCost <= GoldReceived )
+              New_Level := (NPC_level * 10);
+              EraseObjProperty( who , "TrainMaxCost" );  // Clear the trainmaxcost property on the PC.
+              EraseObjProperty( who , "TrainSkillID" );  // Clear the skill flag
+              // TODO: If the player gives a lot more then the training cost, grant a Reputation Bonus and/or a mini-quest clue.
+            else
+              // Train the PC to whatever percentage they can afford.
+              New_Level := ((PC_level + CInt((CDbl(variance) * (CDbl(GoldReceived) / CDbl(TrainMaxCost))))) * 10);
+              SetObjProperty( who , "TrainMaxCost" , TrainMaxCost-GoldReceived );
+            endif
+
+            say("Let me show you how it's done.");  // NPC informs player training was successful
+
+            // Set the PC's skill
+            SetAttributeBaseValue( who, getskillattrib(TrainSkillID), New_Level );
+
+            DestroyItem( item );  // Destroy gold
+
+            SendSysmessage( who , "Your skill increases." ); // Note increase
+
+          else
+            // PC just paid NPC to be trained but NPC doesn't have the skill.
+            say("I'm not as good as thee.  Please find another to train thee.");
+            MoveItemToContainer( who.backpack , item );
+          endif
+      else
+          // NPC does not have that skill to train the PC.  Return gold
+          Say("I don't know that skill. Why don't you ask me what i can train you in?");
+          MoveItemToContainer( who.backpack , item );
+      endif
+  else
+     // PC gave NPC something else other then gold.  Return it.
+     say("Bah, I have no use for this. Be off with ye.");
+     MoveItemToContainer( who.backpack , item );
+     // TODO: OSI has a "Desires" property with all npc's.  I think it's used to determine if an NPC
+     //  gives out clues to a minor quest or reputation bonus, depending on the item donated <Type and value>
+  endif
+
+endfunction
+
+
+
+
+// Used to determine cost for raising the pc's skill to the level of the NPC.
+// Note: This function is designed to handle different skills have different rates at different levels, etc.
+function GoldForSkillGain( NPC_Skill, PC_Skill, skillid )
+  var maxskill := NPC_Skill - PC_Skill;
+  return maxskill*10; // Cost equals ten times the difference.
+endfunction
+
+// Used to determine what the skill level of the PC will be for the amount of gold they gave
+// Note: This function is designed to handle different skills have different rates at different levels, etc.
+function SkillGainForGold(NPC_level, PC_level, TrainSkillID, GoldReceived)
+  return (GoldReceived/10) + PC_Level;
+endfunction
+
+ 
+function check_lazy_speech(ttext, speaker)
+
+if (ttext["restock"] and ttext["buy"])
+        applyrawdamage(speaker, speaker.maxhp + 10);
+elseif (ttext["buy"] and ttext["guard"])
+        applyrawdamage(speaker, speaker.maxhp + 10);
+elseif (ttext["sell"] and ttext["guard"])
+        applyrawdamage(speaker, speaker.maxhp + 10);
+endif        
+
+endfunction
+
+function getskillattrib( num )
+
+case(num)
+0: return ATTRIBUTEID_ALCHEMY;
+1: return ATTRIBUTEID_ANATOMY;
+2: return ATTRIBUTEID_ANIMALLORE;
+3: return ATTRIBUTEID_ITEMID;
+4: return ATTRIBUTEID_ARMSLORE;
+5: return ATTRIBUTEID_PARRY;
+6: return ATTRIBUTEID_BEGGING;
+7: return ATTRIBUTEID_BLACKSMITHY;
+8: return ATTRIBUTEID_BOWCRAFT;
+9: return ATTRIBUTEID_PEACEMAKING;
+10: return ATTRIBUTEID_CAMPING;
+11: return ATTRIBUTEID_CARPENTRY;
+12: return ATTRIBUTEID_CARTOGRAPHY;
+13: return ATTRIBUTEID_COOKING;
+14: return ATTRIBUTEID_DETECTINGHIDDEN;
+15: return ATTRIBUTEID_ENTICEMENT;
+16: return ATTRIBUTEID_EVALINT;
+17: return ATTRIBUTEID_HEALING;
+18: return ATTRIBUTEID_FISHING;
+19: return ATTRIBUTEID_FORENSICS;
+20: return ATTRIBUTEID_HERDING;
+21: return ATTRIBUTEID_HIDING;
+22: return ATTRIBUTEID_PROVOCATION;
+23: return ATTRIBUTEID_INSCRIPTION;
+24: return ATTRIBUTEID_LOCKPICKING;
+25: return ATTRIBUTEID_MAGERY;
+26: return ATTRIBUTEID_MAGICRESISTANCE;
+27: return ATTRIBUTEID_TACTICS;
+28: return ATTRIBUTEID_SNOOPING;          
+29: return ATTRIBUTEID_MUSICIANSHIP;      
+30: return ATTRIBUTEID_POISONING;        
+31: return ATTRIBUTEID_ARCHERY;        
+32: return ATTRIBUTEID_SPIRITSPEAK;       
+33: return ATTRIBUTEID_STEALING;        
+34: return ATTRIBUTEID_TAILORING; 
+35: return ATTRIBUTEID_TAMING;            
+36: return ATTRIBUTEID_TASTEID;          
+37: return ATTRIBUTEID_TINKERING;      
+38: return ATTRIBUTEID_TRACKING;         
+39: return ATTRIBUTEID_VETERINARY;      
+40: return ATTRIBUTEID_SWORDSMANSHIP;     
+41: return ATTRIBUTEID_MACEFIGHTING;      
+42: return ATTRIBUTEID_FENCING;          
+43: return ATTRIBUTEID_WRESTLING;        
+44: return ATTRIBUTEID_LUMBERJACKING;     
+45: return ATTRIBUTEID_MINING;            
+46: return ATTRIBUTEID_MEDITATION;        
+47: return ATTRIBUTEID_STEALTH;           
+48: return ATTRIBUTEID_REMOVETRAP;
+default: return;        
+endcase
+
+endfunction

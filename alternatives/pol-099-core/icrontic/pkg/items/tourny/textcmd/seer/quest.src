@@ -1,0 +1,26 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+
+program textcmd_quest(who, text)
+  if(!text)
+    SendSysMessage(who,"useage: .quest <ON/OFF>");
+    return;
+  endif
+    if(text=="OFF")
+      SetGlobalProperty("gantiloot", 0);
+      SendSysmessage(who, "Quest Mode off: Anti-Loot Disabled.", 3, 33);
+      foreach chr in EnumerateOnlineCharacters()
+        SendSysMessage(chr, "System : Quest System Disabled",FONT_BOLD, COLOR_CYAN_LIGHT);
+      endforeach
+    endif
+    if(text=="ON")
+      SetGlobalProperty("gantiloot", 1);
+      SendSysmessage(who, "Quest Mode On: Anti-Loot Activated", 3, 33);
+      foreach chr in EnumerateOnlineCharacters()
+        SendSysMessage(chr, "System : Quest System Enabled",FONT_BOLD, COLOR_CYAN_LIGHT);
+      endforeach
+    endif
+endprogram

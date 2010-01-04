@@ -1,0 +1,18 @@
+use uo;
+use os;
+
+include "include/attributes";
+
+program newcombat()
+
+	Print( "Using NewParryAdvancement..." );
+	return 1;
+
+endprogram
+
+
+exported function NewParryAdvancement( attacker, weapon, defender, shield )
+
+	AwardPoints( defender, SKILLID_PARRY, 20 );
+
+endfunction

@@ -1,0 +1,56 @@
+// auction  version 1.0
+// by Zulu (zulu@zuluhotel.com)   November 12, 2000
+
+use uo;
+use os;
+
+include "include/client";
+
+program textcmd_barter(who,text)
+if(who.cmdlevel >= 1)
+  EraseObjProperty(who, "#nextbartermsg");
+endif
+  if (getobjproperty(who,"auction")="yes")
+     if(getobjproperty(who,"barter")="off")
+       SendSysMessage(who,"Type .auc and turn on barter.");
+     else
+       barter(who,text);
+     endif
+  else
+     SendSysMessage( who,"Type .auc and join the auction.");
+  endif
+
+endprogram
+
+
+function barter(who,text)
+
+if (getobjproperty(who,"barterban")) 
+SendSysMessage(who,"You are banned from sending barter messages.",FONT_NORMAL,34);
+return;
+endif
+
+var auctioncheck, bartermsgonoff, bartermsg, nextmsg:=cint(GetObjProperty(who,"#nextbartermsg")), secclock:=ReadGameClock();
+
+if(secclock<nextmsg)
+SendSysMessage(who,"You have to wait "+(nextmsg-secclock)+" second(s) to send a message.",FONT_NORMAL,34);
+return;
+endif
+
+if (!text)
+bartermsg := RequestInput(who,who.backpack,"Type in your message:");
+else
+bartermsg:=text;
+endif
+
+if((bartermsg="") or (!bartermsg)) SendSysMessage(who,"canceled."); return; endif
+
+foreach chr in EnumerateOnlineCharacters()
+   if ((getobjproperty(chr,"auction")="yes") and (getobjproperty(chr,"barter")<>"off"))
+        SendSysMessage( chr, who.name + " barters: " + bartermsg , FONT_NORMAL, 400 );
+   endif
+endforeach
+
+setobjproperty(who, "#nextbartermsg", ReadGameClock() + 60);
+
+endfunction

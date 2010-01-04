@@ -1,0 +1,481 @@
+use uo;
+use os;
+use basic;
+
+include "include/eventid";
+include "include/objtype";
+include "include/attributes";
+include "include/listex";
+
+var signg;
+set_priority( 5 );
+
+program SignListener( sign )
+
+    signg := sign;
+
+    var ev, i,who;
+    var house := SystemFindObjectBySerial( GetObjProperty( sign , "house_serial" ) );
+    var ownerserial := GetObjProperty( house , "ownerserial" );
+    RegisterForSpeechEvents( sign, 30 );
+
+    while (1)
+        CheckBan( house, sign );
+        ev := wait_for_event( 120 );
+        if (ev)
+            who := ev.source;
+            if (ev.type = EVID_SPEECH)
+                 if ( (who.multi.serial = house.serial && ownerserial==who.serial) || (iscown(house,who)) );
+                    handle_speech( ev, house, sign );
+                    CheckBan( house, sign );
+                 endif
+                 if (insidetent(who,house))
+                   handle_speech( ev, house, sign );
+                   CheckBan( house, sign );
+                 endif
+            endif
+        endif
+        ClearEventQueue();
+    endwhile
+endprogram
+
+Function ClearEventQueue()
+var ev;
+repeat
+until (! (ev := os::wait_for_event(1)) );
+EndFunction
+
+function iscown ( byref house, byref who)
+
+       var i;
+
+          for(i := 1; i <= 5; i := i + 1)
+            if(GetObjProperty( house , "Co-owner" + i ) == who.serial)
+		return 1;
+            endif
+          endfor
+
+       if(GetObjProperty( house , "owneracct" ) == who.acctname)
+         return 1;
+       endif
+       
+       return 0;
+
+endfunction
+
+function handle_speech( byref event, byref house, byref sign )
+
+	var text := lower( event.text );
+	case (text)
+		"i wish to lock this down":		HouseFunction( house, event, 1, sign );	break;
+		"i wish to unlock this":		HouseFunction( house, event, 2, sign );	break;
+		"i wish to add secure east":		HouseFunctione( house, event, sign );		break;
+		"i wish to add secure south":		HouseFunctions( house, event, sign );		break;
+		"i wish to delete secure":		HouseFunctionUs( house, event, sign );	break;
+		"i wish to place a trash barrel":	trashbarrel(house, event);		break;
+		"i wish to remove a trash barrel":	removebarrel(house, event);		break;
+		"reveal thyself":			reveal(house, event);			break;
+		"remove thyself":			remove(house, event, sign);		break;
+		"i wish to lift this":			lift(house, event);			break;
+		"i wish to lower this":			down(house, event);			break;
+	endcase
+        ClearEventQueue();
+endfunction
+
+
+function HouseFunction( byref house, byref event, num , sign)
+
+    var itemt := Target( event.source , TGTOPT_NOCHECK_LOS );
+
+    if(!itemt)
+       SendSysmessage( event.source, "Canceled." );
+       return;
+    endif
+
+    var inside := 0;
+
+    foreach item in (house.items)
+       if( itemt.serial = item.serial )
+           inside := 1;
+           break;
+       endif
+    endforeach
+    if (insidetent(itemt, house))
+      inside := 1;
+    endif
+/*    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 7, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 6, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 5, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 4, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 3, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 2, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+	break;
+       endif
+    endforeach
+*/
+
+    foreach item in ListItemsNearLocation( itemt.x, itemt.y, itemt.z - 1, 2 );
+       sleepms(1);
+       if(GetObjProperty( item , "lockeddown" ))
+         inside := 1;
+         break;
+       endif
+    endforeach
+
+    if( inside or (itemt.multi.serial = GetObjProperty( sign , "house_serial" )))
+       case( num )
+          1: if(( GetObjProperty( house , "numlockdowns" ) > 0 ) and (itemt.movable))
+                     itemt.movable := 0;
+                     SetObjProperty( house, "numlockdowns" , GetObjProperty( house, "numlockdowns") - 1 );
+                     SetObjProperty( itemt, "lockeddown" , 1 );
+                     SendSysmessage( event.source , "Locked." );
+             elseif (GetObjProperty( itemt , "lockeddown" ))
+                SendSysmessage( event.source , "That is already locked down." );
+	     else
+                 SendSysmessage( event.source , "The house has no more lockdowns remaining." );
+             endif
+          2: if(GetObjProperty( itemt , "lockeddown" ))
+                itemt.movable := 1;
+                EraseObjProperty( itemt , "lockeddown" );
+                SetObjProperty( house, "numlockdowns" , GetObjProperty( house, "numlockdowns") + 1 );
+                SendSysmessage( event.source , "Unlocked." );
+             else
+                SendSysmessage( event.source , "You can't unlock this." );
+             endif
+       endcase
+    else
+       SendSysmessage( event.source , "That is not inside the building." );
+    endif
+endfunction
+
+
+function HouseFunctione( byref house, byref event, sign)
+
+    var itemt := TargetCoordinates( event.source );
+    
+    if(!itemt)
+       SendSysmessage( event.source, "Canceled." );
+       return;
+    endif
+
+    var newbox, box, inside;
+
+     if(GetObjProperty( house , "numsecure" ))
+            box := CreateItemAtLocation( itemt.x, itemt.y, itemt.z, 0xE40, 1 );
+             inside := 0;
+               foreach item in (house.items)
+                   if( box.serial = item.serial )
+                   inside := 1;
+                   break;
+                   endif
+               endforeach
+            if (insidetent(itemt, house))
+              inside := 1;
+            endif
+            if (inside)
+            newbox := CreateItemInContainer( box, 0xE40, 1);
+            box.movable := 0;
+            SetObjProperty( box, "boxserial" , newbox.serial );
+            SetObjProperty( box, "houseserial" , house.serial );
+            box.usescript := ":housing:securecont";
+            SetObjProperty( house, "numsecure" , GetObjProperty( house, "numsecure") - 1 );
+            SendSysmessage( event.source , "Secure On." );
+            else
+            DestroyItem(box);
+            SendSysmessage( event.source , "That is not inside the building.");
+            endif
+     else
+       SendSysmessage( event.source , "The house has no more secure containers remaining." );
+     endif
+     
+endfunction
+
+
+function HouseFunctions( byref house, byref event, sign )
+
+    var itemt := TargetCoordinates( event.source );
+
+    if(!itemt)
+       SendSysmessage( event.source, "Canceled." );
+       return;
+    endif
+
+	var box, inside, newbox;
+
+     if(GetObjProperty( house , "numsecure" ))
+            box := CreateItemAtLocation( itemt.x, itemt.y, itemt.z, 0xE41, 1 );
+             inside := 0;
+               foreach item in (house.items)
+                   if( box.serial = item.serial )
+                   inside := 1;
+                   break;
+                   endif
+               endforeach
+            if (insidetent(itemt, house))
+              inside := 1;
+            endif
+            if (inside)
+            newbox := CreateItemInContainer( box, 0xE41, 1);
+            box.movable := 0;
+            SetObjProperty( box, "boxserial" , newbox.serial );
+            SetObjProperty( box, "houseserial" , house.serial );
+            box.usescript := ":housing:securecont";
+            SetObjProperty( house, "numsecure" , GetObjProperty( house, "numsecure") - 1 );
+            SendSysmessage( event.source , "Secure On." );
+            else
+            DestroyItem(box);
+            SendSysmessage( event.source , "That is not inside the building.");
+            endif
+     else
+       SendSysmessage( event.source , "The house has no more secure containers remaining." );
+     endif
+
+endfunction
+
+function HouseFunctionUs( byref house, byref event, sign )
+
+    var itemt := Target( event.source );
+
+    if(!itemt)
+       SendSysmessage( event.source, "Canceled." );
+       return;
+    endif
+     if(GetObjProperty( itemt , "houseserial" ) = house.serial)
+            DestroyItem(itemt);
+            SetObjProperty( house, "numsecure" , GetObjProperty( house, "numsecure") + 1 );
+            SendSysmessage( event.source , "UnSecure On." );
+     else
+		SendSysmessage( event.source , "This is a secure container." );
+     endif
+endfunction
+
+function CheckBan( byref house, byref sign )
+
+     var i;
+     
+     foreach mobile in (house.mobiles)
+         sleepms(2);
+         if(!mobile.dead)
+            sleepms(2);
+         	for(i := 1; i <=20; i := i + 1)
+         		if(GetObjProperty( house , "Banned" + i ) = mobile.serial)
+         		  Sendsysmessage(mobile, "You are banned from this place!");
+         		  MoveCharacterToLocation(mobile, sign.x, sign.y, sign.z);
+         		endif
+         	endfor
+         endif	
+     endforeach
+     ClearEventQueue();
+endfunction
+
+
+function trashbarrel( byref house, byref event)
+  var who := event.source;
+  var item, exists := 0,  barrelcheck := GetObjProperty(house, "barrelserial");
+
+  if(barrelcheck)
+
+    foreach thing in (house.items)
+      if(thing.serial = barrelcheck)
+        exists := 1;
+        break;
+      endif
+    endforeach
+
+    if(exists)
+      SendSysMessage(who, "This house already has a trash barrel!");
+      return;
+    endif
+
+  endif	 //endof barrel check
+
+  item := ListItemsNearLocation(who.x, who.y, who.z, 3);
+  exists := 0;
+
+  foreach thing in item
+    if(thing.objtype = 0x8889)
+      exists := 1;
+      break;
+    endif
+  endforeach
+
+  if(!exists)
+    item := CreateItemAtLocation(who.x, who.y, who.z, 0x7007, 1);
+    if(item)
+      SetObjProperty(house, "barrelserial", item.serial);
+      SetObjProperty(item, "houseserial", house.serial);
+    endif
+  else
+    SendSysMessage(who, "You cannot place that here.");
+  endif
+endfunction
+
+function removebarrel( byref house, byref event)
+
+  var who := event.source;
+  var barrelcheck := GetObjProperty(house, "barrelserial");
+
+  if(barrelcheck)
+
+    foreach thing in (house.items)
+      if(thing.serial = barrelcheck)
+        SendSysMessage(who, "Aha! There is that smelly thing!");
+        EraseObjProperty(house, "barrelserial");
+        EraseObjProperty(thing, "houseserial");
+        thing.movable := 1;
+        DestroyItem(thing);
+        break;
+      endif
+    endforeach
+
+  endif
+endfunction
+
+
+function reveal(byref house, byref event)
+
+  var who := event.source;
+  var houseserial := house.serial;
+  var holder := 0;
+
+    foreach mobile in ListMobilesNearLocationEx(who.x, who.y, who.z, 20, LIST_HIDDEN)
+        if(mobile.multi)
+          If(mobile.multi.serial = houseserial)
+            mobile.hidden := 0;
+            holder := holder + 1;
+            PrintTextAbovePrivate( mobile, "You have been discovered!", mobile );
+          endif
+        endif
+    endforeach
+  if(!holder || holder == 0)
+    SendSysMessage(event.source, "You didn't find anyone.");
+  elseif(holder = 1)
+    PrintTextAbovePrivate(event.source, "You have found one hider.!!", event.source);
+  else
+    PrintTextAbovePrivate(event.source, "You have found " + holder + " hiders.!!", event.source);
+  endif
+endfunction
+
+
+function remove( byref house, byref event, byref sign )
+    var who := event.source;
+    var targetchr := Target( who );
+
+    if(!targetchr)
+       SendSysmessage( who, "Canceled." );
+       return;
+    endif
+
+    if(targetchr.acctname = GetObjProperty( house , "owneracct" ))
+       SendSysmessage( who, "You cannot eject a house owner" );
+       return;
+    endif
+
+    if(targetchr.multi.serial = house.serial)
+        MoveCharacterToLocation(targetchr, sign.x, sign.y, sign.z, MOVEITEM_FORCELOCATION);
+        SendSysMessage(targetchr,"you have been ejected from the house");
+    endif
+endfunction
+
+
+function lift( byref house, byref event)
+  var inside;
+  var who := event.source;
+    SendSysMessage(who, "target the item you wish to raise");
+
+    var liftitem := Target(who, TGTOPT_NOCHECK_LOS);
+    if (!liftitem)
+      SendSysMessage(who, "canceled");
+      return;
+    elseif (liftitem.mobile)
+      SendSysMessage(who,"you cannot lift living creatures!");
+      return;
+    endif
+    if (insidetent(liftitem, house))
+      inside := 1;
+    endif
+    if(liftitem.multi.serial = house.serial)
+      if(liftitem.movable = 1)
+        MoveItemToLocation(liftitem, liftitem.x, liftitem.y, liftitem.z + 1, MOVEITEM_FORCELOCATION);
+        SendSysMessage(who,"you have lifted the item");
+        return;
+      else
+        SendSysMessage(who,"you must unlock that item first!");
+      endif
+    else
+      SendSysMessage(who,"that item isn't inside the house.");
+    endif
+endfunction
+
+
+function down(byref house, byref event)
+  var inside;
+  var who := event.source;
+    SendSysMessage(who, "target the item you wish to lower");
+
+    var liftitem := Target(who, TGTOPT_NOCHECK_LOS);
+    if (!liftitem)
+      SendSysMessage(who, "Canceled.");
+      return;
+    elseif (liftitem.mobile)
+      SendSysMessage(who,"you cannot lower living creatures!");
+      return;
+    endif
+    if (insidetent(liftitem, house))
+      inside := 1;
+    endif
+    if(liftitem.multi.serial = house.serial)
+      if(liftitem.movable = 1)
+        MoveItemToLocation(liftitem, liftitem.x, liftitem.y, liftitem.z - 1, MOVEITEM_FORCELOCATION);
+        SendSysMessage(who,"you have lowered the item");
+        return;
+      else
+        SendSysMessage(who,"you must unlock that item first!");
+      endif
+    endif
+endfunction
+
+function insidetent(who,house)
+
+if (house.objtype==0x60B7 or house.objtype==0x60B9)
+if (who.x<=house.x+3 and who.x>=house.x-2 and who.y<=house.y+3 and who.y>=house.y-2)
+return 1;
+endif
+endif
+
+return 0;
+
+endfunction

@@ -1,0 +1,37 @@
+use os;
+use uo;
+use util;
+use cfgfile;
+include "drinkPotion";
+include "include/statMod";
+include "include/canAccess";
+
+program drink_blue (who, potion)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  if(!can_access(who, potion))
+    return;
+  endif
+  if(potion.movable == 0)
+    SendSysMessage(who, "You cannot drink that.");
+    return;
+  endif
+  if(!CanMod(who, "str"))
+	SendSysMessage(who,"Already under the influence!");
+	return;
+  endif
+  if(!checkifcandrink(who, "#white"))
+    return;
+  endif
+ // empty_bottle(who, potion);   <-- Who the fuck put this brilliant code in?
+  PlaySoundEffect(who, 0x1ef);
+  PlayObjectCenteredEffect(who, 0x373a, 7,7);
+  case(potion.objtype)
+    0xdc11:  empty_bottle(who, potion);
+             DoTempMod(who, "str", 10,  60);
+    0xdc12:  empty_bottle(who, potion);
+             DoTempMod(who, "str", 20, 180);
+    0x1943:  empty_bottle(who, potion);
+             DoTempMod(who, "str", 30, 360);
+  endcase
+endprogram

@@ -1,0 +1,52 @@
+use os;
+use uo;
+include "include/client";
+
+program shakedown(who)
+    
+    var backup;
+    backup := CreateItemInBackpack( who, 0x0E75, 1 );
+    
+    SendSysmessage( who , "Empty who's pockets?" );
+    var vic := Target(who);
+    
+    backup.newbie := 0;
+    backup.name := "Property of "+vic.name;
+    var good := 0;
+
+    SendSysmessage( vic , who.name+" picks you up, turns you upside down and shakes...." );
+    var backpacknot := vic.backpack;
+   foreach item in EnumerateItemsInContainer(vic.backpack)
+     if (item != backpacknot)
+      if (item.container.serial != backpacknot.serial)
+      MoveItemToContainer( item, item.container.serial);
+      good:=good+1;
+      else
+      MoveItemToContainer( item, backup);
+      good:=good+1;
+      endif
+     endif
+   endforeach
+   
+   if (!good )
+     SendSysmessage( who, "You may need to shakedown again");
+   else
+     SendSysmessage( who, "Almost done...");
+   endif
+   
+   good := 0;
+   
+   foreach item in ListEquippedItems(vic)
+      if ( (GetEquipmentByLayer(vic,LAYER_HAIR) != item) && (GetEquipmentByLayer(vic,LAYER_BEARD) != item) && (GetEquipmentByLayer(vic,LAYER_MOUNT) != item))
+         MoveItemToContainer( item, backup);
+         good:=good+1;
+      endif
+   endforeach
+   
+   if (!good )
+     SendSysmessage( who, "You may need to shakedown again");
+   else
+     SendSysmessage( who, "Much lighter now...");
+   endif
+
+endprogram

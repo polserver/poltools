@@ -1,0 +1,104 @@
+// gump display x,y,z coordinates
+// author: thewriter 000311
+// modified: Confucious
+
+use uo;
+include "include/gumps"; 
+include "include/client";
+include "include/webPage";
+
+program gump_where( who )
+
+	GFInitGump(240, 160);
+	GFNoMove();
+        GFResizePic(0, 0, 0x13EC, 350, 340);
+        GFGumpPic(9, 0, 10420);                           // Dragon Bordering Top Left
+        GFGumpPic(0, 22, 10421);                           // Dragon Bordering Left Side
+        GFGumpPic(280, 0, 10430);                           // Dragon Bordering Top Right
+        GFGumpPic(300, 22, 10431);                           // Dragon Bordering Right Side
+        GFGumpPic(294, 156, 10432);                           // Dragon Bordering lower Right
+        GFGumpPic(13, 156, 10422);                           // Dragon Bordering lower Left
+        GFGumpPic(85, 13, 10452);      // Banner Top Row
+        GFGumpPic(69, 13, 10250);      // Dragon Top Row
+        GFGumpPic(264, 13, 10250);      // Dragon Top Row
+        GFGumpPic(27, 303, 10460);      // Dragon Bottom Row Left
+        GFGumpPic(58, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(74, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(90, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(106, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(122, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(138, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(154, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(170, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(186, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(202, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(218, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(234, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(250, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(266, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(282, 311, 10250);      // Dragon Bottom Row
+        GFGumpPic(297, 303, 10460);      // Dragon Bottom Row Right
+
+	GFTextLine( 100, 60, 0x482, "Location in Britannia" );
+	GFTextLine( 140, 100, 0x0480, "x: " +who.x );
+	GFTextLine( 140, 120, 0x0480, "y: " +who.y );
+	GFTextLine( 140, 140, 0x0480, "z: " +who.z );
+	GFTextLine( 110, 190, 0x0480, "Web pages for help ");
+	GFTextLine( 110, 210, 0x480, "with getting around");
+	GFTextLine( 110, 230, 0x480, "the world.");
+ GFSetRadioGroup(1);
+ GFRadioButton( 76, 190, 210, 211, 0);
+  var box := GFSendGump(who);
+  if((box[0] = 0) or (box[0] = 1026))
+    SendSysMessage(who, "Cancelled.", 3, 40);
+    return;
+  else
+    var res;
+    foreach thing in (box.keys)
+      if((thing != 1025) and (thing != 0))
+        case(thing)
+          2051: viewwebpages(who);
+                viewwebpages(who);
+        endcase
+        break;
+      endif
+    endforeach
+  endif
+endprogram
+
+function viewwebpages(who)
+
+  GFInitGump();
+  GFPage(1);
+  GFResizePic( 40, 40, 5120, 560, 400);
+  GFResizePic( 50, 50, 5054, 540, 380);
+  GFResizePic( 60, 90, 2620, 520, 270);
+  GFTextLine(200, 70, 5, "Charter for ");
+  var guild := "Staff";
+  var gm := "Cornholio";
+  var message := guild.getprop("gc");
+  if(message[1]=="NONE")
+    message:={"", "No Charter has been set up yet.", ""};
+  endif
+  var i;
+  var line := 3;
+  for(i:=4; i<=15; i:=i+1)
+    if(message[i-3]!=error)
+      GFTextLine(70, (82+((line-2)*20)), 300, message[i-3]);
+      line:=line+1;
+    endif
+  endfor
+  GFTextLine(200, 360, 70, "Guild Master " + gm[1]);
+  var wp := guild.getprop("webpage");
+  if(wp = error)
+    GFTextLine(170, 390, 0, "Guild Web Page: Not Entered");
+  else
+    GFTextLine(170, 390, 0, "Guild Web Page: " + wp);
+  endif
+  GFTextLine( 60, 390, 0, "go there?:");
+  var goweb := GFButtonID(130, 390, 4023, 4025, 1);
+  var res := GFSendGump(who);
+  if(res[goweb.keyid])
+    OpenWebSite(who, wp);
+  endif
+endfunction

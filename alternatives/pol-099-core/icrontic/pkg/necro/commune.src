@@ -1,0 +1,77 @@
+use uo;
+use os;
+
+include "include/client";
+include "castopts";
+
+var spelldelay := 2;
+
+program cast_commune(caster)
+
+	var options := GetObjProperty(caster, "NecroOpts");
+	if (!options)
+		options := {};
+	else
+		options := splitwords(options);
+	endif
+	EraseObjProperty(caster, "NecroOpts");
+
+	var CasterSkill := GetAttribute(caster, "MAGERY");
+	var duration := Cint(CasterSkill) * 2;
+
+
+	if (IsNoWords(options) == 0)
+		SpeakPowerWords(caster, 65);
+	endif
+
+	if (IsNoDelay(options) == 0)
+		While (spelldelay > 0)
+			PerformAction(caster, ANIM_CAST_DIR);
+			spelldelay := spelldelay - 1;
+			sleep(1);
+		endwhile
+		sleepms(500);
+	endif
+
+	if (IsNoMana(options) == 0)
+		if (!ConsumeMana(caster, 65))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+			SendSysMessage(caster, "Insufficient Mana.");
+			return;
+		endif
+	endif
+	
+	
+	if (IsNoRegs(options) == 0)
+		if (!ConsumeReagents(caster, 65))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+			SendSysMessage(caster, "Insufficient Reagents.");
+			return;
+		endif
+	endif
+
+	if (IsNoSkillCheck(options) == 0)
+		if (!CheckSkill(caster, SKILLID_MAGERY, 50, 0))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_5B);
+			return;
+		endif
+	endif
+
+	SendSysMessage(caster, "Whom shall commune with the dead?");
+	var victim := target(caster);
+
+	if ( (!victim) or (victim.dead == 1) )
+		SendSysMessage(caster, "The dead have no witness");
+		return;
+	endif
+
+	detach();
+	PlaySoundEffect(victim, SFX_SKILL_SPIRITSPEAK);
+	GrantPrivilege(victim, "hearghosts");
+	sleep(duration);
+	RevokePrivilege(victim, "hearghosts");
+
+endprogram

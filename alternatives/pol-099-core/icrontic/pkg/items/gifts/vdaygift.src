@@ -1,0 +1,48 @@
+use util;
+use uo;
+use os;
+include "include/attributes";
+include "include/client";
+
+program vdaygift(who, deed)
+var montype;
+var candy;
+var ccolor;
+var rndnum;
+var giftbag := CreateItemAtLocation(5228, 1182, 0, 0x0e76,1);
+var bpack := GetEquipmentByLayer(who, 21);
+giftbag.color := 0x0023;
+var loop := 4;
+while(loop)
+rndnum := RandomDiceRoll("1d12");
+case(rndnum)
+1:montype := "Cool Guy";
+2:montype := "Too Cool";
+3:montype := "Super Friend";
+4:montype := "Too Sexy";
+5:montype := "Bite Me";
+6:montype := "I Love You";
+7:montype := "Kiss Me";
+8:montype := "Own Me";
+9:montype := "Secks Me";
+10:montype := "Hug";
+11:montype := "Two of Hearts";
+12:montype := "Love Forever";
+endcase
+rndnum := RandomDiceRoll("1d4");
+case(rndnum)
+1:ccolor := 0x0022;
+2:ccolor := 0x0040;
+3:ccolor := 0x0063;
+4:ccolor := 0x002c;
+endcase
+candy := CreateItemAtLocation(5228, 1182, 0, 0x09ea,1);
+candy.color := ccolor;
+candy.name := montype;
+MoveItemToContainer( candy, giftbag,-1,-1 );
+loop := loop - 1;
+endwhile
+MoveItemToContainer( giftbag, bpack, x := -1, y := -1 );
+SendSysMessage(who, "Happy Valentine's Day!  - Shard Staff");
+DestroyItem(deed);
+endprogram

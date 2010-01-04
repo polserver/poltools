@@ -1,0 +1,221 @@
+use uo;
+use os;
+
+include "include/help";
+
+var layout:= {
+
+	"nodispose",
+
+	"resizepic 100 50 2620 600 500",
+	"resizepic 100 50 5054 600 500",
+ 
+	"gumppic 440 290 104",
+	"gumppic 475 50 50990",
+
+	"text 182 142 1100 0",
+	"text 182 167 1100 1",
+	"text 182 212 1100 2",
+	"text 182 237 1100 3",
+	"text 182 262 1100 4",
+	"text 182 287 1100 5",
+	"text 182 312 1100 6",
+
+ 
+	"button 150 142 4023 4024 1 0 1",
+	"button 150 167 4023 4024 1 0 2",
+	"button 150 212 4023 4024 1 0 3",
+	"button 150 237 4023 4024 1 0 4",
+	"button 150 262 4023 4024 1 0 5",
+	"button 150 312 4023 4024 1 0 6",
+
+	"text 131 325 1173 7",
+	"text 131 343 1173 8",
+	"text 131 361 1173 9",
+	"text 131 379 1173 10",
+	"text 131 397 1173 11",
+	"text 131 415 1173 12",
+	"text 131 433 1173 13",
+	"text 131 451 1173 14",
+	"text 131 469 1173 15",
+	"text 257 70 1173 16",
+
+	"text 140 510 1100 17",
+
+};
+
+var data:= {
+
+	"Request Ingame Help",
+	"List of ingame .commands",
+
+	"Icrontic: Lost Souls Homepage",
+	"Icrontic: Bugs Forum for general bugs",
+	"Ingame reporting of a bug (more private)",
+	"",
+	"Volunteer System",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"Icrontic: The Lost Souls Help System",
+
+	"Beware friend, for thou dost live in dangerous times",
+
+};
+
+var gmpages  := GetGlobalProperty("gmpages");
+var cnpages  := GetGlobalProperty("counpages");
+var bugpages := GetGlobalProperty("bugpages");
+var volpages := GetGlobalProperty("volpages");
+
+program help(who2)
+  var who := who2[1];
+  var box := SendDialogGump( who, layout, data );
+  case (box[0])
+
+	1: pagesystem(who);
+	2: dotcommands(who);
+        3: OpenWebSite(who, "http://www.icrontic.net");
+        4: OpenWebSite(who, "http://www.icrontic.net/modules.php?op==modload&name==Forums&file=viewforum&forum=11");
+        5: bugsystem(who);
+        6: volsystem(who);
+
+  endcase
+endprogram
+
+function counpage(who, thepage)
+  if(!cnpages)
+    cnpages := {};
+  endif
+  while(1)
+    if (!Icanpage(who))
+      sleep(1);
+    else
+      break;
+    endif
+  endwhile
+  var cserial := CInt(who.serial);
+  foreach thing in cnpages
+    if(thing[3] = who.serial)
+      SendSysMessage(who, "Your new page overrides your old one and has been placed at the end of the queu.");
+      cnpages := RemoveElement(cnpages, thing);
+      break;
+    endif
+  endforeach
+  var newarry := {};
+  newarry.append(who.name);
+  newarry.append(thepage);
+  newarry.append(who.serial);
+  cnpages.append(newarry);
+  SetGlobalProperty("counpages", cnpages);
+  SetObjProperty( who, "HELP", thepage);
+  SetObjProperty (who, "HELPTIMER", ReadGameClock());
+endfunction
+
+function gmpage(who, thepage)
+  if(!gmpages)
+    gmpages := {};
+  endif
+  while(1)
+    if (!Icanpage(who))
+      sleep(1);
+    else
+      break;
+    endif
+  endwhile
+  var cserial := CInt(who.serial);
+  foreach thing in gmpages
+    if(thing[3] = who.serial)
+      SendSysMessage(who, "Your new page overrides your old one and has been placed at the end of the queu.");
+      gmpages := RemoveElement(gmpages, thing);
+      break;
+    endif
+  endforeach
+  var newarry := {};
+  newarry.append(who.name);
+  newarry.append(thepage);
+  newarry.append(who.serial);
+  gmpages.append(newarry);
+  SendSysMessage(who, "Your page is number " + gmpages.size() + " in the queu", 3, 73);
+  SetGlobalProperty("gmpages", gmpages);
+  SetObjProperty( who, "HELP", thepage);
+  SetObjProperty (who, "HELPTIMER", ReadGameClock());
+endfunction
+
+function RemoveElement(arry, position)
+  var newarray := { };
+  foreach thing in arry
+    if(thing != position)
+      newarray.append(thing);
+    endif
+  endforeach
+  return newarray;
+endfunction
+
+Function OpenWebSite(who, url)
+  var packet:="A5"+WordPacket(Len(url)+4);
+  ForEach ascii_code in CAscZ(url)
+    packet:=packet+BytePacket(ascii_code);
+  EndForEach
+  SendPacket(who, packet+"00");
+EndFunction
+
+Function BytePacket(byte)
+  var paket:=Hex(byte);
+  paket:="00"+paket[3, Len(paket)-2];
+  Return (paket[Len(paket)-1, 2]);
+EndFunction
+
+Function WordPacket(word)
+  var paket:=Hex(word);
+  paket:="0000"+paket[3, Len(paket)-2];
+  Return (paket[Len(paket)-3, 4]);
+EndFunction
+
+Function DoubleWordPacket(doubleword)
+  var paket:=Hex(doubleword);
+  paket:="00000000"+paket[3, Len(paket)-2];
+  Return (paket[Len(paket)-7, 8]);
+EndFunction
+
+function bugsystem(who)
+  var thepage:= CStr(RequestInput(who,who.backpack,"Write down your report:" ));
+  if(thepage = "0")
+        SendSysMessage(who, "Cancelled");
+        return;
+  endif
+  bugpage(who, thepage);
+  EraseObjProperty( who, "canpage" );
+  SendSysMessage( who, "The staff have received your message and will look into it.", 3, 73);
+  foreach char in EnumerateOnlineCharacters()
+          if (char.cmdlevel >= 1)
+             SendSysMessage( char, "Bug Report from " + who.name +  ": " + thepage, 3, 73);
+          endif
+  endforeach
+endfunction
+
+function bugpage(who, thepage)
+  if(!bugpages)
+    bugpages := {};
+  endif
+  while(1)
+    if (!Icanpage(who))
+      sleep(1);
+    else
+      break;
+    endif
+  endwhile
+  var cserial := CInt(who.serial);
+  var newarry := {};
+  newarry.append(who.name);
+  newarry.append(thepage);
+  newarry.append(who.serial);
+  bugpages.append(newarry);
+  SetGlobalProperty("bugpages", bugpages);
+endfunction

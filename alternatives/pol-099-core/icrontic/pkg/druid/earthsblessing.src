@@ -1,0 +1,44 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/spellRestrictions";
+include "include/castopts";
+
+program cast_bless( parms )
+
+	var circle := 8;
+	var caster;
+	var cast_on;
+
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+	else
+		caster := parms;
+	endif
+
+	var mobile;
+	var castskill := cint((GetEffectiveSkill(caster, SKILLID_ANIMALLORE) + GetEffectiveSkill(caster, SKILLID_MAGERY))/2);
+	var mod_amount;
+	var duration;
+
+	PlaySoundEffect(caster, SFX_SPELL_BLESS);
+	foreach mobile in ListMobilesNearLocation (caster.x, caster.y, caster.z, 10)
+		PlayObjectCenteredEffect( mobile, FX_BLESS_EFFECT, 10,10);
+
+		mod_amount := (GetModAmount (castskill)/3)*2;
+		duration := GetModDuration (castskill)*2;
+
+                if(CanMod(cast_on, "str"))
+                  DoTempMod(cast_on, "str", mod_amount, duration);
+                endif
+                if(CanMod(cast_on, "dex"))
+                  DoTempMod(cast_on, "dex", mod_amount, duration);
+                endif
+                if(CanMod(cast_on, "int"))
+                  DoTempMod(cast_on, "int", mod_amount, duration);
+                endif
+ 	endforeach
+
+endprogram

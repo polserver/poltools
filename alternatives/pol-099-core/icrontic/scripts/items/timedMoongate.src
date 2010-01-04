@@ -1,0 +1,64 @@
+use os;
+use uo;
+use basic;
+
+include "include/moongate";
+include "include/clock";
+
+program walk_on_moongate(mobile, gate)
+  if((mobile.npctemplate) && (mobile.script != "tamed") && (mobile.script != "employed"))
+    return;
+  endif
+  var x, y, z;
+  SetDestination(gate);
+  x := GetObjProperty(gate, "GateDestX");
+  y := GetObjProperty(gate, "GateDestY");
+  z := GetObjProperty(gate, "GateDestZ");
+  set_critical(1);
+  foreach critter in ListMobilesNearLocation(gate.x, gate.y, gate.z, 8);
+    if(((critter.script == "employed") && (CInt(GetObjProperty(critter, "master")) == mobile.serial)) || ((critter.script == "escortee") && (CInt(GetObjProperty(critter, "Escortee")) == mobile.serial)) || ((critter.script == "tamed") && (CInt(GetObjProperty(critter, "master")) == mobile.serial)))
+      MoveCharacterToLocation(critter, gate.x, gate.y, gate.z, MOVECHAR_FORCELOCATION);
+    endif
+  endforeach
+  MoveCharacterToLocation(mobile, x, y+1, z);
+endprogram
+
+function SetDestination(currentgate)
+  var i := 1;
+  var enter_gate_index := 0;
+  foreach gate in gates
+    if((gate[1] == currentgate.x) && (gate[2] == currentgate.y) && (gate[3] == currentgate.z) )
+       enter_gate_index := i;
+    endif
+    i := i + 1;
+  endforeach
+  var time := GetTimeofDay();
+  var str_hour := time[1,2];
+  var this_hour := CInt(str_hour);
+  var stepnum;
+  if((this_hour >= 0) && (this_hour < 3))
+    stepnum := 0;
+  elseif((this_hour >= 3) && (this_hour < 6))
+    stepnum := 1;
+  elseif((this_hour >= 6) && (this_hour < 9))
+    stepnum := 2;
+  elseif((this_hour >= 9) && (this_hour < 12))
+    stepnum := 3;
+  elseif((this_hour >= 12) && (this_hour < 15))
+    stepnum := 4;
+  elseif((this_hour >= 15) && (this_hour < 18))
+    stepnum := 5;
+  elseif((this_hour >= 18) && (this_hour < 21))
+    stepnum := 6;
+  elseif((this_hour >= 21) && (this_hour < 24))
+    stepnum := 7;
+  else
+    stepnum := 0;
+  endif
+  var temp := dests[enter_gate_index];
+  var destnum := temp[stepnum+1];
+  var dest := gates[destnum+1];
+  SetObjProperty(currentgate, "GateDestX", dest[1] );
+  SetObjProperty(currentgate, "GateDestY", dest[2] );
+  SetObjProperty(currentgate, "GateDestZ", dest[3] );
+endfunction

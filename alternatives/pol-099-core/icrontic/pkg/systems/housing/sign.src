@@ -1,0 +1,784 @@
+
+use uo;
+use os;
+
+include "util/key";
+include "util/bank";
+Const UOBJECT_DOORS_START := 0x0675;
+Const UOBJECT_DOORS_END   := 0x06f4;
+Const KEYSTART := 0x100E;
+Const KEYEND := 0x1013;
+Const KEYRING := 0x1011;
+
+
+var layout := array( 
+
+"page 0",
+
+"resizepic 0 45 2600 412 300",
+"gumppic 140 0 100",
+"text 190 30 48 0",
+"text 190 50 48 31",
+"resizepic 15 100 5100 382 25",
+"text 25 102 0 1",
+"button 78 104 5209 5003 0 1 0",
+"text 145 102 0 2",
+"button 230 104 5209 5003 0 2 0",
+"text 285 102 0 3",
+"button 360 104 5209 5003 0 3 0",
+"button 50 308 249 248 1 0 0",
+
+"page 1",
+"text 120 140 2302 4",
+"text 200 140 0 5",
+"text 35 180 2302 6",
+"text 250 180 0 7",
+"text 35 200 2302 8",
+"text 250 200 0 9",
+"text 35 240 2302 10",
+"text 35 260 2302 11",
+"text 270 260 0 12",
+"text 35 280 2302 13",
+"text 150 308 2302 14",
+"button 330 308 2714 2715 1 0 1",
+
+"page 2",
+"text 55 130 2302 15",
+"button 25 130 2714 2715 1 0 2",
+"text 55 152 2302 16",
+"button 25 152 2714 2715 1 0 3",
+"text 55 174 2302 17",
+"button 25 174 2714 2715 1 0 4",
+"text 250 130 2302 18",
+"button 220 130 2714 2715 1 0 5",
+"text 250 152 2302 19",
+"button 220 152 2714 2715 1 0 6",
+"text 250 174 2302 20",
+"button 220 174 2714 2715 1 0 7",
+"text 250 196 2302 21",
+"button 220 196 2714 2715 1 0 8",
+"text 145 218 2302 22",
+"button 115 218 2714 2715 1 0 9",
+"text 145 240 2302 23",
+"button 115 240 2714 2715 1 0 10",
+"text 145 262 2302 24",
+"button 115 262 2714 2715 1 0 11",
+"text 145 284 2302 25",
+"button 115 284 2714 2715 1 0 12",
+
+"page 3",
+"text 90 130 2302 26",
+"button 60 130 2714 2715 1 0 13",
+"text 90 160 2302 27",
+"button 60 160 2714 2715 1 0 14",
+"text 90 190 2302 28",
+"button 60 190 2714 2715 1 0 15",
+"text 90 220 2302 29",
+"button 60 220 2714 2715 1 0 16",
+"text 90 250 2302 30",
+"button 60 250 2714 2715 1 0 17",
+);
+
+var data := array(   
+	"",
+	"INFO",
+	"FRIENDS",
+	"OPTION",
+	"Owned by",
+	"<NAME>",
+	"Number of locked down items:",
+	"",
+	"Number of secure containers:",
+	"",
+	"Number of visits this building has had: N/A",
+	"",
+	"",
+	"",
+	"Change this house's name!",
+	"List of Co-owners",
+	"Add a Co-owner",
+	"Remove a Co-owner",
+	"List of Friends",
+	"Add a Friend",
+	"Remove a Friend",
+	"Clear Friends list",
+	"Ban someone from the house",
+	"Eject someone from the house",
+	"View list of banned people",
+	"Lift a ban",
+	"Transfer ownership of the house",
+	"Demolish the house & get a deed back",
+	"Change the sign type",
+	"Change the master key",
+	"Building type( N/A )",
+	" ",
+);
+var signG;
+
+program textcmd_sign( who , sign )
+
+        var hserial := GetObjProperty( sign , "house_serial" );
+
+	if(!hserial) return; endif
+
+	CreateSignGump(who,sign,hserial);
+	SignG := sign;
+
+endprogram
+
+
+Function CreateSignGump( byref who, byref sign, hserial)        
+
+	var addonitem;
+        var house := SystemFindObjectBySerial( hserial );
+        var oserial := GetObjProperty( house , "ownerserial" );
+        SetObjProperty(house, "signserial", sign.serial);
+
+        SetPlaqueName( sign );
+        if( who.serial = oserial )
+            data[6] := who.name;
+            SetObjProperty( sign , "lastownername" , who.name );
+        else
+            data[6] := GetObjProperty( sign , "lastownername" );
+        endif
+
+        if( (GetObjProperty( house , "numlockdowns" ) = error) or (GetObjProperty( house , "numsecure" ) = error) )
+            AssignDefaultContainers( house );
+        endif
+
+        data[8] := GetObjProperty( house , "numlockdowns" );
+        data[10] := GetObjProperty( house , "numsecure" );
+
+	var result := SendDialogGump( who, layout, data );
+
+       var cown;
+       var i;
+          for(i := 1; i <= 5; i := i + 1)
+            if(GetObjProperty( house , "Co-owner" + i ) = who.serial)
+               cown := 1;
+               break;
+            endif
+          endfor
+
+        if(( oserial = who.serial ) or (cown) or who.cmdlevel >= 5)
+	 RefreshHouseItems( house );
+
+            case (result[0])
+                1:
+                  var newname := RequestInput( who, sign, "Enter a name for this house." );
+                  if( (len(newname) > 20) )
+                      SendSysmessage( who , "House sign names may not be longer than 20 characters." );
+                  elseif( len(SplitWords( newname )) > 5)
+                      Sendsysmessage( who , "House sign names are limited to 5 words or less." );
+                  else
+                      SetName( sign , newname );
+                  endif
+                2:Coowner_Function( house, who,result[0], sign);//ListCoowner( house, who );
+                3:Coowner_Function( house, who,result[0], sign);//AddCoowner( house, who );
+                4:Coowner_Function( house, who,result[0], sign);//DeleteCoowner( house, who );
+                5:Friend_Function(house,who,result[0], sign);//ListFriend( house, who );
+                6:Friend_Function(house,who,result[0], sign);//AddFriend( house, who );
+                7:Friend_Function(house,who,result[0], sign);//DeleteFriend( house, who );
+                8:ClearFriend( house, who );
+
+                9:BAnned_Function( house, who,result[0], sign);//AddBan( house, who );
+                10:Eject( who, house, sign );
+                11:BAnned_Function( house, who,result[0], sign);//ListBan( house, who );
+                12:BAnned_Function( house, who,result[0], sign);//DeleteBan( house, who );
+
+                13:if( oserial = who.serial )
+                   var Targetow := Target( who );
+                   ChangeHouseOwner( Targetow , house, sign );
+                   endif
+                14:if( oserial = who.serial )
+                   /*case (house.objtype)
+                           16484: CreateItemInBackpack( who, 0x6019, 1 );
+                           16486: CreateItemInBackpack( who, 0x601A, 1 );
+                           16490: CreateItemInBackpack( who, 0x601B, 1 );
+                           16492: CreateItemInBackpack( who, 0x601C, 1 );
+                           16494: CreateItemInBackpack( who, 0x601D, 1 );
+                           16500: CreateItemInBackpack( who, 0x6020, 1 );
+                           16502: CreateItemInBackpack( who, 0x6021, 1 );
+                           16504: CreateItemInBackpack( who, 0x6022, 1 );
+                           16506: CreateItemInBackpack( who, 0x6023, 1 );
+                           16508: CreateItemInBackpack( who, 0x6024, 1 );
+                           16510: CreateItemInBackpack( who, 0x6025, 1 );
+                           16524: CreateItemInBackpack( who, 0x6026, 1 );
+                           16525: CreateItemInBackpack( who, 0x6230, 1 );
+                           16544: CreateItemInBackpack( who, 0x6227, 1 );
+                           16546: CreateItemInBackpack( who, 0x6228, 1 );
+                           16536: CreateItemInBackpack( who, 0x6229, 1 );
+                           16540: CreateItemInBackpack( who, 0x622A, 1 );
+                           16538: CreateItemInBackpack( who, 0x622B, 1 );
+                           16542: CreateItemInBackpack( who, 0x622C, 1 );
+                           16534: CreateItemInBackpack( who, 0x622D, 1 );
+			   19384: CreateItemInBackpack( who, 0x622F, 1 );
+                   endcase*/
+                   var deedtype := Getobjproperty(House, "DeedType");
+                   CreateItemInBackpack( who, Deedtype, 1 );
+		     addonitem := cint(GetObjProperty( house, "component1" ));
+		     if (addonitem)
+		       destroyitem(addonitem);
+		     endif
+		     addonitem := cint(GetObjProperty( house, "component2" ));
+		     if (addonitem)
+		       destroyitem(addonitem);
+		     endif
+		     addonitem := cint(GetObjProperty( house, "component3" ));
+		     if (addonitem)
+		       destroyitem(addonitem);
+		     endif
+		     if (house.objtype==24788)
+		     	foreach item in ListItemsNearLocation( sign.x, sign.y, 0, 8 )
+			   if((item.objtype==0x177d) or (item.objtype==0xb41) or (item.objtype=0xb42))
+			      destroyitem(item);
+			   endif
+			endforeach
+		     endif
+
+	     	foreach item in ListItemsNearLocation( sign.x, sign.y, 0, 20 )
+		   if(item.objtype==0x9999)
+                      if(Cint(GetObjProperty(item, "houseserial") == house.serial))
+		        destroyitem(item);
+                      endif
+		   endif
+		endforeach
+
+
+		     DestroyMulti( house );
+                   endif
+                foreach item in enumerateitemsincontainer(who.backpack)
+                      
+                     sleepms(2);
+                      if( (item.objtype = cint(UOBJ_GOLD_KEY)) and (cint(getobjproperty(item, "builtserial") = hserial)) )
+			destroyitem(item);
+                      endif
+                endforeach
+
+                var bankbox := Findbankbox(who);
+                
+                Foreach item in enumerateitemsincontainer(bankbox)
+                        sleepms(2);
+                	if (  ( (item.objtype                         = cint(UOBJ_GOLD_KEY)   ) and ( cint(getobjproperty(item, "builtaserial")) = hserial)   )
+                	    or( (item.objtype                         = cint(UOBJ_HOUSE_DEED1)) and (cint(getobjproperty(item, "builtserial"))  = hserial)   ) )
+                       moveitemtocontainer(item,who.backpack);
+                       destroyitem(item);
+                       
+                        endif
+                endforeach
+                
+                15: ChangeSignType(who,sign);
+                16: if( oserial = who.serial )
+                      ChangeLocks( who , house );
+                    endif
+            endcase
+
+        endif
+
+endfunction
+
+function SetPlaqueName( sign )
+//Totally unintuitive!
+    var signname := sign.name;
+
+    var split := SplitWords( signname );
+
+    var j;
+    for( j := 1 ; j <= 5 ; j := j + 1 )
+        if( !split[j] )
+            split[j] := "";
+        endif
+    endfor
+
+    if( len(signname) <= 12 )
+        data[1] := signname;
+    elseif( (len(split[1]) + len(split[2]) + len(split[3]) + 2) <= 12 )
+        data[1] := split[1] + " " + split[2] + " " + split[3];
+        data[11] := split[4] + " " + split[5];
+    elseif( len(split[1]) + len(split[2]) + 1 <= 12 )
+        data[1] := split[1] + " " + split[2];
+        data[11] := split[3] + " " + split[4] + " " + split[5];
+    elseif( len(split[1]) <= 12 )
+        data[1] := split[1];
+        data[11] := split[2] + " " + split[3] + " " + split[4] + " " + split[5];
+    endif
+
+
+endfunction
+
+function ChangeLocks( who , house )
+
+    SendSysmessage( who , "Target the new master key." );
+
+    var addonitem, newkey := Target( who );
+
+    if( (newkey.objtype >= KEYSTART) and (newkey.objtype <= KEYEND) and (newkey.objtype != KEYRING) )
+        var lockid := AllocLockId();
+
+        SetObjProperty( newkey , "lockid" , lockid ); 
+
+        foreach item in (house.components)
+            if( ((item.objtype >= UOBJECT_DOORS_START) and (item.objtype <= UOBJECT_DOORS_END)) )
+                item.locked := 1;
+                SetObjProperty( item , "lockid" , lockid );
+            endif
+        endforeach
+
+   addonitem := cint(GetObjProperty( house, "component2" ));
+   if (addonitem)
+                addonitem.locked := 1;
+                SetObjProperty( addonitem , "lockid" , lockid );
+   endif
+
+        SendSysmessage( who , "Locks Changed." );
+    else
+        SendSysmessage( who , "That is not a key!" );
+    endif
+endfunction
+
+
+function RefreshHouseItems( house )
+
+    var addonitem;
+
+    foreach item in (house.components)
+	if (!item.corpsetype)
+            item.decayat := ReadGameClock() + 2592000;  //30 RL days in the future
+	endif
+    endforeach
+
+   addonitem := cint(GetObjProperty( house, "component1" ));
+   if (addonitem)
+     addonitem.decayat := ReadGameClock() + 2592000;
+   endif
+   addonitem := cint(GetObjProperty( house, "component2" ));
+   if (addonitem)
+     addonitem.decayat := ReadGameClock() + 2592000;
+   endif
+   addonitem := cint(GetObjProperty( house, "component3" ));
+   if (addonitem)
+     addonitem.decayat := ReadGameClock() + 2592000;
+   endif
+
+endfunction
+
+function AssignDefaultContainers( house )
+
+    case (house.objtype)
+       0x60AB: setobjproperty(house,"numlockdowns",25);//smallstoneandplasterhouse
+               setobjproperty(house,"numsecure",1);
+       0x60AD: setobjproperty(house,"numlockdowns",25);
+               setobjproperty(house,"numsecure",1);
+       0x60AF: setobjproperty(house,"numlockdowns",25);
+               setobjproperty(house,"numsecure",1);
+       0x60B1: setobjproperty(house,"numlockdowns",25);
+               setobjproperty(house,"numsecure",1);
+       0x60B3: setobjproperty(house,"numlockdowns",25);
+               setobjproperty(house,"numsecure",1);
+       0x60B5: setobjproperty(house,"numlockdowns",25);
+               setobjproperty(house,"numsecure",1);
+       0x60BB: setobjproperty(house,"numlockdowns",86);
+               setobjproperty(house,"numsecure",3);
+       0x60BD: setobjproperty(house,"numlockdowns",108);
+               setobjproperty(house,"numsecure",5);
+       0x60BF: setobjproperty(house,"numlockdowns",108);
+               setobjproperty(house,"numsecure",5);
+       0x60C1: setobjproperty(house,"numlockdowns",244);
+               setobjproperty(house,"numsecure",12);
+       0x60c3: setobjproperty(house,"numlockdowns",375);
+               setobjproperty(house,"numsecure",19);
+       0x60C5: setobjproperty(house,"numlockdowns",577);
+               setobjproperty(house,"numsecure",29);
+       0x60D8: setobjproperty(house,"numlockdowns",86);
+               setobjproperty(house,"numsecure",4);
+       0x60D4: setobjproperty(house,"numlockdowns",86);
+               setobjproperty(house,"numsecure",4);
+       0x60E4: setobjproperty(house,"numlockdowns",42);
+               setobjproperty(house,"numsecure",3);
+       0x60E5: setobjproperty(house,"numlockdowns",42);
+               setobjproperty(house,"numsecure",3);
+       0x60D6: setobjproperty(house,"numlockdowns",58);
+               setobjproperty(house,"numsecure",4);
+       0x60DA: setobjproperty(house,"numlockdowns",85);
+               setobjproperty(house,"numsecure",6);
+       0x60D7: setobjproperty(house,"numlockdowns",110);
+               setobjproperty(house,"numsecure",8);
+       0x60DB: setobjproperty(house,"numlockdowns",110);
+               setobjproperty(house,"numsecure",8);
+       0x60D5: setobjproperty(house,"numlockdowns",137);
+               setobjproperty(house,"numsecure",10);
+       0x60DC: setobjproperty(house,"numlockdowns",15);
+               setobjproperty(house,"numsecure",1);
+    endcase
+endfunction
+
+function Friend_Function( house, who, type, sign )
+var Layout2 := {
+"page 0",
+"noclose",
+"resizepic 0 45 2600 400 400",
+"Button 200 400 2074 2075 1 0 1000",//okay 
+"Button 100 400 2073 2072 1 0 1001", //cancel
+//"gumppic 140 0 100",
+"resizepic 19 100 5100 273 25",
+"Text 50 102 0 0"
+};
+var data2 := {
+"Friends List:"
+};
+  var textcount := 1;
+  var x := 25;
+  var y := 160;  
+    
+    
+    
+    
+    var i;
+    for(i := 1; i <=20; i := i + 1)
+
+    var friend := SystemFindObjectBySerial( GetObjProperty( house , "friend" + i ));
+    layout2.append("text "+cstr(x+20)+" " +cstr(y)+" 48 "+cstr(textcount));
+    if(type != 5)
+    layout2.append("Radio "+cstr(x)+" " +cstr(y)+" 210 211 0 "+cstr(i));
+    endif
+    if (friend)
+    data2.append(cstr(i)+". "+friend.name);
+    
+    else
+    data2.append(cstr(i)+". <empty>");	
+    endif
+    textcount := textcount+1;
+    y := y+ 20;
+    if( i = 10)
+    x := 200;
+    y := 160;
+    endif
+    endfor
+var result := SendDialogGump( who, layout2, data2 ); 
+var choose;
+if(result[0] = 1000)	
+	foreach k in (result.keys)
+		if(k>0)
+			choose:=k;
+			break;
+		endif
+	endforeach
+
+case(type)
+7: EraseObjProperty(house , "friend" + choose);
+    SendSysmessage( who, "Deleted the friend." );
+6:  SendSysmessage( who, "Select character." );
+    var targetchr := Target( who );
+    if(!targetchr)
+       SendSysmessage( who, "Cancelled." );
+       Friend_Function( house, who,type, sign );
+       return;
+    endif
+
+    if(targetchr.acctname = GetObjProperty( house , "owneracct" ))
+       SendSysmessage( who, "Cancelled." );
+       Friend_Function( house, who, type, sign );
+       return;
+    endif
+
+    SetObjProperty( house , "friend" + choose, targetchr.serial);
+    SendSysmessage( who, "Added friend." );
+
+endcase    
+else
+	Sendsysmessage(who,"Cancelled");
+        var hserial := GetObjProperty( sign , "house_serial" );
+        CreateSignGump(who, signg, hserial);
+        return;
+endif
+endfunction
+
+
+
+function Coowner_Function( house, who,type, sign )
+var Layout2 := {
+"page 0",
+"noclose",
+"resizepic 0 45 2600 200 260",
+"Button 105 265 2074 2075 1 0 1000",//okay 
+"Button 45 265 2073 2072 1 0 1001", //cancel
+//"gumppic 140 0 100",
+"resizepic 19 100 5100 160 25",
+"Text 50 102 0 0"
+};
+var data2 := {
+"Coowners List:"
+};
+  var textcount := 1;
+  var x := 25;
+  var y := 130;  
+
+    var i;
+    for(i := 1; i <=5; i := i + 1)
+
+    var Coowner := SystemFindObjectBySerial( GetObjProperty( house , "Co-owner" + i ));
+    layout2.append("text "+cstr(x+20)+" " +cstr(y)+" 48 "+cstr(textcount));
+    if(type != 2)
+    layout2.append("Radio "+cstr(x)+" " +cstr(y)+" 210 211 0 "+cstr(i));
+    endif
+    if (Coowner)
+    data2.append(cstr(i)+". "+Coowner.name);
+    
+    else
+    data2.append(cstr(i)+". <empty>");	
+    endif
+    textcount := textcount+1;
+    y := y+ 20;
+    
+    endfor
+var result := SendDialogGump( who, layout2, data2 ); 
+var choose;
+if(result[0] = 1000)	
+	foreach k in (result.keys)
+		if(k>0)
+			choose:=k;
+			break;
+		endif
+	endforeach
+
+case(type)
+4: EraseObjProperty(house , "Co-owner" + choose);
+    SendSysmessage( who, "Delete Coowner." );
+3:  SendSysmessage( who, "Select character." );
+    var targetchr := Target( who );
+
+    if(!targetchr)
+       SendSysmessage( who, "Cancelled." );
+       Coowner_Function( house, who,type, sign );
+       return;
+    endif
+
+    if(targetchr.acctname = GetObjProperty( house , "owneracct" ))
+       SendSysmessage( who, "Cancelled." );
+       Coowner_Function( house, who,type, sign );
+       return;
+    endif
+
+    SetObjProperty( house , "Co-owner" + choose, targetchr.serial);
+    SendSysmessage( who, "Added co-owner." );
+   
+endcase    
+else
+	Sendsysmessage(who,"Cancelled");
+        var hserial := GetObjProperty( sign , "house_serial" );
+	CreateSignGump(who,signg, hserial);
+        
+endif
+endfunction
+
+function ClearFriend( house, who )
+
+    var i;
+    for(i := 1; i <= 20; i := i + 1)
+    EraseObjProperty(house , "friend" + i);
+    endfor
+
+endfunction
+
+function BAnned_Function( house, who,type, sign )
+var Layout2 := {
+"page 0",
+"noclose",
+"resizepic 0 45 2600 400 400",
+"Button 200 400 2074 2075 1 0 1000",//okay 
+"Button 100 400 2073 2072 1 0 1001", //cancel
+//"gumppic 140 0 100",
+"resizepic 19 100 5100 273 25",
+"Text 50 102 0 0"
+};
+var data2 := {
+"Banned List:"
+};
+  var textcount := 1;
+  var x := 25;
+  var y := 160;  
+    
+    
+    
+    
+    var i;
+    for(i := 1; i <=20; i := i + 1)
+
+    var Banned := SystemFindObjectBySerial( GetObjProperty( house , "Banned" + i ));
+    layout2.append("text "+cstr(x+20)+" " +cstr(y)+" 48 "+cstr(textcount));
+    if(type != 11)
+    layout2.append("Radio "+cstr(x)+" " +cstr(y)+" 210 211 0 "+cstr(i));
+    endif
+    if (Banned)
+    data2.append(cstr(i)+". "+Banned.name);
+    
+    else
+    data2.append(cstr(i)+". <empty>");	
+    endif
+    textcount := textcount+1;
+    y := y+ 20;
+    if( i = 10)
+    x := 200;
+    y := 160;
+    endif
+    endfor
+var result := SendDialogGump( who, layout2, data2 ); 
+var choose;
+if(result[0] = 1000)	
+	foreach k in (result.keys)
+		if(k>0)
+			choose:=k;
+			break;
+		endif
+	endforeach
+
+case(type)
+12: EraseObjProperty(house , "Banned" + choose);
+    SendSysmessage( who, "Deleted Ban." );
+9:  SendSysmessage( who, "Select character." );
+    var targetchr := Target( who );
+
+    if(!targetchr)
+       SendSysmessage( who, "Cancelled." );
+       Banned_Function( house, who,type, sign );
+       return;
+    endif
+
+    if(targetchr.acctname = GetObjProperty( house , "owneracct" ))
+       SendSysmessage( who, "Cancelled." );
+       Banned_Function( house, who,type, sign );
+       return;
+    endif
+
+    SetObjProperty( house , "Banned" + choose, targetchr.serial);
+    SendSysmessage( who, "Added Ban list." );
+
+endcase    
+else
+	Sendsysmessage(who,"Cancelled");
+        var hserial := GetObjProperty( sign , "house_serial" );
+        CreateSignGump(who,signg, hserial);
+        return;
+endif
+endfunction
+
+function Eject( who, house, sign )
+
+    var targetchr := Target( who );
+
+    if(!targetchr)
+       SendSysmessage( who, "Cancelled." );
+       return;
+    endif
+
+    if(targetchr.acctname == GetObjProperty( house , "owneracct" ))
+       SendSysmessage( who, "You cannot eject a house owner" );
+       return;
+    endif
+    if(targetchr.multi.serial == house.serial)
+        MoveCharacterToLocation(targetchr, sign.x, sign.y, sign.z);
+        SendSysMessage(targetchr,"you have been ejected from the house");
+    endif
+endfunction
+
+function ChangeHouseOwner( who , house, sign )
+
+   var oldownerserial := GetObjProperty( house , "ownerserial" );
+   if( oldownerserial = who.serial )
+       SendSysmessage( who , "You are already the owner of that house." );
+   else
+       SetObjProperty( house , "ownerserial" , who.serial );
+       SetObjProperty( sign , "ownerserial" , who.serial );
+       SetObjProperty( house , "owneracct" , who.acctname );
+       SendSysmessage( who , "You have taken ownership of the house." );
+       SendSysmessage( who , "It would be wise to change the locks soon." );
+   endif
+
+endfunction
+
+Function ChangeSignType(Who,sign)
+var x := 105;
+var y := 155;
+var direction;
+var PageCount := 1;
+var TextCount := 1;
+if ((sign.graphic = 0xBD1) or (sign.graphic = 0xBCF))
+direction := 0;
+else
+direction := 1;
+endif 
+var Layout2 := {
+"page 0",
+"noclose",
+"resizepic 0 45 2600 250 200",
+"Button 150 208 2074 2075 1 0 1000",//okay 
+"Button 45 208 2073 2072 1 0 1001", //cancel
+//"gumppic 140 0 100",
+"resizepic 19 100 5100 213 25",
+"Text 50 70 0 0"
+};
+var data2 := {"Select the sign tipe:"};
+layout2.append("Page 1");
+Layout2.append("tilepic "+ cstr(x) + " " + cstr(y) + " " + cstr(0xb95+direction));
+layout2.append("Button 200 132 "+Cstr(0x15a4)+" "+cstr(0x15a5)+" 0 "+cstr(PageCount+1));
+layout2.append("Radio 80 160 210 211 0 "+cstr(0xb95+direction-2965));
+var TempSign := Createitematlocation(who.x,who.y,who.z,0xb95,1);
+TempSign.visible := 0;
+var Name := TempSign.desc+" sign";
+DestroyItem(tempSign);
+layout2.append("Text 30 102 48 "+Cstr(Textcount));
+Data2.append(Name);
+PageCount := PageCount+1;
+TextCount :=TextCount +1; 
+
+
+var signGrapicStart := 0xBa3;
+while(signGrapicStart <= 0xC0D)
+
+layout2.append("Page "+cstr(PageCount));
+layout2.append("Button 27 132 "+Cstr(0x15a1)+" "+cstr(0x15a2)+" 0 "+cstr(PageCount -1));
+layout2.append("Button 200 132 "+Cstr(0x15a4)+" "+cstr(0x15a5)+" 0 "+cstr(PageCount+1));
+PageCount := PageCount+1;
+Layout2.append("tilepic "+cstr(x)+" "+cstr(y)+" "+cstr(signGrapicStart+direction));
+layout2.append("Radio 80 160 210 211 0 "+cstr(signGrapicStart+direction-2965));
+TempSign := Createitematlocation(who.x,who.y,who.z,signGrapicStart,1);
+TempSign.visible := 0;
+Name := TempSign.desc+" sign";
+layout2.append("Text 30 102 48 "+Cstr(Textcount));
+Data2.append(Name);
+DestroyItem(tempSign);
+TextCount := TextCount+1;
+signGrapicStart := signGrapicStart + 2;
+
+endwhile
+layout2.append("Page "+cstr(PageCount));
+layout2.append("Button 27 132 "+Cstr(0x15a1)+" "+cstr(0x15a2)+" 0 "+cstr(PageCount -1));
+Layout2.append("tilepic "+cstr(x)+" "+cstr(y)+" "+cstr(0xc43+direction));
+layout2.append("Radio 80 160 210 211 0 "+cstr(0xc43+direction-2965));
+TempSign := Createitematlocation(who.x,who.y,who.z,0xc43,1);
+TempSign.visible := 0;
+Name := TempSign.desc+" sign";
+layout2.append("Text 30 102 48 "+Cstr(Textcount));
+Data2.append(Name);
+DestroyItem(tempSign);
+
+
+var result := SendDialogGump( who, layout2, data2 ); 
+var choose;
+if (result[0] = 1001)
+Sendsysmessage(who, "cancelled");
+endif
+If (result[0] = 1000)
+foreach k in (result.keys)
+		if(k>0)
+			choose:=k;
+			break;
+		endif
+	endforeach
+endif
+
+if(choose != 1000)
+  Sign.graphic := choose+2965;
+  Sendsysmessage(who, "Done!");
+endif
+endfunction 

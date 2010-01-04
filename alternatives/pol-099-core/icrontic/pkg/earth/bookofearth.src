@@ -1,0 +1,150 @@
+use uo;
+use os;
+use basic;
+
+
+include "include/math";
+
+var layout := {
+    "noclose",
+    "nodispose",
+     "page 0",
+    "gumppic 0 0 500",
+    "button 32 236 4020 4022 1 0 0", 
+    "text 70 20 28 0",
+    "text 230 20 28 1"
+};
+
+var LSpellArray := {85,86,87,96,97,98,99,100};
+var GSpellArray := {88,89,90,91,92,93,94,95};
+var BookArray := {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+var LesserButtonLayout := {
+    "button 40 45 2104 2103 1 0 101",
+    "button 40 65 2104 2103 1 0 102",
+    "button 40 85 2104 2103 1 0 103",
+    "button 40 105 2104 2103 1 0 104",
+    "button 40 125 2104 2103 1 0 105",
+    "button 40 145 2104 2103 1 0 106",
+    "button 40 165 2104 2103 1 0 107",
+    "button 40 185 2104 2103 1 0 108"
+};
+
+var GreaterButtonLayout := {
+    "button 220 45 2104 2103 1 0 109",
+    "button 220 65 2104 2103 1 0 110",
+    "button 220 85 2104 2103 1 0 111",
+    "button 220 105 2104 2103 1 0 112",
+    "button 220 125 2104 2103 1 0 113",
+    "button 220 145 2104 2103 1 0 114",
+    "button 220 165 2104 2103 1 0 115",
+    "button 220 185 2104 2103 1 0 116",
+};
+
+var LesserTextLayout := {
+    "text 60 40 0 ",
+    "text 60 60 0 ",
+    "text 60 80 0 ",
+    "text 60 100 0 ",
+    "text 60 120 0 ",
+    "text 60 140 0 ",
+    "text 60 160 0 ",
+    "text 60 180 0 ",
+};
+
+var GreaterTextLayout := {
+    "text 240 40 0 ",
+    "text 240 60 0 ",
+    "text 240 80 0 ",
+    "text 240 100 0 ",
+    "text 240 120 0 ",
+    "text 240 140 0 ",
+    "text 240 160 0 ",
+    "text 240 180 0 "
+};
+
+var data := {
+    "Circle 1 Spells",
+    "Circle 2 Spells"
+};
+
+var LesserSpellData := {
+    "SummonCreature",
+    "Vision",
+    "Lightning",
+    "Shifting Earth",
+    "Strength",
+    "Nature Heal",
+    "Forest Cure",
+    "Group Gate",
+};
+
+var GreaterSpellData := {
+    "Gust of Air",
+    "ShapeChange",
+    "Summon Air",
+    "Summon Earth",
+    "Summon Water",
+    "Summon Fire",
+    "FireWall",
+    "IceStrike"
+};
+
+program BookOfEarth(who, tome)
+	var i := 1;
+	var q := 8;
+	var LTotal := 0;
+	var GTotal := 0;
+
+	var LayoutLen := len(layout);
+	var DataLen := len(data);
+
+	var GreaterFlag := cint(GetObjProperty(tome, "Greater"));
+	var LesserFlag := cint(GetObjProperty(tome, "Lesser"));
+	var Options := GetObjProperty(tome, "Options");
+
+	While (i < 9)
+		if (FlagCheck(LesserFlag, i)=1)
+			LTotal := LTotal + 1;
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := LesserButtonLayout[LTotal];
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := LesserTextLayout[LTotal] + Cstr(1 + LTotal + GTotal);
+			DataLen := DataLen + 1;
+			data[DataLen] := LesserSpellData[i];
+			BookArray[LTotal] := LSpellArray[i];
+		endif
+		if (FlagCheck(GreaterFlag, i)=1)
+			GTotal := GTotal + 1;
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := GreaterButtonLayout[GTotal];
+			LayoutLen := LayoutLen + 1;
+			layout[LayoutLen] := GreaterTextLayout[GTotal] + Cstr(1 + LTotal + GTotal);
+			DataLen := DataLen + 1;
+			data[DataLen] := GreaterSpellData[i];
+			q := 8 + GTotal;
+			BookArray[q] := GSpellArray[i];
+		endif
+		i := i + 1;
+	 endWhile
+
+	SendSysMessage(who, "Select Spell.");
+   
+	var res := SendDialogGump( who, layout, data );             
+
+	if (res[0] < 100)
+	        SendSysMessage(who, "Cancelled.");
+        	return;
+	endif
+
+	set_critical(1);
+	Detach();
+
+	var CastMe := (res[0] - 100);
+	CastMe := BookArray[CastMe];
+
+        SetObjProperty(who, "DruidOpts", Options);
+
+	StartSpellEffect(who, CastMe);
+
+endprogram

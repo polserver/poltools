@@ -1,0 +1,10 @@
+// BackgammonBoard.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use uo;
+
+program BackgammonBoard(who, item)
+  SendSysMessage(who, "You risk a client crash if you trash the backgammon board, if you trash a game piece or if you drag a game piece longer than 30 seconds!");
+  SendViewContainer(who, item);
+endprogram

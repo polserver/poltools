@@ -1,0 +1,9 @@
+use uo;
+
+include "include/packets";
+
+program textcmd_desolateseason( who )
+  SetSeasonForAll( SEASON_DESOLATION );
+  SendSysMessage(who, "Season Desolation Set for all players");
+  SetGlobalProperty("gseason", "SEASON_DESOLATION");
+endprogram

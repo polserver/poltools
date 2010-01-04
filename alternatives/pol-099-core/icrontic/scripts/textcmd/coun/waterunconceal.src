@@ -1,0 +1,24 @@
+use uo;
+use os;
+
+program roar(who)
+
+var orgcolour:=who.color;
+var orggraphic:=who.graphic;
+
+who.graphic:=0x10;
+who.color:=1179;
+unconcealme(who);
+PerformAction(who,12);
+playsoundeffect(who,0x0119);
+sleepms(400);
+PerformAction(who,12);
+sleepms(2000);
+who.graphic:=orggraphic;
+who.color:=orgcolour;
+
+endprogram
+
+function unconcealme(who)
+  who.concealed := 0;
+endfunction

@@ -1,0 +1,7 @@
+use uo;
+use os;
+program walkon_restile(who,stone)
+if(who.dead)
+Resurrect(who);
+endif
+endprogram

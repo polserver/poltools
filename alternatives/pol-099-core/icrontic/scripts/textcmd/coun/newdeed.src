@@ -1,0 +1,9 @@
+use uo;
+
+program textcmd_create( who, text )
+      var item := CreateItemAtLocation( who.x, who.y, who.z, 0xa391, 1 );
+      if(item)
+        SetObjProperty(item, "Created", who.name);
+        item.decayAt := 0;
+      endif
+endprogram

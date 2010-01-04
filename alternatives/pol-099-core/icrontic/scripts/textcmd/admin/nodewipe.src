@@ -1,0 +1,19 @@
+use uo;
+use os;
+
+program npcwipe(character)
+  set_critical(0);
+  var x, y, z;
+  for(x:=6144; x>16; x:=x -32)
+    for(y:=16; y<4096; y:=y+32)
+      for(z:=-60; z<=60; z:=z+30)
+        foreach npc in ListItemsNearLocation(x, y, z, 32)
+          if((npc.objtype == 0x887b) || (npc.objtype == 0xa401))
+            DestroyItem(npc);
+          endif
+        endforeach
+      endfor
+    endfor
+  endfor
+  SendSysMessage(character, "Finished wiping nodes");
+endprogram

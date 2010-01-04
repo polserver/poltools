@@ -1,0 +1,20 @@
+// ChessBoardCanInsert.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use uo;
+
+program ChessBoardCanInsert(who, container, item)
+  var cbserial := CInt(GetObjProperty(item, "cbserial"));
+  if (!cbserial)
+    return 0;
+
+  elseif (cbserial)
+    if (cbserial != container.serial)
+      return 0;
+
+    elseif (cbserial = container.serial)
+      return 1;
+    endif
+  endif
+endprogram

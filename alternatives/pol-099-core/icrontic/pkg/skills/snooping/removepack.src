@@ -1,0 +1,43 @@
+
+use uo;
+use os;
+include "include/utility";
+program removepack(parms)
+
+var who := parms[1];
+var mark := parms[2];
+var sleepdelay := cint(parms[3]);
+var markx := mark.x, marky := mark.y;
+var markbackpack :=parms[4];
+
+var thiefbackpack:=SystemFindObjectBySerial(markbackpack,SYSFIND_SEARCH_STORAGE_AREAS);
+
+var whopack:=SystemFindObjectBySerial(who.serial);
+if(!whopack) whopack:=SystemFindObjectBySerial(who.serial,SYSFIND_SEARCH_OFFLINE_MOBILES); endif
+
+while(sleepdelay>0)
+sleep(1);
+sleepdelay := sleepdelay-1;
+if((markx<>mark.x) or (marky<>mark.y)) sleepdelay:=0; endif
+if(Distance(who,mark)>1) sleepdelay:=0; endif
+endwhile
+
+foreach item in enumerateitemsincontainer(thiefbackpack)
+    	if (item.container.serial==thiefbackpack.serial)
+    	        if (getobjproperty(item,"markinfo"))
+    		releaseitem(item);
+		destroyitem(item);
+		else
+		moveitemtocontainer(item,whopack.backpack);
+		endif
+	endif
+endforeach
+
+var storage:= FindStorageArea( "Merchant Storage" );
+
+DestroyRootItemInStorageArea(storage, "thief storage of " + who.serial);
+
+MoveCharacterToLocation( who, who.x, who.y, who.z+1 );
+EraseObjProperty(who,"#snooper");
+
+endprogram

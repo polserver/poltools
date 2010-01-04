@@ -1,0 +1,34 @@
+use os;
+use uo;
+use util;
+use cfgfile;
+include "drinkPotion";
+include "include/statMod";
+include "include/canAccess";
+
+program drink_blue (who, potion)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  if(!can_access(who, potion))
+    return;
+  endif
+  if(potion.movable == 0)
+    SendSysMessage(who, "You cannot drink that.");
+    return;
+  endif
+  if(!CanMod(who, "dex"))
+	SendSysMessage(who,"Already under the influence!");
+	return;
+  endif
+  if(!checkifcandrink(who, "#blue"))
+    return;
+  endif
+  case(potion.objtype)
+    0xdc0c:  empty_bottle(who, potion);
+             DoTempMod(who, "dex", 10,  60);
+    0xdc0d:  empty_bottle(who, potion);
+             DoTempMod(who, "dex", 20, 180);
+    0x1942:  empty_bottle(who, potion);
+             DoTempMod(who, "dex", 30, 360);
+  endcase
+endprogram

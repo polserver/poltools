@@ -1,0 +1,33 @@
+///////////////////////////////////////////////
+// bird.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+///////////////////////////////////////////////
+//
+// This script will give a bird a random name
+// by replacing <random> and will give it a random
+// color between 2 and 1001 (dye colors)
+//
+///////////////////////////////////////////////
+
+use uo;
+use util;
+use os;
+
+include "../ai_include/NPC_Setup";
+
+program InitScript(bird)
+
+	var result;
+	bird.color := RandomDiceRoll("1d1000")+1;
+	bird.truecolor := bird.color;
+	
+	SetNPCName(bird, "Birds");
+	
+	return 1;
+endprogram

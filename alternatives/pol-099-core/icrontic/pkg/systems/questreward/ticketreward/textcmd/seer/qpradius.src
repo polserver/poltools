@@ -1,0 +1,41 @@
+/////////////////////////////////////////////////////////////////
+//              Give Quest Points to players in a box area you select
+/////////////////////////////////////////////////////////////////
+
+use uo;
+
+program textcmd_qpradius(who,text)
+
+  if(!text)
+    SendSysMessage(who,"For giveing points to people in a defined area. useage: qpradius <amount>");
+    return;
+  endif
+
+  var amount:= CInt(text);
+  var credits;
+
+  SendSysMessage(who,"Target the top-left corner.");
+  var topleft:= TargetCoordinates(who);
+  if(!topleft)
+    return;
+  endif
+  SendSysMessage(who,"Target the bottom-right corner.");
+  var botright:= TargetCoordinates(who);
+  if(!botright)
+    return;
+  endif
+
+  foreach targ in ListObjectsInBox(topleft.x,topleft.y,topleft.z,botright.x,botright.y,botright.z);
+    if(targ.acctname)
+      credits:= CInt(GetObjProperty(targ,"credits"));
+      if(credits.error)
+        credits:= 0;
+      endif
+      credits:= credits + amount;
+      SetObjProperty(targ,"credits",credits);
+      SendSysMessage(who,"Gave "+ targ.name +" "+ amount +" Quest Points. They now have "+ credits +" Points.");
+      SendSysMessage(targ,who.name +" gave you "+ amount +" Quest Points. You now have "+ credits +" Points.");
+    endif
+  endforeach
+
+endprogram

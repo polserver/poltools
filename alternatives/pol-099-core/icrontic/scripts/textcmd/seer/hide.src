@@ -1,0 +1,39 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/spellattack";
+include "include/spellrestrictions";
+
+program hide( who, place )
+ 
+ if (  who.concealed = 1 )
+
+    PlayLightningBoltEffect( who );
+    PlaySoundEffect( who, 0x1f4 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_FLAMESTRIKE, 7, 0x10 );
+    sleep ( 1 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_EXPLODE_3 , 7, 0x10 );
+    who.concealed := 0;
+    PlayStationaryEffect(who.x,who.y,who.z, FX_SMOKE, 7 , 0x10 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_EXPLODE_3 , 7, 0x10 );
+    PlayLightningBoltEffect( who );
+
+ else
+
+    PlayLightningBoltEffect( who );
+    PlayObjectCenteredEffect(who, 0x3709, 0x0a, 0x1e );
+    PlaySoundEffect( who, 0x1f4 );
+    sleep ( 2 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_EXPLODE_3 , 7, 0x10 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_FLAMESTRIKE, 7, 0x10 );
+    who.concealed := 1;
+    PlayStationaryEffect(who.x,who.y,who.z, FX_EXPLODE_3, 7, 0x10 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_FLAMESTRIKE, 7, 0x10 );
+    PlayStationaryEffect(who.x,who.y,who.z, FX_SMOKE, 7 , 0x10 );
+    PlayLightningBoltEffect( who );
+
+ endif
+
+endprogram

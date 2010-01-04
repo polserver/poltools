@@ -1,0 +1,81 @@
+///////////////////////////////////////////////
+// banker.src
+//
+// Created 7/26/2002 11:31AM
+// Updated 7/26/2002 11:31AM
+//
+// By Austin Heilman
+// http://www.tsse.net
+//
+///////////////////////////////////////////////
+//
+// This allows a banker to listen to players say
+// "bank" or "box" to get to their storage area.
+// It does require Austin's bank.inc which can be
+// found on the pol script forum at:
+// http://groups.yahoo.com/group/pol-scriptforum/files/Includes/
+//
+// This also supports regional storage areas by setting a "bankname"
+// cprop on the npc. If one isnt specified, bank.inc will default it
+// to "global".
+//
+///////////////////////////////////////////////
+//
+// Unlike the other nerves, this nerve continues running and
+// never kills its self. The brain just sends it new events
+// when it needs to. In the long run, this is better because
+// it will not need to start and stop this nerve and on many
+// shards it is something that would be frequently used.
+//
+///////////////////////////////////////////////
+use uo;
+use os;
+
+include "util/bank";
+include "../ai_include/NPC_Commands";
+
+program ListenNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var ev		:= params[3];
+	
+	var talker := ev.source;
+	var speech := ev.text;
+	
+	while( npc )
+		speech := lower(speech);
+		// If someone says "bank" or "box" in a sentence give it to 'em!
+		if ( (speech["bank"]) || (speech["box"]) )
+			if ( CheckLineOfSight(npc, talker) )
+				AI_Turn(npc, talker, NETURN_TOWARD);
+				
+				var b_box :=  FindBankBox( talker );
+				
+				if (b_box)
+					AI_Speak(npc, "Here is your security box.");
+					SendOpenSpecialContainer(talker, b_box);
+				else
+					AI_Speak(npc, "Ummm... I cant find your box?!");
+				endif
+			endif
+		endif
+		
+		ev := wait_for_event(900);
+		if ( ev )
+			case ( ev.type )
+				SYSEVENT_SPEECH:
+					talker := ev.source;
+					speech := ev.text;
+				NPCEVENT_DONE:
+					talker := 0;
+					speech := "";
+			endcase
+		else
+			//Incase... 900 seconds went by and no one else talked
+			//and for some reason the brain never replied with NPCEVENT_DONE
+			talker := 0;
+			speech := "";
+		endif
+	endwhile
+	
+endprogram

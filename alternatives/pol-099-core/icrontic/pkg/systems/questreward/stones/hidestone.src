@@ -1,0 +1,193 @@
+use os;
+use uo;
+use util;
+
+program hidestone( who, amount , hidestone )
+    amount := CInt(amount);
+    amount := 50;
+var a;
+var b;
+var c;
+var d;
+var e;
+var f;
+var g;
+var h;
+var i;
+var j;
+var ax := randomint(7);
+var bx := randomint(7);
+var cx := randomint(7);
+var dx := randomint(7);
+var ex := randomint(7);
+var fx := randomint(7);
+var gx := randomint(7);
+var hx := randomint(7);
+var ix := randomint(7);
+var jx := randomint(7);
+
+
+    If ( ax = 6 )
+	a := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( ax = 5 )
+	a := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( ax = 4 )
+	a := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( ax = 3 )
+	a := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( ax = 2 )
+	a := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( ax = 1 )
+	a := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( ax = 0 )
+	a := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( bx = 6 )
+	b := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( bx = 5 )
+	b := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( bx = 4 )
+	b := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( bx = 3 )
+	b := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( bx = 2 )
+	b := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( bx = 1 )
+	b := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( bx = 0 )
+	b := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( cx = 6 )
+	c := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( cx = 5 )
+	c := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( cx = 4 )
+	c := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( cx = 3 )
+	c := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( cx = 2 )
+	c := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( cx = 1 )
+	c := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( cx = 0 )
+	c := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( dx = 6 )
+	d := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( dx = 5 )
+	d := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( dx = 4 )
+	d := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( dx = 3 )
+	d := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( dx = 2 )
+	d := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( dx = 1 )
+	d := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( dx = 0 )
+	d := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( ex = 6 )
+	e := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( ex = 5 )
+	e := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( ex = 4 )
+	e := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( ex = 3 )
+	e := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( ex = 2 )
+	e := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( ex = 1 )
+	e := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( ex = 0 )
+	e := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( fx = 6 )
+	f := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( fx = 5 )
+	f := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( fx = 4 )
+	f := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( fx = 3 )
+	f := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( fx = 2 )
+	f := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( fx = 1 )
+	f := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( fx = 0 )
+	f := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( gx = 6 )
+	g := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( gx = 5 )
+	g := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( gx = 4 )
+	g := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( gx = 3 )
+	g := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( gx = 2 )
+	g := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( gx = 1 )
+	g := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( gx = 0 )
+	g := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( hx = 6 )
+	h := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( hx = 5 )
+	h := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( hx = 4 )
+	h := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( hx = 3 )
+	h := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( hx = 2 )
+	h := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( hx = 1 )
+	h := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( hx = 0 )
+	h := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( ix = 6 )
+	i := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( ix = 5 )
+	i := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( ix = 4 )
+	i := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( ix = 3 )
+	i := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( ix = 2 )
+	i := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( ix = 1 )
+	i := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( ix = 0 )
+	i := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+    If ( jx = 6 )
+	j := CreateItemInBackpack(who, 0x7020, amount) ;
+    ElseIf ( jx = 5 )
+	j := CreateItemInBackpack(who, 0x702c, amount);
+    ElseIf ( jx = 4 )
+	j := CreateItemInBackpack(who, 0x702d, amount);
+    ElseIf ( jx = 3 )
+	j := CreateItemInBackpack(who, 0x7028, amount);
+    ElseIf ( jx = 2 )
+	j := CreateItemInBackpack(who, 0x7029, amount);
+    ElseIf ( jx = 1 )
+	j := CreateItemInBackpack(who, 0x702a, amount);
+    ElseIf ( jx = 0 )
+	j := CreateItemInBackpack(who, 0x7026, amount);
+    Endif
+
+      SendSysMessage( who, "You find a pile of hides in your pack");
+    DestroyItem (hidestone);
+      return;
+endprogram

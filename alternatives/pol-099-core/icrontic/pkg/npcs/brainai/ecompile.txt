@@ -1,0 +1,96 @@
+Compiling: ./brain.src
+Writing:   ./brain.ecl
+Compiling: ./combat_nerves/archercombat.src
+Writing:   ./combat_nerves/archercombat.ecl
+Compiling: ./combat_nerves/fleecombat.src
+Writing:   ./combat_nerves/fleecombat.ecl
+Compiling: ./combat_nerves/magecombat.src
+Writing:   ./combat_nerves/magecombat.ecl
+Compiling: ./combat_nerves/meleecombat.src
+Writing:   ./combat_nerves/meleecombat.ecl
+Compiling: ./combat_nerves/serpentcombat.src
+Writing:   ./combat_nerves/serpentcombat.ecl
+Compiling: ./combat_nerves/spidercombat.src
+Writing:   ./combat_nerves/spidercombat.ecl
+Compiling: ./ctrlReg.src
+Writing:   ./ctrlReg.ecl
+Compiling: ./cycle_scripts/criercycle.src
+Writing:   ./cycle_scripts/criercycle.ecl
+Compiling: ./cycle_scripts/targetpcs.src
+Writing:   ./cycle_scripts/targetpcs.ecl
+Compiling: ./dblclick_nerves/chickenEgg.src
+Writing:   ./dblclick_nerves/chickenEgg.ecl
+Compiling: ./dblclick_nerves/cowtip.src
+Writing:   ./dblclick_nerves/cowtip.ecl
+Compiling: ./flee_nerves/personflee.src
+Writing:   ./flee_nerves/personflee.ecl
+Compiling: ./flee_nerves/runaway.src
+Writing:   ./flee_nerves/runaway.ecl
+Compiling: ./flee_nerves/teleportflee.src
+Writing:   ./flee_nerves/teleportflee.ecl
+Compiling: ./idle_nerves/chicken.src
+Writing:   ./idle_nerves/chicken.ecl
+Compiling: ./idle_nerves/graze.src
+Writing:   ./idle_nerves/graze.ecl
+Compiling: ./idle_nerves/idlewalkanchor.src
+Writing:   ./idle_nerves/idlewalkanchor.ecl
+Compiling: ./idle_nerves/sheep.src
+Writing:   ./idle_nerves/sheep.ecl
+Compiling: ./idle_nerves/sleep.src
+Writing:   ./idle_nerves/sleep.ecl
+Compiling: ./init_scripts/archersetup.src
+Writing:   ./init_scripts/archersetup.ecl
+Compiling: ./init_scripts/banker.src
+Writing:   ./init_scripts/banker.ecl
+Compiling: ./init_scripts/bird.src
+Writing:   ./init_scripts/bird.ecl
+Compiling: ./init_scripts/crier.src
+Writing:   ./init_scripts/crier.ecl
+Compiling: ./init_scripts/meleesetup.src
+Writing:   ./init_scripts/meleesetup.ecl
+Compiling: ./init_scripts/merchant.src
+Writing:   ./init_scripts/merchant.ecl
+Compiling: ./init_scripts/person.src
+Writing:   ./init_scripts/person.ecl
+Compiling: ./init_scripts/serpent.src
+Writing:   ./init_scripts/serpent.ecl
+Compiling: ./init_scripts/sheep.src
+Writing:   ./init_scripts/sheep.ecl
+Compiling: ./init_scripts/spider.src
+Writing:   ./init_scripts/spider.ecl
+Compiling: ./init_scripts/warrior.src
+Writing:   ./init_scripts/warrior.ecl
+Compiling: ./listen_nerves/banker.src
+Writing:   ./listen_nerves/banker.ecl
+Compiling: ./listen_nerves/crier.src
+Writing:   ./listen_nerves/crier.ecl
+Compiling: ./listen_nerves/merchant.src
+Variable settings has not been declared.
+Error compiling statement at ./listen_nerves/merchant.src, Line 49
+Error in IF statement starting at File: ./listen_nerves/merchant.src, Line 42
+Error compiling statement at ./listen_nerves/merchant.src, Line 41
+Error in IF statement starting at File: ./listen_nerves/merchant.src, Line 41
+Error compiling statement at ./listen_nerves/merchant.src, Line 39
+Error compiling statement at ./listen_nerves/merchant.src, Line 35
+Error detected in program body.
+Error occurred at ./listen_nerves/merchant.src, Line 50
+Compiling: ./listen_nerves/typicaltalk.src
+Writing:   ./listen_nerves/typicaltalk.ecl
+Compiling: ./reaction_nerves/attack.src
+Writing:   ./reaction_nerves/attack.ecl
+Compiling: ./reaction_nerves/person.src
+Writing:   ./reaction_nerves/person.ecl
+Compiling: ./reaction_nerves/wakeup.src
+Writing:   ./reaction_nerves/wakeup.ecl
+Compiling: ./textcmd/gm/attack.src
+Writing:   ./textcmd/gm/attack.ecl
+Compiling: ./textcmd/gm/resetnpcs.src
+Writing:   ./textcmd/gm/resetnpcs.ecl
+Compiling: ./textcmd/gm/restart.src
+Writing:   ./textcmd/gm/restart.ecl
+Compiling: ./textcmd/gm/sendevent.src
+Writing:   ./textcmd/gm/sendevent.ecl
+Compiling: ./win_nerves/lootandscoot.src
+Writing:   ./win_nerves/lootandscoot.ecl
+Compiling: ./win_nerves/walkaway.src
+Writing:   ./win_nerves/walkaway.ecl

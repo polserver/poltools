@@ -1,0 +1,21 @@
+use http;
+use uo;
+use os;
+use cfgfile;
+
+WriteHtml( "<html><head><title>Reload Dual Account/Banned IPS cfgs</title></head>" +
+           "<body bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>" +
+           "<center><img src=logo.gif></center>" +
+           "<div align==center>" +
+           "<table border=1 cellspacing=0 cellpadding=5>" +
+           "  <tr bgcolor=#003366><td>Config files Unloaded!</td></tr>"  );
+
+UnloadConfigFile( "allowedips" );
+UnloadConfigFile( "allowany" );
+UnloadConfigFile( "bannedips" );
+UnloadConfigFile( "mrcspawn" );
+UnloadConfigFile( "npcdesc" );
+UnloadConfigFile( "nlootgroup" );
+UnloadConfigFile( "staffips" );
+
+WriteHtml( "</BODY></HTML>" );

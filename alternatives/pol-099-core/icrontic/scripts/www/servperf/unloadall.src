@@ -1,0 +1,15 @@
+use http;
+use uo;
+use os;
+use cfgfile;
+
+WriteHtml( "<html><head><title>Unload All</title></head>" +
+           "<body bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>" +
+           "<center><img src=logo.gif></center>" +
+           "<div align==center>" +
+           "<table border=1 cellspacing=0 cellpadding=5>" +
+           "  <tr bgcolor=#003366><td>All Scripts Unloaded!</td></tr>"  );
+Broadcast( "Resynchronizing Scripts...", 3, 33  );
+unload_scripts( "" );
+Broadcast( "Done.", 3, 33  );
+WriteHtml( "</BODY></HTML>" );

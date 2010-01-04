@@ -1,0 +1,95 @@
+////////////////////////////////////////
+//
+// playit.src - 1.0 Alpha
+// Created  2/11/2003
+//
+// Author: MuadDib
+//
+// = Version 1.0 Alpha
+//   - 2/11/2003
+//     Rewrote the box check for a more stable check of mobiles
+//     Optimized code some, needs more work though.
+//
+// = Version 1.0 Beta
+//   - Created but havn't tested
+//
+////////////////////////////////////////
+//
+// Notes: Plays a sff for mobiles in the box array.
+//        Based originally off Austins Decay
+//        v1.2. All regions must be in sqaures
+//        defined by RECT_SIZE (default 20)
+//
+////////////////////////////////////////
+//
+// Ideas:
+//        * Add cfg ability to build regions
+//          to work like gzones.cfg etc for
+//          areas to play sound effects.
+//
+///////////////////////////////////////
+
+use uo;
+use os;
+
+const MAP_MAX_X	:= 6143;
+const MAP_MAX_Y	:= 4095;
+const RECT_SIZE	:= 20;
+
+var data_file := ReadConfigFile("sfxregions");
+var data_elem := GetConfigStringKeys(data_file);
+var cur_x := 0;
+var cur_y := 0;
+
+program Decayer()
+	SetGlobalProperty("#PlayItPid", GetPid());
+	sleep(10);
+	set_priority(1);
+	while (1)
+
+
+		for ( cur_x:=0; cur_x<=MAP_MAX_X; cur_x:=cur_x+RECT_SIZE)
+			for ( cur_y:=0; cur_y<=MAP_MAX_Y; cur_y:=cur_y+RECT_SIZE)
+				//Note:
+				//ListObjectsInBox() is ruthless and will list everything that is in that rect.
+				//Print("Decayer: sweeing "+cur_x+" "+cur_y+" "+(cur_x+RECT_SIZE)+" "+(cur_y+RECT_SIZE));
+								
+				foreach object in ListObjectsInBox(cur_x, cur_y, -125, cur_x+RECT_SIZE, cur_y+RECT_SIZE, 125)				
+					if ( CanRemove(object) )
+						RemoveObject(object);
+					endif
+	
+					//Wait 1/10 second between each object
+					sleepms(75);
+				endforeach
+				data_elem.SetProp("cur_y", cur_y);
+				sleep(800);
+			endfor
+			
+			data_elem.SetProp("cur_x", cur_x);
+		endfor
+				
+		data_elem.SetProp("cur_x", 0);
+		data_elem.SetProp("cur_y", 0);
+		
+		SysLog("Next decay cycle begins in 15 minutes.");
+		//Wait 15 minutes for the next world sweep;
+		sleep(90);
+	endwhile
+endprogram
+
+function CheckZone()
+	var element, range, sfx;
+	foreach listing in data_elem
+                sleepms(2);
+		range := SplitWords(data_file[listing].range);
+		if((who.x >= CInt(range[1])) && (who.x <= CInt(range[3])) && (who.y >= CInt(range[2])) && (who.y <= CInt(range[4])))
+			if (data_file[listing].SFX)
+                          sfx := CInt(data_file[listing].SFX);
+			else
+                          sfx := 0;
+			endif
+		endif
+	endforeach
+	return sfx;
+endfunction

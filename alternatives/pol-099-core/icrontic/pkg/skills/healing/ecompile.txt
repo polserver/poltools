@@ -1,0 +1,6 @@
+Compiling: ./ctrlReg.src
+Writing:   ./ctrlReg.ecl
+Compiling: ./dotheal.src
+Writing:   ./dotheal.ecl
+Compiling: ./healing.src
+Writing:   ./healing.ecl

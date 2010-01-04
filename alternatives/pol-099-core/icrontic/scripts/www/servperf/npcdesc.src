@@ -1,0 +1,69 @@
+use http;
+use uo;
+use cfgfile;
+use os;
+use util;
+
+include "include/client";
+include "include/randNameUtil";
+
+WriteHtml( "<html><head><title>IcronticShard NPC Info</title></head>" +
+           "<body>" +
+           "<center><img src=http://www.rcsi-usa.com/projects/banner2.jpg></center>" +
+           "<div align=center>" +
+           "<table border=1 cellspacing=0 cellpadding=5>" +
+           "<tr bgcolor=#99CCFF>" +
+           "<td><center>NPC Template</center></td>"+
+           "<td><center>ObjType</center></td>" +
+           "<td><center>Tame Reqd</center></td>" +
+           "<td><center>Herd Reqd</center></td>" +
+           "<td><center>Provoke Reqd</center></td>" +
+           "<td><center>Poison Skill</center></td>" +
+           "<td><center>Str.</center></td>" +
+           "<td><center>Int.</center></td>" +
+           "<td><center>Dex.</center></td>" +
+
+           "</tr>" );
+writehtml(" <body background=http://www.rcsi-usa.com/projects/background.jpg bgcolor=#000000 text=#FFFFFF link=#0000ff vlink=#cc00ff alink=#0000CC>");
+program record_throughput()
+    var data_file := ReadConfigFile("::npcdesc");
+    foreach listing in GetConfigStringKeys(data_file)
+      sleepms(5);
+      var template       := (listing);
+      var objtype        := (data_file[listing].objtype);
+      var tameskill      := (data_file[listing].tameskill);
+      var herdskill      := (data_file[listing].herdskill);
+      var provokeskill   := (data_file[listing].provoke);
+      var poisoningskill := (data_file[listing].Poisoning);
+      var strength       := (data_file[listing].STR);
+      var intelligence   := (data_file[listing].INT);
+      var dexterity      := (data_file[listing].DEX);
+      
+      if(herdskill.errortext or !herdskill)
+        herdskill := 0;
+      endif
+      if(tameskill.errortext or !tameskill)
+        tameskill := 0;
+      endif
+      if(provokeskill.errortext or !provokeskill)
+        provokeskill := 0;
+      endif
+      if(poisoningskill.errortext or !poisoningskill)
+        poisoningskill := 0;
+      endif
+
+      if((tameskill) or (poisoningskill) or (herdskill) or (provokeskill))
+        WriteHtml( "<tr bgcolor=#003366>"
+          + "<td>" + template + "</td>"
+          + "<td>" + objtype + "</td>"
+          + "<td>" + tameskill + "</td>"
+          + "<td>" + herdskill + "</td>"
+          + "<td>" + provokeskill + "</td>"
+          + "<td>" + poisoningskill + "</td>"
+          + "<td>" + strength + "</td>"
+          + "<td>" + intelligence + "</td>"
+          + "<td>" + dexterity + "</td>"
+          + "</tr>");
+      endif
+    endforeach
+endprogram

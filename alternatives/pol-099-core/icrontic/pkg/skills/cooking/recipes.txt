@@ -1,0 +1,74 @@
+First, the recipes that result in items used in other recipes.
+These can be made anywhere, without a fire or an oven:
+
+Product:			Skill:	Ingredients:
+----------------------------------------------
+dough			10		flour + water, in mixing bowl
+sweet dough		20		flour + honey, in mixing bowl
+cake batter		20		flour + honey + egg, in mixing bowl
+pie crust			20		flour + honey, in mixing bowl with a rolling pin
+pizza crust		20		flour + water, in mixing bowl with a rolling pin
+
+
+
+
+The recipes that can be cooked in either a fire or an oven:
+
+Product:			Skill:	Ingredients:
+----------------------------------------------
+cooked rib		20		raw rib
+cooked bird		20		raw bird
+cooked fishsteak	30		raw fishsteak
+baked ham			40		raw ham
+honey baked ham	70		raw ham + honey
+leg of lamb		50		raw leg of lamb
+
+
+
+
+Recipes that require an oven:
+
+Product:			Skill:	Ingredients:
+----------------------------------------------
+bread			30		dough
+french bread		40		dough
+garlic bread		60		dough + garlic
+muffins			30		dough
+cornmuffins		50		cornmeal + milk
+
+plate of cookies	50		sweet dough
+lemon tarts		70		sweet dough + lemon
+apple fritters		70		sweet dough + apple
+
+cake				50		cake batter
+apple cake		60		cake batter + apple
+carrot cake		70		cake batter + carrot
+lemon cake		80		cake batter + lemon
+lime cake			80		cake batter + lime
+coconut cake		90		cake batter + coconut
+
+apple pie			60		pie crust + 2 apples
+peach cobbler		70		pie crust + 2 peaches
+pumpkin pie		50		pie crust + pumpkin
+mincemeat pie		80		pie crust + raw rib + carrot + turnip
+chicken potpie		80		pie crust + raw bird + carrot + turnip
+coconut cream pie	80		pie crust + coconut + egg
+lemon meringue pie	90		pie crust + lemon + egg
+key lime pie		90		pie crust + lime + egg
+
+cheese pizza		50		pizza crust + cheese
+sausage pizza		80		pizza crust + cheese + raw sausage
+vegetarian pizza	70		pizza crust + cheese + lettuce
+onion pizza		70		pizza crust + cheese + onion
+
+
+
+
+recipes that require an open fire:
+
+Product:			Skill:	Ingredients:
+----------------------------------------------
+fried eggs		30		egg, in a frying pan
+bacon			30		slab of bacon, in frying pan
+sausage			40		raw sausage, in frying pan
+fried chicken		50		raw chicken leg + lard, in a frying pan

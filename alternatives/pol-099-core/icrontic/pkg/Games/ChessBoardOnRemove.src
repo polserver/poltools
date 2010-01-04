@@ -1,0 +1,21 @@
+// ChessBoardOnRemove.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use os;
+use uo;
+
+program ChessBoardOnRemove(who, container, item)
+  sleep(30);
+  var itemcontainer := item.container;
+  if (!itemcontainer)
+    MoveItemToContainer(item, container);
+    PrintTextAbove(item, "*the game piece has been retrieved*");
+
+  elseif (itemcontainer)
+    if (itemcontainer.serial != container.serial)
+      MoveItemToContainer(item, container);
+      PrintTextAbove(item, "*the game piece has been retrieved*");
+    endif
+  endif
+endprogram

@@ -1,0 +1,23 @@
+use uo;
+use os;
+
+include "include/client";
+
+program walkon_DeathTile(who, tile)
+  var mlayer := GetEquipmentByLayer(who, LAYER_MOUNT);
+  if(!who.dead)
+    if(!mlayer)
+      foreach reportable in (who.reportables)
+        who.removeReportable(reportable.serial,reportable.gameclock);
+      endforeach
+      PlayLightningBoltEffect( who ) ;
+      ApplyRawDamage(who , 1000);
+      var corpses:= ListItemsNearLocationOfType(tile.x,tile.y,tile.z,5,8198);
+      foreach corpse in corpses
+        DestroyItem(Corpse);
+      endforeach
+    else
+      SendSysMessage(who, "You may not be riding a mount & use this tile.");
+    endif
+  endif
+endprogram

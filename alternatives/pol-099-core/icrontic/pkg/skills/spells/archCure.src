@@ -1,0 +1,73 @@
+use uo;
+use cfgfile;
+
+include "include/eventID";
+include "include/attributes";
+include "include/spellRestrictions";
+
+program cast_archcure(parms)
+  var circle := 4;
+  var delivery := "indirect";
+  var noto := "helpful";
+  var id := 25;
+  var result := maincast(parms, delivery, circle, noto, id);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect(caster, SFX_SPELL_ARCH_CURE);
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var poison_descr;
+  var poison_level;
+  var potency := CInt(GetEffectiveSkill( caster, SKILLID_MAGERY ) /5);
+  foreach cast_on in ListMobilesNearLocation( cast_on.x, cast_on.y, cast_on.z, CInt(magery/15) );
+    if((CheckLineOfSight(cast_on, caster)) and (cast_on.cmdlevel < 2))
+	  poison_descr := GetObjProperty( cast_on,"poison_level" );
+	  poison_level := CInt(poison_descr);
+	  PlayObjectCenteredEffect( cast_on, FX_BLESS_EFFECT, 10,10);
+      if(cast_on.isA(POLCLASS_NPC))
+        var element := npccfg[cast_on.npctemplate].elemental;
+        if(element == "poison")
+          var ev := array;
+          ev.+ type;
+          ev.+ source;
+          ev.type := EVID_PEACEMADE;
+          SendEvent(cast_on, ev);
+          ev.source := caster;
+          SendEvent(cast_on, ev);
+          ev.type := EVID_ENGAGED;
+          SendEvent(cast_on, ev);
+          ApplyRawDamage(cast_on, potency);
+        else
+          if (poison_level >= 1)
+            poison_level := poison_level - potency;
+            if (poison_level >= 1)
+	          SendSysMessage(caster, "You cure some poison.");
+	          SendSysMessage(cast_on, caster.name + " has partially cured you!");
+	          SetObjProperty(cast_on, "poison_level", CStr(poison_level));
+            else
+	          SendSysMessage(caster, cast_on.name + " cured.");
+	          SendSysMessage(cast_on, caster.name + " has cured you completely!");
+                  EraseObjProperty(cast_on,"poison_level");
+                  cast_on.SetPoisoned(0);
+            endif
+          endif
+        endif
+      else
+        if (poison_level >= 1)
+          poison_level := poison_level - potency;
+          if (poison_level >= 1)
+	        SendSysMessage(caster, "You cure some poison.");
+	        SendSysMessage(cast_on, caster.name + " has partially cured you!");
+	        SetObjProperty(cast_on, "poison_level", CStr(poison_level));
+          else
+	        SendSysMessage(caster, cast_on.name + " cured.");
+	        SendSysMessage(cast_on, caster.name + " has cured you completely!");
+                EraseObjProperty(cast_on,"poison_level");
+          endif
+        endif
+      endif
+    endif
+  endforeach
+endprogram

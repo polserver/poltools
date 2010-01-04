@@ -1,0 +1,62 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// reward box
+// created by Drakken June 2002
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+use uo;
+use util;
+
+program rewardbox( who, reward )
+var prizeadd;
+var prize := randomint(14);
+
+    case(prize)
+      13: SendSysMessage( who, "You you find a Philosopher's stone, congratulations.");
+          prizeadd := CreateItemInBackpack(who, 0x3e3);
+          break;
+      12: SendSysMessage( who, "You you find pirates plunder, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e8);
+          break;
+      11: SendSysMessage( who, "You you find pirates plunder, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e8);
+          break;
+      10: SendSysMessage( who, "You you find a Stone of riches, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e9);
+          break;
+      9:  SendSysMessage( who, "You you find a Philosopher's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e3);
+          break;
+      8:  SendSysMessage( who, "You you find a Smith's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e6);
+          break;
+      7:  SendSysMessage( who, "You you find a tailor's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e7);
+          break;
+      6:  SendSysMessage( who, "You you find pirates plunder, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e8);
+          break;
+      5:  SendSysMessage( who, "You you find pirates plunder, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e8);
+          break;
+      4:  SendSysMessage( who, "You you find a Stone of riches, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e9);
+          break;
+      3:  SendSysMessage( who, "You you find a Philosopher's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e3);
+          break;
+      2:  SendSysMessage( who, "You you find a Smith's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e6);
+          break;
+      1:  SendSysMessage( who, "You you find a tailor's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3e7);
+          break;
+      0:  SendSysMessage( who, "You you find a bowyer's stone, congratulations.");
+	  prizeadd := CreateItemInBackpack(who, 0x3ed);
+          break;
+    endcase
+
+    DestroyItem (reward);
+
+endprogram

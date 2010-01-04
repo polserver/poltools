@@ -1,0 +1,228 @@
+use uo;
+use os;
+use cfgfile;
+include "hitScriptInc";
+
+var npccfgfile := ReadConfigFile("::npcdesc");
+
+
+program MainHitScript(attacker, defender, weapon, armor, basedamage, rawdamage)
+  if(attacker.concealed)
+    attacker.concealed := 0;
+  elseif(defender.concealed)
+    defender.concealed := 0;
+  endif
+  var armormoda := GetObjProperty(attacker, "a_equipped");
+  var armormodd := GetObjProperty(defender, "a_equipped");
+  var weaponmod := GetObjProperty(weapon, "power");
+
+  var stunpunch := GetObjProperty(attacker,"StunMode");
+  var disarmpunch := GetObjProperty(attacker,"DisarmMode");
+  if(stunpunch)
+    SetObjProperty(attacker,"WrestleTimer",ReadGameClock() + 10);
+    SendSysMessage(attacker,"You stop your attempt at stunning your opponent.");
+    SetObjProperty(attacker,"StunMode",0);
+  elseif(disarmpunch)
+    SetObjProperty(attacker,"WrestleTimer",ReadGameClock() + 10);
+    SendSysMessage(attacker,"You stop your attempt at disarming your opponent.");
+    SetObjProperty(attacker,"DisarmMode",0);
+  endif
+  if(defender == attacker)
+    SendSysMessage(attacker, "No Cheating");
+    ApplyRawDamage(attacker, 1000);
+    return;
+  endif
+  if(attacker.npctemplate == "townguard")
+    ApplyRawDamage(defender, 1000);
+    return;
+  endif
+  if(attacker.script == "townguard")
+    ApplyRawDamage(defender, 1000);
+    return;
+  endif
+  if((defender.cmdlevel == 1) && attacker.isA(POLCLASS_NPC))
+    RevokePrivilege(defender, "invul");
+    Damage( defender, GetHp(defender) );
+  elseif((defender.cmdlevel == 2) && attacker.isA(POLCLASS_NPC))
+    RevokePrivilege(defender, "invul");
+    Damage( defender, GetHp(defender) );
+  endif
+  if((attacker.cmdlevel == 1) && defender.isA(POLCLASS_NPC))
+    RevokePrivilege(attacker, "invul");
+    Damage( attacker, GetHp(attacker) );
+  elseif((attacker.cmdlevel == 2) && defender.isA(POLCLASS_NPC))
+    RevokePrivilege(attacker, "invul");
+    Damage( attacker, GetHp(attacker) );
+  endif
+  if(defender.isA(POLCLASS_NPC))
+    var damagedsound := CInt(npccfgfile[defender.npctemplate].damagedsound);
+    if(damagedsound)
+      PlaySoundEffect(defender, damagedsound);
+    endif
+    PerformAction(defender, 0xa);
+    basedamage := basedamage * 2;
+    rawdamage := rawdamage * 2;
+    var whatisit := CInt(npccfgfile[defender.npctemplate].script);
+    if((whatisit == "playermerchant") or (whatisit == "merchant"))
+      ApplyRawDamage(attacker, 1000);
+      SendSysMessage(attacker, "Attacking player vendors is NOT allowed.");
+      return;
+    endif
+  else
+    if(attacker.acctname && defender.acctname)
+      basedamage := basedamage / 2;
+      rawdamage := rawdamage / 2;
+    endif
+  endif
+  if(attacker.npctemplate == "employee")
+    basedamage := basedamage / 2;
+    rawdamage := rawdamage / 2;
+  endif
+  SetObjProperty(defender, "LastHit", {attacker.name, attacker.serial, weapon });
+  var shield := GetEquipmentByLayer(defender, 2);
+  if(shield)
+    var bd;
+    if(basedamage > 100)
+      bd := 100;
+    else
+      bd := basedamage;
+    endif
+    if(RandomInt(Cint(GetEffectiveSkill(defender, SKILLID_PARRY) / 2)) >= bd)
+      armor := shield;
+    endif
+  endif
+  var weaponhit := GetObjProperty(weapon, "OnHit");
+  if(attacker.isA(POLCLASS_NPC))
+    weaponhit := GetObjProperty(attacker, "OnHit");
+  endif
+  if(weapon.hp > weapon.maxhp)
+    DestroyItem(weapon);
+    rawdamage := 0;
+  endif
+  var armorhit;
+  if(armor == 0)
+    armorhit := GetObjProperty(defender, "UnUsEd");
+  else
+    armorhit := GetObjProperty(armor, "UnUsEd");
+  endif
+  var x;
+  var anat;
+  var lumberjack;
+  var lumberjackmultiplier;
+  if(!weaponhit)
+    if(!armorhit)
+      run_script_to_completion("reactiveArmorHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+      rawdamage := GetObjProperty(defender, "TempDamage");
+      if(rawdamage < 1)
+        rawdamage := 1;
+      endif
+      if(GetObjProperty(weapon, "SilverHit"))
+      if(defender.npctemplate == "vampire")
+         run_script_to_completion("vampireHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+      else
+          run_script_to_completion("silverHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+      endif
+      anat := Cint(GetEffectiveSkill(attacker, SKILLID_ANATOMY)/ 10);
+      lumberjack := Cint(GetEffectiveSkill(attacker, SKILLID_LUMBERJACKING));
+      lumberjackmultiplier := (lumberjack/250);
+      rawdamage := Cint(rawdamage + anat);
+      if(GetObjProperty(weapon, "Aaxe") = 1);
+        rawdamage := Cint(rawdamage + (rawdamage * lumberjackmultiplier));
+      endif
+      if(armormodd == "ACID")
+        rawdamage := (rawdamage / 2);
+        DealDamage(defender, attacker, rawdamage);
+        DealDamage(attacker, defender, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      else
+        DealDamage(defender, attacker, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+      return;
+    else
+      SetObjProperty(defender, "TempDamage", rawdamage);
+      foreach x in armorhit
+        Detach();
+        run_script_to_completion(x, { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := CInt(GetObjProperty(defender, "TempDamage") );
+      endforeach
+      run_script_to_completion("reactiveArmorHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+      rawdamage := GetObjProperty(defender, "TempDamage");
+      EraseObjProperty(defender, "TempDamage");
+      if(rawdamage < 1)
+        rawdamage := 1;
+      endif
+      if(GetObjProperty(weapon, "SilverHit"))
+      if(defender.npctemplate == "vampire")
+         run_script_to_completion("vampireHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+      else
+          run_script_to_completion("silverHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+      endif
+      anat := Cint(GetEffectiveSkill(attacker, SKILLID_ANATOMY)/10);
+      lumberjack := Cint(GetEffectiveSkill(attacker, SKILLID_LUMBERJACKING));
+      lumberjackmultiplier := (lumberjack/250);
+      rawdamage := Cint(rawdamage + anat);
+      if(GetObjProperty(weapon, "Aaxe") = 1);
+        rawdamage := Cint(rawdamage + (rawdamage * lumberjackmultiplier));
+      endif
+      if(armormodd == "ACID")
+        rawdamage := (rawdamage / 2);
+        DealDamage(defender, attacker, rawdamage);
+        DealDamage(attacker, defender, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      else
+        DealDamage(defender, attacker, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+      return;
+    endif
+  else
+    SetObjProperty(defender, "TempDamage", rawdamage);
+    foreach x in weaponhit
+      Detach();
+      run_script_to_completion(CStr(x), { attacker, defender, weapon, armor, basedamage, rawdamage } );
+      rawdamage := GetObjProperty(defender, "TempDamage");
+    endforeach
+    EraseObjProperty(defender, "TempDamage");
+    if(rawdamage < 1)
+      rawdamage := 1;
+    endif
+    run_script_to_completion("reactiveArmorHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+    rawdamage := GetObjProperty(defender, "TempDamage");
+      if(GetObjProperty(weapon, "SilverHit"))
+      if(defender.npctemplate == "vampire")
+         run_script_to_completion("vampireHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+      else
+          run_script_to_completion("silverHit", { attacker, defender, weapon, armor, basedamage, rawdamage } );
+        rawdamage := GetObjProperty(defender, "TempDamage");
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+      endif
+      anat := Cint(GetEffectiveSkill(attacker, SKILLID_ANATOMY)/10);
+      lumberjack := Cint(GetEffectiveSkill(attacker, SKILLID_LUMBERJACKING));
+      lumberjackmultiplier := (lumberjack/250);
+      rawdamage := Cint(rawdamage + anat);
+      if(GetObjProperty(weapon, "Aaxe") = 1);
+        rawdamage := Cint(rawdamage + (rawdamage * lumberjackmultiplier));
+      endif
+      if(armormodd == "ACID")
+        rawdamage := (rawdamage / 2);
+        DealDamage(defender, attacker, rawdamage);
+        DealDamage(attacker, defender, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      else
+        DealDamage(defender, attacker, rawdamage);
+        AwardRawSkillPoints(attacker, SKILLID_ANATOMY, 1);
+      endif
+    return;
+  endif
+endprogram

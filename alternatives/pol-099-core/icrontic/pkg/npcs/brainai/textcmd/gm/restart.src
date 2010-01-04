@@ -1,0 +1,7 @@
+use uo;
+
+program FixAI(who)
+	var targ := target(who);
+	
+	RestartScript(targ);
+endprogram

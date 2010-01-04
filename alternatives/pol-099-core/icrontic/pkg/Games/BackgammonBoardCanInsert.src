@@ -1,0 +1,20 @@
+// BackgammonBoardCanInsert.src
+// Version: r1y2002
+// © 2002 Maximilian Scherr
+
+use uo;
+
+program BackgammonBoardCanInsert(who, container, item)
+  var bbserial := CInt(GetObjProperty(item, "bbserial"));
+  if (!bbserial)
+    return 0;
+
+  elseif (bbserial)
+    if (bbserial != container.serial)
+      return 0;
+
+    elseif (bbserial = container.serial)
+      return 1;
+    endif
+  endif
+endprogram

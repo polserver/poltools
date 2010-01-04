@@ -1,0 +1,22 @@
+use cfgfile;
+use util;
+use uo;
+use os;
+include "include/attributes";
+include "include/client";
+
+program snowpile(who, pile)
+  EraseObjProperty(who, "IsMeditating");
+  EraseObjProperty(who, "HealTimer");
+  SendSysMessage( who, "Select a target." );
+  var subject := Target(who);
+  PerformAction(who, 0x0022);
+  PrintTextAbove(who, "*Making snowball*" );
+  sleep(3);
+  PerformAction(who, 0x0009);
+  PrintTextAbove(subject, "Smack!");
+  SendSysMessage( subject, who.name + " hit you with a snow ball! Ha ha!");
+  PlaySoundEffect(who, 0x0028);
+  PerformAction(subject, 0x0014);
+  DestroyItem(pile);
+endprogram

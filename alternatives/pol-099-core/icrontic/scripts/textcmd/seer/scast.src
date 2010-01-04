@@ -1,0 +1,19 @@
+use uo;
+
+program textcmd_scast(who, text)
+	if (!text)
+		text := requestinput(who, who.backpack, "What message would you like to broadcast for staff?");
+		if (!text)
+			SendSysMessage(who, "Canceled");
+			return;
+		endif
+	endif
+	var gms := EnumerateOnlineCharacters();
+	foreach guy in gms
+	   	if(guy.cmdlevel)
+       		SendSysMessage(guy, who.name + ": " + text,3,80);
+		endif
+	endforeach
+	
+endprogram
+

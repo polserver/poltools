@@ -1,0 +1,11 @@
+use uo;
+
+program textcmd_destroy( who )
+  SendSysMessage( who, "Please target something to destroy" );
+  var tgt := Target( who );
+  if(tgt)
+    DestroyItem( tgt);
+  else
+    SendSysMessage( who, "You can only destroy items" );
+  endif
+endprogram

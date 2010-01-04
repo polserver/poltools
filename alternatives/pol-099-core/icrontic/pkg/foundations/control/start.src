@@ -1,0 +1,8 @@
+use os;
+
+var script := start_script("checkpackages");
+if ( script.errortext )
+	SysLog(script.errortext);
+else
+	Print("Starting ICP setup... ok.");
+endif

@@ -1,0 +1,49 @@
+//
+// .createrect command - create items in a targetted rectangle
+//
+// usage: .createrect [objtype]
+// Items created with this command will not decay.
+//
+
+use uo;
+
+program textcmd_create( who, params )
+    var objtype, zheight;
+
+    params := SplitWords( params );
+
+    objtype := params[1];
+    if (CInt(objtype))
+        objtype := CInt(objtype);
+    endif
+
+    if (len(params)>=2)
+        zheight := CInt( params[2] );
+    else
+        zheight := 0;
+    endif
+
+    SendSysMessage( who, "Target the top-left corner" );
+    var topleft := TargetCoordinates( who );
+    if (!topleft)
+        return;
+    endif
+    SendSysMessage( who, "Target the bottom-left corner" );
+    var botright := TargetCoordinates( who );
+    if (!botright)
+        return;
+    endif
+    
+    if (topleft.x <= botright.x and topleft.y <= botright.y)
+        var x, y, z;
+        for( x := topleft.x; x <= botright.x; x := x + 1 )
+            for( y := topleft.y; y <= botright.y; y := y + 1 )
+                z := GetMapInfo( x,y ).z;
+                var item := CreateItemAtLocation( x, y, z+zheight, objtype, 1 );
+                item.decayat := 0;
+            endfor
+        endfor
+    endif
+
+       
+endprogram

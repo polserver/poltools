@@ -1,0 +1,117 @@
+///////////////////////////////////////////////
+// idlewalkanchor.src
+//
+// Created 10/19/2002
+// Updated 10/19/2002
+//
+// By Birdy
+//
+///////////////////////////////////////////////
+//
+// Walks to the Mobile's anchor, if it exists
+// after winning the fight.
+// 
+// Two CProps that must exist for this to 
+// happen on the mobile :
+//
+// 1) Anchor : {Xposition,Yposition}
+// 2) anchorFacing : Facing_direction
+//
+// #1 must be an array of two integers, and
+// anchorFacing is an integer with a valid
+// direction to face.
+//
+// When sleeping, mobile will periodically 
+// check to see if where it is equates to where
+// it should be, and if not, will try to walk
+// back to where it should be.  If it has
+// trouble getting there, it will be moved
+// there directly.
+// 
+// If anchorFacing doesn't exist, it will not
+// bother changing the direction it is facing
+// once it gets there.
+//
+// If Anchor doesn't exist, nothing at all 
+// happens really.
+//
+///////////////////////////////////////////////
+
+use uo;
+use util;
+use os;
+use math;
+
+include "../ai_include/NPC_Commands";
+
+program IdleNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var ev   	:= params[3];
+	var settings	:= params[4];
+	var anchorLoc   := {};
+	var anchorFacing;
+	var lastPos     := {};
+	var repeatSteps := 0;
+	var distLastStep;
+
+        while (npc)
+	//Get the victim's corpse and its location
+	  Sleep(20+RandomInt(10));
+ 	  anchorLoc := GetObjProperty(npc, "Anchor");
+	  lastPos := {npc.x, npc.y};
+	  repeatSteps := 0;
+	
+	  if ((anchorLoc != error) && 
+	      (npc.warmode == 0)
+	     )
+	
+            while ( CoordDistance(npc.x, npc.y, anchorLoc[1], anchorLoc[2]) != 0)
+          
+		if ( npc.warmode )
+			AI_EndNerve(npc, nerve_name);
+			return;
+		else
+			AI_Move_XYZ(npc, anchorLoc[1], anchorLoc[2], NEMOVE_TOWARD, NEMOVE_WALK, NOWAKE);
+		endif
+
+		sleepms(600);
+
+		while ( Events_Waiting() )
+			var ev := wait_for_event(120);
+		endwhile
+		
+		distLastStep := CoordDistance(npc.x, npc.y, lastPos[1], lastPos[2]);
+
+                if (distLastStep > 2)
+                  lastPos[1] := npc.x;
+                  lastPos[2] := npc.y;
+                  repeatSteps:= 0;
+                else
+                  repeatSteps := repeatSteps + 1;
+                endif
+		
+		if (repeatSteps > 6)
+		  MoveCharacterToLocation(npc, anchorLoc[1], anchorLoc[2], anchorLoc[3], MOVECHAR_FORCELOCATION);
+		  break;
+		endif
+	    endwhile
+	    
+            anchorFacing := GetObjProperty(npc, "anchorFacing");
+            if ((anchorFacing != error) && (anchorFacing != npc.facing))
+              npc.facing := anchorFacing;
+            endif
+          endif
+        endwhile;
+endprogram
+
+function CoordDistance(x1, y1 ,x2 ,y2)
+	var x_dist := abs(x1 - x2);
+	var y_dist := abs(y1 - y2);
+	
+	if ( x_dist > y_dist)
+		return x_dist;
+	else
+		return y_dist;
+	endif
+endfunction

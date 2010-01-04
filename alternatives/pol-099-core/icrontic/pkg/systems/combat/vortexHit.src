@@ -1,0 +1,25 @@
+use uo;
+use util;
+use os;
+
+include "include/attributes";
+
+program macehit(param)
+  var attacker := param[1];
+  var defender := param[2];
+  var basedamage := param[5];
+  var rawdamage := param[6];
+  if((attacker.dead) || (defender.dead))
+    return;
+  endif
+  var dmg := RandomInt(CInt(GetIntelligence(defender) / 10));
+  if(dmg > 40)
+    dmg := 12;
+  elseif(dmg < 2)
+    dmg := 2;
+  endif
+  rawdamage := rawdamage + dmg;
+  SetObjProperty(defender, "TempDamage", rawdamage);
+endprogram
+
+   

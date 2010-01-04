@@ -1,0 +1,101 @@
+use uo;
+use cfgfile;
+use os;
+use util;
+
+include "include/client";
+include "include/objtype";
+include "include/myutil";
+include "include/yesno";
+
+Const UOBJ_THREAD1 := 0x0FA0;
+Const UOBJ_THREAD2 := 0x0fa1;
+Const UOBJ_YARN    := 0xe1f;
+
+program use_flax (character, raw_material)
+
+	if (!accessible (character, raw_material))
+		SendSysMessage (character, "You can't reach that.");
+		return;
+	endif
+
+	if (!ReserveItem (raw_material))
+		SendSysMessage (character, "You can't use that right now.");
+		return;
+	endif
+
+        SpinWool (character, raw_material);
+
+endprogram
+
+///////////////////
+//  turns raw material into yarn
+///////////////////
+
+function SpinWool (character, raw_material)
+
+	var spinning_wheel := FindASpinningWheelNear (character);
+
+	if (!spinning_wheel)
+		SendSysMessage (character, "You must be closer to a spinning wheel.");
+		return;
+	endif
+  //Send popup menu allowing user to autoloop
+  var loopit := YesNo(character,"Autoloop?");
+
+  if (loopit)
+    //data to make sure the characters don't move
+    var characterx := character.x;
+    var charactery := character.y;
+    repeat
+	spinning_wheel.graphic := spinning_wheel.objtype + 1;
+	sleep(2);
+	spinning_wheel.graphic := spinning_wheel.objtype;
+
+        if(SubtractAmount(raw_material, 1))
+          var yarn := CreateItemInBackpack(character, 0xe1f, 3);
+          SendSysMessage(character, "You spin some and create 3 balls of yarn");
+        else
+          SendSysMessage(character, "You don't have enough for the ball of yarn.");
+          return;
+        endif
+        sleep(1);
+    //See if the character moved. If so, quit.  Otherwise, loop.
+    until (character.x != characterx or character.y != charactery);
+  else
+	spinning_wheel.graphic := spinning_wheel.objtype + 1;
+	sleep(2);
+	spinning_wheel.graphic := spinning_wheel.objtype;
+
+        if(SubtractAmount(raw_material, 1))
+          var yarn := CreateItemInBackpack(character, 0xe1f, 3);
+          SendSysMessage(character, "You spin some and create 3 balls of yarn");
+        else
+          SendSysMessage(character, "You don't have enough for the ball of yarn.");
+        endif
+  endif
+  
+endfunction
+
+///////////////////
+//  searches the area around the character for a spinning wheel
+///////////////////
+
+function FindASpinningWheelNear (character)
+
+	foreach item in ListItemsNearLocation (character.x, character.y, character.z, 2)
+		if (item.objtype = 0x1015)
+			return item;
+		elseif (item.objtype = 0x1019)
+			return item;
+		elseif (item.objtype = 0x101C)
+			return item;
+		elseif (item.objtype = 0x10A4)
+			return item;
+		endif
+	endforeach
+
+	return 0;
+
+endfunction
+

@@ -1,0 +1,21 @@
+use uo;
+
+program  z(who, howfar)
+var what := target(who, TGTOPT_NOCHECK_LOS);
+
+if (!what)
+        return;
+endif
+
+var tdist;
+
+if (howfar = "")
+        tdist := 1;
+else
+        tdist := cint(howfar);
+endif
+
+
+moveitemtolocation(what, what.x - tdist, what.y, what.z, MOVEITEM_FORCELOCATION );
+
+endprogram

@@ -1,0 +1,12 @@
+use uo;
+use os;
+program textcmd_grantpriv(who, priv)
+    SendSysMessage(who, "To whom do you want to grant the '" + priv + "' privilege?");
+
+    var subject := Target(who, TGTOPT_NOCHECK_LOS);
+    if (subject)
+        GrantPrivilege(subject, priv);
+        subject.enable(priv);
+        syslog(" "+ who.name +" has granted " + priv + " to " + subject.name + " ");
+    endif
+endprogram

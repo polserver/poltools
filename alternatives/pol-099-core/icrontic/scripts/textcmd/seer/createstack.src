@@ -1,0 +1,23 @@
+use uo;
+
+program textcmd_createstack( who, text )
+    var params := SplitWords( text );
+    var objtype := params[1];
+    var amount := CInt( params[2] );
+
+    if (CInt(objtype))
+        objtype := CInt(objtype);
+    endif
+
+    if (!amount)
+        amount := 1;
+    endif
+
+    var what := CreateItemInBackpack( who, objtype, amount );
+    if (what)
+      SetObjProperty(what, "Created", who.name);
+        PrintTextAbovePrivate( who, "Created " + what.desc + " in my backpack.", who );
+    else
+        PrintTextAbovePrivate( who, "Couldn't create that: " + what.errortext, who );
+    endif
+endprogram

@@ -1,0 +1,22 @@
+use os;
+use uo;
+
+include "util/key";
+include "include/objtype";
+include "plankUtil";
+
+program renameboat(you, tillerman)
+  if((GetObjProperty(tillerman,"owner") != you.serial) &&(you.cmdlevel < 2))
+	PrintTextAbove(tillerman,"Stop that, or I'll throw ye overboard!");
+	return;
+  endif
+    var boatname := RequestInput(you, tillerman, "Enter a new name for this boat.(max 40 characters)");
+  if(boatname)
+	if(len(boatname) <= 40)
+	  tillerman.name := boatname;
+	  SendSysMessage(you, "Boat is renamed.");
+	else
+	  SendSysMessage(you, "Too many characters in name.");
+	endif
+  endif
+endprogram

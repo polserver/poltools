@@ -1,0 +1,39 @@
+use uo;
+use os;
+use cfgfile;
+
+program textcmd_spellcolor(who)
+  SendSysMessage(who, "Select a color for your Magic Words.");
+  var thingie := CreateItemAtLocation(123, 123, 1, 0xeed, 1);
+  thingie.hidden := 1;
+  var color := SelectColor(who, thingie);
+  if(( color > 1001 ) || ( color == 1 ))
+    if(who.cmdlevel == 0)
+    var account := who.acct;
+    SendSysMessage( who, "Bug abusers aren't tolerated here." );
+    who.frozen := 1;
+    SendSysMessage(who, "You have been jailed for 2 days.");
+    var characters := EnumerateOnlineCharacters();
+    foreach chr in characters
+      if(chr.cmdlevel > 1)
+        SendSysMessage(chr, "account " + who.acctname + " has been caught dye exploiting.");
+        syslog("ALERT! " + who.name + " has just used Injection dye!!!.");
+      endif
+    endforeach
+    sleep(5);
+    var time := 172800;
+    var act := FindAccount(who.acctname);
+    act.setprop("releaseday",(ReadGameClock() + time));
+    act.disable();
+    DisconnectClient(who);
+    var acctcfg := ReadConfigFile(":gmtools:accts");
+    var elemjail := { };
+    elemjail.append({"releaseday", (ReadGameClock() + time)});
+    var jailed := AppendConfigFileElem(":gmtools:accts", "Account", act, elemjail);
+    UnloadConfigFile(":gmtools:accts");
+    endif
+  else
+    SetObjProperty(who, "scolor", Cint(color));
+    DestroyItem(thingie);
+  endif
+endprogram

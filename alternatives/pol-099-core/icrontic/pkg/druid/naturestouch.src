@@ -1,0 +1,55 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/eventid";
+include "include/spellRestrictions";
+
+program cast_heal( parms )
+
+	var circle := 4;
+	var caster;
+	var cast_on;
+
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+		cast_on := parms[3];
+	else
+		caster := parms;
+		cast_on := CanTargetSpell(caster, circle, TGTOPT_HELPFUL + TGTOPT_CHECK_LOS );
+		if (!cast_on)
+			return;
+		endif
+	endif
+
+	var healed := RandomDiceRoll("4d6");
+	var druidic_skills := cint(GetAttribute(caster, SKILLID_MAGERY)) + cint(GetAttribute(caster, SKILLID_ANIMALLORE));
+	healed := healed + cint( druidic_skills/5);
+
+	HealDamage( cast_on , healed );
+	PlayObjectCenteredEffect( cast_on , FX_SPARK_EFFECT , 7 , 16 );
+	PlaySoundEffect( cast_on , SFX_SPELL_HEAL );
+
+	PissOff(cast_on,caster);
+
+	SendSysMessage( caster, "You healed " + healed + " damage." );
+
+endprogram
+
+function PissOff(who,me)
+
+	if (me.npctemplate="humuc")
+		return;
+	endif
+
+	var ev := {};
+        ev.+source := me;
+        ev.+type := EVID_DAMAGED;
+	foreach mob in ListHostiles(who,9)
+		if ( randomint(4) = 1 )
+			sendevent(mob, ev);
+		endif
+	endforeach
+
+endfunction

@@ -1,0 +1,25 @@
+use uo;
+use os;
+use cfgfile;
+use util;
+
+include "include/objtype";
+include "include/attributes";
+include "include/math";
+include "spawnerLayout";
+include "include/gumpUtil";
+
+program showspawn(who)
+  var range := 10;
+  var i := 0;
+  foreach x in ListItemsNearLocationOfType(who.x, who.y, who.z, range, 0xa401)
+    x.graphic := 0x1ea7;
+    x.invisible := 0;
+	PrintTextAbove(x, "Hello, I am a spawnpoint!");
+	i := i + 1;
+        SendSysMessage(who, "Unhiding " + i + " spawnpoints.");
+    sleepms(2500);
+    x.invisible := 1;
+  endforeach
+  SendSysMessage(who, "Revealed " + i + " spawnpoints.");
+endprogram

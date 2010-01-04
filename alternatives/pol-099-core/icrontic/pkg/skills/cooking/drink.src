@@ -1,0 +1,118 @@
+use uo;
+use cfgfile;
+use os;
+
+include "food";
+include "include/dotempmods";
+
+Const SOUND_DRINK_LIQUID		:= 0x31;
+Const SOUND_DRINK_ALCOHOL	:= 0x32;
+Const ACTION_DRINK	:= 0x0022;
+
+program drink ( character, drink )
+
+	//don't drink locked down drinks
+	if (drink.movable = 0)
+		SendSysmessage (character, "You can't drink that.");
+		return;
+	endif
+
+	if(!ReserveItem(drink)) return; endif
+
+
+	//load some data
+	var cfgfile := ReadConfigFile( "itemdesc" );
+	var elem := FindConfigElem( cfgfile, drink.objtype );
+	var drink_proof := GetConfigInt( elem, "Proof" );
+
+	//check for poison
+	var drink_poison := Cint(GetObjProperty(drink, "poison_level"));
+	if (drink_poison > 0 )
+		do_poison_stuff ( character, drink_poison );
+		return;
+	endif
+
+	//do the drinking action
+	PerformAction( character, ACTION_DRINK );
+
+	//if its a glass of drink, create a new empty glass
+	if ((drink.objtype >= 0x1f7d and drink.objtype <= 0x1f94) or drink.objtype = 0x09ee or drink.objtype = 0x09ef)
+
+		//create an empty glass
+		var the_glass := CreateItemInBackpack (character, 0x1f81 );
+
+		//if the full glass has a saved name, rename the new glass
+		if (GetObjProperty (drink, "EmptyName") )
+			the_glass.name := GetObjProperty (drink, "EmptyName");
+		endif
+
+		//destroy the drink
+		SubtractAmount( drink, 1 );
+
+	//otherwise its a bottle or pitcher, so reduce it's fullness
+	else
+		reduce_container_fullness (character, drink);
+	endif
+
+	//if its an alcoholic drink, play the alcohol sound effect.
+	if (drink_proof)
+		PlaySoundEffect( character, SOUND_DRINK_ALCOHOL );
+	//otherwise if its not an alcoholic drink, play a different sound effect.  Then we return, because the
+	//script past this point only has to do with alcohol
+	else
+		PlaySoundEffect( character, SOUND_DRINK_LIQUID );
+		return;
+	endif
+
+	//Now we check to see how much alcohol the character has already consumed
+	var drunkness := GetObjProperty( character, "#proof" );
+
+	//if they haven't already drunk anything, set their alcohol level to that of the drink and start
+	//the drunk script, which causes the character to stumble about and such until the alcohol is
+	//finally purged of alcohol
+	if (!drunkness)
+		SetObjProperty( character , "#proof", drink_proof );
+		send_drunkness_message (character, drink_proof);
+		start_script( "drunk", character );
+
+	//otherwise they've already been drinking, so they should already have a drunk script going.  We'll just
+	//add to their drunkness, up to a max of 20, which should be picked up by the drunk script already running
+	else
+		if (drunkness + drink_proof > 20)
+			drunkness := 20;
+		else
+			drunkness := drink_proof + drunkness;
+		endif
+		send_drunkness_message (character, drunkness);
+		SetObjProperty( character , "#proof", drunkness );
+	endif
+
+endprogram
+
+
+
+
+//This function is called if the drink is poisoned.  I really haven't examined it too closely.
+//Its kind of just the default poison for POL or something.
+function do_poison_stuff ( character, poison )
+		SetPoison(character,poison,"You've been poisoned!");
+endfunction
+
+
+
+
+///////////////////
+//Sends a Sysmessage that's dependant on how drunk the character is
+///////////////////
+
+function send_drunkness_message (character, drunkness)
+	if (drunkness > 4 and drunkness <= 8)
+		SendSysmessage (character, "You feel a bit tipsy.");
+	elseif( drunkness > 8 and drunkness <= 12)
+		SendSysmessage( character , "You are drunk and stumble about." );
+	elseif( drunkness > 12 and drunkness <= 16)
+		SendSysmessage( character , "You are extremely drunk" );
+	elseif( drunkness > 16)
+		SendSysmessage( character , "You think you're going to be sick..." );
+	endif
+endfunction

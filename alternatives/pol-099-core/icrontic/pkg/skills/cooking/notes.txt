@@ -1,0 +1,190 @@
+Hello there.
+
+This package replaces both the cooking and the drinking package that come with POL.  To use this package,
+disable both of the previously mentioned packages.  You'll also have to go through the default itemdesc
+and remove all items that use either the cooking or the eating script.  If you use the farming package,
+there may be some conflicts there with a few items.  Also, if you've defined the glass pitcher and empty
+glass in the tinkering script, you'll have to remove them.  The script used new items in the range of 
+0xc800 and up.  If your shard with skill gains based on usage, change the like "points := 0" in cooking.src
+to whatever points you wish to be awarded on use.  You'll probably also wish to change the inventory of your
+merchants so that players have access to some of the different ingredients used in cooking.
+
+
+Functionallity:
+*When a cooking item is used, the top level of the player's backpack is searched for any other ingredients
+	that can be conbined with that item.  The area around the player is also searched for the presence of
+	fires or ovens.  Based on this information, a menu of all possible recipes that can currently be made
+	with the selected ingredient is presented to the player.  If there is only 1 possible recipe, it will
+	be selected automatically.
+*This package includes quite a few recipes that are described below.  Recipes are defined in cooking.cfg
+*Wheat sheaves can be ground into flour and corn into cornmeal.  Use the mill, not the item being ground, to
+	do this.  Mills that work are either a combination of 0x1922 and 0x1920 or 0x192e and 0x192c.
+*If an empty pitcher is used and a source of water is selected, it will be replaced with a pitcher of water.
+	If a cow is selected, you'll get a pitcher of milk.  You can also so the same with an empty glass.
+*Item 0xc8ff is a cookbook.  When used, it reads the cooking.cfg file and presents a listing of all recipes
+	that are defined in the file.
+*drinking alcohol produces drunk effects.  Bottles of alcohol have 4 uses.  Glasses of alcohol return an
+	empty glass.
+*bunches of other stuff.
+
+if you have any questions, comments, requests or complaints, feel free to contact me.
+
+drocket
+jasong@cisnet.com
+
+
+
+
+
+---------------------------------------
+Recipe Information:
+
+grinding ingredients		objtype		vendorbuysfor		vendorsellsfor
+wheat sheaves 				0x1ebd			-				-
+corn						0x0c82			6				10
+
+primary cooking ingredients
+flour					0x1045			4				6
+cornmeal					0xc800			4				6
+water pitcher				0x1f9e			-				-
+milk pitcher				0x09ad			-				-
+raw rib					0x09f1			3				6
+raw fishsteak				0x097a			1				3
+raw bird					0x09b9			3				6
+raw ham					0x09c9			6				12
+slab of bacon				0x0976			5				12
+raw sausage				0x09c0			3				6
+lard						0x1e8a			1				3
+egg						0x09b5			1				3
+wedge of cheese			0x097d			3				8
+honey					0x09ec			1				3
+carrots					0x0c77			6				10
+apples					0x09d0			2				6
+peach					0x172c			2				6
+lemons					0x1728			2				6
+limes					0x172a			2				6
+banana					0x171f			2				6
+pear						0x172d			2				6
+grapes					0x0d1a			2				6
+dates					0x1727			2				6
+pumpkin					0x0c6a			6				10
+yellow gourd				0x0c65			3				6
+green gourd				0x0c66			3				6
+squash					0x0c72			3				6
+watermelon				0x0c5c			6				10
+honeydew melon				0x0c75			2				6
+canteloupe				0x0c7a			2				6
+lettuce					0x0c70			2				6
+cabbage					0x0c7c			2				6
+onion					0x0c6d			6				10
+turnip					0x0d3a			6				10
+coconut					0x1726			4				10
+raw chicken leg			0x1607			3				6
+raw leg of lamb			0x1609			8				10
+brown fish				0x09cd			8				-
+blue fish					0x09ce			16				-
+yellow fish				0x09cf			32				-
+
+secondary cooking ingredients (results of one recipe used in another)
+ball of dough				0xc805			-				-
+sweet dough				0xc801			-				-
+cake batter				0xc802			-				-
+pizza crust				0xc803			-				-
+pie crust					0xc804			-				-
+
+Some tools used in cooking certain recipes
+mixing bowl				0x15f8			-				15
+rolling pin				0x1043			-				20
+frying pan				0x097f			-				35
+
+---------------------------------------
+Things that get ground:
+
+Wheat sheaves -> flour
+corn -> cornmeal
+
+-------------------
+
+recipes for secondary cooking ingredients:
+
+flour + water -> ball of dough, through mixing bowl, 10 skill
+flour + honey -> sweet dough, through mixing bowl, 20 skill
+flour + egg + honey -> cake batter, through mixing bowl, 20 skill
+flour + water -> pizza crust, through rolling pin and mixing bowl, 20 skill
+flour + honey -> pie crust, through rolling pin and mixing bowl, 20 skill
+
+-------------------
+
+recipes that can be made on either an oven or a fire:					buysfor	sellsfor	foodvalue
+
+raw rib -> cooked rib, skill 20										6		10		1
+	(5 at 50, 7 at 70, and 10 at 90)
+raw fishsteak -> cooked fishsteak, skill 30								6		12		1
+	(3 at 50, 4 at 70, and 6 at 90)
+raw bird -> cooked bird, skill 20										6		10		1
+	(5 at 50, 7 at 70, and 10 at 90)
+raw ham -> baked ham, skill 40										18		30		3
+	(2 at 80)
+raw ham + honey -> honey baked ham, skill 70								30		40		5
+raw leg of lamb -> cooked leg of lamb, skill 50							24		40		4
+
+-------------------
+
+recipes that need to be baked in an oven:
+
+ball of dough->bread, skill 30										18		24		3
+ball of dough->frenchbread, skill 40									22		30		4
+ball of dough + garlic->garlic bread, skill 60							30		45		5
+ball of dough -> 3 muffins, skill 30									6		8		1
+cornmeal + milk -> 2 cornmuffins, skill 50								12		20		2 (all each)
+
+The cakes:
+cake batter->cake, skill 50											30		36		5
+cake batter + carrot -> carrot cake, skill 70							42		60		7
+cake batter + apple -> apple cake, skill 60								38		50		6
+cake batter + lemon -> lemon cake, skill 80								48		60		8
+cake batter + lime -> lime cake, skill 80								48		60		8
+cake batter + coconut -> coconut cake, skill 90							56		70		9
+
+The cookies:
+sweet dough->cookies, skill 50										24		40		4
+sweet dough + apple -> apple fritters, skill 70							36		60		6
+sweet dough + lemon -> lemon tarts, skill 70								36		60		6
+
+The pies:
+pie crust + 2 apples -> apple pie, skill 60								38		60		6
+pie crust + 2 peaches -> peach cobbler, skill 70							42		60		7
+pie crust + raw ribs + carrot + turnip -> mincemeat pie, skill 80			48		80		8
+pie crust + raw bird + carrot + turnip -> chicken potpie, skill 80			48		80		8
+pie crust + pumpkin -> pumpkin pie, skill 50								32		50		5
+pie crust + coconut + egg -> coconut cream pie, skill 80					48		60		8
+pie crust + lemon + egg -> lemon meringue pie, skill 90					54		60		9
+pie crust + lime + egg -> key lime pie, skill 90							54		60		9
+pie crust + banaba + egg -> banana cream pie, skill 90						54		60		9
+
+The pizzas:
+pizza crust + cheese -> cheese pizza, skill 50							30		50		5
+pizza crust + cheese + lettuce -> vegetarian pizza, skill 70				42		70		7
+pizza crust + cheese + onion -> onion pizza, skill 70						42		70		7
+pizza crust + cheese + sausage -> sausage pizza, skill 80					48		80		8
+
+-------------------
+
+recipes that need to be cooked over an open fire
+
+eggs -> fried eggs, skill 30, requires frying pan							12		20		2
+bacon slab -> 3 slices of bacon, skill 30, requires frying pan				6		10		1 (all each)
+raw sausage -> cooked sausage, skill 40, requires frying pan				18		30		3
+raw chicken leg + lard -> fried chicken leg, skill 60, requires frying pan		24		30		4
+raw rib -> 2 beef jerkey, skill 80										12		20		2
+flour + milk -> stack of pancakes, skill 50, requires a frying pan and bowl	24		30		4
+onion + flour + lard -> onion rings, skill 70							34		50		6
+blue fish -> smoked salmon, skill 80									38		58		6
+brown fish + lemon->lemon herb fish, skill 60							28		40		5
+
+-------------------
+
+recipes that can be made anywhere
+
+yellow fish -> sushi, skill 90										46		80		8
+

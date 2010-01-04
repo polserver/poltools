@@ -1,0 +1,23 @@
+use os;
+use uo;
+
+program hiveControl(parms)
+var hive := parms[1];
+var wait := cint(parms[2]);
+sleep(wait);
+
+var wax_amount := GetObjProperty(hive, "Wax");
+var honey_amount := GetObjProperty(hive, "Honey");
+
+if(wax_amount < 1)
+wax_amount := 10;
+endif
+
+if(honey_amount < 1)
+wax_amount := 10;
+endif
+
+setobjproperty(hive, "Wax", wax_amount);
+setobjproperty(hive, "Honey", honey_amount);
+
+endprogram

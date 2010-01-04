@@ -1,0 +1,23 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// updated: Zulu April 19, 2000
+//
+/////////////////////////////////////////////////////////////////////////////
+
+use uo;
+
+program allmessage(chr, message)
+
+var team := Getobjproperty(chr, "TEAM");
+
+if (team)
+foreach who in EnumerateOnlineCharacters()
+
+if (Getobjproperty(who, "TEAM")=team)
+SendSysMessage( who, chr.name + " (" + team + ") : " + message, 3, 0x0481);
+endif
+
+endforeach
+endif
+
+endprogram

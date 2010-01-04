@@ -1,0 +1,62 @@
+use uo;
+use os;
+use util;
+
+include "include/client";
+include "include/eventid";
+include "include/spellRestrictions";
+
+program summon_wolves (parms)
+
+	var circle := 8;
+	var caster;
+	var location;
+
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+		location := parms[3];
+	else
+		caster := parms;
+		location := CanTargetArea(caster, circle);
+		if (!location)
+			sendsysmessage(caster, "Canceled");
+			return;
+		endif
+	endif
+
+	var amount := RandomDiceRoll("1d3") + cint(GetAttribute (caster, SKILLID_ANIMALLORE)/33);
+	var summoned_wolf;
+	var summoning_parms := {};
+	summoning_parms.+script := "tamed";
+	summoning_parms.+name := "spirit wolf";
+	summoning_parms.+color := 0x7cf8;
+	var wolf_pack := {};
+	var i;
+
+	PlayStationaryEffect( location.x, location.y, location.z, FX_SMOKE, 0xA, 0xA );
+	PlaySoundEffect(caster, 0x022b);
+	for (i := 1; i <= amount; i := i + 1)			
+		summoned_wolf := CreateNPCfromTemplate("wolf", location.x, location.y, location.z, summoning_parms);
+		wolf_pack.append (summoned_wolf);
+		SetObjProperty(summoned_wolf, "master", caster.serial);
+		SetObjProperty(summoned_wolf, "summoned", 1);
+		summoned_wolf.script := "tamed";
+		RestartScript(summoned_wolf);
+	endfor
+
+	//detach and sleep
+	detach();
+	var summoned_time := 60 + GetAttribute (caster, SKILLID_ANIMALLORE);
+	sleep (summoned_time);
+
+	//kill all the wolves
+	foreach summoned_wolf in wolf_pack
+		if (summoned_wolf)
+			PlaySoundEffect (summoned_wolf, SFX_SPELL_MANA_VAMPIRE);
+			PlayStationaryEffect( summoned_wolf.x, summoned_wolf.y, summoned_wolf.z, FX_SMOKE, 0xA, 0xA );
+			MoveCharacterToLocation(summoned_wolf, 5288, 1176, 0, MOVECHAR_FORCELOCATION);
+			damage(summoned_wolf, summoned_wolf.hp+3);
+		endif
+	endforeach
+
+endprogram

@@ -1,0 +1,1 @@
+.msg [name] will send a message to that player.  .msg will list all the players and let you pick which one to send a message to.  Sending a message takes you out of private mode.

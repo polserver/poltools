@@ -1,0 +1,78 @@
+use uo;
+use os;
+use util;
+include "include/client";
+include "include/skillpoints";
+include "include/utility";
+include "include/eventid";
+include "include/attributes";
+include "include/canaccess";
+
+program snoopmore(who, container)
+if ((container.objtype != 0x09AA) && (container.objtype != 0x0E77) && (container.objtype != 0x966b) &&(container.objtype != 0x0E75) && (container.objtype != 0x0E79) && (container.objtype != 0x0E76) && (container.objtype != 0x0E7C) && (container.objtype != 0x0E40) && (container.objtype != 0x0E42)&& (container.objtype != 0x0E43) && (container.objtype != 0x0E80))
+return;
+endif
+
+var owner := getobjproperty(container, "Owner");
+if(Distance(who,owner)>1) snooperexit(who,"You need to stay close to your target!"); endif
+var storage:= FindStorageArea( "Merchant Storage" );
+var thiefbackpack:=find_or_create_item(storage,"thief storage of "+container.serial,container.objtype);
+var dupeitem1,dupeitem2;
+   foreach item in enumerateitemsincontainer(thiefbackpack)
+        if (item.container.serial==thiefbackpack.serial)
+    		releaseitem(item);
+    		destroyitem(item);
+    	endif
+    endforeach
+var realcontainer := SystemFindObjectBySerial(getobjproperty(container, "realitem"));
+if(realcontainer.locked)snooperexit(who, "That is locked."); endif
+var boxin := enumerateitemsincontainer(realcontainer);
+    foreach item in boxin
+      sleepms(2);
+      if (item.container.serial==realcontainer.serial)
+	if((item.objtype<=0x1f6c) and (item.objtype>=0x1f2d))
+	   dupeitem1 := CreateItemInContainer(thiefbackpack, (0xe35+randomint(6)), item.amount);
+	   dupeitem1.name := item.desc;
+	elseif((item.graphic<=0x14f2) and (item.graphic>=0x14eb))
+	   dupeitem1 := CreateItemInContainer(thiefbackpack, item.graphic);
+	   dupeitem1.name := item.desc;
+        else
+           dupeitem1 := CreateItemInContainer(thiefbackpack, item.objtype, item.amount);
+        endif
+        dupeitem1.usescript := ":combat:snoopclick";
+        dupeitem1.movable := 0;
+        dupeitem1.color := item.color;
+        dupeitem1.desc := item.desc;
+        setobjproperty(dupeitem1,"Owner", getobjproperty(container,"Owner")); 
+        SetObjProperty(dupeitem1,"realitem",item.serial);
+        SetObjProperty(dupeitem1,"markinfo",getobjproperty(container, "markinfo"));
+      else
+        sleepms(2);
+      	if((item.objtype<=0x1f6c) and (item.objtype>=0x1f2d) and (item.objtype==0xEFA))
+	   dupeitem2 := CreateItemInContainer(dupeitem1, (0xe35+randomint(6)), item.amount);
+	   dupeitem2.name := item.desc;
+	elseif((item.graphic<=0x14f2) and (item.graphic>=0x14eb))
+	   dupeitem2 := CreateItemInContainer(dupeitem1, item.graphic);
+	   dupeitem2.name := item.desc;
+	else
+           dupeitem2 := CreateItemInContainer(dupeitem1, item.objtype, item.amount);
+        endif
+        dupeitem2.usescript := ":combat:snoopclick";
+        dupeitem2.movable := 0;
+        dupeitem2.color := item.color;
+        dupeitem2.desc := item.desc;
+        setobjproperty(dupeitem2,"Owner",getobjproperty(container,"Owner")); 
+        SetObjProperty(dupeitem2,"realitem",item.serial);
+        SetObjProperty(dupeitem2,"markinfo",getobjproperty(container, "markinfo"));
+        reserveitem(dupeitem2);
+      endif
+
+    endforeach
+    SendOpenSpecialContainer( who, thiefbackpack);
+
+endprogram
+
+function snooperexit(who, message)
+    sendsysmessage(who, message);
+    exit;
+endfunction

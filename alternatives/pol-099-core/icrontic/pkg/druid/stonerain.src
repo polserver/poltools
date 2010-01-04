@@ -1,0 +1,59 @@
+use uo;
+use os;
+
+include "include/client";
+include "include/spellRestrictions";
+include "include/spellAttack";
+include "druid";
+
+program tidal_wave ( parms )
+	var circle := 8;
+	var caster;
+	var cast_on;
+
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+		cast_on := parms[3];
+		send_attack(cast_on,caster, 12);
+	else
+		caster := parms;
+		cast_on := CanTargetSpell(caster, circle, TGTOPT_HARMFUL + TGTOPT_CHECK_LOS );
+		if (!cast_on)
+			return;
+		endif
+	endif
+
+	var i;
+	var damage_amount;
+	var locationx := cast_on.x;
+	var locationy := cast_on.y;
+	var locationz := cast_on.z + 100;
+
+	var stone1 := CreateItemAtLocation (locationx, locationy, locationz, 0x1350, 1);
+	var stone2 := CreateItemAtLocation (locationx-1, locationy, locationz, 0x134f, 1);
+	var stone3 := CreateItemAtLocation (locationx, locationy-1, locationz, 0x1351, 1);
+
+	for (i:= 1; i <= 20; i := i + 1)
+		DestroyItem (stone1);
+		DestroyItem (stone2);
+		DestroyItem (stone3);
+
+		locationz := locationz - 5;
+		stone1 := CreateItemAtLocation (locationx, locationy, locationz, 0x1350, 1);
+		stone1.movable := 0;
+		stone2 := CreateItemAtLocation (locationx-1, locationy, locationz, 0x134f, 1);
+		stone2.movable := 0;
+		stone3 := CreateItemAtLocation (locationx, locationy-1, locationz, 0x1351, 1);
+		stone3.movable := 0;
+		sleepms(20);
+	endfor
+	PlaySoundEffect(cast_on, 0x221);
+
+	sleep(10);
+
+	DestroyItem (stone1);
+	DestroyItem (stone2);
+	DestroyItem (stone3);
+
+
+endprogram

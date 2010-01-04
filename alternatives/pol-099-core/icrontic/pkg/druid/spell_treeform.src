@@ -1,0 +1,107 @@
+use uo;
+use os;
+use util;
+
+include "include/dotempmods";
+include "include/client";
+include "include/eventid";
+
+program treeform (parms)
+
+	//split up the parms (though there's really only 1)
+	var caster;
+	if (parms[1] = "#MOB")
+		caster := parms[2];
+	else
+		caster := parms;
+	endif
+
+	//allow them to cast another spell now
+	SetScriptController( caster );
+	EraseObjProperty (caster, "#castingdruidspell");
+
+	//don't cast the spell if there's hostile creatures within 3 squares
+	var bystanders := ListHostiles( caster, 3, LH_FLAG_LOS );
+	if( len(bystanders) > 0 )
+		SendSysMessage ( caster, "Hostile creatures are too close!");
+		return;
+	endif
+
+	//bunch of possible tree shapes.  Each tree is made of 2 parts, trunk and leaves
+	var trunk_objtype;
+	var leaves_objtype;
+	case (RandomInt(15))
+		0:	trunk_objtype := 0xccd;
+			leaves_objtype := 0xcce;
+		1:	trunk_objtype := 0xcd0;
+			leaves_objtype := 0xcd1;
+		2:	trunk_objtype := 0xcd3;
+			leaves_objtype := 0xcd4;
+		3:	trunk_objtype := 0xcd6;
+			leaves_objtype := 0xcd7;
+		4:	trunk_objtype := 0xcda;
+			leaves_objtype := 0xcdb;
+		5:	trunk_objtype := 0xcdd;
+			leaves_objtype := 0xcde;
+		6:	trunk_objtype := 0xce0;
+			leaves_objtype := 0xce1;
+		7:	trunk_objtype := 0xce3;
+			leaves_objtype := 0xce4;
+		8:	trunk_objtype := 0xce6;
+			leaves_objtype := 0xce7;
+		9:	trunk_objtype := 0xd94;
+			leaves_objtype := 0xd96;
+		10:	trunk_objtype := 0xd98;
+			leaves_objtype := 0xd9a;
+		11:	trunk_objtype := 0xd9c;
+			leaves_objtype := 0xd9e;
+		12:	trunk_objtype := 0xda0;
+			leaves_objtype := 0xda2;
+		13:	trunk_objtype := 0xda4;
+			leaves_objtype := 0xda6;
+		14:	trunk_objtype := 0xda8;
+			leaves_objtype := 0xdaa;
+	endcase;
+
+	//save the casters position so that the spell ends if they move
+	var casterx := caster.x;
+	var castery := caster.y;
+
+	//the longer the spell is active, the more difficult it becomes to maintain
+	var difficulty_counter := 0;
+
+	//create the tree and hide the caster
+	PlayStationaryEffect( caster.x, caster.y, caster.z+1, FX_SMOKE, 0xA, 0xA );
+	caster.hidden := 1;
+	sleepms(250);
+	var item_trunk := CreateItemAtLocation (caster.x, caster.y, caster.z, trunk_objtype, 1);
+	var item_leaves := CreateItemAtLocation (caster.x, caster.y, caster.z, leaves_objtype, 1);
+	caster.hidden := 1;
+
+	//check the difficulty of maintaining the spell.  Unhide the character if they fail and increase
+	//the difficulty if they pass. repeat until they're either unhidden or they move
+	repeat
+		if (!CheckSkill (caster, SKILLID_ANIMALLORE, difficulty_counter, 0) )
+			caster.hidden := 0;
+		endif
+		difficulty_counter := difficulty_counter + 1;
+		sleepms (250);
+	until (casterx != caster.x or castery != caster.y or caster.hidden != 1 or !caster);
+
+	//destroy the tree and unhide the caster
+	SendSysMessage (caster, "You lose your concentration.");
+	PlayStationaryEffect( casterx, castery, caster.z, FX_SMOKE, 0xA, 0xA );
+	DestroyItem (item_trunk);
+	DestroyItem (item_leaves);
+	caster.hidden := 0;
+
+	//create an event and send it to all the mobiles in the area
+	var ev Array;
+	ev.+type := EVID_ENTEREDAREA;
+	ev.+source := caster;
+
+	foreach mobile in ListMobilesNearLocationEx( caster.x, caster.y, caster.z, 15, LISTEX_FLAG_NORMAL + LISTEX_FLAG_HIDDEN )
+		SendEvent(mobile, ev);
+	endforeach
+
+endprogram

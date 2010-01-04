@@ -1,0 +1,79 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/client";
+include "include/attributes";
+
+
+program equipshield(who, item)
+
+  set_critical(1);
+  var fame     := GetObjProperty(who, "Fame");
+  var guild_pl := GetObjProperty(who,"guild_id");
+  var guild    := FindGuild(guild_pl);
+  var rtype    := guild.GetProp("type");
+
+    case(item.objtype)
+      0x1bc3: handleChaos(who, rtype, fame);
+      0x1bc4: handleOrder(who, rtype, fame);
+    endcase
+
+  var myloss := manaloss(who);
+  SetObjProperty(who, "medloss", myloss);
+  
+  return 1;
+  set_critical(0);
+
+endprogram
+
+function handleChaos(who, rtype, fame)
+
+  if(rtype != "Chaos")
+    SendSysMessage(who, "You are not in a Chaos guild!", 3, 40);
+    return 0;
+  endif
+  if(fame < 7000);
+    SendSysMessage(who, "You do not have enough fame to use this!", 3, 40);
+    return 0;
+  endif
+
+  return 1;
+  
+endfunction
+
+function handleOrder(who, rtype, fame)
+
+  if(rtype != "Order")
+    SendSysMessage(who, "You are not in an Order guild!", 3, 40);
+    return 0;
+  endif
+  if(fame < 7000);
+    SendSysMessage(who, "You do not have enough fame to use this!", 3, 40);
+    return 0;
+  endif
+  
+  return 1;
+
+endfunction
+
+function manaloss(who)
+
+  var combatcfg := ReadConfigFile(":*:itemdesc");
+  var elem;
+  var newloss := 0;
+  var loss := 0;
+
+  foreach thing in ListEquippedItems(who)
+    newloss := combatcfg[thing.objtype]."medloss";
+    if(newloss == "nomed")
+      loss := newloss;
+      break;
+    else
+      loss := loss + Cint(newloss);
+    endif
+  endforeach
+
+  return loss;
+
+endfunction

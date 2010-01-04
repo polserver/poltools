@@ -1,0 +1,115 @@
+use uo;
+use os;
+
+include "include/gumpUtil";
+
+var data:= {
+
+	"Account Notes:",
+	"Save Notes:",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+
+};
+
+program textcmd_notes(who)
+
+  SendSysMessage(who,"View/Edit whose account notes?");
+  var targ:= Target(who);
+
+  var acc:= targ.acct;
+  var note:= acc.GetProp("Notes");
+
+  var layout:= {
+
+	"nodispose",
+
+	"resizepic  20 20 2620 517 260",
+
+	"text 30 0 910 0 ",
+	"text 410 0 910 1 ",
+
+	"button 508 0 4011 4013 1 0 1",
+
+	"textentry 30 30 500 20 910 2 2",
+	"textentry 30 50 500 20 910 3 3",
+	"textentry 30 70 500 20 910 4 4",
+	"textentry 30 90 500 20 910 5 5",
+	"textentry 30 110 500 20 910 6 6",
+	"textentry 30 130 500 20 910 7 7",
+	"textentry 30 150 500 20 910 8 8",
+	"textentry 30 170 500 20 910 9 9",
+	"textentry 30 190 500 20 910 10 10",
+	"textentry 30 210 500 20 910 11 11",
+	"textentry 30 230 500 20 910 12 12",
+	"textentry 30 250 500 20 910 13 13",
+
+  };
+
+  SetNotes(note);
+
+  var res:= SendDialogGump(who,layout,data);
+
+  if(!res[0])
+    return;
+  endif
+
+  var subnote, i;
+
+  note:= "";
+  for(i:= 2; i <= 12; i:= i + 1)
+    subnote:= res[i];
+    subnote[1,find(subnote,": ",1) + 1]:= "";
+    if(subnote != "")
+      note:= note +" "+ subnote;
+    endif
+  endfor
+
+  acc.setprop("Notes",note);
+
+endprogram
+
+
+function SetNotes(note)
+  var split:=SplitWords(note);
+  var width:=0;
+  var lines:=0;
+  var index:=1;
+  while ((index<=len(split)) && (lines<=12))
+    if (width==0)
+      var testword:=split[index];
+      lines:=lines+1;
+      data[2+lines]:=testword;
+      width:=GumpTextWidthFast(testword);
+      index:=index+1;
+    else
+      var testword:=" "+split[index];
+      var testwidth:=GumpTextWidthFast(testword);
+      if (width+testwidth<CInt(500/1.5))
+        data[2+lines]:=data[2+lines]+testword;
+        width:=width+testwidth;
+        index:=index+1;
+      else
+        width:=0;
+      endif
+    endif
+  endwhile
+  if (lines>12)
+    data[1+lines]:=data[1+lines]+"...";
+  else
+    while(lines<12)
+      lines:=lines+1;
+      data[2+lines]:="";
+    endwhile
+  endif
+endfunction

@@ -1,0 +1,42 @@
+use uo;
+use os;
+use cfgfile;
+
+include "include/attributes";
+
+
+program newcombat()
+  Print( "Using NewCombatAdvancement..." );
+  return 1;
+endprogram
+
+exported function NewCombatAdvancement(attacker, weapon, defender)
+  var skid;
+  var cfg;
+  if(attacker.npctemplate)
+    cfg := ReadConfigFile("::npcdesc");
+    skid := cfg[attacker.npctemplate].AttackAttribute;
+  else
+    cfg := ReadConfigFile(":*:itemdesc");
+    skid := cfg[weapon.objtype].Attribute;
+  endif
+  if(!skid)
+    return;
+  endif
+  var skillid := FindSkillidByIdentifier(skid);
+  AwardPoints(attacker, skillid, 15);
+  AwardPoints(attacker, SKILLID_TACTICS, 7);
+  AwardPoints(defender, SKILLID_TACTICS, 7);
+endfunction
+
+function FindSkillidByIdentifier(skid)
+  var retval;
+  case(skid)
+    "Wrestling": retval := SKILLID_WRESTLING;
+    "Fencing":   retval := SKILLID_FENCING;
+    "Swords":    retval := SKILLID_SWORDSMANSHIP;
+    "Mace":      retval := SKILLID_MACEFIGHTING;
+    "Archery":    retval := SKILLID_ARCHERY;
+  endcase
+  Return retval;
+endfunction

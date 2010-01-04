@@ -1,0 +1,24 @@
+use uo;
+use os;
+
+program textcmd_shelfclear(who)
+  var count := 0;
+  var shelves := {};
+  var ct1 := 0;
+  var box := ListObjectsInBox(0, 0, -125, 6143, 4095, 125);
+  foreach thing in box
+    if((thing.objtype = 0xa9f) and (thing.movable = 0))
+      foreach book in EnumerateItemsInContainer(thing)
+        count := count + 1;
+        DestroyItem(book);
+      endforeach
+      shelves.append(thing.serial);
+      ct1 := ct1 + 1;
+    endif
+    sleepms(1);
+  endforeach
+  SetGlobalProperty("shelves", shelves);
+  sendsysmessage(who, "Total Books Destroyed: " + count);
+  SendSysMessage(who, "Total Shelves Found: " + ct1);
+  SendSysMessage(who, "Entries: " + len(shelves));
+endprogram

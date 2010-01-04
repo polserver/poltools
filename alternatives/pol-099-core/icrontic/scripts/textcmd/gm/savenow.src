@@ -1,0 +1,10 @@
+use os;
+use uo;
+include "include/client";
+program textcmd_savenow()
+    Broadcast( "SYSTEM: Saving World State", FONT_BOLD, 33 );
+    Broadcast( "REPEAT: Saving World State", FONT_BOLD, 33 );
+    sleep(1);
+    SaveWorldState();
+    Broadcast( "SYSTEM: World Saved", FONT_BOLD, 33 );
+endprogram

@@ -1,0 +1,145 @@
+//
+// .createrect command - create items in a targetted rectangle
+//
+// usage: .createrect [objtype]
+// Items created with this command will not decay.
+//
+
+use uo;
+use util;
+
+program textcmd_create( who, params )
+    var objtype, zheight;
+
+    params := SplitWords( params );
+
+    objtype := params[1];
+
+    if (len(params)>=2)
+        zheight := CInt( params[2] );
+    else
+        zheight := 0;
+    endif
+
+    SendSysMessage( who, "Target the top-left corner" );
+    var topleft := TargetCoordinates( who );
+    if (!topleft)
+        return;
+    endif
+    SendSysMessage( who, "Target the bottom-left corner" );
+    var botright := TargetCoordinates( who );
+    if (!botright)
+        return;
+    endif
+    
+    if (topleft.x <= botright.x and topleft.y <= botright.y)
+        var x, y, z;
+        for( x := topleft.x; x <= botright.x; x := x + 1 )
+            for( y := topleft.y; y <= botright.y; y := y + 1 )
+                z := GetMapInfo( x,y ).z;
+		createtiles(x,y,z+zheight, objtype);
+            endfor
+        endfor
+    endif
+
+       
+endprogram
+
+function createtiles(x,y,z, objtype)
+var types, starting;
+//if special tile type
+if (objtype="darkpavers")
+ starting:=1313;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="mediumpavers")
+ starting:=1309;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lightpavers")
+ starting:=1305;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="dirt")
+ starting:=12788;
+ types:=7;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="stars")
+ starting:=8511;
+ types:=6;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="flagstones")
+ starting:=1276;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="cavefloor")
+ starting:=1339;
+ types:=5;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="cobblestone")
+ starting:=1301;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="sandstonepaver")
+ starting:=1181;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="sstonedarks")
+ starting:=1327;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="sstonedarke")
+ starting:=1331;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="sstonelights")
+ starting:=1317;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="sstonelighte")
+ starting:=1321;
+ types:=4;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lava1")
+ starting:=13410;
+ types:=5;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lava2")
+ starting:=13416;
+ types:=5;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lavaedgeew1")
+ starting:=4921;
+ types:=5;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lavaedgeew2")
+ starting:=4912;
+ types:=9;
+ placetiles(x, y, z, starting, types);
+elseif (objtype="lavaedgens1")
+ starting:=4927;
+ types:=15;
+ placetiles(x, y, z, starting, types);
+else
+//if not one of the special tile types
+ var item, object;
+ object := cint(objtype);
+ item := CreateItemAtLocation( x, y, z, object, 1 );
+ item.decayat := 0;
+endif
+
+endfunction
+
+function placetiles(x, y, z, starting, types)
+
+var item;
+item := CreateItemAtLocation( x, y, z, randomtile(starting, types), 1 );
+item.decayat := 0;
+item.movable := 0;
+endfunction
+
+//starting is the item group's starting number
+//number is how many tiles in that group
+function randomtile(starting, number)
+return cint(randomint(number)+starting);
+endfunction

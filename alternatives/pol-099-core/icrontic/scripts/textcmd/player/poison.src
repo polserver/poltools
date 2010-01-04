@@ -1,0 +1,96 @@
+use os;
+use uo;
+use util;
+use cfgfile;
+
+Const DRINK_SOUND := 0x32;
+Const SOUND_EFFECT_HEAL	:= 0x1f3; 
+Const SOUND_EFFECT_CURE	:= 0x1e1;
+Const EFFECT_SPARKLE  := 0x374a;
+Const UOBJ_EMPTY_BOTTLE := 0x0F0E;
+Const UOBJ_BANDAGE := 0x0e21;
+
+include "include/client";
+include "include/myutil";
+include "include/canAccess";
+
+program heal (me)
+	if (me.dead)
+		SendSysMessage (me, "Too late!");
+		return 0;
+	endif
+
+	if (GetObjProperty (me, "#dotpoison"))
+		if (GetProcess (GetObjProperty (me, "#dotpoison")))
+			SendSysMessage (me, "Too soon!");
+			return;
+		endif
+	endif
+	SetObjProperty (me, "#dotpoison", GetPid());
+        UsePoison(me);
+	EraseObjProperty (me, "#dotpoison");
+endprogram
+
+function UsePoison (character)
+	if (GetObjProperty (character, "#poisoning") and GetObjProperty (character, "#poisoning") > ReadGameClock())
+		SendSysMessage (character, "You can't use your poisoning skill yet!");
+        	return 0;
+	endif
+
+	var greaterpoison := 0;
+	var poison := 0;
+	var lightpoison := 0;
+	var parms := { };
+	parms[1] := character;
+	
+	foreach item in EnumerateItemsInContainer (character.backpack)
+		if (item.objtype = 0xdc17)
+                        SendSysMessage(character, "Poison found, applying....", 3, 23);
+			PerformAction(character, ANIM_EAT);
+  	                parms[2] := item;
+			start_script (":poisoning:dotpoison",parms);
+	                EraseObjProperty (character, "#dotpoison");
+		        SetObjProperty (character, "#poisoning", (ReadGameClock() + 10));
+			return 1;
+		elseif (item.objtype = 0xdc06)
+			greaterpoison := item;
+		elseif (item.objtype = 0xdc05)
+			poison := item;
+		elseif (item.objtype = 0xdc04)
+			lightpoison := item;
+		endif
+	endforeach
+
+        if (greaterpoison)
+          SendSysMessage(character, "Poison found, applying....", 3, 23);
+	  PerformAction(character, ANIM_EAT);
+          parms[2] := greaterpoison;
+	  start_script (":poisoning:dotpoison",parms);
+          EraseObjProperty (character, "#dotpoison");
+          SetObjProperty (character, "#poisoning", (ReadGameClock() + 10));
+	  return 1;
+	endif
+ 
+	if (poison)
+                SendSysMessage(character, "Poison found, applying....", 3, 23);
+		PerformAction(character, ANIM_EAT);
+                parms[2] := poison;
+        	start_script (":poisoning:dotpoison",parms);
+                EraseObjProperty (character, "#dotpoison");
+                SetObjProperty (character, "#poisoning", (ReadGameClock() + 10));
+		return 1;
+	endif
+	
+	if (lightpoison)
+                SendSysMessage(character, "Poison found, applying....", 3, 23);
+		PerformAction(character, ANIM_EAT);
+                parms[2] := lightpoison;
+		start_script (":poisoning:dotpoison",parms);
+                EraseObjProperty (character, "#dotpoison");
+	        SetObjProperty (character, "#poisoning", (ReadGameClock() + 10));
+		return 1;
+	endif
+
+	SendSysMessage (character, "You don't have any Poison potions!!");
+	return 0;
+endfunction

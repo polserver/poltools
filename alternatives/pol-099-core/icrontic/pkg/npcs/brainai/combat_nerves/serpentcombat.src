@@ -1,0 +1,92 @@
+///////////////////////////////////////////////
+// serpentcombat.src
+//
+// Created 2/08/2003
+// Updated 2/08/2003
+//
+// By MuadDib
+// http://www.icrontic.net
+//
+///////////////////////////////////////////////
+//
+// A very simple nerve script for Serpentine Combat
+// Keeps the npc close to its opponent for melee
+// combat, with alterations for poisoning the
+// opponent based on npcdesc Poision settings..
+// Poisoning (skill), poison_chance (how often he
+// can poison). The poison ability script is a new
+// OnHit for your npcdesc and combat, here in the
+// Brain AI. It soley bases poison strength off the
+// skill of the npc itself in the npcdesc.cfg.
+// aggressiveAttack is used so if the npc has
+// poisoned them last, it will continue to
+// go after them until distance is over 30.
+///////////////////////////////////////////////
+
+use uo;
+use os;
+
+include "../ai_include/NPC_Commands";
+
+program CombatNerve(params)
+	var nerve_name	:= params[1];
+	var npc		:= params[2];
+	var opponent	:= params[3].source;
+	var settings	:= params[4];
+
+	//Enter combat mode, set the new opponent.
+	AI_Setopponent(npc, opponent);
+
+	//Store it here so it does not have to do the math over and over.
+	var flee_level := 0;
+	if ( settings["flee_script"] )
+		flee_level := CInt((GetVitalMaximumValue(npc, "hits") * settings["flee_level"]) / 100);
+	endif
+	//Stop if the npc ever dies.
+	while( npc )
+		var dist := Distance(npc, opponent);
+		if ( GetVital(npc, "hits") < flee_level )
+			AI_Disengage(npc);
+			AI_Flee(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		// Is the opponent dead, yet?
+		elseif ( opponent.dead )
+			AI_Disengage(npc);
+			AI_WinFight(npc, opponent);
+			AI_EndNerve(npc, nerve_name);
+		// Did they hide??
+		elseif ( (opponent.hidden) || (opponent.concealed) )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+                elseif ( (dist > 10) and (!aggressiveAttack(npc, opponent)))
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( dist > 30 )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif ( (dist > 5) && (!CheckLineOfSight(npc, opponent)) )
+			AI_Disengage(npc);
+			AI_EndNerve(npc, nerve_name);
+		elseif( dist > 2 )
+			AI_Move(npc, opponent, NEMOVE_TOWARD, NEMOVE_RUN, WAKEUP, 100);
+		endif
+
+		sleepms(600);
+		while ( Events_Waiting() )
+			//The brain replies with NPCEVENT_DONE
+			//to every event it gets. This cleans
+			//all of those events up :)
+			wait_for_event(1);
+		endwhile
+	endwhile
+endprogram
+
+function aggressiveAttack(npc, opponent)
+
+  if((GetObjProperty(opponent, "#bpoison") == npc.serial))
+    return 1;
+  endif
+  
+  return 0;
+
+endfunction

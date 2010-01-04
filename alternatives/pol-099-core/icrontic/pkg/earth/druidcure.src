@@ -1,0 +1,111 @@
+use uo;
+use util;
+use os;
+
+include "include/client";
+include "castopts";
+include "include/spellrestrictions";
+
+const KillSound := 0x202;
+const KillEffect := 0x375a;
+const SFX_SPELL_FAIL := 0x005b;
+
+program cast_dcure( caster )
+  var mageryskill := CInt(GetEffectiveSkill(caster, SKILLID_MAGERY));
+  var aloreskill := CInt(GetEffectiveSkill(caster, SKILLID_ANIMALLORE));
+	if ((mageryskill < 5) && (aloreskill < 50))
+	sendsysmessage(caster, "You are not yet learned enough in the ways of nature");
+	return;
+	endif
+
+        var options := GetObjProperty(caster, "DruidOpts");
+	if (!options)
+		options := {};
+	else
+		options := splitwords(options);
+	endif
+        EraseObjProperty(caster, "DruidOpts");
+
+	if (IsNoWords(options) = 0)
+                SpeakPowerWords(caster, 99);
+	endif
+
+        SendSysMessage(caster, "Select target.");
+	
+        var target1 := target(caster);
+        var circle := 4;
+        var spelldelay := 8;
+
+	if (IsNoDelay(options) == 0)
+		While (spelldelay > 0)
+			PerformAction(caster, ANIM_CAST_DIR);
+			sleep(1);
+			spelldelay := spelldelay - 1;
+		endwhile
+	endif
+
+	if (IsNoMana(options) == 0)
+                if (!ConsumeMana(caster, 99))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+			SendSysMessage(caster, "Insufficient Mana.");
+			return;
+		endif
+	endif
+			
+	if (IsNoRegs(options) == 0)
+                if (!ConsumeReagents(caster, 99))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+			SendSysMessage(caster, "Insufficient Reagents.");
+			return;
+		endif
+	endif
+
+	if (IsNoSkillCheck(options) == 0)
+		if (!CheckSkill(caster, SKILLID_MAGERY, 100, 0))
+			PlayObjectCenteredEffect(caster, FX_SPELL_FAIL, 7, 7);
+			PlaySoundEffect(caster, SFX_SPELL_FAIL);
+                        PrintTextAbove(caster, "The spell fizzles");
+			return;
+		endif
+	endif
+
+        PlaySoundEffect(caster, SFX_SPELL_CURE);
+        PlayObjectCenteredEffect( target1, FX_BLESS_EFFECT, 10,10);
+
+        var poison_level := Cint(GetObjProperty( target1,"poison_level" ));
+
+        if (poison_level >= 1)
+                poison_level := poison_level - (randomint(poison_level)+1);
+                
+                if (poison_level<0)
+                poison_level := 0;
+        	endif
+                if (poison_level >= 1)
+                 Sendsysmessage(caster, "Some poison was cured.");
+                else
+                 SendSysmessage (caster, "Target cured.");
+                 EraseObjProperty(target1, "poison_level");
+                endif
+                 SetObjProperty(target1, "poison_level", Cint(poison_level));
+        endif        
+
+   var umana;
+    case (circle)
+    1: umana :=  4;
+    2: umana :=  6;
+    3: umana :=  9;
+    4: umana := 11;
+    5: umana := 14;
+    6: umana := 20;
+    7: umana := 40;
+    8: umana := 50;
+    endcase
+   var mana := GetMana(caster);
+   if(mana >= umana)
+     SetMana(caster, Cint(mana - umana));
+   endif
+
+
+endprogram

@@ -1,0 +1,36 @@
+use uo;
+use os;
+use cfgfile;
+
+include "druid";
+
+program add_druid_rune (character, rune)
+
+	//let the character pick a bag to put the rune in
+	SendSysMessage (character, "choose a rune bag to put the rune in");
+	var bag := Target (character);
+
+	//possible error messages
+	if (!bag)
+		SendSysMessage (character, "Canceled");
+		return;
+	elseif  (bag.objtype != 0xca67)
+		SendSysMessage (character, "You can only put the rune in a druidic rune bag.");
+		return;
+	elseif  (!ReserveItem (bag) )
+		SendSysMessage (character, "You cannot use that bag.");
+		return;
+	endif
+
+	//make sure the rune isn't already in the bag.  If it is, quit
+	if (CheckForRuneInBag (character, bag, rune.objtype))
+		SendSysMessage (character, "There is one of that rune already in the bag.");
+		return;
+	endif
+
+	//otherwise put the rune in the bag
+	SendSysMessage (character, "You put the rune in the bag.");
+	PutRuneInBag (character, bag, rune.objtype);
+	DestroyItem (rune);
+
+endprogram

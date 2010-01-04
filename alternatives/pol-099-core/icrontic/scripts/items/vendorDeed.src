@@ -1,0 +1,123 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Created by Zulu (zuluhotel@home.com) Dec 8, 1999
+// - Updated Jan 10, 2000
+// - Players buy this from the Architect.
+// - dclick on the deed to create.
+// - Once the vendor is created the deed is detroyed.
+// - Vendors now can't be placed close to other vendors
+// 
+/////////////////////////////////////////////////////////////////////////////
+
+use os;
+use uo;
+
+program makevendor( who, deed )
+
+    if (who.multi==0)
+     SendSysMessage( who, "You can only place a vendor when you are standing in a house you own or co-own.");   
+     return;
+    endif
+    
+    var ownerserial := GetObjProperty(who.multi,"ownerserial");
+    var owneracct := GetObjProperty(who.multi,"owneracct");
+    
+    var friendserial;
+    var friendfound := 0;
+    var i;
+      var house := who.multi;
+      var co_owners := statuscheck(house, who, "Co-Owner");
+      var friend := statuscheck(house, who, "friend");
+      if(who.acctname == (GetObjProperty(house, "owneracct")))
+        friendfound := 1;
+      elseif(co_owners)
+        friendfound := 1;
+      elseif(friend)
+        friendfound := 1;
+      endif
+    
+    if ((friendfound==0) and ((ownerserial <> who.serial) and (owneracct <> who.acctname)))
+     SendSysMessage( who, "You can only place a vendor in a house you own or co-own.");   
+     return;
+    endif    
+        
+    if(!ReserveItem(Deed))
+           SendSysmessage( who , "You are still using it..." );
+           return;
+    endif
+    
+    SendSysMessage( who, "Where would you like your vendor");
+
+    var where := TargetCoordinates( who );
+    var place;
+
+    if ( !where )
+      SendSysMessage( who, "Cancelled");
+      return;
+    else
+      var testnpc := CreateNpcFromTemplate( "townperson", 5500,1200,0 );
+      testnpc.concealed := 1;
+      MoveCharacterToLocation( testnpc, where.x, where.y, where.z, 0 );
+      if (testnpc.multi = 0)
+       SendSysMessage( who, "You can only place a vendor in a house you own or co-own.");
+       MoveCharacterToLocation( testnpc, 5500,1200,0);
+       killnpc(testnpc);
+       return;
+      endif
+      MoveCharacterToLocation( testnpc, 5500,1200,0);
+      killnpc(testnpc);
+      place := CreateNpcFromTemplate( "playervendor", where.x, where.y, where.z );
+    endif
+
+    if (!place)
+      SendSysMessage( who, "Your vendor has not been created");
+      return;
+    else
+      SendSysMessage( who, "You have successfully created a vendor");
+      var next_pay := readgameclock() + 86400;
+      setobjproperty(place, "p", next_pay);
+      setobjproperty(place, "master", who.serial);
+      setobjproperty(place, "mn", who.name);
+      DestroyItem (deed);
+    endif
+
+endprogram
+
+function killnpc(npcobj)
+
+       Revokeprivilege( npcobj, "invul" );
+       setobjproperty(npcobj, "guardkill", 1);
+       //damage( npcobj, (npcobj.maxhp) );
+       run_script_to_completion( ":control:norep", npcobj );
+       return 0;
+
+endfunction
+
+function statuscheck(house, who, type)
+
+ var coown := 0;
+ var friend := 0;
+ var i;
+             if(type == "Co-Owner")
+                   for(i := 1; i <= 5; i := i + 1)
+                     if(GetObjProperty( house , "Co-owner" + i ) = who.serial)
+                       coown := 1;
+                       break;
+                     endif
+                   endfor
+             elseif(type == "friend")
+                   for(i := 1; i <=20; i := i + 1)
+                     if(GetObjProperty( house , "friend" + i ) = who.serial)
+                       friend := 1;
+                       break;
+                     endif
+                   endfor
+             endif
+  if(coown)
+    return 1;
+  elseif(friend)
+    return 1;
+  else
+    return 0;
+  endif
+endfunction

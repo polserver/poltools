@@ -1,0 +1,8 @@
+use uo;
+
+program destroy_multi( who )
+    var res := DestroyMulti( who.multi );
+    if (!res)
+        print( "Unable to destroy multi: " + res.errortext );
+    endif
+endprogram

@@ -1,0 +1,54 @@
+use uo;
+use os;
+
+include "include/objtype";
+
+Const STARTHAIR := 0x2006;
+Const ENDHAIR := 0x2079;
+
+program item_reflect( who, corpse )
+
+if (cint(getObjProperty(who, "#loot")) > readgameclock())
+  SendSysmessage(who, "You are already looting!");
+  return;
+else
+  SetObjProperty(who, "#loot",cint(readgameclock()) + 60);
+endif
+
+var serial := cint(GetObjProperty(corpse, "ghostserial"));
+
+if (serial = who.serial or who.cmdlevel >= 3)
+sendcorpse (who,corpse);
+else
+SendSysmessage( who , "No looting policy in effect.");
+endif
+
+EraseObjProperty(who, "#loot");
+
+endprogram
+
+
+function sendcorpse(who,corpse)
+
+var storepack := who.backpack;
+
+foreach item in enumerateitemsincontainer(corpse)
+
+	if (item.objtype>=STARTHAIR and item.objtype<=ENDHAIR)
+		destroyitem(item);
+	elseif (item.container.serial = corpse.serial)
+		moveitemtocontainer(item,storepack);
+		sleep(1);
+	endif
+
+	if (distance (who,corpse)>2)
+	  SendSysMessage(who,"You're too far away to continue looting.");
+	  return;
+	endif
+
+endforeach
+
+destroyitem(corpse);
+SendSysmessage( who , "Looks like you got it all.");
+
+endfunction

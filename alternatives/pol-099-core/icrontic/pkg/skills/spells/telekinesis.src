@@ -1,0 +1,46 @@
+use uo;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program telekinesis(parms)
+  var circle := 3;
+  var delivery := "direct";
+  var noto := "harmful";
+  var result := maincast(parms, delivery, circle, noto, 21);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  PlaySoundEffect( caster, SFX_SPELL_TELEKINESIS );
+  if( cast_on.npctemplate || cast_on.acctname )
+    SetObjProperty(cast_on, "LastHit", {caster.name,caster.serial, "telekenesis" });
+    if(Reflected(cast_on))
+      cast_on := caster;
+    endif
+    PlaySoundEffect(cast_on, 0x144);
+    PlayObjectCenteredEffect(cast_on, 0x37b9,0x03, 0x0a);
+    var dmg := RandomInt(GetEffectiveSkill(caster, SKILLID_MAGERY) / 10);
+    ApplyRawDamage(cast_on, Resisted(circle,caster,cast_on,dmg));
+    var movedist := 1;
+    var movex := cast_on.x + RandomInt(2) - RandomInt(2);
+    var movey := cast_on.y + RandomInt(2) - RandomInt(2);
+    if(CheckLosAt(cast_on, movex, movey, (GetWorldHeight(movex, movey))))
+      MoveCharacterToLocation(cast_on, movex, movey, (GetWorldHeight(movex, movey)));
+    endif
+    PlaySoundEffect(cast_on, 0x15);
+  elseif(cast_on.multi.serial)
+    SendSysMessage(caster, "You cannot use that on items inside houses.");
+    return;
+  elseif(cast_on.container.serial)
+    SendSysMessage(caster, "You cannot use that on items inside containers.");
+    return;
+  else
+    if(MoveItemToContainer( cast_on, caster.backpack, x := -1, y := -1 ))
+      PrintTextAbovePrivate(caster, "You pick up the item with your mind.", caster);
+    else
+      PrintTextAbovePrivate(caster, "You cannot will it to move.", caster);
+    endif
+  endif
+endprogram

@@ -1,0 +1,33 @@
+//--> gumps <--
+//
+// CTRL_REG.SRC
+//
+// Script to register this package with the control package
+//
+// Creator: TJ Houston (Myrathi)
+// Contact: myrathi@templar.dhs.org
+//
+// Created: 24-Apr-2000
+// Updated: 15-Aug-2001
+//
+use uo;
+
+// This is a run-to-completion script, so
+// don't do anything special (or long) here!! :-P"
+
+program ctrl_reg()
+
+	// Userfriendly name of package (string)
+	// Version number (string)
+	// Does it have a command interface? 0=No/1=Yes (integer)
+	// Unqualified script-name of interface (string)
+
+	var zLink := {};
+	zLink.+sName := "Gumps Package";
+	zLink.+sVer := "2.2";
+	zLink.+bCtrl := 1;
+	zLink.+sScript := "textcmd/gm/gfchart";
+
+	return zLink;
+
+endprogram

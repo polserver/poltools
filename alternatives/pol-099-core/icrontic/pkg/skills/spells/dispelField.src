@@ -1,0 +1,27 @@
+use uo;
+use os;
+
+include "include/spellRestrictions";
+include "include/attributes";
+
+program dispel_field( parms )
+  var circle := 5;
+  var delivery := "direct";
+  var noto := "neutral";
+  var result := maincast(parms, delivery, circle, noto, 34);
+  if(result == 0)
+    return;
+  endif
+  var caster := result[1];
+  var cast_on := result[2];
+  var magery := GetEffectiveSkill(caster, SKILLID_MAGERY);
+  var therange := CInt(magery / 15 );
+  var items := ListItemsNearLocation(cast_on.x, cast_on.y, cast_on.z, therange);
+  PlaySoundEffect( caster, SFX_SPELL_DISPEL );
+  foreach item in items
+	if (GetObjProperty(item, "f") == "1")
+	  PlayStationaryEffect( item.x, item.y, item.z, FX_SMOKE, 0xa, 0xa );
+      DestroyItem(item);
+	endif
+  endforeach
+endprogram
